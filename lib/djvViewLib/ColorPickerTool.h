@@ -72,6 +72,7 @@ namespace djv
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);
             void lockCallback(bool);
+            void sizeMetricsCallback();
 
             void widgetUpdate();
             void swatchUpdate();

@@ -52,6 +52,7 @@ namespace djv
         {
             QComboBox * filterMinWidget = nullptr;
             QComboBox * filterMagWidget = nullptr;
+            QVBoxLayout * layout = nullptr;
         };
 
         ImagePrefsWidget::ImagePrefsWidget(UIContext * context, QWidget * parent) :
@@ -68,8 +69,8 @@ namespace djv
             _p->filterMagWidget->addItems(Graphics::OpenGLImageFilter::filterLabels());
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _p->layout = new QVBoxLayout(this);
+            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::ImagePrefsWidget", "Scaling"),
@@ -85,9 +86,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::ImagePrefsWidget", "Scale up:"),
                 _p->filterMagWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _p->layout->addStretch();
 
             // Initialize.
             widgetUpdate();
@@ -101,6 +102,10 @@ namespace djv
                 _p->filterMagWidget,
                 SIGNAL(activated(int)),
                 SLOT(filterMagCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         ImagePrefsWidget::~ImagePrefsWidget()
@@ -129,6 +134,12 @@ namespace djv
                     context()->imagePrefs()->filter().min,
                     static_cast<Graphics::OpenGLImageFilter::FILTER>(in)));
             widgetUpdate();
+        }
+
+        void ImagePrefsWidget::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void ImagePrefsWidget::widgetUpdate()

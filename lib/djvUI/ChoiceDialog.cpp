@@ -58,6 +58,7 @@ namespace djv
             QVBoxLayout *           buttonLayout = nullptr;
             QString                 label;
             QLabel *                labelWidget = nullptr;
+            QVBoxLayout *           vLayout = nullptr;
         };
 
         ChoiceDialog::ChoiceDialog(

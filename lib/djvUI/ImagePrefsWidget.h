@@ -58,6 +58,7 @@ namespace djv
         private Q_SLOTS:
             void filterMinCallback(int);
             void filterMagCallback(int);
+            void sizeMetricsCallback();
 
         private:
             void widgetUpdate();

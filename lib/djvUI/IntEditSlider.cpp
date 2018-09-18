@@ -31,12 +31,13 @@
 
 #include <djvUI/IntEditSlider.h>
 
-#include <djvUI/UIContext.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/IntEdit.h>
 #include <djvUI/IntObject.h>
 #include <djvUI/IntSlider.h>
+#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
+#include <djvUI/UIContext.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/SignalBlocker.h>
@@ -50,33 +51,37 @@ namespace djv
     {
         struct IntEditSlider::Private
         {
+            UIContext * context = nullptr;
             bool resetToDefault = false;
             IntEdit * edit = nullptr;
             IntSlider * slider = nullptr;
             ToolButton * defaultButton = nullptr;
+            QHBoxLayout * layout = nullptr;
         };
 
         IntEditSlider::IntEditSlider(UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
+            _p->context = context;
+
             _p->edit = new IntEdit;
 
             _p->slider = new IntSlider;
 
-            _p->defaultButton = new ToolButton;
+            _p->defaultButton = new ToolButton(context);
             _p->defaultButton->setIconSize(QSize(16, 16));
             _p->defaultButton->setIcon(
                 context->iconLibrary()->icon("djvResetIcon.png"));
             _p->defaultButton->setToolTip(
                 qApp->translate("djv::UI::IntEditSlider", "Reset the value"));
 
-            QHBoxLayout * layout = new QHBoxLayout(this);
-            layout->setSpacing(5);
-            layout->setMargin(0);
-            layout->addWidget(_p->edit);
-            layout->addWidget(_p->slider);
-            layout->addWidget(_p->defaultButton);
+            _p->layout = new QHBoxLayout(this);
+            _p->layout->setSpacing(context->style()->sizeMetric().spacing);
+            _p->layout->setMargin(0);
+            _p->layout->addWidget(_p->edit);
+            _p->layout->addWidget(_p->slider);
+            _p->layout->addWidget(_p->defaultButton);
 
             _p->slider->setRange(0, 100);
 
@@ -116,6 +121,10 @@ namespace djv
                 _p->defaultButton,
                 SIGNAL(clicked()),
                 SLOT(defaultCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         IntEditSlider::~IntEditSlider()
@@ -206,6 +215,12 @@ namespace djv
         void IntEditSlider::defaultCallback()
         {
             _p->edit->setValue(_p->edit->object()->defaultValue());
+        }
+
+        void IntEditSlider::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(_p->context->style()->sizeMetric().spacing);
+            updateGeometry();
         }
 
         void IntEditSlider::widgetUpdate()

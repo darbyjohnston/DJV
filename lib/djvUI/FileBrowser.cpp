@@ -140,6 +140,7 @@ namespace djv
                 context(context)
             {}
 
+            UIContext * context = nullptr;
             bool pinnable = false;
             bool pinned = false;
             bool shown = false;
@@ -149,7 +150,8 @@ namespace djv
             Menus menus;
             Actions actions;
             Widgets widgets;
-            UIContext * context = nullptr;
+            QHBoxLayout * hLayout = nullptr;
+            QHBoxLayout * hLayout2 = nullptr;
         };
 
         FileBrowser::FileBrowser(UIContext * context, QWidget * parent) :
@@ -253,13 +255,13 @@ namespace djv
             // Create the widgets.
             _p->widgets.file = new QLineEdit;
 
-            _p->widgets.up = new ToolButton;
+            _p->widgets.up = new ToolButton(context);
             _p->widgets.up->setDefaultAction(_p->actions.actions[Actions::UP]);
 
-            _p->widgets.prev = new ToolButton;
+            _p->widgets.prev = new ToolButton(context);
             _p->widgets.prev->setDefaultAction(_p->actions.actions[Actions::PREV]);
 
-            _p->widgets.reload = new ToolButton;
+            _p->widgets.reload = new ToolButton(context);
             _p->widgets.reload->setDefaultAction(_p->actions.actions[Actions::RELOAD]);
 
             _p->widgets.seq = new QComboBox;
@@ -295,8 +297,8 @@ namespace djv
             QVBoxLayout * layout = new QVBoxLayout(this);
             layout->setMenuBar(_p->menus.menuBar);
 
-            QHBoxLayout * hLayout = new QHBoxLayout;
-            hLayout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _p->hLayout = new QHBoxLayout;
+            _p->hLayout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             QHBoxLayout * hLayout2 = new QHBoxLayout;
             hLayout2->setMargin(0);
@@ -304,24 +306,24 @@ namespace djv
             hLayout2->addWidget(_p->widgets.up);
             hLayout2->addWidget(_p->widgets.prev);
             hLayout2->addWidget(_p->widgets.reload);
-            hLayout->addLayout(hLayout2);
+            _p->hLayout->addLayout(hLayout2);
 
-            hLayout2 = new QHBoxLayout;
-            hLayout2->setMargin(0);
-            hLayout2->setSpacing(5);
-            hLayout2->addWidget(seqLabel);
-            hLayout2->addWidget(_p->widgets.seq);
-            hLayout->addLayout(hLayout2);
+            _p->hLayout2 = new QHBoxLayout;
+            _p->hLayout2->setMargin(0);
+            _p->hLayout2->setSpacing(context->style()->sizeMetric().spacing);
+            _p->hLayout2->addWidget(seqLabel);
+            _p->hLayout2->addWidget(_p->widgets.seq);
+            _p->hLayout->addLayout(_p->hLayout2);
 
-            hLayout->addStretch();
-            hLayout->addWidget(_p->widgets.search);
+            _p->hLayout->addStretch();
+            _p->hLayout->addWidget(_p->widgets.search);
 
-            layout->addLayout(hLayout);
+            layout->addLayout(_p->hLayout);
 
             layout->addWidget(_p->widgets.browser);
             layout->addWidget(_p->widgets.file);
 
-            hLayout = new QHBoxLayout;
+            QHBoxLayout * hLayout = new QHBoxLayout;
             hLayout->addWidget(_p->widgets.pinned);
             hLayout->addStretch();
             hLayout->addWidget(okButton);
@@ -484,7 +486,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(modelUpdate()));
+                SLOT(sizeMetricsCallback()));
         }
 
         FileBrowser::~FileBrowser()
@@ -857,6 +859,14 @@ namespace djv
                 }
                 Q_EMIT fileInfoChanged(_p->fileInfo);
             }
+        }
+
+        void FileBrowser::sizeMetricsCallback()
+        {
+            _p->hLayout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
+            _p->hLayout2->setSpacing(_p->context->style()->sizeMetric().spacing);
+            modelUpdate();
+            updateGeometry();
         }
 
         void FileBrowser::modelUpdate()

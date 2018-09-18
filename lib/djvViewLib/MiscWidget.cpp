@@ -151,7 +151,7 @@ namespace djv
             _p->edit->setRange(0.f, 1024.f);
             _p->edit->object()->setInc(1.f, 5.f);
 
-            _p->button = new UI::ToolButton;
+            _p->button = new UI::ToolButton(context);
             _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
             _p->button->setIconSize(QSize(20, 20));
 
@@ -240,6 +240,7 @@ namespace djv
 
         struct FrameWidget::Private
         {
+            UI::UIContext * context = nullptr;
             qint64          frame = 0;
             Core::FrameList frameList;
             Core::Speed     speed;
@@ -250,6 +251,8 @@ namespace djv
             QAbstractSpinBox(parent),
             _p(new Private)
         {
+            _p->context = context;
+
             // Initialize.
             textUpdate();
             widgetUpdate();
@@ -263,6 +266,10 @@ namespace djv
                 context->timePrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         FrameWidget::~FrameWidget()
@@ -298,7 +305,7 @@ namespace djv
             default: break;
             }
             return QSize(
-                fontMetrics().width(sizeString) + 25,
+                fontMetrics().width(sizeString) + _p->context->style()->sizeMetric().fontSize * 2,
                 QAbstractSpinBox::sizeHint().height());
         }
 
@@ -372,6 +379,11 @@ namespace djv
             updateGeometry();
         }
 
+        void FrameWidget::sizeMetricsCallback()
+        {
+            updateGeometry();
+        }
+
         void FrameWidget::textUpdate()
         {
             qint64 frame = 0;
@@ -391,10 +403,7 @@ namespace djv
 
         struct FrameSlider::Private
         {
-            Private(UI::UIContext * context) :
-                context(context)
-            {}
-
+            UI::UIContext * context = nullptr;
             qint64 frame = 0;
             Core::FrameList frameList;
             Core::Speed speed;
@@ -402,13 +411,14 @@ namespace djv
             qint64 inPoint = 0;
             qint64 outPoint = 0;
             Core::FrameList cachedFrames;
-            UI::UIContext * context;
         };
 
         FrameSlider::FrameSlider(UI::UIContext * context, QWidget * parent) :
             QWidget(parent),
-            _p(new Private(context))
+            _p(new Private)
         {
+            _p->context = context;
+
             setAttribute(Qt::WA_OpaquePaintEvent);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -416,6 +426,10 @@ namespace djv
                 context->timePrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         FrameSlider::~FrameSlider()
@@ -453,7 +467,7 @@ namespace djv
 
         QSize FrameSlider::sizeHint() const
         {
-            return QSize(200, fontMetrics().height() * 2 + 5 * 2);
+            return QSize(200, fontMetrics().height() * 2 + _p->context->style()->sizeMetric().margin * 2);
         }
 
         void FrameSlider::setFrameList(const Core::FrameList & in)
@@ -714,6 +728,11 @@ namespace djv
             update();
         }
 
+        void FrameSlider::sizeMetricsCallback()
+        {
+            updateGeometry();
+        }
+
         qint64 FrameSlider::end() const
         {
             return _p->frameList.count() ? (_p->frameList.count() - 1) : 0;
@@ -755,10 +774,11 @@ namespace djv
 
         struct FrameDisplay::Private
         {
-            qint64      frame = 0;
+            UI::UIContext * context = nullptr;
+            qint64 frame = 0;
             Core::Speed speed;
-            bool        inOutEnabled = false;
-            QString     text;
+            bool inOutEnabled = false;
+            QString text;
             QLineEdit * lineEdit = nullptr;
         };
 
@@ -766,6 +786,8 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
+            _p->context = context;
+
             // Create the widgets.
             _p->lineEdit = new QLineEdit;
 
@@ -783,6 +805,10 @@ namespace djv
                 context->timePrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         FrameDisplay::~FrameDisplay()
@@ -814,7 +840,7 @@ namespace djv
             default: break;
             }
             return QSize(
-                fontMetrics().width(sizeString) + 10,
+                fontMetrics().width(sizeString) + _p->context->style()->sizeMetric().fontSize,
                 QWidget::sizeHint().height());
         }
 
@@ -851,6 +877,11 @@ namespace djv
             updateGeometry();
         }
 
+        void FrameDisplay::sizeMetricsCallback()
+        {
+            updateGeometry();
+        }
+
         void FrameDisplay::textUpdate()
         {
             _p->text = Core::Time::frameToString(_p->frame, _p->speed);
@@ -878,7 +909,7 @@ namespace djv
             _p(new Private)
         {
             // Create the widgets.
-            _p->button = new UI::ToolButton;
+            _p->button = new UI::ToolButton(context);
             _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
             _p->button->setIconSize(QSize(20, 20));
 
@@ -1023,15 +1054,18 @@ namespace djv
 
         struct SpeedDisplay::Private
         {
-            float       speed = 0.f;
-            bool        droppedFrames = false;
+            UI::UIContext * context = nullptr;
+            float speed = 0.f;
+            bool droppedFrames = false;
             QLineEdit * lineEdit = nullptr;
         };
 
-        SpeedDisplay::SpeedDisplay(QWidget * parent) :
+        SpeedDisplay::SpeedDisplay(UI::UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
+            _p->context = context;
+
             _p->lineEdit = new QLineEdit;
             _p->lineEdit->setReadOnly(true);
 
@@ -1040,6 +1074,11 @@ namespace djv
             layout->addWidget(_p->lineEdit);
 
             widgetUpdate();
+
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         SpeedDisplay::~SpeedDisplay()
@@ -1049,7 +1088,7 @@ namespace djv
         {
             QString sizeString("000.00");
             return QSize(
-                fontMetrics().width(sizeString) + 10,
+                fontMetrics().width(sizeString) + _p->context->style()->sizeMetric().fontSize,
                 QWidget::sizeHint().height());
         }
 
@@ -1067,6 +1106,11 @@ namespace djv
                 return;
             _p->droppedFrames = in;
             widgetUpdate();
+        }
+
+        void SpeedDisplay::sizeMetricsCallback()
+        {
+            updateGeometry();
         }
 
         void SpeedDisplay::widgetUpdate()

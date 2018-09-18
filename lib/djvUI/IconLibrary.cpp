@@ -64,13 +64,22 @@ namespace djv
             //DJV_DEBUG("IconLibrary::~IconLibrary");
         }
 
-        const QIcon & IconLibrary::icon(const QString & name) const
+        namespace
         {
-            if (!_p->icons.contains(name))
+            QString getFullName(const QString& name, int size)
             {
-                QPixmap pixmap(QString(":%1").arg(name));
+                return QString(":%1%2x%3.png").arg(name).arg(size).arg(size);
+            }
+
+        } // namespace
+
+        const QIcon & IconLibrary::icon(const QString & name, int size) const
+        {
+            const QString fullName = getFullName(name, size);
+            if (!_p->icons.contains(fullName))
+            {
                 QIcon icon;
-                icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
+                icon.addPixmap(fullName, QIcon::Normal, QIcon::Off);
                 /*{
                     QPixmap tmp(pixmap);
                     QPainter painter(&tmp);
@@ -78,7 +87,6 @@ namespace djv
                     painter.fillRect(
                         QRect(QPoint(), tmp.size()),
                         QColor(255, 255, 255, 50));
-
                     icon.addPixmap(tmp, QIcon::Disabled, QIcon::Off);
                 }*/
                 /*{
@@ -88,7 +96,6 @@ namespace djv
                     painter.fillRect(
                         QRect(QPoint(), tmp.size()),
                         qApp->palette().color(QPalette::Highlight));
-
                     icon.addPixmap(tmp, QIcon::Normal, QIcon::On);
                 }*/
                 /*{
@@ -101,28 +108,33 @@ namespace djv
                     painter.fillRect(
                         QRect(QPoint(), tmp.size()),
                         QColor(255, 255, 255, 50));
-
                     icon.addPixmap(tmp, QIcon::Disabled, QIcon::On);
                 }*/
-                const_cast<Private *>(_p.get())->icons.insert(name, icon);
+                const_cast<Private *>(_p.get())->icons.insert(fullName, icon);
             }
-            return _p->icons[name];
+            return _p->icons[fullName];
         }
 
-        QIcon IconLibrary::icon(const QString & off, const QString & on) const
+        QIcon IconLibrary::icon(const QString & off, const QString & on, int size) const
         {
-            QIcon icon;
-            icon.addPixmap(pixmap(off), QIcon::Normal, QIcon::Off);
-            icon.addPixmap(pixmap(on), QIcon::Normal, QIcon::On);
-            return icon;
+            const QString offFullName = getFullName(off, size);
+            const QString onFullName = getFullName(on, size);
+            const QString key = offFullName + onFullName;
+            if (!_p->icons.contains(key))
+            {
+                QIcon icon;
+                icon.addPixmap(offFullName, QIcon::Normal, QIcon::Off);
+                icon.addPixmap(onFullName, QIcon::Normal, QIcon::On);
+                const_cast<Private *>(_p.get())->icons.insert(key, icon);
+            }
+            return _p->icons[key];
         }
 
         const QPixmap & IconLibrary::pixmap(const QString & name) const
         {
             if (!_p->pixmaps.contains(name))
             {
-                QPixmap pixmap(QString(":%1").arg(name));
-                const_cast<Private *>(_p.get())->pixmaps.insert(name, pixmap);
+                const_cast<Private *>(_p.get())->pixmaps.insert(name, QPixmap(QString(":%1").arg(name)));
             }
             return _p->pixmaps[name];
         }
@@ -141,11 +153,6 @@ namespace djv
                 it.next();
             }
             return names;
-        }
-
-        QSize IconLibrary::defaultSize() const
-        {
-            return QSize(25, 25);
         }
 
     } // namespace UI

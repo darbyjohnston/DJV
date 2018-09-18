@@ -38,6 +38,7 @@
 class QCheckBox;
 class QComboBox;
 class QFormLayout;
+class QVBoxLayout;
 
 namespace djv
 {
@@ -73,6 +74,8 @@ namespace djv
             void channelsCallback(int);
             void compressionCallback(int);
             void dwaCompressionLevelCallback(float);
+            void sizeMetricsCallback();
+
             void pluginUpdate();
             void widgetUpdate();
 
@@ -92,6 +95,7 @@ namespace djv
 #if OPENEXR_VERSION_HEX >= 0x02020000
             FloatEditSlider * _dwaCompressionLevelWidget = nullptr;
 #endif // OPENEXR_VERSION_HEX
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class OpenEXRWidgetPlugin

@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvFrameStartIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvFrameStartIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -105,13 +105,13 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
-     inkscape:cx="4.7155689"
+     inkscape:zoom="20.8"
+     inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="678"
+     inkscape:window-width="1086"
      inkscape:window-height="719"
      inkscape:window-x="488"
      inkscape:window-y="150"
@@ -135,7 +135,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -145,16 +145,15 @@
      id="layer1"
      transform="translate(0,3)">
     <path
-       style="fill:#dcdcdc;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999987999999995;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000"
-       d="m 16.71043,1.5040484 3.78957,0 0,15.9440556 -3.78957,0 -7.1929177,-7.8728868 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.06892121;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922"
+       d="m 17,2 h 3 V 17 H 17 L 9,10 V 9 Z"
        id="rect2396"
-       sodipodi:nodetypes="cccccc"
+       sodipodi:nodetypes="ccccccc"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#dcdcdc;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999987999999995;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000"
-       d="m 4.4999999,1.4999999 3.9911673,0 0,16.0937561 -3.9911673,0 z"
-       id="path3165"
-       sodipodi:nodetypes="ccccc"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 8,2 V 17 H 5 V 2 Z"
+       id="path27898"
        inkscape:connector-curvature="0" />
   </g>
 </svg>

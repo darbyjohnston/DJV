@@ -38,6 +38,7 @@
 class QCheckBox;
 class QComboBox;
 class QFormLayout;
+class QVBoxLayout;
 
 namespace djv
 {
@@ -74,26 +75,28 @@ namespace djv
             void versionCallback(int);
             void typeCallback(int);
             void endianCallback(int);
+            void sizeMetricsCallback();
 
             void pluginUpdate();
             void widgetUpdate();
 
         private:
             Graphics::DPX::Options _options;
-            QFormLayout * _inputColorProfileLayout;
-            QComboBox * _inputColorProfileWidget;
-            IntEditSlider * _inputBlackPointWidget;
-            IntEditSlider * _inputWhitePointWidget;
-            FloatEditSlider * _inputGammaWidget;
-            IntEditSlider * _inputSoftClipWidget;
-            QFormLayout * _outputColorProfileLayout;
-            QComboBox * _outputColorProfileWidget;
-            IntEditSlider * _outputBlackPointWidget;
-            IntEditSlider * _outputWhitePointWidget;
-            FloatEditSlider * _outputGammaWidget;
-            QComboBox * _versionWidget;
-            QComboBox * _typeWidget;
-            QComboBox * _endianWidget;
+            QFormLayout * _inputColorProfileLayout = nullptr;
+            QComboBox * _inputColorProfileWidget = nullptr;
+            IntEditSlider * _inputBlackPointWidget = nullptr;
+            IntEditSlider * _inputWhitePointWidget = nullptr;
+            FloatEditSlider * _inputGammaWidget = nullptr;
+            IntEditSlider * _inputSoftClipWidget = nullptr;
+            QFormLayout * _outputColorProfileLayout = nullptr;
+            QComboBox * _outputColorProfileWidget = nullptr;
+            IntEditSlider * _outputBlackPointWidget = nullptr;
+            IntEditSlider * _outputWhitePointWidget = nullptr;
+            FloatEditSlider * _outputGammaWidget = nullptr;
+            QComboBox * _versionWidget = nullptr;
+            QComboBox * _typeWidget = nullptr;
+            QComboBox * _endianWidget = nullptr;
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class DPXWidgetPlugin

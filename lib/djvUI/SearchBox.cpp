@@ -60,7 +60,7 @@ namespace djv
             _p->lineEdit->setToolTip(
                 qApp->translate("djv::UI::SearchBox", "Enter a search"));
 
-            _p->resetButton = new ToolButton;
+            _p->resetButton = new ToolButton(context);
             _p->resetButton->setIconSize(QSize(16, 16));
             _p->resetButton->setIcon(
                 context->iconLibrary()->icon("djvResetIcon.png"));

@@ -76,6 +76,9 @@ namespace djv
             //! Create a new layout to add widgets to the group box.
             QFormLayout * createLayout();
 
+        private Q_SLOTS:
+            void sizeMetricsCallback();
+
         private:
             void init(const QString & title);
 

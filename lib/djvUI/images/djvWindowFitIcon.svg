@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvWindowFitIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvWindowFitIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -200,19 +200,20 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
-     inkscape:cx="4.7155689"
-     inkscape:cy="12.5"
+     inkscape:zoom="20.68"
+     inkscape:cx="4.6421663"
+     inkscape:cy="12.466151"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1086"
      inkscape:window-height="716"
-     inkscape:window-x="158"
-     inkscape:window-y="321"
-     inkscape:snap-nodes="false"
+     inkscape:window-x="638"
+     inkscape:window-y="341"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:snap-others="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -229,7 +230,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -239,31 +240,28 @@
      id="layer1"
      transform="translate(0,3)">
     <path
-       inkscape:connector-curvature="0"
-       style="fill:#dcdcdc;fill-opacity:0.86274511;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       d="m 9.4319091,-0.50000001 13.0498709,1e-7 0,13.06754991 -13.0498709,0 z"
-       id="path4012"
-       sodipodi:nodetypes="ccccc"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.87311494;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="M 11 4 L 11 12 L 13 12 L 13 14 L 24 14 L 24 4 L 11 4 z "
+       transform="translate(0,-3)"
+       id="path4012" />
     <rect
-       style="fill:#dcdcdc;fill-opacity:0.86274511;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.81095254;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
        id="rect2413"
-       width="13.020215"
-       height="3.0364375"
-       x="9.479785"
-       y="-0.5" />
+       width="13"
+       height="2"
+       x="11"
+       y="-2" />
     <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 1,13 V 24 H 12 V 13 Z m 1,1 h 9 v 9 H 2 Z"
+       transform="translate(0,-3)"
+       id="path8352"
        inkscape:connector-curvature="0"
-       style="fill:#ffffff;fill-opacity:0.86274511;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.49803922000000000"
-       d="M 2.422812,8.499954 13.5,8.516604 13.47629,19.4929 2.4298607,19.5 2.422812,8.499954 z"
-       id="path2398"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="cccccccccc" />
     <path
-       inkscape:connector-curvature="0"
-       style="fill:#000000;fill-opacity:0.78431374;fill-rule:evenodd;stroke:none"
-       d="m 4.922812,10.999954 6,0.009 -0.01284,5.941252 -5.98334,0.0038 -0.00382,-5.954052 z"
-       id="path3170"
-       sodipodi:nodetypes="ccccc" />
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 3,15 v 7 h 7 v -7 z"
+       transform="translate(0,-3)"
+       id="path8960" />
   </g>
 </svg>

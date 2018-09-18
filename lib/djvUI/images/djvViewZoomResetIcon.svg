@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvViewZoomResetIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvViewZoomResetIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -423,13 +423,13 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
-     inkscape:cx="8.1641595"
+     inkscape:zoom="20.8"
+     inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="678"
+     inkscape:window-width="1040"
      inkscape:window-height="719"
      inkscape:window-x="550"
      inkscape:window-y="341"
@@ -452,7 +452,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -461,28 +461,21 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,3)">
-    <rect
-       style="fill:#bebebe;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       id="rect3179"
-       width="9.1639671"
-       height="4.0631046"
-       x="16.381645"
-       y="-6.2741919"
-       transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)" />
-    <path
-       sodipodi:type="arc"
-       style="fill:#dcdcdc;fill-opacity:0.78431373999999998;fill-rule:evenodd;stroke:#000000;stroke-width:0.49227098000000002;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
-       id="path2399"
-       sodipodi:cx="11.614372"
-       sodipodi:cy="6.6548581"
-       sodipodi:rx="2.70749"
-       sodipodi:ry="2.70749"
-       d="m 14.321862,6.6548581 a 2.70749,2.70749 0 1 1 -5.4149797,0 2.70749,2.70749 0 1 1 5.4149797,0 z"
-       transform="matrix(2.0314018,0,0,2.0314018,-12.593462,-8.5186921)" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#ffffff;fill-opacity:0.78431373999999998;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
-       d="m 11.342763,19.131655 2.750889,-2.790176 -2.79431,-2.79431 2.78746,-2.78746 L 11.196364,7.8299874 8.4018984,10.586552 5.7121446,7.8897274 2.8716372,10.692334 l 2.798279,2.80436 -2.8427057,2.820299 2.8707955,2.870795 2.8504556,-2.850455 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.0176959;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="m 19.136719,7.359375 a 7.0003998,7.0013525 0 0 1 -1.1875,1.589844 7.0003998,7.0013525 0 0 1 -1.589844,1.1875 L 21.222656,15 24,12.222656 Z"
+       id="path10225" />
+    <circle
+       style="opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.01898301;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path10245"
+       cx="13"
+       cy="4"
+       r="6" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="M 9.3284271,20.449747 11.449747,18.328427 8.6213203,15.5 11.449747,12.671573 9.3284271,10.550253 6.5,13.37868 3.6715729,10.550253 1.5502525,12.671573 4.3786797,15.5 1.5502525,18.328427 3.6715729,20.449747 6.5,17.62132 Z"
        id="path2385"
        sodipodi:nodetypes="ccccccccccccc" />
   </g>

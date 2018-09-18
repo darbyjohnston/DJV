@@ -31,6 +31,7 @@
 
 #include <djvViewLib/ViewToolBar.h>
 
+#include <djvViewLib/Context.h>
 #include <djvViewLib/ViewActions.h>
 
 #include <djvUI/FloatEdit.h>
@@ -57,19 +58,19 @@ namespace djv
             AbstractToolBar(actions, context, parent),
             _p(new Private)
         {
-            UI::ToolButton * button = new UI::ToolButton;
+            UI::ToolButton * button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(ViewActions::ZOOM_IN));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(ViewActions::ZOOM_OUT));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(ViewActions::ZOOM_RESET));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(ViewActions::FIT));
             addWidget(button);
 

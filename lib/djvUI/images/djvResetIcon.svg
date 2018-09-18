@@ -10,17 +10,17 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="16"
-   height="16"
+   width="20"
+   height="20"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvResetIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvResetIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -61,7 +61,7 @@
        x2="16.012434"
        y2="16.841362"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-0.951418,2.9802322e-8)" />
+       gradientTransform="translate(-0.951418)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient4535"
@@ -87,7 +87,7 @@
        xlink:href="#linearGradient4535"
        id="linearGradient3573"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.7071068,-0.7071068,0.7071068,0.7071068,-12.525266,18.167175)"
+       gradientTransform="rotate(-45,15.667088,24.20292)"
        x1="16.048841"
        y1="7.0322728"
        x2="15.869918"
@@ -97,7 +97,7 @@
        xlink:href="#linearGradient4535"
        id="linearGradient4096"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.7071068,-0.7071068,0.7071068,0.7071068,-12.525266,18.167175)"
+       gradientTransform="rotate(-45,15.667088,24.20292)"
        x1="16.048841"
        y1="7.0322728"
        x2="15.869918"
@@ -105,7 +105,7 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      gridtolerance="10000"
@@ -113,15 +113,15 @@
      objecttolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="34"
-     inkscape:cx="8"
-     inkscape:cy="8"
+     inkscape:zoom="29.05"
+     inkscape:cx="10"
+     inkscape:cy="10"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="675"
+     inkscape:window-width="1310"
      inkscape:window-height="780"
-     inkscape:window-x="1157"
+     inkscape:window-x="533"
      inkscape:window-y="68"
      inkscape:snap-nodes="true"
      inkscape:snap-bbox="false"
@@ -158,12 +158,12 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,5)">
+     transform="translate(0,9)">
     <path
        inkscape:connector-curvature="0"
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       d="M 3.0200695,5.7727897 5.1482735,7.9452671 7.9673456,5.1246394 10.852365,7.9827565 13.001074,5.8474829 10.201345,2.9835936 12.95452,0.22617646 10.736311,-1.9662374 7.9594901,0.79792581 5.1903841,-1.9829182 3.0477396,0.16306386 5.837692,2.9474158 3.0200957,5.7728186 z"
+       d="M 3.636039,-2.5355339 7.1715729,1 3.636039,4.535534 6.4644661,7.363961 10,3.828427 13.535534,7.363961 16.363961,4.535534 12.828427,1 16.363961,-2.5355339 13.535534,-5.363961 10,-1.8284271 6.4644661,-5.363961 Z"
        id="path2385"
-       sodipodi:nodetypes="cccccccccccccc" />
+       sodipodi:nodetypes="ccccccccccccc" />
   </g>
 </svg>

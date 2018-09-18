@@ -31,8 +31,9 @@
 
 #include <djvViewLib/ToolToolBar.h>
 
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Context.h>
 #include <djvViewLib/ToolActions.h>
+#include <djvViewLib/Util.h>
 
 #include <djvUI/ToolButton.h>
 
@@ -54,7 +55,7 @@ namespace djv
         {
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                UI::ToolButton * button = new UI::ToolButton;
+                UI::ToolButton * button = new UI::ToolButton(context);
                 button->setDefaultAction(actions->group(ToolActions::TOOL_GROUP)->actions()[i]);
                 addWidget(button);
             }

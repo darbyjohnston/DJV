@@ -14,13 +14,13 @@
    height="20"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvPlayLoopOnceIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvPlayLoopOnceIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -113,20 +113,21 @@
      objecttolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="23.55"
+     inkscape:zoom="26"
      inkscape:cx="10"
      inkscape:cy="10"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="672"
+     inkscape:window-width="1396"
      inkscape:window-height="719"
-     inkscape:window-x="488"
-     inkscape:window-y="200"
-     inkscape:snap-nodes="false"
+     inkscape:window-x="446"
+     inkscape:window-y="4"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -154,15 +155,16 @@
      transform="translate(0,9)">
     <path
        style="fill:#000000;fill-opacity:1;stroke:none"
-       d="m 11.04246,-2.0826012 -5.99645,0.00198 c -0.6772679,0.6668444 -1.3545357,1.3336856 -2.0318036,2.0005268 l 0.00245,5.0577944 2.0198897,1.974014 4.00217,-0.0049 0.0098,-2.9901961 -3.0098039,0.0098 -0.019604,-2.9509842 5.0331568,-0.058824 z"
-       id="path4141"
+       d="M 5.0625,6 C 4.0000011,6.0014956 3,7 3.03125,8 v 5.96875 C 3,15 4,16 5.03125,15.9375 H 11 V 14 H 6 C 5.2634308,14.03773 4.97768,13.622467 5,13 V 9 C 4.97768,8.3963956 5.2567399,8.0299341 6.015625,8.0273438 L 12,8 V 5.9902344 Z"
+       transform="translate(0,-9)"
+       id="path2600"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccccc" />
+       sodipodi:nodetypes="scccccccccccs" />
     <path
        sodipodi:nodetypes="cccccc"
        inkscape:connector-curvature="0"
        id="path3107"
-       d="m 17.059902,-0.54313957 -5.017439,-4.50024973 -1.000001,-0.0098 3e-6,9.009799 1.029412,0.019608 z"
-       style="fill:#000000;fill-opacity:1;stroke:none" />
+       d="m 17,-2 -4.024441,-3.9167425 -0.97556,-0.00869 2e-6,7.9924061 L 13,2.0843676 Z"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.8585397" />
   </g>
 </svg>

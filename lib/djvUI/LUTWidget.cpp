@@ -49,8 +49,7 @@ namespace djv
     namespace UI
     {
         LUTWidget::LUTWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _typeWidget(0)
+            ImageIOWidget(plugin, context)
         {
             // Create the widgets.
             _typeWidget = new QComboBox;
@@ -58,8 +57,8 @@ namespace djv
             _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::LUTWidget", "Pixel Type"),
@@ -69,9 +68,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::LUTWidget", "Pixel type:"),
                 _typeWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             QStringList tmp;
@@ -88,6 +87,10 @@ namespace djv
                 _typeWidget,
                 SIGNAL(activated(int)),
                 SLOT(typeCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         LUTWidget::~LUTWidget()
@@ -120,6 +123,12 @@ namespace djv
         {
             _options.type = static_cast<Graphics::LUT::TYPE>(in);
             pluginUpdate();
+        }
+
+        void LUTWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void LUTWidget::pluginUpdate()

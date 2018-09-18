@@ -64,6 +64,7 @@ namespace djv
             IntEdit * sizeValueWidget = nullptr;
             QFontComboBox *  fontNormalWidget = nullptr;
             QFontComboBox *  fontFixedWidget = nullptr;
+            QVBoxLayout * layout = nullptr;
         };
 
         StylePrefsWidget::StylePrefsWidget(UIContext * context, QWidget * parent) :
@@ -123,8 +124,8 @@ namespace djv
             _p->fontFixedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _p->layout = new QVBoxLayout(this);
+            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::StylePrefsWidget", "Colors"), context);
@@ -140,7 +141,7 @@ namespace djv
                 qApp->translate("djv::UI::StylePrefsWidget", "Color:"),
                 hLayout);
             formLayout->addRow(_p->colorSwatchTransparencyWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::StylePrefsWidget", "Size"), context);
@@ -152,7 +153,7 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::StylePrefsWidget", "Size:"),
                 hLayout);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::StylePrefsWidget", "Fonts"), context);
@@ -163,9 +164,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::StylePrefsWidget", "Fixed:"),
                 _p->fontFixedWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _p->layout->addStretch();
 
             // Initialize.
             widgetUpdate();
@@ -215,6 +216,10 @@ namespace djv
                 _p->fontFixedWidget,
                 SIGNAL(currentFontChanged(const QFont &)),
                 SLOT(fontFixedCallback(const QFont &)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         StylePrefsWidget::~StylePrefsWidget()
@@ -307,6 +312,12 @@ namespace djv
             Style::Fonts fonts = context()->style()->fonts();
             fonts.fixed = font;
             context()->style()->setFonts(fonts);
+        }
+
+        void StylePrefsWidget::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void StylePrefsWidget::widgetUpdate()

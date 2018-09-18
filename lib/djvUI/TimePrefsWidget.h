@@ -58,6 +58,7 @@ namespace djv
         private Q_SLOTS:
             void timeUnitsCallback(int);
             void speedCallback(int);
+            void sizeMetricsCallback();
 
         private:
             void widgetUpdate();

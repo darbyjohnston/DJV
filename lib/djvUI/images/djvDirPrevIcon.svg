@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvDirPrevIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvDirPrevIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -358,21 +358,22 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.16"
+     inkscape:zoom="20.92"
      inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="717"
+     inkscape:window-width="1046"
      inkscape:window-height="722"
-     inkscape:window-x="816"
-     inkscape:window-y="164"
+     inkscape:window-x="862"
+     inkscape:window-y="194"
      inkscape:snap-nodes="false"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -389,7 +390,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -399,18 +400,16 @@
      id="layer1"
      transform="translate(0,3)">
     <path
-       inkscape:connector-curvature="0"
-       style="fill:#dcdcdc;fill-opacity:0.78431373999999998;stroke:#000000;stroke-width:0.99999994000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
-       d="m 8.4843449,12.469807 10e-8,-12.96980703 6.049462,0.04714 0.01557,1.97987133 7.950623,0 -1e-6,10.9427957 z"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26332003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="M 9.0152964,-2 V 11 H 24.015296 V -2.1334497e-8 h -8 L 15.015296,-2 Z"
        id="path4012"
-       sodipodi:nodetypes="ccccccc"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
        inkscape:connector-curvature="0"
-       style="fill:#ffffff;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       d="M 9.5,9.2755198 7.4079573,9.2404398 2.2868,14.43592 7.4079577,19.5 l 2.0860252,0 z"
-       id="path2385"
-       sodipodi:nodetypes="cccccc" />
+       sodipodi:nodetypes="ccccccc" />
+    <path
+       sodipodi:nodetypes="ccccccc"
+       id="path20556"
+       d="M 8,11 H 7 l -4,4 v 1 l 4,4 h 1 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

@@ -47,8 +47,7 @@ namespace djv
     namespace UI
     {
         SGIWidget::SGIWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _compressionWidget(0)
+            ImageIOWidget(plugin, context)
         {
             // Create the output widgets.    
             _compressionWidget = new QComboBox;
@@ -57,8 +56,8 @@ namespace djv
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::SGIWidget", "Compression"),
@@ -68,9 +67,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::SGIWidget", "Compression:"),
                 _compressionWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             QStringList tmp;
@@ -89,6 +88,10 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         SGIWidget::~SGIWidget()
@@ -121,6 +124,12 @@ namespace djv
         {
             _options.compression = static_cast<Graphics::SGI::COMPRESSION>(in);
             pluginUpdate();
+        }
+
+        void SGIWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void SGIWidget::pluginUpdate()

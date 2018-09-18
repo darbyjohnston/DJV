@@ -10,17 +10,17 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="16"
-   height="16"
+   width="20"
+   height="20"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvRightIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvRightIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -61,7 +61,7 @@
        x2="16.012434"
        y2="16.841362"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-0.951418,2.9802322e-8)" />
+       gradientTransform="translate(-0.951418)" />
     <linearGradient
        id="linearGradient4535-2">
       <stop
@@ -100,7 +100,7 @@
        x2="16.012434"
        y2="16.841362"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-0.951418,2.9802322e-8)" />
+       gradientTransform="translate(-0.951418)" />
     <linearGradient
        y2="22.568119"
        x2="18.022245"
@@ -166,7 +166,7 @@
        x2="12.771686"
        y1="10.474854"
        x1="6.45749"
-       gradientTransform="translate(0.6174321,7.0197679e-8)"
+       gradientTransform="translate(0.6174321)"
        gradientUnits="userSpaceOnUse"
        id="linearGradient5154"
        xlink:href="#linearGradient5118"
@@ -176,13 +176,13 @@
        x2="18.022245"
        y1="16.738159"
        x1="11.139491"
-       gradientTransform="translate(0.6174321,7.0197679e-8)"
+       gradientTransform="translate(0.6174321)"
        gradientUnits="userSpaceOnUse"
        id="linearGradient5152"
        xlink:href="#linearGradient5126"
        inkscape:collect="always" />
     <linearGradient
-       gradientTransform="translate(0.6174321,7.0197679e-8)"
+       gradientTransform="translate(0.6174321)"
        y2="22.568119"
        x2="18.022245"
        y1="16.738159"
@@ -192,7 +192,7 @@
        xlink:href="#linearGradient5126"
        inkscape:collect="always" />
     <linearGradient
-       gradientTransform="translate(0.6174321,7.0197679e-8)"
+       gradientTransform="translate(0.6174321)"
        y2="16.839228"
        x2="12.771686"
        y1="10.474854"
@@ -292,7 +292,7 @@
        x2="10.060729"
        y1="1.0673786"
        x1="9.9109316"
-       gradientTransform="translate(-2,-2.9802322e-8)"
+       gradientTransform="translate(-2)"
        gradientUnits="userSpaceOnUse"
        id="linearGradient3037"
        xlink:href="#linearGradient3924-8"
@@ -309,7 +309,7 @@
          style="stop-color:#d2d2d2;stop-opacity:1;" />
     </linearGradient>
     <linearGradient
-       gradientTransform="translate(-0.951418,2.9802322e-8)"
+       gradientTransform="translate(-0.951418)"
        gradientUnits="userSpaceOnUse"
        y2="16.841362"
        x2="16.012434"
@@ -348,7 +348,7 @@
          style="stop-color:#f0af00;stop-opacity:1;" />
     </linearGradient>
     <linearGradient
-       gradientTransform="translate(-0.951418,2.9802322e-8)"
+       gradientTransform="translate(-0.951418)"
        gradientUnits="userSpaceOnUse"
        y2="16.841362"
        x2="16.012434"
@@ -397,20 +397,21 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="31.5625"
-     inkscape:cx="8"
-     inkscape:cy="8"
+     inkscape:zoom="26.15"
+     inkscape:cx="10"
+     inkscape:cy="10"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="690"
+     inkscape:window-width="1126"
      inkscape:window-height="722"
-     inkscape:window-x="893"
-     inkscape:window-y="200"
+     inkscape:window-x="535"
+     inkscape:window-y="158"
      inkscape:snap-nodes="false"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -435,11 +436,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-6)">
+     transform="translate(0,-2)">
     <path
        inkscape:connector-curvature="0"
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       d="m 5.9307781,19.991131 -1.900556,0.01984 8.68e-4,-11.9999258 1.901424,-0.04353 7.0205059,6.0190968 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.00431669"
+       d="M 7.9169999,6.019839 5.9999999,6 l 8.76e-4,11.999927 1.917875,0.04353 L 15,12.024359 Z"
        id="path2385"
        sodipodi:nodetypes="cccccc" />
   </g>

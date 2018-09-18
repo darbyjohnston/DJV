@@ -47,8 +47,8 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ToolButton(QWidget * parent = nullptr);
-            explicit ToolButton(const QIcon &, QWidget * parent = nullptr);
+            explicit ToolButton(UIContext *, QWidget * parent = nullptr);
+            explicit ToolButton(const QIcon &, UIContext *, QWidget * parent = nullptr);
 
             virtual ~ToolButton();
 

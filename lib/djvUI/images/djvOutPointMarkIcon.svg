@@ -14,13 +14,13 @@
    height="20"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvOutPointMarkIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvOutPointMarkIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -342,7 +342,7 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      gridtolerance="10000"
@@ -356,11 +356,11 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="641"
+     inkscape:window-width="1200"
      inkscape:window-height="719"
-     inkscape:window-x="1048"
+     inkscape:window-x="534"
      inkscape:window-y="171"
-     inkscape:snap-nodes="false"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0">
     <inkscape:grid
@@ -379,7 +379,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -397,7 +397,7 @@
          id="g3848">
         <path
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
-           d="m 10.21435,-2.9999999 1.78565,0 0,10 -1.78565,0 L 5,2.0432413 z"
+           d="m 10,-2.9999999 2,0 v 10 l -2,0 -5,-4.9567588 z"
            id="rect2396"
            sodipodi:nodetypes="cccccc"
            inkscape:connector-curvature="0" />

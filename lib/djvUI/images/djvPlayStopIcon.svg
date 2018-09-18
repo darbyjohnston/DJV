@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvPlayStopIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvPlayStopIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -105,19 +105,21 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
-     inkscape:cx="4.7155689"
+     inkscape:zoom="20.8"
+     inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="678"
+     inkscape:window-width="1008"
      inkscape:window-height="719"
      inkscape:window-x="583"
      inkscape:window-y="396"
      inkscape:snap-nodes="false"
      inkscape:snap-bbox="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -134,7 +136,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -144,11 +146,11 @@
      id="layer1"
      transform="translate(0,3)">
     <rect
-       style="fill:#dcdcdc;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.93733424000000021;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
+       style="fill:#f0f0f0;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99905664;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
        id="rect2396"
-       width="14.062666"
-       height="14.083922"
-       x="5.468667"
-       y="2.468667" />
+       width="15"
+       height="15"
+       x="5"
+       y="2" />
   </g>
 </svg>

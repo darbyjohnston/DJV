@@ -14,13 +14,13 @@
    height="10"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.1 r9760"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvTreeViewClosed.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvTreeViewClosed.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -120,19 +120,20 @@
      objecttolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="38.395898"
+     inkscape:zoom="36.910974"
      inkscape:cx="5"
      inkscape:cy="5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="738"
+     inkscape:window-width="972"
      inkscape:window-height="761"
      inkscape:window-x="76"
      inkscape:window-y="167"
-     inkscape:snap-nodes="false"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -159,8 +160,8 @@
      id="layer1"
      transform="translate(0,-1)">
     <path
-       style="fill:#7f7f7f;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       d="M 4.0750727,10 3,10 3.00572,2 4.0807937,2 10,6.0083348 z"
+       style="fill:#030303;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="M 3.0750727,9.9999996 H 2 L 2.00572,2 H 3.0807937 L 8,6 Z"
        id="rect2396"
        sodipodi:nodetypes="cccccc"
        inkscape:connector-curvature="0" />

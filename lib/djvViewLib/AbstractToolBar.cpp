@@ -35,6 +35,7 @@
 #include <djvViewLib/Context.h>
 
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
 
 namespace djv
 {
@@ -49,8 +50,8 @@ namespace djv
                 context(context)
             {}
 
-            AbstractActions * actions = nullptr;
             Context *         context = nullptr;
+            AbstractActions * actions = nullptr;
         };
 
         AbstractToolBar::AbstractToolBar(
@@ -60,11 +61,16 @@ namespace djv
             QToolBar(parent),
             _p(new Private(actions, context))
         {
-            setAllowedAreas(
-                Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
+            setAllowedAreas(Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
             setFloatable(false);
             //setMovable(false);
-            setIconSize(context->iconLibrary()->defaultSize());
+            const int iconSize = _p->context->style()->sizeMetric().iconSize;
+            setIconSize(QSize(iconSize, iconSize));
+
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         AbstractToolBar::~AbstractToolBar()
@@ -78,6 +84,12 @@ namespace djv
         Context * AbstractToolBar::context() const
         {
             return _p->context;
+        }
+
+        void AbstractToolBar::sizeMetricsCallback()
+        {
+            const int iconSize = _p->context->style()->sizeMetric().iconSize;
+            setIconSize(QSize(iconSize, iconSize));
         }
 
     } // namespace ViewLib

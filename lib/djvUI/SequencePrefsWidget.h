@@ -57,6 +57,7 @@ namespace djv
 
         private Q_SLOTS:
             void maxFramesCallback(int);
+            void sizeMetricsCallback();
 
         private:
             void widgetUpdate();

@@ -54,6 +54,7 @@ namespace djv
         {
             QComboBox * timeUnitsWidget = nullptr;
             QComboBox * speedWidget = nullptr;
+            QVBoxLayout * layout = nullptr;
         };
 
         TimePrefsWidget::TimePrefsWidget(UIContext * context, QWidget * parent) :
@@ -71,8 +72,8 @@ namespace djv
             _p->speedWidget->addItems(Core::Speed::fpsLabels());
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _p->layout = new QVBoxLayout(this);
+            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::TimePrefsWidget", "Time"), context);
@@ -86,9 +87,9 @@ namespace djv
                 new QLabel(qApp->translate("djv::UI::TimePrefsWidget", "(frames per second)")));
             formLayout->addRow(
                 qApp->translate("djv::UI::TimePrefsWidget", "Default speed:"), hLayout);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _p->layout->addStretch();
 
             // Initialize.
             widgetUpdate();
@@ -102,6 +103,10 @@ namespace djv
                 _p->speedWidget,
                 SIGNAL(activated(int)),
                 SLOT(speedCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         TimePrefsWidget::~TimePrefsWidget()
@@ -122,6 +127,12 @@ namespace djv
         void TimePrefsWidget::speedCallback(int index)
         {
             context()->timePrefs()->setSpeed(static_cast<Core::Speed::FPS>(index));
+        }
+
+        void TimePrefsWidget::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void TimePrefsWidget::widgetUpdate()

@@ -41,6 +41,8 @@ namespace djv
 {
     namespace UI
     {
+        class UIContext;
+
         //! \class AbstractToolButton
         //!
         //! This class provides the base functionality for tool buttons.
@@ -49,16 +51,23 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractToolButton(QWidget * parent = nullptr);
+            explicit AbstractToolButton(UIContext *, QWidget * parent = nullptr);
 
             virtual ~AbstractToolButton() = 0;
+
+            UIContext* context() const { return _context; }
 
         protected:
             virtual void paintEvent(QPaintEvent *);
             virtual bool event(QEvent*);
 
+        private Q_SLOTS:
+            void sizeMetricsCallback();
+
         private:
             DJV_PRIVATE_COPY(AbstractToolButton);
+
+            UIContext* _context = nullptr;
         };
 
     } // namespace UI

@@ -49,9 +49,7 @@ namespace djv
     namespace UI
     {
         PPMWidget::PPMWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _typeWidget(0),
-            _dataWidget(0)
+            ImageIOWidget(plugin, context)
         {
             // Create the widgets.
             _typeWidget = new QComboBox;
@@ -63,8 +61,8 @@ namespace djv
             _dataWidget->addItems(Graphics::PPM::dataLabels());
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::PPMWidget", "File Type"),
@@ -74,7 +72,7 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::PPMWidget", "File type:"),
                 _typeWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::PPMWidget", "Data Type"),
@@ -84,9 +82,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::PPMWidget", "Data type:"),
                 _dataWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             QStringList tmp;
@@ -110,6 +108,10 @@ namespace djv
                 _dataWidget,
                 SIGNAL(activated(int)),
                 SLOT(dataCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         PPMWidget::~PPMWidget()
@@ -151,6 +153,12 @@ namespace djv
         {
             _options.data = static_cast<Graphics::PPM::DATA>(in);
             pluginUpdate();
+        }
+
+        void PPMWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void PPMWidget::pluginUpdate()

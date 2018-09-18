@@ -14,13 +14,13 @@
    height="20"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvInPointMarkIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvInPointMarkIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -263,7 +263,7 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      gridtolerance="10000"
@@ -271,19 +271,21 @@
      objecttolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="25.05"
+     inkscape:zoom="26"
      inkscape:cx="10"
      inkscape:cy="10"
      inkscape:document-units="px"
      inkscape:current-layer="g3848"
      showgrid="true"
-     inkscape:window-width="641"
+     inkscape:window-width="1038"
      inkscape:window-height="719"
-     inkscape:window-x="981"
+     inkscape:window-x="507"
      inkscape:window-y="223"
-     inkscape:snap-nodes="false"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     showborder="true"
+     inkscape:pagecheckerboard="false">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -300,7 +302,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -316,7 +318,7 @@
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cccccc"
          id="rect2396"
-         d="m 10.21435,-2.9999999 1.78565,0 0,10 -1.78565,0 L 5,2.0432413 z"
+         d="m 10,-2.9999999 2,0 v 10 l -2,0 -5,-4.9567588 z"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none" />
       <path
          style="fill:#000000;fill-opacity:1;stroke:none"

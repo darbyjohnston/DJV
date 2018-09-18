@@ -53,22 +53,7 @@ namespace djv
     namespace UI
     {
         OpenEXRWidget::OpenEXRWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _threadsEnableWidget(0),
-            _threadCountWidget(0),
-            _inputColorProfileWidget(0),
-            _inputColorProfileLayout(0),
-            _inputGammaWidget(0),
-            _inputExposureWidget(0),
-            _inputExposureDefogWidget(0),
-            _inputExposureKneeLowWidget(0),
-            _inputExposureKneeHighWidget(0),
-            _channelsWidget(0),
-            _compressionWidget(0)
-#if OPENEXR_VERSION_HEX >= 0x02020000
-            ,
-            _dwaCompressionLevelWidget(0)
-#endif // OPENEXR_VERSION_HEX
+            ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("OpenEXRWidget::OpenEXRWidget");
 
@@ -118,8 +103,8 @@ namespace djv
 #endif // OPENEXR_VERSION_HEX
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::OpenEXRWidget", "Multi-Threading"), context);
@@ -128,7 +113,7 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::OpenEXRWidget", "Thread count:"),
                 _threadCountWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("vOpenEXRWidget", "Color Profile"),
@@ -150,7 +135,7 @@ namespace djv
                 qApp->translate("djv::UI::OpenEXRWidget", "Knee high:"), _inputExposureKneeHighWidget);
             formLayout->addRow(prefsGroupBox);
 
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::OpenEXRWidget", "Channels"),
@@ -161,7 +146,7 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::OpenEXRWidget", "Channels:"),
                 _channelsWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::OpenEXRWidget", "Compression"),
@@ -177,9 +162,9 @@ namespace djv
                 qApp->translate("djv::UI::OpenEXRWidget", "DWA compression level:"),
                 _dwaCompressionLevelWidget);
 #endif // OPENEXR_VERSION_HEX
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             _inputExposureWidget->setInc(.1f, 1.f);
@@ -279,6 +264,10 @@ namespace djv
                 SIGNAL(valueChanged(float)),
                 SLOT(dwaCompressionLevelCallback(float)));
 #endif // OPENEXR_VERSION_HEX
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         OpenEXRWidget::~OpenEXRWidget()
@@ -399,6 +388,12 @@ namespace djv
             _options.dwaCompressionLevel = in;
             pluginUpdate();
 #endif // OPENEXR_VERSION_HEX
+        }
+
+        void OpenEXRWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void OpenEXRWidget::pluginUpdate()

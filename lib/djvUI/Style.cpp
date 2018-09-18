@@ -59,19 +59,19 @@ namespace djv
             select(select)
         {}
 
-        Style::SizeMetric::SizeMetric(const QString & name, int fontSize) :
+        Style::SizeMetric::SizeMetric(const QString & name, int fontSize, int iconSize, int toolIconSize) :
             name(name),
             fontSize(fontSize),
-            pickSize(static_cast<int>(fontSize * 0.8)),
-            handleSize(static_cast<int>(fontSize * 3.0)),
-            spacing(4),
-            largeSpacing(16),
-            margin(4),
-            textMargin(2),
-            widgetMargin(4),
-            largeMargin(16),
-            iconSize(22),
-            toolIconSize(11),
+            pickSize(static_cast<int>(fontSize * .8f)),
+            handleSize(static_cast<int>(fontSize * 3.f)),
+            spacing(static_cast<int>(fontSize * .5f)),
+            largeSpacing(fontSize),
+            margin(static_cast<int>(fontSize * .5f)),
+            textMargin(static_cast<int>(fontSize * .5f)),
+            widgetMargin(static_cast<int>(fontSize * .5f)),
+            largeMargin(fontSize),
+            iconSize(iconSize),
+            toolIconSize(toolIconSize),
             buttonSize(static_cast<int>(fontSize * 4)),
             textSize(static_cast<int>(fontSize * 10)),
             swatchSize(static_cast<int>(fontSize * 4)),
@@ -82,9 +82,7 @@ namespace djv
             normal(qApp->font()),
             fixed("Monospace")
         {
-#if QT_VERSION >= 0x040800
             fixed.setStyleHint(QFont::Monospace);
-#endif // QT_VERSION
         }
 
         struct Style::Private
@@ -192,18 +190,18 @@ namespace djv
             {
                 Palette(
                     qApp->translate("djv::UI::Style", "Dark"),
-                    Graphics::Color(0.9f),
-                    Graphics::Color(0.25f),
-                    Graphics::Color(0.15f),
-                    Graphics::Color(0.25f),
-                    Graphics::Color(0.7f, 0.6f, 0.3f)),
+                    Graphics::Color(.9f),
+                    Graphics::Color(.2f),
+                    Graphics::Color(.15f),
+                    Graphics::Color(.25f),
+                    Graphics::Color(.7f, .6f, .3f)),
                 Palette(
                     qApp->translate("djv::UI::Style", "Light"),
-                    Graphics::Color(0.1f),
-                    Graphics::Color(0.8f),
-                    Graphics::Color(0.7f),
-                    Graphics::Color(0.7f),
-                    Graphics::Color(0.7f, 0.6f, 0.3f)),
+                    Graphics::Color(.1f),
+                    Graphics::Color(.9f),
+                    Graphics::Color(.85f),
+                    Graphics::Color(.8f),
+                    Graphics::Color(.7f, .6f, .3f)),
                 Palette(
                     qApp->translate("djv::UI::Style", "Default"),
                     Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
@@ -212,12 +210,19 @@ namespace djv
                     Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
                     Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))),
                 Palette(
+                    qApp->translate("djv::UI::Style", "Vaporwave"),
+                    Graphics::Color(.05f, .96f, .93f),
+                    Graphics::Color(0.f, .06f, .27f),
+                    Graphics::Color(0.f, .02f, .1f),
+                    Graphics::Color(.44f, .01f, .62f),
+                    Graphics::Color(.05f, .22f, .36f)),
+                Palette(
                     qApp->translate("djv::UI::Style", "Custom"),
-                    Graphics::Color(0.9f),
-                    Graphics::Color(0.0f, 0.3f, 0.0f),
-                    Graphics::Color(0.3f, 0.4f, 0.3f),
-                    Graphics::Color(0.0f, 0.4f, 0.0f),
-                    Graphics::Color(0.7f, 0.9f, 0.7f))
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight)))
             };
             return data;
         }
@@ -314,10 +319,8 @@ namespace djv
         {
             static const std::vector<SizeMetric> data =
             {
-                SizeMetric(qApp->translate("djv::UI::Style", "Small"), 9),
-                SizeMetric(qApp->translate("djv::UI::Style", "Medium"), 12),
-                SizeMetric(qApp->translate("djv::UI::Style", "Large"), 16),
-                SizeMetric(qApp->translate("djv::UI::Style", "Custom"), 24)
+                SizeMetric(qApp->translate("djv::UI::Style", "Default"), 12, 25, 20),
+                SizeMetric(qApp->translate("djv::UI::Style", "Large"), 24, 50, 40)
             };
             return data;
         }
@@ -354,7 +357,7 @@ namespace djv
 
         int Style::sizeMetricsIndexDefault()
         {
-            return 1;
+            return 0;
         }
 
         int Style::sizeMetricsIndex() const

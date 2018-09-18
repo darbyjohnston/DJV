@@ -49,8 +49,7 @@ namespace djv
     namespace UI
     {
         TIFFWidget::TIFFWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _compressionWidget(0)
+            ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("TIFFWidget::TIFFWidget");
 
@@ -61,8 +60,8 @@ namespace djv
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::TIFFWidget", "Compression"),
@@ -72,9 +71,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::TIFFWidget", "Compression:"),
                 _compressionWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             QStringList tmp;
@@ -93,6 +92,10 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         TIFFWidget::~TIFFWidget()
@@ -125,6 +128,12 @@ namespace djv
         {
             _options.compression = static_cast<Graphics::TIFF::COMPRESSION>(in);
             pluginUpdate();
+        }
+
+        void TIFFWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void TIFFWidget::pluginUpdate()

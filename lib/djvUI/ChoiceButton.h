@@ -52,8 +52,8 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ChoiceButton(QWidget * parent = nullptr);
-            explicit ChoiceButton(QActionGroup *, QWidget * parent = nullptr);
+            explicit ChoiceButton(UIContext *, QWidget * parent = nullptr);
+            explicit ChoiceButton(QActionGroup *, UIContext *, QWidget * parent = nullptr);
 
             virtual ~ChoiceButton();
 

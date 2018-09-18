@@ -14,13 +14,13 @@
    height="20"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvPlayLoopRepeatIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvPlayLoopRepeatIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -113,20 +113,21 @@
      objecttolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="23.55"
+     inkscape:zoom="26"
      inkscape:cx="10"
      inkscape:cy="10"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="672"
+     inkscape:window-width="1068"
      inkscape:window-height="719"
-     inkscape:window-x="487"
-     inkscape:window-y="191"
-     inkscape:snap-nodes="false"
+     inkscape:window-x="179"
+     inkscape:window-y="357"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -143,7 +144,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -154,16 +155,16 @@
      transform="translate(0,9)">
     <path
        style="fill:#000000;fill-opacity:1;stroke:none"
-       d="m 5.03125,6.90625 -2.03125,2 0.03125,5.0625 2,1.96875 9.9375,0 L 17,13.96875 l 0,-5.0625 -2.03125,-2 z M 14,10 l -0.03125,2.96875 -7.9375,0 0,-2.96875 z"
+       d="M 5.0625,6 C 4,6 3,7 3.03125,8 v 5.96875 C 3,15 4,16 5.03125,15.9375 h 9.9375 C 16,16 17,15 17,13.96875 L 17.03125,8 C 17,7 16,6 15,6 Z M 6.0160293,8.0271964 13.983971,8 C 14.698215,7.9975621 14.977675,8.3963956 15,9 v 4 c 0,0.622467 -0.263431,1.037725 -1,1 H 6 C 5.2634308,14.037725 4.97768,13.622467 5,13 V 9 C 4.9776798,8.3963956 5.2571442,8.0297867 6.0160293,8.0271964 Z"
        transform="translate(0,-9)"
-       id="path4141"
+       id="path2600"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccccccccc" />
+       sodipodi:nodetypes="sccccccssssccccccs" />
     <path
        sodipodi:nodetypes="cccccc"
        inkscape:connector-curvature="0"
        id="path3107"
-       d="m 14.002577,-0.62806526 -5.0174389,-4.41532404 -1.000001,-0.0098 3e-6,9.009799 1.029412,0.019608 z"
-       style="fill:#000000;fill-opacity:1;stroke:none" />
+       d="M 13,-2.0843641 8.9755593,-6.0011066 7.999999,-6.0098 8.0000015,1.9826061 9,2 Z"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.8585397" />
   </g>
 </svg>

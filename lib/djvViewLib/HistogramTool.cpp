@@ -252,13 +252,13 @@ namespace djv
             _p->maskWidget = new UI::PixelMaskWidget(context);
 
             _p->colorProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
+                context->iconLibrary()->icon("djvDisplayProfileIcon.png"), context);
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the color profile is enabled"));
 
             _p->displayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
+                context->iconLibrary()->icon("djvDisplayProfileIcon.png"), context);
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the display profile is enabled"));

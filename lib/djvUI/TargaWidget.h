@@ -36,6 +36,7 @@
 #include <djvGraphics/Targa.h>
 
 class QComboBox;
+class QVBoxLayout;
 
 namespace djv
 {
@@ -58,6 +59,7 @@ namespace djv
         private Q_SLOTS:
             void pluginCallback(const QString &);
             void compressionCallback(int);
+            void sizeMetricsCallback();
 
             void pluginUpdate();
             void widgetUpdate();
@@ -65,6 +67,7 @@ namespace djv
         private:
             Graphics::Targa::Options _options;
             QComboBox * _compressionWidget = nullptr;
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class TargaWidgetPlugin

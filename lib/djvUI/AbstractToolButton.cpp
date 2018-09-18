@@ -31,6 +31,9 @@
 
 #include <djvUI/AbstractToolButton.h>
 
+#include <djvUI/Style.h>
+#include <djvUI/UIContext.h>
+
 #include <djvCore/Assert.h>
 
 #include <QApplication>
@@ -44,10 +47,16 @@ namespace djv
 {
     namespace UI
     {
-        AbstractToolButton::AbstractToolButton(QWidget * parent) :
-            QAbstractButton(parent)
+        AbstractToolButton::AbstractToolButton(UIContext * context, QWidget * parent) :
+            QAbstractButton(parent),
+            _context(context)
         {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         AbstractToolButton::~AbstractToolButton()
@@ -56,7 +65,6 @@ namespace djv
         void AbstractToolButton::paintEvent(QPaintEvent *)
         {
             QPainter painter(this);
-
             if (underMouse() || isChecked())
             {
                 QStyleOptionButton styleOption;
@@ -83,6 +91,11 @@ namespace djv
             default: break;
             }
             return QAbstractButton::event(event);
+        }
+
+        void AbstractToolButton::sizeMetricsCallback()
+        {
+            updateGeometry();
         }
 
     } // namespace UI

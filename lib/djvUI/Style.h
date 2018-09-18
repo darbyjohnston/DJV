@@ -119,7 +119,11 @@ namespace djv
             //! This struct provides size metrics.
             struct SizeMetric
             {
-                explicit SizeMetric(const QString & name = QString(), int fontSize = 0);
+                explicit SizeMetric(
+                    const QString & name = QString(),
+                    int fontSize = 0,
+                    int iconSize = 0,
+                    int toolIconSize = 0);
 
                 QString name;
                 int     fontSize = 0;

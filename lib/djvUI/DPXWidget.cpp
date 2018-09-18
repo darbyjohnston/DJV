@@ -52,21 +52,7 @@ namespace djv
     namespace UI
     {
         DPXWidget::DPXWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _inputColorProfileLayout(0),
-            _inputColorProfileWidget(0),
-            _inputBlackPointWidget(0),
-            _inputWhitePointWidget(0),
-            _inputGammaWidget(0),
-            _inputSoftClipWidget(0),
-            _outputColorProfileLayout(0),
-            _outputColorProfileWidget(0),
-            _outputBlackPointWidget(0),
-            _outputWhitePointWidget(0),
-            _outputGammaWidget(0),
-            _versionWidget(0),
-            _typeWidget(0),
-            _endianWidget(0)
+            ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("DPXWidget::DPXWidget");
 
@@ -118,8 +104,8 @@ namespace djv
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::DPXWidget", "Input Color Profile"),
@@ -141,7 +127,7 @@ namespace djv
             _inputColorProfileLayout->addRow(
                 qApp->translate("djv::UI::DPXWidget", "Soft clip:"),
                 _inputSoftClipWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::DPXWidget", "Output Color Profile"),
@@ -160,7 +146,7 @@ namespace djv
             _outputColorProfileLayout->addRow(
                 qApp->translate("djv::UI::DPXWidget", "Gamma:"),
                 _outputGammaWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::DPXWidget", "Version"),
@@ -170,7 +156,7 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::DPXWidget", "Version:"),
                 _versionWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::DPXWidget", "Pixel Type"),
@@ -180,7 +166,7 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::DPXWidget", "Pixel type:"),
                 _typeWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::DPXWidget", "Endian"),
@@ -192,9 +178,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::DPXWidget", "Endian:"),
                 _endianWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             _inputBlackPointWidget->setDefaultValue(
@@ -291,6 +277,10 @@ namespace djv
                 _endianWidget,
                 SIGNAL(activated(int)),
                 SLOT(endianCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         DPXWidget::~DPXWidget()
@@ -413,6 +403,12 @@ namespace djv
         {
             _options.endian = static_cast<Graphics::DPX::ENDIAN>(in);
             pluginUpdate();
+        }
+
+        void DPXWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void DPXWidget::pluginUpdate()

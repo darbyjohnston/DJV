@@ -48,8 +48,7 @@ namespace djv
     namespace UI
     {
         IFFWidget::IFFWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _compressionWidget(0)
+            ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("IFFWidget::IFFWidget");
 
@@ -60,8 +59,8 @@ namespace djv
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::IFFWidget", "Compression"),
@@ -71,9 +70,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::IFFWidget", "Compression:"),
                 _compressionWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             QStringList tmp;
@@ -91,6 +90,10 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         IFFWidget::~IFFWidget()
@@ -125,6 +128,12 @@ namespace djv
             QStringList tmp;
             tmp << _options.compression;
             plugin()->setOption(plugin()->options()[Graphics::IFF::COMPRESSION_OPTION], tmp);
+        }
+
+        void IFFWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void IFFWidget::pluginUpdate()

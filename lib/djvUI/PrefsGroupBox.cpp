@@ -76,6 +76,11 @@ namespace djv
             _p->layout = new QVBoxLayout(_p->groupBox);
             _p->layout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
             _p->layout->addWidget(_p->label);
+
+            connect(
+                _p->context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         PrefsGroupBox::PrefsGroupBox(
@@ -119,6 +124,12 @@ namespace djv
             formLayout->setSpacing(_p->context->style()->sizeMetric().spacing);
             _p->layout->addLayout(formLayout);
             return formLayout;
+        }
+
+        void PrefsGroupBox::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
     } // namespace UI

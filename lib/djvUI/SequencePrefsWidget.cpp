@@ -55,6 +55,7 @@ namespace djv
         struct SequencePrefsWidget::Private
         {
             IntEdit * maxFramesWidget = nullptr;
+            QVBoxLayout * layout = nullptr;
         };
 
         SequencePrefsWidget::SequencePrefsWidget(UIContext * context, QWidget * parent) :
@@ -67,8 +68,8 @@ namespace djv
             _p->maxFramesWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _p->layout = new QVBoxLayout(this);
+            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::SequencePrefsWidget", "Max Frames"),
@@ -80,9 +81,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::SequencePrefsWidget", "Frames:"),
                 _p->maxFramesWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _p->layout->addStretch();
 
             // Initialize.
             widgetUpdate();
@@ -92,6 +93,10 @@ namespace djv
                 _p->maxFramesWidget,
                 SIGNAL(valueChanged(int)),
                 SLOT(maxFramesCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         SequencePrefsWidget::~SequencePrefsWidget()
@@ -106,6 +111,12 @@ namespace djv
         void SequencePrefsWidget::maxFramesCallback(int size)
         {
             context()->sequencePrefs()->setMaxFrames(size);
+        }
+
+        void SequencePrefsWidget::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void SequencePrefsWidget::widgetUpdate()

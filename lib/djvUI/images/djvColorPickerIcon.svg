@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvColorPickerIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvColorPickerIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -224,13 +224,13 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="21.36"
-     inkscape:cx="16.015466"
+     inkscape:zoom="22.12"
+     inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="767"
+     inkscape:window-width="1119"
      inkscape:window-height="752"
      inkscape:window-x="737"
      inkscape:window-y="278"
@@ -239,7 +239,8 @@
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -256,7 +257,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -265,27 +266,28 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,3)">
-    <path
-       sodipodi:type="arc"
-       style="fill:#dcdcdc;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.44939467000000000;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
+    <ellipse
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
        id="path4254"
-       sodipodi:cx="6.6933331"
-       sodipodi:cy="20.213333"
-       sodipodi:rx="1.4933333"
-       sodipodi:ry="1.8933333"
-       d="m 8.1866665,20.213333 c 0,1.045659 -0.6685881,1.893333 -1.4933334,1.893333 -0.8247452,0 -1.4933333,-0.847674 -1.4933333,-1.893333 0,-1.045659 0.6685881,-1.893333 1.4933333,-1.893333 0.8247453,0 1.4933334,0.847674 1.4933334,1.893333 z"
-       transform="matrix(2.3437499,7.6080623e-8,0,2.112676,-8.704353,-27.264149)" />
-    <path
-       style="fill:#ffffff;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:1.00948178999999990px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.49803922000000000"
-       d="M 7.5683854,13.504066 10.791616,12.687649 16.234943,7.2784993 13.877044,4.8871125 8.3917547,10.36851 z"
-       id="path4250"
-       sodipodi:nodetypes="cccccc"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#bebebe;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:1.00948178999999990px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.49803922000000000"
-       d="m 20.854986,0.24262004 0.656918,3.58406506 -4.469903,4.5040834 -4.25029,-4.2425063 4.542153,-4.54604443 3.521122,0.70040227 z"
-       id="path4252"
-       sodipodi:nodetypes="cccccc"
-       inkscape:connector-curvature="0" />
+       cx="6.5"
+       cy="16"
+       rx="3.4999998"
+       ry="3.9999998" />
+    <g
+       id="g16934"
+       transform="rotate(-45,13.136039,2.5)">
+      <path
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc"
+         id="path4250"
+         d="M 3,7 5.75,9 H 14 V 5 H 5.75 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.96650523px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.49803922" />
+      <path
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc"
+         id="path4252"
+         d="m 23,7 -2,3 H 15 V 4 h 6 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.00948179px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.49803922" />
+    </g>
   </g>
 </svg>

@@ -37,6 +37,7 @@
 #include <djvGraphics/IFF.h>
 
 class QComboBox;
+class QVBoxLayout;
 
 namespace djv
 {
@@ -59,13 +60,15 @@ namespace djv
         private Q_SLOTS:
             void pluginCallback(const QString &);
             void compressionCallback(int);
+            void sizeMetricsCallback();
 
             void pluginUpdate();
             void widgetUpdate();
 
         private:
             Graphics::IFF::Options _options;
-            QComboBox * _compressionWidget;
+            QComboBox * _compressionWidget = nullptr;
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class IFFWidgetPlugin

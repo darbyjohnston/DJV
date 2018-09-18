@@ -36,6 +36,7 @@
 #include <djvGraphics/PPM.h>
 
 class QComboBox;
+class QVBoxLayout;
 
 namespace djv
 {
@@ -59,6 +60,7 @@ namespace djv
             void pluginCallback(const QString &);
             void typeCallback(int);
             void dataCallback(int);
+            void sizeMetricsCallback();
 
             void pluginUpdate();
             void widgetUpdate();
@@ -67,6 +69,7 @@ namespace djv
             Graphics::PPM::Options _options;
             QComboBox * _typeWidget = nullptr;
             QComboBox * _dataWidget = nullptr;
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class PPMWidgetPlugin

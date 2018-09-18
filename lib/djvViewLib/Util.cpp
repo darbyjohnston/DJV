@@ -279,10 +279,10 @@ namespace djv
         const QStringList & Util::toolLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Util", "Magnify Tool") <<
-                qApp->translate("djv::ViewLib::Util", "Color Picker Tool") <<
-                qApp->translate("djv::ViewLib::Util", "Histogram Tool") <<
-                qApp->translate("djv::ViewLib::Util", "Information Tool");
+                qApp->translate("djv::ViewLib::Util", "Magnify") <<
+                qApp->translate("djv::ViewLib::Util", "Color Picker") <<
+                qApp->translate("djv::ViewLib::Util", "Histogram") <<
+                qApp->translate("djv::ViewLib::Util", "Information");
             DJV_ASSERT(data.count() == TOOL_COUNT);
             return data;
         }

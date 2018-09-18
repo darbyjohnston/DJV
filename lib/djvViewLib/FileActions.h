@@ -45,8 +45,8 @@ namespace djv
         class FileActions : public AbstractActions
         {
             Q_OBJECT
-                Q_ENUMS(ACTION)
-                Q_ENUMS(GROUP)
+            Q_ENUMS(ACTION)
+            Q_ENUMS(GROUP)
 
         public:
             //! This enumeration provides the actions.

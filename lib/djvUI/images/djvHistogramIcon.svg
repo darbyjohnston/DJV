@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvHistogramIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvHistogramIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -94,13 +94,13 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
+     inkscape:zoom="20.8"
      inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="964"
+     inkscape:window-width="1192"
      inkscape:window-height="719"
      inkscape:window-x="403"
      inkscape:window-y="224"
@@ -108,7 +108,8 @@
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -125,7 +126,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -134,16 +135,14 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,3)">
-    <rect
-       style="fill:#000000;fill-opacity:0.78431374;fill-rule:evenodd;stroke:none"
-       id="rect2396"
-       width="19"
-       height="19.028341"
-       x="3"
-       y="-2e-008" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="M 3 3 L 3 22.029297 L 22 22.029297 L 22 3 L 3 3 z M 4 4 L 21 4 L 21 21 L 4 21 L 4 4 z "
+       transform="translate(0,-3)"
+       id="rect2396" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#ffffff;fill-opacity:0.78431374;fill-rule:evenodd;stroke:none"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
        d="M 3.9514171,18.082564 21.102938,18.046879 21.122744,1.9029142 C 18.955429,1.8678982 19.156712,13.294928 15.451472,13.367098 13.067314,13.356102 13.160682,9.5201372 11.282775,9.5709981 9.1462742,9.5430569 8.6004703,18.138128 3.9514171,18.082564 z"
        id="path4168"
        sodipodi:nodetypes="cccccc" />

@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvWindowCopyIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvWindowCopyIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -161,17 +161,17 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
-     inkscape:cx="12.5"
+     inkscape:zoom="20.8"
+     inkscape:cx="4.6875"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1150"
      inkscape:window-height="719"
-     inkscape:window-x="504"
-     inkscape:window-y="241"
-     inkscape:snap-nodes="false"
+     inkscape:window-x="696"
+     inkscape:window-y="345"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0">
     <inkscape:grid
@@ -190,7 +190,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -200,34 +200,32 @@
      id="layer1"
      transform="translate(0,3)">
     <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.87311494;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="m 11,1 v 6 h 4 v 4 h 9 V 1 Z"
+       id="path8969"
        inkscape:connector-curvature="0"
-       style="fill:#dcdcdc;fill-opacity:0.78431373;fill-rule:evenodd;stroke:#000000;stroke-width:0.88650167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
-       d="m 9.37516,2.4432507 13.16337,10e-8 0,10.1810482 -13.16337,0 z"
-       id="path4012"
-       sodipodi:nodetypes="ccccc"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       sodipodi:nodetypes="ccccccc" />
     <rect
-       style="fill:#ffffff;fill-opacity:0.78431373;fill-rule:evenodd;stroke:#000000;stroke-width:0.99500066;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.81095254;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
        id="rect2413"
-       width="13.025214"
-       height="3.0049994"
-       x="9.4772854"
-       y="-0.5024997" />
+       width="13"
+       height="2"
+       x="11"
+       y="-2" />
     <path
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
        sodipodi:nodetypes="ccccc"
-       id="path26979"
-       d="m 2.3933792,9.3757009 13.1633698,10e-8 0,10.181048 -13.1633698,0 z"
-       style="fill:#dcdcdc;fill-opacity:0.78431373;fill-rule:evenodd;stroke:#000000;stroke-width:0.88650167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
+       id="path7145"
+       d="M 1,11 H 14 V 21 H 1 Z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.87311494;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
        inkscape:connector-curvature="0" />
     <rect
-       y="6.4299502"
-       x="2.4955046"
-       height="3.0049994"
-       width="13.025214"
-       id="rect26981"
-       style="fill:#ffffff;fill-opacity:0.78431373;fill-rule:evenodd;stroke:#000000;stroke-width:0.99500066;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none" />
+       y="8"
+       x="0.99999994"
+       height="2"
+       width="13"
+       id="rect7147"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.81095254;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922" />
   </g>
 </svg>

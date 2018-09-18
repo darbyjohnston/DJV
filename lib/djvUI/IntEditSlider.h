@@ -53,37 +53,36 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the value.
-                Q_PROPERTY(
-                    int    value
-                    READ   value
-                    WRITE  setValue
-                    NOTIFY valueChanged)
+            //! This property holds the value.
+            Q_PROPERTY(
+                int    value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
-                //! This property holds the default value.
-                Q_PROPERTY(
-                    int    defaultValue
-                    READ   defaultValue
-                    WRITE  setDefaultValue
-                    NOTIFY defaultValueChanged)
+            //! This property holds the default value.
+            Q_PROPERTY(
+                int    defaultValue
+                READ   defaultValue
+                WRITE  setDefaultValue
+                NOTIFY defaultValueChanged)
 
-                //! This property holds the minimum value.
-                Q_PROPERTY(
-                    int    min
-                    READ   min
-                    WRITE  setMin
-                    NOTIFY minChanged)
+            //! This property holds the minimum value.
+            Q_PROPERTY(
+                int    min
+                READ   min
+                WRITE  setMin
+                NOTIFY minChanged)
 
-                //! This property holds the maximum value.
-                Q_PROPERTY(
-                    int    max
-                    READ   max
-                    WRITE  setMax
-                    NOTIFY maxChanged)
+            //! This property holds the maximum value.
+            Q_PROPERTY(
+                int    max
+                READ   max
+                WRITE  setMax
+                NOTIFY maxChanged)
 
         public:
             explicit IntEditSlider(UIContext *, QWidget * parent = nullptr);
-
             virtual ~IntEditSlider();
 
             //! Get the value.
@@ -146,6 +145,7 @@ namespace djv
             void valueCallback();
             void sliderCallback(int);
             void defaultCallback();
+            void sizeMetricsCallback();
 
             void widgetUpdate();
 

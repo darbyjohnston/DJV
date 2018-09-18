@@ -31,6 +31,13 @@
 
 #include <djvUI/ToolButton.h>
 
+#include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
+#include <djvUI/UIContext.h>
+
+#include <djvGraphics/Color.h>
+#include <djvGraphics/ColorUtil.h>
+
 #include <djvCore/SignalBlocker.h>
 
 #include <QAction>
@@ -49,15 +56,15 @@ namespace djv
             QAction * defaultAction = nullptr;
         };
 
-        ToolButton::ToolButton(QWidget * parent) :
-            AbstractToolButton(parent),
+        ToolButton::ToolButton(UIContext * context, QWidget * parent) :
+            AbstractToolButton(context, parent),
             _p(new Private)
         {
             widgetUpdate();
         }
 
-        ToolButton::ToolButton(const QIcon & icon, QWidget * parent) :
-            AbstractToolButton(parent),
+        ToolButton::ToolButton(const QIcon & icon, UIContext * context, QWidget * parent) :
+            AbstractToolButton(context, parent),
             _p(new Private)
         {
             setIcon(icon);
@@ -114,8 +121,9 @@ namespace djv
 
         QSize ToolButton::sizeHint() const
         {
-            QSize sizeHint(25, 25);
-            const int margin = 2;
+            const int iconSize = context()->style()->sizeMetric().iconSize;
+            QSize sizeHint(iconSize, iconSize);
+            const int margin = context()->style()->sizeMetric().margin;
             QStyleOptionToolButton opt;
             opt.iconSize = icon().actualSize(sizeHint);
             opt.iconSize += QSize(margin * 2, margin * 2);
@@ -139,7 +147,6 @@ namespace djv
         {
             AbstractToolButton::paintEvent(event);
 
-            QPainter painter(this);
             QIcon::Mode  mode = QIcon::Normal;
             QIcon::State state = QIcon::Off;
             if (!isEnabled())
@@ -147,10 +154,19 @@ namespace djv
             if (isChecked())
                 state = QIcon::On;
             const QPixmap & pixmap = icon().pixmap(width(), height(), mode, state);
-            painter.drawPixmap(
-                width() / 2 - pixmap.width() / 2,
-                height() / 2 - pixmap.height() / 2,
-                pixmap);
+
+            QImage image(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
+            image.fill(Qt::transparent);
+            QPainter imagePainter(&image);
+            imagePainter.drawPixmap(0, 0, pixmap);
+            imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
+            imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), QPalette().foreground());
+
+            QPainter painter(this);
+            painter.drawImage(
+                width() / 2 - image.width() / 2,
+                height() / 2 - image.height() / 2,
+                image);
         }
 
         void ToolButton::widgetUpdate()

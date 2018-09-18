@@ -53,18 +53,7 @@ namespace djv
     namespace UI
     {
         CineonWidget::CineonWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _inputColorProfileLayout(0),
-            _inputColorProfileWidget(0),
-            _inputBlackPointWidget(0),
-            _inputWhitePointWidget(0),
-            _inputGammaWidget(0),
-            _inputSoftClipWidget(0),
-            _outputColorProfileLayout(0),
-            _outputColorProfileWidget(0),
-            _outputBlackPointWidget(0),
-            _outputWhitePointWidget(0),
-            _outputGammaWidget(0)
+            ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("CineonWidget::CineonWidget");
 
@@ -101,8 +90,8 @@ namespace djv
             _outputGammaWidget->setRange(.01f, 4.f);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::CineonWidget", "Input Color Profile"),
@@ -124,7 +113,7 @@ namespace djv
             _inputColorProfileLayout->addRow(
                 qApp->translate("djv::UI::CineonWidget", "Soft clip:"),
                 _inputSoftClipWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::CineonWidget", "Output Color Profile"),
@@ -143,9 +132,9 @@ namespace djv
             _outputColorProfileLayout->addRow(
                 qApp->translate("djv::UI::CineonWidget", "Gamma:"),
                 _outputGammaWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             _inputBlackPointWidget->setDefaultValue(
@@ -221,6 +210,10 @@ namespace djv
                 _outputGammaWidget,
                 SIGNAL(valueChanged(float)),
                 SLOT(outputGammaCallback(float)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         CineonWidget::~CineonWidget()
@@ -312,6 +305,12 @@ namespace djv
         {
             _options.outputFilmPrint.gamma = in;
             pluginUpdate();
+        }
+
+        void CineonWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void CineonWidget::pluginUpdate()

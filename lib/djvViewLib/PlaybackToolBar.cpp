@@ -38,6 +38,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -48,6 +49,7 @@ namespace djv
     {
         struct PlaybackToolBar::Private
         {
+            Context * context = nullptr;
             Util::LAYOUT layout = static_cast<Util::LAYOUT>(0);
             QWidget * widget = nullptr;
             QHBoxLayout * widgetLayout = nullptr;
@@ -76,6 +78,8 @@ namespace djv
             AbstractToolBar(actions, context, parent),
             _p(new Private)
         {
+            _p->context = context;
+
             // Create the playback widgets.
             _p->playbackButtons = new PlaybackButtons(
                 actions->group(PlaybackActions::PLAYBACK_GROUP),
@@ -90,11 +94,11 @@ namespace djv
             _p->speedWidget->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback speed"));
 
-            _p->realSpeedDisplay = new SpeedDisplay;
+            _p->realSpeedDisplay = new SpeedDisplay(context);
             _p->realSpeedDisplay->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Real playback speed"));
 
-            _p->everyFrameButton = new UI::ToolButton;
+            _p->everyFrameButton = new UI::ToolButton(context);
             _p->everyFrameButton->setDefaultAction(
                 actions->action(PlaybackActions::EVERY_FRAME));
             _p->everyFrameButton->setIconSize(QSize(20, 20));
@@ -127,31 +131,31 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback duration"));
 
             // Create the in/out point widgets.
-            _p->inOutEnabledButton = new UI::ToolButton;
+            _p->inOutEnabledButton = new UI::ToolButton(context);
             _p->inOutEnabledButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::IN_OUT_ENABLE]);
             _p->inOutEnabledButton->setIconSize(QSize(20, 20));
 
-            _p->markInPointButton = new UI::ToolButton;
+            _p->markInPointButton = new UI::ToolButton(context);
             _p->markInPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::MARK_IN]);
             _p->markInPointButton->setIconSize(QSize(20, 20));
 
-            _p->markOutPointButton = new UI::ToolButton;
+            _p->markOutPointButton = new UI::ToolButton(context);
             _p->markOutPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::MARK_OUT]);
             _p->markOutPointButton->setIconSize(QSize(20, 20));
 
-            _p->resetInPointButton = new UI::ToolButton;
+            _p->resetInPointButton = new UI::ToolButton(context);
             _p->resetInPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::RESET_IN]);
             _p->resetInPointButton->setIconSize(QSize(20, 20));
 
-            _p->resetOutPointButton = new UI::ToolButton;
+            _p->resetOutPointButton = new UI::ToolButton(context);
             _p->resetOutPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::RESET_OUT]);
@@ -165,7 +169,8 @@ namespace djv
             setAllowedAreas(Qt::BottomToolBarArea);
             setFloatable(false);
             setMovable(false);
-            setIconSize(context->iconLibrary()->defaultSize());
+            const int iconSize = context->style()->sizeMetric().iconSize;
+            setIconSize(QSize(iconSize, iconSize));
             layoutUpdate();
 
             // Setup callbacks.
@@ -227,6 +232,10 @@ namespace djv
                 _p->frameButtons,
                 SIGNAL(released()),
                 SIGNAL(frameButtonsReleased()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         PlaybackToolBar::~PlaybackToolBar()
@@ -333,6 +342,12 @@ namespace djv
                 return;
             _p->layout = layout;
             layoutUpdate();
+        }
+
+        void PlaybackToolBar::sizeMetricsCallback()
+        {
+            const int iconSize = _p->context->style()->sizeMetric().iconSize;
+            setIconSize(QSize(iconSize, iconSize));
         }
 
         void PlaybackToolBar::layoutUpdate()

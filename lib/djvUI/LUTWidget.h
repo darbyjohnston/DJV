@@ -36,6 +36,7 @@
 #include <djvGraphics/LUT.h>
 
 class QComboBox;
+class QVBoxLayout;
 
 namespace djv
 {
@@ -58,6 +59,7 @@ namespace djv
         private Q_SLOTS:
             void pluginCallback(const QString &);
             void typeCallback(int);
+            void sizeMetricsCallback();
 
             void pluginUpdate();
             void widgetUpdate();
@@ -65,6 +67,7 @@ namespace djv
         private:
             Graphics::LUT::Options _options;
             QComboBox * _typeWidget = nullptr;
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class LUTWidgetPlugin

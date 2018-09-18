@@ -54,7 +54,6 @@ namespace djv
 
         public:
             explicit FileBrowserPrefsWidget(UIContext *, QWidget * parent = nullptr);
-
             virtual ~FileBrowserPrefsWidget();
 
             virtual void resetPreferences();
@@ -71,6 +70,7 @@ namespace djv
             void moveBookmarkUpCallback();
             void moveBookmarkDownCallback();
             void shortcutsCallback(const QVector<Shortcut> &);
+            void sizeMetricsCallback();
 
             void widgetUpdate();
 

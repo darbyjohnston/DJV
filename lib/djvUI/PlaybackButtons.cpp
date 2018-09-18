@@ -31,8 +31,9 @@
 
 #include <djvUI/PlaybackButtons.h>
 
-#include <djvUI/UIContext.h>
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
+#include <djvUI/UIContext.h>
 
 #include <QApplication>
 #include <QButtonGroup>
@@ -62,9 +63,9 @@ namespace djv
             {
                 QToolButton * button = new QToolButton;
                 button->setCheckable(true);
-                button->setIcon(context->iconLibrary()->icon(
-                    PlaybackUtil::playbackIcons()[i]));
-                button->setIconSize(context->iconLibrary()->defaultSize());
+                button->setIcon(context->iconLibrary()->icon(PlaybackUtil::playbackIcons()[i]));
+                const int iconSize = context->style()->sizeMetric().iconSize;
+                button->setIconSize(QSize(iconSize, iconSize));
                 button->setAutoRaise(true);
                 button->setToolTip(toolTips[i]);
 
@@ -79,6 +80,10 @@ namespace djv
                 _buttonGroup,
                 SIGNAL(buttonClicked(int)),
                 SLOT(buttonCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         PlaybackUtil::PLAYBACK PlaybackButtons::playback() const
@@ -98,6 +103,15 @@ namespace djv
         void PlaybackButtons::buttonCallback(int id)
         {
             setPlayback(static_cast<PlaybackUtil::PLAYBACK>(id));
+        }
+
+        void PlaybackButtons::sizeMetricsCallback()
+        {
+            const int iconSize = _context->style()->sizeMetric().iconSize;
+            for (int i = 0; i < PlaybackUtil::PLAYBACK_COUNT; ++i)
+            {
+                _buttonGroup->buttons()[i]->setIconSize(QSize(iconSize, iconSize));
+            }
         }
 
     } // namespace UI

@@ -83,6 +83,7 @@ namespace djv
             IntEdit * thumbnailsCacheWidget = nullptr;
             QListWidget * bookmarksWidget = nullptr;
             ShortcutsWidget * shortcutsWidget = nullptr;
+            QVBoxLayout * layout = nullptr;
         };
 
         FileBrowserPrefsWidget::FileBrowserPrefsWidget(
@@ -123,25 +124,21 @@ namespace djv
 
             _p->bookmarksWidget = new SmallListWidget;
 
-            ToolButton * addBookmarkButton = new ToolButton(
-                context->iconLibrary()->icon("djvAddIcon.png"));
+            ToolButton * addBookmarkButton = new ToolButton(context->iconLibrary()->icon("djvAddIcon.png"), context);
             addBookmarkButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Add a new bookmark"));
 
-            ToolButton * removeBookmarkButton = new ToolButton(
-                context->iconLibrary()->icon("djvRemoveIcon.png"));
+            ToolButton * removeBookmarkButton = new ToolButton(context->iconLibrary()->icon("djvRemoveIcon.png"), context);
             removeBookmarkButton->setAutoRepeat(true);
             removeBookmarkButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Remove the selected bookmark"));
 
-            ToolButton * moveBookmarkUpButton = new ToolButton(
-                context->iconLibrary()->icon("djvUpIcon.png"));
+            ToolButton * moveBookmarkUpButton = new ToolButton(context->iconLibrary()->icon("djvUpIcon.png"), context);
             moveBookmarkUpButton->setAutoRepeat(true);
             moveBookmarkUpButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Move the selected bookmark up"));
 
-            ToolButton * moveBookmarkDownButton = new ToolButton(
-                context->iconLibrary()->icon("djvDownIcon.png"));
+            ToolButton * moveBookmarkDownButton = new ToolButton(context->iconLibrary()->icon("djvDownIcon.png"), context);
             moveBookmarkDownButton->setAutoRepeat(true);
             moveBookmarkDownButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Move the selected bookmark down"));
@@ -149,8 +146,8 @@ namespace djv
             _p->shortcutsWidget = new ShortcutsWidget(context);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _p->layout = new QVBoxLayout(this);
+            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Files"), context);
@@ -159,7 +156,7 @@ namespace djv
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "File sequencing:"),
                 _p->seqWidget);
             formLayout->addRow(_p->showHiddenWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Sorting"), context);
@@ -169,7 +166,7 @@ namespace djv
                 _p->sortWidget);
             formLayout->addRow(_p->reverseSortWidget);
             formLayout->addRow(_p->sortDirsFirstWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Thumbnails"), context);
@@ -187,7 +184,7 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Cache size:"),
                 hLayout);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Bookmarks"), context);
@@ -200,13 +197,13 @@ namespace djv
             hLayout->addWidget(moveBookmarkUpButton);
             hLayout->addWidget(moveBookmarkDownButton);
             formLayout->addRow(hLayout);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Keyboard Shortcuts"), context);
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->shortcutsWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
             // Initialize.
             widgetUpdate();
@@ -275,6 +272,10 @@ namespace djv
                 context->fileBrowserPrefs(),
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         FileBrowserPrefsWidget::~FileBrowserPrefsWidget()
@@ -384,6 +385,12 @@ namespace djv
         void FileBrowserPrefsWidget::shortcutsCallback(const QVector<Shortcut> & in)
         {
             context()->fileBrowserPrefs()->setShortcuts(in);
+        }
+
+        void FileBrowserPrefsWidget::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void FileBrowserPrefsWidget::widgetUpdate()

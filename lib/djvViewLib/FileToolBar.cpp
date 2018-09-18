@@ -31,6 +31,7 @@
 
 #include <djvViewLib/FileToolBar.h>
 
+#include <djvViewLib/Context.h>
 #include <djvViewLib/FileActions.h>
 
 #include <djvUI/ToolButton.h>
@@ -49,15 +50,15 @@ namespace djv
             AbstractToolBar(actions, context, parent),
             _p(new Private)
         {
-            UI::ToolButton * button = new UI::ToolButton;
+            UI::ToolButton * button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(FileActions::OPEN));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(FileActions::RELOAD));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(FileActions::CLOSE));
             addWidget(button);
         }

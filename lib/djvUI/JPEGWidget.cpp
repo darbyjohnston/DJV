@@ -49,8 +49,7 @@ namespace djv
     namespace UI
     {
         JPEGWidget::JPEGWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _qualityWidget(0)
+            ImageIOWidget(plugin, context)
         {
             // Create the widgets.
             _qualityWidget = new IntEditSlider(context);
@@ -58,8 +57,8 @@ namespace djv
             _qualityWidget->setDefaultValue(Graphics::JPEG::Options().quality);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::JPEGWidget", "Quality"),
@@ -69,9 +68,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::JPEGWidget", "Quality:"),
                 _qualityWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             QStringList tmp;
@@ -90,6 +89,10 @@ namespace djv
                 _qualityWidget,
                 SIGNAL(valueChanged(int)),
                 SLOT(qualityCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         JPEGWidget::~JPEGWidget()
@@ -122,6 +125,12 @@ namespace djv
         {
             _options.quality = in;
             pluginUpdate();
+        }
+
+        void JPEGWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void JPEGWidget::pluginUpdate()

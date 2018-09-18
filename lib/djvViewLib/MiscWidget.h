@@ -76,7 +76,6 @@ namespace djv
 
         public:
             explicit CacheSizeWidget(UI::UIContext *, QWidget * parent = nullptr);
-
             virtual ~CacheSizeWidget();
 
             //! Get the cache sizes.
@@ -141,7 +140,6 @@ namespace djv
 
         public:
             explicit FrameWidget(UI::UIContext *, QWidget * parent = nullptr);
-
             virtual ~FrameWidget();
 
             //! Get the frame list.
@@ -177,6 +175,7 @@ namespace djv
         private Q_SLOTS:
             void editingFinishedCallback();
             void timeUnitsCallback();
+            void sizeMetricsCallback();
 
             void textUpdate();
             void widgetUpdate();
@@ -237,7 +236,6 @@ namespace djv
 
         public:
             explicit FrameSlider(UI::UIContext *, QWidget * parent = nullptr);
-
             virtual ~FrameSlider();
 
             //! Get the frame list.
@@ -330,6 +328,7 @@ namespace djv
 
         private Q_SLOTS:
             void timeUnitsCallback();
+            void sizeMetricsCallback();
 
         private:
             qint64 end() const;
@@ -371,7 +370,6 @@ namespace djv
 
         public:
             explicit FrameDisplay(UI::UIContext *, QWidget * parent = nullptr);
-
             virtual ~FrameDisplay();
 
             //! Get the frame.
@@ -397,6 +395,7 @@ namespace djv
 
         private Q_SLOTS:
             void timeUnitsCallback();
+            void sizeMetricsCallback();
 
             void textUpdate();
             void widgetUpdate();
@@ -417,7 +416,6 @@ namespace djv
 
         public:
             explicit SpeedButton(UI::UIContext *, QWidget * parent = nullptr);
-
             virtual ~SpeedButton();
 
             //! Set the default speed.
@@ -461,7 +459,6 @@ namespace djv
 
         public:
             explicit SpeedWidget(UI::UIContext *, QWidget * parent = nullptr);
-
             virtual ~SpeedWidget();
 
             //! Get the speed.
@@ -501,8 +498,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit SpeedDisplay(QWidget * parent = nullptr);
-
+            explicit SpeedDisplay(UI::UIContext*, QWidget * parent = nullptr);
             virtual ~SpeedDisplay();
 
             virtual QSize sizeHint() const;
@@ -515,6 +511,8 @@ namespace djv
             void setDroppedFrames(bool);
 
         private Q_SLOTS:
+            void sizeMetricsCallback();
+
             void widgetUpdate();
 
         private:

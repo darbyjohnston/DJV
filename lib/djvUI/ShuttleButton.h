@@ -51,8 +51,8 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ShuttleButton(QWidget * parent = nullptr);
-            explicit ShuttleButton(const QVector<QIcon> & icons, QWidget * parent = nullptr);
+            explicit ShuttleButton(UIContext *, QWidget * parent = nullptr);
+            explicit ShuttleButton(const QVector<QIcon> & icons, UIContext *, QWidget * parent = nullptr);
 
             virtual ~ShuttleButton();
 

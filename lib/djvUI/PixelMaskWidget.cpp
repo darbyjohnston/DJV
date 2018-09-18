@@ -54,8 +54,7 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
-            _p->button = new ToolButton(
-                context->iconLibrary()->icon("djvPixelMaskIcon.png"));
+            _p->button = new ToolButton(context->iconLibrary()->icon("djvPixelMaskIcon.png"), context);
             _p->button->setCheckable(true);
             _p->button->setToolTip(
                 qApp->translate("djv::UI::PixelMaskWidget", "Set the pixel mask"));

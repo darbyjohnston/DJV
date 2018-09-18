@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvViewZoomInIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvViewZoomInIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -269,20 +269,22 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
+     inkscape:zoom="22.64"
      inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="999"
-     inkscape:window-height="660"
-     inkscape:window-x="297"
-     inkscape:window-y="223"
+     inkscape:window-width="1068"
+     inkscape:window-height="765"
+     inkscape:window-x="641"
+     inkscape:window-y="131"
      inkscape:snap-nodes="false"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -299,7 +301,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -308,29 +310,22 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,3)">
-    <rect
-       style="fill:#bebebe;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       id="rect3179"
-       width="9.1639671"
-       height="4.0631046"
-       x="16.381645"
-       y="-6.2741928"
-       transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)" />
     <path
-       sodipodi:type="arc"
-       style="fill:#dcdcdc;fill-opacity:0.78431373999999998;fill-rule:evenodd;stroke:#000000;stroke-width:0.49227098000000002;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
-       id="path2399"
-       sodipodi:cx="11.614372"
-       sodipodi:cy="6.6548581"
-       sodipodi:rx="2.70749"
-       sodipodi:ry="2.70749"
-       d="m 14.321862,6.6548581 a 2.70749,2.70749 0 1 1 -5.4149797,0 2.70749,2.70749 0 1 1 5.4149797,0 z"
-       transform="matrix(2.0314018,0,0,2.0314018,-12.593462,-8.5186936)" />
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.0176959;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="M 19.136719 10.359375 A 7.0003998 7.0013525 0 0 1 17.949219 11.949219 A 7.0003998 7.0013525 0 0 1 16.359375 13.136719 L 21.222656 18 L 24 15.222656 L 19.136719 10.359375 z "
+       transform="translate(0,-3)"
+       id="path10225" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#ffffff;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       d="m 14.457492,15.468862 -0.02778,-3.918125 -3.951752,0 0,-3.942064 -4.1154737,-0.027778 -0.0268,3.925172 L 2.5268,11.501067 2.5,15.491351 6.4616641,15.495651 6.4458201,19.5 l 4.0599179,0 0,-4.031153 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="M 12,17 V 14 H 8 V 10 H 5 v 4 H 1 v 3 h 4 v 4 h 3 v -4 z"
        id="path2385"
        sodipodi:nodetypes="ccccccccccccc" />
+    <circle
+       style="opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.01898301;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path10245"
+       cx="13"
+       cy="4"
+       r="6" />
   </g>
 </svg>

@@ -146,12 +146,12 @@ namespace djv
 
             // Create the other widgets.
             UI::ToolButton * addButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvAddIcon.png"));
+                context->iconLibrary()->icon("djvAddIcon.png"), context);
             addButton->setToolTip(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Add this display profile to the favorites list"));
 
             UI::ToolButton * resetButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvRemoveIcon.png"));
+                context->iconLibrary()->icon("djvRemoveIcon.png"), context);
             resetButton->setToolTip(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Reset the display profile"));
 

@@ -38,6 +38,7 @@
 class QCheckBox;
 class QComboBox;
 class QFormLayout;
+class QVBoxLayout;
 
 namespace djv
 {
@@ -71,23 +72,25 @@ namespace djv
             void outputBlackPointCallback(int);
             void outputWhitePointCallback(int);
             void outputGammaCallback(float);
+            void sizeMetricsCallback();
 
             void pluginUpdate();
             void widgetUpdate();
 
         private:
             Graphics::Cineon::Options _options;
-            QFormLayout * _inputColorProfileLayout;
-            QComboBox * _inputColorProfileWidget;
-            IntEditSlider * _inputBlackPointWidget;
-            IntEditSlider * _inputWhitePointWidget;
-            FloatEditSlider * _inputGammaWidget;
-            IntEditSlider * _inputSoftClipWidget;
-            QFormLayout * _outputColorProfileLayout;
-            QComboBox * _outputColorProfileWidget;
-            IntEditSlider * _outputBlackPointWidget;
-            IntEditSlider * _outputWhitePointWidget;
-            FloatEditSlider * _outputGammaWidget;
+            QFormLayout * _inputColorProfileLayout = nullptr;
+            QComboBox * _inputColorProfileWidget = nullptr;
+            IntEditSlider * _inputBlackPointWidget = nullptr;
+            IntEditSlider * _inputWhitePointWidget = nullptr;
+            FloatEditSlider * _inputGammaWidget = nullptr;
+            IntEditSlider * _inputSoftClipWidget = nullptr;
+            QFormLayout * _outputColorProfileLayout = nullptr;
+            QComboBox * _outputColorProfileWidget = nullptr;
+            IntEditSlider * _outputBlackPointWidget = nullptr;
+            IntEditSlider * _outputWhitePointWidget = nullptr;
+            FloatEditSlider * _outputGammaWidget = nullptr;
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class CineonWidgetPlugin

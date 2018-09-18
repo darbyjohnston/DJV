@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
-   sodipodi:docname="djvSpinnerVec.svg"
+   sodipodi:docname="djvShuttleIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="djvSpinner11Icon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="djvShuttle7Icon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -131,20 +131,6 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3644"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3682"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -158,17 +144,18 @@
      inkscape:pageshadow="2"
      inkscape:zoom="20.8"
      inkscape:cx="12.5"
-     inkscape:cy="12.661381"
+     inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1351"
      inkscape:window-height="775"
-     inkscape:window-x="12"
-     inkscape:window-y="142"
-     inkscape:snap-nodes="false"
+     inkscape:window-x="46"
+     inkscape:window-y="200"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:bbox-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -185,7 +172,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -195,9 +182,9 @@
      id="layer1"
      transform="translate(0,3)">
     <path
-       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#f0f0f0;fill-opacity:0.49803922;stroke:none;stroke-width:1.29370629999999998;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans;opacity:1"
-       d="M 11.90625 6.53125 C 9.0513329 6.8210459 6.7763562 9.1330046 6.53125 12 L 5 12 L 7 14.96875 L 9 12.03125 L 7.5625 12.03125 C 7.7911795 9.6513239 9.6498869 7.7570398 12.03125 7.53125 L 12.03125 6.53125 C 11.988693 6.5346606 11.94856 6.5269552 11.90625 6.53125 z M 18 10.03125 L 16 13 L 17.4375 13 C 17.197154 15.355912 15.356726 17.230399 13 17.46875 L 13 18.46875 C 15.926814 18.23017 18.245538 15.898596 18.46875 12.96875 L 20 12.96875 L 18 10.03125 z "
-       transform="translate(0,-3)"
-       id="path3614" />
+       style="opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0625;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 12.5,1 A 8.5,8.5 0 0 0 4,9.5 8.5,8.5 0 0 0 12.5,18 8.5,8.5 0 0 0 21,9.5 8.5,8.5 0 0 0 12.5,1 Z m 0,1.7894736 A 2.2368422,2.2368422 0 0 1 14.736842,5.0263158 2.2368422,2.2368422 0 0 1 12.5,7.2631578 2.2368422,2.2368422 0 0 1 10.263158,5.0263158 2.2368422,2.2368422 0 0 1 12.5,2.7894736 Z"
+       id="path1177"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

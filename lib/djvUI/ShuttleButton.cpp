@@ -31,8 +31,9 @@
 
 #include <djvUI/ShuttleButton.h>
 
-#include <djvUI/UIContext.h>
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
+#include <djvUI/UIContext.h>
 
 #include <djvCore/Math.h>
 #include <djvCore/Vector.h>
@@ -55,13 +56,13 @@ namespace djv
             glm::ivec2     mouseStartPos = glm::ivec2(0, 0);
         };
 
-        ShuttleButton::ShuttleButton(QWidget * parent) :
-            AbstractToolButton(parent),
+        ShuttleButton::ShuttleButton(UIContext * context, QWidget * parent) :
+            AbstractToolButton(context, parent),
             _p(new Private)
         {}
 
-        ShuttleButton::ShuttleButton(const QVector<QIcon> & icons, QWidget * parent) :
-            AbstractToolButton(parent),
+        ShuttleButton::ShuttleButton(const QVector<QIcon> & icons, UIContext * context, QWidget * parent) :
+            AbstractToolButton(context, parent),
             _p(new Private)
         {
             setIcons(icons);
@@ -100,8 +101,9 @@ namespace djv
 
         QSize ShuttleButton::sizeHint() const
         {
-            QSize sizeHint(25, 25);
-            const int margin = 2;
+            const int iconSize = context()->style()->sizeMetric().iconSize;
+            QSize sizeHint(iconSize, iconSize);
+            const int margin = context()->style()->sizeMetric().margin;
             QStyleOptionToolButton opt;
             opt.iconSize = _p->icons.count() > 0 ?
                 _p->icons[0].actualSize(sizeHint) :
@@ -145,17 +147,25 @@ namespace djv
         {
             AbstractToolButton::paintEvent(event);
 
-            QPainter painter(this);
             const int i = Core::Math::mod(Core::Math::round(_p->value / 5.f), 8);
             QIcon::Mode  mode = QIcon::Normal;
             QIcon::State state = QIcon::Off;
             if (!isEnabled())
                 mode = QIcon::Disabled;
             const QPixmap & pixmap = _p->icons[i].pixmap(width(), height(), mode, state);
-            painter.drawPixmap(
-                width() / 2 - pixmap.width() / 2,
-                height() / 2 - pixmap.height() / 2,
-                pixmap);
+
+            QImage image(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
+            image.fill(Qt::transparent);
+            QPainter imagePainter(&image);
+            imagePainter.drawPixmap(0, 0, pixmap);
+            imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
+            imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), QPalette().foreground());
+
+            QPainter painter(this);
+            painter.drawImage(
+                width() / 2 - image.width() / 2,
+                height() / 2 - image.height() / 2,
+                image);
         }
 
     } // namespace UI

@@ -31,6 +31,7 @@
 
 #include <djvViewLib/WindowToolBar.h>
 
+#include <djvViewLib/Context.h>
 #include <djvViewLib/WindowActions.h>
 
 #include <djvUI/ToolButton.h>
@@ -45,23 +46,23 @@ namespace djv
             QWidget *         parent) :
             AbstractToolBar(actions, context, parent)
         {
-            UI::ToolButton * button = new UI::ToolButton;
+            UI::ToolButton * button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(WindowActions::NEW));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(WindowActions::COPY));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(WindowActions::CLOSE));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(WindowActions::FIT));
             addWidget(button);
 
-            button = new UI::ToolButton;
+            button = new UI::ToolButton(context);
             button->setDefaultAction(actions->action(WindowActions::FULL_SCREEN));
             addWidget(button);
         }

@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvWindowCloseIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvWindowCloseIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -250,17 +250,17 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
-     inkscape:cx="4.7155689"
+     inkscape:zoom="20.24"
+     inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1109"
-     inkscape:window-height="719"
-     inkscape:window-x="192"
-     inkscape:window-y="308"
-     inkscape:snap-nodes="false"
+     inkscape:window-width="960"
+     inkscape:window-height="705"
+     inkscape:window-x="846"
+     inkscape:window-y="188"
+     inkscape:snap-nodes="true"
      inkscape:snap-bbox="true"
      inkscape:window-maximized="0">
     <inkscape:grid
@@ -279,7 +279,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -290,23 +290,23 @@
      transform="translate(0,3)">
     <path
        inkscape:connector-curvature="0"
-       style="fill:#dcdcdc;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       d="m 9.5,-0.5 13.049872,1e-7 0,13.0675499 -13.049872,0 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.87311494;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="M 11,1 H 24 V 11 H 11 Z"
        id="path4012"
        sodipodi:nodetypes="ccccc"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
-       style="fill:#dcdcdc;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.81095254;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
        id="rect2413"
-       width="13.020215"
-       height="3.0364375"
-       x="9.5478754"
-       y="-0.5" />
+       width="13"
+       height="2"
+       x="11"
+       y="-2" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#ffffff;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999994000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       d="m 11.404464,19.112461 2.750889,-2.790175 -2.794311,-2.794311 2.78746,-2.78746 L 11.258066,7.8107912 8.4635993,10.567356 5.7738453,7.8705314 2.9333379,10.673138 5.7316172,13.477498 2.8889143,16.2978 5.7597099,19.168594 8.6101654,16.31814 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="M 11.449747,12.671573 9.3284271,10.550253 6.5,13.37868 3.6715729,10.550253 1.5502525,12.671573 4.3786797,15.5 1.5502525,18.328427 3.6715729,20.449747 6.5,17.62132 9.3284271,20.449747 11.449747,18.328427 8.6213203,15.5 Z"
        id="path2385"
        sodipodi:nodetypes="ccccccccccccc" />
   </g>

@@ -73,6 +73,7 @@ namespace djv
             void sizeValueCallback(int);
             void fontNormalCallback(const QFont &);
             void fontFixedCallback(const QFont &);
+            void sizeMetricsCallback();
 
         private:
             void widgetUpdate();

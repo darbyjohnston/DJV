@@ -35,6 +35,8 @@
 
 #include <djvGraphics/JPEG.h>
 
+class QVBoxLayout;
+
 namespace djv
 {
     namespace UI
@@ -58,6 +60,7 @@ namespace djv
         private Q_SLOTS:
             void pluginCallback(const QString &);
             void qualityCallback(int);
+            void sizeMetricsCallback();
 
             void pluginUpdate();
             void widgetUpdate();
@@ -65,6 +68,7 @@ namespace djv
         private:
             Graphics::JPEG::Options _options;
             IntEditSlider * _qualityWidget = nullptr;
+            QVBoxLayout * _layout = nullptr;
         };
 
         //! \class JPEGWidgetPlugin

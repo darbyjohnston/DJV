@@ -47,8 +47,7 @@ namespace djv
     namespace UI
     {
         TargaWidget::TargaWidget(Graphics::ImageIO * plugin, UIContext * context) :
-            ImageIOWidget(plugin, context),
-            _compressionWidget(0)
+            ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("TargaWidget::TargaWidget");
 
@@ -59,8 +58,8 @@ namespace djv
             _compressionWidget->addItems(Graphics::Targa::compressionLabels());
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _layout = new QVBoxLayout(this);
+            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::TargaWidget", "Compression"),
@@ -70,9 +69,9 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::UI::TargaWidget", "Compression:"),
                 _compressionWidget);
-            layout->addWidget(prefsGroupBox);
+            _layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _layout->addStretch();
 
             // Initialize.
             QStringList tmp;
@@ -91,6 +90,10 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         TargaWidget::~TargaWidget()
@@ -123,6 +126,12 @@ namespace djv
         {
             _options.compression = static_cast<Graphics::Targa::COMPRESSION>(index);
             pluginUpdate();
+        }
+
+        void TargaWidget::sizeMetricsCallback()
+        {
+            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void TargaWidget::pluginUpdate()

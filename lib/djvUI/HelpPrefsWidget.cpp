@@ -52,6 +52,7 @@ namespace djv
         struct HelpPrefsWidget::Private
         {
             QCheckBox * toolTipsWidget = nullptr;
+            QVBoxLayout * layout = nullptr;
         };
 
         HelpPrefsWidget::HelpPrefsWidget(UIContext * context, QWidget * parent) :
@@ -64,16 +65,16 @@ namespace djv
                 qApp->translate("djv::UI::HelpPrefsWidget", "Enable tool tips"));
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            _p->layout = new QVBoxLayout(this);
+            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::HelpPrefsWidget", "Tool Tips"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->toolTipsWidget);
-            layout->addWidget(prefsGroupBox);
+            _p->layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _p->layout->addStretch();
 
             // Initialize.
             widgetUpdate();
@@ -83,6 +84,10 @@ namespace djv
                 _p->toolTipsWidget,
                 SIGNAL(toggled(bool)),
                 SLOT(toolTipsCallback(bool)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeMetricsCallback()));
         }
 
         HelpPrefsWidget::~HelpPrefsWidget()
@@ -98,6 +103,12 @@ namespace djv
         void HelpPrefsWidget::toolTipsCallback(bool toolTips)
         {
             context()->helpPrefs()->setToolTips(toolTips);
+        }
+
+        void HelpPrefsWidget::sizeMetricsCallback()
+        {
+            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            updateGeometry();
         }
 
         void HelpPrefsWidget::widgetUpdate()

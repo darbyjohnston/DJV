@@ -37,6 +37,7 @@
 #include <djvViewLib/Util.h>
 
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -59,77 +60,47 @@ namespace djv
             AbstractActions(context, parent),
             _p(new Private)
         {
-            // Create the actions.
             for (int i = 0; i < ACTION_COUNT; ++i)
             {
                 _actions[i] = new QAction(this);
             }
-
             _actions[OPEN]->setText(qApp->translate("djv::ViewLib::FileActions", "&Open"));
-            _actions[OPEN]->setIcon(context->iconLibrary()->icon(
-                "djvFileOpenIcon.png"));
-
             _actions[RELOAD]->setText(qApp->translate("djv::ViewLib::FileActions", "Re&load"));
-            _actions[RELOAD]->setIcon(context->iconLibrary()->icon(
-                "djvFileReloadIcon.png"));
-
             _actions[RELOAD_FRAME]->setText(qApp->translate("djv::ViewLib::FileActions", "Reload Frame"));
-
             _actions[CLOSE]->setText(qApp->translate("djv::ViewLib::FileActions", "Clos&e"));
-            _actions[CLOSE]->setIcon(context->iconLibrary()->icon(
-                "djvFileCloseIcon.png"));
-
             _actions[SAVE]->setText(qApp->translate("djv::ViewLib::FileActions", "&Save"));
-
             _actions[SAVE_FRAME]->setText(qApp->translate("djv::ViewLib::FileActions", "Save &Frame"));
-
             _actions[LAYER_PREV]->setText(qApp->translate("djv::ViewLib::FileActions", "Layer Previous"));
-
             _actions[LAYER_NEXT]->setText(qApp->translate("djv::ViewLib::FileActions", "Layer Next"));
-
             _actions[U8_CONVERSION]->setText(qApp->translate("djv::ViewLib::FileActions", "&8-bit Conversion"));
             _actions[U8_CONVERSION]->setCheckable(true);
-
             _actions[CACHE]->setText(qApp->translate("djv::ViewLib::FileActions", "&Memory Cache"));
             _actions[CACHE]->setCheckable(true);
-
             _actions[PRELOAD]->setText(qApp->translate("djv::ViewLib::FileActions", "Preloa&d Cache"));
             _actions[PRELOAD]->setCheckable(true);
-
             _actions[CLEAR_CACHE]->setText(qApp->translate("djv::ViewLib::FileActions", "Clear Memory Cac&he"));
-
             _actions[MESSAGES]->setText(qApp->translate("djv::ViewLib::FileActions", "Messa&ges"));
-
             _actions[PREFS]->setText(qApp->translate("djv::ViewLib::FileActions", "&Preferences"));
-
             _actions[DEBUG_LOG]->setText(qApp->translate("djv::ViewLib::FileActions", "Debugging Log"));
-
             _actions[EXIT]->setText(qApp->translate("djv::ViewLib::FileActions", "E&xit"));
 
-            // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
             {
                 _groups[i] = new QActionGroup(this);
             }
-
             _groups[LAYER_GROUP]->setExclusive(true);
-
             _groups[PROXY_GROUP]->setExclusive(true);
-
             for (int i = 0; i < Graphics::PixelDataInfo::proxyLabels().count(); ++i)
             {
                 QAction * action = new QAction(this);
                 action->setText(Graphics::PixelDataInfo::proxyLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
-
                 _groups[PROXY_GROUP]->addAction(action);
             }
 
-            // Initialize.
             update();
 
-            // Setup the callbacks.
             connect(
                 context->filePrefs(),
                 SIGNAL(recentChanged(const djvFileInfoList &)),
@@ -137,6 +108,10 @@ namespace djv
             connect(
                 context->shortcutPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
+                SLOT(update()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
                 SLOT(update()));
         }
 
@@ -161,42 +136,38 @@ namespace djv
 
         void FileActions::update()
         {
-            const QVector<UI::Shortcut> & shortcuts =
-                context()->shortcutPrefs()->shortcuts();
+            const int iconSize = context()->style()->sizeMetric().iconSize;
+            const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            // Update the actions.
-            _actions[OPEN]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_OPEN].value);
+            _actions[OPEN]->setIcon(context()->iconLibrary()->icon("djvFileOpenIcon", iconSize));
+            _actions[OPEN]->setShortcut(shortcuts[Util::SHORTCUT_FILE_OPEN].value);
             _actions[OPEN]->setToolTip(
                 qApp->translate("djv::ViewLib::FileActions", "Open a new file\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_FILE_OPEN].value.toString()));
-            _actions[RELOAD]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_RELOAD].value);
+
+            _actions[RELOAD]->setIcon(context()->iconLibrary()->icon("djvFileReloadIcon", iconSize));
+            _actions[RELOAD]->setShortcut(shortcuts[Util::SHORTCUT_FILE_RELOAD].value);
             _actions[RELOAD]->setToolTip(
                 qApp->translate("djv::ViewLib::FileActions", "Reload the current file\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_FILE_RELOAD].value.toString()));
-            _actions[RELOAD_FRAME]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_RELOAD_FRAME].value);
+
+            _actions[RELOAD_FRAME]->setShortcut(shortcuts[Util::SHORTCUT_FILE_RELOAD_FRAME].value);
             _actions[RELOAD_FRAME]->setToolTip(
                 qApp->translate("djv::ViewLib::FileActions", "Reload the current frame\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
-            _actions[CLOSE]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_CLOSE].value);
+            
+            _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djvFileCloseIcon", iconSize));
+            _actions[CLOSE]->setShortcut(shortcuts[Util::SHORTCUT_FILE_CLOSE].value);
             _actions[CLOSE]->setToolTip(
                 qApp->translate("djv::ViewLib::FileActions", "Close the current file\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_FILE_CLOSE].value.toString()));
-            _actions[SAVE]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_SAVE].value);
-            _actions[SAVE_FRAME]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_SAVE_FRAME].value);
-            _actions[LAYER_PREV]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_LAYER_PREV].value);
-            _actions[LAYER_NEXT]->setShortcut(
-                shortcuts[Util::SHORTCUT_FILE_LAYER_NEXT].value);
-            _actions[EXIT]->setShortcut(
-                shortcuts[Util::SHORTCUT_EXIT].value);
+            
+            _actions[SAVE]->setShortcut(shortcuts[Util::SHORTCUT_FILE_SAVE].value);
+            _actions[SAVE_FRAME]->setShortcut(shortcuts[Util::SHORTCUT_FILE_SAVE_FRAME].value);
+            _actions[LAYER_PREV]->setShortcut(shortcuts[Util::SHORTCUT_FILE_LAYER_PREV].value);
+            _actions[LAYER_NEXT]->setShortcut(shortcuts[Util::SHORTCUT_FILE_LAYER_NEXT].value);
+            _actions[EXIT]->setShortcut(shortcuts[Util::SHORTCUT_EXIT].value);
 
-            // Update the action groups.
             Q_FOREACH(QAction * action, _groups[RECENT_GROUP]->actions())
                 delete action;
             const Core::FileInfoList & recent = context()->filePrefs()->recentFiles();
@@ -205,9 +176,9 @@ namespace djv
                 QAction * action = new QAction(this);
                 action->setText(QDir::toNativeSeparators(recent[i]));
                 action->setData(i);
-
                 _groups[RECENT_GROUP]->addAction(action);
             }
+
             Q_FOREACH(QAction * action, _groups[LAYER_GROUP]->actions())
                 delete action;
             const QVector<QKeySequence> layerShortcuts = QVector<QKeySequence>() <<
@@ -228,11 +199,11 @@ namespace djv
                 action->setText(_p->layers[i]);
                 action->setCheckable(true);
                 action->setChecked(i == _p->layer);
-                action->setShortcut(
-                    i < layerShortcuts.count() ? layerShortcuts[i] : QKeySequence());
+                action->setShortcut(i < layerShortcuts.count() ? layerShortcuts[i] : QKeySequence());
                 action->setData(i);
                 _groups[LAYER_GROUP]->addAction(action);
             }
+
             const QVector<QKeySequence> proxyShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Util::SHORTCUT_FILE_PROXY_NONE].value <<
                 shortcuts[Util::SHORTCUT_FILE_PROXY_1_2].value <<
@@ -243,7 +214,6 @@ namespace djv
                 _groups[PROXY_GROUP]->actions()[i]->setShortcut(proxyShortcuts[i]);
             }
 
-            // Emit changed signal.
             Q_EMIT changed();
         }
 

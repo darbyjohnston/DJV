@@ -126,24 +126,24 @@ namespace djv
             _p->displayProfileListWidget = new SmallListWidget;
 
             UI::ToolButton * addDisplayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvAddIcon.png"));
+                context->iconLibrary()->icon("djvAddIcon.png"), context);
             addDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Add a new display profile"));
 
             UI::ToolButton * removeDisplayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvRemoveIcon.png"));
+                context->iconLibrary()->icon("djvRemoveIcon.png"), context);
             removeDisplayProfileButton->setAutoRepeat(true);
             removeDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Remove the selected display profile"));
 
             UI::ToolButton * moveDisplayProfileUpButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvUpIcon.png"));
+                context->iconLibrary()->icon("djvUpIcon.png"), context);
             moveDisplayProfileUpButton->setAutoRepeat(true);
             moveDisplayProfileUpButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Move the selected display profile up"));
 
             UI::ToolButton * moveDisplayProfileDownButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDownIcon.png"));
+                context->iconLibrary()->icon("djvDownIcon.png"), context);
             moveDisplayProfileDownButton->setAutoRepeat(true);
             moveDisplayProfileDownButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Move the selected display profile down"));

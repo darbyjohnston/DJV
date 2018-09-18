@@ -14,13 +14,13 @@
    height="25"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    version="1.0"
    sodipodi:docname="djvMagnifyIcon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="djvMagnifyIcon.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -442,19 +442,21 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.04"
+     inkscape:zoom="18.44"
      inkscape:cx="12.5"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="911"
+     inkscape:window-width="1177"
      inkscape:window-height="719"
-     inkscape:window-x="289"
-     inkscape:window-y="114"
+     inkscape:window-x="637"
+     inkscape:window-y="396"
      inkscape:snap-nodes="false"
      inkscape:snap-bbox="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-others="false">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -471,7 +473,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -480,23 +482,16 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,3)">
-    <rect
-       style="fill:#bebebe;fill-opacity:0.78431374;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922000000000;stroke-dasharray:none"
-       id="rect3179"
-       width="9.1639671"
-       height="4.0631046"
-       x="17.088757"
-       y="-4.152874"
-       transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)" />
     <path
-       sodipodi:type="arc"
-       style="fill:#dcdcdc;fill-opacity:0.78431373999999998;fill-rule:evenodd;stroke:#000000;stroke-width:0.49227098000000002;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none"
-       id="path2399"
-       sodipodi:cx="11.614372"
-       sodipodi:cy="6.6548581"
-       sodipodi:rx="2.70749"
-       sodipodi:ry="2.70749"
-       d="m 14.321862,6.6548581 a 2.70749,2.70749 0 1 1 -5.4149797,0 2.70749,2.70749 0 1 1 5.4149797,0 z"
-       transform="matrix(2.0314018,0,0,2.0314018,-13.593457,-6.5186907)" />
+       inkscape:connector-curvature="0"
+       style="fill:#0a0a0a;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.0176959;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
+       d="m 16.136719,10.359375 a 7.0003998,7.0013525 0 0 1 -1.1875,1.589844 7.0003998,7.0013525 0 0 1 -1.589842,1.1875 L 18.222657,18 21,15.222656 Z"
+       id="path10225" />
+    <circle
+       style="opacity:1;vector-effect:none;fill:#0a0a0a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.01898301;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path10245"
+       cx="10"
+       cy="7"
+       r="6" />
   </g>
 </svg>

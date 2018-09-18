@@ -150,6 +150,7 @@ namespace djv
             void bookmarkDelCallback(const QVector<int> &);
             void bookmarkDelAllCallback();
             void acceptedCallback();
+            void sizeMetricsCallback();
 
             void modelUpdate();
             void widgetUpdate();
