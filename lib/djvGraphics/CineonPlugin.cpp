@@ -189,6 +189,14 @@ namespace djv
 
         QString CineonPlugin::commandLineHelp() const
         {
+            QStringList inputColorProfileLabel;
+            inputColorProfileLabel << _options.inputColorProfile;
+            QStringList inputFilmPrintLabel;
+            inputFilmPrintLabel << _options.inputFilmPrint;
+            QStringList outputColorProfileLabel;
+            outputColorProfileLabel << _options.outputColorProfile;
+            QStringList outputFilmPrintLabel;
+            outputFilmPrintLabel << _options.outputFilmPrint;
             return qApp->translate("djv::Graphics::CineonPlugin",
                 "\n"
                 "Cineon Options\n"
@@ -206,11 +214,11 @@ namespace djv
                 "        Set the film print values used when saving Cineon images. Default = "
                 "%6.\n").
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.inputColorProfile).join(", ")).
-                arg(Core::StringUtil::label(_options.inputFilmPrint).join(", ")).
+                arg(inputColorProfileLabel.join(", ")).
+                arg(inputFilmPrintLabel.join(", ")).
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.outputColorProfile).join(", ")).
-                arg(Core::StringUtil::label(_options.outputFilmPrint).join(", "));
+                arg(outputColorProfileLabel.join(", ")).
+                arg(outputFilmPrintLabel.join(", "));
         }
 
         ImageLoad * CineonPlugin::createLoad() const

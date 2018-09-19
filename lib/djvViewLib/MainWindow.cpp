@@ -708,12 +708,14 @@ namespace djv
                 info = image->info();
             }
             //DJV_DEBUG_PRINT("info = " << info);
+            QStringList pixelLabel;
+            pixelLabel << info.pixel;
             _p->infoImageLabel->setText(
                 qApp->translate("djv::ViewLib::MainWindow", "Image: %1x%2:%3 %4").
                 arg(info.size.x).
                 arg(info.size.y).
                 arg(Core::VectorUtil::aspect(info.size), 0, 'f', 2).
-                arg(Core::StringUtil::label(info.pixel).join(" ")));
+                arg(pixelLabel.join(" ")));
 
             //! Update the view.
             _p->viewWidget->setOptions(imageOptions());
@@ -837,11 +839,13 @@ namespace djv
 
             _p->infoSwatch->setColor(_p->imageSample);
 
+            QStringList imageSampleLabel;
+            imageSampleLabel << _p->imageSample;
             _p->infoPixelLabel->setText(
                 qApp->translate("djv::ViewLib::MainWindow", "Pixel: %1, %2, %3").
                 arg(pick.x).
                 arg(pick.y).
-                arg(Core::StringUtil::label(_p->imageSample).join(" ")));
+                arg(imageSampleLabel.join(" ")));
 
             _p->sampleInit = false;
         }

@@ -129,6 +129,14 @@ namespace djv
 
         QString CoreContext::info() const
         {
+            QStringList timeLabel;
+            timeLabel << Time::units();
+            QStringList speedLabel;
+            speedLabel << Speed::speed();
+            QStringList maxFramesLabel;
+            maxFramesLabel << Sequence::maxFrames();
+            QStringList endianLabel;
+            endianLabel << Memory::endian();
             static const QString label = qApp->translate(
                 "djv::Core::CoreContext",
                 "General\n"
@@ -147,11 +155,11 @@ namespace djv
                 "    Qt version: %9\n");
             return QString(label).
                 arg(DJV_VERSION).
-                arg(StringUtil::label(Time::units()).join(", ")).
-                arg(StringUtil::label(Speed::speed()).join(", ")).
-                arg(StringUtil::label(Sequence::maxFrames()).join(", ")).
+                arg(timeLabel.join(", ")).
+                arg(speedLabel.join(", ")).
+                arg(maxFramesLabel.join(", ")).
                 arg(System::info()).
-                arg(StringUtil::label(Memory::endian()).join(", ")).
+                arg(endianLabel.join(", ")).
                 arg(QLocale::system().name()).
                 arg(StringUtil::addQuotes(System::searchPath()).join(", ")).
                 arg(qVersion());
@@ -400,6 +408,12 @@ namespace djv
 
         QString djv::Core::CoreContext::commandLineHelp() const
         {
+            QStringList timeLabel;
+            timeLabel << Time::units();
+            QStringList speedLabel;
+            speedLabel << Speed::speed();
+            QStringList maxFramesLabel;
+            maxFramesLabel << Sequence::maxFrames();
             static const QString label = qApp->translate(
                 "djv::Core::CoreContext",
                 "\n"
@@ -421,10 +435,10 @@ namespace djv
                 "        Show the about message.\n");
             return QString(label).
                 arg(Time::unitsLabels().join(", ")).
-                arg(StringUtil::label(Time::units()).join(", ")).
+                arg(timeLabel.join(", ")).
                 arg(Speed::fpsLabels().join(", ")).
-                arg(StringUtil::label(Speed::speed()).join(", ")).
-                arg(StringUtil::label(Sequence::maxFrames()).join(", "));
+                arg(speedLabel.join(", ")).
+                arg(maxFramesLabel.join(", "));
         }
 
         void CoreContext::consolePrint(const QString & string, bool newline, int indent)

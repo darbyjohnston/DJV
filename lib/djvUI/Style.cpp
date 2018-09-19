@@ -40,6 +40,7 @@
 #include <QFont>
 #include <QPainter>
 #include <QPalette>
+#include <QStyleFactory>
 #include <QStyleOption>
 
 namespace djv
@@ -488,6 +489,10 @@ namespace djv
             qApp->setFont(font);
         }
 
+        ProxyStyle::ProxyStyle() :
+            QProxyStyle(QStyleFactory::create("fusion"))
+        {}
+        
         void ProxyStyle::drawControl(
             ControlElement element,
             const QStyleOption * option,

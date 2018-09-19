@@ -241,6 +241,20 @@ namespace djv
 
         QString DPXPlugin::commandLineHelp() const
         {
+            QStringList inputColorProfileLabel;
+            inputColorProfileLabel << _options.inputColorProfile;
+            QStringList inputFilmPrintLabel;
+            inputFilmPrintLabel << _options.inputFilmPrint;
+            QStringList outputColorProfileLabel;
+            outputColorProfileLabel << _options.outputColorProfile;
+            QStringList outputFilmPrintLabel;
+            outputFilmPrintLabel << _options.outputFilmPrint;
+            QStringList versionLabel;
+            versionLabel << _options.version;
+            QStringList typeLabel;
+            typeLabel << _options.type;
+            QStringList endianLabel;
+            endianLabel << _options.endian;
             return qApp->translate("djv::Graphics::DPXPlugin",
                 "\n"
                 "DPX Options\n"
@@ -268,17 +282,17 @@ namespace djv
                 "\"Auto\" will use the endian of the current hardware. Options = %11. Default = "
                 "%12.\n").
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.inputColorProfile).join(", ")).
-                arg(Core::StringUtil::label(_options.inputFilmPrint).join(", ")).
+                arg(inputColorProfileLabel.join(", ")).
+                arg(inputFilmPrintLabel.join(", ")).
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.outputColorProfile).join(", ")).
-                arg(Core::StringUtil::label(_options.outputFilmPrint).join(", ")).
+                arg(outputColorProfileLabel.join(", ")).
+                arg(outputFilmPrintLabel.join(", ")).
                 arg(DPX::versionLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.version).join(", ")).
+                arg(versionLabel.join(", ")).
                 arg(DPX::typeLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.type).join(", ")).
+                arg(typeLabel.join(", ")).
                 arg(DPX::endianLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.endian).join(", "));
+                arg(endianLabel.join(", "));
         }
 
         ImageLoad * DPXPlugin::createLoad() const

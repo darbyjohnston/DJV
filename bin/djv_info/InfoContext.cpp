@@ -231,9 +231,11 @@ namespace djv
                 "    Display information about all images within a directory:\n"
                 "\n"
                 "    > djv_info ~/pics\n");
+            QStringList sequenceLabel;
+            sequenceLabel << _sequence;
             return QString(label).
                 arg(Core::Sequence::compressLabels().join(", ")).
-                arg(Core::StringUtil::label(_sequence).join(", ")).
+                arg(sequenceLabel.join(", ")).
                 arg(Graphics::GraphicsContext::commandLineHelp());
         }
     

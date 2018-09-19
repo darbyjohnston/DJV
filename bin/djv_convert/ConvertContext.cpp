@@ -398,18 +398,26 @@ namespace djv
                 "(black point, white point, gamma, and soft clip):\n"
                 "\n"
                 "    > djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2\n");
+            QStringList channelLabel;
+            channelLabel << _options.channel;
+            QStringList sequenceLabel;
+            sequenceLabel << _options.sequence;
+            QStringList proxyLabel;
+            proxyLabel << _input.proxy;
+            QStringList tagsAutoLabel;
+            tagsAutoLabel << _output.tagsAuto;
             return QString(label).
                 arg(Graphics::OpenGLImageOptions::channelLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.channel).join(", ")).
+                arg(channelLabel.join(", ")).
                 arg(Core::Sequence::compressLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.sequence).join(", ")).
+                arg(sequenceLabel.join(", ")).
                 arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
-                arg(Core::StringUtil::label(_input.proxy).join(", ")).
+                arg(proxyLabel.join(", ")).
                 arg(_input.timeout).
                 arg(Graphics::Pixel::pixelLabels().join(", ")).
                 arg(Core::Speed::fpsLabels().join(", ")).
                 arg(Core::StringUtil::boolLabels().join(", ")).
-                arg(Core::StringUtil::label(_output.tagsAuto).join(", ")).
+                arg(tagsAutoLabel.join(", ")).
                 arg(Graphics::GraphicsContext::commandLineHelp());
         }
 

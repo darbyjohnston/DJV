@@ -279,11 +279,15 @@ namespace djv
                 "    Sort by time with the most recent first:\n"
                 "\n"
                 "    > djv_ls -sort time -reverse_sort\n");
+            QStringList sequenceLabel;
+            sequenceLabel << _sequence;
+            QStringList sortLabel;
+            sortLabel << _sort;
             return QString(label).
                 arg(Core::Sequence::compressLabels().join(", ")).
-                arg(Core::StringUtil::label(_sequence).join(", ")).
+                arg(sequenceLabel.join(", ")).
                 arg(Core::FileInfoUtil::sortLabels().join(", ")).
-                arg(Core::StringUtil::label(_sort).join(", ")).
+                arg(sortLabel.join(", ")).
                 arg(Graphics::GraphicsContext::commandLineHelp());
         }
 

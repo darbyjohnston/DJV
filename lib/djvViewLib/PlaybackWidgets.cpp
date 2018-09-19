@@ -143,9 +143,11 @@ namespace djv
                 shortcuts[Util::SHORTCUT_PLAYBACK_LOOP].value);
 
             // Update tool tips.
+            QStringList loopLabel;
+            loopLabel << _p->loop;
             _p->button->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackButtons", "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
-                arg(Core::StringUtil::label(_p->loop).join(", ")).
+                arg(loopLabel.join(", ")).
                 arg(Util::loopLabels().join(", ")).
                 arg(shortcuts[Util::SHORTCUT_PLAYBACK_LOOP].value.toString()));
         }

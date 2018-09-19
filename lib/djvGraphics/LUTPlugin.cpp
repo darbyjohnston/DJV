@@ -74,6 +74,8 @@ namespace djv
 
         QString LUTPlugin::commandLineHelp() const
         {
+            QStringList typeLabel;
+            typeLabel << _options.type;
             return qApp->translate("djv::Graphics::LUTPlugin",
                 "\n"
                 "LUT Options\n"
@@ -82,7 +84,7 @@ namespace djv
                 "        Set the pixel type used when loading LUTs. Options = %1. Default = "
                 "%2.\n").
                 arg(LUT::typeLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.type).join(", "));
+                arg(typeLabel.join(", "));
         }
 
         QString LUTPlugin::pluginName() const

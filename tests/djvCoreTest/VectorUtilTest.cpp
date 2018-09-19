@@ -87,7 +87,9 @@ namespace djv
             DJV_ASSERT(v2i == glm::ivec2(1, 1));
             v2i = VectorUtil::floor(glm::vec2(.5f, .5f));
             DJV_ASSERT(v2i == glm::ivec2(0, 0));
-            DJV_ASSERT((QStringList() << "1" << "2") == StringUtil::label(glm::ivec2(1, 2)));
+            QStringList label;
+            label << glm::ivec2(1, 2);
+            DJV_ASSERT((QStringList() << "1" << "2") == label);
         }
 
     } // namespace CoreTest

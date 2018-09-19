@@ -567,8 +567,10 @@ namespace djv
             }
             if (_p->hudInfo.visible[Util::HUD_PIXEL])
             {
+                QStringList pixelLabel;
+                pixelLabel << _p->hudInfo.info.pixel;
                 upperLeft += qApp->translate("djv::ViewLib::ImageView", "Pixel = %1").
-                    arg(Core::StringUtil::label(_p->hudInfo.info.pixel).join(", "));
+                    arg(pixelLabel.join(", "));
             }
 
             // Generate the lower left contents.

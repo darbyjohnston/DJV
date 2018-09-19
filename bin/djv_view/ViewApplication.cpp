@@ -113,7 +113,6 @@ namespace djv
             // Initialize user interface.
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Initialize user interface...");
             _p->context->setValid(true);
-            setStyle("fusion");
             setStyle(new UI::ProxyStyle);
             setWindowIcon(QPixmap(":projector32x32.png"));
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");

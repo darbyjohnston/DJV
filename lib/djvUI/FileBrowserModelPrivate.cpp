@@ -370,13 +370,15 @@ namespace djv
 
         void FileBrowserItem::updateImageInfo()
         {
+            QStringList pixelLabel;
+            pixelLabel << _imageInfo.pixel;
             _displayRole[FileBrowserModel::NAME] =
                 QString("%1\n%2x%3:%4 %5\n%6@%7").
                 arg(_fileInfo.name()).
                 arg(_imageInfo.size.x).
                 arg(_imageInfo.size.y).
                 arg(Core::VectorUtil::aspect(_imageInfo.size), 0, 'f', 2).
-                arg(Core::StringUtil::label(_imageInfo.pixel).join(", ")).
+                arg(pixelLabel.join(", ")).
                 arg(Core::Time::frameToString(
                     _imageInfo.sequence.frames.count(),
                     _imageInfo.sequence.speed)).

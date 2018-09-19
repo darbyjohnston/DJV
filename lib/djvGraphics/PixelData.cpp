@@ -299,7 +299,7 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::PixelDataInfo::PROXY & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::PixelDataInfo::Mirror & in)

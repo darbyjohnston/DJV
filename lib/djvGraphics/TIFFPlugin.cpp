@@ -130,6 +130,8 @@ namespace djv
 
         QString TIFFPlugin::commandLineHelp() const
         {
+            QStringList compressionLabel;
+            compressionLabel << _options.compression;
             return qApp->translate("djv::Graphics::TIFFPlugin",
                 "\n"
                 "TIFF Options\n"
@@ -138,7 +140,7 @@ namespace djv
                 "        Set the file compression used when saving TIFF images. Options = %1. "
                 "Default = %2.\n").
                 arg(TIFF::compressionLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.compression).join(", "));
+                arg(compressionLabel.join(", "));
         }
 
         ImageLoad * TIFFPlugin::createLoad() const

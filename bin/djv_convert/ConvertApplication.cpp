@@ -467,11 +467,13 @@ namespace djv
             const Graphics::PixelDataInfo & in,
             const Core::Sequence & sequence) const
         {
+            QStringList pixelLabel;
+            pixelLabel << in.pixel;
             return qApp->translate("djv::convert::Application", "%1x%2:%3 %4 %5@%6").
                 arg(in.size.x).
                 arg(in.size.y).
                 arg(Core::VectorUtil::aspect(in.size), 0, 'f', 2).
-                arg(Core::StringUtil::label(in.pixel).join(", ")).
+                arg(pixelLabel.join(", ")).
                 arg(Core::Time::frameToString(sequence.frames.count(), sequence.speed)).
                 arg(Core::Speed::speedToFloat(sequence.speed));
         }

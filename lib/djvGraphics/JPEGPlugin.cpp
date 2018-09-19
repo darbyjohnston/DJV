@@ -125,13 +125,15 @@ namespace djv
 
         QString JPEGPlugin::commandLineHelp() const
         {
+            QStringList qualityLabel;
+            qualityLabel << _options.quality;
             return qApp->translate("djv::Graphics::JPEGPlugin",
                 "\n"
                 "JPEG Options\n"
                 "\n"
                 "    -jpeg_quality (value)\n"
                 "        Set the quality used when saving JPEG images. Default = %1.\n").
-                arg(Core::StringUtil::label(_options.quality).join(", "));
+                arg(qualityLabel.join(", "));
         }
 
         ImageLoad * JPEGPlugin::createLoad() const

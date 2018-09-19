@@ -125,7 +125,9 @@ namespace djv
                 tmp >> in;
                 Graphics::Color out(data[i].pixel);
                 Graphics::ColorUtil::convert(in, out);
-                DJV_ASSERT(StringUtil::label(out) == data[i].out);
+                QStringList label;
+                label << out;
+                DJV_ASSERT(label == data[i].out);
             }
         }
 

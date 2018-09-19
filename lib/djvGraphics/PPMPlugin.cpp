@@ -146,6 +146,10 @@ namespace djv
 
         QString PPMPlugin::commandLineHelp() const
         {
+            QStringList typeLabel;
+            typeLabel << _options.type;
+            QStringList dataLabel;
+            dataLabel << _options.type;
             return qApp->translate("djv::Graphics::PPMPlugin",
                 "\n"
                 "PPM Options\n"
@@ -157,9 +161,9 @@ namespace djv
                 "        Set the data type used when saving PPM images. Options = %3. "
                 "Default = %4.\n").
                 arg(PPM::typeLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.type).join(", ")).
+                arg(typeLabel.join(", ")).
                 arg(PPM::dataLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.data).join(", "));
+                arg(dataLabel.join(", "));
         }
 
         ImageLoad * PPMPlugin::createLoad() const

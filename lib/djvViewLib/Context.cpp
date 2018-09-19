@@ -389,11 +389,15 @@ namespace djv
                 "    -playback_speed (value)\n"
                 "        Set the playback speed. Options = %8.\n"
                 "%9");
+            QStringList sequenceLabel;
+            sequenceLabel << _p->sequence;
+            QStringList autoSequenceLabel;
+            autoSequenceLabel << _p->autoSequence;
             return QString(label).
                 arg(Core::Sequence::compressLabels().join(", ")).
-                arg(Core::StringUtil::label(_p->sequence).join(", ")).
+                arg(sequenceLabel.join(", ")).
                 arg(Core::StringUtil::boolLabels().join(", ")).
-                arg(Core::StringUtil::label(_p->autoSequence).join(", ")).
+                arg(autoSequenceLabel.join(", ")).
                 arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
                 arg(Core::StringUtil::boolLabels().join(", ")).
                 arg(Util::playbackLabels().join(", ")).

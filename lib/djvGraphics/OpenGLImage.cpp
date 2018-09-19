@@ -887,17 +887,17 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageXform & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageColor & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageLevels & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageDisplayProfile & in)
@@ -908,12 +908,12 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageFilter & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageFilter::FILTER & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageOptions & in)
@@ -927,7 +927,7 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageOptions::CHANNEL & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
 } // namespace djv

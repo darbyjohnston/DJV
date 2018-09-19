@@ -122,6 +122,8 @@ namespace djv
 
         QString TargaPlugin::commandLineHelp() const
         {
+            QStringList compressionLabel;
+            compressionLabel << _options.compression;
             return qApp->translate("djv::Graphics::TargaPlugin",
                 "\n"
                 "Targa Options\n"
@@ -130,7 +132,7 @@ namespace djv
                 "        Set the file compression used when saving Targa images. Options = "
                 "%1. Default = %2.\n").
                 arg(Targa::compressionLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.compression).join(", "));
+                arg(compressionLabel.join(", "));
         }
 
         ImageLoad * TargaPlugin::createLoad() const

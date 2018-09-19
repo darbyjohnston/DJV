@@ -155,8 +155,9 @@ namespace djv
                     arg(imageIOInfo.size.x).
                     arg(imageIOInfo.size.y).
                     arg(Core::VectorUtil::aspect(imageIOInfo.size)));
-                _p->pixelWidget->setText(
-                    Core::StringUtil::label(imageIOInfo.pixel).join(", "));
+                QStringList pixelLabel;
+                pixelLabel << imageIOInfo.pixel;
+                _p->pixelWidget->setText(pixelLabel.join(", "));
                 _p->timeWidget->setText(
                     qApp->translate("djv::ViewLib::InfoTool", "%1@%2").
                     arg(Core::Time::frameToString(

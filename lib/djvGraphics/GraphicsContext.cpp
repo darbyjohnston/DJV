@@ -191,12 +191,16 @@ namespace djv
                 "Image I/O\n"
                 "\n"
                 "    Plugins: %6\n");
+            QStringList filterMinLabel;
+            filterMinLabel << OpenGLImageFilter::filter().min;
+            QStringList filterMagLabel;
+            filterMagLabel << OpenGLImageFilter::filter().mag;
             return QString(label).
                 arg(Core::CoreContext::info()).
                 arg(_p->openGlContext->format().majorVersion()).
                 arg(_p->openGlContext->format().minorVersion()).
-                arg(Core::StringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
-                arg(Core::StringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
+                arg(filterMinLabel.join(", ")).
+                arg(filterMagLabel.join(", ")).
                 arg(_p->imageIOFactory->names().join(", "));
         }
 
@@ -269,13 +273,21 @@ namespace djv
                 "    -render_filter_high\n"
                 "        Set the render filter to high quality settings (%5, %6).\n"
                 "%7");
+            QStringList filterMinLabel;
+            filterMinLabel << OpenGLImageFilter::filter().min;
+            QStringList filterMagLabel;
+            filterMagLabel << OpenGLImageFilter::filter().mag;
+            QStringList filterHighQualityMinLabel;
+            filterHighQualityMinLabel << OpenGLImageFilter::filterHighQuality().min;
+            QStringList filterHighQualityMagLabel;
+            filterHighQualityMagLabel << OpenGLImageFilter::filterHighQuality().mag;
             return QString(label).
                 arg(imageIOHelp).
                 arg(OpenGLImageFilter::filterLabels().join(", ")).
-                arg(Core::StringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
-                arg(Core::StringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
-                arg(Core::StringUtil::label(OpenGLImageFilter::filterHighQuality().min).join(", ")).
-                arg(Core::StringUtil::label(OpenGLImageFilter::filterHighQuality().mag).join(", ")).
+                arg(filterMinLabel.join(", ")).
+                arg(filterMagLabel.join(", ")).
+                arg(filterHighQualityMinLabel.join(", ")).
+                arg(filterHighQualityMagLabel.join(", ")).
                 arg(Core::CoreContext::commandLineHelp());
         }
 

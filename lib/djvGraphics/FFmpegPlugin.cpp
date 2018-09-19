@@ -209,6 +209,10 @@ void djvFFmpegPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvFFmpegPlugin::commandLineHelp() const
 {
+    QStringList formatLabel;
+    formatLabel << _options.format;
+    QStringList qualityLabel;
+    qualityLabel << _options.quality;
     return qApp->translate("djvFFmpegPlugin",
 "\n"
 "FFmpeg Options\n"
@@ -221,9 +225,9 @@ QString djvFFmpegPlugin::commandLineHelp() const
 "Default = %4.\n"
     ).
     arg(djvFFmpeg::formatLabels().join(", ")).
-    arg(djvStringUtil::label(_options.format).join(", ")).
+    arg(formatLabel.join(", ")).
     arg(djvFFmpeg::qualityLabels().join(", ")).
-    arg(djvStringUtil::label(_options.quality).join(", "));
+    arg(qualityLabel.join(", "));
 }
 
 djvImageLoad * djvFFmpegPlugin::createLoad() const

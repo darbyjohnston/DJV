@@ -217,6 +217,8 @@ namespace djv
             Q_OBJECT
 
         public:
+            ProxyStyle();
+            
             void drawControl(ControlElement, const QStyleOption *, QPainter *, const QWidget *) const override;
             void drawPrimitive(PrimitiveElement, const QStyleOption *, QPainter *, const QWidget *) const override;
         };

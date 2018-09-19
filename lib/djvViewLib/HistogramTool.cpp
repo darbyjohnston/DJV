@@ -440,8 +440,12 @@ namespace djv
                 }
             }
             _p->widget->set(&_p->histogram, _p->min, _p->max);
-            _p->minWidget->setText(Core::StringUtil::label(_p->min).join(", "));
-            _p->maxWidget->setText(Core::StringUtil::label(_p->max).join(", "));
+            QStringList minLabel;
+            minLabel << _p->min;
+            _p->minWidget->setText(minLabel.join(", "));
+            QStringList maxLabel;
+            maxLabel << _p->max;
+            _p->maxWidget->setText(maxLabel.join(", "));
             _p->maskWidget->setMask(_p->mask);
             _p->colorProfileButton->setChecked(_p->colorProfile);
             _p->displayProfileButton->setChecked(_p->displayProfile);

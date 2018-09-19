@@ -130,9 +130,9 @@ namespace djv
 
     } // namespace Core
 
-    _DJV_STRING_OPERATOR_LABEL(Core::Sequence::COMPRESS, Core::Sequence::compressLabels())
+    _DJV_STRING_OPERATOR_LABEL(Core::Sequence::COMPRESS, Core::Sequence::compressLabels());
 
-        QStringList & operator << (QStringList & out, const Core::Sequence & in)
+    QStringList & operator << (QStringList & out, const Core::Sequence & in)
     {
         return out << Core::SequenceUtil::sequenceToString(in);
     }
@@ -148,14 +148,14 @@ namespace djv
     Core::Debug & operator << (Core::Debug & debug, const Core::Sequence & in)
     {
         return debug <<
-            Core::StringUtil::label(in) <<
+            in <<
             "@" <<
             Core::Speed::speedToFloat(in.speed);
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Core::Sequence::COMPRESS & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Core::FrameList & in)

@@ -63,10 +63,6 @@ namespace djv
             //! Add double quotes to each string in a list.
             static QStringList addQuotes(const QStringList &);
 
-            //! Get a label for a value.
-            template<typename T>
-            static inline QStringList label(const T &);
-
             //! Get the boolean labels.
             static const QStringList & boolLabels();
 
@@ -125,8 +121,6 @@ namespace djv
     QStringList & operator >> (QStringList &, float &) throw (QString);
     QStringList & operator >> (QStringList &, double &) throw (QString);
     QStringList & operator >> (QStringList &, QVector<bool> &) throw (QString);
-    //template <typename T>
-    //inline QStringList & operator >> (QStringList &, QVector<T> &) throw (QString);
 
     QStringList & operator << (QStringList &, const char *);
     QStringList & operator << (QStringList &, bool);
@@ -137,10 +131,8 @@ namespace djv
     QStringList & operator << (QStringList &, float);
     QStringList & operator << (QStringList &, double);
     QStringList & operator << (QStringList &, const QVector<bool>&);
-    //template <typename T>
-    //inline QStringList & operator << (QStringList &, const QVector<T> &);
 
-    //! This macros provides string serialize operators.
+    //! This macro provides string serialize operators.
 #define DJV_STRING_OPERATOR(TYPE) \
     QStringList & operator >> (QStringList &, TYPE &) throw (QString); \
     QStringList & operator << (QStringList &, const TYPE &)

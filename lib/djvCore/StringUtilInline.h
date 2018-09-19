@@ -76,14 +76,6 @@ namespace djv
             return false;
         }
 
-        template<typename T>
-        inline QStringList StringUtil::label(const T & value)
-        {
-            QStringList out;
-            out << value;
-            return out;
-        }
-
         template <typename T>
         inline bool Serialize(QStringList & in, T & out, const QStringList & label)
         {
@@ -104,28 +96,6 @@ namespace djv
             }
             return QStringList() << labels[index];
         }
-
-        /*template <typename T>
-        inline QStringList & operator >> (QStringList & in, QVector<T> & out) throw (QString)
-        {
-            while (in.count())
-            {
-                T value;
-                in >> value;
-                out += value;
-            }
-            return in;
-        }
-
-        template <typename T>
-        inline QStringList & operator << (QStringList & out, const QVector<T> & in)
-        {
-            for (int i = 0; i < in.count(); ++i)
-            {
-                out << in[i];
-            }
-            return out;
-        }*/
 
         namespace
         {
@@ -163,7 +133,6 @@ namespace djv
                 if ('-' == *string)
                 {
                     negative = true;
-
                     ++string;
                 }
             }

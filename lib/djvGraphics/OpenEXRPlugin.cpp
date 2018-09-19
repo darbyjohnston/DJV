@@ -299,6 +299,20 @@ namespace djv
 
         QString OpenEXRPlugin::commandLineHelp() const
         {
+            QStringList threadsEnableLabel;
+            threadsEnableLabel << _options.threadsEnable;
+            QStringList threadCountLabel;
+            threadCountLabel << _options.threadCount;
+            QStringList inputColorProfileLabel;
+            inputColorProfileLabel << _options.inputColorProfile;
+            QStringList inputGammaLabel;
+            inputGammaLabel << _options.inputGamma;
+            QStringList inputExposureLabel;
+            inputExposureLabel << _options.inputExposure;
+            QStringList channelsLabel;
+            channelsLabel << _options.channels;
+            QStringList compressionLabel;
+            compressionLabel << _options.compression;
             return qApp->translate("djv::Graphics::OpenEXRPlugin",
                 "\n"
                 "OpenEXR Options\n"
@@ -328,16 +342,16 @@ namespace djv
                 "Default = %11.\n"
 #endif // OPENEXR_VERSION_HEX
             ).
-                arg(Core::StringUtil::label(_options.threadsEnable).join(", ")).
-                arg(Core::StringUtil::label(_options.threadCount).join(", ")).
+                arg(threadsEnableLabel.join(", ")).
+                arg(threadCountLabel.join(", ")).
                 arg(OpenEXR::colorProfileLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.inputColorProfile).join(", ")).
-                arg(Core::StringUtil::label(_options.inputGamma).join(", ")).
-                arg(Core::StringUtil::label(_options.inputExposure).join(", ")).
+                arg(inputColorProfileLabel.join(", ")).
+                arg(inputGammaLabel.join(", ")).
+                arg(inputExposureLabel.join(", ")).
                 arg(OpenEXR::channelsLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.channels).join(", ")).
+                arg(channelsLabel.join(", ")).
                 arg(OpenEXR::compressionLabels().join(", ")).
-                arg(Core::StringUtil::label(_options.compression).join(", "))
+                arg(compressionLabel.join(", "))
 #if OPENEXR_VERSION_HEX >= 0x02020000
                 .
                 arg(_options.dwaCompressionLevel)

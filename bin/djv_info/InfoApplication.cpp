@@ -184,12 +184,14 @@ namespace djv
                 if (1 == _info.layerCount())
                 {
                     // Print single layer information.
+                    QStringList pixelLabel;
+                    pixelLabel << _info[0].pixel;
                     const QString str = qApp->translate("djv::info::Application",
                         "%1x%2:%3 %4 %5@%6").
                         arg(_info[0].size.x).
                         arg(_info[0].size.y).
                         arg(Core::VectorUtil::aspect(_info[0].size), 0, 'f', 2).
-                        arg(Core::StringUtil::label(_info[0].pixel).join(", ")).
+                        arg(pixelLabel.join(", ")).
                         arg(Core::Time::frameToString(
                             _info.sequence.frames.count(),
                             _info.sequence.speed)).
@@ -217,12 +219,14 @@ namespace djv
                             "    %1. %2").
                             arg(i).
                             arg(_info[i].layerName);
+                        QStringList pixelLabel;
+                        pixelLabel << _info[i].pixel;
                         const QString infoString = qApp->translate("djv::info::Application",
                             "%1x%2:%3 %4").
                             arg(_info[i].size.x).
                             arg(_info[i].size.y).
                             arg(Core::VectorUtil::aspect(_info[i].size), 0, 'f', 2).
-                            arg(Core::StringUtil::label(_info[i].pixel).join(", "));
+                            arg(pixelLabel.join(", "));
                         _context->print(qApp->translate("djv::info::Application", "%1 %2").
                             arg(nameString).
                             arg(infoString, columns - nameString.length() - 2));
@@ -243,8 +247,10 @@ namespace djv
                         arg(_info[i].size.y));
                     _context->print(qApp->translate("djv::info::Application", "  Aspect = %1").
                         arg(Core::VectorUtil::aspect(_info[i].size), 0, 'f', 2));
+                    QStringList pixelLabel;
+                    pixelLabel << _info[i].pixel;
                     _context->print(qApp->translate("djv::info::Application", "  Pixel = %1").
-                        arg(Core::StringUtil::label(_info[i].pixel).join(", ")));
+                        arg(pixelLabel.join(", ")));
                 }
                 _context->print(qApp->translate("djv::info::Application", "Start = %1").
                     arg(Core::Time::frameToString(

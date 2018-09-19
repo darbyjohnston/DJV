@@ -121,7 +121,7 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile::PROFILE & in)
     {
-        return debug << Core::StringUtil::label(in);
+        return debug << in;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile & in)
