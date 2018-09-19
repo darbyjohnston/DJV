@@ -1,16 +1,13 @@
 set(header
-    djvAbstractTest.h
-    djvTestLib.h)
+    AbstractTest.h
+    TestLib.h)
 set(mocHeader
-    djvAbstractTest.h)
+    AbstractTest.h)
 set(source
-    djvAbstractTest.cpp
-    djvTestLib.cpp)
+    AbstractTest.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}/tests/djvTestLib)
 add_library(djvTestLib ${header} ${source} ${mocSource})
 target_link_libraries(djvTestLib djvCore)
 set_target_properties(djvTestLib PROPERTIES FOLDER tests CXX_STANDARD 11)

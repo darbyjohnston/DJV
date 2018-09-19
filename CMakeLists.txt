@@ -87,6 +87,7 @@ endif()
 # Include directories.
 include_directories(
     ${CMAKE_SOURCE_DIR}/lib
+    ${CMAKE_SOURCE_DIR}/tests
     ${CMAKE_BINARY_DIR})
 
 #-------------------------------------------------------------------------------
