@@ -151,12 +151,12 @@ namespace djv
             _actions[PLAYBACK_TOGGLE]->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackActions", "Toggle playback\n\nShortcut: %1").
                 arg(key.toString()));
-            _actions[EVERY_FRAME]->setIcon(context()->iconLibrary()->icon("djvLockIcon", iconDPI));
+            _actions[EVERY_FRAME]->setIcon(context()->iconLibrary()->icon("djv/UI/LockIcon", iconDPI));
 
             const QVector<QIcon> playbackIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djvPlayReverseIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvPlayStopIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvPlayForwardIcon", iconDPI);
+                context()->iconLibrary()->icon("djv/UI/PlayReverseIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/PlayStopIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/PlayForwardIcon", iconDPI);
             const QVector<Util::SHORTCUT> playbackShortcuts =
                 QVector<Util::SHORTCUT>() <<
                 Util::SHORTCUT_PLAYBACK_REVERSE <<
@@ -175,24 +175,24 @@ namespace djv
             }
 
             const QVector<QIcon> loopIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djvPlayLoopOnceIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvPlayLoopRepeatIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvPlayLoopPingPongIcon", iconDPI);
+                context()->iconLibrary()->icon("djv/UI/PlayLoopOnceIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/PlayLoopRepeatIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/PlayLoopPingPongIcon", iconDPI);
             for (int i = 0; i < Util::LOOP_COUNT; ++i)
             {
                 _groups[LOOP_GROUP]->actions()[i]->setIcon(loopIcons[i]);
             }
 
             const QVector<QIcon> frameIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djvFrameStartIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/FrameStartIcon", iconDPI) <<
                 QIcon() <<
-                context()->iconLibrary()->icon("djvFramePrevIcon", iconDPI) <<
-                QIcon() <<
-                QIcon() <<
-                context()->iconLibrary()->icon("djvFrameNextIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/FramePrevIcon", iconDPI) <<
                 QIcon() <<
                 QIcon() <<
-                context()->iconLibrary()->icon("djvFrameEndIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/FrameNextIcon", iconDPI) <<
+                QIcon() <<
+                QIcon() <<
+                context()->iconLibrary()->icon("djv/UI/FrameEndIcon", iconDPI) <<
                 QIcon();
             const QVector<bool> frameAutoRepeat = QVector<bool>() <<
                 false <<
@@ -239,11 +239,11 @@ namespace djv
             }
 
             const QVector<QIcon> inOutIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djvPlayInOutIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvInPointMarkIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvOutPointMarkIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvInPointResetIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvOutPointResetIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/PlayInOutIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/InPointMarkIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/OutPointMarkIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/InPointResetIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/OutPointResetIcon", iconDPI) <<
                 QIcon();
             const QVector<Util::SHORTCUT> inOutShortcuts =
                 QVector<Util::SHORTCUT>() <<

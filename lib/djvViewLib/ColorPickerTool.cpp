@@ -252,9 +252,9 @@ namespace djv
         void ColorPickerTool::sizeUpdate()
         {
             const int iconDPI = context()->style()->sizeMetric().iconDPI;
-            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
-            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
-            _p->lockWidget->setIcon(context()->iconLibrary()->icon("djvUnlockIcon", "djvLockIcon", iconDPI));
+            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
+            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
+            _p->lockWidget->setIcon(context()->iconLibrary()->icon("djv/UI/UnlockIcon", "djv/UI/LockIcon", iconDPI));
             _p->hLayout->setSpacing(context()->style()->sizeMetric().spacing);
             updateGeometry();
         }

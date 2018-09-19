@@ -105,10 +105,10 @@ namespace djv
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
             const QList<QIcon> toolIcons = QList<QIcon>() <<
-                context()->iconLibrary()->icon("djvMagnifyIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvColorPickerIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvHistogramIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvInfoIcon", iconDPI);
+                context()->iconLibrary()->icon("djv/UI/MagnifyIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/ColorPickerIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/HistogramIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/InfoIcon", iconDPI);
             const QVector<QKeySequence> toolShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Util::SHORTCUT_TOOL_MAGNIFY].value <<
                 shortcuts[Util::SHORTCUT_TOOL_COLOR_PICKER].value <<

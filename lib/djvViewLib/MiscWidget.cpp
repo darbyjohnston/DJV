@@ -240,7 +240,7 @@ namespace djv
         void CacheSizeWidget::sizeUpdate()
         {
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->button->setIcon(_p->context->iconLibrary()->icon("djvSubMenuIcon", iconDPI));
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/SubMenuIcon", iconDPI));
         }
         
         void CacheSizeWidget::widgetUpdate()
@@ -994,7 +994,7 @@ namespace djv
         void SpeedButton::sizeUpdate()
         {
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->button->setIcon(_p->context->iconLibrary()->icon("djvSubMenuIcon", iconDPI));
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/SubMenuIcon", iconDPI));
         }
 
         struct SpeedWidget::Private

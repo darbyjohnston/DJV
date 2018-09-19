@@ -384,8 +384,8 @@ namespace djv
         void DisplayProfileWidget::sizeUpdate()
         {
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->addButton->setIcon(_p->context->iconLibrary()->icon("djvAddIcon", iconDPI));
-            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djvRemoveIcon", iconDPI));
+            _p->addButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/AddIcon", iconDPI));
+            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/RemoveIcon", iconDPI));
         }
         
         void DisplayProfileWidget::widgetUpdate()

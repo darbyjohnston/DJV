@@ -237,8 +237,8 @@ namespace djv
         void MagnifyTool::sizeUpdate()
         {
             const int iconDPI = context()->style()->sizeMetric().iconDPI;
-            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
-            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
+            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
         }
         
         void MagnifyTool::widgetUpdate()

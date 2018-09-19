@@ -392,10 +392,10 @@ namespace djv
         void FileBrowserPrefsWidget::sizeUpdate()
         {
             const int iconDPI = context()->style()->sizeMetric().iconDPI;
-            _p->addBookmarkButton->setIcon(context()->iconLibrary()->icon("djvAddIcon", iconDPI));
-            _p->removeBookmarkButton->setIcon(context()->iconLibrary()->icon("djvRemoveIcon", iconDPI));
-            _p->moveBookmarkUpButton->setIcon(context()->iconLibrary()->icon("djvUpIcon", iconDPI));
-            _p->moveBookmarkDownButton->setIcon(context()->iconLibrary()->icon("djvDownIcon", iconDPI));
+            _p->addBookmarkButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon", iconDPI));
+            _p->removeBookmarkButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon", iconDPI));
+            _p->moveBookmarkUpButton->setIcon(context()->iconLibrary()->icon("djv/UI/UpIcon", iconDPI));
+            _p->moveBookmarkDownButton->setIcon(context()->iconLibrary()->icon("djv/UI/DownIcon", iconDPI));
             _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();
         }

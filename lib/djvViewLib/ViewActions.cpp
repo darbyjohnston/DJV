@@ -132,17 +132,17 @@ namespace djv
             _actions[CENTER]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions", "Center the view\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_VIEW_CENTER].value.toString()));
-            _actions[ZOOM_IN]->setIcon(context()->iconLibrary()->icon("djvViewZoomInIcon", iconDPI));
+            _actions[ZOOM_IN]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomInIcon", iconDPI));
             _actions[ZOOM_IN]->setShortcut(shortcuts[Util::SHORTCUT_VIEW_ZOOM_IN].value);
             _actions[ZOOM_IN]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions", "Zoom into the view\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_VIEW_ZOOM_IN].value.toString()));
-            _actions[ZOOM_OUT]->setIcon(context()->iconLibrary()->icon("djvViewZoomOutIcon", iconDPI));
+            _actions[ZOOM_OUT]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomOutIcon", iconDPI));
             _actions[ZOOM_OUT]->setShortcut(shortcuts[Util::SHORTCUT_VIEW_ZOOM_OUT].value);
             _actions[ZOOM_OUT]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions", "Zoom out of the view\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_VIEW_ZOOM_OUT].value.toString()));
-            _actions[ZOOM_RESET]->setIcon(context()->iconLibrary()->icon("djvViewZoomResetIcon", iconDPI));
+            _actions[ZOOM_RESET]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomResetIcon", iconDPI));
             _actions[ZOOM_RESET]->setShortcut(shortcuts[Util::SHORTCUT_VIEW_ZOOM_RESET].value);
             _actions[ZOOM_RESET]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions", "Reset the zoom\n\nShortcut: %1").
@@ -151,7 +151,7 @@ namespace djv
             _actions[RESET]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions", "Reset the position and zoom\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_VIEW_RESET].value.toString()));
-            _actions[FIT]->setIcon(context()->iconLibrary()->icon("djvViewFitIcon", iconDPI));
+            _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewFitIcon", iconDPI));
             _actions[FIT]->setShortcut(shortcuts[Util::SHORTCUT_VIEW_FIT].value);
             _actions[FIT]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions", "Fit the image to the view\n\nShortcut: %1").

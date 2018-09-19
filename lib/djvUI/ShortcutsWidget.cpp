@@ -269,7 +269,7 @@ namespace djv
                     painter->drawPixmap(
                         r.x() + r.width() - iconSize,
                         r.y(),
-                        _context->iconLibrary()->pixmap("djvResetIcon", iconDPI));
+                        _context->iconLibrary()->pixmap("djv/UI/ResetIcon", iconDPI));
                 }
                 break;
                 }

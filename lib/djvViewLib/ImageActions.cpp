@@ -146,7 +146,7 @@ namespace djv
             _actions[MIRROR_H]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
             _actions[MIRROR_V]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
             _actions[COLOR_PROFILE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_COLOR_PROFILE].value);
-            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
 
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Util::SHORTCUT_IMAGE_SCALE_NONE].value <<

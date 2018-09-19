@@ -103,27 +103,27 @@ namespace djv
             const int iconDPI = context()->style()->sizeMetric().iconDPI;
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            _actions[NEW]->setIcon(context()->iconLibrary()->icon("djvWindowNewIcon", iconDPI));
+            _actions[NEW]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowNewIcon", iconDPI));
             _actions[NEW]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_NEW].value);
             _actions[NEW]->setToolTip(
                 qApp->translate("djv::ViewLib::WindowActions", "Create a new window\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_WINDOW_NEW].value.toString()));
-            _actions[COPY]->setIcon(context()->iconLibrary()->icon("djvWindowCopyIcon", iconDPI));
+            _actions[COPY]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowCopyIcon", iconDPI));
             _actions[COPY]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_COPY].value);
             _actions[COPY]->setToolTip(
                 qApp->translate("djv::ViewLib::WindowActions", "Copy the current window\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_WINDOW_COPY].value.toString()));
-            _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djvWindowCloseIcon", iconDPI));
+            _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowCloseIcon", iconDPI));
             _actions[CLOSE]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_CLOSE].value);
             _actions[CLOSE]->setToolTip(
                 qApp->translate("djv::ViewLib::WindowActions", "Close the current window\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_WINDOW_CLOSE].value.toString()));
-            _actions[FIT]->setIcon(context()->iconLibrary()->icon("djvWindowFitIcon", iconDPI));
+            _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFitIcon", iconDPI));
             _actions[FIT]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_FIT].value);
             _actions[FIT]->setToolTip(
                 qApp->translate("djv::ViewLib::WindowActions", "Resize the window to fit the image\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_WINDOW_FIT].value.toString()));
-            _actions[FULL_SCREEN]->setIcon(context()->iconLibrary()->icon("djvWindowFullScreenIcon", iconDPI));
+            _actions[FULL_SCREEN]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFullScreenIcon", iconDPI));
             _actions[FULL_SCREEN]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_FULL_SCREEN].value);
             _actions[FULL_SCREEN]->setToolTip(
                 qApp->translate("djv::ViewLib::WindowActions", "Show the window full screen\n\nShortcut: %1").

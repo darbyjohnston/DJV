@@ -232,7 +232,7 @@ namespace djv
         void FloatEditSlider::sizeUpdate()
         {
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djvResetIcon", iconDPI));
+            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon", iconDPI));
             _p->layout->setSpacing(_p->context->style()->sizeMetric().spacing);
             updateGeometry();
         }

@@ -52,9 +52,9 @@ namespace djv
         const QStringList & PlaybackUtil::playbackIcons()
         {
             static const QStringList data = QStringList() <<
-                "djvPlayReverseIcon" <<
-                "djvPlayStopIcon" <<
-                "djvPlayForwardIcon";
+                "djv/UI/PlayReverseIcon" <<
+                "djv/UI/PlayStopIcon" <<
+                "djv/UI/PlayForwardIcon";
             DJV_ASSERT(data.count() == PLAYBACK_COUNT);
             return data;
         }

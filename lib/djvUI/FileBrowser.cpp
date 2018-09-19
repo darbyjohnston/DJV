@@ -894,10 +894,10 @@ namespace djv
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
             const QVector<Shortcut> & shortcuts = _p->context->fileBrowserPrefs()->shortcuts();
 
-            _p->actions.actions[Actions::UP]->setIcon(_p->context->iconLibrary()->icon("djvDirUpIcon", iconDPI));
+            _p->actions.actions[Actions::UP]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirUpIcon", iconDPI));
             _p->actions.actions[Actions::UP]->setShortcut(shortcuts[FileBrowserPrefs::UP].value);
 
-            _p->actions.actions[Actions::PREV]->setIcon(_p->context->iconLibrary()->icon("djvDirPrevIcon", iconDPI));
+            _p->actions.actions[Actions::PREV]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirPrevIcon", iconDPI));
             _p->actions.actions[Actions::PREV]->setShortcut(shortcuts[FileBrowserPrefs::PREV].value);
 
             _p->menus.menus[Menus::RECENT]->clear();
@@ -922,7 +922,7 @@ namespace djv
                 _p->actions.groups[Actions::DRIVES_GROUP]->addAction(action);
             }
 
-            _p->actions.actions[Actions::RELOAD]->setIcon(_p->context->iconLibrary()->icon("djvDirReloadIcon", iconDPI));
+            _p->actions.actions[Actions::RELOAD]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirReloadIcon", iconDPI));
             _p->actions.actions[Actions::RELOAD]->setShortcut(shortcuts[FileBrowserPrefs::RELOAD].value);
 
             _p->menus.menus[Menus::THUMBNAILS]->clear();

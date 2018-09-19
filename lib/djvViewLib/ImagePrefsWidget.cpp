@@ -418,10 +418,10 @@ namespace djv
         void ImagePrefsWidget::sizeUpdate()
         {
             const int iconDPI = context()->style()->sizeMetric().iconDPI;
-            _p->addDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djvAddIcon", iconDPI));
-            _p->removeDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djvRemoveIcon", iconDPI));
-            _p->moveDisplayProfileUpButton->setIcon(context()->iconLibrary()->icon("djvUpIcon", iconDPI));
-            _p->moveDisplayProfileDownButton->setIcon(context()->iconLibrary()->icon("djvDownIcon", iconDPI));
+            _p->addDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon", iconDPI));
+            _p->removeDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon", iconDPI));
+            _p->moveDisplayProfileUpButton->setIcon(context()->iconLibrary()->icon("djv/UI/UpIcon", iconDPI));
+            _p->moveDisplayProfileDownButton->setIcon(context()->iconLibrary()->icon("djv/UI/DownIcon", iconDPI));
         }
 
         void ImagePrefsWidget::widgetUpdate()

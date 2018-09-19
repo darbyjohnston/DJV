@@ -123,8 +123,8 @@ namespace djv
         void SearchBox::sizeUpdate()
         {
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djvResetIcon", iconDPI));
-            _p->label->setPixmap(_p->context->iconLibrary()->pixmap("djvMagnifyIcon", iconDPI));
+            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon", iconDPI));
+            _p->label->setPixmap(_p->context->iconLibrary()->pixmap("djv/UI/MagnifyIcon", iconDPI));
         }
 
     } // namespace UI

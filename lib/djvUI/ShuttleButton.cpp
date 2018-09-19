@@ -148,14 +148,14 @@ namespace djv
         {
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
             _p->icons.clear();
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle0Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle1Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle2Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle3Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle4Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle5Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle6Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle7Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle0Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle1Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle2Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle3Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle4Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle5Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle6Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle7Icon", iconDPI));
             updateGeometry();
             update();
         }

@@ -170,7 +170,7 @@ namespace djv
         void PixelMaskWidget::sizeUpdate()
         {
             const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->button->setIcon(_p->context->iconLibrary()->icon("djvPixelMaskIcon", iconDPI));
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/PixelMaskIcon", iconDPI));
         }
 
         void PixelMaskWidget::valueUpdate()
