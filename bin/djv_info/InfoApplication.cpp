@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvInfoApplication.h>
+#include <djv_info/InfoApplication.h>
 
-#include <djvInfoContext.h>
+#include <djv_info/InfoContext.h>
 
 #include <djvGraphics/ImageIO.h>
 

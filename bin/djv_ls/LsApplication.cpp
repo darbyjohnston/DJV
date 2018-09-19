@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvLsApplication.h>
+#include <djv_ls/LsApplication.h>
 
-#include <djvLsContext.h>
+#include <djv_ls/LsContext.h>
 
 #include <djvCore/DebugLog.h>
 #include <djvCore/Math.h>

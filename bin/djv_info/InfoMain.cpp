@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvLsApplication.h>
+#include <djv_info/InfoApplication.h>
 
 int main(int argc, char ** argv)
 {
-    return djv::ls::Application(argc, argv).exec();
+    return djv::info::Application(argc, argv).exec();
 }

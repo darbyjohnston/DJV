@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvConvertApplication.h>
+#include <djv_convert/ConvertApplication.h>
 
-#include <djvConvertContext.h>
+#include <djv_convert/ConvertContext.h>
 
 #include <djvGraphics/ImageIO.h>
 #include <djvCore/Sequence.h>

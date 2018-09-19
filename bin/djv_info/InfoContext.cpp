@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvInfoContext.h>
+#include <djv_info/InfoContext.h>
 
 #include <djvCore/System.h>
 

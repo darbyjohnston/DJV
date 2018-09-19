@@ -1,22 +1,20 @@
 set(header
-    djvConvertApplication.h
-    djvConvertContext.h)
+    ConvertApplication.h
+    ConvertContext.h)
 set(mocHeader
-    djvConvertApplication.h
-    djvConvertContext.h)
+    ConvertApplication.h
+    ConvertContext.h)
 set(source
-    djvConvertApplication.cpp
-    djvConvertContext.cpp
-    djvConvertMain.cpp)
+    ConvertApplication.cpp
+    ConvertContext.cpp
+    ConvertMain.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_CREATE_TRANSLATION(qmSource ${source}
     djv_convert_en_US.ts
     djv_convert_cs_CZ.ts)
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}/bin/djv_convert
-    ${OPENGL_INCLUDE_DIRS})
+include_directories(${OPENGL_INCLUDE_DIRS})
 add_executable(djv_convert ${header} ${source} ${mocSource} ${qmSource})
 target_link_libraries(djv_convert djvGraphics)
 set_target_properties(djv_convert PROPERTIES FOLDER bin CXX_STANDARD 11)

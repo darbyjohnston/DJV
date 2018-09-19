@@ -1,9 +1,9 @@
 set(header
-	djvViewApplication.h)
+	ViewApplication.h)
 set(mocHeader
-	djvViewApplication.h)
+	ViewApplication.h)
 set(source
-	djvViewApplication.cpp)
+	ViewApplication.cpp)
 if (WIN32)
     set(header
         ${header}
@@ -15,10 +15,8 @@ endif (WIN32)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}/bin/djv_view
-    ${OPENGL_INCLUDE_DIRS})
-add_executable(djv_view WIN32 ${header} ${source} ${mocSource} djvViewMain.cpp)
+include_directories(${OPENGL_INCLUDE_DIRS})
+add_executable(djv_view WIN32 ${header} ${source} ${mocSource} ViewMain.cpp)
 target_link_libraries(djv_view djvViewLib)
 set_target_properties(djv_view PROPERTIES FOLDER bin CXX_STANDARD 11)
 if (djvInstallRpath)
@@ -72,7 +70,7 @@ endif (APPLE)
 
 # \todo Build a second binary for a Windows command line version (.com).
 if (WIN32)
-    add_executable(djv_view. ${header} ${source} ${mocSource} djvViewMain.cpp)
+    add_executable(djv_view. ${header} ${source} ${mocSource} ViewMain.cpp)
     target_link_libraries(djv_view. djvViewLib)    
     set_target_properties(
         djv_view. PROPERTIES

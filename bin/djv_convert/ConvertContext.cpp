@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvConvertContext.h>
+#include <djv_convert/ConvertContext.h>
 
 #include <djvCore/DebugLog.h>
 #include <djvCore/FileInfoUtil.h>

@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApplication.h>
+#include <djv_view/ViewApplication.h>
 
 #include <djvCore/Error.h>
 #include <djvCore/ErrorUtil.h>
