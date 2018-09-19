@@ -32,7 +32,7 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="djvStyle.css">
+<link rel="stylesheet" type="text/css" href="Style.css">
 <title>DJV Imaging - Home</title>
 </head>
 
@@ -40,19 +40,19 @@
 
 <div class="header">
 <div style="position:absolute; top:10; left:10; height:50;">
-<a href="index.html"><img src="images/djvTitle.gif" align="middle"></a>
+<a href="index.html"><img src="images/Title.gif" align="middle"></a>
 </div>
 <div style="position:absolute; top:0; right:0;">
-<a href="index.html"><img src="images/djvLogo.gif"></a>
+<a href="index.html"><img src="images/Logo.gif"></a>
 </div>
 <table width="100%" height="100%">
 <tr>
 <td align="center" valign="bottom">
     <a class="navCurrent" href="index.html">Home</a>
-    <a class="nav" href="djvScreenshots.html">Screenshots</a>
-    <a class="nav" href="djvDocumentation.html">Documentation</a>
-    <a class="nav" href="djvCredits.html">Credits</a>
-    <a class="nav" href="djvLegal.html">Legal</a>
+    <a class="nav" href="Screenshots.html">Screenshots</a>
+    <a class="nav" href="Documentation.html">Documentation</a>
+    <a class="nav" href="Credits.html">Credits</a>
+    <a class="nav" href="Legal.html">Legal</a>
 </td>
 </tr>
 </table>
@@ -78,8 +78,8 @@
 <li>Experimental support for pre-caching frames</li>
 
 <h3>Help</h3>
-<li><a href="djvDocumentation.html">Documentation</a></li>
-<li><a href="djvFaq.html">FAQ</a></li>
+<li><a href="Documentation.html">Documentation</a></li>
+<li><a href="Faq.html">FAQ</a></li>
 <li><a href="http://sourceforge.net/p/djv/discussion/">Forums</a></li>
 <li><a href="http://sourceforge.net/p/djv/_list/tickets">Feature Requests and Bug Tracking</a></li>
 
@@ -88,15 +88,15 @@
 <li><a href="http://sourceforge.net/projects/djv">Sourceforge Site</a></li>
 
 <h3>About</h3>
-<li><a href="djvCredits.html">Credits</a></li>
-<li><a href="djvLegal.html">Legal</a></li>
+<li><a href="Credits.html">Credits</a></li>
+<li><a href="Legal.html">Legal</a></li>
 
 </td>
 
 <td class="content" valign="top">
 
 <div align="center">
-<a href="djvScreenshots.html"><img src="images/indexSmall.png"></a>
+<a href="Screenshots.html"><img src="images/indexSmall.png"></a>
 </div>
 
 <div>
@@ -131,7 +131,7 @@ pipeline...</p>
 Senior Technical Director and Lead Pipeline Architect<br>
 Zoic Studios</h4>
 
-<p><a href="djvTestimonials.html">(More...)</a></p>
+<p><a href="Testimonials.html">(More...)</a></p>
 
 <table align="right">
 <tr>

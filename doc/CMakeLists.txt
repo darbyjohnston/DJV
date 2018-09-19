@@ -3,85 +3,85 @@ configure_file(
     ${PROJECT_BINARY_DIR}/doc/index.html
     @ONLY)
 configure_file(
-    ${PROJECT_SOURCE_DIR}/doc/djvInstall.html.in
-    ${PROJECT_BINARY_DIR}/doc/djvInstall.html
+    ${PROJECT_SOURCE_DIR}/doc/Install.html.in
+    ${PROJECT_BINARY_DIR}/doc/Install.html
     @ONLY)
 
 set(html
-    djvChangeList.html
-    djvCommandLine.html
-    djvCredits.html
-    djvDocumentation.html
-    djvFaq.html
-    djvImageIo.html
-    djvLegal.html
-    djvScreenshots.html
-    djvTestimonials.html
+    ChangeList.html
+    CommandLine.html
+    Credits.html
+    Documentation.html
+    Faq.html
+    ImageIo.html
+    Legal.html
+    Screenshots.html
+    Style.css
+    Testimonials.html
     djv_convert.html
     djv_info.html
     djv_ls.html
     djv_view.html
-    djvStyle.css
     ${PROJECT_BINARY_DIR}/doc/index.html
-    ${PROJECT_BINARY_DIR}/doc/djvInstall.html)
+    ${PROJECT_BINARY_DIR}/doc/Install.html)
 set(images
-    images/djvColorPickerIcon.png
-    images/djvDirPrevIcon.png
-    images/djvDirReloadIcon.png
-    images/djvDirUpIcon.png
-    images/djvFileBrowser.png
-    images/djvFileBrowserSmall.png
-    images/djvFileCloseIcon.png
-    images/djvFileOpenIcon.png
-    images/djvFileReloadIcon.png
-    images/djvFrameEndIcon.png
-    images/djvFrameNextIcon.png
-    images/djvFramePrevIcon.png
-    images/djvFrameStartIcon.png
-    images/djvHistogramIcon.png
-    images/djvInPointMarkIcon.png
-    images/djvInPointResetIcon.png
-    images/djvInfoIcon.png
-    images/djvLockIcon.png
-    images/djvLogo.gif
-    images/djvMagnifyIcon.png
-    images/djvOutPointMarkIcon.png
-    images/djvOutPointResetIcon.png
-    images/djvPlayForwardIcon.png
-    images/djvPlayInOutIcon.png
-    images/djvPlayReverseIcon.png
-    images/djvPlayStopIcon.png
-    images/djvTitle.gif
-    images/djvView.png
-    images/djvViewColorPickerTool.png
-    images/djvViewColorPickerToolDiagram.png
-    images/djvViewDiagram.png
-    images/djvViewDisplayProfile.png
-    images/djvViewFileMenu.png
-    images/djvViewFitIcon.png
-    images/djvViewHelpMenu.png
-    images/djvViewHistogramTool.png
-    images/djvViewHistogramToolDiagram.png
-    images/djvViewImageMenu.png
-    images/djvViewInfoTool.png
-    images/djvViewInfoToolDiagram.png
-    images/djvViewMagnifyTool.png
-    images/djvViewMagnifyToolDiagram.png
-    images/djvViewPlaybackDiagram.png
-    images/djvViewPlaybackMenu.png
-    images/djvViewToolMenu.png
-    images/djvViewTools.png
-    images/djvViewToolsSmall.png
-    images/djvViewViewMenu.png
-    images/djvViewWindowMenu.png
-    images/djvViewZoomInIcon.png
-    images/djvViewZoomOutIcon.png
-    images/djvViewZoomResetIcon.png
-    images/djvWindowCloseIcon.png
-    images/djvWindowCopyIcon.png
-    images/djvWindowFitIcon.png
-    images/djvWindowFullScreenIcon.png
-    images/djvWindowNewIcon.png
+    images/ColorPickerIcon.png
+    images/DirPrevIcon.png
+    images/DirReloadIcon.png
+    images/DirUpIcon.png
+    images/FileBrowser.png
+    images/FileBrowserSmall.png
+    images/FileCloseIcon.png
+    images/FileOpenIcon.png
+    images/FileReloadIcon.png
+    images/FrameEndIcon.png
+    images/FrameNextIcon.png
+    images/FramePrevIcon.png
+    images/FrameStartIcon.png
+    images/HistogramIcon.png
+    images/InPointMarkIcon.png
+    images/InPointResetIcon.png
+    images/InfoIcon.png
+    images/LockIcon.png
+    images/Logo.gif
+    images/MagnifyIcon.png
+    images/OutPointMarkIcon.png
+    images/OutPointResetIcon.png
+    images/PlayForwardIcon.png
+    images/PlayInOutIcon.png
+    images/PlayReverseIcon.png
+    images/PlayStopIcon.png
+    images/Title.gif
+    images/View.png
+    images/ViewColorPickerTool.png
+    images/ViewColorPickerToolDiagram.png
+    images/ViewDiagram.png
+    images/ViewDisplayProfile.png
+    images/ViewFileMenu.png
+    images/ViewFitIcon.png
+    images/ViewHelpMenu.png
+    images/ViewHistogramTool.png
+    images/ViewHistogramToolDiagram.png
+    images/ViewImageMenu.png
+    images/ViewInfoTool.png
+    images/ViewInfoToolDiagram.png
+    images/ViewMagnifyTool.png
+    images/ViewMagnifyToolDiagram.png
+    images/ViewPlaybackDiagram.png
+    images/ViewPlaybackMenu.png
+    images/ViewToolMenu.png
+    images/ViewTools.png
+    images/ViewToolsSmall.png
+    images/ViewViewMenu.png
+    images/ViewWindowMenu.png
+    images/ViewZoomInIcon.png
+    images/ViewZoomOutIcon.png
+    images/ViewZoomResetIcon.png
+    images/WindowCloseIcon.png
+    images/WindowCopyIcon.png
+    images/WindowFitIcon.png
+    images/WindowFullScreenIcon.png
+    images/WindowNewIcon.png
     images/index.png
     images/indexSmall.png
     images/OpenGL.png)

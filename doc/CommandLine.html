@@ -32,27 +32,27 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="djvStyle.css">
-<title>DJV Imaging - Documentation</title>
+<link rel="stylesheet" type="text/css" href="Style.css">
+<title>DJV Imaging - Command Line Options</title>
 </head>
 
 <body>
 
 <div class="header">
 <div style="position:absolute; top:10; left:10; height:50;">
-<a href="index.html"><img src="images/djvTitle.gif" align="middle"></a>
+<a href="index.html"><img src="images/Title.gif" align="middle"></a>
 </div>
 <div style="position:absolute; top:0; right:0;">
-<a href="index.html"><img src="images/djvLogo.gif"></a>
+<a href="index.html"><img src="images/Logo.gif"></a>
 </div>
 <table width="100%" height="100%">
 <tr>
 <td align="center" valign="bottom">
     <a class="nav" href="index.html">Home</a>
-    <a class="nav" href="djvScreenshots.html">Screenshots</a>
-    <a class="navCurrent" href="djvDocumentation.html">Documentation</a>
-    <a class="nav" href="djvCredits.html">Credits</a>
-    <a class="nav" href="djvLegal.html">Legal</a>
+    <a class="nav" href="Screenshots.html">Screenshots</a>
+    <a class="nav" href="Documentation.html">Documentation</a>
+    <a class="nav" href="Credits.html">Credits</a>
+    <a class="nav" href="Legal.html">Legal</a>
 </td>
 </tr>
 </table>
@@ -63,51 +63,50 @@
 
 <td class="sidebar" valign="top">
 
-<h3>Documentation</h3>
-<li><a href="#Applications">Applications</a></li>
-<li><a href="#CommandLine">Command Line</a></li>
+<h3>Command Line Options</h3>
+<li><a href="#UserInterface">User Interface</a></li>
+<li><a href="#OpenGl">OpenGL</a></li>
 <li><a href="#General">General</a></li>
-<li><a href="#Developer">Developer</a></li>
 
 </td>
 
 <td class="content" valign="top">
 
-<h3><a name="Applications">Applications</a></h3>
+<h3><a name="UserInterface">User Interface</a></h3>
 <table>
-    <tr><td><a href="djv_view.html">djv_view</a></td><td>Real-time image
-    sequence and movie playback</td></tr>
+<tr><td width="200"><i>-reset_prefs</i></td><td>Do not load the preference at
+start up.</td></tr>
 </table>
 
-<h3><a name="CommandLine">Command Line</a></h3>
+<h3><a name="OpenGl">OpenGL</a></h3>
 <table>
-    <tr><td><a href="djv_convert.html">djv_convert</a></td><td>Batch process
-    images and movies</td></tr>
-    <tr><td><a href="djv_info.html">djv_info</a></td><td>Display information
-    about images and movies</td></tr>
-    <tr><td><a href="djv_ls.html">djv_ls</a></td><td>List directories with file
-    sequences</td></tr>
+<tr><td width="200"><i>-render_filter (zoom out) (zoom in)</td><td>Set the render
+filter. Options = Nearest, Linear, Box, Triangle, Bell, B-Spline, Lanczos3,
+Cubic, Mitchell. Default = Linear, Nearest.</i></td></tr>
+<tr><td><i>-render_filter_high</i></td><td>Set the render filter to high quality
+settings (Lanczos3, Mitchell).</td></tr>
 </table>
 
 <h3><a name="General">General</a></h3>
-<ul>
-    <li><a href="djvFaq.html">FAQ</a></li>
-    <li><a href="djvInstall.html">Installation</a></li>
-    <li><a href="djvChangeList.html">Change List</a></li>
-    <li><a href="djvImageIo.html">Image Formats</a></li>
-    <li><a href="djvCommandLine.html">Command Line Usage</a></li>
-</ul>
-
-<h3><a name="Developer">Developer</a></h3>
-<ul>
-    <li><a href="djvSourceCode.html">Building the Source Code</a></li>
-    <li><a href="doxygen/html/index.html">Doxygen</a></li>
-</ul>
+<table>
+<tr><td width="200"><i>-time_units (value)</i></td><td>Set the time units.
+Options = Timecode, Frames. Default = Frames.</td></tr>
+<tr><td><i>-default_speed (value)</i></td><td>Set the global speed. Options = 1,
+3, 6, 12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60, 120. Default = 24.
+</td></tr>
+<tr><td><i>-max_sequence_frames (value)</i></td><td>Set the maximum number of
+frames a sequence can hold. Default = 172800.</td></tr>
+<tr><td><i>-debug_log</i></td><td>Print debug log messages.</td></tr>
+<tr><td><i>-help, -h</i></td><td>Show the help message.</td></tr>
+<tr><td><i>-info</i></td><td>Show the information message.</td><tr>
+<tr><td><i>-about</i></td><td>Show the about message.</td></tr>
+</table>
 
 </td>
 
 </tr>
 </table>
+</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston
