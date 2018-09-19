@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvImageIOFormatsTest.h>
+#include <djvGraphicsTest/ImageIOFormatsTest.h>
 
 #include <djvGraphics/Image.h>
 #include <djvGraphics/GraphicsContext.h>

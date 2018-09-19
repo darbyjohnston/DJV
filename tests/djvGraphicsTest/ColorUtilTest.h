@@ -29,3 +29,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
+#include <djvGraphicsTest/GraphicsTest.h>
+
+namespace djv
+{
+    namespace GraphicsTest
+    {
+        class ColorUtilTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
+
+        private:
+            void scale();
+            void lerp();
+            void convert();
+            void qt();
+        };
+
+    } // namespace GraphicsTest
+} // namespace djv

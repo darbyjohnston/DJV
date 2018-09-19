@@ -1,33 +1,33 @@
 set(header
-    djvColorProfileTest.h
-    djvColorTest.h
-    djvColorUtilTest.h
-    djvGraphicsContextTest.h
-    djvGraphicsTest.h
-    djvImageIOFormatsTest.h
-    djvImageIOTest.h
-    djvImageTagsTest.h
-    djvImageTest.h
-    djvOpenGLImageTest.h
-    djvOpenGLTest.h
-    djvPixelDataTest.h
-    djvPixelDataUtilTest.h
-    djvPixelTest.h)
+    ColorProfileTest.h
+    ColorTest.h
+    ColorUtilTest.h
+    GraphicsContextTest.h
+    GraphicsTest.h
+    ImageIOFormatsTest.h
+    ImageIOTest.h
+    ImageTagsTest.h
+    ImageTest.h
+    OpenGLImageTest.h
+    OpenGLTest.h
+    PixelDataTest.h
+    PixelDataUtilTest.h
+    PixelTest.h)
 set(mocHeader)
 set(source
-    djvColorProfileTest.cpp
-    djvColorTest.cpp
-    djvColorUtilTest.cpp
-    djvGraphicsContextTest.cpp
-    djvImageIOFormatsTest.cpp
-    djvImageIOTest.cpp
-    djvImageTagsTest.cpp
-    djvImageTest.cpp
-    djvOpenGLImageTest.cpp
-    djvOpenGLTest.cpp
-    djvPixelDataTest.cpp
-    djvPixelDataUtilTest.cpp
-    djvPixelTest.cpp)
+    ColorProfileTest.cpp
+    ColorTest.cpp
+    ColorUtilTest.cpp
+    GraphicsContextTest.cpp
+    ImageIOFormatsTest.cpp
+    ImageIOTest.cpp
+    ImageTagsTest.cpp
+    ImageTest.cpp
+    OpenGLImageTest.cpp
+    OpenGLTest.cpp
+    PixelDataTest.cpp
+    PixelDataUtilTest.cpp
+    PixelTest.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 

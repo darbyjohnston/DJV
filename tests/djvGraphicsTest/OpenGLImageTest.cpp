@@ -29,14 +29,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvOpenGLImageTest.h>
+#include <djvGraphicsTest/OpenGLImageTest.h>
 
-#include <djvCore/Assert.h>
-#include <djvCore/Debug.h>
 #include <djvGraphics/GraphicsContext.h>
 #include <djvGraphics/OpenGL.h>
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
+
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
 
 #include <QPixmap>
 #include <QScopedPointer>

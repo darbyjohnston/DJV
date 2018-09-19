@@ -31,9 +31,22 @@
 
 #pragma once
 
+#include <djvGraphicsTest/GraphicsTest.h>
+
 namespace djv
 {
     namespace GraphicsTest
     {
+        class ImageTagsTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
+
+        private:
+            void ctors();
+            void members();
+            void operators();
+        };
+
     } // namespace GraphicsTest
 } // namespace djv

@@ -31,9 +31,7 @@
 
 #pragma once
 
-#include <djvGraphicsTest.h>
-
-#include <djvAbstractTest.h>
+#include <djvGraphicsTest/GraphicsTest.h>
 
 namespace djv
 {

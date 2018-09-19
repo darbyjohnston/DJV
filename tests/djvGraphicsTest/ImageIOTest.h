@@ -31,25 +31,21 @@
 
 #pragma once
 
-#include <djvGraphicsTest.h>
-
-#include <djvAbstractTest.h>
+#include <djvGraphicsTest/GraphicsTest.h>
 
 namespace djv
 {
     namespace GraphicsTest
     {
-        class PixelDataUtilTest : public TestLib::AbstractTest
+        class ImageIOTest : public TestLib::AbstractTest
         {
         public:
             virtual void run(int &, char **);
 
         private:
-            void byteCount();
-            void proxy();
-            void interleave();
-            void gradient();
-            void qt();
+            void info();
+            void plugin();
+            void io();
         };
 
     } // namespace GraphicsTest

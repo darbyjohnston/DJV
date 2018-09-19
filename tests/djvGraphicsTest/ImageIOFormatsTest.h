@@ -31,23 +31,36 @@
 
 #pragma once
 
-#include <djvGraphicsTest.h>
+#include <djvGraphicsTest/GraphicsTest.h>
 
-#include <djvAbstractTest.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/ImageIO.h>
 
 namespace djv
 {
+    namespace Graphics
+    {
+        class GraphicsContext;
+
+    } // namespace Graphics
+
     namespace GraphicsTest
     {
-        class ImageIOTest : public TestLib::AbstractTest
+        class ImageIOFormatsTest : public TestLib::AbstractTest
         {
         public:
             virtual void run(int &, char **);
 
         private:
-            void info();
-            void plugin();
-            void io();
+            void initPlugins(djv::Graphics::GraphicsContext *);
+            void initData();
+            void initImages();
+            void runTest(Graphics::ImageIO *, const Graphics::Image &);
+
+            QVector<glm::ivec2>             _sizes;
+            QVector<Graphics::Pixel::PIXEL> _pixels;
+            QVector<Graphics::Image>        _images;
+            QVector<Core::Plugin *>         _plugins;
         };
 
     } // namespace GraphicsTest

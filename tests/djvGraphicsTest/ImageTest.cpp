@@ -29,14 +29,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvOpenGLTest.h>
+#include <djvGraphicsTest/ImageTest.h>
 
-#include <djvGraphics/OpenGL.h>
+#include <djvGraphics/Image.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
-
-#include <QString>
 
 using namespace djv::Core;
 using namespace djv::Graphics;
@@ -45,21 +43,40 @@ namespace djv
 {
     namespace GraphicsTest
     {
-        void OpenGLTest::run(int &, char **)
+        void ImageTest::run(int &, char **)
         {
-            DJV_DEBUG("OpenGLTest::run");
-            members();
+            DJV_DEBUG("ImageTest::run");
+            ctors();
+            operators();
         }
 
-        void OpenGLTest::members()
+        void ImageTest::ctors()
         {
-            DJV_DEBUG("OpenGLTest::members");
+            DJV_DEBUG("ImageTest::ctors");
             {
-                for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
-                {
-                    DJV_ASSERT(Graphics::OpenGLUtil::format(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
-                    DJV_ASSERT(Graphics::OpenGLUtil::type(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
-                }
+                const Graphics::Image image;
+                DJV_ASSERT(image.data() == 0);
+            }
+            {
+                const Graphics::Image image(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::RGBA_U8));
+                Graphics::Image other(image);
+                DJV_ASSERT(other.info() == image.info());
+            }
+        }
+
+        void ImageTest::operators()
+        {
+            DJV_DEBUG("ImageTest::operators");
+            {
+                Graphics::Image
+                    a(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8)),
+                    b(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8));
+                a.data()[0] = b.data()[0] = 127;
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != Graphics::Image());
+            }
+            {
+                DJV_DEBUG_PRINT(Graphics::Image());
             }
         }
 

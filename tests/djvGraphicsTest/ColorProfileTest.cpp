@@ -29,10 +29,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvColorProfileTest.h>
+#include <djvGraphicsTest/ColorProfileTest.h>
+
+#include <djvGraphics/ColorProfile.h>
 
 #include <djvCore/Assert.h>
-#include <djvGraphics/ColorProfile.h>
 #include <djvCore/Debug.h>
 
 using namespace djv::Core;

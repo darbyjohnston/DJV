@@ -29,13 +29,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvPixelTest.h>
+#include <djvGraphicsTest/PixelTest.h>
 
-#include <djvCore/Assert.h>
 #include <djvGraphics/Color.h>
 #include <djvGraphics/ColorUtil.h>
-#include <djvCore/Debug.h>
 #include <djvGraphics/Pixel.h>
+
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
 
 #include <QStringList>
 

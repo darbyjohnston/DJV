@@ -29,15 +29,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvImageIOTest.h>
+#include <djvGraphicsTest/ImageIOTest.h>
+
+#include <djvGraphics/Image.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/ImageIO.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
 #include <djvCore/ErrorUtil.h>
 #include <djvCore/FileInfo.h>
-#include <djvGraphics/Image.h>
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/ImageIO.h>
 
 using namespace djv::Core;
 using namespace djv::Graphics;

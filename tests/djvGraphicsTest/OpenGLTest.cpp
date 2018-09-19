@@ -29,24 +29,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvGraphicsTest/OpenGLTest.h>
 
-#include <djvGraphicsTest.h>
+#include <djvGraphics/OpenGL.h>
 
-#include <djvAbstractTest.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+
+#include <QString>
+
+using namespace djv::Core;
+using namespace djv::Graphics;
 
 namespace djv
 {
     namespace GraphicsTest
     {
-        class OpenGLTest : public TestLib::AbstractTest
+        void OpenGLTest::run(int &, char **)
         {
-        public:
-            virtual void run(int &, char **);
+            DJV_DEBUG("OpenGLTest::run");
+            members();
+        }
 
-        private:
-            void members();
-        };
+        void OpenGLTest::members()
+        {
+            DJV_DEBUG("OpenGLTest::members");
+            {
+                for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
+                {
+                    DJV_ASSERT(Graphics::OpenGLUtil::format(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
+                    DJV_ASSERT(Graphics::OpenGLUtil::type(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
+                }
+            }
+        }
 
     } // namespace GraphicsTest
 } // namespace djv

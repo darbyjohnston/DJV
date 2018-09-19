@@ -29,11 +29,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorTest.cpp
-
-#include <djvColorTest.h>
+#include <djvGraphicsTest/ColorTest.h>
 
 #include <djvGraphics/Color.h>
+
 #include <djvCore/Debug.h>
 
 #include <QStringList>
