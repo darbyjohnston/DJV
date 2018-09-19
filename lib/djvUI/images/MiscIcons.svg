@@ -16,9 +16,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    version="1.0"
-   sodipodi:docname="djvMiscIcons.svg"
+   sodipodi:docname="MiscIcons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="djvLockIcon.png"
+   inkscape:export-filename="LockIcon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -157,7 +157,7 @@
      id="layer1"
      transform="translate(0,744.90551)">
     <g
-       id="djvLockIcon"
+       id="LockIcon"
        inkscape:label="#g583">
       <rect
          y="-9"
@@ -180,7 +180,7 @@
     </g>
     <g
        transform="translate(20,1.8110237e-6)"
-       id="djvUnlockIcon"
+       id="UnlockIcon"
        inkscape:label="#g749">
       <rect
          y="-9"
@@ -203,7 +203,7 @@
     </g>
     <g
        transform="translate(0,-30.999998)"
-       id="djvLeftIcon"
+       id="LeftIcon"
        inkscape:label="#g613">
       <rect
          y="2"
@@ -221,7 +221,7 @@
     </g>
     <g
        transform="translate(20,-30.999998)"
-       id="djvRightIcon"
+       id="RightIcon"
        inkscape:label="#g1175">
       <rect
          y="1.9999995"
@@ -239,7 +239,7 @@
     </g>
     <g
        transform="translate(40,-30.999998)"
-       id="djvUpIcon"
+       id="UpIcon"
        inkscape:label="#g1185">
       <rect
          y="2"
@@ -257,7 +257,7 @@
     </g>
     <g
        transform="translate(60,-30.999998)"
-       id="djvDownIcon"
+       id="DownIcon"
        inkscape:label="#g603">
       <rect
          y="2"
@@ -275,7 +275,7 @@
     </g>
     <g
        transform="translate(0,-50.999998)"
-       id="djvAddIcon"
+       id="AddIcon"
        inkscape:label="#g1803">
       <rect
          y="2"
@@ -293,7 +293,7 @@
     </g>
     <g
        transform="translate(20,-50.999998)"
-       id="djvRemoveIcon"
+       id="RemoveIcon"
        inkscape:label="#g1813">
       <rect
          y="2"
@@ -311,7 +311,7 @@
     </g>
     <g
        transform="translate(40,-39.999998)"
-       id="djvResetIcon"
+       id="ResetIcon"
        inkscape:label="#g1869">
       <rect
          y="-9"
@@ -329,7 +329,7 @@
     </g>
     <g
        transform="translate(0,-59.999998)"
-       id="djvSubMenuIcon"
+       id="SubMenuIcon"
        inkscape:label="#g2287">
       <rect
          y="-9"
@@ -347,7 +347,7 @@
     </g>
     <g
        transform="translate(20,-59.999998)"
-       id="djvTreeViewClosedIcon"
+       id="TreeViewClosedIcon"
        inkscape:label="#g2343">
       <rect
          y="1"
@@ -365,7 +365,7 @@
     </g>
     <g
        transform="translate(30,-59.999998)"
-       id="djvTreeViewOpenIcon"
+       id="TreeViewOpenIcon"
        inkscape:label="#g2355">
       <rect
          y="1"
@@ -383,7 +383,7 @@
     </g>
     <g
        transform="translate(0,-90.999998)"
-       id="djvContactSheetViewIcon"
+       id="ContactSheetViewIcon"
        inkscape:label="#g2529">
       <rect
          y="-3"
@@ -440,7 +440,7 @@
     </g>
     <g
        transform="translate(25,-90.999998)"
-       id="djvDetailsViewIcon"
+       id="DetailsViewIcon"
        inkscape:label="#g2511">
       <rect
          y="-3"
@@ -497,7 +497,7 @@
     </g>
     <g
        transform="translate(50,-90.999998)"
-       id="djvLeftDockIcon"
+       id="LeftDockIcon"
        inkscape:label="#g2482">
       <rect
          y="-3.0000005"
@@ -525,7 +525,7 @@
     </g>
     <g
        transform="translate(80,-90.999998)"
-       id="djvRightDockIcon"
+       id="RightDockIcon"
        inkscape:label="#g2493">
       <rect
          y="-3"
@@ -553,7 +553,7 @@
     </g>
     <g
        transform="translate(40,1.8110237e-6)"
-       id="djvPixelMaskIcon"
+       id="PixelMaskIcon"
        inkscape:label="#g2769">
       <rect
          y="-9"

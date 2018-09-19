@@ -16,9 +16,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    version="1.0"
-   sodipodi:docname="djvPlayIcons.svg"
+   sodipodi:docname="PlayIcons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="djvPlayStopIcon.png"
+   inkscape:export-filename="PlayStopIcon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -146,7 +146,7 @@
      id="layer1"
      transform="translate(0,3)">
     <g
-       id="djvPlayStopIcon"
+       id="PlayStopIcon"
        inkscape:label="#g7960">
       <rect
          y="-2.9999998"
@@ -164,7 +164,7 @@
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99905664;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922" />
     </g>
     <g
-       id="djvPlayReverseIcon"
+       id="PlayReverseIcon"
        inkscape:label="#g7937">
       <rect
          y="-3"
@@ -181,7 +181,7 @@
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.06892121;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:0.49803922" />
     </g>
     <g
-       id="djvPlayForwardIcon"
+       id="PlayForwardIcon"
        transform="translate(50)"
        inkscape:label="#g7927">
       <rect
@@ -200,7 +200,7 @@
     </g>
     <g
        transform="translate(75,11)"
-       id="djvPlayInOutIcon"
+       id="PlayInOutIcon"
        inkscape:label="#g1034">
       <rect
          y="-9"
@@ -222,7 +222,7 @@
     </g>
     <g
        transform="translate(95,11)"
-       id="djvPlayLoopOnceIcon"
+       id="PlayLoopOnceIcon"
        inkscape:label="#g1023">
       <rect
          y="-9"
@@ -247,7 +247,7 @@
     </g>
     <g
        transform="translate(115,11)"
-       id="djvPlayLoopRepeatIcon"
+       id="PlayLoopRepeatIcon"
        inkscape:label="#g999">
       <rect
          y="-9"
@@ -272,7 +272,7 @@
     </g>
     <g
        transform="translate(135,11)"
-       id="djvPlayLoopPingPongIcon"
+       id="PlayLoopPingPongIcon"
        inkscape:label="#g1012">
       <rect
          y="-9"

@@ -16,9 +16,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    version="1.0"
-   sodipodi:docname="djvFrameIcons.svg"
+   sodipodi:docname="FrameIcons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="djvFrameStartIcon.png"
+   inkscape:export-filename="FrameStartIcon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -145,7 +145,7 @@
      id="layer1"
      transform="translate(0,3)">
     <g
-       id="djvFrameStartIcon"
+       id="FrameStartIcon"
        inkscape:label="#g354">
       <rect
          y="-3.000001"
@@ -168,7 +168,7 @@
     </g>
     <g
        transform="translate(25)"
-       id="djvFramePrevIcon"
+       id="FramePrevIcon"
        inkscape:label="#g390">
       <rect
          y="-3.000001"
@@ -191,7 +191,7 @@
     </g>
     <g
        transform="translate(50)"
-       id="djvFrameNextIcon"
+       id="FrameNextIcon"
        inkscape:label="#g401">
       <rect
          y="-3.000001"
@@ -215,7 +215,7 @@
     <g
        transform="matrix(-1,0,0,1,100,9.5367432e-7)"
        style="fill:#e6dcff;fill-opacity:1"
-       id="djvFrameEndIcon"
+       id="FrameEndIcon"
        inkscape:label="#g412">
       <rect
          transform="scale(-1,1)"
@@ -239,7 +239,7 @@
     </g>
     <g
        transform="translate(103,10)"
-       id="djvInPointMarkIcon"
+       id="InPointMarkIcon"
        inkscape:label="#g170">
       <rect
          y="-8"
@@ -262,7 +262,7 @@
     </g>
     <g
        transform="translate(120,11)"
-       id="djvInPointRestIcon"
+       id="InPointRestIcon"
        inkscape:label="#g181">
       <rect
          y="-9"
@@ -285,7 +285,7 @@
     </g>
     <g
        transform="translate(140,11)"
-       id="djvOutPointResetIcon"
+       id="OutPointResetIcon"
        inkscape:label="#g204">
       <rect
          y="-9"
@@ -303,7 +303,7 @@
     </g>
     <g
        transform="translate(160,11)"
-       id="djvOutPointMarkButton"
+       id="OutPointMarkButton"
        inkscape:label="#g194">
       <rect
          y="-9"

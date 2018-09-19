@@ -16,9 +16,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    version="1.0"
-   sodipodi:docname="djvWindowIcons.svg"
+   sodipodi:docname="WindowIcons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="djvWindowNewIcon.png"
+   inkscape:export-filename="WindowNewIcon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -161,7 +161,7 @@
      id="layer1"
      transform="translate(0,3)">
     <g
-       id="djvWindowNewIcon"
+       id="WindowNewIcon"
        inkscape:label="#g3170">
       <rect
          y="-2.9999995"
@@ -193,7 +193,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       id="djvWindowCloseIcon"
+       id="WindowCloseIcon"
        transform="translate(25)"
        inkscape:label="#g3219">
       <rect
@@ -226,7 +226,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       id="djvWindowCopyIcon"
+       id="WindowCopyIcon"
        transform="translate(50)"
        inkscape:label="#g3213">
       <rect
@@ -266,7 +266,7 @@
          y="8" />
     </g>
     <g
-       id="djvWindowFitIcon"
+       id="WindowFitIcon"
        transform="translate(75)"
        inkscape:label="#g3232">
       <rect
@@ -304,7 +304,7 @@
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="djvWindowFullScreenIcon"
+       id="WindowFullScreenIcon"
        transform="translate(100)"
        inkscape:label="#g3244">
       <rect
