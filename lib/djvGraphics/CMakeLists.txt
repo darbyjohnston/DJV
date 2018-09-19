@@ -207,7 +207,6 @@ include_directories(
 add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 target_link_libraries(djvGraphics
     djvCore
-    Qt5
     IlmBase_static
     ${OPENGL_LIBRARIES})
 set_target_properties(djvGraphics PROPERTIES FOLDER lib CXX_STANDARD 11)

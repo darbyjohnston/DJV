@@ -102,24 +102,24 @@ namespace djv
 
             connect(
                 context->viewPrefs(),
-                SIGNAL(gridColorChanged(const djv::Core::Color &)),
-                SLOT(setGridColor(const djv::Core::Color &)));
+                SIGNAL(gridColorChanged(const djv::Graphics::Color &)),
+                SLOT(setGridColor(const djv::Graphics::Color &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudInfoChanged(const QVector<bool> &)),
                 SLOT(hudInfoCallback(const QVector<bool> &)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudColorChanged(const djv::Core::Color &)),
-                SLOT(setHudColor(const djv::Core::Color &)));
+                SIGNAL(hudColorChanged(const djv::Graphics::Color &)),
+                SLOT(setHudColor(const djv::Graphics::Color &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudBackgroundChanged(djv::ViewLib::Util::HUD_BACKGROUND)),
                 SLOT(setHudBackground(djv::ViewLib::Util::HUD_BACKGROUND)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudBackgroundColorChanged(const djv::Core::Color &)),
-                SLOT(setHudBackgroundColor(const djv::Core::Color &)));
+                SIGNAL(hudBackgroundColorChanged(const djv::Graphics::Color &)),
+                SLOT(setHudBackgroundColor(const djv::Graphics::Color &)));
             connect(
                 context->timePrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),

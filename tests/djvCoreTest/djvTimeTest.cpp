@@ -133,9 +133,9 @@ namespace djv
                 const struct Data
                 {
                     QString a;
-                    qint64  b = 0;
+                    qint64  b;
                     Speed   speed;
-                    bool    ok = false;
+                    bool    ok;
                 }
                 data[] =
                 {
@@ -236,9 +236,9 @@ namespace djv
             {
                 const struct Data
                 {
-                    qint64 frame = 0;
+                    qint64 frame;
                     Speed  speed;
-                    bool   ok = false;
+                    bool   ok;
                 }
                 data[] =
                 {

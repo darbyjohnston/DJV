@@ -103,11 +103,11 @@ namespace djv
 
             connect(
                 context->filePrefs(),
-                SIGNAL(recentChanged(const djvFileInfoList &)),
+                SIGNAL(recentChanged(const djv::Core::FileInfoList &)),
                 SLOT(update()));
             connect(
                 context->shortcutPrefs(),
-                SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
+                SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(update()));
             connect(
                 context->style(),

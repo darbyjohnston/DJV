@@ -310,8 +310,8 @@ namespace djv
                 SLOT(sizeCallback(int)));
             connect(
                 _p->maskWidget,
-                SIGNAL(maskChanged(const djvPixel::Mask &)),
-                SLOT(maskCallback(const djvPixel::Mask &)));
+                SIGNAL(maskChanged(const djv::Graphics::Pixel::Mask &)),
+                SLOT(maskCallback(const djv::Graphics::Pixel::Mask &)));
             connect(
                 _p->colorProfileButton,
                 SIGNAL(toggled(bool)),

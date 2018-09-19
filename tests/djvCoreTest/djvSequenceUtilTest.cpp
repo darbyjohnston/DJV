@@ -56,9 +56,9 @@ namespace djv
             DJV_DEBUG("SequenceUtilTest::frameToString");
             const struct Data
             {
-                qint64  a = 0;
+                qint64  a;
                 QString b;
-                int     pad = 0;
+                int     pad;
             }
             data[] =
             {

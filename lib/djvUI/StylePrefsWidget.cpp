@@ -178,24 +178,24 @@ namespace djv
                 SLOT(colorCallback(int)));
             connect(
                 _p->colorForegroundWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(colorForegroundCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(colorForegroundCallback(const djv::Graphics::Color &)));
             connect(
                 _p->colorBackgroundWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(colorBackgroundCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(colorBackgroundCallback(const djv::Graphics::Color &)));
             connect(
                 _p->colorBackground2Widget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(colorBackground2Callback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(colorBackground2Callback(const djv::Graphics::Color &)));
             connect(
                 _p->colorButtonWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(colorButtonCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(colorButtonCallback(const djv::Graphics::Color &)));
             connect(
                 _p->colorSelectWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(colorSelectCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(colorSelectCallback(const djv::Graphics::Color &)));
             connect(
                 _p->colorSwatchTransparencyWidget,
                 SIGNAL(toggled(bool)),

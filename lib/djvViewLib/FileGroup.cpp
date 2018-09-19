@@ -220,8 +220,8 @@ namespace djv
             // Setup the preferences callbacks.
             connect(
                 context->filePrefs(),
-                SIGNAL(proxyChanged(djvPixelDataInfo::PROXY)),
-                SLOT(setProxy(djvPixelDataInfo::PROXY)));
+                SIGNAL(proxyChanged(djv::Graphics::PixelDataInfo::PROXY)),
+                SLOT(setProxy(djv::Graphics::PixelDataInfo::PROXY)));
             connect(
                 context->filePrefs(),
                 SIGNAL(u8ConversionChanged(bool)),

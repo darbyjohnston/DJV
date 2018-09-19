@@ -211,8 +211,8 @@ namespace djv
             // Setup the LUT callbacks.
             connect(
                 _p->lutWidget,
-                SIGNAL(fileInfoChanged(const djvFileInfo &)),
-                SLOT(lutCallback(const djvFileInfo &)));
+                SIGNAL(fileInfoChanged(const djv::Core::FileInfo &)),
+                SLOT(lutCallback(const djv::Core::FileInfo &)));
 
             // Setup the color callbacks.
             connect(

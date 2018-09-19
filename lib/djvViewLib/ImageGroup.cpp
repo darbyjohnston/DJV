@@ -198,8 +198,8 @@ namespace djv
             // Setup preferences callbacks.
             connect(
                 context->imagePrefs(),
-                SIGNAL(mirrorChanged(djvPixelDataInfo::Mirror)),
-                SLOT(mirrorCallback(djvPixelDataInfo::Mirror)));
+                SIGNAL(mirrorChanged(djv::Graphics::PixelDataInfo::Mirror)),
+                SLOT(mirrorCallback(djv::Graphics::PixelDataInfo::Mirror)));
             connect(
                 context->imagePrefs(),
                 SIGNAL(scaleChanged(djv::ViewLib::Util::IMAGE_SCALE)),
@@ -218,8 +218,8 @@ namespace djv
                 SLOT(setDisplayProfile(const djv::ViewLib::DisplayProfile &)));
             connect(
                 context->imagePrefs(),
-                SIGNAL(channelChanged(djvOpenGLImageOptions::CHANNEL)),
-                SLOT(channelCallback(djvOpenGLImageOptions::CHANNEL)));
+                SIGNAL(channelChanged(djv::Graphics::OpenGLImageOptions::CHANNEL)),
+                SLOT(channelCallback(djv::Graphics::OpenGLImageOptions::CHANNEL)));
         }
 
         ImageGroup::~ImageGroup()

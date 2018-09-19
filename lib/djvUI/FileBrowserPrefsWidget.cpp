@@ -268,8 +268,8 @@ namespace djv
                 SLOT(moveBookmarkDownCallback()));
             connect(
                 _p->shortcutsWidget,
-                SIGNAL(shortcutsChanged(const QVector<Shortcut> &)),
-                SLOT(shortcutsCallback(const QVector<Shortcut> &)));
+                SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
+                SLOT(shortcutsCallback(const QVector<djv::UI::Shortcut> &)));
             connect(
                 context->fileBrowserPrefs(),
                 SIGNAL(prefChanged()),

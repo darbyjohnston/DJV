@@ -63,11 +63,11 @@ namespace djv
 
         private Q_SLOTS:
             void colorCallback(int);
-            void colorForegroundCallback(const Graphics::Color &);
-            void colorBackgroundCallback(const Graphics::Color &);
-            void colorBackground2Callback(const Graphics::Color &);
-            void colorButtonCallback(const Graphics::Color &);
-            void colorSelectCallback(const Graphics::Color &);
+            void colorForegroundCallback(const djv::Graphics::Color &);
+            void colorBackgroundCallback(const djv::Graphics::Color &);
+            void colorBackground2Callback(const djv::Graphics::Color &);
+            void colorButtonCallback(const djv::Graphics::Color &);
+            void colorSelectCallback(const djv::Graphics::Color &);
             void colorSwatchTransparencyCallback(bool);
             void sizeCallback(int);
             void sizeValueCallback(int);

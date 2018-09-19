@@ -195,16 +195,16 @@ namespace djv
                 SLOT(zoomFactorCallback(int)));
             connect(
                 _p->backgroundColorWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(backgroundCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(backgroundCallback(const djv::Graphics::Color &)));
             connect(
                 _p->gridWidget,
                 SIGNAL(currentIndexChanged(int)),
                 SLOT(gridCallback(int)));
             connect(
                 _p->gridColorWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(gridColorCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(gridColorCallback(const djv::Graphics::Color &)));
             connect(
                 _p->hudEnabledWidget,
                 SIGNAL(toggled(bool)),
@@ -215,16 +215,16 @@ namespace djv
                 SLOT(hudInfoCallback(QListWidgetItem *)));
             connect(
                 _p->hudColorWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(hudColorCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(hudColorCallback(const djv::Graphics::Color &)));
             connect(
                 _p->hudBackgroundWidget,
                 SIGNAL(currentIndexChanged(int)),
                 SLOT(hudBackgroundCallback(int)));
             connect(
                 _p->hudBackgroundColorWidget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(hudBackgroundColorCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(hudBackgroundColorCallback(const djv::Graphics::Color &)));
         }
 
         ViewPrefsWidget::~ViewPrefsWidget()

@@ -102,7 +102,7 @@ namespace djv
             const struct Data
             {
                 Speed speed;
-                float value = 0.f;
+                float value;
             }
             data[] =
             {

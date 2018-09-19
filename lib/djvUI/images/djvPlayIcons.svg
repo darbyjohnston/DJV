@@ -106,7 +106,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.4"
-     inkscape:cx="63.156775"
+     inkscape:cx="81.748762"
      inkscape:cy="10.795455"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -272,7 +272,7 @@
     </g>
     <g
        transform="translate(135,11)"
-       id="djvPlayPingPongIcon"
+       id="djvPlayLoopPingPongIcon"
        inkscape:label="#g1012">
       <rect
          y="-9"

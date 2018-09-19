@@ -169,8 +169,8 @@ namespace djv
                 SLOT(pickCallback(const glm::ivec2 &)));
             connect(
                 _p->widget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(widgetCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(widgetCallback(const djv::Graphics::Color &)));
             connect(
                 _p->sizeSlider,
                 SIGNAL(valueChanged(int)),

@@ -62,7 +62,7 @@ namespace djv
 
         private Q_SLOTS:
             void sizeCallback(int);
-            void maskCallback(const Graphics::Pixel::Mask &);
+            void maskCallback(const djv::Graphics::Pixel::Mask &);
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);
 

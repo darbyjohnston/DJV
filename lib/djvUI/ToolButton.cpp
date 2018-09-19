@@ -161,19 +161,21 @@ namespace djv
             if (isChecked())
                 state = QIcon::On;
             const QPixmap & pixmap = icon().pixmap(width(), height(), mode, state);
+            if (!pixmap.isNull())
+            {
+                QImage image(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
+                image.fill(Qt::transparent);
+                QPainter imagePainter(&image);
+                imagePainter.drawPixmap(0, 0, pixmap);
+                imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
+                imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), QPalette().foreground());
 
-            QImage image(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
-            image.fill(Qt::transparent);
-            QPainter imagePainter(&image);
-            imagePainter.drawPixmap(0, 0, pixmap);
-            imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
-            imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), QPalette().foreground());
-
-            QPainter painter(this);
-            painter.drawImage(
-                width() / 2 - image.width() / 2,
-                height() / 2 - image.height() / 2,
-                image);
+                QPainter painter(this);
+                painter.drawImage(
+                    width() / 2 - image.width() / 2,
+                    height() / 2 - image.height() / 2,
+                    image);
+            }
         }
 
         void ToolButton::sizeUpdate()

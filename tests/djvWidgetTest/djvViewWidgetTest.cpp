@@ -36,6 +36,7 @@
 #include <djvViewLib/MiscWidget.h>
 
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
 #include <djvUI/TimePrefs.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
@@ -77,17 +78,23 @@ namespace djv
             _frameWidget = new ViewLib::FrameWidget(context);
 
             _frameSlider = new ViewLib::FrameSlider(context);
+            
+            const int iconDPI = context->style()->sizeMetric().iconDPI;
 
-            UI::ToolButton * markInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointMarkIcon.png"));
-            UI::ToolButton * markOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointMarkIcon.png"));
-            UI::ToolButton * resetInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointResetIcon.png"));
-            UI::ToolButton * resetOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointResetIcon.png"));
+            UI::ToolButton * markInPointButton = new UI::ToolButton(context);
+            markInPointButton->setIcon(context->iconLibrary()->icon("djvInPointMarkIcon", iconDPI));
+            UI::ToolButton * markOutPointButton = new UI::ToolButton(context);
+            markOutPointButton->setIcon(context->iconLibrary()->icon("djvOutPointMarkIcon", iconDPI));
+            UI::ToolButton * resetInPointButton = new UI::ToolButton(context);
+            resetInPointButton->setIcon(context->iconLibrary()->icon("djvInPointResetIcon", iconDPI));
+            UI::ToolButton * resetOutPointButton = new UI::ToolButton(context);
+            resetOutPointButton->setIcon(context->iconLibrary()->icon("djvOutPointResetIcon", iconDPI));
 
             _frameDisplay = new ViewLib::FrameDisplay(context);
 
             _speedWidget = new ViewLib::SpeedWidget(context);
 
-            _speedDisplay = new ViewLib::SpeedDisplay;
+            _speedDisplay = new ViewLib::SpeedDisplay(context);
 
             QGridLayout * layout = new QGridLayout(this);
             layout->setColumnStretch(3, 1);

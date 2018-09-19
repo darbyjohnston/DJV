@@ -69,7 +69,7 @@ namespace djv
             void removeBookmarkCallback();
             void moveBookmarkUpCallback();
             void moveBookmarkDownCallback();
-            void shortcutsCallback(const QVector<Shortcut> &);
+            void shortcutsCallback(const QVector<djv::UI::Shortcut> &);
 
             void sizeUpdate();
             void widgetUpdate();

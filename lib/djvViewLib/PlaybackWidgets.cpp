@@ -95,10 +95,6 @@ namespace djv
                 _p->shuttle,
                 SIGNAL(valueChanged(int)),
                 SIGNAL(shuttleChanged(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
         }
 
         PlaybackButtons::~PlaybackButtons()
@@ -133,7 +129,7 @@ namespace djv
 
             connect(
                 context->shortcutPrefs(),
-                SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
+                SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(widgetUpdate()));
         }
 

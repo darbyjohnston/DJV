@@ -182,8 +182,8 @@ namespace djv
                 SIGNAL(playbackShuttleValue(int)));
             connect(
                 _p->speedWidget,
-                SIGNAL(speedChanged(const djvSpeed &)),
-                SIGNAL(speedChanged(const djvSpeed &)));
+                SIGNAL(speedChanged(const djv::Core::Speed &)),
+                SIGNAL(speedChanged(const djv::Core::Speed &)));
             connect(
                 _p->frameWidget,
                 SIGNAL(frameChanged(qint64)),
@@ -230,10 +230,6 @@ namespace djv
                 _p->frameButtons,
                 SIGNAL(released()),
                 SIGNAL(frameButtonsReleased()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
         }
 
         PlaybackToolBar::~PlaybackToolBar()

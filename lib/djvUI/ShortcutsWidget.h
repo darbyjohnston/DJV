@@ -69,11 +69,11 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the list of shortcuts.
-            void setShortcuts(const QVector<Shortcut> &);
+            void setShortcuts(const QVector<djv::UI::Shortcut> &);
 
         Q_SIGNALS:
             //! This signal is emitted when the list of shortcuts are changed.
-            void shortcutsChanged(const QVector<Shortcut> &);
+            void shortcutsChanged(const QVector<djv::UI::Shortcut> &);
 
         private:
             DJV_PRIVATE_COPY(ShortcutsWidget);

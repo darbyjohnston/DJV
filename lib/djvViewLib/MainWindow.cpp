@@ -196,12 +196,12 @@ namespace djv
                 SLOT(reloadFrameCallback()));
             connect(
                 _p->fileGroup,
-                SIGNAL(save(const djvFileInfo &)),
-                SLOT(saveCallback(const djvFileInfo &)));
+                SIGNAL(save(const djv::Core::FileInfo &)),
+                SLOT(saveCallback(const djv::Core::FileInfo &)));
             connect(
                 _p->fileGroup,
-                SIGNAL(saveFrame(const djvFileInfo &)),
-                SLOT(saveFrameCallback(const djvFileInfo &)));
+                SIGNAL(saveFrame(const djv::Core::FileInfo &)),
+                SLOT(saveFrameCallback(const djv::Core::FileInfo &)));
 
             // Setup the image group callbacks.
             connect(
@@ -246,7 +246,7 @@ namespace djv
                 SLOT(imageUpdate()));
             connect(
                 _p->playbackGroup,
-                SIGNAL(sequenceChanged(const djvSequence &)),
+                SIGNAL(sequenceChanged(const djv::Core::Sequence &)),
                 SLOT(viewOverlayUpdate()));
             connect(
                 _p->playbackGroup,
@@ -254,7 +254,7 @@ namespace djv
                 SLOT(viewOverlayUpdate()));
             connect(
                 _p->playbackGroup,
-                SIGNAL(speedChanged(const djvSpeed &)),
+                SIGNAL(speedChanged(const djv::Core::Speed &)),
                 SLOT(viewOverlayUpdate()));
             connect(
                 _p->playbackGroup,
@@ -284,8 +284,8 @@ namespace djv
                 SLOT(mouseWheelValueCallback(int)));
             connect(
                 _p->viewWidget,
-                SIGNAL(fileDropped(const djvFileInfo &)),
-                SLOT(fileOpen(const djvFileInfo &)));
+                SIGNAL(fileDropped(const djv::Core::FileInfo &)),
+                SLOT(fileOpen(const djv::Core::FileInfo &)));
 
             // Setup the preferences callbacks.
             connect(

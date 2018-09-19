@@ -80,8 +80,8 @@ namespace djv
             // Setup the callbacks.
             connect(
                 _p->shortcutsWidget,
-                SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
-                SLOT(shortcutsCallback(const QVector<djvShortcut> &)));
+                SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
+                SLOT(shortcutsCallback(const QVector<djv::UI::Shortcut> &)));
         }
 
         ShortcutPrefsWidget::~ShortcutPrefsWidget()

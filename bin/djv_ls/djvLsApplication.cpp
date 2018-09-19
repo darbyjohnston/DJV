@@ -206,7 +206,7 @@ namespace djv
                     arg(Core::FileInfo::typeLabels()[in.type()], 4).
                     arg(Core::Memory::sizeLabel(in.size())).
 #if ! defined(DJV_WINDOWS)
-                    arg(djvUser::uidToString(in.user())).
+                    arg(Core::User::uidToString(in.user())).
 #endif // DJV_WINDOWS
                     arg(Core::FileInfo::permissionsLabel(in.permissions()), 3).
                     arg(Core::Time::timeToString(in.time()));

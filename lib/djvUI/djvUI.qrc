@@ -64,10 +64,10 @@
     <file alias="djvPlayInOutIcon96DPI.png">images/djvPlayInOutIcon96DPI.png</file>
     <file alias="djvPlayLoopOnceIcon192DPI.png">images/djvPlayLoopOnceIcon192DPI.png</file>
     <file alias="djvPlayLoopOnceIcon96DPI.png">images/djvPlayLoopOnceIcon96DPI.png</file>
+    <file alias="djvPlayLoopPingPongIcon192DPI.png">images/djvPlayLoopPingPongIcon192DPI.png</file>
+    <file alias="djvPlayLoopPingPongIcon96DPI.png">images/djvPlayLoopPingPongIcon96DPI.png</file>
     <file alias="djvPlayLoopRepeatIcon192DPI.png">images/djvPlayLoopRepeatIcon192DPI.png</file>
     <file alias="djvPlayLoopRepeatIcon96DPI.png">images/djvPlayLoopRepeatIcon96DPI.png</file>
-    <file alias="djvPlayPingPongIcon192DPI.png">images/djvPlayPingPongIcon192DPI.png</file>
-    <file alias="djvPlayPingPongIcon96DPI.png">images/djvPlayPingPongIcon96DPI.png</file>
     <file alias="djvPlayReverseIcon192DPI.png">images/djvPlayReverseIcon192DPI.png</file>
     <file alias="djvPlayReverseIcon96DPI.png">images/djvPlayReverseIcon96DPI.png</file>
     <file alias="djvPlayStopIcon192DPI.png">images/djvPlayStopIcon192DPI.png</file>
