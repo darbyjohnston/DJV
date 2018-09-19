@@ -34,6 +34,8 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
+#include <djvUI/Style.h>
+
 #include <djvCore/DebugLog.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfoUtil.h>
@@ -109,10 +111,10 @@ namespace djv
             //DJV_DEBUG("Application::work");
 
             // Initialize user interface.
-            DJV_LOG(_p->context->debugLog(), "djv::view::Application",
-                "Initialize user interface...");
+            DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Initialize user interface...");
             _p->context->setValid(true);
             setStyle("fusion");
+            setStyle(new UI::ProxyStyle);
             setWindowIcon(QPixmap(":projector32x32.png"));
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
 

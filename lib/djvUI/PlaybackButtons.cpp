@@ -57,7 +57,6 @@ namespace djv
 
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
-            layout->setSpacing(0);
 
             for (int i = 0; i < PlaybackUtil::PLAYBACK_COUNT; ++i)
             {

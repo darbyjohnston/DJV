@@ -70,7 +70,6 @@ namespace djv
 
             QVBoxLayout * layout = new QVBoxLayout(this);
             layout->setMargin(0);
-            layout->setSpacing(0);
             layout->addWidget(_p->groupBox);
 
             _p->layout = new QVBoxLayout(_p->groupBox);

@@ -97,7 +97,6 @@ namespace djv
 
             _p->bottomLayout = new QHBoxLayout;
             _p->bottomLayout->setMargin(0);
-            _p->bottomLayout->setSpacing(0);
             _p->bottomLayout->addStretch();
             _p->bottomLayout->addWidget(_p->formatWidget);
             _p->bottomLayout->addWidget(_p->typeWidget);

@@ -133,7 +133,6 @@ namespace djv
 
             QHBoxLayout * hLayout2 = new QHBoxLayout;
             hLayout2->setMargin(0);
-            hLayout2->setSpacing(0);
             hLayout2->addWidget(_p->colorProfileButton);
             hLayout2->addWidget(_p->displayProfileButton);
             hLayout->addLayout(hLayout2);

@@ -363,7 +363,6 @@ namespace djv
                 hLayout->setMargin(0);
                 QHBoxLayout * hLayout2 = new QHBoxLayout;
                 hLayout2->setMargin(0);
-                hLayout2->setSpacing(0);
                 hLayout2->addWidget(_p->speedWidget);
                 hLayout2->addWidget(_p->realSpeedDisplay);
                 hLayout2->addWidget(_p->everyFrameButton);
@@ -387,7 +386,6 @@ namespace djv
                 hLayout->setMargin(0);
                 hLayout->addWidget(_p->frameWidget);
                 hLayout2 = new QHBoxLayout;
-                hLayout2->setSpacing(0);
                 hLayout2->setMargin(0);
                 hLayout2->addWidget(_p->markInPointButton);
                 hLayout2->addWidget(_p->resetInPointButton);
@@ -396,7 +394,6 @@ namespace djv
                 if (Util::LAYOUT_DEFAULT == _p->layout)
                     hLayout->addStretch(1000);
                 hLayout2 = new QHBoxLayout;
-                hLayout2->setSpacing(0);
                 hLayout2->setMargin(0);
                 hLayout2->addWidget(_p->endWidget);
                 hLayout2->addWidget(_p->resetOutPointButton);
@@ -419,7 +416,6 @@ namespace djv
 
                 QHBoxLayout * hLayout = new QHBoxLayout;
                 hLayout->setMargin(0);
-                hLayout->setSpacing(0);
                 hLayout->addStretch(1000);
                 hLayout->addWidget(_p->frameWidget);
                 hLayout->addWidget(_p->markInPointButton);

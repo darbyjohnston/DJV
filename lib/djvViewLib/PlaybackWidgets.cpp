@@ -82,7 +82,6 @@ namespace djv
 
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
-            layout->setSpacing(0);
             Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
                 layout->addWidget(button);
             layout->addWidget(_p->shuttle);
@@ -122,7 +121,6 @@ namespace djv
 
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
-            layout->setSpacing(0);
             layout->addWidget(_p->button);
 
             widgetUpdate();
@@ -187,7 +185,6 @@ namespace djv
 
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
-            layout->setSpacing(0);
             Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
                 layout->addWidget(button);
             layout->addWidget(_p->shuttle);

@@ -38,7 +38,9 @@
 #include <QApplication>
 #include <QColor>
 #include <QFont>
+#include <QPainter>
 #include <QPalette>
+#include <QStyleOption>
 
 namespace djv
 {
@@ -466,6 +468,7 @@ namespace djv
             palette.setColor(
                 QPalette::Highlight,
                 toQColor(_p->palettes[_p->palettesIndex].select));
+
             qApp->setPalette(palette);
         }
 
@@ -483,6 +486,30 @@ namespace djv
             QFont font = _p->fonts.normal;
             font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
             qApp->setFont(font);
+        }
+
+        void ProxyStyle::drawControl(
+            ControlElement element,
+            const QStyleOption * option,
+            QPainter * painter,
+            const QWidget * widget) const   
+        {
+            if (CE_ToolBar == element)
+            {
+            }
+            else
+            {
+                QProxyStyle::drawControl(element, option, painter, widget);
+            }
+        }
+        
+        void ProxyStyle::drawPrimitive(
+            PrimitiveElement element,
+            const QStyleOption * option,
+            QPainter * painter,
+            const QWidget * widget) const
+        {
+            QProxyStyle::drawPrimitive(element, option, painter, widget);
         }
 
     } // namespace UI

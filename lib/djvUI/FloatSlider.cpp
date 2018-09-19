@@ -106,7 +106,6 @@ namespace djv
             _p->slider->setRange(0, steps);
 
             QHBoxLayout * layout = new QHBoxLayout(this);
-            layout->setSpacing(0);
             layout->setMargin(0);
             layout->addWidget(_p->slider);
 

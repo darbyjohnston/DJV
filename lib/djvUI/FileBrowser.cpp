@@ -295,7 +295,6 @@ namespace djv
 
             QHBoxLayout * hLayout2 = new QHBoxLayout;
             hLayout2->setMargin(0);
-            hLayout2->setSpacing(0);
             hLayout2->addWidget(_p->widgets.up);
             hLayout2->addWidget(_p->widgets.prev);
             hLayout2->addWidget(_p->widgets.reload);

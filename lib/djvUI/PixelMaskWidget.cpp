@@ -66,7 +66,6 @@ namespace djv
 
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
-            layout->setSpacing(0);
             layout->addWidget(_p->button);
 
             sizeUpdate();

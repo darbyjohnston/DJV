@@ -80,7 +80,6 @@ namespace djv
             vLayout->setMargin(20);
             vLayout->addWidget(_p->labelWidget);
             _p->buttonLayout = new QVBoxLayout;
-            _p->buttonLayout->setSpacing(0);
             vLayout->addLayout(_p->buttonLayout);
             layout->addLayout(vLayout);
             layout->addWidget(buttonBox);

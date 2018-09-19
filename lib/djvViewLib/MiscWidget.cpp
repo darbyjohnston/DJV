@@ -1018,7 +1018,6 @@ namespace djv
 
             // Layout the widgets.
             QHBoxLayout * layout = new QHBoxLayout(this);
-            layout->setSpacing(0);
             layout->setMargin(0);
             layout->addWidget(_p->floatEdit, 1);
             layout->addWidget(_p->button);

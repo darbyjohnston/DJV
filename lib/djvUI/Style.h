@@ -37,6 +37,7 @@
 
 #include <djvCore/Util.h>
 
+#include <QProxyStyle>
 #include <QObject>
 #include <QFont>
 
@@ -209,6 +210,15 @@ namespace djv
 
             struct Private;
             std::unique_ptr<Private> _p;
+        };
+
+        class ProxyStyle : public QProxyStyle
+        {        
+            Q_OBJECT
+
+        public:
+            void drawControl(ControlElement, const QStyleOption *, QPainter *, const QWidget *) const override;
+            void drawPrimitive(PrimitiveElement, const QStyleOption *, QPainter *, const QWidget *) const override;
         };
 
     } // namespace UI
