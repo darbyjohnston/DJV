@@ -2,15 +2,7 @@ set(header)
 set(source
     djvTest.cpp)
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}/tests/djvTest
-    ${CMAKE_SOURCE_DIR}/tests/djvViewLibTest
-    ${CMAKE_SOURCE_DIR}/tests/djvUITest
-    ${CMAKE_SOURCE_DIR}/tests/djvGraphicsTest
-    ${CMAKE_SOURCE_DIR}/tests/djvCoreTest
-    ${CMAKE_SOURCE_DIR}/tests/djvTestLib
-    ${OPENGL_INCLUDE_DIRS})
-
+include_directories(${OPENGL_INCLUDE_DIRS})
 add_executable(djvTest ${header} ${source})
 target_link_libraries(
     djvTest

@@ -1,10 +1,9 @@
 set(header
-    djvViewLibTest.h)
+    ViewLibTest.h)
 set(source
-    djvViewLibTest.cpp)
+    ViewLibTest.cpp)
 
-include_directories(
-    ${OPENGL_INCLUDE_DIRS})
+include_directories(${OPENGL_INCLUDE_DIRS})
 add_library(djvViewLibTest ${header} ${source})
 target_link_libraries(djvViewLibTest djvTestLib djvViewLib)
 set_target_properties(djvViewLibTest PROPERTIES FOLDER tests CXX_STANDARD 11)
