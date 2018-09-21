@@ -48,20 +48,20 @@ class djvFFmpegPlugin : public djvImageIO
 public:
     explicit djvFFmpegPlugin(djvCoreContext *);
     
-    virtual void initPlugin() throw (djvError);
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
-    virtual bool isSequence() const;
+    void initPlugin() override;
+    QString pluginName() const override;
+    QStringList extensions() const override;
+    bool isSequence() const override;
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+    QStringList option(const QString &) const override;
+    bool setOption(const QString &, QStringList &) override;
+    QStringList options() const override;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
+    void commandLine(QStringList &) override;
+    QString commandLineHelp() const override;
     
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+    djvImageLoad * createLoad() const override;
+    djvImageSave * createSave() const override;
 
 private:
     djvFFmpeg::Options _options;

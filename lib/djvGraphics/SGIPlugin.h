@@ -56,18 +56,18 @@ namespace djv
         public:
             explicit SGIPlugin(Core::CoreContext *);
 
-            virtual QString pluginName() const;
-            virtual QStringList extensions() const;
+            QString pluginName() const override;
+            QStringList extensions() const override;
 
-            virtual QStringList option(const QString &) const;
-            virtual bool setOption(const QString &, QStringList &);
-            virtual QStringList options() const;
+            QStringList option(const QString &) const override;
+            bool setOption(const QString &, QStringList &) override;
+            QStringList options() const override;
 
-            virtual void commandLine(QStringList &) throw (QString);
-            virtual QString commandLineHelp() const;
+            void commandLine(QStringList &) throw (QString) override;
+            QString commandLineHelp() const override;
 
-            virtual ImageLoad * createLoad() const;
-            virtual ImageSave * createSave() const;
+            ImageLoad * createLoad() const override;
+            ImageSave * createSave() const override;
 
         private:
             SGI::Options _options;

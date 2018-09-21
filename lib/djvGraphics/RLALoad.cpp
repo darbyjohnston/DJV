@@ -46,7 +46,6 @@ namespace djv
         {}
 
         void RLALoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("RLALoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -60,7 +59,6 @@ namespace djv
         }
 
         void RLALoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("RLALoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -222,7 +220,6 @@ namespace djv
         } // namespace
 
         void RLALoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
-            throw (Core::Error)
         {
             //DJV_DEBUG("djvRLALoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

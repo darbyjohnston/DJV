@@ -46,7 +46,7 @@ namespace djv
             ImageIO(context)
         {}
 
-        void LUTPlugin::commandLine(QStringList & in) throw (QString)
+        void LUTPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

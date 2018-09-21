@@ -47,14 +47,13 @@ namespace djv
         {
         public:
             explicit RLALoad(Core::CoreContext *);
-
             virtual ~RLALoad();
 
-            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            void open(const Core::FileInfo &, ImageIOInfo &) override;
+            void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
+            void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
             Core::FileInfo      _file;
             std::vector<qint32> _rleOffset;

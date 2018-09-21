@@ -55,11 +55,11 @@ namespace djv
         public:
             explicit IFLPlugin(Core::CoreContext *);
 
-            virtual QString pluginName() const;
-            virtual QStringList extensions() const;
-            virtual bool isSequence() const;
+            QString pluginName() const override;
+            QStringList extensions() const override;
+            bool isSequence() const override;
 
-            virtual ImageLoad * createLoad() const;
+            ImageLoad * createLoad() const override;
         };
 
     } // namespace Graphics

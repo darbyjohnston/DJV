@@ -52,7 +52,6 @@ namespace djv
         {}
 
         void PICLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PICLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -66,7 +65,6 @@ namespace djv
         }
 
         void PICLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PICLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -262,7 +260,6 @@ namespace djv
         } /// namespace
 
         void PICLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PICLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

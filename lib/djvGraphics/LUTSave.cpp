@@ -49,7 +49,6 @@ namespace djv
         {}
 
         void LUTSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("LUTSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -73,7 +72,6 @@ namespace djv
         }
 
         void LUTSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("LUTSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

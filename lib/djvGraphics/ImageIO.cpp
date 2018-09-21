@@ -107,7 +107,7 @@ namespace djv
         ImageLoad::~ImageLoad()
         {}
 
-        void ImageLoad::close() throw (Core::Error)
+        void ImageLoad::close()
         {}
 
         Core::CoreContext * ImageLoad::context() const
@@ -122,7 +122,7 @@ namespace djv
         ImageSave::~ImageSave()
         {}
 
-        void ImageSave::close() throw (Core::Error)
+        void ImageSave::close()
         {}
 
         Core::CoreContext * ImageSave::context() const
@@ -162,7 +162,7 @@ namespace djv
             return QStringList();
         }
 
-        void ImageIO::commandLine(QStringList &) throw (QString)
+        void ImageIO::commandLine(QStringList &)
         {}
 
         QString ImageIO::commandLineHelp() const
@@ -261,7 +261,7 @@ namespace djv
 
         ImageLoad * ImageIOFactory::load(
             const Core::FileInfo & fileInfo,
-            ImageIOInfo &          imageIOInfo) const throw (Core::Error)
+            ImageIOInfo &          imageIOInfo) const
         {
             //DJV_DEBUG("ImageIOFactory::load");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -292,7 +292,7 @@ namespace djv
 
         ImageSave * ImageIOFactory::save(
             const Core::FileInfo & fileInfo,
-            const ImageIOInfo & imageIOInfo) const throw (Core::Error)
+            const ImageIOInfo & imageIOInfo) const
         {
             //DJV_DEBUG("ImageIOFactory::save");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);

@@ -47,7 +47,6 @@ namespace djv
         {}
 
         void CineonSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("CineonSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -73,7 +72,6 @@ namespace djv
         }
 
         void CineonSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("CineonSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

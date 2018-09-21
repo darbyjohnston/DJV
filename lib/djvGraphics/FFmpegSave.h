@@ -50,16 +50,11 @@ class djvFFmpegSave : public djvImageSave
 {
 public:
     djvFFmpegSave(const djvFFmpeg::Options &, djvCoreContext *);
-
     virtual ~djvFFmpegSave();
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
-
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
-
-    virtual void close() throw (djvError);
+    void open(const djvFileInfo &, const djvImageIOInfo &) override;
+    void write(const djvImage &, const djvImageIOFrameInfo &) override;
+    void close() override;
 
 private:
     djvFFmpeg::Options _options;

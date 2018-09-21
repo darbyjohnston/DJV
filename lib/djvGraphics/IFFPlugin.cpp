@@ -97,7 +97,7 @@ namespace djv
             return IFF::optionsLabels();
         }
 
-        void IFFPlugin::commandLine(QStringList & in) throw (QString)
+        void IFFPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

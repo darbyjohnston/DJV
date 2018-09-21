@@ -47,7 +47,7 @@ namespace djv
             ImageIO(context)
         {}
 
-        void TIFFPlugin::initPlugin() throw (Core::Error)
+        void TIFFPlugin::initPlugin()
         {
             TIFFSetErrorHandler(0);
             TIFFSetWarningHandler(0);
@@ -102,7 +102,7 @@ namespace djv
             return TIFF::optionsLabels();
         }
 
-        void TIFFPlugin::commandLine(QStringList & in) throw (QString)
+        void TIFFPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

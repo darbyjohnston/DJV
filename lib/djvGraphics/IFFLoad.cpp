@@ -49,7 +49,6 @@ namespace djv
         {}
 
         void IFFLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("IFFLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -67,7 +66,6 @@ namespace djv
         }
 
         void IFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("IFFLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -498,7 +496,6 @@ namespace djv
         }
 
         void IFFLoad::_open(const Core::FileInfo & in, ImageIOInfo & info, Core::FileIO & io)
-            throw (Core::Error)
         {
             //DJV_DEBUG("IFFLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

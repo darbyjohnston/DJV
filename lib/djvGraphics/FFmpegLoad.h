@@ -36,29 +36,18 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvFFmpegPlugin
-//@{
-
-//------------------------------------------------------------------------------
 //! \class djvFFmpegLoad
 //!
 //! This class provides a FFmpeg loader.
-//------------------------------------------------------------------------------
-
 class djvFFmpegLoad : public djvImageLoad
 {
 public:
     explicit djvFFmpegLoad(djvCoreContext *);
-
     virtual ~djvFFmpegLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
-
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
-
-    virtual void close() throw (djvError);
+    void open(const djvFileInfo &, djvImageIOInfo &) override;
+    void read(djvImage &, const djvImageIOFrameInfo &) override;
+    void close() override;
 
 private:
     bool readFrame(int64_t & pts);

@@ -49,7 +49,6 @@ namespace djv
         }
 
         void TIFFLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -62,7 +61,6 @@ namespace djv
         }
 
         void TIFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -113,7 +111,7 @@ namespace djv
             close();
         }
 
-        void TIFFLoad::close() throw (Core::Error)
+        void TIFFLoad::close()
         {
             if (_f)
             {
@@ -123,7 +121,6 @@ namespace djv
         }
 
         void TIFFLoad::_open(const QString & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

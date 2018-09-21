@@ -50,13 +50,13 @@ namespace djv
         public:
             CineonSave(const Cineon::Options &, Core::CoreContext *);
 
-            virtual ~CineonSave();
+            ~CineonSave();
 
-            virtual void open(const Core::FileInfo &, const ImageIOInfo &)throw (Core::Error);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            void open(const Core::FileInfo &, const ImageIOInfo &) override;
+            void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
-            void _open(const QString &, const ImageIOInfo &) throw (Core::Error);
+            void _open(const QString &, const ImageIOInfo &);
 
             Cineon::Options _options;
             Core::FileInfo  _file;

@@ -47,7 +47,6 @@ namespace djv
         {}
 
         void SGISave::open(const Core::FileInfo & file, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("SGISave::open");
             //DJV_DEBUG_PRINT("file = " << file);
@@ -73,7 +72,6 @@ namespace djv
         }
 
         void SGISave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("SGISave::write");
             //DJV_DEBUG_PRINT("in = " << in);

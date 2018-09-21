@@ -48,15 +48,14 @@ namespace djv
         {
         public:
             JPEGSave(const JPEG::Options &, Core::CoreContext *);
-
             virtual ~JPEGSave();
 
-            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
-            virtual void close() throw (Core::Error);
+            void open(const Core::FileInfo &, const ImageIOInfo &) override;
+            void write(const Image &, const ImageIOFrameInfo &) override;
+            void close() override;
 
         private:
-            void _open(const QString &, const ImageIOInfo &) throw (Core::Error);
+            void _open(const QString &, const ImageIOInfo &);
 
             JPEG::Options                 _options;
             Core::FileInfo                _file;

@@ -48,7 +48,6 @@ namespace djv
         {}
 
         void PPMLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PPMLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -63,7 +62,6 @@ namespace djv
         }
 
         void PPMLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PPMLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -140,7 +138,6 @@ namespace djv
         }
 
         void PPMLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PPMLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

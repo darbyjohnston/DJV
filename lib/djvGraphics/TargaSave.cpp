@@ -46,7 +46,6 @@ namespace djv
         {}
 
         void TargaSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TargaSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -70,7 +69,6 @@ namespace djv
         }
 
         void TargaSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TargaSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

@@ -52,7 +52,6 @@ namespace djv
         }
 
         void JPEGLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -100,7 +99,6 @@ namespace djv
         } // namespace
 
         void JPEGLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -150,7 +148,7 @@ namespace djv
             close();
         }
 
-        void JPEGLoad::close() throw (Core::Error)
+        void JPEGLoad::close()
         {
             if (_jpegInit)
             {
@@ -205,7 +203,6 @@ namespace djv
         } // namespace
 
         void JPEGLoad::_open(const QString & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

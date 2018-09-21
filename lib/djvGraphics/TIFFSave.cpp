@@ -49,7 +49,6 @@ namespace djv
         }
 
         void TIFFSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -76,7 +75,6 @@ namespace djv
         }
 
         void TIFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -113,7 +111,7 @@ namespace djv
             close();
         }
 
-        void TIFFSave::close() throw (Core::Error)
+        void TIFFSave::close()
         {
             if (_f)
             {
@@ -123,7 +121,6 @@ namespace djv
         }
 
         void TIFFSave::_open(const QString & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);

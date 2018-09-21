@@ -96,7 +96,7 @@ namespace djv
 #endif // DJV_WINDOWS
                 }
 
-                void open(const QString & in) throw (QString)
+                void open(const QString & in)
                 {
 #if defined(DJV_WINDOWS)
                     _p = ::LoadLibrary(in.toLatin1().data());

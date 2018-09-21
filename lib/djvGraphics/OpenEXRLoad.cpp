@@ -62,7 +62,6 @@ namespace djv
         }
 
         void OpenEXRLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -76,7 +75,6 @@ namespace djv
         }
 
         void OpenEXRLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -227,7 +225,7 @@ namespace djv
             close();
         }
 
-        void OpenEXRLoad::close() throw (Core::Error)
+        void OpenEXRLoad::close()
         {
             delete _f;
 
@@ -235,7 +233,6 @@ namespace djv
         }
 
         void OpenEXRLoad::_open(const QString & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

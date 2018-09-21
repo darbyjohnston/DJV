@@ -49,7 +49,6 @@ namespace djv
         {}
 
         void PPMSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PPMSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -101,7 +100,6 @@ namespace djv
         }
 
         void PPMSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PPMSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -172,7 +170,7 @@ namespace djv
             }
         }
 
-        void PPMSave::_open(const QString & in, Core::FileIO & io) throw (Core::Error)
+        void PPMSave::_open(const QString & in, Core::FileIO & io)
         {
             //DJV_DEBUG("PPMSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);

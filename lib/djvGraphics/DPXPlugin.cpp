@@ -182,7 +182,7 @@ namespace djv
             return DPX::optionsLabels();
         }
 
-        void DPXPlugin::commandLine(QStringList & in) throw (QString)
+        void DPXPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

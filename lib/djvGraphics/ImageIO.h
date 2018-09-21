@@ -131,13 +131,22 @@ namespace djv
             virtual ~ImageLoad() = 0;
 
             //! Open an image.
-            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error) = 0;
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) = 0;
 
             //! Load an image.
-            virtual void read(Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) throw (Core::Error) = 0;
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void read(Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) = 0;
 
             //! Close the image.
-            virtual void close() throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void close();
 
             //! Get the context.
             Core::CoreContext * context() const;
@@ -157,13 +166,22 @@ namespace djv
             virtual ~ImageSave() = 0;
 
             //! Open an image.
-            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error) = 0;
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) = 0;
 
             //! Save an image.
-            virtual void write(const Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) throw (Core::Error) = 0;
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void write(const Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) = 0;
 
             //! Close the image.
-            virtual void close() throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void close();
 
             //! Get the context.
             Core::CoreContext * context() const;
@@ -200,7 +218,10 @@ namespace djv
             virtual QStringList options() const;
 
             //! Parse the command line.
-            virtual void commandLine(QStringList &) throw (QString);
+            //!
+            //! Throws:
+            //! - QString
+            virtual void commandLine(QStringList &);
 
             //! Get the command line help.
             virtual QString commandLineHelp() const;
@@ -253,10 +274,16 @@ namespace djv
             bool setOption(const QString & name, const QString &, QStringList &);
 
             //! Open an image for loading.
-            ImageLoad * load(const Core::FileInfo &, ImageIOInfo &) const throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            ImageLoad * load(const Core::FileInfo &, ImageIOInfo &) const;
 
             //! Open an image for saving.
-            ImageSave * save(const Core::FileInfo &, const ImageIOInfo &) const throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            ImageSave * save(const Core::FileInfo &, const ImageIOInfo &) const;
 
             //! This enumeration provides error codes.
             enum ERROR

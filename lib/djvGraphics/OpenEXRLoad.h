@@ -51,15 +51,14 @@ namespace djv
         {
         public:
             OpenEXRLoad(const OpenEXR::Options &, Core::CoreContext *);
-
             virtual ~OpenEXRLoad();
 
-            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
-            virtual void close() throw (Core::Error);
+            void open(const Core::FileInfo &, ImageIOInfo &) override;
+            void read(Image &, const ImageIOFrameInfo &) override;
+            void close() override;
 
         private:
-            void _open(const QString &, ImageIOInfo &) throw (Core::Error);
+            void _open(const QString &, ImageIOInfo &);
 
             OpenEXR::Options        _options;
             Core::FileInfo          _file;

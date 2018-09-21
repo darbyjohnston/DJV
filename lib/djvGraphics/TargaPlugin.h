@@ -37,7 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //------------------------------------------------------------------------------
         //! \class TargaPlugin
         //!
         //! This plugin provides support for the Targa image file format.
@@ -53,25 +52,23 @@ namespace djv
         //!
         //! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
         //!   Second Edition"
-        //------------------------------------------------------------------------------
-
         class TargaPlugin : public ImageIO
         {
         public:
             TargaPlugin(Core::CoreContext *);
 
-            virtual QString pluginName() const;
-            virtual QStringList extensions() const;
+            QString pluginName() const override;
+            QStringList extensions() const override;
 
-            virtual QStringList option(const QString &) const;
-            virtual bool setOption(const QString &, QStringList &);
-            virtual QStringList options() const;
+            QStringList option(const QString &) const override;
+            bool setOption(const QString &, QStringList &) override;
+            QStringList options() const override;
 
-            virtual void commandLine(QStringList &) throw (QString);
-            virtual QString commandLineHelp() const;
+            void commandLine(QStringList &) throw (QString) override;
+            QString commandLineHelp() const override;
 
-            virtual ImageLoad * createLoad() const;
-            virtual ImageSave * createSave() const;
+            ImageLoad * createLoad() const override;
+            ImageSave * createSave() const override;
 
         private:
             Targa::Options _options;

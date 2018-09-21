@@ -52,7 +52,6 @@ namespace djv
         {}
 
         void CineonLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("CineonLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -67,7 +66,6 @@ namespace djv
         }
 
         void CineonLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("CineonLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -159,7 +157,7 @@ namespace djv
         void CineonLoad::_open(
             const QString & in,
             ImageIOInfo &   info,
-            Core::FileIO &  io) throw (Core::Error)
+            Core::FileIO &  io)
         {
             //DJV_DEBUG("CineonLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

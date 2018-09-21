@@ -114,7 +114,7 @@ namespace djv
             return PPM::optionsLabels();
         }
 
-        void PPMPlugin::commandLine(QStringList & in) throw (QString)
+        void PPMPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

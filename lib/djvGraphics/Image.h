@@ -47,7 +47,6 @@ namespace djv
         public:
             Image();
             Image(const PixelDataInfo & in, const quint8 * = 0, Core::FileIO * = 0);
-
             virtual ~Image();
 
             ImageTags    tags;

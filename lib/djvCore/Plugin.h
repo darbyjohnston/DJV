@@ -61,7 +61,10 @@ namespace djv
             virtual ~Plugin() = 0;
 
             //! Initialize the plugin.
-            virtual void initPlugin() throw (Error) {}
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void initPlugin() {}
 
             //! Release the plugin.
             virtual void releasePlugin() {}

@@ -145,7 +145,7 @@ namespace djv
             return Cineon::optionsLabels();
         }
 
-        void CineonPlugin::commandLine(QStringList & in) throw (QString)
+        void CineonPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

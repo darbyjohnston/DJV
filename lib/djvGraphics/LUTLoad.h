@@ -47,14 +47,13 @@ namespace djv
         {
         public:
             LUTLoad(const LUT::Options &, Core::CoreContext *);
-
             virtual ~LUTLoad();
 
-            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            void open(const Core::FileInfo &, ImageIOInfo &)  override;
+            void read(Image &, const ImageIOFrameInfo &)  override;
 
         private:
-            void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
+            void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &);
 
             LUT::Options _options;
             Core::FileInfo _file;

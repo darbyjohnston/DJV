@@ -50,14 +50,13 @@ namespace djv
         {
         public:
             explicit IFFLoad(Core::CoreContext *);
-
             virtual ~IFFLoad();
 
-            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            void open(const Core::FileInfo &, ImageIOInfo &) override;
+            void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
-            void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
+            void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &);
 
             Core::FileInfo _file;
             int            _tiles;

@@ -59,10 +59,10 @@ namespace djv
         public:
             explicit RLAPlugin(Core::CoreContext *);
 
-            virtual QString pluginName() const;
-            virtual QStringList extensions() const;
+            QString pluginName() const override;
+            QStringList extensions() const override;
 
-            virtual ImageLoad * createLoad() const;
+            ImageLoad * createLoad() const override;
         };
 
     } // namespace Graphics

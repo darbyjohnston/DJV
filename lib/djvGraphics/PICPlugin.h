@@ -58,10 +58,10 @@ namespace djv
         public:
             explicit PICPlugin(Core::CoreContext *);
 
-            virtual QString pluginName() const;
-            virtual QStringList extensions() const;
+            QString pluginName() const;
+            QStringList extensions() const;
 
-            virtual ImageLoad * createLoad() const;
+            ImageLoad * createLoad() const;
         };
 
     } // namespace Graphics

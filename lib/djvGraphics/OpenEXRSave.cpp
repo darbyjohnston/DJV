@@ -57,7 +57,6 @@ namespace djv
         }
 
         void OpenEXRSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -89,7 +88,6 @@ namespace djv
         }
 
         void OpenEXRSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -147,14 +145,13 @@ namespace djv
             close();
         }
 
-        void OpenEXRSave::close() throw (Core::Error)
+        void OpenEXRSave::close()
         {
             delete _f;
             _f = 0;
         }
 
         void OpenEXRSave::_open(const QString & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);

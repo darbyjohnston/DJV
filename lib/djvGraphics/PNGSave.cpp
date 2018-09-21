@@ -53,7 +53,6 @@ namespace djv
         }
 
         void PNGSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PNGSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -99,7 +98,6 @@ namespace djv
         } // namespace
 
         void PNGSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PNGSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -141,7 +139,7 @@ namespace djv
             close();
         }
 
-        void PNGSave::close() throw (Core::Error)
+        void PNGSave::close()
         {
             if (_png || _pngInfo)
             {
@@ -214,7 +212,6 @@ namespace djv
         } // namespace
 
         void PNGSave::_open(const QString & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PNGSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);

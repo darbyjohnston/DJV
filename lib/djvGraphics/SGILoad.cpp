@@ -46,7 +46,6 @@ namespace djv
         {}
 
         void SGILoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("SGILoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -60,7 +59,6 @@ namespace djv
         }
 
         void SGILoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("SGILoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -142,7 +140,6 @@ namespace djv
         }
 
         void SGILoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
-            throw (Core::Error)
         {
             //DJV_DEBUG("SGILoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

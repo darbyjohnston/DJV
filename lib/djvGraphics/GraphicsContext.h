@@ -48,7 +48,6 @@ namespace djv
         {
         public:
             explicit GraphicsContext(QObject * parent = nullptr);
-
             virtual ~GraphicsContext();
 
             //! Get the image I/O factory.    
@@ -60,12 +59,12 @@ namespace djv
             //! Make the default OpenGL context current;
             void makeGLContextCurrent();
 
-            virtual QString info() const;
+            QString info() const override;
 
         protected:
-            virtual bool commandLineParse(QStringList &) throw (QString);
+            bool commandLineParse(QStringList &) throw (QString) override;
 
-            virtual QString commandLineHelp() const;
+            QString commandLineHelp() const;
 
         private:
             struct Private;

@@ -46,7 +46,6 @@ namespace djv
         {}
 
         void TargaLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TargaLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -60,7 +59,6 @@ namespace djv
         }
 
         void TargaLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("TargaLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -127,7 +125,6 @@ namespace djv
         }
 
         void TargaLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
-            throw (Core::Error)
         {
             //DJV_DEBUG("djvTargaLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);

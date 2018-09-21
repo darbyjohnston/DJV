@@ -47,14 +47,13 @@ namespace djv
         {
         public:
             SGISave(const SGI::Options &, Core::CoreContext *);
-
             virtual ~SGISave();
-
-            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            
+            void open(const Core::FileInfo &, const ImageIOInfo &) override;
+            void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
-            void _open(const QString &) throw (Core::Error);
+            void _open(const QString &);
 
             SGI::Options         _options;
             Core::FileInfo       _file;

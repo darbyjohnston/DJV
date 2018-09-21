@@ -47,7 +47,6 @@ namespace djv
         {}
 
         void IFFSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("IFFSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -87,7 +86,6 @@ namespace djv
         }
 
         void IFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("djvIFFSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

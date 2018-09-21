@@ -58,11 +58,11 @@ namespace djv
         public:
             explicit PNGPlugin(Core::CoreContext *);
 
-            virtual QString pluginName() const;
-            virtual QStringList extensions() const;
+            QString pluginName() const override;
+            QStringList extensions() const override;
 
-            virtual ImageLoad * createLoad() const;
-            virtual ImageSave * createSave() const;
+            ImageLoad * createLoad() const override;
+            ImageSave * createSave() const override;
         };
 
     } // namespace Graphics

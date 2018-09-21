@@ -53,7 +53,7 @@ namespace djv
 
         } // namespace
 
-        void OpenEXRPlugin::initPlugin() throw (Core::Error)
+        void OpenEXRPlugin::initPlugin()
         {
             ++refCount;
             if (refCount > 1)
@@ -233,7 +233,7 @@ namespace djv
             return OpenEXR::optionsLabels();
         }
 
-        void OpenEXRPlugin::commandLine(QStringList & in) throw (QString)
+        void OpenEXRPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

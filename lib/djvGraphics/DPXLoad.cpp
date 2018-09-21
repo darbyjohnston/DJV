@@ -51,7 +51,6 @@ namespace djv
         {}
 
         void DPXLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("DPXLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -65,7 +64,6 @@ namespace djv
         }
 
         void DPXLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
-            throw (Core::Error)
         {
             //DJV_DEBUG("DPXLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -79,7 +77,6 @@ namespace djv
         }
 
         void DPXLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (Core::Error)
         {
             //DJV_DEBUG("DPXLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);

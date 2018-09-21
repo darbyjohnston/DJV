@@ -44,7 +44,7 @@ namespace djv
         class PixelDataUtil
         {
         public:
-            virtual ~PixelDataUtil();
+            virtual ~PixelDataUtil() = 0;
 
             //! Get the number of bytes in a scanline.
             static quint64 scanlineByteCount(const PixelDataInfo &);
