@@ -54,10 +54,11 @@ namespace djv
         };
 
         AbstractToolBar::AbstractToolBar(
+            const QString &   title,
             AbstractActions * actions,
             Context *         context,
             QWidget *         parent) :
-            QToolBar(parent),
+            QToolBar(title, parent),
             _p(new Private(actions, context))
         {
             setAllowedAreas(Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);

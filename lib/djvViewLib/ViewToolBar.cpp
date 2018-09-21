@@ -38,6 +38,8 @@
 #include <djvUI/FloatObject.h>
 #include <djvUI/ToolButton.h>
 
+#include <QCoreApplication>
+
 namespace djv
 {
     namespace ViewLib
@@ -55,7 +57,7 @@ namespace djv
             AbstractActions * actions,
             Context *         context,
             QWidget *         parent) :
-            AbstractToolBar(actions, context, parent),
+            AbstractToolBar(qApp->translate("djv::ViewLib::ViewToolBar", "View"), actions, context, parent),
             _p(new Private)
         {
             UI::ToolButton * button = new UI::ToolButton(context);

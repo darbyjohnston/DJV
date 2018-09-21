@@ -80,7 +80,7 @@ namespace djv
             AbstractActions * actions,
             Context *         context,
             QWidget *         parent) :
-            AbstractToolBar(actions, context, parent),
+            AbstractToolBar(qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback"), actions, context, parent),
             _p(new Private)
         {
             _p->context = context;

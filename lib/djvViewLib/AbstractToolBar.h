@@ -55,6 +55,7 @@ namespace djv
 
         public:
             explicit AbstractToolBar(
+                const QString &   title,
                 AbstractActions * actions,
                 Context *         context,
                 QWidget *         parent = nullptr);

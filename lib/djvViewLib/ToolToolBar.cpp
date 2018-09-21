@@ -38,6 +38,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <QActionGroup>
+#include <QCoreApplication>
 
 namespace djv
 {
@@ -50,7 +51,7 @@ namespace djv
             AbstractActions * actions,
             Context *         context,
             QWidget *         parent) :
-            AbstractToolBar(actions, context, parent),
+            AbstractToolBar(qApp->translate("djv::ViewLib::ToolToolBar", "Tools"), actions, context, parent),
             _p(new Private)
         {
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
