@@ -35,6 +35,7 @@
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/ToolActions.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/IntEditSlider.h>
@@ -115,9 +116,9 @@ namespace djv
         };
 
         MagnifyTool::MagnifyTool(
-            MainWindow * mainWindow,
-            Context *    context,
-            QWidget *    parent) :
+            MainWindow *  mainWindow,
+            Context *     context,
+            QWidget *     parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)
         {
@@ -199,6 +200,11 @@ namespace djv
             _p->openGLImage.reset();
         }
 
+        void MagnifyTool::showEvent(QShowEvent *)
+        {
+            widgetUpdate();
+        }
+
         bool MagnifyTool::event(QEvent * event)
         {
             if (QEvent::StyleChange == event->type())
@@ -229,11 +235,6 @@ namespace djv
         void MagnifyTool::displayProfileCallback(bool in)
         {
             _p->displayProfile = in;
-            widgetUpdate();
-        }
-
-        void MagnifyTool::showEvent(QShowEvent *)
-        {
             widgetUpdate();
         }
 

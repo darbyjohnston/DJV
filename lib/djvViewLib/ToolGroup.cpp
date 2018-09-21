@@ -89,7 +89,6 @@ namespace djv
 
             // Create the widgets.
             _p->toolBar = new ToolToolBar(_p->actions, context);
-
             mainWindow->addToolBar(_p->toolBar);
 
             _p->magnifyTool = new MagnifyTool(mainWindow, context);
@@ -102,18 +101,15 @@ namespace djv
                 _p->colorPickerTool <<
                 _p->histogramTool <<
                 _p->infoTool;
-
             QList<Qt::DockWidgetArea> areas = QList<Qt::DockWidgetArea>() <<
                 Qt::LeftDockWidgetArea <<
                 Qt::LeftDockWidgetArea <<
                 Qt::RightDockWidgetArea <<
                 Qt::RightDockWidgetArea;
-
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
                 _p->dockWidgets[i] = new QDockWidget(Util::toolLabels()[i]);
                 _p->dockWidgets[i]->setWidget(widgets[i]);
-
                 mainWindow->addDockWidget(areas[i], _p->dockWidgets[i]);
             }
 
@@ -125,10 +121,18 @@ namespace djv
             update();
 
             // Setup the action group callbacks.
-            connect(
-                _p->actions->group(ToolActions::TOOL_GROUP),
-                SIGNAL(triggered(QAction *)),
-                SLOT(toolsCallback(QAction *)));
+            //! \bug Why isn't QActionGroup::triggered() firing in all cases?
+            //connect(
+            //    _p->actions->group(ToolActions::TOOL_GROUP),
+            //    SIGNAL(triggered(QAction *)),
+            //    SLOT(toolsCallback(QAction *)));
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                connect(
+                    _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i],
+                    SIGNAL(toggled(bool)),
+                    SLOT(toolsCallback()));
+            }
 
             // Setup widget callbacks.
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
@@ -164,27 +168,22 @@ namespace djv
             Q_EMIT toolsChanged(_p->tools);
         }
 
-        void ToolGroup::toolsCallback(QAction *)
+        void ToolGroup::toolsCallback()
         {
             QVector<bool> tools;
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                tools += _p->actions->group(ToolActions::TOOL_GROUP)->
-                    actions()[i]->isChecked();
+                tools += _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->isChecked();
             }
             setTools(tools);
         }
 
         void ToolGroup::update()
         {
-            // Update action groups.
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                _p->actions->group(ToolActions::TOOL_GROUP)->
-                    actions()[i]->setChecked(_p->tools[i]);
+                _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->setChecked(_p->tools[i]);
             }
-
-            // Update widgets.
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
                 _p->dockWidgets[i]->setVisible(_p->tools[i]);

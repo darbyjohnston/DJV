@@ -71,7 +71,7 @@ namespace djv
             void toolsChanged(const QVector<bool> &);
 
         private Q_SLOTS:
-            void toolsCallback(QAction *);
+            void toolsCallback();
 
             void update();
 

@@ -50,9 +50,9 @@ namespace djv
 
         public:
             explicit MagnifyTool(
-                MainWindow * mainWindow,
-                Context *    context,
-                QWidget *    parent = nullptr);
+                MainWindow *  mainWindow,
+                Context *     context,
+                QWidget *     parent = nullptr);
             ~MagnifyTool() override;
 
         protected:

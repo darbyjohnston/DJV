@@ -70,7 +70,7 @@ namespace djv
             //! Get the list of action groups.
             const QList<QActionGroup *> groups() const;
 
-            //! Get an action group by name.
+            //! Get an action group by index.
             QActionGroup * group(int) const;
 
             //! Get the context.

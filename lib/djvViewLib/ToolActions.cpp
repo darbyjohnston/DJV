@@ -68,16 +68,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::ToolActions", "&Color Picker") <<
                 qApp->translate("djv::ViewLib::ToolActions", "&Histogram") <<
                 qApp->translate("djv::ViewLib::ToolActions", "&Information");
-            const QList<bool> toolCheckable = QList<bool>() <<
-                true <<
-                true <<
-                true <<
-                true;
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
                 QAction * action = new QAction(this);
                 action->setText(toolText[i]);
-                action->setCheckable(toolCheckable[i]);
+                action->setCheckable(true);
                 action->setData(i);
                 _groups[TOOL_GROUP]->addAction(action);
             }
