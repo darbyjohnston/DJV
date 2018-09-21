@@ -34,7 +34,6 @@
 
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -78,7 +77,6 @@ namespace djv
             tmp = plugin->option(plugin->options()[Graphics::IFF::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -90,10 +88,6 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         IFFWidget::~IFFWidget()
@@ -128,12 +122,6 @@ namespace djv
             QStringList tmp;
             tmp << _options.compression;
             plugin()->setOption(plugin()->options()[Graphics::IFF::COMPRESSION_OPTION], tmp);
-        }
-
-        void IFFWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void IFFWidget::pluginUpdate()

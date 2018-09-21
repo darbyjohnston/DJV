@@ -59,10 +59,10 @@ namespace djv
 
         protected:
             virtual void paintEvent(QPaintEvent *);
-            virtual bool event(QEvent*);
+            bool event(QEvent*) override;
 
         private Q_SLOTS:
-            void sizeUpdate();
+            void styleUpdate();
 
         private:
             DJV_PRIVATE_COPY(AbstractToolButton);

@@ -33,7 +33,6 @@
 
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -75,7 +74,6 @@ namespace djv
             QStringList tmp;
             tmp = plugin->option(plugin->options()[Graphics::LUT::TYPE_OPTION]);
             tmp >> _options.type;
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -87,10 +85,6 @@ namespace djv
                 _typeWidget,
                 SIGNAL(activated(int)),
                 SLOT(typeCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         LUTWidget::~LUTWidget()
@@ -123,12 +117,6 @@ namespace djv
         {
             _options.type = static_cast<Graphics::LUT::TYPE>(in);
             pluginUpdate();
-        }
-
-        void LUTWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void LUTWidget::pluginUpdate()

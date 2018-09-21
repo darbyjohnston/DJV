@@ -34,7 +34,6 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/ImagePrefs.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -90,7 +89,6 @@ namespace djv
             _p->layout->addStretch();
 
             // Initialize.
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -102,10 +100,6 @@ namespace djv
                 _p->filterMagWidget,
                 SIGNAL(activated(int)),
                 SLOT(filterMagCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         ImagePrefsWidget::~ImagePrefsWidget()
@@ -134,12 +128,6 @@ namespace djv
                     context()->imagePrefs()->filter().min,
                     static_cast<Graphics::OpenGLImageFilter::FILTER>(in)));
             widgetUpdate();
-        }
-
-        void ImagePrefsWidget::sizeUpdate()
-        {
-            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void ImagePrefsWidget::widgetUpdate()

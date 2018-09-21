@@ -61,7 +61,6 @@ namespace djv
             void pluginCallback(const QString &);
             void compressionCallback(int);
 
-            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

@@ -69,12 +69,10 @@ namespace djv
             void colorButtonCallback(const djv::Graphics::Color &);
             void colorSelectCallback(const djv::Graphics::Color &);
             void colorSwatchTransparencyCallback(bool);
-            void sizeCallback(int);
-            void sizeValueCallback(int);
             void fontNormalCallback(const QFont &);
             void fontFixedCallback(const QFont &);
+            void fontSizeCallback(int);
 
-            void sizeUpdate();
             void widgetUpdate();
 
         private:

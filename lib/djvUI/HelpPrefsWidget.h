@@ -58,7 +58,6 @@ namespace djv
         private Q_SLOTS:
             void toolTipsCallback(bool);
             
-            void sizeUpdate();
             void widgetUpdate();
 
         private:

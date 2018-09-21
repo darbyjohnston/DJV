@@ -35,7 +35,6 @@
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatObject.h>
 #include <djvUI/FloatSlider.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
@@ -72,7 +71,6 @@ namespace djv
                 qApp->translate("djv::UI::FloatEditSlider", "Reset the value"));
 
             _p->layout = new QHBoxLayout(this);
-            _p->layout->setSpacing(context->style()->sizeMetric().spacing);
             _p->layout->setMargin(0);
             _p->layout->addWidget(_p->edit);
             _p->layout->addWidget(_p->slider);
@@ -80,7 +78,7 @@ namespace djv
 
             _p->slider->setRange(0.f, 1.f);
             _p->defaultButton->hide();
-            sizeUpdate();
+            styleUpdate();
             valueUpdate();
 
             connect(
@@ -115,10 +113,6 @@ namespace djv
                 _p->defaultButton,
                 SIGNAL(clicked()),
                 SLOT(defaultCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         FloatEditSlider::~FloatEditSlider()
@@ -213,6 +207,15 @@ namespace djv
             _p->slider->object()->setInc(smallInc, largeInc);
         }
 
+        bool FloatEditSlider::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void FloatEditSlider::valueCallback()
         {
             valueUpdate();
@@ -229,11 +232,9 @@ namespace djv
             _p->edit->setValue(_p->edit->object()->defaultValue());
         }
 
-        void FloatEditSlider::sizeUpdate()
+        void FloatEditSlider::styleUpdate()
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon", iconDPI));
-            _p->layout->setSpacing(_p->context->style()->sizeMetric().spacing);
+            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon"));
             updateGeometry();
         }
 

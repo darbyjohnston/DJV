@@ -656,8 +656,8 @@ namespace djv
             fileBrowser->setPinnable(true);
             connect(
                 fileBrowser,
-                SIGNAL(fileInfoChanged(const djvFileInfo &)),
-                SLOT(openCallback(const djvFileInfo &)));
+                SIGNAL(fileInfoChanged(const djv::Core::FileInfo &)),
+                SLOT(openCallback(const djv::Core::FileInfo &)));
             fileBrowser->show();
             fileBrowser->raise();
         }

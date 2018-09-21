@@ -34,7 +34,6 @@
 #include <djvUI/ChoiceButton.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/ShuttleButton.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
@@ -63,19 +62,17 @@ namespace djv
         {
             QWidget * window = new QWidget;
       
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;
-
             UI::ToolButton * reverseButton = new UI::ToolButton(context());
             reverseButton->setCheckable(true);
-            reverseButton->setIcon(context()->iconLibrary()->icon("djvPlayReverseIcon", iconDPI));
+            reverseButton->setIcon(context()->iconLibrary()->icon("djvPlayReverseIcon"));
 
             UI::ToolButton * stopButton = new UI::ToolButton(context());
             stopButton->setCheckable(true);
-            stopButton->setIcon(context()->iconLibrary()->icon("djvPlayStopIcon", iconDPI));
+            stopButton->setIcon(context()->iconLibrary()->icon("djvPlayStopIcon"));
 
             UI::ToolButton * forwardButton = new UI::ToolButton(context());
             forwardButton->setCheckable(true);
-            forwardButton->setIcon(context()->iconLibrary()->icon("djvPlayForwardIcon", iconDPI));
+            forwardButton->setIcon(context()->iconLibrary()->icon("djvPlayForwardIcon"));
 
             QButtonGroup * buttonGroup = new QButtonGroup(window);
             buttonGroup->setExclusive(true);
@@ -90,9 +87,9 @@ namespace djv
                 "Repeat" <<
                 "PongPong";
             const QList<QIcon> loopIcon = QList<QIcon>() <<
-                context()->iconLibrary()->icon("djvPlayLoopOnceIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvPlayLoopRepeatIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djvPlayLoopPingPongIcon", iconDPI);
+                context()->iconLibrary()->icon("djvPlayLoopOnceIcon") <<
+                context()->iconLibrary()->icon("djvPlayLoopRepeatIcon") <<
+                context()->iconLibrary()->icon("djvPlayLoopPingPongIcon");
             QActionGroup * loopActionGroup = new QActionGroup(this);
             loopActionGroup->setExclusive(true);
             for (int i = 0; i < loopLabel.count(); ++i)
@@ -100,7 +97,7 @@ namespace djv
             UI::ChoiceButton * choiceButton = new UI::ChoiceButton(loopActionGroup, context());
 
             UI::ToolButton * disabledToolButton = new UI::ToolButton(context());
-            disabledToolButton->setIcon(context()->iconLibrary()->icon("djvPlayReverseIcon", iconDPI));
+            disabledToolButton->setIcon(context()->iconLibrary()->icon("djvPlayReverseIcon"));
             disabledToolButton->setEnabled(false);
 
             UI::ShuttleButton * disabledShuttle = new UI::ShuttleButton(context());

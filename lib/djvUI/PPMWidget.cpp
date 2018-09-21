@@ -33,7 +33,6 @@
 
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -92,7 +91,6 @@ namespace djv
             tmp = plugin->option(plugin->options()[Graphics::PPM::DATA_OPTION]);
             tmp >> _options.data;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -108,10 +106,6 @@ namespace djv
                 _dataWidget,
                 SIGNAL(activated(int)),
                 SLOT(dataCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         PPMWidget::~PPMWidget()
@@ -153,12 +147,6 @@ namespace djv
         {
             _options.data = static_cast<Graphics::PPM::DATA>(in);
             pluginUpdate();
-        }
-
-        void PPMWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void PPMWidget::pluginUpdate()

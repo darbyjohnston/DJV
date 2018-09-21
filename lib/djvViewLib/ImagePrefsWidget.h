@@ -55,6 +55,9 @@ namespace djv
 
             virtual void resetPreferences();
 
+        protected:
+            bool event(QEvent *) override;
+
         private Q_SLOTS:
             void frameStoreFileReloadCallback(bool);
             void mirrorHCallback(bool);
@@ -70,7 +73,7 @@ namespace djv
             void moveDisplayProfileDownCallback();
             void channelCallback(int);
 
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
         private:

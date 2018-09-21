@@ -40,8 +40,11 @@
 #include <djvViewLib/ToolMenu.h>
 #include <djvViewLib/ToolToolBar.h>
 
+#include <QAbstractButton>
 #include <QAction>
 #include <QDockWidget>
+#include <QEvent>
+#include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
 #include <QToolBar>
@@ -90,11 +93,8 @@ namespace djv
             mainWindow->addToolBar(_p->toolBar);
 
             _p->magnifyTool = new MagnifyTool(mainWindow, context);
-
             _p->colorPickerTool = new ColorPickerTool(mainWindow, context);
-
             _p->histogramTool = new HistogramTool(mainWindow, context);
-
             _p->infoTool = new InfoTool(mainWindow, context);
 
             QList<QWidget *> widgets = QList<QWidget *>() <<

@@ -66,7 +66,7 @@ namespace djv
             layout->addLayout(vLayout);
             layout->addWidget(buttonBox);
 
-            setWindowTitle(qApp->translate("djv::UI::NoticeDialog", "Notice Dialog"));
+            setWindowTitle(qApp->translate("djv::UI::NoticeDialog", "Notice"));
 
             widgetUpdate();
 

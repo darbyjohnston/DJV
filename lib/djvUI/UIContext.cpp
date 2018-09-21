@@ -32,29 +32,50 @@
 #include <djvUI/UIContext.h>
 
 #include <djvUI/AboutDialog.h>
+#include <djvUI/CineonWidget.h>
+#include <djvUI/DPXWidget.h>
 #include <djvUI/DebugLogDialog.h>
 #include <djvUI/FileBrowser.h>
 #include <djvUI/FileBrowserCache.h>
 #include <djvUI/FileBrowserPrefs.h>
 #include <djvUI/HelpPrefs.h>
+#include <djvUI/IFFWidget.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/ImageIOPrefs.h>
 #include <djvUI/ImageIOWidget.h>
 #include <djvUI/ImagePrefs.h>
 #include <djvUI/InfoDialog.h>
+#include <djvUI/LUTWidget.h>
 #include <djvUI/MessagesDialog.h>
+#include <djvUI/PPMWidget.h>
 #include <djvUI/PlaybackUtil.h>
 #include <djvUI/Prefs.h>
 #include <djvUI/PrefsDialog.h>
+#include <djvUI/ProxyStyle.h>
 #include <djvUI/SequencePrefs.h>
-#include <djvUI/Style.h>
+#include <djvUI/SGIWidget.h>
+#include <djvUI/StylePrefs.h>
+#include <djvUI/TargaWidget.h>
 #include <djvUI/TimePrefs.h>
+#if defined(JPEG_FOUND)
+#include <djvUI/JPEGWidget.h>
+#endif // JPEG_FOUND
+#if defined(TIFF_FOUND)
+#include <djvUI/TIFFWidget.h>
+#endif // TIFF_FOUND
+#if defined(OPENEXR_FOUND)
+#include <djvUI/OpenEXRWidget.h>
+#endif // OPENEXR_FOUND
+#if defined(FFMPEG_FOUND)
+#include <djvUI/FFmpegWidget.h>
+#endif // FFMPEG_FOUND
 
 #include <djvCore/Debug.h>
 #include <djvCore/DebugLog.h>
 
 #include <QApplication>
 #include <QDesktopServices>
+#include <QPointer>
 #include <QScopedPointer>
 #include <QThreadPool>
 #include <QUrl>
@@ -70,9 +91,9 @@ namespace djv
     {
         struct UIContext::Private
         {
-            bool                                    valid = false;
+            bool                                 valid = false;
             QScopedPointer<IconLibrary>          iconLibrary;
-            QScopedPointer<Style>                style;
+            QScopedPointer<StylePrefs>           stylePrefs;
             QScopedPointer<FileBrowserPrefs>     fileBrowserPrefs;
             QScopedPointer<HelpPrefs>            helpPrefs;
             QScopedPointer<ImagePrefs>           imagePrefs;
@@ -87,6 +108,7 @@ namespace djv
             QScopedPointer<MessagesDialog>       messagesDialog;
             QScopedPointer<DebugLogDialog>       debugLogDialog;
             QScopedPointer<FileBrowser>          fileBrowser;
+            QPointer<ProxyStyle>                 proxyStyle;
         };
 
         UIContext::UIContext(QObject * parent) :
@@ -115,6 +137,7 @@ namespace djv
 
             // Load preferences.
             DJV_LOG(debugLog(), "djv::UI::UIContext", "Load the preferences...");
+            _p->stylePrefs.reset(new StylePrefs);
             _p->fileBrowserPrefs.reset(new FileBrowserPrefs(this));
             _p->helpPrefs.reset(new HelpPrefs);
             _p->imagePrefs.reset(new ImagePrefs);
@@ -123,11 +146,16 @@ namespace djv
             _p->timePrefs.reset(new TimePrefs);
             DJV_LOG(debugLog(), "djv::UI::UIContext", "");
 
-            // Initialize objects.
+            // Initialize.
             _p->fileBrowserCache.reset(new FileBrowserCache);
             _p->fileBrowserCache->setMaxCost(fileBrowserPrefs()->thumbnailsCache());
             _p->iconLibrary.reset(new IconLibrary);
-            _p->style.reset(new Style);
+            _p->proxyStyle = new UI::ProxyStyle(this);
+            qApp->setStyle(_p->proxyStyle);
+            styleUpdate();
+            
+            // Setup callbacks.
+            connect(_p->stylePrefs.data(), SIGNAL(prefChanged()), SLOT(styleUpdate()));
 
             DJV_LOG(debugLog(), "djv::UI::UIContext", "Information:");
             DJV_LOG(debugLog(), "djv::UI::UIContext", "");
@@ -172,7 +200,7 @@ namespace djv
                 title :
                 qApp->translate("djv::UI::UIContext", "File Browser"));
             _p->fileBrowser->setPinnable(false);
-            _p->fileBrowser->disconnect(SIGNAL(fileInfoChanged(const djvFileInfo &)));
+            _p->fileBrowser->disconnect(SIGNAL(fileInfoChanged(const djv::Core::FileInfo &)));
             return _p->fileBrowser.data();
         }
 
@@ -182,6 +210,25 @@ namespace djv
             {
                 UIContext * that = const_cast<UIContext *>(this);
                 _p->imageIOWidgetFactory.reset(new ImageIOWidgetFactory(that));
+                _p->imageIOWidgetFactory->addPlugin(new CineonWidgetPlugin(that));
+                _p->imageIOWidgetFactory->addPlugin(new DPXWidgetPlugin(that));
+                _p->imageIOWidgetFactory->addPlugin(new IFFWidgetPlugin(that));
+                _p->imageIOWidgetFactory->addPlugin(new LUTWidgetPlugin(that));
+                _p->imageIOWidgetFactory->addPlugin(new PPMWidgetPlugin(that));
+                _p->imageIOWidgetFactory->addPlugin(new SGIWidgetPlugin(that));
+                _p->imageIOWidgetFactory->addPlugin(new TargaWidgetPlugin(that));
+#if defined(JPEG_FOUND)
+                _p->imageIOWidgetFactory->addPlugin(new JPEGWidgetPlugin(that));
+#endif // JPEG_FOUND
+#if defined(TIFF_FOUND)
+                _p->imageIOWidgetFactory->addPlugin(new TIFFWidgetPlugin(that));
+#endif // TIFF_FOUND
+#if defined(OPENEXR_FOUND)
+                _p->imageIOWidgetFactory->addPlugin(new OpenEXRWidgetPlugin(that));
+#endif // OPENEXR_FOUND
+#if defined(FFMPEG_FOUND)
+                _p->imageIOWidgetFactory->addPlugin(new FFmpegWidgetPlugin(that));
+#endif // FFMPEG_FOUND
             }
             return _p->imageIOWidgetFactory.data();
         }
@@ -266,14 +313,14 @@ namespace djv
             return _p->timePrefs.data();
         }
 
+        StylePrefs * UIContext::stylePrefs() const
+        {
+            return _p->stylePrefs.data();
+        }
+
         IconLibrary * UIContext::iconLibrary() const
         {
             return _p->iconLibrary.data();
-        }
-
-        Style * UIContext::style() const
-        {
-            return _p->style.data();
         }
 
         FileBrowserCache * UIContext::fileBrowserCache() const
@@ -355,6 +402,12 @@ namespace djv
             {
                 Graphics::GraphicsContext::print(string, newLine, indent);
             }
+        }
+        
+        void UIContext::styleUpdate()
+        {
+            _p->iconLibrary->setColor(Graphics::ColorUtil::toQt(_p->stylePrefs->palette().foreground));
+            _p->proxyStyle->setFontSize(_p->stylePrefs->sizeMetric().fontSize);
         }
 
     } // namespace UI

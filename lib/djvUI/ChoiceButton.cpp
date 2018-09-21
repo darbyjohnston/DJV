@@ -32,7 +32,6 @@
 #include <djvUI/ChoiceButton.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 #include <djvUI/UIContext.h>
 
 #include <djvCore/Debug.h>
@@ -65,10 +64,6 @@ namespace djv
                 this,
                 SIGNAL(clicked()),
                 SLOT(clickedCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         ChoiceButton::ChoiceButton(QActionGroup * actionGroup, UIContext * context, QWidget * parent) :
@@ -80,10 +75,6 @@ namespace djv
                 this,
                 SIGNAL(clicked()),
                 SLOT(clickedCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         ChoiceButton::~ChoiceButton()
@@ -101,9 +92,9 @@ namespace djv
 
         QSize ChoiceButton::sizeHint() const
         {
-            const int iconSize = context()->style()->sizeMetric().iconSize;
+            const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
             QSize sizeHint(iconSize, iconSize);
-            const int margin = context()->style()->sizeMetric().margin;
+            const int margin = style()->pixelMetric(QStyle::PM_ButtonMargin);
             if (_p->actionGroup)
             {
                 QList<QAction *> actions = _p->actionGroup->actions();
@@ -217,24 +208,27 @@ namespace djv
                     QIcon::State state = QIcon::Off;
                     if (!isEnabled())
                         mode = QIcon::Disabled;
-                    const QPixmap & pixmap = actions[_p->currentIndex]->icon().pixmap(width(), height(), mode, state);
+                    const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+                    const QPixmap & pixmap = actions[_p->currentIndex]->icon().pixmap(iconSize, iconSize, mode, state);
                     if (!pixmap.isNull())
                     {
-                        QImage image(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
-                        image.fill(Qt::transparent);
-                        QPainter imagePainter(&image);
-                        imagePainter.drawPixmap(0, 0, pixmap);
-                        imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
-                        imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), QPalette().foreground());
-
                         QPainter painter(this);
-                        painter.drawImage(
-                            width() / 2 - image.width() / 2,
-                            height() / 2 - image.height() / 2,
-                            image);
+                        painter.drawPixmap(
+                            width() / 2 - pixmap.width() / 2,
+                            height() / 2 - pixmap.height() / 2,
+                            pixmap);
                     }
                 }
             }
+        }
+
+        bool ChoiceButton::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractToolButton::event(event);
         }
 
         void ChoiceButton::actionGroupCallback(QAction * action)
@@ -259,7 +253,7 @@ namespace djv
             setCurrentIndex(index);
         }
 
-        void ChoiceButton::sizeUpdate()
+        void ChoiceButton::styleUpdate()
         {
             updateGeometry();
         }

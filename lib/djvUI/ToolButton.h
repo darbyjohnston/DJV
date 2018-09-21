@@ -59,11 +59,11 @@ namespace djv
 
         protected:
             virtual void nextCheckState();
-
             virtual void paintEvent(QPaintEvent *);
+            bool event(QEvent*) override;
 
         private Q_SLOTS:
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
         private:

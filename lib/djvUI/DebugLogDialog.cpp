@@ -31,8 +31,8 @@
 
 #include <djvUI/DebugLogDialog.h>
 
+#include <djvUI/StylePrefs.h>
 #include <djvUI/UIContext.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/DebugLog.h>
 
@@ -83,6 +83,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::DebugLogDialog", "Debugging Log"));
+            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             resize(800, 600);
 
             Q_FOREACH(const QString & message, context->debugLog()->messages())
@@ -90,7 +91,7 @@ namespace djv
                 _p->widget->append(message);
             }
 
-            updateWidget();
+            styleUpdate();
 
             // Setup the callbacks.
             connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
@@ -100,10 +101,6 @@ namespace djv
                 context->debugLog(),
                 SIGNAL(message(const QString &)),
                 SLOT(messageCallback(const QString &)));
-            connect(
-                context->style(),
-                SIGNAL(fontsChanged()),
-                SLOT(updateWidget()));
         }
 
         DebugLogDialog::~DebugLogDialog()
@@ -113,6 +110,15 @@ namespace djv
         {
             _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
                 Qt::PopupFocusReason);
+        }
+
+        bool DebugLogDialog::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QDialog::event(event);
         }
 
         void DebugLogDialog::messageCallback(const QString & message)
@@ -130,9 +136,9 @@ namespace djv
             _p->widget->clear();
         }
 
-        void DebugLogDialog::updateWidget()
+        void DebugLogDialog::styleUpdate()
         {
-            _p->widget->setFont(_p->context->style()->fonts().fixed);
+            _p->widget->setFont(_p->context->stylePrefs()->fonts().fixed);
         }
 
     } // namespace UI

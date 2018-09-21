@@ -83,13 +83,13 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.125"
-     inkscape:cx="100"
+     inkscape:zoom="14.142136"
+     inkscape:cx="49.268863"
      inkscape:cy="12.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1136"
+     inkscape:window-width="1616"
      inkscape:window-height="735"
      inkscape:window-x="35"
      inkscape:window-y="387"
@@ -141,7 +141,7 @@
       <path
          sodipodi:nodetypes="ccccccccccccc"
          id="path2385"
-         d="M 12,17 V 14 H 8 V 10 H 5 v 4 H 1 v 3 h 4 v 4 h 3 v -4 z"
+         d="M 13,16 V 14 H 8 V 9 H 6 v 5 H 1 v 2 h 5 v 5 h 2 v -5 z"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
          inkscape:connector-curvature="0" />
     </g>
@@ -211,8 +211,8 @@
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922" />
       <path
          sodipodi:nodetypes="ccccccccccccc"
-         id="path2385-9"
-         d="M 11.449747,12.671573 9.3284271,10.550253 6.5,13.37868 3.6715729,10.550253 1.5502525,12.671573 4.3786797,15.5 1.5502525,18.328427 3.6715729,20.449747 6.5,17.62132 9.3284271,20.449747 11.449747,18.328427 8.6213203,15.5 Z"
+         id="path2385-3"
+         d="M 10.464102,20 11.898475,18.606237 8.4140678,15.020305 12,11.535898 10.606237,10.101525 7.0203051,13.585932 3.5358984,10 2.1015255,11.393763 5.5859322,14.979695 2,18.464102 3.3937627,19.898475 6.9796949,16.414068 Z"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.49803922"
          inkscape:connector-curvature="0" />
     </g>

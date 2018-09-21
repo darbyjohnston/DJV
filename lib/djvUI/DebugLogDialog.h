@@ -67,13 +67,14 @@ namespace djv
 
         protected:
             virtual void showEvent(QShowEvent *);
+            bool event(QEvent *) override;
 
         private Q_SLOTS:
             void messageCallback(const QString &);
             void copyCallback();
             void clearCallback();
 
-            void updateWidget();
+            void styleUpdate();
 
         private:
             DJV_PRIVATE_COPY(DebugLogDialog);

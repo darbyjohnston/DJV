@@ -47,7 +47,6 @@ namespace djv
             AbstractActions(context, parent),
             _p(new Private)
         {
-            // Create the actions.
             for (int i = 0; i < ACTION_COUNT; ++i)
             {
                 _actions[i] = new QAction(this);

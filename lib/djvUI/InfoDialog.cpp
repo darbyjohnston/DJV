@@ -32,7 +32,6 @@
 #include <djvUI/InfoDialog.h>
 
 #include <djvUI/UIContext.h>
-#include <djvUI/Style.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -64,10 +63,7 @@ namespace djv
             // Create the widgets.
             _p->widget = new QTextEdit;
             _p->widget->setReadOnly(true);
-
-            QPushButton * copyButton = new QPushButton(
-                qApp->translate("djv::UI::InfoDialog", "Copy"));
-
+            QPushButton * copyButton = new QPushButton(qApp->translate("djv::UI::InfoDialog", "Copy"));
             _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
             _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
 
@@ -77,22 +73,14 @@ namespace djv
             layout->addWidget(_p->buttonBox);
 
             // Initialize.
-            setWindowTitle(
-                qApp->translate("djv::UI::InfoDialog", "Information Dialog"));
-
+            setWindowTitle(qApp->translate("djv::UI::InfoDialog", "Information"));
+            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             _p->widget->setText(text);
-
-            resize(500, 400);
-
-            updateWidget();
+            resize(800, 600);
 
             // Setup callbacks.
             connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
             connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-            connect(
-                context->style(),
-                SIGNAL(fontsChanged()),
-                SLOT(updateWidget()));
         }
 
         InfoDialog::~InfoDialog()
@@ -109,11 +97,6 @@ namespace djv
         void InfoDialog::copyCallback()
         {
             QApplication::clipboard()->setText(_p->widget->toPlainText());
-        }
-
-        void InfoDialog::updateWidget()
-        {
-            _p->widget->setFont(_p->context->style()->fonts().fixed);
         }
 
     } // namespace UI

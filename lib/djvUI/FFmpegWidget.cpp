@@ -77,7 +77,6 @@ djvFFmpegWidget::djvFFmpegWidget(djvImageIO * plugin, djvUIContext * context) :
     
     // Layout the widgets.
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvFFmpegWidget", "Format"),

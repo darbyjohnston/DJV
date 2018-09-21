@@ -57,7 +57,7 @@ namespace djv
         class MessagesDialog;
         class PrefsDialog;
         class SequencePrefs;
-        class Style;
+        class StylePrefs;
         class TimePrefs;
 
         //! \class djvUIContext
@@ -120,23 +120,25 @@ namespace djv
             //! Get the time preferences.
             TimePrefs * timePrefs() const;
 
+            //! Get the style preferences.
+            StylePrefs * stylePrefs() const;
+
             //! Get the file browser cache.
             FileBrowserCache * fileBrowserCache() const;
 
             //! Get the icon library.
             IconLibrary * iconLibrary() const;
 
-            //! Get the style.
-            Style * style() const;
-
             virtual QString info() const;
             virtual void print(const QString &, bool newLine = true, int indent = 0);
 
         protected:
             virtual bool commandLineParse(QStringList &) throw (QString);
-
             virtual QString commandLineHelp() const;
 
+        private Q_SLOTS:
+            void styleUpdate();
+            
         private:
             DJV_PRIVATE_COPY(UIContext);
 

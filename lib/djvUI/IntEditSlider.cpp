@@ -35,7 +35,6 @@
 #include <djvUI/IntEdit.h>
 #include <djvUI/IntObject.h>
 #include <djvUI/IntSlider.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
@@ -72,7 +71,6 @@ namespace djv
                 qApp->translate("djv::UI::IntEditSlider", "Reset the value"));
 
             _p->layout = new QHBoxLayout(this);
-            _p->layout->setSpacing(context->style()->sizeMetric().spacing);
             _p->layout->setMargin(0);
             _p->layout->addWidget(_p->edit);
             _p->layout->addWidget(_p->slider);
@@ -80,7 +78,7 @@ namespace djv
 
             _p->slider->setRange(0, 100);
             _p->defaultButton->hide();
-            sizeUpdate();
+            styleUpdate();
             valueUpdate();
 
             connect(
@@ -115,10 +113,6 @@ namespace djv
                 _p->defaultButton,
                 SIGNAL(clicked()),
                 SLOT(defaultCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         IntEditSlider::~IntEditSlider()
@@ -195,6 +189,15 @@ namespace djv
             _p->slider->setRange(min, max);
         }
 
+        bool IntEditSlider::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void IntEditSlider::valueCallback()
         {
             valueUpdate();
@@ -211,11 +214,9 @@ namespace djv
             _p->edit->setValue(_p->edit->object()->defaultValue());
         }
 
-        void IntEditSlider::sizeUpdate()
+        void IntEditSlider::styleUpdate()
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon", iconDPI));
-            _p->layout->setSpacing(_p->context->style()->sizeMetric().spacing);
+            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon"));
             updateGeometry();
         }
 

@@ -32,7 +32,6 @@
 #include <djvUI/PixelMaskWidget.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
@@ -68,7 +67,7 @@ namespace djv
             layout->setMargin(0);
             layout->addWidget(_p->button);
 
-            sizeUpdate();
+            styleUpdate();
             valueUpdate();
 
             connect(
@@ -92,6 +91,15 @@ namespace djv
             _p->mask = mask;
             valueUpdate();
             Q_EMIT maskChanged(_p->mask);
+        }
+
+        bool PixelMaskWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
         }
 
         void PixelMaskWidget::buttonCallback()
@@ -166,10 +174,9 @@ namespace djv
             setMask(Graphics::Pixel::Mask());
         }
 
-        void PixelMaskWidget::sizeUpdate()
+        void PixelMaskWidget::styleUpdate()
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/PixelMaskIcon", iconDPI));
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/SubMenuIcon"));
         }
 
         void PixelMaskWidget::valueUpdate()

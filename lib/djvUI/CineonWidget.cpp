@@ -35,7 +35,6 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -166,7 +165,6 @@ namespace djv
                 plugin->options()[Graphics::Cineon::OUTPUT_FILM_PRINT_OPTION]);
             tmp >> _options.outputFilmPrint;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -210,10 +208,6 @@ namespace djv
                 _outputGammaWidget,
                 SIGNAL(valueChanged(float)),
                 SLOT(outputGammaCallback(float)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         CineonWidget::~CineonWidget()
@@ -305,12 +299,6 @@ namespace djv
         {
             _options.outputFilmPrint.gamma = in;
             pluginUpdate();
-        }
-
-        void CineonWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void CineonWidget::pluginUpdate()

@@ -81,7 +81,7 @@ namespace djv
             layout->addWidget(buttonBox);
 
             // Initialize.
-            setWindowTitle(qApp->translate("ColorDialog", "Color Dialog"));
+            setWindowTitle(qApp->translate("ColorDialog", "Pick a color"));
             widgetUpdate();
 
             // Setup the callbacks.

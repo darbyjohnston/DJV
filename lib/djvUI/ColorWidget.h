@@ -91,16 +91,20 @@ namespace djv
             //! This signal is emitted when the color is changed.
             void colorChanged(const djv::Graphics::Color &);
 
+        protected:
+            bool event(QEvent *) override;
+            
         private Q_SLOTS:
             void intCallback(int);
             void floatCallback(float);
             void formatCallback(int);
             void typeCallback(int);
 
-        private:
+            void styleUpdate();
             void widgetUpdate();
             void valueUpdate();
 
+        private:
             DJV_PRIVATE_COPY(ColorWidget);
 
             struct Private;

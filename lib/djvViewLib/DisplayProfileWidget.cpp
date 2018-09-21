@@ -40,7 +40,6 @@
 #include <djvUI/FloatObject.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/InputDialog.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvGraphics/Image.h>
@@ -205,7 +204,7 @@ namespace djv
             layout->addStretch();
 
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
 
             // Setup the LUT callbacks.
@@ -263,10 +262,6 @@ namespace djv
                 _p->resetButton,
                 SIGNAL(clicked()),
                 SLOT(resetCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         DisplayProfileWidget::~DisplayProfileWidget()
@@ -284,6 +279,15 @@ namespace djv
             _p->displayProfile = displayProfile;
             widgetUpdate();
             Q_EMIT displayProfileChanged(_p->displayProfile);
+        }
+
+        bool DisplayProfileWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
         }
 
         void DisplayProfileWidget::lutCallback(const Core::FileInfo & in)
@@ -381,11 +385,10 @@ namespace djv
             Q_EMIT displayProfileChanged(_p->displayProfile);
         }
 
-        void DisplayProfileWidget::sizeUpdate()
+        void DisplayProfileWidget::styleUpdate()
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->addButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/AddIcon", iconDPI));
-            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/RemoveIcon", iconDPI));
+            _p->addButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/AddIcon"));
+            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/RemoveIcon"));
         }
         
         void DisplayProfileWidget::widgetUpdate()

@@ -73,6 +73,12 @@ namespace djv
             //! This signal is emitted when the shuttle value is changed.
             void shuttleChanged(int);
 
+        protected:
+            bool event(QEvent *) override;
+
+        private Q_SLOTS:
+            void styleUpdate();
+            
         private:
             DJV_PRIVATE_COPY(PlaybackButtons);
 
@@ -133,6 +139,12 @@ namespace djv
             //! This signal is emitted when the buttons are released.
             void released();
 
+        protected:
+            bool event(QEvent *) override;
+
+        private Q_SLOTS:
+            void styleUpdate();
+            
         private:
             DJV_PRIVATE_COPY(FrameButtons);
 

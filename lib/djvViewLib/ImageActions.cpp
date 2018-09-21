@@ -38,7 +38,7 @@
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/Style.h>
+#include <djvUI/StylePrefs.h>
 
 #include <djvGraphics/OpenGLImage.h>
 
@@ -128,8 +128,8 @@ namespace djv
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(update()));
             connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
+                context->stylePrefs(),
+                SIGNAL(prefChanged()),
                 SLOT(update()));
         }
 
@@ -138,7 +138,6 @@ namespace djv
 
         void ImageActions::update()
         {
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
             _actions[FRAME_STORE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_FRAME_STORE].value);
@@ -146,7 +145,7 @@ namespace djv
             _actions[MIRROR_H]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
             _actions[MIRROR_V]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
             _actions[COLOR_PROFILE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_COLOR_PROFILE].value);
-            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
+            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
 
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Util::SHORTCUT_IMAGE_SCALE_NONE].value <<

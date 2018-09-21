@@ -32,7 +32,6 @@
 #include <djvUI/SearchBox.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
@@ -75,7 +74,7 @@ namespace djv
             layout->addWidget(_p->resetButton);
 
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
             
             // Setup callbacks.
             connect(
@@ -86,10 +85,6 @@ namespace djv
                 _p->resetButton,
                 SIGNAL(clicked()),
                 SLOT(resetCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         SearchBox::~SearchBox()
@@ -110,6 +105,15 @@ namespace djv
             Q_EMIT textChanged(_p->text);
         }
 
+        bool SearchBox::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void SearchBox::textCallback(const QString & text)
         {
             setText(text);
@@ -120,11 +124,11 @@ namespace djv
             setText(QString());
         }
         
-        void SearchBox::sizeUpdate()
+        void SearchBox::styleUpdate()
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon", iconDPI));
-            _p->label->setPixmap(_p->context->iconLibrary()->pixmap("djv/UI/MagnifyIcon", iconDPI));
+            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon"));
+            //! \bug Hard-coded pixmap size.
+            _p->label->setPixmap(_p->context->iconLibrary()->pixmap("djv/UI/MagnifyIcon96DPI.png"));
         }
 
     } // namespace UI

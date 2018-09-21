@@ -75,7 +75,6 @@ namespace djv
             void compressionCallback(int);
             void dwaCompressionLevelCallback(float);
 
-            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

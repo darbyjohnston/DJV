@@ -41,12 +41,12 @@
 #include <djvCore/ErrorUtil.h>
 #include <djvCore/FileInfoUtil.h>
 #include <djvCore/Memory.h>
-#include <djvUI/Style.h>
 #include <djvCore/User.h>
 #include <djvCore/VectorUtil.h>
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QMimeData>
+#include <QStyle>
 
 namespace djv
 {
@@ -297,7 +297,7 @@ namespace djv
             case Qt::SizeHintRole:
                 if (NAME == column && !item->thumbnail().isNull())
                 {
-                    const int margin = _p->context->style()->sizeMetric().margin;
+                    const int margin = qApp->style()->pixelMetric(QStyle::PM_ButtonMargin);
                     return QSize(0, item->thumbnail().height() + margin * 2);
                 }
                 break;

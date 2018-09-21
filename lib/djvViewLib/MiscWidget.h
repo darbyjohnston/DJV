@@ -98,12 +98,14 @@ namespace djv
             //! This signal is emitted when the current cache size is changed.
             void cacheSizeChanged(float);
 
+        protected:
+            bool event(QEvent *) override;
+
         private Q_SLOTS:
             void buttonCallback();
             void menuCallback();
 
-        private Q_SLOTS:
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
         private:
@@ -172,12 +174,13 @@ namespace djv
 
         protected:
             virtual QAbstractSpinBox::StepEnabled stepEnabled() const;
+            bool event(QEvent *) override;
 
         private Q_SLOTS:
             void editingFinishedCallback();
             void timeUnitsCallback();
 
-            void sizeUpdate();
+            void styleUpdate();
             void textUpdate();
             void widgetUpdate();
 
@@ -326,11 +329,12 @@ namespace djv
             virtual void mouseReleaseEvent(QMouseEvent *);
             virtual void mouseMoveEvent(QMouseEvent *);
             virtual void paintEvent(QPaintEvent *);
+            bool event(QEvent *) override;
 
         private Q_SLOTS:
             void timeUnitsCallback();
             
-            void sizeUpdate();
+            void styleUpdate();
 
         private:
             qint64 end() const;
@@ -395,10 +399,13 @@ namespace djv
             //! Set whether in/out points are enabled.
             void setInOutEnabled(bool);
 
+        protected:
+            bool event(QEvent *) override;
+
         private Q_SLOTS:
             void timeUnitsCallback();
             
-            void sizeUpdate();
+            void styleUpdate();
             void textUpdate();
             void widgetUpdate();
 
@@ -427,11 +434,14 @@ namespace djv
             //! This signal is emitted when the speed is changed.
             void speedChanged(const djv::Core::Speed &);
 
+        protected:
+            bool event(QEvent *) override;
+
         private Q_SLOTS:
             void pressedCallback();
             void menuCallback();
 
-            void sizeUpdate();
+            void styleUpdate();
             
         private:
             DJV_PRIVATE_COPY(SpeedButton);
@@ -481,9 +491,13 @@ namespace djv
             //! This signal is emitted when the speed is changed.
             void speedChanged(const djv::Core::Speed &);
 
+        protected:
+            bool event(QEvent *) override;
+            
         private Q_SLOTS:
             void editCallback(float);
 
+            void styleUpdate();
             void widgetUpdate();
 
         private:
@@ -513,8 +527,11 @@ namespace djv
             //! Set whether frames were dropped.
             void setDroppedFrames(bool);
 
+        protected:
+            bool event(QEvent *) override;
+            
         private Q_SLOTS:
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
         private:

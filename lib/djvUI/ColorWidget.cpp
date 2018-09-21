@@ -42,6 +42,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QHBoxLayout>
+#include <QStyle>
 #include <QVBoxLayout>
 
 namespace djv
@@ -86,15 +87,13 @@ namespace djv
             _p->typeWidget->setToolTip(qApp->translate("djv::UI::ColorWidget", "Pixel type"));
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
             layout->setMargin(0);
-
             for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
             {
                 layout->addWidget(_p->intWidgets[i]);
                 layout->addWidget(_p->floatWidgets[i]);
             }
-
             _p->bottomLayout = new QHBoxLayout;
             _p->bottomLayout->setMargin(0);
             _p->bottomLayout->addStretch();
@@ -104,6 +103,7 @@ namespace djv
 
             // Initialize.
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            styleUpdate();
             widgetUpdate();
             valueUpdate();
 
@@ -158,6 +158,15 @@ namespace djv
             return _p->bottomLayout;
         }
 
+        bool ColorWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+        
         void ColorWidget::intCallback(int)
         {
             for (int i = 0; i < Graphics::Pixel::channels(_p->color.pixel()); ++i)
@@ -215,6 +224,11 @@ namespace djv
             widgetUpdate();
         }
 
+        void ColorWidget::styleUpdate()
+        {
+            _p->bottomLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+        }
+        
         void ColorWidget::widgetUpdate()
         {
             //DJV_DEBUG("ColorWidget::widgetUpdate");

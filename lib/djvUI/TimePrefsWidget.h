@@ -59,7 +59,6 @@ namespace djv
             void timeUnitsCallback(int);
             void speedCallback(int);
 
-            void sizeUpdate();
             void widgetUpdate();
 
         private:

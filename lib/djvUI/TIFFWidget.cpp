@@ -33,7 +33,6 @@
 
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -80,7 +79,6 @@ namespace djv
                 plugin->options()[Graphics::TIFF::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -92,10 +90,6 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         TIFFWidget::~TIFFWidget()
@@ -128,12 +122,6 @@ namespace djv
         {
             _options.compression = static_cast<Graphics::TIFF::COMPRESSION>(in);
             pluginUpdate();
-        }
-
-        void TIFFWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void TIFFWidget::pluginUpdate()

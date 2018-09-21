@@ -149,7 +149,7 @@ namespace djv
             layout->addWidget(buttonBox);
 
             // Initialize.
-            setWindowTitle(qApp->translate("djv::UI::ProgressDialog", "Progress Dialog"));
+            setWindowTitle(qApp->translate("djv::UI::ProgressDialog", "Progress"));
 
             _p->labelWidget->setText(label);
 

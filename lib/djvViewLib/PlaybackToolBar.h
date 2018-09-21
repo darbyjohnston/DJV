@@ -151,9 +151,14 @@ namespace djv
             //! This signal is emitted when the out point is changed.
             void outPointChanged(qint64);
 
-        private:
-            void layoutUpdate();
+        protected:
+            bool event(QEvent *) override;
 
+        private Q_SLOTS:
+            void layoutUpdate();
+            void styleUpdate();
+
+        private:
             DJV_PRIVATE_COPY(PlaybackToolBar);
 
             struct Private;

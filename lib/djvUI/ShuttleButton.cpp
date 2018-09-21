@@ -32,7 +32,6 @@
 #include <djvUI/ShuttleButton.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 #include <djvUI/UIContext.h>
 
 #include <djvCore/Math.h>
@@ -63,11 +62,7 @@ namespace djv
         {
             _p->context = context;
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            sizeUpdate();
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
+            styleUpdate();
         }
 
         ShuttleButton::~ShuttleButton()
@@ -75,9 +70,9 @@ namespace djv
 
         QSize ShuttleButton::sizeHint() const
         {
-            const int iconSize = context()->style()->sizeMetric().iconSize;
+            const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
             QSize sizeHint(iconSize, iconSize);
-            const int margin = context()->style()->sizeMetric().margin;
+            const int margin = style()->pixelMetric(QStyle::PM_ButtonMargin);
             QStyleOptionToolButton opt;
             opt.iconSize = _p->icons.count() > 0 ?
                 _p->icons[0].actualSize(sizeHint) :
@@ -126,36 +121,38 @@ namespace djv
             QIcon::State state = QIcon::Off;
             if (!isEnabled())
                 mode = QIcon::Disabled;
-            const QPixmap & pixmap = _p->icons[i].pixmap(width(), height(), mode, state);
+            const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+            const QPixmap & pixmap = _p->icons[i].pixmap(iconSize, iconSize, mode, state);
             if (!pixmap.isNull())
             {
-                QImage image(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
-                image.fill(Qt::transparent);
-                QPainter imagePainter(&image);
-                imagePainter.drawPixmap(0, 0, pixmap);
-                imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
-                imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), QPalette().foreground());
-
                 QPainter painter(this);
-                painter.drawImage(
-                    width() / 2 - image.width() / 2,
-                    height() / 2 - image.height() / 2,
-                    image);
+                painter.drawPixmap(
+                    width() / 2 - pixmap.width() / 2,
+                    height() / 2 - pixmap.height() / 2,
+                    pixmap);
             }
         }
-        
-        void ShuttleButton::sizeUpdate()
+
+        bool ShuttleButton::event(QEvent * event)
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractToolButton::event(event);
+        }
+        
+        void ShuttleButton::styleUpdate()
+        {
             _p->icons.clear();
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle0Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle1Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle2Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle3Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle4Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle5Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle6Icon", iconDPI));
-            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle7Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle0Icon"));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle1Icon"));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle2Icon"));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle3Icon"));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle4Icon"));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle5Icon"));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle6Icon"));
+            _p->icons.append(_p->context->iconLibrary()->icon("djv/UI/Shuttle7Icon"));
             updateGeometry();
             update();
         }

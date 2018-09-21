@@ -169,10 +169,8 @@ namespace djv
             {
                 _p->imageTmp = copy->_p->imageTmp;
                 _p->imagePick = copy->_p->imagePick;
-
                 _p->viewWidget->setViewPos(copy->_p->viewWidget->viewPos());
                 _p->viewWidget->setViewZoom(copy->_p->viewWidget->viewZoom());
-
                 resize(copy->size());
             }
             fileUpdate();

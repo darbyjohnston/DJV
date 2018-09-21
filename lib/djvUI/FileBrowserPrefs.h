@@ -315,7 +315,7 @@ namespace djv
             void bookmarksChanged(const QStringList &);
 
             //! This signal is emitted when the list of shortcuts are changed.
-            void shortcutsChanged(const QVector<Shortcut> &);
+            void shortcutsChanged(const QVector<djv::UI::Shortcut> &);
 
             //! This signal is emitted when a preference is changed.
             void prefChanged();

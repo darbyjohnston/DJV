@@ -59,14 +59,17 @@ namespace djv
 
             virtual ~IconLibrary();
 
+            //! Set the fill color.
+            void setColor(const QColor &);
+            
             //! Get an icon.
-            const QIcon & icon(const QString &, int DPI) const;
+            const QIcon & icon(const QString &) const;
 
             //! Get an icon.
-            QIcon icon(const QString & off, const QString & on, int DPI) const;
+            QIcon icon(const QString & off, const QString & on) const;
 
             //! Get a pixmap.
-            const QPixmap & pixmap(const QString &, int DPI) const;
+            const QPixmap & pixmap(const QString &) const;
 
             //! Get the list of icon names.
             QStringList names() const;

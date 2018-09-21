@@ -31,9 +31,9 @@
 
 #include <djvUI/MessagesDialog.h>
 
-#include <djvUI/UIContext.h>
 #include <djvUI/Prefs.h>
-#include <djvUI/Style.h>
+#include <djvUI/StylePrefs.h>
+#include <djvUI/UIContext.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
@@ -94,22 +94,18 @@ namespace djv
             prefs.get("show", _p->show);
 
             // Initialize.
-            setWindowTitle(
-                qApp->translate("djv::UI::MessagesDialog", "Messages Dialog"));
-            setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+            setWindowTitle(qApp->translate("djv::UI::MessagesDialog", "Messages"));
+            setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
 
             resize(400, 200);
 
-            updateWidget();
+            styleUpdate();
+            widgetUpdate();
 
             // Setup the callbacks.
             connect(_p->showCheckBox, SIGNAL(toggled(bool)), SLOT(showCallback(bool)));
             connect(clearButton, SIGNAL(clicked()), SLOT(clearCallback()));
             connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-            connect(
-                context->style(),
-                SIGNAL(fontsChanged()),
-                SLOT(updateWidget()));
         }
 
         MessagesDialog::~MessagesDialog()
@@ -126,7 +122,7 @@ namespace djv
             {
                 _p->list.pop_back();
             }
-            updateWidget();
+            widgetUpdate();
             if (_p->show)
             {
                 show();
@@ -144,10 +140,19 @@ namespace djv
                 Qt::PopupFocusReason);
         }
 
+        bool MessagesDialog::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QDialog::event(event);
+        }
+
         void MessagesDialog::clearCallback()
         {
             _p->list.clear();
-            updateWidget();
+            widgetUpdate();
         }
 
         void MessagesDialog::showCallback(bool value)
@@ -155,14 +160,15 @@ namespace djv
             _p->show = value;
         }
 
-        void MessagesDialog::updateWidget()
+        void MessagesDialog::styleUpdate()
         {
-            //DJV_DEBUG("MessagesDialog::updateWidget");
-            _p->widget->setFont(_p->context->style()->fonts().fixed);
+            _p->widget->setFont(_p->context->stylePrefs()->fonts().fixed);
+        }
+
+        void MessagesDialog::widgetUpdate()
+        {
             const QString text = _p->list.join("\n");
-            //DJV_DEBUG_PRINT("text = " << text);
             _p->widget->setText(text);
-            //DJV_DEBUG_PRINT("show = " << _p->show);
             _p->showCheckBox->setChecked(_p->show);
         }
 

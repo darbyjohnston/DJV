@@ -34,7 +34,6 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/TimePrefs.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/SignalBlocker.h>
@@ -91,7 +90,6 @@ namespace djv
             _p->layout->addStretch();
 
             // Initialize.
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -103,10 +101,6 @@ namespace djv
                 _p->speedWidget,
                 SIGNAL(activated(int)),
                 SLOT(speedCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         TimePrefsWidget::~TimePrefsWidget()
@@ -127,12 +121,6 @@ namespace djv
         void TimePrefsWidget::speedCallback(int index)
         {
             context()->timePrefs()->setSpeed(static_cast<Core::Speed::FPS>(index));
-        }
-
-        void TimePrefsWidget::sizeUpdate()
-        {
-            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void TimePrefsWidget::widgetUpdate()

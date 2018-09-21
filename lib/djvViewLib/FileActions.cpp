@@ -37,7 +37,7 @@
 #include <djvViewLib/Util.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
+#include <djvUI/StylePrefs.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -110,8 +110,8 @@ namespace djv
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(update()));
             connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
+                context->stylePrefs(),
+                SIGNAL(prefChanged()),
                 SLOT(update()));
         }
 
@@ -136,16 +136,15 @@ namespace djv
 
         void FileActions::update()
         {
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            _actions[OPEN]->setIcon(context()->iconLibrary()->icon("djv/UI/FileOpenIcon", iconDPI));
+            _actions[OPEN]->setIcon(context()->iconLibrary()->icon("djv/UI/FileOpenIcon"));
             _actions[OPEN]->setShortcut(shortcuts[Util::SHORTCUT_FILE_OPEN].value);
             _actions[OPEN]->setToolTip(
                 qApp->translate("djv::ViewLib::FileActions", "Open a new file\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_FILE_OPEN].value.toString()));
 
-            _actions[RELOAD]->setIcon(context()->iconLibrary()->icon("djv/UI/FileReloadIcon", iconDPI));
+            _actions[RELOAD]->setIcon(context()->iconLibrary()->icon("djv/UI/FileReloadIcon"));
             _actions[RELOAD]->setShortcut(shortcuts[Util::SHORTCUT_FILE_RELOAD].value);
             _actions[RELOAD]->setToolTip(
                 qApp->translate("djv::ViewLib::FileActions", "Reload the current file\n\nShortcut: %1").
@@ -156,7 +155,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileActions", "Reload the current frame\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
             
-            _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/FileCloseIcon", iconDPI));
+            _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/FileCloseIcon"));
             _actions[CLOSE]->setShortcut(shortcuts[Util::SHORTCUT_FILE_CLOSE].value);
             _actions[CLOSE]->setToolTip(
                 qApp->translate("djv::ViewLib::FileActions", "Close the current file\n\nShortcut: %1").

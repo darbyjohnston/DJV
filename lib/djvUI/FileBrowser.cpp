@@ -40,7 +40,6 @@
 #include <djvUI/Prefs.h>
 #include <djvUI/QuestionDialog.h>
 #include <djvUI/SearchBox.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Debug.h>
@@ -150,8 +149,7 @@ namespace djv
             Menus menus;
             Actions actions;
             Widgets widgets;
-            QHBoxLayout * hLayout = nullptr;
-            QHBoxLayout * hLayout2 = nullptr;
+            QHBoxLayout * buttonsLayout = nullptr;
         };
 
         FileBrowser::FileBrowser(UIContext * context, QWidget * parent) :
@@ -288,33 +286,33 @@ namespace djv
             closeButton->setAutoDefault(false);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
             layout->setMenuBar(_p->menus.menuBar);
 
-            _p->hLayout = new QHBoxLayout;
+            auto hLayout = new QHBoxLayout;
 
-            QHBoxLayout * hLayout2 = new QHBoxLayout;
+            _p->buttonsLayout = new QHBoxLayout;
+            _p->buttonsLayout->setMargin(0);
+            _p->buttonsLayout->addWidget(_p->widgets.up);
+            _p->buttonsLayout->addWidget(_p->widgets.prev);
+            _p->buttonsLayout->addWidget(_p->widgets.reload);
+            hLayout->addLayout(_p->buttonsLayout);
+
+            auto hLayout2 = new QHBoxLayout;
             hLayout2->setMargin(0);
-            hLayout2->addWidget(_p->widgets.up);
-            hLayout2->addWidget(_p->widgets.prev);
-            hLayout2->addWidget(_p->widgets.reload);
-            _p->hLayout->addLayout(hLayout2);
+            hLayout2->addWidget(seqLabel);
+            hLayout2->addWidget(_p->widgets.seq);
+            hLayout->addLayout(hLayout2);
 
-            _p->hLayout2 = new QHBoxLayout;
-            _p->hLayout2->setMargin(0);
-            _p->hLayout2->addWidget(seqLabel);
-            _p->hLayout2->addWidget(_p->widgets.seq);
-            _p->hLayout->addLayout(_p->hLayout2);
+            hLayout->addStretch();
+            hLayout->addWidget(_p->widgets.search);
 
-            _p->hLayout->addStretch();
-            _p->hLayout->addWidget(_p->widgets.search);
-
-            layout->addLayout(_p->hLayout);
+            layout->addLayout(hLayout);
 
             layout->addWidget(_p->widgets.browser);
             layout->addWidget(_p->widgets.file);
 
-            QHBoxLayout * hLayout = new QHBoxLayout;
+            hLayout = new QHBoxLayout;
             hLayout->addWidget(_p->widgets.pinned);
             hLayout->addStretch();
             hLayout->addWidget(okButton);
@@ -345,11 +343,11 @@ namespace djv
             {
                 _p->widgets.browser->header()->resizeSection(i, sizes[i]);
             }
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
             menuUpdate();
             toolTipUpdate();
-            resize(700, 600);
+            resize(800, 600);
 
             // Setup the callbacks.
             connect(
@@ -370,8 +368,8 @@ namespace djv
                 SLOT(menuUpdate()));
             _p->model->connect(
                 context->fileBrowserPrefs(),
-                SIGNAL(sequenceChanged(djvSequence::COMPRESS)),
-                SLOT(setSequence(djvSequence::COMPRESS)));
+                SIGNAL(sequenceChanged(djv::Core::Sequence::COMPRESS)),
+                SLOT(setSequence(djv::Core::Sequence::COMPRESS)));
             _p->model->connect(
                 context->fileBrowserPrefs(),
                 SIGNAL(showHiddenChanged(bool)),
@@ -470,10 +468,6 @@ namespace djv
                 context->fileBrowserPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(toolTipUpdate()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         FileBrowser::~FileBrowser()
@@ -848,13 +842,10 @@ namespace djv
             }
         }
 
-        void FileBrowser::sizeUpdate()
+        void FileBrowser::styleUpdate()
         {
-            _p->hLayout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
-            _p->hLayout2->setSpacing(_p->context->style()->sizeMetric().spacing);
-            modelUpdate();
+            _p->buttonsLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
             menuUpdate();
-            updateGeometry();
         }
 
         void FileBrowser::modelUpdate()
@@ -890,13 +881,12 @@ namespace djv
         void FileBrowser::menuUpdate()
         {
             //DJV_DEBUG("FileBrowser::menuUpdate");
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
             const QVector<Shortcut> & shortcuts = _p->context->fileBrowserPrefs()->shortcuts();
 
-            _p->actions.actions[Actions::UP]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirUpIcon", iconDPI));
+            _p->actions.actions[Actions::UP]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirUpIcon"));
             _p->actions.actions[Actions::UP]->setShortcut(shortcuts[FileBrowserPrefs::UP].value);
 
-            _p->actions.actions[Actions::PREV]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirPrevIcon", iconDPI));
+            _p->actions.actions[Actions::PREV]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirPrevIcon"));
             _p->actions.actions[Actions::PREV]->setShortcut(shortcuts[FileBrowserPrefs::PREV].value);
 
             _p->menus.menus[Menus::RECENT]->clear();
@@ -921,7 +911,7 @@ namespace djv
                 _p->actions.groups[Actions::DRIVES_GROUP]->addAction(action);
             }
 
-            _p->actions.actions[Actions::RELOAD]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirReloadIcon", iconDPI));
+            _p->actions.actions[Actions::RELOAD]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirReloadIcon"));
             _p->actions.actions[Actions::RELOAD]->setShortcut(shortcuts[FileBrowserPrefs::RELOAD].value);
 
             _p->menus.menus[Menus::THUMBNAILS]->clear();
@@ -1057,6 +1047,15 @@ namespace djv
 #endif
                 (fontMetrics.averageCharWidth() * 4 + border) <<
                 fontMetrics.width("000 000 00 00:00:00 0000");
+        }
+
+        bool FileBrowser::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QDialog::event(event);
         }
 
     } // namespace UI

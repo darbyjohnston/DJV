@@ -38,7 +38,6 @@
 #include <djvUI/InputDialog.h>
 #include <djvUI/QuestionDialog.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvGraphics/Image.h>
@@ -206,7 +205,7 @@ namespace djv
             layout->addStretch();
 
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -266,10 +265,6 @@ namespace djv
                 context->imagePrefs(),
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(update()));
         }
 
         ImagePrefsWidget::~ImagePrefsWidget()
@@ -285,6 +280,15 @@ namespace djv
             context()->imagePrefs()->setDisplayProfileIndex(ImagePrefs::displayProfileIndexDefault());
             context()->imagePrefs()->setChannel(ImagePrefs::channelDefault());
             widgetUpdate();
+        }
+
+        bool ImagePrefsWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractPrefsWidget::event(event);
         }
 
         void ImagePrefsWidget::frameStoreFileReloadCallback(bool in)
@@ -415,13 +419,12 @@ namespace djv
             context()->imagePrefs()->setChannel(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(in));
         }
         
-        void ImagePrefsWidget::sizeUpdate()
+        void ImagePrefsWidget::styleUpdate()
         {
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;
-            _p->addDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon", iconDPI));
-            _p->removeDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon", iconDPI));
-            _p->moveDisplayProfileUpButton->setIcon(context()->iconLibrary()->icon("djv/UI/UpIcon", iconDPI));
-            _p->moveDisplayProfileDownButton->setIcon(context()->iconLibrary()->icon("djv/UI/DownIcon", iconDPI));
+            _p->addDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon"));
+            _p->removeDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
+            _p->moveDisplayProfileUpButton->setIcon(context()->iconLibrary()->icon("djv/UI/UpIcon"));
+            _p->moveDisplayProfileDownButton->setIcon(context()->iconLibrary()->icon("djv/UI/DownIcon"));
         }
 
         void ImagePrefsWidget::widgetUpdate()

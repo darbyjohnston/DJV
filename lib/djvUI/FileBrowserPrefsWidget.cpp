@@ -38,7 +38,6 @@
 #include <djvUI/InputDialog.h>
 #include <djvUI/PrefsGroupBox.h>
 #include <djvUI/ShortcutsWidget.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Memory.h>
@@ -148,7 +147,6 @@ namespace djv
 
             // Layout the widgets.
             _p->layout = new QVBoxLayout(this);
-            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Files"), context);
@@ -207,7 +205,7 @@ namespace djv
             _p->layout->addWidget(prefsGroupBox);
 
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -274,10 +272,6 @@ namespace djv
                 context->fileBrowserPrefs(),
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         FileBrowserPrefsWidget::~FileBrowserPrefsWidget()
@@ -389,17 +383,15 @@ namespace djv
             context()->fileBrowserPrefs()->setShortcuts(in);
         }
 
-        void FileBrowserPrefsWidget::sizeUpdate()
+        void FileBrowserPrefsWidget::styleUpdate()
         {
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;
-            _p->addBookmarkButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon", iconDPI));
-            _p->removeBookmarkButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon", iconDPI));
-            _p->moveBookmarkUpButton->setIcon(context()->iconLibrary()->icon("djv/UI/UpIcon", iconDPI));
-            _p->moveBookmarkDownButton->setIcon(context()->iconLibrary()->icon("djv/UI/DownIcon", iconDPI));
-            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
+            _p->addBookmarkButton->setIcon(context()->iconLibrary()->icon("djv/UI/AddIcon"));
+            _p->removeBookmarkButton->setIcon(context()->iconLibrary()->icon("djv/UI/RemoveIcon"));
+            _p->moveBookmarkUpButton->setIcon(context()->iconLibrary()->icon("djv/UI/UpIcon"));
+            _p->moveBookmarkDownButton->setIcon(context()->iconLibrary()->icon("djv/UI/DownIcon"));
             updateGeometry();
         }
-
+        
         void FileBrowserPrefsWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
@@ -434,6 +426,15 @@ namespace djv
                 item->setData(Qt::EditRole, bookmarks[i]);
             }
             _p->shortcutsWidget->setShortcuts(context()->fileBrowserPrefs()->shortcuts());
+        }
+
+        bool FileBrowserPrefsWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractPrefsWidget::event(event);
         }
 
     } // namespace UI

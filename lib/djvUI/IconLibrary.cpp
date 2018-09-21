@@ -42,13 +42,16 @@
 #include <QPalette>
 #include <QPixmap>
 
+#include <iostream>
+
 namespace djv
 {
     namespace UI
     {
         struct IconLibrary::Private
         {
-            QMap<QString, QIcon>   icons;
+            QColor color = Qt::black;
+            QMap<QString, QIcon> icons;
             QMap<QString, QPixmap> pixmaps;
         };
 
@@ -64,82 +67,99 @@ namespace djv
             //DJV_DEBUG("IconLibrary::~IconLibrary");
         }
 
+        void IconLibrary::setColor(const QColor & value)
+        {
+            if (value == _p->color)
+                return;
+            _p->color = value;
+            _p->icons.clear();
+            _p->pixmaps.clear();
+        }
+        
         namespace
         {
-            QString getFullName(const QString& name, int DPI)
+            QStringList getFileNames(const QString& name)
             {
-                return QString(":%1%2DPI.png").arg(name).arg(DPI);
+                QStringList out;
+                QFileInfo fileInfo(name);
+                QDirIterator it(":" + fileInfo.path());
+                while (it.hasNext())
+                {
+                    const QString s = it.fileInfo().baseName().mid(0, fileInfo.baseName().size());
+                    if (fileInfo.baseName() == s && 0 == it.fileInfo().suffix().compare("png", Qt::CaseInsensitive))
+                    {
+                        out.append(it.fileInfo().filePath());
+                    }
+                    it.next();
+                }
+                return out;
             }
-
+            
+            QPixmap fillPixmap(const QPixmap& pixmap, const QColor& color)
+            {
+                QImage out;
+                if (!pixmap.isNull())
+                {
+                    out = QImage(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
+                    out.fill(Qt::transparent);
+                    QPainter imagePainter(&out);
+                    imagePainter.drawPixmap(0, 0, pixmap);
+                    imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
+                    imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), color);
+                }
+                return QPixmap::fromImage(out);
+            }
+        
         } // namespace
-
-        const QIcon & IconLibrary::icon(const QString & name, int DPI) const
+        
+        const QIcon & IconLibrary::icon(const QString & name) const
         {
             //DJV_DEBUG("IconLibrary::icon");
-            const QString fullName = getFullName(name, DPI);
-            //DJV_DEBUG_PRINT("full name = " << fullName);
-            if (!_p->icons.contains(fullName))
+            //DJV_DEBUG_PRINT("name = " << name);
+            if (!_p->icons.contains(name))
             {
                 QIcon icon;
-                icon.addPixmap(fullName, QIcon::Normal, QIcon::Off);
-                /*{
-                    QPixmap tmp(pixmap);
-                    QPainter painter(&tmp);
-                    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-                    painter.fillRect(
-                        QRect(QPoint(), tmp.size()),
-                        QColor(255, 255, 255, 50));
-                    icon.addPixmap(tmp, QIcon::Disabled, QIcon::Off);
-                }*/
-                /*{
-                    QPixmap tmp(pixmap);
-                    QPainter painter(&tmp);
-                    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-                    painter.fillRect(
-                        QRect(QPoint(), tmp.size()),
-                        qApp->palette().color(QPalette::Highlight));
-                    icon.addPixmap(tmp, QIcon::Normal, QIcon::On);
-                }*/
-                /*{
-                    QPixmap tmp(pixmap);
-                    QPainter painter(&tmp);
-                    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-                    painter.fillRect(
-                        QRect(QPoint(), tmp.size()),
-                        qApp->palette().color(QPalette::Highlight));
-                    painter.fillRect(
-                        QRect(QPoint(), tmp.size()),
-                        QColor(255, 255, 255, 50));
-                    icon.addPixmap(tmp, QIcon::Disabled, QIcon::On);
-                }*/
-                const_cast<Private *>(_p.get())->icons.insert(fullName, icon);
+                Q_FOREACH(const QString& i, getFileNames(name))
+                {
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::Off);                    
+                }
+                //Q_FOREACH(const QSize& size, icon.availableSizes())
+                //{
+                //    DJV_DEBUG_PRINT("size = " << size.width() << " " << size.height());
+                //}
+                const_cast<Private *>(_p.get())->icons.insert(name, icon);
             }
-            return _p->icons[fullName];
+            return _p->icons[name];
         }
 
-        QIcon IconLibrary::icon(const QString & off, const QString & on, int DPI) const
+        QIcon IconLibrary::icon(const QString & off, const QString & on) const
         {
-            const QString offFullName = getFullName(off, DPI);
-            const QString onFullName = getFullName(on, DPI);
-            const QString key = offFullName + onFullName;
+            const QString key = off + on;
             if (!_p->icons.contains(key))
             {
                 QIcon icon;
-                icon.addPixmap(offFullName, QIcon::Normal, QIcon::Off);
-                icon.addPixmap(onFullName, QIcon::Normal, QIcon::On);
+                Q_FOREACH(const QString& i, getFileNames(off))
+                {
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::Off);                    
+                }
+                Q_FOREACH(const QString& i, getFileNames(on))
+                {
+                    icon.addPixmap(fillPixmap(QPixmap(i), _p->color), QIcon::Normal, QIcon::On);
+                }
                 const_cast<Private *>(_p.get())->icons.insert(key, icon);
             }
             return _p->icons[key];
         }
 
-        const QPixmap & IconLibrary::pixmap(const QString & name, int DPI) const
+        const QPixmap & IconLibrary::pixmap(const QString & name) const
         {
-            const QString fullName = getFullName(name, DPI);
-            if (!_p->pixmaps.contains(fullName))
+            //DJV_DEBUG("IconLibrary::pixmap");
+            //DJV_DEBUG_PRINT("name = " << name);
+            if (!_p->pixmaps.contains(name))
             {
-                const_cast<Private *>(_p.get())->pixmaps.insert(fullName, QPixmap(fullName));
+                const_cast<Private *>(_p.get())->pixmaps.insert(name, fillPixmap(QPixmap(":" + name), _p->color));
             }
-            return _p->pixmaps[fullName];
+            return _p->pixmaps[name];
         }
 
         QStringList IconLibrary::names() const
@@ -148,10 +168,9 @@ namespace djv
             QDirIterator it(":");
             while (it.hasNext())
             {
-                QFileInfo fileInfo(it.fileInfo());
-                if (0 == fileInfo.suffix().compare("png", Qt::CaseInsensitive))
+                if (0 == it.fileInfo().suffix().compare("png", Qt::CaseInsensitive))
                 {
-                    names += fileInfo.fileName();
+                    names += it.fileInfo().fileName();
                 }
                 it.next();
             }

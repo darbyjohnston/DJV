@@ -34,7 +34,6 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -77,7 +76,6 @@ namespace djv
                 plugin->options()[Graphics::JPEG::QUALITY_OPTION]);
             tmp >> _options.quality;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -89,10 +87,6 @@ namespace djv
                 _qualityWidget,
                 SIGNAL(valueChanged(int)),
                 SLOT(qualityCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         JPEGWidget::~JPEGWidget()
@@ -125,12 +119,6 @@ namespace djv
         {
             _options.quality = in;
             pluginUpdate();
-        }
-
-        void JPEGWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void JPEGWidget::pluginUpdate()

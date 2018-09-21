@@ -54,7 +54,7 @@ Application::Application(int & argc, char ** argv) :
     }
     else
     {
-        setStyle("fusion");
+        setStyle(new UI::ProxyStyle);
         
         _window.reset(new Window(_context.data()));
         _window->setWindowTitle("djvImagePlayExperiment");

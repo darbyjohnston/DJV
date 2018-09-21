@@ -68,7 +68,7 @@ namespace djv
 
             //! Get the context.
             Context * context() const;
-
+            
         private:
             DJV_PRIVATE_COPY(AbstractGroup);
 

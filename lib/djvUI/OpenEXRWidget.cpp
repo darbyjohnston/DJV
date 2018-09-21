@@ -36,7 +36,6 @@
 #include <djvUI/FloatObject.h>
 #include <djvUI/IntEdit.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -210,7 +209,6 @@ namespace djv
             tmp >> _options.dwaCompressionLevel;
 #endif // OPENEXR_VERSION_HEX
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -264,10 +262,6 @@ namespace djv
                 SIGNAL(valueChanged(float)),
                 SLOT(dwaCompressionLevelCallback(float)));
 #endif // OPENEXR_VERSION_HEX
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         OpenEXRWidget::~OpenEXRWidget()
@@ -388,12 +382,6 @@ namespace djv
             _options.dwaCompressionLevel = in;
             pluginUpdate();
 #endif // OPENEXR_VERSION_HEX
-        }
-
-        void OpenEXRWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void OpenEXRWidget::pluginUpdate()

@@ -59,6 +59,7 @@ namespace djv
         protected:
             virtual void showEvent(QShowEvent *);
             virtual void resizeEvent(QResizeEvent *);
+            bool event(QEvent *) override;
 
         private Q_SLOTS:
             void sizeCallback(int);
@@ -66,7 +67,7 @@ namespace djv
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);
 
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
         private:

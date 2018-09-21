@@ -34,7 +34,6 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/HelpPrefs.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/SignalBlocker.h>
@@ -76,7 +75,6 @@ namespace djv
             _p->layout->addStretch();
 
             // Initialize.
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -84,10 +82,6 @@ namespace djv
                 _p->toolTipsWidget,
                 SIGNAL(toggled(bool)),
                 SLOT(toolTipsCallback(bool)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         HelpPrefsWidget::~HelpPrefsWidget()
@@ -103,12 +97,6 @@ namespace djv
         void HelpPrefsWidget::toolTipsCallback(bool toolTips)
         {
             context()->helpPrefs()->setToolTips(toolTips);
-        }
-
-        void HelpPrefsWidget::sizeUpdate()
-        {
-            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void HelpPrefsWidget::widgetUpdate()

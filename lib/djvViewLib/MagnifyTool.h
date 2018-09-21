@@ -58,6 +58,7 @@ namespace djv
 
         protected:
             virtual void showEvent(QShowEvent *);
+            bool event(QEvent *) override;
 
         private Q_SLOTS:
             void pickCallback(const glm::ivec2 &);
@@ -65,7 +66,7 @@ namespace djv
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);
 
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
             void pixelDataUpdate();
 

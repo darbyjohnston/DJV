@@ -38,7 +38,6 @@
 #include <djvViewLib/ViewPrefs.h>
 #include <djvViewLib/WindowPrefs.h>
 
-#include <djvUI/Style.h>
 #include <djvUI/TimePrefs.h>
 
 #include <djvGraphics/OpenGL.h>
@@ -54,6 +53,7 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QStyle>
 #include <QUrl>
 #include <QWheelEvent>
 
@@ -146,9 +146,9 @@ namespace djv
             //DJV_DEBUG("ImageView::sizeHint");
             //DJV_DEBUG_PRINT("zoom = " << viewZoom());
             glm::ivec2 size = Core::VectorUtil::ceil(bbox().size);
-            if (Core::VectorUtil::isSizeValid(size))
+            if (!Core::VectorUtil::isSizeValid(size))
             {
-                size = glm::ivec2(640, 300);
+                size = glm::ivec2(800, 400);
             }
             glm::ivec2 maxSize(0, 0);
             const QSize desktopGeom = qApp->desktop()->availableGeometry().size();
@@ -616,7 +616,7 @@ namespace djv
 
             // Setup.
             const Core::Box2i geom(width(), height());
-            const int  margin = _p->context->style()->sizeMetric().widgetMargin;
+            const int  margin = style()->pixelMetric(QStyle::PM_LayoutLeftMargin);
             QSize      size;
             glm::ivec2 p;
             QString    s;

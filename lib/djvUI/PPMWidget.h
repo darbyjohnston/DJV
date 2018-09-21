@@ -61,7 +61,6 @@ namespace djv
             void typeCallback(int);
             void dataCallback(int);
 
-            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

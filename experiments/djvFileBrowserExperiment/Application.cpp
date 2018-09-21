@@ -48,7 +48,7 @@
 Application::Application(int & argc, char ** argv) :
     QApplication(argc, argv)
 {
-    setStyle("fusion");
+    setStyle(new UI::ProxyStyle);
     
     qRegisterMetaType<DirRequest>("DirRequest");
     qRegisterMetaType<DirResult>("DirResult");

@@ -59,7 +59,6 @@ namespace djv
             void filterMinCallback(int);
             void filterMagCallback(int);
 
-            void sizeUpdate();
             void widgetUpdate();
 
         private:

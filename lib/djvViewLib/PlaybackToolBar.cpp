@@ -38,10 +38,11 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QPointer>
+#include <QStyle>
 
 namespace djv
 {
@@ -52,7 +53,6 @@ namespace djv
             Context * context = nullptr;
             Util::LAYOUT layout = static_cast<Util::LAYOUT>(0);
             QWidget * widget = nullptr;
-            QHBoxLayout * widgetLayout = nullptr;
             PlaybackButtons * playbackButtons = nullptr;
             LoopWidget * loopWidget = nullptr;
             SpeedWidget * speedWidget = nullptr;
@@ -69,6 +69,11 @@ namespace djv
             UI::ToolButton * markOutPointButton = nullptr;
             UI::ToolButton * resetInPointButton = nullptr;
             UI::ToolButton * resetOutPointButton = nullptr;
+            QHBoxLayout * widgetLayout = nullptr;
+            QPointer<QHBoxLayout> realSpeedAndEveryFrameLayout;
+            QPointer<QHBoxLayout> loopAndInOutEnabledLayout;
+            QPointer<QHBoxLayout> inPointLayout;
+            QPointer<QHBoxLayout> outPointLayout;
         };
 
         PlaybackToolBar::PlaybackToolBar(
@@ -101,7 +106,6 @@ namespace djv
             _p->everyFrameButton = new UI::ToolButton(context);
             _p->everyFrameButton->setDefaultAction(
                 actions->action(PlaybackActions::EVERY_FRAME));
-            _p->everyFrameButton->setIconSize(QSize(20, 20));
             _p->everyFrameButton->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback every frame"));
 
@@ -133,33 +137,23 @@ namespace djv
             // Create the in/out point widgets.
             _p->inOutEnabledButton = new UI::ToolButton(context);
             _p->inOutEnabledButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
-                    Util::IN_OUT_ENABLE]);
-            _p->inOutEnabledButton->setIconSize(QSize(20, 20));
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::IN_OUT_ENABLE]);
 
             _p->markInPointButton = new UI::ToolButton(context);
             _p->markInPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
-                    Util::MARK_IN]);
-            _p->markInPointButton->setIconSize(QSize(20, 20));
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::MARK_IN]);
 
             _p->markOutPointButton = new UI::ToolButton(context);
             _p->markOutPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
-                    Util::MARK_OUT]);
-            _p->markOutPointButton->setIconSize(QSize(20, 20));
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::MARK_OUT]);
 
             _p->resetInPointButton = new UI::ToolButton(context);
             _p->resetInPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
-                    Util::RESET_IN]);
-            _p->resetInPointButton->setIconSize(QSize(20, 20));
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::RESET_IN]);
 
             _p->resetOutPointButton = new UI::ToolButton(context);
             _p->resetOutPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
-                    Util::RESET_OUT]);
-            _p->resetOutPointButton->setIconSize(QSize(20, 20));
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::RESET_OUT]);
 
             // Layout the widgets.
             _p->widget = new QWidget;
@@ -170,6 +164,7 @@ namespace djv
             setFloatable(false);
             setMovable(false);
             layoutUpdate();
+            styleUpdate();
 
             // Setup callbacks.
             connect(
@@ -336,6 +331,16 @@ namespace djv
                 return;
             _p->layout = layout;
             layoutUpdate();
+            styleUpdate();
+        }
+
+        bool PlaybackToolBar::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractToolBar::event(event);
         }
 
         void PlaybackToolBar::layoutUpdate()
@@ -350,31 +355,36 @@ namespace djv
             case Util::LAYOUT_DEFAULT:
             case Util::LAYOUT_LEFT:
             {
-                QVBoxLayout * leftLayout = new QVBoxLayout;
+                auto leftLayout = new QVBoxLayout;
                 leftLayout->setMargin(0);
 
-                QHBoxLayout * hLayout = new QHBoxLayout;
+                auto hLayout = new QHBoxLayout;
                 hLayout->setMargin(0);
                 hLayout->addWidget(_p->playbackButtons);
                 hLayout->addWidget(_p->frameButtons);
                 leftLayout->addLayout(hLayout);
 
-                hLayout = new QHBoxLayout;
-                hLayout->setMargin(0);
-                QHBoxLayout * hLayout2 = new QHBoxLayout;
+                auto hLayout2 = new QHBoxLayout;
                 hLayout2->setMargin(0);
-                hLayout2->addWidget(_p->speedWidget);
-                hLayout2->addWidget(_p->realSpeedDisplay);
-                hLayout2->addWidget(_p->everyFrameButton);
-                hLayout->addLayout(hLayout2);
-                hLayout->addStretch(1000);
-                hLayout->addWidget(_p->loopWidget);
-                hLayout->addWidget(_p->inOutEnabledButton);
-                leftLayout->addLayout(hLayout);
-
+                auto hLayout3 = new QHBoxLayout;
+                hLayout3->setMargin(0);
+                hLayout3->addWidget(_p->speedWidget);
+                _p->realSpeedAndEveryFrameLayout = new QHBoxLayout;
+                _p->realSpeedAndEveryFrameLayout->setMargin(0);
+                _p->realSpeedAndEveryFrameLayout->addWidget(_p->realSpeedDisplay);
+                _p->realSpeedAndEveryFrameLayout->addWidget(_p->everyFrameButton);
+                hLayout3->addLayout(_p->realSpeedAndEveryFrameLayout);
+                hLayout2->addLayout(hLayout3);
+                hLayout2->addStretch(1000);
+                _p->loopAndInOutEnabledLayout = new QHBoxLayout;
+                _p->loopAndInOutEnabledLayout->setMargin(0);
+                _p->loopAndInOutEnabledLayout->addWidget(_p->loopWidget);
+                _p->loopAndInOutEnabledLayout->addWidget(_p->inOutEnabledButton);
+                hLayout2->addLayout(_p->loopAndInOutEnabledLayout);
+                leftLayout->addLayout(hLayout2);
                 _p->widgetLayout->addLayout(leftLayout);
 
-                QVBoxLayout * rightLayout = new QVBoxLayout;
+                auto rightLayout = new QVBoxLayout;
                 rightLayout->setMargin(0);
 
                 hLayout = new QHBoxLayout;
@@ -382,55 +392,59 @@ namespace djv
                 hLayout->addWidget(_p->frameSlider, 1);
                 rightLayout->addLayout(hLayout);
 
-                hLayout = new QHBoxLayout;
-                hLayout->setMargin(0);
-                hLayout->addWidget(_p->frameWidget);
                 hLayout2 = new QHBoxLayout;
                 hLayout2->setMargin(0);
-                hLayout2->addWidget(_p->markInPointButton);
-                hLayout2->addWidget(_p->resetInPointButton);
-                hLayout2->addWidget(_p->startWidget);
-                hLayout->addLayout(hLayout2);
+                hLayout2->addWidget(_p->frameWidget);
+                _p->inPointLayout = new QHBoxLayout;
+                _p->inPointLayout->setMargin(0);
+                _p->inPointLayout->addWidget(_p->markInPointButton);
+                _p->inPointLayout->addWidget(_p->resetInPointButton);
+                _p->inPointLayout->addWidget(_p->startWidget);
+                hLayout2->addLayout(_p->inPointLayout);
                 if (Util::LAYOUT_DEFAULT == _p->layout)
-                    hLayout->addStretch(1000);
-                hLayout2 = new QHBoxLayout;
-                hLayout2->setMargin(0);
-                hLayout2->addWidget(_p->endWidget);
-                hLayout2->addWidget(_p->resetOutPointButton);
-                hLayout2->addWidget(_p->markOutPointButton);
-                hLayout->addLayout(hLayout2);
-                hLayout->addWidget(_p->durationDisplay);
+                    hLayout2->addStretch(1000);
+                _p->outPointLayout = new QHBoxLayout;
+                _p->outPointLayout->setMargin(0);
+                _p->outPointLayout->addWidget(_p->endWidget);
+                _p->outPointLayout->addWidget(_p->resetOutPointButton);
+                _p->outPointLayout->addWidget(_p->markOutPointButton);
+                hLayout2->addLayout(_p->outPointLayout);
+                hLayout2->addWidget(_p->durationDisplay);
                 if (Util::LAYOUT_LEFT == _p->layout)
-                    hLayout->addStretch(1000);
-                rightLayout->addLayout(hLayout);
-
+                    hLayout2->addStretch(1000);
+                rightLayout->addLayout(hLayout2);
                 _p->widgetLayout->addLayout(rightLayout, 1);
             }
             break;
             case Util::LAYOUT_CENTER:
             {
-                QVBoxLayout * layout = new QVBoxLayout;
-                layout->setMargin(0);
+                auto vLayout = new QVBoxLayout;
+                vLayout->setMargin(0);
+                vLayout->addWidget(_p->frameSlider);
 
-                layout->addWidget(_p->frameSlider);
-
-                QHBoxLayout * hLayout = new QHBoxLayout;
+                auto hLayout = new QHBoxLayout;
                 hLayout->setMargin(0);
                 hLayout->addStretch(1000);
                 hLayout->addWidget(_p->frameWidget);
-                hLayout->addWidget(_p->markInPointButton);
-                hLayout->addWidget(_p->resetInPointButton);
-                hLayout->addWidget(_p->startWidget);
+                _p->inPointLayout = new QHBoxLayout;
+                _p->inPointLayout->setMargin(0);
+                _p->inPointLayout->addWidget(_p->markInPointButton);
+                _p->inPointLayout->addWidget(_p->resetInPointButton);
+                _p->inPointLayout->addWidget(_p->startWidget);
+                hLayout->addLayout(_p->inPointLayout);
                 hLayout->addWidget(_p->playbackButtons);
                 hLayout->addWidget(_p->frameButtons);
-                hLayout->addWidget(_p->endWidget);
-                hLayout->addWidget(_p->resetOutPointButton);
-                hLayout->addWidget(_p->markOutPointButton);
+                _p->outPointLayout = new QHBoxLayout;
+                _p->outPointLayout->setMargin(0);
+                _p->outPointLayout->addWidget(_p->endWidget);
+                _p->outPointLayout->addWidget(_p->resetOutPointButton);
+                _p->outPointLayout->addWidget(_p->markOutPointButton);
+                hLayout->addLayout(_p->outPointLayout);
                 hLayout->addWidget(_p->durationDisplay);
                 hLayout->addStretch(1000);
-                layout->addLayout(hLayout);
+                vLayout->addLayout(hLayout);
 
-                _p->widgetLayout->addLayout(layout, 1);
+                _p->widgetLayout->addLayout(vLayout, 1);
             }
             break;
             case Util::LAYOUT_MINIMAL:
@@ -501,5 +515,26 @@ namespace djv
             }
         }
 
+        void PlaybackToolBar::styleUpdate()
+        {
+            const int toolBarSpacing = style()->pixelMetric(QStyle::PM_ToolBarItemSpacing);
+            if (_p->realSpeedAndEveryFrameLayout)
+            {
+                _p->realSpeedAndEveryFrameLayout->setSpacing(toolBarSpacing);
+            }
+            if (_p->loopAndInOutEnabledLayout)
+            {
+                _p->loopAndInOutEnabledLayout->setSpacing(toolBarSpacing);
+            }
+            if (_p->inPointLayout)
+            {
+                _p->inPointLayout->setSpacing(toolBarSpacing);
+            }
+            if (_p->outPointLayout)
+            {
+                _p->outPointLayout->setSpacing(toolBarSpacing);
+            }
+        }
+        
     } // namespace ViewLib
 } // namespace djv

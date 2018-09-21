@@ -36,7 +36,6 @@
 #include <djvUI/IntObject.h>
 #include <djvUI/SequencePrefs.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Sequence.h>
@@ -85,7 +84,6 @@ namespace djv
             _p->layout->addStretch();
 
             // Initialize.
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -93,10 +91,6 @@ namespace djv
                 _p->maxFramesWidget,
                 SIGNAL(valueChanged(int)),
                 SLOT(maxFramesCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         SequencePrefsWidget::~SequencePrefsWidget()
@@ -111,12 +105,6 @@ namespace djv
         void SequencePrefsWidget::maxFramesCallback(int size)
         {
             context()->sequencePrefs()->setMaxFrames(size);
-        }
-
-        void SequencePrefsWidget::sizeUpdate()
-        {
-            _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void SequencePrefsWidget::widgetUpdate()

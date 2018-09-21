@@ -34,8 +34,6 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
-#include <djvUI/Style.h>
-
 #include <djvCore/DebugLog.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfoUtil.h>
@@ -88,8 +86,7 @@ namespace djv
             case QEvent::FileOpen:
             {
                 QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
-                QVector<ViewLib::MainWindow *> mainWindowList =
-                    ViewLib::MainWindow::mainWindowList();
+                QVector<ViewLib::MainWindow *> mainWindowList = ViewLib::MainWindow::mainWindowList();
                 if (mainWindowList.count())
                 {
                     mainWindowList[0]->fileOpen(e->file());
@@ -113,7 +110,6 @@ namespace djv
             // Initialize user interface.
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Initialize user interface...");
             _p->context->setValid(true);
-            setStyle(new UI::ProxyStyle);
             setWindowIcon(QPixmap(":projector32x32.png"));
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
 

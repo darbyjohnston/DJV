@@ -41,7 +41,6 @@
 #include <djvUI/IconLibrary.h>
 #include <djvUI/PixelMaskWidget.h>
 #include <djvUI/Prefs.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Debug.h>
@@ -78,16 +77,14 @@ namespace djv
         private:
             void updatePixmap();
 
-            const Graphics::PixelData * _data;
+            const Graphics::PixelData * _data = nullptr;
             Graphics::Color             _min;
             Graphics::Color             _max;
             QPixmap                     _pixmap;
-            bool                        _dirty;
+            bool                        _dirty = true;
         };
 
-        HistogramWidget::HistogramWidget() :
-            _data(0),
-            _dirty(true)
+        HistogramWidget::HistogramWidget()
         {
             setAttribute(Qt::WA_OpaquePaintEvent);
         }
@@ -227,6 +224,7 @@ namespace djv
             UI::PixelMaskWidget * maskWidget = nullptr;
             UI::ToolButton * colorProfileButton = nullptr;
             UI::ToolButton * displayProfileButton = nullptr;
+            QHBoxLayout * hLayout = nullptr;
         };
 
         HistogramTool::HistogramTool(
@@ -263,11 +261,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the display profile is enabled"));
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
             layout->addWidget(_p->widget, 1);
 
-            QFormLayout * formLayout = new QFormLayout;
+            auto formLayout = new QFormLayout;
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::HistogramTool", "Min:"),
                 _p->minWidget);
@@ -276,17 +274,14 @@ namespace djv
                 _p->maxWidget);
             layout->addLayout(formLayout);
 
-            QHBoxLayout * hLayout = new QHBoxLayout;
-            hLayout->setMargin(0);
-            hLayout->addWidget(_p->sizeWidget);
-            hLayout->addStretch();
-            hLayout->addWidget(_p->maskWidget);
-            QHBoxLayout * hLayout2 = new QHBoxLayout;
-            hLayout2->setMargin(0);
-            hLayout2->addWidget(_p->colorProfileButton);
-            hLayout2->addWidget(_p->displayProfileButton);
-            hLayout->addLayout(hLayout2);
-            layout->addLayout(hLayout);
+            _p->hLayout = new QHBoxLayout;
+            _p->hLayout->setMargin(0);
+            _p->hLayout->addStretch();
+            _p->hLayout->addWidget(_p->sizeWidget);
+            _p->hLayout->addWidget(_p->maskWidget);
+            _p->hLayout->addWidget(_p->colorProfileButton);
+            _p->hLayout->addWidget(_p->displayProfileButton);
+            layout->addLayout(_p->hLayout);
 
             // Preferences.
             UI::Prefs prefs("djv::ViewLib::HistogramTool");
@@ -295,7 +290,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::HistogramTool", "Histogram"));
-            sizeUpdate();            
+            styleUpdate();            
             widgetUpdate();
 
             // Setup the callbacks.
@@ -319,10 +314,6 @@ namespace djv
                 _p->displayProfileButton,
                 SIGNAL(toggled(bool)),
                 SLOT(displayProfileCallback(bool)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         HistogramTool::~HistogramTool()
@@ -371,11 +362,20 @@ namespace djv
             widgetUpdate();
         }
 
-        void HistogramTool::sizeUpdate()
+        bool HistogramTool::event(QEvent * event)
         {
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;            
-            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
-            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractTool::event(event);
+        }
+
+        void HistogramTool::styleUpdate()
+        {
+            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
+            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
+            _p->hLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
         }
         
         void HistogramTool::widgetUpdate()

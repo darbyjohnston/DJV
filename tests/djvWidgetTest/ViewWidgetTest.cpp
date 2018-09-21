@@ -34,7 +34,6 @@
 #include <djvViewLib/MiscWidget.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 #include <djvUI/TimePrefs.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
@@ -77,16 +76,14 @@ namespace djv
 
             _frameSlider = new ViewLib::FrameSlider(context);
             
-            const int iconDPI = context->style()->sizeMetric().iconDPI;
-
             UI::ToolButton * markInPointButton = new UI::ToolButton(context);
-            markInPointButton->setIcon(context->iconLibrary()->icon("djvInPointMarkIcon", iconDPI));
+            markInPointButton->setIcon(context->iconLibrary()->icon("djvInPointMarkIcon"));
             UI::ToolButton * markOutPointButton = new UI::ToolButton(context);
-            markOutPointButton->setIcon(context->iconLibrary()->icon("djvOutPointMarkIcon", iconDPI));
+            markOutPointButton->setIcon(context->iconLibrary()->icon("djvOutPointMarkIcon"));
             UI::ToolButton * resetInPointButton = new UI::ToolButton(context);
-            resetInPointButton->setIcon(context->iconLibrary()->icon("djvInPointResetIcon", iconDPI));
+            resetInPointButton->setIcon(context->iconLibrary()->icon("djvInPointResetIcon"));
             UI::ToolButton * resetOutPointButton = new UI::ToolButton(context);
-            resetOutPointButton->setIcon(context->iconLibrary()->icon("djvOutPointResetIcon", iconDPI));
+            resetOutPointButton->setIcon(context->iconLibrary()->icon("djvOutPointResetIcon"));
 
             _frameDisplay = new ViewLib::FrameDisplay(context);
 

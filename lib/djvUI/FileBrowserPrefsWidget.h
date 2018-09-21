@@ -71,9 +71,12 @@ namespace djv
             void moveBookmarkDownCallback();
             void shortcutsCallback(const QVector<djv::UI::Shortcut> &);
 
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
+        protected:
+            bool event(QEvent *) override;
+            
         private:
             DJV_PRIVATE_COPY(FileBrowserPrefsWidget);
 

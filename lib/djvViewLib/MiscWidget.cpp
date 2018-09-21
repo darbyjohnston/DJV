@@ -38,7 +38,6 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/Prefs.h>
-#include <djvUI/Style.h>
 #include <djvUI/TimePrefs.h>
 #include <djvUI/ToolButton.h>
 
@@ -63,6 +62,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QStyle>
 #include <QVBoxLayout>
 
 using namespace djv;
@@ -165,7 +165,7 @@ namespace djv
             layout->addWidget(_p->button);
 
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -177,10 +177,6 @@ namespace djv
                 _p->button,
                 SIGNAL(pressed()),
                 SLOT(buttonCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         CacheSizeWidget::~CacheSizeWidget()
@@ -214,6 +210,15 @@ namespace djv
             Q_EMIT cacheSizeChanged(_p->cacheSize);
         }
 
+        bool CacheSizeWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void CacheSizeWidget::buttonCallback()
         {
             QMenu menu;
@@ -237,10 +242,9 @@ namespace djv
             setCacheSize(action->data().toInt());
         }
 
-        void CacheSizeWidget::sizeUpdate()
+        void CacheSizeWidget::styleUpdate()
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/SubMenuIcon", iconDPI));
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/SubMenuIcon"));
         }
         
         void CacheSizeWidget::widgetUpdate()
@@ -266,7 +270,7 @@ namespace djv
             _p->context = context;
 
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
             textUpdate();
             widgetUpdate();
 
@@ -279,10 +283,6 @@ namespace djv
                 context->timePrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         FrameWidget::~FrameWidget()
@@ -318,7 +318,9 @@ namespace djv
             default: break;
             }
             return QSize(
-                fontMetrics().width(sizeString) + _p->context->style()->sizeMetric().fontSize * 2,
+                fontMetrics().width(sizeString) +
+                style()->pixelMetric(QStyle::PM_LayoutLeftMargin) +
+                style()->pixelMetric(QStyle::PM_LayoutRightMargin),
                 QAbstractSpinBox::sizeHint().height());
         }
 
@@ -375,6 +377,15 @@ namespace djv
             return step;
         }
 
+        bool FrameWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QAbstractSpinBox::event(event);
+        }
+
         void FrameWidget::editingFinishedCallback()
         {
             //DJV_DEBUG("FrameWidget::editingFinishedCallback");
@@ -392,7 +403,7 @@ namespace djv
             updateGeometry();
         }
 
-        void FrameWidget::sizeUpdate()
+        void FrameWidget::styleUpdate()
         {
             updateGeometry();
         }
@@ -434,16 +445,12 @@ namespace djv
 
             setAttribute(Qt::WA_OpaquePaintEvent);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-            sizeUpdate();
+            styleUpdate();
 
             connect(
                 context->timePrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         FrameSlider::~FrameSlider()
@@ -481,7 +488,7 @@ namespace djv
 
         QSize FrameSlider::sizeHint() const
         {
-            return QSize(200, fontMetrics().height() * 2 + _p->context->style()->sizeMetric().margin * 2);
+            return QSize(200, fontMetrics().height() * 2 + style()->pixelMetric(QStyle::PM_ButtonMargin) * 2);
         }
 
         void FrameSlider::setFrameList(const Core::FrameList & in)
@@ -679,16 +686,15 @@ namespace djv
                 }
             }
             int labelWidthMax = 0;
-            const int spacing = _p->context->style()->sizeMetric().spacing;
+            const int spacing = style()->pixelMetric(QStyle::PM_LayoutHorizontalSpacing);
             for (int i = 0; i < ticks.count(); ++i)
             {
-                const QRect labelBounds =
-                    fontMetrics().boundingRect(ticks[i].label);
+                const QRect labelBounds = fontMetrics().boundingRect(ticks[i].label);
                 ticks[i].labelRect = QRect(
                     ticks[i].x + spacing,
                     box.h / 2,
-                    labelBounds.width(),
-                    labelBounds.height());
+                    fontMetrics().width(ticks[i].label),
+                    fontMetrics().height());
                 labelWidthMax = Core::Math::max(
                     labelWidthMax,
                     ticks[i].labelRect.width());
@@ -724,8 +730,7 @@ namespace djv
             current.x = (frameToPosF(_p->frame) + frameToPosF(_p->frame + 1)) / 2.f;
             current.label = Core::Time::frameToString(
                 _p->frameList.count() ? _p->frameList[_p->frame] : 0, speed);
-            const QRect labelBounds =
-                fontMetrics().boundingRect(current.label);
+            const QRect labelBounds = fontMetrics().boundingRect(current.label);
             current.labelRect = QRect(
                 current.x + spacing,
                 5,
@@ -736,13 +741,22 @@ namespace djv
             current.draw(&painter, palette, box.h);
         }
 
+        bool FrameSlider::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void FrameSlider::timeUnitsCallback()
         {
             updateGeometry();
             update();
         }
 
-        void FrameSlider::sizeUpdate()
+        void FrameSlider::styleUpdate()
         {
             updateGeometry();
         }
@@ -811,7 +825,7 @@ namespace djv
             layout->addWidget(_p->lineEdit);
 
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
             textUpdate();
             widgetUpdate();
 
@@ -820,10 +834,6 @@ namespace djv
                 context->timePrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         FrameDisplay::~FrameDisplay()
@@ -851,11 +861,10 @@ namespace djv
             {
             case Core::Time::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
             case Core::Time::UNITS_FRAMES:   sizeString = "000000";      break;
-
             default: break;
             }
             return QSize(
-                fontMetrics().width(sizeString) + _p->context->style()->sizeMetric().fontSize,
+                fontMetrics().width(sizeString) + fontMetrics().height(),
                 QWidget::sizeHint().height());
         }
 
@@ -885,6 +894,15 @@ namespace djv
             widgetUpdate();
         }
 
+        bool FrameDisplay::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void FrameDisplay::timeUnitsCallback()
         {
             textUpdate();
@@ -892,7 +910,7 @@ namespace djv
             updateGeometry();
         }
 
-        void FrameDisplay::sizeUpdate()
+        void FrameDisplay::styleUpdate()
         {
             updateGeometry();
         }
@@ -935,17 +953,13 @@ namespace djv
             layout->addWidget(_p->button);
             
             // Initialize.
-            sizeUpdate();
+            styleUpdate();
 
             // Setup the callbacks.
             connect(
                 _p->button,
                 SIGNAL(pressed()),
                 SLOT(pressedCallback()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         SpeedButton::~SpeedButton()
@@ -954,6 +968,15 @@ namespace djv
         void SpeedButton::setDefaultSpeed(const Core::Speed & in)
         {
             _p->defaultSpeed = in;
+        }
+
+        bool SpeedButton::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
         }
 
         void SpeedButton::pressedCallback()
@@ -991,10 +1014,9 @@ namespace djv
             Q_EMIT speedChanged(-1 == index ? _p->defaultSpeed : static_cast<Core::Speed::FPS>(index));
         }
 
-        void SpeedButton::sizeUpdate()
+        void SpeedButton::styleUpdate()
         {
-            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
-            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/SubMenuIcon", iconDPI));
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djv/UI/SubMenuIcon"));
         }
 
         struct SpeedWidget::Private
@@ -1003,6 +1025,7 @@ namespace djv
             Core::Speed defaultSpeed;
             UI::FloatEdit * floatEdit = nullptr;
             SpeedButton * button = nullptr;
+            QHBoxLayout * layout = nullptr;
         };
 
         SpeedWidget::SpeedWidget(UI::UIContext * context, QWidget * parent) :
@@ -1017,12 +1040,13 @@ namespace djv
             _p->button = new SpeedButton(context);
 
             // Layout the widgets.
-            QHBoxLayout * layout = new QHBoxLayout(this);
-            layout->setMargin(0);
-            layout->addWidget(_p->floatEdit, 1);
-            layout->addWidget(_p->button);
+            _p->layout = new QHBoxLayout(this);
+            _p->layout->setMargin(0);
+            _p->layout->addWidget(_p->floatEdit, 1);
+            _p->layout->addWidget(_p->button);
 
             // Initialize.
+            styleUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -1073,6 +1097,20 @@ namespace djv
             widgetUpdate();
         }
 
+        bool SpeedWidget::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
+        void SpeedWidget::styleUpdate()
+        {
+            _p->layout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+        }
+
         void SpeedWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(_p->floatEdit);
@@ -1101,13 +1139,8 @@ namespace djv
             layout->setMargin(0);
             layout->addWidget(_p->lineEdit);
 
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
-
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         SpeedDisplay::~SpeedDisplay()
@@ -1116,8 +1149,11 @@ namespace djv
         QSize SpeedDisplay::sizeHint() const
         {
             QString sizeString("000.00");
+
             return QSize(
-                fontMetrics().width(sizeString) + _p->context->style()->sizeMetric().fontSize,
+                fontMetrics().width(sizeString) +
+                style()->pixelMetric(QStyle::PM_LayoutLeftMargin) +
+                style()->pixelMetric(QStyle::PM_LayoutRightMargin),
                 QWidget::sizeHint().height());
         }
 
@@ -1137,7 +1173,16 @@ namespace djv
             widgetUpdate();
         }
 
-        void SpeedDisplay::sizeUpdate()
+        bool SpeedDisplay::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
+        void SpeedDisplay::styleUpdate()
         {
             updateGeometry();
         }

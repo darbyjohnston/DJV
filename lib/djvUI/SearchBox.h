@@ -75,11 +75,14 @@ namespace djv
             //! This signal is emitted when the text is changed.
             void textChanged(const QString &);
 
+        protected:
+            bool event(QEvent*) override;
+
         private Q_SLOTS:
             void textCallback(const QString &);
             void resetCallback();
             
-            void sizeUpdate();
+            void styleUpdate();
 
         private:
             DJV_PRIVATE_COPY(SearchBox);

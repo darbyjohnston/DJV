@@ -77,13 +77,16 @@ namespace djv
             //! This signal is emitted when the pixel mask is changed.
             void maskChanged(const djv::Graphics::Pixel::Mask &);
 
+        protected:
+            bool event(QEvent*) override;
+
         private Q_SLOTS:
             void buttonCallback();
             void soloCallback();
             void toggleCallback(bool);
             void resetCallback();
 
-            void sizeUpdate();
+            void styleUpdate();
             void valueUpdate();
 
         private:

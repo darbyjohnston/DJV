@@ -33,6 +33,8 @@
 
 #include <djvWidgetTest/AbstractWidgetTest.h>
 
+#include <djvUI/ProxyStyle.h>
+
 namespace djv
 {
     namespace WidgetTest
@@ -40,10 +42,10 @@ namespace djv
         WidgetTestApplication::WidgetTestApplication(int & argc, char ** argv) :
             QApplication(argc, argv)
         {
-            setStyle("fusion");
-
             _context.reset(new UI::UIContext);
             _context->setValid(true);
+
+            setStyle(new UI::ProxyStyle(_context.data()));
 
             _testManager.reset(new WidgetTestManager(_context.data()));
 

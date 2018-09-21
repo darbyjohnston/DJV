@@ -106,7 +106,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.2"
-     inkscape:cx="107.85717"
+     inkscape:cx="98.609598"
      inkscape:cy="11.600205"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -262,7 +262,7 @@
     </g>
     <g
        transform="translate(120,11)"
-       id="InPointRestIcon"
+       id="InPointResetIcon"
        inkscape:label="#g181">
       <rect
          y="-9"
@@ -303,7 +303,7 @@
     </g>
     <g
        transform="translate(160,11)"
-       id="OutPointMarkButton"
+       id="OutPointMarkIcon"
        inkscape:label="#g194">
       <rect
          y="-9"

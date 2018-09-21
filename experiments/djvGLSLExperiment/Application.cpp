@@ -38,7 +38,7 @@ Application::Application(int & argc, char ** argv) :
 {
     //DJV_DEBUG("Application::Application");
 
-    setStyle("fusion");
+    setStyle(new UI::ProxyStyle);
 
     // Create the context.
     _context.reset(new Context);

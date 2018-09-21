@@ -109,17 +109,13 @@ namespace djv
             _p->browser = new QTreeWidget;
             _p->browser->setColumnCount(1);
             _p->browser->header()->hide();
-
             _p->scrollArea = new QScrollArea;
             _p->scrollArea->setWidgetResizable(true);
-
             _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-
             _p->resetPageButton = _p->buttonBox->addButton(
                 qApp->translate("djv::UI::PrefsDialog", "Reset Page"),
                 QDialogButtonBox::ResetRole);
             _p->resetPageButton->setAutoDefault(false);
-
             _p->resetAllButton = _p->buttonBox->addButton(
                 qApp->translate("djv::UI::PrefsDialog", "Reset All"),
                 QDialogButtonBox::ResetRole);
@@ -127,16 +123,15 @@ namespace djv
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
-
             QSplitter * splitter = new QSplitter;
             splitter->addWidget(_p->browser);
             splitter->addWidget(_p->scrollArea);
             layout->addWidget(splitter, 1);
-
             layout->addWidget(_p->buttonBox);
 
             // Initialize.
-            setWindowTitle(qApp->translate("djv::UI::PrefsDialog", "Preferences Dialog"));
+            setWindowTitle(qApp->translate("djv::UI::PrefsDialog", "Preferences"));
+            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
 
             addWidget(
                 new FileBrowserPrefsWidget(context),
@@ -158,24 +153,19 @@ namespace djv
                 qApp->translate("djv::UI::PrefsDialog", "General"));
 
             const QList<Core::Plugin *> & imageIOPlugins = context->imageIOFactory()->plugins();
-
             for (int i = 0; i < imageIOPlugins.count(); ++i)
             {
                 if (Graphics::ImageIO * imageIOPlugin = dynamic_cast<Graphics::ImageIO *>(imageIOPlugins[i]))
                 {
-                    if (AbstractPrefsWidget * widget =
-                        context->imageIOWidgetFactory()->createWidget(imageIOPlugin))
+                    if (AbstractPrefsWidget * widget = context->imageIOWidgetFactory()->createWidget(imageIOPlugin))
                     {
-                        addWidget(
-                            widget,
-                            qApp->translate("djv::UI::PrefsDialog", "Image I/O"));
+                        addWidget(widget, qApp->translate("djv::UI::PrefsDialog", "Image I/O"));
                     }
                 }
             }
 
-            resize(600, 500);
-
-            splitter->setSizes(QList<int>() << 160 << 440);
+            resize(800, 600);
+            splitter->setSizes(QList<int>() << 160 << 640);
 
             // Setup the callbacks.
             connect(

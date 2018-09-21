@@ -35,7 +35,6 @@
 #include <djvViewLib/Context.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 
 namespace djv
 {

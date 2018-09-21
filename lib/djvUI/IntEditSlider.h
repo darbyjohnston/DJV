@@ -141,12 +141,15 @@ namespace djv
             //! This signal is emitted when the value range is changed.
             void rangeChanged(int, int);
 
+        protected:
+            bool event(QEvent*) override;
+
         private Q_SLOTS:
             void valueCallback();
             void sliderCallback(int);
             void defaultCallback();
 
-            void sizeUpdate();
+            void styleUpdate();
             void valueUpdate();
 
         private:

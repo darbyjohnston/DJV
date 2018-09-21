@@ -81,12 +81,13 @@ namespace djv
             virtual void mousePressEvent(QMouseEvent *);
             virtual void mouseReleaseEvent(QMouseEvent *);
             virtual void paintEvent(QPaintEvent *);
+            bool event(QEvent*) override;
 
         private Q_SLOTS:
             void actionGroupCallback(QAction *);
             void clickedCallback();
             
-            void sizeUpdate();
+            void styleUpdate();
 
         private:
             DJV_PRIVATE_COPY(ChoiceButton);

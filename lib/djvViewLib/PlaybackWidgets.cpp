@@ -37,13 +37,13 @@
 #include <djvUI/ChoiceButton.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/ShuttleButton.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <QActionGroup>
 #include <QApplication>
 #include <QButtonGroup>
 #include <QHBoxLayout>
+#include <QStyle>
 
 namespace djv
 {
@@ -54,6 +54,7 @@ namespace djv
             UI::UIContext * context = nullptr;
             QButtonGroup * buttonGroup = nullptr;
             UI::ShuttleButton * shuttle = nullptr;
+            QHBoxLayout * layout = nullptr;
         };
 
         PlaybackButtons::PlaybackButtons(
@@ -80,12 +81,14 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackButtons", "Playback shuttle\n\nClick and drag to start playback; the speed is "
                     "determined by how far you drag."));
 
-            QHBoxLayout * layout = new QHBoxLayout(this);
-            layout->setMargin(0);
+            _p->layout = new QHBoxLayout(this);
+            _p->layout->setMargin(0);
             Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
-                layout->addWidget(button);
-            layout->addWidget(_p->shuttle);
+                _p->layout->addWidget(button);
+            _p->layout->addWidget(_p->shuttle);
 
+            styleUpdate();
+            
             connect(
                 _p->shuttle,
                 SIGNAL(mousePressed(bool)),
@@ -98,6 +101,20 @@ namespace djv
 
         PlaybackButtons::~PlaybackButtons()
         {}
+
+        bool PlaybackButtons::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
+        void PlaybackButtons::styleUpdate()
+        {
+            _p->layout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+        }   
 
         struct LoopWidget::Private
         {
@@ -157,6 +174,7 @@ namespace djv
             UI::UIContext * context = nullptr;
             QButtonGroup * buttonGroup = nullptr;
             UI::ShuttleButton * shuttle = nullptr;
+            QHBoxLayout * layout = nullptr;
         };
 
         FrameButtons::FrameButtons(
@@ -185,11 +203,14 @@ namespace djv
             _p->shuttle->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackButtons", "Frame shuttle\n\nClick and drag to change the current frame."));
 
-            QHBoxLayout * layout = new QHBoxLayout(this);
-            layout->setMargin(0);
+            _p->layout = new QHBoxLayout(this);
+            _p->layout->setMargin(0);
+            _p->layout->setSpacing(0);
             Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
-                layout->addWidget(button);
-            layout->addWidget(_p->shuttle);
+                _p->layout->addWidget(button);
+            _p->layout->addWidget(_p->shuttle);
+
+            styleUpdate();
 
             Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
             {
@@ -211,5 +232,20 @@ namespace djv
         FrameButtons::~FrameButtons()
         {}
 
+        bool FrameButtons::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
+        void FrameButtons::styleUpdate()
+        {
+            _p->layout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
+        }   
+
     } // namespace ViewLib
 } // namespace djv
+

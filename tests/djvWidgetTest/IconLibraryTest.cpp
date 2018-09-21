@@ -33,14 +33,15 @@
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/SearchBox.h>
-#include <djvUI/Style.h>
 #include <djvUI/UIContext.h>
 
 #include <djvCore/Math.h>
 
+#include <QApplication>
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 #include <QPainter>
+#include <QStyle>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -87,9 +88,8 @@ namespace djv
             const QStringList names = context->iconLibrary()->names();
             for (int i = 0; i < names.count(); ++i)
             {
-                const int iconDPI = context->style()->sizeMetric().iconDPI;
-                const int iconSize = context->style()->sizeMetric().iconSize;
-                const QPixmap & pixmap = context->iconLibrary()->pixmap(names[i], iconDPI);
+                const int iconSize = qApp->style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+                const QPixmap & pixmap = context->iconLibrary()->pixmap(names[i]);
                 QSize size(
                     Core::Math::max(pixmap.width(), iconSize),
                     Core::Math::max(pixmap.height(), iconSize));
@@ -202,8 +202,6 @@ namespace djv
 
             QTreeView * view = new QTreeView;
             view->setRootIsDecorated(false);
-            const int iconSize = context()->style()->sizeMetric().iconSize;
-            view->setIconSize(QSize(iconSize, iconSize));
             view->setModel(proxyModel);
             view->setSortingEnabled(true);
 

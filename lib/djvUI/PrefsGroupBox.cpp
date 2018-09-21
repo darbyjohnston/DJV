@@ -32,8 +32,8 @@
 #include <djvUI/PrefsGroupBox.h>
 
 #include <djvUI/UIContext.h>
-#include <djvUI/Style.h>
 
+#include <QEvent>
 #include <QGroupBox>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -74,13 +74,6 @@ namespace djv
 
             _p->layout = new QVBoxLayout(_p->groupBox);
             _p->layout->addWidget(_p->label);
-            
-            sizeUpdate();
-
-            connect(
-                _p->context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         PrefsGroupBox::PrefsGroupBox(
@@ -121,15 +114,8 @@ namespace djv
         QFormLayout * PrefsGroupBox::createLayout()
         {
             QFormLayout * formLayout = new QFormLayout;
-            formLayout->setSpacing(_p->context->style()->sizeMetric().spacing);
             _p->layout->addLayout(formLayout);
             return formLayout;
-        }
-
-        void PrefsGroupBox::sizeUpdate()
-        {
-            _p->layout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
     } // namespace UI

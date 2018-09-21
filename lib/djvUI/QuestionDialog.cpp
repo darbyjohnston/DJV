@@ -67,7 +67,7 @@ namespace djv
             layout->addLayout(vLayout);
             layout->addWidget(buttonBox);
 
-            setWindowTitle(qApp->translate("djv::UI::QuestionDialog", "Question Dialog"));
+            setWindowTitle(qApp->translate("djv::UI::QuestionDialog", "Question"));
 
             connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
             connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));

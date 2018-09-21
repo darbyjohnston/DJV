@@ -65,7 +65,7 @@ set(header
     ShortcutsWidget.h
     ShuttleButton.h
     Spinner.h
-    Style.h
+    StylePrefs.h
     StylePrefsWidget.h
     TargaWidget.h
     TimePrefs.h
@@ -129,6 +129,7 @@ set(mocHeader
     PrefsDialog.h
     PrefsGroupBox.h
     ProgressDialog.h
+    ProxyStyle.h
     QuestionDialog.h
     SGIWidget.h
     SearchBox.h
@@ -138,7 +139,7 @@ set(mocHeader
     ShortcutsWidget.h
     ShuttleButton.h
     Spinner.h
-    Style.h
+    StylePrefs.h
     StylePrefsWidget.h
     TargaWidget.h
     TimePrefs.h
@@ -202,6 +203,7 @@ set(source
     PrefsDialog.cpp
     PrefsGroupBox.cpp
     ProgressDialog.cpp
+    ProxyStyle.cpp
     QuestionDialog.cpp
     SGIWidget.cpp
     SearchBox.cpp
@@ -212,7 +214,7 @@ set(source
     ShortcutsWidget.cpp
     ShuttleButton.cpp
     Spinner.cpp
-    Style.cpp
+    StylePrefs.cpp
     StylePrefsWidget.cpp
     TargaWidget.cpp
     TimePrefs.cpp

@@ -35,7 +35,7 @@
 #include <djvViewLib/ShortcutPrefs.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
+#include <djvUI/StylePrefs.h>
 
 #include <QApplication>
 
@@ -133,8 +133,8 @@ namespace djv
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(update()));
             connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
+                context->stylePrefs(),
+                SIGNAL(prefChanged()),
                 SLOT(update()));
         }
 
@@ -143,7 +143,6 @@ namespace djv
 
         void PlaybackActions::update()
         {
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
             QKeySequence key = shortcuts[Util::SHORTCUT_PLAYBACK_TOGGLE].value;
@@ -151,12 +150,13 @@ namespace djv
             _actions[PLAYBACK_TOGGLE]->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackActions", "Toggle playback\n\nShortcut: %1").
                 arg(key.toString()));
-            _actions[EVERY_FRAME]->setIcon(context()->iconLibrary()->icon("djv/UI/LockIcon", iconDPI));
-
+            _actions[EVERY_FRAME]->setIcon(
+                context()->iconLibrary()->icon("djv/UI/UnlockIcon", "djv/UI/LockIcon"));
+            
             const QVector<QIcon> playbackIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djv/UI/PlayReverseIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/PlayStopIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/PlayForwardIcon", iconDPI);
+                context()->iconLibrary()->icon("djv/UI/PlayReverseIcon") <<
+                context()->iconLibrary()->icon("djv/UI/PlayStopIcon") <<
+                context()->iconLibrary()->icon("djv/UI/PlayForwardIcon");
             const QVector<Util::SHORTCUT> playbackShortcuts =
                 QVector<Util::SHORTCUT>() <<
                 Util::SHORTCUT_PLAYBACK_REVERSE <<
@@ -175,24 +175,24 @@ namespace djv
             }
 
             const QVector<QIcon> loopIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djv/UI/PlayLoopOnceIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/PlayLoopRepeatIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/PlayLoopPingPongIcon", iconDPI);
+                context()->iconLibrary()->icon("djv/UI/PlayLoopOnceIcon") <<
+                context()->iconLibrary()->icon("djv/UI/PlayLoopRepeatIcon") <<
+                context()->iconLibrary()->icon("djv/UI/PlayLoopPingPongIcon");
             for (int i = 0; i < Util::LOOP_COUNT; ++i)
             {
                 _groups[LOOP_GROUP]->actions()[i]->setIcon(loopIcons[i]);
             }
 
             const QVector<QIcon> frameIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djv/UI/FrameStartIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/FrameStartIcon") <<
                 QIcon() <<
-                context()->iconLibrary()->icon("djv/UI/FramePrevIcon", iconDPI) <<
-                QIcon() <<
-                QIcon() <<
-                context()->iconLibrary()->icon("djv/UI/FrameNextIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/FramePrevIcon") <<
                 QIcon() <<
                 QIcon() <<
-                context()->iconLibrary()->icon("djv/UI/FrameEndIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/FrameNextIcon") <<
+                QIcon() <<
+                QIcon() <<
+                context()->iconLibrary()->icon("djv/UI/FrameEndIcon") <<
                 QIcon();
             const QVector<bool> frameAutoRepeat = QVector<bool>() <<
                 false <<
@@ -239,11 +239,11 @@ namespace djv
             }
 
             const QVector<QIcon> inOutIcons = QVector<QIcon>() <<
-                context()->iconLibrary()->icon("djv/UI/PlayInOutIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/InPointMarkIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/OutPointMarkIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/InPointResetIcon", iconDPI) <<
-                context()->iconLibrary()->icon("djv/UI/OutPointResetIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djv/UI/PlayInOutIcon") <<
+                context()->iconLibrary()->icon("djv/UI/InPointMarkIcon") <<
+                context()->iconLibrary()->icon("djv/UI/OutPointMarkIcon") <<
+                context()->iconLibrary()->icon("djv/UI/InPointResetIcon") <<
+                context()->iconLibrary()->icon("djv/UI/OutPointResetIcon") <<
                 QIcon();
             const QVector<Util::SHORTCUT> inOutShortcuts =
                 QVector<Util::SHORTCUT>() <<

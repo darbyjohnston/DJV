@@ -33,7 +33,6 @@
 
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -76,7 +75,6 @@ namespace djv
                 plugin->options()[Graphics::SGI::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -88,10 +86,6 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         SGIWidget::~SGIWidget()
@@ -124,12 +118,6 @@ namespace djv
         {
             _options.compression = static_cast<Graphics::SGI::COMPRESSION>(in);
             pluginUpdate();
-        }
-
-        void SGIWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void SGIWidget::pluginUpdate()

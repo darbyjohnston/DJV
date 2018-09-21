@@ -31,7 +31,6 @@
 
 #include <djvUI/AbstractToolButton.h>
 
-#include <djvUI/Style.h>
 #include <djvUI/UIContext.h>
 
 #include <djvCore/Assert.h>
@@ -52,11 +51,7 @@ namespace djv
             _context(context)
         {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            sizeUpdate();
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
+            styleUpdate();
         }
 
         AbstractToolButton::~AbstractToolButton()
@@ -81,6 +76,9 @@ namespace djv
         {
             switch (event->type())
             {
+            case QEvent::StyleChange:
+                styleUpdate();
+                break;
             case QEvent::Enter:
             case QEvent::Leave:
             case QEvent::MouseButtonPress:
@@ -93,7 +91,7 @@ namespace djv
             return QAbstractButton::event(event);
         }
 
-        void AbstractToolButton::sizeUpdate()
+        void AbstractToolButton::styleUpdate()
         {
             updateGeometry();
         }

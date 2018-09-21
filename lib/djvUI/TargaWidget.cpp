@@ -33,7 +33,6 @@
 
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -78,7 +77,6 @@ namespace djv
                 plugin->options()[Graphics::Targa::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -90,10 +88,6 @@ namespace djv
                 _compressionWidget,
                 SIGNAL(activated(int)),
                 SLOT(compressionCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         TargaWidget::~TargaWidget()
@@ -126,12 +120,6 @@ namespace djv
         {
             _options.compression = static_cast<Graphics::Targa::COMPRESSION>(index);
             pluginUpdate();
-        }
-
-        void TargaWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void TargaWidget::pluginUpdate()

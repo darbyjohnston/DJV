@@ -69,9 +69,10 @@ namespace djv
             virtual void mouseReleaseEvent(QMouseEvent *);
             virtual void mouseMoveEvent(QMouseEvent *);
             virtual void paintEvent(QPaintEvent *);
+            bool event(QEvent*) override;
 
         private Q_SLOTS:
-            void sizeUpdate();
+            void styleUpdate();
         
         private:
             DJV_PRIVATE_COPY(ShuttleButton);

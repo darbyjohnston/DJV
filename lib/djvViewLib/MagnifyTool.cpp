@@ -39,7 +39,6 @@
 #include <djvUI/IconLibrary.h>
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/Prefs.h>
-#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvGraphics/OpenGLImage.h>
@@ -52,6 +51,7 @@
 #include <QHBoxLayout>
 #include <QPainter>
 #include <QScopedPointer>
+#include <QStyle>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -111,6 +111,7 @@ namespace djv
             UI::IntEditSlider * slider = nullptr;
             UI::ToolButton * colorProfileButton = nullptr;
             UI::ToolButton * displayProfileButton = nullptr;
+            QHBoxLayout * hLayout = nullptr;
         };
 
         MagnifyTool::MagnifyTool(
@@ -138,20 +139,18 @@ namespace djv
                 qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the display profile is enabled"));
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
-
+            auto layout = new QVBoxLayout(this);
             layout->addWidget(_p->widget, 1);
 
-            QHBoxLayout * hLayout = new QHBoxLayout;
+            auto hLayout = new QHBoxLayout;
             hLayout->setMargin(0);
             hLayout->addWidget(_p->slider);
 
-            QHBoxLayout * hLayout2 = new QHBoxLayout;
-            hLayout2->setMargin(0);
-            hLayout2->addWidget(_p->colorProfileButton);
-            hLayout2->addWidget(_p->displayProfileButton);
-            hLayout->addLayout(hLayout2);
-
+            _p->hLayout = new QHBoxLayout;
+            _p->hLayout->setMargin(0);
+            _p->hLayout->addWidget(_p->colorProfileButton);
+            _p->hLayout->addWidget(_p->displayProfileButton);
+            hLayout->addLayout(_p->hLayout);
             layout->addLayout(hLayout);
 
             // Preferences.
@@ -162,7 +161,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::MagnifyTool", "Magnify"));
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -186,10 +185,6 @@ namespace djv
                 _p->displayProfileButton,
                 SIGNAL(toggled(bool)),
                 SLOT(displayProfileCallback(bool)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(update()));
         }
 
         MagnifyTool::~MagnifyTool()
@@ -202,6 +197,15 @@ namespace djv
 
             context()->makeGLContextCurrent();
             _p->openGLImage.reset();
+        }
+
+        bool MagnifyTool::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractTool::event(event);
         }
 
         void MagnifyTool::pickCallback(const glm::ivec2 & in)
@@ -233,11 +237,11 @@ namespace djv
             widgetUpdate();
         }
 
-        void MagnifyTool::sizeUpdate()
+        void MagnifyTool::styleUpdate()
         {
-            const int iconDPI = context()->style()->sizeMetric().iconDPI;
-            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
-            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon", iconDPI));
+            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
+            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
+            _p->hLayout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing));
         }
         
         void MagnifyTool::widgetUpdate()

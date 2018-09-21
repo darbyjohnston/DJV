@@ -35,7 +35,6 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -221,7 +220,6 @@ namespace djv
                 plugin->options()[Graphics::DPX::ENDIAN_OPTION]);
             tmp >> _options.endian;
 
-            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -277,10 +275,6 @@ namespace djv
                 _endianWidget,
                 SIGNAL(activated(int)),
                 SLOT(endianCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         DPXWidget::~DPXWidget()
@@ -403,12 +397,6 @@ namespace djv
         {
             _options.endian = static_cast<Graphics::DPX::ENDIAN>(in);
             pluginUpdate();
-        }
-
-        void DPXWidget::sizeUpdate()
-        {
-            _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
-            updateGeometry();
         }
 
         void DPXWidget::pluginUpdate()

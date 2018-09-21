@@ -82,7 +82,7 @@ namespace djv
             UIContext * context,
             const QStringList & searchPath,
             QObject * parent) :
-            Core::PluginFactory(context, searchPath, "djv::UI::ImageIOWidgetEntry", "djv", "Plugin", parent),
+            Core::PluginFactory(context, searchPath, "djvImageIOWidgetEntry", "djv", "Plugin", parent),
             _context(context)
         {
             //DJV_DEBUG("ImageIOWidgetFactory::ImageIOWidgetFactory");

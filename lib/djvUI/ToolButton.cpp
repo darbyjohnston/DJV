@@ -32,7 +32,6 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 #include <djvUI/UIContext.h>
 
 #include <djvGraphics/Color.h>
@@ -60,12 +59,8 @@ namespace djv
             AbstractToolButton(context, parent),
             _p(new Private)
         {
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         ToolButton::ToolButton(const QIcon & icon, UIContext * context, QWidget * parent) :
@@ -73,12 +68,8 @@ namespace djv
             _p(new Private)
         {
             setIcon(icon);
-            sizeUpdate();
+            styleUpdate();
             widgetUpdate();
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         ToolButton::~ToolButton()
@@ -128,9 +119,9 @@ namespace djv
 
         QSize ToolButton::sizeHint() const
         {
-            const int iconSize = context()->style()->sizeMetric().iconSize;
+            const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
             QSize sizeHint(iconSize, iconSize);
-            const int margin = context()->style()->sizeMetric().margin;
+            const int margin = style()->pixelMetric(QStyle::PM_ButtonMargin);
             QStyleOptionToolButton opt;
             opt.iconSize = icon().actualSize(sizeHint);
             opt.iconSize += QSize(margin * 2, margin * 2);
@@ -160,25 +151,28 @@ namespace djv
                 mode = QIcon::Disabled;
             if (isChecked())
                 state = QIcon::On;
-            const QPixmap & pixmap = icon().pixmap(width(), height(), mode, state);
+            const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+            const QPixmap & pixmap = icon().pixmap(iconSize, iconSize, mode, state);
             if (!pixmap.isNull())
             {
-                QImage image(pixmap.width(), pixmap.height(), QImage::Format_ARGB32_Premultiplied);
-                image.fill(Qt::transparent);
-                QPainter imagePainter(&image);
-                imagePainter.drawPixmap(0, 0, pixmap);
-                imagePainter.setCompositionMode(QPainter::CompositionMode::CompositionMode_SourceIn);
-                imagePainter.fillRect(0, 0, pixmap.width(), pixmap.height(), QPalette().foreground());
-
                 QPainter painter(this);
-                painter.drawImage(
-                    width() / 2 - image.width() / 2,
-                    height() / 2 - image.height() / 2,
-                    image);
+                painter.drawPixmap(
+                    width() / 2 - pixmap.width() / 2,
+                    height() / 2 - pixmap.height() / 2,
+                    pixmap);
             }
         }
 
-        void ToolButton::sizeUpdate()
+        bool ToolButton::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return AbstractToolButton::event(event);
+        }
+
+        void ToolButton::styleUpdate()
         {
             updateGeometry();
         }

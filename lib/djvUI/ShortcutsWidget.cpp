@@ -36,17 +36,19 @@
 #include <djvUI/SearchBox.h>
 #include <djvUI/ShortcutsModel.h>
 #include <djvCore/SignalBlocker.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/ListUtil.h>
+#include <djvCore/Math.h>
 
 #include <QAbstractItemModel>
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QSortFilterProxyModel>
+#include <QStyle>
 #include <QStyledItemDelegate>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -102,9 +104,8 @@ namespace djv
 
             QSize ShortcutDelegateEdit::sizeHint() const
             {
-                const int margin = _context->style()->sizeMetric().margin;
-                const QSize size =
-                    fontMetrics().size(Qt::TextSingleLine, _shortcut.value.toString());
+                const int margin = qApp->style()->pixelMetric(QStyle::PM_ButtonMargin);
+                const QSize size = fontMetrics().size(Qt::TextSingleLine, _shortcut.value.toString());
                 return QSize(size.width() + margin * 2, size.height());
             }
 
@@ -113,7 +114,7 @@ namespace djv
                 QPainter painter(this);
                 const int w = width();
                 const int h = height();
-                const int margin = _context->style()->sizeMetric().margin;
+                const int margin = qApp->style()->pixelMetric(QStyle::PM_ButtonMargin);
                 painter.fillRect(0, 0, w, h, palette().color(QPalette::Base));
                 painter.setPen(palette().color(QPalette::Text));
                 QFont font(this->font());
@@ -242,8 +243,8 @@ namespace djv
                 {
                 case 1:
                 {
-                    const int iconSize = _context->style()->sizeMetric().iconSize;
-                    const int spacing = _context->style()->sizeMetric().spacing;
+                    const int iconSize = qApp->style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+                    const int spacing = qApp->style()->pixelMetric(QStyle::PM_LayoutHorizontalSpacing);
                     size = QSize(
                         size.width() + spacing + iconSize,
                         Core::Math::max(size.height(), iconSize));
@@ -264,12 +265,11 @@ namespace djv
                 {
                 case 1:
                 {
-                    const int iconDPI = _context->style()->sizeMetric().iconDPI;
-                    const int iconSize = _context->style()->sizeMetric().iconSize;
+                    const int iconSize = qApp->style()->pixelMetric(QStyle::PM_ToolBarIconSize);
                     painter->drawPixmap(
                         r.x() + r.width() - iconSize,
                         r.y(),
-                        _context->iconLibrary()->pixmap("djv/UI/ResetIcon", iconDPI));
+                        _context->iconLibrary()->pixmap("djv/UI/ResetIcon"));
                 }
                 break;
                 }
@@ -289,7 +289,7 @@ namespace djv
                     case QEvent::MouseButtonPress:
                     {
                         QMouseEvent * e = static_cast<QMouseEvent *>(event);
-                        const int iconSize = _context->style()->sizeMetric().iconSize;
+                        const int iconSize = qApp->style()->pixelMetric(QStyle::PM_ToolBarIconSize);
                         QRect r(
                             option.rect.x() + option.rect.width() - iconSize,
                             option.rect.y(),

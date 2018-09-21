@@ -32,7 +32,6 @@
 #include <djvUI/PlaybackButtons.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/Style.h>
 #include <djvUI/UIContext.h>
 
 #include <QApplication>
@@ -68,17 +67,13 @@ namespace djv
                 layout->addWidget(button);
             }
 
-            sizeUpdate();
+            styleUpdate();
             _buttonGroup->buttons()[_playback]->setChecked(true);
 
             connect(
                 _buttonGroup,
                 SIGNAL(buttonClicked(int)),
                 SLOT(buttonCallback(int)));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
         }
 
         PlaybackUtil::PLAYBACK PlaybackButtons::playback() const
@@ -95,18 +90,26 @@ namespace djv
             Q_EMIT playbackChanged(_playback);
         }
 
+        bool PlaybackButtons::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void PlaybackButtons::buttonCallback(int id)
         {
             setPlayback(static_cast<PlaybackUtil::PLAYBACK>(id));
         }
 
-        void PlaybackButtons::sizeUpdate()
+        void PlaybackButtons::styleUpdate()
         {
-            const int iconDPI = _context->style()->sizeMetric().iconDPI;
             const QList<QAbstractButton *> & buttons = _buttonGroup->buttons();
             for (int i = 0; i < buttons.size(); ++i)
             {
-                buttons[i]->setIcon(_context->iconLibrary()->icon(PlaybackUtil::playbackIcons()[i], iconDPI));
+                buttons[i]->setIcon(_context->iconLibrary()->icon(PlaybackUtil::playbackIcons()[i]));
             }
         }
 

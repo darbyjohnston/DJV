@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dpiList="96 192"
+dpiList="48 96 144 192"
 
 for svg in $1/*.svg
 do

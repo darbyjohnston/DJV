@@ -59,11 +59,10 @@ namespace djv
 
         protected:
             virtual void showEvent(QShowEvent *);
+            virtual void paintEvent(QPaintEvent *);
 
         private Q_SLOTS:
             void copyCallback();
-
-            void updateWidget();
 
         private:
             DJV_PRIVATE_COPY(AboutDialog);

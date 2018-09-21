@@ -32,12 +32,14 @@
 #include <djvUI/ColorSwatch.h>
 
 #include <djvUI/ColorDialog.h>
+#include <djvUI/StylePrefs.h>
 #include <djvUI/UIContext.h>
-#include <djvUI/Style.h>
 
 #include <djvGraphics/ColorUtil.h>
 
+#include <QEvent>
 #include <QPainter>
+#include <QStyle>
 
 namespace djv
 {
@@ -49,15 +51,7 @@ namespace djv
         {
             setAttribute(Qt::WA_OpaquePaintEvent);
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            sizeUpdate();
-            connect(
-                context->style(),
-                SIGNAL(colorSwatchTransparencyChanged(bool)),
-                SLOT(update()));
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeUpdate()));
+            styleUpdate();
         }
 
         const Graphics::Color & ColorSwatch::color() const
@@ -90,7 +84,7 @@ namespace djv
 
         QSize ColorSwatch::sizeHint() const
         {
-            int size = _context->style()->sizeMetric().swatchSize;
+            int size = style()->pixelMetric(QStyle::PM_LargeIconSize) * 2;
             switch (_swatchSize)
             {
             case SWATCH_SMALL: size /= 2; break;
@@ -128,7 +122,7 @@ namespace djv
         {
             QPainter painter(this);
             QRect rect(this->rect());
-            if (_context->style()->hasColorSwatchTransparency())
+            if (_context->stylePrefs()->hasColorSwatchTransparency())
             {
                 Graphics::Color tmp(Graphics::Pixel::RGBA_U8);
                 Graphics::ColorUtil::convert(_color, tmp);
@@ -161,9 +155,19 @@ namespace djv
             }
         }
 
-        void ColorSwatch::sizeUpdate()
+        bool ColorSwatch::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
+        void ColorSwatch::styleUpdate()
         {
             updateGeometry();
+            update();
         }
 
     } // namespace UI

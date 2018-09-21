@@ -72,6 +72,9 @@ namespace djv
             //! This signal is emitted when the display profile is changed.
             void displayProfileChanged(const djv::ViewLib::DisplayProfile &);
 
+        protected:
+            bool event(QEvent *) override;
+
         private Q_SLOTS:
             void lutCallback(const djv::Core::FileInfo &);
             void brightnessCallback(float);
@@ -86,7 +89,7 @@ namespace djv
             void addCallback();
             void resetCallback();
 
-            void sizeUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
         private:

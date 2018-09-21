@@ -72,10 +72,13 @@ namespace djv
             //! This signal is emitted when the current playback state is changed.
             void playbackChanged(PlaybackUtil::PLAYBACK);
 
+        protected:
+            bool event(QEvent*) override;
+
         private Q_SLOTS:
             void buttonCallback(int);
 
-            void sizeUpdate();
+            void styleUpdate();
 
         private:
             UIContext * _context = nullptr;

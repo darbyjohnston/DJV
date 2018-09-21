@@ -63,8 +63,6 @@ namespace djv
         private Q_SLOTS:
             void copyCallback();
 
-            void updateWidget();
-
         private:
             DJV_PRIVATE_COPY(InfoDialog);
 

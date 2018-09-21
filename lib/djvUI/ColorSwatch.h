@@ -100,9 +100,10 @@ namespace djv
         protected:
             virtual void mousePressEvent(QMouseEvent *);
             virtual void paintEvent(QPaintEvent *);
+            bool event(QEvent*) override;
 
         private Q_SLOTS:
-            void sizeUpdate();
+            void styleUpdate();
 
         private:
             Graphics::Color _color;

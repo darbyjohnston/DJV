@@ -151,12 +151,15 @@ namespace djv
             void bookmarkDelAllCallback();
             void acceptedCallback();
             
-            void sizeUpdate();
+            void styleUpdate();
             void modelUpdate();
             void widgetUpdate();
             void menuUpdate();
             void toolTipUpdate();
 
+        protected:
+            bool event(QEvent *) override;
+            
         private:
             QVector<int> columnSizes() const;
 
