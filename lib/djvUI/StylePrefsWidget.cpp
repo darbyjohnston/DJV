@@ -132,7 +132,7 @@ namespace djv
             hLayout->addWidget(_p->colorButtonWidget);
             hLayout->addWidget(_p->colorSelectWidget);
             formLayout->addRow(
-                qApp->translate("djv::UI::StylePrefsWidget", "Palette:"),
+                qApp->translate("djv::UI::StylePrefsWidget", "Color palette:"),
                 hLayout);
             formLayout->addRow(_p->colorSwatchTransparencyWidget);
             _p->layout->addWidget(prefsGroupBox);
@@ -141,13 +141,13 @@ namespace djv
                 qApp->translate("djv::UI::StylePrefsWidget", "Fonts"), context);
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
-                qApp->translate("djv::UI::StylePrefsWidget", "Normal:"),
+                qApp->translate("djv::UI::StylePrefsWidget", "Normal font:"),
                 _p->fontNormalWidget);
             formLayout->addRow(
-                qApp->translate("djv::UI::StylePrefsWidget", "Fixed:"),
+                qApp->translate("djv::UI::StylePrefsWidget", "Fixed font:"),
                 _p->fontFixedWidget);
             formLayout->addRow(
-                qApp->translate("djv::UI::StylePrefsWidget", "Size:"),
+                qApp->translate("djv::UI::StylePrefsWidget", "Font size:"),
                 _p->fontSizeWidget);
             _p->layout->addWidget(prefsGroupBox);
 
