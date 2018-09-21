@@ -69,8 +69,7 @@ namespace djv
 
         public:
             explicit UIContext(QObject * parent = nullptr);
-
-            virtual ~UIContext();
+            ~UIContext() override;
 
             //! Get whether the user-interface has started.
             bool isValid() const;
@@ -129,12 +128,12 @@ namespace djv
             //! Get the icon library.
             IconLibrary * iconLibrary() const;
 
-            virtual QString info() const;
-            virtual void print(const QString &, bool newLine = true, int indent = 0);
+            QString info() const override;
+            void print(const QString &, bool newLine = true, int indent = 0) override;
 
         protected:
-            virtual bool commandLineParse(QStringList &) throw (QString);
-            virtual QString commandLineHelp() const;
+            bool commandLineParse(QStringList &) override;
+            QString commandLineHelp() const override;
 
         private Q_SLOTS:
             void styleUpdate();

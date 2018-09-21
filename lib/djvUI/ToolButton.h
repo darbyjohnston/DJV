@@ -50,16 +50,14 @@ namespace djv
             explicit ToolButton(UIContext *, QWidget * parent = nullptr);
             explicit ToolButton(const QIcon &, UIContext *, QWidget * parent = nullptr);
 
-            virtual ~ToolButton();
-
             //! Set the default action.
             void setDefaultAction(QAction *);
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         protected:
-            virtual void nextCheckState();
-            virtual void paintEvent(QPaintEvent *);
+            void nextCheckState() override;
+            void paintEvent(QPaintEvent *) override;
             bool event(QEvent*) override;
 
         private Q_SLOTS:

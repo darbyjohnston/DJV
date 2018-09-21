@@ -44,9 +44,8 @@ namespace djv
         public:
             ProgressDialogTest(UI::UIContext *);
 
-            virtual QString name();
-
-            virtual void run(const QStringList & args = QStringList());
+            QString name() override;
+            void run(const QStringList & args = QStringList()) override;
 
         private Q_SLOTS:
             void callback(int);

@@ -59,8 +59,6 @@ namespace djv
         public:
             explicit PrefsDialog(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~PrefsDialog();
-
             //! Add a preferences widget.
             void addWidget(AbstractPrefsWidget *, const QString & group);
 

@@ -50,10 +50,9 @@ namespace djv
 
         public:
             WindowPrefsWidget(Context *);
+            ~WindowPrefsWidget() override;
 
-            virtual ~WindowPrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void autoFitCallback(bool);

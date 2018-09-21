@@ -33,107 +33,107 @@ namespace djv
 {
     namespace Core
     {
-        inline void FileIO::get8(qint8 * in, quint64 size) throw (Error)
+        inline void FileIO::get8(qint8 * in, quint64 size)
         {
             return get(in, size, 1);
         }
 
-        inline void FileIO::getU8(quint8 * in, quint64 size) throw (Error)
+        inline void FileIO::getU8(quint8 * in, quint64 size)
         {
             return get(in, size, 1);
         }
 
-        inline void FileIO::get16(qint16 * in, quint64 size) throw (Error)
+        inline void FileIO::get16(qint16 * in, quint64 size)
         {
             return get(in, size, 2);
         }
 
-        inline void FileIO::getU16(quint16 * in, quint64 size) throw (Error)
+        inline void FileIO::getU16(quint16 * in, quint64 size)
         {
             return get(in, size, 2);
         }
 
-        inline void FileIO::get32(qint32 * in, quint64 size) throw (Error)
+        inline void FileIO::get32(qint32 * in, quint64 size)
         {
             return get(in, size, 4);
         }
 
-        inline void FileIO::getU32(quint32 * in, quint64 size) throw (Error)
+        inline void FileIO::getU32(quint32 * in, quint64 size)
         {
             return get(in, size, 4);
         }
 
-        inline void FileIO::getF32(float * in, quint64 size) throw (Error)
+        inline void FileIO::getF32(float * in, quint64 size)
         {
             return get(in, size, 4);
         }
 
-        inline void FileIO::set8(const qint8 * in, quint64 size) throw (Error)
+        inline void FileIO::set8(const qint8 * in, quint64 size)
         {
             set(in, size, 1);
         }
 
-        inline void FileIO::setU8(const quint8 * in, quint64 size) throw (Error)
+        inline void FileIO::setU8(const quint8 * in, quint64 size)
         {
             set(in, size, 1);
         }
 
-        inline void FileIO::set16(const qint16 * in, quint64 size) throw (Error)
+        inline void FileIO::set16(const qint16 * in, quint64 size)
         {
             set(in, size, 2);
         }
 
-        inline void FileIO::setU16(const quint16 * in, quint64 size) throw (Error)
+        inline void FileIO::setU16(const quint16 * in, quint64 size)
         {
             set(in, size, 2);
         }
 
-        inline void FileIO::set32(const qint32 * in, quint64 size) throw (Error)
+        inline void FileIO::set32(const qint32 * in, quint64 size)
         {
             return set(in, size, 4);
         }
 
-        inline void FileIO::setU32(const quint32 * in, quint64 size) throw (Error)
+        inline void FileIO::setU32(const quint32 * in, quint64 size)
         {
             return set(in, size, 4);
         }
 
-        inline void FileIO::setF32(const float * in, quint64 size) throw (Error)
+        inline void FileIO::setF32(const float * in, quint64 size)
         {
             set(in, size, 4);
         }
 
-        inline void FileIO::set8(const qint8 & in) throw (Error)
+        inline void FileIO::set8(const qint8 & in)
         {
             set8(&in, 1);
         }
 
-        inline void FileIO::setU8(const quint8 & in) throw (Error)
+        inline void FileIO::setU8(const quint8 & in)
         {
             setU8(&in, 1);
         }
 
-        inline void FileIO::set16(const qint16 & in) throw (Error)
+        inline void FileIO::set16(const qint16 & in)
         {
             set16(&in, 1);
         }
 
-        inline void FileIO::setU16(const quint16 & in) throw (Error)
+        inline void FileIO::setU16(const quint16 & in)
         {
             setU16(&in, 1);
         }
 
-        inline void FileIO::set32(const qint32 & in) throw (Error)
+        inline void FileIO::set32(const qint32 & in)
         {
             set32(&in, 1);
         }
 
-        inline void FileIO::setU32(const quint32 & in) throw (Error)
+        inline void FileIO::setU32(const quint32 & in)
         {
             setU32(&in, 1);
         }
 
-        inline void FileIO::setF32(const float & in) throw (Error)
+        inline void FileIO::setF32(const float & in)
         {
             setF32(&in, 1);
         }

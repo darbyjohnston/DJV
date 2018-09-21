@@ -70,8 +70,7 @@ namespace djv
             explicit MainWindow(
                 const MainWindow * copy,
                 Context *          context);
-
-            virtual ~MainWindow();
+            ~MainWindow() override;
 
             //! Get the image I/O information.
             const Graphics::ImageIOInfo & imageIOInfo() const;
@@ -117,9 +116,9 @@ namespace djv
             void imageChanged();
 
         protected:
-            virtual void showEvent(QShowEvent *);
-            virtual void closeEvent(QCloseEvent *);
-            virtual void keyPressEvent(QKeyEvent *);
+            void showEvent(QShowEvent *) override;
+            void closeEvent(QCloseEvent *) override;
+            void keyPressEvent(QKeyEvent *) override;
 
         private Q_SLOTS:
             void windowResizeCallback();

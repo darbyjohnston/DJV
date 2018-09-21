@@ -65,9 +65,6 @@ namespace djv
             styleUpdate();
         }
 
-        ShuttleButton::~ShuttleButton()
-        {}
-
         QSize ShuttleButton::sizeHint() const
         {
             const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);

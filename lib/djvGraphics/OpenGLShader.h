@@ -49,9 +49,12 @@ namespace djv
             ~OpenGLShader();
 
             //! Initialize the shader.
+            //!
+            //! Throws:
+            //! - Core::Error
             void init(
                 const QString & vertexSource,
-                const QString & fragmentSource) throw (Core::Error);
+                const QString & fragmentSource);
 
             //! Bind the shader.
             void bind();

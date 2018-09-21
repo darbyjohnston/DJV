@@ -53,11 +53,10 @@ namespace djv
 
         public:
             Application(int & argc, char ** argv);
-
-            virtual ~Application();
+            ~Application() override;
 
         protected:
-            virtual bool event(QEvent *);
+            bool event(QEvent *) override;
 
         private Q_SLOTS:
             void commandLineExit();

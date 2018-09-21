@@ -140,8 +140,7 @@ namespace djv
             static const QStringList & columnsLabels();
 
             explicit FileBrowserModel(UIContext *, QObject * parent = nullptr);
-
-            virtual ~FileBrowserModel();
+            ~FileBrowserModel() override;
 
             //! Get the path.
             const QString & path() const;
@@ -205,34 +204,15 @@ namespace djv
             //! Get the image thumbnail size.
             THUMBNAILS_SIZE thumbnailsSize() const;
 
-            virtual QModelIndex	index(
-                int                 row,
-                int                 column,
-                const QModelIndex & parent = QModelIndex()) const;
-
-            virtual QModelIndex	parent(
-                const QModelIndex & = QModelIndex()) const;
-
-            virtual QVariant headerData(
-                int             section,
-                Qt::Orientation orientation,
-                int             role = Qt::DisplayRole) const;
-
-            virtual QVariant data(
-                const QModelIndex & index,
-                int                 role = Qt::DisplayRole) const;
-
-            virtual Qt::ItemFlags flags(const QModelIndex &) const;
-
-            virtual int rowCount(
-                const QModelIndex & parent = QModelIndex()) const;
-
-            virtual int columnCount(
-                const QModelIndex & parent = QModelIndex()) const;
-
-            virtual QStringList mimeTypes() const;
-
-            virtual QMimeData * mimeData(const QModelIndexList &) const;
+            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
+            QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+            Qt::ItemFlags flags(const QModelIndex &) const override;
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+            QStringList mimeTypes() const override;
+            QMimeData * mimeData(const QModelIndexList &) const override;
 
         public Q_SLOTS:
             //! Set the path.

@@ -62,10 +62,8 @@ namespace djv
             {
                 Header();
 
-                void load(Core::FileIO &, ImageIOInfo &, int * tiles, bool * compression)
-                    throw (Core::Error);
-                void save(Core::FileIO &, const ImageIOInfo &, bool compression)
-                    throw (Core::Error);
+                void load(Core::FileIO &, ImageIOInfo &, int * tiles, bool * compression);
+                void save(Core::FileIO &, const ImageIOInfo &, bool compression);
 
                 void debug() const;
 
@@ -98,7 +96,7 @@ namespace djv
                 Core::FileIO & io,
                 ImageIOInfo &  info,
                 int *          tiles,
-                bool *         compression) throw (Core::Error)
+                bool *         compression)
             {
                 //DJV_DEBUG("Header::load");
 
@@ -336,7 +334,6 @@ namespace djv
 
 
             void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
-                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::save");
 
@@ -470,23 +467,19 @@ namespace djv
             Core::FileIO & io,
             ImageIOInfo &  info,
             int *          tiles,
-            bool *         compression) throw (Core::Error)
+            bool *         compression)
         {
             Header header;
             header.load(io, info, tiles, compression);
         }
 
         void IFF::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
-            throw (Core::Error)
         {
             Header header;
             header.save(io, info, compression);
         }
 
-        int IFF::readRle(
-            const quint8 * in,
-            quint8 *       out,
-            int            size)
+        int IFF::readRle(const quint8 * in, quint8 * out, int size)
         {
             //DJV_DEBUG("IFF::readRle");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -529,11 +522,7 @@ namespace djv
 
         namespace
         {
-
-            void saveVerbatim(
-                const quint8 *& in,
-                quint8 *&       out,
-                int             size)
+            void saveVerbatim(const quint8 *& in, quint8 *& out, int size)
             {
                 int count = 1;
                 unsigned char byte = 0;
@@ -561,13 +550,9 @@ namespace djv
                 in += count;
             }
 
-            void saveDuplicate(
-                const quint8 *& in,
-                quint8 *&       out,
-                int             size)
+            void saveDuplicate(const quint8 *& in, quint8 *& out, int size)
             {
                 int count = 1;
-
                 for (; count < size; ++count)
                 {
                     if (in[count - 1] != in[count])
@@ -575,7 +560,6 @@ namespace djv
                         break;
                     }
                 }
-
                 const bool run = count > 1;
                 const int length = run ? 1 : count;
 
@@ -589,10 +573,7 @@ namespace djv
 
         } // namespace
 
-        int IFF::writeRle(
-            const quint8 * in,
-            quint8 *       out,
-            int            size)
+        int IFF::writeRle(const quint8 * in, quint8 * out, int size)
         {
             //DJV_DEBUG("IFF::writeRle");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -604,7 +585,6 @@ namespace djv
             {
                 // Find runs.
                 const int max = Core::Math::min(0x7f + 1, static_cast<int>(end - in));
-
                 if (max > 0)
                 {
                     if (in[0] != in[1])
@@ -628,13 +608,11 @@ namespace djv
         quint32 IFF::alignSize(quint32 size, quint32 alignment)
         {
             quint32 mod = size % alignment;
-
             if (mod)
             {
                 mod = alignment - mod;
                 size += mod;
             }
-
             return size;
         }
 

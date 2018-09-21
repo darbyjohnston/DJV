@@ -52,9 +52,7 @@ namespace djv
         public:
             TargaWidget(Graphics::ImageIO *, UIContext *);
 
-            virtual ~TargaWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void pluginCallback(const QString &);
@@ -77,8 +75,8 @@ namespace djv
         public:
             TargaWidgetPlugin(Core::CoreContext *);
 
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
-            virtual QString pluginName() const;
+            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            QString pluginName() const override;
         };
 
     } // namespace UI

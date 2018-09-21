@@ -83,8 +83,7 @@ namespace djv
                 UIContext *     context,
                 QWidget *       parent = nullptr,
                 Qt::WindowFlags lags = 0);
-
-            virtual ~ImageView();
+            ~ImageView() override;
 
             //! Get the pixel data.
             const Graphics::PixelData * data() const;
@@ -104,7 +103,7 @@ namespace djv
             //! Get whether the view has been fitted.
             bool hasViewFit() const;
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         public Q_SLOTS:
             //! Set the pixel data.
@@ -154,8 +153,8 @@ namespace djv
             void viewFitted();
 
         protected:
-            virtual void initializeGL();
-            virtual void paintGL();
+            void initializeGL() override;
+            void paintGL() override;
 
         private:
             Core::Box2f bbox(const glm::ivec2 &, float) const;

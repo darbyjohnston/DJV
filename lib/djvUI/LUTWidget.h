@@ -52,9 +52,7 @@ namespace djv
         public:
             LUTWidget(Graphics::ImageIO *, UIContext *);
 
-            virtual ~LUTWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void pluginCallback(const QString &);
@@ -77,8 +75,8 @@ namespace djv
         public:
             LUTWidgetPlugin(Core::CoreContext *);
 
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
-            virtual QString pluginName() const;
+            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            QString pluginName() const override;
         };
 
     } // namespace UI

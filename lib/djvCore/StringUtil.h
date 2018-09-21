@@ -111,16 +111,18 @@ namespace djv
 
     } // namespace Core
 
-    QStringList & operator >> (QStringList &, QString &) throw (QString);
-    QStringList & operator >> (QStringList &, QStringList &) throw (QString);
-    QStringList & operator >> (QStringList &, bool &) throw (QString);
-    QStringList & operator >> (QStringList &, int &) throw (QString);
-    QStringList & operator >> (QStringList &, unsigned int &) throw (QString);
-    QStringList & operator >> (QStringList &, qint64 &) throw (QString);
-    QStringList & operator >> (QStringList &, quint64 &) throw (QString);
-    QStringList & operator >> (QStringList &, float &) throw (QString);
-    QStringList & operator >> (QStringList &, double &) throw (QString);
-    QStringList & operator >> (QStringList &, QVector<bool> &) throw (QString);
+    //! Throws:
+    //! - QString
+    QStringList & operator >> (QStringList &, QString &);
+    QStringList & operator >> (QStringList &, QStringList &);
+    QStringList & operator >> (QStringList &, bool &);
+    QStringList & operator >> (QStringList &, int &);
+    QStringList & operator >> (QStringList &, unsigned int &);
+    QStringList & operator >> (QStringList &, qint64 &);
+    QStringList & operator >> (QStringList &, quint64 &);
+    QStringList & operator >> (QStringList &, float &);
+    QStringList & operator >> (QStringList &, double &);
+    QStringList & operator >> (QStringList &, QVector<bool> &);
 
     QStringList & operator << (QStringList &, const char *);
     QStringList & operator << (QStringList &, bool);
@@ -134,13 +136,12 @@ namespace djv
 
     //! This macro provides string serialize operators.
 #define DJV_STRING_OPERATOR(TYPE) \
-    QStringList & operator >> (QStringList &, TYPE &) throw (QString); \
+    QStringList & operator >> (QStringList &, TYPE &); \
     QStringList & operator << (QStringList &, const TYPE &)
 
     //! This macro provides string serialize operators.
 #define _DJV_STRING_OPERATOR_LABEL(TYPE, LABEL) \
     QStringList & operator >> (QStringList & in, TYPE & out) \
-        throw (QString) \
     { \
         if (! djv::Core::Serialize(in, out, LABEL)) \
         { \

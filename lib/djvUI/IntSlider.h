@@ -76,8 +76,6 @@ namespace djv
         public:
             explicit IntSlider(QWidget * parent = nullptr);
 
-            virtual ~IntSlider();
-
             //! Get the value.
             int value() const;
 
@@ -117,7 +115,7 @@ namespace djv
             void rangeChanged(int, int);
 
         protected:
-            virtual void keyPressEvent(QKeyEvent *);
+            void keyPressEvent(QKeyEvent *) override;
 
         private Q_SLOTS:
             void valueCallback();

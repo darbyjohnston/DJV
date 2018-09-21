@@ -63,9 +63,6 @@ namespace djv
             widgetUpdate();
         }
 
-        IntDisplay::~IntDisplay()
-        {}
-
         int IntDisplay::value() const
         {
             return _p->value;

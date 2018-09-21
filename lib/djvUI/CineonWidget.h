@@ -57,9 +57,7 @@ namespace djv
         public:
             CineonWidget(Graphics::ImageIO *, UIContext *);
 
-            virtual ~CineonWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void pluginCallback(const QString &);
@@ -100,8 +98,8 @@ namespace djv
         public:
             CineonWidgetPlugin(Core::CoreContext *);
 
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
-            virtual QString pluginName() const;
+            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            QString pluginName() const override;
         };
 
     } // namespace UI

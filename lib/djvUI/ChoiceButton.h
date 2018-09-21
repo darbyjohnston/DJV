@@ -55,15 +55,13 @@ namespace djv
             explicit ChoiceButton(UIContext *, QWidget * parent = nullptr);
             explicit ChoiceButton(QActionGroup *, UIContext *, QWidget * parent = nullptr);
 
-            virtual ~ChoiceButton();
-
             //! Get the associated action group.
             QActionGroup * actionGroup() const;
 
             //! Get the current index.
             int currentIndex() const;
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         public slots:
             //! Set the action group. The ownership of the action group is not
@@ -78,9 +76,9 @@ namespace djv
             void currentIndexChanged(int);
 
         protected:
-            virtual void mousePressEvent(QMouseEvent *);
-            virtual void mouseReleaseEvent(QMouseEvent *);
-            virtual void paintEvent(QPaintEvent *);
+            void mousePressEvent(QMouseEvent *) override;
+            void mouseReleaseEvent(QMouseEvent *) override;
+            void paintEvent(QPaintEvent *) override;
             bool event(QEvent*) override;
 
         private Q_SLOTS:

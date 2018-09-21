@@ -92,9 +92,6 @@ namespace djv
                 SLOT(spinBoxCallback(int)));
         }
 
-        IntEdit::~IntEdit()
-        {}
-
         int IntEdit::value() const
         {
             return _p->object->value();

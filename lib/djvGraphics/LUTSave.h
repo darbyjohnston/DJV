@@ -48,7 +48,7 @@ namespace djv
         {
         public:
             LUTSave(const LUT::Options &, Core::CoreContext *);
-            virtual ~LUTSave();
+            ~LUTSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

@@ -69,8 +69,7 @@ namespace djv
                 const Graphics::Color & color,
                 UIContext *  context,
                 QWidget * parent = nullptr);
-
-            virtual ~ColorDialog();
+            ~ColorDialog() override;
 
             //! Get the color.
             const Graphics::Color & color() const;

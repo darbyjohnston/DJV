@@ -115,9 +115,6 @@ namespace djv
                 SLOT(defaultCallback()));
         }
 
-        IntEditSlider::~IntEditSlider()
-        {}
-
         int IntEditSlider::value() const
         {
             return _p->edit->value();

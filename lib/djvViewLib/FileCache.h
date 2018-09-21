@@ -110,8 +110,7 @@ namespace djv
 
         public:
             explicit FileCache(Context *, QObject * parent = nullptr);
-
-            virtual ~FileCache();
+            ~FileCache() override;
 
             //! Create a new cache item. The reference count on the item is
             //! automatically set to one.

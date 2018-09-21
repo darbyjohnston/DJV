@@ -62,9 +62,6 @@ namespace djv
             connect(_p->comboBox, SIGNAL(activated(int)), SLOT(widgetCallback(int)));
         }
 
-        PixelWidget::~PixelWidget()
-        {}
-
         Graphics::Pixel::PIXEL PixelWidget::pixel() const
         {
             return _p->pixel;

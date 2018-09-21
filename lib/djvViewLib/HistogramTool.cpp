@@ -68,11 +68,11 @@ namespace djv
                 const Graphics::Color &     min,
                 const Graphics::Color &     max);
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         protected:
-            virtual void resizeEvent(QResizeEvent *);
-            virtual void paintEvent(QPaintEvent *);
+            void resizeEvent(QResizeEvent *) override;
+            void paintEvent(QPaintEvent *) override;
 
         private:
             void updatePixmap();

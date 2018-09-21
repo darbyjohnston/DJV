@@ -47,7 +47,7 @@ namespace djv
         {
         public:
             explicit RLALoad(Core::CoreContext *);
-            virtual ~RLALoad();
+            ~RLALoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

@@ -50,9 +50,6 @@ namespace djv
             defaultValidUpdate();
         }
 
-        IntObject::~IntObject()
-        {}
-
         int IntObject::value() const
         {
             return _value;

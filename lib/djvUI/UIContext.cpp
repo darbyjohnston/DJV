@@ -348,7 +348,7 @@ namespace djv
                 arg(Prefs(QString(), Prefs::SYSTEM).fileName());
         }
 
-        bool UIContext::commandLineParse(QStringList & in) throw (QString)
+        bool UIContext::commandLineParse(QStringList & in)
         {
             //DJV_DEBUG("UIContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);

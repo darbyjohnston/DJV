@@ -510,7 +510,7 @@ namespace djv
         return !(a == b);
     }
 
-    QStringList & operator >> (QStringList & in, UI::StylePrefs::Palette & out) throw (QString)
+    QStringList & operator >> (QStringList & in, UI::StylePrefs::Palette & out)
     {
         in >> out.name;
         QString tmp;
@@ -544,7 +544,6 @@ namespace djv
     }
 
     QStringList & operator >> (QStringList & in, UI::StylePrefs::SizeMetric & out)
-        throw (QString)
     {
         in >> out.name;
         QString tmp;
@@ -562,7 +561,6 @@ namespace djv
     }
 
     QStringList & operator >> (QStringList & in, UI::StylePrefs::Fonts & out)
-        throw (QString)
     {
         QString tmp, tmp2;
         in >> tmp;

@@ -53,9 +53,7 @@ namespace djv
         public:
             IFFWidget(Graphics::ImageIO *, UIContext *);
 
-            virtual ~IFFWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void pluginCallback(const QString &);
@@ -78,8 +76,8 @@ namespace djv
         public:
             IFFWidgetPlugin(Core::CoreContext *);
 
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
-            virtual QString pluginName() const;
+            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            QString pluginName() const override;
         };
 
     } // namespace UI

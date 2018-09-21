@@ -54,8 +54,7 @@ namespace djv
 
         public:
             explicit Spinner(UIContext * context, QWidget * parent = nullptr);
-
-            virtual ~Spinner();
+            ~Spinner() override;
 
             //! Get whether the spinner is spinning.    
             bool isSpinning() const;
@@ -71,8 +70,8 @@ namespace djv
             void stop();
 
         protected:
-            virtual void timerEvent(QTimerEvent *);
-            virtual void paintEvent(QPaintEvent *);
+            void timerEvent(QTimerEvent *) override;
+            void paintEvent(QPaintEvent *) override;
 
         private:
             DJV_PRIVATE_COPY(Spinner)

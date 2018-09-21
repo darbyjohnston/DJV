@@ -89,9 +89,6 @@ namespace djv
                 SLOT(qualityCallback(int)));
         }
 
-        JPEGWidget::~JPEGWidget()
-        {}
-
         void JPEGWidget::resetPreferences()
         {
             _options = Graphics::JPEG::Options();

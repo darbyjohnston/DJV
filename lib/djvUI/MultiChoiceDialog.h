@@ -56,8 +56,7 @@ namespace djv
                 const QStringList &   choices = QStringList(),
                 const QVector<bool> & values = QVector<bool>(),
                 QWidget *             parent = nullptr);
-
-            virtual ~MultiChoiceDialog();
+            ~MultiChoiceDialog() override;
 
             //! Get the label.
             const QString & label() const;

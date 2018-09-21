@@ -47,7 +47,7 @@ namespace djv
         {
         public:
             explicit PNGLoad(Core::CoreContext *);
-            virtual ~PNGLoad();
+            ~PNGLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

@@ -84,9 +84,6 @@ namespace djv
                 SLOT(toolTipsCallback(bool)));
         }
 
-        HelpPrefsWidget::~HelpPrefsWidget()
-        {}
-
         void HelpPrefsWidget::resetPreferences()
         {
             context()->helpPrefs()->setToolTips(HelpPrefs::toolTipsDefault());

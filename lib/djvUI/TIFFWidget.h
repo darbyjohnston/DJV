@@ -52,9 +52,7 @@ namespace djv
         public:
             TIFFWidget(Graphics::ImageIO *, UIContext *);
 
-            virtual ~TIFFWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void pluginCallback(const QString &);
@@ -77,8 +75,8 @@ namespace djv
         public:
             TIFFWidgetPlugin(Core::CoreContext *);
 
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
-            virtual QString pluginName() const;
+            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            QString pluginName() const override;
         };
 
     } // namespace UI

@@ -88,9 +88,6 @@ namespace djv
                 SLOT(compressionCallback(int)));
         }
 
-        SGIWidget::~SGIWidget()
-        {}
-
         void SGIWidget::resetPreferences()
         {
             _options = Graphics::SGI::Options();

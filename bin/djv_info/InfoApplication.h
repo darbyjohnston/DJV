@@ -52,16 +52,14 @@ namespace djv
 
         public:
             Application(int, char **);
-
-            virtual ~Application();
+            ~Application() override;
 
         private Q_SLOTS:
             void commandLineExit();
             void work();
 
         private:
-            void printItem(const Core::FileInfo &, bool path = false, bool info = true)
-                throw (Core::Error);
+            void printItem(const Core::FileInfo &, bool path = false, bool info = true);
             void printDirectory(const Core::FileInfo &, bool label);
 
             Context * _context = nullptr;

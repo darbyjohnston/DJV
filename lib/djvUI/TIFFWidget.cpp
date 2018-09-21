@@ -92,9 +92,6 @@ namespace djv
                 SLOT(compressionCallback(int)));
         }
 
-        TIFFWidget::~TIFFWidget()
-        {}
-
         void TIFFWidget::resetPreferences()
         {
             _options = Graphics::TIFF::Options();

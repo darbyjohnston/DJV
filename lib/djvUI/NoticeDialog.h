@@ -52,8 +52,7 @@ namespace djv
             explicit NoticeDialog(
                 const QString & label = QString(),
                 QWidget *       parent = nullptr);
-
-            virtual ~NoticeDialog();
+            ~NoticeDialog() override;
 
             //! Get the label.
             const QString & label() const;

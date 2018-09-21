@@ -77,10 +77,7 @@ namespace djv
             Core::Memory::fill<quint8>(0xff, &tv, sizeof(Tv));
         }
 
-        void DPXHeader::load(
-            Core::FileIO & io,
-            ImageIOInfo &  info,
-            bool &         filmPrint) throw (Core::Error)
+        void DPXHeader::load(Core::FileIO & io, ImageIOInfo & info, bool & filmPrint)
         {
             //DJV_DEBUG("DPXHeader::load");
             //DJV_DEBUG_PRINT("file = " << io.fileName());
@@ -416,11 +413,11 @@ namespace djv
         }
 
         void DPXHeader::save(
-            Core::FileIO &        io,
-            const ImageIOInfo &   info,
-            DPX::ENDIAN           endian,
+            Core::FileIO & io,
+            const ImageIOInfo & info,
+            DPX::ENDIAN endian,
             Cineon::COLOR_PROFILE colorProfile,
-            DPX::VERSION          version) throw (Core::Error)
+            DPX::VERSION version)
         {
             //DJV_DEBUG("DPXHeader::save");
 
@@ -809,7 +806,7 @@ namespace djv
             io.set(&tv, sizeof(Tv));
         }
 
-        void DPXHeader::saveEnd(Core::FileIO & io) throw (Core::Error)
+        void DPXHeader::saveEnd(Core::FileIO & io)
         {
             const quint32 size = static_cast<quint32>(io.pos());
             io.setPos(12);

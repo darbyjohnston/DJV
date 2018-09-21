@@ -277,9 +277,6 @@ namespace djv
                 SLOT(endianCallback(int)));
         }
 
-        DPXWidget::~DPXWidget()
-        {}
-
         void DPXWidget::resetPreferences()
         {
             //DJV_DEBUG("DPXWidget::resetPreferences");

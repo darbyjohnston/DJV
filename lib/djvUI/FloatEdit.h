@@ -62,8 +62,6 @@ namespace djv
         public:
             explicit FloatEdit(QWidget * parent = nullptr);
 
-            virtual ~FloatEdit();
-
             //! Get the value.
             float value() const;
 
@@ -103,7 +101,7 @@ namespace djv
             void rangeChanged(float, float);
 
         protected:
-            virtual void keyPressEvent(QKeyEvent *);
+            void keyPressEvent(QKeyEvent *) override;
 
         private Q_SLOTS:
             void valueCallback();

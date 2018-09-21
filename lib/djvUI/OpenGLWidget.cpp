@@ -46,8 +46,5 @@ namespace djv
             QOpenGLWidget(parent, flags)
         {}
 
-        OpenGLWidget::~OpenGLWidget()
-        {}
-
     } // namespace UI
 } // namespace djv

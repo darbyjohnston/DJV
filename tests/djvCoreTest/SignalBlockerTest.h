@@ -44,7 +44,7 @@ namespace djv
         public:
             SignalBlockerTest();
 
-            virtual void run(int &, char **);
+            void run(int &, char **) override;
 
         public Q_SLOTS:
             void slot();

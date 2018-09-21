@@ -64,7 +64,7 @@ namespace djv
             bool setOption(const QString &, QStringList &) override;
             QStringList options() const override;
 
-            void commandLine(QStringList &) throw (QString) override;
+            void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
             ImageLoad * createLoad() const override;

@@ -177,9 +177,9 @@ namespace djv
     inline bool operator != (const Core::Box3<T, P> &, const Core::Box3<T, P> &);
 
     template<typename T, glm::precision P = glm::defaultp>
-    inline QStringList & operator >> (QStringList &, Core::Box2<T, P> &) throw (QString);
+    inline QStringList & operator >> (QStringList &, Core::Box2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline QStringList & operator >> (QStringList &, Core::Box3<T, P> &) throw (QString);
+    inline QStringList & operator >> (QStringList &, Core::Box3<T, P> &);
 
     template<typename T, glm::precision P = glm::defaultp>
     inline QStringList & operator << (QStringList &, const Core::Box2<T, P> &);

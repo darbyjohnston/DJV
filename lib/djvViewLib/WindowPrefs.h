@@ -47,8 +47,7 @@ namespace djv
 
         public:
             explicit WindowPrefs(Context *, QObject * parent = nullptr);
-
-            virtual ~WindowPrefs();
+            ~WindowPrefs() override;
 
             //! Get the default for whether to automatically fit the window to the
             //! image.

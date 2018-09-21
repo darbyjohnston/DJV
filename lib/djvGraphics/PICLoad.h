@@ -47,7 +47,7 @@ namespace djv
         {
         public:
             explicit PICLoad(Core::CoreContext *);
-            virtual ~PICLoad();
+            ~PICLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

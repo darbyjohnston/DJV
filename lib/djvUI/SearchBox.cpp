@@ -87,9 +87,6 @@ namespace djv
                 SLOT(resetCallback()));
         }
 
-        SearchBox::~SearchBox()
-        {}
-
         const QString & SearchBox::text() const
         {
             return _p->text;

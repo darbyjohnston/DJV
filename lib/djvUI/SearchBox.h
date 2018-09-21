@@ -62,8 +62,6 @@ namespace djv
         public:
             explicit SearchBox(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~SearchBox();
-
             //! Get the text.
             const QString & text() const;
 

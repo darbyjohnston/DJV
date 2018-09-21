@@ -48,8 +48,7 @@ namespace djv
             explicit ViewMenu(
                 AbstractActions * actions,
                 QWidget *         parent = nullptr);
-
-            virtual ~ViewMenu();
+            ~ViewMenu() override;
 
         private:
             DJV_PRIVATE_COPY(ViewMenu);

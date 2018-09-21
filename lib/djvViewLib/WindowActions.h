@@ -69,8 +69,7 @@ namespace djv
             };
 
             explicit WindowActions(Context *, QObject * parent = nullptr);
-
-            virtual ~WindowActions();
+            ~WindowActions() override;
 
         private Q_SLOTS:
             void update();

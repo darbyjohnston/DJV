@@ -108,13 +108,13 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline QStringList & operator >> (QStringList & in, Core::Box2<T, P> & out) throw (QString)
+    inline QStringList & operator >> (QStringList & in, Core::Box2<T, P> & out)
     {
         return in >> out.position >> out.size;
     }
 
     template<typename T, glm::precision P>
-    inline QStringList & operator >> (QStringList & in, Core::Box3<T, P> & out) throw (QString)
+    inline QStringList & operator >> (QStringList & in, Core::Box3<T, P> & out)
     {
         return in >> out.position >> out.size;
     }

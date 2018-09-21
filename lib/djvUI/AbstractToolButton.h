@@ -52,13 +52,12 @@ namespace djv
 
         public:
             explicit AbstractToolButton(UIContext *, QWidget * parent = nullptr);
-
             virtual ~AbstractToolButton() = 0;
 
             UIContext* context() const { return _context; }
 
         protected:
-            virtual void paintEvent(QPaintEvent *);
+            void paintEvent(QPaintEvent *) override;
             bool event(QEvent*) override;
 
         private Q_SLOTS:

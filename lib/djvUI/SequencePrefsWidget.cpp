@@ -93,9 +93,6 @@ namespace djv
                 SLOT(maxFramesCallback(int)));
         }
 
-        SequencePrefsWidget::~SequencePrefsWidget()
-        {}
-
         void SequencePrefsWidget::resetPreferences()
         {
             context()->sequencePrefs()->setMaxFrames(Core::Sequence::maxFramesDefault());

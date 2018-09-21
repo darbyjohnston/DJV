@@ -51,11 +51,10 @@ namespace djv
                 MainWindow * mainWindow,
                 Context *    context,
                 QWidget *    parent = nullptr);
-
-            virtual ~InfoTool();
+            ~InfoTool() override;
 
         protected:
-            virtual void showEvent(QShowEvent *);
+            void showEvent(QShowEvent *) override;
 
         private Q_SLOTS:
             void widgetUpdate();

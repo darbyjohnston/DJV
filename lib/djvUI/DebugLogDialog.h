@@ -61,12 +61,10 @@ namespace djv
         public:
             DebugLogDialog(UIContext *);
 
-            virtual ~DebugLogDialog();
-
             void clear();
 
         protected:
-            virtual void showEvent(QShowEvent *);
+            void showEvent(QShowEvent *) override;
             bool event(QEvent *) override;
 
         private Q_SLOTS:

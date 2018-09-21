@@ -49,7 +49,7 @@ namespace djv
         {
         public:
             DPXSave(const DPX::Options &, Core::CoreContext *);
-            virtual ~DPXSave();
+            ~DPXSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

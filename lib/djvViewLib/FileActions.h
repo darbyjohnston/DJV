@@ -83,8 +83,7 @@ namespace djv
             };
 
             explicit FileActions(Context *, QObject * parent = nullptr);
-
-            virtual ~FileActions();
+            ~FileActions() override;
 
         public Q_SLOTS:
             //! Set the layers.

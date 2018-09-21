@@ -60,40 +60,17 @@ namespace djv
         public:
             explicit ShortcutsModel(QObject * parent = nullptr);
 
-            virtual ~ShortcutsModel();
-
             //! Get the list of shortcuts.
             const QVector<Shortcut> & shortcuts() const;
 
-            virtual QModelIndex	index(
-                int                 row,
-                int                 column,
-                const QModelIndex & parent = QModelIndex()) const;
-
-            virtual QModelIndex	parent(
-                const QModelIndex & = QModelIndex()) const;
-
-            virtual Qt::ItemFlags flags(const QModelIndex &) const;
-
-            virtual QVariant data(
-                const QModelIndex & index,
-                int                 role = Qt::DisplayRole) const;
-
-            virtual bool setData(
-                const QModelIndex & index,
-                const QVariant &    value,
-                int                 role);
-
-            virtual QVariant headerData(
-                int             section,
-                Qt::Orientation orientation,
-                int             role = Qt::DisplayRole) const;
-
-            virtual int rowCount(
-                const QModelIndex & parent = QModelIndex()) const;
-
-            virtual int columnCount(
-                const QModelIndex & parent = QModelIndex()) const;
+            QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+            QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
+            Qt::ItemFlags flags(const QModelIndex &) const override;
+            QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
+            bool setData(const QModelIndex &, const QVariant &, int role) override;
+            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
 
         public Q_SLOTS:
             //! Set the list of shortcuts.

@@ -48,10 +48,9 @@ namespace djv
 
         public:
             PlaybackPrefsWidget(Context *);
+            ~PlaybackPrefsWidget() override;
 
-            virtual ~PlaybackPrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void autoStartCallback(bool);

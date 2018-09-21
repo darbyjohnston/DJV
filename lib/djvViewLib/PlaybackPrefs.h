@@ -47,8 +47,7 @@ namespace djv
 
         public:
             explicit PlaybackPrefs(Context *, QObject * parent = nullptr);
-
-            virtual ~PlaybackPrefs();
+            ~PlaybackPrefs() override;
 
             //! Get the default for whether playback is started automatically.
             static bool autoStartDefault();

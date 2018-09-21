@@ -52,10 +52,10 @@ namespace djv
         explicit ImagePlayExampleWidget(UI::UIContext *);
 
     protected:
-        virtual void showEvent(QShowEvent *);
-        virtual void mousePressEvent(QMouseEvent *);
-        virtual void mouseMoveEvent(QMouseEvent *);
-        virtual void keyPressEvent(QKeyEvent *);
+        void showEvent(QShowEvent *) override;
+        void mousePressEvent(QMouseEvent *) override;
+        void mouseMoveEvent(QMouseEvent *) override;
+        void keyPressEvent(QKeyEvent *) override;
 
     private:
         glm::ivec2 _viewPosTmp = glm::ivec2(0, 0);

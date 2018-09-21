@@ -81,9 +81,6 @@ namespace djv
                 SLOT(rangeCallback()));
         }
 
-        Vector2fEditWidget::~Vector2fEditWidget()
-        {}
-
         glm::vec2 Vector2fEditWidget::value() const
         {
             return glm::vec2(_p->widget->value(), _p->widget2->value());

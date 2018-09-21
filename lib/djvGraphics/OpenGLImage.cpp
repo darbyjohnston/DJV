@@ -290,7 +290,7 @@ namespace djv
         void OpenGLImage::copy(
             const PixelData &          input,
             PixelData &                output,
-            const OpenGLImageOptions & options) throw (Core::Error)
+            const OpenGLImageOptions & options)
         {
             //DJV_DEBUG("OpenGLImage::copy");
             //DJV_DEBUG_PRINT("input = " << input);
@@ -369,7 +369,7 @@ namespace djv
         void OpenGLImage::average(
             const PixelData &   in,
             Color &             out,
-            const Pixel::Mask & mask) throw (Core::Error)
+            const Pixel::Mask & mask)
         {
             //DJV_DEBUG("average");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -471,7 +471,7 @@ namespace djv
             int                 size,
             Color &             min,
             Color &             max,
-            const Pixel::Mask & mask) throw (Core::Error)
+            const Pixel::Mask & mask)
         {
             //DJV_DEBUG("histogram");
             //DJV_DEBUG_PRINT("in = " << in);

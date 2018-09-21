@@ -49,7 +49,7 @@ namespace djv
         class ImageIOFormatsTest : public TestLib::AbstractTest
         {
         public:
-            virtual void run(int &, char **);
+            void run(int &, char **) override;
 
         private:
             void initPlugins(djv::Graphics::GraphicsContext *);

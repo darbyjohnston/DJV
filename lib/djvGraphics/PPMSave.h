@@ -48,7 +48,7 @@ namespace djv
         {
         public:
             PPMSave(const PPM::Options &, Core::CoreContext *);
-            virtual ~PPMSave();
+            ~PPMSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

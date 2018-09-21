@@ -73,10 +73,10 @@ namespace djv
                     update();
                 }
 
-                virtual QSize sizeHint() const { return QSize(200, 20); }
+                QSize sizeHint() const override { return QSize(200, 20); }
 
             protected:
-                virtual void paintEvent(QPaintEvent *)
+                void paintEvent(QPaintEvent *) override
                 {
                     QPainter painter(this);
                     const QPalette & palette = this->palette();

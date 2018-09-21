@@ -50,10 +50,9 @@ namespace djv
 
         public:
             ImagePrefsWidget(Context *);
+            ~ImagePrefsWidget() override;
 
-            virtual ~ImagePrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         protected:
             bool event(QEvent *) override;

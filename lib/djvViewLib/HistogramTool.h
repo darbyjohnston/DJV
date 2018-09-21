@@ -53,12 +53,11 @@ namespace djv
                 MainWindow * mainWindow,
                 Context *    context,
                 QWidget *    parent = nullptr);
-
-            virtual ~HistogramTool();
+            ~HistogramTool() override;
 
         protected:
-            virtual void showEvent(QShowEvent *);
-            virtual void resizeEvent(QResizeEvent *);
+            void showEvent(QShowEvent *) override;
+            void resizeEvent(QResizeEvent *) override;
             bool event(QEvent *) override;
 
         private Q_SLOTS:

@@ -63,8 +63,7 @@ namespace djv
                 PlaybackGroup * copy,
                 MainWindow *    mainWindow,
                 Context *       context);
-
-            virtual ~PlaybackGroup();
+            ~PlaybackGroup() override;
 
             //! Get the sequence.
             const Core::Sequence & sequence() const;
@@ -102,7 +101,7 @@ namespace djv
             //! Get the layout.
             Util::LAYOUT layout() const;
 
-            virtual QToolBar * toolBar() const;
+            QToolBar * toolBar() const override;
 
         public Q_SLOTS:
             //! Set the sequence.
@@ -176,7 +175,7 @@ namespace djv
             void layoutChanged(djv::ViewLib::Util::LAYOUT);
 
         protected:
-            virtual void timerEvent(QTimerEvent *);
+            void timerEvent(QTimerEvent *) override;
 
         private Q_SLOTS:
             void playbackCallback(QAction *);

@@ -72,9 +72,6 @@ namespace djv
             widgetUpdate();
         }
 
-        ToolButton::~ToolButton()
-        {}
-
         void ToolButton::setDefaultAction(QAction * action)
         {
             if (action == _p->defaultAction)

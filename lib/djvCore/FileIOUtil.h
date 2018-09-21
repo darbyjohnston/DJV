@@ -50,19 +50,28 @@ namespace djv
             virtual ~FileIOUtil() = 0;
 
             //! Read a word from a file.
+            //!
+            //! Throws:
+            //! - Error
             static void word(
                 FileIO &,
                 char *,
-                int maxLen = StringUtil::cStringLength) throw (Error);
+                int maxLen = StringUtil::cStringLength);
 
             //! Read a line from a file.
+            //!
+            //! Throws:
+            //! - Error
             static void line(
                 FileIO &,
                 char *,
-                int maxLen = StringUtil::cStringLength) throw (Error);
+                int maxLen = StringUtil::cStringLength);
 
             //! Read all the lines from a file.
-            static QStringList lines(const QString & fileName) throw (Error);
+            //!
+            //! Throws:
+            //! - Error
+            static QStringList lines(const QString & fileName);
         };
 
     } // namespace Core

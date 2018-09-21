@@ -51,9 +51,7 @@ namespace djv
         public:
             explicit HelpPrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~HelpPrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void toolTipsCallback(bool);

@@ -46,9 +46,8 @@ namespace djv
         public:
             PixelWidgetTest(UI::UIContext *);
 
-            virtual QString name();
-
-            virtual void run(const QStringList & args = QStringList());
+            QString name() override;
+            void run(const QStringList & args = QStringList()) override;
 
         private Q_SLOTS:
             void callback(djv::Graphics::Pixel::PIXEL);

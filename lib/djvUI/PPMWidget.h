@@ -52,9 +52,7 @@ namespace djv
         public:
             PPMWidget(Graphics::ImageIO *, UIContext *);
 
-            virtual ~PPMWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void pluginCallback(const QString &);
@@ -79,8 +77,8 @@ namespace djv
         public:
             PPMWidgetPlugin(Core::CoreContext *);
 
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
-            virtual QString pluginName() const;
+            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            QString pluginName() const override;
         };
 
     } // namespace UI

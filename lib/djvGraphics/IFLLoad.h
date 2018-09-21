@@ -45,7 +45,7 @@ namespace djv
         {
         public:
             explicit IFLLoad(Core::CoreContext *);
-            virtual ~IFLLoad();
+            ~IFLLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

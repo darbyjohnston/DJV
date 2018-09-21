@@ -48,10 +48,9 @@ namespace djv
 
         public:
             InputPrefsWidget(Context *);
+            ~InputPrefsWidget() override;
 
-            virtual ~InputPrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void mouseWheelCallback(int);

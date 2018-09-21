@@ -57,9 +57,8 @@ namespace djv
         public:
             NumWidgetTest(UI::UIContext *);
 
-            virtual QString name();
-
-            virtual void run(const QStringList & args = QStringList());
+            QString name() override;
+            void run(const QStringList & args = QStringList()) override;
         };
 
         class NumWidgetTestWidget : public QWidget

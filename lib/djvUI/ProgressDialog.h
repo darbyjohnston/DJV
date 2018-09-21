@@ -54,8 +54,7 @@ namespace djv
             explicit ProgressDialog(
                 const QString & label = QString(),
                 QWidget *       parent = nullptr);
-
-            virtual ~ProgressDialog();
+            ~ProgressDialog() override;
 
             //! Get the label.
             const QString & label() const;
@@ -75,8 +74,8 @@ namespace djv
             void finishedSignal();
 
         protected:
-            virtual void hideEvent(QHideEvent *);
-            virtual void timerEvent(QTimerEvent *);
+            void hideEvent(QHideEvent *) override;
+            void timerEvent(QTimerEvent *) override;
 
         private Q_SLOTS:
             void rejectedCallback();

@@ -60,8 +60,7 @@ namespace djv
                 const FileGroup * copy,
                 MainWindow *      mainWindow,
                 Context *         context);
-
-            virtual ~FileGroup();
+            ~FileGroup() override;
 
             //! Get the currently opened file.
             const Core::FileInfo & fileInfo() const;
@@ -93,7 +92,7 @@ namespace djv
             //! Get image I/O information.
             const Graphics::ImageIOInfo & imageIOInfo() const;
 
-            virtual QToolBar * toolBar() const;
+            QToolBar * toolBar() const override;
 
         public Q_SLOTS:
             //! Open a file.
@@ -137,7 +136,7 @@ namespace djv
             void saveFrame(const djv::Core::FileInfo &);
 
         protected:
-            virtual void timerEvent(QTimerEvent *);
+            void timerEvent(QTimerEvent *) override;
 
         private Q_SLOTS:
             void openCallback();

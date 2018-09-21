@@ -115,9 +115,6 @@ namespace djv
                 SLOT(defaultCallback()));
         }
 
-        FloatEditSlider::~FloatEditSlider()
-        {}
-
         float FloatEditSlider::value() const
         {
             return _p->edit->value();

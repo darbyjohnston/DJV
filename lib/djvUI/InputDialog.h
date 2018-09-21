@@ -55,8 +55,7 @@ namespace djv
                 const QString & label = QString(),
                 const QString & text = QString(),
                 QWidget *       parent = nullptr);
-
-            virtual ~InputDialog();
+            ~InputDialog() override;
 
             //! Get the label.
             const QString & label() const;

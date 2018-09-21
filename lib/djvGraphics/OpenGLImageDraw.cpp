@@ -868,7 +868,7 @@ namespace djv
         void OpenGLImage::draw(
             const PixelData &          data,
             const glm::mat4x4&         viewMatrix,
-            const OpenGLImageOptions & options) throw (Core::Error)
+            const OpenGLImageOptions & options)
         {
             //DJV_DEBUG("OpenGLImage::draw");
             //DJV_DEBUG_PRINT("data = " << data);

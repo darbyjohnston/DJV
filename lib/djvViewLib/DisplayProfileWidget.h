@@ -58,8 +58,7 @@ namespace djv
                 const ImageView * viewWidget,
                 Context *         context,
                 QWidget *         parent = nullptr);
-
-            virtual ~DisplayProfileWidget();
+            ~DisplayProfileWidget() override;
 
             //! Get the display profile.
             const DisplayProfile & displayProfile() const;

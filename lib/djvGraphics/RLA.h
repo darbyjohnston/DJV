@@ -46,22 +46,22 @@ namespace djv
             static const QString staticName;
 
             //! Load RLE data.
-            static void readRle(
-                Core::FileIO & io,
-                quint8 *       out,
-                int            size,
-                int            channels,
-                int            bytes) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void readRle(Core::FileIO & io, quint8 * out, int size, int channels, int bytes);
 
             //! Load floating point data.
-            static void floatLoad(
-                Core::FileIO & io,
-                quint8 *       out,
-                int            size,
-                int            channels) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void floatLoad(Core::FileIO & io, quint8 * out, int size, int channels);
 
             //! Skip file data.
-            static void skip(Core::FileIO &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void skip(Core::FileIO &);
         };
 
     } // namespace Graphics

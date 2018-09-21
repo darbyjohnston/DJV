@@ -58,8 +58,7 @@ namespace djv
             };
 
             explicit ToolActions(Context *, QObject * parent = nullptr);
-
-            virtual ~ToolActions();
+            ~ToolActions() override;
 
         private Q_SLOTS:
             void update();

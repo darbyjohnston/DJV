@@ -51,9 +51,7 @@ namespace djv
         public:
             explicit ImagePrefsWidget(UIContext * context, QWidget * parent = nullptr);
 
-            virtual ~ImagePrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void filterMinCallback(int);

@@ -51,8 +51,7 @@ namespace djv
 
         public:
             Application(int &, char **);
-
-            virtual ~Application();
+            ~Application() override;
 
         private Q_SLOTS:
             void commandLineExit();

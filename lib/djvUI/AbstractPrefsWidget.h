@@ -53,7 +53,6 @@ namespace djv
                 const QString & name,
                 UIContext * context,
                 QWidget * parent = nullptr);
-
             virtual ~AbstractPrefsWidget() = 0;
 
             //! Get the preferences name.    

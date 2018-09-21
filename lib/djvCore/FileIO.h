@@ -64,7 +64,10 @@ namespace djv
             };
 
             //! Open a file.
-            void open(const QString & fileName, MODE) throw (Error);
+            //!
+            //! Throws:
+            //! - Error
+            void open(const QString & fileName, MODE);
 
             //! Close the file.
             void close();
@@ -79,34 +82,37 @@ namespace djv
             quint64 size() const;
 
             //! Get data.
-            void get(void *, quint64, int wordSize = 1) throw (Error);
-
-            inline void get8(qint8 *, quint64 = 1) throw (Error);
-            inline void getU8(quint8 *, quint64 = 1) throw (Error);
-            inline void get16(qint16 *, quint64 = 1) throw (Error);
-            inline void getU16(quint16 *, quint64 = 1) throw (Error);
-            inline void get32(qint32 *, quint64 = 1) throw (Error);
-            inline void getU32(quint32 *, quint64 = 1) throw (Error);
-            inline void getF32(float *, quint64 = 1) throw (Error);
+            //!
+            //! Throws:
+            //! - Error
+            void get(void *, quint64, int wordSize = 1);
+            inline void get8(qint8 *, quint64 = 1);
+            inline void getU8(quint8 *, quint64 = 1);
+            inline void get16(qint16 *, quint64 = 1);
+            inline void getU16(quint16 *, quint64 = 1);
+            inline void get32(qint32 *, quint64 = 1);
+            inline void getU32(quint32 *, quint64 = 1);
+            inline void getF32(float *, quint64 = 1);
 
             //! Set data.
-            void set(const void *, quint64, int wordSize = 1) throw (Error);
-
-            inline void set8(const qint8 *, quint64) throw (Error);
-            inline void setU8(const quint8 *, quint64) throw (Error);
-            inline void set16(const qint16 *, quint64) throw (Error);
-            inline void setU16(const quint16 *, quint64) throw (Error);
-            inline void set32(const qint32 *, quint64) throw (Error);
-            inline void setU32(const quint32 *, quint64) throw (Error);
-            inline void setF32(const float *, quint64) throw (Error);
-
-            inline void set8(const qint8 &) throw (Error);
-            inline void setU8(const quint8 &) throw (Error);
-            inline void set16(const qint16 &) throw (Error);
-            inline void setU16(const quint16 &) throw (Error);
-            inline void set32(const qint32 &) throw (Error);
-            inline void setU32(const quint32 &) throw (Error);
-            inline void setF32(const float &) throw (Error);
+            //!
+            //! Throws:
+            //! - Error
+            void set(const void *, quint64, int wordSize = 1);
+            inline void set8(const qint8 *, quint64);
+            inline void setU8(const quint8 *, quint64);
+            inline void set16(const qint16 *, quint64);
+            inline void setU16(const quint16 *, quint64);
+            inline void set32(const qint32 *, quint64);
+            inline void setU32(const quint32 *, quint64);
+            inline void setF32(const float *, quint64);
+            inline void set8(const qint8 &);
+            inline void setU8(const quint8 &);
+            inline void set16(const qint16 &);
+            inline void setU16(const quint16 &);
+            inline void set32(const qint32 &);
+            inline void setU32(const quint32 &);
+            inline void setF32(const float &);
 
             //! Start an asynchronous read-ahead. This allows the operating system to
             //! cache the file by the time we need it.
@@ -122,10 +128,16 @@ namespace djv
             quint64 pos() const;
 
             //! Set the file position.
-            void setPos(quint64) throw (Error);
+            //!
+            //! Throws:
+            //! - Error
+            void setPos(quint64);
 
             //! Move the file position.
-            void seek(quint64) throw (Error);
+            //!
+            //! Throws:
+            //! - Error
+            void seek(quint64);
 
             //! Get whether endian conversion is performed when using the data
             //! functions.
@@ -156,7 +168,7 @@ namespace djv
             static const QStringList & errorLabels();
 
         private:
-            void setPos(quint64, bool seek) throw (Error);
+            void setPos(quint64, bool seek);
 
             DJV_PRIVATE_COPY(FileIO);
 

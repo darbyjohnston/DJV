@@ -117,7 +117,6 @@ namespace djv
         }
 
         void PPM::asciiLoad(Core::FileIO & io, void * out, int size, int bitDepth)
-            throw (Core::Error)
         {
             //DJV_DEBUG("PPM::asciiLoad");
             char tmp[Core::StringUtil::cStringLength] = "";

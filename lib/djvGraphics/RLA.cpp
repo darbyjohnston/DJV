@@ -45,7 +45,7 @@ namespace djv
             quint8 *       out,
             int            size,
             int            channels,
-            int            bytes) throw (Core::Error)
+            int            bytes)
         {
             //DJV_DEBUG("RLA::readRle");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -93,7 +93,7 @@ namespace djv
             Core::FileIO & io,
             quint8 *       out,
             int            size,
-            int            channels) throw (Core::Error)
+            int            channels)
         {
             //DJV_DEBUG("RLA::floatLoad");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -128,7 +128,7 @@ namespace djv
             //DJV_DEBUG_PRINT("out = " << p - start);
         }
 
-        void RLA::skip(Core::FileIO & io) throw (Core::Error)
+        void RLA::skip(Core::FileIO & io)
         {
             qint16 size = 0;
             io.get16(&size);

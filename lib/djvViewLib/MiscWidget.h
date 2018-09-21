@@ -76,7 +76,7 @@ namespace djv
 
         public:
             explicit CacheSizeWidget(UI::UIContext *, QWidget * parent = nullptr);
-            virtual ~CacheSizeWidget();
+            ~CacheSizeWidget() override;
 
             //! Get the cache sizes.
             const QVector<float> & cacheSizes() const;
@@ -143,7 +143,7 @@ namespace djv
 
         public:
             explicit FrameWidget(UI::UIContext *, QWidget * parent = nullptr);
-            virtual ~FrameWidget();
+            ~FrameWidget() override;
 
             //! Get the frame list.
             const Core::FrameList & frameList() const;
@@ -154,9 +154,9 @@ namespace djv
             //! Get the speed.
             const Core::Speed & speed() const;
 
-            virtual void stepBy(int);
+            void stepBy(int) override;
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         public Q_SLOTS:
             //! Set the frame list.
@@ -173,7 +173,7 @@ namespace djv
             void frameChanged(qint64);
 
         protected:
-            virtual QAbstractSpinBox::StepEnabled stepEnabled() const;
+            QAbstractSpinBox::StepEnabled stepEnabled() const override;
             bool event(QEvent *) override;
 
         private Q_SLOTS:
@@ -240,7 +240,7 @@ namespace djv
 
         public:
             explicit FrameSlider(UI::UIContext *, QWidget * parent = nullptr);
-            virtual ~FrameSlider();
+            ~FrameSlider() override;
 
             //! Get the frame list.
             const Core::FrameList & frameList() const;
@@ -260,7 +260,7 @@ namespace djv
             //! Get the out point.
             qint64 outPoint() const;
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         public Q_SLOTS:
             //! Set the frame list.
@@ -325,10 +325,10 @@ namespace djv
             void pressed(bool);
 
         protected:
-            virtual void mousePressEvent(QMouseEvent *);
-            virtual void mouseReleaseEvent(QMouseEvent *);
-            virtual void mouseMoveEvent(QMouseEvent *);
-            virtual void paintEvent(QPaintEvent *);
+            void mousePressEvent(QMouseEvent *) override;
+            void mouseReleaseEvent(QMouseEvent *) override;
+            void mouseMoveEvent(QMouseEvent *) override;
+            void paintEvent(QPaintEvent *) override;
             bool event(QEvent *) override;
 
         private Q_SLOTS:
@@ -376,7 +376,7 @@ namespace djv
 
         public:
             explicit FrameDisplay(UI::UIContext *, QWidget * parent = nullptr);
-            virtual ~FrameDisplay();
+            ~FrameDisplay() override;
 
             //! Get the frame.
             qint64 frame() const;
@@ -387,7 +387,7 @@ namespace djv
             //! Get whether the in/out points are enabled.
             bool isInOutEnabled() const;
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         public Q_SLOTS:
             //! Set the frame.
@@ -425,7 +425,7 @@ namespace djv
 
         public:
             explicit SpeedButton(UI::UIContext *, QWidget * parent = nullptr);
-            virtual ~SpeedButton();
+            ~SpeedButton() override;
 
             //! Set the default speed.
             void setDefaultSpeed(const Core::Speed &);
@@ -472,7 +472,7 @@ namespace djv
 
         public:
             explicit SpeedWidget(UI::UIContext *, QWidget * parent = nullptr);
-            virtual ~SpeedWidget();
+            ~SpeedWidget() override;
 
             //! Get the speed.
             const Core::Speed & speed() const;
@@ -516,9 +516,9 @@ namespace djv
 
         public:
             explicit SpeedDisplay(UI::UIContext*, QWidget * parent = nullptr);
-            virtual ~SpeedDisplay();
+            ~SpeedDisplay() override;
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         public Q_SLOTS:
             //! Set the speed.

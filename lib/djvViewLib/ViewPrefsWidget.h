@@ -52,10 +52,9 @@ namespace djv
 
         public:
             ViewPrefsWidget(Context *);
+            ~ViewPrefsWidget() override;
 
-            virtual ~ViewPrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void zoomFactorCallback(int);

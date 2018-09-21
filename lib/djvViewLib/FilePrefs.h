@@ -52,8 +52,7 @@ namespace djv
 
         public:
             explicit FilePrefs(Context *, QObject * parent = nullptr);
-
-            virtual ~FilePrefs();
+            ~FilePrefs() override;
 
             //! Add a recent file.
             void addRecent(const Core::FileInfo &);

@@ -50,7 +50,7 @@ namespace djv
             const PixelDataInfo & info,
             GLenum                target,
             GLenum                min,
-            GLenum                mag) throw (Core::Error)
+            GLenum                mag)
         {
             if (info == _info && target == _target && min == _min && mag == _mag)
                 return;
@@ -115,7 +115,7 @@ namespace djv
             const PixelData & data,
             GLenum            target,
             GLenum            min,
-            GLenum            mag) throw (Core::Error)
+            GLenum            mag)
         {
             init(data.info(), target, min, mag);
             copy(data);

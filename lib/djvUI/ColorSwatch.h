@@ -84,7 +84,7 @@ namespace djv
             //! Set whether the color dialog is enabled.
             void setColorDialogEnabled(bool);
 
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         public Q_SLOTS:
             //! Set the color.
@@ -98,8 +98,8 @@ namespace djv
             void clicked();
 
         protected:
-            virtual void mousePressEvent(QMouseEvent *);
-            virtual void paintEvent(QPaintEvent *);
+            void mousePressEvent(QMouseEvent *) override;
+            void paintEvent(QPaintEvent *) override;
             bool event(QEvent*) override;
 
         private Q_SLOTS:

@@ -44,15 +44,12 @@ namespace djv
         public:
             WidgetTestModel(WidgetTestManager *);
 
-            virtual QModelIndex	index(
+            QModelIndex	index(
                 int                 row,
                 int                 column,
-                const QModelIndex & parent = QModelIndex()) const;
-
-            virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
-
-            virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole)
-                const;
+                const QModelIndex & parent = QModelIndex()) const override;
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 
         private:
             WidgetTestManager * _testManager;

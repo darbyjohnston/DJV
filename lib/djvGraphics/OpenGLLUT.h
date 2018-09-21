@@ -49,10 +49,16 @@ namespace djv
             ~OpenGLLUT();
 
             //! Initialize the LUT.
-            void init(const PixelDataInfo &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            void init(const PixelDataInfo &);
 
             //! Initialize the LUT.
-            void init(const PixelData &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            void init(const PixelData &);
 
             //! Get the pixel information.
             const PixelDataInfo & info() const;

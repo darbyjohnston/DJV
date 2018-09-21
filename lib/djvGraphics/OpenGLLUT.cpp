@@ -46,7 +46,7 @@ namespace djv
             del();
         }
 
-        void OpenGLLUT::init(const PixelDataInfo & info) throw (Core::Error)
+        void OpenGLLUT::init(const PixelDataInfo & info)
         {
             if (info == _info)
                 return;
@@ -95,7 +95,7 @@ namespace djv
                     0));
         }
 
-        void OpenGLLUT::init(const PixelData & data) throw (Core::Error)
+        void OpenGLLUT::init(const PixelData & data)
         {
             init(data.info());
             bind();

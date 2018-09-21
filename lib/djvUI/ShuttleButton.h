@@ -53,9 +53,7 @@ namespace djv
         public:
             explicit ShuttleButton(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~ShuttleButton();
-
-            virtual QSize sizeHint() const;
+            QSize sizeHint() const override;
 
         Q_SIGNALS:
             //! This signal is emitted when the shuttle is pressed.
@@ -65,10 +63,10 @@ namespace djv
             void valueChanged(int);
 
         protected:
-            virtual void mousePressEvent(QMouseEvent *);
-            virtual void mouseReleaseEvent(QMouseEvent *);
-            virtual void mouseMoveEvent(QMouseEvent *);
-            virtual void paintEvent(QPaintEvent *);
+            void mousePressEvent(QMouseEvent *) override;
+            void mouseReleaseEvent(QMouseEvent *) override;
+            void mouseMoveEvent(QMouseEvent *) override;
+            void paintEvent(QPaintEvent *) override;
             bool event(QEvent*) override;
 
         private Q_SLOTS:

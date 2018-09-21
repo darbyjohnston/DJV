@@ -129,9 +129,6 @@ namespace djv
                 SLOT(typeCallback(int)));
         }
 
-        ColorWidget::~ColorWidget()
-        {}
-
         const Graphics::Color & ColorWidget::color() const
         {
             return _p->color;

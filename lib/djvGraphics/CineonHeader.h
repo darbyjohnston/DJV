@@ -165,19 +165,22 @@ namespace djv
             Film   film;
 
             //! Load the header.
-            void load(
-                Core::FileIO &,
-                ImageIOInfo &,
-                bool & filmPrint) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            void load(Core::FileIO &, ImageIOInfo &, bool & filmPrint);
 
             //! Save the header.
-            void save(
-                Core::FileIO &,
-                const ImageIOInfo &,
-                Cineon::COLOR_PROFILE) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            void save(Core::FileIO &, const ImageIOInfo &, Cineon::COLOR_PROFILE);
 
             //! Update the header when saving is finished.
-            void saveEnd(Core::FileIO &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            void saveEnd(Core::FileIO &);
 
             //! Zero memory.
             static void zero(qint32 *);

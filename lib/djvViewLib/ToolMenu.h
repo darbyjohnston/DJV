@@ -50,8 +50,7 @@ namespace djv
             explicit ToolMenu(
                 AbstractActions * actions,
                 QWidget *         parent = nullptr);
-
-            virtual ~ToolMenu();
+            ~ToolMenu() override;
 
         private:
             DJV_PRIVATE_COPY(ToolMenu);

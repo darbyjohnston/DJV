@@ -48,9 +48,6 @@ namespace djv
             _context(context)
         {}
 
-        ImageIOWidget::~ImageIOWidget()
-        {}
-
         Graphics::ImageIO * ImageIOWidget::plugin() const
         {
             return _plugin;
@@ -63,9 +60,6 @@ namespace djv
 
         ImageIOWidgetPlugin::ImageIOWidgetPlugin(Core::CoreContext * context) :
             Core::Plugin(context)
-        {}
-
-        ImageIOWidgetPlugin::~ImageIOWidgetPlugin()
         {}
 
         UIContext * ImageIOWidgetPlugin::uiContext() const
@@ -84,14 +78,7 @@ namespace djv
             QObject * parent) :
             Core::PluginFactory(context, searchPath, "djvImageIOWidgetEntry", "djv", "Plugin", parent),
             _context(context)
-        {
-            //DJV_DEBUG("ImageIOWidgetFactory::ImageIOWidgetFactory");
-        }
-
-        ImageIOWidgetFactory::~ImageIOWidgetFactory()
-        {
-            //DJV_DEBUG("ImageIOWidgetFactory::~ImageIOWidgetFactory");
-        }
+        {}
 
         ImageIOWidget * ImageIOWidgetFactory::createWidget(Graphics::ImageIO * imageIOPlugin) const
         {

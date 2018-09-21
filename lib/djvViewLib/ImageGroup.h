@@ -56,8 +56,7 @@ namespace djv
                 const ImageGroup * copy,
                 MainWindow *       mainWindow,
                 Context *          context);
-
-            virtual ~ImageGroup();
+            ~ImageGroup() override;
 
             //! Get whether the frame store is enabled.
             bool hasFrameStore() const;
@@ -80,7 +79,7 @@ namespace djv
             //! Get the image channel.
             Graphics::OpenGLImageOptions::CHANNEL channel() const;
 
-            virtual QToolBar * toolBar() const;
+            QToolBar * toolBar() const override;
 
         public Q_SLOTS:
             //! Set the display profile.

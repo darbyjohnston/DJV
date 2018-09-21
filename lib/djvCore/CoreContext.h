@@ -92,7 +92,9 @@ namespace djv
         protected:
             void loadTranslator(const QString & baseName);
 
-            virtual bool commandLineParse(QStringList &) throw (QString);
+            //! Throws:
+            //! - QString
+            virtual bool commandLineParse(QStringList &);
 
             virtual QString commandLineHelp() const;
 

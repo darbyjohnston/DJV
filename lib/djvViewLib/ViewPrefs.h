@@ -49,8 +49,7 @@ namespace djv
 
         public:
             explicit ViewPrefs(Context *, QObject * parent = nullptr);
-
-            virtual ~ViewPrefs();
+            ~ViewPrefs() override;
 
             //! Get the default mouse wheel zoom factor.
             static Util::ZOOM_FACTOR zoomFactorDefault();

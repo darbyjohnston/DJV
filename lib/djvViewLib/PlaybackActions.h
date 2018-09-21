@@ -74,8 +74,7 @@ namespace djv
             };
 
             explicit PlaybackActions(Context *, QObject * parent = nullptr);
-
-            virtual ~PlaybackActions();
+            ~PlaybackActions() override;
 
         private Q_SLOTS:
             void update();

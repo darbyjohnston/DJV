@@ -87,9 +87,6 @@ namespace djv
                 SLOT(typeCallback(int)));
         }
 
-        LUTWidget::~LUTWidget()
-        {}
-
         void LUTWidget::resetPreferences()
         {
             _options = Graphics::LUT::Options();

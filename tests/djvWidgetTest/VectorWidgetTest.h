@@ -46,9 +46,8 @@ namespace djv
         public:
             VectorWidgetTest(UI::UIContext *);
 
-            virtual QString name();
-
-            virtual void run(const QStringList & args = QStringList());
+            QString name() override;
+            void run(const QStringList & args = QStringList()) override;
 
         private Q_SLOTS:
             void intCallback(const glm::ivec2 &);

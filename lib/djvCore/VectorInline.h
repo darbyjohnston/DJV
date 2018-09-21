@@ -52,19 +52,19 @@ namespace djv
     }
 
     template<typename T, glm::precision P>
-    inline QStringList & operator >> (QStringList & in, glm::tvec2<T, P> & out) throw (QString)
+    inline QStringList & operator >> (QStringList & in, glm::tvec2<T, P> & out)
     {
         return in >> out.x >> out.y;
     }
 
     template<typename T, glm::precision P>
-    inline QStringList & operator >> (QStringList & in, glm::tvec3<T, P> & out) throw (QString)
+    inline QStringList & operator >> (QStringList & in, glm::tvec3<T, P> & out)
     {
         return in >> out.x >> out.y >> out.z;
     }
 
     template<typename T, glm::precision P>
-    inline QStringList & operator >> (QStringList & in, glm::tvec4<T, P> & out) throw (QString)
+    inline QStringList & operator >> (QStringList & in, glm::tvec4<T, P> & out)
     {
         return in >> out.x >> out.y >> out.z << out.w;
     }

@@ -54,10 +54,9 @@ namespace djv
 
         public:
             ShortcutPrefsWidget(Context *);
+            ~ShortcutPrefsWidget() override;
 
-            virtual ~ShortcutPrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void shortcutsCallback(const QVector<djv::UI::Shortcut> &);

@@ -61,39 +61,28 @@ namespace djv
             static const QStringList & compressionLabels();
 
             //! Load information.
-            static void loadInfo(
-                Core::FileIO & io,
-                ImageIOInfo &  info,
-                int *          tiles,
-                bool *         compression) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void loadInfo(Core::FileIO & io, ImageIOInfo & info, int * tiles, bool * compression);
 
             //! Save information.
-            static void saveInfo(
-                Core::FileIO &      io,
-                const ImageIOInfo & info,
-                bool                compression) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression);
 
             //! Load RLE compressed data.
-            static int readRle(
-                const quint8 * in,
-                quint8 *       end,
-                int            size);
+            static int readRle(const quint8 * in, quint8 * end, int size);
 
             //! Save RLE compressed data.
-            static int writeRle(
-                const quint8 * in,
-                quint8 *       out,
-                int            size);
+            static int writeRle(const quint8 * in, quint8 * out, int size);
 
             //! Get alignment size.
-            static quint32 alignSize(
-                quint32 size,
-                quint32 alignment);
+            static quint32 alignSize(quint32 size, quint32 alignment);
 
             //! Get tile size.
-            static glm::ivec2 tileSize(
-                quint32 width,
-                quint32 height);
+            static glm::ivec2 tileSize(quint32 width, quint32 height);
 
             //! Get tile width.
             static int tileWidth();

@@ -51,8 +51,7 @@ namespace djv
                 AbstractActions * actions,
                 Context *         context,
                 QWidget *         parent = nullptr);
-
-            virtual ~ImageToolBar();
+            ~ImageToolBar() override;
 
         private:
             DJV_PRIVATE_COPY(ImageToolBar);

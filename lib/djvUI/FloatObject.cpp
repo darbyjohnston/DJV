@@ -52,9 +52,6 @@ namespace djv
             defaultValidUpdate();
         }
 
-        FloatObject::~FloatObject()
-        {}
-
         float FloatObject::value() const
         {
             return _value;

@@ -46,7 +46,7 @@ namespace djv
         {
         public:
             explicit SGILoad(Core::CoreContext *);
-            virtual ~SGILoad();
+            ~SGILoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

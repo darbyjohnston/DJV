@@ -47,7 +47,7 @@ namespace djv
         {
         public:
             explicit TIFFLoad(Core::CoreContext *);
-            virtual ~TIFFLoad();
+            ~TIFFLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &)  override;

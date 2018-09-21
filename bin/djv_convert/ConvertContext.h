@@ -97,8 +97,7 @@ namespace djv
 
         public:
             explicit Context(QObject * parent = nullptr);
-
-            virtual ~Context();
+            ~Context() override;
 
             //! Get the options.
             const Options & options() const;
@@ -110,9 +109,8 @@ namespace djv
             const Output & output() const;
 
         protected:
-            virtual bool commandLineParse(QStringList &) throw (QString);
-
-            virtual QString commandLineHelp() const;
+            bool commandLineParse(QStringList &) override;
+            QString commandLineHelp() const override;
 
         private:
             Options _options;

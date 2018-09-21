@@ -49,8 +49,7 @@ namespace djv
                 AbstractActions * actions,
                 Context * context,
                 QWidget * parent = nullptr);
-
-            virtual ~WindowToolBar();
+            ~WindowToolBar() override;
 
         private:
             DJV_PRIVATE_COPY(WindowToolBar);

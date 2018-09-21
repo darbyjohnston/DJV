@@ -54,8 +54,7 @@ namespace djv
                 const HelpGroup * copy,
                 MainWindow *      mainWindow,
                 Context *         context);
-
-            virtual ~HelpGroup();
+            ~HelpGroup() override;
 
         private Q_SLOTS:
             void helpCallback();

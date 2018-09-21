@@ -55,8 +55,7 @@ namespace djv
                 const WindowGroup * copy,
                 MainWindow *        mainWindow,
                 Context *           context);
-
-            virtual ~WindowGroup();
+            ~WindowGroup() override;
 
             //! Get whether full screen is enabled.    
             bool hasFullScreen() const;

@@ -52,8 +52,6 @@ namespace djv
             explicit OpenGLWidget(
                 QWidget *       parent = nullptr,
                 Qt::WindowFlags flags = 0);
-
-            virtual ~OpenGLWidget();
         };
 
     } // namespace UI

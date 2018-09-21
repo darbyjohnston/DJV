@@ -75,8 +75,6 @@ namespace djv
         public:
             explicit Vector2fEditWidget(QWidget * parent = nullptr);
 
-            virtual ~Vector2fEditWidget();
-
             //! Get the value.
             glm::vec2 value() const;
 

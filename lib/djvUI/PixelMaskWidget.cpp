@@ -76,9 +76,6 @@ namespace djv
                 SLOT(buttonCallback()));
         }
 
-        PixelMaskWidget::~PixelMaskWidget()
-        {}
-
         const Graphics::Pixel::Mask & PixelMaskWidget::mask() const
         {
             return _p->mask;

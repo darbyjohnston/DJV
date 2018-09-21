@@ -51,9 +51,7 @@ namespace djv
         public:
             explicit TimePrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~TimePrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void timeUnitsCallback(int);

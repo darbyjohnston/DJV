@@ -55,11 +55,9 @@ namespace djv
         public:
             AboutDialog(const QString & text, UIContext *);
 
-            virtual ~AboutDialog();
-
         protected:
-            virtual void showEvent(QShowEvent *);
-            virtual void paintEvent(QPaintEvent *);
+            void showEvent(QShowEvent *) override;
+            void paintEvent(QPaintEvent *) override;
 
         private Q_SLOTS:
             void copyCallback();

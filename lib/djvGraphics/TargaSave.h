@@ -47,7 +47,7 @@ namespace djv
         {
         public:
             TargaSave(const Targa::Options &, Core::CoreContext *);
-            virtual ~TargaSave();
+            ~TargaSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

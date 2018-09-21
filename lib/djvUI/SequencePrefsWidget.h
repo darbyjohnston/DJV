@@ -51,9 +51,7 @@ namespace djv
         public:
             explicit SequencePrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~SequencePrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void maxFramesCallback(int);

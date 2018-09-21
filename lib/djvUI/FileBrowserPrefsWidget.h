@@ -54,9 +54,8 @@ namespace djv
 
         public:
             explicit FileBrowserPrefsWidget(UIContext *, QWidget * parent = nullptr);
-            virtual ~FileBrowserPrefsWidget();
 
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void seqCallback(int);

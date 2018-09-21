@@ -59,7 +59,7 @@ namespace djv
                 {}
 
             protected:
-                virtual void mousePressEvent(QMouseEvent * event)
+                void mousePressEvent(QMouseEvent * event) override
                 {
                     const int t = style()->pixelMetric(QStyle::PM_SliderThickness);
 
@@ -70,7 +70,7 @@ namespace djv
                         width() - t));
                 }
 
-                virtual void mouseMoveEvent(QMouseEvent * event)
+                void mouseMoveEvent(QMouseEvent * event) override
                 {
                     const int t = style()->pixelMetric(QStyle::PM_SliderThickness);
 
@@ -134,9 +134,6 @@ namespace djv
                 SIGNAL(valueChanged(int)),
                 SLOT(sliderCallback(int)));
         }
-
-        FloatSlider::~FloatSlider()
-        {}
 
         float FloatSlider::value() const
         {

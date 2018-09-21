@@ -49,18 +49,24 @@ namespace djv
             ~OpenGLTexture();
 
             //! Initialize the texture.
+            //!
+            //! Throws:
+            //! - Core::Error
             void init(
                 const PixelDataInfo &,
-                GLenum                target = GL_TEXTURE_2D,
-                GLenum                min = GL_LINEAR,
-                GLenum                mag = GL_LINEAR) throw (Core::Error);
+                GLenum target = GL_TEXTURE_2D,
+                GLenum min = GL_LINEAR,
+                GLenum mag = GL_LINEAR);
 
             //! Initialize the texture.
+            //!
+            //! Throws:
+            //! - Core::Error
             void init(
                 const PixelData &,
-                GLenum            target = GL_TEXTURE_2D,
-                GLenum            min = GL_LINEAR,
-                GLenum            mag = GL_LINEAR) throw (Core::Error);
+                GLenum target = GL_TEXTURE_2D,
+                GLenum min = GL_LINEAR,
+                GLenum mag = GL_LINEAR);
 
             //! Get the pixel information.
             const PixelDataInfo & info() const;

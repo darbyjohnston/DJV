@@ -59,8 +59,7 @@ namespace djv
                 MainWindow * mainWindow,
                 Context *    context,
                 QWidget *    parent = nullptr);
-
-            virtual ~ColorPickerTool();
+            ~ColorPickerTool() override;
 
         protected:
             virtual void showEvent(QShowEvent *);

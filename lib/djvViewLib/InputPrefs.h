@@ -47,8 +47,7 @@ namespace djv
 
         public:
             explicit InputPrefs(Context *, QObject * parent = nullptr);
-
-            virtual ~InputPrefs();
+            ~InputPrefs() override;
 
             //! Get the default mouse wheel action.
             static Util::MOUSE_WHEEL mouseWheelDefault();

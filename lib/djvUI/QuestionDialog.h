@@ -54,8 +54,7 @@ namespace djv
             explicit QuestionDialog(
                 const QString & label = QString(),
                 QWidget *       parent = nullptr);
-
-            virtual ~QuestionDialog();
+            ~QuestionDialog() override;
 
             //! Get the label.
             const QString & label() const;

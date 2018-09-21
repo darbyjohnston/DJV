@@ -70,13 +70,11 @@ namespace djv
         public:
             explicit IconLibraryModel(UI::UIContext *, QObject * parent = nullptr);
 
-            virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
-            virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
-
-            virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-            virtual QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const;
-
-            virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+            QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const override;
+            void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
         private:
             QVector<IconLibraryItem> _items;

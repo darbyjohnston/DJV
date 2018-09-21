@@ -43,7 +43,7 @@ namespace djv
         FileIOUtil::~FileIOUtil()
         {}
 
-        void FileIOUtil::word(FileIO & in, char * out, int maxLen) throw (Error)
+        void FileIOUtil::word(FileIO & in, char * out, int maxLen)
         {
             DJV_ASSERT(maxLen > 0);
 
@@ -103,7 +103,7 @@ namespace djv
             //DJV_DEBUG_PRINT("out = \"" << out << "\"");
         }
 
-        void FileIOUtil::line(FileIO & in, char * out, int maxLen) throw (Error)
+        void FileIOUtil::line(FileIO & in, char * out, int maxLen)
         {
             DJV_ASSERT(maxLen > 0);
 
@@ -132,7 +132,7 @@ namespace djv
             //DJV_DEBUG_PRINT("out = \"" << out << "\"");
         }
 
-        QStringList FileIOUtil::lines(const QString & fileName) throw (Error)
+        QStringList FileIOUtil::lines(const QString & fileName)
         {
             QStringList out;
             FileIO io;

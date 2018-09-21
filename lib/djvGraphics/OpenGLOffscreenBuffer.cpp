@@ -47,8 +47,7 @@ namespace djv
 
         } // namespace
 
-        OpenGLOffscreenBuffer::OpenGLOffscreenBuffer(const PixelDataInfo & info)
-            throw (Core::Error) :
+        OpenGLOffscreenBuffer::OpenGLOffscreenBuffer(const PixelDataInfo & info) :
             _info(info)
         {
             //DJV_DEBUG("OpenGLOffscreenBuffer::OpenGLOffscreenBuffer");

@@ -60,31 +60,22 @@ namespace djv
             static const QStringList & compressionLabels();
 
             //! Load information.
-            static void loadInfo(
-                Core::FileIO & io,
-                ImageIOInfo &  info,
-                bool *         compression) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void loadInfo(Core::FileIO &, ImageIOInfo &, bool * compression);
 
             //! Save information.
-            static void saveInfo(
-                Core::FileIO &      io,
-                const ImageIOInfo & info,
-                bool                compression) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void saveInfo(Core::FileIO &, const ImageIOInfo &, bool compression);
 
             //! Load RLE data.
-            static const quint8 * readRle(
-                const quint8 * in,
-                const quint8 * end,
-                quint8 *       out,
-                int            size,
-                int            channels);
+            static const quint8 * readRle(const quint8 * in ,const quint8 * end, quint8 * out, int size, int channels);
 
             //! Save RLE data.
-            static quint64 writeRle(
-                const quint8 * in,
-                quint8 *       out,
-                int            size,
-                int            channels);
+            static quint64 writeRle(const quint8 * in, quint8 * out, int size, int channels);
 
             //! This enumeration provides the options.
             enum OPTIONS

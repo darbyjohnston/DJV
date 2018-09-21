@@ -57,8 +57,7 @@ namespace djv
 
         public:
             Application(int &, char **);
-
-            virtual ~Application();
+            ~Application() override;
 
             //! This enumeration provides error codes.
             enum ERROR

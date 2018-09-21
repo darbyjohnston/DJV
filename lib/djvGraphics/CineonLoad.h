@@ -47,8 +47,7 @@ namespace djv
         {
         public:
             CineonLoad(const Cineon::Options &, Core::CoreContext *);
-
-            virtual ~CineonLoad();
+            ~CineonLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

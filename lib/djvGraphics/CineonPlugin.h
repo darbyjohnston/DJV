@@ -59,7 +59,7 @@ namespace djv
         {
         public:
             explicit CineonPlugin(Core::CoreContext *);
-            virtual ~CineonPlugin();
+            ~CineonPlugin() override;
 
             QString pluginName() const override;
             QStringList extensions() const override;

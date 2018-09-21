@@ -55,10 +55,8 @@ namespace djv
         public:
             InfoDialog(const QString & text, UIContext *);
 
-            virtual ~InfoDialog();
-
         protected:
-            virtual void showEvent(QShowEvent *);
+            void showEvent(QShowEvent *) override;
 
         private Q_SLOTS:
             void copyCallback();

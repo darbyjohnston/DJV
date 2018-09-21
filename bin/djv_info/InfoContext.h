@@ -48,8 +48,7 @@ namespace djv
 
         public:
             explicit Context(QObject * parent = nullptr);
-
-            virtual ~Context();
+            ~Context() override;
 
             //! Get the list of inputs.    
             const QStringList & input() const;
@@ -73,9 +72,8 @@ namespace djv
             int columns() const;
 
         protected:
-            virtual bool commandLineParse(QStringList &) throw (QString);
-
-            virtual QString commandLineHelp() const;
+            bool commandLineParse(QStringList &) override;
+            QString commandLineHelp() const override;
 
         private:
             QStringList              _input;

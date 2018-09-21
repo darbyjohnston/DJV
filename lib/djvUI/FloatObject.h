@@ -116,8 +116,6 @@ namespace djv
 
             explicit FloatObject(QObject * parent = nullptr);
 
-            virtual ~FloatObject();
-
             //! Get the value.
             float value() const;
 

@@ -51,7 +51,7 @@ namespace djv
         {
         public:
             OpenEXRLoad(const OpenEXR::Options &, Core::CoreContext *);
-            virtual ~OpenEXRLoad();
+            ~OpenEXRLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

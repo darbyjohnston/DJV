@@ -274,9 +274,6 @@ namespace djv
                 SLOT(widgetUpdate()));
         }
 
-        FileBrowserPrefsWidget::~FileBrowserPrefsWidget()
-        {}
-
         void FileBrowserPrefsWidget::resetPreferences()
         {
             context()->fileBrowserPrefs()->setSequence(FileBrowserPrefs::sequenceDefault());

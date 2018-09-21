@@ -199,9 +199,6 @@ namespace djv
                 SLOT(fontSizeCallback(int)));
         }
 
-        StylePrefsWidget::~StylePrefsWidget()
-        {}
-
         void StylePrefsWidget::resetPreferences()
         {
             context()->stylePrefs()->setPalettes(StylePrefs::palettesDefault());

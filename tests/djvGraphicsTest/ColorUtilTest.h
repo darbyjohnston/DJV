@@ -40,7 +40,7 @@ namespace djv
         class ColorUtilTest : public TestLib::AbstractTest
         {
         public:
-            virtual void run(int &, char **);
+            void run(int &, char **) override;
 
         private:
             void scale();

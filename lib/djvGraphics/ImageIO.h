@@ -127,7 +127,6 @@ namespace djv
         {
         public:
             explicit ImageLoad(Core::CoreContext *);
-
             virtual ~ImageLoad() = 0;
 
             //! Open an image.
@@ -162,7 +161,6 @@ namespace djv
         {
         public:
             explicit ImageSave(Core::CoreContext *);
-
             virtual ~ImageSave() = 0;
 
             //! Open an image.
@@ -199,7 +197,6 @@ namespace djv
 
         public:
             explicit ImageIO(Core::CoreContext *);
-
             virtual ~ImageIO() = 0;
 
             //! Get the list of supported file extensions.
@@ -264,8 +261,7 @@ namespace djv
                 Core::CoreContext * context,
                 const QStringList & searchPath = Core::System::searchPath(),
                 QObject *           parent = nullptr);
-
-            virtual ~ImageIOFactory();
+            ~ImageIOFactory() override;
 
             //! Get a plugin option.
             QStringList option(const QString & name, const QString &) const;
@@ -296,7 +292,7 @@ namespace djv
             //! Get the error code labels.
             static const QStringList & errorLabels();
 
-            virtual void addPlugin(Core::Plugin *);
+            void addPlugin(Core::Plugin *) override;
 
         Q_SIGNALS:
             //! This signal is emitted when a plugin option is changed.

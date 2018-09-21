@@ -48,7 +48,7 @@ namespace djv
         {
         public:
             explicit PNGSave(Core::CoreContext *);
-            virtual ~PNGSave();
+            ~PNGSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

@@ -83,28 +83,52 @@ namespace djv
             static const QStringList & typeLabels();
 
             //! Open an Inferno LUT.
-            static void infernoOpen(Core::FileIO &, PixelDataInfo &, TYPE) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void infernoOpen(Core::FileIO &, PixelDataInfo &, TYPE);
 
             //! Load an Inferno LUT.
-            static void infernoLoad(Core::FileIO &, Image &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void infernoLoad(Core::FileIO &, Image &);
 
             //! Open a Kodak LUT.
-            static void kodakOpen(Core::FileIO &, PixelDataInfo &, TYPE) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void kodakOpen(Core::FileIO &, PixelDataInfo &, TYPE);
 
             //! Load a Kodak LUT.
-            static void kodakLoad(Core::FileIO &, Image &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void kodakLoad(Core::FileIO &, Image &);
 
             //! Open an Inferno LUT.
-            static void infernoOpen(Core::FileIO &, const PixelDataInfo &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void infernoOpen(Core::FileIO &, const PixelDataInfo &);
 
             //! Save an Inferno LUT.
-            static void infernoSave(Core::FileIO & io, const PixelData *) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void infernoSave(Core::FileIO & io, const PixelData *);
 
             //! Open a Kodak LUT.
-            static void kodakOpen(Core::FileIO &, const PixelDataInfo &) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void kodakOpen(Core::FileIO &, const PixelDataInfo &);
 
             //! Save a Kodak LUT.
-            static void kodakSave(Core::FileIO &, const PixelData *) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void kodakSave(Core::FileIO &, const PixelData *);
 
             //! This enumeration provides the options.
             enum OPTIONS

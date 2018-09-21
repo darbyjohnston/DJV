@@ -57,9 +57,7 @@ namespace djv
         public:
             explicit StylePrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~StylePrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void colorCallback(int);

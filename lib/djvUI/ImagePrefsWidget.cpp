@@ -102,9 +102,6 @@ namespace djv
                 SLOT(filterMagCallback(int)));
         }
 
-        ImagePrefsWidget::~ImagePrefsWidget()
-        {}
-
         void ImagePrefsWidget::resetPreferences()
         {
             //DJV_DEBUG("ImagePrefsWidget::resetPreferences");

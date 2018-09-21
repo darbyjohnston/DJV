@@ -60,8 +60,6 @@ namespace djv
         public:
             explicit IntDisplay(QWidget * parent = nullptr);
 
-            virtual ~IntDisplay();
-
             //! Get the value.
             int value() const;
 

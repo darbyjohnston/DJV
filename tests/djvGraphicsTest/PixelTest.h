@@ -40,7 +40,7 @@ namespace djv
         class PixelTest : public TestLib::AbstractTest
         {
         public:
-            virtual void run(int &, char **);
+            void run(int &, char **) override;
 
         private:
             void mask();

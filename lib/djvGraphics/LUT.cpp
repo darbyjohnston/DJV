@@ -79,7 +79,7 @@ namespace djv
 
         namespace
         {
-            int _bitDepth(Core::FileIO & io) throw (Core::Error)
+            int _bitDepth(Core::FileIO & io)
             {
                 int out = 0;
                 const quint64 pos = io.pos();
@@ -111,7 +111,6 @@ namespace djv
         } // namespace
 
         void LUT::infernoOpen(Core::FileIO & io, PixelDataInfo & info, TYPE type)
-            throw (Core::Error)
         {
             //DJV_DEBUG("infernoOpen");
 
@@ -153,7 +152,6 @@ namespace djv
         }
 
         void LUT::infernoOpen(Core::FileIO & io, const PixelDataInfo & info)
-            throw (Core::Error)
         {
             char tmp[Core::StringUtil::cStringLength] = "";
             int size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "LUT: %d %d\n\n",
@@ -162,7 +160,6 @@ namespace djv
         }
 
         void LUT::kodakOpen(Core::FileIO & io, PixelDataInfo & info, TYPE type)
-            throw (Core::Error)
         {
             //DJV_DEBUG("LUT::kodakOpen");
 
@@ -255,11 +252,9 @@ namespace djv
         }
 
         void LUT::kodakOpen(Core::FileIO &, const PixelDataInfo &)
-            throw (Core::Error)
         {}
 
         void LUT::infernoLoad(Core::FileIO & io, Image & out)
-            throw (Core::Error)
         {
             //DJV_DEBUG("djvLUT::infernoLoad");
             QVector<Color> color(out.w());
@@ -291,7 +286,7 @@ namespace djv
             }
         }
 
-        void LUT::kodakLoad(Core::FileIO & io, Image & out) throw (Core::Error)
+        void LUT::kodakLoad(Core::FileIO & io, Image & out)
         {
             //DJV_DEBUG("LUT::kodakLoad");
             for (int x = 0; x < out.w(); ++x)
@@ -319,7 +314,6 @@ namespace djv
         }
 
         void LUT::infernoSave(Core::FileIO & io, const PixelData * out)
-            throw (Core::Error)
         {
             QVector<Color> color(out->w());
             for (int x = 0; x < out->w(); ++x)
@@ -350,7 +344,6 @@ namespace djv
         }
 
         void LUT::kodakSave(Core::FileIO & io, const PixelData * out)
-            throw (Core::Error)
         {
             for (int x = 0; x < out->w(); ++x)
             {

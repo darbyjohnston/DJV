@@ -264,9 +264,6 @@ namespace djv
 #endif // OPENEXR_VERSION_HEX
         }
 
-        OpenEXRWidget::~OpenEXRWidget()
-        {}
-
         void OpenEXRWidget::resetPreferences()
         {
             _options = Graphics::OpenEXR::Options();

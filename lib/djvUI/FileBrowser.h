@@ -80,8 +80,7 @@ namespace djv
 
         public:
             explicit FileBrowser(UIContext *, QWidget * parent = nullptr);
-
-            virtual ~FileBrowser();
+            ~FileBrowser() override;
 
             //! Get the file information.
             const Core::FileInfo & fileInfo() const;
@@ -113,7 +112,7 @@ namespace djv
             void pinnedChanged(bool);
 
         protected:
-            virtual void showEvent(QShowEvent *);
+            void showEvent(QShowEvent *) override;
 
         private Q_SLOTS:
             void fileCallback();

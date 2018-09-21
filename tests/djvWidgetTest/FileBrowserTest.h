@@ -44,9 +44,8 @@ namespace djv
         public:
             FileBrowserTest(UI::UIContext *);
 
-            virtual QString name();
-
-            virtual void run(const QStringList & args = QStringList());
+            QString name() override;
+            void run(const QStringList & args = QStringList()) override;
         };
 
     } // namespace WidgetTest

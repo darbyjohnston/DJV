@@ -63,8 +63,6 @@ namespace djv
                 UIContext * context,
                 QWidget * parent = nullptr);
 
-            virtual ~ImageIOWidget() = 0;
-
             //! Get the plugin.
             Graphics::ImageIO * plugin() const;
 
@@ -83,8 +81,6 @@ namespace djv
         {
         public:
             ImageIOWidgetPlugin(Core::CoreContext *);
-
-            virtual ~ImageIOWidgetPlugin() = 0;
 
             //! Create a widget.    
             virtual ImageIOWidget * createWidget(Graphics::ImageIO * plugin) const = 0;
@@ -107,8 +103,6 @@ namespace djv
                 UIContext * context,
                 const QStringList & searchPath = Core::System::searchPath(),
                 QObject * parent = nullptr);
-
-            virtual ~ImageIOWidgetFactory();
 
             //! Create a widget.    
             ImageIOWidget * createWidget(Graphics::ImageIO *) const;

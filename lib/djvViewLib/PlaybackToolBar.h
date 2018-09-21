@@ -56,8 +56,7 @@ namespace djv
                 AbstractActions * actions,
                 Context *         context,
                 QWidget *         parent = nullptr);
-
-            virtual ~PlaybackToolBar();
+            ~PlaybackToolBar() override;
 
         public Q_SLOTS:
             //! Set the playback speed.

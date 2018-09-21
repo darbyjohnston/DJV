@@ -108,9 +108,6 @@ namespace djv
                 SLOT(dataCallback(int)));
         }
 
-        PPMWidget::~PPMWidget()
-        {}
-
         void PPMWidget::resetPreferences()
         {
             _options = Graphics::PPM::Options();

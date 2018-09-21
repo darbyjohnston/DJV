@@ -62,10 +62,8 @@ namespace djv
             {
                 Header();
 
-                void load(Core::FileIO &, ImageIOInfo &, bool * compression)
-                    throw (Core::Error);
-                void save(Core::FileIO &, const ImageIOInfo &, bool compression)
-                    throw (Core::Error);
+                void load(Core::FileIO &, ImageIOInfo &, bool * compression);
+                void save(Core::FileIO &, const ImageIOInfo &, bool compression);
 
                 void debug() const;
 
@@ -105,7 +103,6 @@ namespace djv
             }
 
             void Header::load(Core::FileIO & io, ImageIOInfo & info, bool * compression)
-                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::load");
 
@@ -188,7 +185,6 @@ namespace djv
             }
 
             void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
-                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::save");
 
@@ -250,14 +246,12 @@ namespace djv
         } // namespace
 
         void Targa::loadInfo(Core::FileIO & io, ImageIOInfo & info, bool * compression)
-            throw (Core::Error)
         {
             Header header;
             header.load(io, info, compression);
         }
 
         void Targa::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
-            throw (Core::Error)
         {
             Header header;
             header.save(io, info, compression);

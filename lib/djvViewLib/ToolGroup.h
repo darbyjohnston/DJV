@@ -55,13 +55,12 @@ namespace djv
                 const ToolGroup * copy,
                 MainWindow *      mainWindow,
                 Context *         context);
-
-            virtual ~ToolGroup();
+            ~ToolGroup();
 
             //! Get the tools.    
             const QVector<bool> & tools() const;
 
-            virtual QToolBar * toolBar() const;
+            QToolBar * toolBar() const override;
 
         public Q_SLOTS:
             //! Set the tools.

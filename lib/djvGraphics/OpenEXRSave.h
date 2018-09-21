@@ -50,7 +50,7 @@ namespace djv
         {
         public:
             OpenEXRSave(const OpenEXR::Options &, Core::CoreContext *);
-            virtual ~OpenEXRSave();
+            ~OpenEXRSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

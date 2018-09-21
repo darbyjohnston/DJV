@@ -76,7 +76,7 @@ namespace djv
 
         void OpenGLShader::init(
             const QString & vertexSource,
-            const QString & fragmentSource) throw (Core::Error)
+            const QString & fragmentSource)
         {
             if (vertexSource == _vertexSource && fragmentSource == _fragmentSource)
                 return;

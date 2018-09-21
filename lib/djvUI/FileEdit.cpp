@@ -78,9 +78,6 @@ namespace djv
             connect(button, SIGNAL(clicked()), SLOT(buttonCallback()));
         }
 
-        FileEdit::~FileEdit()
-        {}
-
         const Core::FileInfo & FileEdit::fileInfo() const
         {
             return _p->fileInfo;

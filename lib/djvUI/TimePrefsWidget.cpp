@@ -103,9 +103,6 @@ namespace djv
                 SLOT(speedCallback(int)));
         }
 
-        TimePrefsWidget::~TimePrefsWidget()
-        {}
-
         void TimePrefsWidget::resetPreferences()
         {
             context()->timePrefs()->setTimeUnits(Core::Time::unitsDefault());

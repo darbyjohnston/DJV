@@ -56,8 +56,7 @@ namespace djv
 
         public:
             explicit IconLibrary(QObject * parent = nullptr);
-
-            virtual ~IconLibrary();
+            ~IconLibrary() override;
 
             //! Set the fill color.
             void setColor(const QColor &);

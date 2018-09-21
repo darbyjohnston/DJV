@@ -95,9 +95,6 @@ namespace djv
             connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
         }
 
-        AboutDialog::~AboutDialog()
-        {}
-
         void AboutDialog::showEvent(QShowEvent *)
         {
             _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(Qt::PopupFocusReason);

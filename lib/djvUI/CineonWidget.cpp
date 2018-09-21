@@ -210,11 +210,6 @@ namespace djv
                 SLOT(outputGammaCallback(float)));
         }
 
-        CineonWidget::~CineonWidget()
-        {
-            //DJV_DEBUG("CineonWidget::~CineonWidget");
-        }
-
         void CineonWidget::resetPreferences()
         {
             _options = Graphics::Cineon::Options();

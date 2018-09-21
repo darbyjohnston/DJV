@@ -57,8 +57,7 @@ namespace djv
                 AbstractActions * actions,
                 Context *         context,
                 QWidget *         parent = nullptr);
-
-            virtual ~ViewToolBar();
+            ~ViewToolBar() override;
 
             //! Get the zoom edit widget.
             UI::FloatEdit * zoomEdit() const;

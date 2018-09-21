@@ -60,8 +60,7 @@ namespace djv
 
         public:
             MessagesDialog(UIContext *);
-
-            virtual ~MessagesDialog();
+            ~MessagesDialog() override;
 
             //! Add a message to the dialog.
             void message(const QString &);
@@ -73,7 +72,7 @@ namespace djv
             void clear();
 
         protected:
-            virtual void showEvent(QShowEvent *);
+            void showEvent(QShowEvent *) override;
             bool event(QEvent *) override;
 
         private Q_SLOTS:

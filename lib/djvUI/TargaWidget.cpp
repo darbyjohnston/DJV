@@ -90,9 +90,6 @@ namespace djv
                 SLOT(compressionCallback(int)));
         }
 
-        TargaWidget::~TargaWidget()
-        {}
-
         void TargaWidget::resetPreferences()
         {
             _options = Graphics::Targa::Options();

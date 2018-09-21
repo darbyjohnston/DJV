@@ -74,8 +74,7 @@ namespace djv
             };
 
             explicit ImageActions(Context *, QObject * parent = nullptr);
-
-            virtual ~ImageActions();
+            ~ImageActions() override;
 
         private Q_SLOTS:
             void update();

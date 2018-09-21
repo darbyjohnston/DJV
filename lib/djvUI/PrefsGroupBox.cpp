@@ -97,9 +97,6 @@ namespace djv
             init(title);
         }
 
-        PrefsGroupBox::~PrefsGroupBox()
-        {}
-
         const QString & PrefsGroupBox::text() const
         {
             return _p->text;

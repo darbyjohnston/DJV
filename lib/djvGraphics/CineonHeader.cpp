@@ -82,10 +82,7 @@ namespace djv
             zero(film.slate, 200);
         }
 
-        void CineonHeader::load(
-            Core::FileIO & io,
-            ImageIOInfo &  info,
-            bool &         filmPrint) throw (Core::Error)
+        void CineonHeader::load(Core::FileIO & io, ImageIOInfo & info, bool & filmPrint)
         {
             //DJV_DEBUG("CineonHeader::load");
 
@@ -288,10 +285,7 @@ namespace djv
             debug();
         }
 
-        void CineonHeader::save(
-            Core::FileIO &        io,
-            const ImageIOInfo &   info,
-            Cineon::COLOR_PROFILE colorProfile) throw (Core::Error)
+        void CineonHeader::save(Core::FileIO & io, const ImageIOInfo & info, Cineon::COLOR_PROFILE colorProfile)
         {
             //DJV_DEBUG("CineonHeader::save");
 
@@ -470,7 +464,7 @@ namespace djv
             io.set(&film, sizeof(Film));
         }
 
-        void CineonHeader::saveEnd(Core::FileIO & io) throw (Core::Error)
+        void CineonHeader::saveEnd(Core::FileIO & io)
         {
             const quint32 size = static_cast<quint32>(io.pos());
             io.setPos(20);

@@ -47,7 +47,7 @@ namespace djv
         {
         public:
             SGISave(const SGI::Options &, Core::CoreContext *);
-            virtual ~SGISave();
+            ~SGISave() override;
             
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

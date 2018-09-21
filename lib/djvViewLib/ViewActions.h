@@ -76,8 +76,7 @@ namespace djv
             };
 
             explicit ViewActions(Context *, QObject * parent = nullptr);
-
-            virtual ~ViewActions();
+            ~ViewActions() override;
 
         private Q_SLOTS:
             void update();

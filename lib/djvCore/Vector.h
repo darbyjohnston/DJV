@@ -43,11 +43,11 @@
 namespace djv
 {
     template<typename T, glm::precision P = glm::defaultp>
-    inline QStringList & operator >> (QStringList &, glm::tvec2<T, P> &) throw (QString);
+    inline QStringList & operator >> (QStringList &, glm::tvec2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline QStringList & operator >> (QStringList &, glm::tvec3<T, P> &) throw (QString);
+    inline QStringList & operator >> (QStringList &, glm::tvec3<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline QStringList & operator >> (QStringList &, glm::tvec4<T, P> &) throw (QString);
+    inline QStringList & operator >> (QStringList &, glm::tvec4<T, P> &);
 
     template<typename T, glm::precision P = glm::defaultp>
     inline QStringList & operator << (QStringList &, const glm::tvec2<T, P> &);

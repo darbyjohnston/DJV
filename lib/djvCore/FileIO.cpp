@@ -106,7 +106,7 @@ namespace djv
             close();
         }
 
-        void FileIO::open(const QString & fileName, MODE mode) throw (Error)
+        void FileIO::open(const QString & fileName, MODE mode)
         {
             //DJV_DEBUG("FileIO::open");
             //DJV_DEBUG_PRINT("file name = " << fileName);
@@ -297,7 +297,7 @@ namespace djv
             return _p->size;
         }
 
-        void FileIO::get(void * in, quint64 size, int wordSize) throw (Error)
+        void FileIO::get(void * in, quint64 size, int wordSize)
         {
             //DJV_DEBUG("FileIO::get");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -349,7 +349,7 @@ namespace djv
             _p->pos += size * wordSize;
         }
 
-        void FileIO::set(const void * in, quint64 size, int wordSize) throw (Error)
+        void FileIO::set(const void * in, quint64 size, int wordSize)
         {
             //DJV_DEBUG("FileIO::set");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -437,12 +437,12 @@ namespace djv
             return out;*/
         }
 
-        void FileIO::setPos(quint64 in) throw (Error)
+        void FileIO::setPos(quint64 in)
         {
             setPos(in, false);
         }
 
-        void FileIO::seek(quint64 in) throw (Error)
+        void FileIO::seek(quint64 in)
         {
             setPos(in, true);
         }
@@ -457,7 +457,7 @@ namespace djv
             _p->endian = in;
         }
 
-        void FileIO::setPos(quint64 in, bool seek) throw (Error)
+        void FileIO::setPos(quint64 in, bool seek)
         {
             //DJV_DEBUG("FileIO::setPos");
             //DJV_DEBUG_PRINT("in = " << static_cast<int>(in));

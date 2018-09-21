@@ -50,11 +50,10 @@ namespace djv
             explicit FileMenu(
                 AbstractActions * actions,
                 QWidget *         parent = nullptr);
-
-            virtual ~FileMenu();
+            ~FileMenu() override;
 
         protected Q_SLOTS:
-            virtual void menuUpdate();
+            void menuUpdate() override;
 
         private:
             DJV_PRIVATE_COPY(FileMenu);

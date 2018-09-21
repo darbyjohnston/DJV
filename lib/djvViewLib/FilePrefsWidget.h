@@ -50,10 +50,9 @@ namespace djv
 
         public:
             FilePrefsWidget(Context *);
+            ~FilePrefsWidget() override;
 
-            virtual ~FilePrefsWidget();
-
-            virtual void resetPreferences();
+            void resetPreferences() override;
 
         private Q_SLOTS:
             void autoSequenceCallback(bool);

@@ -62,8 +62,6 @@ namespace djv
         public:
             explicit PixelWidget(QWidget * parent = nullptr);
 
-            virtual ~PixelWidget();
-
             //! Get the pixel.
             Graphics::Pixel::PIXEL pixel() const;
 

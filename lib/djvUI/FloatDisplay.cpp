@@ -63,9 +63,6 @@ namespace djv
             widgetUpdate();
         }
 
-        FloatDisplay::~FloatDisplay()
-        {}
-
         float FloatDisplay::value() const
         {
             return _p->value;

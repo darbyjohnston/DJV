@@ -46,7 +46,7 @@ namespace djv
         {
         public:
             explicit TargaLoad(Core::CoreContext *);
-            virtual ~TargaLoad();
+            ~TargaLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;

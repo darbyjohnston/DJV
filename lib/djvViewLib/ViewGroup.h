@@ -58,10 +58,9 @@ namespace djv
                 const ViewGroup * copy,
                 MainWindow *      mainWindow,
                 Context *         context);
+            ~ViewGroup() override;
 
-            virtual ~ViewGroup();
-
-            virtual QToolBar * toolBar() const;
+            QToolBar * toolBar() const override;
 
         private Q_SLOTS:
             void leftCallback();

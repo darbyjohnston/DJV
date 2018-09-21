@@ -40,11 +40,9 @@ namespace djv
         class BoxUtilTest : public TestLib::AbstractTest
         {
         public:
-
-            virtual void run(int &, char **);
+            void run(int &, char **) override;
 
         private:
-
             void corners();
             void swap();
             void intersect();

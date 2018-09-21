@@ -77,18 +77,16 @@ namespace djv
                 DATA data);
 
             //! Load ASCII data.
-            static void asciiLoad(
-                Core::FileIO & io,
-                void *         out,
-                int            size,
-                int            bitDepth) throw (Core::Error);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static void asciiLoad(Core::FileIO & io, void * out, int size, int bitDepth);
 
             //! Save ASCII data.
-            static quint64 asciiSave(
-                const void * in,
-                void *       out,
-                int          size,
-                int          bitDepth);
+            //!
+            //! Throws:
+            //! - Core::Error
+            static quint64 asciiSave(const void * in, void * out, int size, int bitDepth);
 
             //! This enumeration provides the options.
             enum OPTIONS

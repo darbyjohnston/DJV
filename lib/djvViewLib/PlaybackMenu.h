@@ -50,8 +50,7 @@ namespace djv
             explicit PlaybackMenu(
                 AbstractActions * actions,
                 QWidget *         parent = nullptr);
-
-            virtual ~PlaybackMenu();
+            ~PlaybackMenu() override;
 
         private:
             DJV_PRIVATE_COPY(PlaybackMenu);

@@ -48,7 +48,7 @@ namespace djv
         {
         public:
             explicit GraphicsContext(QObject * parent = nullptr);
-            virtual ~GraphicsContext();
+            ~GraphicsContext() override;
 
             //! Get the image I/O factory.    
             ImageIOFactory * imageIOFactory() const;
@@ -62,7 +62,7 @@ namespace djv
             QString info() const override;
 
         protected:
-            bool commandLineParse(QStringList &) throw (QString) override;
+            bool commandLineParse(QStringList &) override;
 
             QString commandLineHelp() const;
 

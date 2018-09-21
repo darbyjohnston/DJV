@@ -83,7 +83,6 @@ namespace djv
 
         public:
             explicit FloatEditSlider(UIContext *, QWidget * parent = nullptr);
-            virtual ~FloatEditSlider();
 
             //! Get the value.
             float value() const;

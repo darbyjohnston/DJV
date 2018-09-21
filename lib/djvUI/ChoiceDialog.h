@@ -56,8 +56,7 @@ namespace djv
                 const QStringList & choices = QStringList(),
                 int                 choice = 0,
                 QWidget *           parent = nullptr);
-
-            virtual ~ChoiceDialog();
+            ~ChoiceDialog() override;
 
             //! Get the choices.
             const QStringList & choices() const;

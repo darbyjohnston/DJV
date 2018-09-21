@@ -59,8 +59,7 @@ namespace djv
             };
 
             explicit HelpActions(Context *, QObject * parent = nullptr);
-
-            virtual ~HelpActions();
+            ~HelpActions() override;
 
         private:
             DJV_PRIVATE_COPY(HelpActions);

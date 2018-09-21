@@ -239,10 +239,13 @@ namespace djv
             ~OpenGLImage();
 
             //! Draw pixel data.
+            //!
+            //! Throws:
+            //! - Core::Error
             void draw(
                 const PixelData &          data,
                 const glm::mat4x4&         viewMatrix,
-                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (Core::Error);
+                const OpenGLImageOptions & options = OpenGLImageOptions());
 
             //! Read pixel data.
             void read(PixelData &);
@@ -254,10 +257,13 @@ namespace djv
             Color read(const PixelData &, int x, int y);
 
             //! Copy pixel data.
+            //!
+            //! Throws:
+            //! - Core::Error
             void copy(
                 const PixelData &          input,
                 PixelData &                output,
-                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (Core::Error);
+                const OpenGLImageOptions & options = OpenGLImageOptions());
 
             //! Setup OpenGL state for image drawing.
             static void stateUnpack(
@@ -272,21 +278,27 @@ namespace djv
             //! Calculate the average color.
             //!
             //! \todo Use a GPU implementation.
+            //!
+            //! Throws:
+            //! - Core::Error
             void average(
                 const PixelData &   input,
                 Color &             output,
-                const Pixel::Mask & mask = Pixel::Mask()) throw (Core::Error);
+                const Pixel::Mask & mask = Pixel::Mask());
 
             //! Calculate the histogram.
             //!
             //! \todo Use a GPU implementation.
+            //!
+            //! Throws:
+            //! - Core::Error
             void histogram(
                 const PixelData &   input,
                 PixelData &         output,
                 int                 size,
                 Color &             min,
                 Color &             max,
-                const Pixel::Mask & mask = Pixel::Mask()) throw (Core::Error);
+                const Pixel::Mask & mask = Pixel::Mask());
 
             //! Convert pixel data to Qt.    
             QPixmap toQt(

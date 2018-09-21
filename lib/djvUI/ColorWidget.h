@@ -66,8 +66,6 @@ namespace djv
         public:
             explicit ColorWidget(UIContext *, QWidget * parent = nullptr);
 
-            virtual ~ColorWidget();
-
             //! Get the color.
             const Graphics::Color & color() const;
 

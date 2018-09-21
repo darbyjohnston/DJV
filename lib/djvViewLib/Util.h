@@ -209,10 +209,13 @@ namespace djv
             static float imageRotate(IMAGE_ROTATE);
 
             //! Load a LUT.
+            //!
+            //! Throws:
+            //! - Core::Error
             static void loadLut(
                 const Core::FileInfo & fileInfo,
                 Graphics::PixelData &  lut,
-                Context *              context) throw (Core::Error);
+                Context *              context);
 
             //! This enumeration provides the playback modes.
             enum PLAYBACK

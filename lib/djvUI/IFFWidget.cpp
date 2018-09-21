@@ -90,9 +90,6 @@ namespace djv
                 SLOT(compressionCallback(int)));
         }
 
-        IFFWidget::~IFFWidget()
-        {}
-
         void IFFWidget::resetPreferences()
         {
             _options = Graphics::IFF::Options();

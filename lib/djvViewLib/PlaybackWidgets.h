@@ -63,8 +63,7 @@ namespace djv
                 QActionGroup *  actionGroup,
                 UI::UIContext * context,
                 QWidget *       parent = nullptr);
-
-            virtual ~PlaybackButtons();
+            ~PlaybackButtons() override;
 
         Q_SIGNALS:
             //! This signal is emitted when the shuttle is pressed.
@@ -98,8 +97,7 @@ namespace djv
                 QActionGroup * actionGroup,
                 Context *      context,
                 QWidget *      parent = nullptr);
-
-            virtual ~LoopWidget();
+            ~LoopWidget() override;
 
         private Q_SLOTS:
             void widgetUpdate();
@@ -123,8 +121,7 @@ namespace djv
                 QActionGroup *  actionGroup,
                 UI::UIContext * context,
                 QWidget *       parent = nullptr);
-
-            virtual ~FrameButtons();
+            ~FrameButtons() override;
 
         Q_SIGNALS:
             //! This signal is emitted when the shuttle is pressed.

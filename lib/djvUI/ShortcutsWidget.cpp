@@ -68,12 +68,12 @@ namespace djv
 
                 void setShortcut(const Shortcut &);
 
-                virtual QSize sizeHint() const;
+                QSize sizeHint() const override;
 
             protected:
-                virtual void paintEvent(QPaintEvent *);
-                virtual void mousePressEvent(QMouseEvent *);
-                virtual void keyPressEvent(QKeyEvent *);
+                void paintEvent(QPaintEvent *) override;
+                void mousePressEvent(QMouseEvent *) override;
+                void keyPressEvent(QKeyEvent *) override;
 
             private:
                 Shortcut _shortcut;
@@ -155,39 +155,33 @@ namespace djv
             public:
                 explicit ShortcutDelegate(UIContext *, QObject * parent = nullptr);
 
-                virtual QWidget * createEditor(
+                QWidget * createEditor(
                     QWidget *                    parent,
                     const QStyleOptionViewItem & option,
-                    const QModelIndex &          index) const;
-
-                virtual void setEditorData(
+                    const QModelIndex &          index) const override;
+                void setEditorData(
                     QWidget *           editor,
-                    const QModelIndex & index) const;
-
-                virtual void setModelData(
+                    const QModelIndex & index) const override;
+                void setModelData(
                     QWidget *            editor,
                     QAbstractItemModel * model,
-                    const QModelIndex &  index) const;
-
-                virtual void updateEditorGeometry(
+                    const QModelIndex &  index) const override;
+                void updateEditorGeometry(
                     QWidget *                    editor,
                     const QStyleOptionViewItem & option,
-                    const QModelIndex &          index) const;
-
-                virtual QSize sizeHint(
+                    const QModelIndex &          index) const override;
+                QSize sizeHint(
                     const QStyleOptionViewItem & option,
-                    const QModelIndex &          index) const;
-
-                virtual void paint(
+                    const QModelIndex &          index) const override;
+                void paint(
                     QPainter *                   painter,
                     const QStyleOptionViewItem & option,
-                    const QModelIndex &          index) const;
-
-                virtual bool editorEvent(
+                    const QModelIndex &          index) const override;
+                bool editorEvent(
                     QEvent *                     event,
                     QAbstractItemModel *         model,
                     const QStyleOptionViewItem & option,
-                    const QModelIndex &          index);
+                    const QModelIndex &          index) override;
 
             private:
                 UIContext * _context;
@@ -361,9 +355,6 @@ namespace djv
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)));
         }
-
-        ShortcutsWidget::~ShortcutsWidget()
-        {}
 
         const QVector<Shortcut> & ShortcutsWidget::shortcuts() const
         {

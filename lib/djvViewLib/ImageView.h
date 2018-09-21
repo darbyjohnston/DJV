@@ -55,8 +55,7 @@ namespace djv
 
         public:
             explicit ImageView(Context *, QWidget * parent = nullptr);
-
-            virtual ~ImageView();
+            ~ImageView() override;
 
             //! Get whether the mouse is inside the view.
             bool isMouseInside() const;
@@ -64,9 +63,8 @@ namespace djv
             //! Get the mouse position.
             const glm::ivec2 & mousePos() const;
 
-            virtual QSize sizeHint() const;
-
-            virtual QSize minimumSizeHint() const;
+            QSize sizeHint() const override;
+            QSize minimumSizeHint() const override;
 
         public Q_SLOTS:
             //! Set the zoom using the mouse pointer for focus.
@@ -107,17 +105,17 @@ namespace djv
             void fileDropped(const djv::Core::FileInfo &);
 
         protected:
-            virtual void timerEvent(QTimerEvent *);
-            virtual void enterEvent(QEvent *);
-            virtual void leaveEvent(QEvent *);
-            virtual void resizeEvent(QResizeEvent *);
-            virtual void mousePressEvent(QMouseEvent *);
-            virtual void mouseReleaseEvent(QMouseEvent *);
-            virtual void mouseMoveEvent(QMouseEvent *);
-            virtual void wheelEvent(QWheelEvent *);
-            virtual void dragEnterEvent(QDragEnterEvent *);
-            virtual void dropEvent(QDropEvent *);
-            virtual void paintGL();
+            void timerEvent(QTimerEvent *) override;
+            void enterEvent(QEvent *) override;
+            void leaveEvent(QEvent *) override;
+            void resizeEvent(QResizeEvent *) override;
+            void mousePressEvent(QMouseEvent *) override;
+            void mouseReleaseEvent(QMouseEvent *) override;
+            void mouseMoveEvent(QMouseEvent *) override;
+            void wheelEvent(QWheelEvent *) override;
+            void dragEnterEvent(QDragEnterEvent *) override;
+            void dropEvent(QDropEvent *) override;
+            void paintGL() override;
 
         private Q_SLOTS:
             void hudInfoCallback(const QVector<bool> &);

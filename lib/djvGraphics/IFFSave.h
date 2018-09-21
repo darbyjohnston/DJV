@@ -48,7 +48,7 @@ namespace djv
         {
         public:
             IFFSave(const IFF::Options &, Core::CoreContext *);
-            virtual ~IFFSave();
+            ~IFFSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;

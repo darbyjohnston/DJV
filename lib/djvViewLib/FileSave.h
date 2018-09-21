@@ -86,8 +86,7 @@ namespace djv
 
         public:
             explicit FileSave(Context *, QObject * parent = nullptr);
-
-            virtual ~FileSave();
+            ~FileSave() override;
 
         public Q_SLOTS:
             //! Save a file.

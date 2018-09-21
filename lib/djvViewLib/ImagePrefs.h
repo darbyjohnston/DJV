@@ -48,8 +48,7 @@ namespace djv
 
         public:
             explicit ImagePrefs(Context *, QObject * parent = nullptr);
-
-            virtual ~ImagePrefs();
+            ~ImagePrefs() override;
 
             //! Get the default for whether to store the frame when reloading files.    
             static bool frameStoreFileReloadDefault();

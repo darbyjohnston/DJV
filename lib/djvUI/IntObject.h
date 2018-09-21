@@ -117,8 +117,6 @@ namespace djv
 
             explicit IntObject(QObject * parent = nullptr);
 
-            virtual ~IntObject();
-
             //! Get the value.
             int value() const;
 

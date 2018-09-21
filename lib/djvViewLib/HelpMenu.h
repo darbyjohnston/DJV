@@ -50,8 +50,7 @@ namespace djv
             explicit HelpMenu(
                 AbstractActions * actions,
                 QWidget *         parent = nullptr);
-
-            virtual ~HelpMenu();
+            ~HelpMenu() override;
 
         private:
             DJV_PRIVATE_COPY(HelpMenu);
