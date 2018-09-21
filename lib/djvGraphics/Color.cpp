@@ -245,7 +245,9 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::Color & in)
     {
-        return debug << in;
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
 } // namespace djv

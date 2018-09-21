@@ -91,7 +91,6 @@ namespace djv
                 0);
             GLenum error = glFuncs->glGetError();
 #if ! defined(DJV_OSX)
-
             //! \todo On OS X this error is triggered in djv_view when a new file is
             //! loaded, though it doesn't actually seem to be a problem?
             if (error != GL_NO_ERROR)

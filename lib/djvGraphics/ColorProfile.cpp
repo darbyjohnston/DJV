@@ -121,7 +121,9 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile::PROFILE & in)
     {
-        return debug << in;
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile & in)

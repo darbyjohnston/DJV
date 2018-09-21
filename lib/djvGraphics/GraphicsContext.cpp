@@ -79,7 +79,7 @@ namespace djv
         struct GraphicsContext::Private
         {
             QScopedPointer<QOffscreenSurface> offscreenSurface;
-            QScopedPointer<QOpenGLContext> openGlContext;
+            QScopedPointer<QOpenGLContext> openGLContext;
             QScopedPointer<ImageIOFactory> imageIOFactory;
         };
 
@@ -94,8 +94,7 @@ namespace djv
             qRegisterMetaType<ImageIOInfo>("djv::Graphics::ImageIOInfo");
 
             // Create the default OpenGL context.
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
-                "Creating the default OpenGL context...");
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Creating the default OpenGL context...");
 
             QSurfaceFormat defaultFormat;
             defaultFormat.setRenderableType(QSurfaceFormat::OpenGL);
@@ -110,10 +109,11 @@ namespace djv
             surfaceFormat.setSamples(1);
             _p->offscreenSurface->setFormat(surfaceFormat);
             _p->offscreenSurface->create();
-            _p->openGlContext.reset(new QOpenGLContext);
-            _p->openGlContext->setFormat(surfaceFormat);
-            _p->openGlContext->create();
-            _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
+            _p->openGLContext.reset(new QOpenGLContext);
+            _p->openGLContext->setFormat(surfaceFormat);
+            _p->openGLContext->create();
+            _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
+            //DJV_DEBUG_PRINT("OpenGL context = " << _p->openGLContext->isValid());
 
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
 
@@ -168,14 +168,14 @@ namespace djv
             return _p->imageIOFactory.data();
         }
 
-        QOpenGLContext * GraphicsContext::openGlContext() const
+        QOpenGLContext * GraphicsContext::openGLContext() const
         {
-            return _p->openGlContext.data();
+            return _p->openGLContext.data();
         }
 
         void GraphicsContext::makeGLContextCurrent()
         {
-            _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
+            _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
         }
 
         QString GraphicsContext::info() const
@@ -197,8 +197,8 @@ namespace djv
             filterMagLabel << OpenGLImageFilter::filter().mag;
             return QString(label).
                 arg(Core::CoreContext::info()).
-                arg(_p->openGlContext->format().majorVersion()).
-                arg(_p->openGlContext->format().minorVersion()).
+                arg(_p->openGLContext->format().majorVersion()).
+                arg(_p->openGLContext->format().minorVersion()).
                 arg(filterMinLabel.join(", ")).
                 arg(filterMagLabel.join(", ")).
                 arg(_p->imageIOFactory->names().join(", "));

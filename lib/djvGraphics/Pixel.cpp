@@ -126,22 +126,30 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::FORMAT & in)
     {
-        return debug << in;
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::TYPE & in)
     {
-        return debug << in;
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::DATA & in)
     {
-        return debug << in;
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::PIXEL & in)
     {
-        return debug << in;
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::Mask & in)

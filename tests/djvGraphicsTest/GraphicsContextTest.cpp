@@ -50,7 +50,7 @@ namespace djv
             DJV_DEBUG("GraphicsContextTest::run");
             {
                 Graphics::GraphicsContext context;
-                DJV_ASSERT(context.openGlContext());
+                DJV_ASSERT(context.openGLContext());
             }
             try
             {

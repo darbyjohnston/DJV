@@ -55,7 +55,7 @@ namespace djv
             ImageIOFactory * imageIOFactory() const;
 
             //! Get the default OpenGL context.
-            QOpenGLContext * openGlContext() const;
+            QOpenGLContext * openGLContext() const;
 
             //! Make the default OpenGL context current;
             void makeGLContextCurrent();

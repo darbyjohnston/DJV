@@ -35,7 +35,6 @@
 #include <djvGraphics/GraphicsContext.h>
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
 #include <djvGraphics/PixelDataUtil.h>
 
 #include <djvCore/Debug.h>

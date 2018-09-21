@@ -147,15 +147,16 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Core::Sequence & in)
     {
-        return debug <<
-            in <<
-            "@" <<
-            Core::Speed::speedToFloat(in.speed);
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp << "@" << Core::Speed::speedToFloat(in.speed);
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Core::Sequence::COMPRESS & in)
     {
-        return debug << in;
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Core::FrameList & in)
