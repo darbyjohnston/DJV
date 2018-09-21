@@ -57,21 +57,21 @@ namespace djv
                 Context *         context);
             ~ToolGroup();
 
-            //! Get the tools.    
-            const QVector<bool> & tools() const;
+            //! Get the tool visibility.
+            const QVector<bool> & toolsVisible() const;
 
             QToolBar * toolBar() const override;
 
         public Q_SLOTS:
-            //! Set the tools.
-            void setTools(const QVector<bool> &);
+            //! Set the tool visibility.
+            void setToolsVisible(const QVector<bool> &);
 
         Q_SIGNALS:
-            //! This signal is emitted when the tools are changed.
-            void toolsChanged(const QVector<bool> &);
+            //! This signal is emitted when the tool visibility is changed.
+            void toolsVisibleChanged(const QVector<bool> &);
 
         private Q_SLOTS:
-            void toolsCallback();
+            void toolsVisibleCallback();
 
             void update();
 

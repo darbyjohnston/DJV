@@ -57,10 +57,10 @@ namespace djv
         struct ToolGroup::Private
         {
             Private() :
-                tools(Util::TOOL_COUNT, false)
+                toolsVisible(Util::TOOL_COUNT, false)
             {}
 
-            QVector<bool>     tools;
+            QVector<bool>     toolsVisible;
             ToolActions *     actions = nullptr;
             ToolMenu *        menu = nullptr;
             ToolToolBar *     toolBar = nullptr;
@@ -116,7 +116,7 @@ namespace djv
             // Initialize.
             if (copy)
             {
-                _p->tools = copy->_p->tools;
+                _p->toolsVisible = copy->_p->toolsVisible;
             }
             update();
 
@@ -125,13 +125,13 @@ namespace djv
             //connect(
             //    _p->actions->group(ToolActions::TOOL_GROUP),
             //    SIGNAL(triggered(QAction *)),
-            //    SLOT(toolsCallback(QAction *)));
+            //    SLOT(toolsVisibleCallback(QAction *)));
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
                 connect(
                     _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i],
                     SIGNAL(toggled(bool)),
-                    SLOT(toolsCallback()));
+                    SLOT(toolsVisibleCallback()));
             }
 
             // Setup widget callbacks.
@@ -149,9 +149,9 @@ namespace djv
             //DJV_DEBUG("ToolGroup::~ToolGroup");
         }
 
-        const QVector<bool> & ToolGroup::tools() const
+        const QVector<bool> & ToolGroup::toolsVisible() const
         {
-            return _p->tools;
+            return _p->toolsVisible;
         }
 
         QToolBar * ToolGroup::toolBar() const
@@ -159,34 +159,34 @@ namespace djv
             return _p->toolBar;
         }
 
-        void ToolGroup::setTools(const QVector<bool> & tools)
+        void ToolGroup::setToolsVisible(const QVector<bool> & value)
         {
-            if (tools == _p->tools)
+            if (value == _p->toolsVisible)
                 return;
-            _p->tools = tools;
+            _p->toolsVisible = value;
             update();
-            Q_EMIT toolsChanged(_p->tools);
+            Q_EMIT toolsVisibleChanged(_p->toolsVisible);
         }
 
-        void ToolGroup::toolsCallback()
+        void ToolGroup::toolsVisibleCallback()
         {
-            QVector<bool> tools;
+            QVector<bool> visible;
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                tools += _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->isChecked();
+                visible += _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->isChecked();
             }
-            setTools(tools);
+            setToolsVisible(visible);
         }
 
         void ToolGroup::update()
         {
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->setChecked(_p->tools[i]);
+                _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->setChecked(_p->toolsVisible[i]);
             }
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                _p->dockWidgets[i]->setVisible(_p->tools[i]);
+                _p->dockWidgets[i]->setVisible(_p->toolsVisible[i]);
             }
         }
 
