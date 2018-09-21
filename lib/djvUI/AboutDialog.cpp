@@ -79,7 +79,7 @@ namespace djv
             auto layout = new QVBoxLayout(this);
             auto hLayout = new QHBoxLayout;
             hLayout->addStretch(1);
-            hLayout->addWidget(scrollArea, 2);
+            hLayout->addWidget(scrollArea, 4);
             hLayout->addStretch(1);
             layout->addLayout(hLayout);
             layout->addWidget(_p->buttonBox);
