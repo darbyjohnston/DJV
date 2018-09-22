@@ -50,15 +50,16 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the list of shortcuts.
-                Q_PROPERTY(
-                    QVector<Shortcut> shortcuts
-                    READ              shortcuts
-                    WRITE             setShortcuts
-                    NOTIFY            shortcutsChanged)
+            //! This property holds the list of shortcuts.
+            Q_PROPERTY(
+                QVector<Shortcut> shortcuts
+                READ              shortcuts
+                WRITE             setShortcuts
+                NOTIFY            shortcutsChanged)
 
         public:
             explicit ShortcutsModel(QObject * parent = nullptr);
+            ~ShortcutsModel() override;
 
             //! Get the list of shortcuts.
             const QVector<Shortcut> & shortcuts() const;

@@ -100,7 +100,6 @@ namespace djv
     }
 
     QStringList & operator >> (QStringList & in, Graphics::ColorProfile::Exposure & out)
-        throw (QString)
     {
         return in >> out.value >> out.defog >> out.kneeLow >> out.kneeHigh;
     }

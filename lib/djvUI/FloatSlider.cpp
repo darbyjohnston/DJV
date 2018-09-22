@@ -135,6 +135,9 @@ namespace djv
                 SLOT(sliderCallback(int)));
         }
 
+        FloatSlider::~FloatSlider()
+        {}
+        
         float FloatSlider::value() const
         {
             return _p->object->value();

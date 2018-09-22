@@ -126,6 +126,9 @@ namespace djv
                 SLOT(sliderCallback(int)));
         }
 
+        IntSlider::~IntSlider()
+        {}
+        
         int IntSlider::value() const
         {
             return _p->object->value();

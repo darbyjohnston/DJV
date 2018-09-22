@@ -98,7 +98,7 @@ namespace djv
             return SGI::optionsLabels();
         }
 
-        void SGIPlugin::commandLine(QStringList & in) throw (QString)
+        void SGIPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

@@ -63,6 +63,7 @@ namespace djv
 
         public:
             explicit PixelMaskWidget(UIContext *, QWidget * parent = nullptr);
+            ~PixelMaskWidget() override;
 
             //! Get the pixel mask.
             const Graphics::Pixel::Mask & mask() const;

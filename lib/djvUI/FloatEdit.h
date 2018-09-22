@@ -61,7 +61,8 @@ namespace djv
 
         public:
             explicit FloatEdit(QWidget * parent = nullptr);
-
+            ~FloatEdit() override;
+            
             //! Get the value.
             float value() const;
 

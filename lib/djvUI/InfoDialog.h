@@ -54,7 +54,8 @@ namespace djv
 
         public:
             InfoDialog(const QString & text, UIContext *);
-
+            ~InfoDialog() override;
+            
         protected:
             void showEvent(QShowEvent *) override;
 

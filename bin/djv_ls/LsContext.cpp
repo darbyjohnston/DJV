@@ -117,7 +117,7 @@ namespace djv
             return _sortDirsFirst;
         }
 
-        bool Context::commandLineParse(QStringList & in) throw (QString)
+        bool Context::commandLineParse(QStringList & in)
         {
             //DJV_DEBUG("Context::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);

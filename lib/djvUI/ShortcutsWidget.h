@@ -61,6 +61,7 @@ namespace djv
 
         public:
             explicit ShortcutsWidget(UIContext *, QWidget * parent = nullptr);
+            ~ShortcutsWidget() override;
 
             //! Get the list of shortcuts.
             const QVector<Shortcut> & shortcuts() const;

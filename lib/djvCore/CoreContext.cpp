@@ -304,7 +304,7 @@ namespace djv
             DJV_LOG(debugLog(), "djv::Core::CoreContext", "");
         }
 
-        bool CoreContext::commandLineParse(QStringList & in) throw (QString)
+        bool CoreContext::commandLineParse(QStringList & in)
         {
             //DJV_DEBUG("CoreContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);

@@ -92,6 +92,9 @@ namespace djv
                 SIGNAL(valueChanged(int)),
                 SLOT(maxFramesCallback(int)));
         }
+        
+        SequencePrefsWidget::~SequencePrefsWidget()
+        {}
 
         void SequencePrefsWidget::resetPreferences()
         {

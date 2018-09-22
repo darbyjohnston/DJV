@@ -283,7 +283,7 @@ namespace djv
         Graphics::PixelDataInfo::PROXY,
         Graphics::PixelDataInfo::proxyLabels());
 
-    QStringList & operator >> (QStringList & in, Graphics::PixelDataInfo::Mirror & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::PixelDataInfo::Mirror & out)
     {
         in >> out.x;
         in >> out.y;

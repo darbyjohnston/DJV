@@ -64,7 +64,8 @@ namespace djv
                 const QString & text,
                 UIContext * context,
                 QWidget * parent = nullptr);
-
+            ~PrefsGroupBox() override;
+            
             //! Get the text.
             const QString & text() const;
 

@@ -83,6 +83,7 @@ namespace djv
 
         public:
             explicit IntEditSlider(UIContext *, QWidget * parent = nullptr);
+            ~IntEditSlider() override;
 
             //! Get the value.
             int value() const;

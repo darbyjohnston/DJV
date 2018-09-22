@@ -59,7 +59,8 @@ namespace djv
 
         public:
             explicit FloatDisplay(QWidget * parent = nullptr);
-
+            ~FloatDisplay() override;
+            
             //! Get the value.
             float value() const;
 

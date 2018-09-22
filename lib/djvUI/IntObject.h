@@ -46,66 +46,66 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the value.
-                Q_PROPERTY(
-                    int    value
-                    READ   value
-                    WRITE  setValue
-                    NOTIFY valueChanged)
+            //! This property holds the value.
+            Q_PROPERTY(
+                int    value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
-                //! This property holds the default value.
-                Q_PROPERTY(
-                    int    defaultValue
-                    READ   defaultValue
-                    WRITE  setDefaultValue
-                    NOTIFY defaultValueChanged)
+            //! This property holds the default value.
+            Q_PROPERTY(
+                int    defaultValue
+                READ   defaultValue
+                WRITE  setDefaultValue
+                NOTIFY defaultValueChanged)
 
-                //! This property holds whether the default value is valid.
-                Q_PROPERTY(
-                    bool   defaultValid
-                    READ   isDefaultValid
-                    NOTIFY defaultValidChanged)
+            //! This property holds whether the default value is valid.
+            Q_PROPERTY(
+                bool   defaultValid
+                READ   isDefaultValid
+                NOTIFY defaultValidChanged)
 
-                //! This property holds the minimum value.
-                Q_PROPERTY(
-                    int    min
-                    READ   min
-                    WRITE  setMin
-                    NOTIFY minChanged)
+            //! This property holds the minimum value.
+            Q_PROPERTY(
+                int    min
+                READ   min
+                WRITE  setMin
+                NOTIFY minChanged)
 
-                //! This property holds the maximum value.
-                Q_PROPERTY(
-                    int    max
-                    READ   max
-                    WRITE  setMax
-                    NOTIFY maxChanged)
+            //! This property holds the maximum value.
+            Q_PROPERTY(
+                int    max
+                READ   max
+                WRITE  setMax
+                NOTIFY maxChanged)
 
-                //! This property holds the small increment.
-                Q_PROPERTY(
-                    int    smallInc
-                    READ   smallInc
-                    WRITE  setSmallInc
-                    NOTIFY smallIncChanged)
+            //! This property holds the small increment.
+            Q_PROPERTY(
+                int    smallInc
+                READ   smallInc
+                WRITE  setSmallInc
+                NOTIFY smallIncChanged)
 
-                //! This property holds the large increment.
-                Q_PROPERTY(
-                    int    largeInc
-                    READ   largeInc
-                    WRITE  setLargeInc
-                    NOTIFY largeIncChanged)
+            //! This property holds the large increment.
+            Q_PROPERTY(
+                int    largeInc
+                READ   largeInc
+                WRITE  setLargeInc
+                NOTIFY largeIncChanged)
 
-                //! This property holds whether clamping is enabled.
-                Q_PROPERTY(
-                    bool  clamp
-                    READ  hasClamp
-                    WRITE setClamp)
+            //! This property holds whether clamping is enabled.
+            Q_PROPERTY(
+                bool  clamp
+                READ  hasClamp
+                WRITE setClamp)
 
-                //! This property holds the size string.
-                Q_PROPERTY(
-                    QString sizeString
-                    READ    sizeString
-                    WRITE   setSizeString
-                    NOTIFY  sizeStringChanged)
+            //! This property holds the size string.
+            Q_PROPERTY(
+                QString sizeString
+                READ    sizeString
+                WRITE   setSizeString
+                NOTIFY  sizeStringChanged)
 
         public:
 
@@ -116,6 +116,7 @@ namespace djv
             static const int intMax;
 
             explicit IntObject(QObject * parent = nullptr);
+            ~IntObject() override;
 
             //! Get the value.
             int value() const;

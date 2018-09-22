@@ -54,6 +54,7 @@ namespace djv
         public:
             explicit ChoiceButton(UIContext *, QWidget * parent = nullptr);
             explicit ChoiceButton(QActionGroup *, UIContext *, QWidget * parent = nullptr);
+            ~ChoiceButton() override;
 
             //! Get the associated action group.
             QActionGroup * actionGroup() const;

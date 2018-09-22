@@ -62,6 +62,7 @@ namespace djv
     
         public:
             explicit FileEdit(UIContext *, QWidget * parent = nullptr);
+            ~FileEdit() override;
 
             //! Get the file information.
             const Core::FileInfo & fileInfo() const;

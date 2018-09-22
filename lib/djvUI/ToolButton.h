@@ -49,6 +49,7 @@ namespace djv
         public:
             explicit ToolButton(UIContext *, QWidget * parent = nullptr);
             explicit ToolButton(const QIcon &, UIContext *, QWidget * parent = nullptr);
+            ~ToolButton() override;
 
             //! Set the default action.
             void setDefaultAction(QAction *);

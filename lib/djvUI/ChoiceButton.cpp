@@ -77,6 +77,9 @@ namespace djv
                 SLOT(clickedCallback()));
         }
 
+        ChoiceButton::~ChoiceButton()
+        {}
+        
         QActionGroup * ChoiceButton::actionGroup() const
         {
             return _p->actionGroup;

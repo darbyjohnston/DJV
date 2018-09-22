@@ -49,7 +49,6 @@ namespace djv
     }
 
     QStringList & operator >> (QStringList & in, ViewLib::DisplayProfile & out)
-        throw (QString)
     {
         in >> out.name;
         QString tmp;

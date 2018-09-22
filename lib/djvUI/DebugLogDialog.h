@@ -60,7 +60,8 @@ namespace djv
 
         public:
             DebugLogDialog(UIContext *);
-
+            ~DebugLogDialog() override;
+            
             void clear();
 
         protected:

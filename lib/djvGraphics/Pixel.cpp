@@ -106,7 +106,7 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::DATA, Graphics::Pixel::dataLabels());
     _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::PIXEL, Graphics::Pixel::pixelLabels());
 
-    QStringList & operator >> (QStringList & in, Graphics::Pixel::Mask & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::Pixel::Mask & out)
     {
         for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
         {

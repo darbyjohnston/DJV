@@ -810,7 +810,7 @@ namespace djv
         return !(a == b);
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageXform & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageXform & out)
     {
         return in >>
             out.mirror >>
@@ -828,7 +828,7 @@ namespace djv
             in.rotate;
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageColor & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageColor & out)
     {
         return in >>
             out.brightness >>
@@ -844,7 +844,7 @@ namespace djv
             in.saturation;
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageLevels & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageLevels & out)
     {
         return in >>
             out.inLow >>
@@ -864,7 +864,7 @@ namespace djv
             in.outHigh;
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageFilter & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageFilter & out)
     {
         return in >>
             out.min >>

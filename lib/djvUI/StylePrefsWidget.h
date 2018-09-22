@@ -56,6 +56,7 @@ namespace djv
 
         public:
             explicit StylePrefsWidget(UIContext *, QWidget * parent = nullptr);
+            ~StylePrefsWidget() override;
 
             void resetPreferences() override;
 

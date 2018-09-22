@@ -91,6 +91,9 @@ namespace djv
                 SLOT(spinBoxCallback(double)));
         }
 
+        FloatEdit::~FloatEdit()
+        {}
+        
         float FloatEdit::value() const
         {
             return _p->object->value();

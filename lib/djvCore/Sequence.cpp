@@ -137,7 +137,7 @@ namespace djv
         return out << Core::SequenceUtil::sequenceToString(in);
     }
 
-    QStringList & operator >> (QStringList & in, Core::Sequence & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Core::Sequence & out)
     {
         QString tmp;
         in >> tmp;

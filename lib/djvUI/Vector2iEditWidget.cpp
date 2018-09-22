@@ -76,6 +76,9 @@ namespace djv
                 SLOT(rangeCallback()));
         }
 
+        Vector2iEditWidget::~Vector2iEditWidget()
+        {}
+        
         glm::ivec2 Vector2iEditWidget::value() const
         {
             return glm::ivec2(_p->widget->value(), _p->widget2->value());

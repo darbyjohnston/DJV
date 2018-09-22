@@ -356,6 +356,9 @@ namespace djv
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)));
         }
 
+        ShortcutsWidget::~ShortcutsWidget()
+        {}
+        
         const QVector<Shortcut> & ShortcutsWidget::shortcuts() const
         {
             return _p->model->shortcuts();

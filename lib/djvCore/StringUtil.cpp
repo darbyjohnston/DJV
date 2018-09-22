@@ -122,21 +122,21 @@ namespace djv
 
     } // namespace Core
 
-    QStringList & operator >> (QStringList & in, QString & out) throw (QString)
+    QStringList & operator >> (QStringList & in, QString & out)
     {
         if (!Core::Serialize(in, out))
             throw in.join(" ");
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, QStringList & out) throw (QString)
+    QStringList & operator >> (QStringList & in, QStringList & out)
     {
         out = in;
         in.clear();
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, bool & out) throw (QString)
+    QStringList & operator >> (QStringList & in, bool & out)
     {
         unsigned int i = 0;
         if (!Core::Serialize(in, i, Core::StringUtil::boolLabels()))
@@ -145,7 +145,7 @@ namespace djv
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, int & out) throw (QString)
+    QStringList & operator >> (QStringList & in, int & out)
     {
         QString tmp;
         in >> tmp;
@@ -153,7 +153,7 @@ namespace djv
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, unsigned int & out) throw (QString)
+    QStringList & operator >> (QStringList & in, unsigned int & out)
     {
         QString tmp;
         in >> tmp;
@@ -161,7 +161,7 @@ namespace djv
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, qint64 & out) throw (QString)
+    QStringList & operator >> (QStringList & in, qint64 & out)
     {
         QString tmp;
         in >> tmp;
@@ -169,7 +169,7 @@ namespace djv
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, quint64 & out) throw (QString)
+    QStringList & operator >> (QStringList & in, quint64 & out)
     {
         QString tmp;
         in >> tmp;
@@ -177,7 +177,7 @@ namespace djv
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, float & out) throw (QString)
+    QStringList & operator >> (QStringList & in, float & out)
     {
         QString tmp;
         in >> tmp;
@@ -185,7 +185,7 @@ namespace djv
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, double & out) throw (QString)
+    QStringList & operator >> (QStringList & in, double & out)
     {
         QString tmp;
         in >> tmp;
@@ -193,7 +193,7 @@ namespace djv
         return in;
     }
 
-    QStringList & operator >> (QStringList & in, QVector<bool> & out) throw (QString)
+    QStringList & operator >> (QStringList & in, QVector<bool> & out)
     {
         while (in.count())
         {

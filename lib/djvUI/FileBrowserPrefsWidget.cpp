@@ -273,6 +273,9 @@ namespace djv
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
         }
+        
+        FileBrowserPrefsWidget::~FileBrowserPrefsWidget()
+        {}
 
         void FileBrowserPrefsWidget::resetPreferences()
         {

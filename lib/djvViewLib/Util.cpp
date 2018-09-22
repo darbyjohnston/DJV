@@ -1,4 +1,3 @@
-//------------------------------------------------------------------------------
 // Copyright (c) 2004-2015 Darby Johnston
 // All rights reserved.
 //
@@ -187,7 +186,6 @@ namespace djv
             const Core::FileInfo & fileInfo,
             Graphics::PixelData &  lut,
             Context *              context)
-            throw (Core::Error)
         {
             if (fileInfo.fileName().isEmpty())
                 return;

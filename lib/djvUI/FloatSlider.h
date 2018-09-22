@@ -75,6 +75,7 @@ namespace djv
 
         public:
             explicit FloatSlider(QWidget * parent = nullptr);
+            ~FloatSlider() override;
 
             //! Get the value.
             float value() const;

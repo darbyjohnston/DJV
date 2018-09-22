@@ -75,6 +75,7 @@ namespace djv
 
         public:
             IntEdit(QWidget * parent = nullptr);
+            ~IntEdit() override;
 
             //! Get the value.
             int value() const;

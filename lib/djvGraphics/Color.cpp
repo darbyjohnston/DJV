@@ -173,7 +173,7 @@ namespace djv
         return !(a == b);
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::Color & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::Color & out)
     {
         Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
         in >> pixel;

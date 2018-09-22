@@ -52,29 +52,30 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the value.
-                Q_PROPERTY(
-                    int    value
-                    READ   value
-                    WRITE  setValue
-                    NOTIFY valueChanged)
+            //! This property holds the value.
+            Q_PROPERTY(
+                int    value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
-                //! This property holds the minimum value.
-                Q_PROPERTY(
-                    int    min
-                    READ   min
-                    WRITE  setMin
-                    NOTIFY minChanged)
+            //! This property holds the minimum value.
+            Q_PROPERTY(
+                int    min
+                READ   min
+                WRITE  setMin
+                NOTIFY minChanged)
 
-                //! This property holds the maximum value.
-                Q_PROPERTY(
-                    int    max
-                    READ   max
-                    WRITE  setMax
-                    NOTIFY maxChanged)
+            //! This property holds the maximum value.
+            Q_PROPERTY(
+                int    max
+                READ   max
+                WRITE  setMax
+                NOTIFY maxChanged)
 
         public:
             explicit IntSlider(QWidget * parent = nullptr);
+            ~IntSlider() override;
 
             //! Get the value.
             int value() const;

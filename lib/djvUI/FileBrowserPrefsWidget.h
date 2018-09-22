@@ -54,6 +54,7 @@ namespace djv
 
         public:
             explicit FileBrowserPrefsWidget(UIContext *, QWidget * parent = nullptr);
+            ~FileBrowserPrefsWidget() override;
 
             void resetPreferences() override;
 

@@ -52,15 +52,16 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the pixel.
-                Q_PROPERTY(
-                    djv::Graphics::Pixel::PIXEL pixel
-                    READ                        pixel
-                    WRITE                       setPixel
-                    NOTIFY                      pixelChanged)
+            //! This property holds the pixel.
+            Q_PROPERTY(
+                djv::Graphics::Pixel::PIXEL pixel
+                READ                        pixel
+                WRITE                       setPixel
+                NOTIFY                      pixelChanged)
 
         public:
             explicit PixelWidget(QWidget * parent = nullptr);
+            ~PixelWidget() override;
 
             //! Get the pixel.
             Graphics::Pixel::PIXEL pixel() const;

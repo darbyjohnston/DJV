@@ -50,6 +50,7 @@ namespace djv
 
         public:
             explicit TimePrefsWidget(UIContext *, QWidget * parent = nullptr);
+            ~TimePrefsWidget() override;
 
             void resetPreferences() override;
 

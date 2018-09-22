@@ -101,6 +101,9 @@ namespace djv
                 SIGNAL(activated(int)),
                 SLOT(filterMagCallback(int)));
         }
+        
+        ImagePrefsWidget::~ImagePrefsWidget()
+        {}
 
         void ImagePrefsWidget::resetPreferences()
         {

@@ -60,7 +60,7 @@ void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
 
 } // namespace
 
-void djvFFmpegPlugin::initPlugin() throw (djvError)
+void djvFFmpegPlugin::initPlugin()
 {
     //DJV_DEBUGBUG("djvFFmpegPlugin::initPlugin");
     
@@ -177,7 +177,7 @@ QStringList djvFFmpegPlugin::options() const
     return djvFFmpeg::optionsLabels();
 }
 
-void djvFFmpegPlugin::commandLine(QStringList & in) throw (QString)
+void djvFFmpegPlugin::commandLine(QStringList & in)
 {
     QStringList tmp;
     QString     arg;

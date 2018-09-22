@@ -50,6 +50,7 @@ namespace djv
 
         public:
             explicit HelpPrefsWidget(UIContext *, QWidget * parent = nullptr);
+            ~HelpPrefsWidget() override;
 
             void resetPreferences() override;
 

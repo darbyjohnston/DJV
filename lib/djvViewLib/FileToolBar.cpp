@@ -49,7 +49,7 @@ namespace djv
             AbstractActions * actions,
             Context *         context,
             QWidget *         parent) :
-            AbstractToolBar(qApp->translate("djv::ViewLib::FileToolBar", "Files"), actions, context, parent),
+            AbstractToolBar(qApp->translate("djv::ViewLib::FileToolBar", "File"), actions, context, parent),
             _p(new Private)
         {
             UI::ToolButton * button = new UI::ToolButton(context);

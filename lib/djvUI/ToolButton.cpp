@@ -114,6 +114,9 @@ namespace djv
             }
         }
 
+        ToolButton::~ToolButton()
+        {}
+        
         QSize ToolButton::sizeHint() const
         {
             const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);

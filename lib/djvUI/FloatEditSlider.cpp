@@ -114,6 +114,9 @@ namespace djv
                 SIGNAL(clicked()),
                 SLOT(defaultCallback()));
         }
+        
+        FloatEditSlider::~FloatEditSlider()
+        {}
 
         float FloatEditSlider::value() const
         {

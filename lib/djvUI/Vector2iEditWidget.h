@@ -52,29 +52,30 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the value.    
-                Q_PROPERTY(
-                    glm::ivec2 value
-                    READ       value
-                    WRITE      setValue
-                    NOTIFY     valueChanged)
+            //! This property holds the value.    
+            Q_PROPERTY(
+                glm::ivec2 value
+                READ       value
+                WRITE      setValue
+                NOTIFY     valueChanged)
 
-                //! This property holds the minimum value.
-                Q_PROPERTY(
-                    glm::ivec2 min
-                    READ       min
-                    WRITE      setMin
-                    NOTIFY     minChanged)
+            //! This property holds the minimum value.
+            Q_PROPERTY(
+                glm::ivec2 min
+                READ       min
+                WRITE      setMin
+                NOTIFY     minChanged)
 
-                //! This property holds the maximum value.
-                Q_PROPERTY(
-                    glm::ivec2 max
-                    READ       max
-                    WRITE      setMax
-                    NOTIFY     maxChanged)
+            //! This property holds the maximum value.
+            Q_PROPERTY(
+                glm::ivec2 max
+                READ       max
+                WRITE      setMax
+                NOTIFY     maxChanged)
 
         public:
             explicit Vector2iEditWidget(QWidget * parent = nullptr);
+            ~Vector2iEditWidget() override;
 
             //! Get the value.
             glm::ivec2 value() const;

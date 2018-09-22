@@ -80,6 +80,9 @@ namespace djv
                 SIGNAL(rangeChanged(float, float)),
                 SLOT(rangeCallback()));
         }
+        
+        Vector2fEditWidget::~Vector2fEditWidget()
+        {}
 
         glm::vec2 Vector2fEditWidget::value() const
         {

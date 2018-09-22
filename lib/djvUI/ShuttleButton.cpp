@@ -64,6 +64,9 @@ namespace djv
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             styleUpdate();
         }
+        
+        ShuttleButton::~ShuttleButton()
+        {}
 
         QSize ShuttleButton::sizeHint() const
         {

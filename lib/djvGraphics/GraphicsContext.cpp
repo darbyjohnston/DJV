@@ -204,7 +204,7 @@ namespace djv
                 arg(_p->imageIOFactory->names().join(", "));
         }
 
-        bool GraphicsContext::commandLineParse(QStringList & in) throw (QString)
+        bool GraphicsContext::commandLineParse(QStringList & in)
         {
             //DJV_DEBUG("GraphicsContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);

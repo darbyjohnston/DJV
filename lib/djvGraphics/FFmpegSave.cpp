@@ -59,7 +59,6 @@ djvFFmpegSave::~djvFFmpegSave()
 {}
 
 void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIOInfo & info)
-    throw (djvError)
 {
     //DJV_DEBUG("djvFFmpegSave::open");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -295,7 +294,6 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIOInfo & in
 }
 
 void djvFFmpegSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
 {
     //DJV_DEBUG("djvFFmpegSave::write");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -401,7 +399,7 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIOFrameInfo & frame
     }
 }
 
-void djvFFmpegSave::close() throw (djvError)
+void djvFFmpegSave::close()
 {
     //DJV_DEBUG("djvFFmpegSave::close");
     

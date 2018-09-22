@@ -97,7 +97,7 @@ namespace djv
             return JPEG::optionsLabels();
         }
 
-        void JPEGPlugin::commandLine(QStringList & in) throw (QString)
+        void JPEGPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

@@ -102,6 +102,9 @@ namespace djv
                 SIGNAL(activated(int)),
                 SLOT(speedCallback(int)));
         }
+        
+        TimePrefsWidget::~TimePrefsWidget()
+        {}
 
         void TimePrefsWidget::resetPreferences()
         {

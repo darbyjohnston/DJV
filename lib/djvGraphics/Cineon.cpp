@@ -223,7 +223,7 @@ namespace djv
         return !(a == b);
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::Cineon::LinearToFilmPrint & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::Cineon::LinearToFilmPrint & out)
     {
         return in >>
             out.black >>
@@ -239,7 +239,7 @@ namespace djv
             in.gamma;
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::Cineon::FilmPrintToLinear & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Graphics::Cineon::FilmPrintToLinear & out)
     {
         return in >>
             out.black >>

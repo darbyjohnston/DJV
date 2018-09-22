@@ -94,7 +94,7 @@ namespace djv
             return Targa::optionsLabels();
         }
 
-        void TargaPlugin::commandLine(QStringList & in) throw (QString)
+        void TargaPlugin::commandLine(QStringList & in)
         {
             QStringList tmp;
             QString     arg;

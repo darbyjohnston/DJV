@@ -54,7 +54,8 @@ namespace djv
 
         public:
             AboutDialog(const QString & text, UIContext *);
-
+            ~AboutDialog() override;
+            
         protected:
             void showEvent(QShowEvent *) override;
             void paintEvent(QPaintEvent *) override;

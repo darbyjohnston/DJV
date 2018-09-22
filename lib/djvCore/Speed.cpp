@@ -190,9 +190,9 @@ namespace djv
         return !(a == b);
     }
 
-    _DJV_STRING_OPERATOR_LABEL(Core::Speed::FPS, Core::Speed::fpsLabels())
+    _DJV_STRING_OPERATOR_LABEL(Core::Speed::FPS, Core::Speed::fpsLabels());
 
-        QStringList & operator >> (QStringList & string, Core::Speed & out) throw (QString)
+    QStringList & operator >> (QStringList & string, Core::Speed & out)
     {
         int scale = 0;
         int duration = 0;

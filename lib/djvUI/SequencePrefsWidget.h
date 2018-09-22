@@ -50,6 +50,7 @@ namespace djv
 
         public:
             explicit SequencePrefsWidget(UIContext *, QWidget * parent = nullptr);
+            ~SequencePrefsWidget() override;
 
             void resetPreferences() override;
 

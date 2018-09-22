@@ -83,6 +83,9 @@ namespace djv
             connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
         }
 
+        InfoDialog::~InfoDialog()
+        {}
+        
         void InfoDialog::showEvent(QShowEvent *)
         {
             _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(

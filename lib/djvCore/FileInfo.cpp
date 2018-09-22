@@ -365,7 +365,7 @@ namespace djv
         return debug << in.fileName();
     }
 
-    QStringList & operator >> (QStringList & in, Core::FileInfo & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Core::FileInfo & out)
     {
         QString fileName;
         Core::FileInfo::TYPE type = static_cast<Core::FileInfo::TYPE>(0);
@@ -383,7 +383,7 @@ namespace djv
         return out;
     }
 
-    QStringList & operator >> (QStringList & in, Core::FileInfoList & out) throw (QString)
+    QStringList & operator >> (QStringList & in, Core::FileInfoList & out)
     {
         while (in.count())
         {

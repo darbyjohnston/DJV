@@ -51,6 +51,9 @@ namespace djv
         {
             collisionsUpdate();
         }
+        
+        ShortcutsModel::~ShortcutsModel()
+        {}
 
         const QVector<Shortcut> & ShortcutsModel::shortcuts() const
         {

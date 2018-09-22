@@ -60,7 +60,6 @@ djvFFmpegLoad::~djvFFmpegLoad()
 }
 
 void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
 {
     //DJV_DEBUG("djvFFmpegLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -205,7 +204,6 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
 }
 
 void djvFFmpegLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
 {
     //DJV_DEBUG("djvFFmpegLoad::read");
     //DJV_DEBUG_PRINT("frame = " << frame);
@@ -272,7 +270,7 @@ void djvFFmpegLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
     }
 }
 
-void djvFFmpegLoad::close() throw (djvError)
+void djvFFmpegLoad::close()
 {
     //DJV_DEBUG("djvFFmpegLoad::close");    
     if (_swsContext)

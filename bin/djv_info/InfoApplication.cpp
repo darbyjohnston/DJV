@@ -155,7 +155,6 @@ namespace djv
         }
 
         void Application::printItem(const Core::FileInfo & in, bool path, bool info)
-            throw (Core::Error)
         {
             //DJV_DEBUG("Application::printItem");
             //DJV_DEBUG_PRINT("in = " << in);

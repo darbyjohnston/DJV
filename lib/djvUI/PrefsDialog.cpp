@@ -178,6 +178,9 @@ namespace djv
                 SLOT(buttonCallback(QAbstractButton *)));
         }
 
+        PrefsDialog::~PrefsDialog()
+        {}
+
         void PrefsDialog::addWidget(AbstractPrefsWidget * widget, const QString & group)
         {
             //DJV_DEBUG("PrefsDialog::addWidget");

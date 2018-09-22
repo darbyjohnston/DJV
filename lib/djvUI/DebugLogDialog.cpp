@@ -103,6 +103,9 @@ namespace djv
                 SLOT(messageCallback(const QString &)));
         }
 
+        DebugLogDialog::~DebugLogDialog()
+        {}
+        
         void DebugLogDialog::showEvent(QShowEvent *)
         {
             _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
