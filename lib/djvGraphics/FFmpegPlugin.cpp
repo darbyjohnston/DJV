@@ -34,206 +34,208 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvFFmpegPlugin
-//------------------------------------------------------------------------------
-
-djvFFmpegPlugin::djvFFmpegPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-namespace
+namespace djv
 {
-
-void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
-{
-    if (level > av_log_get_level())
-        return;
-
-    //! \todo Add multi-thread safe logging.
-    /*char s [djvStringUtil::cStringLength];
-    SNPRINTF(s, djvStringUtil::cStringLength, fmt, vl);
-    DJV_LOG("djvFFmpegPlugin", s);*/
-}
-
-} // namespace
-
-void djvFFmpegPlugin::initPlugin()
-{
-    //DJV_DEBUGBUG("djvFFmpegPlugin::initPlugin");
-    
-    av_log_set_callback(avLogCallback);
-    av_register_all();
-    /*const AVOutputFormat * avFormat = 0;
-    while ((avFormat = av_oformat_next(avFormat)))
+    namespace Graphics
     {
-        DJV_DEBUG_PRINT("av format = " << avFormat->name << ", " <<
-            avFormat->long_name);
-    }*/
-    /*const AVCodecDescriptor * avCodec = 0;
-    while ((avCodec = avcodec_descriptor_next(avCodec)))
-    {
-        if (AVMEDIA_TYPE_VIDEO == avCodec->type)
+        FFmpegPlugin::FFmpegPlugin(Core::CoreContext * context) :
+            ImageIO(context)
+        {}
+
+        namespace
         {
-            DJV_DEBUG_PRINT("av codec = " << avCodec->name);
-        }
-    }*/
-    /*AVOutputFormat * avFormat = av_oformat_next(0);
-    while (avFormat)
-    {
-        DJV_DEBUG_PRINT("av format = " << avFormat->name);
-        if (avFormat->codec_tag)
+            void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
+            {
+                if (level > av_log_get_level())
+                    return;
+
+                //! \todo Add multi-thread safe logging.
+                /*char s [Core::StringUtil::cStringLength];
+                SNPRINTF(s, Core::StringUtil::cStringLength, fmt, vl);
+                DJV_LOG("djv::Graphics::FFmpegPlugin", s);*/
+            }
+
+        } // namespace
+
+        void FFmpegPlugin::initPlugin()
         {
-            AVCodecID avCodec = static_cast<AVCodecID>(1);
-            int i = 0;
-            while (avCodec != CODEC_ID_NONE)
+            //DJV_DEBUG("FFmpegPlugin::initPlugin");
+
+            av_log_set_callback(avLogCallback);
+            av_register_all();
+            /*const AVOutputFormat * avFormat = 0;
+            while ((avFormat = av_oformat_next(avFormat)))
             {
-                avCodec = av_codec_get_id(format->codec_tag, i++);
-                DJV_DEBUG_PRINT("    " << avCodecId);
-            }
+                DJV_DEBUG_PRINT("av format = " << avFormat->name << ", " <<
+                    avFormat->long_name);
+            }*/
+            /*const AVCodecDescriptor * avCodec = 0;
+            while ((avCodec = avcodec_descriptor_next(avCodec)))
+            {
+                if (AVMEDIA_TYPE_VIDEO == avCodec->type)
+                {
+                    DJV_DEBUG_PRINT("av codec = " << avCodec->name);
+                }
+            }*/
+            /*AVOutputFormat * avFormat = av_oformat_next(0);
+            while (avFormat)
+            {
+                DJV_DEBUG_PRINT("av format = " << avFormat->name);
+                if (avFormat->codec_tag)
+                {
+                    AVCodecID avCodec = static_cast<AVCodecID>(1);
+                    int i = 0;
+                    while (avCodec != CODEC_ID_NONE)
+                    {
+                        avCodec = av_codec_get_id(format->codec_tag, i++);
+                        DJV_DEBUG_PRINT("    " << avCodecId);
+                    }
+                }
+                avFormat = av_oformat_next(avFormat);
+            }*/
         }
-        avFormat = av_oformat_next(avFormat);
-    }*/
-}
 
-QString djvFFmpegPlugin::pluginName() const
-{
-    return djvFFmpeg::staticName;
-}
-
-QStringList djvFFmpegPlugin::extensions() const
-{
-    return QStringList() <<
-        ".avi"  <<
-        ".dv"   <<
-        ".gif"  <<
-        ".flv"  <<
-        ".mkv"  <<
-        ".mov"  <<
-        ".mpg"  <<
-        ".mpeg" <<
-        ".mp4"  <<
-        ".m4v"  <<
-        ".mxf";
-}
-
-bool djvFFmpegPlugin::isSequence() const
-{
-    return false;
-}
-
-QStringList djvFFmpegPlugin::option(const QString & in) const
-{
-    const QStringList & list = options();
-    QStringList out;
-    if (0 == in.compare(list[djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
-    {
-        out << _options.format;
-    }
-    else if (0 == in.compare(list[djvFFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
-    {
-        out << _options.quality;
-    }
-    return out;
-}
-
-bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
-{
-    const QStringList & list = options();
-    try
-    {
-        if (0 == in.compare(list[djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
+        QString FFmpegPlugin::pluginName() const
         {
-            djvFFmpeg::FORMAT format = static_cast<djvFFmpeg::FORMAT>(0);
-            data >> format;
-            if (format != _options.format)
-            {
-                _options.format = format;
-                Q_EMIT optionChanged(in);
-            }
+            return FFmpeg::staticName;
         }
-        else if (0 == in.compare(list[djvFFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
+
+        QStringList FFmpegPlugin::extensions() const
         {
-            djvFFmpeg::QUALITY quality = static_cast<djvFFmpeg::QUALITY>(0);
-            data >> quality;
-            if (quality != _options.quality)
-            {
-                _options.quality = quality;
-                Q_EMIT optionChanged(in);
-            }
+            return QStringList() <<
+                ".avi" <<
+                ".dv" <<
+                ".gif" <<
+                ".flv" <<
+                ".mkv" <<
+                ".mov" <<
+                ".mpg" <<
+                ".mpeg" <<
+                ".mp4" <<
+                ".m4v" <<
+                ".mxf";
         }
-    }
-    catch (QString)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvFFmpegPlugin::options() const
-{
-    return djvFFmpeg::optionsLabels();
-}
-
-void djvFFmpegPlugin::commandLine(QStringList & in)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        bool FFmpegPlugin::isSequence() const
         {
-            in >> arg;
-            if (qApp->translate("djvFFmpegPlugin", "-ffmpeg_format") == arg)
-            {
-                in >> _options.format;
-            }
-            else if (qApp->translate("djvFFmpegPlugin", "-ffmpeg_quality") == arg)
-            {
-                in >> _options.quality;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return false;
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvFFmpegPlugin::commandLineHelp() const
-{
-    QStringList formatLabel;
-    formatLabel << _options.format;
-    QStringList qualityLabel;
-    qualityLabel << _options.quality;
-    return qApp->translate("djvFFmpegPlugin",
-"\n"
-"FFmpeg Options\n"
-"\n"
-"    -ffmpeg_format (value)\n"
-"        Set the format used when saving FFmpeg movies. Options = %1. "
-"Default = %2.\n"
-"    -ffmpeg_quality (value)\n"
-"        Set the quality used when saving FFmpeg movies. Options = %3. "
-"Default = %4.\n"
-    ).
-    arg(djvFFmpeg::formatLabels().join(", ")).
-    arg(formatLabel.join(", ")).
-    arg(djvFFmpeg::qualityLabels().join(", ")).
-    arg(qualityLabel.join(", "));
-}
+        QStringList FFmpegPlugin::option(const QString & in) const
+        {
+            const QStringList & list = options();
+            QStringList out;
+            if (0 == in.compare(list[FFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
+            {
+                out << _options.format;
+            }
+            else if (0 == in.compare(list[FFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
+            {
+                out << _options.quality;
+            }
+            return out;
+        }
 
-djvImageLoad * djvFFmpegPlugin::createLoad() const
-{
-    return new djvFFmpegLoad(context());
-}
+        bool FFmpegPlugin::setOption(const QString & in, QStringList & data)
+        {
+            const QStringList & list = options();
+            try
+            {
+                if (0 == in.compare(list[FFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
+                {
+                    FFmpeg::FORMAT format = static_cast<FFmpeg::FORMAT>(0);
+                    data >> format;
+                    if (format != _options.format)
+                    {
+                        _options.format = format;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(list[FFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
+                {
+                    FFmpeg::QUALITY quality = static_cast<FFmpeg::QUALITY>(0);
+                    data >> quality;
+                    if (quality != _options.quality)
+                    {
+                        _options.quality = quality;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (QString)
+            {
+                return false;
+            }
+            return true;
+        }
 
-djvImageSave * djvFFmpegPlugin::createSave() const
-{
-    return new djvFFmpegSave(_options, context());
-}
+        QStringList FFmpegPlugin::options() const
+        {
+            return FFmpeg::optionsLabels();
+        }
+
+        void FFmpegPlugin::commandLine(QStringList & in)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics::FFmpegPlugin", "-ffmpeg_format") == arg)
+                    {
+                        in >> _options.format;
+                    }
+                    else if (qApp->translate("djv::Graphics::FFmpegPlugin", "-ffmpeg_quality") == arg)
+                    {
+                        in >> _options.quality;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString FFmpegPlugin::commandLineHelp() const
+        {
+            QStringList formatLabel;
+            formatLabel << _options.format;
+            QStringList qualityLabel;
+            qualityLabel << _options.quality;
+            return qApp->translate("djv::Graphics::FFmpegPlugin",
+                "\n"
+                "FFmpeg Options\n"
+                "\n"
+                "    -ffmpeg_format (value)\n"
+                "        Set the format used when saving FFmpeg movies. Options = %1. "
+                "Default = %2.\n"
+                "    -ffmpeg_quality (value)\n"
+                "        Set the quality used when saving FFmpeg movies. Options = %3. "
+                "Default = %4.\n"
+            ).
+                arg(FFmpeg::formatLabels().join(", ")).
+                arg(formatLabel.join(", ")).
+                arg(FFmpeg::qualityLabels().join(", ")).
+                arg(qualityLabel.join(", "));
+        }
+
+        ImageLoad * FFmpegPlugin::createLoad() const
+        {
+            return new FFmpegLoad(context());
+        }
+
+        ImageSave * FFmpegPlugin::createSave() const
+        {
+            return new FFmpegSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

@@ -32,38 +32,51 @@
 #include <djvGraphics/FFmpeg.h>
 #include <djvGraphics/ImageIO.h>
 
-//! \addtogroup djvFFmpegPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFFmpegPlugin
-//!
-//! This class provides a FFmpeg plugin.
-//------------------------------------------------------------------------------
-
-class djvFFmpegPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvFFmpegPlugin(djvCoreContext *);
-    
-    void initPlugin() override;
-    QString pluginName() const override;
-    QStringList extensions() const override;
-    bool isSequence() const override;
+    namespace Graphics
+    {
+        //! \class FFmpegPlugin
+        //!
+        //! This plugin provides support for the FFmpeg library.
+        //!
+        //! File extensions: .mov, .avi
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit RGBA
+        //! - File compression
+        //!
+        //! References:
+        //!
+        //! - An ffmpeg and SDL Tutorial
+        //!   http://dranger.com/ffmpeg/
+        //! - libavformat/output-example.c
+        //!   https://libav.org/doxygen/release/0.8/libavformat_2output-example_8c-example.html
 
-    QStringList option(const QString &) const override;
-    bool setOption(const QString &, QStringList &) override;
-    QStringList options() const override;
+        class FFmpegPlugin : public ImageIO
+        {
+        public:
+            explicit FFmpegPlugin(Core::CoreContext *);
 
-    void commandLine(QStringList &) override;
-    QString commandLineHelp() const override;
-    
-    djvImageLoad * createLoad() const override;
-    djvImageSave * createSave() const override;
+            void initPlugin() override;
+            QString pluginName() const override;
+            QStringList extensions() const override;
+            bool isSequence() const override;
 
-private:
-    djvFFmpeg::Options _options;
-};
+            QStringList option(const QString &) const override;
+            bool setOption(const QString &, QStringList &) override;
+            QStringList options() const override;
 
-//@} // djvFFmpegPlugin
+            void commandLine(QStringList &) override;
+            QString commandLineHelp() const override;
 
+            ImageLoad * createLoad() const override;
+            ImageSave * createSave() const override;
+
+        private:
+            FFmpeg::Options _options;
+        };
+
+    } // namespace Graphics
+} // namespace djv

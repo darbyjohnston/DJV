@@ -124,7 +124,7 @@ find_package(JPEG)
 find_package(PNG)
 find_package(TIFF)
 find_package(OpenEXR)
-#find_package(FFmpeg)
+find_package(FFmpeg)
 
 set(djvThirdPartyOptional)
 if(JPEG_FOUND)

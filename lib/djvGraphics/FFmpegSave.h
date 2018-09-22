@@ -35,40 +35,38 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvFFmpegPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFFmpegSave
-//!
-//! This class provides a FFmpeg saver.
-//------------------------------------------------------------------------------
-
-class djvFFmpegSave : public djvImageSave
+namespace djv
 {
-public:
-    djvFFmpegSave(const djvFFmpeg::Options &, djvCoreContext *);
-    virtual ~djvFFmpegSave();
+    namespace Graphics
+    {
+        //! \class djvFFmpegSave
+        //!
+        //! This class provides a FFmpeg saver.
+        class FFmpegSave : public ImageSave
+        {
+        public:
+            FFmpegSave(const FFmpeg::Options &, Core::CoreContext *);
+            virtual ~FFmpegSave();
 
-    void open(const djvFileInfo &, const djvImageIOInfo &) override;
-    void write(const djvImage &, const djvImageIOFrameInfo &) override;
-    void close() override;
+            void open(const Core::FileInfo &, const ImageIOInfo &) override;
+            void write(const Image &, const ImageIOFrameInfo &) override;
+            void close() override;
 
-private:
-    djvFFmpeg::Options _options;
-    djvPixelDataInfo   _info;
-    djvImage           _image;
-    int                _frame;
-    
-    AVFormatContext *  _avFormatContext;
-    AVStream *         _avStream;
-    AVIOContext *      _avIoContext;
-    AVFrame *          _avFrame;
-    uint8_t *          _avFrameBuf;
-    AVFrame *          _avFrameRgb;
-    AVPixelFormat      _avFrameRgbPixel;
-    SwsContext *       _swsContext;
-};
+        private:
+            FFmpeg::Options _options;
+            PixelDataInfo _info;
+            Image _image;
+            int _frame = 0;
 
-//@} // djvFFmpegPlugin
+            AVFormatContext * _avFormatContext = nullptr;
+            AVStream * _avStream = nullptr;
+            AVIOContext * _avIoContext = nullptr;
+            AVFrame * _avFrame = nullptr;
+            uint8_t * _avFrameBuf = nullptr;
+            AVFrame * _avFrameRgb = nullptr;
+            AVPixelFormat _avFrameRgbPixel = static_cast<AVPixelFormat>(0);
+            SwsContext * _swsContext = nullptr;
+        };
 
+    } // namespace Graphics
+} // namespace djv

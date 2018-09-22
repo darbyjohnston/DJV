@@ -27,12 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/FFmpegWidget.h>
+#include <djvUI/FFmpegWidget.h>
 
-#include <djvUIContext.h>
-#include <djvPrefsGroupBox.h>
-#include <djvCore/SignalBlocker.h>
-#include <djvStyle.h>
+#include <djvUI/UIContext.h>
+#include <djvUI/PrefsGroupBox.h>
 
 #include <djvGraphics/ImageIO.h>
 
@@ -43,160 +41,144 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-extern "C"
+namespace djv
 {
-
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIOWidgetEntry(djvCoreContext * context)
-{
-    return new djvFFmpegWidgetPlugin(context);
-}
-
-} // extern "C"
-
-//------------------------------------------------------------------------------
-// djvFFmpegWidget
-//------------------------------------------------------------------------------
-
-djvFFmpegWidget::djvFFmpegWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _formatWidget (0),
-    _qualityWidget(0)
-{
-    // Create the widgets.
-    _formatWidget = new QComboBox;
-    _formatWidget->addItems(djvFFmpeg::formatLabels());
-    _formatWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-    
-    _qualityWidget = new QComboBox;
-    _qualityWidget->addItems(djvFFmpeg::qualityLabels());
-    _qualityWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-    
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvFFmpegWidget", "Format"),
-        qApp->translate("djvFFmpegWidget", "Set the format used when saving movies."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvFFmpegWidget", "Format:"),
-        _formatWidget);
-    formLayout->addRow(
-        qApp->translate("djvFFmpegWidget", "Quality:"),
-        _qualityWidget);
-    layout->addWidget(prefsGroupBox);
-
-    layout->addStretch();
-
-    // Initialize.
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _formatWidget,
-        SIGNAL(activated(int)),
-        SLOT(formatCallback(int)));
-    connect(
-        _qualityWidget,
-        SIGNAL(activated(int)),
-        SLOT(qualityCallback(int)));
-}
-
-djvFFmpegWidget::~djvFFmpegWidget()
-{}
-
-void djvFFmpegWidget::resetPreferences()
-{
-    _options = djvFFmpeg::Options();
-   
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvFFmpegWidget::pluginCallback(const QString & option)
-{
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(plugin()->options()[
-            djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
+        FFmpegWidget::FFmpegWidget(Graphics::ImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _formatWidget(0),
+            _qualityWidget(0)
+        {
+            // Create the widgets.
+            _formatWidget = new QComboBox;
+            _formatWidget->addItems(Graphics::FFmpeg::formatLabels());
+            _formatWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+            _qualityWidget = new QComboBox;
+            _qualityWidget->addItems(Graphics::FFmpeg::qualityLabels());
+            _qualityWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::FFmpegWidget", "Format"),
+                qApp->translate("djv::UI::FFmpegWidget", "Set the format used when saving movies."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::FFmpegWidget", "Format:"),
+                _formatWidget);
+            formLayout->addRow(
+                qApp->translate("djv::UI::FFmpegWidget", "Quality:"),
+                _qualityWidget);
+            layout->addWidget(prefsGroupBox);
+
+            layout->addStretch();
+
+            // Initialize.
+            widgetUpdate();
+
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _formatWidget,
+                SIGNAL(activated(int)),
+                SLOT(formatCallback(int)));
+            connect(
+                _qualityWidget,
+                SIGNAL(activated(int)),
+                SLOT(qualityCallback(int)));
+        }
+
+        FFmpegWidget::~FFmpegWidget()
+        {}
+
+        void FFmpegWidget::resetPreferences()
+        {
+            _options = Graphics::FFmpeg::Options();
+
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void FFmpegWidget::pluginCallback(const QString & option)
+        {
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(plugin()->options()[
+                    Graphics::FFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
+                    tmp >> _options.format;
+                else if (0 == option.compare(plugin()->options()[
+                    Graphics::FFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
+                    tmp >> _options.quality;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void FFmpegWidget::formatCallback(int in)
+        {
+            _options.format = static_cast<Graphics::FFmpeg::FORMAT>(in);
+            pluginUpdate();
+        }
+
+        void FFmpegWidget::qualityCallback(int in)
+        {
+            _options.quality = static_cast<Graphics::FFmpeg::QUALITY>(in);
+            pluginUpdate();
+        }
+
+        void FFmpegWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.format;
+            plugin()->setOption(plugin()->options()[Graphics::FFmpeg::OPTIONS_FORMAT], tmp);
+            tmp << _options.quality;
+            plugin()->setOption(plugin()->options()[Graphics::FFmpeg::OPTIONS_QUALITY], tmp);
+        }
+
+        void FFmpegWidget::widgetUpdate()
+        {
+            Core::SignalBlocker signalBlocker(QObjectList() <<
+                _formatWidget <<
+                _qualityWidget);
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(plugin()->options()[Graphics::FFmpeg::OPTIONS_FORMAT]);
                 tmp >> _options.format;
-        else if (0 == option.compare(plugin()->options()[
-            djvFFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
+                tmp = plugin()->option(plugin()->options()[Graphics::FFmpeg::OPTIONS_QUALITY]);
                 tmp >> _options.quality;
-    }
-    catch (const QString &)
-    {}
-    widgetUpdate();
-}
+            }
+            catch (QString)
+            {
+            }
+            _formatWidget->setCurrentIndex(_options.format);
+            _qualityWidget->setCurrentIndex(_options.quality);
+        }
 
-void djvFFmpegWidget::formatCallback(int in)
-{
-    _options.format = static_cast<djvFFmpeg::FORMAT>(in);
-    pluginUpdate();
-}
+        FFmpegWidgetPlugin::FFmpegWidgetPlugin(Core::CoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
 
-void djvFFmpegWidget::qualityCallback(int in)
-{
-    _options.quality = static_cast<djvFFmpeg::QUALITY>(in);
-    pluginUpdate();
-}
+        ImageIOWidget * FFmpegWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
+        {
+            return new FFmpegWidget(plugin, uiContext());
+        }
 
-void djvFFmpegWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.format;
-    plugin()->setOption(
-        plugin()->options()[djvFFmpeg::OPTIONS_FORMAT], tmp);
-    tmp << _options.quality;
-    plugin()->setOption(
-        plugin()->options()[djvFFmpeg::OPTIONS_QUALITY], tmp);
-}
+        QString FFmpegWidgetPlugin::pluginName() const
+        {
+            return Graphics::FFmpeg::staticName;
+        }
 
-void djvFFmpegWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _formatWidget <<
-        _qualityWidget);
-    try
-    {
-        QStringList tmp;
-        tmp = plugin()->option(
-            plugin()->options()[djvFFmpeg::OPTIONS_FORMAT]);
-        tmp >> _options.format;
-        tmp = plugin()->option(
-            plugin()->options()[djvFFmpeg::OPTIONS_QUALITY]);
-        tmp >> _options.quality;
-    }
-    catch (QString)
-    {}
-    _formatWidget->setCurrentIndex(_options.format);
-    _qualityWidget->setCurrentIndex(_options.quality);
-}
-
-//------------------------------------------------------------------------------
-// djvFFmpegWidgetPlugin
-//------------------------------------------------------------------------------
-
-djvFFmpegWidgetPlugin::djvFFmpegWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
-
-djvImageIOWidget * djvFFmpegWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvFFmpegWidget(plugin, uiContext());
-}
-
-QString djvFFmpegWidgetPlugin::pluginName() const
-{
-    return djvFFmpeg::staticName;
-}
-
+    } // namespace UI
+} // namespace djv

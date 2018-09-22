@@ -34,33 +34,37 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \class djvFFmpegLoad
-//!
-//! This class provides a FFmpeg loader.
-class djvFFmpegLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvFFmpegLoad(djvCoreContext *);
-    virtual ~djvFFmpegLoad();
+    namespace Graphics
+    {
+        //! \class FFmpegLoad
+        //!
+        //! This class provides a FFmpeg loader.
+        class FFmpegLoad : public ImageLoad
+        {
+        public:
+            explicit FFmpegLoad(Core::CoreContext *);
+            virtual ~FFmpegLoad();
 
-    void open(const djvFileInfo &, djvImageIOInfo &) override;
-    void read(djvImage &, const djvImageIOFrameInfo &) override;
-    void close() override;
+            void open(const Core::FileInfo &, ImageIOInfo &) override;
+            void read(Image &, const ImageIOFrameInfo &) override;
+            void close() override;
 
-private:
-    bool readFrame(int64_t & pts);
+        private:
+            bool readFrame(int64_t & pts);
 
-    djvImageIOInfo    _info;
-    int               _frame;
-    djvPixelData      _tmp;
-    
-    AVFormatContext * _avFormatContext;
-    int               _avVideoStream;
-    AVCodecContext *  _avCodecContext;
-    AVFrame *         _avFrame;
-    AVFrame *         _avFrameRgb;
-    SwsContext *      _swsContext;
-};
+            ImageIOInfo _info;
+            int _frame = 0;
+            PixelData _tmp;
 
-//@} // djvFFmpegPlugin
+            AVFormatContext * _avFormatContext = nullptr;
+            int _avVideoStream = -1;
+            AVCodecContext * _avCodecContext = nullptr;
+            AVFrame * _avFrame = nullptr;
+            AVFrame * _avFrameRgb = nullptr;
+            SwsContext * _swsContext = nullptr;
+        };
 
+    } // namespace Graphics
+} // namespace djv

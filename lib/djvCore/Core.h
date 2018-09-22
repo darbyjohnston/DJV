@@ -31,6 +31,12 @@
 
 namespace djv
 {
+    //! \todo Remove wrappers around function and use the functions directly
+    //! instead (ie., replace Math::min and Math::max with std::min and std::max)
+    //! \todo Replace base Qt types with standard types from stdint.h
+    //! \todo Replace Qt container classes with STL where possible
+    //! \todo Use std::shared_ptr and std::weak_ptr where possible
+    //! \todo Use QPointer for Qt types where possible
     namespace Core
     {
     } // namespace Core

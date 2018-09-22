@@ -38,123 +38,115 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvFFmpeg::Dictionary
-//------------------------------------------------------------------------------
-
-djvFFmpeg::Dictionary::Dictionary() :
-    _p(0)
-{}
-
-djvFFmpeg::Dictionary::~Dictionary()
+namespace djv
 {
-    av_dict_free(&_p);
-}
-
-QMap<QString, QString> djvFFmpeg::Dictionary::map() const
-{
-    QMap<QString, QString> out;
-    AVDictionaryEntry * entry = 0;
-    while ((entry = av_dict_get(_p, "", entry, AV_DICT_IGNORE_SUFFIX)))
+    namespace Graphics
     {
-        out.insert(entry->key, entry->value);
-    }
-    return out;
-}
+        FFmpeg::Dictionary::Dictionary() :
+            _p(0)
+        {}
 
-AVDictionary ** djvFFmpeg::Dictionary::operator () ()
-{
-    return &_p;
-}
+        FFmpeg::Dictionary::~Dictionary()
+        {
+            av_dict_free(&_p);
+        }
 
-const AVDictionary * const * djvFFmpeg::Dictionary::operator () () const
-{
-    return &_p;
-}
+        QMap<QString, QString> FFmpeg::Dictionary::map() const
+        {
+            QMap<QString, QString> out;
+            AVDictionaryEntry * entry = 0;
+            while ((entry = av_dict_get(_p, "", entry, AV_DICT_IGNORE_SUFFIX)))
+            {
+                out.insert(entry->key, entry->value);
+            }
+            return out;
+        }
 
-//------------------------------------------------------------------------------
-// djvFFmpeg::Packet
-//------------------------------------------------------------------------------
+        AVDictionary ** FFmpeg::Dictionary::operator () ()
+        {
+            return &_p;
+        }
 
-djvFFmpeg::Packet::Packet()
-{
-    av_init_packet(&_p);
-}
+        const AVDictionary * const * FFmpeg::Dictionary::operator () () const
+        {
+            return &_p;
+        }
 
-djvFFmpeg::Packet::~Packet()
-{
-    av_free_packet(&_p);
-}
+        FFmpeg::Packet::Packet()
+        {
+            av_init_packet(&_p);
+        }
 
-AVPacket & djvFFmpeg::Packet::operator () ()
-{
-    return _p;
-}
+        FFmpeg::Packet::~Packet()
+        {
+            av_free_packet(&_p);
+        }
 
-const AVPacket & djvFFmpeg::Packet::operator () () const
-{
-    return _p;
-}
+        AVPacket & FFmpeg::Packet::operator () ()
+        {
+            return _p;
+        }
 
-//------------------------------------------------------------------------------
-// djvFFmpeg::Options
-//------------------------------------------------------------------------------
+        const AVPacket & FFmpeg::Packet::operator () () const
+        {
+            return _p;
+        }
 
-djvFFmpeg::Options::Options() :
-    format (MPEG4),
-    quality(HIGH)
-{}
+        FFmpeg::Options::Options() :
+            format(MPEG4),
+            quality(HIGH)
+        {}
 
-//------------------------------------------------------------------------------
-// djvFFmpeg
-//------------------------------------------------------------------------------
+        const QString FFmpeg::staticName = "FFmpeg";
 
-const QString djvFFmpeg::staticName = "FFmpeg";
+        const QStringList & FFmpeg::formatLabels()
+        {
+            static const QStringList data = QStringList() <<
+                //qApp->translate("djv::Graphics::FFmpeg", "H264") <<
+                qApp->translate("djv::Graphics::FFmpeg", "MPEG4") <<
+                qApp->translate("djv::Graphics::FFmpeg", "ProRes") <<
+                qApp->translate("djv::Graphics::FFmpeg", "MJPEG");
+            DJV_ASSERT(data.count() == FORMAT_COUNT);
+            return data;
+        }
 
-const QStringList & djvFFmpeg::formatLabels()
-{
-    static const QStringList data = QStringList() <<
-        //qApp->translate("djvFFmpeg", "H264") <<
-        qApp->translate("djvFFmpeg", "MPEG4") <<
-        qApp->translate("djvFFmpeg", "ProRes") <<
-        qApp->translate("djvFFmpeg", "MJPEG");
-    DJV_ASSERT(data.count() == FORMAT_COUNT);
-    return data;
-}
+        const QStringList & FFmpeg::qualityLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::FFmpeg", "Low") <<
+                qApp->translate("djv::Graphics::FFmpeg", "Medium") <<
+                qApp->translate("djv::Graphics::FFmpeg", "High");
+            DJV_ASSERT(data.count() == QUALITY_COUNT);
+            return data;
+        }
 
-const QStringList & djvFFmpeg::qualityLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFFmpeg", "Low") <<
-        qApp->translate("djvFFmpeg", "Medium") <<
-        qApp->translate("djvFFmpeg", "High");
-    DJV_ASSERT(data.count() == QUALITY_COUNT);
-    return data;
-}
+        AVRational FFmpeg::timeBaseQ()
+        {
+            AVRational r;
+            r.num = 1;
+            r.den = AV_TIME_BASE;
+            return r;
+        }
 
-AVRational djvFFmpeg::timeBaseQ()
-{
-	AVRational r;
-	r.num = 1;
-	r.den = AV_TIME_BASE;
-	return r;
-}
+        QString FFmpeg::toString(int r)
+        {
+            char buf[Core::StringUtil::cStringLength];
+            av_strerror(r, buf, Core::StringUtil::cStringLength);
+            return QString(buf);
+        }
 
-QString djvFFmpeg::toString(int r)
-{
-    char buf [djvStringUtil::cStringLength];
-    av_strerror(r, buf, djvStringUtil::cStringLength);
-    return QString(buf);
-}
+        const QStringList & FFmpeg::optionsLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("Core::FFmpeg", "Format") <<
+                qApp->translate("Core::FFmpeg", "Quality");
+            DJV_ASSERT(data.count() == OPTIONS_COUNT);
+            return data;
+        }
 
-const QStringList & djvFFmpeg::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFFmpeg", "Format") <<
-        qApp->translate("djvFFmpeg", "Quality");
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-    return data;
-}
+    } // namespace Graphics
 
-_DJV_STRING_OPERATOR_LABEL(djvFFmpeg::FORMAT, djvFFmpeg::formatLabels())
-_DJV_STRING_OPERATOR_LABEL(djvFFmpeg::QUALITY, djvFFmpeg::qualityLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::FFmpeg::FORMAT, Graphics::FFmpeg::formatLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::FFmpeg::QUALITY, Graphics::FFmpeg::qualityLabels())
+
+} // namespace djv

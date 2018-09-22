@@ -29,61 +29,56 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIOWidget.h>
+#include <djvUI/ImageIOWidget.h>
 
 #include <djvGraphics/FFmpeg.h>
 
 class QComboBox;
 
-//! \addtogroup djvFFmpegPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFFmpegWidget
-//!
-//! This class provides a FFmpeg widget.
-//------------------------------------------------------------------------------
-
-class djvFFmpegWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvFFmpegWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        //! \class FFmpegWidget
+        //!
+        //! This class provides a FFmpeg widget.
+        class FFmpegWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvFFmpegWidget();
+        public:
+            FFmpegWidget(Graphics::ImageIO *, UIContext *);
 
-    virtual void resetPreferences();
+            virtual ~FFmpegWidget();
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void formatCallback(int);
-    void qualityCallback(int);
+            virtual void resetPreferences();
 
-    void pluginUpdate();
-    void widgetUpdate();
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void formatCallback(int);
+            void qualityCallback(int);
 
-private:
-    djvFFmpeg::Options _options;
-    QComboBox *        _formatWidget;
-    QComboBox *        _qualityWidget;
-};
+            void pluginUpdate();
+            void widgetUpdate();
 
-//------------------------------------------------------------------------------
-//! \class djvFFmpegWidgetPlugin
-//!
-//! This class provides a FFmpeg widget plugin.
-//------------------------------------------------------------------------------
+        private:
+            Graphics::FFmpeg::Options _options;
+            QComboBox * _formatWidget = nullptr;
+            QComboBox * _qualityWidget = nullptr;
+        };
 
-class djvFFmpegWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvFFmpegWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        //! \class FFmpegWidgetPlugin
+        //!
+        //! This class provides a FFmpeg widget plugin.
+        class FFmpegWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            FFmpegWidgetPlugin(Core::CoreContext *);
 
-    virtual QString pluginName() const;
-};
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
 
-//@} // djvFFmpegPlugin
+            virtual QString pluginName() const;
+        };
 
+    } // namespace UI
+} // namespace djv

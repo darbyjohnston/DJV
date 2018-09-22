@@ -48,134 +48,111 @@ extern "C"
 
 } // extern "C"
 
-//! \addtogroup plugins
-//@{
 
-//! \defgroup djvFFmpegPlugin djvFFmpegPlugin
-//!
-//! This plugin provides support for the FFmpeg library.
-//!
-//! File extensions: .mov, .avi
-//!
-//! Supported features:
-//!
-//! - 8-bit RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - An ffmpeg and SDL Tutorial
-//!   http://dranger.com/ffmpeg/
-//! - libavformat/output-example.c
-//!   https://libav.org/doxygen/release/0.8/libavformat_2output-example_8c-example.html
-
-//@} // plugins
-
-//! \addtogroup djvFFmpegPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvFFmpeg
-//!
-//! This struct provides FFmpeg utilities.
-//------------------------------------------------------------------------------
-
-struct djvFFmpeg
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the formats.
-    enum FORMAT
+    namespace Graphics
     {
-        //H264,
-        MPEG4,
-        PRO_RES,
-        MJPEG,
+        //! \struct djvFFmpeg
+        //!
+        //! This struct provides FFmpeg utilities.
+        struct FFmpeg
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-        FORMAT_COUNT
-    };
+            //! This enumeration provides the formats.
+            enum FORMAT
+            {
+                //H264,
+                MPEG4,
+                PRO_RES,
+                MJPEG,
 
-    //! Get the format labels.
-    static const QStringList & formatLabels();
+                FORMAT_COUNT
+            };
 
-    //! This enumeration provides the quality levels.
-    enum QUALITY
-    {
-        LOW,
-        MEDIUM,
-        HIGH,
+            //! Get the format labels.
+            static const QStringList & formatLabels();
 
-        QUALITY_COUNT
-    };
+            //! This enumeration provides the quality levels.
+            enum QUALITY
+            {
+                LOW,
+                MEDIUM,
+                HIGH,
 
-    //! Get the quality labels.
-    static const QStringList & qualityLabels();
+                QUALITY_COUNT
+            };
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        OPTIONS_FORMAT,
-        OPTIONS_QUALITY,
+            //! Get the quality labels.
+            static const QStringList & qualityLabels();
 
-        OPTIONS_COUNT
-    };
-    
-    //! This class provides a wrapper for a FFmpeg dictionary.
-    class Dictionary
-    {
-    public:
-        Dictionary();
-        
-        ~Dictionary();
-        
-        QMap<QString, QString> map() const;
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                OPTIONS_FORMAT,
+                OPTIONS_QUALITY,
 
-        AVDictionary ** operator () ();
+                OPTIONS_COUNT
+            };
 
-        const AVDictionary * const * operator () () const;
-    
-    private:
-        AVDictionary * _p;
-    };
-    
-    //! This class provides a wrapper for a FFmpeg packet.
-    class Packet
-    {
-    public:
-        Packet();
-        
-        ~Packet();
+            //! This class provides a wrapper for a FFmpeg dictionary.
+            class Dictionary
+            {
+            public:
+                Dictionary();
 
-        AVPacket & operator () ();
+                ~Dictionary();
 
-        const AVPacket & operator () () const;
+                QMap<QString, QString> map() const;
 
-    private:
-        AVPacket _p;
-    };
+                AVDictionary ** operator () ();
 
-	//! Get the internal time base represented as fractional value.
-	static AVRational timeBaseQ();
-    
-    //! Convert an FFmpeg return code to a string.
-    static QString toString(int);
+                const AVDictionary * const * operator () () const;
 
-    //! Get the option labels.
-    static const QStringList & optionsLabels();
+            private:
+                AVDictionary * _p;
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! This class provides a wrapper for a FFmpeg packet.
+            class Packet
+            {
+            public:
+                Packet();
 
-        FORMAT  format;
-        QUALITY quality;
-    };
-};
+                ~Packet();
 
-DJV_STRING_OPERATOR(djvFFmpeg::FORMAT);
-DJV_STRING_OPERATOR(djvFFmpeg::QUALITY);
+                AVPacket & operator () ();
 
-//@} // djvFFmpegPlugin
+                const AVPacket & operator () () const;
 
+            private:
+                AVPacket _p;
+            };
+
+            //! Get the internal time base represented as fractional value.
+            static AVRational timeBaseQ();
+
+            //! Convert an FFmpeg return code to a string.
+            static QString toString(int);
+
+            //! Get the option labels.
+            static const QStringList & optionsLabels();
+
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
+
+                FORMAT  format;
+                QUALITY quality;
+            };
+        };
+
+    } // namespace Graphics
+
+    DJV_STRING_OPERATOR(Graphics::FFmpeg::FORMAT);
+    DJV_STRING_OPERATOR(Graphics::FFmpeg::QUALITY);
+
+} // namespace djv
