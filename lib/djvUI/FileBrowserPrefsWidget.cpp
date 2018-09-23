@@ -47,6 +47,7 @@
 #include <QFormLayout>
 #include <QLabel>
 #include <QListWidget>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -70,21 +71,21 @@ namespace djv
 
         struct FileBrowserPrefsWidget::Private
         {
-            QComboBox * seqWidget = nullptr;
-            QCheckBox * showHiddenWidget = nullptr;
-            QComboBox * sortWidget = nullptr;
-            QCheckBox * reverseSortWidget = nullptr;
-            QCheckBox * sortDirsFirstWidget = nullptr;
-            QComboBox * thumbnailsWidget = nullptr;
-            QComboBox * thumbnailsSizeWidget = nullptr;
-            IntEdit * thumbnailsCacheWidget = nullptr;
-            QListWidget * bookmarksWidget = nullptr;
-            ToolButton * addBookmarkButton = nullptr;
-            ToolButton * removeBookmarkButton = nullptr;
-            ToolButton * moveBookmarkUpButton = nullptr;
-            ToolButton * moveBookmarkDownButton = nullptr;
-            ShortcutsWidget * shortcutsWidget = nullptr;
-            QVBoxLayout * layout = nullptr;
+            QPointer<QComboBox> seqWidget;
+            QPointer<QCheckBox> showHiddenWidget;
+            QPointer<QComboBox> sortWidget;
+            QPointer<QCheckBox> reverseSortWidget;
+            QPointer<QCheckBox> sortDirsFirstWidget;
+            QPointer<QComboBox> thumbnailsWidget;
+            QPointer<QComboBox> thumbnailsSizeWidget;
+            QPointer<IntEdit> thumbnailsCacheWidget;
+            QPointer<QListWidget> bookmarksWidget;
+            QPointer<ToolButton> addBookmarkButton;
+            QPointer<ToolButton> removeBookmarkButton;
+            QPointer<ToolButton> moveBookmarkUpButton;
+            QPointer<ToolButton> moveBookmarkDownButton;
+            QPointer<ShortcutsWidget> shortcutsWidget;
+            QPointer<QVBoxLayout> layout;
         };
 
         FileBrowserPrefsWidget::FileBrowserPrefsWidget(

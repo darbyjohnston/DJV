@@ -35,6 +35,7 @@
 
 #include <QHBoxLayout>
 #include <QKeyEvent>
+#include <QPointer>
 #include <QSpinBox>
 
 namespace djv
@@ -43,8 +44,8 @@ namespace djv
     {
         struct IntEdit::Private
         {
-            IntObject * object = nullptr;
-            QSpinBox * spinBox = nullptr;
+            QPointer<IntObject> object;
+            QPointer<QSpinBox> spinBox;
         };
 
         IntEdit::IntEdit(QWidget * parent) :

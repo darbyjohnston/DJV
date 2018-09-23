@@ -43,6 +43,7 @@
 #include <QFontComboBox>
 #include <QFormLayout>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -51,17 +52,17 @@ namespace djv
     {
         struct StylePrefsWidget::Private
         {
-            QComboBox * colorWidget = nullptr;
-            ColorSwatch * colorForegroundWidget = nullptr;
-            ColorSwatch * colorBackgroundWidget = nullptr;
-            ColorSwatch * colorBackground2Widget = nullptr;
-            ColorSwatch * colorButtonWidget = nullptr;
-            ColorSwatch * colorSelectWidget = nullptr;
-            QCheckBox * colorSwatchTransparencyWidget = nullptr;
-            QFontComboBox *  fontNormalWidget = nullptr;
-            QFontComboBox *  fontFixedWidget = nullptr;
-            IntEdit * fontSizeWidget = nullptr;
-            QVBoxLayout * layout = nullptr;
+            QPointer<QComboBox> colorWidget;
+            QPointer<ColorSwatch> colorForegroundWidget;
+            QPointer<ColorSwatch> colorBackgroundWidget;
+            QPointer<ColorSwatch> colorBackground2Widget;
+            QPointer<ColorSwatch> colorButtonWidget;
+            QPointer<ColorSwatch> colorSelectWidget;
+            QPointer<QCheckBox> colorSwatchTransparencyWidget;
+            QPointer<QFontComboBox>  fontNormalWidget;
+            QPointer<QFontComboBox>  fontFixedWidget;
+            QPointer<IntEdit> fontSizeWidget;
+            QPointer<QVBoxLayout> layout;
         };
 
         StylePrefsWidget::StylePrefsWidget(UIContext * context, QWidget * parent) :

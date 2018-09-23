@@ -36,6 +36,7 @@
 
 #include <QHBoxLayout>
 #include <QKeyEvent>
+#include <QPointer>
 #include <QSlider>
 #include <QStyle>
 
@@ -82,8 +83,8 @@ namespace djv
 
         struct IntSlider::Private
         {
-            IntObject * object = nullptr;
-            Slider * slider = nullptr;
+            QPointer<IntObject> object;
+            QPointer<Slider> slider;
         };
 
         IntSlider::IntSlider(QWidget * parent) :
@@ -91,7 +92,6 @@ namespace djv
             _p(new Private)
         {
             _p->object = new IntObject(this);
-
             _p->slider = new Slider;
 
             QHBoxLayout * layout = new QHBoxLayout(this);

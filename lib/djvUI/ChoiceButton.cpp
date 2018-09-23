@@ -40,6 +40,7 @@
 #include <QApplication>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QPointer>
 #include <QStyle>
 #include <QStyleOptionButton>
 
@@ -49,9 +50,9 @@ namespace djv
     {
         struct ChoiceButton::Private
         {
-            QActionGroup * actionGroup = nullptr;
-            int            currentIndex = 0;
-            bool           mousePress = false;
+            QPointer<QActionGroup> actionGroup;
+            int currentIndex = 0;
+            bool mousePress = false;
         };
 
         ChoiceButton::ChoiceButton(UIContext * context, QWidget * parent) :

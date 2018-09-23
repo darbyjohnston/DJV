@@ -31,9 +31,11 @@
 
 #include <djvUI/IntEdit.h>
 #include <djvUI/IntObject.h>
+
 #include <djvCore/SignalBlocker.h>
 
 #include <QHBoxLayout>
+#include <QPointer>
 
 namespace djv
 {
@@ -41,8 +43,8 @@ namespace djv
     {
         struct Vector2iEditWidget::Private
         {
-            IntEdit * widget = nullptr;
-            IntEdit * widget2 = nullptr;
+            QPointer<IntEdit> widget;
+            QPointer<IntEdit> widget2;
         };
 
         Vector2iEditWidget::Vector2iEditWidget(QWidget * parent) :

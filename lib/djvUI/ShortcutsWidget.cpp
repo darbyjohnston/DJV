@@ -45,6 +45,7 @@
 #include <QHeaderView>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPointer>
 #include <QSortFilterProxyModel>
 #include <QStyle>
 #include <QStyledItemDelegate>
@@ -63,7 +64,6 @@ namespace djv
                 ShortcutDelegateEdit(UIContext *, QWidget * parent);
 
                 const Shortcut & shortcut() const;
-
                 void setShortcut(const Shortcut &);
 
                 QSize sizeHint() const override;
@@ -305,10 +305,10 @@ namespace djv
 
         struct ShortcutsWidget::Private
         {
-            ShortcutsModel * model = nullptr;
-            QSortFilterProxyModel * proxyModel = nullptr;
-            QTreeView * browser = nullptr;
-            SearchBox * searchBox = nullptr;
+            QPointer<ShortcutsModel> model;
+            QPointer<QSortFilterProxyModel> proxyModel;
+            QPointer<QTreeView> browser;
+            QPointer<SearchBox> searchBox;
         };
 
         ShortcutsWidget::ShortcutsWidget(UIContext * context, QWidget * parent) :

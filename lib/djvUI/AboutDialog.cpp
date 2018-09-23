@@ -38,6 +38,7 @@
 #include <QLabel>
 #include <QPainter>
 #include <QPixmap>
+#include <QPointer>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QVBoxLayout>
@@ -54,8 +55,8 @@ namespace djv
 
             UIContext * context = nullptr;
             QPixmap pixmap;
-            QLabel * label = nullptr;
-            QDialogButtonBox * buttonBox = nullptr;
+            QPointer<QLabel> label;
+            QPointer<QDialogButtonBox> buttonBox;
         };
 
         AboutDialog::AboutDialog(const QString & text, UIContext * context) :

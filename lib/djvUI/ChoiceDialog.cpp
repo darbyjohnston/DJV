@@ -32,6 +32,7 @@
 #include <QApplication>
 #include <QDialogButtonBox>
 #include <QLabel>
+#include <QPointer>
 #include <QRadioButton>
 #include <QVBoxLayout>
 
@@ -50,13 +51,13 @@ namespace djv
                 label(label)
             {}
 
-            QStringList             choices;
-            int                     choice = 0;
-            QVector<QRadioButton *> buttons;
-            QVBoxLayout *           buttonLayout = nullptr;
-            QString                 label;
-            QLabel *                labelWidget = nullptr;
-            QVBoxLayout *           vLayout = nullptr;
+            QStringList choices;
+            int choice = 0;
+            QVector<QPointer<QRadioButton> > buttons;
+            QPointer<QVBoxLayout> buttonLayout;
+            QString label;
+            QPointer<QLabel> labelWidget;
+            QPointer<QVBoxLayout> vLayout;
         };
 
         ChoiceDialog::ChoiceDialog(
@@ -69,12 +70,12 @@ namespace djv
         {
             _p->labelWidget = new QLabel(label);
 
-            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+            auto buttonBox = new QDialogButtonBox(
                 QDialogButtonBox::Ok |
                 QDialogButtonBox::Cancel);
 
-            QVBoxLayout * layout = new QVBoxLayout(this);
-            QVBoxLayout * vLayout = new QVBoxLayout;
+            auto layout = new QVBoxLayout(this);
+            auto vLayout = new QVBoxLayout;
             vLayout->setMargin(20);
             vLayout->addWidget(_p->labelWidget);
             _p->buttonLayout = new QVBoxLayout;
@@ -160,12 +161,9 @@ namespace djv
 
             for (int i = 0; i < _p->choices.count(); ++i)
             {
-                QRadioButton * button = new QRadioButton(_p->choices[i]);
-
+                auto button = new QRadioButton(_p->choices[i]);
                 button->setChecked(_p->choice == i);
-
                 connect(button, SIGNAL(toggled(bool)), SLOT(buttonCallback()));
-
                 _p->buttons += button;
                 _p->buttonLayout->addWidget(button);
             }

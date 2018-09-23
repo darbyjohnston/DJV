@@ -40,6 +40,7 @@
 #include <QApplication>
 #include <QCheckBox>
 #include <QDialogButtonBox>
+#include <QPointer>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
@@ -55,10 +56,10 @@ namespace djv
             {}
 
             QStringList list;
-            QTextEdit * widget = nullptr;
+            QPointer<QTextEdit> widget;
             bool show = true;
-            QCheckBox * showCheckBox = nullptr;
-            QDialogButtonBox * buttonBox = nullptr;
+            QPointer<QCheckBox> showCheckBox;
+            QPointer<QDialogButtonBox> buttonBox;
             UIContext * context = nullptr;
         };
 

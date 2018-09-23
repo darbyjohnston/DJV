@@ -37,6 +37,7 @@
 #include <QDoubleSpinBox>
 #include <QHBoxLayout>
 #include <QKeyEvent>
+#include <QPointer>
 
 namespace djv
 {
@@ -44,8 +45,8 @@ namespace djv
     {
         struct FloatEdit::Private
         {
-            FloatObject * object = nullptr;
-            QDoubleSpinBox * spinBox = nullptr;
+            QPointer<FloatObject> object;
+            QPointer<QDoubleSpinBox> spinBox;
         };
 
         FloatEdit::FloatEdit(QWidget * parent) :

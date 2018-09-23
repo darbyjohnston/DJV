@@ -60,7 +60,7 @@ namespace djv
                 toolTipFilter(new ToolTipFilter)
             {}
 
-            bool                          toolTips = HelpPrefs::toolTipsDefault();
+            bool toolTips = HelpPrefs::toolTipsDefault();
             QScopedPointer<ToolTipFilter> toolTipFilter;
         };
 

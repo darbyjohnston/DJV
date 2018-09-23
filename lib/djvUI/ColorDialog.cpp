@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QDialogButtonBox>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -51,8 +52,8 @@ namespace djv
             {}
 
             Graphics::Color color;
-            ColorWidget * widget = nullptr;
-            ColorSwatch * swatch = nullptr;
+            QPointer<ColorWidget> widget;
+            QPointer<ColorSwatch> swatch;
             UIContext * context = nullptr;
         };
 
@@ -64,13 +65,12 @@ namespace djv
             _p->swatch = new ColorSwatch(_p->context);
             _p->swatch->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-            QDialogButtonBox * buttonBox = new QDialogButtonBox(
-                QDialogButtonBox::Ok);
+            auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            QHBoxLayout * hLayout = new QHBoxLayout;
+            auto hLayout = new QHBoxLayout;
             hLayout->setMargin(0);
             hLayout->addWidget(_p->swatch);
             hLayout->addWidget(_p->widget, 1);

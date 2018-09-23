@@ -43,6 +43,7 @@
 #include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -51,8 +52,8 @@ namespace djv
     {
         struct SequencePrefsWidget::Private
         {
-            IntEdit * maxFramesWidget = nullptr;
-            QVBoxLayout * layout = nullptr;
+            QPointer<IntEdit> maxFramesWidget;
+            QPointer<QVBoxLayout> layout;
         };
 
         SequencePrefsWidget::SequencePrefsWidget(UIContext * context, QWidget * parent) :

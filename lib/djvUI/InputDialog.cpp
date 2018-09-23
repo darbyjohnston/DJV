@@ -33,6 +33,7 @@
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -46,10 +47,10 @@ namespace djv
                 text(text)
             {}
 
-            QString     label;
-            QLabel *    labelWidget = nullptr;
-            QString     text;
-            QLineEdit * textEdit = nullptr;
+            QString label;
+            QPointer<QLabel> labelWidget;
+            QString text;
+            QPointer<QLineEdit> textEdit;
         };
 
         InputDialog::InputDialog(
@@ -60,9 +61,7 @@ namespace djv
             _p(new Private(label, text))
         {
             _p->labelWidget = new QLabel;
-
             _p->textEdit = new QLineEdit;
-
             QDialogButtonBox * buttonBox = new QDialogButtonBox(
                 QDialogButtonBox::Ok |
                 QDialogButtonBox::Cancel);

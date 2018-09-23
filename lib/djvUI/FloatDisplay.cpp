@@ -33,6 +33,7 @@
 
 #include <QHBoxLayout>
 #include <QDoubleSpinBox>
+#include <QPointer>
 
 namespace djv
 {
@@ -40,10 +41,10 @@ namespace djv
     {
         struct FloatDisplay::Private
         {
-            float            value = 0.f;
-            float            min = 0.f;
-            float            max = 1.f;
-            QDoubleSpinBox * spinBox = nullptr;
+            float value = 0.f;
+            float min = 0.f;
+            float max = 1.f;
+            QPointer<QDoubleSpinBox> spinBox;
         };
 
         FloatDisplay::FloatDisplay(QWidget * parent) :

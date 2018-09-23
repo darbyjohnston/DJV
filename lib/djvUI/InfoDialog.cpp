@@ -34,6 +34,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDialogButtonBox>
+#include <QPointer>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
@@ -48,8 +49,8 @@ namespace djv
                 context(context)
             {}
 
-            QTextEdit * widget = nullptr;
-            QDialogButtonBox * buttonBox = nullptr;
+            QPointer<QTextEdit> widget;
+            QPointer<QDialogButtonBox> buttonBox;
             UIContext * context = nullptr;
         };
 

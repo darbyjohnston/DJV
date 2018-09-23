@@ -38,6 +38,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QMenu>
+#include <QPointer>
 
 namespace djv
 {
@@ -47,7 +48,7 @@ namespace djv
         {
             UIContext * context = nullptr;
             Graphics::Pixel::Mask mask;
-            ToolButton * button = nullptr;
+            QPointer<ToolButton> button;
         };
 
         PixelMaskWidget::PixelMaskWidget(UIContext * context, QWidget * parent) :

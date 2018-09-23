@@ -83,8 +83,8 @@ namespace djv
                     BOOKMARKS
                 };
 
-                QMenuBar *         menuBar = nullptr;
-                QMap<int, QMenu *> menus;
+                QPointer<QMenuBar> menuBar;
+                QMap<int, QPointer<QMenu> > menus;
             };
 
             struct Actions
@@ -113,20 +113,20 @@ namespace djv
                     BOOKMARKS_GROUP
                 };
 
-                QMap<int, QAction *>      actions;
-                QMap<int, QActionGroup *> groups;
+                QMap<int, QPointer<QAction> > actions;
+                QMap<int, QPointer<QActionGroup> > groups;
             };
 
             struct Widgets
             {
-                QLineEdit * file = nullptr;
-                ToolButton * up = nullptr;
-                ToolButton * prev = nullptr;
-                ToolButton * reload = nullptr;
-                QComboBox * seq = nullptr;
-                SearchBox *  search = nullptr;
-                QTreeView * browser = nullptr;
-                QCheckBox * pinned = nullptr;
+                QPointer<QLineEdit> file;
+                QPointer<ToolButton> up;
+                QPointer<ToolButton> prev;
+                QPointer<ToolButton> reload;
+                QPointer<QComboBox> seq;
+                QPointer<SearchBox>  search;
+                QPointer<QTreeView> browser;
+                QPointer<QCheckBox> pinned;
             };
 
         } // namespace
@@ -143,11 +143,11 @@ namespace djv
             bool shown = false;
             Core::FileInfo fileInfo;
             QString prev;
-            FileBrowserModel * model = nullptr;
+            QPointer<FileBrowserModel> model;
             Menus menus;
             Actions actions;
             Widgets widgets;
-            QHBoxLayout * buttonsLayout = nullptr;
+            QPointer<QHBoxLayout> buttonsLayout;
         };
 
         FileBrowser::FileBrowser(UIContext * context, QWidget * parent) :
@@ -160,7 +160,7 @@ namespace djv
             _p->menus.menuBar = new QMenuBar(this);
             _p->menus.menuBar->setNativeMenuBar(false);
 
-            QMenu * directoryMenu = _p->menus.menuBar->addMenu(
+            auto directoryMenu = _p->menus.menuBar->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Directory"));
 
             _p->actions.actions[Actions::UP] = directoryMenu->addAction(
@@ -193,7 +193,7 @@ namespace djv
             _p->actions.actions[Actions::RELOAD] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "Re&load"), this, SLOT(reloadCallback()));
 
-            QMenu * optionsMenu = _p->menus.menuBar->addMenu(
+            auto optionsMenu = _p->menus.menuBar->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Options"));
 
             _p->menus.menus[Menus::THUMBNAILS] = optionsMenu->addMenu(

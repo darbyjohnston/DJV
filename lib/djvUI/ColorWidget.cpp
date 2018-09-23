@@ -40,6 +40,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QHBoxLayout>
+#include <QPointer>
 #include <QStyle>
 #include <QVBoxLayout>
 
@@ -50,11 +51,11 @@ namespace djv
         struct ColorWidget::Private
         {
             Graphics::Color color = Graphics::Color(Graphics::Pixel::RGB_U8);
-            QVector<IntEditSlider *> intWidgets;
-            QVector<FloatEditSlider *> floatWidgets;
-            QComboBox * formatWidget = nullptr;
-            QComboBox * typeWidget = nullptr;
-            QHBoxLayout * bottomLayout = nullptr;
+            QVector<QPointer<IntEditSlider> > intWidgets;
+            QVector<QPointer<FloatEditSlider> > floatWidgets;
+            QPointer<QComboBox> formatWidget;
+            QPointer<QComboBox> typeWidget;
+            QPointer<QHBoxLayout> bottomLayout;
         };
 
         ColorWidget::ColorWidget(UIContext * context, QWidget * parent) :
@@ -66,11 +67,11 @@ namespace djv
             // Create the widgets.
             for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
             {
-                IntEditSlider * intSlider = new IntEditSlider(context);
+                auto intSlider = new IntEditSlider(context);
                 intSlider->setResetToDefault(false);
                 _p->intWidgets += intSlider;
 
-                FloatEditSlider * floatSlider = new FloatEditSlider(context);
+                auto floatSlider = new FloatEditSlider(context);
                 floatSlider->setResetToDefault(false);
                 floatSlider->editObject()->setClamp(false);
                 _p->floatWidgets += floatSlider;
@@ -232,11 +233,14 @@ namespace djv
             //DJV_DEBUG("ColorWidget::widgetUpdate");
             //DJV_DEBUG_PRINT("color = " << _p->color);
 
-            Core::SignalBlocker signalBlocker(QVector<QObject *>() <<
-                Core::ListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
-                Core::ListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets) <<
-                _p->formatWidget <<
-                _p->typeWidget);
+            QVector<QObject *> widgets;
+            Q_FOREACH(auto i, _p->intWidgets)
+                widgets.append(i);
+            Q_FOREACH(auto i, _p->floatWidgets)
+                widgets.append(i);
+            widgets.append(_p->formatWidget);
+            widgets.append(_p->typeWidget);
+            Core::SignalBlocker signalBlocker(widgets);
 
             const int channels = Graphics::Pixel::channels(_p->color.pixel());
             static const QString toolTip0[] =
@@ -316,9 +320,12 @@ namespace djv
         {
             //DJV_DEBUG("ColorWidget::valueUpdate");
 
-            Core::SignalBlocker signalBlocker(QVector<QObject *>() <<
-                Core::ListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
-                Core::ListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets));
+            QVector<QObject *> widgets;
+            Q_FOREACH(auto i, _p->intWidgets)
+                widgets.append(i);
+            Q_FOREACH(auto i, _p->floatWidgets)
+                widgets.append(i);
+            Core::SignalBlocker signalBlocker(widgets);
 
             for (int i = 0; i < Graphics::Pixel::channels(_p->color.pixel()); ++i)
             {

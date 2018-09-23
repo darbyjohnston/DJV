@@ -37,6 +37,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPointer>
 
 namespace djv
 {
@@ -46,9 +47,9 @@ namespace djv
         {
             UIContext * context = nullptr;
             QString text;
-            QLineEdit * lineEdit = nullptr;
-            ToolButton * resetButton = nullptr;
-            QLabel * label = nullptr;
+            QPointer<QLineEdit> lineEdit;
+            QPointer<ToolButton> resetButton;
+            QPointer<QLabel> label;
         };
 
         SearchBox::SearchBox(UIContext * context, QWidget * parent) :

@@ -41,6 +41,7 @@
 
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QPointer>
 
 namespace djv
 {
@@ -50,10 +51,10 @@ namespace djv
         {
             UIContext * context = nullptr;
             bool resetToDefault = false;
-            IntEdit * edit = nullptr;
-            IntSlider * slider = nullptr;
-            ToolButton * defaultButton = nullptr;
-            QHBoxLayout * layout = nullptr;
+            QPointer<IntEdit> edit;
+            QPointer<IntSlider> slider;
+            QPointer<ToolButton> defaultButton;
+            QPointer<QHBoxLayout> layout;
         };
 
         IntEditSlider::IntEditSlider(UIContext * context, QWidget * parent) :

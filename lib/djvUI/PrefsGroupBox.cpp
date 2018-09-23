@@ -32,10 +32,11 @@
 #include <djvUI/UIContext.h>
 
 #include <QEvent>
+#include <QFormLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
-#include <QFormLayout>
 
 namespace djv
 {
@@ -49,9 +50,9 @@ namespace djv
             {}
 
             QString text;
-            QGroupBox * groupBox = nullptr;
-            QLabel * label = nullptr;
-            QVBoxLayout * layout = nullptr;
+            QPointer<QGroupBox> groupBox;
+            QPointer<QLabel> label;
+            QPointer<QVBoxLayout> layout;
             UIContext * context = nullptr;
         };
 

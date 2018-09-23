@@ -39,6 +39,7 @@
 #include <QComboBox>
 #include <QFormLayout>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -47,9 +48,9 @@ namespace djv
     {
         struct ImagePrefsWidget::Private
         {
-            QComboBox * filterMinWidget = nullptr;
-            QComboBox * filterMagWidget = nullptr;
-            QVBoxLayout * layout = nullptr;
+            QPointer<QComboBox> filterMinWidget;
+            QPointer<QComboBox> filterMagWidget;
+            QPointer<QVBoxLayout> layout;
         };
 
         ImagePrefsWidget::ImagePrefsWidget(UIContext * context, QWidget * parent) :

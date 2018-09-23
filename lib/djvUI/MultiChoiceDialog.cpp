@@ -33,6 +33,7 @@
 #include <QCheckBox>
 #include <QDialogButtonBox>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -50,12 +51,12 @@ namespace djv
                 label(label)
             {}
 
-            QStringList          choices;
-            QVector<bool>        values;
-            QVector<QCheckBox *> buttons;
-            QVBoxLayout *        buttonLayout = nullptr;
-            QString              label;
-            QLabel *             labelWidget = nullptr;
+            QStringList choices;
+            QVector<bool> values;
+            QVector<QPointer<QCheckBox> > buttons;
+            QPointer<QVBoxLayout> buttonLayout;
+            QString label;
+            QPointer<QLabel> labelWidget;
         };
 
         MultiChoiceDialog::MultiChoiceDialog(

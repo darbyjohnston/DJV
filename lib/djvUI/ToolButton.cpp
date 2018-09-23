@@ -41,6 +41,7 @@
 #include <QApplication>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QPointer>
 #include <QStyle>
 #include <QStyleOption>
 
@@ -50,7 +51,7 @@ namespace djv
     {
         struct ToolButton::Private
         {
-            QAction * defaultAction = nullptr;
+            QPointer<QAction> defaultAction;
         };
 
         ToolButton::ToolButton(UIContext * context, QWidget * parent) :

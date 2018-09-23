@@ -38,6 +38,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPainter>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -106,17 +107,17 @@ namespace djv
 
         struct ProgressDialog::Private
         {
-            int              totalTicks = 0;
-            int              currentTick = 0;
-            Core::Timer      time;
-            float            timeAccum = 0.f;
-            Core::Timer      elapsed;
-            int              timerId = 0;
-            ProgressWidget * widget = nullptr;
-            QString          label = nullptr;
-            QLabel *         labelWidget = nullptr;
-            QLabel *         estimateLabel = nullptr;
-            QLabel *         elapsedLabel = nullptr;
+            int totalTicks = 0;
+            int currentTick = 0;
+            Core::Timer time;
+            float timeAccum = 0.f;
+            Core::Timer elapsed;
+            int timerId = 0;
+            QPointer<ProgressWidget> widget;
+            QString label;
+            QPointer<QLabel> labelWidget;
+            QPointer<QLabel> estimateLabel;
+            QPointer<QLabel> elapsedLabel;
         };
 
         ProgressDialog::ProgressDialog(const QString & label, QWidget * parent) :
@@ -125,15 +126,10 @@ namespace djv
         {
             // Create the widgets.
             _p->widget = new ProgressWidget;
-
             _p->labelWidget = new QLabel;
-
             _p->estimateLabel = new QLabel;
-
             _p->elapsedLabel = new QLabel;
-
-            QDialogButtonBox * buttonBox = new QDialogButtonBox(
-                QDialogButtonBox::Cancel);
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel);
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);

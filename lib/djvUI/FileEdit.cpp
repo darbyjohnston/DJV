@@ -35,6 +35,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QPointer>
 #include <QPushButton>
 
 namespace djv
@@ -48,7 +49,7 @@ namespace djv
             {}
 
             Core::FileInfo fileInfo;
-            QLineEdit * edit = nullptr;
+            QPointer<QLineEdit> edit;
             UIContext * context = nullptr;
         };
 

@@ -32,6 +32,7 @@
 #include <djvCore/SignalBlocker.h>
 
 #include <QHBoxLayout>
+#include <QPointer>
 #include <QSpinBox>
 
 namespace djv
@@ -40,10 +41,10 @@ namespace djv
     {
         struct IntDisplay::Private
         {
-            int        value = 0;
-            int        min = 1;
-            int        max = 100;
-            QSpinBox * spinBox = nullptr;
+            int value = 0;
+            int min = 1;
+            int max = 100;
+            QPointer<QSpinBox> spinBox;
         };
 
         IntDisplay::IntDisplay(QWidget * parent) :

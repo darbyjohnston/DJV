@@ -41,6 +41,7 @@
 #include <QComboBox>
 #include <QFormLayout>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -49,9 +50,9 @@ namespace djv
     {
         struct TimePrefsWidget::Private
         {
-            QComboBox * timeUnitsWidget = nullptr;
-            QComboBox * speedWidget = nullptr;
-            QVBoxLayout * layout = nullptr;
+            QPointer<QComboBox> timeUnitsWidget;
+            QPointer<QComboBox> speedWidget;
+            QPointer<QVBoxLayout> layout;
         };
 
         TimePrefsWidget::TimePrefsWidget(UIContext * context, QWidget * parent) :

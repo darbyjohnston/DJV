@@ -38,6 +38,7 @@
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QPointer>
 #include <QSlider>
 #include <QStyle>
 
@@ -84,8 +85,8 @@ namespace djv
 
         struct FloatSlider::Private
         {
-            FloatObject * object = nullptr;
-            Slider * slider = nullptr;
+            QPointer<FloatObject> object;
+            QPointer<Slider> slider;
         };
 
         namespace

@@ -32,6 +32,7 @@
 #include <djvCore/SignalBlocker.h>
 
 #include <QComboBox>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -41,7 +42,7 @@ namespace djv
         struct PixelWidget::Private
         {
             Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
-            QComboBox * comboBox = nullptr;
+            QPointer<QComboBox> comboBox;
         };
 
         PixelWidget::PixelWidget(QWidget * parent) :

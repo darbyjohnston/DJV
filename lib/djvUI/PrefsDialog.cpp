@@ -44,6 +44,7 @@
 #include <QApplication>
 #include <QDialogButtonBox>
 #include <QHeaderView>
+#include <QPointer>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSplitter>
@@ -81,20 +82,20 @@ namespace djv
                     setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
                 }
 
-                AbstractPrefsWidget * _widget = nullptr;
+                QPointer<AbstractPrefsWidget> _widget;
             };
 
         } // namespace
 
         struct PrefsDialog::Private
         {
-            QVector<AbstractPrefsWidget *> widgets;
-            QTreeWidget * browser = nullptr;
+            QVector<QPointer<AbstractPrefsWidget> > widgets;
+            QPointer<QTreeWidget> browser;
             QMap<QString, TreeWidgetItem *> browserGroups;
-            QScrollArea * scrollArea = nullptr;
-            QDialogButtonBox * buttonBox = nullptr;
-            QPushButton * resetPageButton = nullptr;
-            QPushButton * resetAllButton = nullptr;
+            QPointer<QScrollArea> scrollArea;
+            QPointer<QDialogButtonBox> buttonBox;
+            QPointer<QPushButton> resetPageButton;
+            QPointer<QPushButton> resetAllButton;
         };
 
         PrefsDialog::PrefsDialog(UIContext * context, QWidget * parent) :

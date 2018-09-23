@@ -40,6 +40,7 @@
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -48,8 +49,8 @@ namespace djv
     {
         struct HelpPrefsWidget::Private
         {
-            QCheckBox * toolTipsWidget = nullptr;
-            QVBoxLayout * layout = nullptr;
+            QPointer<QCheckBox> toolTipsWidget;
+            QPointer<QVBoxLayout> layout;
         };
 
         HelpPrefsWidget::HelpPrefsWidget(UIContext * context, QWidget * parent) :

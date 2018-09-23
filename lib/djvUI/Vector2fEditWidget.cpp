@@ -35,6 +35,7 @@
 #include <djvCore/SignalBlocker.h>
 
 #include <QHBoxLayout>
+#include <QPointer>
 
 namespace djv
 {
@@ -42,8 +43,8 @@ namespace djv
     {
         struct Vector2fEditWidget::Private
         {
-            FloatEdit * widget = nullptr;
-            FloatEdit * widget2 = nullptr;
+            QPointer<FloatEdit> widget;
+            QPointer<FloatEdit> widget2;
         };
 
         Vector2fEditWidget::Vector2fEditWidget(QWidget * parent) :

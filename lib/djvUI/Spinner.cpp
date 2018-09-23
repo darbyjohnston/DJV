@@ -35,6 +35,7 @@
 #include <djvCore/Math.h>
 
 #include <QPainter>
+#include <QPointer>
 #include <QSvgRenderer>
 #include <QTimerEvent>
 
@@ -52,7 +53,7 @@ namespace djv
             int tick = 0;
             int timer = 0;
             int startTimer = 0;
-            QSvgRenderer * svg = nullptr;
+            QPointer<QSvgRenderer> svg;
         };
 
         Spinner::Spinner(
@@ -61,7 +62,7 @@ namespace djv
             QWidget(parent),
             _p(new Private(context))
         {
-            _p->svg = new QSvgRenderer(QString(":djvSpinner.svg"), this);
+            _p->svg = new QSvgRenderer(QString(":djv/UI/Spinner.svg"), this);
 
             setAttribute(Qt::WA_TransparentForMouseEvents);
         }

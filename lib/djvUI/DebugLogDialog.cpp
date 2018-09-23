@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDialogButtonBox>
+#include <QPointer>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
@@ -51,9 +52,9 @@ namespace djv
                 context(context)
             {}
 
-            QTextEdit * widget = nullptr;
-            QDialogButtonBox * buttonBox = nullptr;
-            UIContext * context = nullptr;
+            QPointer<QTextEdit> widget;
+            QPointer<QDialogButtonBox> buttonBox;
+            QPointer<UIContext> context;
         };
 
         DebugLogDialog::DebugLogDialog(UIContext * context) :
@@ -65,9 +66,9 @@ namespace djv
             _p->widget->setLineWrapMode(QTextEdit::NoWrap);
             _p->widget->document()->setMaximumBlockCount(10000);
 
-            QPushButton * copyButton = new QPushButton(
+            auto copyButton = new QPushButton(
                 qApp->translate("djv::UI::DebugLogDialog", "Copy"));
-            QPushButton * clearButton = new QPushButton(
+            auto clearButton = new QPushButton(
                 qApp->translate("djv::UI::DebugLogDialog", "Clear"));
 
             _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
@@ -75,7 +76,7 @@ namespace djv
             _p->buttonBox->addButton(clearButton, QDialogButtonBox::ActionRole);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
             layout->addWidget(_p->widget);
             layout->addWidget(_p->buttonBox);
 

@@ -128,7 +128,6 @@ namespace djv
 
         namespace
         {
-
             struct ImageInfoThreadResult
             {
                 Core::FileInfo        fileInfo;
@@ -275,7 +274,6 @@ namespace djv
 
         namespace
         {
-
             glm::ivec2 thumbnailSize(
                 FileBrowserModel::THUMBNAILS thumbnails,
                 const glm::ivec2 & in,

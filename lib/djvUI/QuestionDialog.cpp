@@ -32,6 +32,7 @@
 #include <QApplication>
 #include <QDialogButtonBox>
 #include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -45,7 +46,7 @@ namespace djv
             {}
 
             QString  label;
-            QLabel * labelWidget = nullptr;
+            QPointer<QLabel> labelWidget;
         };
 
         QuestionDialog::QuestionDialog(const QString & label, QWidget * parent) :
