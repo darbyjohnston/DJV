@@ -52,7 +52,7 @@ namespace djv
     {
         struct FileBrowserModel::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
@@ -71,7 +71,7 @@ namespace djv
 
             mutable QVector<FileBrowserItem *> items;
 
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
         const QStringList & FileBrowserModel::columnsLabels()
@@ -88,7 +88,7 @@ namespace djv
             return data;
         }
 
-        FileBrowserModel::FileBrowserModel(UIContext * context, QObject * parent) :
+        FileBrowserModel::FileBrowserModel(const QPointer<UIContext> & context, QObject * parent) :
             QAbstractItemModel(parent),
             _p(new Private(context))
         {

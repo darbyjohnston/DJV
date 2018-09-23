@@ -51,6 +51,7 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QPointer>
 #include <QStyle>
 #include <QUrl>
 #include <QWheelEvent>
@@ -61,7 +62,7 @@ namespace djv
     {
         struct ImageView::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 grid(context->viewPrefs()->grid()),
                 gridColor(context->viewPrefs()->gridColor()),
                 hudEnabled(context->viewPrefs()->isHudEnabled()),
@@ -86,11 +87,11 @@ namespace djv
             bool                 mouseWheel = false;
             int                  mouseWheelTmp = 0;
             int                  timer = -1;
-            Context *            context = nullptr;
+            QPointer<Context>    context;
         };
 
-        ImageView::ImageView(Context * context, QWidget * parent) :
-            UI::ImageView(context, parent),
+        ImageView::ImageView(const QPointer<Context> & context, QWidget * parent) :
+            UI::ImageView(context.data(), parent),
             _p(new Private(context))
         {
             //DJV_DEBUG("ImageView::ImageView");

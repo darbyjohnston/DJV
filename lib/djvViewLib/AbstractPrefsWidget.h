@@ -49,17 +49,18 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractPrefsWidget(const QString &, Context *);
+            explicit AbstractPrefsWidget(const QString &, const QPointer<Context> &);
 
             virtual ~AbstractPrefsWidget() = 0;
 
             //! Get the context.
-            Context * context() const;
+            const QPointer<Context> & context() const;
 
         private:
             DJV_PRIVATE_COPY(AbstractPrefsWidget);
 
-            Context * _context;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace ViewLib

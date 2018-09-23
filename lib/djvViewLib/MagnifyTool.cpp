@@ -49,6 +49,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QPainter>
+#include <QPointer>
 #include <QScopedPointer>
 #include <QStyle>
 #include <QTimer>
@@ -106,33 +107,33 @@ namespace djv
             bool displayProfile = true;
             bool pixelDataInit = false;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            Widget * widget = nullptr;
-            UI::IntEditSlider * slider = nullptr;
-            UI::ToolButton * colorProfileButton = nullptr;
-            UI::ToolButton * displayProfileButton = nullptr;
-            QHBoxLayout * hLayout = nullptr;
+            QPointer<Widget> widget;
+            QPointer<UI::IntEditSlider> slider;
+            QPointer<UI::ToolButton> colorProfileButton;
+            QPointer<UI::ToolButton> displayProfileButton;
+            QPointer<QHBoxLayout> hLayout;
         };
 
         MagnifyTool::MagnifyTool(
-            MainWindow *  mainWindow,
-            Context *     context,
-            QWidget *     parent) :
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)
         {
             // Create the widgets.
             _p->widget = new Widget;
 
-            _p->slider = new UI::IntEditSlider(context);
+            _p->slider = new UI::IntEditSlider(context.data());
             _p->slider->setRange(1, 10);
             _p->slider->setResetToDefault(false);
 
-            _p->colorProfileButton = new UI::ToolButton(context);
+            _p->colorProfileButton = new UI::ToolButton(context.data());
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new UI::ToolButton(context);
+            _p->displayProfileButton = new UI::ToolButton(context.data());
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the display profile is enabled"));

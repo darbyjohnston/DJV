@@ -51,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            AboutDialog(const QString & text, UIContext *);
+            AboutDialog(const QString & text, const QPointer<UIContext> &);
             ~AboutDialog() override;
             
         protected:

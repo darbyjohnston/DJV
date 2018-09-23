@@ -78,9 +78,9 @@ namespace djv
 
         public:
             explicit ImageView(
-                UIContext *     context,
-                QWidget *       parent = nullptr,
-                Qt::WindowFlags lags = 0);
+                const QPointer<UIContext> &,
+                QWidget * parent = nullptr,
+                Qt::WindowFlags flags = 0);
             ~ImageView() override;
 
             //! Get the pixel data.

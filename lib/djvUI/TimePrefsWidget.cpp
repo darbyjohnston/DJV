@@ -55,7 +55,7 @@ namespace djv
             QPointer<QVBoxLayout> layout;
         };
 
-        TimePrefsWidget::TimePrefsWidget(UIContext * context, QWidget * parent) :
+        TimePrefsWidget::TimePrefsWidget(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractPrefsWidget(
                 qApp->translate("djv::UI::TimePrefsWidget", "Time"), context, parent),
             _p(new Private)

@@ -31,13 +31,14 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 
 namespace djv
 {
     namespace Graphics
     {
-        JPEGSave::JPEGSave(const JPEG::Options & options, Core::CoreContext * context) :
+        JPEGSave::JPEGSave(const JPEG::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options),
             _f(0),

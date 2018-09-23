@@ -35,19 +35,26 @@ namespace djv
 {
     namespace ViewLib
     {
+        struct AbstractPrefsWidget::Private
+        {
+            QPointer<Context> context;
+        };
+
         AbstractPrefsWidget::AbstractPrefsWidget(
             const QString &  name,
-            Context * context) :
-            UI::AbstractPrefsWidget(name, context),
-            _context(context)
-        {}
+            const QPointer<Context> & context) :
+            UI::AbstractPrefsWidget(name, context.data()),
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         AbstractPrefsWidget::~AbstractPrefsWidget()
         {}
 
-        Context * AbstractPrefsWidget::context() const
+        const QPointer<Context> & AbstractPrefsWidget::context() const
         {
-            return _context;
+            return _p->context;
         }
 
     } // namespace ViewLib

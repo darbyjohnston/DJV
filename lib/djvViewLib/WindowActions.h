@@ -66,7 +66,7 @@ namespace djv
                 GROUP_COUNT
             };
 
-            explicit WindowActions(Context *, QObject * parent = nullptr);
+            explicit WindowActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~WindowActions() override;
 
         private Q_SLOTS:

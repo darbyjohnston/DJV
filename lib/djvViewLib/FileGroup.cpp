@@ -67,7 +67,7 @@ namespace djv
     {
         struct FileGroup::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 proxy(context->filePrefs()->proxy()),
                 u8Conversion(context->filePrefs()->hasU8Conversion()),
                 cache(context->filePrefs()->hasCache()),
@@ -91,15 +91,15 @@ namespace djv
             bool preloadActive = false;
             int preloadTimer = 0;
             qint64 preloadFrame = 0;
-            FileActions * actions = nullptr;
-            FileMenu * menu = nullptr;
-            FileToolBar * toolBar = nullptr;
+            QPointer<FileActions> actions;
+            QPointer<FileMenu> menu;
+            QPointer<FileToolBar> toolBar;
         };
 
         FileGroup::FileGroup(
-            const FileGroup * copy,
-            MainWindow *      mainWindow,
-            Context *         context) :
+            const QPointer<FileGroup> & copy,
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {
@@ -119,11 +119,11 @@ namespace djv
             _p->actions = new FileActions(context, this);
 
             // Create the menus.
-            _p->menu = new FileMenu(_p->actions, mainWindow->menuBar());
+            _p->menu = new FileMenu(_p->actions.data(), mainWindow->menuBar());
             mainWindow->menuBar()->addMenu(_p->menu);
 
             // Create the widgets.
-            _p->toolBar = new FileToolBar(_p->actions, context);
+            _p->toolBar = new FileToolBar(_p->actions.data(), context);
             mainWindow->addToolBar(_p->toolBar);
 
             // Initialize.

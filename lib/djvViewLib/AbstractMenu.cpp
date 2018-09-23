@@ -31,22 +31,24 @@
 
 #include <djvViewLib/AbstractActions.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace ViewLib
     {
         struct AbstractMenu::Private
         {
-            Private(AbstractActions * actions) :
+            Private(const QPointer<AbstractActions> & actions) :
                 actions(actions)
             {}
 
-            AbstractActions * actions = nullptr;
+            QPointer<AbstractActions> actions;
         };
 
         AbstractMenu::AbstractMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             QMenu(parent),
             _p(new Private(actions))
         {
@@ -59,7 +61,7 @@ namespace djv
         AbstractMenu::~AbstractMenu()
         {}
 
-        AbstractActions * AbstractMenu::actions() const
+        const QPointer<AbstractActions> & AbstractMenu::actions() const
         {
             return _p->actions;
         }

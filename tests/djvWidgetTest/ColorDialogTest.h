@@ -40,7 +40,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ColorDialogTest(UI::UIContext *);
+            ColorDialogTest(const QPointer<UI::UIContext> &);
 
             QString name() override;
             void run(const QStringList & args = QStringList()) override;

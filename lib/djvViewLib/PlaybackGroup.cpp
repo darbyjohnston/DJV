@@ -48,6 +48,7 @@
 #include <QActionGroup>
 #include <QHBoxLayout>
 #include <QMenuBar>
+#include <QPointer>
 #include <QToolBar>
 
 namespace djv
@@ -65,7 +66,7 @@ namespace djv
 
         struct PlaybackGroup::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 everyFrame(context->playbackPrefs()->hasEveryFrame()),
                 layout(context->playbackPrefs()->layout())
             {}
@@ -94,19 +95,16 @@ namespace djv
             Core::Timer       speedTimer;
             quint64           speedCounter = 0;
             Util::LAYOUT      layout = static_cast<Util::LAYOUT>(0);
-            PlaybackActions * actions = nullptr;
-            PlaybackMenu *    menu = nullptr;
-            PlaybackToolBar * toolBar = nullptr;
+
+            QPointer<PlaybackActions> actions;
+            QPointer<PlaybackMenu>    menu;
+            QPointer<PlaybackToolBar> toolBar;
         };
 
-        //------------------------------------------------------------------------------
-        // PlaybackGroup
-        //------------------------------------------------------------------------------
-
         PlaybackGroup::PlaybackGroup(
-            PlaybackGroup * copy,
-            MainWindow *    mainWindow,
-            Context *       context) :
+            const QPointer<PlaybackGroup> & copy,
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {
@@ -114,11 +112,11 @@ namespace djv
             _p->actions = new PlaybackActions(context, this);
 
             // Create the menus.
-            _p->menu = new PlaybackMenu(_p->actions, mainWindow->menuBar());
+            _p->menu = new PlaybackMenu(_p->actions.data(), mainWindow->menuBar());
             mainWindow->menuBar()->addMenu(_p->menu);
 
             // Create the widgets.
-            _p->toolBar = new PlaybackToolBar(_p->actions, context);
+            _p->toolBar = new PlaybackToolBar(_p->actions.data(), context);
             mainWindow->addToolBar(Qt::BottomToolBarArea, _p->toolBar);
 
             // Initialize.

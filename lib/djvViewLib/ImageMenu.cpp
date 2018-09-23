@@ -32,6 +32,7 @@
 #include <djvViewLib/ImageActions.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -39,12 +40,12 @@ namespace djv
     {
         struct ImageMenu::Private
         {
-            QMenu * displayProfileMenu = nullptr;
+            QPointer<QMenu> displayProfileMenu;
         };
 
         ImageMenu::ImageMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             AbstractMenu(actions, parent),
             _p(new Private)
         {
@@ -57,12 +58,12 @@ namespace djv
             addAction(actions->action(ImageActions::MIRROR_H));
             addAction(actions->action(ImageActions::MIRROR_V));
 
-            QMenu * scaleMenu = addMenu(
+            auto scaleMenu = addMenu(
                 qApp->translate("djv::ViewLib::ImageMenu", "&Scale"));
             scaleMenu->addActions(
                 actions->group(ImageActions::SCALE_GROUP)->actions());
 
-            QMenu * rotateMenu = addMenu(
+            auto rotateMenu = addMenu(
                 qApp->translate("djv::ViewLib::ImageMenu", "&Rotate"));
             rotateMenu->addActions(
                 actions->group(ImageActions::ROTATE_GROUP)->actions());
@@ -78,7 +79,7 @@ namespace djv
 
             addSeparator();
 
-            QMenu * channelMenu = addMenu(
+            auto channelMenu = addMenu(
                 qApp->translate("djv::ViewLib::ImageMenu", "C&hannel"));
             channelMenu->addActions(
                 actions->group(ImageActions::CHANNEL_GROUP)->actions());

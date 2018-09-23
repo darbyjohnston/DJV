@@ -45,7 +45,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ImagePrefs(Context *, QObject * parent = nullptr);
+            explicit ImagePrefs(const QPointer<Context> &, QObject * parent = nullptr);
             ~ImagePrefs() override;
 
             //! Get the default for whether to store the frame when reloading files.    

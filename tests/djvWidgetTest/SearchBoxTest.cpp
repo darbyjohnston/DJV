@@ -39,7 +39,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        SearchBoxTest::SearchBoxTest(UI::UIContext * context) :
+        SearchBoxTest::SearchBoxTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

@@ -38,6 +38,7 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPointer>
 #include <QStyle>
 #include <QStyleOption>
 
@@ -47,14 +48,14 @@ namespace djv
     {
         struct ShuttleButton::Private
         {
-            UIContext *    context = nullptr;
-            float          value = 0.f;
+            QPointer<UIContext> context;
+            float value = 0.f;
             QVector<QIcon> icons;
-            bool           mousePress = false;
-            glm::ivec2     mouseStartPos = glm::ivec2(0, 0);
+            bool mousePress = false;
+            glm::ivec2 mouseStartPos = glm::ivec2(0, 0);
         };
 
-        ShuttleButton::ShuttleButton(UIContext * context, QWidget * parent) :
+        ShuttleButton::ShuttleButton(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractToolButton(context, parent),
             _p(new Private)
         {

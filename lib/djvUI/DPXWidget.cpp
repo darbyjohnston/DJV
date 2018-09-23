@@ -48,7 +48,7 @@ namespace djv
 {
     namespace UI
     {
-        DPXWidget::DPXWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        DPXWidget::DPXWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("DPXWidget::DPXWidget");
@@ -487,7 +487,7 @@ namespace djv
             _endianWidget->setCurrentIndex(_options.endian);
         }
 
-        DPXWidgetPlugin::DPXWidgetPlugin(Core::CoreContext * context) :
+        DPXWidgetPlugin::DPXWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

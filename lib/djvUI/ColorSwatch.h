@@ -33,6 +33,7 @@
 
 #include <djvGraphics/Color.h>
 
+#include <QPointer>
 #include <QWidget>
 
 namespace djv
@@ -57,7 +58,8 @@ namespace djv
                 NOTIFY               colorChanged)
 
         public:
-            explicit ColorSwatch(UIContext *, QWidget * parent = nullptr);
+            explicit ColorSwatch(const QPointer<UIContext> &, QWidget * parent = nullptr);
+            ~ColorSwatch() override;
 
             //! Get the color.
             const Graphics::Color & color() const;
@@ -104,10 +106,8 @@ namespace djv
             void styleUpdate();
 
         private:
-            Graphics::Color _color;
-            SWATCH_SIZE _swatchSize = SWATCH_MEDIUM;
-            bool _colorDialogEnabled = false;
-            UIContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

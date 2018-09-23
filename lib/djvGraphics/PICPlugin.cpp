@@ -32,6 +32,7 @@
 #include <djvGraphics/PICLoad.h>
 
 #include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
 #include <djvCore/Debug.h>
 #include <djvCore/Memory.h>
 
@@ -41,7 +42,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PICPlugin::PICPlugin(Core::CoreContext * context) :
+        PICPlugin::PICPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

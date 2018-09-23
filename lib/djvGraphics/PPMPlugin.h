@@ -54,7 +54,7 @@ namespace djv
         class PPMPlugin : public ImageIO
         {
         public:
-            explicit PPMPlugin(Core::CoreContext *);
+            explicit PPMPlugin(const QPointer<Core::CoreContext> &);
 
             QString pluginName() const override;
             QStringList extensions() const override;

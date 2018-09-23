@@ -43,47 +43,59 @@ namespace djv
 {
     namespace UI
     {
-        ColorSwatch::ColorSwatch(UIContext * context, QWidget * parent) :
-            QWidget(parent),
-            _context(context)
+        struct ColorSwatch::Private
         {
+            Graphics::Color color;
+            SWATCH_SIZE swatchSize = SWATCH_MEDIUM;
+            bool colorDialogEnabled = false;
+            QPointer<UIContext> context;
+        };
+
+        ColorSwatch::ColorSwatch(const QPointer<UIContext> & context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->context = context;
             setAttribute(Qt::WA_OpaquePaintEvent);
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             styleUpdate();
         }
 
+        ColorSwatch::~ColorSwatch()
+        {}
+
         const Graphics::Color & ColorSwatch::color() const
         {
-            return _color;
+            return _p->color;
         }
 
         ColorSwatch::SWATCH_SIZE ColorSwatch::swatchSize() const
         {
-            return _swatchSize;
+            return _p->swatchSize;
         }
 
         void ColorSwatch::setSwatchSize(SWATCH_SIZE swatchSize)
         {
-            if (swatchSize == _swatchSize)
+            if (swatchSize == _p->swatchSize)
                 return;
-            _swatchSize = swatchSize;
+            _p->swatchSize = swatchSize;
             updateGeometry();
         }
 
         bool ColorSwatch::isColorDialogEnabled() const
         {
-            return _colorDialogEnabled;
+            return _p->colorDialogEnabled;
         }
 
         void ColorSwatch::setColorDialogEnabled(bool value)
         {
-            _colorDialogEnabled = value;
+            _p->colorDialogEnabled = value;
         }
 
         QSize ColorSwatch::sizeHint() const
         {
             int size = style()->pixelMetric(QStyle::PM_LargeIconSize) * 2;
-            switch (_swatchSize)
+            switch (_p->swatchSize)
             {
             case SWATCH_SMALL: size /= 2; break;
             case SWATCH_LARGE: size *= 2; break;
@@ -95,18 +107,18 @@ namespace djv
 
         void ColorSwatch::setColor(const Graphics::Color & color)
         {
-            if (color == _color)
+            if (color == _p->color)
                 return;
-            _color = color;
+            _p->color = color;
             update();
-            Q_EMIT colorChanged(_color);
+            Q_EMIT colorChanged(_p->color);
         }
 
         void ColorSwatch::mousePressEvent(QMouseEvent *)
         {
-            if (_colorDialogEnabled)
+            if (_p->colorDialogEnabled)
             {
-                ColorDialog dialog(color(), _context);
+                ColorDialog dialog(color(), _p->context);
                 connect(
                     &dialog,
                     SIGNAL(colorChanged(const djv::Graphics::Color &)),
@@ -120,10 +132,10 @@ namespace djv
         {
             QPainter painter(this);
             QRect rect(this->rect());
-            if (_context->stylePrefs()->hasColorSwatchTransparency())
+            if (_p->context->stylePrefs()->hasColorSwatchTransparency())
             {
                 Graphics::Color tmp(Graphics::Pixel::RGBA_U8);
-                Graphics::ColorUtil::convert(_color, tmp);
+                Graphics::ColorUtil::convert(_p->color, tmp);
                 int vCount = 0;
                 for (int y = rect.top(); y < rect.bottom(); y = y + 10, ++vCount)
                 {
@@ -144,7 +156,7 @@ namespace djv
             else
             {
                 Graphics::Color tmp(Graphics::Pixel::RGB_U8);
-                Graphics::ColorUtil::convert(_color, tmp);
+                Graphics::ColorUtil::convert(_p->color, tmp);
                 rect = rect.adjusted(0, 0, -1, -1);
                 painter.setPen(palette().color(QPalette::Shadow));
                 painter.drawRect(rect);

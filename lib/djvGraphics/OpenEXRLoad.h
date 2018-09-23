@@ -48,7 +48,7 @@ namespace djv
         class OpenEXRLoad : public ImageLoad
         {
         public:
-            OpenEXRLoad(const OpenEXR::Options &, Core::CoreContext *);
+            OpenEXRLoad(const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
             ~OpenEXRLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

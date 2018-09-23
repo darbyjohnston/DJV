@@ -46,7 +46,7 @@ namespace djv
         class CineonSave : public ImageSave
         {
         public:
-            CineonSave(const Cineon::Options &, Core::CoreContext *);
+            CineonSave(const Cineon::Options &, const QPointer<Core::CoreContext> &);
 
             ~CineonSave();
 

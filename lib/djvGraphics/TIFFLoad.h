@@ -44,7 +44,7 @@ namespace djv
         class TIFFLoad : public ImageLoad
         {
         public:
-            explicit TIFFLoad(Core::CoreContext *);
+            explicit TIFFLoad(const QPointer<Core::CoreContext> &);
             ~TIFFLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

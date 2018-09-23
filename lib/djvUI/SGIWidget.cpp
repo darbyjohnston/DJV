@@ -43,7 +43,7 @@ namespace djv
 {
     namespace UI
     {
-        SGIWidget::SGIWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        SGIWidget::SGIWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             // Create the output widgets.    
@@ -129,7 +129,7 @@ namespace djv
             _compressionWidget->setCurrentIndex(_options.compression);
         }
 
-        SGIWidgetPlugin::SGIWidgetPlugin(Core::CoreContext * context) :
+        SGIWidgetPlugin::SGIWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

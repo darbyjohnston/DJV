@@ -71,7 +71,7 @@ namespace djv
                 GROUP_COUNT
             };
 
-            explicit PlaybackActions(Context *, QObject * parent = nullptr);
+            explicit PlaybackActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~PlaybackActions() override;
 
         private Q_SLOTS:

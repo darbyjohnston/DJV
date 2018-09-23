@@ -43,7 +43,7 @@
 
 namespace djv
 {
-    ImagePlayExampleWidget::ImagePlayExampleWidget(UI::UIContext * context) :
+    ImagePlayExampleWidget::ImagePlayExampleWidget(const QPointer<UI::UIContext> & context) :
         UI::ImageView(context)
     {}
 

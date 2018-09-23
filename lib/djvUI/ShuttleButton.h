@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ShuttleButton(UIContext *, QWidget * parent = nullptr);
+            explicit ShuttleButton(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~ShuttleButton() override;
 
             QSize sizeHint() const override;

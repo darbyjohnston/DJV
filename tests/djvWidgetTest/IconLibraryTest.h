@@ -40,7 +40,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            IconLibraryTest(UI::UIContext *);
+            IconLibraryTest(const QPointer<UI::UIContext> &);
 
             QString name() override;
             void run(const QStringList & args = QStringList()) override;

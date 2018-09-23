@@ -57,7 +57,7 @@ namespace djv
                 NOTIFY                 playbackChanged)
 
         public:
-            explicit PlaybackButtons(UIContext *, QWidget * parent = nullptr);
+            explicit PlaybackButtons(const QPointer<UIContext> &, QWidget * parent = nullptr);
 
             //! Get the current playback state.    
             PlaybackUtil::PLAYBACK playback() const;
@@ -79,9 +79,8 @@ namespace djv
             void styleUpdate();
 
         private:
-            UIContext * _context = nullptr;
-            PlaybackUtil::PLAYBACK _playback = PlaybackUtil::STOP;
-            QButtonGroup * _buttonGroup = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

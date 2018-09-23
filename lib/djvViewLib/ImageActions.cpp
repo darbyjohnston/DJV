@@ -43,6 +43,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -52,7 +53,7 @@ namespace djv
         {};
 
         ImageActions::ImageActions(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)

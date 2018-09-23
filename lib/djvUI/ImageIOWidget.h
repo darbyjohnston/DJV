@@ -58,18 +58,19 @@ namespace djv
         public:
             explicit ImageIOWidget(
                 Graphics::ImageIO * plugin,
-                UIContext * context,
+                const QPointer<UIContext> & context,
                 QWidget * parent = nullptr);
+            ~ImageIOWidget() override;
 
             //! Get the plugin.
             Graphics::ImageIO * plugin() const;
 
             //! Get the context.
-            UIContext * context() const;
+            const QPointer<UIContext> & context() const;
 
         private:
-            Graphics::ImageIO * _plugin = nullptr;
-            UIContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
         //! \class ImageIOWidgetPlugin
@@ -78,13 +79,13 @@ namespace djv
         class ImageIOWidgetPlugin : public Core::Plugin
         {
         public:
-            ImageIOWidgetPlugin(Core::CoreContext *);
+            ImageIOWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             //! Create a widget.    
             virtual ImageIOWidget * createWidget(Graphics::ImageIO * plugin) const = 0;
 
             //! Get the context.
-            UIContext * uiContext() const;
+            QPointer<UIContext> uiContext() const;
 
             virtual Core::Plugin * copyPlugin() const;
         };
@@ -98,7 +99,7 @@ namespace djv
 
         public:
             explicit ImageIOWidgetFactory(
-                UIContext * context,
+                const QPointer<UIContext> &,
                 const QStringList & searchPath = Core::System::searchPath(),
                 QObject * parent = nullptr);
 
@@ -108,7 +109,8 @@ namespace djv
         private:
             DJV_PRIVATE_COPY(ImageIOWidgetFactory);
 
-            UIContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

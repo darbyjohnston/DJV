@@ -49,7 +49,7 @@ namespace djv
 {
     namespace UI
     {
-        CineonWidget::CineonWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        CineonWidget::CineonWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("CineonWidget::CineonWidget");
@@ -378,7 +378,7 @@ namespace djv
             _outputGammaWidget->setValue(_options.outputFilmPrint.gamma);
         }
 
-        CineonWidgetPlugin::CineonWidgetPlugin(Core::CoreContext * context) :
+        CineonWidgetPlugin::CineonWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

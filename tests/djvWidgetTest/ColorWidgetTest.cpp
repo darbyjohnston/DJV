@@ -40,7 +40,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        ColorWidgetTest::ColorWidgetTest(UI::UIContext * context) :
+        ColorWidgetTest::ColorWidgetTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

@@ -45,7 +45,7 @@ namespace djv
     {
         WidgetTestWindow::WidgetTestWindow(
             WidgetTestModel * model,
-            UI::UIContext * context) :
+            const QPointer<UI::UIContext> & context) :
             _model(model),
             _proxyModel(0),
             _listView(0)

@@ -89,7 +89,7 @@ namespace djv
         };
 
         FileBrowserPrefsWidget::FileBrowserPrefsWidget(
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             AbstractPrefsWidget(qApp->translate("djv::UI::FileBrowserPrefsWidget", "File Browser"), context, parent),
             _p(new Private)

@@ -44,7 +44,7 @@ namespace djv
 {
     namespace UI
     {
-        IFFWidget::IFFWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        IFFWidget::IFFWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("IFFWidget::IFFWidget");
@@ -132,7 +132,7 @@ namespace djv
             _compressionWidget->setCurrentIndex(_options.compression);
         }
 
-        IFFWidgetPlugin::IFFWidgetPlugin(Core::CoreContext * context) :
+        IFFWidgetPlugin::IFFWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

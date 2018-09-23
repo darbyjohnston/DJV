@@ -43,7 +43,7 @@ namespace djv
         class TargaLoad : public ImageLoad
         {
         public:
-            explicit TargaLoad(Core::CoreContext *);
+            explicit TargaLoad(const QPointer<Core::CoreContext> &);
             ~TargaLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

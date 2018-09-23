@@ -46,8 +46,8 @@ namespace djv
 
         public:
             explicit FileMenu(
-                AbstractActions * actions,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
             ~FileMenu() override;
 
         protected Q_SLOTS:

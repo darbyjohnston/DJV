@@ -48,7 +48,7 @@ namespace djv
     {
         struct DebugLogDialog::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
@@ -57,7 +57,7 @@ namespace djv
             QPointer<UIContext> context;
         };
 
-        DebugLogDialog::DebugLogDialog(UIContext * context) :
+        DebugLogDialog::DebugLogDialog(const QPointer<UIContext> & context) :
             _p(new Private(context))
         {
             // Create the widgets.

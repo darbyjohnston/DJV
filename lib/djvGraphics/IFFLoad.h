@@ -47,7 +47,7 @@ namespace djv
         class IFFLoad : public ImageLoad
         {
         public:
-            explicit IFFLoad(Core::CoreContext *);
+            explicit IFFLoad(const QPointer<Core::CoreContext> &);
             ~IFFLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

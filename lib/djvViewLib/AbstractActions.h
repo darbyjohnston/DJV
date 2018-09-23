@@ -55,8 +55,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractActions(Context *, QObject * parent = nullptr);
-
+            explicit AbstractActions(const QPointer<Context> &, QObject * parent = nullptr);
             virtual ~AbstractActions() = 0;
 
             //! Get the list of actions.
@@ -72,7 +71,7 @@ namespace djv
             QActionGroup * group(int) const;
 
             //! Get the context.
-            Context * context() const;
+            const QPointer<Context> & context() const;
 
         Q_SIGNALS:
             //! This signal is emitted when actions or action groups are changed.
@@ -81,7 +80,6 @@ namespace djv
         protected:
             QMap<int, QAction *>      _actions;
             QMap<int, QActionGroup *> _groups;
-            Context *                 _context = nullptr;
 
         private:
             struct Private;

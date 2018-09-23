@@ -46,8 +46,8 @@ namespace djv
 
         public:
             explicit ToolMenu(
-                AbstractActions * actions,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
             ~ToolMenu() override;
 
         private:

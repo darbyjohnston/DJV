@@ -39,7 +39,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        IntSliderTest::IntSliderTest(UI::UIContext * context) :
+        IntSliderTest::IntSliderTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

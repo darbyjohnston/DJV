@@ -50,7 +50,7 @@ namespace djv
             void run(int &, char **) override;
 
         private:
-            void initPlugins(djv::Graphics::GraphicsContext *);
+            void initPlugins(const QPointer<djv::Graphics::GraphicsContext> &);
             void initData();
             void initImages();
             void runTest(Graphics::ImageIO *, const Graphics::Image &);

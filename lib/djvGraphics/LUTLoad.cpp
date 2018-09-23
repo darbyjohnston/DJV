@@ -32,6 +32,7 @@
 #include <djvGraphics/Image.h>
 
 #include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/ListUtil.h>
 
@@ -39,7 +40,7 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTLoad::LUTLoad(const LUT::Options & options, Core::CoreContext * context) :
+        LUTLoad::LUTLoad(const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _options(options)
         {}

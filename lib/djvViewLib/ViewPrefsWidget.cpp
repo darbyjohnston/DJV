@@ -44,6 +44,7 @@
 #include <QComboBox>
 #include <QFormLayout>
 #include <QListWidget>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace
@@ -67,30 +68,18 @@ namespace djv
     {
         struct ViewPrefsWidget::Private
         {
-            Private() :
-                zoomFactorWidget(0),
-                backgroundColorWidget(0),
-                gridWidget(0),
-                gridColorWidget(0),
-                hudEnabledWidget(0),
-                hudInfoWidget(0),
-                hudColorWidget(0),
-                hudBackgroundWidget(0),
-                hudBackgroundColorWidget(0)
-            {}
-
-            QComboBox * zoomFactorWidget;
-            UI::ColorSwatch * backgroundColorWidget;
-            QComboBox * gridWidget;
-            UI::ColorSwatch * gridColorWidget;
-            QCheckBox * hudEnabledWidget;
-            QListWidget * hudInfoWidget;
-            UI::ColorSwatch * hudColorWidget;
-            QComboBox * hudBackgroundWidget;
-            UI::ColorSwatch * hudBackgroundColorWidget;
+            QPointer<QComboBox> zoomFactorWidget;
+            QPointer<UI::ColorSwatch> backgroundColorWidget;
+            QPointer<QComboBox> gridWidget;
+            QPointer<UI::ColorSwatch> gridColorWidget;
+            QPointer<QCheckBox> hudEnabledWidget;
+            QPointer<QListWidget> hudInfoWidget;
+            QPointer<UI::ColorSwatch> hudColorWidget;
+            QPointer<QComboBox> hudBackgroundWidget;
+            QPointer<UI::ColorSwatch> hudBackgroundColorWidget;
         };
 
-        ViewPrefsWidget::ViewPrefsWidget(Context * context) :
+        ViewPrefsWidget::ViewPrefsWidget(const QPointer<Context> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::ViewPrefsWidget", "Views"), context),
             _p(new Private)
         {
@@ -99,7 +88,7 @@ namespace djv
             _p->zoomFactorWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->zoomFactorWidget->addItems(Util::zoomFactorLabels());
 
-            _p->backgroundColorWidget = new UI::ColorSwatch(context);
+            _p->backgroundColorWidget = new UI::ColorSwatch(context.data());
             _p->backgroundColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->backgroundColorWidget->setColorDialogEnabled(true);
 
@@ -108,7 +97,7 @@ namespace djv
             _p->gridWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->gridWidget->addItems(Util::gridLabels());
 
-            _p->gridColorWidget = new UI::ColorSwatch(context);
+            _p->gridColorWidget = new UI::ColorSwatch(context.data());
             _p->gridColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->gridColorWidget->setColorDialogEnabled(true);
 
@@ -120,7 +109,7 @@ namespace djv
 
             for (int i = 0; i < Util::HUD_COUNT; ++i)
             {
-                QListWidgetItem * item = new QListWidgetItem(_p->hudInfoWidget);
+                auto item = new QListWidgetItem(_p->hudInfoWidget);
                 item->setText(Util::hudInfoLabels()[i]);
                 item->setFlags(
                     Qt::ItemIsSelectable |
@@ -128,7 +117,7 @@ namespace djv
                     Qt::ItemIsEnabled);
             }
 
-            _p->hudColorWidget = new UI::ColorSwatch(context);
+            _p->hudColorWidget = new UI::ColorSwatch(context.data());
             _p->hudColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->hudColorWidget->setColorDialogEnabled(true);
 
@@ -136,16 +125,16 @@ namespace djv
             _p->hudBackgroundWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->hudBackgroundWidget->addItems(Util::hudBackgroundLabels());
 
-            _p->hudBackgroundColorWidget = new UI::ColorSwatch(context);
+            _p->hudBackgroundColorWidget = new UI::ColorSwatch(context.data());
             _p->hudBackgroundColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->hudBackgroundColorWidget->setColorDialogEnabled(true);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Views"), context);
-            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            auto prefsGroupBox = new UI::PrefsGroupBox(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Views"), context.data());
+            auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::ViewPrefsWidget", "Mouse wheel zoom factor:"),
                 _p->zoomFactorWidget);
@@ -155,7 +144,7 @@ namespace djv
             layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Grid"), context);
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Grid"), context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::ViewPrefsWidget", "Size:"),
@@ -166,7 +155,7 @@ namespace djv
             layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::ViewPrefsWidget", "HUD (Heads Up Display)"), context);
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "HUD (Heads Up Display)"), context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->hudEnabledWidget);
             formLayout->addRow(_p->hudInfoWidget);

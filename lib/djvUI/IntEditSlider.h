@@ -80,7 +80,7 @@ namespace djv
                 NOTIFY maxChanged)
 
         public:
-            explicit IntEditSlider(UIContext *, QWidget * parent = nullptr);
+            explicit IntEditSlider(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~IntEditSlider() override;
 
             //! Get the value.

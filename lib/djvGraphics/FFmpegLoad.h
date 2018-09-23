@@ -44,7 +44,7 @@ namespace djv
         class FFmpegLoad : public ImageLoad
         {
         public:
-            explicit FFmpegLoad(Core::CoreContext *);
+            explicit FFmpegLoad(const QPointer<Core::CoreContext> &);
             virtual ~FFmpegLoad();
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

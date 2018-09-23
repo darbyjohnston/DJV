@@ -43,7 +43,7 @@ namespace djv
 {
     namespace UI
     {
-        TargaWidget::TargaWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        TargaWidget::TargaWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("TargaWidget::TargaWidget");
@@ -131,7 +131,7 @@ namespace djv
             _compressionWidget->setCurrentIndex(_options.compression);
         }
 
-        TargaWidgetPlugin::TargaWidgetPlugin(Core::CoreContext * context) :
+        TargaWidgetPlugin::TargaWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

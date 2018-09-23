@@ -42,7 +42,7 @@ namespace djv
         class IFLLoad : public ImageLoad
         {
         public:
-            explicit IFLLoad(Core::CoreContext *);
+            explicit IFLLoad(const QPointer<Core::CoreContext> &);
             ~IFLLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

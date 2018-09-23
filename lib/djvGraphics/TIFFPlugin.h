@@ -54,7 +54,7 @@ namespace djv
         class TIFFPlugin : public ImageIO
         {
         public:
-            explicit TIFFPlugin(Core::CoreContext *);
+            explicit TIFFPlugin(const QPointer<Core::CoreContext> &);
 
             void initPlugin() override;
             QString pluginName() const override;

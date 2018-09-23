@@ -38,6 +38,8 @@
 #include <djvCore/ListUtil.h>
 #include <djvCore/Memory.h>
 
+#include <QPointer>
+
 #include <algorithm>
 
 namespace djv
@@ -122,7 +124,7 @@ namespace djv
 
         struct FileCache::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 maxByteCount(static_cast<quint64>(context->filePrefs()->cacheSize() * Core::Memory::gigabyte)),
                 context(context)
             {}
@@ -130,10 +132,10 @@ namespace djv
             FileCacheItemList items;
             quint64           maxByteCount = 0;
             quint64           cacheByteCount = 0;
-            Context *         context = nullptr;
+            QPointer<Context> context;
         };
 
-        FileCache::FileCache(Context * context, QObject * parent) :
+        FileCache::FileCache(const QPointer<Context> & context, QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {

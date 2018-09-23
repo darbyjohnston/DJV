@@ -40,13 +40,14 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
         WindowActions::WindowActions(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             AbstractActions(context, parent)
         {
@@ -72,7 +73,7 @@ namespace djv
             _groups[TOOL_BAR_VISIBLE_GROUP]->setExclusive(false);
             for (int i = 0; i < Util::toolBarLabels().count(); ++i)
             {
-                QAction * action = new QAction(this);
+                auto action = new QAction(this);
                 action->setText(Util::toolBarLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);

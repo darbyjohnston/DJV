@@ -53,7 +53,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            CineonWidget(Graphics::ImageIO *, UIContext *);
+            CineonWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -94,7 +94,7 @@ namespace djv
         class CineonWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            CineonWidgetPlugin(Core::CoreContext *);
+            CineonWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
             QString pluginName() const override;

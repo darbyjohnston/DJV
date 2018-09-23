@@ -53,7 +53,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            DPXWidget(Graphics::ImageIO *, UIContext *);
+            DPXWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -100,7 +100,7 @@ namespace djv
         class DPXWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            DPXWidgetPlugin(Core::CoreContext *);
+            DPXWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
             QString pluginName() const override;

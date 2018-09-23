@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            WidgetTestManager(UI::UIContext *);
+            WidgetTestManager(const QPointer<UI::UIContext> &);
 
             const QVector<AbstractWidgetTest *> & tests() const;
 

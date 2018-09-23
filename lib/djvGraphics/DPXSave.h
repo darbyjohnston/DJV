@@ -46,7 +46,7 @@ namespace djv
         class DPXSave : public ImageSave
         {
         public:
-            DPXSave(const DPX::Options &, Core::CoreContext *);
+            DPXSave(const DPX::Options &, const QPointer<Core::CoreContext> &);
             ~DPXSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;

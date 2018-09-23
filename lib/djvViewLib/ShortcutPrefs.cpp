@@ -39,7 +39,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        ShortcutPrefs::ShortcutPrefs(Context * context, QObject * parent) :
+        ShortcutPrefs::ShortcutPrefs(const QPointer<Context> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _shortcuts(shortcutsDefault())
         {

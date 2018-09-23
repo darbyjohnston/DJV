@@ -31,11 +31,13 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        TIFFSave::TIFFSave(const TIFF::Options & options, Core::CoreContext * context) :
+        TIFFSave::TIFFSave(const TIFF::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options),
             _f(0)

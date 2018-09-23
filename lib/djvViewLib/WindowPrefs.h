@@ -44,7 +44,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit WindowPrefs(Context *, QObject * parent = nullptr);
+            explicit WindowPrefs(const QPointer<Context> &, QObject * parent = nullptr);
             ~WindowPrefs() override;
 
             //! Get the default for whether to automatically fit the window to the

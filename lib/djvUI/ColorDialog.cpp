@@ -46,7 +46,7 @@ namespace djv
     {
         struct ColorDialog::Private
         {
-            Private(const Graphics::Color & color, UIContext * context) :
+            Private(const Graphics::Color & color, const QPointer<UIContext> & context) :
                 color(color),
                 context(context)
             {}
@@ -54,7 +54,7 @@ namespace djv
             Graphics::Color color;
             QPointer<ColorWidget> widget;
             QPointer<ColorSwatch> swatch;
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
         void ColorDialog::init()
@@ -91,7 +91,7 @@ namespace djv
         }
 
         ColorDialog::ColorDialog(
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             QDialog(parent),
             _p(new Private(Graphics::Color(), context))
@@ -101,7 +101,7 @@ namespace djv
 
         ColorDialog::ColorDialog(
             const Graphics::Color & color,
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             QDialog(parent),
             _p(new Private(color, context))

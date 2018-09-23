@@ -125,7 +125,7 @@ namespace djv
                 NOTIFY            shortcutsChanged)
 
         public:
-            explicit FileBrowserPrefs(UIContext *, QObject * parent = nullptr);
+            explicit FileBrowserPrefs(const QPointer<UIContext> &, QObject * parent = nullptr);
 
             ~FileBrowserPrefs();
 

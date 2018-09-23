@@ -49,12 +49,12 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractPrefs(Context *, QObject * parent = nullptr);
+            explicit AbstractPrefs(const QPointer<Context> &, QObject * parent = nullptr);
 
             virtual ~AbstractPrefs() = 0;
 
             //! Get the context.
-            Context * context() const;
+            const QPointer<Context> & context() const;
 
         Q_SIGNALS:
             //! This signal is emitted when a preference is changed.
@@ -63,7 +63,8 @@ namespace djv
         private:
             DJV_PRIVATE_COPY(AbstractPrefs);
 
-            Context * _context;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace ViewLib

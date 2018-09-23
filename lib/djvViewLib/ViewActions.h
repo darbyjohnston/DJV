@@ -73,7 +73,7 @@ namespace djv
                 GROUP_COUNT
             };
 
-            explicit ViewActions(Context *, QObject * parent = nullptr);
+            explicit ViewActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~ViewActions() override;
 
         private Q_SLOTS:

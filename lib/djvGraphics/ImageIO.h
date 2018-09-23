@@ -124,7 +124,7 @@ namespace djv
         class ImageLoad
         {
         public:
-            explicit ImageLoad(Core::CoreContext *);
+            explicit ImageLoad(const QPointer<Core::CoreContext> &);
             virtual ~ImageLoad() = 0;
 
             //! Open an image.
@@ -146,10 +146,11 @@ namespace djv
             virtual void close();
 
             //! Get the context.
-            Core::CoreContext * context() const;
+            const QPointer<Core::CoreContext> & context() const;
 
         private:
-            Core::CoreContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
         //! \class ImageSave
@@ -158,7 +159,7 @@ namespace djv
         class ImageSave
         {
         public:
-            explicit ImageSave(Core::CoreContext *);
+            explicit ImageSave(const QPointer<Core::CoreContext> &);
             virtual ~ImageSave() = 0;
 
             //! Open an image.
@@ -180,10 +181,11 @@ namespace djv
             virtual void close();
 
             //! Get the context.
-            Core::CoreContext * context() const;
+            const QPointer<Core::CoreContext> & context() const;
 
         private:
-            Core::CoreContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
         //! \class ImageIO
@@ -194,7 +196,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ImageIO(Core::CoreContext *);
+            explicit ImageIO(const QPointer<Core::CoreContext> &);
             virtual ~ImageIO() = 0;
 
             //! Get the list of supported file extensions.
@@ -256,9 +258,9 @@ namespace djv
 
         public:
             explicit ImageIOFactory(
-                Core::CoreContext * context,
+                const QPointer<Core::CoreContext> &,
                 const QStringList & searchPath = Core::System::searchPath(),
-                QObject *           parent = nullptr);
+                QObject * parent = nullptr);
             ~ImageIOFactory() override;
 
             //! Get a plugin option.

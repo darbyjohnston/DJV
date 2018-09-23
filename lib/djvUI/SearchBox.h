@@ -58,7 +58,7 @@ namespace djv
                     NOTIFY  textChanged)
 
         public:
-            explicit SearchBox(UIContext *, QWidget * parent = nullptr);
+            explicit SearchBox(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~SearchBox() override;
 
             //! Get the text.

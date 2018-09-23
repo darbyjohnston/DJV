@@ -35,6 +35,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <QCoreApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -44,13 +45,13 @@ namespace djv
         {};
 
         ImageToolBar::ImageToolBar(
-            AbstractActions * actions,
-            Context *         context,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::ImageToolBar", "Image"), actions, context, parent),
             _p(new Private)
         {
-            UI::ToolButton * button = new UI::ToolButton(context);
+            auto button = new UI::ToolButton(context.data());
             button->setDefaultAction(actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE));
             addWidget(button);
         }

@@ -73,10 +73,17 @@ namespace djv
 
         } // namespace
 
-        ImageIOPrefs::ImageIOPrefs(UIContext * context, QObject * parent) :
-            QObject(parent),
-            _context(context)
+        struct ImageIOPrefs::Private
         {
+            QPointer<UIContext> context;
+        };
+
+        ImageIOPrefs::ImageIOPrefs(const QPointer<UIContext> & context, QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            _p->context = context;
+
             //DJV_DEBUG("ImageIOPrefs::ImageIOPrefs");
             const QList<Core::Plugin *> & plugins = context->imageIOFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
@@ -91,7 +98,7 @@ namespace djv
         ImageIOPrefs::~ImageIOPrefs()
         {
             //DJV_DEBUG("ImageIOPrefs::~ImageIOPrefs");
-            const QList<Core::Plugin *> & plugins = _context->imageIOFactory()->plugins();
+            const QList<Core::Plugin *> & plugins = _p->context->imageIOFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
             {
                 if (Graphics::ImageIO * plugin = dynamic_cast<Graphics::ImageIO *>(plugins[i]))

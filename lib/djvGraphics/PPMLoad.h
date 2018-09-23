@@ -44,7 +44,7 @@ namespace djv
         class PPMLoad : public ImageLoad
         {
         public:
-            explicit PPMLoad(Core::CoreContext *);
+            explicit PPMLoad(const QPointer<Core::CoreContext> &);
             ~PPMLoad();
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

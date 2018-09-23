@@ -59,7 +59,7 @@ namespace djv
                 NOTIFY         fileInfoChanged)
     
         public:
-            explicit FileEdit(UIContext *, QWidget * parent = nullptr);
+            explicit FileEdit(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~FileEdit() override;
 
             //! Get the file information.

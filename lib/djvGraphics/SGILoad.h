@@ -43,7 +43,7 @@ namespace djv
         class SGILoad : public ImageLoad
         {
         public:
-            explicit SGILoad(Core::CoreContext *);
+            explicit SGILoad(const QPointer<Core::CoreContext> &);
             ~SGILoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

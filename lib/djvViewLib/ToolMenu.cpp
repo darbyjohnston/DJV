@@ -33,6 +33,7 @@
 #include <djvViewLib/ToolActions.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -42,8 +43,8 @@ namespace djv
         {};
 
         ToolMenu::ToolMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             AbstractMenu(actions, parent),
             _p(new Private)
         {

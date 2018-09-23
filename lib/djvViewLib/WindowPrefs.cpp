@@ -35,7 +35,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        WindowPrefs::WindowPrefs(Context * context, QObject * parent) :
+        WindowPrefs::WindowPrefs(const QPointer<Context> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _autoFit(autoFitDefault()),
             _viewMax(viewMaxDefault()),

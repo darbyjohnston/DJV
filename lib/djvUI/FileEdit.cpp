@@ -44,16 +44,16 @@ namespace djv
     {
         struct FileEdit::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
             Core::FileInfo fileInfo;
             QPointer<QLineEdit> edit;
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
-        FileEdit::FileEdit(UIContext * context, QWidget * parent) :
+        FileEdit::FileEdit(const QPointer<UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private(context))
         {

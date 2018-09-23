@@ -60,7 +60,7 @@ namespace djv
                 NOTIFY                     maskChanged)
 
         public:
-            explicit PixelMaskWidget(UIContext *, QWidget * parent = nullptr);
+            explicit PixelMaskWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~PixelMaskWidget() override;
 
             //! Get the pixel mask.

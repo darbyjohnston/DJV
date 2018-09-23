@@ -31,11 +31,13 @@
 
 #include <djvGraphics/IFLLoad.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        IFLPlugin::IFLPlugin(Core::CoreContext * context) :
+        IFLPlugin::IFLPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

@@ -45,7 +45,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            InputPrefsWidget(Context *);
+            InputPrefsWidget(const QPointer<Context> &);
             ~InputPrefsWidget() override;
 
             void resetPreferences() override;

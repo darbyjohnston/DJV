@@ -65,7 +65,7 @@ namespace djv
             QPointer<QVBoxLayout> layout;
         };
 
-        StylePrefsWidget::StylePrefsWidget(UIContext * context, QWidget * parent) :
+        StylePrefsWidget::StylePrefsWidget(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractPrefsWidget(qApp->translate("djv::UI::StylePrefsWidget", "Style"), context, parent),
             _p(new Private)
         {

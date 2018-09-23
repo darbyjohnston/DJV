@@ -52,16 +52,16 @@ namespace djv
     {
         struct FilePrefsWidget::Private
         {
-            QCheckBox *       autoSequenceWidget = nullptr;
-            QComboBox *       proxyWidget = nullptr;
-            QCheckBox *       u8ConversionWidget = nullptr;
-            QCheckBox *       cacheWidget = nullptr;
-            CacheSizeWidget * cacheSizeWidget = nullptr;
-            QCheckBox *       preloadWidget = nullptr;
-            QCheckBox *       displayCacheWidget = nullptr;
+            QPointer<QCheckBox>       autoSequenceWidget;
+            QPointer<QComboBox>       proxyWidget;
+            QPointer<QCheckBox>       u8ConversionWidget;
+            QPointer<QCheckBox>       cacheWidget;
+            QPointer<CacheSizeWidget> cacheSizeWidget;
+            QPointer<QCheckBox>       preloadWidget;
+            QPointer<QCheckBox>       displayCacheWidget;
         };
 
-        FilePrefsWidget::FilePrefsWidget(Context * context) :
+        FilePrefsWidget::FilePrefsWidget(const QPointer<Context> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::FilePrefsWidget", "Files"), context),
             _p(new Private)
         {
@@ -82,7 +82,7 @@ namespace djv
             _p->cacheWidget = new QCheckBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Enable the memory cache"));
 
-            _p->cacheSizeWidget = new CacheSizeWidget(context);
+            _p->cacheSizeWidget = new CacheSizeWidget(context.data());
 
             _p->preloadWidget = new QCheckBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Pre-load cache frames"));
@@ -91,11 +91,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Display cached frames in timeline"));
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::FilePrefsWidget", "Files"), context);
-            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            auto prefsGroupBox = new UI::PrefsGroupBox(
+                qApp->translate("djv::ViewLib::FilePrefsWidget", "Files"), context.data());
+            auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->autoSequenceWidget);
             layout->addWidget(prefsGroupBox);
 
@@ -106,7 +106,7 @@ namespace djv
                     "allows more images to be stored in the memory cache at the expense of "
                     "image quality. Proxy scaling can also improve playback speed since the "
                     "images are smaller."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Proxy scale:"),
@@ -118,7 +118,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
                     "Set 8-bit conversion to allow more images to be stored in the memory "
                     "cache at the expense of image quality."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->u8ConversionWidget);
             layout->addWidget(prefsGroupBox);
@@ -129,7 +129,7 @@ namespace djv
                     "The memory cache allows the application to store images in memory "
                     "which can improve playback performance. When the memory cache is "
                     "disabled the images are streamed directly from disk."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->cacheWidget);
             formLayout->addRow(

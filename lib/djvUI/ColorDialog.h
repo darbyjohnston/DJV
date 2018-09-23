@@ -61,11 +61,11 @@ namespace djv
 
         public:
             explicit ColorDialog(
-                UIContext *  context,
+                const QPointer<UIContext> &,
                 QWidget * parent = nullptr);
             explicit ColorDialog(
                 const Graphics::Color & color,
-                UIContext *  context,
+                const QPointer<UIContext> &,
                 QWidget * parent = nullptr);
             ~ColorDialog() override;
 

@@ -31,6 +31,7 @@
 
 #include <djvUI/Core.h>
 
+#include <QPointer>
 #include <QWidget>
 
 namespace djv
@@ -49,7 +50,7 @@ namespace djv
         public:
             AbstractPrefsWidget(
                 const QString & name,
-                UIContext * context,
+                const QPointer<UIContext> &,
                 QWidget * parent = nullptr);
             virtual ~AbstractPrefsWidget() = 0;
 
@@ -60,11 +61,11 @@ namespace djv
             virtual void resetPreferences() = 0;
 
             //! Get the context.
-            UIContext * context() const;
+            const QPointer<UIContext> & context() const;
 
         private:
-            QString _name;
-            UIContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

@@ -45,7 +45,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        NumWidgetTest::NumWidgetTest(UI::UIContext * context) :
+        NumWidgetTest::NumWidgetTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 
@@ -59,7 +59,7 @@ namespace djv
             (new NumWidgetTestWidget(context()))->show();
         }
 
-        NumWidgetTestWidget::NumWidgetTestWidget(UI::UIContext * context) :
+        NumWidgetTestWidget::NumWidgetTestWidget(const QPointer<UI::UIContext> & context) :
             _intValue(0),
             _floatValue(0.f),
             _intEdit(0),

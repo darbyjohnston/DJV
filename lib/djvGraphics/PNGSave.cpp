@@ -31,6 +31,7 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 #include <djvCore/Memory.h>
 
@@ -38,7 +39,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PNGSave::PNGSave(Core::CoreContext * context) :
+        PNGSave::PNGSave(const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _f(0),
             _png(0),

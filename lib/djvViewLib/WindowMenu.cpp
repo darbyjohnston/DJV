@@ -32,14 +32,15 @@
 #include <djvViewLib/WindowActions.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
         WindowMenu::WindowMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             AbstractMenu(actions, parent)
         {
             // Create the menus.
@@ -51,8 +52,7 @@ namespace djv
             addAction(actions->action(WindowActions::FULL_SCREEN));
             addSeparator();
             addAction(actions->action(WindowActions::CONTROLS_VISIBLE));
-            Q_FOREACH(QAction * action,
-                actions->group(WindowActions::TOOL_BAR_VISIBLE_GROUP)->actions())
+            Q_FOREACH(QAction * action, actions->group(WindowActions::TOOL_BAR_VISIBLE_GROUP)->actions())
                 addAction(action);
 
             // Initialize.

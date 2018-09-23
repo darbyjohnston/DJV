@@ -45,14 +45,14 @@ namespace djv
     {
         struct SearchBox::Private
         {
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
             QString text;
             QPointer<QLineEdit> lineEdit;
             QPointer<ToolButton> resetButton;
             QPointer<QLabel> label;
         };
 
-        SearchBox::SearchBox(UIContext * context, QWidget * parent) :
+        SearchBox::SearchBox(const QPointer<UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

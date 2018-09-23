@@ -34,6 +34,7 @@
 #include <djvCore/Sequence.h>
 #include <djvCore/Speed.h>
 
+#include <QPointer>
 #include <QWidget>
 
 class QComboBox;
@@ -57,7 +58,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ViewWidget(UI::UIContext *);
+            ViewWidget(const QPointer<UI::UIContext> &);
 
         private Q_SLOTS:
             void timeUnitsCallback(int);
@@ -76,7 +77,7 @@ namespace djv
             Core::FrameList _cachedFrames;
             Core::Speed _speed;
 
-            UI::UIContext * _context = nullptr;
+            QPointer<UI::UIContext> _context;
             QComboBox * _timeUnitsWidget = nullptr;
             ViewLib::FrameWidget *  _frameWidget = nullptr;
             ViewLib::FrameSlider *  _frameSlider = nullptr;
@@ -90,7 +91,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ViewWidgetTest(UI::UIContext *);
+            ViewWidgetTest(const QPointer<UI::UIContext> &);
 
             QString name() override;
             void run(const QStringList & args = QStringList()) override;

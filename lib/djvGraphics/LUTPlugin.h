@@ -52,7 +52,7 @@ namespace djv
         class LUTPlugin : public ImageIO
         {
         public:
-            explicit LUTPlugin(Core::CoreContext *);
+            explicit LUTPlugin(const QPointer<Core::CoreContext> &);
 
             QString pluginName() const override;
             QStringList extensions() const override;

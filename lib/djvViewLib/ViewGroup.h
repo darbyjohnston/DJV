@@ -53,9 +53,9 @@ namespace djv
 
         public:
             ViewGroup(
-                const ViewGroup * copy,
-                MainWindow *      mainWindow,
-                Context *         context);
+                const QPointer<ViewGroup> & copy,
+                const QPointer<MainWindow> &,
+                const QPointer<Context> &);
             ~ViewGroup() override;
 
             QToolBar * toolBar() const override;

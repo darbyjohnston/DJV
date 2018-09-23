@@ -33,6 +33,7 @@
 #include <djvUI/UIContext.h>
 
 #include <QPainter>
+#include <QPointer>
 #include <QStyleFactory>
 #include <QStyleOption>
 
@@ -42,10 +43,18 @@ namespace djv
 {
     namespace UI
     {
-        ProxyStyle::ProxyStyle(UIContext * context) :
+        struct ProxyStyle::Private
+        {
+            QPointer<UIContext> context;
+            int fontSize = 12;
+        };
+
+        ProxyStyle::ProxyStyle(const QPointer<UIContext> & context) :
             QProxyStyle(QStyleFactory::create("fusion")),
-            _context(context)
-        {}
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         int ProxyStyle::pixelMetric(
             PixelMetric metric,
@@ -53,7 +62,7 @@ namespace djv
             const QWidget * widget) const
         {
             //! \todo Add scaling for different DPI values.
-            float scale = _fontSize / 12.f;
+            float scale = _p->fontSize / 12.f;
             switch (metric)
             {
             case PM_SmallIconSize: return static_cast<int>(20 * scale);
@@ -73,11 +82,11 @@ namespace djv
             case SP_TitleBarNormalButton:
             case SP_TitleBarMinButton:
                 //! \bug Hard-coded pixmap size.
-                return _context->iconLibrary()->pixmap("djv/UI/DockFloatIcon96DPI.png");
+                return _p->context->iconLibrary()->pixmap("djv/UI/DockFloatIcon96DPI.png");
             case SP_TitleBarCloseButton:
             case SP_DockWidgetCloseButton:
                 //! \bug Hard-coded pixmap size.
-                return _context->iconLibrary()->pixmap("djv/UI/DockCloseIcon96DPI.png");
+                return _p->context->iconLibrary()->pixmap("djv/UI/DockCloseIcon96DPI.png");
             default: break;
             }
             return QProxyStyle::standardPixmap(standardPixmap, option, widget);
@@ -129,9 +138,9 @@ namespace djv
         
         void ProxyStyle::setFontSize(int value)
         {
-            if (value == _fontSize)
+            if (value == _p->fontSize)
                 return;
-            _fontSize = value;
+            _p->fontSize = value;
         }
 
     } // namespace UI

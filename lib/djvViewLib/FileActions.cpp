@@ -41,6 +41,7 @@
 #include <QActionGroup>
 #include <QApplication>
 #include <QDir>
+#include <QPointer>
 
 namespace djv
 {
@@ -53,7 +54,7 @@ namespace djv
         };
 
         FileActions::FileActions(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)

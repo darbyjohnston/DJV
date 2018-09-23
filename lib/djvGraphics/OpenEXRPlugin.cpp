@@ -33,6 +33,7 @@
 #include <djvGraphics/OpenEXRSave.h>
 
 #include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 
 #include <QCoreApplication>
@@ -41,7 +42,7 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenEXRPlugin::OpenEXRPlugin(Core::CoreContext * context) :
+        OpenEXRPlugin::OpenEXRPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

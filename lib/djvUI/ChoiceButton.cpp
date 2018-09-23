@@ -55,7 +55,7 @@ namespace djv
             bool mousePress = false;
         };
 
-        ChoiceButton::ChoiceButton(UIContext * context, QWidget * parent) :
+        ChoiceButton::ChoiceButton(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractToolButton(context, parent),
             _p(new Private)
         {
@@ -65,7 +65,7 @@ namespace djv
                 SLOT(clickedCallback()));
         }
 
-        ChoiceButton::ChoiceButton(QActionGroup * actionGroup, UIContext * context, QWidget * parent) :
+        ChoiceButton::ChoiceButton(QActionGroup * actionGroup, const QPointer<UIContext> & context, QWidget * parent) :
             AbstractToolButton(context, parent),
             _p(new Private)
         {

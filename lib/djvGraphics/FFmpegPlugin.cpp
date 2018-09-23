@@ -32,13 +32,15 @@
 #include <djvGraphics/FFmpegLoad.h>
 #include <djvGraphics/FFmpegSave.h>
 
+#include <djvCore/CoreContext.h>
+
 #include <QCoreApplication>
 
 namespace djv
 {
     namespace Graphics
     {
-        FFmpegPlugin::FFmpegPlugin(Core::CoreContext * context) :
+        FFmpegPlugin::FFmpegPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

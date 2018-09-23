@@ -35,34 +35,35 @@
 #include <djvUI/ToolButton.h>
 
 #include <QCoreApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
         WindowToolBar::WindowToolBar(
-            AbstractActions * actions,
-            Context *         context,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::WindowToolBar", "Window"), actions, context, parent)
         {
-            UI::ToolButton * button = new UI::ToolButton(context);
+            auto button = new UI::ToolButton(context.data());
             button->setDefaultAction(actions->action(WindowActions::NEW));
             addWidget(button);
 
-            button = new UI::ToolButton(context);
+            button = new UI::ToolButton(context.data());
             button->setDefaultAction(actions->action(WindowActions::COPY));
             addWidget(button);
 
-            button = new UI::ToolButton(context);
+            button = new UI::ToolButton(context.data());
             button->setDefaultAction(actions->action(WindowActions::CLOSE));
             addWidget(button);
 
-            button = new UI::ToolButton(context);
+            button = new UI::ToolButton(context.data());
             button->setDefaultAction(actions->action(WindowActions::FIT));
             addWidget(button);
 
-            button = new UI::ToolButton(context);
+            button = new UI::ToolButton(context.data());
             button->setDefaultAction(actions->action(WindowActions::FULL_SCREEN));
             addWidget(button);
         }

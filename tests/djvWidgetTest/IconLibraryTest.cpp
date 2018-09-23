@@ -39,6 +39,7 @@
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 #include <QPainter>
+#include <QPointer>
 #include <QStyle>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -66,7 +67,7 @@ namespace djv
         class IconLibraryModel : public QAbstractListModel
         {
         public:
-            explicit IconLibraryModel(UI::UIContext *, QObject * parent = nullptr);
+            explicit IconLibraryModel(const QPointer<UI::UIContext> &, QObject * parent = nullptr);
 
             int rowCount(const QModelIndex & parent = QModelIndex()) const override;
             int columnCount(const QModelIndex & parent = QModelIndex()) const override;
@@ -78,7 +79,7 @@ namespace djv
             QVector<IconLibraryItem> _items;
         };
 
-        IconLibraryModel::IconLibraryModel(UI::UIContext * context, QObject * parent) :
+        IconLibraryModel::IconLibraryModel(const QPointer<UI::UIContext> & context, QObject * parent) :
             QAbstractListModel(parent)
         {
             const QStringList names = context->iconLibrary()->names();
@@ -176,7 +177,7 @@ namespace djv
         void IconLibraryModel::sort(int column, Qt::SortOrder order)
         {}
 
-        IconLibraryTest::IconLibraryTest(UI::UIContext * context) :
+        IconLibraryTest::IconLibraryTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

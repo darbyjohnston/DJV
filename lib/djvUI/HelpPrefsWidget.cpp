@@ -53,7 +53,7 @@ namespace djv
             QPointer<QVBoxLayout> layout;
         };
 
-        HelpPrefsWidget::HelpPrefsWidget(UIContext * context, QWidget * parent) :
+        HelpPrefsWidget::HelpPrefsWidget(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractPrefsWidget(
                 qApp->translate("djv::UI::HelpPrefsWidget", "Help"), context, parent),
             _p(new Private)

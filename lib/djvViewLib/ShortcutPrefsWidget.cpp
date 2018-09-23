@@ -54,18 +54,18 @@ namespace djv
             UI::ShortcutsWidget * shortcutsWidget;
         };
 
-        ShortcutPrefsWidget::ShortcutPrefsWidget(Context * context) :
+        ShortcutPrefsWidget::ShortcutPrefsWidget(const QPointer<Context> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Shortcuts"), context),
             _p(new Private)
         {
             // Create the widgets.
-            _p->shortcutsWidget = new UI::ShortcutsWidget(context);
+            _p->shortcutsWidget = new UI::ShortcutsWidget(context.data());
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
 
             UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Keyboard Shortcuts"), context);
+                qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Keyboard Shortcuts"), context.data());
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->shortcutsWidget);
             layout->addWidget(prefsGroupBox);

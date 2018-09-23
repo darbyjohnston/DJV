@@ -42,6 +42,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -50,22 +51,14 @@ namespace djv
     {
         struct WindowPrefsWidget::Private
         {
-            Private() :
-                autoFitWidget(0),
-                viewMaxWidget(0),
-                viewMaxUserWidget(0),
-                fullScreenControlsWidget(0),
-                toolBarButtonGroup(0)
-            {}
-
-            QCheckBox * autoFitWidget;
-            QComboBox * viewMaxWidget;
-            UI::Vector2iEditWidget * viewMaxUserWidget;
-            QCheckBox * fullScreenControlsWidget;
-            QButtonGroup * toolBarButtonGroup;
+            QPointer<QCheckBox> autoFitWidget;
+            QPointer<QComboBox> viewMaxWidget;
+            QPointer<UI::Vector2iEditWidget> viewMaxUserWidget;
+            QPointer<QCheckBox> fullScreenControlsWidget;
+            QPointer<QButtonGroup> toolBarButtonGroup;
         };
 
-        WindowPrefsWidget::WindowPrefsWidget(Context * context) :
+        WindowPrefsWidget::WindowPrefsWidget(const QPointer<Context> & context) :
             AbstractPrefsWidget(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Windows"), context),
             _p(new Private)
@@ -96,16 +89,16 @@ namespace djv
 
             for (int i = 0; i < Util::toolBarLabels().count(); ++i)
             {
-                QCheckBox * checkBox = new QCheckBox(Util::toolBarLabels()[i]);
+                auto checkBox = new QCheckBox(Util::toolBarLabels()[i]);
                 _p->toolBarButtonGroup->addButton(checkBox, i);
             }
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::WindowPrefsWidget", "Window Size"), context);
-            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            auto prefsGroupBox = new UI::PrefsGroupBox(
+                qApp->translate("djv::ViewLib::WindowPrefsWidget", "Window Size"), context.data());
+            auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->autoFitWidget);
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Maximum view size:"),
@@ -114,7 +107,7 @@ namespace djv
             layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::WindowPrefsWidget", "Full Screen"), context);
+                qApp->translate("djv::ViewLib::WindowPrefsWidget", "Full Screen"), context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->fullScreenControlsWidget);
             layout->addWidget(prefsGroupBox);
@@ -122,7 +115,7 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Tool Bars"),
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Set which tool bars are visible."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             for (int i = 0; i < _p->toolBarButtonGroup->buttons().count(); ++i)
                 formLayout->addRow(_p->toolBarButtonGroup->button(i));

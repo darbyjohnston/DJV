@@ -53,9 +53,9 @@ namespace djv
 
         public:
             explicit DisplayProfileWidget(
-                const ImageView * viewWidget,
-                Context *         context,
-                QWidget *         parent = nullptr);
+                const QPointer<ImageView> &,
+                const QPointer<Context> &,
+                QWidget * parent = nullptr);
             ~DisplayProfileWidget() override;
 
             //! Get the display profile.

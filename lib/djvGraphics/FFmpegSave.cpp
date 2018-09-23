@@ -31,6 +31,8 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
+
 #include <QCoreApplication>
 
 #include <stdio.h>
@@ -39,7 +41,7 @@ namespace djv
 {
     namespace Graphics
     {
-        FFmpegSave::FFmpegSave(const FFmpeg::Options & options, Core::CoreContext * context) :
+        FFmpegSave::FFmpegSave(const FFmpeg::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options)
         {}

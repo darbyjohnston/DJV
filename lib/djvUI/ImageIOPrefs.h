@@ -49,12 +49,12 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ImageIOPrefs(UIContext *, QObject * parent = nullptr);
-
-            ~ImageIOPrefs();
+            explicit ImageIOPrefs(const QPointer<UIContext> &, QObject * parent = nullptr);
+            ~ImageIOPrefs() override;
 
         private:
-            UIContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

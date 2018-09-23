@@ -48,7 +48,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            SGIWidget(Graphics::ImageIO *, UIContext *);
+            SGIWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -71,7 +71,7 @@ namespace djv
         class SGIWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            SGIWidgetPlugin(Core::CoreContext *);
+            SGIWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
             QString pluginName() const override;

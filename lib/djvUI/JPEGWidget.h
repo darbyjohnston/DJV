@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            JPEGWidget(Graphics::ImageIO *, UIContext *);
+            JPEGWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -72,7 +72,7 @@ namespace djv
         class JPEGWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            JPEGWidgetPlugin(Core::CoreContext *);
+            JPEGWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
             QString pluginName() const override;

@@ -50,7 +50,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ShortcutPrefs(Context *, QObject * parent = nullptr);
+            explicit ShortcutPrefs(const QPointer<Context> &, QObject * parent = nullptr);
 
             ~ShortcutPrefs();
 

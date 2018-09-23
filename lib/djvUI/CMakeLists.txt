@@ -55,6 +55,7 @@ set(header
     PrefsGroupBox.h
     PrefsInline.h
     ProgressDialog.h
+    ProxyStyle.h
     QuestionDialog.h
     SGIWidget.h
     SearchBox.h

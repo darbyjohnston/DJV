@@ -48,7 +48,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            TargaWidget(Graphics::ImageIO *, UIContext *);
+            TargaWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -71,7 +71,7 @@ namespace djv
         class TargaWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            TargaWidgetPlugin(Core::CoreContext *);
+            TargaWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
             QString pluginName() const override;

@@ -107,7 +107,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit FileCache(Context *, QObject * parent = nullptr);
+            explicit FileCache(const QPointer<Context> &, QObject * parent = nullptr);
             ~FileCache() override;
 
             //! Create a new cache item. The reference count on the item is

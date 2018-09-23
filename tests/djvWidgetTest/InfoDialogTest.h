@@ -40,7 +40,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            InfoDialogTest(UI::UIContext *);
+            InfoDialogTest(const QPointer<UI::UIContext> &);
 
             QString name() override;
             void run(const QStringList & args = QStringList()) override;

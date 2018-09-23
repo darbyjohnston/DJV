@@ -33,6 +33,7 @@
 #include <djvCore/Util.h>
 
 #include <QObject>
+#include <QPointer>
 #include <QString>
 
 #include <memory>
@@ -55,7 +56,7 @@ namespace djv
         class Plugin
         {
         public:
-            Plugin(CoreContext *);
+            Plugin(const QPointer<CoreContext> &);
             virtual ~Plugin() = 0;
 
             //! Initialize the plugin.
@@ -71,10 +72,11 @@ namespace djv
             virtual QString pluginName() const = 0;
 
             //! Get the context.
-            CoreContext * context() const;
+            const QPointer<CoreContext>& context() const;
 
         private:
-            CoreContext * _context;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
         //! \class PluginFactory
@@ -86,12 +88,12 @@ namespace djv
 
         public:
             PluginFactory(
-                CoreContext *       context,
+                const QPointer<CoreContext> & context,
                 const QStringList & searchPath,
-                const QString &     pluginEntry,
-                const QString &     pluginPrefix = "djv",
-                const QString &     pluginSuffix = "Plugin",
-                QObject *           parent = nullptr);
+                const QString & pluginEntry,
+                const QString & pluginPrefix = "djv",
+                const QString & pluginSuffix = "Plugin",
+                QObject * parent = nullptr);
 
             virtual ~PluginFactory() = 0;
 
@@ -127,7 +129,7 @@ namespace djv
         };
 
         //! This typedef provides a plugin entry point.
-        typedef Plugin * (djvCorePluginEntry)(CoreContext *);
+        typedef Plugin * (djvCorePluginEntry)(const QPointer<CoreContext> &);
 
     } // namespace Core
 } // namespace djv

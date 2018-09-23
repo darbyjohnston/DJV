@@ -52,7 +52,7 @@ namespace djv
         class SGIPlugin : public ImageIO
         {
         public:
-            explicit SGIPlugin(Core::CoreContext *);
+            explicit SGIPlugin(const QPointer<Core::CoreContext> &);
 
             QString pluginName() const override;
             QStringList extensions() const override;

@@ -47,17 +47,18 @@ namespace djv
             Q_OBJECT
 
         public:
-            AbstractWidgetTest(UI::UIContext *);
+            AbstractWidgetTest(const QPointer<UI::UIContext> &);
             virtual ~AbstractWidgetTest() = 0;
 
             virtual QString name() = 0;
 
             virtual void run(const QStringList & args = QStringList()) = 0;
 
-            UI::UIContext * context() const { return _context; }
+            const QPointer<UI::UIContext> & context() const;
 
         private:
-            UI::UIContext * _context = nullptr;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace WidgetTest

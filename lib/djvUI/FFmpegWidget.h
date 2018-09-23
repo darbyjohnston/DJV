@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FFmpegWidget(Graphics::ImageIO *, UIContext *);
+            FFmpegWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             virtual ~FFmpegWidget();
 
@@ -73,7 +73,7 @@ namespace djv
         class FFmpegWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            FFmpegWidgetPlugin(Core::CoreContext *);
+            FFmpegWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
 

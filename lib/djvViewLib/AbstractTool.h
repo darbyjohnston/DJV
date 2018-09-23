@@ -54,20 +54,20 @@ namespace djv
 
         public:
             explicit AbstractTool(
-                MainWindow * mainWindow,
-                Context *    context,
-                QWidget *    parent = nullptr);
+                const QPointer<MainWindow> &,
+                const QPointer<Context> &,
+                QWidget * parent = nullptr);
 
             virtual ~AbstractTool() = 0;
 
             //! Get the main window.
-            MainWindow * mainWindow() const;
+            const QPointer<MainWindow> & mainWindow() const;
 
             //! Get the view widget.
-            ImageView * viewWidget() const;
+            const QPointer<ImageView> & viewWidget() const;
 
             //! Get the context.
-            Context * context() const;
+            const QPointer<Context> & context() const;
 
         private:
             DJV_PRIVATE_COPY(AbstractTool);

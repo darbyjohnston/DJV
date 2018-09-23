@@ -44,7 +44,7 @@ namespace djv
         class RLALoad : public ImageLoad
         {
         public:
-            explicit RLALoad(Core::CoreContext *);
+            explicit RLALoad(const QPointer<Core::CoreContext> &);
             ~RLALoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

@@ -32,13 +32,14 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/FileIOUtil.h>
 
 namespace djv
 {
     namespace Graphics
     {
-        PPMLoad::PPMLoad(Core::CoreContext * context) :
+        PPMLoad::PPMLoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context)
         {}
 

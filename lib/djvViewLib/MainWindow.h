@@ -66,23 +66,23 @@ namespace djv
 
         public:
             explicit MainWindow(
-                const MainWindow * copy,
-                Context *          context);
+                const QPointer<MainWindow> & copy,
+                const QPointer<Context> &);
             ~MainWindow() override;
 
             //! Get the image I/O information.
             const Graphics::ImageIOInfo & imageIOInfo() const;
 
             //! Get the view widget.
-            ImageView * viewWidget() const;
+            const QPointer<ImageView> & viewWidget() const;
 
             //! Get the list of main windows.
-            static QVector<MainWindow *> mainWindowList();
+            static QVector<QPointer<MainWindow> > mainWindowList();
 
             //! Create a new main window.
             //!
             //! \todo Can we remove this function?
-            static MainWindow * createWindow(Context *);
+            static QPointer<MainWindow> createWindow(const QPointer<Context> &);
 
         public Q_SLOTS:
             //! Open a file.

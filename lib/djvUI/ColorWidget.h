@@ -62,7 +62,7 @@ namespace djv
                 NOTIFY               colorChanged)
 
         public:
-            explicit ColorWidget(UIContext *, QWidget * parent = nullptr);
+            explicit ColorWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~ColorWidget() override;
 
             //! Get the color.

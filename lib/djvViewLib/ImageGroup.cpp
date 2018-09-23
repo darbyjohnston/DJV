@@ -53,6 +53,7 @@
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QMenuBar>
+#include <QPointer>
 #include <QToolBar>
 
 namespace djv
@@ -61,7 +62,7 @@ namespace djv
     {
         struct ImageGroup::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 mirror(context->imagePrefs()->mirror()),
                 scale(context->imagePrefs()->scale()),
                 rotate(context->imagePrefs()->rotate()),
@@ -83,17 +84,17 @@ namespace djv
             DisplayProfile                        displayProfile;
             Graphics::OpenGLImageOptions::CHANNEL channel = static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
 
-            ImageActions *          actions = nullptr;
-            ImageMenu *             menu = nullptr;
-            ImageToolBar *          toolBar = nullptr;
-            DisplayProfileWidget *  displayProfileWidget = nullptr;
-            QDockWidget *           displayProfileDockWidget = nullptr;
+            QPointer<ImageActions>          actions;
+            QPointer<ImageMenu>             menu;
+            QPointer<ImageToolBar>          toolBar;
+            QPointer<DisplayProfileWidget>  displayProfileWidget;
+            QPointer<QDockWidget>           displayProfileDockWidget;
         };
 
         ImageGroup::ImageGroup(
-            const ImageGroup * copy,
-            MainWindow *       mainWindow,
-            Context *          context) :
+            const QPointer<ImageGroup>& copy,
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {
@@ -114,11 +115,11 @@ namespace djv
             _p->actions = new ImageActions(context, this);
 
             // Create the menus.
-            _p->menu = new ImageMenu(_p->actions, mainWindow->menuBar());
+            _p->menu = new ImageMenu(_p->actions.data(), mainWindow->menuBar());
             mainWindow->menuBar()->addMenu(_p->menu);
 
             // Create the widgets.
-            _p->toolBar = new ImageToolBar(_p->actions, context);
+            _p->toolBar = new ImageToolBar(_p->actions.data(), context);
 
             mainWindow->addToolBar(_p->toolBar);
 

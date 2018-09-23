@@ -37,7 +37,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        FileBrowserTest::FileBrowserTest(UI::UIContext * context) :
+        FileBrowserTest::FileBrowserTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

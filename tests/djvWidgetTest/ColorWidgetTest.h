@@ -42,7 +42,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ColorWidgetTest(UI::UIContext *);
+            ColorWidgetTest(const QPointer<UI::UIContext> &);
 
             virtual QString name();
 

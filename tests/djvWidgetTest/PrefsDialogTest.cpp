@@ -32,11 +32,13 @@
 #include <djvUI/PrefsDialog.h>
 #include <djvUI/UIContext.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace WidgetTest
     {
-        PrefsDialogTest::PrefsDialogTest(UI::UIContext * context) :
+        PrefsDialogTest::PrefsDialogTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

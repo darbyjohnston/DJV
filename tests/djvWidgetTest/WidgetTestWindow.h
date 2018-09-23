@@ -51,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            WidgetTestWindow(WidgetTestModel *, UI::UIContext *);
+            WidgetTestWindow(WidgetTestModel *, const QPointer<UI::UIContext> &);
 
         private Q_SLOTS:
             void runCallback(const QModelIndex &);

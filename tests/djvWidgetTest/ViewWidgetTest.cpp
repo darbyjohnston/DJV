@@ -48,7 +48,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        ViewWidget::ViewWidget(UI::UIContext * context) :
+        ViewWidget::ViewWidget(const QPointer<UI::UIContext> & context) :
             _frame(0),
             _inOutEnabled(true),
             _inPoint(100),
@@ -202,7 +202,7 @@ namespace djv
             _speedDisplay->setDroppedFrames(true);
         }
 
-        ViewWidgetTest::ViewWidgetTest(UI::UIContext * context) :
+        ViewWidgetTest::ViewWidgetTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

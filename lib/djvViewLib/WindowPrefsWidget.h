@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            WindowPrefsWidget(Context *);
+            WindowPrefsWidget(const QPointer<Context> &);
             ~WindowPrefsWidget() override;
 
             void resetPreferences() override;

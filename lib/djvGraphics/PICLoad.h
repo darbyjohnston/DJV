@@ -44,7 +44,7 @@ namespace djv
         class PICLoad : public ImageLoad
         {
         public:
-            explicit PICLoad(Core::CoreContext *);
+            explicit PICLoad(const QPointer<Core::CoreContext> &);
             ~PICLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

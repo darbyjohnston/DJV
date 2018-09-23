@@ -53,7 +53,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            NumWidgetTest(UI::UIContext *);
+            NumWidgetTest(const QPointer<UI::UIContext> &);
 
             QString name() override;
             void run(const QStringList & args = QStringList()) override;
@@ -64,7 +64,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            NumWidgetTestWidget(UI::UIContext *);
+            NumWidgetTestWidget(const QPointer<UI::UIContext> &);
 
         private Q_SLOTS:
             void intCallback(int);

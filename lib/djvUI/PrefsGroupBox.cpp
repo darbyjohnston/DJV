@@ -44,7 +44,7 @@ namespace djv
     {
         struct PrefsGroupBox::Private
         {
-            Private(const QString & text, UIContext * context) :
+            Private(const QString & text, const QPointer<UIContext> & context) :
                 text(text),
                 context(context)
             {}
@@ -53,7 +53,7 @@ namespace djv
             QPointer<QGroupBox> groupBox;
             QPointer<QLabel> label;
             QPointer<QVBoxLayout> layout;
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
         void PrefsGroupBox::init(const QString & title)
@@ -77,7 +77,7 @@ namespace djv
 
         PrefsGroupBox::PrefsGroupBox(
             const QString & title,
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             QWidget(parent),
             _p(new Private(QString(), context))
@@ -88,7 +88,7 @@ namespace djv
         PrefsGroupBox::PrefsGroupBox(
             const QString & title,
             const QString & text,
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             QWidget(parent),
             _p(new Private(text, context))

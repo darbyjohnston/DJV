@@ -49,7 +49,7 @@ namespace djv
     {
         struct FloatEditSlider::Private
         {
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
             bool resetToDefault = true;
             QPointer<FloatEdit> edit;
             QPointer<FloatSlider> slider;
@@ -57,7 +57,7 @@ namespace djv
             QPointer<QHBoxLayout> layout;
         };
 
-        FloatEditSlider::FloatEditSlider(UIContext * context, QWidget * parent) :
+        FloatEditSlider::FloatEditSlider(const QPointer<UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

@@ -40,6 +40,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -49,7 +50,7 @@ namespace djv
         {};
 
         ViewActions::ViewActions(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)
@@ -80,7 +81,7 @@ namespace djv
             _groups[GRID_GROUP]->setExclusive(true);
             for (int i = 0; i < Util::gridLabels().count(); ++i)
             {
-                QAction * action = new QAction(this);
+                auto action = new QAction(this);
                 action->setText(Util::gridLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);

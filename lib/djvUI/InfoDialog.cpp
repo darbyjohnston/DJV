@@ -45,16 +45,16 @@ namespace djv
     {
         struct InfoDialog::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
             QPointer<QTextEdit> widget;
             QPointer<QDialogButtonBox> buttonBox;
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
-        InfoDialog::InfoDialog(const QString & text, UIContext * context) :
+        InfoDialog::InfoDialog(const QString & text, const QPointer<UIContext> & context) :
             _p(new Private(context))
         {
             //DJV_DEBUG("InfoDialog::InfoDialog");

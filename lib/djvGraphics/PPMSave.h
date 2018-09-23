@@ -45,7 +45,7 @@ namespace djv
         class PPMSave : public ImageSave
         {
         public:
-            PPMSave(const PPM::Options &, Core::CoreContext *);
+            PPMSave(const PPM::Options &, const QPointer<Core::CoreContext> &);
             ~PPMSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;

@@ -44,7 +44,7 @@ namespace djv
         class SGISave : public ImageSave
         {
         public:
-            SGISave(const SGI::Options &, Core::CoreContext *);
+            SGISave(const SGI::Options &, const QPointer<Core::CoreContext> &);
             ~SGISave() override;
             
             void open(const Core::FileInfo &, const ImageIOInfo &) override;

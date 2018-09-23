@@ -49,7 +49,7 @@ namespace djv
     {
         struct IntEditSlider::Private
         {
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
             bool resetToDefault = false;
             QPointer<IntEdit> edit;
             QPointer<IntSlider> slider;
@@ -57,7 +57,7 @@ namespace djv
             QPointer<QHBoxLayout> layout;
         };
 
-        IntEditSlider::IntEditSlider(UIContext * context, QWidget * parent) :
+        IntEditSlider::IntEditSlider(const QPointer<UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

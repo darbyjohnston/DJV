@@ -44,8 +44,8 @@ namespace djv
 
         public:
             explicit ViewMenu(
-                AbstractActions * actions,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
             ~ViewMenu() override;
 
         private:

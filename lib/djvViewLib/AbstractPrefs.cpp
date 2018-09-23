@@ -29,23 +29,32 @@
 
 #include <djvViewLib/AbstractPrefs.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace ViewLib
     {
+        struct AbstractPrefs::Private
+        {
+            QPointer<Context> context;
+        };
+
         AbstractPrefs::AbstractPrefs(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             QObject(parent),
-            _context(context)
-        {}
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         AbstractPrefs::~AbstractPrefs()
         {}
 
-        Context * AbstractPrefs::context() const
+        const QPointer<Context> & AbstractPrefs::context() const
         {
-            return _context;
+            return _p->context;
         }
 
     } // namespace ViewLib

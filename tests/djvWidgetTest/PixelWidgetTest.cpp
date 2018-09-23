@@ -39,7 +39,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        PixelWidgetTest::PixelWidgetTest(UI::UIContext * context) :
+        PixelWidgetTest::PixelWidgetTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

@@ -54,18 +54,17 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractGroup(MainWindow *, Context *);
-
+            explicit AbstractGroup(const QPointer<MainWindow> &, const QPointer<Context> &);
             virtual ~AbstractGroup() = 0;
 
             //! Get the main window.
-            MainWindow * mainWindow() const;
+            const QPointer<MainWindow> & mainWindow() const;
 
             //! Get the tool bar.
             virtual QToolBar * toolBar() const;
 
             //! Get the context.
-            Context * context() const;
+            const QPointer<Context> & context() const;
             
         private:
             DJV_PRIVATE_COPY(AbstractGroup);

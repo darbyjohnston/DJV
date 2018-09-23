@@ -48,26 +48,26 @@ namespace djv
     {
         struct PlaybackToolBar::Private
         {
-            Context * context = nullptr;
+            QPointer<Context> context;
             Util::LAYOUT layout = static_cast<Util::LAYOUT>(0);
-            QWidget * widget = nullptr;
-            PlaybackButtons * playbackButtons = nullptr;
-            LoopWidget * loopWidget = nullptr;
-            SpeedWidget * speedWidget = nullptr;
-            SpeedDisplay * realSpeedDisplay = nullptr;
-            UI::ToolButton * everyFrameButton = nullptr;
-            FrameWidget * frameWidget = nullptr;
-            FrameSlider * frameSlider = nullptr;
-            FrameWidget * startWidget = nullptr;
-            FrameWidget * endWidget = nullptr;
-            FrameButtons * frameButtons = nullptr;
-            FrameDisplay * durationDisplay = nullptr;
-            UI::ToolButton * inOutEnabledButton = nullptr;
-            UI::ToolButton * markInPointButton = nullptr;
-            UI::ToolButton * markOutPointButton = nullptr;
-            UI::ToolButton * resetInPointButton = nullptr;
-            UI::ToolButton * resetOutPointButton = nullptr;
-            QHBoxLayout * widgetLayout = nullptr;
+            QPointer<QWidget> widget;
+            QPointer<PlaybackButtons> playbackButtons;
+            QPointer<LoopWidget> loopWidget;
+            QPointer<SpeedWidget> speedWidget;
+            QPointer<SpeedDisplay> realSpeedDisplay;
+            QPointer<UI::ToolButton> everyFrameButton;
+            QPointer<FrameWidget> frameWidget;
+            QPointer<FrameSlider> frameSlider;
+            QPointer<FrameWidget> startWidget;
+            QPointer<FrameWidget> endWidget;
+            QPointer<FrameButtons> frameButtons;
+            QPointer<FrameDisplay> durationDisplay;
+            QPointer<UI::ToolButton> inOutEnabledButton;
+            QPointer<UI::ToolButton> markInPointButton;
+            QPointer<UI::ToolButton> markOutPointButton;
+            QPointer<UI::ToolButton> resetInPointButton;
+            QPointer<UI::ToolButton> resetOutPointButton;
+            QPointer<QHBoxLayout> widgetLayout;
             QPointer<QHBoxLayout> realSpeedAndEveryFrameLayout;
             QPointer<QHBoxLayout> loopAndInOutEnabledLayout;
             QPointer<QHBoxLayout> inPointLayout;
@@ -75,9 +75,9 @@ namespace djv
         };
 
         PlaybackToolBar::PlaybackToolBar(
-            AbstractActions * actions,
-            Context *         context,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback"), actions, context, parent),
             _p(new Private)
         {
@@ -86,70 +86,70 @@ namespace djv
             // Create the playback widgets.
             _p->playbackButtons = new PlaybackButtons(
                 actions->group(PlaybackActions::PLAYBACK_GROUP),
-                context);
+                context.data());
 
             _p->loopWidget = new LoopWidget(
                 actions->group(PlaybackActions::LOOP_GROUP),
-                context);
+                context.data());
 
             // Create the speed widgets.
-            _p->speedWidget = new SpeedWidget(context);
+            _p->speedWidget = new SpeedWidget(context.data());
             _p->speedWidget->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback speed"));
 
-            _p->realSpeedDisplay = new SpeedDisplay(context);
+            _p->realSpeedDisplay = new SpeedDisplay(context.data());
             _p->realSpeedDisplay->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Real playback speed"));
 
-            _p->everyFrameButton = new UI::ToolButton(context);
+            _p->everyFrameButton = new UI::ToolButton(context.data());
             _p->everyFrameButton->setDefaultAction(
                 actions->action(PlaybackActions::EVERY_FRAME));
             _p->everyFrameButton->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback every frame"));
 
             // Create the frame widgets.
-            _p->frameWidget = new FrameWidget(context);
+            _p->frameWidget = new FrameWidget(context.data());
             _p->frameWidget->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Current frame"));
 
-            _p->frameSlider = new FrameSlider(context);
+            _p->frameSlider = new FrameSlider(context.data());
             _p->frameSlider->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Frame slider"));
 
-            _p->startWidget = new FrameWidget(context);
+            _p->startWidget = new FrameWidget(context.data());
             _p->startWidget->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Start frame / in point"));
 
             _p->frameButtons = new FrameButtons(
                 actions->group(PlaybackActions::FRAME_GROUP),
-                context);
+                context.data());
 
-            _p->endWidget = new FrameWidget(context);
+            _p->endWidget = new FrameWidget(context.data());
             _p->endWidget->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "End frame / out point"));
 
-            _p->durationDisplay = new FrameDisplay(context);
+            _p->durationDisplay = new FrameDisplay(context.data());
             _p->durationDisplay->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback duration"));
 
             // Create the in/out point widgets.
-            _p->inOutEnabledButton = new UI::ToolButton(context);
+            _p->inOutEnabledButton = new UI::ToolButton(context.data());
             _p->inOutEnabledButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::IN_OUT_ENABLE]);
 
-            _p->markInPointButton = new UI::ToolButton(context);
+            _p->markInPointButton = new UI::ToolButton(context.data());
             _p->markInPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::MARK_IN]);
 
-            _p->markOutPointButton = new UI::ToolButton(context);
+            _p->markOutPointButton = new UI::ToolButton(context.data());
             _p->markOutPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::MARK_OUT]);
 
-            _p->resetInPointButton = new UI::ToolButton(context);
+            _p->resetInPointButton = new UI::ToolButton(context.data());
             _p->resetInPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::RESET_IN]);
 
-            _p->resetOutPointButton = new UI::ToolButton(context);
+            _p->resetOutPointButton = new UI::ToolButton(context.data());
             _p->resetOutPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::RESET_OUT]);
 

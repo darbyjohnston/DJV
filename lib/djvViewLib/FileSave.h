@@ -83,7 +83,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit FileSave(Context *, QObject * parent = nullptr);
+            explicit FileSave(const QPointer<Context> &, QObject * parent = nullptr);
             ~FileSave() override;
 
         public Q_SLOTS:

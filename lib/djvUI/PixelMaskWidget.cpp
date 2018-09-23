@@ -46,12 +46,12 @@ namespace djv
     {
         struct PixelMaskWidget::Private
         {
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
             Graphics::Pixel::Mask mask;
             QPointer<ToolButton> button;
         };
 
-        PixelMaskWidget::PixelMaskWidget(UIContext * context, QWidget * parent) :
+        PixelMaskWidget::PixelMaskWidget(const QPointer<UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

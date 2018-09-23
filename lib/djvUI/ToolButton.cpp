@@ -54,7 +54,7 @@ namespace djv
             QPointer<QAction> defaultAction;
         };
 
-        ToolButton::ToolButton(UIContext * context, QWidget * parent) :
+        ToolButton::ToolButton(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractToolButton(context, parent),
             _p(new Private)
         {
@@ -62,7 +62,7 @@ namespace djv
             widgetUpdate();
         }
 
-        ToolButton::ToolButton(const QIcon & icon, UIContext * context, QWidget * parent) :
+        ToolButton::ToolButton(const QIcon & icon, const QPointer<UIContext> & context, QWidget * parent) :
             AbstractToolButton(context, parent),
             _p(new Private)
         {

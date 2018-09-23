@@ -37,7 +37,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        InputDialogTest::InputDialogTest(UI::UIContext * context) :
+        InputDialogTest::InputDialogTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

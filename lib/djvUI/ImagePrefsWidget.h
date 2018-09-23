@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ImagePrefsWidget(UIContext * context, QWidget * parent = nullptr);
+            explicit ImagePrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~ImagePrefsWidget() override;
 
             void resetPreferences() override;

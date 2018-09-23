@@ -50,9 +50,9 @@ namespace djv
 
         public:
             ToolGroup(
-                const ToolGroup * copy,
-                MainWindow *      mainWindow,
-                Context *         context);
+                const QPointer<ToolGroup> & copy,
+                const QPointer<MainWindow> &,
+                const QPointer<Context> & context);
             ~ToolGroup();
 
             //! Get the tool visibility.

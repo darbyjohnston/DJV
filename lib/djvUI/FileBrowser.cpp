@@ -133,11 +133,11 @@ namespace djv
 
         struct FileBrowser::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
             bool pinnable = false;
             bool pinned = false;
             bool shown = false;
@@ -150,7 +150,7 @@ namespace djv
             QPointer<QHBoxLayout> buttonsLayout;
         };
 
-        FileBrowser::FileBrowser(UIContext * context, QWidget * parent) :
+        FileBrowser::FileBrowser(const QPointer<UIContext> & context, QWidget * parent) :
             QDialog(parent),
             _p(new Private(context))
         {

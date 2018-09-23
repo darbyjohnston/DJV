@@ -58,7 +58,7 @@ namespace djv
             QPointer<QHBoxLayout> bottomLayout;
         };
 
-        ColorWidget::ColorWidget(UIContext * context, QWidget * parent) :
+        ColorWidget::ColorWidget(const QPointer<UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

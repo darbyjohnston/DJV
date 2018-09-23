@@ -53,7 +53,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit StylePrefsWidget(UIContext *, QWidget * parent = nullptr);
+            explicit StylePrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~StylePrefsWidget() override;
 
             void resetPreferences() override;

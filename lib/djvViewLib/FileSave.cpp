@@ -69,7 +69,7 @@ namespace djv
 
         struct FileSave::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 context(context)
             {}
 
@@ -78,11 +78,11 @@ namespace djv
             QScopedPointer<Graphics::ImageLoad> load;
             QScopedPointer<Graphics::ImageSave> save;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            UI::ProgressDialog * dialog = nullptr;
-            Context * context = nullptr;
+            QPointer<UI::ProgressDialog> dialog;
+            QPointer<Context> context;
         };
 
-        FileSave::FileSave(Context * context, QObject * parent) :
+        FileSave::FileSave(const QPointer<Context> & context, QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {

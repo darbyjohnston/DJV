@@ -48,6 +48,7 @@
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -57,107 +58,107 @@ namespace djv
         struct DisplayProfileWidget::Private
         {
             Private(
-                const ImageView * viewWidget,
-                Context *         context) :
+                const QPointer<ImageView> & viewWidget,
+                const QPointer<Context> & context) :
                 context(context),
                 viewWidget(viewWidget)
             {}
 
-            Context * context = nullptr;
-            const ImageView * viewWidget = nullptr;
+            QPointer<Context> context;
+            QPointer<ImageView> viewWidget;
             DisplayProfile displayProfile;
-            UI::FileEdit * lutWidget = nullptr;
-            UI::FloatEditSlider * brightnessWidget = nullptr;
-            UI::FloatEditSlider * contrastWidget = nullptr;
-            UI::FloatEditSlider * saturationWidget = nullptr;
-            UI::FloatEditSlider * levelsInWidget[2] = { nullptr, nullptr };
-            UI::FloatEditSlider * gammaWidget = nullptr;
-            UI::FloatEditSlider * levelsOutWidget[2] = { nullptr, nullptr };
-            UI::FloatEditSlider * softClipWidget = nullptr;
-            UI::ToolButton * addButton = nullptr;
-            UI::ToolButton * resetButton = nullptr;
+            QPointer<UI::FileEdit> lutWidget;
+            QPointer<UI::FloatEditSlider> brightnessWidget;
+            QPointer<UI::FloatEditSlider> contrastWidget;
+            QPointer<UI::FloatEditSlider> saturationWidget;
+            QPointer<UI::FloatEditSlider> levelsInWidget[2];
+            QPointer<UI::FloatEditSlider> gammaWidget;
+            QPointer<UI::FloatEditSlider> levelsOutWidget[2];
+            QPointer<UI::FloatEditSlider> softClipWidget;
+            QPointer<UI::ToolButton> addButton;
+            QPointer<UI::ToolButton> resetButton;
         };
 
         DisplayProfileWidget::DisplayProfileWidget(
-            const ImageView * viewWidget,
-            Context *         context,
-            QWidget *         parent) :
+            const QPointer<ImageView> & viewWidget,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             QWidget(parent),
             _p(new Private(viewWidget, context))
         {
             // Create the LUT widgets.
-            QGroupBox * lutGroup = new QGroupBox(
+            auto lutGroup = new QGroupBox(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Lookup Table"));
 
-            _p->lutWidget = new UI::FileEdit(context);
+            _p->lutWidget = new UI::FileEdit(context.data());
 
             // Create the color widgets.
-            QGroupBox * colorGroup = new QGroupBox(
+            auto colorGroup = new QGroupBox(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Color"));
 
-            _p->brightnessWidget = new UI::FloatEditSlider(context);
+            _p->brightnessWidget = new UI::FloatEditSlider(context.data());
             _p->brightnessWidget->setDefaultValue(_p->displayProfile.color.brightness);
             _p->brightnessWidget->editObject()->setClamp(false);
             _p->brightnessWidget->sliderObject()->setRange(0.f, 4.f);
 
-            _p->contrastWidget = new UI::FloatEditSlider(context);
+            _p->contrastWidget = new UI::FloatEditSlider(context.data());
             _p->contrastWidget->setDefaultValue(_p->displayProfile.color.contrast);
             _p->contrastWidget->editObject()->setClamp(false);
             _p->contrastWidget->sliderObject()->setRange(0.f, 4.f);
 
-            _p->saturationWidget = new UI::FloatEditSlider(context);
+            _p->saturationWidget = new UI::FloatEditSlider(context.data());
             _p->saturationWidget->setDefaultValue(_p->displayProfile.color.saturation);
             _p->saturationWidget->editObject()->setClamp(false);
             _p->saturationWidget->sliderObject()->setRange(0.f, 4.f);
 
             // Create the levels widgets.
-            QGroupBox * levelsGroup = new QGroupBox(
+            auto levelsGroup = new QGroupBox(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Levels"));
 
-            _p->levelsInWidget[0] = new UI::FloatEditSlider(context);
+            _p->levelsInWidget[0] = new UI::FloatEditSlider(context.data());
             _p->levelsInWidget[0]->setDefaultValue(_p->displayProfile.levels.inLow);
             _p->levelsInWidget[0]->editObject()->setClamp(false);
             _p->levelsInWidget[0]->sliderObject()->setRange(0.f, 1.f);
 
-            _p->levelsInWidget[1] = new UI::FloatEditSlider(context);
+            _p->levelsInWidget[1] = new UI::FloatEditSlider(context.data());
             _p->levelsInWidget[1]->setDefaultValue(_p->displayProfile.levels.inHigh);
             _p->levelsInWidget[1]->editObject()->setClamp(false);
             _p->levelsInWidget[1]->sliderObject()->setRange(0.f, 1.f);
 
-            _p->gammaWidget = new UI::FloatEditSlider(context);
+            _p->gammaWidget = new UI::FloatEditSlider(context.data());
             _p->gammaWidget->setDefaultValue(_p->displayProfile.levels.gamma);
             _p->gammaWidget->editObject()->setClamp(false);
             _p->gammaWidget->sliderObject()->setRange(0.f, 4.f);
 
-            _p->levelsOutWidget[0] = new UI::FloatEditSlider(context);
+            _p->levelsOutWidget[0] = new UI::FloatEditSlider(context.data());
             _p->levelsOutWidget[0]->setDefaultValue(_p->displayProfile.levels.outLow);
             _p->levelsOutWidget[0]->editObject()->setClamp(false);
             _p->levelsOutWidget[0]->sliderObject()->setRange(0.f, 1.f);
 
-            _p->levelsOutWidget[1] = new UI::FloatEditSlider(context);
+            _p->levelsOutWidget[1] = new UI::FloatEditSlider(context.data());
             _p->levelsOutWidget[1]->setDefaultValue(_p->displayProfile.levels.outHigh);
             _p->levelsOutWidget[1]->editObject()->setClamp(false);
             _p->levelsOutWidget[1]->sliderObject()->setRange(0.f, 1.f);
 
-            _p->softClipWidget = new UI::FloatEditSlider(context);
+            _p->softClipWidget = new UI::FloatEditSlider(context.data());
             _p->softClipWidget->setDefaultValue(_p->displayProfile.softClip);
             _p->softClipWidget->editObject()->setClamp(false);
             _p->softClipWidget->sliderObject()->setRange(0.f, 1.f);
 
             // Create the other widgets.
-            _p->addButton = new UI::ToolButton(context);
+            _p->addButton = new UI::ToolButton(context.data());
             _p->addButton->setToolTip(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Add this display profile to the favorites list"));
 
-            _p->resetButton = new UI::ToolButton(context);
+            _p->resetButton = new UI::ToolButton(context.data());
             _p->resetButton->setToolTip(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Reset the display profile"));
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
             layout->addWidget(lutGroup);
-            QFormLayout * formLayout = new QFormLayout(lutGroup);
+            auto formLayout = new QFormLayout(lutGroup);
             formLayout->addRow(_p->lutWidget);
 
             layout->addWidget(colorGroup);
@@ -174,7 +175,7 @@ namespace djv
 
             layout->addWidget(levelsGroup);
             formLayout = new QFormLayout(levelsGroup);
-            QVBoxLayout * vLayout = new QVBoxLayout;
+            auto vLayout = new QVBoxLayout;
             vLayout->addWidget(_p->levelsInWidget[0]);
             vLayout->addWidget(_p->levelsInWidget[1]);
             formLayout->addRow(
@@ -193,7 +194,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Soft clip:"),
                 _p->softClipWidget);
 
-            QHBoxLayout * hLayout = new QHBoxLayout;
+            auto hLayout = new QHBoxLayout;
             hLayout->addStretch();
             hLayout->addWidget(_p->addButton);
             hLayout->addWidget(_p->resetButton);

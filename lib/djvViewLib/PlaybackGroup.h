@@ -58,9 +58,9 @@ namespace djv
 
         public:
             PlaybackGroup(
-                PlaybackGroup * copy,
-                MainWindow *    mainWindow,
-                Context *       context);
+                const QPointer<PlaybackGroup> & copy,
+                const QPointer<MainWindow> &,
+                const QPointer<Context> &);
             ~PlaybackGroup() override;
 
             //! Get the sequence.

@@ -53,7 +53,7 @@ namespace djv
             QPointer<QVBoxLayout> layout;
         };
 
-        ImagePrefsWidget::ImagePrefsWidget(UIContext * context, QWidget * parent) :
+        ImagePrefsWidget::ImagePrefsWidget(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractPrefsWidget(qApp->translate("djv::UI::ImagePrefsWidget", "Images"), context, parent),
             _p(new Private)
         {

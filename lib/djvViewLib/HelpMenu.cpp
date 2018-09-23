@@ -32,6 +32,7 @@
 #include <djvViewLib/HelpActions.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -41,8 +42,8 @@ namespace djv
         {};
 
         HelpMenu::HelpMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             AbstractMenu(actions, parent),
             _p(new Private)
         {

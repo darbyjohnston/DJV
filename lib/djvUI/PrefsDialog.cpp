@@ -98,7 +98,7 @@ namespace djv
             QPointer<QPushButton> resetAllButton;
         };
 
-        PrefsDialog::PrefsDialog(UIContext * context, QWidget * parent) :
+        PrefsDialog::PrefsDialog(const QPointer<UIContext> & context, QWidget * parent) :
             QDialog(parent),
             _p(new Private)
         {

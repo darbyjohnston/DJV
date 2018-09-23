@@ -57,7 +57,7 @@ namespace djv
         class FFmpegPlugin : public ImageIO
         {
         public:
-            explicit FFmpegPlugin(Core::CoreContext *);
+            explicit FFmpegPlugin(const QPointer<Core::CoreContext> &);
 
             void initPlugin() override;
             QString pluginName() const override;

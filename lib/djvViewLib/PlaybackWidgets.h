@@ -58,9 +58,9 @@ namespace djv
 
         public:
             explicit PlaybackButtons(
-                QActionGroup *  actionGroup,
-                UI::UIContext * context,
-                QWidget *       parent = nullptr);
+                const QPointer<QActionGroup> &,
+                const QPointer<UI::UIContext> &,
+                QWidget * parent = nullptr);
             ~PlaybackButtons() override;
 
         Q_SIGNALS:
@@ -92,9 +92,9 @@ namespace djv
 
         public:
             explicit LoopWidget(
-                QActionGroup * actionGroup,
-                Context *      context,
-                QWidget *      parent = nullptr);
+                const QPointer<QActionGroup> &,
+                const QPointer<Context> &,
+                QWidget * parent = nullptr);
             ~LoopWidget() override;
 
         private Q_SLOTS:
@@ -116,9 +116,9 @@ namespace djv
 
         public:
             explicit FrameButtons(
-                QActionGroup *  actionGroup,
-                UI::UIContext * context,
-                QWidget *       parent = nullptr);
+                const QPointer<QActionGroup> &,
+                const QPointer<UI::UIContext> &,
+                QWidget * parent = nullptr);
             ~FrameButtons() override;
 
         Q_SIGNALS:

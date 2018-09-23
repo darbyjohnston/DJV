@@ -213,7 +213,7 @@ namespace djv
             static void loadLut(
                 const Core::FileInfo & fileInfo,
                 Graphics::PixelData &  lut,
-                Context *              context);
+                const QPointer<Context> &);
 
             //! This enumeration provides the playback modes.
             enum PLAYBACK

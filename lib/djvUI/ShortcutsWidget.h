@@ -58,7 +58,7 @@ namespace djv
                     NOTIFY            shortcutsChanged)
 
         public:
-            explicit ShortcutsWidget(UIContext *, QWidget * parent = nullptr);
+            explicit ShortcutsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~ShortcutsWidget() override;
 
             //! Get the list of shortcuts.

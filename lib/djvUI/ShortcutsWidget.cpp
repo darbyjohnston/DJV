@@ -61,7 +61,7 @@ namespace djv
             class ShortcutDelegateEdit : public QWidget
             {
             public:
-                ShortcutDelegateEdit(UIContext *, QWidget * parent);
+                ShortcutDelegateEdit(const QPointer<UIContext> &, QWidget * parent);
 
                 const Shortcut & shortcut() const;
                 void setShortcut(const Shortcut &);
@@ -75,10 +75,10 @@ namespace djv
 
             private:
                 Shortcut _shortcut;
-                UIContext * _context = nullptr;
+                QPointer<UIContext> _context;
             };
 
-            ShortcutDelegateEdit::ShortcutDelegateEdit(UIContext * context, QWidget * parent) :
+            ShortcutDelegateEdit::ShortcutDelegateEdit(const QPointer<UIContext> & context, QWidget * parent) :
                 QWidget(parent),
                 _context(context)
             {
@@ -151,7 +151,7 @@ namespace djv
             class ShortcutDelegate : public QStyledItemDelegate
             {
             public:
-                explicit ShortcutDelegate(UIContext *, QObject * parent = nullptr);
+                explicit ShortcutDelegate(const QPointer<UIContext> &, QObject * parent = nullptr);
 
                 QWidget * createEditor(
                     QWidget *                    parent,
@@ -182,10 +182,10 @@ namespace djv
                     const QModelIndex &          index) override;
 
             private:
-                UIContext * _context;
+                QPointer<UIContext> _context;
             };
 
-            ShortcutDelegate::ShortcutDelegate(UIContext * context, QObject * parent) :
+            ShortcutDelegate::ShortcutDelegate(const QPointer<UIContext> & context, QObject * parent) :
                 QStyledItemDelegate(parent),
                 _context(context)
             {}
@@ -311,7 +311,7 @@ namespace djv
             QPointer<SearchBox> searchBox;
         };
 
-        ShortcutsWidget::ShortcutsWidget(UIContext * context, QWidget * parent) :
+        ShortcutsWidget::ShortcutsWidget(const QPointer<UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

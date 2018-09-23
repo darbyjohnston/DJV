@@ -39,7 +39,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        FileEditTest::FileEditTest(UI::UIContext * context) :
+        FileEditTest::FileEditTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

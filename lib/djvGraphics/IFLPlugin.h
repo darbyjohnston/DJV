@@ -51,7 +51,7 @@ namespace djv
         class IFLPlugin : public ImageIO
         {
         public:
-            explicit IFLPlugin(Core::CoreContext *);
+            explicit IFLPlugin(const QPointer<Core::CoreContext> &);
 
             QString pluginName() const override;
             QStringList extensions() const override;

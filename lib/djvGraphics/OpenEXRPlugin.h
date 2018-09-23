@@ -60,7 +60,7 @@ namespace djv
         class OpenEXRPlugin : public ImageIO
         {
         public:
-            explicit OpenEXRPlugin(Core::CoreContext *);
+            explicit OpenEXRPlugin(const QPointer<Core::CoreContext> &);
 
             void initPlugin() override;
             void releasePlugin() override;

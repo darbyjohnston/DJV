@@ -40,6 +40,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -50,7 +51,7 @@ namespace djv
         };
 
         ToolActions::ToolActions(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)
@@ -68,7 +69,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ToolActions", "&Information");
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                QAction * action = new QAction(this);
+                auto action = new QAction(this);
                 action->setText(toolText[i]);
                 action->setCheckable(true);
                 action->setData(i);

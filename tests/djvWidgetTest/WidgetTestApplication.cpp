@@ -33,6 +33,8 @@
 
 #include <djvUI/ProxyStyle.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace WidgetTest

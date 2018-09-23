@@ -47,7 +47,7 @@ namespace djv
         Q_OBJECT
 
     public:
-        explicit ImagePlayExampleWidget(UI::UIContext *);
+        explicit ImagePlayExampleWidget(const QPointer<UI::UIContext> &);
 
     protected:
         void showEvent(QShowEvent *) override;

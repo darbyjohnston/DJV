@@ -53,18 +53,18 @@ namespace djv
 
         public:
             explicit AbstractToolBar(
-                const QString &   title,
-                AbstractActions * actions,
-                Context *         context,
-                QWidget *         parent = nullptr);
+                const QString & title,
+                const QPointer<AbstractActions> &,
+                const QPointer<Context> &,
+                QWidget * parent = nullptr);
 
             virtual ~AbstractToolBar() = 0;
 
             //! Get the actions.
-            AbstractActions * actions() const;
+            const QPointer<AbstractActions> & actions() const;
 
             //! Get the context.
-            Context * context() const;
+            const QPointer<Context> & context() const;
 
         private:
             DJV_PRIVATE_COPY(AbstractToolBar);

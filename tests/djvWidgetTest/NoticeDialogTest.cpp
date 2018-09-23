@@ -35,7 +35,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        NoticeDialogTest::NoticeDialogTest(UI::UIContext * context) :
+        NoticeDialogTest::NoticeDialogTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

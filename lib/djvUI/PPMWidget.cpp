@@ -45,7 +45,7 @@ namespace djv
 {
     namespace UI
     {
-        PPMWidget::PPMWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        PPMWidget::PPMWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             // Create the widgets.
@@ -162,7 +162,7 @@ namespace djv
             _dataWidget->setCurrentIndex(_options.data);
         }
 
-        PPMWidgetPlugin::PPMWidgetPlugin(Core::CoreContext * context) :
+        PPMWidgetPlugin::PPMWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

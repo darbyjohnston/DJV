@@ -32,11 +32,13 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        TIFFLoad::TIFFLoad(Core::CoreContext * context) :
+        TIFFLoad::TIFFLoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _f(0)
         {}

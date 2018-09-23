@@ -33,6 +33,7 @@
 #include <djvGraphics/LUTSave.h>
 
 #include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
 
 #include <QCoreApplication>
 
@@ -40,7 +41,7 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTPlugin::LUTPlugin(Core::CoreContext * context) :
+        LUTPlugin::LUTPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

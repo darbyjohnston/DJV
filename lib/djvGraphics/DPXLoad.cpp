@@ -34,12 +34,13 @@
 #include <djvGraphics/PixelDataUtil.h>
 
 #include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
 
 namespace djv
 {
     namespace Graphics
     {
-        DPXLoad::DPXLoad(const DPX::Options & options, Core::CoreContext * context) :
+        DPXLoad::DPXLoad(const DPX::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _options(options),
             _filmPrint(false)

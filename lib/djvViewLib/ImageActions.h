@@ -71,7 +71,7 @@ namespace djv
                 GROUP_COUNT
             };
 
-            explicit ImageActions(Context *, QObject * parent = nullptr);
+            explicit ImageActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~ImageActions() override;
 
         private Q_SLOTS:

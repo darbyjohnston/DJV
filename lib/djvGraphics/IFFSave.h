@@ -45,7 +45,7 @@ namespace djv
         class IFFSave : public ImageSave
         {
         public:
-            IFFSave(const IFF::Options &, Core::CoreContext *);
+            IFFSave(const IFF::Options &, const QPointer<Core::CoreContext> &);
             ~IFFSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;

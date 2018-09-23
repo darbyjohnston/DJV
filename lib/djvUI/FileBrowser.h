@@ -77,7 +77,7 @@ namespace djv
                 NOTIFY pinnedChanged)
 
         public:
-            explicit FileBrowser(UIContext *, QWidget * parent = nullptr);
+            explicit FileBrowser(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~FileBrowser() override;
 
             //! Get the file information.

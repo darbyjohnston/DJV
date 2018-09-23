@@ -31,11 +31,13 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        DPXSave::DPXSave(const DPX::Options & options, Core::CoreContext * context) :
+        DPXSave::DPXSave(const DPX::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options)
         {}

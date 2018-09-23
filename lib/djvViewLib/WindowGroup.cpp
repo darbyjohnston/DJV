@@ -40,6 +40,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QMenuBar>
+#include <QPointer>
 #include <QToolBar>
 #include <QToolButton>
 
@@ -49,22 +50,23 @@ namespace djv
     {
         struct WindowGroup::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 toolBarVisible(context->windowPrefs()->toolBar())
             {}
 
             bool            fullScreen = false;
             bool            controlsVisible = true;
             QVector<bool>   toolBarVisible;
-            WindowActions * actions = nullptr;
-            WindowMenu *    menu = nullptr;
-            WindowToolBar * toolBar = nullptr;
+
+            QPointer<WindowActions> actions;
+            QPointer<WindowMenu>    menu;
+            QPointer<WindowToolBar> toolBar;
         };
 
         WindowGroup::WindowGroup(
-            const WindowGroup * copy,
-            MainWindow *        mainWindow,
-            Context *           context) :
+            const QPointer<WindowGroup> & copy,
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {
@@ -80,11 +82,11 @@ namespace djv
             _p->actions = new WindowActions(context, this);
 
             // Create the menus.
-            _p->menu = new WindowMenu(_p->actions, mainWindow->menuBar());
+            _p->menu = new WindowMenu(_p->actions.data(), mainWindow->menuBar());
             mainWindow->menuBar()->addMenu(_p->menu);
 
             // Create the widgets.
-            _p->toolBar = new WindowToolBar(_p->actions, context);
+            _p->toolBar = new WindowToolBar(_p->actions.data(), context);
             mainWindow->addToolBar(_p->toolBar);
 
             // Initialize.

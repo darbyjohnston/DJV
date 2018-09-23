@@ -80,7 +80,7 @@ namespace djv
                     NOTIFY maxChanged)
 
         public:
-            explicit FloatEditSlider(UIContext *, QWidget * parent = nullptr);
+            explicit FloatEditSlider(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~FloatEditSlider() override;
 
             //! Get the value.

@@ -51,9 +51,9 @@ namespace djv
 
         public:
             ImageGroup(
-                const ImageGroup * copy,
-                MainWindow *       mainWindow,
-                Context *          context);
+                const QPointer<ImageGroup> & copy,
+                const QPointer<MainWindow> &,
+                const QPointer<Context> &);
             ~ImageGroup() override;
 
             //! Get whether the frame store is enabled.

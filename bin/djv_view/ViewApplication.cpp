@@ -37,6 +37,7 @@
 #include <djvCore/FileInfoUtil.h>
 
 #include <QFileOpenEvent>
+#include <QPointer>
 #include <QScopedPointer>
 #include <QTimer>
 
@@ -84,7 +85,7 @@ namespace djv
             case QEvent::FileOpen:
             {
                 QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
-                QVector<ViewLib::MainWindow *> mainWindowList = ViewLib::MainWindow::mainWindowList();
+                QVector<QPointer<ViewLib::MainWindow> > mainWindowList = ViewLib::MainWindow::mainWindowList();
                 if (mainWindowList.count())
                 {
                     mainWindowList[0]->fileOpen(e->file());

@@ -44,7 +44,7 @@ namespace djv
         class LUTLoad : public ImageLoad
         {
         public:
-            LUTLoad(const LUT::Options &, Core::CoreContext *);
+            LUTLoad(const LUT::Options &, const QPointer<Core::CoreContext> &);
             ~LUTLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &)  override;

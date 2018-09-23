@@ -32,11 +32,13 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/MessagesDialog.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace WidgetTest
     {
-        MessagesDialogTest::MessagesDialogTest(UI::UIContext * context) :
+        MessagesDialogTest::MessagesDialogTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

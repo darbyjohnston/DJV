@@ -51,7 +51,7 @@ namespace djv
     {
         struct MessagesDialog::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
@@ -60,10 +60,10 @@ namespace djv
             bool show = true;
             QPointer<QCheckBox> showCheckBox;
             QPointer<QDialogButtonBox> buttonBox;
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
-        MessagesDialog::MessagesDialog(UIContext * context) :
+        MessagesDialog::MessagesDialog(const QPointer<UIContext> & context) :
             _p(new Private(context))
         {
             //DJV_DEBUG("MessagesDialog::MessagesDialog");

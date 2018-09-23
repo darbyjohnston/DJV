@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit HelpPrefsWidget(UIContext *, QWidget * parent = nullptr);
+            explicit HelpPrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~HelpPrefsWidget() override;
 
             void resetPreferences() override;

@@ -45,7 +45,7 @@ namespace djv
         class PNGSave : public ImageSave
         {
         public:
-            explicit PNGSave(Core::CoreContext *);
+            explicit PNGSave(const QPointer<Core::CoreContext> &);
             ~PNGSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;

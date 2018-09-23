@@ -44,7 +44,7 @@ namespace djv
         class CineonLoad : public ImageLoad
         {
         public:
-            CineonLoad(const Cineon::Options &, Core::CoreContext *);
+            CineonLoad(const Cineon::Options &, const QPointer<Core::CoreContext> &);
             ~CineonLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

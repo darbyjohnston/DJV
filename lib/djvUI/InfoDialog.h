@@ -51,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            InfoDialog(const QString & text, UIContext *);
+            InfoDialog(const QString & text, const QPointer<UIContext> &);
             ~InfoDialog() override;
             
         protected:

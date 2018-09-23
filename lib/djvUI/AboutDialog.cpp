@@ -49,17 +49,17 @@ namespace djv
     {
         struct AboutDialog::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
             QPixmap pixmap;
             QPointer<QLabel> label;
             QPointer<QDialogButtonBox> buttonBox;
         };
 
-        AboutDialog::AboutDialog(const QString & text, UIContext * context) :
+        AboutDialog::AboutDialog(const QString & text, const QPointer<UIContext> & context) :
             _p(new Private(context))
         {
             _p->pixmap = QPixmap(":/djv/UI/Durant.png");

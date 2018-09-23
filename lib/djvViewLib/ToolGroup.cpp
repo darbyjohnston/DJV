@@ -45,6 +45,7 @@
 #include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
+#include <QPointer>
 #include <QToolBar>
 #include <QToolButton>
 
@@ -58,21 +59,21 @@ namespace djv
                 toolsVisible(Util::TOOL_COUNT, false)
             {}
 
-            QVector<bool>     toolsVisible;
-            ToolActions *     actions = nullptr;
-            ToolMenu *        menu = nullptr;
-            ToolToolBar *     toolBar = nullptr;
-            MagnifyTool *     magnifyTool = nullptr;
-            ColorPickerTool * colorPickerTool = nullptr;
-            HistogramTool *   histogramTool = nullptr;
-            InfoTool *        infoTool = nullptr;
-            QDockWidget *     dockWidgets[Util::TOOL_COUNT];
+            QVector<bool>             toolsVisible;
+            QPointer<ToolActions>     actions;
+            QPointer<ToolMenu>        menu;
+            QPointer<ToolToolBar>     toolBar;
+            QPointer<MagnifyTool>     magnifyTool;
+            QPointer<ColorPickerTool> colorPickerTool;
+            QPointer<HistogramTool>   histogramTool;
+            QPointer<InfoTool>        infoTool;
+            QPointer<QDockWidget>     dockWidgets[Util::TOOL_COUNT];
         };
 
         ToolGroup::ToolGroup(
-            const ToolGroup * copy,
-            MainWindow *      mainWindow,
-            Context *         context) :
+            const QPointer<ToolGroup> & copy,
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private)
         {
@@ -82,11 +83,11 @@ namespace djv
             _p->actions = new ToolActions(context, this);
 
             // Create the menus.
-            _p->menu = new ToolMenu(_p->actions, mainWindow->menuBar());
+            _p->menu = new ToolMenu(_p->actions.data(), mainWindow->menuBar());
             mainWindow->menuBar()->addMenu(_p->menu);
 
             // Create the widgets.
-            _p->toolBar = new ToolToolBar(_p->actions, context);
+            _p->toolBar = new ToolToolBar(_p->actions.data(), context);
             mainWindow->addToolBar(_p->toolBar);
 
             _p->magnifyTool = new MagnifyTool(mainWindow, context);

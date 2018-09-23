@@ -32,6 +32,7 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 #include <djvCore/StringUtil.h>
 
@@ -39,7 +40,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PNGLoad::PNGLoad(Core::CoreContext * context) :
+        PNGLoad::PNGLoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _f(0),
             _png(0),

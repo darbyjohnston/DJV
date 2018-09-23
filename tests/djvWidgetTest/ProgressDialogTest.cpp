@@ -38,7 +38,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        ProgressDialogTest::ProgressDialogTest(UI::UIContext * context) :
+        ProgressDialogTest::ProgressDialogTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

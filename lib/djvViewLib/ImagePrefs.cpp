@@ -35,11 +35,13 @@
 
 #include <djvGraphics/Image.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace ViewLib
     {
-        ImagePrefs::ImagePrefs(Context * context, QObject * parent) :
+        ImagePrefs::ImagePrefs(const QPointer<Context> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _frameStoreFileReload(frameStoreFileReloadDefault()),
             _mirror(mirrorDefault()),

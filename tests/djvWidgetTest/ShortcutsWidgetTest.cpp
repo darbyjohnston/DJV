@@ -39,7 +39,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        ShortcutsWidgetTest::ShortcutsWidgetTest(UI::UIContext * context) :
+        ShortcutsWidgetTest::ShortcutsWidgetTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

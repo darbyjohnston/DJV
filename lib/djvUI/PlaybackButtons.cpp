@@ -35,17 +35,28 @@
 #include <QApplication>
 #include <QButtonGroup>
 #include <QHBoxLayout>
+#include <QPointer>
 #include <QToolButton>
 
 namespace djv
 {
     namespace UI
     {
-        PlaybackButtons::PlaybackButtons(UIContext * context, QWidget * parent) :
-            QWidget(parent)
+        struct PlaybackButtons::Private
         {
-            _buttonGroup = new QButtonGroup(this);
-            _buttonGroup->setExclusive(true);
+            QPointer<UIContext> context;
+            PlaybackUtil::PLAYBACK playback = PlaybackUtil::STOP;
+            QPointer<QButtonGroup> buttonGroup;
+        };
+
+        PlaybackButtons::PlaybackButtons(const QPointer<UIContext> & context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->context = context;
+
+            _p->buttonGroup = new QButtonGroup(this);
+            _p->buttonGroup->setExclusive(true);
 
             const QStringList toolTips = QStringList() <<
                 qApp->translate("djv::UI::PlaybackButtons", "Reverse playback") <<
@@ -61,31 +72,31 @@ namespace djv
                 button->setCheckable(true);
                 button->setAutoRaise(true);
                 button->setToolTip(toolTips[i]);
-                _buttonGroup->addButton(button, i);
+                _p->buttonGroup->addButton(button, i);
                 layout->addWidget(button);
             }
 
             styleUpdate();
-            _buttonGroup->buttons()[_playback]->setChecked(true);
+            _p->buttonGroup->buttons()[_p->playback]->setChecked(true);
 
             connect(
-                _buttonGroup,
+                _p->buttonGroup,
                 SIGNAL(buttonClicked(int)),
                 SLOT(buttonCallback(int)));
         }
 
         PlaybackUtil::PLAYBACK PlaybackButtons::playback() const
         {
-            return _playback;
+            return _p->playback;
         }
 
         void PlaybackButtons::setPlayback(PlaybackUtil::PLAYBACK playback)
         {
-            if (playback == _playback)
+            if (playback == _p->playback)
                 return;
-            _playback = playback;
-            _buttonGroup->buttons()[_playback]->setChecked(true);
-            Q_EMIT playbackChanged(_playback);
+            _p->playback = playback;
+            _p->buttonGroup->buttons()[_p->playback]->setChecked(true);
+            Q_EMIT playbackChanged(_p->playback);
         }
 
         bool PlaybackButtons::event(QEvent * event)
@@ -104,10 +115,10 @@ namespace djv
 
         void PlaybackButtons::styleUpdate()
         {
-            const QList<QAbstractButton *> & buttons = _buttonGroup->buttons();
+            const QList<QAbstractButton *> & buttons = _p->buttonGroup->buttons();
             for (int i = 0; i < buttons.size(); ++i)
             {
-                buttons[i]->setIcon(_context->iconLibrary()->icon(PlaybackUtil::playbackIcons()[i]));
+                buttons[i]->setIcon(_p->context->iconLibrary()->icon(PlaybackUtil::playbackIcons()[i]));
             }
         }
 

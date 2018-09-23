@@ -34,13 +34,14 @@
 #include <djvGraphics/PixelDataUtil.h>
 
 #include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
 #include <djvCore/FileIO.h>
 
 namespace djv
 {
     namespace Graphics
     {
-        CineonLoad::CineonLoad(const Cineon::Options & options, Core::CoreContext * context) :
+        CineonLoad::CineonLoad(const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _options(options),
             _filmPrint(false)

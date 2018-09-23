@@ -32,11 +32,13 @@
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        SGISave::SGISave(const SGI::Options & options, Core::CoreContext * context) :
+        SGISave::SGISave(const SGI::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options)
         {}

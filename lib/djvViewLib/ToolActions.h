@@ -55,7 +55,7 @@ namespace djv
                 GROUP_COUNT
             };
 
-            explicit ToolActions(Context *, QObject * parent = nullptr);
+            explicit ToolActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~ToolActions() override;
 
         private Q_SLOTS:

@@ -37,7 +37,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        ChoiceDialogTest::ChoiceDialogTest(UI::UIContext * context) :
+        ChoiceDialogTest::ChoiceDialogTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

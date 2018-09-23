@@ -48,9 +48,9 @@ namespace djv
 
         public:
             explicit HistogramTool(
-                MainWindow * mainWindow,
-                Context *    context,
-                QWidget *    parent = nullptr);
+                const QPointer<MainWindow> &,
+                const QPointer<Context> &,
+                QWidget * parent = nullptr);
             ~HistogramTool() override;
 
         protected:

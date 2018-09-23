@@ -32,6 +32,8 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace ViewLib
@@ -39,19 +41,19 @@ namespace djv
         struct AbstractGroup::Private
         {
             Private(
-                MainWindow * mainWindow,
+                const QPointer<MainWindow> & mainWindow,
                 Context    * context) :
                 mainWindow(mainWindow),
                 context(context)
             {}
 
-            MainWindow * mainWindow = nullptr;
-            Context    * context = nullptr;
+            QPointer<MainWindow> mainWindow;
+            QPointer<Context> context;
         };
 
         AbstractGroup::AbstractGroup(
-            MainWindow * mainWindow,
-            Context    * context) :
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             QObject(mainWindow),
             _p(new Private(mainWindow, context))
         {}
@@ -59,7 +61,7 @@ namespace djv
         AbstractGroup::~AbstractGroup()
         {}
 
-        MainWindow * AbstractGroup::mainWindow() const
+        const QPointer<MainWindow> & AbstractGroup::mainWindow() const
         {
             return _p->mainWindow;
         }
@@ -69,7 +71,7 @@ namespace djv
             return 0;
         }
 
-        Context * AbstractGroup::context() const
+        const QPointer<Context> & AbstractGroup::context() const
         {
             return _p->context;
         }

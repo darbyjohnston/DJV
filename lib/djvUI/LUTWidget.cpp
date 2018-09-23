@@ -45,7 +45,7 @@ namespace djv
 {
     namespace UI
     {
-        LUTWidget::LUTWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        LUTWidget::LUTWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             // Create the widgets.
@@ -128,7 +128,7 @@ namespace djv
             _typeWidget->setCurrentIndex(_options.type);
         }
 
-        LUTWidgetPlugin::LUTWidgetPlugin(Core::CoreContext * context) :
+        LUTWidgetPlugin::LUTWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

@@ -42,6 +42,7 @@
 
 #include <QAction>
 #include <QMenuBar>
+#include <QPointer>
 
 namespace djv
 {
@@ -49,14 +50,14 @@ namespace djv
     {
         struct HelpGroup::Private
         {
-            HelpActions * actions = nullptr;
-            HelpMenu *    menu = nullptr;
+            QPointer<HelpActions> actions;
+            QPointer<HelpMenu>    menu;
         };
 
         HelpGroup::HelpGroup(
             const HelpGroup * copy,
-            MainWindow *      mainWindow,
-            Context *         context) :
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private)
         {
@@ -66,7 +67,7 @@ namespace djv
             _p->actions = new HelpActions(context, this);
 
             // Create the menus.
-            _p->menu = new HelpMenu(_p->actions, mainWindow->menuBar());
+            _p->menu = new HelpMenu(_p->actions.data(), mainWindow->menuBar());
 
             mainWindow->menuBar()->addMenu(_p->menu);
 

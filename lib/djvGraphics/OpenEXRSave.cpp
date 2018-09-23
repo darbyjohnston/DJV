@@ -31,6 +31,7 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 
 #include <ImfChannelList.h>
@@ -43,7 +44,7 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenEXRSave::OpenEXRSave(const OpenEXR::Options & options, Core::CoreContext * context) :
+        OpenEXRSave::OpenEXRSave(const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options),
             _f(0)

@@ -48,7 +48,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            LUTWidget(Graphics::ImageIO *, UIContext *);
+            LUTWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -71,7 +71,7 @@ namespace djv
         class LUTWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            LUTWidgetPlugin(Core::CoreContext *);
+            LUTWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
             QString pluginName() const override;

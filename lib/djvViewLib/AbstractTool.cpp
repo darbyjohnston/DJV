@@ -30,7 +30,10 @@
 #include <djvViewLib/AbstractTool.h>
 
 #include <djvViewLib/Context.h>
+#include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
+
+#include <QPointer>
 
 namespace djv
 {
@@ -39,21 +42,21 @@ namespace djv
         struct AbstractTool::Private
         {
             Private(
-                MainWindow * mainWindow,
-                Context *    context) :
+                const QPointer<MainWindow> mainWindow,
+                const QPointer<Context> & context) :
                 mainWindow(mainWindow),
                 viewWidget(mainWindow->viewWidget()),
                 context(context)
             {}
 
-            MainWindow * mainWindow = nullptr;
-            ImageView  * viewWidget = nullptr;
-            Context *    context = nullptr;
+            QPointer<MainWindow> mainWindow;
+            QPointer<ImageView> viewWidget;
+            QPointer<Context> context;
         };
 
         AbstractTool::AbstractTool(
-            MainWindow * mainWindow,
-            Context *    context,
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context,
             QWidget *    parent) :
             QWidget(parent),
             _p(new Private(mainWindow, context))
@@ -62,17 +65,17 @@ namespace djv
         AbstractTool::~AbstractTool()
         {}
 
-        MainWindow * AbstractTool::mainWindow() const
+        const QPointer<MainWindow> & AbstractTool::mainWindow() const
         {
             return _p->mainWindow;
         }
 
-        ImageView * AbstractTool::viewWidget() const
+        const QPointer<ImageView> & AbstractTool::viewWidget() const
         {
             return _p->viewWidget;
         }
 
-        Context * AbstractTool::context() const
+        const QPointer<Context> & AbstractTool::context() const
         {
             return _p->context;
         }

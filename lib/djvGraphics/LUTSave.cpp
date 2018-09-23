@@ -31,6 +31,7 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/ListUtil.h>
 
@@ -38,7 +39,7 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTSave::LUTSave(const LUT::Options & options, Core::CoreContext * context) :
+        LUTSave::LUTSave(const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options)
         {}

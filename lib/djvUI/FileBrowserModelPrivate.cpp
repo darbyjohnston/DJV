@@ -53,7 +53,7 @@ namespace djv
             const Core::FileInfo & fileInfo,
             FileBrowserModel::THUMBNAILS thumbnails,
             FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QObject * parent) :
             QObject(parent),
             _fileInfo(fileInfo),
@@ -137,7 +137,7 @@ namespace djv
 
             ImageInfoThreadResult imageInfoThreadFunction(
                 const Core::FileInfo & fileInfo,
-                UIContext * context)
+                const QPointer<UIContext> & context)
             {
                 //DJV_DEBUG("imageInfoThreadFunction");
                 //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -167,7 +167,7 @@ namespace djv
                 FileBrowserModel::THUMBNAILS thumbnails,
                 const glm::ivec2 & thumbnailSize,
                 Graphics::PixelDataInfo::PROXY proxy,
-                UIContext * context)
+                const QPointer<UIContext> & context)
             {
                 //DJV_DEBUG("thumbnailThreadFunction");
                 //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);

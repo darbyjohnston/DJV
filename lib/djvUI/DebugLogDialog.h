@@ -57,7 +57,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            DebugLogDialog(UIContext *);
+            DebugLogDialog(const QPointer<UIContext> &);
             ~DebugLogDialog() override;
             
             void clear();

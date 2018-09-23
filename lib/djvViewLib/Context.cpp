@@ -70,16 +70,16 @@ namespace djv
             QScopedPointer<int>                            playbackFrame;
             QScopedPointer<Core::Speed>                    playbackSpeed;
 
-            FilePrefs *     filePrefs = nullptr;
-            ImagePrefs *    imagePrefs = nullptr;
-            InputPrefs *    inputPrefs = nullptr;
-            PlaybackPrefs * playbackPrefs = nullptr;
-            ShortcutPrefs * shortcutPrefs = nullptr;
-            ViewPrefs *     viewPrefs = nullptr;
-            WindowPrefs *   windowPrefs = nullptr;
+            QPointer<FilePrefs>     filePrefs;
+            QPointer<ImagePrefs>    imagePrefs;
+            QPointer<InputPrefs>    inputPrefs;
+            QPointer<PlaybackPrefs> playbackPrefs;
+            QPointer<ShortcutPrefs> shortcutPrefs;
+            QPointer<ViewPrefs>     viewPrefs;
+            QPointer<WindowPrefs>   windowPrefs;
 
-            FileCache * fileCache = nullptr;
-            FileSave *  fileSave = nullptr;
+            QPointer<FileCache> fileCache;
+            QPointer<FileSave>  fileSave;
         };
 
         Context::Context(QObject * parent) :

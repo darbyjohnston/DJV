@@ -36,6 +36,7 @@
 #include <djvUI/StylePrefs.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -47,7 +48,7 @@ namespace djv
         };
 
         PlaybackActions::PlaybackActions(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)

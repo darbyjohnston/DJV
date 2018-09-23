@@ -32,11 +32,13 @@
 #include <djvGraphics/PNGLoad.h>
 #include <djvGraphics/PNGSave.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        PNGPlugin::PNGPlugin(Core::CoreContext * context) :
+        PNGPlugin::PNGPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

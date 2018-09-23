@@ -29,16 +29,30 @@
 
 #include <djvWidgetTest/AbstractWidgetTest.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace WidgetTest
     {
-        AbstractWidgetTest::AbstractWidgetTest(UI::UIContext * context) :
-            _context(context)
-        {}
+        struct AbstractWidgetTest::Private
+        {
+            QPointer<UI::UIContext> context;
+        };
+
+        AbstractWidgetTest::AbstractWidgetTest(const QPointer<UI::UIContext> & context) :
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         AbstractWidgetTest::~AbstractWidgetTest()
         {}
+
+        const QPointer<UI::UIContext> & AbstractWidgetTest::context() const
+        {
+            return _p->context;
+        }
 
     } // namespace WidgetTest
 } // namespace djv

@@ -73,7 +73,7 @@ namespace djv
                     NOTIFY cacheSizeChanged)
 
         public:
-            explicit CacheSizeWidget(UI::UIContext *, QWidget * parent = nullptr);
+            explicit CacheSizeWidget(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~CacheSizeWidget() override;
 
             //! Get the cache sizes.
@@ -140,7 +140,7 @@ namespace djv
                     WRITE       setSpeed)
 
         public:
-            explicit FrameWidget(UI::UIContext *, QWidget * parent = nullptr);
+            explicit FrameWidget(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~FrameWidget() override;
 
             //! Get the frame list.
@@ -237,7 +237,7 @@ namespace djv
                     NOTIFY outPointChanged)
 
         public:
-            explicit FrameSlider(UI::UIContext *, QWidget * parent = nullptr);
+            explicit FrameSlider(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~FrameSlider() override;
 
             //! Get the frame list.
@@ -373,7 +373,7 @@ namespace djv
                     WRITE  setInOutEnabled)
 
         public:
-            explicit FrameDisplay(UI::UIContext *, QWidget * parent = nullptr);
+            explicit FrameDisplay(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~FrameDisplay() override;
 
             //! Get the frame.
@@ -422,7 +422,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit SpeedButton(UI::UIContext *, QWidget * parent = nullptr);
+            explicit SpeedButton(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~SpeedButton() override;
 
             //! Set the default speed.
@@ -469,7 +469,7 @@ namespace djv
                     WRITE       setDefaultSpeed)
 
         public:
-            explicit SpeedWidget(UI::UIContext *, QWidget * parent = nullptr);
+            explicit SpeedWidget(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~SpeedWidget() override;
 
             //! Get the speed.
@@ -513,7 +513,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit SpeedDisplay(UI::UIContext*, QWidget * parent = nullptr);
+            explicit SpeedDisplay(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~SpeedDisplay() override;
 
             QSize sizeHint() const override;

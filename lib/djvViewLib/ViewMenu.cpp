@@ -32,14 +32,15 @@
 #include <djvViewLib/ViewActions.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
     namespace ViewLib
     {
         ViewMenu::ViewMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             AbstractMenu(actions, parent)
         {
             // Create the menus.
@@ -62,9 +63,8 @@ namespace djv
 
             addSeparator();
 
-            QMenu * gridMenu = addMenu(qApp->translate("djv::ViewLib::ViewMenu", "&Grid"));
-            Q_FOREACH(QAction * action,
-                actions->group(ViewActions::GRID_GROUP)->actions())
+            auto gridMenu = addMenu(qApp->translate("djv::ViewLib::ViewMenu", "&Grid"));
+            Q_FOREACH(QAction * action, actions->group(ViewActions::GRID_GROUP)->actions())
                 gridMenu->addAction(action);
 
             addAction(actions->action(ViewActions::HUD));

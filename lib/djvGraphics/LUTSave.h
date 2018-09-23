@@ -45,7 +45,7 @@ namespace djv
         class LUTSave : public ImageSave
         {
         public:
-            LUTSave(const LUT::Options &, Core::CoreContext *);
+            LUTSave(const LUT::Options &, const QPointer<Core::CoreContext> &);
             ~LUTSave() override;
 
             void open(const Core::FileInfo &, const ImageIOInfo &) override;

@@ -32,11 +32,13 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        SGILoad::SGILoad(Core::CoreContext * context) :
+        SGILoad::SGILoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context)
         {}
 

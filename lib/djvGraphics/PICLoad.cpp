@@ -32,13 +32,14 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/FileIO.h>
 
 namespace djv
 {
     namespace Graphics
     {
-        PICLoad::PICLoad(Core::CoreContext * context) :
+        PICLoad::PICLoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _type(static_cast<PIC::TYPE>(0))
         {

@@ -37,32 +37,43 @@ namespace djv
 {
     namespace UI
     {
+        struct ImageIOWidget::Private
+        {
+            QPointer<UIContext> context;
+            Graphics::ImageIO * plugin = nullptr;
+        };
+
         ImageIOWidget::ImageIOWidget(
             Graphics::ImageIO * plugin,
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             AbstractPrefsWidget(plugin->pluginName(), context, parent),
-            _plugin(plugin),
-            _context(context)
+            _p(new Private)
+        {
+            _p->context = context;
+            _p->plugin = plugin;
+        }
+
+        ImageIOWidget::~ImageIOWidget()
         {}
 
         Graphics::ImageIO * ImageIOWidget::plugin() const
         {
-            return _plugin;
+            return _p->plugin;
         }
 
-        UIContext * ImageIOWidget::context() const
+        const QPointer<UIContext> & ImageIOWidget::context() const
         {
-            return _context;
+            return _p->context;
         }
 
-        ImageIOWidgetPlugin::ImageIOWidgetPlugin(Core::CoreContext * context) :
+        ImageIOWidgetPlugin::ImageIOWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             Core::Plugin(context)
         {}
 
-        UIContext * ImageIOWidgetPlugin::uiContext() const
+        QPointer<UIContext> ImageIOWidgetPlugin::uiContext() const
         {
-            return dynamic_cast<UIContext *>(context());
+            return dynamic_cast<UIContext *>(context().data());
         }
 
         Core::Plugin * ImageIOWidgetPlugin::copyPlugin() const
@@ -70,13 +81,20 @@ namespace djv
             return 0;
         }
 
+        struct ImageIOWidgetFactory::Private
+        {
+            QPointer<UIContext> context;
+        };
+
         ImageIOWidgetFactory::ImageIOWidgetFactory(
-            UIContext * context,
+            const QPointer<UIContext> & context,
             const QStringList & searchPath,
             QObject * parent) :
-            Core::PluginFactory(context, searchPath, "djvImageIOWidgetEntry", "djv", "Plugin", parent),
-            _context(context)
-        {}
+            Core::PluginFactory(context.data(), searchPath, "djvImageIOWidgetEntry", "djv", "Plugin", parent),
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         ImageIOWidget * ImageIOWidgetFactory::createWidget(Graphics::ImageIO * imageIOPlugin) const
         {

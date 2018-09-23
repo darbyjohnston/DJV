@@ -52,9 +52,9 @@ namespace djv
 
         public:
             explicit ViewToolBar(
-                AbstractActions * actions,
-                Context *         context,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                const QPointer<Context> &,
+                QWidget * parent = nullptr);
             ~ViewToolBar() override;
 
             //! Get the zoom edit widget.

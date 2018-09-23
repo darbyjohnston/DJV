@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ViewPrefsWidget(Context *);
+            ViewPrefsWidget(const QPointer<Context> &);
             ~ViewPrefsWidget() override;
 
             void resetPreferences() override;

@@ -41,13 +41,14 @@
 #include <QActionGroup>
 #include <QButtonGroup>
 #include <QHBoxLayout>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
 {
     namespace WidgetTest
     {
-        ToolButtonTest::ToolButtonTest(UI::UIContext * context) :
+        ToolButtonTest::ToolButtonTest(const QPointer<UI::UIContext> & context) :
             AbstractWidgetTest(context)
         {}
 

@@ -80,7 +80,7 @@ namespace djv
                 GROUP_COUNT
             };
 
-            explicit FileActions(Context *, QObject * parent = nullptr);
+            explicit FileActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~FileActions() override;
 
         public Q_SLOTS:

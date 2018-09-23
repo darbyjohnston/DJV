@@ -47,7 +47,7 @@ namespace djv
         Q_OBJECT
 
     public:
-        explicit ImageViewExampleWidget(UI::UIContext *);
+        explicit ImageViewExampleWidget(const QPointer<UI::UIContext> &);
 
     protected:
         void mousePressEvent(QMouseEvent *) override;

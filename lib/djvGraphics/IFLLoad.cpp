@@ -33,6 +33,7 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/Pixel.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileIOUtil.h>
 #include <djvCore/FileInfoUtil.h>
@@ -41,7 +42,7 @@ namespace djv
 {
     namespace Graphics
     {
-        IFLLoad::IFLLoad(Core::CoreContext * context) :
+        IFLLoad::IFLLoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context)
         {}
 
@@ -88,7 +89,7 @@ namespace djv
                 }
             }
             //DJV_DEBUG_PRINT("list = " << _list);
-            QScopedPointer<ImageLoad> plugin(dynamic_cast<GraphicsContext*>(context())->imageIOFactory()->load(
+            QScopedPointer<ImageLoad> plugin(dynamic_cast<GraphicsContext*>(context().data())->imageIOFactory()->load(
                 _list.count() ? _list[0] : QString(), info));
             info.sequence.frames.resize(_list.count());
             for (int i = 0; i < _list.count(); ++i)
@@ -120,7 +121,7 @@ namespace djv
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
             QScopedPointer<ImageLoad> load(
-                dynamic_cast<GraphicsContext*>(context())->imageIOFactory()->load(fileName, info));
+                dynamic_cast<GraphicsContext*>(context().data())->imageIOFactory()->load(fileName, info));
             load->read(image, ImageIOFrameInfo(-1, frame.layer, frame.proxy));
         }
 

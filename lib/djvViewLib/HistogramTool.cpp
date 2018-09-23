@@ -50,6 +50,7 @@
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QPainter>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -215,20 +216,20 @@ namespace djv
             Graphics::Pixel::Mask mask;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
 
-            HistogramWidget * widget = nullptr;
-            QLineEdit * minWidget = nullptr;
-            QLineEdit * maxWidget = nullptr;
-            QComboBox * sizeWidget = nullptr;
-            UI::PixelMaskWidget * maskWidget = nullptr;
-            UI::ToolButton * colorProfileButton = nullptr;
-            UI::ToolButton * displayProfileButton = nullptr;
-            QHBoxLayout * hLayout = nullptr;
+            QPointer<HistogramWidget> widget;
+            QPointer<QLineEdit> minWidget;
+            QPointer<QLineEdit> maxWidget;
+            QPointer<QComboBox> sizeWidget;
+            QPointer<UI::PixelMaskWidget> maskWidget;
+            QPointer<UI::ToolButton> colorProfileButton;
+            QPointer<UI::ToolButton> displayProfileButton;
+            QPointer<QHBoxLayout> hLayout;
         };
 
         HistogramTool::HistogramTool(
-            MainWindow * mainWindow,
-            Context *    context,
-            QWidget *    parent) :
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)
         {
@@ -246,14 +247,14 @@ namespace djv
             _p->sizeWidget->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "The size of the histogram"));
 
-            _p->maskWidget = new UI::PixelMaskWidget(context);
+            _p->maskWidget = new UI::PixelMaskWidget(context.data());
 
-            _p->colorProfileButton = new UI::ToolButton(context);
+            _p->colorProfileButton = new UI::ToolButton(context.data());
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new UI::ToolButton(context);
+            _p->displayProfileButton = new UI::ToolButton(context.data());
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the display profile is enabled"));

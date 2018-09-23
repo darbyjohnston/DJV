@@ -60,6 +60,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QPointer>
 #include <QStyle>
 #include <QVBoxLayout>
 
@@ -134,14 +135,14 @@ namespace djv
     {
         struct CacheSizeWidget::Private
         {
-            UI::UIContext * context = nullptr;
+            QPointer<UI::UIContext> context;
             QVector<float> cacheSizes;
             float cacheSize = 0.f;
-            UI::FloatEdit *  edit = nullptr;
-            UI::ToolButton * button = nullptr;
+            QPointer<UI::FloatEdit>  edit;
+            QPointer<UI::ToolButton> button;
         };
 
-        CacheSizeWidget::CacheSizeWidget(UI::UIContext * context, QWidget * parent) :
+        CacheSizeWidget::CacheSizeWidget(const QPointer<UI::UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -157,7 +158,7 @@ namespace djv
             // Layout the widgets.
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-            QHBoxLayout * layout = new QHBoxLayout(this);
+            auto layout = new QHBoxLayout(this);
             layout->setMargin(0);
             layout->addWidget(_p->edit);
             layout->addWidget(_p->button);
@@ -223,7 +224,7 @@ namespace djv
             const QStringList & labels = FileCache::sizeLabels();
             for (int i = 0; i < labels.count(); ++i)
             {
-                QAction * action = menu.addAction(
+                auto action = menu.addAction(
                     labels[i],
                     this,
                     SLOT(menuCallback()));
@@ -236,7 +237,7 @@ namespace djv
 
         void CacheSizeWidget::menuCallback()
         {
-            QAction * action = qobject_cast<QAction *>(sender());
+            auto action = qobject_cast<QAction *>(sender());
             setCacheSize(action->data().toInt());
         }
 
@@ -254,14 +255,14 @@ namespace djv
 
         struct FrameWidget::Private
         {
-            UI::UIContext * context = nullptr;
-            qint64          frame = 0;
+            QPointer<UI::UIContext> context;
+            qint64 frame = 0;
             Core::FrameList frameList;
-            Core::Speed     speed;
-            QString         text;
+            Core::Speed speed;
+            QString text;
         };
 
-        FrameWidget::FrameWidget(UI::UIContext * context, QWidget * parent) :
+        FrameWidget::FrameWidget(const QPointer<UI::UIContext> & context, QWidget * parent) :
             QAbstractSpinBox(parent),
             _p(new Private)
         {
@@ -425,7 +426,7 @@ namespace djv
 
         struct FrameSlider::Private
         {
-            UI::UIContext * context = nullptr;
+            QPointer<UI::UIContext> context;
             qint64 frame = 0;
             Core::FrameList frameList;
             Core::Speed speed;
@@ -435,7 +436,7 @@ namespace djv
             Core::FrameList cachedFrames;
         };
 
-        FrameSlider::FrameSlider(UI::UIContext * context, QWidget * parent) :
+        FrameSlider::FrameSlider(const QPointer<UI::UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -800,15 +801,15 @@ namespace djv
 
         struct FrameDisplay::Private
         {
-            UI::UIContext * context = nullptr;
+            QPointer<UI::UIContext> context;
             qint64 frame = 0;
             Core::Speed speed;
             bool inOutEnabled = false;
             QString text;
-            QLineEdit * lineEdit = nullptr;
+            QPointer<QLineEdit> lineEdit;
         };
 
-        FrameDisplay::FrameDisplay(UI::UIContext * context, QWidget * parent) :
+        FrameDisplay::FrameDisplay(const QPointer<UI::UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -818,7 +819,7 @@ namespace djv
             _p->lineEdit = new QLineEdit;
 
             // Layout the widgets.
-            QHBoxLayout * layout = new QHBoxLayout(this);
+            auto layout = new QHBoxLayout(this);
             layout->setMargin(0);
             layout->addWidget(_p->lineEdit);
 
@@ -930,13 +931,13 @@ namespace djv
 
         struct SpeedButton::Private
         {
-            UI::UIContext * context = nullptr;
+            QPointer<UI::UIContext> context;
             Core::Speed speed;
             Core::Speed defaultSpeed;
-            UI::ToolButton * button = nullptr;
+            QPointer<UI::ToolButton> button;
         };
 
-        SpeedButton::SpeedButton(UI::UIContext * context, QWidget * parent) :
+        SpeedButton::SpeedButton(const QPointer<UI::UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -946,7 +947,7 @@ namespace djv
             _p->button = new UI::ToolButton(context);
 
             // Layout the widgets.
-            QHBoxLayout * layout = new QHBoxLayout(this);
+            auto layout = new QHBoxLayout(this);
             layout->setMargin(0);
             layout->addWidget(_p->button);
             
@@ -985,7 +986,7 @@ namespace djv
                 const QString text =
                     qApp->translate("djv::ViewLib::SpeedButton", "Default: %1").
                     arg(Core::Speed::speedToFloat(_p->defaultSpeed), 0, 'f', 2);
-                QAction * action = menu.addAction(
+                auto action = menu.addAction(
                     text,
                     this,
                     SLOT(menuCallback()));
@@ -995,7 +996,7 @@ namespace djv
             const QStringList & labels = Core::Speed::fpsLabels();
             for (int i = 0; i < labels.count(); ++i)
             {
-                QAction * action = menu.addAction(
+                auto action = menu.addAction(
                     labels[i],
                     this,
                     SLOT(menuCallback()));
@@ -1007,7 +1008,7 @@ namespace djv
 
         void SpeedButton::menuCallback()
         {
-            QAction * action = qobject_cast<QAction *>(sender());
+            auto action = qobject_cast<QAction *>(sender());
             const int index = action->data().toInt();
             Q_EMIT speedChanged(-1 == index ? _p->defaultSpeed : static_cast<Core::Speed::FPS>(index));
         }
@@ -1021,12 +1022,12 @@ namespace djv
         {
             Core::Speed speed;
             Core::Speed defaultSpeed;
-            UI::FloatEdit * floatEdit = nullptr;
-            SpeedButton * button = nullptr;
-            QHBoxLayout * layout = nullptr;
+            QPointer<UI::FloatEdit> floatEdit;
+            QPointer<SpeedButton> button;
+            QPointer<QHBoxLayout> layout;
         };
 
-        SpeedWidget::SpeedWidget(UI::UIContext * context, QWidget * parent) :
+        SpeedWidget::SpeedWidget(const QPointer<UI::UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -1118,13 +1119,13 @@ namespace djv
 
         struct SpeedDisplay::Private
         {
-            UI::UIContext * context = nullptr;
+            QPointer<UI::UIContext> context;
             float speed = 0.f;
             bool droppedFrames = false;
-            QLineEdit * lineEdit = nullptr;
+            QPointer<QLineEdit> lineEdit;
         };
 
-        SpeedDisplay::SpeedDisplay(UI::UIContext * context, QWidget * parent) :
+        SpeedDisplay::SpeedDisplay(const QPointer<UI::UIContext> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -1133,7 +1134,7 @@ namespace djv
             _p->lineEdit = new QLineEdit;
             _p->lineEdit->setReadOnly(true);
 
-            QHBoxLayout * layout = new QHBoxLayout(this);
+            auto layout = new QHBoxLayout(this);
             layout->setMargin(0);
             layout->addWidget(_p->lineEdit);
 

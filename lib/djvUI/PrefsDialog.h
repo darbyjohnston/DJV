@@ -55,7 +55,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit PrefsDialog(UIContext *, QWidget * parent = nullptr);
+            explicit PrefsDialog(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~PrefsDialog() override;
 
             //! Add a preferences widget.

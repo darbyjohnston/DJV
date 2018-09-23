@@ -52,18 +52,18 @@ namespace djv
     {
         struct InfoTool::Private
         {
-            QLineEdit *      fileNameWidget = nullptr;
-            QLineEdit *      layerNameWidget = nullptr;
-            QLineEdit *      sizeWidget = nullptr;
-            QLineEdit *      pixelWidget = nullptr;
-            QLineEdit *      timeWidget = nullptr;
-            QPlainTextEdit * tagsWidget = nullptr;
+            QPointer<QLineEdit>      fileNameWidget;
+            QPointer<QLineEdit>      layerNameWidget;
+            QPointer<QLineEdit>      sizeWidget;
+            QPointer<QLineEdit>      pixelWidget;
+            QPointer<QLineEdit>      timeWidget;
+            QPointer<QPlainTextEdit> tagsWidget;
         };
 
         InfoTool::InfoTool(
-            MainWindow * mainWindow,
-            Context *    context,
-            QWidget *    parent) :
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)
         {
@@ -87,9 +87,9 @@ namespace djv
             _p->tagsWidget->setReadOnly(true);
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            QFormLayout * formLayout = new QFormLayout;
+            auto formLayout = new QFormLayout;
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::InfoTool", "File name:"),
                 _p->fileNameWidget);
@@ -110,7 +110,7 @@ namespace djv
                 _p->tagsWidget);
             layout->addLayout(formLayout);
 
-            QHBoxLayout * hLayout = new QHBoxLayout;
+            auto hLayout = new QHBoxLayout;
             hLayout->setMargin(0);
             hLayout->addStretch();
             layout->addLayout(hLayout);

@@ -50,6 +50,7 @@
 
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QPointer>
 #include <QScopedPointer>
 #include <QStyle>
 #include <QTimer>
@@ -71,47 +72,47 @@ namespace djv
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             bool swatchInit = false;
 
-            UI::ColorWidget * widget = nullptr;
-            UI::ColorSwatch * swatch = nullptr;
-            UI::IntEditSlider * sizeSlider = nullptr;
-            UI::ToolButton * colorProfileButton = nullptr;
-            UI::ToolButton * displayProfileButton = nullptr;
-            UI::ToolButton * lockWidget = nullptr;
-            QHBoxLayout * hLayout = nullptr;
+            QPointer<UI::ColorWidget> widget;
+            QPointer<UI::ColorSwatch> swatch;
+            QPointer<UI::IntEditSlider> sizeSlider;
+            QPointer<UI::ToolButton> colorProfileButton;
+            QPointer<UI::ToolButton> displayProfileButton;
+            QPointer<UI::ToolButton> lockWidget;
+            QPointer<QHBoxLayout> hLayout;
         };
 
         ColorPickerTool::ColorPickerTool(
-            MainWindow * mainWindow,
-            Context *    context,
-            QWidget *    parent) :
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)
         {
             //DJV_DEBUG("ColorPickerTool::ColorPickerTool");
 
             // Create the widgets.
-            _p->widget = new UI::ColorWidget(context);
+            _p->widget = new UI::ColorWidget(context.data());
 
-            _p->swatch = new UI::ColorSwatch(context);
+            _p->swatch = new UI::ColorSwatch(context.data());
             _p->swatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-            _p->sizeSlider = new UI::IntEditSlider(context);
+            _p->sizeSlider = new UI::IntEditSlider(context.data());
             _p->sizeSlider->setRange(1, 100);
             _p->sizeSlider->setResetToDefault(false);
             _p->sizeSlider->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Color picker sample size"));
 
-            _p->colorProfileButton = new UI::ToolButton(context);
+            _p->colorProfileButton = new UI::ToolButton(context.data());
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new UI::ToolButton(context);
+            _p->displayProfileButton = new UI::ToolButton(context.data());
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the display profile is enabled"));
 
-            _p->lockWidget = new UI::ToolButton(context);
+            _p->lockWidget = new UI::ToolButton(context.data());
             _p->lockWidget->setCheckable(true);
             _p->lockWidget->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Lock the pixel format and type"));

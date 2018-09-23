@@ -92,7 +92,7 @@ namespace djv
             }
         }
 
-        void ImageIOFormatsTest::initPlugins(Graphics::GraphicsContext * context)
+        void ImageIOFormatsTest::initPlugins(const QPointer<Graphics::GraphicsContext> & context)
         {
             DJV_DEBUG("ImageIOFormatsTest::initPlugins");
 

@@ -52,7 +52,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ImageView(Context *, QWidget * parent = nullptr);
+            explicit ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
             ~ImageView() override;
 
             //! Get whether the mouse is inside the view.

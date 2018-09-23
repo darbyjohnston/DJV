@@ -32,6 +32,7 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/Debug.h>
 #include <djvCore/FileIOUtil.h>
 
@@ -41,7 +42,7 @@ namespace djv
 {
     namespace Graphics
     {
-        FFmpegLoad::FFmpegLoad(Core::CoreContext * context) :
+        FFmpegLoad::FFmpegLoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context)
         {}
 

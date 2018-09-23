@@ -31,13 +31,15 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
+#include <djvCore/CoreContext.h>
+
 #include <stdio.h>
 
 namespace djv
 {
     namespace Graphics
     {
-        PPMSave::PPMSave(const PPM::Options & options, Core::CoreContext * context) :
+        PPMSave::PPMSave(const PPM::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
             _options(options),
             _bitDepth(0)

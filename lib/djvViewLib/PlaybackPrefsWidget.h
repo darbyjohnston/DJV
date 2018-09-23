@@ -45,7 +45,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            PlaybackPrefsWidget(Context *);
+            PlaybackPrefsWidget(const QPointer<Context> &);
             ~PlaybackPrefsWidget() override;
 
             void resetPreferences() override;

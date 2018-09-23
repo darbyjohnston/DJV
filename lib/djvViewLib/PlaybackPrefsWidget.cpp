@@ -40,6 +40,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -48,20 +49,13 @@ namespace djv
     {
         struct PlaybackPrefsWidget::Private
         {
-            Private() :
-                autoStartWidget(0),
-                loopWidget(0),
-                everyFrameWidget(0),
-                layoutWidget(0)
-            {}
-
-            QCheckBox * autoStartWidget;
-            QComboBox * loopWidget;
-            QCheckBox * everyFrameWidget;
-            QComboBox * layoutWidget;
+            QPointer<QCheckBox> autoStartWidget;
+            QPointer<QComboBox> loopWidget;
+            QPointer<QCheckBox> everyFrameWidget;
+            QPointer<QComboBox> layoutWidget;
         };
 
-        PlaybackPrefsWidget::PlaybackPrefsWidget(Context * context) :
+        PlaybackPrefsWidget::PlaybackPrefsWidget(const QPointer<Context> & context) :
             AbstractPrefsWidget(
                 qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback"), context),
             _p(new Private)
@@ -82,11 +76,11 @@ namespace djv
             _p->layoutWidget->addItems(Util::layoutLabels());
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback"), context);
-            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            auto prefsGroupBox = new UI::PrefsGroupBox(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback"), context.data());
+            auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->autoStartWidget);
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Loop mode:"),
@@ -95,7 +89,7 @@ namespace djv
             layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Layout"), context);
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Layout"), context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback controls:"),

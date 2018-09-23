@@ -45,6 +45,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QMenuBar>
+#include <QPointer>
 #include <QToolBar>
 
 namespace djv
@@ -53,26 +54,23 @@ namespace djv
     {
         struct ViewGroup::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 grid(context->viewPrefs()->grid()),
                 hudEnabled(context->viewPrefs()->isHudEnabled())
             {}
 
             Util::GRID    grid;
             bool          hudEnabled;
-            ViewActions * actions = nullptr;
-            ViewMenu *    menu = nullptr;
-            ViewToolBar * toolBar = nullptr;
+
+            QPointer<ViewActions> actions;
+            QPointer<ViewMenu>    menu;
+            QPointer<ViewToolBar> toolBar;
         };
 
-        //------------------------------------------------------------------------------
-        // ViewGroup
-        //------------------------------------------------------------------------------
-
         ViewGroup::ViewGroup(
-            const ViewGroup * copy,
-            MainWindow *      mainWindow,
-            Context *         context) :
+            const QPointer<ViewGroup> & copy,
+            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Context> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {
@@ -86,11 +84,11 @@ namespace djv
             _p->actions = new ViewActions(context, this);
 
             // Create the menus.
-            _p->menu = new ViewMenu(_p->actions, mainWindow->menuBar());
+            _p->menu = new ViewMenu(_p->actions.data(), mainWindow->menuBar());
             mainWindow->menuBar()->addMenu(_p->menu);
 
             // Create the widgets.
-            _p->toolBar = new ViewToolBar(_p->actions, context);
+            _p->toolBar = new ViewToolBar(_p->actions.data(), context);
             mainWindow->addToolBar(_p->toolBar);
 
             // Initialize.

@@ -32,6 +32,7 @@
 #include <djvViewLib/PlaybackActions.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -41,8 +42,8 @@ namespace djv
         {};
 
         PlaybackMenu::PlaybackMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             AbstractMenu(actions, parent),
             _p(new Private)
         {
@@ -51,7 +52,7 @@ namespace djv
                 actions->group(PlaybackActions::PLAYBACK_GROUP)->actions())
                 addAction(action);
             addAction(actions->action(PlaybackActions::PLAYBACK_TOGGLE));
-            QMenu * loopMenu = addMenu(qApp->translate("djv::ViewLib::PlaybackMenu", "&Loop"));
+            auto loopMenu = addMenu(qApp->translate("djv::ViewLib::PlaybackMenu", "&Loop"));
             Q_FOREACH(QAction * action,
                 actions->group(PlaybackActions::LOOP_GROUP)->actions())
                 loopMenu->addAction(action);
@@ -65,7 +66,7 @@ namespace djv
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions())
                 addAction(action);
             addSeparator();
-            QMenu * layoutMenu = addMenu(qApp->translate("djv::ViewLib::PlaybackMenu", "Layout"));
+            auto layoutMenu = addMenu(qApp->translate("djv::ViewLib::PlaybackMenu", "Layout"));
             Q_FOREACH(QAction * action,
                 actions->group(PlaybackActions::LAYOUT_GROUP)->actions())
                 layoutMenu->addAction(action);

@@ -46,8 +46,8 @@ namespace djv
 
         public:
             explicit ImageMenu(
-                AbstractActions * actions,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
             ~ImageMenu() override;
 
         protected Q_SLOTS:

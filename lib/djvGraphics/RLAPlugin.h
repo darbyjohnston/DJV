@@ -55,7 +55,7 @@ namespace djv
         class RLAPlugin : public ImageIO
         {
         public:
-            explicit RLAPlugin(Core::CoreContext *);
+            explicit RLAPlugin(const QPointer<Core::CoreContext> &);
 
             QString pluginName() const override;
             QStringList extensions() const override;

@@ -39,6 +39,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
@@ -47,12 +48,12 @@ namespace djv
     {
         struct InputPrefsWidget::Private
         {
-            QComboBox * mouseWheelWidget = nullptr;
-            QComboBox * mouseWheelShiftWidget = nullptr;
-            QComboBox * mouseWheelCtrlWidget = nullptr;
+            QPointer<QComboBox> mouseWheelWidget;
+            QPointer<QComboBox> mouseWheelShiftWidget;
+            QPointer<QComboBox> mouseWheelCtrlWidget;
         };
 
-        InputPrefsWidget::InputPrefsWidget(Context * context) :
+        InputPrefsWidget::InputPrefsWidget(const QPointer<Context> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::InputPrefsWidget", "Input"), context),
             _p(new Private)
         {
@@ -70,11 +71,11 @@ namespace djv
             _p->mouseWheelCtrlWidget->addItems(Util::mouseWheelLabels());
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::InputPrefsWidget", "Mouse Wheel"), context);
-            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            auto prefsGroupBox = new UI::PrefsGroupBox(
+                qApp->translate("djv::ViewLib::InputPrefsWidget", "Mouse Wheel"), context.data());
+            auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::InputPrefsWidget", "Wheel:"),
                 _p->mouseWheelWidget);

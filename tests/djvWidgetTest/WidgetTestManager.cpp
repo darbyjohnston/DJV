@@ -59,7 +59,7 @@ namespace djv
 {
     namespace WidgetTest
     {
-        WidgetTestManager::WidgetTestManager(UI::UIContext * context)
+        WidgetTestManager::WidgetTestManager(const QPointer<UI::UIContext> & context)
         {
             _tests += new AboutDialogTest(context);
             _tests += new ChoiceDialogTest(context);

@@ -48,7 +48,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            TIFFWidget(Graphics::ImageIO *, UIContext *);
+            TIFFWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -71,7 +71,7 @@ namespace djv
         class TIFFWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            TIFFWidgetPlugin(Core::CoreContext *);
+            TIFFWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
             QString pluginName() const override;

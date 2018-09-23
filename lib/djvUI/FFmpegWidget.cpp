@@ -45,7 +45,7 @@ namespace djv
 {
     namespace UI
     {
-        FFmpegWidget::FFmpegWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        FFmpegWidget::FFmpegWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context),
             _formatWidget(0),
             _qualityWidget(0)
@@ -166,7 +166,7 @@ namespace djv
             _qualityWidget->setCurrentIndex(_options.quality);
         }
 
-        FFmpegWidgetPlugin::FFmpegWidgetPlugin(Core::CoreContext * context) :
+        FFmpegWidgetPlugin::FFmpegWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

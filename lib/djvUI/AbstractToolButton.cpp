@@ -37,6 +37,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QPainter>
+#include <QPointer>
 #include <QStyle>
 #include <QStyleOption>
 
@@ -44,16 +45,27 @@ namespace djv
 {
     namespace UI
     {
-        AbstractToolButton::AbstractToolButton(UIContext * context, QWidget * parent) :
-            QAbstractButton(parent),
-            _context(context)
+        struct AbstractToolButton::Private
         {
+            QPointer<UIContext> context;
+        };
+
+        AbstractToolButton::AbstractToolButton(const QPointer<UIContext> & context, QWidget * parent) :
+            QAbstractButton(parent),
+            _p(new Private)
+        {
+            _p->context = context;
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             styleUpdate();
         }
 
         AbstractToolButton::~AbstractToolButton()
         {}
+
+        const QPointer<UIContext> & AbstractToolButton::context() const
+        {
+            return _p->context;
+        }
 
         void AbstractToolButton::paintEvent(QPaintEvent *)
         {

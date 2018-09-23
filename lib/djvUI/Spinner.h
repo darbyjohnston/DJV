@@ -51,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit Spinner(UIContext * context, QWidget * parent = nullptr);
+            explicit Spinner(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~Spinner() override;
 
             //! Get whether the spinner is spinning.    

@@ -49,7 +49,7 @@ namespace djv
 {
     namespace UI
     {
-        OpenEXRWidget::OpenEXRWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        OpenEXRWidget::OpenEXRWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("OpenEXRWidget::OpenEXRWidget");
@@ -464,7 +464,7 @@ namespace djv
 #endif // OPENEXR_VERSION_HEX
         }
 
-        OpenEXRWidgetPlugin::OpenEXRWidgetPlugin(Core::CoreContext * context) :
+        OpenEXRWidgetPlugin::OpenEXRWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

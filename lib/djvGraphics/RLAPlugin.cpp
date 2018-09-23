@@ -31,11 +31,13 @@
 
 #include <djvGraphics/RLALoad.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        RLAPlugin::RLAPlugin(Core::CoreContext * context) :
+        RLAPlugin::RLAPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

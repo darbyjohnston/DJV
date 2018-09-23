@@ -77,44 +77,44 @@ namespace djv
     {
         struct MainWindow::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 context(context)
             {}
 
             Util::MOUSE_WHEEL mouseWheel = static_cast<Util::MOUSE_WHEEL>(0);
-            FileGroup * fileGroup = nullptr;
-            WindowGroup * windowGroup = nullptr;
-            ViewGroup * viewGroup = nullptr;
-            ImageGroup * imageGroup = nullptr;
-            PlaybackGroup * playbackGroup = nullptr;
+            QPointer<FileGroup> fileGroup;
+            QPointer<WindowGroup> windowGroup;
+            QPointer<ViewGroup> viewGroup;
+            QPointer<ImageGroup> imageGroup;
+            QPointer<PlaybackGroup> playbackGroup;
             qint64 playbackFrameTmp = 0;
             float playbackSpeedTmp = 0.f;
-            ToolGroup * toolGroup = nullptr;
-            HelpGroup * helpGroup = nullptr;
-            const Graphics::Image * imageP = nullptr;
+            QPointer<ToolGroup> toolGroup;
+            QPointer<HelpGroup> helpGroup;
+            const Graphics::Image * imageP;
             Graphics::Image imageTmp;
             glm::ivec2 imagePick = glm::ivec2(0, 0);
             Graphics::Color imageSample;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             bool sampleInit = false;
-            ImageView * viewWidget = nullptr;
-            UI::ColorSwatch * infoSwatch = nullptr;
-            QLabel * infoPixelLabel = nullptr;
-            QLabel * infoImageLabel = nullptr;
-            QLabel * infoCacheLabel = nullptr;
+            QPointer<ImageView> viewWidget;
+            QPointer<UI::ColorSwatch> infoSwatch;
+            QPointer<QLabel> infoPixelLabel;
+            QPointer<QLabel> infoImageLabel;
+            QPointer<QLabel> infoCacheLabel;
             int menuBarHeight = 0;
-            Context * context = nullptr;
+            QPointer<Context> context;
         };
 
         namespace
         {
-            QVector<MainWindow *> _mainWindowList;
+            QVector<QPointer<MainWindow> > _mainWindowList;
 
         } // namespace
 
         MainWindow::MainWindow(
-            const MainWindow * copy,
-            Context *          context) :
+            const QPointer<MainWindow> & copy,
+            const QPointer<Context> & context) :
             _p(new Private(context))
         {
             //DJV_DEBUG("MainWindow::MainWindow");
@@ -127,7 +127,7 @@ namespace djv
             // Create the widgets.
             _p->viewWidget = new ImageView(context);
 
-            _p->infoSwatch = new UI::ColorSwatch(context);
+            _p->infoSwatch = new UI::ColorSwatch(context.data());
             _p->infoSwatch->setFixedSize(20, 20);
 
             _p->infoPixelLabel = new QLabel;
@@ -308,19 +308,19 @@ namespace djv
             return _p->fileGroup->imageIOInfo();
         }
 
-        ImageView * MainWindow::viewWidget() const
+        const QPointer<ImageView> & MainWindow::viewWidget() const
         {
             return _p->viewWidget;
         }
 
-        QVector<MainWindow *> MainWindow::mainWindowList()
+        QVector<QPointer<MainWindow> > MainWindow::mainWindowList()
         {
             return _mainWindowList;
         }
 
-        MainWindow * MainWindow::createWindow(Context * context)
+        QPointer<MainWindow> MainWindow::createWindow(const QPointer<Context> & context)
         {
-            MainWindow * out = new MainWindow(0, context);
+            auto out = QPointer<MainWindow>(new MainWindow(0, context));
 
             // Apply command line file options.
             if (context->fileLayer().data())

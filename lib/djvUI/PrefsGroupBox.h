@@ -55,12 +55,12 @@ namespace djv
         public:
             explicit PrefsGroupBox(
                 const QString & title,
-                UIContext * context,
+                const QPointer<UIContext> &,
                 QWidget * parent = nullptr);
             explicit PrefsGroupBox(
                 const QString & title,
                 const QString & text,
-                UIContext * context,
+                const QPointer<UIContext> &,
                 QWidget * parent = nullptr);
             ~PrefsGroupBox() override;
             

@@ -60,7 +60,7 @@ namespace djv
         class DPXPlugin : public ImageIO
         {
         public:
-            explicit DPXPlugin(Core::CoreContext *);
+            explicit DPXPlugin(const QPointer<Core::CoreContext> &);
 
             QString pluginName() const override;
             QStringList extensions() const override;

@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ProxyStyle(UIContext *);
+            ProxyStyle(const QPointer<UIContext> &);
             
             int pixelMetric(PixelMetric, const QStyleOption *, const QWidget *) const override;
             QPixmap standardPixmap(StandardPixmap, const QStyleOption *, const QWidget *) const override;
@@ -59,8 +59,8 @@ namespace djv
             void setFontSize(int);
         
         private:
-            UIContext * _context = nullptr;
-            int _fontSize = 12;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

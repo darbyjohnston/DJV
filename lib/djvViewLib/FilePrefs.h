@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit FilePrefs(Context *, QObject * parent = nullptr);
+            explicit FilePrefs(const QPointer<Context> &, QObject * parent = nullptr);
             ~FilePrefs() override;
 
             //! Add a recent file.

@@ -137,7 +137,7 @@ namespace djv
             //! Get the column labels.
             static const QStringList & columnsLabels();
 
-            explicit FileBrowserModel(UIContext *, QObject * parent = nullptr);
+            explicit FileBrowserModel(const QPointer<UIContext> &, QObject * parent = nullptr);
             ~FileBrowserModel() override;
 
             //! Get the path.

@@ -33,6 +33,7 @@
 #include <djvGraphics/PPMSave.h>
 
 #include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileIOUtil.h>
 #include <djvCore/Math.h>
@@ -43,7 +44,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PPMPlugin::PPMPlugin(Core::CoreContext * context) :
+        PPMPlugin::PPMPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
         {}
 

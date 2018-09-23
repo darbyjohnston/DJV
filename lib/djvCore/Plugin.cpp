@@ -58,16 +58,23 @@ namespace djv
 {
     namespace Core
     {
-        Plugin::Plugin(CoreContext * context) :
-            _context(context)
-        {}
+        struct Plugin::Private
+        {
+            QPointer<CoreContext> context;
+        };
+
+        Plugin::Plugin(const QPointer<CoreContext> & context) :
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         Plugin::~Plugin()
         {}
 
-        CoreContext * Plugin::context() const
+        const QPointer<CoreContext> & Plugin::context() const
         {
-            return _context;
+            return _p->context;
         }
 
         namespace
@@ -134,7 +141,7 @@ namespace djv
 
         struct PluginFactory::Private
         {
-            Private(CoreContext * context) :
+            Private(const QPointer<CoreContext> & context) :
                 context(context)
             {}
 
@@ -142,16 +149,16 @@ namespace djv
             QString pluginEntry;
             typedef QPair<Plugin *, Handle *> Pair;
             QMap<QString, Pair> plugins;
-            CoreContext * context = nullptr;
+            QPointer<CoreContext> context;
         };
 
         PluginFactory::PluginFactory(
-            CoreContext *    context,
+            const QPointer<CoreContext> & context,
             const QStringList & searchPath,
-            const QString &     pluginEntry,
-            const QString &     pluginPrefix,
-            const QString &     pluginSuffix,
-            QObject *           parent) :
+            const QString & pluginEntry,
+            const QString & pluginPrefix,
+            const QString & pluginSuffix,
+            QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {

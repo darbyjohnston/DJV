@@ -50,9 +50,9 @@ namespace djv
 
         public:
             WindowGroup(
-                const WindowGroup * copy,
-                MainWindow *        mainWindow,
-                Context *           context);
+                const QPointer<WindowGroup> & copy,
+                const QPointer<MainWindow> &,
+                const QPointer<Context> &);
             ~WindowGroup() override;
 
             //! Get whether full screen is enabled.    

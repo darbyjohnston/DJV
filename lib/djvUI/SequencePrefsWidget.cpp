@@ -56,7 +56,7 @@ namespace djv
             QPointer<QVBoxLayout> layout;
         };
 
-        SequencePrefsWidget::SequencePrefsWidget(UIContext * context, QWidget * parent) :
+        SequencePrefsWidget::SequencePrefsWidget(const QPointer<UIContext> & context, QWidget * parent) :
             AbstractPrefsWidget(qApp->translate("djv::UI::SequencePrefsWidget", "Sequences"), context, parent),
             _p(new Private)
         {

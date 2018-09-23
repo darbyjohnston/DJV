@@ -44,7 +44,7 @@ namespace djv
         class DPXLoad : public ImageLoad
         {
         public:
-            DPXLoad(const DPX::Options &, Core::CoreContext *);
+            DPXLoad(const DPX::Options &, const QPointer<Core::CoreContext> &);
             ~DPXLoad() override;
 
             void open(const Core::FileInfo &, ImageIOInfo &) override;

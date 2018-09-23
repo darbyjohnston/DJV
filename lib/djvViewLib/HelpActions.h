@@ -56,7 +56,7 @@ namespace djv
                 ACTION_COUNT
             };
 
-            explicit HelpActions(Context *, QObject * parent = nullptr);
+            explicit HelpActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~HelpActions() override;
 
         private:

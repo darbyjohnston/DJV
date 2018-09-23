@@ -53,7 +53,7 @@ namespace djv
         class TargaPlugin : public ImageIO
         {
         public:
-            TargaPlugin(Core::CoreContext *);
+            TargaPlugin(const QPointer<Core::CoreContext> &);
 
             QString pluginName() const override;
             QStringList extensions() const override;

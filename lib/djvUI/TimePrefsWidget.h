@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit TimePrefsWidget(UIContext *, QWidget * parent = nullptr);
+            explicit TimePrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~TimePrefsWidget() override;
 
             void resetPreferences() override;

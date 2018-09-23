@@ -46,8 +46,8 @@ namespace djv
 
         public:
             explicit HelpMenu(
-                AbstractActions * actions,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
             ~HelpMenu() override;
 
         private:

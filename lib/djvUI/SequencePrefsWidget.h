@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit SequencePrefsWidget(UIContext *, QWidget * parent = nullptr);
+            explicit SequencePrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
             ~SequencePrefsWidget() override;
 
             void resetPreferences() override;

@@ -32,6 +32,7 @@
 #include <djvViewLib/FileActions.h>
 
 #include <QApplication>
+#include <QPointer>
 
 namespace djv
 {
@@ -39,13 +40,13 @@ namespace djv
     {
         struct FileMenu::Private
         {
-            QMenu * recent = nullptr;
-            QMenu * layer = nullptr;
+            QPointer<QMenu> recent;
+            QPointer<QMenu> layer;
         };
 
         FileMenu::FileMenu(
-            AbstractActions * actions,
-            QWidget *         parent) :
+            const QPointer<AbstractActions> & actions,
+            QWidget * parent) :
             AbstractMenu(actions, parent),
             _p(new Private)
         {
@@ -61,9 +62,8 @@ namespace djv
             _p->layer = addMenu(qApp->translate("djv::ViewLib::FileMenu", "La&yer"));
             addAction(actions->action(FileActions::LAYER_PREV));
             addAction(actions->action(FileActions::LAYER_NEXT));
-            QMenu * proxyMenu = addMenu(qApp->translate("djv::ViewLib::FileMenu", "Pro&xy Scale"));
-            Q_FOREACH(QAction * action,
-                actions->group(FileActions::PROXY_GROUP)->actions())
+            auto proxyMenu = addMenu(qApp->translate("djv::ViewLib::FileMenu", "Pro&xy Scale"));
+            Q_FOREACH(QAction * action, actions->group(FileActions::PROXY_GROUP)->actions())
                 proxyMenu->addAction(action);
             addAction(actions->action(FileActions::U8_CONVERSION));
             addAction(actions->action(FileActions::CACHE));
@@ -87,12 +87,10 @@ namespace djv
         void FileMenu::menuUpdate()
         {
             _p->recent->clear();
-            Q_FOREACH(QAction * action,
-                actions()->group(FileActions::RECENT_GROUP)->actions())
+            Q_FOREACH(QAction * action, actions()->group(FileActions::RECENT_GROUP)->actions())
                 _p->recent->addAction(action);
             _p->layer->clear();
-            Q_FOREACH(QAction * action,
-                actions()->group(FileActions::LAYER_GROUP)->actions())
+            Q_FOREACH(QAction * action, actions()->group(FileActions::LAYER_GROUP)->actions())
                 _p->layer->addAction(action);
         }
 

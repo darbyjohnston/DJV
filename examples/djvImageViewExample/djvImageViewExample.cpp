@@ -42,7 +42,7 @@
 
 namespace djv
 {
-    ImageViewExampleWidget::ImageViewExampleWidget(UI::UIContext * context) :
+    ImageViewExampleWidget::ImageViewExampleWidget(const QPointer<UI::UIContext> & context) :
         UI::ImageView(context)
     {}
 

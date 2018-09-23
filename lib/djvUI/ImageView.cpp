@@ -40,6 +40,8 @@
 #include <djvCore/Error.h>
 #include <djvCore/ErrorUtil.h>
 
+#include <QPointer>
+
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace djv
@@ -48,7 +50,7 @@ namespace djv
     {
         struct ImageView::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
@@ -58,11 +60,11 @@ namespace djv
             float viewZoom = 1.f;
             bool viewFit = false;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
         ImageView::ImageView(
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent,
             Qt::WindowFlags flags) :
             OpenGLWidget(parent, flags),

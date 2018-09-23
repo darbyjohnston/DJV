@@ -31,6 +31,7 @@
 
 #include <djvGraphics/GraphicsContext.h>
 
+#include <djvCore/CoreContext.h>
 #include <djvCore/Debug.h>
 #include <djvCore/DebugLog.h>
 #include <djvCore/Error.h>
@@ -98,9 +99,16 @@ namespace djv
             proxy(proxy)
         {}
 
-        ImageLoad::ImageLoad(Core::CoreContext * context) :
-            _context(context)
-        {}
+        struct ImageLoad::Private
+        {
+            QPointer<Core::CoreContext> context;
+        };
+
+        ImageLoad::ImageLoad(const QPointer<Core::CoreContext> & context) :
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         ImageLoad::~ImageLoad()
         {}
@@ -108,14 +116,21 @@ namespace djv
         void ImageLoad::close()
         {}
 
-        Core::CoreContext * ImageLoad::context() const
+        const QPointer<Core::CoreContext> & ImageLoad::context() const
         {
-            return _context;
+            return _p->context;
         }
 
-        ImageSave::ImageSave(Core::CoreContext * context) :
-            _context(context)
-        {}
+        struct ImageSave::Private
+        {
+            QPointer<Core::CoreContext> context;
+        };
+
+        ImageSave::ImageSave(const QPointer<Core::CoreContext> & context) :
+            _p(new Private)
+        {
+            _p->context = context;
+        }
 
         ImageSave::~ImageSave()
         {}
@@ -123,12 +138,12 @@ namespace djv
         void ImageSave::close()
         {}
 
-        Core::CoreContext * ImageSave::context() const
+        const QPointer<Core::CoreContext> & ImageSave::context() const
         {
-            return _context;
+            return _p->context;
         }
 
-        ImageIO::ImageIO(Core::CoreContext * context) :
+        ImageIO::ImageIO(const QPointer<Core::CoreContext> & context) :
             Core::Plugin(context)
         {}
 
@@ -201,9 +216,9 @@ namespace djv
         };
 
         ImageIOFactory::ImageIOFactory(
-            Core::CoreContext *  context,
-            const QStringList &  searchPath,
-            QObject *            parent) :
+            const QPointer<Core::CoreContext> & context,
+            const QStringList & searchPath,
+            QObject * parent) :
             Core::PluginFactory(context, searchPath, "djvImageIOEntry", "djv", "Plugin", parent),
             _p(new Private)
         {

@@ -41,6 +41,7 @@
 #include <QApplication>
 #include <QButtonGroup>
 #include <QHBoxLayout>
+#include <QPointer>
 #include <QStyle>
 
 namespace djv
@@ -49,16 +50,16 @@ namespace djv
     {
         struct PlaybackButtons::Private
         {
-            UI::UIContext * context = nullptr;
-            QButtonGroup * buttonGroup = nullptr;
-            UI::ShuttleButton * shuttle = nullptr;
-            QHBoxLayout * layout = nullptr;
+            QPointer<UI::UIContext> context;
+            QPointer<QButtonGroup> buttonGroup;
+            QPointer<UI::ShuttleButton> shuttle;
+            QPointer<QHBoxLayout> layout;
         };
 
         PlaybackButtons::PlaybackButtons(
-            QActionGroup *  actionGroup,
-            UI::UIContext * context,
-            QWidget *       parent) :
+            const QPointer<QActionGroup> & actionGroup,
+            const QPointer<UI::UIContext> & context,
+            QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -116,23 +117,23 @@ namespace djv
 
         struct LoopWidget::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 context(context)
             {}
 
             Util::LOOP loop = Util::LOOP_REPEAT;
-            UI::ChoiceButton * button = nullptr;
-            Context * context;
+            QPointer<UI::ChoiceButton> button;
+            QPointer<Context> context;
         };
 
         LoopWidget::LoopWidget(
-            QActionGroup * actionGroup,
-            Context * context,
+            const QPointer<QActionGroup> & actionGroup,
+            const QPointer<Context> & context,
             QWidget * parent) :
             QWidget(parent),
             _p(new Private(context))
         {
-            _p->button = new UI::ChoiceButton(actionGroup, context);
+            _p->button = new UI::ChoiceButton(actionGroup, context.data());
 
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
@@ -169,16 +170,16 @@ namespace djv
 
         struct FrameButtons::Private
         {
-            UI::UIContext * context = nullptr;
-            QButtonGroup * buttonGroup = nullptr;
-            UI::ShuttleButton * shuttle = nullptr;
-            QHBoxLayout * layout = nullptr;
+            QPointer<UI::UIContext> context;
+            QPointer<QButtonGroup> buttonGroup;
+            QPointer<UI::ShuttleButton> shuttle;
+            QPointer<QHBoxLayout> layout;
         };
 
         FrameButtons::FrameButtons(
-            QActionGroup *  actionGroup,
-            UI::UIContext * context,
-            QWidget *       parent) :
+            const QPointer<QActionGroup> & actionGroup,
+            const QPointer<UI::UIContext> & context,
+            QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

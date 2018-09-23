@@ -33,29 +33,37 @@ namespace djv
 {
     namespace UI
     {
+        struct AbstractPrefsWidget::Private
+        {
+            QString name;
+            QPointer<UIContext> context;
+        };
+
         AbstractPrefsWidget::AbstractPrefsWidget(
             const QString & name,
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             QWidget(parent),
-            _name(name),
-            _context(context)
-        {}
+            _p(new Private)
+        {
+            _p->name = name;
+            _p->context = context;
+        }
 
         AbstractPrefsWidget::~AbstractPrefsWidget()
         {}
 
         const QString & AbstractPrefsWidget::name() const
         {
-            return _name;
+            return _p->name;
         }
 
         void AbstractPrefsWidget::resetPreferences()
         {}
 
-        UIContext * AbstractPrefsWidget::context() const
+        const QPointer<UIContext> & AbstractPrefsWidget::context() const
         {
-            return _context;
+            return _p->context;
         }
 
     } // namespace UI

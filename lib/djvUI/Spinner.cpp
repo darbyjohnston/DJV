@@ -45,11 +45,11 @@ namespace djv
     {
         struct Spinner::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
             int tick = 0;
             int timer = 0;
             int startTimer = 0;
@@ -57,7 +57,7 @@ namespace djv
         };
 
         Spinner::Spinner(
-            UIContext * context,
+            const QPointer<UIContext> & context,
             QWidget * parent) :
             QWidget(parent),
             _p(new Private(context))

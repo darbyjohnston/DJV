@@ -31,6 +31,7 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QPointer>
 
 namespace djv
 {
@@ -38,15 +39,15 @@ namespace djv
     {
         struct AbstractActions::Private
         {
-            Private(Context * context) :
+            Private(const QPointer<Context> & context) :
                 context(context)
             {}
 
-            Context * context = nullptr;
+            QPointer<Context> context;
         };
 
         AbstractActions::AbstractActions(
-            Context * context,
+            const QPointer<Context> & context,
             QObject * parent) :
             QObject(parent),
             _p(new Private(context))
@@ -75,7 +76,7 @@ namespace djv
             return _groups.contains(index) ? _groups[index] : 0;
         }
 
-        Context * AbstractActions::context() const
+        const QPointer<Context> & AbstractActions::context() const
         {
             return _p->context;
         }

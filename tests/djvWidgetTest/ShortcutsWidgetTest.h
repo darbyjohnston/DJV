@@ -42,7 +42,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ShortcutsWidgetTest(UI::UIContext *);
+            ShortcutsWidgetTest(const QPointer<UI::UIContext> &);
 
             QString name() override;
             void run(const QStringList & args = QStringList()) override;

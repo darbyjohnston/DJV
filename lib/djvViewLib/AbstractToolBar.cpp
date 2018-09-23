@@ -34,6 +34,8 @@
 
 #include <djvUI/IconLibrary.h>
 
+#include <QPointer>
+
 namespace djv
 {
     namespace ViewLib
@@ -41,21 +43,21 @@ namespace djv
         struct AbstractToolBar::Private
         {
             Private(
-                AbstractActions * actions,
-                Context *         context) :
+                const QPointer<AbstractActions> & actions,
+                const QPointer<Context> & context) :
                 actions(actions),
                 context(context)
             {}
 
-            Context *         context = nullptr;
-            AbstractActions * actions = nullptr;
+            QPointer<Context> context;
+            QPointer<AbstractActions> actions;
         };
 
         AbstractToolBar::AbstractToolBar(
-            const QString &   title,
-            AbstractActions * actions,
-            Context *         context,
-            QWidget *         parent) :
+            const QString &  title,
+            const QPointer<AbstractActions> & actions,
+            const QPointer<Context> & context,
+            QWidget * parent) :
             QToolBar(title, parent),
             _p(new Private(actions, context))
         {
@@ -67,12 +69,12 @@ namespace djv
         AbstractToolBar::~AbstractToolBar()
         {}
 
-        AbstractActions * AbstractToolBar::actions() const
+        const QPointer<AbstractActions> & AbstractToolBar::actions() const
         {
             return _p->actions;
         }
 
-        Context * AbstractToolBar::context() const
+        const QPointer<Context> & AbstractToolBar::context() const
         {
             return _p->context;
         }

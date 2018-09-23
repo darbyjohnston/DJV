@@ -56,7 +56,7 @@ namespace djv
         class CineonPlugin : public ImageIO
         {
         public:
-            explicit CineonPlugin(Core::CoreContext *);
+            explicit CineonPlugin(const QPointer<Core::CoreContext> &);
             ~CineonPlugin() override;
 
             QString pluginName() const override;

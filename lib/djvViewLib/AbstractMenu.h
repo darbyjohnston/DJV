@@ -52,13 +52,13 @@ namespace djv
 
         public:
             explicit AbstractMenu(
-                AbstractActions * actions,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
 
             virtual ~AbstractMenu() = 0;
 
             //! Get the actions.
-            AbstractActions * actions() const;
+            const QPointer<AbstractActions> & actions() const;
 
         protected Q_SLOTS:
             virtual void menuUpdate();

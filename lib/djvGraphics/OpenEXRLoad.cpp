@@ -34,6 +34,7 @@
 #include <djvGraphics/PixelDataUtil.h>
 
 #include <djvCore/BoxUtil.h>
+#include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 
 #include <ImfChannelList.h>
@@ -47,7 +48,7 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, Core::CoreContext * context) :
+        OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _options(options),
             _f(0),

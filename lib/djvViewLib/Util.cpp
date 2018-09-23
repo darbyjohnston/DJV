@@ -183,7 +183,7 @@ namespace djv
         void Util::loadLut(
             const Core::FileInfo & fileInfo,
             Graphics::PixelData &  lut,
-            Context *              context)
+            const QPointer<Context> & context)
         {
             if (fileInfo.fileName().isEmpty())
                 return;

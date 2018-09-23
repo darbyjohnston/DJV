@@ -46,9 +46,9 @@ namespace djv
 
         public:
             explicit FileToolBar(
-                AbstractActions * actions,
-                Context *         context,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                const QPointer<Context> &,
+                QWidget * parent = nullptr);
             ~FileToolBar() override;
 
         private:

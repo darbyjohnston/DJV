@@ -47,11 +47,11 @@
 #include <QLabel>
 #include <QListWidget>
 #include <QFormLayout>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace
 {
-
 class SmallListWidget : public QListWidget
 {
 public:
@@ -70,22 +70,22 @@ namespace djv
     {
         struct ImagePrefsWidget::Private
         {
-            QCheckBox * frameStoreFileReloadWidget = nullptr;
-            QCheckBox * mirrorHWidget = nullptr;
-            QCheckBox * mirrorVWidget = nullptr;
-            QComboBox * scaleWidget = nullptr;
-            QComboBox * rotateWidget = nullptr;
-            QCheckBox * colorProfileWidget = nullptr;
-            QComboBox * displayProfileWidget = nullptr;
-            QListWidget * displayProfileListWidget = nullptr;
-            UI::ToolButton * addDisplayProfileButton = nullptr;
-            UI::ToolButton * removeDisplayProfileButton = nullptr;
-            UI::ToolButton * moveDisplayProfileUpButton = nullptr;
-            UI::ToolButton * moveDisplayProfileDownButton = nullptr;
-            QComboBox * channelWidget = nullptr;
+            QPointer<QCheckBox> frameStoreFileReloadWidget;
+            QPointer<QCheckBox> mirrorHWidget;
+            QPointer<QCheckBox> mirrorVWidget;
+            QPointer<QComboBox> scaleWidget;
+            QPointer<QComboBox> rotateWidget;
+            QPointer<QCheckBox> colorProfileWidget;
+            QPointer<QComboBox> displayProfileWidget;
+            QPointer<QListWidget> displayProfileListWidget;
+            QPointer<UI::ToolButton> addDisplayProfileButton;
+            QPointer<UI::ToolButton> removeDisplayProfileButton;
+            QPointer<UI::ToolButton> moveDisplayProfileUpButton;
+            QPointer<UI::ToolButton> moveDisplayProfileDownButton;
+            QPointer<QComboBox> channelWidget;
         };
 
-        ImagePrefsWidget::ImagePrefsWidget(Context * context) :
+        ImagePrefsWidget::ImagePrefsWidget(const QPointer<Context> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::ImagePrefsWidget", "Images"), context),
             _p(new Private)
         {
@@ -115,21 +115,21 @@ namespace djv
 
             _p->displayProfileListWidget = new SmallListWidget;
 
-            _p->addDisplayProfileButton = new UI::ToolButton(context);
+            _p->addDisplayProfileButton = new UI::ToolButton(context.data());
             _p->addDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Add a new display profile"));
 
-            _p->removeDisplayProfileButton = new UI::ToolButton(context);
+            _p->removeDisplayProfileButton = new UI::ToolButton(context.data());
             _p->removeDisplayProfileButton->setAutoRepeat(true);
             _p->removeDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Remove the selected display profile"));
 
-            _p->moveDisplayProfileUpButton = new UI::ToolButton(context);
+            _p->moveDisplayProfileUpButton = new UI::ToolButton(context.data());
             _p->moveDisplayProfileUpButton->setAutoRepeat(true);
             _p->moveDisplayProfileUpButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Move the selected display profile up"));
 
-            _p->moveDisplayProfileDownButton = new UI::ToolButton(context);
+            _p->moveDisplayProfileDownButton = new UI::ToolButton(context.data());
             _p->moveDisplayProfileDownButton->setAutoRepeat(true);
             _p->moveDisplayProfileDownButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Move the selected display profile down"));
@@ -139,18 +139,18 @@ namespace djv
             _p->channelWidget->addItems(Graphics::OpenGLImageOptions::channelLabels());
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            auto layout = new QVBoxLayout(this);
 
-            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::ImagePrefsWidget", "Images"), context);
-            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            auto prefsGroupBox = new UI::PrefsGroupBox(
+                qApp->translate("djv::ViewLib::ImagePrefsWidget", "Images"), context.data());
+            auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->frameStoreFileReloadWidget);
             layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Transforms"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Set how the image is transformed."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->mirrorHWidget);
             formLayout->addRow(_p->mirrorVWidget);
@@ -166,7 +166,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Color Profile"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget",
                     "Set whether the image's color profile is enabled."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->colorProfileWidget);
             layout->addWidget(prefsGroupBox);
@@ -174,14 +174,14 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Display Profile"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Set a custom display profile."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Current profile:"),
                 _p->displayProfileWidget);
             formLayout->addRow(new QLabel(qApp->translate("djv::ViewLib::ImagePrefsWidget", "Available profiles:")));
             formLayout->addRow(_p->displayProfileListWidget);
-            QHBoxLayout * hLayout = new QHBoxLayout;
+            auto hLayout = new QHBoxLayout;
             hLayout->addStretch();
             hLayout->addWidget(_p->addDisplayProfileButton);
             hLayout->addWidget(_p->removeDisplayProfileButton);
@@ -193,7 +193,7 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Channels"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Set which image channels are displayed."),
-                context);
+                context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Channels:"),

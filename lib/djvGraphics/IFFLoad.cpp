@@ -33,11 +33,13 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/CoreContext.h>
+
 namespace djv
 {
     namespace Graphics
     {
-        IFFLoad::IFFLoad(Core::CoreContext * context) :
+        IFFLoad::IFFLoad(const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _tiles(0),
             _compression(false)

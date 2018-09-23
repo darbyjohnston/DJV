@@ -46,8 +46,8 @@ namespace djv
 
         public:
             explicit PlaybackMenu(
-                AbstractActions * actions,
-                QWidget *         parent = nullptr);
+                const QPointer<AbstractActions> &,
+                QWidget * parent = nullptr);
             ~PlaybackMenu() override;
 
         private:

@@ -45,7 +45,7 @@ namespace djv
 {
     namespace UI
     {
-        JPEGWidget::JPEGWidget(Graphics::ImageIO * plugin, UIContext * context) :
+        JPEGWidget::JPEGWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             // Create the widgets.
@@ -129,7 +129,7 @@ namespace djv
             _qualityWidget->setValue(_options.quality);
         }
 
-        JPEGWidgetPlugin::JPEGWidgetPlugin(Core::CoreContext * context) :
+        JPEGWidgetPlugin::JPEGWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIOWidgetPlugin(context)
         {}
 

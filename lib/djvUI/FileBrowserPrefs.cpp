@@ -45,7 +45,7 @@ namespace djv
     {
         struct FileBrowserPrefs::Private
         {
-            Private(UIContext * context) :
+            Private(const QPointer<UIContext> & context) :
                 context(context)
             {}
 
@@ -60,7 +60,7 @@ namespace djv
             QStringList recent;
             QStringList bookmarks;
             QVector<Shortcut> shortcuts = FileBrowserPrefs::shortcutsDefault();
-            UIContext * context = nullptr;
+            QPointer<UIContext> context;
         };
 
         namespace
@@ -69,7 +69,7 @@ namespace djv
 
         } // namespace
 
-        FileBrowserPrefs::FileBrowserPrefs(UIContext * context, QObject * parent) :
+        FileBrowserPrefs::FileBrowserPrefs(const QPointer<UIContext> & context, QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {

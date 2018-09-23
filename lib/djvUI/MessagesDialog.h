@@ -57,7 +57,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            MessagesDialog(UIContext *);
+            MessagesDialog(const QPointer<UIContext> &);
             ~MessagesDialog() override;
 
             //! Add a message to the dialog.

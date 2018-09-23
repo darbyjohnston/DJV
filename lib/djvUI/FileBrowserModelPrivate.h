@@ -51,7 +51,7 @@ namespace djv
                 const Core::FileInfo & fileInfo,
                 FileBrowserModel::THUMBNAILS thumbnails,
                 FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
-                UIContext * context,
+                const QPointer<UIContext> & context,
                 QObject * parent);
 
             //! Get the file information.
@@ -100,7 +100,7 @@ namespace djv
             QVariant _displayRole[FileBrowserModel::COLUMNS_COUNT];
             QVariant _editRole[FileBrowserModel::COLUMNS_COUNT];
 
-            UIContext * _context = nullptr;
+            QPointer<UIContext> _context;
         };
 
     } // namespace UI
