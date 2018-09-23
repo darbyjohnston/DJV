@@ -36,7 +36,6 @@ namespace djv
     //! \todo Replace base Qt types with standard types from stdint.h
     //! \todo Replace Qt container classes with STL where possible
     //! \todo Use std::shared_ptr and std::weak_ptr where possible
-    //! \todo Use QPointer for Qt types where possible
     namespace Core
     {
     } // namespace Core
