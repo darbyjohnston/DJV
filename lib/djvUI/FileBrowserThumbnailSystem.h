@@ -29,42 +29,52 @@
 
 #pragma once
 
-#include <djvUI/Core.h>
+#include <djvUI/FileBrowserModel.h>
 
 #include <djvGraphics/ImageIO.h>
 
-#include <djvCore/FileInfo.h>
+#include <QThread>
 
-#include <QCache>
-#include <QPixmap>
+#include <future>
+
+class QPixmap;
 
 namespace djv
 {
     namespace UI
     {
-        //! \struct FileBrowserCacheItem
+        //! \class FileBrowserThumbnailSystem
         //!
-        //! This struct provides a file browser thumbnail cache item.
-        struct FileBrowserCacheItem
+        //! This class provides a file browser thumbnail system.
+        class FileBrowserThumbnailSystem : public QThread
         {
-            FileBrowserCacheItem();
-            FileBrowserCacheItem(
-                const Graphics::ImageIOInfo &  imageInfo,
-                const glm::ivec2 &             thumbnailResolution,
-                Graphics::PixelDataInfo::PROXY thumbnailProxy,
-                const QPixmap &                thumbnail);
+            Q_OBJECT
 
-            Graphics::ImageIOInfo          imageInfo;
-            glm::ivec2                     thumbnailResolution = glm::ivec2(0, 0);
-            Graphics::PixelDataInfo::PROXY thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
-            QPixmap                        thumbnail;
+        public:
+            FileBrowserThumbnailSystem(Graphics::ImageIOFactory *, QObject * parent = nullptr);
+            virtual ~FileBrowserThumbnailSystem();
+
+            std::future<Graphics::ImageIOInfo> getInfo(const Core::FileInfo&);
+            std::future<QPixmap> getPixmap(
+                const Core::FileInfo&,
+                FileBrowserModel::THUMBNAIL_MODE,
+                const glm::ivec2 &,
+                Graphics::PixelDataInfo::PROXY);
+
+            void stop();
+
+        protected:
+            void run() override;
+
+        private:
+            void _handleInfoRequests();
+            void _handlePixmapRequests();
+
+            DJV_PRIVATE_COPY(FileBrowserThumbnailSystem);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
-
-        //! \class FileBrowserCache
-        //!
-        //! This class provides a file browser thumbnail cache.
-        class FileBrowserCache : public QCache<Core::FileInfo, FileBrowserCacheItem>
-        {};
 
     } // namespace UI
 } // namespace djv

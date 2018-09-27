@@ -36,6 +36,7 @@
 #include <djvUI/FileBrowser.h>
 #include <djvUI/FileBrowserCache.h>
 #include <djvUI/FileBrowserPrefs.h>
+#include <djvUI/FileBrowserThumbnailSystem.h>
 #include <djvUI/HelpPrefs.h>
 #include <djvUI/IFFWidget.h>
 #include <djvUI/IconLibrary.h>
@@ -99,6 +100,7 @@ namespace djv
             QScopedPointer<SequencePrefs>        sequencePrefs;
             QScopedPointer<TimePrefs>            timePrefs;
             QScopedPointer<FileBrowserCache>     fileBrowserCache;
+            QPointer<FileBrowserThumbnailSystem> fileBrowserThumbnailSystem;
             QScopedPointer<ImageIOWidgetFactory> imageIOWidgetFactory;
             QScopedPointer<PrefsDialog>          prefsDialog;
             QScopedPointer<InfoDialog>           infoDialog;
@@ -146,7 +148,9 @@ namespace djv
 
             // Initialize.
             _p->fileBrowserCache.reset(new FileBrowserCache);
-            _p->fileBrowserCache->setMaxCost(fileBrowserPrefs()->thumbnailsCache());
+            _p->fileBrowserCache->setMaxCost(fileBrowserPrefs()->thumbnailCache());
+            _p->fileBrowserThumbnailSystem = new FileBrowserThumbnailSystem(imageIOFactory(), this);
+            _p->fileBrowserThumbnailSystem->start();
             _p->iconLibrary.reset(new IconLibrary);
             _p->proxyStyle = new UI::ProxyStyle(this);
             qApp->setStyle(_p->proxyStyle);
@@ -163,6 +167,8 @@ namespace djv
         UIContext::~UIContext()
         {
             //DJV_DEBUG("UIContext::~UIContext");
+            _p->fileBrowserThumbnailSystem->stop();
+            _p->fileBrowserThumbnailSystem->wait();
             QThreadPool::globalInstance()->waitForDone();
         }
 
@@ -324,6 +330,11 @@ namespace djv
         FileBrowserCache * UIContext::fileBrowserCache() const
         {
             return _p->fileBrowserCache.data();
+        }
+
+        const QPointer<FileBrowserThumbnailSystem> & UIContext::fileBrowserThumbnailSystem() const
+        {
+            return _p->fileBrowserThumbnailSystem;
         }
 
         QString UIContext::info() const

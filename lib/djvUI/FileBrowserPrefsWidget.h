@@ -59,9 +59,9 @@ namespace djv
         private Q_SLOTS:
             void seqCallback(int);
             void sortCallback(int);
-            void thumbnailsCallback(int);
-            void thumbnailsSizeCallback(int);
-            void thumbnailsCacheCallback(int);
+            void thumbnailModeCallback(int);
+            void thumbnailSizeCallback(int);
+            void thumbnailCacheCallback(int);
             void bookmarkCallback(QListWidgetItem *);
             void addBookmarkCallback();
             void removeBookmarkCallback();

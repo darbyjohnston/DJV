@@ -111,7 +111,12 @@ namespace djv
             _p->openGLContext->setFormat(surfaceFormat);
             _p->openGLContext->create();
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
-            //DJV_DEBUG_PRINT("OpenGL context = " << _p->openGLContext->isValid());
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
+                QString("OpenGL context valid = %1").arg(_p->openGLContext->isValid()));
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
+                QString("OpenGL version = %1.%2").
+                arg(_p->openGLContext->format().majorVersion()).
+                arg(_p->openGLContext->format().minorVersion()));
 
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
 

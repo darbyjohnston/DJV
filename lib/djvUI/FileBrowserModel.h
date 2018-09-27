@@ -52,8 +52,8 @@ namespace djv
         {
             Q_OBJECT
             Q_ENUMS(COLUMNS)
-            Q_ENUMS(THUMBNAILS)
-            Q_ENUMS(THUMBNAILS_SIZE)
+            Q_ENUMS(THUMBNAIL_MODE)
+            Q_ENUMS(THUMBNAIL_SIZE)
 
             //! This property holds the path.
             Q_PROPERTY(
@@ -106,17 +106,17 @@ namespace djv
 
             //! This property holds the image thumbnail mode.
             Q_PROPERTY(
-                FileBrowserModel::THUMBNAILS thumbnails
-                READ                         thumbnails
-                WRITE                        setThumbnails
-                NOTIFY                       thumbnailsChanged)
+                FileBrowserModel::THUMBNAIL_MODE thumbnailMode
+                READ                             thumbnailMode
+                WRITE                            setThumbnailMode
+                NOTIFY                           thumbnailModeChanged)
 
             //! This property holds the image thumbnail size.
             Q_PROPERTY(
-                FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize
-                READ                              thumbnailsSize
-                WRITE                             setThumbnailsSize
-                NOTIFY                            thumbnailsSizeChanged)
+                FileBrowserModel::THUMBNAIL_SIZE thumbnailSize
+                READ                             thumbnailSize
+                WRITE                            setThumbnailSize
+                NOTIFY                           thumbnailSizeChanged)
 
         public:
 
@@ -168,39 +168,39 @@ namespace djv
             bool hasSortDirsFirst() const;
 
             //! This enumeration provides the image thumbnail mode.
-            enum THUMBNAILS
+            enum THUMBNAIL_MODE
             {
-                THUMBNAILS_OFF,
-                THUMBNAILS_LOW,
-                THUMBNAILS_HIGH,
+                THUMBNAIL_MODE_OFF,
+                THUMBNAIL_MODE_LOW,
+                THUMBNAIL_MODE_HIGH,
 
-                THUMBNAILS_COUNT
+                THUMBNAIL_MODE_COUNT
             };
 
             //! Get the image thumbnail mode labels.
-            static const QStringList & thumbnailsLabels();
+            static const QStringList & thumbnailModeLabels();
 
             //! Get the image thumbnail mode.
-            THUMBNAILS thumbnails() const;
+            THUMBNAIL_MODE thumbnailMode() const;
 
             //! This enumeration provides the image thumbnail size.
-            enum THUMBNAILS_SIZE
+            enum THUMBNAIL_SIZE
             {
-                THUMBNAILS_SMALL,
-                THUMBNAILS_MEDIUM,
-                THUMBNAILS_LARGE,
+                THUMBNAIL_SMALL,
+                THUMBNAIL_MEDIUM,
+                THUMBNAIL_LARGE,
 
-                THUMBNAILS_SIZE_COUNT
+                THUMBNAIL_SIZE_COUNT
             };
 
             //! Get the image thumbnail size labels.
-            static const QStringList & thumbnailsSizeLabels();
+            static const QStringList & thumbnailSizeLabels();
 
             //! Get the image thumbnail size value.
-            static int thumbnailsSizeValue(THUMBNAILS_SIZE);
+            static int thumbnailSizeValue(THUMBNAIL_SIZE);
 
             //! Get the image thumbnail size.
-            THUMBNAILS_SIZE thumbnailsSize() const;
+            THUMBNAIL_SIZE thumbnailSize() const;
 
             QModelIndex	index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
             QModelIndex	parent(const QModelIndex & = QModelIndex()) const override;
@@ -238,10 +238,10 @@ namespace djv
             void setSortDirsFirst(bool);
 
             //! Set the image thumbnail mode.
-            void setThumbnails(djv::UI::FileBrowserModel::THUMBNAILS);
+            void setThumbnailMode(djv::UI::FileBrowserModel::THUMBNAIL_MODE);
 
             //! Set the image thumbnail size.
-            void setThumbnailsSize(djv::UI::FileBrowserModel::THUMBNAILS_SIZE);
+            void setThumbnailSize(djv::UI::FileBrowserModel::THUMBNAIL_SIZE);
 
         Q_SIGNALS:
             //! This signal is emitted when the path is changed.
@@ -266,10 +266,10 @@ namespace djv
             void sortDirsFirstChanged(bool);
 
             //! This signal is emitted when the thumbnail mode is changed.
-            void thumbnailsChanged(djv::UI::FileBrowserModel::THUMBNAILS);
+            void thumbnailModeChanged(djv::UI::FileBrowserModel::THUMBNAIL_MODE);
 
             //! This signal is emitted when the thumbnail size is changed.
-            void thumbnailsSizeChanged(djv::UI::FileBrowserModel::THUMBNAILS_SIZE);
+            void thumbnailSizeChanged(djv::UI::FileBrowserModel::THUMBNAIL_SIZE);
 
             //! This signal is emitted when an option is changed.
             void optionChanged();
@@ -291,8 +291,8 @@ namespace djv
     } // namespace UI
 
     DJV_STRING_OPERATOR(UI::FileBrowserModel::COLUMNS);
-    DJV_STRING_OPERATOR(UI::FileBrowserModel::THUMBNAILS);
-    DJV_STRING_OPERATOR(UI::FileBrowserModel::THUMBNAILS_SIZE);
+    DJV_STRING_OPERATOR(UI::FileBrowserModel::THUMBNAIL_MODE);
+    DJV_STRING_OPERATOR(UI::FileBrowserModel::THUMBNAIL_SIZE);
 
 } // namespace djv
 

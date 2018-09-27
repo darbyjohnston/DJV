@@ -72,14 +72,14 @@ namespace djv
             DJV_DEBUG_OPEN_GL(glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
             GLenum format = GL_RGBA;
-            if (Pixel::F16 == Pixel::type(_info.pixel))
+            /*if (Pixel::F16 == Pixel::type(_info.pixel))
             {
                 format = GL_RGBA16F;
             }
             else if (Pixel::F32 == Pixel::type(_info.pixel))
             {
                 format = GL_RGBA32F;
-            }
+            }*/
 
             DJV_DEBUG_OPEN_GL(
                 glTexImage1D(

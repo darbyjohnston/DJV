@@ -30,6 +30,7 @@
 #include <djvUI/FileBrowserModelPrivate.h>
 
 #include <djvUI/FileBrowserCache.h>
+#include <djvUI/FileBrowserThumbnailSystem.h>
 #include <djvUI/UIContext.h>
 
 #include <djvGraphics/Image.h>
@@ -40,10 +41,9 @@
 #include <djvCore/VectorUtil.h>
 
 #include <QDateTime>
-#include <QFutureWatcher>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
-#include <QtConcurrent/QtConcurrentRun>
+#include <QTimerEvent>
 
 namespace djv
 {
@@ -51,28 +51,25 @@ namespace djv
     {
         FileBrowserItem::FileBrowserItem(
             const Core::FileInfo & fileInfo,
-            FileBrowserModel::THUMBNAILS thumbnails,
-            FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
+            FileBrowserModel::THUMBNAIL_MODE thumbnailMode,
+            FileBrowserModel::THUMBNAIL_SIZE thumbnailSize,
             const QPointer<UIContext> & context,
             QObject * parent) :
             QObject(parent),
             _fileInfo(fileInfo),
-            _thumbnails(thumbnails),
-            _thumbnailsSize(thumbnailsSize),
+            _thumbnailMode(thumbnailMode),
+            _thumbnailSize(thumbnailSize),
             _context(context)
         {
             // Initialize the display role data.
             _displayRole[FileBrowserModel::NAME] = fileInfo.name();
-            _displayRole[FileBrowserModel::SIZE] =
-                Core::Memory::sizeLabel(fileInfo.size());
+            _displayRole[FileBrowserModel::SIZE] = Core::Memory::sizeLabel(fileInfo.size());
 #if ! defined(DJV_WINDOWS)
             _displayRole[FileBrowserModel::USER] =
                 Core::User::uidToString(fileInfo.user());
 #endif // DJV_WINDOWS
-            _displayRole[FileBrowserModel::PERMISSIONS] =
-                Core::FileInfo::permissionsLabel(fileInfo.permissions());
-            _displayRole[FileBrowserModel::TIME] =
-                Core::Time::timeToString(fileInfo.time());
+            _displayRole[FileBrowserModel::PERMISSIONS] = Core::FileInfo::permissionsLabel(fileInfo.permissions());
+            _displayRole[FileBrowserModel::TIME] = Core::Time::timeToString(fileInfo.time());
 
             // Initialize the edit role data.
             _editRole[FileBrowserModel::NAME].setValue<Core::FileInfo>(fileInfo);
@@ -81,22 +78,17 @@ namespace djv
             _editRole[FileBrowserModel::USER] = fileInfo.user();
 #endif // DJV_WINDOWS
             _editRole[FileBrowserModel::PERMISSIONS] = fileInfo.permissions();
-            _editRole[FileBrowserModel::TIME] =
-                QDateTime::fromTime_t(fileInfo.time());
+            _editRole[FileBrowserModel::TIME] = QDateTime::fromTime_t(fileInfo.time());
 
             // Check the cache to see if this item already exists.
-            if (FileBrowserCacheItem * item =
-                context->fileBrowserCache()->object(_fileInfo))
+            if (FileBrowserCacheItem * item = context->fileBrowserCache()->object(_fileInfo))
             {
-                _thumbnailSize = item->thumbnailSize;
+                _thumbnailResolution = item->thumbnailResolution;
                 _thumbnailProxy = item->thumbnailProxy;
-
-                _imageInfoRequest = true;
+                _imageInfoInit = true;
                 _imageInfo = item->imageInfo;
-
                 updateImageInfo();
-
-                _thumbnailRequest = true;
+                _thumbnailInit = true;
                 _thumbnail = item->thumbnail;
             }
         }
@@ -126,156 +118,31 @@ namespace djv
             return _editRole[column];
         }
 
-        namespace
-        {
-            struct ImageInfoThreadResult
-            {
-                Core::FileInfo        fileInfo;
-                bool                  valid = false;
-                Graphics::ImageIOInfo info;
-            };
-
-            ImageInfoThreadResult imageInfoThreadFunction(
-                const Core::FileInfo & fileInfo,
-                const QPointer<UIContext> & context)
-            {
-                //DJV_DEBUG("imageInfoThreadFunction");
-                //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-                ImageInfoThreadResult out;
-                out.fileInfo = fileInfo;
-                try
-                {
-                    QScopedPointer<Graphics::ImageLoad> load(context->imageIOFactory()->load(fileInfo, out.info));
-                    //DJV_DEBUG_PRINT("info = " << out.info);
-                    out.valid = true;
-                }
-                catch (const Core::Error &)
-                {
-                }
-                return out;
-            }
-
-            struct ThumbnailThreadResult
-            {
-                Core::FileInfo fileInfo;
-                bool           valid = false;
-                QPixmap        thumbnail;
-            };
-
-            ThumbnailThreadResult thumbnailThreadFunction(
-                const Core::FileInfo & fileInfo,
-                FileBrowserModel::THUMBNAILS thumbnails,
-                const glm::ivec2 & thumbnailSize,
-                Graphics::PixelDataInfo::PROXY proxy,
-                const QPointer<UIContext> & context)
-            {
-                //DJV_DEBUG("thumbnailThreadFunction");
-                //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-                //DJV_DEBUG_PRINT("thumbnails = " << thumbnails);
-                //DJV_DEBUG_PRINT("thumbnailSize = " << thumbnailSize);
-                //DJV_DEBUG_PRINT("proxy = " << proxy);
-
-                ThumbnailThreadResult out;
-                out.fileInfo = fileInfo;
-                try
-                {
-                    // Create an OpenGL context.        
-                    QScopedPointer<QOffscreenSurface> offscreenSurface;
-                    offscreenSurface.reset(new QOffscreenSurface);
-                    QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
-                    surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
-                    surfaceFormat.setSamples(1);
-                    offscreenSurface->setFormat(surfaceFormat);
-                    offscreenSurface->create();
-                    QScopedPointer<QOpenGLContext> openGlContext;
-                    openGlContext.reset(new QOpenGLContext);
-                    openGlContext->setFormat(surfaceFormat);
-                    openGlContext->create();
-                    openGlContext->makeCurrent(offscreenSurface.data());
-
-                    // Load the image.
-                    Graphics::Image image;
-                    Graphics::ImageIOInfo imageIOInfo;
-                    QScopedPointer<Graphics::ImageLoad> load(
-                        context->imageIOFactory()->load(fileInfo, imageIOInfo));
-                    load->read(image, Graphics::ImageIOFrameInfo(-1, 0, proxy));
-                    //DJV_DEBUG_PRINT("image = " << image);
-
-                    // Scale the image.
-                    Graphics::Image tmp(Graphics::PixelDataInfo(
-                        thumbnailSize,
-                        image.pixel()));
-                    Graphics::OpenGLImageOptions options;
-                    options.xform.scale =
-                        glm::vec2(tmp.size()) /
-                        (glm::vec2(image.size() * Graphics::PixelDataUtil::proxyScale(image.info().proxy)));
-                    options.colorProfile = image.colorProfile;
-                    if (FileBrowserModel::THUMBNAILS_HIGH == thumbnails)
-                    {
-                        options.filter = Graphics::OpenGLImageFilter::filterHighQuality();
-                    }
-                    std::unique_ptr<Graphics::OpenGLImage> openGLImage(new Graphics::OpenGLImage);
-                    openGLImage->copy(image, tmp, options);
-                    out.thumbnail = openGLImage->toQt(tmp);
-                    out.valid = true;
-                }
-                catch (const Core::Error &)
-                {
-                    //for (int i = 0; i < error.messages().count(); ++i)
-                    //    DJV_DEBUG_PRINT("error = " << error.messages()[i].string);
-                    if (!out.thumbnail.isNull())
-                    {
-                        out.valid = true;
-                    }
-                }
-
-                return out;
-            }
-
-        } // namespace
-
         void FileBrowserItem::requestImage()
         {
-            if (!_imageInfoRequest)
+            if (!_imageInfoInit)
             {
-                _imageInfoRequest = true;
-                QFuture<ImageInfoThreadResult> future = QtConcurrent::run(
-                    imageInfoThreadFunction,
-                    _fileInfo,
-                    _context);
-                QFutureWatcher<ImageInfoThreadResult> * watcher =
-                    new QFutureWatcher<ImageInfoThreadResult>;
-                connect(
-                    watcher,
-                    SIGNAL(finished()),
-                    SLOT(imageInfoCallback()));
-                watcher->setFuture(future);
+                _imageInfoInit = true;
+                _imageInfoRequest = _context->fileBrowserThumbnailSystem()->getInfo(_fileInfo);
+                _imageInfoRequestTimer = startTimer(0);
             }
 
-            if (!_thumbnailRequest && Core::VectorUtil::isSizeValid(_thumbnailSize))
+            if (!_thumbnailInit && Core::VectorUtil::isSizeValid(_thumbnailResolution))
             {
-                _thumbnailRequest = true;
-                QFuture<ThumbnailThreadResult> future = QtConcurrent::run(
-                    thumbnailThreadFunction,
+                _thumbnailInit = true;
+                _thumbnailRequest = _context->fileBrowserThumbnailSystem()->getPixmap(
                     _fileInfo,
-                    _thumbnails,
-                    _thumbnailSize,
-                    _thumbnailProxy,
-                    _context);
-                QFutureWatcher<ThumbnailThreadResult> * watcher =
-                    new QFutureWatcher<ThumbnailThreadResult>;
-                connect(
-                    watcher,
-                    SIGNAL(finished()),
-                    SLOT(thumbnailCallback()));
-                watcher->setFuture(future);
+                    _thumbnailMode,
+                    _thumbnailResolution,
+                    _thumbnailProxy);
+                _thumbnailRequestTimer = startTimer(0);
             }
         }
 
         namespace
         {
             glm::ivec2 thumbnailSize(
-                FileBrowserModel::THUMBNAILS thumbnails,
+                FileBrowserModel::THUMBNAIL_MODE thumbnailMode,
                 const glm::ivec2 & in,
                 int size,
                 Graphics::PixelDataInfo::PROXY * proxy = 0)
@@ -286,7 +153,7 @@ namespace djv
                 int _proxy = 0;
                 float proxyScale = static_cast<float>(
                     Graphics::PixelDataUtil::proxyScale(Graphics::PixelDataInfo::PROXY(_proxy)));
-                if (FileBrowserModel::THUMBNAILS_LOW == thumbnails)
+                if (FileBrowserModel::THUMBNAIL_MODE_LOW == thumbnailMode)
                 {
                     while (
                         (imageSize / proxyScale) > size * 2 &&
@@ -306,81 +173,65 @@ namespace djv
 
         } // namespace
 
-        void FileBrowserItem::imageInfoCallback()
+        void FileBrowserItem::timerEvent(QTimerEvent * event)
         {
-            //DJV_DEBUG("djvFileBrowserItem::imageInfoCallback");
-            //DJV_DEBUG_PRINT("fileInfo = " << _fileInfo);
-
-            QFutureWatcher<ImageInfoThreadResult> * watcher =
-                dynamic_cast<QFutureWatcher<ImageInfoThreadResult> *>(sender());
-            const QFuture<ImageInfoThreadResult> & future = watcher->future();
-            const ImageInfoThreadResult & result = future.result();
-            //DJV_DEBUG_PRINT("info = " << result.info);
-            //DJV_DEBUG_PRINT("valid = " << result.valid);
-
-            if (result.valid)
+            if (_imageInfoRequestTimer == event->timerId())
             {
-                Graphics::PixelDataInfo::PROXY thumbnailProxy =
-                    static_cast<Graphics::PixelDataInfo::PROXY>(0);
-                _thumbnailSize = thumbnailSize(
-                    _thumbnails,
-                    result.info.size,
-                    FileBrowserModel::thumbnailsSizeValue(_thumbnailsSize),
-                    &thumbnailProxy);
-                //DJV_DEBUG_PRINT("thumbnailSize = " << _thumbnailSize);
-                _imageInfo = result.info;
-                updateImageInfo();
-                Q_EMIT imageInfoAvailable();
+                if (_imageInfoRequest.valid())
+                {
+                    _imageInfo = _imageInfoRequest.get();
+                    Graphics::PixelDataInfo::PROXY thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+                    _thumbnailResolution = thumbnailSize(
+                        _thumbnailMode,
+                        _imageInfo.size,
+                        FileBrowserModel::thumbnailSizeValue(_thumbnailSize),
+                        &thumbnailProxy);
+                    _thumbnail = QPixmap(_thumbnailResolution.x, _thumbnailResolution.y);
+                    _thumbnail.fill(Qt::transparent);
+                    updateImageInfo();
+                    killTimer(_imageInfoRequestTimer);
+                    _imageInfoRequestTimer = 0;
+                    Q_EMIT imageInfoAvailable();
+                }
             }
-
-            watcher->deleteLater();
-        }
-
-        void FileBrowserItem::thumbnailCallback()
-        {
-            //DJV_DEBUG("djvFileBrowserItem::thumbnailCallback");
-
-            QFutureWatcher<ThumbnailThreadResult> * watcher =
-                dynamic_cast<QFutureWatcher<ThumbnailThreadResult> *>(sender());
-
-            const QFuture<ThumbnailThreadResult> & future = watcher->future();
-            const ThumbnailThreadResult & result = future.result();
-            //DJV_DEBUG_PRINT("file = " << result.fileInfo);
-            //DJV_DEBUG_PRINT("valid = " << result.valid);
-
-            if (result.valid)
+            else if (_thumbnailRequestTimer == event->timerId())
             {
-                _thumbnail = result.thumbnail;
-                _context->fileBrowserCache()->insert(
-                    _fileInfo,
-                    new FileBrowserCacheItem(
-                        _imageInfo,
-                        _thumbnailSize,
-                        _thumbnailProxy,
-                        _thumbnail),
-                    _thumbnail.width() * _thumbnail.height() * 4);
+                if (_thumbnailRequest.valid())
+                {
+                    _thumbnail = _thumbnailRequest.get();
+                    _context->fileBrowserCache()->insert(
+                        _fileInfo,
+                        new FileBrowserCacheItem(
+                            _imageInfo,
+                            _thumbnailResolution,
+                            _thumbnailProxy,
+                            _thumbnail),
+                        _thumbnail.width() * _thumbnail.height() * 4);
+                    killTimer(_thumbnailRequestTimer);
+                    _thumbnailRequestTimer = 0;
+                    Q_EMIT thumbnailAvailable();
+                }
             }
-            Q_EMIT thumbnailAvailable();
-            watcher->deleteLater();
         }
 
         void FileBrowserItem::updateImageInfo()
         {
-            QStringList pixelLabel;
-            pixelLabel << _imageInfo.pixel;
-            _displayRole[FileBrowserModel::NAME] =
-                QString("%1\n%2x%3:%4 %5\n%6@%7").
-                arg(_fileInfo.name()).
-                arg(_imageInfo.size.x).
-                arg(_imageInfo.size.y).
-                arg(Core::VectorUtil::aspect(_imageInfo.size), 0, 'f', 2).
-                arg(pixelLabel.join(", ")).
-                arg(Core::Time::frameToString(
-                    _imageInfo.sequence.frames.count(),
-                    _imageInfo.sequence.speed)).
-                arg(Core::Speed::speedToFloat(_imageInfo.sequence.speed));
-            _thumbnail = QPixmap(_thumbnailSize.x, _thumbnailSize.y);
-            _thumbnail.fill(Qt::transparent);
+            if (Core::VectorUtil::isSizeValid(_imageInfo.size))
+            {
+                QStringList pixelLabel;
+                pixelLabel << _imageInfo.pixel;
+                _displayRole[FileBrowserModel::NAME] =
+                    QString("%1\n%2x%3:%4 %5\n%6@%7").
+                    arg(_fileInfo.name()).
+                    arg(_imageInfo.size.x).
+                    arg(_imageInfo.size.y).
+                    arg(Core::VectorUtil::aspect(_imageInfo.size), 0, 'f', 2).
+                    arg(pixelLabel.join(", ")).
+                    arg(Core::Time::frameToString(
+                        _imageInfo.sequence.frames.count(),
+                        _imageInfo.sequence.speed)).
+                    arg(Core::Speed::speedToFloat(_imageInfo.sequence.speed));
+            }
         }
 
     } // namespace UI

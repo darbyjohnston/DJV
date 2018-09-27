@@ -54,9 +54,9 @@ namespace djv
             FileBrowserModel::COLUMNS columnsSort = FileBrowserPrefs::columnsSortDefault();
             bool reverseSort = FileBrowserPrefs::reverseSortDefault();
             bool sortDirsFirst = FileBrowserPrefs::sortDirsFirstDefault();
-            FileBrowserModel::THUMBNAILS thumbnails = FileBrowserPrefs::thumbnailsDefault();
-            FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize = FileBrowserPrefs::thumbnailsSizeDefault();
-            qint64 thumbnailsCache = FileBrowserPrefs::thumbnailsCacheDefault();
+            FileBrowserModel::THUMBNAIL_MODE thumbnailMode = FileBrowserPrefs::thumbnailModeDefault();
+            FileBrowserModel::THUMBNAIL_SIZE thumbnailSize = FileBrowserPrefs::thumbnailSizeDefault();
+            qint64 thumbnailCache = FileBrowserPrefs::thumbnailCacheDefault();
             QStringList recent;
             QStringList bookmarks;
             QVector<Shortcut> shortcuts = FileBrowserPrefs::shortcutsDefault();
@@ -80,9 +80,9 @@ namespace djv
             prefs.get("columnsSort", _p->columnsSort);
             prefs.get("reverseSort", _p->reverseSort);
             prefs.get("sortDirsFirst", _p->sortDirsFirst);
-            prefs.get("thumbnails", _p->thumbnails);
-            prefs.get("thumbnailsSize", _p->thumbnailsSize);
-            prefs.get("thumbnailsCache", _p->thumbnailsCache);
+            prefs.get("thumbnailMode", _p->thumbnailMode);
+            prefs.get("thumbnailSize", _p->thumbnailSize);
+            prefs.get("thumbnailCache", _p->thumbnailCache);
             prefs.get("recent", _p->recent);
             prefs.get("bookmarks", _p->bookmarks);
             if (_p->recent.count() > Core::FileInfoUtil::recentMax)
@@ -107,9 +107,9 @@ namespace djv
             prefs.set("columnsSort", _p->columnsSort);
             prefs.set("reverseSort", _p->reverseSort);
             prefs.set("sortDirsFirst", _p->sortDirsFirst);
-            prefs.set("thumbnails", _p->thumbnails);
-            prefs.set("thumbnailsSize", _p->thumbnailsSize);
-            prefs.set("thumbnailsCache", _p->thumbnailsCache);
+            prefs.set("thumbnailMode", _p->thumbnailMode);
+            prefs.set("thumbnailSize", _p->thumbnailSize);
+            prefs.set("thumbnailCache", _p->thumbnailCache);
             prefs.set("recent", _p->recent);
             prefs.set("bookmarks", _p->bookmarks);
             Prefs shortcutsPrefs("djv::UI::FileBrowserPrefs/Shortcuts");
@@ -176,34 +176,34 @@ namespace djv
             return _p->sortDirsFirst;
         }
 
-        FileBrowserModel::THUMBNAILS FileBrowserPrefs::thumbnailsDefault()
+        FileBrowserModel::THUMBNAIL_MODE FileBrowserPrefs::thumbnailModeDefault()
         {
-            return FileBrowserModel::THUMBNAILS_HIGH;
+            return FileBrowserModel::THUMBNAIL_MODE_HIGH;
         }
 
-        FileBrowserModel::THUMBNAILS FileBrowserPrefs::thumbnails() const
+        FileBrowserModel::THUMBNAIL_MODE FileBrowserPrefs::thumbnailMode() const
         {
-            return _p->thumbnails;
+            return _p->thumbnailMode;
         }
 
-        FileBrowserModel::THUMBNAILS_SIZE FileBrowserPrefs::thumbnailsSizeDefault()
+        FileBrowserModel::THUMBNAIL_SIZE FileBrowserPrefs::thumbnailSizeDefault()
         {
-            return FileBrowserModel::THUMBNAILS_MEDIUM;
+            return FileBrowserModel::THUMBNAIL_MEDIUM;
         }
 
-        FileBrowserModel::THUMBNAILS_SIZE FileBrowserPrefs::thumbnailsSize() const
+        FileBrowserModel::THUMBNAIL_SIZE FileBrowserPrefs::thumbnailSize() const
         {
-            return _p->thumbnailsSize;
+            return _p->thumbnailSize;
         }
 
-        qint64 FileBrowserPrefs::thumbnailsCacheDefault()
+        qint64 FileBrowserPrefs::thumbnailCacheDefault()
         {
             return 128 * Core::Memory::megabyte;
         }
 
-        qint64 FileBrowserPrefs::thumbnailsCache() const
+        qint64 FileBrowserPrefs::thumbnailCache() const
         {
-            return _p->thumbnailsCache;
+            return _p->thumbnailCache;
         }
 
         const QStringList & FileBrowserPrefs::recent() const
@@ -353,33 +353,33 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void FileBrowserPrefs::setThumbnails(FileBrowserModel::THUMBNAILS thumbnails)
+        void FileBrowserPrefs::setThumbnailMode(FileBrowserModel::THUMBNAIL_MODE thumbnailMode)
         {
-            if (thumbnails == _p->thumbnails)
+            if (thumbnailMode == _p->thumbnailMode)
                 return;
-            _p->thumbnails = thumbnails;
+            _p->thumbnailMode = thumbnailMode;
             _p->context->fileBrowserCache()->clear();
-            Q_EMIT thumbnailsChanged(_p->thumbnails);
+            Q_EMIT thumbnailModeChanged(_p->thumbnailMode);
             Q_EMIT prefChanged();
         }
 
-        void FileBrowserPrefs::setThumbnailsSize(FileBrowserModel::THUMBNAILS_SIZE size)
+        void FileBrowserPrefs::setThumbnailSize(FileBrowserModel::THUMBNAIL_SIZE size)
         {
-            if (size == _p->thumbnailsSize)
+            if (size == _p->thumbnailSize)
                 return;
-            _p->thumbnailsSize = size;
+            _p->thumbnailSize = size;
             _p->context->fileBrowserCache()->clear();
-            Q_EMIT thumbnailsSizeChanged(_p->thumbnailsSize);
+            Q_EMIT thumbnailSizeChanged(_p->thumbnailSize);
             Q_EMIT prefChanged();
         }
 
-        void FileBrowserPrefs::setThumbnailsCache(qint64 size)
+        void FileBrowserPrefs::setThumbnailCache(qint64 size)
         {
-            if (size == _p->thumbnailsCache)
+            if (size == _p->thumbnailCache)
                 return;
-            _p->thumbnailsCache = size;
-            _p->context->fileBrowserCache()->setMaxCost(_p->thumbnailsCache);
-            Q_EMIT thumbnailsCacheChanged(_p->thumbnailsCache);
+            _p->thumbnailCache = size;
+            _p->context->fileBrowserCache()->setMaxCost(_p->thumbnailCache);
+            Q_EMIT thumbnailCacheChanged(_p->thumbnailCache);
             Q_EMIT prefChanged();
         }
 

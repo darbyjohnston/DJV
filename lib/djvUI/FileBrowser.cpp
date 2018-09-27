@@ -76,8 +76,8 @@ namespace djv
                 {
                     RECENT,
                     DRIVES,
-                    THUMBNAILS,
-                    THUMBNAILS_SIZE,
+                    THUMBNAIL_MODE,
+                    THUMBNAIL_SIZE,
                     SEQ,
                     SORT,
                     BOOKMARKS
@@ -106,8 +106,8 @@ namespace djv
                 {
                     RECENT_GROUP,
                     DRIVES_GROUP,
-                    THUMBNAILS_GROUP,
-                    THUMBNAILS_SIZE_GROUP,
+                    THUMBNAIL_MODE_GROUP,
+                    THUMBNAIL_SIZE_GROUP,
                     SEQ_GROUP,
                     SORT_GROUP,
                     BOOKMARKS_GROUP
@@ -196,15 +196,15 @@ namespace djv
             auto optionsMenu = _p->menus.menuBar->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Options"));
 
-            _p->menus.menus[Menus::THUMBNAILS] = optionsMenu->addMenu(
+            _p->menus.menus[Menus::THUMBNAIL_MODE] = optionsMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "Thu&mbnails"));
-            _p->actions.groups[Actions::THUMBNAILS_GROUP] = new QActionGroup(this);
-            _p->actions.groups[Actions::THUMBNAILS_GROUP]->setExclusive(true);
+            _p->actions.groups[Actions::THUMBNAIL_MODE_GROUP] = new QActionGroup(this);
+            _p->actions.groups[Actions::THUMBNAIL_MODE_GROUP]->setExclusive(true);
 
-            _p->menus.menus[Menus::THUMBNAILS_SIZE] = optionsMenu->addMenu(
-                qApp->translate("djv::UI::FileBrowser", "Thumbnails Size"));
-            _p->actions.groups[Actions::THUMBNAILS_SIZE_GROUP] = new QActionGroup(this);
-            _p->actions.groups[Actions::THUMBNAILS_SIZE_GROUP]->setExclusive(true);
+            _p->menus.menus[Menus::THUMBNAIL_SIZE] = optionsMenu->addMenu(
+                qApp->translate("djv::UI::FileBrowser", "Thumbnail Size"));
+            _p->actions.groups[Actions::THUMBNAIL_SIZE_GROUP] = new QActionGroup(this);
+            _p->actions.groups[Actions::THUMBNAIL_SIZE_GROUP]->setExclusive(true);
 
             _p->menus.menus[Menus::SEQ] = optionsMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "Se&quence"));
@@ -329,12 +329,13 @@ namespace djv
             _p->model->setColumnsSort(context->fileBrowserPrefs()->columnsSort());
             _p->model->setReverseSort(context->fileBrowserPrefs()->hasReverseSort());
             _p->model->setSortDirsFirst(context->fileBrowserPrefs()->hasSortDirsFirst());
-            _p->model->setThumbnails(context->fileBrowserPrefs()->thumbnails());
-            _p->model->setThumbnailsSize(context->fileBrowserPrefs()->thumbnailsSize());
+            _p->model->setThumbnailMode(context->fileBrowserPrefs()->thumbnailMode());
+            _p->model->setThumbnailSize(context->fileBrowserPrefs()->thumbnailSize());
             _p->model->setPath(_p->fileInfo);
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::FileBrowser", "File Browser"));
+            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             _p->widgets.browser->setModel(_p->model);
             const QVector<int> sizes = columnSizes();
             for (int i = 0; i < sizes.count(); ++i)
@@ -393,13 +394,13 @@ namespace djv
                 SIGNAL(triggered(QAction *)),
                 SLOT(drivesCallback(QAction *)));
             connect(
-                _p->actions.groups[Actions::THUMBNAILS_GROUP],
+                _p->actions.groups[Actions::THUMBNAIL_MODE_GROUP],
                 SIGNAL(triggered(QAction *)),
-                SLOT(thumbnailsCallback(QAction *)));
+                SLOT(thumbnailModeCallback(QAction *)));
             connect(
-                _p->actions.groups[Actions::THUMBNAILS_SIZE_GROUP],
+                _p->actions.groups[Actions::THUMBNAIL_SIZE_GROUP],
                 SIGNAL(triggered(QAction *)),
-                SLOT(thumbnailsSizeCallback(QAction *)));
+                SLOT(thumbnailSizeCallback(QAction *)));
             connect(
                 _p->actions.groups[Actions::SEQ_GROUP],
                 SIGNAL(triggered(QAction *)),
@@ -444,11 +445,11 @@ namespace djv
             connect(closeButton, SIGNAL(clicked()), this, SLOT(reject()));
             connect(
                 context->fileBrowserPrefs(),
-                SIGNAL(thumbnailsChanged(djv::UI::FileBrowserModel::THUMBNAILS)),
+                SIGNAL(thumbnailModeChanged(djv::UI::FileBrowserModel::THUMBNAIL_MODE)),
                 SLOT(modelUpdate()));
             connect(
                 context->fileBrowserPrefs(),
-                SIGNAL(thumbnailsSizeChanged(djv::UI::FileBrowserModel::THUMBNAILS_SIZE)),
+                SIGNAL(thumbnailSizeChanged(djv::UI::FileBrowserModel::THUMBNAIL_SIZE)),
                 SLOT(modelUpdate()));
             connect(
                 context->fileBrowserPrefs(),
@@ -481,8 +482,8 @@ namespace djv
             _p->context->fileBrowserPrefs()->setColumnsSort(_p->model->columnsSort());
             _p->context->fileBrowserPrefs()->setReverseSort(_p->model->hasReverseSort());
             _p->context->fileBrowserPrefs()->setSortDirsFirst(_p->model->hasSortDirsFirst());
-            _p->context->fileBrowserPrefs()->setThumbnails(_p->model->thumbnails());
-            _p->context->fileBrowserPrefs()->setThumbnailsSize(_p->model->thumbnailsSize());
+            _p->context->fileBrowserPrefs()->setThumbnailMode(_p->model->thumbnailMode());
+            _p->context->fileBrowserPrefs()->setThumbnailSize(_p->model->thumbnailSize());
         }
 
         const Core::FileInfo & FileBrowser::fileInfo() const
@@ -633,16 +634,16 @@ namespace djv
             _p->model->reload();
         }
 
-        void FileBrowser::thumbnailsCallback(QAction * action)
+        void FileBrowser::thumbnailModeCallback(QAction * action)
         {
-            _p->context->fileBrowserPrefs()->setThumbnails(
-                static_cast<FileBrowserModel::THUMBNAILS>(action->data().toInt()));
+            _p->context->fileBrowserPrefs()->setThumbnailMode(
+                static_cast<FileBrowserModel::THUMBNAIL_MODE>(action->data().toInt()));
         }
 
-        void FileBrowser::thumbnailsSizeCallback(QAction * action)
+        void FileBrowser::thumbnailSizeCallback(QAction * action)
         {
-            _p->context->fileBrowserPrefs()->setThumbnailsSize(
-                static_cast<FileBrowserModel::THUMBNAILS_SIZE>(action->data().toInt()));
+            _p->context->fileBrowserPrefs()->setThumbnailSize(
+                static_cast<FileBrowserModel::THUMBNAIL_SIZE>(action->data().toInt()));
         }
 
         void FileBrowser::showHiddenCallback(bool value)
@@ -851,8 +852,8 @@ namespace djv
             //DJV_DEBUG("FileBrowser::modelUpdate");
             //DJV_DEBUG_PRINT("path = " << _p->fileInfo.path());
             setCursor(Qt::WaitCursor);
-            _p->model->setThumbnails(_p->context->fileBrowserPrefs()->thumbnails());
-            _p->model->setThumbnailsSize(_p->context->fileBrowserPrefs()->thumbnailsSize());
+            _p->model->setThumbnailMode(_p->context->fileBrowserPrefs()->thumbnailMode());
+            _p->model->setThumbnailSize(_p->context->fileBrowserPrefs()->thumbnailSize());
             _p->model->setPath(_p->fileInfo.path());
             setCursor(QCursor());
         }
@@ -912,26 +913,26 @@ namespace djv
             _p->actions.actions[Actions::RELOAD]->setIcon(_p->context->iconLibrary()->icon("djv/UI/DirReloadIcon"));
             _p->actions.actions[Actions::RELOAD]->setShortcut(shortcuts[FileBrowserPrefs::RELOAD].value);
 
-            _p->menus.menus[Menus::THUMBNAILS]->clear();
-            const QStringList & thumbnails = FileBrowserModel::thumbnailsLabels();
-            for (int i = 0; i < thumbnails.count(); ++i)
+            _p->menus.menus[Menus::THUMBNAIL_MODE]->clear();
+            const QStringList & thumbnailModeLabels = FileBrowserModel::thumbnailModeLabels();
+            for (int i = 0; i < thumbnailModeLabels.count(); ++i)
             {
-                QAction * action = _p->menus.menus[Menus::THUMBNAILS]->addAction(thumbnails[i]);
+                QAction * action = _p->menus.menus[Menus::THUMBNAIL_MODE]->addAction(thumbnailModeLabels[i]);
                 action->setCheckable(true);
-                action->setChecked(_p->model->thumbnails() == i);
+                action->setChecked(_p->model->thumbnailMode() == i);
                 action->setData(i);
-                _p->actions.groups[Actions::THUMBNAILS_GROUP]->addAction(action);
+                _p->actions.groups[Actions::THUMBNAIL_MODE_GROUP]->addAction(action);
             }
 
-            _p->menus.menus[Menus::THUMBNAILS_SIZE]->clear();
-            const QStringList & thumbnailsSize = FileBrowserModel::thumbnailsSizeLabels();
-            for (int i = 0; i < thumbnailsSize.count(); ++i)
+            _p->menus.menus[Menus::THUMBNAIL_SIZE]->clear();
+            const QStringList & thumbnailSizeLabels = FileBrowserModel::thumbnailSizeLabels();
+            for (int i = 0; i < thumbnailSizeLabels.count(); ++i)
             {
-                QAction * action = _p->menus.menus[Menus::THUMBNAILS_SIZE]->addAction(thumbnailsSize[i]);
+                QAction * action = _p->menus.menus[Menus::THUMBNAIL_SIZE]->addAction(thumbnailSizeLabels[i]);
                 action->setCheckable(true);
-                action->setChecked(_p->model->thumbnailsSize() == i);
+                action->setChecked(_p->model->thumbnailSize() == i);
                 action->setData(i);
-                _p->actions.groups[Actions::THUMBNAILS_SIZE_GROUP]->addAction(action);
+                _p->actions.groups[Actions::THUMBNAIL_SIZE_GROUP]->addAction(action);
             }
 
             _p->menus.menus[Menus::SEQ]->clear();

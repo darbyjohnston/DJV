@@ -46,6 +46,7 @@ namespace djv
         class FileBrowser;
         class FileBrowserCache;
         class FileBrowserPrefs;
+        class FileBrowserThumbnailSystem;
         class HelpPrefs;
         class IconLibrary;
         class ImageIOPrefs;
@@ -122,6 +123,9 @@ namespace djv
 
             //! Get the file browser cache.
             FileBrowserCache * fileBrowserCache() const;
+
+            //! Get the file browser thumbnail system.
+            const QPointer<FileBrowserThumbnailSystem> & fileBrowserThumbnailSystem() const;
 
             //! Get the icon library.
             IconLibrary * iconLibrary() const;

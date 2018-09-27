@@ -76,9 +76,9 @@ namespace djv
             QPointer<QComboBox> sortWidget;
             QPointer<QCheckBox> reverseSortWidget;
             QPointer<QCheckBox> sortDirsFirstWidget;
-            QPointer<QComboBox> thumbnailsWidget;
-            QPointer<QComboBox> thumbnailsSizeWidget;
-            QPointer<IntEdit> thumbnailsCacheWidget;
+            QPointer<QComboBox> thumbnailModeWidget;
+            QPointer<QComboBox> thumbnailSizeWidget;
+            QPointer<IntEdit> thumbnailCacheWidget;
             QPointer<QListWidget> bookmarksWidget;
             QPointer<ToolButton> addBookmarkButton;
             QPointer<ToolButton> removeBookmarkButton;
@@ -112,17 +112,17 @@ namespace djv
             _p->sortDirsFirstWidget = new QCheckBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Sort directories first"));
 
-            _p->thumbnailsWidget = new QComboBox;
-            _p->thumbnailsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->thumbnailsWidget->addItems(FileBrowserModel::thumbnailsLabels());
+            _p->thumbnailModeWidget = new QComboBox;
+            _p->thumbnailModeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->thumbnailModeWidget->addItems(FileBrowserModel::thumbnailModeLabels());
 
-            _p->thumbnailsSizeWidget = new QComboBox;
-            _p->thumbnailsSizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->thumbnailsSizeWidget->addItems(FileBrowserModel::thumbnailsSizeLabels());
+            _p->thumbnailSizeWidget = new QComboBox;
+            _p->thumbnailSizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->thumbnailSizeWidget->addItems(FileBrowserModel::thumbnailSizeLabels());
 
-            _p->thumbnailsCacheWidget = new IntEdit;
-            _p->thumbnailsCacheWidget->setRange(0, 4096);
-            _p->thumbnailsCacheWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->thumbnailCacheWidget = new IntEdit;
+            _p->thumbnailCacheWidget->setRange(0, 4096);
+            _p->thumbnailCacheWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             _p->bookmarksWidget = new SmallListWidget;
 
@@ -170,13 +170,13 @@ namespace djv
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Thumbnails"), context);
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
-                qApp->translate("djv::UI::FileBrowserPrefsWidget", "Thumbnails:"),
-                _p->thumbnailsWidget);
+                qApp->translate("djv::UI::FileBrowserPrefsWidget", "Mode:"),
+                _p->thumbnailModeWidget);
             formLayout->addRow(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Size:"),
-                _p->thumbnailsSizeWidget);
+                _p->thumbnailSizeWidget);
             QHBoxLayout * hLayout = new QHBoxLayout;
-            hLayout->addWidget(_p->thumbnailsCacheWidget);
+            hLayout->addWidget(_p->thumbnailCacheWidget);
             hLayout->addWidget(
                 new QLabel(qApp->translate("djv::UI::FileBrowserPrefsWidget", "(MB)")));
             formLayout->addRow(
@@ -232,17 +232,17 @@ namespace djv
                 context->fileBrowserPrefs(),
                 SLOT(setSortDirsFirst(bool)));
             connect(
-                _p->thumbnailsWidget,
+                _p->thumbnailModeWidget,
                 SIGNAL(activated(int)),
-                SLOT(thumbnailsCallback(int)));
+                SLOT(thumbnailModeCallback(int)));
             connect(
-                _p->thumbnailsSizeWidget,
+                _p->thumbnailSizeWidget,
                 SIGNAL(activated(int)),
-                SLOT(thumbnailsSizeCallback(int)));
+                SLOT(thumbnailSizeCallback(int)));
             connect(
-                _p->thumbnailsCacheWidget,
+                _p->thumbnailCacheWidget,
                 SIGNAL(valueChanged(int)),
-                SLOT(thumbnailsCacheCallback(int)));
+                SLOT(thumbnailCacheCallback(int)));
             connect(
                 _p->bookmarksWidget,
                 SIGNAL(itemChanged(QListWidgetItem *)),
@@ -283,9 +283,9 @@ namespace djv
             context()->fileBrowserPrefs()->setColumnsSort(FileBrowserPrefs::columnsSortDefault());
             context()->fileBrowserPrefs()->setReverseSort(FileBrowserPrefs::reverseSortDefault());
             context()->fileBrowserPrefs()->setSortDirsFirst(FileBrowserPrefs::sortDirsFirstDefault());
-            context()->fileBrowserPrefs()->setThumbnails(FileBrowserPrefs::thumbnailsDefault());
-            context()->fileBrowserPrefs()->setThumbnailsSize(FileBrowserPrefs::thumbnailsSizeDefault());
-            context()->fileBrowserPrefs()->setThumbnailsCache(FileBrowserPrefs::thumbnailsCacheDefault());
+            context()->fileBrowserPrefs()->setThumbnailMode(FileBrowserPrefs::thumbnailModeDefault());
+            context()->fileBrowserPrefs()->setThumbnailSize(FileBrowserPrefs::thumbnailSizeDefault());
+            context()->fileBrowserPrefs()->setThumbnailCache(FileBrowserPrefs::thumbnailCacheDefault());
             context()->fileBrowserPrefs()->setShortcuts(FileBrowserPrefs::shortcutsDefault());
             widgetUpdate();
         }
@@ -300,19 +300,19 @@ namespace djv
             context()->fileBrowserPrefs()->setColumnsSort(static_cast<FileBrowserModel::COLUMNS>(index));
         }
 
-        void FileBrowserPrefsWidget::thumbnailsCallback(int index)
+        void FileBrowserPrefsWidget::thumbnailModeCallback(int index)
         {
-            context()->fileBrowserPrefs()->setThumbnails(static_cast<FileBrowserModel::THUMBNAILS>(index));
+            context()->fileBrowserPrefs()->setThumbnailMode(static_cast<FileBrowserModel::THUMBNAIL_MODE>(index));
         }
 
-        void FileBrowserPrefsWidget::thumbnailsSizeCallback(int index)
+        void FileBrowserPrefsWidget::thumbnailSizeCallback(int index)
         {
-            context()->fileBrowserPrefs()->setThumbnailsSize(static_cast<FileBrowserModel::THUMBNAILS_SIZE>(index));
+            context()->fileBrowserPrefs()->setThumbnailSize(static_cast<FileBrowserModel::THUMBNAIL_SIZE>(index));
         }
 
-        void FileBrowserPrefsWidget::thumbnailsCacheCallback(int value)
+        void FileBrowserPrefsWidget::thumbnailCacheCallback(int value)
         {
-            context()->fileBrowserPrefs()->setThumbnailsCache(value * Core::Memory::megabyte);
+            context()->fileBrowserPrefs()->setThumbnailCache(value * Core::Memory::megabyte);
         }
 
         void FileBrowserPrefsWidget::bookmarkCallback(QListWidgetItem * item)
@@ -399,9 +399,9 @@ namespace djv
                 _p->sortWidget <<
                 _p->reverseSortWidget <<
                 _p->sortDirsFirstWidget <<
-                _p->thumbnailsWidget <<
-                _p->thumbnailsSizeWidget <<
-                _p->thumbnailsCacheWidget <<
+                _p->thumbnailModeWidget <<
+                _p->thumbnailSizeWidget <<
+                _p->thumbnailCacheWidget <<
                 _p->bookmarksWidget <<
                 _p->shortcutsWidget);
             _p->seqWidget->setCurrentIndex(context()->fileBrowserPrefs()->sequence());
@@ -409,9 +409,9 @@ namespace djv
             _p->sortWidget->setCurrentIndex(context()->fileBrowserPrefs()->columnsSort());
             _p->reverseSortWidget->setChecked(context()->fileBrowserPrefs()->hasReverseSort());
             _p->sortDirsFirstWidget->setChecked(context()->fileBrowserPrefs()->hasSortDirsFirst());
-            _p->thumbnailsWidget->setCurrentIndex(context()->fileBrowserPrefs()->thumbnails());
-            _p->thumbnailsSizeWidget->setCurrentIndex(context()->fileBrowserPrefs()->thumbnailsSize());
-            _p->thumbnailsCacheWidget->setValue(context()->fileBrowserPrefs()->thumbnailsCache() / Core::Memory::megabyte);
+            _p->thumbnailModeWidget->setCurrentIndex(context()->fileBrowserPrefs()->thumbnailMode());
+            _p->thumbnailSizeWidget->setCurrentIndex(context()->fileBrowserPrefs()->thumbnailSize());
+            _p->thumbnailCacheWidget->setValue(context()->fileBrowserPrefs()->thumbnailCache() / Core::Memory::megabyte);
             _p->bookmarksWidget->clear();
             const QStringList & bookmarks = context()->fileBrowserPrefs()->bookmarks();
             for (int i = 0; i < bookmarks.count(); ++i)

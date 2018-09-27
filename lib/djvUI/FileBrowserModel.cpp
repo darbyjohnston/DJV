@@ -30,6 +30,8 @@
 #include <djvUI/FileBrowserModel.h>
 
 #include <djvUI/FileBrowserModelPrivate.h>
+#include <djvUI/FileBrowserThumbnailSystem.h>
+
 #include <djvUI/UIContext.h>
 
 #include <djvCore/Assert.h>
@@ -63,14 +65,11 @@ namespace djv
             FileBrowserModel::COLUMNS columnsSort = FileBrowserModel::NAME;
             bool reverseSort = false;
             bool sortDirsFirst = true;
-            FileBrowserModel::THUMBNAILS thumbnails = FileBrowserModel::THUMBNAILS_HIGH;
-            FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize = FileBrowserModel::THUMBNAILS_MEDIUM;
-
+            FileBrowserModel::THUMBNAIL_MODE thumbnailMode = FileBrowserModel::THUMBNAIL_MODE_HIGH;
+            FileBrowserModel::THUMBNAIL_SIZE thumbnailSize = FileBrowserModel::THUMBNAIL_MEDIUM;
             Core::FileInfoList list;
             Core::FileInfoList listTmp;
-
             mutable QVector<FileBrowserItem *> items;
-
             QPointer<UIContext> context;
         };
 
@@ -159,44 +158,44 @@ namespace djv
             return _p->sortDirsFirst;
         }
 
-        const QStringList & FileBrowserModel::thumbnailsLabels()
+        const QStringList & FileBrowserModel::thumbnailModeLabels()
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::UI::FileBrowserModel", "Off") <<
                 qApp->translate("djv::UI::FileBrowserModel", "Low Quality") <<
                 qApp->translate("djv::UI::FileBrowserModel", "High Quality");
-            DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
+            DJV_ASSERT(data.count() == THUMBNAIL_MODE_COUNT);
             return data;
         }
 
-        FileBrowserModel::THUMBNAILS FileBrowserModel::thumbnails() const
+        FileBrowserModel::THUMBNAIL_MODE FileBrowserModel::thumbnailMode() const
         {
-            return _p->thumbnails;
+            return _p->thumbnailMode;
         }
 
-        const QStringList & FileBrowserModel::thumbnailsSizeLabels()
+        const QStringList & FileBrowserModel::thumbnailSizeLabels()
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::UI::FileBrowserModel", "Small") <<
                 qApp->translate("djv::UI::FileBrowserModel", "Medium") <<
                 qApp->translate("djv::UI::FileBrowserModel", "Large");
-            DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
+            DJV_ASSERT(data.count() == THUMBNAIL_SIZE_COUNT);
             return data;
         }
 
-        int FileBrowserModel::thumbnailsSizeValue(THUMBNAILS_SIZE size)
+        int FileBrowserModel::thumbnailSizeValue(THUMBNAIL_SIZE size)
         {
             static const QVector<int> data = QVector<int>() <<
                 100 <<
                 200 <<
                 300;
-            DJV_ASSERT(data.count() == THUMBNAILS_SIZE_COUNT);
+            DJV_ASSERT(data.count() == THUMBNAIL_SIZE_COUNT);
             return data[size];
         }
 
-        FileBrowserModel::THUMBNAILS_SIZE FileBrowserModel::thumbnailsSize() const
+        FileBrowserModel::THUMBNAIL_SIZE FileBrowserModel::thumbnailSize() const
         {
-            return _p->thumbnailsSize;
+            return _p->thumbnailSize;
         }
 
         QModelIndex	FileBrowserModel::index(
@@ -230,8 +229,7 @@ namespace djv
         void FileBrowserModel::imageInfoCallback()
         {
             //DJV_DEBUG("FileBrowserModel::imageInfoCallback");
-            const int row = _p->items.indexOf(
-                qobject_cast<FileBrowserItem *>(sender()));
+            const int row = _p->items.indexOf(qobject_cast<FileBrowserItem *>(sender()));
             if (row != -1)
             {
                 const QModelIndex index = this->index(row, 0);
@@ -242,8 +240,7 @@ namespace djv
         void FileBrowserModel::thumbnailCallback()
         {
             //DJV_DEBUG("FileBrowserModel::thumbnailCallback");
-            const int row = _p->items.indexOf(
-                qobject_cast<FileBrowserItem *>(sender()));
+            const int row = _p->items.indexOf(qobject_cast<FileBrowserItem *>(sender()));
             if (row != -1)
             {
                 const QModelIndex index = this->index(row, 0);
@@ -281,7 +278,7 @@ namespace djv
                 switch (column)
                 {
                 case NAME:
-                    if (_p->thumbnails != THUMBNAILS_OFF)
+                    if (_p->thumbnailMode != THUMBNAIL_MODE_OFF)
                     {
                         item->requestImage();
                         return item->thumbnail();
@@ -421,23 +418,23 @@ namespace djv
             Q_EMIT optionChanged();
         }
 
-        void FileBrowserModel::setThumbnails(THUMBNAILS thumbnails)
+        void FileBrowserModel::setThumbnailMode(THUMBNAIL_MODE value)
         {
-            if (thumbnails == _p->thumbnails)
+            if (value == _p->thumbnailMode)
                 return;
-            _p->thumbnails = thumbnails;
+            _p->thumbnailMode = value;
             modelUpdate();
-            Q_EMIT thumbnailsChanged(_p->thumbnails);
+            Q_EMIT thumbnailModeChanged(_p->thumbnailMode);
             Q_EMIT optionChanged();
         }
 
-        void FileBrowserModel::setThumbnailsSize(THUMBNAILS_SIZE size)
+        void FileBrowserModel::setThumbnailSize(THUMBNAIL_SIZE size)
         {
-            if (size == _p->thumbnailsSize)
+            if (size == _p->thumbnailSize)
                 return;
-            _p->thumbnailsSize = size;
+            _p->thumbnailSize = size;
             modelUpdate();
-            Q_EMIT thumbnailsSizeChanged(_p->thumbnailsSize);
+            Q_EMIT thumbnailSizeChanged(_p->thumbnailSize);
             Q_EMIT optionChanged();
         }
 
@@ -515,8 +512,8 @@ namespace djv
                 //DJV_DEBUG_PRINT("i = " << i);
                 FileBrowserItem * item = new FileBrowserItem(
                     _p->listTmp[i],
-                    _p->thumbnails,
-                    _p->thumbnailsSize,
+                    _p->thumbnailMode,
+                    _p->thumbnailSize,
                     _p->context,
                     this);
                 _p->items[i] = item;
@@ -531,9 +528,9 @@ namespace djv
 
     _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::COLUMNS,
         UI::FileBrowserModel::columnsLabels())
-    _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::THUMBNAILS,
-        UI::FileBrowserModel::thumbnailsLabels())
-    _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::THUMBNAILS_SIZE,
-        UI::FileBrowserModel::thumbnailsSizeLabels())
+    _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::THUMBNAIL_MODE,
+        UI::FileBrowserModel::thumbnailModeLabels())
+    _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::THUMBNAIL_SIZE,
+        UI::FileBrowserModel::thumbnailSizeLabels())
 
 } // namespace djv

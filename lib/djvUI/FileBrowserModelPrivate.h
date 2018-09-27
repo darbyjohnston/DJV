@@ -36,11 +36,13 @@
 #include <QPixmap>
 #include <QVariant>
 
+#include <future>
+
 namespace djv
 {
     namespace UI
     {
-        class FileBrowserItemHelper;
+        class FileBrowserThumbnailSystem;
 
         class FileBrowserItem : public QObject
         {
@@ -48,10 +50,10 @@ namespace djv
 
         public:
             explicit FileBrowserItem(
-                const Core::FileInfo & fileInfo,
-                FileBrowserModel::THUMBNAILS thumbnails,
-                FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
-                const QPointer<UIContext> & context,
+                const Core::FileInfo &,
+                FileBrowserModel::THUMBNAIL_MODE,
+                FileBrowserModel::THUMBNAIL_SIZE,
+                const QPointer<UIContext> &,
                 QObject * parent);
 
             //! Get the file information.
@@ -80,27 +82,28 @@ namespace djv
             //! This signal is emitted when the thumbnail is available.
             void thumbnailAvailable();
 
-        private Q_SLOTS:
-            void imageInfoCallback();
-            void thumbnailCallback();
+        protected:
+            void timerEvent(QTimerEvent *) override;
 
         private:
             void updateImageInfo();
 
+            QPointer<UIContext> _context;
             Core::FileInfo _fileInfo;
-            FileBrowserModel::THUMBNAILS _thumbnails;
-            FileBrowserModel::THUMBNAILS_SIZE _thumbnailsSize;
-            glm::ivec2 _thumbnailSize = glm::ivec2(0, 0);
+            FileBrowserModel::THUMBNAIL_MODE _thumbnailMode = static_cast<FileBrowserModel::THUMBNAIL_MODE>(0);
+            FileBrowserModel::THUMBNAIL_SIZE _thumbnailSize = static_cast<FileBrowserModel::THUMBNAIL_SIZE>(0);
+            glm::ivec2 _thumbnailResolution = glm::ivec2(0, 0);
             Graphics::PixelDataInfo::PROXY _thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
-            bool _imageInfoRequest = false;
+            bool _imageInfoInit = false;
+            std::future<Graphics::ImageIOInfo> _imageInfoRequest;
+            int _imageInfoRequestTimer = 0;
             Graphics::ImageIOInfo _imageInfo;
-            bool _thumbnailRequest = false;
+            bool _thumbnailInit = false;
+            std::future<QPixmap> _thumbnailRequest;
+            int _thumbnailRequestTimer = 0;
             QPixmap _thumbnail;
-
             QVariant _displayRole[FileBrowserModel::COLUMNS_COUNT];
             QVariant _editRole[FileBrowserModel::COLUMNS_COUNT];
-
-            QPointer<UIContext> _context;
         };
 
     } // namespace UI

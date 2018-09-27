@@ -85,24 +85,24 @@ namespace djv
 
             //! This property holds the image thumbnail mode.
             Q_PROPERTY(
-                FileBrowserModel::THUMBNAILS thumbnails
-                READ                         thumbnails
-                WRITE                        setThumbnails
-                NOTIFY                       thumbnailsChanged)
+                FileBrowserModel::THUMBNAIL_MODE thumbnailMode
+                READ                             thumbnailMode
+                WRITE                            setThumbnailMode
+                NOTIFY                           thumbnailModeChanged)
 
             //! This property holds the image thumbnail size.
             Q_PROPERTY(
-                FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize
-                READ                              thumbnailsSize
-                WRITE                             setThumbnailsSize
-                NOTIFY                            thumbnailsSizeChanged)
+                FileBrowserModel::THUMBNAIL_SIZE thumbnailSize
+                READ                             thumbnailSize
+                WRITE                            setThumbnailSize
+                NOTIFY                           thumbnailSizeChanged)
 
             //! This property holds the image thumbnail cache size.
             Q_PROPERTY(
-                qint64 thumbnailsCache
-                READ   thumbnailsCache
-                WRITE  setThumbnailsCache
-                NOTIFY thumbnailsCacheChanged)
+                qint64 thumbnailCache
+                READ   thumbnailCache
+                WRITE  setThumbnailCache
+                NOTIFY thumbnailCacheChanged)
 
             //! This property holds the list of recent directories.
             Q_PROPERTY(
@@ -163,22 +163,22 @@ namespace djv
             bool hasSortDirsFirst() const;
 
             //! Get the image thumbnail mode default.
-            static FileBrowserModel::THUMBNAILS thumbnailsDefault();
+            static FileBrowserModel::THUMBNAIL_MODE thumbnailModeDefault();
 
             //! Get the image thumbnail mode.
-            FileBrowserModel::THUMBNAILS thumbnails() const;
+            FileBrowserModel::THUMBNAIL_MODE thumbnailMode() const;
 
             //! Get the image thumbnail size default.
-            static FileBrowserModel::THUMBNAILS_SIZE thumbnailsSizeDefault();
+            static FileBrowserModel::THUMBNAIL_SIZE thumbnailSizeDefault();
 
             //! Get the image thumbnail size.
-            FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize() const;
+            FileBrowserModel::THUMBNAIL_SIZE thumbnailSize() const;
 
             //! Get the image thumbnail cache size default.
-            static qint64 thumbnailsCacheDefault();
+            static qint64 thumbnailCacheDefault();
 
             //! Get the image thumbnail cache size.
-            qint64 thumbnailsCache() const;
+            qint64 thumbnailCache() const;
 
             //! Get the list of recent directories.
             const QStringList & recent() const;
@@ -255,13 +255,13 @@ namespace djv
             void setSortDirsFirst(bool);
 
             //! Set the image thumbnail mode.
-            void setThumbnails(djv::UI::FileBrowserModel::THUMBNAILS);
+            void setThumbnailMode(djv::UI::FileBrowserModel::THUMBNAIL_MODE);
 
             //! Set the image thumbnail size.
-            void setThumbnailsSize(djv::UI::FileBrowserModel::THUMBNAILS_SIZE);
+            void setThumbnailSize(djv::UI::FileBrowserModel::THUMBNAIL_SIZE);
 
             //! Set the image thumbnail cache size.
-            void setThumbnailsCache(qint64);
+            void setThumbnailCache(qint64);
 
             //! Set the list of recent directories.
             void setRecent(const QStringList &);
@@ -298,13 +298,13 @@ namespace djv
             void sortDirsFirstChanged(bool);
 
             //! This signal is emitted when the image thumbnail mode is changed.
-            void thumbnailsChanged(djv::UI::FileBrowserModel::THUMBNAILS);
+            void thumbnailModeChanged(djv::UI::FileBrowserModel::THUMBNAIL_MODE);
 
             //! This signal is emitted when the image thumbnail size is changed.
-            void thumbnailsSizeChanged(djv::UI::FileBrowserModel::THUMBNAILS_SIZE);
+            void thumbnailSizeChanged(djv::UI::FileBrowserModel::THUMBNAIL_SIZE);
 
             //! This signal is emitted when the image thumbnail cache size is changed.
-            void thumbnailsCacheChanged(qint64);
+            void thumbnailCacheChanged(qint64);
 
             //! This signal is emitted when the recent directories are changed.
             void recentChanged(const QStringList &);

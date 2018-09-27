@@ -17,6 +17,7 @@ set(header
     FileBrowserModelPrivate.h
     FileBrowserPrefs.h
     FileBrowserPrefsWidget.h
+    FileBrowserThumbnailSystem.h
     FileEdit.h
     FloatDisplay.h
     FloatEdit.h
@@ -93,6 +94,7 @@ set(mocHeader
     FileBrowserModelPrivate.h
     FileBrowserPrefs.h
     FileBrowserPrefsWidget.h
+    FileBrowserThumbnailSystem.h
     FileEdit.h
     FloatDisplay.h
     FloatEdit.h
@@ -167,6 +169,7 @@ set(source
     FileBrowserModelPrivate.cpp
     FileBrowserPrefs.cpp
     FileBrowserPrefsWidget.cpp
+    FileBrowserThumbnailSystem.cpp
     FileEdit.cpp
     FloatDisplay.cpp
     FloatEdit.cpp

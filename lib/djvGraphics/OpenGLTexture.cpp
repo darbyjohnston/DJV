@@ -80,14 +80,14 @@ namespace djv
             DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _mag));
 
             GLenum format = GL_RGBA;
-            if (Pixel::F16 == Pixel::type(_info.pixel))
+            /*if (Pixel::F16 == Pixel::type(_info.pixel))
             {
                 format = GL_RGBA16F;
             }
             else if (Pixel::F32 == Pixel::type(_info.pixel))
             {
                 format = GL_RGBA32F;
-            }
+            }*/
 
             glFuncs->glTexImage2D(
                 _target,
