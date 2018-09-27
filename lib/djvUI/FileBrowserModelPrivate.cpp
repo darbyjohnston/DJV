@@ -56,10 +56,10 @@ namespace djv
             const QPointer<UIContext> & context,
             QObject * parent) :
             QObject(parent),
+            _context(context),
             _fileInfo(fileInfo),
             _thumbnailMode(thumbnailMode),
-            _thumbnailSize(thumbnailSize),
-            _context(context)
+            _thumbnailSize(thumbnailSize)
         {
             // Initialize the display role data.
             _displayRole[FileBrowserModel::NAME] = fileInfo.name();

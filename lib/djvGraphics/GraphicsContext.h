@@ -61,8 +61,7 @@ namespace djv
 
         protected:
             bool commandLineParse(QStringList &) override;
-
-            QString commandLineHelp() const;
+            QString commandLineHelp() const override;
 
         private:
             struct Private;

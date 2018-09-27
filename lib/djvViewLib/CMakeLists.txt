@@ -72,7 +72,6 @@ set(mocHeader
     AbstractTool.h
     ColorPickerTool.h
     Context.h
-    Core.h
     DisplayProfileWidget.h
     FileActions.h
     FileCache.h

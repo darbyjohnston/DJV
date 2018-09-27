@@ -45,8 +45,8 @@ namespace djv
             Private(
                 const QPointer<AbstractActions> & actions,
                 const QPointer<Context> & context) :
-                actions(actions),
-                context(context)
+                context(context),
+                actions(actions)
             {}
 
             QPointer<Context> context;

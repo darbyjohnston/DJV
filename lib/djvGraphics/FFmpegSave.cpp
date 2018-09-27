@@ -308,10 +308,8 @@ namespace djv
                 p->w(),
                 p->h());
 
-            quint64 pixelByteCount = p->pixelByteCount();
             quint64 scanlineByteCount = p->scanlineByteCount();
             quint64 dataByteCount = p->dataByteCount();
-
             const uint8_t * const data[] =
             {
                 p->data() + dataByteCount - scanlineByteCount,
@@ -319,7 +317,6 @@ namespace djv
                 p->data() + dataByteCount - scanlineByteCount,
                 p->data() + dataByteCount - scanlineByteCount
             };
-
             const int lineSize[] =
             {
                 -static_cast<int>(scanlineByteCount),
@@ -327,7 +324,6 @@ namespace djv
                 -static_cast<int>(scanlineByteCount),
                 -static_cast<int>(scanlineByteCount)
             };
-
             sws_scale(
                 _swsContext,
                 //(uint8_t const * const *)_avFrameRgb->data,
@@ -340,11 +336,9 @@ namespace djv
                 _avFrame->linesize);
 
             AVCodecContext * avCodecContext = _avStream->codec;
-
             FFmpeg::Packet packet;
             packet().data = 0;
             packet().size = 0;
-
             _avFrame->pts = _frame++;
             _avFrame->quality = avCodecContext->global_quality;
 

@@ -60,7 +60,7 @@ namespace djv
             ~ColorPickerTool() override;
 
         protected:
-            virtual void showEvent(QShowEvent *);
+            void showEvent(QShowEvent *) override;
             bool event(QEvent *) override;
 
         private Q_SLOTS:

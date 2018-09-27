@@ -91,23 +91,23 @@ namespace djv
         struct UIContext::Private
         {
             bool                                 valid = false;
-            QScopedPointer<IconLibrary>          iconLibrary;
-            QScopedPointer<StylePrefs>           stylePrefs;
-            QScopedPointer<FileBrowserPrefs>     fileBrowserPrefs;
-            QScopedPointer<HelpPrefs>            helpPrefs;
-            QScopedPointer<ImagePrefs>           imagePrefs;
-            QScopedPointer<ImageIOPrefs>         imageIOPrefs;
-            QScopedPointer<SequencePrefs>        sequencePrefs;
-            QScopedPointer<TimePrefs>            timePrefs;
+            QPointer<IconLibrary>                iconLibrary;
+            QPointer<StylePrefs>                 stylePrefs;
+            QPointer<FileBrowserPrefs>           fileBrowserPrefs;
+            QPointer<HelpPrefs>                  helpPrefs;
+            QPointer<ImagePrefs>                 imagePrefs;
+            QPointer<ImageIOPrefs>               imageIOPrefs;
+            QPointer<SequencePrefs>              sequencePrefs;
+            QPointer<TimePrefs>                  timePrefs;
             QScopedPointer<FileBrowserCache>     fileBrowserCache;
             QPointer<FileBrowserThumbnailSystem> fileBrowserThumbnailSystem;
-            QScopedPointer<ImageIOWidgetFactory> imageIOWidgetFactory;
-            QScopedPointer<PrefsDialog>          prefsDialog;
-            QScopedPointer<InfoDialog>           infoDialog;
-            QScopedPointer<AboutDialog>          aboutDialog;
-            QScopedPointer<MessagesDialog>       messagesDialog;
-            QScopedPointer<DebugLogDialog>       debugLogDialog;
-            QScopedPointer<FileBrowser>          fileBrowser;
+            QPointer<ImageIOWidgetFactory>       imageIOWidgetFactory;
+            QPointer<PrefsDialog>                prefsDialog;
+            QPointer<InfoDialog>                 infoDialog;
+            QPointer<AboutDialog>                aboutDialog;
+            QPointer<MessagesDialog>             messagesDialog;
+            QPointer<DebugLogDialog>             debugLogDialog;
+            QPointer<FileBrowser>                fileBrowser;
             QPointer<ProxyStyle>                 proxyStyle;
         };
 
@@ -137,13 +137,13 @@ namespace djv
 
             // Load preferences.
             DJV_LOG(debugLog(), "djv::UI::UIContext", "Load the preferences...");
-            _p->stylePrefs.reset(new StylePrefs);
-            _p->fileBrowserPrefs.reset(new FileBrowserPrefs(this));
-            _p->helpPrefs.reset(new HelpPrefs);
-            _p->imagePrefs.reset(new ImagePrefs);
-            _p->imageIOPrefs.reset(new ImageIOPrefs(this));
-            _p->sequencePrefs.reset(new SequencePrefs);
-            _p->timePrefs.reset(new TimePrefs);
+            _p->stylePrefs = new StylePrefs(this);
+            _p->fileBrowserPrefs = new FileBrowserPrefs(this);
+            _p->helpPrefs = new HelpPrefs(this);
+            _p->imagePrefs = new ImagePrefs(this);
+            _p->imageIOPrefs = new ImageIOPrefs(this);
+            _p->sequencePrefs = new SequencePrefs(this);
+            _p->timePrefs = new TimePrefs(this);
             DJV_LOG(debugLog(), "djv::UI::UIContext", "");
 
             // Initialize.
@@ -151,7 +151,7 @@ namespace djv
             _p->fileBrowserCache->setMaxCost(fileBrowserPrefs()->thumbnailCache());
             _p->fileBrowserThumbnailSystem = new FileBrowserThumbnailSystem(imageIOFactory(), this);
             _p->fileBrowserThumbnailSystem->start();
-            _p->iconLibrary.reset(new IconLibrary);
+            _p->iconLibrary = new IconLibrary(this);
             _p->proxyStyle = new UI::ProxyStyle(this);
             qApp->setStyle(_p->proxyStyle);
             styleUpdate();
@@ -167,6 +167,12 @@ namespace djv
         UIContext::~UIContext()
         {
             //DJV_DEBUG("UIContext::~UIContext");
+            delete _p->fileBrowser;
+            delete _p->debugLogDialog;
+            delete _p->messagesDialog;
+            delete _p->aboutDialog;
+            delete _p->infoDialog;
+            delete _p->prefsDialog;
             _p->fileBrowserThumbnailSystem->stop();
             _p->fileBrowserThumbnailSystem->wait();
             QThreadPool::globalInstance()->waitForDone();
@@ -191,12 +197,12 @@ namespace djv
             QDesktopServices::openUrl(QUrl::fromLocalFile(doc()));
         }
 
-        FileBrowser * UIContext::fileBrowser(const QString & title) const
+        const QPointer<FileBrowser> & UIContext::fileBrowser(const QString & title) const
         {
             if (!_p->fileBrowser)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->fileBrowser.reset(new FileBrowser(that));
+                _p->fileBrowser = new FileBrowser(that);
             }
             _p->fileBrowser->close();
             _p->fileBrowser->setWindowTitle(
@@ -205,15 +211,15 @@ namespace djv
                 qApp->translate("djv::UI::UIContext", "File Browser"));
             _p->fileBrowser->setPinnable(false);
             _p->fileBrowser->disconnect(SIGNAL(fileInfoChanged(const djv::Core::FileInfo &)));
-            return _p->fileBrowser.data();
+            return _p->fileBrowser;
         }
 
-        ImageIOWidgetFactory * UIContext::imageIOWidgetFactory() const
+        const QPointer<ImageIOWidgetFactory> & UIContext::imageIOWidgetFactory() const
         {
             if (!_p->imageIOWidgetFactory)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->imageIOWidgetFactory.reset(new ImageIOWidgetFactory(that));
+                _p->imageIOWidgetFactory = new ImageIOWidgetFactory(that, Core::System::searchPath(), that);
                 _p->imageIOWidgetFactory->addPlugin(new CineonWidgetPlugin(that));
                 _p->imageIOWidgetFactory->addPlugin(new DPXWidgetPlugin(that));
                 _p->imageIOWidgetFactory->addPlugin(new IFFWidgetPlugin(that));
@@ -234,97 +240,97 @@ namespace djv
                 _p->imageIOWidgetFactory->addPlugin(new FFmpegWidgetPlugin(that));
 #endif // FFMPEG_FOUND
             }
-            return _p->imageIOWidgetFactory.data();
+            return _p->imageIOWidgetFactory;
         }
 
-        PrefsDialog * UIContext::prefsDialog() const
+        const QPointer<PrefsDialog> & UIContext::prefsDialog() const
         {
             if (!_p->prefsDialog)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->prefsDialog.reset(new PrefsDialog(that));
+                _p->prefsDialog = new PrefsDialog(that);
             }
-            return _p->prefsDialog.data();
+            return _p->prefsDialog;
         }
 
-        InfoDialog * UIContext::infoDialog() const
+        const QPointer<InfoDialog> & UIContext::infoDialog() const
         {
             if (!_p->infoDialog)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->infoDialog.reset(new InfoDialog(info(), that));
+                _p->infoDialog = new InfoDialog(info(), that);
             }
-            return _p->infoDialog.data();
+            return _p->infoDialog;
         }
 
-        AboutDialog * UIContext::aboutDialog() const
+        const QPointer<AboutDialog> & UIContext::aboutDialog() const
         {
             if (!_p->aboutDialog)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->aboutDialog.reset(new AboutDialog(about(), that));
+                _p->aboutDialog = new AboutDialog(about(), that);
             }
-            return _p->aboutDialog.data();
+            return _p->aboutDialog;
         }
 
-        MessagesDialog * UIContext::messagesDialog() const
+        const QPointer<MessagesDialog> & UIContext::messagesDialog() const
         {
             if (!_p->messagesDialog)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->messagesDialog.reset(new MessagesDialog(that));
+                _p->messagesDialog = new MessagesDialog(that);
             }
-            return _p->messagesDialog.data();
+            return _p->messagesDialog;
         }
 
-        DebugLogDialog * UIContext::debugLogDialog() const
+        const QPointer<DebugLogDialog> & UIContext::debugLogDialog() const
         {
             if (!_p->debugLogDialog)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->debugLogDialog.reset(new DebugLogDialog(that));
+                _p->debugLogDialog = new DebugLogDialog(that);
             }
-            return _p->debugLogDialog.data();
+            return _p->debugLogDialog;
         }
 
-        FileBrowserPrefs * UIContext::fileBrowserPrefs() const
+        const QPointer<FileBrowserPrefs> & UIContext::fileBrowserPrefs() const
         {
-            return _p->fileBrowserPrefs.data();
+            return _p->fileBrowserPrefs;
         }
 
-        HelpPrefs * UIContext::helpPrefs() const
+        const QPointer<HelpPrefs> & UIContext::helpPrefs() const
         {
-            return _p->helpPrefs.data();
+            return _p->helpPrefs;
         }
 
-        ImagePrefs * UIContext::imagePrefs() const
+        const QPointer<ImagePrefs> & UIContext::imagePrefs() const
         {
-            return _p->imagePrefs.data();
+            return _p->imagePrefs;
         }
 
-        ImageIOPrefs * UIContext::imageIOPrefs() const
+        const QPointer<ImageIOPrefs> & UIContext::imageIOPrefs() const
         {
-            return _p->imageIOPrefs.data();
+            return _p->imageIOPrefs;
         }
 
-        SequencePrefs * UIContext::sequencePrefs() const
+        const QPointer<SequencePrefs> & UIContext::sequencePrefs() const
         {
-            return _p->sequencePrefs.data();
+            return _p->sequencePrefs;
         }
 
-        TimePrefs * UIContext::timePrefs() const
+        const QPointer<TimePrefs> & UIContext::timePrefs() const
         {
-            return _p->timePrefs.data();
+            return _p->timePrefs;
         }
 
-        StylePrefs * UIContext::stylePrefs() const
+        const QPointer<StylePrefs> & UIContext::stylePrefs() const
         {
-            return _p->stylePrefs.data();
+            return _p->stylePrefs;
         }
 
-        IconLibrary * UIContext::iconLibrary() const
+        const QPointer<IconLibrary> & UIContext::iconLibrary() const
         {
-            return _p->iconLibrary.data();
+            return _p->iconLibrary;
         }
 
         FileBrowserCache * UIContext::fileBrowserCache() const

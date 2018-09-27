@@ -120,6 +120,7 @@ namespace djv
             {
                 case CE_ToolBar:
                     return;
+                default: break;
             }
             QProxyStyle::drawControl(element, option, painter, widget);
         }

@@ -64,7 +64,7 @@ namespace djv
             //! Get the tool bar visibility.
             const QVector<bool> & toolBarVisible() const;
 
-            virtual QToolBar * toolBar() const;
+            QToolBar * toolBar() const override;
 
         public Q_SLOTS:
             //! Set whether full screen is enabled.

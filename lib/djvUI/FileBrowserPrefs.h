@@ -126,7 +126,6 @@ namespace djv
 
         public:
             explicit FileBrowserPrefs(const QPointer<UIContext> &, QObject * parent = nullptr);
-
             ~FileBrowserPrefs();
 
             //! Get the file system path default.

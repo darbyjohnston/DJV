@@ -121,13 +121,11 @@ set(mocHeader
     LUTWidget.h
     MessagesDialog.h
     MultiChoiceDialog.h
-    NoticeDialog.h
     OpenGLWidget.h
     PPMWidget.h
     PixelMaskWidget.h
     PixelWidget.h
     PlaybackButtons.h
-    PlaybackUtil.h
     Prefs.h
     PrefsDialog.h
     PrefsGroupBox.h

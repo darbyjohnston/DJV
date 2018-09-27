@@ -54,7 +54,7 @@ namespace djv
             
             int pixelMetric(PixelMetric, const QStyleOption *, const QWidget *) const override;
             QPixmap standardPixmap(StandardPixmap, const QStyleOption *, const QWidget *) const override;
-            int styleHint(StyleHint, const QStyleOption *, const QWidget *, QStyleHintReturn *) const;
+            int styleHint(StyleHint, const QStyleOption *, const QWidget *, QStyleHintReturn *) const override;
             void drawControl(ControlElement, const QStyleOption *, QPainter *, const QWidget *) const override;
             void drawPrimitive(PrimitiveElement, const QStyleOption *, QPainter *, const QWidget *) const override;
 

@@ -143,7 +143,6 @@ namespace djv
             _p->openGlContext.reset(new QOpenGLContext);
             _p->openGlContext->setFormat(surfaceFormat);
             _p->openGlContext->create();
-
             _p->openGlContext->moveToThread(this);
 
             _p->running = true;
@@ -208,6 +207,7 @@ namespace djv
                 _handleInfoRequests();
                 _handlePixmapRequests();
             }
+            _p->openGlContext.reset();
         }
 
         void FileBrowserThumbnailSystem::_handleInfoRequests()

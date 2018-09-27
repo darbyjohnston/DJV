@@ -688,7 +688,6 @@ namespace djv
             const int spacing = style()->pixelMetric(QStyle::PM_LayoutHorizontalSpacing);
             for (int i = 0; i < ticks.count(); ++i)
             {
-                const QRect labelBounds = fontMetrics().boundingRect(ticks[i].label);
                 ticks[i].labelRect = QRect(
                     ticks[i].x + spacing,
                     box.h / 2,
