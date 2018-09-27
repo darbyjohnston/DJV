@@ -34,6 +34,8 @@
 #include <QPointer>
 #include <QWidget>
 
+#include <memory>
+
 namespace djv
 {
     namespace UI

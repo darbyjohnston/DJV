@@ -84,6 +84,9 @@ namespace djv
                 SIGNAL(buttonClicked(int)),
                 SLOT(buttonCallback(int)));
         }
+        
+        PlaybackButtons::~PlaybackButtons()
+        {}
 
         PlaybackUtil::PLAYBACK PlaybackButtons::playback() const
         {

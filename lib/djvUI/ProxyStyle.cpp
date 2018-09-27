@@ -56,6 +56,9 @@ namespace djv
             _p->context = context;
         }
 
+        ProxyStyle::~ProxyStyle()
+        {}
+        
         int ProxyStyle::pixelMetric(
             PixelMetric metric,
             const QStyleOption * option,

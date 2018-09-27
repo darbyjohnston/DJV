@@ -102,7 +102,8 @@ namespace djv
                 const QPointer<UIContext> &,
                 const QStringList & searchPath = Core::System::searchPath(),
                 QObject * parent = nullptr);
-
+            ~ImageIOWidgetFactory() override;
+            
             //! Create a widget.    
             ImageIOWidget * createWidget(Graphics::ImageIO *) const;
 

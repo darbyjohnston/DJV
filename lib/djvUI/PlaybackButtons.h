@@ -33,6 +33,8 @@
 
 #include <QWidget>
 
+#include <memory>
+
 class QButtonGroup;
 
 namespace djv
@@ -58,7 +60,8 @@ namespace djv
 
         public:
             explicit PlaybackButtons(const QPointer<UIContext> &, QWidget * parent = nullptr);
-
+            ~PlaybackButtons() override;
+            
             //! Get the current playback state.    
             PlaybackUtil::PLAYBACK playback() const;
 

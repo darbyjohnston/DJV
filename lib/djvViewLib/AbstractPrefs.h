@@ -35,6 +35,8 @@
 
 #include <QObject>
 
+#include <memory>
+
 namespace djv
 {
     namespace ViewLib
@@ -50,8 +52,7 @@ namespace djv
 
         public:
             explicit AbstractPrefs(const QPointer<Context> &, QObject * parent = nullptr);
-
-            virtual ~AbstractPrefs() = 0;
+            ~AbstractPrefs() override = 0;
 
             //! Get the context.
             const QPointer<Context> & context() const;

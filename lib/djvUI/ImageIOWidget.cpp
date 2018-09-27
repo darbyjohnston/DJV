@@ -95,6 +95,9 @@ namespace djv
         {
             _p->context = context;
         }
+        
+        ImageIOWidgetFactory::~ImageIOWidgetFactory()
+        {}
 
         ImageIOWidget * ImageIOWidgetFactory::createWidget(Graphics::ImageIO * imageIOPlugin) const
         {

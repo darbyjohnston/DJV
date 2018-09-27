@@ -121,7 +121,7 @@ namespace djv
             const int    pad = seq.pad;
 
             // Add the list end marker.
-            static const qint64 marker = -std::numeric_limits<qint64>::min();
+            static const qint64 marker = std::numeric_limits<qint64>::min();
             frames += marker;
 
             // Sequence.

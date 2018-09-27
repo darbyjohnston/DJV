@@ -35,6 +35,8 @@
 
 #include <QAbstractButton>
 
+#include <memory>
+
 namespace djv
 {
     namespace UI

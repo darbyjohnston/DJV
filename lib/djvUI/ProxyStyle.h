@@ -33,6 +33,8 @@
 
 #include <QProxyStyle>
 
+#include <memory>
+
 namespace djv
 {
     namespace UI
@@ -48,6 +50,7 @@ namespace djv
 
         public:
             ProxyStyle(const QPointer<UIContext> &);
+            ~ProxyStyle() override;
             
             int pixelMetric(PixelMetric, const QStyleOption *, const QWidget *) const override;
             QPixmap standardPixmap(StandardPixmap, const QStyleOption *, const QWidget *) const override;
