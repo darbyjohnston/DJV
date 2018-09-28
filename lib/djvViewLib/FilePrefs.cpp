@@ -142,7 +142,7 @@ namespace djv
 
         bool FilePrefs::preloadDefault()
         {
-            return false;
+            return true;
         }
 
         bool FilePrefs::hasPreload() const
