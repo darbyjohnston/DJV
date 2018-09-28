@@ -80,55 +80,55 @@ namespace djv
             void help();
 
             //! Get the file browser.
-            const QPointer<FileBrowser> & fileBrowser(const QString & title = QString()) const;
+            QPointer<FileBrowser> fileBrowser(const QString & title = QString()) const;
 
             //! Get the image I/O widget plugin factory.
-            const QPointer<ImageIOWidgetFactory> & imageIOWidgetFactory() const;
+            QPointer<ImageIOWidgetFactory> imageIOWidgetFactory() const;
 
             //! Get the preferences dialog.
-            const QPointer<PrefsDialog> & prefsDialog() const;
+            QPointer<PrefsDialog> prefsDialog() const;
 
             //! Get the information dialog.
-            const QPointer<InfoDialog> & infoDialog() const;
+            QPointer<InfoDialog> infoDialog() const;
 
             //! Get the about dialog.
-            const QPointer<AboutDialog> & aboutDialog() const;
+            QPointer<AboutDialog> aboutDialog() const;
 
             //! Get the messages dialog.
-            const QPointer<MessagesDialog> & messagesDialog() const;
+            QPointer<MessagesDialog> messagesDialog() const;
 
             //! Get the debugging dialog.
-            const QPointer<DebugLogDialog> & debugLogDialog() const;
+            QPointer<DebugLogDialog> debugLogDialog() const;
 
             //! Get the file browser preferences.
-            const QPointer<FileBrowserPrefs> & fileBrowserPrefs() const;
+            QPointer<FileBrowserPrefs> fileBrowserPrefs() const;
 
             //! Get the help preferences.
-            const QPointer<HelpPrefs> & helpPrefs() const;
+            QPointer<HelpPrefs> helpPrefs() const;
 
             //! Get the image preferences.
-            const QPointer<ImagePrefs> & imagePrefs() const;
+            QPointer<ImagePrefs> imagePrefs() const;
 
             //! Get the image I/O preferences.
-            const QPointer<ImageIOPrefs> & imageIOPrefs() const;
+            QPointer<ImageIOPrefs> imageIOPrefs() const;
 
             //! Get the sequence preferences.
-            const QPointer<SequencePrefs> & sequencePrefs() const;
+            QPointer<SequencePrefs> sequencePrefs() const;
 
             //! Get the time preferences.
-            const QPointer<TimePrefs> & timePrefs() const;
+            QPointer<TimePrefs> timePrefs() const;
 
             //! Get the style preferences.
-            const QPointer<StylePrefs> & stylePrefs() const;
+            QPointer<StylePrefs> stylePrefs() const;
 
             //! Get the file browser cache.
             FileBrowserCache * fileBrowserCache() const;
 
             //! Get the file browser thumbnail system.
-            const QPointer<FileBrowserThumbnailSystem> & fileBrowserThumbnailSystem() const;
+            QPointer<FileBrowserThumbnailSystem> fileBrowserThumbnailSystem() const;
 
             //! Get the icon library.
-            const QPointer<IconLibrary> & iconLibrary() const;
+            QPointer<IconLibrary> iconLibrary() const;
 
             QString info() const override;
             void print(const QString &, bool newLine = true, int indent = 0) override;
