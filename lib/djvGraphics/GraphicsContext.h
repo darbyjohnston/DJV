@@ -32,6 +32,7 @@
 #include <djvCore/CoreContext.h>
 
 class QOpenGLContext;
+class QOpenGLDebugMessage;
 
 namespace djv
 {
@@ -54,7 +55,7 @@ namespace djv
             //! Get the default OpenGL context.
             QOpenGLContext * openGLContext() const;
 
-            //! Make the default OpenGL context current;
+            //! Make the default OpenGL context current.
             void makeGLContextCurrent();
 
             QString info() const override;
@@ -62,6 +63,9 @@ namespace djv
         protected:
             bool commandLineParse(QStringList &) override;
             QString commandLineHelp() const override;
+
+        private Q_SLOTS:
+            void debugLogMessage(const QOpenGLDebugMessage &);
 
         private:
             struct Private;

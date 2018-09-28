@@ -30,15 +30,18 @@
 #include <djvUI/FileBrowserThumbnailSystem.h>
 
 #include <djvUI/FileBrowserModel.h>
+#include <djvUI/UIContext.h>
 
 #include <djvGraphics/Image.h>
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/PixelDataUtil.h>
 
+#include <djvCore/DebugLog.h>
 #include <djvCore/FileInfo.h>
 
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
+#include <QOpenGLDebugLogger>
 #include <QPixmap>
 #include <QThread>
 
@@ -111,10 +114,25 @@ namespace djv
                 std::promise<QPixmap> promise;
             };
 
+            void MessageCallback(
+                GLenum source,
+                GLenum type,
+                GLuint id,
+                GLenum severity,
+                GLsizei length,
+                const GLchar* message,
+                const void* userParam)
+            {
+                fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+                    (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+                    type, severity, message);
+            }
+
         } // namespace
 
         struct FileBrowserThumbnailSystem::Private
         {
+            Core::DebugLog * debugLog = nullptr;
             Graphics::ImageIOFactory * imageIO = nullptr;
             std::vector<InfoRequest> infoQueue;
             std::vector<PixmapRequest> pixmapQueue;
@@ -122,16 +140,18 @@ namespace djv
             std::mutex requestMutex;
             std::vector<InfoRequest> infoRequests;
             std::vector<PixmapRequest> pixmapRequests;
-            QScopedPointer<QOpenGLContext> openGlContext;
             QScopedPointer<QOffscreenSurface> offscreenSurface;
+            QScopedPointer<QOpenGLContext> openGLContext;
+            QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
             std::atomic<bool> running;
         };
 
-        FileBrowserThumbnailSystem::FileBrowserThumbnailSystem(Graphics::ImageIOFactory * imageIO, QObject * parent) :
+        FileBrowserThumbnailSystem::FileBrowserThumbnailSystem(const QPointer<UIContext> & context, QObject * parent) :
             QThread(parent),
             _p(new Private)
         {
-            _p->imageIO = imageIO;
+            _p->debugLog = context->debugLog();
+            _p->imageIO = context->imageIOFactory();
 
             _p->offscreenSurface.reset(new QOffscreenSurface);
             QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
@@ -140,10 +160,17 @@ namespace djv
             _p->offscreenSurface->setFormat(surfaceFormat);
             _p->offscreenSurface->create();
 
-            _p->openGlContext.reset(new QOpenGLContext);
-            _p->openGlContext->setFormat(surfaceFormat);
-            _p->openGlContext->create();
-            _p->openGlContext->moveToThread(this);
+            _p->openGLContext.reset(new QOpenGLContext);
+            _p->openGLContext->setFormat(surfaceFormat);
+            _p->openGLContext->create();
+            _p->openGLContext->moveToThread(this);
+
+            _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
+            connect(
+                _p->openGLDebugLogger.data(),
+                &QOpenGLDebugLogger::messageLogged,
+                this,
+                &FileBrowserThumbnailSystem::debugLogMessage);
 
             _p->running = true;
         }
@@ -192,7 +219,13 @@ namespace djv
 
         void FileBrowserThumbnailSystem::run()
         {
-            _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
+            _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
+            if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
+            {
+                _p->openGLDebugLogger->initialize();
+                _p->openGLDebugLogger->startLogging();
+            }
+
             while (_p->running)
             {
                 {
@@ -207,7 +240,14 @@ namespace djv
                 _handleInfoRequests();
                 _handlePixmapRequests();
             }
-            _p->openGlContext.reset();
+            _p->openGLDebugLogger->stopLogging();
+            _p->openGLDebugLogger.reset();
+            _p->openGLContext.reset();
+        }
+
+        void FileBrowserThumbnailSystem::debugLogMessage(const QOpenGLDebugMessage & message)
+        {
+            _p->debugLog->addMessage("djv::UI::FileBrowserThumbnailSystem", message.message());
         }
 
         void FileBrowserThumbnailSystem::_handleInfoRequests()
@@ -251,8 +291,12 @@ namespace djv
                     openGLImage->copy(image, tmp, options);
                     pixmap = openGLImage->toQt(tmp);
                 }
-                catch (const Core::Error&)
+                catch (const Core::Error & error)
                 {
+                    Q_FOREACH(auto m, error.messages())
+                    {
+                        _p->debugLog->addMessage(m.prefix, m.string);
+                    }
                 }
                 request.promise.set_value(pixmap);
             }

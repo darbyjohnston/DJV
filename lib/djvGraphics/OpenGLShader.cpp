@@ -53,8 +53,8 @@ namespace djv
                 memcpy(buf.data(), source.toLatin1().data(), buf.size());
                 const char * sources[] = { buf.data() };
                 const GLint  sourceLengths[] = { static_cast<GLint>(buf.size()) };
-                DJV_DEBUG_OPEN_GL(glFuncs->glShaderSource(id, 1, sources, sourceLengths));
-                DJV_DEBUG_OPEN_GL(glFuncs->glCompileShader(id));
+                glFuncs->glShaderSource(id, 1, sources, sourceLengths);
+                glFuncs->glCompileShader(id);
                 GLint error = 0;
                 glFuncs->glGetShaderiv(id, GL_COMPILE_STATUS, &error);
                 char    log[4096] = "";
@@ -94,16 +94,16 @@ namespace djv
             _fragmentId = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
             shaderCompile(_vertexId, _vertexSource);
             shaderCompile(_fragmentId, _fragmentSource);
-            DJV_DEBUG_OPEN_GL(_programId = glFuncs->glCreateProgram());
+            _programId = glFuncs->glCreateProgram();
             if (!_programId)
             {
                 throw Core::Error(
                     "djv::Graphics::OpenGLShader",
                     qApp->translate("djv::Graphics::OpenGLShader", "Cannot create shader program"));
             }
-            DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _vertexId));
-            DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _fragmentId));
-            DJV_DEBUG_OPEN_GL(glFuncs->glLinkProgram(_programId));
+            glFuncs->glAttachShader(_programId, _vertexId);
+            glFuncs->glAttachShader(_programId, _fragmentId);
+            glFuncs->glLinkProgram(_programId);
             GLint error = 0;
             glFuncs->glGetProgramiv(_programId, GL_LINK_STATUS, &error);
             char log[4096] = "";
@@ -123,7 +123,7 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLShader::bind");
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-            DJV_DEBUG_OPEN_GL(glFuncs->glUseProgram(_programId));
+            glFuncs->glUseProgram(_programId);
         }
 
         const QString & OpenGLShader::vertexSource() const

@@ -52,7 +52,6 @@ namespace djv
             //! Throws:
             //! - Core::Error
             OpenGLOffscreenBuffer(const PixelDataInfo &);
-
             ~OpenGLOffscreenBuffer();
 
             //! Get the offscreen buffer information.
@@ -100,7 +99,6 @@ namespace djv
         {
         public:
             OpenGLOffscreenBufferScope(OpenGLOffscreenBuffer *);
-
             ~OpenGLOffscreenBufferScope();
 
         private:

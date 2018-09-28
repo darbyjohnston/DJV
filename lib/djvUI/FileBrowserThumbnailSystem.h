@@ -37,6 +37,7 @@
 
 #include <future>
 
+class QOpenGLDebugMessage;
 class QPixmap;
 
 namespace djv
@@ -51,7 +52,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserThumbnailSystem(Graphics::ImageIOFactory *, QObject * parent = nullptr);
+            FileBrowserThumbnailSystem(const QPointer<UIContext> &, QObject * parent = nullptr);
             virtual ~FileBrowserThumbnailSystem();
 
             std::future<Graphics::ImageIOInfo> getInfo(const Core::FileInfo&);
@@ -65,6 +66,9 @@ namespace djv
 
         protected:
             void run() override;
+
+        private Q_SLOTS:
+            void debugLogMessage(const QOpenGLDebugMessage &);
 
         private:
             void _handleInfoRequests();

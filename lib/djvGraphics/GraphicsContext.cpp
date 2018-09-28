@@ -65,6 +65,7 @@
 #include <QMetaType>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
+#include <QOpenGLDebugLogger>
 #include <QScopedPointer>
 #include <QVector>
 
@@ -78,6 +79,7 @@ namespace djv
         {
             QScopedPointer<QOffscreenSurface> offscreenSurface;
             QScopedPointer<QOpenGLContext> openGLContext;
+            QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
             QScopedPointer<ImageIOFactory> imageIOFactory;
         };
 
@@ -99,6 +101,11 @@ namespace djv
             defaultFormat.setMajorVersion(4);
             defaultFormat.setMinorVersion(1);
             defaultFormat.setProfile(QSurfaceFormat::CoreProfile);
+            //! \todo Document this environment variable.
+            if (Core::System::env("DJV_OPENGL_DEBUG").size())
+            {
+                defaultFormat.setOption(QSurfaceFormat::DebugContext);
+            }
             QSurfaceFormat::setDefaultFormat(defaultFormat);
 
             _p->offscreenSurface.reset(new QOffscreenSurface);
@@ -117,6 +124,18 @@ namespace djv
                 QString("OpenGL version = %1.%2").
                 arg(_p->openGLContext->format().majorVersion()).
                 arg(_p->openGLContext->format().minorVersion()));
+
+            _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
+            connect(
+                _p->openGLDebugLogger.data(),
+                &QOpenGLDebugLogger::messageLogged,
+                this,
+                &GraphicsContext::debugLogMessage);
+            if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
+            {
+                _p->openGLDebugLogger->initialize();
+                _p->openGLDebugLogger->startLogging();
+            }
 
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
 
@@ -292,6 +311,11 @@ namespace djv
                 arg(filterHighQualityMinLabel.join(", ")).
                 arg(filterHighQualityMagLabel.join(", ")).
                 arg(Core::CoreContext::commandLineHelp());
+        }
+
+        void GraphicsContext::debugLogMessage(const QOpenGLDebugMessage & message)
+        {
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", message.message());
         }
 
     } // namespace Graphics

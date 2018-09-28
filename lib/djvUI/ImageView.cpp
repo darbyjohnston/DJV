@@ -67,7 +67,7 @@ namespace djv
             const QPointer<UIContext> & context,
             QWidget * parent,
             Qt::WindowFlags flags) :
-            OpenGLWidget(parent, flags),
+            OpenGLWidget(context, parent, flags),
             _p(new Private(context))
         {}
 
@@ -257,9 +257,9 @@ namespace djv
             {
                 auto viewMatrix = glm::ortho(
                     0.f,
-                    static_cast<float>(width()),
+                    static_cast<float>(geom.w),
                     0.f,
-                    static_cast<float>(height()),
+                    static_cast<float>(geom.h),
                     -1.f,
                     1.f);
                 _p->openGLImage->draw(*_p->data, viewMatrix, options);

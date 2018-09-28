@@ -35,10 +35,14 @@
 
 #include <QOpenGLWidget>
 
+class QOpenGLDebugMessage;
+
 namespace djv
 {
     namespace UI
     {
+        class UIContext;
+
         //! \class OpenGLWidget
         //!
         //! This class provides an OpenGL widget.
@@ -48,8 +52,20 @@ namespace djv
 
         public:
             explicit OpenGLWidget(
-                QWidget *       parent = nullptr,
+                const QPointer<UIContext> &,
+                QWidget * parent = nullptr,
                 Qt::WindowFlags flags = 0);
+            ~OpenGLWidget() override;
+
+        protected:
+            void initializeGL() override;
+
+        private Q_SLOTS:
+            void debugLogMessage(const QOpenGLDebugMessage &);
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

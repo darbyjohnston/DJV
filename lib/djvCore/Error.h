@@ -61,7 +61,6 @@ namespace djv
             Error(const QString & string);
             Error(const QString & prefix, const QString & string);
             Error(const Error &);
-
             virtual ~Error();
 
             //! Get the message list.

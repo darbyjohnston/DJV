@@ -53,16 +53,16 @@ namespace djv
             //DJV_DEBUG("OpenGLImageMesh::OpenGLImageMesh");
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-            DJV_DEBUG_OPEN_GL(glFuncs->glGenBuffers(1, &_vbo));
-            DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
-            DJV_DEBUG_OPEN_GL(glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), 0, GL_DYNAMIC_DRAW));
+            glFuncs->glGenBuffers(1, &_vbo);
+            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+            glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), 0, GL_DYNAMIC_DRAW);
 
-            DJV_DEBUG_OPEN_GL(glFuncs->glGenVertexArrays(1, &_vao));
-            DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
-            DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0));
-            DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(0));
-            DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8));
-            DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(1));
+            glFuncs->glGenVertexArrays(1, &_vao);
+            glFuncs->glBindVertexArray(_vao);
+            glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0);
+            glFuncs->glEnableVertexAttribArray(0);
+            glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8);
+            glFuncs->glEnableVertexAttribArray(1);
         }
 
         OpenGLImageMesh::~OpenGLImageMesh()
@@ -130,22 +130,22 @@ namespace djv
             }
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-            DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
-            DJV_DEBUG_OPEN_GL(glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data()));
+            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+            glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data());
 
-            //DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
-            //DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0));
-            //DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(0));
-            //DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8));
-            //DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(1));
+            //glFuncs->glBindVertexArray(_vao);
+            //glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0);
+            //glFuncs->glEnableVertexAttribArray(0);
+            //glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8);
+            //glFuncs->glEnableVertexAttribArray(1);
         }
 
         void OpenGLImageMesh::draw()
         {
             //DJV_DEBUG("OpenGLImageMesh::draw");
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-            DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
-            DJV_DEBUG_OPEN_GL(glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6));
+            glFuncs->glBindVertexArray(_vao);
+            glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
         namespace
@@ -357,8 +357,8 @@ namespace djv
                 for (int i = 0; i < output; ++i)
                 {
                     const float center = i / scale;
-                    const int   left = Core::Math::ceil(center - radius);
-                    const int   right = Core::Math::floor(center + radius);
+                    const int   left   = Core::Math::ceil(center - radius);
+                    const int   right  = Core::Math::floor(center + radius);
                     //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
 
                     float sum = 0.f;
@@ -383,12 +383,12 @@ namespace djv
                         p[1] = 0.f;
                     }
 
-                    /*for (j = 0; j < width; ++j)
+                    for (j = 0; j < width; ++j)
                     {
                         Pixel::F32_T * p = reinterpret_cast<Pixel::F32_T *>(data.data(i, j));
                         //DJV_DEBUG_PRINT(p[0] << " = " << p[1]);
                     }
-                    //DJV_DEBUG_PRINT("sum = " << sum);*/
+                    //DJV_DEBUG_PRINT("sum = " << sum);
 
                     //! \todo Why is it necessary to average the scale contributions?
                     //! Without this the values don't always add up to zero causing image
@@ -397,6 +397,7 @@ namespace djv
                     {
                         Pixel::F32_T * p = reinterpret_cast<Pixel::F32_T *>(data.data(i, j));
                         p[1] /= static_cast<Pixel::F32_T>(sum);
+                        //DJV_DEBUG_PRINT(p[1]);
                     }
                 }
             }
@@ -459,7 +460,6 @@ namespace djv
                 "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
                 "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
                 "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
-                "\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
@@ -471,40 +471,31 @@ namespace djv
                 "        value[1] = pow(value[1], gamma);\n"
                 "    if (value[2] >= 0.0)\n"
                 "        value[2] = pow(value[2], gamma);\n"
-                "\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
                 "vec4 displayProfileColor(vec4 value, mat4 color)\n"
                 "{\n"
                 "    vec4 tmp;\n"
-                "\n"
                 "    tmp[0] = value[0];\n"
                 "    tmp[1] = value[1];\n"
                 "    tmp[2] = value[2];\n"
                 "    tmp[3] = 1.0;\n"
-                "\n"
                 "    tmp *= color;\n"
-                "\n"
                 "    tmp[3] = value[3];\n"
-                "\n"
                 "    return tmp;\n"
                 "}\n"
                 "\n"
                 "vec4 levels(vec4 value, Levels data)\n"
                 "{\n"
                 "    vec4 tmp;\n"
-                "\n"
                 "    tmp[0] = (value[0] - data.in0) / data.in1;\n"
                 "    tmp[1] = (value[1] - data.in0) / data.in1;\n"
                 "    tmp[2] = (value[2] - data.in0) / data.in1;\n"
-                "\n"
                 "%1"
-                "\n"
                 "    value[0] = tmp[0] * data.out1 + data.out0;\n"
                 "    value[1] = tmp[1] * data.out1 + data.out0;\n"
                 "    value[2] = tmp[2] * data.out1 + data.out0;\n"
-                "\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
@@ -513,77 +504,57 @@ namespace djv
                 "    value[0] = max(0.0, value[0] - data.d) * data.v;\n"
                 "    value[1] = max(0.0, value[1] - data.d) * data.v;\n"
                 "    value[2] = max(0.0, value[2] - data.d) * data.v;\n"
-                "\n"
                 "    if (value[0] > data.k)\n"
                 "        value[0] = data.k + knee(value[0] - data.k, data.f);\n"
                 "    if (value[1] > data.k)\n"
                 "        value[1] = data.k + knee(value[1] - data.k, data.f);\n"
                 "    if (value[2] > data.k)\n"
                 "        value[2] = data.k + knee(value[2] - data.k, data.f);\n"
-                "\n"
                 "    value[0] *= 0.332;\n"
                 "    value[1] *= 0.332;\n"
                 "    value[2] *= 0.332;\n"
-                "\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
                 "vec4 softClip(vec4 value, float softClip)\n"
                 "{\n"
                 "    float tmp = 1.0 - softClip;\n"
-                "\n"
                 "    if (value[0] > tmp)\n"
-                "        value[0] = tmp + (1.0 - exp(-(value[0] - tmp) / softClip)) *\n"
-                "            softClip;\n"
-                "\n"
+                "        value[0] = tmp + (1.0 - exp(-(value[0] - tmp) / softClip)) * softClip;\n"
                 "    if (value[1] > tmp)\n"
-                "        value[1] = tmp + (1.0 - exp(-(value[1] - tmp) / softClip)) *\n"
-                "            softClip;\n"
-                "\n"
+                "        value[1] = tmp + (1.0 - exp(-(value[1] - tmp) / softClip)) * softClip;\n"
                 "    if (value[2] > tmp)\n"
-                "        value[2] = tmp + (1.0 - exp(-(value[2] - tmp) / softClip)) *\n"
-                "            softClip;\n"
-                "\n"
+                "        value[2] = tmp + (1.0 - exp(-(value[2] - tmp) / softClip)) * softClip;\n"
                 "    return value;\n"
                 "}\n"
                 "\n";
 
             const QString sourceFragmentScaleX =
-                "vec4 scaleX(sampler2D texture, sampler2D contrib)\n"
+                "vec4 scaleX()\n"
                 "{\n"
                 "    vec4 value = vec4(0.0);\n"
-                "\n"
                 "    for (int i = 0; i < %1; ++i)\n"
                 "    {\n"
                 "        float t = float(i) / float(%2 - 1);\n"
-                "\n"
-                "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].s, t));\n"
-                "\n"
-                "        vec2 position = vec2(tmp[0], gl_TexCoord[0].t);\n"
-                "\n"
-                "        value += tmp[3] * %3;\n"
-                "  }\n"
-                "\n"
+                "        vec4 tmp = texture(inScaleContrib, vec2(TextureCoord.s, t));\n"
+                "        vec2 position = vec2(tmp[0], TextureCoord.t);\n"
+                "        value += tmp[1] * %3;\n"
+                "    }\n"
                 "    return value;\n"
                 "}\n"
                 "\n";
 
             const QString sourceFragmentScaleY =
-                "vec4 scaleY(sampler2D texture, sampler2D contrib)\n"
+                "vec4 scaleY()\n"
                 "{\n"
                 "    vec4 value = vec4(0.0);\n"
-                "\n"
                 "    for (int i = 0; i < %1; ++i)\n"
                 "    {\n"
                 "        float t = float(i) / float(%2 - 1);\n"
-                "\n"
-                "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].t, t));\n"
-                "\n"
-                "        vec2 position = vec2(gl_TexCoord[0].s, tmp[0]);\n"
-                "\n"
-                "        value += tmp[3] * texture(texture, position);\n"
+                "        vec4 tmp = texture(inScaleContrib, vec2(TextureCoord.t, t));\n"
+                "        vec2 position = vec2(TextureCoord.s, tmp[0]);\n"
+                "        value += tmp[1] * texture(inTexture, position);\n"
                 "    }\n"
-                "\n"
                 "    return value;\n"
                 "}\n"
                 "\n";
@@ -592,9 +563,7 @@ namespace djv
                 "void main(void)\n"
                 "{\n"
                 "    vec4 color;\n"
-                "\n"
                 "%1"
-                "\n"
                 "    FragColor = color;\n"
                 "}\n";
 
@@ -635,24 +604,15 @@ namespace djv
                 {
                 case ColorProfile::LUT:
                     header += "uniform sampler2D inColorProfileLut;\n";
-                    sample =
-                        "lut(\n"
-                        "    texture(inTexture, TextureCoord),\n"
-                        "    inColorProfileLut)";
+                    sample = "lut(texture(inTexture, TextureCoord), inColorProfileLut)";
                     break;
                 case ColorProfile::GAMMA:
                     header += "uniform float inColorProfileGamma;\n";
-                    sample =
-                        "gamma(\n"
-                        "    texture(inTexture, TextureCoord),\n"
-                        "    inColorProfileGamma)";
+                    sample = "gamma(texture(inTexture, TextureCoord), inColorProfileGamma)";
                     break;
                 case ColorProfile::EXPOSURE:
                     header += "uniform Exposure inColorProfileExposure;\n";
-                    sample =
-                        "exposure(\n"
-                        "    texture(inTexture, TextureCoord),\n"
-                        "    inColorProfileExposure)";
+                    sample = "exposure(texture(inTexture, TextureCoord), inColorProfileExposure)";
                     break;
                 default:
                     sample = "texture(inTexture, TextureCoord)";
@@ -673,14 +633,14 @@ namespace djv
                             arg(scaleSize).
                             arg(scaleSize).
                             arg(sample);
-                        main += "color = scaleX(inTexture, inScaleContrib);\n";
+                        main += "color = scaleX();\n";
                     }
                     else
                     {
                         header += QString(sourceFragmentScaleY).
                             arg(scaleSize).
                             arg(scaleSize);
-                        main += "color = scaleY(inTexture, inScaleContrib);\n";
+                        main += "color = scaleY();\n";
                     }
                 }
 
@@ -716,9 +676,14 @@ namespace djv
                 //if (clamp)
                 //    main += "color = clamp(color, vec4(0.f), vec4(1.f));\n";
 
-                return
-                    header + "\n" +
-                    QString(sourceFragmentMain).arg(main);
+                QString out = header + "\n" + QString(sourceFragmentMain).arg(main);
+                //int line = 0;
+                //Q_FOREACH(QString s, out.split('\n'))
+                //{
+                //    DJV_DEBUG_PRINT(line << ": " << s);
+                //    ++line;
+                //}
+                return out;
             }
 
         } // namespace
@@ -765,7 +730,7 @@ namespace djv
                 {
                 case ColorProfile::LUT:
                 {
-                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE2));
+                    glFuncs->glActiveTexture(GL_TEXTURE2);
                     shader.setUniform("inColorProfileLut", 2);
                     colorProfile.init(options.colorProfile.lut);
                 }
@@ -855,7 +820,7 @@ namespace djv
                 // Lookup table.
                 if (options.displayProfile.lut.isValid())
                 {
-                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE3));
+                    glFuncs->glActiveTexture(GL_TEXTURE3);
                     shader.setUniform("inDisplayProfileLut", 3);
                     displayProfile.init(options.displayProfile.lut);
                 }
@@ -984,7 +949,7 @@ namespace djv
                 displayProfileInit(options, *_shader, *_lutDisplayProfile);
 
                 // Draw.
-                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
+                glFuncs->glActiveTexture(GL_TEXTURE0);
                 _shader->setUniform("inTexture", 0);
                 _texture->copy(data);
                 _shader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(options.xform));
@@ -1005,17 +970,21 @@ namespace djv
                 // Horizontal pass.
                 OpenGLOffscreenBuffer buffer(PixelDataInfo(scaleTmp, data.pixel()));
                 {
+                    GLint vp[4] = { 0, 0, 0, 0 };
+                    glFuncs->glGetIntegerv(GL_VIEWPORT, vp);
+                    glFuncs->glViewport(0, 0, scaleTmp.x, scaleTmp.y);
+
                     OpenGLOffscreenBufferScope bufferScope(&buffer);
                     _scaleXShader->bind();
                     colorProfileInit(options, *_scaleXShader, *_lutColorProfile);
-                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
+                    glFuncs->glActiveTexture(GL_TEXTURE0);
                     _scaleXShader->setUniform("inTexture", 0);
                     _texture->copy(data);
                     _texture->bind();
-                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE1));
+                    glFuncs->glActiveTexture(GL_TEXTURE1);
                     _scaleXShader->setUniform("inScaleContrib", 1);
                     _scaleXContrib->bind();
-                    glm::mat4x4 m = glm::ortho(
+                    auto m = glm::ortho(
                         0.f,
                         static_cast<float>(scaleTmp.x),
                         0.f,
@@ -1023,24 +992,24 @@ namespace djv
                         -1.f,
                         1.f);
                     _scaleXShader->setUniform("transform.mvp", m);
-                    glViewport(0, 0, scaleTmp.x, scaleTmp.y);
                     _mesh->setSize(scaleTmp, mirror);
                     _mesh->draw();
+
+                    glFuncs->glViewport(vp[0], vp[1], vp[2], vp[3]);
                 }
 
                 // Vertical pass.
                 _scaleYShader->bind();
                 displayProfileInit(options, *_scaleYShader, *_lutDisplayProfile);
-                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
+                glFuncs->glActiveTexture(GL_TEXTURE0);
                 _scaleYShader->setUniform("inTexture", 0);
-                DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, buffer.texture()));
-                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE1));
+                glBindTexture(GL_TEXTURE_2D, buffer.texture());
+                glFuncs->glActiveTexture(GL_TEXTURE1);
                 _scaleYShader->setUniform("inScaleContrib", 1);
                 _scaleYContrib->bind();
                 OpenGLImageXform xform = options.xform;
                 xform.scale = glm::vec2(1.f, 1.f);
-                _shader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(xform));
-                glViewport(0, 0, scale.x, scale.y);
+                _scaleYShader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(xform));
                 _mesh->setSize(scale);
                 _mesh->draw();
             }

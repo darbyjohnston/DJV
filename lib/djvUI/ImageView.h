@@ -48,33 +48,33 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the pixel data.
-                Q_PROPERTY(
-                    const djv::Graphics::PixelData * data
-                    READ                             data
-                    WRITE                            setData
-                    NOTIFY                           dataChanged)
+            //! This property holds the pixel data.
+            Q_PROPERTY(
+                const djv::Graphics::PixelData * data
+                READ                             data
+                WRITE                            setData
+                NOTIFY                           dataChanged)
 
-                //! This property holds the image options.
-                Q_PROPERTY(
-                    djv::Graphics::OpenGLImageOptions options
-                    READ                              options
-                    WRITE                             setOptions
-                    NOTIFY                            optionsChanged)
+            //! This property holds the image options.
+            Q_PROPERTY(
+                djv::Graphics::OpenGLImageOptions options
+                READ                              options
+                WRITE                             setOptions
+                NOTIFY                            optionsChanged)
 
-                //! This property holds the view position.
-                Q_PROPERTY(
-                    glm::ivec2 viewPos
-                    READ       viewPos
-                    WRITE      setViewPos
-                    NOTIFY     viewPosChanged)
+            //! This property holds the view position.
+            Q_PROPERTY(
+                glm::ivec2 viewPos
+                READ       viewPos
+                WRITE      setViewPos
+                NOTIFY     viewPosChanged)
 
-                //! This property holds the view zoom.
-                Q_PROPERTY(
-                    float  viewZoom
-                    READ   viewZoom
-                    WRITE  setViewZoom
-                    NOTIFY viewZoomChanged)
+            //! This property holds the view zoom.
+            Q_PROPERTY(
+                float  viewZoom
+                READ   viewZoom
+                WRITE  setViewZoom
+                NOTIFY viewZoomChanged)
 
         public:
             explicit ImageView(

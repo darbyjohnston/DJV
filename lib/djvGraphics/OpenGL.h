@@ -48,40 +48,15 @@ namespace djv
         public:
             virtual ~OpenGLUtil() = 0;
 
-            //! Convert a pixel format to OpenGL.
+            //! Convert a pixel format to an OpenGL internal texture format.
+            static GLenum internalFormat(Pixel::PIXEL);
+
+            //! Convert a pixel format to an OpenGL texture format.
             static GLenum format(Pixel::PIXEL, bool bgr = false);
 
-            //! Convert a pixel type to OpenGL.
+            //! Convert a pixel type to an OpenGL texture type.
             static GLenum type(Pixel::PIXEL);
-
-            //! Get an OpenGL error string.
-            static QString errorString(GLenum);
         };
 
     } // namespace Graphics
 } // namespace djv
-
-//! This macro provides OpenGL debugging functionality.
-//!
-//! References:
-//!
-//! - Dave Shreiner, "Performance OpenGL: Platform Independent Techniques"
-//!   SIGGRAPH 2001
-#if 0
-#define DJV_DEBUG_OPEN_GL(cmd) \
-    cmd; \
-    { \
-        GLenum error = GL_NO_ERROR; \
-        if ((error = glGetError()) != GL_NO_ERROR) \
-        { \
-            DJV_DEBUG_PRINT(QString("%1 = %2 (%3, line %4)"). \
-                arg(#cmd). \
-                arg((djv::Graphics::OpenGLUtil::errorString(error)). \
-                arg(__FILE__). \
-                arg(__LINE__)); \
-        } \
-    }
-#else
-#define DJV_DEBUG_OPEN_GL(cmd) \
-    cmd;
-#endif

@@ -64,7 +64,7 @@ namespace djv
             _target = target;
             _min = min;
             _mag = mag;
-            DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
+            glGenTextures(1, &_id);
             //DJV_DEBUG_PRINT("id = " << int(_id));
             if (!_id)
             {
@@ -73,40 +73,21 @@ namespace djv
                     qApp->translate("djv::Graphics::OpenGLTexture", "Cannot create texture"));
             }
 
-            DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(_target, _id));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, _min));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _mag));
-
-            GLenum format = GL_RGBA;
-            /*if (Pixel::F16 == Pixel::type(_info.pixel))
-            {
-                format = GL_RGBA16F;
-            }
-            else if (Pixel::F32 == Pixel::type(_info.pixel))
-            {
-                format = GL_RGBA32F;
-            }*/
-
+            glFuncs->glBindTexture(_target, _id);
+            glFuncs->glTexParameteri(_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glFuncs->glTexParameteri(_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glFuncs->glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, _min);
+            glFuncs->glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _mag);
             glFuncs->glTexImage2D(
                 _target,
                 0,
-                format,
+                OpenGLUtil::internalFormat(_info.pixel),
                 _info.size.x,
                 _info.size.y,
                 0,
                 OpenGLUtil::format(_info.pixel, _info.bgr),
                 OpenGLUtil::type(_info.pixel),
                 0);
-            GLenum error = glFuncs->glGetError();
-            if (error != GL_NO_ERROR)
-            {
-                throw Core::Error(
-                    "djv::Graphics::OpenGLTexture",
-                    qApp->translate("djv::Graphics::OpenGLTexture", "Cannot create texture: %1").
-                    arg(OpenGLUtil::errorString(error)));
-            }
         }
 
         void OpenGLTexture::init(
@@ -132,17 +113,16 @@ namespace djv
             //DJV_DEBUG_PRINT("target = " << _target);
             //DJV_DEBUG_PRINT("format = " << format);
             //DJV_DEBUG_PRINT("type = " << type);
-            DJV_DEBUG_OPEN_GL(
-                glFuncs->glTexSubImage2D(
-                    _target,
-                    0,
-                    0,
-                    0,
-                    info.size.x,
-                    info.size.y,
-                    format,
-                    type,
-                    in.data()));
+            glFuncs->glTexSubImage2D(
+                _target,
+                0,
+                0,
+                0,
+                info.size.x,
+                info.size.y,
+                format,
+                type,
+                in.data());
         }
 
         void OpenGLTexture::copy(const PixelData & in, const Core::Box2i & area)
@@ -163,7 +143,7 @@ namespace djv
                 position.y = info.size.y - area.position.y - area.size.y;
             }
             OpenGLImage::stateUnpack(in.info(), position);
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexSubImage2D(
+            glFuncs->glTexSubImage2D(
                 _target,
                 0,
                 0,
@@ -172,7 +152,7 @@ namespace djv
                 area.size.y,
                 OpenGLUtil::format(info.pixel, info.bgr),
                 OpenGLUtil::type(info.pixel),
-                in.data()));
+                in.data());
         }
 
         void OpenGLTexture::copy(const glm::ivec2 & in)
@@ -180,24 +160,23 @@ namespace djv
             //DJV_DEBUG("OpenGLTexture::copy");
             //DJV_DEBUG_PRINT("in = " << in);
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-            DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(_target, _id));
-            DJV_DEBUG_OPEN_GL(
-                glFuncs->glCopyTexSubImage2D(
-                    _target,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    in.x,
-                    in.y));
+            glFuncs->glBindTexture(_target, _id);
+            glFuncs->glCopyTexSubImage2D(
+                _target,
+                0,
+                0,
+                0,
+                0,
+                0,
+                in.x,
+                in.y);
         }
 
         void OpenGLTexture::bind()
         {
             //DJV_DEBUG("OpenGLTexture::bind");
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-            DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(_target, _id));
+            glFuncs->glBindTexture(_target, _id);
         }
 
         const PixelDataInfo & OpenGLTexture::info() const

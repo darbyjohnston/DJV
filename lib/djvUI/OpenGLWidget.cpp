@@ -29,20 +29,59 @@
 
 #include <djvUI/OpenGLWidget.h>
 
+#include <djvUI/UIContext.h>
+
 #include <djvGraphics/GraphicsContext.h>
 
+#include <djvCore/DebugLog.h>
+
 #include <QOpenGLContext>
+#include <QOpenGLDebugLogger>
+#include <QPointer>
 #include <QSurface>
 
 namespace djv
 {
     namespace UI
     {
+        struct OpenGLWidget::Private
+        {
+            QPointer<UIContext> context;
+            QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
+        };
+
         OpenGLWidget::OpenGLWidget(
-            QWidget *       parent,
+            const QPointer<UIContext> & context,
+            QWidget * parent,
             Qt::WindowFlags flags) :
-            QOpenGLWidget(parent, flags)
+            QOpenGLWidget(parent, flags),
+            _p(new Private)
+        {
+            _p->context = context;
+            _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
+            connect(
+                _p->openGLDebugLogger.data(),
+                &QOpenGLDebugLogger::messageLogged,
+                this,
+                &OpenGLWidget::debugLogMessage);
+        }
+
+        OpenGLWidget::~OpenGLWidget()
         {}
+
+        void OpenGLWidget::initializeGL()
+        {
+            if (QOpenGLContext::currentContext()->format().testOption(QSurfaceFormat::DebugContext))
+            {
+                _p->openGLDebugLogger->initialize();
+                _p->openGLDebugLogger->startLogging();
+            }
+        }
+
+        void OpenGLWidget::debugLogMessage(const QOpenGLDebugMessage & message)
+        {
+            DJV_LOG(_p->context->debugLog(), "djv::UI::OpenGLWidget", message.message());
+        }
 
     } // namespace UI
 } // namespace djv

@@ -172,7 +172,7 @@ namespace djv
             // Initialize.
             _p->fileBrowser->cache.reset(new FileBrowserCache);
             _p->fileBrowser->cache->setMaxCost(fileBrowserPrefs()->thumbnailCache());
-            _p->fileBrowser->thumbnailSystem.reset(new FileBrowserThumbnailSystem(imageIOFactory()));
+            _p->fileBrowser->thumbnailSystem.reset(new FileBrowserThumbnailSystem(this));
             _p->fileBrowser->thumbnailSystem->start();
             _p->iconLibrary.reset(new IconLibrary);
             _p->proxyStyle = new UI::ProxyStyle(this);

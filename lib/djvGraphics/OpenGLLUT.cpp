@@ -58,7 +58,7 @@ namespace djv
             _size = Core::Math::toPow2(_info.size.x);
             //DJV_DEBUG_PRINT("size = " << _size);
 
-            DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
+            glGenTextures(1, &_id);
             if (!_id)
             {
                 throw Core::Error(
@@ -66,10 +66,10 @@ namespace djv
                     qApp->translate("djv::Graphics::OpenGLLUT", "Cannot create texture"));
             }
 
-            DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_1D, _id));
-            DJV_DEBUG_OPEN_GL(glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-            DJV_DEBUG_OPEN_GL(glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
-            DJV_DEBUG_OPEN_GL(glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+            glBindTexture(GL_TEXTURE_1D, _id);
+            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
             GLenum format = GL_RGBA;
             /*if (Pixel::F16 == Pixel::type(_info.pixel))
@@ -81,16 +81,15 @@ namespace djv
                 format = GL_RGBA32F;
             }*/
 
-            DJV_DEBUG_OPEN_GL(
-                glTexImage1D(
-                    GL_TEXTURE_1D,
-                    0,
-                    format,
-                    _size,
-                    0,
-                    OpenGLUtil::format(_info.pixel, _info.bgr),
-                    OpenGLUtil::type(_info.pixel),
-                    0));
+            glTexImage1D(
+                GL_TEXTURE_1D,
+                0,
+                format,
+                _size,
+                0,
+                OpenGLUtil::format(_info.pixel, _info.bgr),
+                OpenGLUtil::type(_info.pixel),
+                0);
         }
 
         void OpenGLLUT::init(const PixelData & data)
@@ -113,7 +112,7 @@ namespace djv
         void OpenGLLUT::bind()
         {
             //DJV_DEBUG("OpenGLLUT::bind");
-            DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_1D, _id));
+            glBindTexture(GL_TEXTURE_1D, _id);
         }
 
         void OpenGLLUT::copy(const PixelData & in)
@@ -122,15 +121,14 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
             const PixelDataInfo & info = in.info();
             OpenGLImage::stateUnpack(in.info());
-            DJV_DEBUG_OPEN_GL(
-                glTexSubImage1D(
-                    GL_TEXTURE_1D,
-                    0,
-                    0,
-                    info.size.x,
-                    OpenGLUtil::format(info.pixel, info.bgr),
-                    OpenGLUtil::type(info.pixel),
-                    in.data()));
+            glTexSubImage1D(
+                GL_TEXTURE_1D,
+                0,
+                0,
+                info.size.x,
+                OpenGLUtil::format(info.pixel, info.bgr),
+                OpenGLUtil::type(info.pixel),
+                in.data());
         }
 
         void OpenGLLUT::del()

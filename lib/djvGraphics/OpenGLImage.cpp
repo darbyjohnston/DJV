@@ -246,11 +246,11 @@ namespace djv
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
             const PixelDataInfo & info = output.info();
             statePack(info, area.position);
-            DJV_DEBUG_OPEN_GL(glFuncs->glReadPixels(
+            glFuncs->glReadPixels(
                 0, 0, area.w, area.h,
                 OpenGLUtil::format(info.pixel, info.bgr),
                 OpenGLUtil::type(info.pixel),
-                output.data()));
+                output.data());
         }
 
         Color OpenGLImage::read(const PixelData & data, int x, int y)
@@ -306,17 +306,16 @@ namespace djv
             {
                 OpenGLOffscreenBufferScope bufferScope(_buffer.get());
 
-                const glm::ivec2 & size = output.info().size;
-                DJV_DEBUG_OPEN_GL(glFuncs->glViewport(0, 0, size.x, size.y));
+                glFuncs->glViewport(0, 0, input.w(), input.h());
                 Color background(Pixel::RGB_F32);
                 ColorUtil::convert(options.background, background);
-                DJV_DEBUG_OPEN_GL(glFuncs->glClearColor(
+                glFuncs->glClearColor(
                     background.f32(0),
                     background.f32(1),
                     background.f32(2),
-                    initAlpha(input.pixel(), output.pixel()) ? 1.f : 0.f));
-                //DJV_DEBUG_OPEN_GL(glClearColor(0, 1, 0, 0));
-                DJV_DEBUG_OPEN_GL(glFuncs->glClear(GL_COLOR_BUFFER_BIT));
+                    initAlpha(input.pixel(), output.pixel()) ? 1.f : 0.f);
+                //glClearColor(0, 1, 0, 0);
+                glFuncs->glClear(GL_COLOR_BUFFER_BIT);
 
                 OpenGLImageOptions _options = options;
                 if (output.info().mirror.x)
@@ -330,9 +329,9 @@ namespace djv
 
                 auto viewMatrix = glm::ortho(
                     0.f,
-                    static_cast<float>(size.x),
+                    static_cast<float>(input.w()),
                     0.f,
-                    static_cast<float>(size.y),
+                    static_cast<float>(input.h()),
                     -1.f,
                     1.f);
                 draw(input, viewMatrix, _options);
