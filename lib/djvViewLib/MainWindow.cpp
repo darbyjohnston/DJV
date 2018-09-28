@@ -365,7 +365,7 @@ namespace djv
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
             //DJV_DEBUG_PRINT("init = " << init);
 
-            DJV_LOG(_p->context->debugLog(), "MainWindow",
+            DJV_LOG(_p->context->debugLog(), "djv::ViewLib::MainWindow",
                 QString("Open file = \"%1\"").arg(fileInfo));
 
             // Initialize.
