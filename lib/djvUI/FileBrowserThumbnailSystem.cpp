@@ -143,6 +143,7 @@ namespace djv
             QScopedPointer<QOffscreenSurface> offscreenSurface;
             QScopedPointer<QOpenGLContext> openGLContext;
             QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
+            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             std::atomic<bool> running;
         };
 
@@ -225,7 +226,7 @@ namespace djv
                 _p->openGLDebugLogger->initialize();
                 _p->openGLDebugLogger->startLogging();
             }
-
+            _p->openGLImage.reset(new Graphics::OpenGLImage);
             while (_p->running)
             {
                 {
@@ -240,6 +241,7 @@ namespace djv
                 _handleInfoRequests();
                 _handlePixmapRequests();
             }
+            _p->openGLImage.reset();
             _p->openGLDebugLogger->stopLogging();
             _p->openGLDebugLogger.reset();
             _p->openGLContext.reset();
@@ -287,9 +289,8 @@ namespace djv
                     {
                         options.filter = Graphics::OpenGLImageFilter::filterHighQuality();
                     }
-                    std::unique_ptr<Graphics::OpenGLImage> openGLImage(new Graphics::OpenGLImage);
-                    openGLImage->copy(image, tmp, options);
-                    pixmap = openGLImage->toQt(tmp);
+                    _p->openGLImage->copy(image, tmp, options);
+                    pixmap = _p->openGLImage->toQt(tmp);
                 }
                 catch (const Core::Error & error)
                 {
