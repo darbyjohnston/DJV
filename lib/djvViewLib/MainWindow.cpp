@@ -121,7 +121,7 @@ namespace djv
 
             _mainWindowList.append(this);
 
-            //! \todo The native menu bar on OS X causes issues with keyboard shortcuts.
+            //! \bug The native menu bar on OS X causes issues with keyboard shortcuts.
             //menuBar()->setNativeMenuBar(false);
 
             // Create the widgets.
@@ -487,14 +487,18 @@ namespace djv
         void MainWindow::closeEvent(QCloseEvent * event)
         {
             QMainWindow::closeEvent(event);
-            _mainWindowList.remove(_mainWindowList.indexOf(this));
-            if (0 == _mainWindowList.count())
+            const int i = _mainWindowList.indexOf(this);
+            if (i != -1)
             {
-                Q_FOREACH(QWidget * widget, qApp->topLevelWidgets())
+                _mainWindowList.remove(i);
+                if (0 == _mainWindowList.count())
                 {
-                    if (widget != this)
+                    Q_FOREACH(QWidget * widget, qApp->topLevelWidgets())
                     {
-                        widget->close();
+                        if (widget != this)
+                        {
+                            widget->close();
+                        }
                     }
                 }
             }
