@@ -37,6 +37,8 @@
 #include <QStringList>
 #include <QVector>
 
+#include <mutex>
+
 namespace djv
 {
     namespace Core
@@ -50,6 +52,7 @@ namespace djv
         struct DebugLog::Private
         {
             QVector<QString> messages;
+            std::mutex mutex;
         };
 
         DebugLog::DebugLog(QObject * parent) :
@@ -67,6 +70,7 @@ namespace djv
 
         void DebugLog::addMessage(const QString & context, const QString & message)
         {
+            std::unique_lock<std::mutex> lock(_p->mutex);
             Q_FOREACH(const QString & line, message.split(QRegExp("[\n\r]")))
             {
                 QString s = QString("[%1] %2").arg(context, -30).arg(line);
