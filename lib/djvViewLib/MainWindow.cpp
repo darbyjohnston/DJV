@@ -121,8 +121,7 @@ namespace djv
 
             _mainWindowList.append(this);
 
-            //! \bug The native menu bar on OS X causes issues with keyboard shortcuts.
-            //menuBar()->setNativeMenuBar(false);
+            menuBar()->setNativeMenuBar(false);
 
             // Create the widgets.
             _p->viewWidget = new ImageView(context);
