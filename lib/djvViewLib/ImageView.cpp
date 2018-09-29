@@ -695,12 +695,6 @@ namespace djv
             {}
         }
 
-        namespace
-        {
-            const int margin = 2;
-
-        } // namespace
-
        void ImageView::drawHudItem(
             QPainter & painter,
             const QString & in,
