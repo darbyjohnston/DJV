@@ -55,8 +55,8 @@ namespace djv
             {
                 for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
                 {
-                    DJV_ASSERT(Graphics::OpenGLUtil::format(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
-                    DJV_ASSERT(Graphics::OpenGLUtil::type(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
+                    DJV_ASSERT(Graphics::OpenGL::format(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
+                    DJV_ASSERT(Graphics::OpenGL::type(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
                 }
             }
         }
