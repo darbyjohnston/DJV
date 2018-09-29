@@ -77,17 +77,6 @@ namespace djv
                 OpenGL::format(_info.pixel, _info.bgr),
                 OpenGL::type(_info.pixel),
                 0);
-/*            GLenum error = glFuncs->glGetError();
-#if ! defined(DJV_OSX)
-            //! \todo On OS X this error is triggered in djv_view when a new file is
-            //! loaded, though it doesn't actually seem to be a problem?
-            if (error != GL_NO_ERROR)
-            {
-                throw Core::Error(
-                    "djv::Graphics::OpenGLOffscreenBuffer",
-                    errorLabels()[ERROR_INIT_TEXTURE]);
-            }
-#endif // DJV_OSX*/
             glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
 
             // Create the FBO.
