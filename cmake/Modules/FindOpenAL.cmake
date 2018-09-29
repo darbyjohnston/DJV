@@ -22,11 +22,25 @@ set(OPENAL_DEFINES)
 if(WIN32)
     set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/OpenAL32.lib)
     set(OPENAL_LIBRARIES ${OPENAL_LIBRARY} Winmm)
+    if(djvThirdPartyPackage)
+        install(
+            FILES
+            ${CMAKE_INSTALL_PREFIX}/bin/OpenAL32.dll
+            DESTINATION bin)
+    endif()
 elseif(APPLE)
     find_library(AUDIO_TOOLBOX AudioToolbox)
     find_library(CORE_AUDIO CoreAudio)
     if(OPENAL_SHARED_LIBS)
         set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.dylib)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${OPENAL_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.18.2.dylib
+                DESTINATION lib)
+        endif()
     else()
         set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.a)
     endif()
@@ -37,6 +51,14 @@ elseif(APPLE)
 else()
     if(OPENAL_SHARED_LIBS)
         set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.so)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${OPENAL_LIBRARY}
+                ${OPENAL_LIBRARY}.1
+                ${OPENAL_LIBRARY}.1.18.2
+                DESTINATION lib)
+        endif()
     else()
         set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.a)
     endif()

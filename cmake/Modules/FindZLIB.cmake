@@ -21,8 +21,18 @@ if(WIN32)
     if(ZLIB_SHARED_LIBS)
         if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
             set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibd.lib)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES ${CMAKE_INSTALL_PREFIX}/bin/zlibd.dll
+                    DESTINATION bin)
+            endif()
         else()
             set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib)
+        endif()
+        if(djvThirdPartyPackage)
+            install(
+                FILES ${CMAKE_INSTALL_PREFIX}/bin/zlib.dll
+                DESTINATION bin)
         endif()
     else()
         if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
@@ -37,11 +47,28 @@ elseif(APPLE)
     else()
         set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
     endif()
+    if(djvThirdPartyPackage)
+        install(
+            FILES
+            ${CMAKE_INSTALL_PREFIX}/lib/libz.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libz.1.dylib
+            ${CMAKE_INSTALL_PREFIX}/lib/libz.1.2.11.dylib
+            DESTINATION lib)
+    endif()
 else()
     if(ZLIB_SHARED_LIBS)
         set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.so)
+        set(ZLIB_LIBRARIES_INSTALL)
     else()
         set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
+    endif()
+    if(djvThirdPartyPackage)
+        install(
+            FILES
+            ${CMAKE_INSTALL_PREFIX}/lib/libz.so
+            ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1
+            ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1.2.11
+            DESTINATION lib)
     endif()
 endif()
 set(ZLIB_LIBRARIES ${ZLIB_LIBRARY})
