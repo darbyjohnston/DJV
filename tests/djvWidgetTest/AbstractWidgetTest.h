@@ -32,6 +32,8 @@
 #include <QObject>
 #include <QStringList>
 
+#include <memory>
+
 namespace djv
 {
     namespace UI
@@ -48,7 +50,7 @@ namespace djv
 
         public:
             AbstractWidgetTest(const QPointer<UI::UIContext> &);
-            virtual ~AbstractWidgetTest() = 0;
+            ~AbstractWidgetTest() override = 0;
 
             virtual QString name() = 0;
 
