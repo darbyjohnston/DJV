@@ -13,7 +13,7 @@ set(html
     Credits.html
     Documentation.html
     Faq.html
-    ImageIo.html
+    ImageIO.html
     Legal.html
     Screenshots.html
     Style.css

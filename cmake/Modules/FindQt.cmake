@@ -19,7 +19,6 @@
 # * Qt5::QtOpenGLExtensions
 # * Qt5::QtPlatformHeaders
 # * Qt5::QtPlatformSupport
-# * Qt5::QtPrintSupport
 # * Qt5::QtSql
 # * Qt5::QtSvg
 # * Qt5::QtTest
@@ -49,7 +48,6 @@ set(QT_INCLUDE_DIRS
     ${CMAKE_INSTALL_PREFIX}/include/QtOpenGLExtensions
     ${CMAKE_INSTALL_PREFIX}/include/QtPlatformHeaders
     ${CMAKE_INSTALL_PREFIX}/include/QtPlatformSupport
-    ${CMAKE_INSTALL_PREFIX}/include/QtPrintSupport
     ${CMAKE_INSTALL_PREFIX}/include/QtSql
     ${CMAKE_INSTALL_PREFIX}/include/QtSvg
     ${CMAKE_INSTALL_PREFIX}/include/QtTest
@@ -311,7 +309,6 @@ if(djvThirdPartyPackage)
         ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
         ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
         ${CMAKE_INSTALL_PREFIX}/plugins/platforms
-        ${CMAKE_INSTALL_PREFIX}/plugins/printsupport
         ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
         DESTINATION plugins)
 endif()
