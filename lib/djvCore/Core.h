@@ -31,6 +31,7 @@
 
 namespace djv
 {
+    //! This namespace provides core functionality.
     //! \todo Remove wrappers around function and use the functions directly
     //! instead (ie., replace Math::min and Math::max with std::min and std::max)
     //! \todo Replace base Qt types with standard types from stdint.h

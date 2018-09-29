@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2015 Darby Johnston
+// Copyright (c) 2004-2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,8 +31,8 @@
 
 namespace djv
 {
-    namespace ViewLib
+    //! This namespace provides graphics functionality.
+    namespace Graphics
     {
-    } // namespace ViewLib
+    } // namespace Graphics
 } // namespace djv
-

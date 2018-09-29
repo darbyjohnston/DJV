@@ -114,6 +114,7 @@ set(mocHeader
     Util.h
     ViewActions.h
     ViewGroup.h
+    ViewLib.h
     ViewMenu.h
     ViewPrefs.h
     ViewPrefsWidget.h

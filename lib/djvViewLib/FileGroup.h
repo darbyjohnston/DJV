@@ -44,8 +44,6 @@ namespace djv
     {
         class FileCacheRef;
 
-        //! \class FileGroup
-        //!
         //! This class provides the file group. The file group encapsulates all
         //! of thefunctionality relating to files such as the currently opened file,
         //! options used when loading files, etc.

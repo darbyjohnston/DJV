@@ -15,6 +15,7 @@ set(header
     DPXPlugin.h
     DPXSave.h
     GraphicsContext.h
+    Graphics.h
     IFF.h
     IFFLoad.h
     IFFPlugin.h

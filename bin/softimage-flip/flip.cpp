@@ -36,15 +36,8 @@
 
 using namespace std;
 
-//! \addtogroup bin
-//@{
-
-//! \defgroup flip softimage-flip
-//!
 //! This program provides a wrapper to replace the Softimage XSI default viewer
 //! with djv_view.
-
-//@} // bin
 
 void processOld( int argc, char **argv )
 {

@@ -772,7 +772,7 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = tests/djvAudioTest
+EXCLUDE                = experiments
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -799,44 +799,7 @@ EXCLUDE_PATTERNS       =
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS        = DJV_COMPARISON_OPERATOR \
-                         DJV_STRING_OPERATOR \
-                         DJV_DEBUG_OPERATOR \
-                         _DJV_STRING_OPERATOR_LABEL \
-                         djvSerialize \
-                         _djvAssert \
-                         \
-                         operator+ \
-                         operator- \
-                         operator* \
-                         operator/ \
-                         operator+= \
-                         operator-= \
-                         operator*= \
-                         operator/= \
-                         operator!= \
-                         operator>> \
-                         operator<< \
-                         \
-                         sizeHint \
-                         minimumSizeHint \
-                         showEvent \
-                         closeEvent \
-                         enterEvent \
-                         leaveEvent \
-                         resizeEvent \
-                         paintEvent \
-                         paintGL \
-                         mousePressEvent \
-                         mouseReleaseEvent \
-                         mouseMoveEvent \
-                         wheelEvent \
-                         keyPressEvent \
-                         keyReleaseEvent \
-                         dragEnterEvent \
-                         dragLeaveEvent \
-                         timerEvent \
-                         event
+EXCLUDE_SYMBOLS        =
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include

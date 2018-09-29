@@ -74,6 +74,7 @@ set(header
     TimePrefsWidget.h
     ToolButton.h
     UIContext.h
+    UI.h
     Vector2fEditWidget.h
     Vector2iEditWidget.h
     WindowUtil.h)
