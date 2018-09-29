@@ -57,7 +57,7 @@ namespace djv
         {
             DJV_DEBUG("ImageIOFormatsTest::run");
 
-            Graphics::GraphicsContext context;
+            Graphics::GraphicsContext context(argc, argv);
             initData();
             initImages();
             initPlugins(&context);

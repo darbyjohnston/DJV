@@ -83,8 +83,8 @@ namespace djv
             QScopedPointer<ImageIOFactory> imageIOFactory;
         };
 
-        GraphicsContext::GraphicsContext(QObject * parent) :
-            Core::CoreContext(parent),
+        GraphicsContext::GraphicsContext(int & argc, char ** argv, QObject * parent) :
+            Core::CoreContext(argc, argv, parent),
             _p(new Private)
         {
             //DJV_DEBUG("GraphicsContext::GraphicsContext");

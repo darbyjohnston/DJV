@@ -37,8 +37,8 @@ namespace djv
 {
     namespace ls
     {
-        Context::Context(QObject * parent) :
-            Graphics::GraphicsContext(parent),
+        Context::Context(int & argc, char ** argv, QObject * parent) :
+            Graphics::GraphicsContext(argc, argv, parent),
             _fileInfo(true),
             _filePath(false),
             _sequence(Core::Sequence::COMPRESS_RANGE),

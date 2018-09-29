@@ -65,6 +65,8 @@
 #include <djvCoreTest/UserTest.h>
 #include <djvCoreTest/VectorUtilTest.h>
 
+#include <djvCore/CoreContext.h>
+
 #include <QApplication>
 #include <QVector>
 
@@ -72,6 +74,7 @@ using namespace djv;
 
 int main(int argc, char ** argv)
 {
+    Core::CoreContext::initLibPaths(argc, argv);
     QApplication app(argc, argv);
     
     QVector<TestLib::AbstractTest *> tests = QVector<TestLib::AbstractTest *>() <<

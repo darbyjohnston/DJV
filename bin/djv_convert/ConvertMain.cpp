@@ -29,7 +29,10 @@
 
 #include <djv_convert/ConvertApplication.h>
 
+#include <djvCore/CoreContext.h>
+
 int main(int argc, char ** argv)
 {
+    djv::Core::CoreContext::initLibPaths(argc, argv);
     return djv::convert::Application(argc, argv).exec();
 }

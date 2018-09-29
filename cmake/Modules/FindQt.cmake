@@ -193,6 +193,15 @@ elseif(APPLE)
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.5.6.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.5.6.3.dylib
                 DESTINATION lib)
+            install(
+                DIRECTORY
+                ${CMAKE_INSTALL_PREFIX}/plugins/bearer
+                ${CMAKE_INSTALL_PREFIX}/plugins/generic
+                ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
+                ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
+                ${CMAKE_INSTALL_PREFIX}/plugins/platforms
+                ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
+                DESTINATION plugins)
         endif()
     endif()
 else()
@@ -279,7 +288,24 @@ else()
                 ${QT_XML_LIBRARY}.5
                 ${QT_XML_LIBRARY}.5.6
                 ${QT_XML_LIBRARY}.5.6.3
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so.5
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so.5.6
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so.5.6.3
                 DESTINATION lib)
+            install(
+                DIRECTORY
+                ${CMAKE_INSTALL_PREFIX}/plugins/bearer
+                ${CMAKE_INSTALL_PREFIX}/plugins/generic
+                ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
+                ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
+                ${CMAKE_INSTALL_PREFIX}/plugins/platforminputcontexts
+                ${CMAKE_INSTALL_PREFIX}/plugins/platforms
+                ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
+                ${CMAKE_INSTALL_PREFIX}/plugins/wayland-decoration-client
+                ${CMAKE_INSTALL_PREFIX}/plugins/wayland-graphics-integration-client
+                ${CMAKE_INSTALL_PREFIX}/plugins/xcbglintegrations
+                DESTINATION plugins)
         endif()
     endif()
 endif()
@@ -300,18 +326,6 @@ set(QT_LIBRARIES
     ${PNG_LIBRARIES}
     ${JPEG_LIBRARIES}
     ${ZLIB_LIBRARIES})
-
-if(djvThirdPartyPackage)
-    install(
-        DIRECTORY
-        ${CMAKE_INSTALL_PREFIX}/plugins/bearer
-        ${CMAKE_INSTALL_PREFIX}/plugins/generic
-        ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
-        ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
-        ${CMAKE_INSTALL_PREFIX}/plugins/platforms
-        ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
-        DESTINATION plugins)
-endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Qt REQUIRED_VARS QT_INCLUDE_DIRS QT_LIBRARIES)

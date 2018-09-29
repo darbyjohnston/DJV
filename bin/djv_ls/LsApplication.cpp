@@ -53,7 +53,7 @@ namespace djv
             setApplicationName("djv_ls");
 
             // Create the context.
-            _context = new Context;
+            _context = new Context(argc, argv);
 
             // Parse the command line.
             if (!_context->commandLine(argc, argv))

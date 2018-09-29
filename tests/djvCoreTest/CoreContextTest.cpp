@@ -47,7 +47,7 @@ namespace djv
         {
             DJV_DEBUG("CoreContextTest::run");
             {
-                CoreContext context;
+                CoreContext context(argc, argv);
                 DJV_DEBUG_PRINT("doc = " << context.doc());
                 context.printError(Error("prefix", "string"));
                 context.printSeparator();
@@ -56,7 +56,7 @@ namespace djv
 
             try
             {
-                CoreContext context;
+                CoreContext context(argc, argv);
                 char * args[256] =
                 {
                     "Test",
@@ -73,7 +73,7 @@ namespace djv
 
             try
             {
-                CoreContext context;
+                CoreContext context(argc, argv);
                 char * args[256] =
                 {
                     "Test",
@@ -92,7 +92,7 @@ namespace djv
             }
             try
             {
-                CoreContext context;
+                CoreContext context(argc, argv);
                 char * args[256] =
                 {
                     "Test",
@@ -106,7 +106,7 @@ namespace djv
             }
             try
             {
-                CoreContext context;
+                CoreContext context(argc, argv);
                 char * args[256] =
                 {
                     "Test",
@@ -122,7 +122,7 @@ namespace djv
             }
             try
             {
-                CoreContext context;
+                CoreContext context(argc, argv);
                 char * args[256] =
                 {
                     "Test",
@@ -138,7 +138,7 @@ namespace djv
             }
             try
             {
-                CoreContext context;
+                CoreContext context(argc, argv);
                 char * args[256] =
                 {
                     "Test",

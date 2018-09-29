@@ -42,7 +42,7 @@ namespace djv
         WidgetTestApplication::WidgetTestApplication(int & argc, char ** argv) :
             QApplication(argc, argv)
         {
-            _context.reset(new UI::UIContext);
+            _context.reset(new UI::UIContext(argc, argv));
             _context->setValid(true);
 
             setStyle(new UI::ProxyStyle(_context.data()));
@@ -77,6 +77,7 @@ namespace djv
 
 int main(int argc, char ** argv)
 {
-    return (djv::WidgetTest::WidgetTestApplication(argc, argv)).exec();
+    djv::Core::CoreContext::initLibPaths(argc, argv);
+    return djv::WidgetTest::WidgetTestApplication(argc, argv).exec();
 }
 

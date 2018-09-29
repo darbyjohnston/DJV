@@ -42,8 +42,8 @@ namespace djv
 
         private:
             void ctors();
-            void members();
-            void convert();
+            void members(int &, char **);
+            void convert(int &, char **);
             void operators();
         };
 

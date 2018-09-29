@@ -134,8 +134,8 @@ namespace djv
             QPointer<ProxyStyle> proxyStyle;
         };
 
-        UIContext::UIContext(QObject * parent) :
-            Graphics::GraphicsContext(parent),
+        UIContext::UIContext(int & argc, char ** argv, QObject * parent) :
+            Graphics::GraphicsContext(argc, argv, parent),
             _p(new Private)
         {
             //DJV_DEBUG("UIContext::UIContext");

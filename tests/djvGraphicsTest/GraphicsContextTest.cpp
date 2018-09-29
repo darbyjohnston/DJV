@@ -47,12 +47,12 @@ namespace djv
         {
             DJV_DEBUG("GraphicsContextTest::run");
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 DJV_ASSERT(context.openGLContext());
             }
             try
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -68,7 +68,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -87,7 +87,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -104,7 +104,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -119,7 +119,7 @@ namespace djv
 
             try
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -135,7 +135,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",

@@ -48,12 +48,12 @@ namespace djv
 {
     namespace GraphicsTest
     {
-        void OpenGLImageTest::run(int &, char **)
+        void OpenGLImageTest::run(int & argc, char ** argv)
         {
             DJV_DEBUG("OpenGLImageTest::run");
             ctors();
-            members();
-            convert();
+            members(argc, argv);
+            convert(argc, argv);
             operators();
         }
 
@@ -82,7 +82,7 @@ namespace djv
             }
         }
 
-        void OpenGLImageTest::members()
+        void OpenGLImageTest::members(int & argc, char ** argv)
         {
             DJV_DEBUG("OpenGLImageTest::members");
             {
@@ -103,7 +103,7 @@ namespace djv
                 DJV_ASSERT(Graphics::OpenGLImageFilter::toGl(Graphics::OpenGLImageFilter::BOX) == GL_NONE);
             }
             {
-                Graphics::GraphicsContext context;
+                Graphics::GraphicsContext context(argc, argv);
                 for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
                 {
                     const Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(i);
@@ -133,10 +133,10 @@ namespace djv
             }
         }
 
-        void OpenGLImageTest::convert()
+        void OpenGLImageTest::convert(int & argc, char ** argv)
         {
             DJV_DEBUG("OpenGLImageTest::convert");
-            Graphics::GraphicsContext context;
+            Graphics::GraphicsContext context(argc, argv);
             Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::L_F32));
             Graphics::OpenGLImage().toQt(data);
         }

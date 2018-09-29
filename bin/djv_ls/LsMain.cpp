@@ -29,7 +29,10 @@
 
 #include <djv_ls/LsApplication.h>
 
+#include <djvCore/CoreContext.h>
+
 int main(int argc, char ** argv)
 {
+    djv::Core::CoreContext::initLibPaths(argc, argv);
     return djv::ls::Application(argc, argv).exec();
 }

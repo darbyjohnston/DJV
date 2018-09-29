@@ -29,8 +29,9 @@
 
 #include <djv_view/ViewApplication.h>
 
-#include <djvCore/Error.h>
-#include <djvCore/ErrorUtil.h>
+#include <djvCore/CoreContext.h>
+
+#include <iostream>
 
 #if defined(DJV_WINDOWS)
 #include <windows.h>
@@ -39,6 +40,7 @@
 
 int main(int argc, char ** argv)
 {
+    djv::Core::CoreContext::initLibPaths(argc, argv);
     return djv::view::Application(argc, argv).exec();
 }
 
@@ -48,3 +50,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
     return main(__argc, __argv);
 }
 #endif // DJV_WINDOWS
+

@@ -46,7 +46,7 @@ namespace djv
         class GraphicsContext : public Core::CoreContext
         {
         public:
-            explicit GraphicsContext(QObject * parent = nullptr);
+            explicit GraphicsContext(int & argc, char ** argv, QObject * parent = nullptr);
             ~GraphicsContext() override;
 
             //! Get the image I/O factory.    

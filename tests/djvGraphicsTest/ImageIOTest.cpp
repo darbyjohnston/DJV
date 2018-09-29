@@ -49,8 +49,8 @@ namespace djv
         {
             DJV_DEBUG("ImageIOTest::run");
             info();
-            plugin();
-            io();
+            plugin(argc, argv);
+            io(argc, argv);
         }
 
         void ImageIOTest::info()
@@ -119,10 +119,10 @@ namespace djv
             }
         }
 
-        void ImageIOTest::plugin()
+        void ImageIOTest::plugin(int & argc, char ** argv)
         {
             DJV_DEBUG("ImageIOTest::plugin");
-            Graphics::GraphicsContext context;
+            Graphics::GraphicsContext context(argc, argv);
             Graphics::ImageIOFactory * factory = context.imageIOFactory();
             Q_FOREACH(QString plugin, QStringList() << "PPM")
             {
@@ -156,10 +156,10 @@ namespace djv
             }
         }
 
-        void ImageIOTest::io()
+        void ImageIOTest::io(int & argc, char ** argv)
         {
             DJV_DEBUG("ImageIOTest::io");
-            Graphics::GraphicsContext context;
+            Graphics::GraphicsContext context(argc, argv);
             QScopedPointer<Graphics::ImageLoad> load;
             QScopedPointer<Graphics::ImageSave> save;
             try

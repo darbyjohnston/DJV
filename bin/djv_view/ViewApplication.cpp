@@ -60,7 +60,7 @@ namespace djv
             setApplicationName("djv_view");
 
             // Create the context.
-            _p->context.reset(new ViewLib::Context(this));
+            _p->context.reset(new ViewLib::Context(argc, argv, this));
 
             // Parse the command line.
             if (!_p->context->commandLine(argc, argv))

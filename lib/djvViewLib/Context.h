@@ -63,7 +63,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit Context(QObject * parent = nullptr);
+            explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
             ~Context() override;
 
             //! Get the list of inputs.

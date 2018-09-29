@@ -37,8 +37,8 @@ namespace djv
 {
     namespace info
     {
-        Context::Context(QObject * parent) :
-            Graphics::GraphicsContext(parent),
+        Context::Context(int & argc, char ** argv, QObject * parent) :
+            Graphics::GraphicsContext(argc, argv, parent),
             _info(true),
             _verbose(false),
             _filePath(false),

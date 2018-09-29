@@ -67,7 +67,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit UIContext(QObject * parent = nullptr);
+            explicit UIContext(int & argc, char ** argv, QObject * parent = nullptr);
             ~UIContext() override;
 
             //! Get whether the user-interface has started.

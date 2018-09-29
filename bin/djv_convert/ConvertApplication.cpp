@@ -54,7 +54,7 @@ namespace djv
             setApplicationName("djv_convert");
 
             // Create the context.
-            _context = new Context;
+            _context = new Context(argc, argv);
 
             // Parse the command line.
             if (!_context->commandLine(argc, argv))

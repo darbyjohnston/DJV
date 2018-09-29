@@ -42,8 +42,8 @@ namespace djv
 
         private:
             void info();
-            void plugin();
-            void io();
+            void plugin(int &, char **);
+            void io(int &, char **);
         };
 
     } // namespace GraphicsTest

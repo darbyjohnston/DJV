@@ -82,8 +82,8 @@ namespace djv
             QPointer<FileSave>  fileSave;
         };
 
-        Context::Context(QObject * parent) :
-            UI::UIContext(parent),
+        Context::Context(int & argc, char ** argv, QObject * parent) :
+            UI::UIContext(argc, argv, parent),
             _p(new Private)
         {
             //DJV_DEBUG("Context::Context");

@@ -41,6 +41,8 @@
 #include <djvCore/Time.h>
 
 #include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QScopedPointer>
@@ -60,8 +62,8 @@ namespace djv
             bool separator = false;
             QScopedPointer<DebugLog> debugLog;
         };
-
-        CoreContext::CoreContext(QObject * parent) :
+        
+        CoreContext::CoreContext(int & argc, char ** argv, QObject * parent) :
             QObject(parent),
             _p(new Private)
         {
@@ -72,6 +74,11 @@ namespace djv
             qRegisterMetaType<FileInfoList>("djv::Core::FileInfoList");
             qRegisterMetaType<Sequence>("djv::Core::Sequence");
             qRegisterMetaType<Sequence::COMPRESS>("djv::Core::Sequence::COMPRESS");
+
+            // Find the application path.
+            //DJV_DEBUG_PRINT("application path = " << applicationPath(argc, argv));
+            DJV_LOG(debugLog(), "djv::Core::CoreContext",
+                QString("Application path: %1").arg(applicationPath(argc, argv)));
 
             // Load translators.
             QTranslator * qtTranslator = new QTranslator(this);
@@ -84,6 +91,28 @@ namespace djv
         CoreContext::~CoreContext()
         {
             //DJV_DEBUG("CoreContext::~CoreContext");    
+        }
+
+        QString CoreContext::applicationPath(int & argc, char ** argv)
+        {
+            QFileInfo applicationPath(argv[0]);
+            QDir applicationDir = applicationPath.absoluteDir();
+            while (applicationDir.exists() && !applicationDir.isRoot())
+            {
+                if (applicationDir.exists("lib"))
+                    break;
+                applicationDir.cdUp();
+            }
+            return applicationDir.absolutePath();
+        }
+
+        void CoreContext::initLibPaths(int & argc, char ** argv)
+        {
+            QDir dir(applicationPath(argc, argv));
+            if (dir.cd("plugins"))
+            {
+                QCoreApplication::addLibraryPath(dir.absolutePath());
+            }
         }
 
         bool CoreContext::commandLine(int & argc, char ** argv)

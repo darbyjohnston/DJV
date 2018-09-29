@@ -89,7 +89,7 @@ namespace djv
         _cache(false),
         _frame(0)
     {
-        _context.reset(new UI::UIContext);
+        _context.reset(new UI::UIContext(argc, argv));
         if (argc != 2)
         {
             _context->printMessage("Usage: djvImagePlayExample (input)");
@@ -201,6 +201,7 @@ namespace djv
 
 int main(int argc, char ** argv)
 {
+    djv::Core::CoreContext::initLibPaths(argc, argv);
     return djv::ImagePlayExampleApplication(argc, argv).exec();
 }
 

@@ -55,8 +55,8 @@ namespace djv
             tagsAuto(true)
         {}
 
-        Context::Context(QObject * parent) :
-            Graphics::GraphicsContext(parent)
+        Context::Context(int & argc, char ** argv, QObject * parent) :
+            Graphics::GraphicsContext(argc, argv, parent)
         {
             //DJV_DEBUG("Context::Context");
 

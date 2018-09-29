@@ -81,7 +81,7 @@ namespace djv
     ImageViewExampleApplication::ImageViewExampleApplication(int & argc, char ** argv) :
         QApplication(argc, argv)
     {
-        _context.reset(new UI::UIContext);
+        _context.reset(new UI::UIContext(argc, argv));
         if (argc != 2)
         {
             _context->printMessage("Usage: djvImageViewExample (input)");
@@ -131,6 +131,7 @@ namespace djv
 
 int main(int argc, char ** argv)
 {
+    djv::Core::CoreContext::initLibPaths(argc, argv);
     return djv::ImageViewExampleApplication(argc, argv).exec();
 }
 
