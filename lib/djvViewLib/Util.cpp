@@ -182,33 +182,35 @@ namespace djv
 
         void Util::loadLut(
             const Core::FileInfo & fileInfo,
-            Graphics::PixelData &  lut,
+            Graphics::PixelData & lut,
             const QPointer<Context> & context)
         {
-            if (fileInfo.fileName().isEmpty())
-                return;
             //DJV_DEBUG("Util::loadLut");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-            Core::FileInfo fileInfoTmp(fileInfo);
-            if (fileInfoTmp.isSequenceValid())
+            lut = Graphics::PixelData();
+            if (!fileInfo.fileName().isEmpty())
             {
-                fileInfoTmp.setType(Core::FileInfo::SEQUENCE);
-            }
-            try
-            {
-                Graphics::ImageIOInfo info;
-                QScopedPointer<Graphics::ImageLoad> load(context->imageIOFactory()->load(fileInfoTmp, info));
-                Graphics::Image image;
-                load->read(image);
-                lut = image;
-                //DJV_DEBUG_PRINT("lut = " << lut);
-            }
-            catch (Core::Error error)
-            {
-                error.add(
-                    errorLabels()[ERROR_OPEN_LUT].
-                    arg(QDir::toNativeSeparators(fileInfoTmp)));
-                throw error;
+                Core::FileInfo fileInfoTmp(fileInfo);
+                if (fileInfoTmp.isSequenceValid())
+                {
+                    fileInfoTmp.setType(Core::FileInfo::SEQUENCE);
+                }
+                try
+                {
+                    Graphics::ImageIOInfo info;
+                    QScopedPointer<Graphics::ImageLoad> load(context->imageIOFactory()->load(fileInfoTmp, info));
+                    Graphics::Image image;
+                    load->read(image);
+                    lut = image;
+                    //DJV_DEBUG_PRINT("lut = " << lut);
+                }
+                catch (Core::Error error)
+                {
+                    error.add(
+                        errorLabels()[ERROR_OPEN_LUT].
+                        arg(QDir::toNativeSeparators(fileInfoTmp)));
+                    throw error;
+                }
             }
         }
 

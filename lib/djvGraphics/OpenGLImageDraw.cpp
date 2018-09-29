@@ -455,14 +455,6 @@ namespace djv
                 "    return log(value * f + 1.0) / f;\n"
                 "}\n"
                 "\n"
-                "vec4 lut(vec4 value, sampler2D lut)\n"
-                "{\n"
-                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
-                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
-                "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
-                "    return value;\n"
-                "}\n"
-                "\n"
                 "vec4 gamma(vec4 value, float gamma)\n"
                 "{\n"
                 "    if (value[0] >= 0.0)\n"
@@ -471,6 +463,38 @@ namespace djv
                 "        value[1] = pow(value[1], gamma);\n"
                 "    if (value[2] >= 0.0)\n"
                 "        value[2] = pow(value[2], gamma);\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 lut1(vec4 value, sampler2D lut)\n"
+                "{\n"
+                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0))[0];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0))[0];\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 lut2(vec4 value, sampler2D lut)\n"
+                "{\n"
+                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 lut3(vec4 value, sampler2D lut)\n"
+                "{\n"
+                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 lut4(vec4 value, sampler2D lut)\n"
+                "{\n"
+                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
+                "    value[3] = texture(lut, vec2(value[2], 0))[3];\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
@@ -484,19 +508,6 @@ namespace djv
                 "    tmp *= color;\n"
                 "    tmp[3] = value[3];\n"
                 "    return tmp;\n"
-                "}\n"
-                "\n"
-                "vec4 levels(vec4 value, Levels data)\n"
-                "{\n"
-                "    vec4 tmp;\n"
-                "    tmp[0] = (value[0] - data.in0) / data.in1;\n"
-                "    tmp[1] = (value[1] - data.in0) / data.in1;\n"
-                "    tmp[2] = (value[2] - data.in0) / data.in1;\n"
-                "%1"
-                "    value[0] = tmp[0] * data.out1 + data.out0;\n"
-                "    value[1] = tmp[1] * data.out1 + data.out0;\n"
-                "    value[2] = tmp[2] * data.out1 + data.out0;\n"
-                "    return value;\n"
                 "}\n"
                 "\n"
                 "vec4 exposure(vec4 value, Exposure data)\n"
@@ -528,6 +539,20 @@ namespace djv
                 "    return value;\n"
                 "}\n"
                 "\n";
+
+            const QString sourceFragmentLevels =
+                "vec4 levels(vec4 value, Levels data)\n"
+                "{\n"
+                "    vec4 tmp;\n"
+                "    tmp[0] = (value[0] - data.in0) / data.in1;\n"
+                "    tmp[1] = (value[1] - data.in0) / data.in1;\n"
+                "    tmp[2] = (value[2] - data.in0) / data.in1;\n"
+                "%1"
+                "    value[0] = tmp[0] * data.out1 + data.out0;\n"
+                "    value[1] = tmp[1] * data.out1 + data.out0;\n"
+                "    value[2] = tmp[2] * data.out1 + data.out0;\n"
+                "    return value;\n"
+                "}\n";
 
             const QString sourceFragmentScaleX =
                 "vec4 scaleX()\n"
@@ -572,7 +597,7 @@ namespace djv
         namespace
         {
             QString sourceFragment(
-                ColorProfile::PROFILE             colorProfile,
+                ColorProfile                      colorProfile,
                 const OpenGLImageDisplayProfile & displayProfile,
                 OpenGLImageOptions::CHANNEL       channel,
                 bool                              multipassFilter,
@@ -591,20 +616,24 @@ namespace djv
                 QString main;
 
                 // Initialize the header.
-                header = sourceFragmentHeader.
-                    arg(!Core::Math::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
-                        sourceGamma : "");
+                header = sourceFragmentHeader;
                 header += "in vec2 TextureCoord;\n";
                 header += "out vec4 FragColor;\n";
                 header += "uniform sampler2D inTexture;\n";
 
                 // Color profile.
                 QString sample;
-                switch (colorProfile)
+                switch (colorProfile.type)
                 {
                 case ColorProfile::LUT:
                     header += "uniform sampler2D inColorProfileLut;\n";
-                    sample = "lut(texture(inTexture, TextureCoord), inColorProfileLut)";
+                    switch (colorProfile.lut.channels())
+                    {
+                    case 1: sample = "lut1(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
+                    case 2: sample = "lut2(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
+                    case 3: sample = "lut3(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
+                    case 4: sample = "lut4(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
+                    }
                     break;
                 case ColorProfile::GAMMA:
                     header += "uniform float inColorProfileGamma;\n";
@@ -648,7 +677,13 @@ namespace djv
                 if (displayProfile.lut.isValid())
                 {
                     header += "uniform sampler2D inDisplayProfileLut;\n";
-                    main += "color = lut(color, inDisplayProfileLut);\n";
+                    switch (displayProfile.lut.channels())
+                    {
+                    case 1: main += "color = lut1(color, inDisplayProfileLut);\n"; break;
+                    case 2: main += "color = lut2(color, inDisplayProfileLut);\n"; break;
+                    case 3: main += "color = lut3(color, inDisplayProfileLut);\n"; break;
+                    case 4: main += "color = lut4(color, inDisplayProfileLut);\n"; break;
+                    }
                 }
                 if (displayProfile.color != OpenGLImageDisplayProfile().color)
                 {
@@ -657,6 +692,9 @@ namespace djv
                 }
                 if (displayProfile.levels != OpenGLImageDisplayProfile().levels)
                 {
+                    header += sourceFragmentLevels.
+                        arg(!Core::Math::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
+                            sourceGamma : "");
                     header += "uniform Levels inDisplayProfileLevels;\n";
                     main += "color = levels(color, inDisplayProfileLevels);\n";
                 }
@@ -879,7 +917,7 @@ namespace djv
                     _shader->init(
                         sourceVertex,
                         sourceFragment(
-                            options.colorProfile.type,
+                            options.colorProfile,
                             options.displayProfile,
                             options.channel,
                             false,
@@ -905,7 +943,7 @@ namespace djv
                     _scaleXShader->init(
                         sourceVertex,
                         sourceFragment(
-                            options.colorProfile.type,
+                            options.colorProfile,
                             OpenGLImageDisplayProfile(),
                             static_cast<OpenGLImageOptions::CHANNEL>(0),
                             true,
@@ -918,7 +956,7 @@ namespace djv
                     _scaleYShader->init(
                         sourceVertex,
                         sourceFragment(
-                            static_cast<ColorProfile::PROFILE>(0),
+                            ColorProfile(),
                             options.displayProfile,
                             options.channel,
                             true,

@@ -74,7 +74,6 @@ namespace djv
             void del();
 
             PixelDataInfo _info;
-            int           _size = 0;
             GLuint        _id = 0;
         };
 

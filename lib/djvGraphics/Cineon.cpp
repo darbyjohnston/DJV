@@ -147,8 +147,7 @@ namespace djv
                         Core::Math::pow(10.f, (tmp - value.white) * .002f / .6f),
                         value.gamma / 1.7f) * gain - offset);
                 }
-                //DJV_DEBUG_PRINT("lut[" << i << "] = " <<
-                //  in[i] << " " << static_cast<int>(in[i] * 255.f));
+                //DJV_DEBUG_PRINT("lut[" << i << "] = " <<  data[i] << " " << static_cast<int>(data[i] * 255.f));
             }
             return out;
         }

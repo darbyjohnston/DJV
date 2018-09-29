@@ -301,6 +301,7 @@ namespace djv
             }
             catch (const Core::Error & error)
             {
+                _p->displayProfile = DisplayProfile();
                 _p->context->printError(error);
             }
             Q_EMIT displayProfileChanged(_p->displayProfile);

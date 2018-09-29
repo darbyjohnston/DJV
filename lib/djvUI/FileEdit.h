@@ -73,11 +73,16 @@ namespace djv
             //! This signal is emitted when the file information is changed.
             void fileInfoChanged(const djv::Core::FileInfo &);
 
+        protected:
+            bool event(QEvent *) override;
+
         private Q_SLOTS:
             void editCallback();
             void buttonCallback();
+            void clearCallback();
 
         private:
+            void styleUpdate();
             void widgetUpdate();
 
             DJV_PRIVATE_COPY(FileEdit);

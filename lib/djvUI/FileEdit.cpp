@@ -29,8 +29,10 @@
 
 #include <djvUI/FileEdit.h>
 
-#include <djvUI/UIContext.h>
 #include <djvUI/FileBrowser.h>
+#include <djvUI/IconLibrary.h>
+#include <djvUI/ToolButton.h>
+#include <djvUI/UIContext.h>
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -50,6 +52,7 @@ namespace djv
 
             Core::FileInfo fileInfo;
             QPointer<QLineEdit> edit;
+            QPointer<ToolButton> clearButton;
             QPointer<UIContext> context;
         };
 
@@ -59,22 +62,30 @@ namespace djv
         {
             // Create the widgets.
             _p->edit = new QLineEdit;
-
             QPushButton * button = new QPushButton(
                 qApp->translate("djv::UI::FileEdit", "&Browse"));
+            _p->clearButton = new ToolButton(context);
+            _p->clearButton->setToolTip(
+                qApp->translate("djv::UI::FileEdit", "Clear the file name"));
 
             // Layout the widgets.
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
             layout->addWidget(_p->edit, 1);
             layout->addWidget(button);
+            layout->addWidget(_p->clearButton);
 
             // Initialize.
+            styleUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
             connect(_p->edit, SIGNAL(editingFinished()), SLOT(editCallback()));
             connect(button, SIGNAL(clicked()), SLOT(buttonCallback()));
+            connect(
+                _p->clearButton,
+                SIGNAL(clicked()),
+                SLOT(clearCallback()));
         }
 
         FileEdit::~FileEdit()
@@ -94,6 +105,15 @@ namespace djv
             Q_EMIT fileInfoChanged(_p->fileInfo);
         }
 
+        bool FileEdit::event(QEvent * event)
+        {
+            if (QEvent::StyleChange == event->type())
+            {
+                styleUpdate();
+            }
+            return QWidget::event(event);
+        }
+
         void FileEdit::editCallback()
         {
             setFileInfo(_p->edit->text());
@@ -106,6 +126,17 @@ namespace djv
             {
                 setFileInfo(fileBrowser->fileInfo());
             }
+        }
+
+        void FileEdit::clearCallback()
+        {
+            setFileInfo(Core::FileInfo());
+        }
+
+        void FileEdit::styleUpdate()
+        {
+            _p->clearButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon"));
+            updateGeometry();
         }
 
         void FileEdit::widgetUpdate()

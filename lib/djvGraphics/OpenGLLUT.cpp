@@ -55,8 +55,6 @@ namespace djv
             del();
 
             _info = info;
-            _size = Core::Math::toPow2(_info.size.x);
-            //DJV_DEBUG_PRINT("size = " << _size);
 
             glGenTextures(1, &_id);
             if (!_id)
@@ -66,26 +64,16 @@ namespace djv
                     qApp->translate("djv::Graphics::OpenGLLUT", "Cannot create texture"));
             }
 
-            glBindTexture(GL_TEXTURE_1D, _id);
-            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-            GLenum format = GL_RGBA;
-            /*if (Pixel::F16 == Pixel::type(_info.pixel))
-            {
-                format = GL_RGBA16F;
-            }
-            else if (Pixel::F32 == Pixel::type(_info.pixel))
-            {
-                format = GL_RGBA32F;
-            }*/
-
-            glTexImage1D(
-                GL_TEXTURE_1D,
+            glBindTexture(GL_TEXTURE_2D, _id);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexImage2D(
+                GL_TEXTURE_2D,
                 0,
-                format,
-                _size,
+                OpenGLUtil::internalFormat(_info.pixel),
+                _info.size.x,
+                _info.size.y,
                 0,
                 OpenGLUtil::format(_info.pixel, _info.bgr),
                 OpenGLUtil::type(_info.pixel),
@@ -112,7 +100,7 @@ namespace djv
         void OpenGLLUT::bind()
         {
             //DJV_DEBUG("OpenGLLUT::bind");
-            glBindTexture(GL_TEXTURE_1D, _id);
+            glBindTexture(GL_TEXTURE_2D, _id);
         }
 
         void OpenGLLUT::copy(const PixelData & in)
@@ -121,11 +109,13 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
             const PixelDataInfo & info = in.info();
             OpenGLImage::stateUnpack(in.info());
-            glTexSubImage1D(
-                GL_TEXTURE_1D,
+            glTexSubImage2D(
+                GL_TEXTURE_2D,
+                0,
                 0,
                 0,
                 info.size.x,
+                info.size.y,
                 OpenGLUtil::format(info.pixel, info.bgr),
                 OpenGLUtil::type(info.pixel),
                 in.data());

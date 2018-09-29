@@ -67,7 +67,7 @@ namespace djv
             _p->slider = new IntSlider;
             _p->defaultButton = new ToolButton(context);
             _p->defaultButton->setToolTip(
-                qApp->translate("djv::UI::IntEditSlider", "Reset the value"));
+                qApp->translate("djv::UI::IntEditSlider", "Reset to the default value"));
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);
