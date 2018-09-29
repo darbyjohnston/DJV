@@ -13,8 +13,8 @@
 # * FFMPEG::avfilter
 # * FFMPEG::avformat
 # * FFMPEG::avutil
-# * FFMPEG::swscale
 # * FFMPEG::swresample
+# * FFMPEG::swscale
 #
 # This module defines the following interfaces:
 #
@@ -34,18 +34,18 @@ if(WIN32)
         set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/bin/avfilter.lib)
         set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/bin/avformat.lib)
         set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/bin/avutil.lib)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/bin/swscale.lib)
         set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/bin/swresample.lib)
+        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/bin/swscale.lib)
         if(djvThirdPartyPackage)
             install(
                 FILES
-                ${CMAKE_INSTALL_PREFIX}/bin/avcodec.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avdevice.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avfilter.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avformat.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avutil.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/swscale.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/swresample.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/avcodec-58.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/avdevice-58.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/avfilter-7.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/avformat-58.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/avutil-56.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/swresample-3.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/swscale-5.dll
                 DESTINATION bin)
         endif()
     else()
@@ -54,8 +54,8 @@ if(WIN32)
         set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
         set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
         set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
         set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
+        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
     endif()
 elseif(APPLE)
     if(FFMPEG_SHARED_LIBS)
@@ -64,8 +64,8 @@ elseif(APPLE)
         set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.dylib)
         set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.dylib)
         set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.dylib)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.dylib)
         set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.dylib)
+        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.dylib)
         if(djvThirdPartyPackage)
             install(
                 FILES
@@ -84,12 +84,12 @@ elseif(APPLE)
                 ${FFMPEG_LIBAVUTIL}
                 ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.14.100.dylib
-                ${FFMPEG_LIBSWSCALE}
-                ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.1.100.dylib
                 ${FFMPEG_LIBSWRESAMPLE}
                 ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.1.100.dylib
+                ${FFMPEG_LIBSWSCALE}
+                ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.1.100.dylib
                 DESTINATION lib)
         endif()
     else()
@@ -98,8 +98,8 @@ elseif(APPLE)
         set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
         set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
         set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
         set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
+        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
     endif()
     set(FFMPEG_LIBRARIES
         ${FFMPEG_LIBAVFORMAT}
@@ -122,8 +122,8 @@ else()
         set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.so)
         set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.so)
         set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.so)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.so)
         set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.so)
+        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.so)
         if(djvThirdPartyPackage)
             install(
                 FILES
@@ -142,12 +142,12 @@ else()
                 ${FFMPEG_LIBAVUTIL}
                 ${FFMPEG_LIBAVUTIL}.56
                 ${FFMPEG_LIBAVUTIL}.56.14.100
-                ${FFMPEG_LIBSWSCALE}
-                ${FFMPEG_LIBSWSCALE}.5
-                ${FFMPEG_LIBSWSCALE}.5.1.100
                 ${FFMPEG_LIBSWRESAMPLE}
                 ${FFMPEG_LIBSWRESAMPLE}.3
                 ${FFMPEG_LIBSWRESAMPLE}.3.1.100
+                ${FFMPEG_LIBSWSCALE}
+                ${FFMPEG_LIBSWSCALE}.5
+                ${FFMPEG_LIBSWSCALE}.5.1.100
                 DESTINATION lib)
         endif()
     else()
@@ -156,8 +156,8 @@ else()
         set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
         set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
         set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
         set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
+        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
     endif()
     set(FFMPEG_LIBRARIES
         ${FFMPEG_LIBAVFORMAT}
@@ -180,8 +180,8 @@ find_package_handle_standard_args(
         FFMPEG_LIBAVFILTER
         FFMPEG_LIBAVFORMAT
         FFMPEG_LIBAVUTIL
-        FFMPEG_LIBSWSCALE
-        FFMPEG_LIBSWRESAMPLE)
+        FFMPEG_LIBSWRESAMPLE
+        FFMPEG_LIBSWSCALE)
 mark_as_advanced(
     FFMPEG_INCLUDE_DIR
     FFMPEG_LIBAVCODEC
@@ -189,8 +189,8 @@ mark_as_advanced(
     FFMPEG_LIBAVFILTER
     FFMPEG_LIBAVFORMAT
     FFMPEG_LIBAVUTIL
-    FFMPEG_LIBSWSCALE
-    FFMPEG_LIBSWRESAMPLE)
+    FFMPEG_LIBSWRESAMPLE
+    FFMPEG_LIBSWSCALE)
 
 if(FFMPEG_FOUND AND NOT TARGET FFMPEG::avcodec)
     add_library(FFMPEG::avcodec UNKNOWN IMPORTED)
@@ -227,17 +227,17 @@ if(FFMPEG_FOUND AND NOT TARGET FFMPEG::avutil)
         INTERFACE_INCLUDE_DIRECTORIES "${FFMPEG_INCLUDE_DIRS}"
         INTERFACE_COMPILE_DEFINITIONS FFMPEG_FOUND)
 endif()
-if(FFMPEG_FOUND AND NOT TARGET FFMPEG::swscale)
-    add_library(FFMPEG::swscale UNKNOWN IMPORTED)
-    set_target_properties(FFMPEG::swscale PROPERTIES
-        IMPORTED_LOCATION "${FFMPEG_LIBSWSCALE}"
-        INTERFACE_INCLUDE_DIRECTORIES "${FFMPEG_INCLUDE_DIRS}"
-        INTERFACE_COMPILE_DEFINITIONS FFMPEG_FOUND)
-endif()
 if(FFMPEG_FOUND AND NOT TARGET FFMPEG::swresample)
     add_library(FFMPEG::swresample UNKNOWN IMPORTED)
     set_target_properties(FFMPEG::swresample PROPERTIES
         IMPORTED_LOCATION "${FFMPEG_LIBSWRESAMPLE}"
+        INTERFACE_INCLUDE_DIRECTORIES "${FFMPEG_INCLUDE_DIRS}"
+        INTERFACE_COMPILE_DEFINITIONS FFMPEG_FOUND)
+endif()
+if(FFMPEG_FOUND AND NOT TARGET FFMPEG::swscale)
+    add_library(FFMPEG::swscale UNKNOWN IMPORTED)
+    set_target_properties(FFMPEG::swscale PROPERTIES
+        IMPORTED_LOCATION "${FFMPEG_LIBSWSCALE}"
         INTERFACE_INCLUDE_DIRECTORIES "${FFMPEG_INCLUDE_DIRS}"
         INTERFACE_COMPILE_DEFINITIONS FFMPEG_FOUND)
 endif()
@@ -248,8 +248,8 @@ if(FFMPEG_FOUND AND NOT TARGET FFMPEG)
     target_link_libraries(FFMPEG INTERFACE FFMPEG::avfilter)
     target_link_libraries(FFMPEG INTERFACE FFMPEG::avformat)
     target_link_libraries(FFMPEG INTERFACE FFMPEG::avutil)
-    target_link_libraries(FFMPEG INTERFACE FFMPEG::swscale)
     target_link_libraries(FFMPEG INTERFACE FFMPEG::swresample)
+    target_link_libraries(FFMPEG INTERFACE FFMPEG::swscale)
     target_link_libraries(FFMPEG INTERFACE ZLIB::ZLIB)
 endif()
 

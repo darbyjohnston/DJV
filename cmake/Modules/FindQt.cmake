@@ -92,20 +92,29 @@ if(WIN32)
         if(djvThirdPartyPackage)
             install(
                 FILES
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5CLucene.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Concurrent.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Help.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Test.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.dll
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5CLucene.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Concurrent.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Core.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5DBus.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Gui.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Help.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Network.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5OpenGL.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Sql.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Svg.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Test.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Widgets.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5Xml.dll
                 DESTINATION bin)
+            install(
+                DIRECTORY
+                ${CMAKE_INSTALL_PREFIX}/plugins/bearer
+                ${CMAKE_INSTALL_PREFIX}/plugins/generic
+                ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
+                ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
+                ${CMAKE_INSTALL_PREFIX}/plugins/platforms
+                ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
+                DESTINATION plugins)
         endif()
     endif()
 elseif(APPLE)
