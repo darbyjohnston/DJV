@@ -37,86 +37,86 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenGLUtil::~OpenGLUtil()
-        {}
-
-        GLenum OpenGLUtil::internalFormat(Pixel::PIXEL in)
+        namespace OpenGL
         {
-            switch (in)
+            GLenum internalFormat(Pixel::PIXEL in)
             {
-            case Pixel::L_U8:     return GL_R8;
-            case Pixel::L_U16:    return GL_R16;
-            case Pixel::L_F16:    return GL_R16F;
-            case Pixel::L_F32:    return GL_R32F;
-            case Pixel::LA_U8:    return GL_RG8;
-            case Pixel::LA_U16:   return GL_RG16;
-            case Pixel::LA_F16:   return GL_RG16F;
-            case Pixel::LA_F32:   return GL_RG32F;
-            case Pixel::RGB_U8:   return GL_RGB8;
-            case Pixel::RGB_U16:  return GL_RGB16;
-            case Pixel::RGB_F16:  return GL_RGB16F;
-            case Pixel::RGB_F32:  return GL_RGB32F;
-            case Pixel::RGB_U10:  return GL_RGB10;
-            case Pixel::RGBA_U8:  return GL_RGBA8;
-            case Pixel::RGBA_U16: return GL_RGBA16;
-            case Pixel::RGBA_F16: return GL_RGBA16F;
-            case Pixel::RGBA_F32: return GL_RGBA32F;
-            default: break;
+                switch (in)
+                {
+                case Pixel::L_U8:     return GL_R8;
+                case Pixel::L_U16:    return GL_R16;
+                case Pixel::L_F16:    return GL_R16F;
+                case Pixel::L_F32:    return GL_R32F;
+                case Pixel::LA_U8:    return GL_RG8;
+                case Pixel::LA_U16:   return GL_RG16;
+                case Pixel::LA_F16:   return GL_RG16F;
+                case Pixel::LA_F32:   return GL_RG32F;
+                case Pixel::RGB_U8:   return GL_RGB8;
+                case Pixel::RGB_U16:  return GL_RGB16;
+                case Pixel::RGB_F16:  return GL_RGB16F;
+                case Pixel::RGB_F32:  return GL_RGB32F;
+                case Pixel::RGB_U10:  return GL_RGB10;
+                case Pixel::RGBA_U8:  return GL_RGBA8;
+                case Pixel::RGBA_U16: return GL_RGBA16;
+                case Pixel::RGBA_F16: return GL_RGBA16F;
+                case Pixel::RGBA_F32: return GL_RGBA32F;
+                default: break;
+                }
+                return GL_NONE;
             }
-            return GL_NONE;
-        }
 
-        GLenum OpenGLUtil::format(Pixel::PIXEL in, bool bgr)
-        {
-            switch (in)
+            GLenum format(Pixel::PIXEL in, bool bgr)
             {
-            case Pixel::L_U8:
-            case Pixel::L_U16:
-            case Pixel::L_F16:
-            case Pixel::L_F32:    return GL_RED;
-            case Pixel::LA_U8:
-            case Pixel::LA_U16:
-            case Pixel::LA_F16:
-            case Pixel::LA_F32:   return GL_RG;
-            case Pixel::RGB_U8:
-            case Pixel::RGB_U16:
-            case Pixel::RGB_F16:
-            case Pixel::RGB_F32:  return bgr ? GL_BGR : GL_RGB;
-            case Pixel::RGB_U10:  return bgr ? GL_BGRA : GL_RGBA;
-            case Pixel::RGBA_U8:
-            case Pixel::RGBA_U16:
-            case Pixel::RGBA_F16:
-            case Pixel::RGBA_F32: return bgr ? GL_BGRA : GL_RGBA;
-            default: break;
+                switch (in)
+                {
+                case Pixel::L_U8:
+                case Pixel::L_U16:
+                case Pixel::L_F16:
+                case Pixel::L_F32:    return GL_RED;
+                case Pixel::LA_U8:
+                case Pixel::LA_U16:
+                case Pixel::LA_F16:
+                case Pixel::LA_F32:   return GL_RG;
+                case Pixel::RGB_U8:
+                case Pixel::RGB_U16:
+                case Pixel::RGB_F16:
+                case Pixel::RGB_F32:  return bgr ? GL_BGR : GL_RGB;
+                case Pixel::RGB_U10:  return bgr ? GL_BGRA : GL_RGBA;
+                case Pixel::RGBA_U8:
+                case Pixel::RGBA_U16:
+                case Pixel::RGBA_F16:
+                case Pixel::RGBA_F32: return bgr ? GL_BGRA : GL_RGBA;
+                default: break;
+                }
+                return GL_NONE;
             }
-            return GL_NONE;
-        }
 
-        GLenum OpenGLUtil::type(Pixel::PIXEL in)
-        {
-            switch (in)
+            GLenum type(Pixel::PIXEL in)
             {
-            case Pixel::L_U8:
-            case Pixel::LA_U8:
-            case Pixel::RGB_U8:
-            case Pixel::RGBA_U8:  return GL_UNSIGNED_BYTE;
-            case Pixel::RGB_U10:  return GL_UNSIGNED_INT_10_10_10_2;
-            case Pixel::L_U16:
-            case Pixel::LA_U16:
-            case Pixel::RGB_U16:
-            case Pixel::RGBA_U16: return GL_UNSIGNED_SHORT;
-            case Pixel::L_F16:
-            case Pixel::LA_F16:
-            case Pixel::RGB_F16:
-            case Pixel::RGBA_F16: return GL_HALF_FLOAT;
-            case Pixel::L_F32:
-            case Pixel::LA_F32:
-            case Pixel::RGB_F32:
-            case Pixel::RGBA_F32: return GL_FLOAT;
-            default: break;
+                switch (in)
+                {
+                case Pixel::L_U8:
+                case Pixel::LA_U8:
+                case Pixel::RGB_U8:
+                case Pixel::RGBA_U8:  return GL_UNSIGNED_BYTE;
+                case Pixel::RGB_U10:  return GL_UNSIGNED_INT_10_10_10_2;
+                case Pixel::L_U16:
+                case Pixel::LA_U16:
+                case Pixel::RGB_U16:
+                case Pixel::RGBA_U16: return GL_UNSIGNED_SHORT;
+                case Pixel::L_F16:
+                case Pixel::LA_F16:
+                case Pixel::RGB_F16:
+                case Pixel::RGBA_F16: return GL_HALF_FLOAT;
+                case Pixel::L_F32:
+                case Pixel::LA_F32:
+                case Pixel::RGB_F32:
+                case Pixel::RGBA_F32: return GL_FLOAT;
+                default: break;
+                }
+                return GL_NONE;
             }
-            return GL_NONE;
-        }
 
+        } // namespace OpenGL
     } // namespace Graphics
 } // namespace djv

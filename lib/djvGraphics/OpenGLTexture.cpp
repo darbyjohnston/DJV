@@ -81,12 +81,12 @@ namespace djv
             glFuncs->glTexImage2D(
                 _target,
                 0,
-                OpenGLUtil::internalFormat(_info.pixel),
+                OpenGL::internalFormat(_info.pixel),
                 _info.size.x,
                 _info.size.y,
                 0,
-                OpenGLUtil::format(_info.pixel, _info.bgr),
-                OpenGLUtil::type(_info.pixel),
+                OpenGL::format(_info.pixel, _info.bgr),
+                OpenGL::type(_info.pixel),
                 0);
         }
 
@@ -108,8 +108,8 @@ namespace djv
             bind();
             const PixelDataInfo & info = in.info();
             OpenGLImage::stateUnpack(in.info());
-            GLenum format = OpenGLUtil::format(info.pixel, info.bgr);
-            GLenum type = OpenGLUtil::type(info.pixel);
+            GLenum format = OpenGL::format(info.pixel, info.bgr);
+            GLenum type = OpenGL::type(info.pixel);
             //DJV_DEBUG_PRINT("target = " << _target);
             //DJV_DEBUG_PRINT("format = " << format);
             //DJV_DEBUG_PRINT("type = " << type);
@@ -150,8 +150,8 @@ namespace djv
                 0,
                 area.size.x,
                 area.size.y,
-                OpenGLUtil::format(info.pixel, info.bgr),
-                OpenGLUtil::type(info.pixel),
+                OpenGL::format(info.pixel, info.bgr),
+                OpenGL::type(info.pixel),
                 in.data());
         }
 

@@ -40,23 +40,17 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class OpenGLUtil
-        //!
-        //! This class provides OpenGL utilities.
-        class OpenGLUtil
+        namespace OpenGL
         {
-        public:
-            virtual ~OpenGLUtil() = 0;
-
             //! Convert a pixel format to an OpenGL internal texture format.
-            static GLenum internalFormat(Pixel::PIXEL);
+            GLenum internalFormat(Pixel::PIXEL);
 
             //! Convert a pixel format to an OpenGL texture format.
-            static GLenum format(Pixel::PIXEL, bool bgr = false);
+            GLenum format(Pixel::PIXEL, bool bgr = false);
 
             //! Convert a pixel type to an OpenGL texture type.
-            static GLenum type(Pixel::PIXEL);
-        };
+            GLenum type(Pixel::PIXEL);
 
+        } // namespace OpenGL
     } // namespace Graphics
 } // namespace djv

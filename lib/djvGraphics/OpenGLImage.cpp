@@ -248,8 +248,8 @@ namespace djv
             statePack(info, area.position);
             glFuncs->glReadPixels(
                 0, 0, area.w, area.h,
-                OpenGLUtil::format(info.pixel, info.bgr),
-                OpenGLUtil::type(info.pixel),
+                OpenGL::format(info.pixel, info.bgr),
+                OpenGL::type(info.pixel),
                 output.data());
         }
 

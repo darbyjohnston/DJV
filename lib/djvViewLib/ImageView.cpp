@@ -513,7 +513,7 @@ namespace djv
 
             // Draw.
             //! \todo
-            /*Graphics::OpenGLUtil::color(_p->gridColor);
+            /*Graphics::OpenGL::color(_p->gridColor);
             glPushMatrix();
             glTranslated(viewPos().x, viewPos().y, 0);
             glScaled(viewZoom(), viewZoom(), 1.f);
@@ -672,7 +672,7 @@ namespace djv
 
             // Draw the background.
             //! \todo
-            /*Graphics::OpenGLUtil::color(_p->hudBackgroundColor);
+            /*Graphics::OpenGL::color(_p->hudBackgroundColor);
             switch (_p->hudBackground)
             {
             case Util::HUD_BACKGROUND_NONE: break;
@@ -699,7 +699,7 @@ namespace djv
             }
 
             // Draw the foreground.
-            Graphics::OpenGLUtil::color(_p->hudColor);
+            Graphics::OpenGL::color(_p->hudColor);
             renderText(
                 position.x + margin,
                 position.y + a + margin,

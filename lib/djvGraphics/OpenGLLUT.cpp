@@ -71,12 +71,12 @@ namespace djv
             glTexImage2D(
                 GL_TEXTURE_2D,
                 0,
-                OpenGLUtil::internalFormat(_info.pixel),
+                OpenGL::internalFormat(_info.pixel),
                 _info.size.x,
                 _info.size.y,
                 0,
-                OpenGLUtil::format(_info.pixel, _info.bgr),
-                OpenGLUtil::type(_info.pixel),
+                OpenGL::format(_info.pixel, _info.bgr),
+                OpenGL::type(_info.pixel),
                 0);
         }
 
@@ -116,8 +116,8 @@ namespace djv
                 0,
                 info.size.x,
                 info.size.y,
-                OpenGLUtil::format(info.pixel, info.bgr),
-                OpenGLUtil::type(info.pixel),
+                OpenGL::format(info.pixel, info.bgr),
+                OpenGL::type(info.pixel),
                 in.data());
         }
 
