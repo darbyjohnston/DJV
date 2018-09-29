@@ -113,6 +113,7 @@ namespace djv
             void wheelEvent(QWheelEvent *) override;
             void dragEnterEvent(QDragEnterEvent *) override;
             void dropEvent(QDropEvent *) override;
+            void initializeGL() override;
             void paintGL() override;
 
         private Q_SLOTS:
@@ -121,15 +122,10 @@ namespace djv
         private:
             void drawGrid();
             void drawHud();
-            void drawHud(
-                const QStringList & upperLeft,
-                const QStringList & lowerLeft,
-                const QStringList & upperRight,
-                const QStringList & lowerRight);
-            Core::Box2i drawHud(
-                const QString &    string,
-                const glm::ivec2 & position);
-            QSize drawHudSize(const QString &) const;
+            void drawHudItem(
+                QPainter &,
+                const QString &,
+                const Core::Box2i &);
 
             DJV_PRIVATE_COPY(ImageView);
 

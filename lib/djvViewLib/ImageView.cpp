@@ -51,10 +51,13 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QPainter>
 #include <QPointer>
 #include <QStyle>
 #include <QUrl>
 #include <QWheelEvent>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace djv
 {
@@ -72,22 +75,26 @@ namespace djv
                 context(context)
             {}
 
-            glm::ivec2           viewPosTmp = glm::ivec2(0, 0);
-            float                viewZoomTmp = 0.f;
-            Util::GRID           grid = static_cast<Util::GRID>(0);
-            Graphics::Color      gridColor;
-            bool                 hudEnabled = false;
-            HudInfo              hudInfo;
-            Graphics::Color      hudColor;
-            Util::HUD_BACKGROUND hudBackground = static_cast<Util::HUD_BACKGROUND>(0);
-            Graphics::Color      hudBackgroundColor;
-            bool                 inside = false;
-            glm::ivec2           mousePos = glm::ivec2(0, 0);
-            glm::ivec2           mouseStartPos = glm::ivec2(0, 0);
-            bool                 mouseWheel = false;
-            int                  mouseWheelTmp = 0;
-            int                  timer = -1;
-            QPointer<Context>    context;
+            glm::ivec2                             viewPosTmp = glm::ivec2(0, 0);
+            float                                  viewZoomTmp = 0.f;
+            Util::GRID                             grid = static_cast<Util::GRID>(0);
+            Graphics::Color                        gridColor;
+            Graphics::PixelData                    gridPixelData;
+            std::unique_ptr<Graphics::OpenGLImage> gridOpenGLImage;
+            bool                                   hudEnabled = false;
+            HudInfo                                hudInfo;
+            Graphics::Color                        hudColor;
+            Util::HUD_BACKGROUND                   hudBackground = static_cast<Util::HUD_BACKGROUND>(0);
+            Graphics::Color                        hudBackgroundColor;
+            Graphics::PixelData                    hudPixelData;
+            std::unique_ptr<Graphics::OpenGLImage> hudOpenGLImage;
+            bool                                   inside = false;
+            glm::ivec2                             mousePos = glm::ivec2(0, 0);
+            glm::ivec2                             mouseStartPos = glm::ivec2(0, 0);
+            bool                                   mouseWheel = false;
+            int                                    mouseWheelTmp = 0;
+            int                                    timer = -1;
+            QPointer<Context>                      context;
         };
 
         ImageView::ImageView(const QPointer<Context> & context, QWidget * parent) :
@@ -128,6 +135,9 @@ namespace djv
         ImageView::~ImageView()
         {
             //DJV_DEBUG("ImageView::~ImageView");
+            makeCurrent();
+            _p->gridOpenGLImage.reset();
+            _p->hudOpenGLImage.reset();
         }
 
         bool ImageView::isMouseInside() const
@@ -464,6 +474,14 @@ namespace djv
             Q_EMIT fileDropped(fileInfo);
         }
 
+        void ImageView::initializeGL()
+        {
+            //DJV_DEBUG("ImageView::initializeGL");
+            UI::ImageView::initializeGL();
+            _p->gridOpenGLImage.reset(new Graphics::OpenGLImage);
+            _p->hudOpenGLImage.reset(new Graphics::OpenGLImage);
+        }
+
         void ImageView::paintGL()
         {
             //DJV_DEBUG("ImageView::paintGL");
@@ -487,8 +505,20 @@ namespace djv
         void ImageView::drawGrid()
         {
             //DJV_DEBUG("ImageView::drawGrid");
-            //DJV_DEBUG_PRINT("size = " << geom().size);
-            //DJV_DEBUG_PRINT("grid = " << labelGrid()[_p->grid]);
+            //DJV_DEBUG_PRINT("grid = " << Util::gridLabels()[_p->grid]);
+
+            const glm::ivec2 size(width(), height());
+            const glm::ivec2& viewPos = this->viewPos();
+            const float viewZoom = this->viewZoom();
+            //DJV_DEBUG_PRINT("size = " << size);
+            //DJV_DEBUG_PRINT("view pos = " << viewPos);
+            //DJV_DEBUG_PRINT("view zoom = " << viewZoom);
+
+            _p->gridPixelData.set(Graphics::PixelDataInfo(size, Graphics::Pixel::RGBA_U8));
+            _p->gridPixelData.zero();
+            QImage image(_p->gridPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
+            QPainter painter(&image);
+
             int inc = 0;
             switch (_p->grid)
             {
@@ -497,39 +527,51 @@ namespace djv
             case Util::GRID_100x100: inc = 100; break;
             default: break;
             }
-
-            // Bail if too small.
-            if ((inc * viewZoom()) <= 2)
+            if ((inc * viewZoom) <= 2)
                 return;
 
-            // Compute the view area.
             Core::Box2i area(
                 Core::VectorUtil::floor(
-                    glm::vec2(-viewPos()) / viewZoom() / static_cast<float>(inc)) - 1,
+                    glm::vec2(-viewPos) / viewZoom / static_cast<float>(inc)) - 1,
                 Core::VectorUtil::ceil(
-                    glm::vec2(width(), height()) / viewZoom() / static_cast<float>(inc)) + 2);
+                    glm::vec2(width(), height()) / viewZoom / static_cast<float>(inc)) + 2);
             area *= inc;
             //DJV_DEBUG_PRINT("area = " << area);
 
-            // Draw.
-            //! \todo
-            /*Graphics::OpenGL::color(_p->gridColor);
-            glPushMatrix();
-            glTranslated(viewPos().x, viewPos().y, 0);
-            glScaled(viewZoom(), viewZoom(), 1.f);
-            glBegin(GL_LINES);
+            painter.setPen(QPen(Graphics::ColorUtil::toQt(_p->gridColor), 1));
             for (int y = 0; y <= area.h; y += inc)
             {
-                glVertex2i(area.x, area.y + y);
-                glVertex2i(area.x + area.w, area.y + y);
+                painter.drawLine(
+                    (area.x) * viewZoom + viewPos.x,
+                    (area.y + y) * viewZoom + viewPos.y,
+                    (area.x + area.w) * viewZoom + viewPos.x,
+                    (area.y + y) * viewZoom + viewPos.y);
             }
             for (int x = 0; x <= area.w; x += inc)
             {
-                glVertex2i(area.x + x, area.y);
-                glVertex2i(area.x + x, area.y + area.h);
+                painter.drawLine(
+                    (area.x + x) * viewZoom + viewPos.x,
+                    (area.y) * viewZoom + viewPos.y,
+                    (area.x + x) * viewZoom + viewPos.x,
+                    (area.y + area.h) * viewZoom + viewPos.y);
             }
-            glEnd();
-            glPopMatrix();*/
+
+            try
+            {
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                glFuncs->glEnable(GL_BLEND);
+                glFuncs->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                const auto viewMatrix = glm::ortho(
+                    0.f,
+                    static_cast<float>(size.x),
+                    0.f,
+                    static_cast<float>(size.y),
+                    -1.f,
+                    1.f);
+                _p->gridOpenGLImage->draw(_p->gridPixelData, viewMatrix);
+            }
+            catch (const Core::Error &)
+            {}
         }
 
         void ImageView::drawHud()
@@ -597,61 +639,60 @@ namespace djv
                     arg(_p->hudInfo.realSpeed, 0, 'f', 2);
             }
 
-            // Draw the HUD.
-            drawHud(
-                upperLeft,
-                lowerLeft,
-                upperRight,
-                lowerRight);
-        }
-
-        void ImageView::drawHud(
-            const QStringList & upperLeft,
-            const QStringList & lowerLeft,
-            const QStringList & upperRight,
-            const QStringList & lowerRight)
-        {
-            //DJV_DEBUG("ImageView::drawHud");
-
-            // Setup.
-            const Core::Box2i geom(width(), height());
-            const int  margin = style()->pixelMetric(QStyle::PM_LayoutLeftMargin);
-            QSize      size;
-            glm::ivec2 p;
-            QString    s;
+            const glm::ivec2 size(width(), height());
+            _p->hudPixelData.set(Graphics::PixelDataInfo(size, Graphics::Pixel::RGBA_U8));
+            _p->hudPixelData.zero();
+            QImage image(_p->hudPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
+            QPainter painter(&image);
+            painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
             // Draw the upper left contents.
-            p = glm::ivec2(margin, margin);
+            const int m = style()->pixelMetric(QStyle::PM_LayoutLeftMargin);
+            const int th = fontMetrics().height();
+            glm::ivec2 p = glm::ivec2(m, m);
             for (int i = 0; i < upperLeft.count(); ++i)
             {
-                size = drawHudSize(upperLeft[i]);
-
-                drawHud(upperLeft[i], p);
-
-                p.y += size.height();
+                const int tw = fontMetrics().width(upperLeft[i]);
+                drawHudItem(painter, upperLeft[i], Core::Box2i(p.x, p.y, tw + m, th + m));
+                p.y += th + m;
             }
 
             // Draw the lower left contents.
-            p = glm::ivec2(margin, height() - size.height() * lowerLeft.count() - margin);
+            p = glm::ivec2(m, height() - th * lowerLeft.count() - m);
             for (int i = 0; i < lowerLeft.count(); ++i)
             {
-                size = drawHudSize(lowerLeft[i]);
-
-                drawHud(lowerLeft[i], p);
-
-                p.y += size.height();
+                const int tw = fontMetrics().width(lowerLeft[i]);
+                drawHudItem(painter, lowerLeft[i], Core::Box2i(p.x, p.y, tw + m, th + m));
+                p.y += th + m;
             }
 
             // Draw the upper right contents.
-            p = glm::ivec2(geom.w - margin, margin);
+            p = glm::ivec2(size.x - m, m);
             for (int i = 0; i < upperRight.count(); ++i)
             {
-                size = drawHudSize(upperRight[i]);
-
-                drawHud(upperRight[i], glm::ivec2(p.x - size.width(), p.y));
-
-                p.y += size.height();
+                const int tw = fontMetrics().width(upperRight[i]);
+                drawHudItem(painter, upperRight[i], Core::Box2i(p.x - tw - m, p.y, tw + m, th + m));
+                p.y += th + m;
             }
+
+            try
+            {
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                glFuncs->glEnable(GL_BLEND);
+                glFuncs->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                const auto viewMatrix = glm::ortho(
+                    0.f,
+                    static_cast<float>(size.x),
+                    0.f,
+                    static_cast<float>(size.y),
+                    -1.f,
+                    1.f);
+                Graphics::OpenGLImageOptions options;
+                options.xform.mirror.y = true;
+                _p->hudOpenGLImage->draw(_p->hudPixelData, viewMatrix, options);
+            }
+            catch (const Core::Error &)
+            {}
         }
 
         namespace
@@ -660,59 +701,25 @@ namespace djv
 
         } // namespace
 
-        Core::Box2i ImageView::drawHud(
-            const QString &    in,
-            const glm::ivec2 & position)
+       void ImageView::drawHudItem(
+            QPainter & painter,
+            const QString & in,
+            const Core::Box2i & box)
         {
-            const int h = height();
-            const int w = fontMetrics().width(in);
-            const int a = fontMetrics().ascent();
-            const int d = fontMetrics().descent();
-            Core::Box2i box(position.x, position.y, w + margin * 2, a + d + margin * 2);
-
-            // Draw the background.
-            //! \todo
-            /*Graphics::OpenGL::color(_p->hudBackgroundColor);
             switch (_p->hudBackground)
             {
             case Util::HUD_BACKGROUND_NONE: break;
             case Util::HUD_BACKGROUND_SOLID:
-                glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                glBegin(GL_QUADS);
-                glVertex2i(box.x, h - box.y - box.h);
-                glVertex2i(box.x + box.w, h - box.y - box.h);
-                glVertex2i(box.x + box.w, h - box.y + box.h - box.h);
-                glVertex2i(box.x, h - box.y + box.h - box.h);
-                glEnd();
-                glDisable(GL_BLEND);
+                painter.fillRect(box.x, box.y, box.w, box.h, Graphics::ColorUtil::toQt(_p->hudBackgroundColor));
                 break;
             case Util::HUD_BACKGROUND_SHADOW:
-                //! \todo
-                //renderText(
-                //    position.x + margin + 1,
-                //    position.y + margin + a + 1,
-                //    in,
-                //    font());
+                painter.setPen(Graphics::ColorUtil::toQt(_p->hudBackgroundColor));
+                painter.drawText(box.x + 1, box.y + 1, box.w, box.h, Qt::AlignCenter, in);
                 break;
             default: break;
             }
-
-            // Draw the foreground.
-            Graphics::OpenGL::color(_p->hudColor);
-            renderText(
-                position.x + margin,
-                position.y + a + margin,
-                in,
-                font());*/
-
-            return box;
-        }
-
-        QSize ImageView::drawHudSize(const QString & s) const
-        {
-            const QSize size = fontMetrics().size(Qt::TextSingleLine, s);
-            return QSize(size.width() + margin * 2, size.height() + margin * 2);
+            painter.setPen(Graphics::ColorUtil::toQt(_p->hudColor));
+            painter.drawText(box.x, box.y, box.w, box.h, Qt::AlignCenter, in);
         }
 
     } // namespace ViewLib

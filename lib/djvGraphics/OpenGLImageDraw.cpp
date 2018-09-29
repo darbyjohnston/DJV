@@ -132,20 +132,17 @@ namespace djv
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
             glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
             glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data());
-
-            //glFuncs->glBindVertexArray(_vao);
-            //glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0);
-            //glFuncs->glEnableVertexAttribArray(0);
-            //glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8);
-            //glFuncs->glEnableVertexAttribArray(1);
         }
 
         void OpenGLImageMesh::draw()
         {
             //DJV_DEBUG("OpenGLImageMesh::draw");
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
             glFuncs->glBindVertexArray(_vao);
             glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6);
+            glFuncs->glBindVertexArray(0);
+            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, 0);
         }
 
         namespace
