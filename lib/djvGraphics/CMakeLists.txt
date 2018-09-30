@@ -217,14 +217,16 @@ if (djvInstallRpath)
         INSTALL_RPATH "${djvInstallRpath}")
 endif (djvInstallRpath)
 
-install(
-    FILES ${header}
-    DESTINATION include)
+#install(
+#    FILES ${header}
+#    DESTINATION include)
 install(
     FILES ${qmSource}
     DESTINATION translations)
-install(
-    TARGETS djvGraphics
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
+if(BUILD_SHARED_LIBS)
+    install(
+        TARGETS djvGraphics
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)
+endif()

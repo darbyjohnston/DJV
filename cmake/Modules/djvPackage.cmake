@@ -1,4 +1,4 @@
-set(djvPackageName ${djvProjectName}-${djvSystemName}-${djvBuildArch})
+set(djvPackageName ${djvProjectName}-${djvVersion}-${djvSystemName}-${djvBuildArch})
 
 if (WIN32)
 
