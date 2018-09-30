@@ -49,8 +49,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class MessagesDialog
-        //!
         //! This class provides a dialog for displaying application messages.
         class MessagesDialog : public QDialog
         {

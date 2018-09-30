@@ -44,8 +44,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct OpenEXR
-        //!
         //! This struct provides OpenEXR utilities.
         struct OpenEXR
         {

@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class InputDialog
-        //!
         //! This class provides an input dialog.
         class InputDialog : public QDialog
         {

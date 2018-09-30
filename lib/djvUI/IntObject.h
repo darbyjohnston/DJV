@@ -37,8 +37,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class IntObject
-        //!
         //! This class provides the base functionality for integer widgets.
         class IntObject : public QObject
         {

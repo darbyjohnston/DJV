@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class SGISave
-        //!
         //! This class provides a SGI saver.
         class SGISave : public ImageSave
         {

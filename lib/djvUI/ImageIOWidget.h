@@ -48,8 +48,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ImageIOWidget
-        //!
         //! This class provides the base functionality for image I/O widgets.
         class ImageIOWidget : public AbstractPrefsWidget
         {
@@ -73,8 +71,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class ImageIOWidgetPlugin
-        //!
         //! This class provides an image I/O widget plugin.
         class ImageIOWidgetPlugin : public Core::Plugin
         {
@@ -90,8 +86,6 @@ namespace djv
             virtual Core::Plugin * copyPlugin() const;
         };
 
-        //! \class ImageIOWidgetFactory
-        //!
         //! This class provides a factory for image I/O widget plugins.
         class ImageIOWidgetFactory : public Core::PluginFactory
         {

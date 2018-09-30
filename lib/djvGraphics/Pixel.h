@@ -40,8 +40,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class Pixel
-        //!
         //! This class provides pixel functionality.
         class Pixel
         {

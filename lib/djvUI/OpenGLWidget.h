@@ -43,8 +43,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class OpenGLWidget
-        //!
         //! This class provides an OpenGL widget.
         class OpenGLWidget : public QOpenGLWidget
         {

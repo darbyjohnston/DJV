@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class DPXPlugin
-        //!
         //! This plugin provides support for the SMPTE Digital Picture Exchange (DPX)
         //! image file format. DPX is a specialized image file format for working with
         //! motion picture film. DPX is the successor to the Cineon file format with

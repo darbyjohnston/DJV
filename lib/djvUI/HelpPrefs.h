@@ -39,19 +39,17 @@ namespace djv
 {
     namespace UI
     {
-        //! \class HelpPrefs
-        //!
         //! This class provides help preferences.
         class HelpPrefs : public QObject
         {
             Q_OBJECT
 
-                //! This property holds whether tool tips are enabled.    
-                Q_PROPERTY(
-                    bool   toolTips
-                    READ   hasToolTips
-                    WRITE  setToolTips
-                    NOTIFY toolTipsChanged)
+            //! This property holds whether tool tips are enabled.    
+            Q_PROPERTY(
+                bool   toolTips
+                READ   hasToolTips
+                WRITE  setToolTips
+                NOTIFY toolTipsChanged)
 
         public:
             explicit HelpPrefs(QObject * parent = nullptr);

@@ -45,8 +45,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class PixelMaskWidget
-        //!
         //! This class provides a pixel mask widget.
         class PixelMaskWidget : public QWidget
         {

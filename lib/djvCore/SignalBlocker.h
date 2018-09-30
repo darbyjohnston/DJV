@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class SignalBlocker
-        //!
         //! This class provides functionality to temporarily block QObject signals.
         class SignalBlocker
         {
@@ -47,7 +45,6 @@ namespace djv
             SignalBlocker(QObject *);
             SignalBlocker(const QObjectList &);
             SignalBlocker(const QVector<QObject *> &);
-
             ~SignalBlocker();
 
             //! Add an object.    

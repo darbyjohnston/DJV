@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class JPEGSave
-        //!
         //! This class provides a JPEG saver.
         class JPEGSave : public ImageSave
         {

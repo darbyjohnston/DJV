@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PNGLoad
-        //!
         //! This class provides a PNG loader.
         class PNGLoad : public ImageLoad
         {

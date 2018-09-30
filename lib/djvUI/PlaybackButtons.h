@@ -43,8 +43,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class PlaybackButtons
-        //!
         //! This class provides playback buttons.
         class PlaybackButtons : public QWidget
         {

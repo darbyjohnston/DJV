@@ -43,8 +43,6 @@ namespace djv
     {
         class Context;
 
-        //! \class AbstractPrefs
-        //!
         //! This class provides the base functionality for group preferences.
         class AbstractPrefs : public QObject
         {

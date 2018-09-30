@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct PNG
-        //!
         //! This struct provides PNG utilities.
         struct PNG
         {

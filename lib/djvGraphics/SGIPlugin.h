@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class SGIPlugin
-        //!
         //! This plugin provides support for the Silicon Graphics image file format.
         //!
         //! File extensions: .sgi, .rgba, .rgb, .bw

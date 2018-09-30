@@ -41,19 +41,17 @@ namespace djv
 {
     namespace UI
     {
-        //! \class IntDisplay
-        //!
         //! This class provides a widget for displaying an integer.
         class IntDisplay : public QWidget
         {
             Q_OBJECT
 
-                //! This property holds the value.
-                Q_PROPERTY(
-                    int    value
-                    READ   value
-                    WRITE  setValue
-                    NOTIFY valueChanged)
+            //! This property holds the value.
+            Q_PROPERTY(
+                int    value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
         public:
             explicit IntDisplay(QWidget * parent = nullptr);

@@ -41,8 +41,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ImageGroup
-        //!
         //! This class provides the image group. The image group encapsulates all of
         //! the functionality relating to images such as the image scale and rotation.
         class ImageGroup : public AbstractGroup

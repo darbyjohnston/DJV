@@ -45,8 +45,6 @@ namespace djv
         class FileBrowserItem;
         class UIContext;
 
-        //! \class FileBrowserModel
-        //!
         //! This class provides a file browser model.
         class FileBrowserModel : public QAbstractItemModel
         {

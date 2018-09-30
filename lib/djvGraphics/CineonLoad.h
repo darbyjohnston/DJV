@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class CineonLoad
-        //!
         //! This class provides a Cineon loader.
         class CineonLoad : public ImageLoad
         {

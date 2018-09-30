@@ -43,7 +43,6 @@ namespace djv
             Q_ENUMS(ENDIAN)
 
         public:
-
             virtual ~Memory() = 0;
 
             static const quint64 kilobyte; //!< The number of bytes in a kilobyte.

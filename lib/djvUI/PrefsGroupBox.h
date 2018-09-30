@@ -45,8 +45,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class djvPrefsGroupBox
-        //!
         //! This class provides a group box for preferences.
         class PrefsGroupBox : public QWidget
         {

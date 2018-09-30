@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class MagnifyTool
-        //!
         //! This class provides a magnify tool.
         class MagnifyTool : public AbstractTool
         {

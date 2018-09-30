@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class TIFFSave
-        //!
         //! This class provides a TIFF saver.
         class TIFFSave : public ImageSave
         {

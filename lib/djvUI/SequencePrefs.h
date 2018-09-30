@@ -37,19 +37,17 @@ namespace djv
 {
     namespace UI
     {
-        //! \class djvSequencePrefs
-        //!
         //! This class provides sequence preferences.
         class SequencePrefs : public QObject
         {
             Q_OBJECT
 
-                //! This property holds the maximum number of frames a sequence can hold.    
-                Q_PROPERTY(
-                    qint64 maxFrames
-                    READ   maxFrames
-                    WRITE  setMaxFrames
-                    NOTIFY maxFramesChanged)
+            //! This property holds the maximum number of frames a sequence can hold.    
+            Q_PROPERTY(
+                qint64 maxFrames
+                READ   maxFrames
+                WRITE  setMaxFrames
+                NOTIFY maxFramesChanged)
 
         public:
             explicit SequencePrefs(QObject * parent = nullptr);

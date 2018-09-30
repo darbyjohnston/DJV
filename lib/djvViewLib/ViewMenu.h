@@ -35,8 +35,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ViewMenu
-        //!
         //! This class provides the view group menu.
         class ViewMenu : public AbstractMenu
         {

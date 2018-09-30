@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class FilePrefsWidget
-        //!
         //! This class provides the file group preferences widget.
         class FilePrefsWidget : public AbstractPrefsWidget
         {

@@ -39,26 +39,24 @@ namespace djv
 {
     namespace UI
     {
-        //! \class TimePrefs
-        //!
         //! This class provides time preferences.
         class TimePrefs : public QObject
         {
             Q_OBJECT
 
-                //! This property holds the global time units.
-                Q_PROPERTY(
-                    djv::Core::Time::UNITS timeUnits
-                    READ                   timeUnits
-                    WRITE                  setTimeUnits
-                    NOTIFY                 timeUnitsChanged)
+            //! This property holds the global time units.
+            Q_PROPERTY(
+                djv::Core::Time::UNITS timeUnits
+                READ                   timeUnits
+                WRITE                  setTimeUnits
+                NOTIFY                 timeUnitsChanged)
 
-                //! This property holds the global speed.
-                Q_PROPERTY(
-                    djv::Core::Speed::FPS speed
-                    READ                  speed
-                    WRITE                 setSpeed
-                    NOTIFY                speedChanged)
+            //! This property holds the global speed.
+            Q_PROPERTY(
+                djv::Core::Speed::FPS speed
+                READ                  speed
+                WRITE                 setSpeed
+                NOTIFY                speedChanged)
 
         public:
             explicit TimePrefs(QObject * parent = nullptr);

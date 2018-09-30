@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class Timer
-        //!
         //! This class provides a timer.
         class Timer
         {

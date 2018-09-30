@@ -44,8 +44,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class FileEdit
-        //!
         //! This class provides a file name edit widget.
         class FileEdit : public QWidget
         {

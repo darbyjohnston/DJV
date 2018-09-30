@@ -39,8 +39,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class HelpPrefsWidget
-        //!
         //! This class provides a help preferences widget.
         class HelpPrefsWidget : public AbstractPrefsWidget
         {

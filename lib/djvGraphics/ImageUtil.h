@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class ImageUtil
-        //!
         //! This class provides image utilities.
         class ImageUtil
         {

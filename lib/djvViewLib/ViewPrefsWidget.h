@@ -41,8 +41,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class djvViewViewPrefsWidget
-        //!
         //! This class provides the view group preferences widget.
         class ViewPrefsWidget : public AbstractPrefsWidget
         {

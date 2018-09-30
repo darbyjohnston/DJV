@@ -40,8 +40,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class djvTargaWidget
-        //!
         //! This class provides a Targa widget.
         class TargaWidget : public ImageIOWidget
         {
@@ -65,8 +63,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class TargaWidgetPlugin
-        //!
         //! This class provides a Targa widget plugin.
         class TargaWidgetPlugin : public ImageIOWidgetPlugin
         {

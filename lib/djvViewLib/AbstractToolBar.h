@@ -44,8 +44,6 @@ namespace djv
         class AbstractActions;
         class Context;
 
-        //! \class AbstractToolBar
-        //!
         //! This class provides the base functionality for group tool bars.
         class AbstractToolBar : public QToolBar
         {

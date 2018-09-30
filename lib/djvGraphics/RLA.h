@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct RLA
-        //!
         //! This struct provides RLA utilities.
         struct RLA
         {

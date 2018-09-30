@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class IFFWidget
-        //!
         //! This class provides an IFF widget.
         class IFFWidget : public ImageIOWidget
         {
@@ -66,8 +64,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class IFFWidgetPlugin
-        //!
         //! This class provides an IFF widget plugin.
         class IFFWidgetPlugin : public ImageIOWidgetPlugin
         {

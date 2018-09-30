@@ -43,8 +43,6 @@ namespace djv
     {
         class FloatObject;
 
-        //! \class FloatEdit
-        //!
         //! This class provides a floating-point edit widget.
         class FloatEdit : public QWidget
         {

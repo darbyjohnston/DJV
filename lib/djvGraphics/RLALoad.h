@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class RLALoad
-        //!
         //! This class provides a RLA loader.
         class RLALoad : public ImageLoad
         {

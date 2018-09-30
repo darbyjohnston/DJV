@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class StringUtil
-        //!
         //! This class provides string utilities.
         class StringUtil
         {

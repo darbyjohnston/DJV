@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class ColorProfile
-        //!
         //! This class provides a color profile.
         class ColorProfile
         {

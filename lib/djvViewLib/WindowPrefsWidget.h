@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class WindowPrefsWidget
-        //!
         //! This class provides the window group preferences widget.
         class WindowPrefsWidget : public AbstractPrefsWidget
         {

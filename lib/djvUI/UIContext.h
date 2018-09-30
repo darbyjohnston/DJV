@@ -59,8 +59,6 @@ namespace djv
         class StylePrefs;
         class TimePrefs;
 
-        //! \class djvUIContext
-        //!
         //! This class provides global functionality for the library.
         class UIContext : public Graphics::GraphicsContext
         {

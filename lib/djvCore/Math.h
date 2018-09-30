@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class Math
-        //!
         //! This class provides math utilities.
         //!
         //! References:

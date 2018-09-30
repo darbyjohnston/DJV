@@ -35,8 +35,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class WindowToolBar
-        //!
         //! This class provides the window group tool bar.
         class WindowToolBar : public AbstractToolBar
         {

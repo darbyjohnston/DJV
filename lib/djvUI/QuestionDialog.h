@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class djvQuestionDialog
-        //!
         //! This class provides a question dialog.
         class QuestionDialog : public QDialog
         {

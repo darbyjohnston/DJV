@@ -40,8 +40,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \struct HudInfo
-        //!
         //! This struct provides HUD information.
         struct HudInfo
         {

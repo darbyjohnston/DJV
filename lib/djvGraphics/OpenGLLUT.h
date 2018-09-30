@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class OpenGLLUT
-        //!
         //! This class proivides an OpenGL LUT.
         class OpenGLLUT
         {

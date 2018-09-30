@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class OpenEXRPlugin
-        //!
         //! This plugin provides support for the Industrial Light and Magic OpenEXR
         //! image file format.
         //!

@@ -40,8 +40,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class SGIWidget
-        //!
         //! This class provides a SGI widget.
         class SGIWidget : public ImageIOWidget
         {
@@ -65,8 +63,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class SGIWidgetPlugin
-        //!
         //! This class provides a SGI widget plugin.
         class SGIWidgetPlugin : public ImageIOWidgetPlugin
         {

@@ -41,8 +41,6 @@ namespace djv
     {
         class UIContext;
         
-        //! \class ProxyStyle
-        //!
         //! This class provides modifications to the Qt fusion style.
         class ProxyStyle : public QProxyStyle
         {        

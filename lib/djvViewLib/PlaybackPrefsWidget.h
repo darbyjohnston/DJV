@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class PlaybackPrefsWidget
-        //!
         //! This class provides the playback group preferences widget.
         class PlaybackPrefsWidget : public AbstractPrefsWidget
         {

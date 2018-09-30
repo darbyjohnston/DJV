@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class JPEGPlugin
-        //!
         //! This plugin provides support for the Joint Photographic Experts Group
         //! (JPEG) image file format.
         //!

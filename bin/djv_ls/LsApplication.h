@@ -39,8 +39,6 @@ namespace djv
     {
         class Context;
 
-        //! \class Application
-        //!
         //! This program provides a command line tool for listing directories with file
         //! sequences.
         class Application : public QGuiApplication

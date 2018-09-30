@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class LUTLoad
-        //!
         //! This class provides a LUT loader.
         class LUTLoad : public ImageLoad
         {

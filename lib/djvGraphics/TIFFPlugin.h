@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class TIFFPlugin
-        //!
         //! This plugin provides support for the Tagged Image File Format (TIFF).
         //!
         //! Requires:

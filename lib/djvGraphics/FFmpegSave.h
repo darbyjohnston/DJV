@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class djvFFmpegSave
-        //!
         //! This class provides a FFmpeg saver.
         class FFmpegSave : public ImageSave
         {

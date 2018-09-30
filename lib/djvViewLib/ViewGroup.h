@@ -42,8 +42,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ViewGroup
-        //!
         //! This class provides the view group. The view group encapsulates all
         //! of the functionality relating to views such as panning and zooming the
         //! image, which image chaneels are displayed, etc.

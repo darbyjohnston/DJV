@@ -41,8 +41,6 @@ namespace djv
     {
         class Context;
 
-        //! \class AbstractPrefsWidget
-        //!
         //! This class provides the base functionality for group preferences widgets.
         class AbstractPrefsWidget : public UI::AbstractPrefsWidget
         {

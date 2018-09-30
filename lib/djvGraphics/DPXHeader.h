@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class DPXHeader
-        //!
         //! This class proivdes DPX file header functionality.
         class DPXHeader
         {

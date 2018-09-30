@@ -47,8 +47,6 @@ namespace djv
         class FileBrowserModel;
         class UIContext;
 
-        //! \class FileBrowser
-        //!
         //! This class provides a file browser dialog. The file browser dialog is used
         //! to load or save files.
         class FileBrowser : public QDialog

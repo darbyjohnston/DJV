@@ -45,8 +45,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class User
-        //!
         //! This class provides user utilities.
         class User
         {

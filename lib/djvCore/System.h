@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class System
-        //!
         //! This class provides system utilities.
         class System
         {

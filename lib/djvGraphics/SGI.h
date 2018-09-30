@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct SGI
-        //!
         //! This struct provides SGI utilities.
         struct SGI
         {

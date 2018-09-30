@@ -47,8 +47,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ColorWidget
-        //!
         //! This class provides color picker widget.
         class ColorWidget : public QWidget
         {

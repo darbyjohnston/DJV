@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class InputPrefsWidget
-        //!
         //! This class provides the input preferences widget.
         class InputPrefsWidget : public AbstractPrefsWidget
         {

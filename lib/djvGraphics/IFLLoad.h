@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class IFLLoad
-        //!
         //! This class provides an IFL loader.
         class IFLLoad : public ImageLoad
         {

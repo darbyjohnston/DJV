@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct Cineon
-        //!
         //! This struct provides Cineon utilities.
         struct Cineon
         {

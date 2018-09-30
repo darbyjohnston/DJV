@@ -50,14 +50,10 @@ namespace djv
     {
         class Context;
 
-        //! \class FileCacheItem
-        //!
         //! This class provides a file cache reference.
         class FileCacheItem
         {
         public:
-            //! Constructor.
-            //!
             //! \param image The image to be cached. Ownership of the image is passed
             //! to the cache item.
             //! \param key   A key to be associated with this cache item.
@@ -66,7 +62,6 @@ namespace djv
                 Graphics::Image * image,
                 const void *      key,
                 qint64            frame);
-
             ~FileCacheItem();
 
             //! Get the image.
@@ -99,8 +94,6 @@ namespace djv
 
         typedef QVector<FileCacheItem *> FileCacheItemList;
 
-        //! \class djvViewFileCache
-        //!
         //! This class provides the file cache.
         class FileCache : public QObject
         {

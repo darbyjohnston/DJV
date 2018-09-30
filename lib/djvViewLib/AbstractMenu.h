@@ -43,8 +43,6 @@ namespace djv
     {
         class AbstractActions;
 
-        //! \class AbstractMenu
-        //!
         //! This class provides the base functionality for group menus.
         class AbstractMenu : public QMenu
         {

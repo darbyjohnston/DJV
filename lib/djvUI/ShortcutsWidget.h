@@ -43,19 +43,17 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ShortcutsWidget
-        //!
         //! This class provides a widget for configuring keyboard shorcuts.
         class ShortcutsWidget : public QWidget
         {
             Q_OBJECT
 
-                //! This property holds the list of shortcuts.    
-                Q_PROPERTY(
-                    QVector<Shortcut> shortcuts
-                    READ              shortcuts
-                    WRITE             setShortcuts
-                    NOTIFY            shortcutsChanged)
+            //! This property holds the list of shortcuts.    
+            Q_PROPERTY(
+                QVector<Shortcut> shortcuts
+                READ              shortcuts
+                WRITE             setShortcuts
+                NOTIFY            shortcutsChanged)
 
         public:
             explicit ShortcutsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);

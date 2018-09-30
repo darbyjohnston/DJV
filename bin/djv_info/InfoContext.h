@@ -37,8 +37,6 @@ namespace djv
 {
     namespace info
     {
-        //! \class Context
-        //!
         //! This class provides global functionality for the application.
         class Context : public Graphics::GraphicsContext
         {

@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class FFmpegLoad
-        //!
         //! This class provides a FFmpeg loader.
         class FFmpegLoad : public ImageLoad
         {

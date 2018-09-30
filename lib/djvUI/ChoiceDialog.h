@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class ChoiceDialog
-        //!
         //! This class provides a choice dialog.
         class ChoiceDialog : public QDialog
         {

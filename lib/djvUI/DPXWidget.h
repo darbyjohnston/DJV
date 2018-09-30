@@ -45,8 +45,6 @@ namespace djv
         class FloatEditSlider;
         class IntEditSlider;
 
-        //! \class DPXWidget
-        //!
         //! This class provides a DPX widget.
         class DPXWidget : public ImageIOWidget
         {
@@ -94,8 +92,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class DPXWidgetPlugin
-        //!
         //! This class provides a DPX widget plugin.
         class DPXWidgetPlugin : public ImageIOWidgetPlugin
         {

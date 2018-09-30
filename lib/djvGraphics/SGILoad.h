@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class SGILoad
-        //!
         //! This class provides a SGI loader.
         class SGILoad : public ImageLoad
         {

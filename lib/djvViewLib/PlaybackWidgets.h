@@ -49,8 +49,6 @@ namespace djv
     {
         class Context;
 
-        //! \class PlaybackButtons
-        //!
         //! This class provides a widget with playback control buttons.
         class PlaybackButtons : public QWidget
         {
@@ -83,8 +81,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class LoopWidget
-        //!
         //! This class provides a playback loop mode widget.
         class LoopWidget : public QWidget
         {
@@ -107,8 +103,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class FrameButtons
-        //!
         //! This class provides a widget with frame control buttons.
         class FrameButtons : public QWidget
         {

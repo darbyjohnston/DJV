@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class ImageTags
-        //!
         //! This class provides a collection of image tags.
         class ImageTags
         {
@@ -50,7 +48,6 @@ namespace djv
         public:
             ImageTags();
             ImageTags(const ImageTags &);
-
             ~ImageTags();
 
             //! Add image tags.

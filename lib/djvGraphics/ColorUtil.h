@@ -39,8 +39,6 @@ namespace djv
     {
         class Color;
 
-        //! \class ColorUtil
-        //!
         //! This class provides color utilities.
         class ColorUtil
         {

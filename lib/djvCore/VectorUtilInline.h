@@ -33,9 +33,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class VectorUtil
-        //!
-        //! This class provides vector utilities.
         inline VectorUtil::~VectorUtil()
         {}
 

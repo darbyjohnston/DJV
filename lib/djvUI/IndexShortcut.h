@@ -37,8 +37,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class IndexShortcut
-        //!
         //! This class provides a Qt shortcut with an index.
         class IndexShortcut : public QShortcut
         {
@@ -46,7 +44,6 @@ namespace djv
 
         public:
             IndexShortcut(QWidget * parent);
-
             IndexShortcut(
                 const QKeySequence & key,
                 int                  index,

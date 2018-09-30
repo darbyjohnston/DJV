@@ -43,33 +43,31 @@ namespace djv
     {
         class IntObject;
 
-        //! \class IntEdit
-        //!
         //! This class provides an integer edit widget.
         class IntEdit : public QWidget
         {
             Q_OBJECT
 
-                //! This property holds the value.
-                Q_PROPERTY(
-                    int    value
-                    READ   value
-                    WRITE  setValue
-                    NOTIFY valueChanged)
+            //! This property holds the value.
+            Q_PROPERTY(
+                int    value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
-                //! This property holds the minimum value.
-                Q_PROPERTY(
-                    int    min
-                    READ   min
-                    WRITE  setMin
-                    NOTIFY minChanged)
+            //! This property holds the minimum value.
+            Q_PROPERTY(
+                int    min
+                READ   min
+                WRITE  setMin
+                NOTIFY minChanged)
 
-                //! This property holds the maximum value.
-                Q_PROPERTY(
-                    int    max
-                    READ   max
-                    WRITE  setMax
-                    NOTIFY maxChanged)
+            //! This property holds the maximum value.
+            Q_PROPERTY(
+                int    max
+                READ   max
+                WRITE  setMax
+                NOTIFY maxChanged)
 
         public:
             IntEdit(QWidget * parent = nullptr);

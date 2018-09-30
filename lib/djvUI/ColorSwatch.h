@@ -42,8 +42,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ColorSwatch
-        //!
         //! This class provides a basic color swatch widget.
         class ColorSwatch : public QWidget
         {

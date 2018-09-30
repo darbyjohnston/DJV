@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct PPM
-        //!
         //! This struct provides PPM utilities.
         struct PPM
         {

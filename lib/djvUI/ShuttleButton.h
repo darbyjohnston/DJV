@@ -41,8 +41,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ShuttleButton
-        //!
         //! This class provides a shuttle button.
         class ShuttleButton : public AbstractToolButton
         {

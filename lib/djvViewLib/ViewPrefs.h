@@ -38,8 +38,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ViewPrefs
-        //!
         //! This class provides the view group preferences.
         class ViewPrefs : public AbstractPrefs
         {

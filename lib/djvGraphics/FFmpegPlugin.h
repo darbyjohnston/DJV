@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class FFmpegPlugin
-        //!
         //! This plugin provides support for the FFmpeg library.
         //!
         //! File extensions: .mov, .avi
@@ -53,7 +51,6 @@ namespace djv
         //!   http://dranger.com/ffmpeg/
         //! - libavformat/output-example.c
         //!   https://libav.org/doxygen/release/0.8/libavformat_2output-example_8c-example.html
-
         class FFmpegPlugin : public ImageIO
         {
         public:

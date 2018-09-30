@@ -41,8 +41,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class FileIO
-        //!
         //! This class provides file I/O.
         class FileIO
         {
@@ -51,7 +49,6 @@ namespace djv
 
         public:
             FileIO();
-
             ~FileIO();
 
             //! This enumeration provides the file modes.

@@ -51,8 +51,6 @@ namespace djv
 
     namespace Graphics
     {
-        //! \class PixelDataInfo
-        //!
         //! This class provides pixel data information.
         class PixelDataInfo
         {
@@ -116,8 +114,6 @@ namespace djv
             void init();
         };
 
-        //! \class PixelData
-        //!
         //! This class provides pixel data.
         class PixelData
         {
@@ -125,7 +121,6 @@ namespace djv
             PixelData();
             PixelData(const PixelData &);
             PixelData(const PixelDataInfo &, const quint8 * = 0, Core::FileIO * = 0);
-
             virtual ~PixelData();
 
             //! Set the pixel data.

@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class DPXLoad
-        //!
         //! This class provides a DPX loader.
         class DPXLoad : public ImageLoad
         {

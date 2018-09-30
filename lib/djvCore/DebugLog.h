@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class DebugLog
-        //!
         //! This class provides a log for debugging.
         class DebugLog : public QObject
         {
@@ -48,8 +46,7 @@ namespace djv
 
         public:
             explicit DebugLog(QObject * parent = nullptr);
-
-            virtual ~DebugLog();
+            ~DebugLog() override;
 
             //! Get the messages.    
             const QVector<QString> & messages() const;

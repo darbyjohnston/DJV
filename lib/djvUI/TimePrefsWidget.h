@@ -39,8 +39,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class TimePrefsWidget
-        //!
         //! This class provides a time preferences widget.
         class TimePrefsWidget : public AbstractPrefsWidget
         {

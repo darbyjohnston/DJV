@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class IFFPlugin
-        //!
         //! This plugin provides support for the Generic Interchange File Format (IFF).
         //!
         //! File extensions: .iff, .z

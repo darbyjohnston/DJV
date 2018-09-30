@@ -44,8 +44,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class FileBrowserThumbnailSystem
-        //!
         //! This class provides a file browser thumbnail system.
         class FileBrowserThumbnailSystem : public QThread
         {

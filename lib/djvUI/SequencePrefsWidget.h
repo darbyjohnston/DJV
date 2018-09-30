@@ -39,8 +39,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class djvSequencePrefsWidget
-        //!
         //! This class provides a sequence preferences widget.
         class SequencePrefsWidget : public AbstractPrefsWidget
         {

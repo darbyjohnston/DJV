@@ -39,8 +39,6 @@ namespace djv
     {
         class FileIO;
 
-        //! \class FileIOUtil
-        //!
         //! This class provides file I/O utilities.
         class FileIOUtil
         {

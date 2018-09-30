@@ -39,8 +39,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class ImagePrefs
-        //!
         //! This class provides image preferences.
         class ImagePrefs : public QObject
         {

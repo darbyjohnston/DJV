@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class Speed
-        //!
         //! This class provides speed information.
         class Speed
         {

@@ -43,8 +43,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class Spinner
-        //!
         //! This class provides a spinner widget.
         class Spinner : public QWidget
         {

@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class ProgressDialog
-        //!
         //! This class provides a progress bar dialog.
         class ProgressDialog : public QDialog
         {

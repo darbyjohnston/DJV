@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ImagePrefsWidget
-        //!
         //! This class provides the image group preferences widget.
         class ImagePrefsWidget : public AbstractPrefsWidget
         {

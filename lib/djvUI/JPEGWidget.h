@@ -41,8 +41,6 @@ namespace djv
     {
         class IntEditSlider;
 
-        //! \class JPEGWidget
-        //!
         //! This class provides a JPEG widget.
         class JPEGWidget : public ImageIOWidget
         {
@@ -66,8 +64,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class JPEGWidgetPlugin
-        //!
         //! This class provides a JPEG widget plugin.
         class JPEGWidgetPlugin : public ImageIOWidgetPlugin
         {

@@ -43,8 +43,6 @@ namespace djv
 
     namespace Graphics
     {
-        //! \struct LUT
-        //!
         //! This struct provides LUT utilities.
         struct LUT
         {

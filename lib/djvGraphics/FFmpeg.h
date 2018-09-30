@@ -53,8 +53,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct djvFFmpeg
-        //!
         //! This struct provides FFmpeg utilities.
         struct FFmpeg
         {
@@ -102,7 +100,6 @@ namespace djv
             {
             public:
                 Dictionary();
-
                 ~Dictionary();
 
                 QMap<QString, QString> map() const;
@@ -120,7 +117,6 @@ namespace djv
             {
             public:
                 Packet();
-
                 ~Packet();
 
                 AVPacket & operator () ();

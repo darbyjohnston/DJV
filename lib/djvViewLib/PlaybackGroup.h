@@ -47,8 +47,6 @@ namespace djv
 
     namespace ViewLib
     {
-        //! \class PlaybackGroup
-        //!
         //! This class provides the playback group. The playback group encapsulates all
         //! of the functionality relating to movie playback such as the current frame,
         //! whether the movie is being played or stopped, etc.

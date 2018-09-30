@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class TargaLoad
-        //!
         //! This class provides a Targa loader.
         class TargaLoad : public ImageLoad
         {

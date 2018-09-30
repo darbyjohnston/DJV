@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class CineonPlugin
-        //!
         //! This plugin provides support for the Kodak Cineon image file format. Cineon
         //! is a specialized image file format for working with motion picture film.
         //!

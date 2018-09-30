@@ -41,8 +41,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class OpenEXRSave
-        //!
         //! This class provides an OpenEXR saver.
         class OpenEXRSave : public ImageSave
         {

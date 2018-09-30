@@ -39,8 +39,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class ImagePrefsWidget
-        //!
         //! This class provides an image preferences widget.
         class ImagePrefsWidget : public AbstractPrefsWidget
         {

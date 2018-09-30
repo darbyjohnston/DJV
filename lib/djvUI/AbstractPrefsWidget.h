@@ -42,8 +42,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class AbstractPrefsWidget
-        //!
         //! This class provides the base functionality for a preferences widget.
         class AbstractPrefsWidget : public QWidget
         {

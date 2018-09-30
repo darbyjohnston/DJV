@@ -37,8 +37,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class ToolButton
-        //!
         //! This class provides a tool button.
         class ToolButton : public AbstractToolButton
         {

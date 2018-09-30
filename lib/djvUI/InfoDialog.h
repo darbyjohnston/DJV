@@ -43,8 +43,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class InfoDialog
-        //!
         //! This class provides a dialog for displaying information about DJV.
         class InfoDialog : public QDialog
         {

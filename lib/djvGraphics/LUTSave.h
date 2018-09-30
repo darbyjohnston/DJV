@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class LUTSave
-        //!
         //! This class provides a LUT saver.
         class LUTSave : public ImageSave
         {

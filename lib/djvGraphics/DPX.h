@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct DPX
-        //!
         //! This struct provides DPX utilities.
         struct DPX
         {

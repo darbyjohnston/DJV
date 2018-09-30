@@ -43,19 +43,17 @@ namespace djv
     {
         class UIContext;
 
-        //! \class SearchBox
-        //!
         //! This class provides a search box widget.
         class SearchBox : public QWidget
         {
             Q_OBJECT
 
-                //! This property holds the test.
-                Q_PROPERTY(
-                    QString text
-                    READ    text
-                    WRITE   setText
-                    NOTIFY  textChanged)
+            //! This property holds the test.
+            Q_PROPERTY(
+                QString text
+                READ    text
+                WRITE   setText
+                NOTIFY  textChanged)
 
         public:
             explicit SearchBox(const QPointer<UIContext> &, QWidget * parent = nullptr);

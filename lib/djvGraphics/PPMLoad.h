@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PPMLoad
-        //!
         //! This class provides a PPM loader.
         class PPMLoad : public ImageLoad
         {

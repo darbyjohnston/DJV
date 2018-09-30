@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ToolGroup
-        //!
         //! This class provides the tool group. The tool group encapsulates all of the
         //! functionality relating to tools such as the color picker, magnifier, and
         //! histogram display.

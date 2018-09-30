@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class FileToolBar
-        //!
         //! This class provides the file group tool bar.
         class FileToolBar : public AbstractToolBar
         {

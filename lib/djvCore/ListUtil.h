@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class ListUtil
-        //!
         //! This class provides utilities for lists.
         class ListUtil
         {

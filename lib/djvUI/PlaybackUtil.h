@@ -37,8 +37,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \struct PlaybackUtil
-        //!
         //! This struct provides playback utilities.
         struct PlaybackUtil
         {

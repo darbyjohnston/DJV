@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PixelDataUtil
-        //!
         //! This class provides pixel data utilities.
         class PixelDataUtil
         {

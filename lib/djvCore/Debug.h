@@ -42,8 +42,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class Debug
-        //!
         //! This class provides debugging messages.
         class Debug
         {

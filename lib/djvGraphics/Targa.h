@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct Targa
-        //!
         //! This struct provides Targa utilities.
         struct Targa
         {

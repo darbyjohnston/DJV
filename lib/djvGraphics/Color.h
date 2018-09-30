@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class Color
-        //!
         //! This class provides a color.
         class Color
         {

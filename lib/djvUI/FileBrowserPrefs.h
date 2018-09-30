@@ -40,8 +40,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class FileBrowserPrefs
-        //!
         //! This class provides file browser preferences.
         class FileBrowserPrefs : public QObject
         {

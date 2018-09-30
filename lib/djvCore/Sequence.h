@@ -41,8 +41,6 @@ namespace djv
         //! This typedef provides a frame number list.
         typedef QVector<qint64> FrameList;
 
-        //! \class Sequence
-        //!
         //! This class provides a sequence of frames.
         class Sequence
         {

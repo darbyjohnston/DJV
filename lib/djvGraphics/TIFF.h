@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct TIFF
-        //!
         //! This struct provides TIFF utilities.
         struct TIFF
         {

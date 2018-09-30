@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class BoxUtil
-        //!
         //! This class provides box utilities.
         class BoxUtil
         {

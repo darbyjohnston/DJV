@@ -43,8 +43,6 @@ namespace djv
 
     namespace ViewLib
     {
-        //! \class ViewToolBar
-        //!
         //! This class provides the view group tool bar.
         class ViewToolBar : public AbstractToolBar
         {

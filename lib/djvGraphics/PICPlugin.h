@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PICPlugin
-        //!
         //! This plugin provides support for the Softimage image file format.
         //!
         //! File extensions: .pic

@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class TargaPlugin
-        //!
         //! This plugin provides support for the Targa image file format.
         //!
         //! File extensions: .tga

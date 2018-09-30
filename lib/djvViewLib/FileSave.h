@@ -47,8 +47,6 @@ namespace djv
     {
         class Context;
 
-        //! \struct FileSaveInfo
-        //!
         //! This struct provides file saving information.
         struct FileSaveInfo
         {
@@ -75,8 +73,6 @@ namespace djv
             Graphics::OpenGLImageOptions   options;
         };
 
-        //! \class FileSave
-        //!
         //! This class provides file saving.
         class FileSave : public QObject
         {

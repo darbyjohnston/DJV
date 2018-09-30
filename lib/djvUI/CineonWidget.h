@@ -45,8 +45,6 @@ namespace djv
         class FloatEditSlider;
         class IntEditSlider;
 
-        //! \class CineonWidget
-        //!
         //! This class proivdes a Cineon widget.
         class CineonWidget : public ImageIOWidget
         {
@@ -88,8 +86,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class CineonWidgetPlugin
-        //!
         //! This class provides a Cineon widget plugin.
         class CineonWidgetPlugin : public ImageIOWidgetPlugin
         {

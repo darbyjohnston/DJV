@@ -42,8 +42,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class OpenGLOffscreenBuffer
-        //!
         //! This class provides an OpenGL offscreen buffer.
         class OpenGLOffscreenBuffer
         {
@@ -92,8 +90,6 @@ namespace djv
             GLint         _restore = 0;
         };
 
-        //! \class OpenGLOffscreenBufferScope
-        //!
         //! This class provides automatic binding for an OpenGL offscreen buffer.
         class OpenGLOffscreenBufferScope
         {

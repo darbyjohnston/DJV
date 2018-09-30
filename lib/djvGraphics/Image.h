@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class Image
-        //!
         //! This class provides an image.
         class Image : public PixelData
         {

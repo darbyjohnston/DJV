@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class HelpActions
-        //!
         //! This class provides the help group actions.
         class HelpActions : public AbstractActions
         {

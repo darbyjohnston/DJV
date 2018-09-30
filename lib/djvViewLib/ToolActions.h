@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ToolActions
-        //!
         //! This class provides the tool group actions.
         class ToolActions : public AbstractActions
         {

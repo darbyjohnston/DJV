@@ -40,8 +40,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class DPXSave
-        //!
         //! This class provides a DPX saver.
         class DPXSave : public ImageSave
         {

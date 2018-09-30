@@ -39,8 +39,6 @@ namespace djv
     {
         class Error;
 
-        //! \class ErrorUtil
-        //!
         //! This class provides error utilities.
         class ErrorUtil
         {

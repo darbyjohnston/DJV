@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class IFFSave
-        //!
         //! This class provides an IFF saver.
         class IFFSave : public ImageSave
         {

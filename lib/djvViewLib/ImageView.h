@@ -44,8 +44,6 @@ namespace djv
         class  Context;
         struct HudInfo;
 
-        //! \class ImageView
-        //!
         //! This class provides an image view widget.
         class ImageView : public UI::ImageView
         {

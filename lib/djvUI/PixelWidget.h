@@ -43,8 +43,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class PixelWidget
-        //!
         //! This class provides a pixel widget.
         class PixelWidget : public QWidget
         {

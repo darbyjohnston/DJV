@@ -46,8 +46,6 @@ namespace djv
         class Context;
         class MainWindow;
 
-        //! \class AbstractGroup
-        //!
         //! This class provides the base functionality for groups.
         class AbstractGroup : public QObject
         {

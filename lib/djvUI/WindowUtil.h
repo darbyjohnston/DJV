@@ -37,8 +37,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class WindowUtil
-        //!
         //! This class provides window utilities.
         class WindowUtil
         {

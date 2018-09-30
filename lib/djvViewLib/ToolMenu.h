@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ToolMenu
-        //!
         //! This class provides the tool group menu.
         class ToolMenu : public AbstractMenu
         {

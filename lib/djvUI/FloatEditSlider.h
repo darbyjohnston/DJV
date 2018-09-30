@@ -44,8 +44,6 @@ namespace djv
         class FloatObject;
         class UIContext;
 
-        //! \class FloatEditSlider
-        //!
         //! This class provides an floating point slider and edit widget.
         class FloatEditSlider : public QWidget
         {

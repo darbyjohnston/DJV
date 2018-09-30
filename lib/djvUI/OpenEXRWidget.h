@@ -45,8 +45,6 @@ namespace djv
         class FloatEditSlider;
         class IntEdit;
 
-        //! \class OpenEXRWidget
-        //!
         //! This class provides an OpenEXR widget.
         class OpenEXRWidget : public ImageIOWidget
         {
@@ -93,8 +91,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class OpenEXRWidgetPlugin
-        //!
         //! This class provides a OpenEXR widget plugin.
         class OpenEXRWidgetPlugin : public ImageIOWidgetPlugin
         {

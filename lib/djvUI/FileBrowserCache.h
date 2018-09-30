@@ -42,8 +42,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \struct FileBrowserCacheItem
-        //!
         //! This struct provides a file browser thumbnail cache item.
         struct FileBrowserCacheItem
         {
@@ -60,8 +58,6 @@ namespace djv
             QPixmap                        thumbnail;
         };
 
-        //! \class FileBrowserCache
-        //!
         //! This class provides a file browser thumbnail cache.
         class FileBrowserCache : public QCache<Core::FileInfo, FileBrowserCacheItem>
         {};

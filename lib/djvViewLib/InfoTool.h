@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class InfoTool
-        //!
         //! This class provides an information tool.
         class InfoTool : public AbstractTool
         {

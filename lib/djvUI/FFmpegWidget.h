@@ -39,8 +39,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class FFmpegWidget
-        //!
         //! This class provides a FFmpeg widget.
         class FFmpegWidget : public ImageIOWidget
         {
@@ -67,8 +65,6 @@ namespace djv
             QComboBox * _qualityWidget = nullptr;
         };
 
-        //! \class FFmpegWidgetPlugin
-        //!
         //! This class provides a FFmpeg widget plugin.
         class FFmpegWidgetPlugin : public ImageIOWidgetPlugin
         {

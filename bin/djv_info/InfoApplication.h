@@ -40,8 +40,6 @@ namespace djv
     {
         class Context;
 
-        //! \class Application
-        //!
         //! This program provides a command line tool for displaying information about
         //! images and movies.
         class Application : public QGuiApplication

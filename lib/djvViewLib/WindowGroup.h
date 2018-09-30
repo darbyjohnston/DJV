@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class WindowGroup
-        //!
         //! This class provides the window group. The window group encapsulates all
         //! of the functionality relating to main windows such as whether the window
         //! is full screen, which tool bars are visible, etc.

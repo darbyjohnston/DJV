@@ -37,14 +37,12 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ViewActions
-        //!
         //! This class provides the view group actions.
         class ViewActions : public AbstractActions
         {
             Q_OBJECT
-                Q_ENUMS(ACTION)
-                Q_ENUMS(GROUP)
+            Q_ENUMS(ACTION)
+            Q_ENUMS(GROUP)
 
         public:
             //! This enumeration provides the actions.

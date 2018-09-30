@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class TIFFLoad
-        //!
         //! This class provides a TIFF loader.
         class TIFFLoad : public ImageLoad
         {

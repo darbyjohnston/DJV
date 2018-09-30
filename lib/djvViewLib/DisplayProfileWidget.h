@@ -44,8 +44,6 @@ namespace djv
         class Context;
         class ImageView;
 
-        //! \class DisplayProfileWidget
-        //!
         //! This class provides a display profile widget.
         class DisplayProfileWidget : public QWidget
         {

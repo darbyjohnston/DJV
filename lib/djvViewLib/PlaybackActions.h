@@ -40,14 +40,12 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class PlaybackActions
-        //!
         //! This class provides the playback group actions.
         class PlaybackActions : public AbstractActions
         {
             Q_OBJECT
-                Q_ENUMS(ACTION)
-                Q_ENUMS(GROUP)
+            Q_ENUMS(ACTION)
+            Q_ENUMS(GROUP)
 
         public:
             //! This enumeration provides the actions.

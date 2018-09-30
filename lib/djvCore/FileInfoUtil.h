@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class FileInfoUtil
-        //!
         //! This class provides file information utilities.
         class FileInfoUtil
         {

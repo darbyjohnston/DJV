@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PPMPlugin
-        //!
         //! This plugin provides support for the NetPBM image file format.
         //!
         //! File extensions: .ppm, pnm, .pgm, .pbm

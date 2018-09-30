@@ -45,8 +45,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class IconLibrary
-        //!
         //! This class provides an icon library.
         class IconLibrary : public QObject
         {

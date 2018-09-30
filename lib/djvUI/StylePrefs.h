@@ -44,8 +44,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class StylePrefs
-        //!
         //! This class provides style preferences.
         class StylePrefs : public QObject
         {

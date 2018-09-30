@@ -43,8 +43,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class Vector2iEditWidget
-        //!
         //! This class provides a two-dimensional integer vector widget.
         class Vector2iEditWidget : public QWidget
         {

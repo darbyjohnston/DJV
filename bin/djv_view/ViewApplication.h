@@ -42,8 +42,6 @@ namespace djv
     {
         class MainWindow;
 
-        //! \class Application
-        //!
         //! This class provides the application.
         class Application : public QApplication
         {

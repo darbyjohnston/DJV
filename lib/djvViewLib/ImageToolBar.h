@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ImageToolBar
-        //!
         //! This class provides the image group tool bar.
         class ImageToolBar : public AbstractToolBar
         {

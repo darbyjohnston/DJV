@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class LUTPlugin
-        //!
         //! This plugin provides support for two-dimensional lookup table file formats.
         //!
         //! File extensions: .lut, .1dl

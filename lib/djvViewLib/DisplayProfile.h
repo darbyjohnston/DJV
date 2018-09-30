@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \struct DisplayProfile
-        //!
         //! This struct provides a display profile.
         struct DisplayProfile : public Graphics::OpenGLImageDisplayProfile
         {

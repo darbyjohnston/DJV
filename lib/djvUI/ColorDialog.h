@@ -45,8 +45,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ColorDialog
-        //!
         //! This class provides a color picker dialog.
         class ColorDialog : public QDialog
         {

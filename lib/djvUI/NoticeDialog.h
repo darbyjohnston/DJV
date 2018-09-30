@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class NoticeDialog
-        //!
         //! This class provides a notice dialog.
         class NoticeDialog : public QDialog
         {

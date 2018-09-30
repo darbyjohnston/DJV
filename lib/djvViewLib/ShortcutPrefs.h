@@ -42,8 +42,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ShortcutPrefs
-        //!
         //! This class provides the keyboard shortcut preferences.
         class ShortcutPrefs : public AbstractPrefs
         {

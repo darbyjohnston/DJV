@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PPMSave
-        //!
         //! This class provides a PPM saver.
         class PPMSave : public ImageSave
         {

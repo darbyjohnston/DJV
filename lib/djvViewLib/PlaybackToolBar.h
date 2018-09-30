@@ -42,8 +42,6 @@ namespace djv
     {
         class PlaybackActions;
 
-        //! \class PlaybackToolBar
-        //!
         //! This class provides the playback group tool bar.
         class PlaybackToolBar : public AbstractToolBar
         {

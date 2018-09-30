@@ -43,8 +43,6 @@ namespace djv
 
     namespace ViewLib
     {
-        //! \class ShortcutPrefsWidget
-        //!
         //! This class provides the keyboard shortcut preferences widget.
         class ShortcutPrefsWidget : public AbstractPrefsWidget
         {

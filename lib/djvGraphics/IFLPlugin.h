@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class IFLPlugin
-        //!
         //! This plugin provides support for the Autodesk Image File List (IFL) format.
         //! IFL is a file format for creating sequences or playlists of other image
         //! files. An IFL file simply consists of a list of image file names, one per

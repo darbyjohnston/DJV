@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct IFL
-        //!
         //! This struct provides IFL utilities.
         struct IFL
         {

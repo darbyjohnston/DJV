@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PICLoad
-        //!
         //! This class provides a PIC loader.
         class PICLoad : public ImageLoad
         {

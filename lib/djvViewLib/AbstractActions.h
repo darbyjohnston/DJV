@@ -47,8 +47,6 @@ namespace djv
     {
         class Context;
 
-        //! \class AbstractActions
-        //!
         //! This class provides the base functionality for groups of actions.
         class AbstractActions : public QObject
         {

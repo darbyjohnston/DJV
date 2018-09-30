@@ -42,8 +42,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class djvVector2fEditWidget
-        //!
         //! This class provides a two-dimensional floating point vector widget.
         class Vector2fEditWidget : public QWidget
         {

@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PNGPlugin
-        //!
         //! This plugin provides support for the Portable Network Graphics (PNG) image
         //! file format.
         //!

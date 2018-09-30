@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct IFF
-        //!
         //! This struct provides IFF utilities.
         struct IFF
         {

@@ -47,8 +47,6 @@ namespace djv
     {
         class DebugLog;
 
-        //! \class CoreContext
-        //!
         //! This class provides global functionality for the library.
         class CoreContext : public QObject
         {

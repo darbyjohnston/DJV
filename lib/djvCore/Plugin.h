@@ -48,8 +48,6 @@ namespace djv
     {
         class CoreContext;
 
-        //! \class Plugin
-        //!
         //! This class provides the base functionality for plugins.
         //!
         //! \todo Document the plugin naming conventions.
@@ -79,8 +77,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class PluginFactory
-        //!
         //! This class provides the base functionality for plugin factories.
         class PluginFactory : public QObject
         {
@@ -94,7 +90,6 @@ namespace djv
                 const QString & pluginPrefix = "djv",
                 const QString & pluginSuffix = "Plugin",
                 QObject * parent = nullptr);
-
             virtual ~PluginFactory() = 0;
 
             //! Get the list of plugins.

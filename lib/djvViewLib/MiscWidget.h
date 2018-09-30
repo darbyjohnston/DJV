@@ -51,8 +51,6 @@ namespace djv
 
     namespace ViewLib
     {
-        //! \class CacheSizeWidget
-        //!
         //! This class provides a cache size widget.
         class CacheSizeWidget : public QWidget
         {
@@ -113,8 +111,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class FrameWidget
-        //!
         //! This class provides a frame number widget.
         class FrameWidget : public QAbstractSpinBox
         {
@@ -189,8 +185,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class FrameSlider
-        //!
         //! This class provides a frame number slider.
         class FrameSlider : public QWidget
         {
@@ -347,8 +341,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class FrameDisplay
-        //!
         //! This class provides frame number display.
         class FrameDisplay : public QWidget
         {
@@ -414,8 +406,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class SpeedButton
-        //!
         //! This class provides a speed button.
         class SpeedButton : public QWidget
         {
@@ -448,8 +438,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class SpeedWidget
-        //!
         //! This class provides a speed widget.
         class SpeedWidget : public QWidget
         {
@@ -505,8 +493,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class SpeedDisplay
-        //!
         //! This class provides a speed display.
         class SpeedDisplay : public QWidget
         {

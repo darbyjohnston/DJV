@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class CineonHeader
-        //!
         //! This class provides Cineon file header functionality.
         class CineonHeader
         {

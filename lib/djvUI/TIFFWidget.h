@@ -40,8 +40,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class djvTIFFWidget
-        //!
         //! This class provides a TIFF widget.
         class TIFFWidget : public ImageIOWidget
         {
@@ -65,8 +63,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class TIFFWidgetPlugin
-        //!
         //! This class provides a TIFF widget plugin.
         class TIFFWidgetPlugin : public ImageIOWidgetPlugin
         {

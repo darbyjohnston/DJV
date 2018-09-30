@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \struct Range
-        //!
         //! This struct provides a number range.
         template<typename T>
         struct Range

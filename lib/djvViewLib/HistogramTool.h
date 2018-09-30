@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class HistogramTool
-        //!
         //! This class provides a histogram tool.
         class HistogramTool : public AbstractTool
         {

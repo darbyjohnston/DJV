@@ -39,8 +39,6 @@ namespace djv
 {
     namespace convert
     {
-        //! \struct Options
-        //!
         //! This struct provides conversion options.
         struct Options
         {
@@ -55,8 +53,6 @@ namespace djv
             Core::Sequence::COMPRESS sequence;
         };
 
-        //! \struct Input
-        //!
         //! This struct provides input options.
         struct Input
         {
@@ -72,8 +68,6 @@ namespace djv
             int timeout;
         };
 
-        //! \struct Output
-        //!
         //! This struct provides output options.
         struct Output
         {
@@ -86,8 +80,6 @@ namespace djv
             QScopedPointer<Core::Speed::FPS> speed;
         };
 
-        //! \class Context
-        //!
         //! This class provides global functionality for the application.
         class Context : public Graphics::GraphicsContext
         {

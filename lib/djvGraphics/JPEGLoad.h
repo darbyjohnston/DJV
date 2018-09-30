@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class JPEGLoad
-        //!
         //! This class provides a JPEG loader.
         class JPEGLoad : public ImageLoad
         {

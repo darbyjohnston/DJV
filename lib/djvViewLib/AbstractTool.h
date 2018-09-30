@@ -45,8 +45,6 @@ namespace djv
         class ImageView;
         class MainWindow;
 
-        //! \class AbstractTool
-        //!
         //! This class provides the base functionality for tools.
         class AbstractTool : public QWidget
         {

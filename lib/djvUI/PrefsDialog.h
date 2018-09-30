@@ -47,8 +47,6 @@ namespace djv
         class AbstractPrefsWidget;
         class UIContext;
 
-        //! \class PrefsDialog
-        //!
         //! This class provides a preferences dialog.
         class PrefsDialog : public QDialog
         {

@@ -43,8 +43,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class AbstractToolButton
-        //!
         //! This class provides the base functionality for tool buttons.
         class AbstractToolButton : public QAbstractButton
         {

@@ -40,8 +40,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class LUTWidget
-        //!
         //! This class provides a LUT widget.
         class LUTWidget : public ImageIOWidget
         {
@@ -65,8 +63,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class LUTWidgetPlugin
-        //!
         //! This class provides a LUT widget plugin.
         class LUTWidgetPlugin : public ImageIOWidgetPlugin
         {

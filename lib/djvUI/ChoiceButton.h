@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class ChoiceButton
-        //!
         //! This class provides a multiple choice button. The choices are defined by
         //! the QActionGroup associated with the button.
         class ChoiceButton : public AbstractToolButton

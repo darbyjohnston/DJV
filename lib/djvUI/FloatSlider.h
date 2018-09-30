@@ -43,33 +43,31 @@ namespace djv
     {
         class FloatObject;
 
-        //! \class FloatSlider
-        //!
         //! This class provides a floating-point slider widget.
         class FloatSlider : public QWidget
         {
             Q_OBJECT
 
-                //! This property holds the value.    
-                Q_PROPERTY(
-                    float  value
-                    READ   value
-                    WRITE  setValue
-                    NOTIFY valueChanged)
+            //! This property holds the value.    
+            Q_PROPERTY(
+                float  value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
-                //! This property holds the minimum value.
-                Q_PROPERTY(
-                    float  min
-                    READ   min
-                    WRITE  setMin
-                    NOTIFY minChanged)
+            //! This property holds the minimum value.
+            Q_PROPERTY(
+                float  min
+                READ   min
+                WRITE  setMin
+                NOTIFY minChanged)
 
-                //! This property holds the maximum value.
-                Q_PROPERTY(
-                    float  max
-                    READ   max
-                    WRITE  setMax
-                    NOTIFY maxChanged)
+            //! This property holds the maximum value.
+            Q_PROPERTY(
+                float  max
+                READ   max
+                WRITE  setMax
+                NOTIFY maxChanged)
 
         public:
             explicit FloatSlider(QWidget * parent = nullptr);

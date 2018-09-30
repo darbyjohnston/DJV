@@ -46,8 +46,6 @@ namespace djv
     {
         class FileInfoUtil;
 
-        //! \class FileInfo
-        //!
         //! This class provides information about files and file sequences. A file
         //! sequence is a list of file names that share a common name and have frame
         //! numbers. File sequences are used to store animation or movie footage where

@@ -40,8 +40,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class PPMWidget
-        //!
         //! This class provides a PPM widget.
         class PPMWidget : public ImageIOWidget
         {
@@ -67,8 +65,6 @@ namespace djv
             QVBoxLayout * _layout = nullptr;
         };
 
-        //! \class PPMWidgetPlugin
-        //!
         //! This class provides a PPM widget plugin.
         class PPMWidgetPlugin : public ImageIOWidgetPlugin
         {

@@ -41,8 +41,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ImageView
-        //!
         //! This class provides an image view widget.
         class ImageView : public OpenGLWidget
         {

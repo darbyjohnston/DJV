@@ -44,8 +44,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class djvPrefs
-        //!
         //! This class provides preferences.
         class Prefs
         {

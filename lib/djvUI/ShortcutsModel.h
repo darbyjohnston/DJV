@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class ShortcutsModel
-        //!
         //! This class provides a model for keyboard shorcuts.
         class ShortcutsModel : public QAbstractItemModel
         {

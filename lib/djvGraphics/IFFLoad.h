@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class IFFLoad
-        //!
         //! This class provides an IFF loader.
         //!
         //! \todo We need more careful error handling when using memory-mapping to

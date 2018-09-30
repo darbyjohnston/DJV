@@ -57,8 +57,6 @@ namespace djv
         class Context;
         class ImageView;
 
-        //! \class MainWindow
-        //!
         //! This class provides a main window.
         class MainWindow : public QMainWindow
         {

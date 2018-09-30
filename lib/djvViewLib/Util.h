@@ -60,8 +60,6 @@ namespace djv
     {
         class Context;
 
-        //! \class Util
-        //!
         //! This class provides enumerations and utilities.
         class Util
         {

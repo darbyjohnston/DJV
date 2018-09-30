@@ -41,8 +41,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class ImageIOPrefs
-        //!
         //! This class provides image I/O preferences.
         class ImageIOPrefs : public QObject
         {

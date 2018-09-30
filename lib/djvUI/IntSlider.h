@@ -43,8 +43,6 @@ namespace djv
     {
         class IntObject;
 
-        //! \class IntSlider
-        //!
         //! This class provides an integer slider widget.
         class IntSlider : public QWidget
         {

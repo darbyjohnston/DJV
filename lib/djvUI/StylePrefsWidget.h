@@ -45,8 +45,6 @@ namespace djv
 
     namespace UI
     {
-        //! \class djvStylePrefsWidget
-        //!
         //! This class provides a style preferences widget.
         class StylePrefsWidget : public AbstractPrefsWidget
         {

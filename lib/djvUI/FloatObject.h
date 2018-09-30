@@ -37,8 +37,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class FloatObject
-        //!
         //! This class provides the base functionality for floating point widgets.
         class FloatObject : public QObject
         {

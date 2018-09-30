@@ -59,8 +59,6 @@ namespace djv
     {
         class Image;
 
-        //! \class ImageIOInfo
-        //!
         //! This class provides image I/O information.
         class ImageIOInfo : public PixelDataInfo
         {
@@ -94,8 +92,6 @@ namespace djv
             QVector<PixelDataInfo> _info;
         };
 
-        //! \class ImageIOFrameInfo
-        //!
         //! This struct provides image I/O frame information.
         struct ImageIOFrameInfo
         {
@@ -115,8 +111,6 @@ namespace djv
             PixelDataInfo::PROXY proxy = PixelDataInfo::PROXY_NONE;
         };
 
-        //! \class ImageLoad
-        //!
         //! This class provides the base functionality for image loading.
         //!
         //! \todo Add comments about ensuring loaders are thread safe (ie. don't use
@@ -153,8 +147,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class ImageSave
-        //!
         //! This class provides the base functionality for image saving.
         class ImageSave
         {
@@ -188,8 +180,6 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! \class ImageIO
-        //!
         //! This class provides the base functionality for image I/O plugins.
         class ImageIO : public QObject, public Core::Plugin
         {
@@ -249,8 +239,6 @@ namespace djv
             void optionChanged(const QString &);
         };
 
-        //! \class ImageIOFactory
-        //!
         //! This class provides a factory for image I/O plugins.
         class ImageIOFactory : public Core::PluginFactory
         {

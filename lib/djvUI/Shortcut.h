@@ -38,8 +38,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \struct Shortcut
-        //!
         //! This struct provides a keyboard shortcut.
         struct Shortcut
         {

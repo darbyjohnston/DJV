@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class HelpGroup
-        //!
         //! This class provides the help group. The tool group encapsulates all of the
         //! functionality relating to help.
         class HelpGroup : public AbstractGroup

@@ -40,8 +40,6 @@ namespace djv
     {
         class ImageIOFactory;
 
-        //! \class GraphicsContext
-        //!
         //! This class provides global functionality for the library.
         class GraphicsContext : public Core::CoreContext
         {

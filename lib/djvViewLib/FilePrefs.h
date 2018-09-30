@@ -41,8 +41,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class FilePrefs
-        //!
         //! This class provides the file group preferences.
         class FilePrefs : public AbstractPrefs
         {

@@ -43,8 +43,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class Time
-        //!
         //! This class provides time utilities.
         class Time
         {

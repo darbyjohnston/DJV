@@ -44,8 +44,6 @@ namespace djv
         class UIContext;
         class IntObject;
 
-        //! \class IntEditSlider
-        //!
         //! This class provides an integer slider and edit widget.
         class IntEditSlider : public QWidget
         {

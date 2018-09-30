@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class OpenGLShader
-        //!
         //! This class encapsulates an OpenGL shader.
         class OpenGLShader
         {

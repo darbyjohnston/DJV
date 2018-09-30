@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class PlaybackMenu
-        //!
         //! This class provides the playback group menu.
         class PlaybackMenu : public AbstractMenu
         {

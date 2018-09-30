@@ -46,8 +46,6 @@ namespace djv
     {
         class Context;
 
-        //! \class Application
-        //!
         //! This program provides a command line tool for image and movie conversion.
         class Application : public QGuiApplication
         {

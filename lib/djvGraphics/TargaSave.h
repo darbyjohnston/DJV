@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class TargaSave
-        //!
         //! This class provides a Targa saver.
         class TargaSave : public ImageSave
         {

@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class FileActions
-        //!
         //! This class provides the file group actions.
         class FileActions : public AbstractActions
         {

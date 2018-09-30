@@ -55,8 +55,6 @@ namespace djv
         class OpenGLTexture;
         class OpenGLShader;
 
-        //! \class OpenGLImageXform
-        //!
         //! This class provides OpenGL image transform options.
         class OpenGLImageXform
         {
@@ -70,8 +68,6 @@ namespace djv
             static glm::mat4x4 xformMatrix(const OpenGLImageXform &);
         };
 
-        //! \class OpenGLImageColor
-        //!
         //! This class provides OpenGL image color options.
         class OpenGLImageColor
         {
@@ -93,8 +89,6 @@ namespace djv
             static glm::mat4x4 colorMatrix(const OpenGLImageColor &);
         };
 
-        //! \class OpenGLImageLevels
-        //!
         //! This class provides OpenGL image color levels options.
         class OpenGLImageLevels
         {
@@ -109,8 +103,6 @@ namespace djv
             static PixelData colorLut(const OpenGLImageLevels &, float softClip);
         };
 
-        //! \class OpenGLImageDisplayProfile
-        //!
         //! This class provides OpenGL image display profile options.
         class OpenGLImageDisplayProfile
         {
@@ -121,8 +113,6 @@ namespace djv
             float             softClip = 0.f;
         };
 
-        //! \class OpenGLImageFilter
-        //!
         //! This class provides OpenGL image filtering options.
         class OpenGLImageFilter
         {
@@ -171,8 +161,6 @@ namespace djv
             static void setFilter(const OpenGLImageFilter &);
         };
 
-        //! \class OpenGLImageOptions
-        //!
         //! This class provides OpenGL image options.
         class OpenGLImageOptions
         {
@@ -204,14 +192,11 @@ namespace djv
             bool                      proxyScale = true;
         };
 
-        //! \class OpenGLImageMesh
-        //!
         //! This class provides a mesh for drawing images.
         class OpenGLImageMesh
         {
         public:
             OpenGLImageMesh();
-
             ~OpenGLImageMesh();
 
             void setSize(const glm::ivec2&, const PixelDataInfo::Mirror & mirror = PixelDataInfo::Mirror(), int proxyScale = 1);
@@ -226,14 +211,11 @@ namespace djv
             GLuint _vao = 0;
         };
 
-        //! \class OpenGLImage
-        //!
         //! This class provides OpenGL image utilities.
         class OpenGLImage
         {
         public:
             OpenGLImage();
-
             ~OpenGLImage();
 
             //! Draw pixel data.

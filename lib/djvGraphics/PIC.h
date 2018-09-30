@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PIC
-        //!
         //! This class provides PIC utilities.
         class PIC
         {

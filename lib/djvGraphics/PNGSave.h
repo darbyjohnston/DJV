@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class PNGSave
-        //!
         //! This class provides a PNG saver.
         class PNGSave : public ImageSave
         {

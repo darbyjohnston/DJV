@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ImagePrefs
-        //!
         //! This class provides the image group preferences.
         class ImagePrefs : public AbstractPrefs
         {

@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class OpenGLTexture
-        //!
         //! This class proivides an OpenGL texture.
         class OpenGLTexture
         {

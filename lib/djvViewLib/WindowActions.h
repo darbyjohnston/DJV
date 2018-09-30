@@ -35,14 +35,12 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class WindowActions
-        //!
         //! This class provides the window group actions.
         class WindowActions : public AbstractActions
         {
             Q_OBJECT
-                Q_ENUMS(ACTION)
-                Q_ENUMS(GROUP)
+            Q_ENUMS(ACTION)
+            Q_ENUMS(GROUP)
 
         public:
             //! This enumeration provides the actions.

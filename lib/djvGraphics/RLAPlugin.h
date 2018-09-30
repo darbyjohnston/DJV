@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \class RLAPlugin
-        //!
         //! This plugin provides support for the Wavefront RLA image file format.
         //!
         //! File extensions: .rla, .rpf

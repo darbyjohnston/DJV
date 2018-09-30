@@ -35,8 +35,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class SequenceUtil
-        //!
         //! This class provides sequence utilities.
         class SequenceUtil
         {

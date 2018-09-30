@@ -43,8 +43,6 @@ namespace djv
     {
         struct Shortcut;
 
-        //! \class FileBrowserPrefsWidget
-        //!
         //! This class provides a file browser preferences widget.
         class FileBrowserPrefsWidget : public AbstractPrefsWidget
         {

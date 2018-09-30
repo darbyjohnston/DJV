@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class HelpMenu
-        //!
         //! This class provides the help group menu.
         class HelpMenu : public AbstractMenu
         {

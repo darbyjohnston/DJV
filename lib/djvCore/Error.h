@@ -39,8 +39,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class Error
-        //!
         //! This class provides the base exception class.
         class Error
         {

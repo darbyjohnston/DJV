@@ -37,8 +37,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! \class ImageActions
-        //!
         //! This class provides the image group actions.
         class ImageActions : public AbstractActions
         {

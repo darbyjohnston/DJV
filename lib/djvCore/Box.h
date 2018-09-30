@@ -37,8 +37,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class Box2<T, P>
-        //!
         //! This class provides a two-dimensional axis-aligned box.
         template<typename T, glm::precision P = glm::defaultp>
         struct Box2
@@ -80,8 +78,6 @@ namespace djv
             inline operator Box2<float, P>() const;
         };
 
-        //! \class Box3<T, P>
-        //!
         //! This class provides a three-dimensional axis-aligned box.
         template<typename T, glm::precision P = glm::defaultp>
         struct Box3

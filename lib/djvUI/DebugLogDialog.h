@@ -49,8 +49,6 @@ namespace djv
     {
         class UIContext;
 
-        //! \class DebugLogDialog
-        //!
         //! This class provides a dialog for displaying the debugging log.
         class DebugLogDialog : public QDialog
         {

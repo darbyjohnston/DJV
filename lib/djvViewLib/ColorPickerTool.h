@@ -45,8 +45,6 @@ namespace djv
 
     namespace ViewLib
     {
-        //! \class ColorPickerTool
-        //!
         //! This class provides a color picker tool.
         class ColorPickerTool : public AbstractTool
         {

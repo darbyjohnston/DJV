@@ -51,8 +51,6 @@ namespace djv
 {
     namespace Graphics
     {
-        //! \struct JPEG
-        //!
         //! This class provides JPEG utilities.
         struct JPEG
         {

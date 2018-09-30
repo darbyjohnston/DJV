@@ -55,8 +55,6 @@ namespace djv
         class ViewPrefs;
         class WindowPrefs;
 
-        //! \class Context
-        //!
         //! This class provides global functionality for the library.
         class Context : public UI::UIContext
         {

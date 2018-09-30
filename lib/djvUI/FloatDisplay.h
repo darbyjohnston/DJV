@@ -41,8 +41,6 @@ namespace djv
 {
     namespace UI
     {
-        //! \class FloatDisplay
-        //!
         //! This class provides a widget for displaying a floating point number.
         class FloatDisplay : public QWidget
         {

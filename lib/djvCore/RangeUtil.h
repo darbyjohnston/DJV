@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \class RangeUtil
-        //!
         //! This class provides number range utilities.
         class RangeUtil
         {
