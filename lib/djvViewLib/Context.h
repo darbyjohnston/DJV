@@ -64,38 +64,24 @@ namespace djv
             explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
             ~Context() override;
 
-            //! Get the list of inputs.
-            const QStringList & input() const;
+            //! This struct povides the command-line options.
+            struct CommandLineOptions
+            {
+                QStringList                                    input;
+                bool                                           combine = false;
+                Core::Sequence::COMPRESS                       sequence = Core::Sequence::COMPRESS_RANGE;
+                bool                                           autoSequence = true;
+                QScopedPointer<int>                            fileLayer;
+                QScopedPointer<Graphics::PixelDataInfo::PROXY> fileProxy;
+                QScopedPointer<bool>                           fileCacheEnable;
+                QScopedPointer<bool>                           windowFullScreen;
+                QScopedPointer<Enum::PLAYBACK>                 playback;
+                QScopedPointer<int>                            playbackFrame;
+                QScopedPointer<Core::Speed>                    playbackSpeed;
+            };
 
-            //! Get whether to combine the inputs.
-            bool hasCombine() const;
-
-            //! Get the file sequencing.
-            Core::Sequence::COMPRESS sequence() const;
-
-            //! Get whether to automatically detext sequences.
-            bool hasAutoSequence() const;
-
-            //! Get the file layer.
-            const QScopedPointer<int> & fileLayer() const;
-
-            //! Get the file proxy.
-            const QScopedPointer<Graphics::PixelDataInfo::PROXY> & fileProxy() const;
-
-            //! Get whether the file cache is enabled.
-            const QScopedPointer<bool> & hasFileCache() const;
-
-            //! Get whether the window is full screen.
-            const QScopedPointer<bool> & isWindowFullScreen() const;
-
-            //! Get the playback.
-            const QScopedPointer<Enum::PLAYBACK> & playback() const;
-
-            //! Get the playback frame.
-            const QScopedPointer<int> & playbackFrame() const;
-
-            //! Get the playback speed.
-            const QScopedPointer<Core::Speed> & playbackSpeed() const;
+            //! Get the command-line options
+            const CommandLineOptions & commandLineOptions() const;
 
             //! Get the file preferences.
             const QPointer<FilePrefs> & filePrefs() const;

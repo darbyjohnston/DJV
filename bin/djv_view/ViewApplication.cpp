@@ -113,11 +113,11 @@ namespace djv
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
 
             // Show main window(s).
-            QStringList input = _p->context->input();
+            QStringList input = _p->context->commandLineOptions().input;
             if (input.count())
             {
                 // Combine command line arguments.
-                if (_p->context->hasCombine())
+                if (_p->context->commandLineOptions().combine)
                 {
                     Core::FileInfo fileInfo(input[0]);
                     if (fileInfo.isSequenceValid())
@@ -138,32 +138,30 @@ namespace djv
                 {
                     // Parse the input.
                     const Core::FileInfo fileInfo = Core::FileInfoUtil::parse(
-                        input[i], _p->context->sequence(), _p->context->hasAutoSequence());
-                    DJV_LOG(_p->context->debugLog(), "djv::view::Application",
-                        QString("Input = \"%1\"").arg(fileInfo));
+                        input[i], _p->context->commandLineOptions().sequence, _p->context->commandLineOptions().autoSequence);
+                    DJV_LOG(_p->context->debugLog(), "djv::view::Application", QString("Input = \"%1\"").arg(fileInfo));
 
                     // Initialize the window.
                     ViewLib::MainWindow * window =
                         ViewLib::MainWindow::createWindow(_p->context.data());
                     window->fileOpen(fileInfo);
-                    if (_p->context->fileLayer().data())
+                    if (_p->context->commandLineOptions().fileLayer.data())
                     {
-                        window->setFileLayer(*_p->context->fileLayer());
+                        window->setFileLayer(*_p->context->commandLineOptions().fileLayer);
                     }
-                    if (_p->context->playback().data())
+                    if (_p->context->commandLineOptions().playback.data())
                     {
-                        window->setPlayback(*_p->context->playback());
+                        window->setPlayback(*_p->context->commandLineOptions().playback);
                     }
-                    if (_p->context->playbackFrame().data())
+                    if (_p->context->commandLineOptions().playbackFrame.data())
                     {
-                        window->setPlaybackFrame(*_p->context->playbackFrame());
+                        window->setPlaybackFrame(*_p->context->commandLineOptions().playbackFrame);
                     }
-                    if (_p->context->playbackSpeed().data())
+                    if (_p->context->commandLineOptions().playbackSpeed.data())
                     {
-                        window->setPlaybackSpeed(*_p->context->playbackSpeed());
+                        window->setPlaybackSpeed(*_p->context->commandLineOptions().playbackSpeed);
                     }
-                    DJV_LOG(_p->context->debugLog(), "djv::view::Application",
-                        "Show window...");
+                    DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Show window...");
                     window->show();
                     DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
                 }

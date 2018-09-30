@@ -58,18 +58,8 @@ namespace djv
     {
         struct Context::Private
         {
-            QStringList                                    input;
-            bool                                           combine = false;
-            Core::Sequence::COMPRESS                       sequence = Core::Sequence::COMPRESS_RANGE;
-            bool                                           autoSequence = true;
-            QScopedPointer<int>                            fileLayer;
-            QScopedPointer<Graphics::PixelDataInfo::PROXY> fileProxy;
-            QScopedPointer<bool>                           fileCacheEnable;
-            QScopedPointer<bool>                           windowFullScreen;
-            QScopedPointer<Enum::PLAYBACK>                 playback;
-            QScopedPointer<int>                            playbackFrame;
-            QScopedPointer<Core::Speed>                    playbackSpeed;
-
+            CommandLineOptions commandLineOptions;
+            
             QPointer<FilePrefs>     filePrefs;
             QPointer<ImagePrefs>    imagePrefs;
             QPointer<InputPrefs>    inputPrefs;
@@ -125,59 +115,9 @@ namespace djv
             delete _p->fileCache;
         }
 
-        const QStringList & Context::input() const
+        const Context::CommandLineOptions & Context::commandLineOptions() const
         {
-            return _p->input;
-        }
-
-        bool Context::hasCombine() const
-        {
-            return _p->combine;
-        }
-
-        Core::Sequence::COMPRESS Context::sequence() const
-        {
-            return _p->sequence;
-        }
-
-        bool Context::hasAutoSequence() const
-        {
-            return _p->autoSequence;
-        }
-
-        const QScopedPointer<int> & Context::fileLayer() const
-        {
-            return _p->fileLayer;
-        }
-
-        const QScopedPointer<Graphics::PixelDataInfo::PROXY> & Context::fileProxy() const
-        {
-            return _p->fileProxy;
-        }
-
-        const QScopedPointer<bool> & Context::hasFileCache() const
-        {
-            return _p->fileCacheEnable;
-        }
-
-        const QScopedPointer<bool> & Context::isWindowFullScreen() const
-        {
-            return _p->windowFullScreen;
-        }
-
-        const QScopedPointer<Enum::PLAYBACK> & Context::playback() const
-        {
-            return _p->playback;
-        }
-
-        const QScopedPointer<int> & Context::playbackFrame() const
-        {
-            return _p->playbackFrame;
-        }
-
-        const QScopedPointer<Core::Speed> & Context::playbackSpeed() const
-        {
-            return _p->playbackSpeed;
+            return _p->commandLineOptions;
         }
 
         const QPointer<FilePrefs> & Context::filePrefs() const
@@ -257,18 +197,18 @@ namespace djv
                     // Parse the options.
                     if (qApp->translate("djv::ViewLib::Context", "-combine") == arg)
                     {
-                        _p->combine = true;
+                        _p->commandLineOptions.combine = true;
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-seq") == arg ||
                         qApp->translate("djv::ViewLib::Context", "-q") == arg)
                     {
-                        in >> _p->sequence;
+                        in >> _p->commandLineOptions.sequence;
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-auto_seq") == arg)
                     {
-                        in >> _p->autoSequence;
+                        in >> _p->commandLineOptions.autoSequence;
                     }
 
                     // Parse the file options.
@@ -277,28 +217,28 @@ namespace djv
                     {
                         int value = 0;
                         in >> value;
-                        _p->fileLayer.reset(new int(value));
+                        _p->commandLineOptions.fileLayer.reset(new int(value));
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-file_proxy") == arg)
                     {
                         Graphics::PixelDataInfo::PROXY value = static_cast<Graphics::PixelDataInfo::PROXY>(0);
                         in >> value;
-                        _p->fileProxy.reset(new Graphics::PixelDataInfo::PROXY(value));
+                        _p->commandLineOptions.fileProxy.reset(new Graphics::PixelDataInfo::PROXY(value));
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-file_cache") == arg)
                     {
                         bool value = false;
                         in >> value;
-                        _p->fileCacheEnable.reset(new bool(value));
+                        _p->commandLineOptions.fileCacheEnable.reset(new bool(value));
                     }
 
                     // Parse the window options.
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-window_full_screen") == arg)
                     {
-                        _p->windowFullScreen.reset(new bool(true));
+                        _p->commandLineOptions.windowFullScreen.reset(new bool(true));
                     }
 
                     // Parse the playback options.
@@ -307,27 +247,27 @@ namespace djv
                     {
                         Enum::PLAYBACK value = static_cast<Enum::PLAYBACK>(0);
                         in >> value;
-                        _p->playback.reset(new Enum::PLAYBACK(value));
+                        _p->commandLineOptions.playback.reset(new Enum::PLAYBACK(value));
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-playback_frame") == arg)
                     {
                         int value = 0;
                         in >> value;
-                        _p->playbackFrame.reset(new int(value));
+                        _p->commandLineOptions.playbackFrame.reset(new int(value));
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-playback_speed") == arg)
                     {
                         Core::Speed::FPS value = static_cast<Core::Speed::FPS>(0);
                         in >> value;
-                        _p->playbackSpeed.reset(new Core::Speed(value));
+                        _p->commandLineOptions.playbackSpeed.reset(new Core::Speed(value));
                     }
 
                     // Parse the arguments.
                     else
                     {
-                        _p->input += arg;
+                        _p->commandLineOptions.input += arg;
                     }
                 }
             }
@@ -387,9 +327,9 @@ namespace djv
                 "        Set the playback speed. Options = %8.\n"
                 "%9");
             QStringList sequenceLabel;
-            sequenceLabel << _p->sequence;
+            sequenceLabel << _p->commandLineOptions.sequence;
             QStringList autoSequenceLabel;
-            autoSequenceLabel << _p->autoSequence;
+            autoSequenceLabel << _p->commandLineOptions.autoSequence;
             return QString(label).
                 arg(Core::Sequence::compressLabels().join(", ")).
                 arg(sequenceLabel.join(", ")).

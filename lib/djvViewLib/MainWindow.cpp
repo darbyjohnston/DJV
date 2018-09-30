@@ -322,37 +322,37 @@ namespace djv
             auto out = QPointer<MainWindow>(new MainWindow(0, context));
 
             // Apply command line file options.
-            if (context->fileLayer().data())
+            if (context->commandLineOptions().fileLayer.data())
             {
-                out->setFileLayer(*context->fileLayer());
+                out->setFileLayer(*context->commandLineOptions().fileLayer);
             }
-            if (context->fileProxy().data())
+            if (context->commandLineOptions().fileProxy.data())
             {
-                out->setFileProxy(*context->fileProxy());
+                out->setFileProxy(*context->commandLineOptions().fileProxy);
             }
-            if (context->hasFileCache().data())
+            if (context->commandLineOptions().fileCacheEnable.data())
             {
-                out->setFileCache(*context->hasFileCache());
+                out->setFileCache(*context->commandLineOptions().fileCacheEnable);
             }
 
             // Apply command line window options.
-            if (context->isWindowFullScreen().data() && *context->isWindowFullScreen())
+            if (context->commandLineOptions().windowFullScreen.data() && *context->commandLineOptions().windowFullScreen)
             {
                 out->showFullScreen();
             }
 
             // Apply command line playback options.
-            if (context->playback().data())
+            if (context->commandLineOptions().playback.data())
             {
-                out->setPlayback(*context->playback());
+                out->setPlayback(*context->commandLineOptions().playback);
             }
-            if (context->playbackFrame().data())
+            if (context->commandLineOptions().playbackFrame.data())
             {
-                out->setPlaybackFrame(*context->playbackFrame());
+                out->setPlaybackFrame(*context->commandLineOptions().playbackFrame);
             }
-            if (context->playbackSpeed().data())
+            if (context->commandLineOptions().playbackSpeed.data())
             {
-                out->setPlaybackSpeed(*context->playbackSpeed());
+                out->setPlaybackSpeed(*context->commandLineOptions().playbackSpeed);
             }
 
             return out;
@@ -383,8 +383,7 @@ namespace djv
                 {
                     _p->playbackGroup->setFrame(0);
                     _p->playbackGroup->setPlayback(
-                        (sequence.frames.count() > 1 &&
-                            _p->context->playbackPrefs()->hasAutoStart()) ?
+                        (sequence.frames.count() > 1 && _p->context->playbackPrefs()->hasAutoStart()) ?
                         Enum::FORWARD :
                         Enum::STOP);
                 }
