@@ -129,6 +129,8 @@ namespace djv
             {
                 _p->saveSequence = info.sequence;
             }
+            
+            //DJV_DEBUG_PRINT("save sequence = " << _p->saveSequence);
 
             //! \todo Why do we need to reverse the rotation here?
             _p->info.options.xform.rotate = -_p->info.options.xform.rotate;
@@ -143,8 +145,7 @@ namespace djv
             Graphics::ImageIOInfo loadInfo;
             try
             {
-                _p->load.reset(
-                    _p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo));
+                _p->load.reset(_p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo));
             }
             catch (Core::Error error)
             {
@@ -161,8 +162,7 @@ namespace djv
             saveInfo.sequence = _p->saveSequence;
             try
             {
-                _p->save.reset(
-                    _p->context->imageIOFactory()->save(_p->info.outputFile, saveInfo));
+                _p->save.reset(_p->context->imageIOFactory()->save(_p->info.outputFile, saveInfo));
             }
             catch (Core::Error error)
             {
@@ -176,8 +176,7 @@ namespace djv
             // Start...
             _p->dialog->setLabel(qApp->translate("djv::ViewLib::FileSave", "Saving \"%1\":").
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
-            _p->dialog->start(
-                _p->info.sequence.frames.count() ? _p->info.sequence.frames.count() : 1);
+            _p->dialog->start(_p->info.sequence.frames.count() ? _p->info.sequence.frames.count() : 1);
             _p->dialog->show();
         }
 
@@ -224,14 +223,9 @@ namespace djv
             Graphics::Image image;
             try
             {
-                //DJV_DEBUG_PRINT("load");
-                _p->load->read(
-                    image,
-                    Graphics::ImageIOFrameInfo(
-                        in < _p->info.sequence.frames.count() ? _p->info.sequence.frames[in] : -1,
-                        _p->info.layer,
-                        _p->info.proxy));
-
+                const qint64 frame = in < _p->info.sequence.frames.count() ? _p->info.sequence.frames[in] : -1;
+                //DJV_DEBUG_PRINT("frame = " << frame);
+                _p->load->read(image, Graphics::ImageIOFrameInfo(frame, _p->info.layer, _p->info.proxy));
                 //DJV_DEBUG_PRINT("image = " << image);
             }
             catch (Core::Error error)
