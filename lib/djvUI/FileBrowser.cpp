@@ -99,7 +99,9 @@ namespace djv
                     RELOAD,
                     SHOW_HIDDEN,
                     REVERSE_SORT,
-                    SORT_DIRS_FIRST
+                    SORT_DIRS_FIRST,
+                    DELETE_CURRENT_BOOKMARK,
+                    DELETE_ALL_BOOKMARKS
                 };
 
                 enum ACTION_GROUP
@@ -167,7 +169,7 @@ namespace djv
                 qApp->translate("djv::UI::FileBrowser", "&Up"), this, SLOT(upCallback()));
 
             _p->actions.actions[Actions::PREV] = directoryMenu->addAction(
-                qApp->translate("djv::UI::FileBrowser", "&Prev"), this, SLOT(prevCallback()));
+                qApp->translate("djv::UI::FileBrowser", "&Previous"), this, SLOT(prevCallback()));
 
             _p->menus.menus[Menus::RECENT] = directoryMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Recent"));
@@ -207,12 +209,12 @@ namespace djv
             _p->actions.groups[Actions::THUMBNAIL_SIZE_GROUP]->setExclusive(true);
 
             _p->menus.menus[Menus::SEQ] = optionsMenu->addMenu(
-                qApp->translate("djv::UI::FileBrowser", "Se&quence"));
+                qApp->translate("djv::UI::FileBrowser", "File Se&quences"));
             _p->actions.groups[Actions::SEQ_GROUP] = new QActionGroup(this);
 
             _p->actions.actions[Actions::SHOW_HIDDEN] =
                 optionsMenu->addAction(
-                    qApp->translate("djv::UI::FileBrowser", "Show &Hidden"),
+                    qApp->translate("djv::UI::FileBrowser", "Show &Hidden Files"),
                     this,
                     SLOT(showHiddenCallback(bool)));
             _p->actions.actions[Actions::SHOW_HIDDEN]->setCheckable(true);
@@ -257,7 +259,7 @@ namespace djv
             _p->widgets.seq = new QComboBox;
             _p->widgets.seq->addItems(Core::Sequence::compressLabels());
             QLabel * seqLabel = new QLabel(
-                qApp->translate("djv::UI::FileBrowser", "Sequence:"));
+                qApp->translate("djv::UI::FileBrowser", "File sequences:"));
 
             _p->widgets.search = new SearchBox(context);
             _p->widgets.search->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -274,7 +276,7 @@ namespace djv
             _p->widgets.browser->setDragEnabled(true);
 
             _p->widgets.pinned = new QCheckBox(
-                qApp->translate("djv::UI::FileBrowser", "Pin"));
+                qApp->translate("djv::UI::FileBrowser", "Pin dialog"));
 
             QPushButton * okButton = new QPushButton(
                 qApp->translate("djv::UI::FileBrowser", "Ok"));
@@ -291,6 +293,7 @@ namespace djv
 
             _p->buttonsLayout = new QHBoxLayout;
             _p->buttonsLayout->setMargin(0);
+            _p->buttonsLayout->setSpacing(0);
             _p->buttonsLayout->addWidget(_p->widgets.up);
             _p->buttonsLayout->addWidget(_p->widgets.prev);
             _p->buttonsLayout->addWidget(_p->widgets.reload);
@@ -745,7 +748,7 @@ namespace djv
                 return;
             //DJV_DEBUG("FileBrowser::deleteBookmarkCallback");
             //DJV_DEBUG_PRINT("bookmarks = " << bookmarks);
-            MultiChoiceDialog dialog(qApp->translate("djv::UI::FileBrowser", "Delete bookmarks:"), bookmarks);
+            MultiChoiceDialog dialog(qApp->translate("djv::UI::FileBrowser", "Choose which bookmarks to delete:"), bookmarks);
             if (QDialog::Accepted == dialog.exec())
             {
                 QStringList tmp;
@@ -980,19 +983,19 @@ namespace djv
                 qApp->translate("djv::UI::FileBrowser", "&Add"),
                 this,
                 SLOT(addBookmarkCallback()));
-            action->setShortcut(
-                shortcuts[FileBrowserPrefs::ADD_BOOKMARK].value);
-            _p->menus.menus[Menus::BOOKMARKS]->addAction(
+            action->setShortcut(shortcuts[FileBrowserPrefs::ADD_BOOKMARK].value);
+            action = _p->menus.menus[Menus::BOOKMARKS]->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Delete"),
                 this,
                 SLOT(deleteBookmarkCallback()));
-            _p->menus.menus[Menus::BOOKMARKS]->addAction(
+            const QStringList & bookmarks = _p->context->fileBrowserPrefs()->bookmarks();
+            action->setEnabled(bookmarks.size());
+            action = _p->menus.menus[Menus::BOOKMARKS]->addAction(
                 qApp->translate("djv::UI::FileBrowser", "D&elete All"),
                 this,
                 SLOT(deleteAllBookmarksCallback()));
-
+            action->setEnabled(bookmarks.size());
             _p->menus.menus[Menus::BOOKMARKS]->addSeparator();
-
             QVector<Shortcut> bookmarkShortcuts = QVector<Shortcut>() <<
                 _p->context->fileBrowserPrefs()->shortcuts()[FileBrowserPrefs::BOOKMARK_1] <<
                 _p->context->fileBrowserPrefs()->shortcuts()[FileBrowserPrefs::BOOKMARK_2] <<
@@ -1006,7 +1009,6 @@ namespace djv
                 _p->context->fileBrowserPrefs()->shortcuts()[FileBrowserPrefs::BOOKMARK_10] <<
                 _p->context->fileBrowserPrefs()->shortcuts()[FileBrowserPrefs::BOOKMARK_11] <<
                 _p->context->fileBrowserPrefs()->shortcuts()[FileBrowserPrefs::BOOKMARK_12];
-            const QStringList & bookmarks = _p->context->fileBrowserPrefs()->bookmarks();
             for (int i = 0; i < bookmarks.count(); ++i)
             {
                 QAction * action = _p->menus.menus[Menus::BOOKMARKS]->addAction(bookmarks[i]);
@@ -1024,14 +1026,23 @@ namespace djv
                 
             _p->widgets.file->setToolTip(qApp->translate("djv::UI::FileBrowser", "File name"));
             _p->widgets.up->setToolTip(QString(
-                qApp->translate("djv::UI::FileBrowser", "Go up a directory\n\nShortcut: %1")).
+                qApp->translate("djv::UI::FileBrowser", "Go up a directory\n\nKeyboard shortcut: %1")).
                 arg(shortcuts[FileBrowserPrefs::UP].value.toString()));
             _p->widgets.prev->setToolTip(QString(
-                qApp->translate("djv::UI::FileBrowser", "Go to the previous directory\n\nShortcut: %1")).
+                qApp->translate("djv::UI::FileBrowser", "Go to the previous directory\n\nKeyboard shortcut: %1")).
                 arg(shortcuts[FileBrowserPrefs::PREV].value.toString()));
             _p->widgets.reload->setToolTip(QString(
-                qApp->translate("djv::UI::FileBrowser", "Reload the current directory\n\nShortcut: %1")).
+                qApp->translate("djv::UI::FileBrowser", "Reload the current directory\n\nKeyboard shortcut: %1")).
                 arg(shortcuts[FileBrowserPrefs::RELOAD].value.toString()));
+            _p->widgets.seq->setToolTip(QString(
+                qApp->translate("djv::UI::FileBrowser",
+                "File sequence options:\n"
+                "%1 - Show every file\n"
+                "%2 - Show sequences of files including gaps between ranges; for example: 1-3,5,7-10\n"
+                "%3 - Show sequences of files as a continuous range; for example: 1-10\n")).
+                arg(Core::Sequence::compressLabels()[0]).
+                arg(Core::Sequence::compressLabels()[1]).
+                arg(Core::Sequence::compressLabels()[2]));
         }
 
         QVector<int> FileBrowser::columnSizes() const

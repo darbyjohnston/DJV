@@ -47,11 +47,11 @@ namespace djv
             enum ACTION
             {
                 NEW,
-                COPY,
+                DUPLICATE,
                 CLOSE,
                 FIT,
                 FULL_SCREEN,
-                CONTROLS_VISIBLE,
+                UI_VISIBLE,
 
                 ACTION_COUNT
             };
@@ -59,13 +59,16 @@ namespace djv
             //! This enumeration provides the action groups.
             enum GROUP
             {
-                TOOL_BAR_VISIBLE_GROUP,
+                UI_COMPONENT_VISIBLE_GROUP,
 
                 GROUP_COUNT
             };
 
             explicit WindowActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~WindowActions() override;
+            
+            //! Get the UI component visibility labels.
+            static const QStringList & uiComponentVisibilityLabels();
 
         private Q_SLOTS:
             void update();

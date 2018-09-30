@@ -77,8 +77,8 @@ namespace djv
 
             _p->shuttle = new UI::ShuttleButton(context);
             _p->shuttle->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackButtons", "Playback shuttle\n\nClick and drag to start playback; the speed is "
-                    "determined by how far you drag."));
+                qApp->translate("djv::ViewLib::PlaybackButtons",
+                "Click and drag to start playback; the speed is determined by how far you drag"));
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);
@@ -121,7 +121,7 @@ namespace djv
                 context(context)
             {}
 
-            Util::LOOP loop = Util::LOOP_REPEAT;
+            QString text;
             QPointer<UI::ChoiceButton> button;
             QPointer<Context> context;
         };
@@ -142,6 +142,10 @@ namespace djv
             widgetUpdate();
 
             connect(
+                actionGroup,
+                SIGNAL(triggered(QAction *)),
+                SLOT(actionCallback(QAction *)));
+            connect(
                 context->shortcutPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(widgetUpdate()));
@@ -150,22 +154,22 @@ namespace djv
         LoopWidget::~LoopWidget()
         {}
 
+        void LoopWidget::actionCallback(QAction * action)
+        {
+            _p->text = action->text();
+            widgetUpdate();
+        }
+        
         void LoopWidget::widgetUpdate()
         {
-            // Update shortcuts.
-            const QVector<UI::Shortcut> & shortcuts =
-                _p->context->shortcutPrefs()->shortcuts();
-            _p->button->setShortcut(
-                shortcuts[Util::SHORTCUT_PLAYBACK_LOOP].value);
+            const QVector<UI::Shortcut> & shortcuts =  _p->context->shortcutPrefs()->shortcuts();
+            _p->button->setShortcut(shortcuts[Enum::SHORTCUT_PLAYBACK_LOOP].value);
 
-            // Update tool tips.
-            QStringList loopLabel;
-            loopLabel << _p->loop;
             _p->button->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackButtons", "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
-                arg(loopLabel.join(", ")).
-                arg(Util::loopLabels().join(", ")).
-                arg(shortcuts[Util::SHORTCUT_PLAYBACK_LOOP].value.toString()));
+                qApp->translate("djv::ViewLib::PlaybackButtons",
+                "Loop mode: %1\n\nKeyboard shortcut: %2").
+                arg(_p->text).
+                arg(shortcuts[Enum::SHORTCUT_PLAYBACK_LOOP].value.toString()));
         }
 
         struct FrameButtons::Private
@@ -200,7 +204,8 @@ namespace djv
 
             _p->shuttle = new UI::ShuttleButton(context);
             _p->shuttle->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackButtons", "Frame shuttle\n\nClick and drag to change the current frame."));
+                qApp->translate("djv::ViewLib::PlaybackButtons",
+                "Click and drag to change the current frame."));
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);

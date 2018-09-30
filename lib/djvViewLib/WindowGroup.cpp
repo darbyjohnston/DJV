@@ -51,12 +51,12 @@ namespace djv
         struct WindowGroup::Private
         {
             Private(const QPointer<Context> & context) :
-                toolBarVisible(context->windowPrefs()->toolBar())
+                uiComponentVisible(context->windowPrefs()->uiComponentVisible())
             {}
 
-            bool            fullScreen = false;
-            bool            controlsVisible = true;
-            QVector<bool>   toolBarVisible;
+            bool          fullScreen = false;
+            bool          uiVisible = true;
+            QVector<bool> uiComponentVisible;
 
             QPointer<WindowActions> actions;
             QPointer<WindowMenu>    menu;
@@ -74,8 +74,8 @@ namespace djv
 
             if (copy)
             {
-                _p->controlsVisible = copy->_p->controlsVisible;
-                _p->toolBarVisible = copy->_p->toolBarVisible;
+                _p->uiVisible = copy->_p->uiVisible;
+                _p->uiComponentVisible = copy->_p->uiComponentVisible;
             }
 
             // Create the actions.
@@ -98,9 +98,9 @@ namespace djv
                 SIGNAL(triggered()),
                 SLOT(newCallback()));
             connect(
-                _p->actions->action(WindowActions::COPY),
+                _p->actions->action(WindowActions::DUPLICATE),
                 SIGNAL(triggered()),
-                SLOT(copyCallback()));
+                SLOT(duplicateCallback()));
             connect(
                 _p->actions->action(WindowActions::CLOSE),
                 SIGNAL(triggered()),
@@ -114,19 +114,19 @@ namespace djv
                 SIGNAL(toggled(bool)),
                 SLOT(setFullScreen(bool)));
             connect(
-                _p->actions->action(WindowActions::CONTROLS_VISIBLE),
+                _p->actions->action(WindowActions::UI_VISIBLE),
                 SIGNAL(toggled(bool)),
-                SLOT(setControlsVisible(bool)));
+                SLOT(setUIVisible(bool)));
             connect(
-                _p->actions->group(WindowActions::TOOL_BAR_VISIBLE_GROUP),
+                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP),
                 SIGNAL(triggered(QAction *)),
-                SLOT(toolBarVisibleCallback(QAction *)));
+                SLOT(uiComponentVisibleCallback(QAction *)));
 
             // Setup the preferences callbacks.
             connect(
                 context->windowPrefs(),
-                SIGNAL(toolBarChanged(const QVector<bool> &)),
-                SLOT(setToolBarVisible(const QVector<bool> &)));
+                SIGNAL(uiComponentVisibleChanged(const QVector<bool> &)),
+                SLOT(setUIComponentVisible(const QVector<bool> &)));
         }
 
         WindowGroup::~WindowGroup()
@@ -139,14 +139,14 @@ namespace djv
             return _p->fullScreen;
         }
 
-        bool WindowGroup::hasControlsVisible() const
+        bool WindowGroup::isUIVisible() const
         {
-            return _p->controlsVisible;
+            return _p->uiVisible;
         }
 
-        const QVector<bool> & WindowGroup::toolBarVisible() const
+        const QVector<bool> & WindowGroup::uiComponentVisible() const
         {
-            return _p->toolBarVisible;
+            return _p->uiComponentVisible;
         }
 
         QToolBar * WindowGroup::toolBar() const
@@ -162,40 +162,40 @@ namespace djv
             if (_p->fullScreen)
             {
                 mainWindow()->showFullScreen();
-                if (!context()->windowPrefs()->hasFullScreenControls())
+                if (!context()->windowPrefs()->hasFullScreenUI())
                 {
-                    setControlsVisible(false);
+                    setUIVisible(false);
                 }
             }
             else
             {
                 mainWindow()->showNormal();
 
-                if (!context()->windowPrefs()->hasFullScreenControls())
+                if (!context()->windowPrefs()->hasFullScreenUI())
                 {
-                    setControlsVisible(true);
+                    setUIVisible(true);
                 }
             }
             update();
             Q_EMIT fullScreenChanged(_p->fullScreen);
         }
 
-        void WindowGroup::setControlsVisible(bool visible)
+        void WindowGroup::setUIVisible(bool visible)
         {
-            if (visible == _p->controlsVisible)
+            if (visible == _p->uiVisible)
                 return;
-            _p->controlsVisible = visible;
+            _p->uiVisible = visible;
             update();
-            Q_EMIT controlsVisibleChanged(_p->controlsVisible);
+            Q_EMIT uiVisibleChanged(_p->uiVisible);
         }
 
-        void WindowGroup::setToolBarVisible(const QVector<bool> & visible)
+        void WindowGroup::setUIComponentVisible(const QVector<bool> & visible)
         {
-            if (visible == _p->toolBarVisible)
+            if (visible == _p->uiComponentVisible)
                 return;
-            _p->toolBarVisible = visible;
+            _p->uiComponentVisible = visible;
             update();
-            Q_EMIT toolBarVisibleChanged(_p->toolBarVisible);
+            Q_EMIT uiComponentVisibleChanged(_p->uiComponentVisible);
         }
 
         void WindowGroup::newCallback()
@@ -203,7 +203,7 @@ namespace djv
             (new MainWindow(0, context()))->show();
         }
 
-        void WindowGroup::copyCallback()
+        void WindowGroup::duplicateCallback()
         {
             (new MainWindow(mainWindow(), context()))->show();
         }
@@ -218,23 +218,22 @@ namespace djv
             mainWindow()->fitWindow();
         }
 
-        void WindowGroup::toolBarVisibleCallback(QAction * action)
+        void WindowGroup::uiComponentVisibleCallback(QAction * action)
         {
-            QVector<bool> tmp = _p->toolBarVisible;
-            const int index = _p->actions->group(WindowActions::TOOL_BAR_VISIBLE_GROUP)->
-                actions().indexOf(action);
+            QVector<bool> tmp = _p->uiComponentVisible;
+            const int index = _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions().indexOf(action);
             tmp[index] = !tmp[index];
-            setToolBarVisible(tmp);
+            setUIComponentVisible(tmp);
         }
 
         void WindowGroup::update()
         {
             _p->actions->action(WindowActions::FULL_SCREEN)->setChecked(_p->fullScreen);
-            _p->actions->action(WindowActions::CONTROLS_VISIBLE)->setChecked(_p->controlsVisible);
-            for (int i = 0; i < Util::TOOL_BAR_COUNT; ++i)
+            _p->actions->action(WindowActions::UI_VISIBLE)->setChecked(_p->uiVisible);
+            for (int i = 0; i < Enum::UI_COMPONENT_COUNT; ++i)
             {
-                _p->actions->group(WindowActions::TOOL_BAR_VISIBLE_GROUP)->
-                    actions()[i]->setChecked(_p->toolBarVisible[i]);
+                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->
+                    actions()[i]->setChecked(_p->uiComponentVisible[i]);
             }
         }
 

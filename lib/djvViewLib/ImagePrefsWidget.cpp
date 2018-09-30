@@ -91,7 +91,8 @@ namespace djv
         {
             // Create the widgets.
             _p->frameStoreFileReloadWidget = new QCheckBox(
-                qApp->translate("djv::ViewLib::ImagePrefsWidget", "Automatically store the current frame when files are reloaded"));
+                qApp->translate("djv::ViewLib::ImagePrefsWidget",
+                "Automatically set the frame store when files are reloaded"));
 
             _p->mirrorHWidget = new QCheckBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Mirror horizontally"));
@@ -101,11 +102,11 @@ namespace djv
 
             _p->scaleWidget = new QComboBox;
             _p->scaleWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->scaleWidget->addItems(Util::imageScaleLabels());
+            _p->scaleWidget->addItems(Enum::imageScaleLabels());
 
             _p->rotateWidget = new QComboBox;
             _p->rotateWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->rotateWidget->addItems(Util::imageRotateLabels());
+            _p->rotateWidget->addItems(Enum::imageRotateLabels());
 
             _p->colorProfileWidget = new QCheckBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Enable color profile"));
@@ -310,14 +311,12 @@ namespace djv
 
         void ImagePrefsWidget::scaleCallback(int in)
         {
-            context()->imagePrefs()->setScale(
-                static_cast<Util::IMAGE_SCALE>(in));
+            context()->imagePrefs()->setScale(static_cast<Enum::IMAGE_SCALE>(in));
         }
 
         void ImagePrefsWidget::rotateCallback(int in)
         {
-            context()->imagePrefs()->setRotate(
-                static_cast<Util::IMAGE_ROTATE>(in));
+            context()->imagePrefs()->setRotate(static_cast<Enum::IMAGE_ROTATE>(in));
         }
 
         void ImagePrefsWidget::colorProfileCallback(bool in)

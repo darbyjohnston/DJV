@@ -49,7 +49,7 @@
 #include <djvViewLib/WindowPrefs.h>
 
 #include <djvUI/ColorSwatch.h>
-#include <djvUI/ImagePrefs.h>
+#include <djvUI/MiscPrefs.h>
 
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
@@ -81,7 +81,7 @@ namespace djv
                 context(context)
             {}
 
-            Util::MOUSE_WHEEL mouseWheel = static_cast<Util::MOUSE_WHEEL>(0);
+            Enum::MOUSE_WHEEL mouseWheel = static_cast<Enum::MOUSE_WHEEL>(0);
             QPointer<FileGroup> fileGroup;
             QPointer<WindowGroup> windowGroup;
             QPointer<ViewGroup> viewGroup;
@@ -173,7 +173,7 @@ namespace djv
             fileUpdate();
             fileCacheUpdate();
             imageUpdate();
-            controlsUpdate();
+            windowUpdate();
             playbackUpdate();
 
             // Setup the file group callbacks.
@@ -183,8 +183,8 @@ namespace djv
                 SLOT(imageUpdate()));
             connect(
                 _p->fileGroup,
-                SIGNAL(loadFrameStore()),
-                SLOT(loadFrameStoreCallback()));
+                SIGNAL(setFrameStore()),
+                SLOT(setFrameStoreCallback()));
             connect(
                 _p->fileGroup,
                 SIGNAL(reloadFrame()),
@@ -201,12 +201,12 @@ namespace djv
             // Setup the image group callbacks.
             connect(
                 _p->imageGroup,
-                SIGNAL(frameStoreChanged(bool)),
+                SIGNAL(showFrameStoreChanged(bool)),
                 SLOT(imageUpdate()));
             connect(
                 _p->imageGroup,
-                SIGNAL(loadFrameStore()),
-                SLOT(loadFrameStoreCallback()));
+                SIGNAL(setFrameStore()),
+                SLOT(setFrameStoreCallback()));
             connect(
                 _p->imageGroup,
                 SIGNAL(displayProfileChanged(const djv::ViewLib::DisplayProfile &)),
@@ -223,17 +223,17 @@ namespace djv
             // Setup the window group callbacks.
             connect(
                 _p->windowGroup,
-                SIGNAL(controlsVisibleChanged(bool)),
-                SLOT(controlsUpdate()));
+                SIGNAL(uiVisibleChanged(bool)),
+                SLOT(windowUpdate()));
             connect(
                 _p->windowGroup,
-                SIGNAL(toolBarVisibleChanged(const QVector<bool> &)),
-                SLOT(controlsUpdate()));
+                SIGNAL(uiComponentVisibleChanged(const QVector<bool> &)),
+                SLOT(windowUpdate()));
 
             // Setup the playback group callbacks.
             connect(
                 _p->playbackGroup,
-                SIGNAL(playbackChanged(djv::ViewLib::Util::PLAYBACK)),
+                SIGNAL(playbackChanged(djv::ViewLib::Enum::PLAYBACK)),
                 SLOT(playbackUpdate()));
             connect(
                 _p->playbackGroup,
@@ -253,7 +253,7 @@ namespace djv
                 SLOT(viewOverlayUpdate()));
             connect(
                 _p->playbackGroup,
-                SIGNAL(realSpeedChanged(float)),
+                SIGNAL(actualSpeedChanged(float)),
                 SLOT(viewOverlayUpdate()));
             connect(
                 _p->playbackGroup,
@@ -261,7 +261,7 @@ namespace djv
                 SLOT(viewOverlayUpdate()));
             connect(
                 _p->playbackGroup,
-                SIGNAL(layoutChanged(djv::ViewLib::Util::LAYOUT)),
+                SIGNAL(layoutChanged(djv::ViewLib::Enum::LAYOUT)),
                 SLOT(windowResizeCallback()));
 
             // Setup the view callbacks.
@@ -271,8 +271,8 @@ namespace djv
                 SLOT(pickCallback(const glm::ivec2 &)));
             connect(
                 _p->viewWidget,
-                SIGNAL(mouseWheelChanged(djv::ViewLib::Util::MOUSE_WHEEL)),
-                SLOT(mouseWheelCallback(djv::ViewLib::Util::MOUSE_WHEEL)));
+                SIGNAL(mouseWheelChanged(djv::ViewLib::Enum::MOUSE_WHEEL)),
+                SLOT(mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL)));
             connect(
                 _p->viewWidget,
                 SIGNAL(mouseWheelValueChanged(int)),
@@ -288,7 +288,7 @@ namespace djv
                 SIGNAL(cacheChanged()),
                 SLOT(fileCacheUpdate()));
             connect(
-                context->UIContext::imagePrefs(),
+                context->UIContext::miscPrefs(),
                 SIGNAL(filterChanged(const djv::Graphics::OpenGLImageFilter &)),
                 SLOT(imageUpdate()));
             connect(
@@ -385,8 +385,8 @@ namespace djv
                     _p->playbackGroup->setPlayback(
                         (sequence.frames.count() > 1 &&
                             _p->context->playbackPrefs()->hasAutoStart()) ?
-                        Util::FORWARD :
-                        Util::STOP);
+                        Enum::FORWARD :
+                        Enum::STOP);
                 }
             }
 
@@ -452,7 +452,7 @@ namespace djv
             _p->viewWidget->viewFit();
         }
 
-        void MainWindow::setPlayback(Util::PLAYBACK in)
+        void MainWindow::setPlayback(Enum::PLAYBACK in)
         {
             _p->playbackGroup->setPlayback(in);
         }
@@ -510,9 +510,9 @@ namespace djv
             switch (event->key())
             {
             case Qt::Key_Escape:
-                if (!_p->windowGroup->hasControlsVisible())
+                if (!_p->windowGroup->isUIVisible())
                 {
-                    _p->windowGroup->setControlsVisible(true);
+                    _p->windowGroup->setUIVisible(true);
                 }
                 else if (isFullScreen())
                 {
@@ -614,9 +614,9 @@ namespace djv
             _p->context->fileSave()->save(info);
         }
 
-        void MainWindow::loadFrameStoreCallback()
+        void MainWindow::setFrameStoreCallback()
         {
-            //DJV_DEBUG("MainWindow::loadFrameStoreCallback");
+            //DJV_DEBUG("MainWindow::setFrameStoreCallback");
             if (_p->imageP)
             {
                 _p->imageTmp = *_p->imageP;
@@ -633,16 +633,16 @@ namespace djv
             }
         }
 
-        void MainWindow::mouseWheelCallback(Util::MOUSE_WHEEL in)
+        void MainWindow::mouseWheelCallback(Enum::MOUSE_WHEEL in)
         {
             _p->mouseWheel = in;
             switch (_p->mouseWheel)
             {
-            case Util::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
-                _p->playbackGroup->setPlayback(Util::STOP);
+            case Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+                _p->playbackGroup->setPlayback(Enum::STOP);
                 _p->playbackFrameTmp = _p->playbackGroup->frame();
                 break;
-            case Util::MOUSE_WHEEL_PLAYBACK_SPEED:
+            case Enum::MOUSE_WHEEL_PLAYBACK_SPEED:
                 _p->playbackSpeedTmp = Core::Speed::speedToFloat(_p->playbackGroup->speed());
                 break;
             default: break;
@@ -653,10 +653,10 @@ namespace djv
         {
             switch (_p->mouseWheel)
             {
-            case Util::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+            case Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
                 _p->playbackGroup->setFrame(_p->playbackFrameTmp + in);
                 break;
-            case Util::MOUSE_WHEEL_PLAYBACK_SPEED:
+            case Enum::MOUSE_WHEEL_PLAYBACK_SPEED:
                 _p->playbackGroup->setSpeed(Core::Speed::floatToSpeed(_p->playbackSpeedTmp + static_cast<float>(in)));
                 break;
             default: break;
@@ -728,21 +728,21 @@ namespace djv
             Q_EMIT imageChanged();
         }
 
-        void MainWindow::controlsUpdate()
+        void MainWindow::windowUpdate()
         {
-            //DJV_DEBUG("MainWindow::controlsUpdate");
+            //DJV_DEBUG("MainWindow::windowUpdate");
 
             // Temporarily disable updates to try and minimize flickering.
             setUpdatesEnabled(false);
 
-            const bool controls = _p->windowGroup->hasControlsVisible();
+            const bool visible = _p->windowGroup->isUIVisible();
 
             //! \todo It seems that when the menu bar is hidden the associated
             //! keyboard shortcuts no longer work. To work around this we resize
             //! the menu bar's height to zero instead of hiding it.
-            //menuBar()->setVisible(controls);
+            //menuBar()->setVisible(visible);
 
-            if (controls)
+            if (visible)
             {
                 if (_p->menuBarHeight != 0)
                 {
@@ -756,17 +756,16 @@ namespace djv
                 menuBar()->setFixedHeight(0);
             }
 
-            const QVector<bool> & visible = _p->windowGroup->toolBarVisible();
-            _p->fileGroup->toolBar()->setVisible(controls && visible[Util::TOOL_BARS]);
-            _p->windowGroup->toolBar()->setVisible(controls && visible[Util::TOOL_BARS]);
-            _p->viewGroup->toolBar()->setVisible(controls && visible[Util::TOOL_BARS]);
-            _p->imageGroup->toolBar()->setVisible(controls && visible[Util::TOOL_BARS]);
-            _p->toolGroup->toolBar()->setVisible(controls && visible[Util::TOOL_BARS]);
+            const QVector<bool> & componentVisible = _p->windowGroup->uiComponentVisible();
+            _p->fileGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
+            _p->windowGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
+            _p->viewGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
+            _p->imageGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
+            _p->toolGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
 
-            _p->playbackGroup->toolBar()->setVisible(
-                controls && visible[Util::PLAYBACK_BAR]);
+            _p->playbackGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_PLAYBACK]);
 
-            statusBar()->setVisible(controls && visible[Util::INFO_BAR]);
+            statusBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_INFO]);
 
             QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
         }
@@ -792,7 +791,7 @@ namespace djv
                 hudInfo.frame = sequence.frames[_p->playbackGroup->frame()];
             }
             hudInfo.speed = _p->playbackGroup->speed();
-            hudInfo.realSpeed = _p->playbackGroup->realSpeed();
+            hudInfo.actualSpeed = _p->playbackGroup->actualSpeed();
             hudInfo.droppedFrames = _p->playbackGroup->hasDroppedFrames();
             hudInfo.visible = _p->context->viewPrefs()->hudInfo();
             _p->viewWidget->setHudInfo(hudInfo);
@@ -816,7 +815,7 @@ namespace djv
             Graphics::OpenGLImageOptions options = imageOptions();
             _p->imageSample = options.background;
             const Graphics::Image * image = this->image();
-            if (image && _p->windowGroup->toolBarVisible()[Util::INFO_BAR])
+            if (image && _p->windowGroup->uiComponentVisible()[Enum::UI_COMPONENT_INFO])
             {
                 //DJV_DEBUG_PRINT("sample");
                 try
@@ -830,7 +829,7 @@ namespace djv
                 }
                 catch (Core::Error error)
                 {
-                    error.add(Util::errorLabels()[Util::ERROR_PICK_COLOR]);
+                    error.add(Enum::errorLabels()[Enum::ERROR_PICK_COLOR]);
                     _p->context->printError(error);
                 }
             }
@@ -853,11 +852,11 @@ namespace djv
         {
             switch (_p->playbackGroup->playback())
             {
-            case Util::FORWARD:
-            case Util::REVERSE:
+            case Enum::FORWARD:
+            case Enum::REVERSE:
                 _p->fileGroup->setPreloadActive(false);
                 break;
-            case Util::STOP:
+            case Enum::STOP:
                 _p->fileGroup->setPreloadActive(true);
                 break;
             default: break;
@@ -866,7 +865,7 @@ namespace djv
 
         const Graphics::Image * MainWindow::image() const
         {
-            return _p->imageGroup->hasFrameStore() ? &_p->imageTmp : _p->imageP;
+            return _p->imageGroup->isFrameStoreVisible() ? &_p->imageTmp : _p->imageP;
         }
 
         Graphics::OpenGLImageOptions MainWindow::imageOptions() const
@@ -876,10 +875,10 @@ namespace djv
             const Graphics::Image * image = this->image();
             if (image)
             {
-                out.xform.scale = Util::imageScale(
+                out.xform.scale = Enum::imageScale(
                     _p->imageGroup->scale(), image->size());
             }
-            out.xform.rotate = Util::imageRotate(_p->imageGroup->rotate());
+            out.xform.rotate = Enum::imageRotate(_p->imageGroup->rotate());
             if (image && _p->imageGroup->hasColorProfile())
             {
                 out.colorProfile = image->colorProfile;

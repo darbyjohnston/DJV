@@ -86,7 +86,7 @@ namespace djv
             // Create the general widgets.
             _p->zoomFactorWidget = new QComboBox;
             _p->zoomFactorWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->zoomFactorWidget->addItems(Util::zoomFactorLabels());
+            _p->zoomFactorWidget->addItems(Enum::zoomFactorLabels());
 
             _p->backgroundColorWidget = new UI::ColorSwatch(context.data());
             _p->backgroundColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
@@ -95,7 +95,7 @@ namespace djv
             // Create the grid widgets.
             _p->gridWidget = new QComboBox;
             _p->gridWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->gridWidget->addItems(Util::gridLabels());
+            _p->gridWidget->addItems(Enum::gridLabels());
 
             _p->gridColorWidget = new UI::ColorSwatch(context.data());
             _p->gridColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
@@ -107,10 +107,10 @@ namespace djv
 
             _p->hudInfoWidget = new SmallListWidget;
 
-            for (int i = 0; i < Util::HUD_COUNT; ++i)
+            for (int i = 0; i < Enum::HUD_COUNT; ++i)
             {
                 auto item = new QListWidgetItem(_p->hudInfoWidget);
-                item->setText(Util::hudInfoLabels()[i]);
+                item->setText(Enum::hudInfoLabels()[i]);
                 item->setFlags(
                     Qt::ItemIsSelectable |
                     Qt::ItemIsUserCheckable |
@@ -123,7 +123,7 @@ namespace djv
 
             _p->hudBackgroundWidget = new QComboBox;
             _p->hudBackgroundWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->hudBackgroundWidget->addItems(Util::hudBackgroundLabels());
+            _p->hudBackgroundWidget->addItems(Enum::hudBackgroundLabels());
 
             _p->hudBackgroundColorWidget = new UI::ColorSwatch(context.data());
             _p->hudBackgroundColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
@@ -233,7 +233,7 @@ namespace djv
 
         void ViewPrefsWidget::zoomFactorCallback(int in)
         {
-            context()->viewPrefs()->setZoomFactor(static_cast<Util::ZOOM_FACTOR>(in));
+            context()->viewPrefs()->setZoomFactor(static_cast<Enum::ZOOM_FACTOR>(in));
         }
 
         void ViewPrefsWidget::backgroundCallback(const Graphics::Color & in)
@@ -244,7 +244,7 @@ namespace djv
 
         void ViewPrefsWidget::gridCallback(int in)
         {
-            context()->viewPrefs()->setGrid(static_cast<Util::GRID>(in));
+            context()->viewPrefs()->setGrid(static_cast<Enum::GRID>(in));
         }
 
         void ViewPrefsWidget::gridColorCallback(const Graphics::Color & in)
@@ -274,7 +274,7 @@ namespace djv
 
         void ViewPrefsWidget::hudBackgroundCallback(int in)
         {
-            context()->viewPrefs()->setHudBackground(static_cast<Util::HUD_BACKGROUND>(in));
+            context()->viewPrefs()->setHudBackground(static_cast<Enum::HUD_BACKGROUND>(in));
         }
 
         void ViewPrefsWidget::hudBackgroundColorCallback(const Graphics::Color & in)
@@ -301,7 +301,7 @@ namespace djv
             _p->gridColorWidget->setColor(context()->viewPrefs()->gridColor());
             _p->hudEnabledWidget->setChecked(context()->viewPrefs()->isHudEnabled());
             QVector<bool> hudInfo = context()->viewPrefs()->hudInfo();
-            for (int i = 0; i < Util::HUD_COUNT; ++i)
+            for (int i = 0; i < Enum::HUD_COUNT; ++i)
             {
                 QListWidgetItem * item = _p->hudInfoWidget->item(i);
                 item->setCheckState(hudInfo[i] ? Qt::Checked : Qt::Unchecked);

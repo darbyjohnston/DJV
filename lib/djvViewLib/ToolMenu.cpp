@@ -29,7 +29,7 @@
 
 #include <djvViewLib/ToolMenu.h>
 
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 #include <djvViewLib/ToolActions.h>
 
 #include <QApplication>
@@ -49,7 +49,7 @@ namespace djv
             _p(new Private)
         {
             // Create the menus.
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 addAction(actions->group(ToolActions::TOOL_GROUP)->actions()[i]);
             }

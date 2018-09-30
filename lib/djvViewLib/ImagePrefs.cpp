@@ -30,6 +30,7 @@
 #include <djvViewLib/ImagePrefs.h>
 
 #include <djvViewLib/Context.h>
+#include <djvViewLib/Util.h>
 
 #include <djvUI/Prefs.h>
 
@@ -116,22 +117,22 @@ namespace djv
             return _mirror;
         }
 
-        Util::IMAGE_SCALE ImagePrefs::scaleDefault()
+        Enum::IMAGE_SCALE ImagePrefs::scaleDefault()
         {
-            return static_cast<Util::IMAGE_SCALE>(0);
+            return static_cast<Enum::IMAGE_SCALE>(0);
         }
 
-        Util::IMAGE_SCALE ImagePrefs::scale() const
+        Enum::IMAGE_SCALE ImagePrefs::scale() const
         {
             return _scale;
         }
 
-        Util::IMAGE_ROTATE ImagePrefs::rotateDefault()
+        Enum::IMAGE_ROTATE ImagePrefs::rotateDefault()
         {
-            return static_cast<Util::IMAGE_ROTATE>(0);
+            return static_cast<Enum::IMAGE_ROTATE>(0);
         }
 
-        Util::IMAGE_ROTATE ImagePrefs::rotate() const
+        Enum::IMAGE_ROTATE ImagePrefs::rotate() const
         {
             return _rotate;
         }
@@ -204,7 +205,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ImagePrefs::setScale(Util::IMAGE_SCALE in)
+        void ImagePrefs::setScale(Enum::IMAGE_SCALE in)
         {
             if (in == _scale)
                 return;
@@ -213,7 +214,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ImagePrefs::setRotate(Util::IMAGE_ROTATE in)
+        void ImagePrefs::setRotate(Enum::IMAGE_ROTATE in)
         {
             if (in == _rotate)
                 return;

@@ -57,27 +57,27 @@ namespace djv
                 _actions[i] = new QAction(this);
             }
             _actions[NEW]->setText(qApp->translate("djv::ViewLib::WindowActions", "&New"));
-            _actions[COPY]->setText(qApp->translate("djv::ViewLib::WindowActions", "&Copy"));
+            _actions[DUPLICATE]->setText(qApp->translate("djv::ViewLib::WindowActions", "&Duplicate"));
             _actions[CLOSE]->setText(qApp->translate("djv::ViewLib::WindowActions", "Clos&e"));
             _actions[FIT]->setText(qApp->translate("djv::ViewLib::WindowActions", "&Fit"));
             _actions[FULL_SCREEN]->setText(qApp->translate("djv::ViewLib::WindowActions", "F&ull Screen"));
             _actions[FULL_SCREEN]->setCheckable(true);
-            _actions[CONTROLS_VISIBLE]->setText(qApp->translate("djv::ViewLib::WindowActions", "Show &Controls"));
-            _actions[CONTROLS_VISIBLE]->setCheckable(true);
+            _actions[UI_VISIBLE]->setText(qApp->translate("djv::ViewLib::WindowActions", "Show User &Interface"));
+            _actions[UI_VISIBLE]->setCheckable(true);
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
             {
                 _groups[i] = new QActionGroup(this);
             }
-            _groups[TOOL_BAR_VISIBLE_GROUP]->setExclusive(false);
-            for (int i = 0; i < Util::toolBarLabels().count(); ++i)
+            _groups[UI_COMPONENT_VISIBLE_GROUP]->setExclusive(false);
+            for (int i = 0; i < Enum::uiComponentLabels().count(); ++i)
             {
                 auto action = new QAction(this);
-                action->setText(Util::toolBarLabels()[i]);
+                action->setText(uiComponentVisibilityLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
-                _groups[TOOL_BAR_VISIBLE_GROUP]->addAction(action);
+                _groups[UI_COMPONENT_VISIBLE_GROUP]->addAction(action);
             }
 
             // Initialize.
@@ -96,51 +96,60 @@ namespace djv
 
         WindowActions::~WindowActions()
         {}
+            
+        const QStringList & WindowActions::uiComponentVisibilityLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::WindowActions", "Show Tool Bars") <<
+                qApp->translate("djv::ViewLib::WindowActions", "Show Playback") <<
+                qApp->translate("djv::ViewLib::WindowActions", "Show Information");
+            DJV_ASSERT(data.count() == Enum::UI_COMPONENT_COUNT);
+            return data;
+        }
 
         void WindowActions::update()
         {
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
             _actions[NEW]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowNewIcon"));
-            _actions[NEW]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_NEW].value);
+            _actions[NEW]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_NEW].value);
             _actions[NEW]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Create a new window\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_WINDOW_NEW].value.toString()));
-            _actions[COPY]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowCopyIcon"));
-            _actions[COPY]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_COPY].value);
-            _actions[COPY]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Copy the current window\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_WINDOW_COPY].value.toString()));
+                qApp->translate("djv::ViewLib::WindowActions", "Create a new window\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_NEW].value.toString()));
+            _actions[DUPLICATE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowDuplicateIcon"));
+            _actions[DUPLICATE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value);
+            _actions[DUPLICATE]->setToolTip(
+                qApp->translate("djv::ViewLib::WindowActions", "Duplicate this window\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value.toString()));
             _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowCloseIcon"));
-            _actions[CLOSE]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_CLOSE].value);
+            _actions[CLOSE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value);
             _actions[CLOSE]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Close the current window\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_WINDOW_CLOSE].value.toString()));
+                qApp->translate("djv::ViewLib::WindowActions", "Close this window\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value.toString()));
             _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFitIcon"));
-            _actions[FIT]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_FIT].value);
+            _actions[FIT]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_FIT].value);
             _actions[FIT]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Resize the window to fit the image\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_WINDOW_FIT].value.toString()));
+                qApp->translate("djv::ViewLib::WindowActions", "Resize the window to fit the image\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_FIT].value.toString()));
             _actions[FULL_SCREEN]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFullScreenIcon"));
-            _actions[FULL_SCREEN]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_FULL_SCREEN].value);
+            _actions[FULL_SCREEN]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_FULL_SCREEN].value);
             _actions[FULL_SCREEN]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Show the window full screen\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
-            _actions[CONTROLS_VISIBLE]->setShortcut(shortcuts[Util::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value);
-            _actions[CONTROLS_VISIBLE]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Toggle the user interface controls visbility\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value.toString()));
+                qApp->translate("djv::ViewLib::WindowActions", "Show the window full screen\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
+            _actions[UI_VISIBLE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_UI_VISIBLE].value);
 
-            const Util::SHORTCUT toolBarShortcuts[] =
+            const Enum::SHORTCUT uiComponentVisibilityShortcuts[] =
             {
-                Util::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
-                Util::SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
-                Util::SHORTCUT_WINDOW_INFO_VISIBLE
+                Enum::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
+                Enum::SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
+                Enum::SHORTCUT_WINDOW_INFO_VISIBLE
             };
-            const int toolBarShortcutsCount = sizeof(toolBarShortcuts) / sizeof(toolBarShortcuts[0]);
-            for (int i = 0; i < toolBarShortcutsCount; ++i)
+            const int uiComponentVisibilityShortcutsCount =
+                sizeof(uiComponentVisibilityShortcuts) / sizeof(uiComponentVisibilityShortcuts[0]);
+            for (int i = 0; i < uiComponentVisibilityShortcutsCount; ++i)
             {
-                _groups[TOOL_BAR_VISIBLE_GROUP]->actions()[i]->setShortcut(shortcuts[toolBarShortcuts[i]].value);
+                _groups[UI_COMPONENT_VISIBLE_GROUP]->actions()[i]->setShortcut(
+                    shortcuts[uiComponentVisibilityShortcuts[i]].value);
             }
             
             Q_EMIT changed();

@@ -75,7 +75,6 @@ namespace djv
 
         private Q_SLOTS:
             void textCallback(const QString &);
-            void resetCallback();
             
             void styleUpdate();
 

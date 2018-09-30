@@ -66,7 +66,7 @@ namespace djv
             QScopedPointer<Graphics::PixelDataInfo::PROXY> fileProxy;
             QScopedPointer<bool>                           fileCacheEnable;
             QScopedPointer<bool>                           windowFullScreen;
-            QScopedPointer<Util::PLAYBACK>                 playback;
+            QScopedPointer<Enum::PLAYBACK>                 playback;
             QScopedPointer<int>                            playbackFrame;
             QScopedPointer<Core::Speed>                    playbackSpeed;
 
@@ -165,7 +165,7 @@ namespace djv
             return _p->windowFullScreen;
         }
 
-        const QScopedPointer<Util::PLAYBACK> & Context::playback() const
+        const QScopedPointer<Enum::PLAYBACK> & Context::playback() const
         {
             return _p->playback;
         }
@@ -180,7 +180,7 @@ namespace djv
             return _p->playbackSpeed;
         }
 
-        FilePrefs * Context::filePrefs() const
+        const QPointer<FilePrefs> & Context::filePrefs() const
         {
             return _p->filePrefs;
         }
@@ -230,13 +230,13 @@ namespace djv
             UI::UIContext::setValid(true);
             if (isValid())
             {
-                prefsDialog()->addWidget(new FilePrefsWidget(this), "djv_view");
-                prefsDialog()->addWidget(new WindowPrefsWidget(this), "djv_view");
-                prefsDialog()->addWidget(new ViewPrefsWidget(this), "djv_view");
-                prefsDialog()->addWidget(new ImagePrefsWidget(this), "djv_view");
-                prefsDialog()->addWidget(new PlaybackPrefsWidget(this), "djv_view");
-                prefsDialog()->addWidget(new InputPrefsWidget(this), "djv_view");
-                prefsDialog()->addWidget(new ShortcutPrefsWidget(this), "djv_view");
+                prefsDialog()->addWidget(new ShortcutPrefsWidget(this));
+                prefsDialog()->addWidget(new InputPrefsWidget(this));
+                prefsDialog()->addWidget(new PlaybackPrefsWidget(this));
+                prefsDialog()->addWidget(new ImagePrefsWidget(this));
+                prefsDialog()->addWidget(new ViewPrefsWidget(this));
+                prefsDialog()->addWidget(new WindowPrefsWidget(this));
+                prefsDialog()->addWidget(new FilePrefsWidget(this));
             }
         }
 
@@ -305,10 +305,9 @@ namespace djv
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-playback") == arg)
                     {
-                        Util::PLAYBACK value =
-                            static_cast<Util::PLAYBACK>(0);
+                        Enum::PLAYBACK value = static_cast<Enum::PLAYBACK>(0);
                         in >> value;
-                        _p->playback.reset(new Util::PLAYBACK(value));
+                        _p->playback.reset(new Enum::PLAYBACK(value));
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-playback_frame") == arg)
@@ -398,7 +397,7 @@ namespace djv
                 arg(autoSequenceLabel.join(", ")).
                 arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
                 arg(Core::StringUtil::boolLabels().join(", ")).
-                arg(Util::playbackLabels().join(", ")).
+                arg(Enum::playbackLabels().join(", ")).
                 arg(Core::Speed::fpsLabels().join(", ")).
                 arg(UI::UIContext::commandLineHelp());
         }

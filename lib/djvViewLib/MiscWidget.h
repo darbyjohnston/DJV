@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Core.h>
+#include <djvViewLib/ViewLib.h>
 
 #include <djvCore/Sequence.h>
 #include <djvCore/Speed.h>
@@ -56,19 +56,19 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the cache sizes.
-                Q_PROPERTY(
-                    QVector<float> cacheSizes
-                    READ           cacheSizes
-                    WRITE          setCacheSizes
-                    NOTIFY         cacheSizesChanged)
+            //! This property holds the cache sizes.
+            Q_PROPERTY(
+                QVector<float> cacheSizes
+                READ           cacheSizes
+                WRITE          setCacheSizes
+                NOTIFY         cacheSizesChanged)
 
-                //! This property holds the cache size.
-                Q_PROPERTY(
-                    float  cacheSize
-                    READ   cacheSize
-                    WRITE  setCacheSize
-                    NOTIFY cacheSizeChanged)
+            //! This property holds the cache size.
+            Q_PROPERTY(
+                float  cacheSize
+                READ   cacheSize
+                WRITE  setCacheSize
+                NOTIFY cacheSizeChanged)
 
         public:
             explicit CacheSizeWidget(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
@@ -116,24 +116,24 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the frame list.
-                Q_PROPERTY(
-                    Core::FrameList frameList
-                    READ            frameList
-                    WRITE           setFrameList)
+            //! This property holds the frame list.
+            Q_PROPERTY(
+                Core::FrameList frameList
+                READ            frameList
+                WRITE           setFrameList)
 
-                //! This property holds the frame.
-                Q_PROPERTY(
-                    qint64 frame
-                    READ   frame
-                    WRITE  setFrame
-                    NOTIFY frameChanged)
+            //! This property holds the frame.
+            Q_PROPERTY(
+                qint64 frame
+                READ   frame
+                WRITE  setFrame
+                NOTIFY frameChanged)
 
-                //! This property holds the speed.
-                Q_PROPERTY(
-                    Core::Speed speed
-                    READ        speed
-                    WRITE       setSpeed)
+            //! This property holds the speed.
+            Q_PROPERTY(
+                Core::Speed speed
+                READ        speed
+                WRITE       setSpeed)
 
         public:
             explicit FrameWidget(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
@@ -190,45 +190,45 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the frame list.
-                Q_PROPERTY(
-                    djv::Core::FrameList frameList
-                    READ                frameList
-                    WRITE        setFrameList)
+            //! This property holds the frame list.
+            Q_PROPERTY(
+                djv::Core::FrameList frameList
+                READ                frameList
+                WRITE        setFrameList)
 
-                //! This property holds the current frame.
-                Q_PROPERTY(
-                    qint64 frame
-                    READ   frame
-                    WRITE  setFrame
-                    NOTIFY frameChanged)
+            //! This property holds the current frame.
+            Q_PROPERTY(
+                qint64 frame
+                READ   frame
+                WRITE  setFrame
+                NOTIFY frameChanged)
 
-                //! This property holds the speed.
-                Q_PROPERTY(
-                    Core::Speed speed
-                    READ        speed
-                    WRITE       setSpeed)
+            //! This property holds the speed.
+            Q_PROPERTY(
+                Core::Speed speed
+                READ        speed
+                WRITE       setSpeed)
 
-                //! This property holds whether in/out points are enabled.
-                Q_PROPERTY(
-                    bool   inOutEnabled
-                    READ   isInOutEnabled
-                    WRITE  setInOutEnabled
-                    NOTIFY inOutEnabledChanged)
+            //! This property holds whether in/out points are enabled.
+            Q_PROPERTY(
+                bool   inOutEnabled
+                READ   isInOutEnabled
+                WRITE  setInOutEnabled
+                NOTIFY inOutEnabledChanged)
 
-                //! This property holds the in point.
-                Q_PROPERTY(
-                    qint64 inPoint
-                    READ   inPoint
-                    WRITE  setInPoint
-                    NOTIFY inPointChanged)
+            //! This property holds the in point.
+            Q_PROPERTY(
+                qint64 inPoint
+                READ   inPoint
+                WRITE  setInPoint
+                NOTIFY inPointChanged)
 
-                //! This property holds the out point.
-                Q_PROPERTY(
-                    qint64 outPoint
-                    READ   outPoint
-                    WRITE  setOutPoint
-                    NOTIFY outPointChanged)
+            //! This property holds the out point.
+            Q_PROPERTY(
+                qint64 outPoint
+                READ   outPoint
+                WRITE  setOutPoint
+                NOTIFY outPointChanged)
 
         public:
             explicit FrameSlider(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
@@ -341,28 +341,28 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        //! This class provides frame number display.
+        //! This class provides a frame number display.
         class FrameDisplay : public QWidget
         {
             Q_OBJECT
 
-                //! This property holds the frame.
-                Q_PROPERTY(
-                    qint64 frame
-                    READ   frame
-                    WRITE  setFrame)
+            //! This property holds the frame.
+            Q_PROPERTY(
+                qint64 frame
+                READ   frame
+                WRITE  setFrame)
 
-                //! This property holds the speed.
-                Q_PROPERTY(
-                    Core::Speed speed
-                    READ        speed
-                    WRITE       setSpeed)
+            //! This property holds the speed.
+            Q_PROPERTY(
+                Core::Speed speed
+                READ        speed
+                WRITE       setSpeed)
 
-                //! This property holds whether in/out points are enabled.
-                Q_PROPERTY(
-                    bool   inOutEnabled
-                    READ   isInOutEnabled
-                    WRITE  setInOutEnabled)
+            //! This property holds whether in/out points are enabled.
+            Q_PROPERTY(
+                bool   inOutEnabled
+                READ   isInOutEnabled
+                WRITE  setInOutEnabled)
 
         public:
             explicit FrameDisplay(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
@@ -443,18 +443,18 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the speed.
-                Q_PROPERTY(
-                    Core::Speed speed
-                    READ        speed
-                    WRITE       setSpeed
-                    NOTIFY      speedChanged)
+            //! This property holds the speed.
+            Q_PROPERTY(
+                Core::Speed speed
+                READ        speed
+                WRITE       setSpeed
+                NOTIFY      speedChanged)
 
-                //! This property holds the default speed.
-                Q_PROPERTY(
-                    Core::Speed defaultSpeed
-                    READ        defaultSpeed
-                    WRITE       setDefaultSpeed)
+            //! This property holds the default speed.
+            Q_PROPERTY(
+                Core::Speed defaultSpeed
+                READ        defaultSpeed
+                WRITE       setDefaultSpeed)
 
         public:
             explicit SpeedWidget(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);

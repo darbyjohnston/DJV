@@ -52,7 +52,7 @@ namespace djv
             addWidget(button);
 
             button = new UI::ToolButton(context.data());
-            button->setDefaultAction(actions->action(WindowActions::COPY));
+            button->setDefaultAction(actions->action(WindowActions::DUPLICATE));
             addWidget(button);
 
             button = new UI::ToolButton(context.data());

@@ -58,7 +58,7 @@ namespace djv
             {
                 _hudInfo.clear();
                 prefs.get("hudInfo", _hudInfo);
-                _hudInfo.resize(Util::HUD_COUNT);
+                _hudInfo.resize(Enum::HUD_COUNT);
             }
             prefs.get("hudColor", _hudColor);
             prefs.get("hudBackground", _hudBackground);
@@ -80,12 +80,12 @@ namespace djv
             prefs.set("hudBackgroundColor", _hudBackgroundColor);
         }
 
-        Util::ZOOM_FACTOR ViewPrefs::zoomFactorDefault()
+        Enum::ZOOM_FACTOR ViewPrefs::zoomFactorDefault()
         {
-            return Util::ZOOM_FACTOR_10;
+            return Enum::ZOOM_FACTOR_10;
         }
 
-        Util::ZOOM_FACTOR ViewPrefs::zoomFactor() const
+        Enum::ZOOM_FACTOR ViewPrefs::zoomFactor() const
         {
             return _zoomFactor;
         }
@@ -100,12 +100,12 @@ namespace djv
             return _background;
         }
 
-        Util::GRID ViewPrefs::gridDefault()
+        Enum::GRID ViewPrefs::gridDefault()
         {
-            return Util::GRID_NONE;
+            return Enum::GRID_NONE;
         }
 
-        Util::GRID ViewPrefs::grid() const
+        Enum::GRID ViewPrefs::grid() const
         {
             return _grid;
         }
@@ -132,7 +132,7 @@ namespace djv
 
         QVector<bool> ViewPrefs::hudInfoDefault()
         {
-            return QVector<bool>(Util::HUD_COUNT, true);
+            return QVector<bool>(Enum::HUD_COUNT, true);
         }
 
         QVector<bool> ViewPrefs::hudInfo() const
@@ -140,7 +140,7 @@ namespace djv
             return _hudInfo;
         }
 
-        bool ViewPrefs::isHudInfo(Util::HUD in) const
+        bool ViewPrefs::isHudInfo(Enum::HUD in) const
         {
             return _hudInfo[in] != 0 ? true : false;
         }
@@ -155,12 +155,12 @@ namespace djv
             return _hudColor;
         }
 
-        Util::HUD_BACKGROUND ViewPrefs::hudBackgroundDefault()
+        Enum::HUD_BACKGROUND ViewPrefs::hudBackgroundDefault()
         {
-            return Util::HUD_BACKGROUND_SHADOW;
+            return Enum::HUD_BACKGROUND_SHADOW;
         }
 
-        Util::HUD_BACKGROUND ViewPrefs::hudBackground() const
+        Enum::HUD_BACKGROUND ViewPrefs::hudBackground() const
         {
             return _hudBackground;
         }
@@ -175,7 +175,7 @@ namespace djv
             return _hudBackgroundColor;
         }
 
-        void ViewPrefs::setZoomFactor(Util::ZOOM_FACTOR in)
+        void ViewPrefs::setZoomFactor(Enum::ZOOM_FACTOR in)
         {
             if (in == _zoomFactor)
                 return;
@@ -194,7 +194,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ViewPrefs::setGrid(Util::GRID in)
+        void ViewPrefs::setGrid(Enum::GRID in)
         {
             if (in == _grid)
                 return;
@@ -232,7 +232,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ViewPrefs::setHudInfo(Util::HUD info, bool in)
+        void ViewPrefs::setHudInfo(Enum::HUD info, bool in)
         {
             const bool tmp = _hudInfo[info] != 0 ? true : false;
             if (in == tmp)
@@ -251,7 +251,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ViewPrefs::setHudBackground(Util::HUD_BACKGROUND in)
+        void ViewPrefs::setHudBackground(Enum::HUD_BACKGROUND in)
         {
             if (in == _hudBackground)
                 return;

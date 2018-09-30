@@ -50,8 +50,8 @@ namespace djv
             _p(new Private)
         {
             // Create the menus.
-            addAction(actions->action(ImageActions::FRAME_STORE));
-            addAction(actions->action(ImageActions::LOAD_FRAME_STORE));
+            addAction(actions->action(ImageActions::SHOW_FRAME_STORE));
+            addAction(actions->action(ImageActions::SET_FRAME_STORE));
 
             addSeparator();
 

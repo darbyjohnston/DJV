@@ -57,41 +57,41 @@
 
 namespace
 {
-class Widget : public QWidget
-{
-public:
-    Widget();
-
-    void setPixmap(const QPixmap &);
-    
-protected:
-    void paintEvent(QPaintEvent *) override;
-
-private:
-    QPixmap _pixmap;
-};
-
-Widget::Widget()
-{
-    setAttribute(Qt::WA_OpaquePaintEvent);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-}
-
-void Widget::setPixmap(const QPixmap & pixmap)
-{
-    _pixmap = pixmap;
-    update();
-}
-
-void Widget::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    painter.fillRect(rect(), Qt::black);
-    if (! _pixmap.isNull())
+    class Widget : public QWidget
     {
-        painter.drawPixmap(0, 0, _pixmap);
+    public:
+        Widget();
+
+        void setPixmap(const QPixmap &);
+        
+    protected:
+        void paintEvent(QPaintEvent *) override;
+
+    private:
+        QPixmap _pixmap;
+    };
+
+    Widget::Widget()
+    {
+        setAttribute(Qt::WA_OpaquePaintEvent);
+        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     }
-}
+
+    void Widget::setPixmap(const QPixmap & pixmap)
+    {
+        _pixmap = pixmap;
+        update();
+    }
+
+    void Widget::paintEvent(QPaintEvent *)
+    {
+        QPainter painter(this);
+        painter.fillRect(rect(), Qt::black);
+        if (! _pixmap.isNull())
+        {
+            painter.drawPixmap(0, 0, _pixmap);
+        }
+    }
 
 } // namespace
 
@@ -127,16 +127,18 @@ namespace djv
             _p->slider = new UI::IntEditSlider(context.data());
             _p->slider->setRange(1, 10);
             _p->slider->setResetToDefault(false);
+            _p->slider->setToolTip(
+                qApp->translate("djv::ViewLib::MagnifyTool", "Magnification level"));
 
             _p->colorProfileButton = new UI::ToolButton(context.data());
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
-                qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the color profile is enabled"));
+                qApp->translate("djv::ViewLib::MagnifyTool", "Enable the color profile"));
 
             _p->displayProfileButton = new UI::ToolButton(context.data());
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
-                qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the display profile is enabled"));
+                qApp->translate("djv::ViewLib::MagnifyTool", "Enable the display profile"));
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
@@ -302,7 +304,7 @@ namespace djv
                 }
                 catch (Core::Error error)
                 {
-                    error.add(Util::errorLabels()[Util::ERROR_MAGNIFY]);
+                    error.add(Enum::errorLabels()[Enum::ERROR_MAGNIFY]);
                     context()->printError(error);
                 }
             }

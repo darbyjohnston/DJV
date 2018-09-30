@@ -60,15 +60,15 @@ namespace djv
             // Create the widgets.
             _p->mouseWheelWidget = new QComboBox;
             _p->mouseWheelWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->mouseWheelWidget->addItems(Util::mouseWheelLabels());
+            _p->mouseWheelWidget->addItems(Enum::mouseWheelLabels());
 
             _p->mouseWheelShiftWidget = new QComboBox;
             _p->mouseWheelShiftWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->mouseWheelShiftWidget->addItems(Util::mouseWheelLabels());
+            _p->mouseWheelShiftWidget->addItems(Enum::mouseWheelLabels());
 
             _p->mouseWheelCtrlWidget = new QComboBox;
             _p->mouseWheelCtrlWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->mouseWheelCtrlWidget->addItems(Util::mouseWheelLabels());
+            _p->mouseWheelCtrlWidget->addItems(Enum::mouseWheelLabels());
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
@@ -120,17 +120,17 @@ namespace djv
 
         void InputPrefsWidget::mouseWheelCallback(int in)
         {
-            context()->inputPrefs()->setMouseWheel(static_cast<Util::MOUSE_WHEEL>(in));
+            context()->inputPrefs()->setMouseWheel(static_cast<Enum::MOUSE_WHEEL>(in));
         }
 
         void InputPrefsWidget::mouseWheelShiftCallback(int in)
         {
-            context()->inputPrefs()->setMouseWheelShift(static_cast<Util::MOUSE_WHEEL>(in));
+            context()->inputPrefs()->setMouseWheelShift(static_cast<Enum::MOUSE_WHEEL>(in));
         }
 
         void InputPrefsWidget::mouseWheelCtrlCallback(int in)
         {
-            context()->inputPrefs()->setMouseWheelCtrl(static_cast<Util::MOUSE_WHEEL>(in));
+            context()->inputPrefs()->setMouseWheelCtrl(static_cast<Enum::MOUSE_WHEEL>(in));
         }
 
         void InputPrefsWidget::widgetUpdate()

@@ -339,7 +339,7 @@ namespace djv
                     catch (Core::Error error)
                     {
                         error.add(
-                            Util::errorLabels()[Util::ERROR_READ_IMAGE].
+                            Enum::errorLabels()[Enum::ERROR_READ_IMAGE].
                             arg(QDir::toNativeSeparators(_p->fileInfo)));
                         context()->printError(error);
                     }
@@ -364,7 +364,7 @@ namespace djv
                     catch (Core::Error error)
                     {
                         error.add(
-                            Util::errorLabels()[Util::ERROR_READ_IMAGE].
+                            Enum::errorLabels()[Enum::ERROR_READ_IMAGE].
                             arg(QDir::toNativeSeparators(_p->fileInfo)));
                         context()->printError(error);
                     }
@@ -429,7 +429,7 @@ namespace djv
                 catch (Core::Error error)
                 {
                     error.add(
-                        Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
+                        Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
                         arg(QDir::toNativeSeparators(tmp)));
                     context()->printError(error);
                 }
@@ -679,7 +679,7 @@ namespace djv
             //DJV_DEBUG("FileGroup::reloadCallback");
             if (context()->imagePrefs()->hasFrameStoreFileReload())
             {
-                Q_EMIT loadFrameStore();
+                Q_EMIT setFrameStore();
             }
             cacheDel();
             _p->imageLoad.reset();
@@ -693,7 +693,7 @@ namespace djv
                 catch (Core::Error error)
                 {
                     error.add(
-                        Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
+                        Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
                         arg(QDir::toNativeSeparators(_p->fileInfo)));
 
                     context()->printError(error);
@@ -707,7 +707,7 @@ namespace djv
             //DJV_DEBUG("FileGroup::reloadFrameCallback");
             if (context()->imagePrefs()->hasFrameStoreFileReload())
             {
-                Q_EMIT loadFrameStore();
+                Q_EMIT setFrameStore();
             }
             Q_EMIT reloadFrame();
             _p->imageLoad.reset();
@@ -721,7 +721,7 @@ namespace djv
                 catch (Core::Error error)
                 {
                     error.add(
-                        Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
+                        Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
                         arg(QDir::toNativeSeparators(_p->fileInfo)));
 
                     context()->printError(error);

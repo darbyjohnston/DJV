@@ -120,7 +120,7 @@ namespace djv
             void imageChanged();
 
             //! This signal is emitted to store the current frame.
-            void loadFrameStore();
+            void setFrameStore();
 
             //! This signal is emitted to reload the frame.
             void reloadFrame();

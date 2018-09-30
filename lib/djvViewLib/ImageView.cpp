@@ -36,7 +36,7 @@
 #include <djvViewLib/ViewPrefs.h>
 #include <djvViewLib/WindowPrefs.h>
 
-#include <djvUI/TimePrefs.h>
+#include <djvUI/MiscPrefs.h>
 
 #include <djvGraphics/OpenGL.h>
 #include <djvGraphics/Pixel.h>
@@ -77,14 +77,14 @@ namespace djv
 
             glm::ivec2                             viewPosTmp = glm::ivec2(0, 0);
             float                                  viewZoomTmp = 0.f;
-            Util::GRID                             grid = static_cast<Util::GRID>(0);
+            Enum::GRID                             grid = static_cast<Enum::GRID>(0);
             Graphics::Color                        gridColor;
             Graphics::PixelData                    gridPixelData;
             std::unique_ptr<Graphics::OpenGLImage> gridOpenGLImage;
             bool                                   hudEnabled = false;
             HudInfo                                hudInfo;
             Graphics::Color                        hudColor;
-            Util::HUD_BACKGROUND                   hudBackground = static_cast<Util::HUD_BACKGROUND>(0);
+            Enum::HUD_BACKGROUND                   hudBackground = static_cast<Enum::HUD_BACKGROUND>(0);
             Graphics::Color                        hudBackgroundColor;
             Graphics::PixelData                    hudPixelData;
             std::unique_ptr<Graphics::OpenGLImage> hudOpenGLImage;
@@ -120,14 +120,14 @@ namespace djv
                 SLOT(setHudColor(const djv::Graphics::Color &)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudBackgroundChanged(djv::ViewLib::Util::HUD_BACKGROUND)),
-                SLOT(setHudBackground(djv::ViewLib::Util::HUD_BACKGROUND)));
+                SIGNAL(hudBackgroundChanged(djv::ViewLib::Enum::HUD_BACKGROUND)),
+                SLOT(setHudBackground(djv::ViewLib::Enum::HUD_BACKGROUND)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudBackgroundColorChanged(const djv::Graphics::Color &)),
                 SLOT(setHudBackgroundColor(const djv::Graphics::Color &)));
             connect(
-                context->timePrefs(),
+                context->miscPrefs(),
                 SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(update()));
         }
@@ -164,22 +164,22 @@ namespace djv
             const glm::ivec2 screenSize(desktopGeom.width(), desktopGeom.height());
             switch (_p->context->windowPrefs()->viewMax())
             {
-            case Util::VIEW_MAX_25:
-            case Util::VIEW_MAX_50:
-            case Util::VIEW_MAX_75:
+            case Enum::VIEW_MAX_25:
+            case Enum::VIEW_MAX_50:
+            case Enum::VIEW_MAX_75:
             {
                 float v = 0.f;
                 switch (_p->context->windowPrefs()->viewMax())
                 {
-                case Util::VIEW_MAX_25: v = 0.25; break;
-                case Util::VIEW_MAX_50: v = 0.5;  break;
-                case Util::VIEW_MAX_75: v = 0.75; break;
+                case Enum::VIEW_MAX_25: v = 0.25; break;
+                case Enum::VIEW_MAX_50: v = 0.5;  break;
+                case Enum::VIEW_MAX_75: v = 0.75; break;
                 default: break;
                 }
                 maxSize = Core::VectorUtil::ceil(glm::vec2(screenSize) * v);
             }
             break;
-            case Util::VIEW_MAX_USER:
+            case Enum::VIEW_MAX_USER:
                 maxSize = _p->context->windowPrefs()->viewMaxUser();
                 break;
             default: break;
@@ -212,7 +212,7 @@ namespace djv
                 _p->inside ? _p->mousePos : (glm::ivec2(width(), height()) / 2));
         }
 
-        void ImageView::setGrid(Util::GRID grid)
+        void ImageView::setGrid(Enum::GRID grid)
         {
             if (grid == _p->grid)
                 return;
@@ -252,7 +252,7 @@ namespace djv
             update();
         }
 
-        void ImageView::setHudBackground(Util::HUD_BACKGROUND background)
+        void ImageView::setHudBackground(Enum::HUD_BACKGROUND background)
         {
             if (background == _p->hudBackground)
                 return;
@@ -336,7 +336,7 @@ namespace djv
             else if (Qt::RightButton == event->button())
             {
                 setCursor(Qt::SizeHorCursor);
-                Q_EMIT mouseWheelChanged(Util::MOUSE_WHEEL_PLAYBACK_SHUTTLE);
+                Q_EMIT mouseWheelChanged(Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE);
             }
         }
 
@@ -367,8 +367,7 @@ namespace djv
 
         void ImageView::wheelEvent(QWheelEvent * event)
         {
-            Util::MOUSE_WHEEL mouseWheel =
-                _p->context->inputPrefs()->mouseWheel();
+            Enum::MOUSE_WHEEL mouseWheel = _p->context->inputPrefs()->mouseWheel();
             if (event->modifiers() & Qt::ShiftModifier)
             {
                 mouseWheel = _p->context->inputPrefs()->mouseWheelShift();
@@ -377,14 +376,14 @@ namespace djv
             {
                 mouseWheel = _p->context->inputPrefs()->mouseWheelCtrl();
             }
-            const float speed = Util::zoomFactor(_p->context->viewPrefs()->zoomFactor());
+            const float speed = Enum::zoomFactor(_p->context->viewPrefs()->zoomFactor());
             const int delta = event->angleDelta().y();
             switch (mouseWheel)
             {
-            case Util::MOUSE_WHEEL_VIEW_ZOOM:
+            case Enum::MOUSE_WHEEL_VIEW_ZOOM:
                 setZoomFocus(viewZoom() * (delta / 120.f > 0 ? speed : (1.f / speed)));
                 break;
-            case Util::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+            case Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
                 if (!_p->mouseWheel)
                 {
@@ -395,7 +394,7 @@ namespace djv
                 _p->mouseWheelTmp += delta / 120.f;
                 Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
                 break;
-            case Util::MOUSE_WHEEL_PLAYBACK_SPEED:
+            case Enum::MOUSE_WHEEL_PLAYBACK_SPEED:
                 if (!_p->mouseWheel)
                 {
                     Q_EMIT mouseWheelChanged(mouseWheel);
@@ -505,7 +504,7 @@ namespace djv
         void ImageView::drawGrid()
         {
             //DJV_DEBUG("ImageView::drawGrid");
-            //DJV_DEBUG_PRINT("grid = " << Util::gridLabels()[_p->grid]);
+            //DJV_DEBUG_PRINT("grid = " << Enum::gridLabels()[_p->grid]);
 
             const glm::ivec2 size(width(), height());
             const glm::ivec2& viewPos = this->viewPos();
@@ -522,9 +521,9 @@ namespace djv
             int inc = 0;
             switch (_p->grid)
             {
-            case Util::GRID_1x1:     inc = 1;   break;
-            case Util::GRID_10x10:   inc = 10;  break;
-            case Util::GRID_100x100: inc = 100; break;
+            case Enum::GRID_1x1:     inc = 1;   break;
+            case Enum::GRID_10x10:   inc = 10;  break;
+            case Enum::GRID_100x100: inc = 100; break;
             default: break;
             }
             if ((inc * viewZoom) <= 2)
@@ -584,29 +583,29 @@ namespace djv
             QStringList lowerRight;
 
             // Generate the upper left contents.
-            if (_p->hudInfo.visible[Util::HUD_FILE_NAME])
+            if (_p->hudInfo.visible[Enum::HUD_FILE_NAME])
             {
                 upperLeft += qApp->translate("djv::ViewLib::ImageView", "File  = %1").
                     arg(_p->hudInfo.info.fileName);
             }
-            if (_p->hudInfo.visible[Util::HUD_LAYER])
+            if (_p->hudInfo.visible[Enum::HUD_LAYER])
             {
                 upperLeft += qApp->translate("djv::ViewLib::ImageView", "Layer = %1").
                     arg(_p->hudInfo.info.layerName);
             }
-            if (_p->hudInfo.visible[Util::HUD_SIZE])
+            if (_p->hudInfo.visible[Enum::HUD_SIZE])
             {
                 upperLeft += qApp->translate("djv::ViewLib::ImageView", "Size  = %1x%2:%3").
                     arg(_p->hudInfo.info.size.x).
                     arg(_p->hudInfo.info.size.y).
                     arg(Core::VectorUtil::aspect(_p->hudInfo.info.size), 0, 'f', 2);
             }
-            if (_p->hudInfo.visible[Util::HUD_PROXY])
+            if (_p->hudInfo.visible[Enum::HUD_PROXY])
             {
                 upperLeft += qApp->translate("djv::ViewLib::ImageView", "Proxy = %1").
                     arg(_p->hudInfo.info.proxy);
             }
-            if (_p->hudInfo.visible[Util::HUD_PIXEL])
+            if (_p->hudInfo.visible[Enum::HUD_PIXEL])
             {
                 QStringList pixelLabel;
                 pixelLabel << _p->hudInfo.info.pixel;
@@ -615,7 +614,7 @@ namespace djv
             }
 
             // Generate the lower left contents.
-            if (_p->hudInfo.visible[Util::HUD_TAG] && _p->hudInfo.tags.count())
+            if (_p->hudInfo.visible[Enum::HUD_TAG] && _p->hudInfo.tags.count())
             {
                 const QStringList keys = _p->hudInfo.tags.keys();
                 for (int i = 0; i < keys.count(); ++i)
@@ -627,16 +626,16 @@ namespace djv
             }
 
             // Generate the upper right contents.
-            if (_p->hudInfo.visible[Util::HUD_FRAME])
+            if (_p->hudInfo.visible[Enum::HUD_FRAME])
             {
                 upperRight += qApp->translate("djv::ViewLib::ImageView", "Frame = %1").
                     arg(Core::Time::frameToString(_p->hudInfo.frame, _p->hudInfo.speed));
             }
-            if (_p->hudInfo.visible[Util::HUD_SPEED])
+            if (_p->hudInfo.visible[Enum::HUD_SPEED])
             {
                 upperRight += qApp->translate("djv::ViewLib::ImageView", "Speed = %1/%2").
                     arg(Core::Speed::speedToFloat(_p->hudInfo.speed), 0, 'f', 2).
-                    arg(_p->hudInfo.realSpeed, 0, 'f', 2);
+                    arg(_p->hudInfo.actualSpeed, 0, 'f', 2);
             }
 
             const glm::ivec2 size(width(), height());
@@ -702,11 +701,11 @@ namespace djv
         {
             switch (_p->hudBackground)
             {
-            case Util::HUD_BACKGROUND_NONE: break;
-            case Util::HUD_BACKGROUND_SOLID:
+            case Enum::HUD_BACKGROUND_NONE: break;
+            case Enum::HUD_BACKGROUND_SOLID:
                 painter.fillRect(box.x, box.y, box.w, box.h, Graphics::ColorUtil::toQt(_p->hudBackgroundColor));
                 break;
-            case Util::HUD_BACKGROUND_SHADOW:
+            case Enum::HUD_BACKGROUND_SHADOW:
                 painter.setPen(Graphics::ColorUtil::toQt(_p->hudBackgroundColor));
                 painter.drawText(box.x + 1, box.y + 1, box.w, box.h, Qt::AlignCenter, in);
                 break;

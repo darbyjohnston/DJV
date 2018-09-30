@@ -105,12 +105,12 @@ namespace djv
             _p->colorProfileButton = new UI::ToolButton(context.data());
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
-                qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the color profile is enabled"));
+                qApp->translate("djv::ViewLib::ColorPickerTool", "Enable the color profile"));
 
             _p->displayProfileButton = new UI::ToolButton(context.data());
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
-                qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the display profile is enabled"));
+                qApp->translate("djv::ViewLib::ColorPickerTool", "Enable the display profile"));
 
             _p->lockWidget = new UI::ToolButton(context.data());
             _p->lockWidget->setCheckable(true);
@@ -338,7 +338,7 @@ namespace djv
                 }
                 catch (Core::Error error)
                 {
-                    error.add(Util::errorLabels()[Util::ERROR_PICK_COLOR]);
+                    error.add(Enum::errorLabels()[Enum::ERROR_PICK_COLOR]);
                     context()->printError(error);
                 }
 

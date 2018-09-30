@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractGroup.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <memory>
 
@@ -65,16 +65,16 @@ namespace djv
             const Core::Sequence & sequence() const;
 
             //! Get the playback.
-            Util::PLAYBACK playback() const;
+            Enum::PLAYBACK playback() const;
 
             //! Get the loop mode.
-            Util::LOOP loop() const;
+            Enum::LOOP loop() const;
 
             //! Get the speed.
             const Core::Speed & speed() const;
 
-            //! Get the real playback speed.
-            float realSpeed() const;
+            //! Get the actual playback speed.
+            float actualSpeed() const;
 
             //! Get whether frames were dropped.
             bool hasDroppedFrames() const;
@@ -95,7 +95,7 @@ namespace djv
             qint64 outPoint() const;
 
             //! Get the layout.
-            Util::LAYOUT layout() const;
+            Enum::LAYOUT layout() const;
 
             QToolBar * toolBar() const override;
 
@@ -104,13 +104,13 @@ namespace djv
             void setSequence(const djv::Core::Sequence &);
 
             //! Set the playback.
-            void setPlayback(djv::ViewLib::Util::PLAYBACK);
+            void setPlayback(djv::ViewLib::Enum::PLAYBACK);
 
             //! Toggle the platback.
             void togglePlayback();
 
             //! Set the loop mode.
-            void setLoop(djv::ViewLib::Util::LOOP);
+            void setLoop(djv::ViewLib::Enum::LOOP);
 
             //! Set the speed.
             void setSpeed(const djv::Core::Speed &);
@@ -131,23 +131,23 @@ namespace djv
             void setOutPoint(qint64);
 
             //! Set the layout.
-            void setLayout(djv::ViewLib::Util::LAYOUT);
+            void setLayout(djv::ViewLib::Enum::LAYOUT);
 
         Q_SIGNALS:
             //! This signal is emitted when the sequence is changed.
             void sequenceChanged(const djv::Core::Sequence &);
 
             //! This signal is emitted when the playback is changed.
-            void playbackChanged(djv::ViewLib::Util::PLAYBACK);
+            void playbackChanged(djv::ViewLib::Enum::PLAYBACK);
 
             //! This signal is emitted when the loop mode is changed.
-            void loopChanged(djv::ViewLib::Util::LOOP);
+            void loopChanged(djv::ViewLib::Enum::LOOP);
 
             //! This signal is emitted when the speed is changed.
             void speedChanged(const djv::Core::Speed &);
 
-            //! This signal is emitted when the real speed is changed.
-            void realSpeedChanged(float);
+            //! This signal is emitted when the actual playback speed is changed.
+            void actualSpeedChanged(float);
 
             //! This signal is emitted when dropped frames are changed.
             void droppedFramesChanged(bool);
@@ -168,7 +168,7 @@ namespace djv
             void outPointChanged(qint64);
 
             //! This signal is emitted when the layout is changed.
-            void layoutChanged(djv::ViewLib::Util::LAYOUT);
+            void layoutChanged(djv::ViewLib::Enum::LAYOUT);
 
         protected:
             void timerEvent(QTimerEvent *) override;

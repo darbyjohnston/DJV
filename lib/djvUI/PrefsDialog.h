@@ -38,7 +38,7 @@
 #include <memory>
 
 class QAbstractButton;
-class QTreeWidgetItem;
+class QListWidgetItem;
 
 namespace djv
 {
@@ -57,10 +57,10 @@ namespace djv
             ~PrefsDialog() override;
 
             //! Add a preferences widget.
-            void addWidget(AbstractPrefsWidget *, const QString & group);
+            void addWidget(AbstractPrefsWidget *);
 
         private Q_SLOTS:
-            void browserCallback(QTreeWidgetItem *, QTreeWidgetItem *);
+            void browserCallback(QListWidgetItem *, QListWidgetItem *);
             void buttonCallback(QAbstractButton *);
 
         private:

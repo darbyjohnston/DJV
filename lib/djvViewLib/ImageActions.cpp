@@ -63,11 +63,11 @@ namespace djv
             {
                 _actions[i] = new QAction(this);
             }
-            _actions[FRAME_STORE]->setText(
+            _actions[SHOW_FRAME_STORE]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "Show &Frame Store"));
-            _actions[FRAME_STORE]->setCheckable(true);
-            _actions[LOAD_FRAME_STORE]->setText(
-                qApp->translate("djv::ViewLib::ImageActions", "&Load Frame Store"));
+            _actions[SHOW_FRAME_STORE]->setCheckable(true);
+            _actions[SET_FRAME_STORE]->setText(
+                qApp->translate("djv::ViewLib::ImageActions", "&Set Frame Store"));
             _actions[MIRROR_H]->setText(
                 qApp->translate("vImageActions", "Mirror &Horizontal"));
             _actions[MIRROR_H]->setCheckable(true);
@@ -80,6 +80,8 @@ namespace djv
             _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
             _actions[DISPLAY_PROFILE_VISIBLE]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "Show Display Profile"));
+            _actions[DISPLAY_PROFILE_VISIBLE]->setToolTip(
+                qApp->translate("djv::ViewLib::ImageActions", "Show the display profile controls"));
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
@@ -87,19 +89,19 @@ namespace djv
                 _groups[i] = new QActionGroup(this);
             }
             _groups[SCALE_GROUP]->setExclusive(true);
-            for (int i = 0; i < Util::imageScaleLabels().count(); ++i)
+            for (int i = 0; i < Enum::imageScaleLabels().count(); ++i)
             {
                 QAction * action = new QAction(this);
-                action->setText(Util::imageScaleLabels()[i]);
+                action->setText(Enum::imageScaleLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
                 _groups[SCALE_GROUP]->addAction(action);
             }
             _groups[ROTATE_GROUP]->setExclusive(true);
-            for (int i = 0; i < Util::imageRotateLabels().count(); ++i)
+            for (int i = 0; i < Enum::imageRotateLabels().count(); ++i)
             {
                 QAction * action = new QAction(this);
-                action->setText(Util::imageRotateLabels()[i]);
+                action->setText(Enum::imageRotateLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
                 _groups[ROTATE_GROUP]->addAction(action);
@@ -139,41 +141,41 @@ namespace djv
         {
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            _actions[FRAME_STORE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_FRAME_STORE].value);
-            _actions[LOAD_FRAME_STORE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_FRAME_STORE_LOAD].value);
-            _actions[MIRROR_H]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
-            _actions[MIRROR_V]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
-            _actions[COLOR_PROFILE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_COLOR_PROFILE].value);
+            _actions[SHOW_FRAME_STORE]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_SHOW_FRAME_STORE].value);
+            _actions[SET_FRAME_STORE]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_SET_FRAME_STORE].value);
+            _actions[MIRROR_H]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
+            _actions[MIRROR_V]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
+            _actions[COLOR_PROFILE]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_COLOR_PROFILE].value);
             _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
 
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_NONE].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_16_9].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_1_0].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_1_33].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_1_78].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_1_85].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_2_0].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_2_35].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_2_39].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_2_40].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_1_1].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_2_1].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_3_2].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_4_3].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_5_3].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_SCALE_5_4].value;
-            for (int i = 0; i < Util::imageScaleLabels().count(); ++i)
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_NONE].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_16_9].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_1_0].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_1_33].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_1_78].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_1_85].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_2_0].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_2_35].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_2_39].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_2_40].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_1_1].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_2_1].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_3_2].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_4_3].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_5_3].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_SCALE_5_4].value;
+            for (int i = 0; i < Enum::imageScaleLabels().count(); ++i)
             {
                 _groups[SCALE_GROUP]->actions()[i]->setShortcut(scaleShortcuts[i]);
             }
 
             const QVector<QKeySequence> rotateShortcuts = QVector<QKeySequence>() <<
-                shortcuts[Util::SHORTCUT_IMAGE_ROTATE_0].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_ROTATE_90].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_ROTATE_180].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_ROTATE_270].value;
-            for (int i = 0; i < Util::imageRotateLabels().count(); ++i)
+                shortcuts[Enum::SHORTCUT_IMAGE_ROTATE_0].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_ROTATE_90].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_ROTATE_180].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_ROTATE_270].value;
+            for (int i = 0; i < Enum::imageRotateLabels().count(); ++i)
             {
                 _groups[ROTATE_GROUP]->actions()[i]->setShortcut(rotateShortcuts[i]);
             }
@@ -185,17 +187,17 @@ namespace djv
             displayProfileNames += context()->imagePrefs()->displayProfileNames();
 
             const QVector<QKeySequence> displayProfileShortcuts = QVector<QKeySequence>() <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_1].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_2].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_3].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_4].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_5].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_6].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_7].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_8].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_9].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_DISPLAY_PROFILE_10].value;
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_1].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_2].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_3].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_4].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_5].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_6].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_7].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_8].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_9].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_10].value;
             for (int i = 0; i < displayProfileNames.count(); ++i)
             {
                 QAction * action = new QAction(this);
@@ -208,10 +210,10 @@ namespace djv
 
             const QVector<QKeySequence> channelShortcuts = QVector<QKeySequence>() <<
                 QKeySequence() <<
-                shortcuts[Util::SHORTCUT_IMAGE_CHANNEL_RED].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<
-                shortcuts[Util::SHORTCUT_IMAGE_CHANNEL_ALPHA].value;
+                shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_RED].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<
+                shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_ALPHA].value;
             for (int i = 0; i < Graphics::OpenGLImageOptions::channelLabels().count(); ++i)
             {
                 _groups[CHANNEL_GROUP]->actions()[i]->setShortcut(channelShortcuts[i]);

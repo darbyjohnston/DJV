@@ -24,14 +24,10 @@ set(header
     FloatEditSlider.h
     FloatObject.h
     FloatSlider.h
-    HelpPrefs.h
-    HelpPrefsWidget.h
     IconLibrary.h
     IFFWidget.h
     ImageIOPrefs.h
     ImageIOWidget.h
-    ImagePrefs.h
-    ImagePrefsWidget.h
     ImageView.h
     IndexShortcut.h
     InfoDialog.h
@@ -43,6 +39,8 @@ set(header
     IntSlider.h
     LUTWidget.h
     MessagesDialog.h
+    MiscPrefsWidget.h
+    MiscPrefs.h
     MultiChoiceDialog.h
     NoticeDialog.h
     OpenGLWidget.h
@@ -60,8 +58,6 @@ set(header
     QuestionDialog.h
     SGIWidget.h
     SearchBox.h
-    SequencePrefs.h
-    SequencePrefsWidget.h
     Shortcut.h
     ShortcutsModel.h
     ShortcutsWidget.h
@@ -70,8 +66,6 @@ set(header
     StylePrefs.h
     StylePrefsWidget.h
     TargaWidget.h
-    TimePrefs.h
-    TimePrefsWidget.h
     ToolButton.h
     UIContext.h
     UI.h
@@ -102,14 +96,10 @@ set(mocHeader
     FloatEditSlider.h
     FloatObject.h
     FloatSlider.h
-    HelpPrefs.h
-    HelpPrefsWidget.h
     IconLibrary.h
     IFFWidget.h
     ImageIOPrefs.h
     ImageIOWidget.h
-    ImagePrefs.h
-    ImagePrefsWidget.h
     ImageView.h
     IndexShortcut.h
     InfoDialog.h
@@ -121,6 +111,8 @@ set(mocHeader
     IntSlider.h
     LUTWidget.h
     MessagesDialog.h
+    MiscPrefsWidget.h
+    MiscPrefs.h
     MultiChoiceDialog.h
     OpenGLWidget.h
     PPMWidget.h
@@ -135,8 +127,6 @@ set(mocHeader
     QuestionDialog.h
     SGIWidget.h
     SearchBox.h
-    SequencePrefs.h
-    SequencePrefsWidget.h
     ShortcutsModel.h
     ShortcutsWidget.h
     ShuttleButton.h
@@ -144,8 +134,6 @@ set(mocHeader
     StylePrefs.h
     StylePrefsWidget.h
     TargaWidget.h
-    TimePrefs.h
-    TimePrefsWidget.h
     ToolButton.h
     UIContext.h
     Vector2fEditWidget.h
@@ -175,14 +163,10 @@ set(source
     FloatEditSlider.cpp
     FloatObject.cpp
     FloatSlider.cpp
-    HelpPrefs.cpp
-    HelpPrefsWidget.cpp
     IconLibrary.cpp
     IFFWidget.cpp
     ImageIOPrefs.cpp
     ImageIOWidget.cpp
-    ImagePrefs.cpp
-    ImagePrefsWidget.cpp
     ImageView.cpp
     IndexShortcut.cpp
     InfoDialog.cpp
@@ -194,6 +178,8 @@ set(source
     IntSlider.cpp
     LUTWidget.cpp
     MessagesDialog.cpp
+    MiscPrefsWidget.cpp
+    MiscPrefs.cpp
     MultiChoiceDialog.cpp
     NoticeDialog.cpp
     OpenGLWidget.cpp
@@ -210,8 +196,6 @@ set(source
     QuestionDialog.cpp
     SGIWidget.cpp
     SearchBox.cpp
-    SequencePrefs.cpp
-    SequencePrefsWidget.cpp
     Shortcut.cpp
     ShortcutsModel.cpp
     ShortcutsWidget.cpp
@@ -220,8 +204,6 @@ set(source
     StylePrefs.cpp
     StylePrefsWidget.cpp
     TargaWidget.cpp
-    TimePrefs.cpp
-    TimePrefsWidget.cpp
     ToolButton.cpp
     UIContext.cpp
     Vector2fEditWidget.cpp

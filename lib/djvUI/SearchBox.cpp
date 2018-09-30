@@ -30,7 +30,6 @@
 #include <djvUI/SearchBox.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
 #include <QApplication>
@@ -48,7 +47,6 @@ namespace djv
             QPointer<UIContext> context;
             QString text;
             QPointer<QLineEdit> lineEdit;
-            QPointer<ToolButton> resetButton;
             QPointer<QLabel> label;
         };
 
@@ -60,9 +58,8 @@ namespace djv
             
             // Create the widgets.
             _p->lineEdit = new QLineEdit;
-            _p->lineEdit->setToolTip(qApp->translate("djv::UI::SearchBox", "Enter a search"));
-            _p->resetButton = new ToolButton(context);
-            _p->resetButton->setToolTip(qApp->translate("djv::UI::SearchBox", "Reset the search"));
+            _p->lineEdit->setClearButtonEnabled(true);
+            _p->lineEdit->setToolTip(qApp->translate("djv::UI::SearchBox", "Enter text to search for"));
             _p->label = new QLabel;
 
             // Layout the widgets.
@@ -70,7 +67,6 @@ namespace djv
             layout->setMargin(0);
             layout->addWidget(_p->label);
             layout->addWidget(_p->lineEdit);
-            layout->addWidget(_p->resetButton);
 
             // Initialize.
             styleUpdate();
@@ -80,10 +76,6 @@ namespace djv
                 _p->lineEdit,
                 SIGNAL(textChanged(const QString &)),
                 SLOT(textCallback(const QString &)));
-            connect(
-                _p->resetButton,
-                SIGNAL(clicked()),
-                SLOT(resetCallback()));
         }
 
         SearchBox::~SearchBox()
@@ -118,14 +110,8 @@ namespace djv
             setText(text);
         }
 
-        void SearchBox::resetCallback()
-        {
-            setText(QString());
-        }
-        
         void SearchBox::styleUpdate()
         {
-            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djv/UI/ResetIcon"));
             //! \bug Hard-coded pixmap size.
             _p->label->setPixmap(_p->context->iconLibrary()->pixmap("djv/UI/MagnifyIcon96DPI.png"));
         }

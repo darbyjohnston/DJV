@@ -49,12 +49,12 @@ namespace djv
         struct PlaybackToolBar::Private
         {
             QPointer<Context> context;
-            Util::LAYOUT layout = static_cast<Util::LAYOUT>(0);
+            Enum::LAYOUT layout = static_cast<Enum::LAYOUT>(0);
             QPointer<QWidget> widget;
             QPointer<PlaybackButtons> playbackButtons;
             QPointer<LoopWidget> loopWidget;
             QPointer<SpeedWidget> speedWidget;
-            QPointer<SpeedDisplay> realSpeedDisplay;
+            QPointer<SpeedDisplay> actualSpeedDisplay;
             QPointer<UI::ToolButton> everyFrameButton;
             QPointer<FrameWidget> frameWidget;
             QPointer<FrameSlider> frameSlider;
@@ -68,7 +68,7 @@ namespace djv
             QPointer<UI::ToolButton> resetInPointButton;
             QPointer<UI::ToolButton> resetOutPointButton;
             QPointer<QHBoxLayout> widgetLayout;
-            QPointer<QHBoxLayout> realSpeedAndEveryFrameLayout;
+            QPointer<QHBoxLayout> actualSpeedAndEveryFrameLayout;
             QPointer<QHBoxLayout> loopAndInOutEnabledLayout;
             QPointer<QHBoxLayout> inPointLayout;
             QPointer<QHBoxLayout> outPointLayout;
@@ -97,9 +97,9 @@ namespace djv
             _p->speedWidget->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback speed"));
 
-            _p->realSpeedDisplay = new SpeedDisplay(context.data());
-            _p->realSpeedDisplay->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackToolBar", "Real playback speed"));
+            _p->actualSpeedDisplay = new SpeedDisplay(context.data());
+            _p->actualSpeedDisplay->setToolTip(
+                qApp->translate("djv::ViewLib::PlaybackToolBar", "Actual playback speed"));
 
             _p->everyFrameButton = new UI::ToolButton(context.data());
             _p->everyFrameButton->setDefaultAction(
@@ -135,23 +135,23 @@ namespace djv
             // Create the in/out point widgets.
             _p->inOutEnabledButton = new UI::ToolButton(context.data());
             _p->inOutEnabledButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::IN_OUT_ENABLE]);
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::IN_OUT_ENABLE]);
 
             _p->markInPointButton = new UI::ToolButton(context.data());
             _p->markInPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::MARK_IN]);
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::MARK_IN]);
 
             _p->markOutPointButton = new UI::ToolButton(context.data());
             _p->markOutPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::MARK_OUT]);
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::MARK_OUT]);
 
             _p->resetInPointButton = new UI::ToolButton(context.data());
             _p->resetInPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::RESET_IN]);
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::RESET_IN]);
 
             _p->resetOutPointButton = new UI::ToolButton(context.data());
             _p->resetOutPointButton->setDefaultAction(
-                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Util::RESET_OUT]);
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::RESET_OUT]);
 
             // Layout the widgets.
             _p->widget = new QWidget;
@@ -243,14 +243,14 @@ namespace djv
             _p->speedWidget->setDefaultSpeed(speed);
         }
 
-        void PlaybackToolBar::setRealSpeed(float speed)
+        void PlaybackToolBar::setActualSpeed(float speed)
         {
-            _p->realSpeedDisplay->setSpeed(speed);
+            _p->actualSpeedDisplay->setSpeed(speed);
         }
 
         void PlaybackToolBar::setDroppedFrames(bool in)
         {
-            _p->realSpeedDisplay->setDroppedFrames(in);
+            _p->actualSpeedDisplay->setDroppedFrames(in);
         }
 
         void PlaybackToolBar::setFrameList(const Core::FrameList & in)
@@ -323,7 +323,7 @@ namespace djv
             _p->frameSlider->resetOutPoint();
         }
 
-        void PlaybackToolBar::setLayout(Util::LAYOUT layout)
+        void PlaybackToolBar::setLayout(Enum::LAYOUT layout)
         {
             if (layout == _p->layout)
                 return;
@@ -350,8 +350,8 @@ namespace djv
 
             switch (_p->layout)
             {
-            case Util::LAYOUT_DEFAULT:
-            case Util::LAYOUT_LEFT:
+            case Enum::LAYOUT_DEFAULT:
+            case Enum::LAYOUT_LEFT:
             {
                 auto leftLayout = new QVBoxLayout;
                 leftLayout->setMargin(0);
@@ -367,11 +367,11 @@ namespace djv
                 auto hLayout3 = new QHBoxLayout;
                 hLayout3->setMargin(0);
                 hLayout3->addWidget(_p->speedWidget);
-                _p->realSpeedAndEveryFrameLayout = new QHBoxLayout;
-                _p->realSpeedAndEveryFrameLayout->setMargin(0);
-                _p->realSpeedAndEveryFrameLayout->addWidget(_p->realSpeedDisplay);
-                _p->realSpeedAndEveryFrameLayout->addWidget(_p->everyFrameButton);
-                hLayout3->addLayout(_p->realSpeedAndEveryFrameLayout);
+                _p->actualSpeedAndEveryFrameLayout = new QHBoxLayout;
+                _p->actualSpeedAndEveryFrameLayout->setMargin(0);
+                _p->actualSpeedAndEveryFrameLayout->addWidget(_p->actualSpeedDisplay);
+                _p->actualSpeedAndEveryFrameLayout->addWidget(_p->everyFrameButton);
+                hLayout3->addLayout(_p->actualSpeedAndEveryFrameLayout);
                 hLayout2->addLayout(hLayout3);
                 hLayout2->addStretch(1000);
                 _p->loopAndInOutEnabledLayout = new QHBoxLayout;
@@ -399,7 +399,7 @@ namespace djv
                 _p->inPointLayout->addWidget(_p->resetInPointButton);
                 _p->inPointLayout->addWidget(_p->startWidget);
                 hLayout2->addLayout(_p->inPointLayout);
-                if (Util::LAYOUT_DEFAULT == _p->layout)
+                if (Enum::LAYOUT_DEFAULT == _p->layout)
                     hLayout2->addStretch(1000);
                 _p->outPointLayout = new QHBoxLayout;
                 _p->outPointLayout->setMargin(0);
@@ -408,13 +408,13 @@ namespace djv
                 _p->outPointLayout->addWidget(_p->markOutPointButton);
                 hLayout2->addLayout(_p->outPointLayout);
                 hLayout2->addWidget(_p->durationDisplay);
-                if (Util::LAYOUT_LEFT == _p->layout)
+                if (Enum::LAYOUT_LEFT == _p->layout)
                     hLayout2->addStretch(1000);
                 rightLayout->addLayout(hLayout2);
                 _p->widgetLayout->addLayout(rightLayout, 1);
             }
             break;
-            case Util::LAYOUT_CENTER:
+            case Enum::LAYOUT_CENTER:
             {
                 auto vLayout = new QVBoxLayout;
                 vLayout->setMargin(0);
@@ -445,7 +445,7 @@ namespace djv
                 _p->widgetLayout->addLayout(vLayout, 1);
             }
             break;
-            case Util::LAYOUT_MINIMAL:
+            case Enum::LAYOUT_MINIMAL:
             {
                 _p->widgetLayout->addWidget(_p->playbackButtons);
                 _p->widgetLayout->addWidget(_p->frameSlider, 1);
@@ -456,10 +456,10 @@ namespace djv
 
             switch (_p->layout)
             {
-            case Util::LAYOUT_DEFAULT:
-            case Util::LAYOUT_LEFT:
+            case Enum::LAYOUT_DEFAULT:
+            case Enum::LAYOUT_LEFT:
                 _p->speedWidget->show();
-                _p->realSpeedDisplay->show();
+                _p->actualSpeedDisplay->show();
                 _p->everyFrameButton->show();
                 _p->loopWidget->show();
                 _p->inOutEnabledButton->show();
@@ -475,9 +475,9 @@ namespace djv
                 _p->durationDisplay->show();
                 break;
 
-            case Util::LAYOUT_CENTER:
+            case Enum::LAYOUT_CENTER:
                 _p->speedWidget->hide();
-                _p->realSpeedDisplay->hide();
+                _p->actualSpeedDisplay->hide();
                 _p->everyFrameButton->hide();
                 _p->loopWidget->hide();
                 _p->inOutEnabledButton->hide();
@@ -493,9 +493,9 @@ namespace djv
                 _p->durationDisplay->show();
                 break;
 
-            case Util::LAYOUT_MINIMAL:
+            case Enum::LAYOUT_MINIMAL:
                 _p->speedWidget->hide();
-                _p->realSpeedDisplay->hide();
+                _p->actualSpeedDisplay->hide();
                 _p->everyFrameButton->hide();
                 _p->loopWidget->hide();
                 _p->inOutEnabledButton->hide();
@@ -516,9 +516,9 @@ namespace djv
         void PlaybackToolBar::styleUpdate()
         {
             const int toolBarSpacing = style()->pixelMetric(QStyle::PM_ToolBarItemSpacing);
-            if (_p->realSpeedAndEveryFrameLayout)
+            if (_p->actualSpeedAndEveryFrameLayout)
             {
-                _p->realSpeedAndEveryFrameLayout->setSpacing(toolBarSpacing);
+                _p->actualSpeedAndEveryFrameLayout->setSpacing(toolBarSpacing);
             }
             if (_p->loopAndInOutEnabledLayout)
             {

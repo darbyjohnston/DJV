@@ -53,7 +53,7 @@ namespace djv
             AbstractToolBar(qApp->translate("djv::ViewLib::ToolToolBar", "Tools"), actions, context, parent),
             _p(new Private)
         {
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 auto button = new UI::ToolButton(context.data());
                 button->setDefaultAction(actions->group(ToolActions::TOOL_GROUP)->actions()[i]);

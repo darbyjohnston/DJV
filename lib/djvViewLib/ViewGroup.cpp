@@ -59,7 +59,7 @@ namespace djv
                 hudEnabled(context->viewPrefs()->isHudEnabled())
             {}
 
-            Util::GRID    grid;
+            Enum::GRID    grid;
             bool          hudEnabled;
 
             QPointer<ViewActions> actions;
@@ -159,8 +159,8 @@ namespace djv
             // Setup the preferences callbacks.
             connect(
                 context->viewPrefs(),
-                SIGNAL(gridChanged(djv::ViewLib::Util::GRID)),
-                SLOT(gridCallback(djv::ViewLib::Util::GRID)));
+                SIGNAL(gridChanged(djv::ViewLib::Enum::GRID)),
+                SLOT(gridCallback(djv::ViewLib::Enum::GRID)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudEnabledChanged(bool)),
@@ -235,7 +235,7 @@ namespace djv
             mainWindow()->viewWidget()->viewFit();
         }
 
-        void ViewGroup::gridCallback(Util::GRID grid)
+        void ViewGroup::gridCallback(Enum::GRID grid)
         {
             _p->grid = grid;
             update();
@@ -243,7 +243,7 @@ namespace djv
 
         void ViewGroup::gridCallback(QAction * action)
         {
-            gridCallback(static_cast<Util::GRID>(action->data().toInt()));
+            gridCallback(static_cast<Enum::GRID>(action->data().toInt()));
         }
 
         void ViewGroup::hudEnabledCallback(bool value)

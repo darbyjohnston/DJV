@@ -31,16 +31,20 @@
 
 #include <djvUI/Core.h>
 
+#include <djvGraphics/OpenGLImage.h>
+
 #include <djvCore/Time.h>
 
 #include <QObject>
+
+#include <memory>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides time preferences.
-        class TimePrefs : public QObject
+        //! This class provides miscellaneous preferences.
+        class MiscPrefs : public QObject
         {
             Q_OBJECT
 
@@ -58,10 +62,30 @@ namespace djv
                 WRITE                 setSpeed
                 NOTIFY                speedChanged)
 
-        public:
-            explicit TimePrefs(QObject * parent = nullptr);
+            //! This property holds the maximum number of frames a sequence can hold.    
+            Q_PROPERTY(
+                qint64 maxFrames
+                READ   maxFrames
+                WRITE  setMaxFrames
+                NOTIFY maxFramesChanged)
 
-            ~TimePrefs();
+            //! This property holds the image filter.
+            Q_PROPERTY(
+                djv::Graphics::OpenGLImageFilter filter
+                READ                             filter
+                WRITE                            setFilter
+                NOTIFY                           filterChanged)
+
+            //! This property holds whether tool tips are enabled.    
+            Q_PROPERTY(
+                bool   toolTips
+                READ   hasToolTips
+                WRITE  setToolTips
+                NOTIFY toolTipsChanged)
+
+        public:
+            explicit MiscPrefs(QObject * parent = nullptr);
+            ~MiscPrefs();
 
             //! Get the global time units.
             Core::Time::UNITS timeUnits() const;
@@ -69,12 +93,33 @@ namespace djv
             //! Get the global speed.
             Core::Speed::FPS speed() const;
 
+            //! Get the maximum number of frames a sequence can hold.
+            qint64 maxFrames() const;
+
+            //! Get the image filter.
+            const Graphics::OpenGLImageFilter & filter() const;
+            
+            //! The default for whether tool tips are enabled.    
+            static bool toolTipsDefault();
+
+            //! Get whether tool tips are enabled.
+            bool hasToolTips() const;
+
         public Q_SLOTS:
             //! Set the global time units.
             void setTimeUnits(djv::Core::Time::UNITS);
 
             //! Set the global speed.
             void setSpeed(djv::Core::Speed::FPS);
+            
+            //! Set the maximum number of frames a sequence can hold.
+            void setMaxFrames(qint64);
+            
+            //! Set the image filter.
+            void setFilter(const djv::Graphics::OpenGLImageFilter &);
+            
+            //! Set whether tool tips are enabled.
+            void setToolTips(bool);
 
         Q_SIGNALS:
             //! This signal is emitted when the global time units are changed.
@@ -82,6 +127,22 @@ namespace djv
 
             //! This signal is emitted when the global speed is changed.
             void speedChanged(djv::Core::Speed::FPS);
+            
+            //! This signal is emitted when the maximum number of frames in a sequence
+            //! is changed.
+            void maxFramesChanged(qint64);
+            
+            //! This signal is emitted when the image filter is changed.
+            void filterChanged(const djv::Graphics::OpenGLImageFilter &);
+            
+            //! This signal is emitted when the tool tips are changed.
+            void toolTipsChanged(bool);
+
+        private:
+            void toolTipsUpdate();
+
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractGroup.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvCore/Vector.h>
 
@@ -71,7 +71,7 @@ namespace djv
             void zoomIncCallback();
             void zoomDecCallback();
             void fitCallback();
-            void gridCallback(djv::ViewLib::Util::GRID);
+            void gridCallback(djv::ViewLib::Enum::GRID);
             void gridCallback(QAction *);
             void hudEnabledCallback(bool);
 

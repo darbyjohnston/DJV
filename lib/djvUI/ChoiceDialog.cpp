@@ -83,7 +83,7 @@ namespace djv
             layout->addLayout(vLayout);
             layout->addWidget(buttonBox);
 
-            setWindowTitle(qApp->translate("djv::UI::ChoiceDialog", "Choose an option"));
+            setWindowTitle(qApp->translate("djv::UI::ChoiceDialog", "Choice"));
 
             widgetUpdate();
 

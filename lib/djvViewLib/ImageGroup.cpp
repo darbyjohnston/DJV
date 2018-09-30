@@ -68,18 +68,13 @@ namespace djv
                 rotate(context->imagePrefs()->rotate()),
                 colorProfile(context->imagePrefs()->hasColorProfile()),
                 displayProfile(context->imagePrefs()->displayProfile()),
-                channel(context->imagePrefs()->channel()),
-                actions(0),
-                menu(0),
-                toolBar(0),
-                displayProfileWidget(0),
-                displayProfileDockWidget(0)
+                channel(context->imagePrefs()->channel())
             {}
 
-            bool                                  frameStore = false;
+            bool                                  frameStoreVisible = false;
             Graphics::PixelDataInfo::Mirror       mirror;
-            Util::IMAGE_SCALE                     scale = static_cast<Util::IMAGE_SCALE>(0);
-            Util::IMAGE_ROTATE                    rotate = static_cast<Util::IMAGE_ROTATE>(0);
+            Enum::IMAGE_SCALE                     scale = static_cast<Enum::IMAGE_SCALE>(0);
+            Enum::IMAGE_ROTATE                    rotate = static_cast<Enum::IMAGE_ROTATE>(0);
             bool                                  colorProfile = false;
             DisplayProfile                        displayProfile;
             Graphics::OpenGLImageOptions::CHANNEL channel = static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
@@ -102,7 +97,7 @@ namespace djv
 
             if (copy)
             {
-                _p->frameStore = copy->_p->frameStore;
+                _p->frameStoreVisible = copy->_p->frameStoreVisible;
                 _p->mirror = copy->_p->mirror;
                 _p->scale = copy->_p->scale;
                 _p->rotate = copy->_p->rotate;
@@ -138,13 +133,13 @@ namespace djv
 
             // Setup action callbacks.
             connect(
-                _p->actions->action(ImageActions::FRAME_STORE),
+                _p->actions->action(ImageActions::SHOW_FRAME_STORE),
                 SIGNAL(toggled(bool)),
-                SLOT(frameStoreCallback(bool)));
+                SLOT(showFrameStoreCallback(bool)));
             connect(
-                _p->actions->action(ImageActions::LOAD_FRAME_STORE),
+                _p->actions->action(ImageActions::SET_FRAME_STORE),
                 SIGNAL(triggered()),
-                SIGNAL(loadFrameStore()));
+                SIGNAL(setFrameStore()));
             connect(
                 _p->actions->action(ImageActions::MIRROR_H),
                 SIGNAL(toggled(bool)),
@@ -201,12 +196,12 @@ namespace djv
                 SLOT(mirrorCallback(djv::Graphics::PixelDataInfo::Mirror)));
             connect(
                 context->imagePrefs(),
-                SIGNAL(scaleChanged(djv::ViewLib::Util::IMAGE_SCALE)),
-                SLOT(scaleCallback(djv::ViewLib::Util::IMAGE_SCALE)));
+                SIGNAL(scaleChanged(djv::ViewLib::Enum::IMAGE_SCALE)),
+                SLOT(scaleCallback(djv::ViewLib::Enum::IMAGE_SCALE)));
             connect(
                 context->imagePrefs(),
-                SIGNAL(rotateChanged(djv::ViewLib::Util::IMAGE_ROTATE)),
-                SLOT(rotateCallback(djv::ViewLib::Util::IMAGE_ROTATE)));
+                SIGNAL(rotateChanged(djv::ViewLib::Enum::IMAGE_ROTATE)),
+                SLOT(rotateCallback(djv::ViewLib::Enum::IMAGE_ROTATE)));
             connect(
                 context->imagePrefs(),
                 SIGNAL(colorProfileChanged(bool)),
@@ -224,9 +219,9 @@ namespace djv
         ImageGroup::~ImageGroup()
         {}
 
-        bool ImageGroup::hasFrameStore() const
+        bool ImageGroup::isFrameStoreVisible() const
         {
-            return _p->frameStore;
+            return _p->frameStoreVisible;
         }
 
         const Graphics::PixelDataInfo::Mirror & ImageGroup::mirror() const
@@ -234,12 +229,12 @@ namespace djv
             return _p->mirror;
         }
 
-        Util::IMAGE_SCALE ImageGroup::scale() const
+        Enum::IMAGE_SCALE ImageGroup::scale() const
         {
             return _p->scale;
         }
 
-        Util::IMAGE_ROTATE ImageGroup::rotate() const
+        Enum::IMAGE_ROTATE ImageGroup::rotate() const
         {
             return _p->rotate;
         }
@@ -272,12 +267,12 @@ namespace djv
             return _p->toolBar;
         }
 
-        void ImageGroup::frameStoreCallback(bool in)
+        void ImageGroup::showFrameStoreCallback(bool in)
         {
-            //DJV_DEBUG("ImageGroup::frameStoreCallback");
+            //DJV_DEBUG("ImageGroup::showFrameStoreCallback");
             //DJV_DEBUG_PRINT("in = " << in);
-            _p->frameStore = in;
-            Q_EMIT frameStoreChanged(_p->frameStore);
+            _p->frameStoreVisible = in;
+            Q_EMIT showFrameStoreChanged(_p->frameStoreVisible);
         }
 
         void ImageGroup::mirrorCallback(const Graphics::PixelDataInfo::Mirror & in)
@@ -296,7 +291,7 @@ namespace djv
             mirrorCallback(Graphics::PixelDataInfo::Mirror(_p->mirror.x, in));
         }
 
-        void ImageGroup::scaleCallback(Util::IMAGE_SCALE scale)
+        void ImageGroup::scaleCallback(Enum::IMAGE_SCALE scale)
         {
             //DJV_DEBUG("ImageGroup::scaleCallback");
             //DJV_DEBUG_PRINT("scale = " << scale);
@@ -307,11 +302,10 @@ namespace djv
 
         void ImageGroup::scaleCallback(QAction * action)
         {
-            scaleCallback(
-                static_cast<Util::IMAGE_SCALE>(action->data().toInt()));
+            scaleCallback(static_cast<Enum::IMAGE_SCALE>(action->data().toInt()));
         }
 
-        void ImageGroup::rotateCallback(Util::IMAGE_ROTATE rotate)
+        void ImageGroup::rotateCallback(Enum::IMAGE_ROTATE rotate)
         {
             //DJV_DEBUG("ImageGroup::rotateCallback");
             //DJV_DEBUG_PRINT("rotate = " << rotate);
@@ -322,7 +316,7 @@ namespace djv
 
         void ImageGroup::rotateCallback(QAction * action)
         {
-            rotateCallback(static_cast<Util::IMAGE_ROTATE>(action->data().toInt()));
+            rotateCallback(static_cast<Enum::IMAGE_ROTATE>(action->data().toInt()));
         }
 
         void ImageGroup::colorProfileCallback(bool in)
@@ -364,8 +358,8 @@ namespace djv
         void ImageGroup::update()
         {
             // Update actions.
-            _p->actions->action(ImageActions::FRAME_STORE)->
-                setChecked(_p->frameStore);
+            _p->actions->action(ImageActions::SHOW_FRAME_STORE)->
+                setChecked(_p->frameStoreVisible);
             _p->actions->action(ImageActions::MIRROR_H)->
                 setChecked(_p->mirror.x);
             _p->actions->action(ImageActions::MIRROR_V)->

@@ -10,6 +10,7 @@ set(header
     Context.h
     DisplayProfile.h
     DisplayProfileWidget.h
+    Enum.h
     FileActions.h
     FileCache.h
     FileGroup.h
@@ -52,6 +53,7 @@ set(header
     Util.h
     ViewActions.h
     ViewGroup.h
+    ViewLib.h
     ViewMenu.h
     ViewPrefs.h
     ViewPrefsWidget.h
@@ -73,6 +75,7 @@ set(mocHeader
     ColorPickerTool.h
     Context.h
     DisplayProfileWidget.h
+    Enum.h
     FileActions.h
     FileCache.h
     FileGroup.h
@@ -111,10 +114,8 @@ set(mocHeader
     ToolGroup.h
     ToolMenu.h
     ToolToolBar.h
-    Util.h
     ViewActions.h
     ViewGroup.h
-    ViewLib.h
     ViewMenu.h
     ViewPrefs.h
     ViewPrefsWidget.h
@@ -137,6 +138,7 @@ set(source
     Context.cpp
     DisplayProfile.cpp
     DisplayProfileWidget.cpp
+    Enum.cpp
     FileActions.cpp
     FileCache.cpp
     FileGroup.cpp

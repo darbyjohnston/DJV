@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvUI/UIContext.h>
 
@@ -89,7 +89,7 @@ namespace djv
             const QScopedPointer<bool> & isWindowFullScreen() const;
 
             //! Get the playback.
-            const QScopedPointer<Util::PLAYBACK> & playback() const;
+            const QScopedPointer<Enum::PLAYBACK> & playback() const;
 
             //! Get the playback frame.
             const QScopedPointer<int> & playbackFrame() const;
@@ -98,7 +98,7 @@ namespace djv
             const QScopedPointer<Core::Speed> & playbackSpeed() const;
 
             //! Get the file preferences.
-            FilePrefs * filePrefs() const;
+            const QPointer<FilePrefs> & filePrefs() const;
 
             //! Get the image preferences.
             ImagePrefs * imagePrefs() const;

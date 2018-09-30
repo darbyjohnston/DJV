@@ -56,7 +56,7 @@ namespace djv
         struct ToolGroup::Private
         {
             Private() :
-                toolsVisible(Util::TOOL_COUNT, false)
+                toolsVisible(Enum::TOOL_COUNT, false)
             {}
 
             QVector<bool>             toolsVisible;
@@ -67,7 +67,7 @@ namespace djv
             QPointer<ColorPickerTool> colorPickerTool;
             QPointer<HistogramTool>   histogramTool;
             QPointer<InfoTool>        infoTool;
-            QPointer<QDockWidget>     dockWidgets[Util::TOOL_COUNT];
+            QPointer<QDockWidget>     dockWidgets[Enum::TOOL_COUNT];
         };
 
         ToolGroup::ToolGroup(
@@ -105,9 +105,9 @@ namespace djv
                 Qt::LeftDockWidgetArea <<
                 Qt::RightDockWidgetArea <<
                 Qt::RightDockWidgetArea;
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
-                _p->dockWidgets[i] = new QDockWidget(Util::toolLabels()[i]);
+                _p->dockWidgets[i] = new QDockWidget(Enum::toolLabels()[i]);
                 _p->dockWidgets[i]->setWidget(widgets[i]);
                 mainWindow->addDockWidget(areas[i], _p->dockWidgets[i]);
             }
@@ -125,7 +125,7 @@ namespace djv
             //    _p->actions->group(ToolActions::TOOL_GROUP),
             //    SIGNAL(triggered(QAction *)),
             //    SLOT(toolsVisibleCallback(QAction *)));
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 connect(
                     _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i],
@@ -134,7 +134,7 @@ namespace djv
             }
 
             // Setup widget callbacks.
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->connect(
                     _p->dockWidgets[i],
@@ -170,7 +170,7 @@ namespace djv
         void ToolGroup::toolsVisibleCallback()
         {
             QVector<bool> visible;
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 visible += _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->isChecked();
             }
@@ -179,11 +179,11 @@ namespace djv
 
         void ToolGroup::update()
         {
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->setChecked(_p->toolsVisible[i]);
             }
-            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
                 _p->dockWidgets[i]->setVisible(_p->toolsVisible[i]);
             }

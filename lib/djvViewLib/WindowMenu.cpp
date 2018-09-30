@@ -43,19 +43,17 @@ namespace djv
             QWidget * parent) :
             AbstractMenu(actions, parent)
         {
-            // Create the menus.
             addAction(actions->action(WindowActions::NEW));
-            addAction(actions->action(WindowActions::COPY));
+            addAction(actions->action(WindowActions::DUPLICATE));
             addAction(actions->action(WindowActions::CLOSE));
             addSeparator();
             addAction(actions->action(WindowActions::FIT));
             addAction(actions->action(WindowActions::FULL_SCREEN));
             addSeparator();
-            addAction(actions->action(WindowActions::CONTROLS_VISIBLE));
-            Q_FOREACH(QAction * action, actions->group(WindowActions::TOOL_BAR_VISIBLE_GROUP)->actions())
+            addAction(actions->action(WindowActions::UI_VISIBLE));
+            Q_FOREACH(QAction * action, actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions())
                 addAction(action);
 
-            // Initialize.
             setTitle(qApp->translate("djv::ViewLib::WindowMenu", "&Window"));
         }
 

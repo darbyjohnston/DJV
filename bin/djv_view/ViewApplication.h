@@ -29,8 +29,9 @@
 
 #pragma once
 
-#include <djvViewLib/Core.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/ViewLib.h>
+
+#include <djvCore/Util.h>
 
 #include <QApplication>
 

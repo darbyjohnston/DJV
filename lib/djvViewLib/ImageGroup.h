@@ -31,7 +31,7 @@
 
 #include <djvViewLib/AbstractGroup.h>
 #include <djvViewLib/DisplayProfile.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <memory>
 
@@ -54,17 +54,17 @@ namespace djv
                 const QPointer<Context> &);
             ~ImageGroup() override;
 
-            //! Get whether the frame store is enabled.
-            bool hasFrameStore() const;
+            //! Get whether the frame store is visible.
+            bool isFrameStoreVisible() const;
 
             //! Get the mirror.
             const Graphics::PixelDataInfo::Mirror & mirror() const;
 
             //! Get the scale.
-            Util::IMAGE_SCALE scale() const;
+            Enum::IMAGE_SCALE scale() const;
 
             //! Get the rotation.
-            Util::IMAGE_ROTATE rotate() const;
+            Enum::IMAGE_ROTATE rotate() const;
 
             //! Get whether the color profile is enabled.
             bool hasColorProfile() const;
@@ -82,11 +82,11 @@ namespace djv
             void setDisplayProfile(const djv::ViewLib::DisplayProfile &);
 
         Q_SIGNALS:
-            //! This signal is emitted when the frame store is changed.
-            void frameStoreChanged(bool);
+            //! This signal is emitted when the frame store visibility is changed.
+            void showFrameStoreChanged(bool);
 
-            //! This signal is emitted to store the current frame.
-            void loadFrameStore();
+            //! This signal is emitted to set the frame store.
+            void setFrameStore();
 
             //! This signal is emitted when the display profile is changed.
             void displayProfileChanged(const djv::ViewLib::DisplayProfile &);
@@ -98,13 +98,13 @@ namespace djv
             void resizeNeeded();
 
         private Q_SLOTS:
-            void frameStoreCallback(bool);
+            void showFrameStoreCallback(bool);
             void mirrorCallback(const djv::Graphics::PixelDataInfo::Mirror &);
             void mirrorHCallback(bool);
             void mirrorVCallback(bool);
-            void scaleCallback(djv::ViewLib::Util::IMAGE_SCALE);
+            void scaleCallback(djv::ViewLib::Enum::IMAGE_SCALE);
             void scaleCallback(QAction *);
-            void rotateCallback(djv::ViewLib::Util::IMAGE_ROTATE);
+            void rotateCallback(djv::ViewLib::Enum::IMAGE_ROTATE);
             void rotateCallback(QAction *);
             void colorProfileCallback(bool);
             void displayProfileCallback(QAction *);

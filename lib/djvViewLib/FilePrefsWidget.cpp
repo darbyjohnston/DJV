@@ -67,7 +67,8 @@ namespace djv
         {
             // Create the options widgets.
             _p->autoSequenceWidget = new QCheckBox(
-                qApp->translate("djv::ViewLib::FilePrefsWidget", "Automatically detect sequences when opening files"));
+                qApp->translate("djv::ViewLib::FilePrefsWidget",
+                "Automatically detect file sequences when opening files"));
 
             // Create the proxy scale widgets.
             _p->proxyWidget = new QComboBox;
@@ -88,7 +89,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Pre-load cache frames"));
 
             _p->displayCacheWidget = new QCheckBox(
-                qApp->translate("djv::ViewLib::FilePrefsWidget", "Display cached frames in timeline"));
+                qApp->translate("djv::ViewLib::FilePrefsWidget", "Display cached frames in the timeline"));
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
@@ -102,7 +103,7 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Proxy Scale"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
-                    "Set proxy scaling to reduce the resolution when loading images. This "
+                    "Use proxy scaling to reduce the resolution when loading images. This "
                     "allows more images to be stored in the memory cache at the expense of "
                     "image quality. Proxy scaling can also improve playback speed since the "
                     "images are smaller."),
@@ -116,7 +117,7 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "8-bit Conversion"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
-                    "Set 8-bit conversion to allow more images to be stored in the memory "
+                    "Use 8-bit conversion to allow more images to be stored in the memory "
                     "cache at the expense of image quality."),
                 context.data());
             formLayout = prefsGroupBox->createLayout();

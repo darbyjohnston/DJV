@@ -37,25 +37,22 @@
 #include <djvUI/FileBrowserCache.h>
 #include <djvUI/FileBrowserPrefs.h>
 #include <djvUI/FileBrowserThumbnailSystem.h>
-#include <djvUI/HelpPrefs.h>
 #include <djvUI/IFFWidget.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/ImageIOPrefs.h>
 #include <djvUI/ImageIOWidget.h>
-#include <djvUI/ImagePrefs.h>
 #include <djvUI/InfoDialog.h>
 #include <djvUI/LUTWidget.h>
+#include <djvUI/MiscPrefs.h>
 #include <djvUI/MessagesDialog.h>
 #include <djvUI/PPMWidget.h>
 #include <djvUI/PlaybackUtil.h>
 #include <djvUI/Prefs.h>
 #include <djvUI/PrefsDialog.h>
 #include <djvUI/ProxyStyle.h>
-#include <djvUI/SequencePrefs.h>
 #include <djvUI/SGIWidget.h>
 #include <djvUI/StylePrefs.h>
 #include <djvUI/TargaWidget.h>
-#include <djvUI/TimePrefs.h>
 #if defined(JPEG_FOUND)
 #include <djvUI/JPEGWidget.h>
 #endif // JPEG_FOUND
@@ -102,13 +99,10 @@ namespace djv
             
             struct Prefs
             {
+                QScopedPointer<MiscPrefs>        misc;
                 QScopedPointer<StylePrefs>       style;
-                QScopedPointer<FileBrowserPrefs> fileBrowser;
-                QScopedPointer<HelpPrefs>        help;
-                QScopedPointer<ImagePrefs>       image;
                 QScopedPointer<ImageIOPrefs>     imageIO;
-                QScopedPointer<SequencePrefs>    sequence;
-                QScopedPointer<TimePrefs>        time;
+                QScopedPointer<FileBrowserPrefs> fileBrowser;
             };
             std::unique_ptr<Prefs> prefs;
             
@@ -160,13 +154,10 @@ namespace djv
 
             // Load preferences.
             DJV_LOG(debugLog(), "djv::UI::UIContext", "Load the preferences...");
+            _p->prefs->misc.reset(new MiscPrefs);
             _p->prefs->style.reset(new StylePrefs);
-            _p->prefs->fileBrowser.reset(new FileBrowserPrefs(this));
-            _p->prefs->help.reset(new HelpPrefs);
-            _p->prefs->image.reset(new ImagePrefs);
             _p->prefs->imageIO.reset(new ImageIOPrefs(this));
-            _p->prefs->sequence.reset(new SequencePrefs);
-            _p->prefs->time.reset(new TimePrefs);
+            _p->prefs->fileBrowser.reset(new FileBrowserPrefs(this));
             DJV_LOG(debugLog(), "djv::UI::UIContext", "");
 
             // Initialize.
@@ -322,34 +313,19 @@ namespace djv
             return _p->prefs->fileBrowser.data();
         }
 
-        QPointer<HelpPrefs> UIContext::helpPrefs() const
-        {
-            return _p->prefs->help.data();
-        }
-
-        QPointer<ImagePrefs> UIContext::imagePrefs() const
-        {
-            return _p->prefs->image.data();
-        }
-
         QPointer<ImageIOPrefs> UIContext::imageIOPrefs() const
         {
             return _p->prefs->imageIO.data();
         }
 
-        QPointer<SequencePrefs> UIContext::sequencePrefs() const
-        {
-            return _p->prefs->sequence.data();
-        }
-
-        QPointer<TimePrefs> UIContext::timePrefs() const
-        {
-            return _p->prefs->time.data();
-        }
-
         QPointer<StylePrefs> UIContext::stylePrefs() const
         {
             return _p->prefs->style.data();
+        }
+
+        QPointer<MiscPrefs> UIContext::miscPrefs() const
+        {
+            return _p->prefs->misc.data();
         }
 
         QPointer<IconLibrary> UIContext::iconLibrary() const

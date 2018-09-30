@@ -245,10 +245,10 @@
     <file alias="djv/UI/WindowCloseIcon192DPI.png">images/WindowCloseIcon192DPI.png</file>
     <file alias="djv/UI/WindowCloseIcon48DPI.png">images/WindowCloseIcon48DPI.png</file>
     <file alias="djv/UI/WindowCloseIcon96DPI.png">images/WindowCloseIcon96DPI.png</file>
-    <file alias="djv/UI/WindowCopyIcon144DPI.png">images/WindowCopyIcon144DPI.png</file>
-    <file alias="djv/UI/WindowCopyIcon192DPI.png">images/WindowCopyIcon192DPI.png</file>
-    <file alias="djv/UI/WindowCopyIcon48DPI.png">images/WindowCopyIcon48DPI.png</file>
-    <file alias="djv/UI/WindowCopyIcon96DPI.png">images/WindowCopyIcon96DPI.png</file>
+    <file alias="djv/UI/WindowDuplicateIcon144DPI.png">images/WindowDuplicateIcon144DPI.png</file>
+    <file alias="djv/UI/WindowDuplicateIcon192DPI.png">images/WindowDuplicateIcon192DPI.png</file>
+    <file alias="djv/UI/WindowDuplicateIcon48DPI.png">images/WindowDuplicateIcon48DPI.png</file>
+    <file alias="djv/UI/WindowDuplicateIcon96DPI.png">images/WindowDuplicateIcon96DPI.png</file>
     <file alias="djv/UI/WindowFitIcon144DPI.png">images/WindowFitIcon144DPI.png</file>
     <file alias="djv/UI/WindowFitIcon192DPI.png">images/WindowFitIcon192DPI.png</file>
     <file alias="djv/UI/WindowFitIcon48DPI.png">images/WindowFitIcon48DPI.png</file>

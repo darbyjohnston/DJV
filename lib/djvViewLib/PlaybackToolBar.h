@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractToolBar.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvCore/Sequence.h>
 
@@ -61,8 +61,8 @@ namespace djv
             //! Set the default playback speed.
             void setDefaultSpeed(const djv::Core::Speed &);
 
-            //! Set the real playback speed.
-            void setRealSpeed(float);
+            //! Set the actual playback speed.
+            void setActualSpeed(float);
 
             //! Set whether frames are being dropped.
             void setDroppedFrames(bool);
@@ -107,7 +107,7 @@ namespace djv
             void resetOutPoint();
 
             //! Set the layout.
-            void setLayout(djv::ViewLib::Util::LAYOUT);
+            void setLayout(djv::ViewLib::Enum::LAYOUT);
 
         Q_SIGNALS:
             //! This signal is emitted when the playback shuttle is pressed.

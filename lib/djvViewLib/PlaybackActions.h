@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractActions.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <QActionGroup>
 

@@ -44,7 +44,7 @@ namespace djv
     {
         struct PlaybackActions::Private
         {
-            Util::PLAYBACK playback = static_cast<Util::PLAYBACK>(0);
+            Enum::PLAYBACK playback = static_cast<Enum::PLAYBACK>(0);
         };
 
         PlaybackActions::PlaybackActions(
@@ -66,7 +66,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackActions", "Ever&y Frame"));
             _actions[EVERY_FRAME]->setCheckable(true);
             _actions[EVERY_FRAME]->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackActions", "Set whether every frame is played back"));
+                qApp->translate("djv::ViewLib::PlaybackActions",
+                "Play every frame (dont skip frames to maintain frame rate)"));
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
@@ -76,37 +77,37 @@ namespace djv
 
             _groups[PLAYBACK_GROUP] = new QActionGroup(this);
             _groups[PLAYBACK_GROUP]->setExclusive(true);
-            for (int i = 0; i < Util::PLAYBACK_COUNT; ++i)
+            for (int i = 0; i < Enum::PLAYBACK_COUNT; ++i)
             {
-                QAction * action = new QAction(Util::playbackLabels()[i], _groups[PLAYBACK_GROUP]);
+                QAction * action = new QAction(Enum::playbackLabels()[i], _groups[PLAYBACK_GROUP]);
                 action->setCheckable(true);
                 action->setData(i);
             }
 
             _groups[LOOP_GROUP] = new QActionGroup(this);
             _groups[LOOP_GROUP]->setExclusive(true);
-            for (int i = 0; i < Util::LOOP_COUNT; ++i)
+            for (int i = 0; i < Enum::LOOP_COUNT; ++i)
             {
-                QAction * action = new QAction(Util::loopLabels()[i], _groups[LOOP_GROUP]);
+                QAction * action = new QAction(Enum::loopLabels()[i], _groups[LOOP_GROUP]);
                 action->setCheckable(true);
                 action->setData(i);
             }
 
             _groups[FRAME_GROUP] = new QActionGroup(this);
             _groups[FRAME_GROUP]->setExclusive(false);
-            for (int i = 0; i < Util::FRAME_COUNT; ++i)
+            for (int i = 0; i < Enum::FRAME_COUNT; ++i)
             {
-                QAction * action = new QAction(Util::frameLabels()[i], _groups[FRAME_GROUP]);
+                QAction * action = new QAction(Enum::frameLabels()[i], _groups[FRAME_GROUP]);
                 action->setData(i);
             }
 
             _groups[IN_OUT_GROUP] = new QActionGroup(this);
             _groups[IN_OUT_GROUP]->setExclusive(false);
-            for (int i = 0; i < Util::IN_OUT_COUNT; ++i)
+            for (int i = 0; i < Enum::IN_OUT_COUNT; ++i)
             {
-                QAction * action = new QAction(Util::inOutLabels()[i], _groups[IN_OUT_GROUP]);
+                QAction * action = new QAction(Enum::inOutLabels()[i], _groups[IN_OUT_GROUP]);
                 action->setData(i);
-                if (Util::IN_OUT_ENABLE == i)
+                if (Enum::IN_OUT_ENABLE == i)
                 {
                     action->setCheckable(true);
                 }
@@ -114,10 +115,10 @@ namespace djv
 
             _groups[LAYOUT_GROUP] = new QActionGroup(this);
             _groups[LAYOUT_GROUP]->setExclusive(true);
-            for (int i = 0; i < Util::LAYOUT_COUNT; ++i)
+            for (int i = 0; i < Enum::LAYOUT_COUNT; ++i)
             {
                 QAction * action = new QAction(this);
-                action->setText(Util::layoutLabels()[i]);
+                action->setText(Enum::layoutLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
                 _groups[LAYOUT_GROUP]->addAction(action);
@@ -144,10 +145,10 @@ namespace djv
         {
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            QKeySequence key = shortcuts[Util::SHORTCUT_PLAYBACK_TOGGLE].value;
+            QKeySequence key = shortcuts[Enum::SHORTCUT_PLAYBACK_TOGGLE].value;
             _actions[PLAYBACK_TOGGLE]->setShortcut(key);
             _actions[PLAYBACK_TOGGLE]->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackActions", "Toggle playback\n\nShortcut: %1").
+                qApp->translate("djv::ViewLib::PlaybackActions", "Start or stop playback\n\nKeyboard shortcut: %1").
                 arg(key.toString()));
             _actions[EVERY_FRAME]->setIcon(
                 context()->iconLibrary()->icon("djv/UI/UnlockIcon", "djv/UI/LockIcon"));
@@ -156,16 +157,16 @@ namespace djv
                 context()->iconLibrary()->icon("djv/UI/PlayReverseIcon") <<
                 context()->iconLibrary()->icon("djv/UI/PlayStopIcon") <<
                 context()->iconLibrary()->icon("djv/UI/PlayForwardIcon");
-            const QVector<Util::SHORTCUT> playbackShortcuts =
-                QVector<Util::SHORTCUT>() <<
-                Util::SHORTCUT_PLAYBACK_REVERSE <<
-                Util::SHORTCUT_PLAYBACK_STOP <<
-                Util::SHORTCUT_PLAYBACK_FORWARD;
+            const QVector<Enum::SHORTCUT> playbackShortcuts =
+                QVector<Enum::SHORTCUT>() <<
+                Enum::SHORTCUT_PLAYBACK_REVERSE <<
+                Enum::SHORTCUT_PLAYBACK_STOP <<
+                Enum::SHORTCUT_PLAYBACK_FORWARD;
             const QStringList playbackToolTips = QStringList() <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Start reverse playback\n\nShortcut: %1") <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Stop playback\n\nShortcut: %1") <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Start forward playback\n\nShortcut: %1");
-            for (int i = 0; i < Util::PLAYBACK_COUNT; ++i)
+                qApp->translate("djv::ViewLib::PlaybackActions", "Reverse playback\n\nKeyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Stop playback\n\nKeyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Forward playback\n\nKeyboard shortcut: %1");
+            for (int i = 0; i < Enum::PLAYBACK_COUNT; ++i)
             {
                 _groups[PLAYBACK_GROUP]->actions()[i]->setIcon(playbackIcons[i]);
                 const QKeySequence key = shortcuts[playbackShortcuts[i]].value;
@@ -177,7 +178,7 @@ namespace djv
                 context()->iconLibrary()->icon("djv/UI/PlayLoopOnceIcon") <<
                 context()->iconLibrary()->icon("djv/UI/PlayLoopRepeatIcon") <<
                 context()->iconLibrary()->icon("djv/UI/PlayLoopPingPongIcon");
-            for (int i = 0; i < Util::LOOP_COUNT; ++i)
+            for (int i = 0; i < Enum::LOOP_COUNT; ++i)
             {
                 _groups[LOOP_GROUP]->actions()[i]->setIcon(loopIcons[i]);
             }
@@ -204,30 +205,30 @@ namespace djv
                 true <<
                 false <<
                 false;
-            const QVector<Util::SHORTCUT> frameShortcuts =
-                QVector<Util::SHORTCUT>() <<
-                Util::SHORTCUT_PLAYBACK_START <<
-                Util::SHORTCUT_PLAYBACK_START_ABS <<
-                Util::SHORTCUT_PLAYBACK_PREV <<
-                Util::SHORTCUT_PLAYBACK_PREV_10 <<
-                Util::SHORTCUT_PLAYBACK_PREV_100 <<
-                Util::SHORTCUT_PLAYBACK_NEXT <<
-                Util::SHORTCUT_PLAYBACK_NEXT_10 <<
-                Util::SHORTCUT_PLAYBACK_NEXT_100 <<
-                Util::SHORTCUT_PLAYBACK_END <<
-                Util::SHORTCUT_PLAYBACK_END_ABS;
+            const QVector<Enum::SHORTCUT> frameShortcuts =
+                QVector<Enum::SHORTCUT>() <<
+                Enum::SHORTCUT_PLAYBACK_START <<
+                Enum::SHORTCUT_PLAYBACK_START_ABS <<
+                Enum::SHORTCUT_PLAYBACK_PREV <<
+                Enum::SHORTCUT_PLAYBACK_PREV_10 <<
+                Enum::SHORTCUT_PLAYBACK_PREV_100 <<
+                Enum::SHORTCUT_PLAYBACK_NEXT <<
+                Enum::SHORTCUT_PLAYBACK_NEXT_10 <<
+                Enum::SHORTCUT_PLAYBACK_NEXT_100 <<
+                Enum::SHORTCUT_PLAYBACK_END <<
+                Enum::SHORTCUT_PLAYBACK_END_ABS;
             const QStringList frameToolTips = QStringList() <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the start frame or in point\n\nShortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the start frame or current in point\n\nKeyboard shortcut: %1") <<
                 QString() <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the previous frame\n\nShortcut: %1") <<
-                QString() <<
-                QString() <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the next frame\n\nShortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the previous frame\n\nKeyboard shortcut: %1") <<
                 QString() <<
                 QString() <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the end frame or out point\n\nShortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the next frame\n\nKeyboard shortcut: %1") <<
+                QString() <<
+                QString() <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Go to the end frame or current out point\n\nKeyboard shortcut: %1") <<
                 QString();
-            for (int i = 0; i < Util::FRAME_COUNT; ++i)
+            for (int i = 0; i < Enum::FRAME_COUNT; ++i)
             {
                 _groups[FRAME_GROUP]->actions()[i]->setIcon(frameIcons[i]);
                 const QKeySequence key = shortcuts[frameShortcuts[i]].value;
@@ -244,20 +245,20 @@ namespace djv
                 context()->iconLibrary()->icon("djv/UI/InPointResetIcon") <<
                 context()->iconLibrary()->icon("djv/UI/OutPointResetIcon") <<
                 QIcon();
-            const QVector<Util::SHORTCUT> inOutShortcuts =
-                QVector<Util::SHORTCUT>() <<
-                Util::SHORTCUT_PLAYBACK_IN_OUT <<
-                Util::SHORTCUT_PLAYBACK_MARK_IN <<
-                Util::SHORTCUT_PLAYBACK_MARK_OUT <<
-                Util::SHORTCUT_PLAYBACK_RESET_IN <<
-                Util::SHORTCUT_PLAYBACK_RESET_OUT;
+            const QVector<Enum::SHORTCUT> inOutShortcuts =
+                QVector<Enum::SHORTCUT>() <<
+                Enum::SHORTCUT_PLAYBACK_IN_OUT <<
+                Enum::SHORTCUT_PLAYBACK_MARK_IN <<
+                Enum::SHORTCUT_PLAYBACK_MARK_OUT <<
+                Enum::SHORTCUT_PLAYBACK_RESET_IN <<
+                Enum::SHORTCUT_PLAYBACK_RESET_OUT;
             const QStringList inOutToolTips = QStringList() <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Enable in/out points\n\nShortcut: %1") <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Set the current frame as the in point\n\nShortcut: %1") <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Set the current frame as the out point\n\nShortcut: %1") <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Reset the in point\n\nShortcut: %1") <<
-                qApp->translate("djv::ViewLib::PlaybackActions", "Reset the out point\n\nShortcut: %1");
-            for (int i = 0; i < Util::IN_OUT_COUNT; ++i)
+                qApp->translate("djv::ViewLib::PlaybackActions", "Enable in/out points\n\nKeyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Set the current frame as the in point\n\nKeyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Set the current frame as the out point\n\nKeyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Reset the current in point\n\nKeyboard shortcut: %1") <<
+                qApp->translate("djv::ViewLib::PlaybackActions", "Reset the current out point\n\nKeyboard shortcut: %1");
+            for (int i = 0; i < Enum::IN_OUT_COUNT; ++i)
             {
                 _groups[IN_OUT_GROUP]->actions()[i]->setIcon(inOutIcons[i]);
                 const QKeySequence key = shortcuts[inOutShortcuts[i]].value;

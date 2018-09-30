@@ -39,25 +39,29 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a time preferences widget.
-        class TimePrefsWidget : public AbstractPrefsWidget
+        //! This class provides a miscellaneous preferences widget.
+        class MiscPrefsWidget : public AbstractPrefsWidget
         {
             Q_OBJECT
 
         public:
-            explicit TimePrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
-            ~TimePrefsWidget() override;
+            explicit MiscPrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
+            ~MiscPrefsWidget() override;
 
             void resetPreferences() override;
 
         private Q_SLOTS:
             void timeUnitsCallback(int);
             void speedCallback(int);
-
+            void maxFramesCallback(int);
+            void filterMinCallback(int);
+            void filterMagCallback(int);
+            void toolTipsCallback(bool);
+            
             void widgetUpdate();
 
         private:
-            DJV_PRIVATE_COPY(TimePrefsWidget);
+            DJV_PRIVATE_COPY(MiscPrefsWidget);
 
             struct Private;
             std::unique_ptr<Private> _p;

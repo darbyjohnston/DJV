@@ -40,34 +40,34 @@ namespace djv
             _autoFit(autoFitDefault()),
             _viewMax(viewMaxDefault()),
             _viewMaxUser(viewMaxUserDefault()),
-            _fullScreenControls(fullScreenControlsDefault()),
-            _toolBar(toolBarDefault())
+            _fullScreenUI(fullScreenUIDefault()),
+            _uiComponentVisible(uiComponentVisibleDefault())
         {
             //DJV_DEBUG("WindowPrefs::WindowPrefs");
-            //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
+            //DJV_DEBUG_PRINT("ui components visible = " << _uiComponentVisible);
             UI::Prefs prefs("djv::ViewLib::WindowPrefs");
             prefs.get("autoFit", _autoFit);
             prefs.get("viewMax", _viewMax);
             prefs.get("viewMaxUser", _viewMaxUser);
-            prefs.get("fullScreenControls", _fullScreenControls);
-            if (prefs.contains("toolBar"))
+            prefs.get("fullScreenUI", _fullScreenUI);
+            if (prefs.contains("uiComponentVisible"))
             {
-                _toolBar.clear();
-                prefs.get("toolBar", _toolBar);
-                _toolBar.resize(Util::TOOL_BAR_COUNT);
+                _uiComponentVisible.clear();
+                prefs.get("uiComponentVisible", _uiComponentVisible);
+                _uiComponentVisible.resize(Enum::UI_COMPONENT_COUNT);
             }
         }
 
         WindowPrefs::~WindowPrefs()
         {
             //DJV_DEBUG("WindowPrefs::~WindowPrefs");
-            //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
+            //DJV_DEBUG_PRINT("ui components visible = " << _uiComponentVisible);
             UI::Prefs prefs("djv::ViewLib::WindowPrefs");
             prefs.set("autoFit", _autoFit);
             prefs.set("viewMax", _viewMax);
             prefs.set("viewMaxUser", _viewMaxUser);
-            prefs.set("fullScreenControls", _fullScreenControls);
-            prefs.set("toolBar", _toolBar);
+            prefs.set("fullScreenUI", _fullScreenUI);
+            prefs.set("uiComponentVisible", _uiComponentVisible);
         }
 
         bool WindowPrefs::autoFitDefault()
@@ -80,12 +80,12 @@ namespace djv
             return _autoFit;
         }
 
-        Util::VIEW_MAX WindowPrefs::viewMaxDefault()
+        Enum::VIEW_MAX WindowPrefs::viewMaxDefault()
         {
-            return Util::VIEW_MAX_75;
+            return Enum::VIEW_MAX_75;
         }
 
-        Util::VIEW_MAX WindowPrefs::viewMax() const
+        Enum::VIEW_MAX WindowPrefs::viewMax() const
         {
             return _viewMax;
         }
@@ -101,24 +101,24 @@ namespace djv
             return _viewMaxUser;
         }
 
-        bool WindowPrefs::fullScreenControlsDefault()
+        bool WindowPrefs::fullScreenUIDefault()
         {
             return false;
         }
 
-        bool WindowPrefs::hasFullScreenControls() const
+        bool WindowPrefs::hasFullScreenUI() const
         {
-            return _fullScreenControls;
+            return _fullScreenUI;
         }
 
-        QVector<bool> WindowPrefs::toolBarDefault()
+        QVector<bool> WindowPrefs::uiComponentVisibleDefault()
         {
-            return QVector<bool>(Util::TOOL_BAR_COUNT, true);
+            return QVector<bool>(Enum::UI_COMPONENT_COUNT, true);
         }
 
-        const QVector<bool> & WindowPrefs::toolBar() const
+        const QVector<bool> & WindowPrefs::uiComponentVisible() const
         {
-            return _toolBar;
+            return _uiComponentVisible;
         }
 
         void WindowPrefs::setAutoFit(bool in)
@@ -130,7 +130,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void WindowPrefs::setViewMax(Util::VIEW_MAX in)
+        void WindowPrefs::setViewMax(Enum::VIEW_MAX in)
         {
             if (in == _viewMax)
                 return;
@@ -148,21 +148,21 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void WindowPrefs::setFullScreenControls(bool in)
+        void WindowPrefs::setFullScreenUI(bool in)
         {
-            if (in == _fullScreenControls)
+            if (in == _fullScreenUI)
                 return;
-            _fullScreenControls = in;
-            Q_EMIT fullScreenControlsChanged(_fullScreenControls);
+            _fullScreenUI = in;
+            Q_EMIT fullScreenUIChanged(_fullScreenUI);
             Q_EMIT prefChanged();
         }
 
-        void WindowPrefs::setToolBar(const QVector<bool> & in)
+        void WindowPrefs::setUIComponentVisible(const QVector<bool> & in)
         {
-            if (in == _toolBar)
+            if (in == _uiComponentVisible)
                 return;
-            _toolBar = in;
-            Q_EMIT toolBarChanged(_toolBar);
+            _uiComponentVisible = in;
+            Q_EMIT uiComponentVisibleChanged(_uiComponentVisible);
             Q_EMIT prefChanged();
         }
 

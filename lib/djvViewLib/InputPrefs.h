@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractPrefs.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 namespace djv
 {
@@ -46,41 +46,41 @@ namespace djv
             ~InputPrefs() override;
 
             //! Get the default mouse wheel action.
-            static Util::MOUSE_WHEEL mouseWheelDefault();
+            static Enum::MOUSE_WHEEL mouseWheelDefault();
 
             //! Get the mouse wheel action.
-            Util::MOUSE_WHEEL mouseWheel() const;
+            Enum::MOUSE_WHEEL mouseWheel() const;
 
             //! Get the default shift + mouse wheel action.
-            static Util::MOUSE_WHEEL mouseWheelShiftDefault();
+            static Enum::MOUSE_WHEEL mouseWheelShiftDefault();
 
             //! Get the shift + mouse wheel action.
-            Util::MOUSE_WHEEL mouseWheelShift() const;
+            Enum::MOUSE_WHEEL mouseWheelShift() const;
 
             //! Get the default control + mouse wheel action.
-            static Util::MOUSE_WHEEL mouseWheelCtrlDefault();
+            static Enum::MOUSE_WHEEL mouseWheelCtrlDefault();
 
             //! Get the control + mouse wheel action.
-            Util::MOUSE_WHEEL mouseWheelCtrl() const;
+            Enum::MOUSE_WHEEL mouseWheelCtrl() const;
 
         public Q_SLOTS:
             //! Set the mouse wheel action.
-            void setMouseWheel(djv::ViewLib::Util::MOUSE_WHEEL);
+            void setMouseWheel(djv::ViewLib::Enum::MOUSE_WHEEL);
 
             //! Set the shift + mouse wheel action.
-            void setMouseWheelShift(djv::ViewLib::Util::MOUSE_WHEEL);
+            void setMouseWheelShift(djv::ViewLib::Enum::MOUSE_WHEEL);
 
             //! Set the control + mouse wheel action.
-            void setMouseWheelCtrl(djv::ViewLib::Util::MOUSE_WHEEL);
+            void setMouseWheelCtrl(djv::ViewLib::Enum::MOUSE_WHEEL);
 
         Q_SIGNALS:
             //! This signal is emitted when a preference is changed.
             void prefChanged();
 
         private:
-            Util::MOUSE_WHEEL _mouseWheel;
-            Util::MOUSE_WHEEL _mouseWheelShift;
-            Util::MOUSE_WHEEL _mouseWheelCtrl;
+            Enum::MOUSE_WHEEL _mouseWheel;
+            Enum::MOUSE_WHEEL _mouseWheelShift;
+            Enum::MOUSE_WHEEL _mouseWheelCtrl;
         };
 
     } // namespace ViewLib

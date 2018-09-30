@@ -86,6 +86,9 @@ namespace djv
 
             //! Get whether the file browser is currently pinned.
             bool isPinned() const;
+            
+            //! Get the file sequence labels.
+            static const QStringList & sequenceLabels();
 
         public Q_SLOTS:
             //! Set the file information.

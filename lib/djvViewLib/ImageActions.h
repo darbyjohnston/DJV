@@ -48,8 +48,8 @@ namespace djv
             //! This enumeration provides the actions.
             enum ACTION
             {
-                FRAME_STORE,
-                LOAD_FRAME_STORE,
+                SHOW_FRAME_STORE,
+                SET_FRAME_STORE,
                 MIRROR_H,
                 MIRROR_V,
                 COLOR_PROFILE,

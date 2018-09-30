@@ -68,12 +68,12 @@ namespace djv
             return _autoStart;
         }
 
-        Util::LOOP PlaybackPrefs::loopDefault()
+        Enum::LOOP PlaybackPrefs::loopDefault()
         {
-            return Util::LOOP_REPEAT;
+            return Enum::LOOP_REPEAT;
         }
 
-        Util::LOOP PlaybackPrefs::loop() const
+        Enum::LOOP PlaybackPrefs::loop() const
         {
             return _loop;
         }
@@ -88,12 +88,12 @@ namespace djv
             return _everyFrame;
         }
 
-        Util::LAYOUT PlaybackPrefs::layoutDefault()
+        Enum::LAYOUT PlaybackPrefs::layoutDefault()
         {
-            return Util::LAYOUT_DEFAULT;
+            return Enum::LAYOUT_DEFAULT;
         }
 
-        Util::LAYOUT PlaybackPrefs::layout() const
+        Enum::LAYOUT PlaybackPrefs::layout() const
         {
             return _layout;
         }
@@ -107,7 +107,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void PlaybackPrefs::setLoop(Util::LOOP in)
+        void PlaybackPrefs::setLoop(Enum::LOOP in)
         {
             if (in == _loop)
                 return;
@@ -125,7 +125,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void PlaybackPrefs::setLayout(Util::LAYOUT in)
+        void PlaybackPrefs::setLayout(Enum::LAYOUT in)
         {
             if (in == _layout)
                 return;

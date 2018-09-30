@@ -57,37 +57,37 @@ namespace djv
             prefs.set("mouseWheelCtrl", _mouseWheelCtrl);
         }
 
-        Util::MOUSE_WHEEL InputPrefs::mouseWheelDefault()
+        Enum::MOUSE_WHEEL InputPrefs::mouseWheelDefault()
         {
-            return Util::MOUSE_WHEEL_VIEW_ZOOM;
+            return Enum::MOUSE_WHEEL_VIEW_ZOOM;
         }
 
-        Util::MOUSE_WHEEL InputPrefs::mouseWheel() const
+        Enum::MOUSE_WHEEL InputPrefs::mouseWheel() const
         {
             return _mouseWheel;
         }
 
-        Util::MOUSE_WHEEL InputPrefs::mouseWheelShiftDefault()
+        Enum::MOUSE_WHEEL InputPrefs::mouseWheelShiftDefault()
         {
-            return Util::MOUSE_WHEEL_PLAYBACK_SHUTTLE;
+            return Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE;
         }
 
-        Util::MOUSE_WHEEL InputPrefs::mouseWheelShift() const
+        Enum::MOUSE_WHEEL InputPrefs::mouseWheelShift() const
         {
             return _mouseWheelShift;
         }
 
-        Util::MOUSE_WHEEL InputPrefs::mouseWheelCtrlDefault()
+        Enum::MOUSE_WHEEL InputPrefs::mouseWheelCtrlDefault()
         {
-            return Util::MOUSE_WHEEL_PLAYBACK_SPEED;
+            return Enum::MOUSE_WHEEL_PLAYBACK_SPEED;
         }
 
-        Util::MOUSE_WHEEL InputPrefs::mouseWheelCtrl() const
+        Enum::MOUSE_WHEEL InputPrefs::mouseWheelCtrl() const
         {
             return _mouseWheelCtrl;
         }
 
-        void InputPrefs::setMouseWheel(Util::MOUSE_WHEEL in)
+        void InputPrefs::setMouseWheel(Enum::MOUSE_WHEEL in)
         {
             if (in == _mouseWheel)
                 return;
@@ -95,7 +95,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void InputPrefs::setMouseWheelShift(Util::MOUSE_WHEEL in)
+        void InputPrefs::setMouseWheelShift(Enum::MOUSE_WHEEL in)
         {
             if (in == _mouseWheelShift)
                 return;
@@ -103,7 +103,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void InputPrefs::setMouseWheelCtrl(Util::MOUSE_WHEEL in)
+        void InputPrefs::setMouseWheelCtrl(Enum::MOUSE_WHEEL in)
         {
             if (in == _mouseWheelCtrl)
                 return;

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Core.h>
+#include <djvViewLib/ViewLib.h>
 
 #include <djvGraphics/ImageTags.h>
 #include <djvGraphics/PixelData.h>
@@ -47,7 +47,7 @@ namespace djv
             Graphics::ImageTags     tags;
             qint64                  frame = 0;
             Core::Speed             speed;
-            float                   realSpeed = 0.f;
+            float                   actualSpeed = 0.f;
             bool                    droppedFrames = false;
             QVector<bool>           visible;
         };

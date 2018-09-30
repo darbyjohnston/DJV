@@ -40,7 +40,7 @@ namespace djv
             a.tags == b.tags &&
             a.frame == b.frame &&
             a.speed == b.speed &&
-            Core::Math::fuzzyCompare(a.realSpeed, b.realSpeed) &&
+            Core::Math::fuzzyCompare(a.actualSpeed, b.actualSpeed) &&
             a.droppedFrames == b.droppedFrames &&
             a.visible == b.visible;
     }

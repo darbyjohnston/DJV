@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvGraphics/Image.h>
 
@@ -41,6 +41,7 @@ namespace djv
 {
     namespace Core
     {
+        class FileInfo;
         class Speed;
 
     } // namespace Core
@@ -99,7 +100,7 @@ namespace djv
             void fitWindow(bool move = true);
 
             //! Set the playback.
-            void setPlayback(djv::ViewLib::Util::PLAYBACK);
+            void setPlayback(djv::ViewLib::Enum::PLAYBACK);
 
             //! Set the playback frame.
             void setPlaybackFrame(qint64);
@@ -122,15 +123,15 @@ namespace djv
             void reloadFrameCallback();
             void saveCallback(const djv::Core::FileInfo &);
             void saveFrameCallback(const djv::Core::FileInfo &);
-            void loadFrameStoreCallback();
+            void setFrameStoreCallback();
             void pickCallback(const glm::ivec2 &);
-            void mouseWheelCallback(djv::ViewLib::Util::MOUSE_WHEEL);
+            void mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL);
             void mouseWheelValueCallback(int);
 
             void fileUpdate();
             void fileCacheUpdate();
             void imageUpdate();
-            void controlsUpdate();
+            void windowUpdate();
             void viewOverlayUpdate();
             void viewPickUpdate();
             void playbackUpdate();

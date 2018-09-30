@@ -138,33 +138,33 @@ namespace djv
             const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
             _actions[OPEN]->setIcon(context()->iconLibrary()->icon("djv/UI/FileOpenIcon"));
-            _actions[OPEN]->setShortcut(shortcuts[Util::SHORTCUT_FILE_OPEN].value);
+            _actions[OPEN]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_OPEN].value);
             _actions[OPEN]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Open a new file\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_FILE_OPEN].value.toString()));
+                qApp->translate("djv::ViewLib::FileActions", "Open a new file\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_FILE_OPEN].value.toString()));
 
             _actions[RELOAD]->setIcon(context()->iconLibrary()->icon("djv/UI/FileReloadIcon"));
-            _actions[RELOAD]->setShortcut(shortcuts[Util::SHORTCUT_FILE_RELOAD].value);
+            _actions[RELOAD]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_RELOAD].value);
             _actions[RELOAD]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Reload the current file\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_FILE_RELOAD].value.toString()));
+                qApp->translate("djv::ViewLib::FileActions", "Reload the current file\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD].value.toString()));
 
-            _actions[RELOAD_FRAME]->setShortcut(shortcuts[Util::SHORTCUT_FILE_RELOAD_FRAME].value);
+            _actions[RELOAD_FRAME]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_RELOAD_FRAME].value);
             _actions[RELOAD_FRAME]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Reload the current frame\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
+                qApp->translate("djv::ViewLib::FileActions", "Reload the current frame\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
             
             _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/FileCloseIcon"));
-            _actions[CLOSE]->setShortcut(shortcuts[Util::SHORTCUT_FILE_CLOSE].value);
+            _actions[CLOSE]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_CLOSE].value);
             _actions[CLOSE]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Close the current file\n\nShortcut: %1").
-                arg(shortcuts[Util::SHORTCUT_FILE_CLOSE].value.toString()));
+                qApp->translate("djv::ViewLib::FileActions", "Close the current file\n\nKeyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_FILE_CLOSE].value.toString()));
             
-            _actions[SAVE]->setShortcut(shortcuts[Util::SHORTCUT_FILE_SAVE].value);
-            _actions[SAVE_FRAME]->setShortcut(shortcuts[Util::SHORTCUT_FILE_SAVE_FRAME].value);
-            _actions[LAYER_PREV]->setShortcut(shortcuts[Util::SHORTCUT_FILE_LAYER_PREV].value);
-            _actions[LAYER_NEXT]->setShortcut(shortcuts[Util::SHORTCUT_FILE_LAYER_NEXT].value);
-            _actions[EXIT]->setShortcut(shortcuts[Util::SHORTCUT_EXIT].value);
+            _actions[SAVE]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_SAVE].value);
+            _actions[SAVE_FRAME]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_SAVE_FRAME].value);
+            _actions[LAYER_PREV]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_LAYER_PREV].value);
+            _actions[LAYER_NEXT]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_LAYER_NEXT].value);
+            _actions[EXIT]->setShortcut(shortcuts[Enum::SHORTCUT_EXIT].value);
 
             Q_FOREACH(QAction * action, _groups[RECENT_GROUP]->actions())
                 delete action;
@@ -180,17 +180,17 @@ namespace djv
             Q_FOREACH(QAction * action, _groups[LAYER_GROUP]->actions())
                 delete action;
             const QVector<QKeySequence> layerShortcuts = QVector<QKeySequence>() <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_DEFAULT].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_1].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_2].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_3].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_4].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_5].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_6].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_7].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_8].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_9].value <<
-                shortcuts[Util::SHORTCUT_FILE_LAYER_10].value;
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_DEFAULT].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_1].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_2].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_3].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_4].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_5].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_6].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_7].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_8].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_9].value <<
+                shortcuts[Enum::SHORTCUT_FILE_LAYER_10].value;
             for (int i = 0; i < _p->layers.count(); ++i)
             {
                 QAction * action = new QAction(this);
@@ -203,10 +203,10 @@ namespace djv
             }
 
             const QVector<QKeySequence> proxyShortcuts = QVector<QKeySequence>() <<
-                shortcuts[Util::SHORTCUT_FILE_PROXY_NONE].value <<
-                shortcuts[Util::SHORTCUT_FILE_PROXY_1_2].value <<
-                shortcuts[Util::SHORTCUT_FILE_PROXY_1_4].value <<
-                shortcuts[Util::SHORTCUT_FILE_PROXY_1_8].value;
+                shortcuts[Enum::SHORTCUT_FILE_PROXY_NONE].value <<
+                shortcuts[Enum::SHORTCUT_FILE_PROXY_1_2].value <<
+                shortcuts[Enum::SHORTCUT_FILE_PROXY_1_4].value <<
+                shortcuts[Enum::SHORTCUT_FILE_PROXY_1_8].value;
             for (int i = 0; i < _groups[PROXY_GROUP]->actions().count(); ++i)
             {
                 _groups[PROXY_GROUP]->actions()[i]->setShortcut(proxyShortcuts[i]);

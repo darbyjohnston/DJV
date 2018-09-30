@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractPrefs.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 namespace djv
 {
@@ -53,10 +53,10 @@ namespace djv
             bool hasAutoFit() const;
 
             //! Get the default maximum view size.
-            static Util::VIEW_MAX viewMaxDefault();
+            static Enum::VIEW_MAX viewMaxDefault();
 
             //! Get the maximum view size.
-            Util::VIEW_MAX viewMax() const;
+            Enum::VIEW_MAX viewMax() const;
 
             //! Get the default user specified maximum view size.
             static const glm::ivec2 & viewMaxUserDefault();
@@ -64,34 +64,33 @@ namespace djv
             //! Get the user specified maximum view size.
             const glm::ivec2 & viewMaxUser() const;
 
-            //! Get the default for whether the controls are visible when going full
-            //! screen.
-            static bool fullScreenControlsDefault();
+            //! Get the default for whether the UI is visible when going full screen.
+            static bool fullScreenUIDefault();
 
-            //! Get whether the controls are visible when going full screen.
-            bool hasFullScreenControls() const;
+            //! Get whether the UI is visible when going full screen.
+            bool hasFullScreenUI() const;
 
-            //! Get the default tool bar visiblity.
-            static QVector<bool> toolBarDefault();
+            //! Get the default UI component visiblity.
+            static QVector<bool> uiComponentVisibleDefault();
 
-            //! Get the tool bar visibility.
-            const QVector<bool> & toolBar() const;
+            //! Get the UI component visibility.
+            const QVector<bool> & uiComponentVisible() const;
 
         public Q_SLOTS:
             //! Set whether to automatically fit the window to the image.
             void setAutoFit(bool);
 
             //! Set the maximum view size.
-            void setViewMax(djv::ViewLib::Util::VIEW_MAX);
+            void setViewMax(djv::ViewLib::Enum::VIEW_MAX);
 
             //! Set the user specified maximum view size.
             void setViewMaxUser(const glm::ivec2 &);
 
-            //! Set whether the controls are visible when going full screen.
-            void setFullScreenControls(bool);
+            //! Set whether the UI is visible when going full screen.
+            void setFullScreenUI(bool);
 
-            //! Set the tool bar visibility.
-            void setToolBar(const QVector<bool> &);
+            //! Set the UI component visibility.
+            void setUIComponentVisible(const QVector<bool> &);
 
         Q_SIGNALS:
             //! This signal is emitted when automatically fitting the window to the
@@ -99,25 +98,23 @@ namespace djv
             void autoFitChanged(bool);
 
             //! This signal is emitted when the maximum view size is changed.
-            void viewMaxChanged(djv::ViewLib::Util::VIEW_MAX);
+            void viewMaxChanged(djv::ViewLib::Enum::VIEW_MAX);
 
-            //! This signal is emitted when the user specified maximum view size is
-            //! changed.
+            //! This signal is emitted when the user specified maximum view size is changed.
             void viewMaxUserChanged(const glm::ivec2 &);
 
-            //! This signal is emitted when the full screen controls option is
-            //! changed.
-            void fullScreenControlsChanged(bool);
+            //! This signal is emitted when the full screen UI option is changed.
+            void fullScreenUIChanged(bool);
 
             //! This signal is emitted when the tool bar visibility is changed.
-            void toolBarChanged(const QVector<bool> &);
+            void uiComponentVisibleChanged(const QVector<bool> &);
 
         private:
             bool           _autoFit;
-            Util::VIEW_MAX _viewMax;
+            Enum::VIEW_MAX _viewMax;
             glm::ivec2     _viewMaxUser = glm::ivec2(0, 0);
-            bool           _fullScreenControls;
-            QVector<bool>  _toolBar;
+            bool           _fullScreenUI;
+            QVector<bool>  _uiComponentVisible;
         };
 
     } // namespace ViewLib

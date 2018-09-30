@@ -54,8 +54,8 @@ namespace djv
             void autoFitCallback(bool);
             void viewMaxCallback(int);
             void viewMaxUserCallback(const glm::ivec2 &);
-            void fullScreenControlsCallback(bool);
-            void toolBarCallback(int);
+            void fullScreenUICallback(bool);
+            void uiComponentVisibleCallback(int);
 
             void widgetUpdate();
 

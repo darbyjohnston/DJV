@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractPrefs.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 namespace djv
 {
@@ -52,10 +52,10 @@ namespace djv
             bool hasAutoStart() const;
 
             //! Get the default playback loop.
-            static Util::LOOP loopDefault();
+            static Enum::LOOP loopDefault();
 
             //! Get the playback loop.
-            Util::LOOP loop() const;
+            Enum::LOOP loop() const;
 
             //! Get the default for whether every frame is played.
             static bool everyFrameDefault();
@@ -64,45 +64,45 @@ namespace djv
             bool hasEveryFrame() const;
 
             //! Get the default playback layout.
-            static Util::LAYOUT layoutDefault();
+            static Enum::LAYOUT layoutDefault();
 
             //! Get the playback layout.
-            Util::LAYOUT layout() const;
+            Enum::LAYOUT layout() const;
 
         public Q_SLOTS:
             //! Set whether playback is started automatically.
             void setAutoStart(bool);
 
             //! Set the playback loop.
-            void setLoop(djv::ViewLib::Util::LOOP);
+            void setLoop(djv::ViewLib::Enum::LOOP);
 
             //! Set whether every frame is played.
             void setEveryFrame(bool);
 
             //! Set the playback layout.
-            void setLayout(djv::ViewLib::Util::LAYOUT);
+            void setLayout(djv::ViewLib::Enum::LAYOUT);
 
         Q_SIGNALS:
             //! This signal is emitted when playback auto start is changed.
             void autoStartChanged(bool);
 
             //! This signal is emitted when the playback loop is changed.
-            void loopChanged(djv::ViewLib::Util::LOOP);
+            void loopChanged(djv::ViewLib::Enum::LOOP);
 
             //! This signal is emitted when every frame played is changed.
             void everyFrameChanged(bool);
 
             //! This signal is emitted when the playback layout is changed.
-            void layoutChanged(djv::ViewLib::Util::LAYOUT);
+            void layoutChanged(djv::ViewLib::Enum::LAYOUT);
 
             //! This signal is emitted when a preference is changed.
             void prefChanged();
 
         private:
             bool          _autoStart;
-            Util::LOOP   _loop;
+            Enum::LOOP   _loop;
             bool         _everyFrame;
-            Util::LAYOUT _layout;
+            Enum::LAYOUT _layout;
         };
 
     } // namespace ViewLib

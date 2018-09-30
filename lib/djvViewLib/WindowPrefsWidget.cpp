@@ -54,8 +54,8 @@ namespace djv
             QPointer<QCheckBox> autoFitWidget;
             QPointer<QComboBox> viewMaxWidget;
             QPointer<UI::Vector2iEditWidget> viewMaxUserWidget;
-            QPointer<QCheckBox> fullScreenControlsWidget;
-            QPointer<QButtonGroup> toolBarButtonGroup;
+            QPointer<QCheckBox> fullScreenUIWidget;
+            QPointer<QButtonGroup> uiComponentVisibleButtonGroup;
         };
 
         WindowPrefsWidget::WindowPrefsWidget(const QPointer<Context> & context) :
@@ -63,7 +63,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Windows"), context),
             _p(new Private)
         {
-            // Create the size widgets.
+            // Create the widgets.
             _p->autoFitWidget = new QCheckBox(
                 qApp->translate(
                     "djv::ViewLib::WindowPrefsWidget",
@@ -71,26 +71,24 @@ namespace djv
 
             _p->viewMaxWidget = new QComboBox;
             _p->viewMaxWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->viewMaxWidget->addItems(Util::viewMaxLabels());
+            _p->viewMaxWidget->addItems(Enum::viewMaxLabels());
 
             _p->viewMaxUserWidget = new UI::Vector2iEditWidget;
             _p->viewMaxUserWidget->setRange(glm::ivec2(100, 100), glm::ivec2(8192, 8192));
             _p->viewMaxUserWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-            // Create the full screen widgets.
-            _p->fullScreenControlsWidget = new QCheckBox(
+            _p->fullScreenUIWidget = new QCheckBox(
                 qApp->translate(
                     "djv::ViewLib::WindowPrefsWidget",
-                    "Set whether the controls are visible in full screen mode"));
+                    "Set whether the user interface is visible in full screen mode"));
 
-            // Create the tool bar widgets.
-            _p->toolBarButtonGroup = new QButtonGroup(this);
-            _p->toolBarButtonGroup->setExclusive(false);
+            _p->uiComponentVisibleButtonGroup = new QButtonGroup(this);
+            _p->uiComponentVisibleButtonGroup->setExclusive(false);
 
-            for (int i = 0; i < Util::toolBarLabels().count(); ++i)
+            for (int i = 0; i < Enum::uiComponentLabels().count(); ++i)
             {
-                auto checkBox = new QCheckBox(Util::toolBarLabels()[i]);
-                _p->toolBarButtonGroup->addButton(checkBox, i);
+                auto checkBox = new QCheckBox(Enum::uiComponentLabels()[i]);
+                _p->uiComponentVisibleButtonGroup->addButton(checkBox, i);
             }
 
             // Layout the widgets.
@@ -109,16 +107,16 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Full Screen"), context.data());
             formLayout = prefsGroupBox->createLayout();
-            formLayout->addRow(_p->fullScreenControlsWidget);
+            formLayout->addRow(_p->fullScreenUIWidget);
             layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::WindowPrefsWidget", "Tool Bars"),
-                qApp->translate("djv::ViewLib::WindowPrefsWidget", "Set which tool bars are visible."),
+                qApp->translate("djv::ViewLib::WindowPrefsWidget", "User Interface Components"),
+                qApp->translate("djv::ViewLib::WindowPrefsWidget", "Set which user interface components are visible."),
                 context.data());
             formLayout = prefsGroupBox->createLayout();
-            for (int i = 0; i < _p->toolBarButtonGroup->buttons().count(); ++i)
-                formLayout->addRow(_p->toolBarButtonGroup->button(i));
+            for (int i = 0; i < _p->uiComponentVisibleButtonGroup->buttons().count(); ++i)
+                formLayout->addRow(_p->uiComponentVisibleButtonGroup->button(i));
             layout->addWidget(prefsGroupBox);
 
             layout->addStretch();
@@ -140,13 +138,13 @@ namespace djv
                 SIGNAL(valueChanged(const glm::ivec2 &)),
                 SLOT(viewMaxUserCallback(const glm::ivec2 &)));
             connect(
-                _p->fullScreenControlsWidget,
+                _p->fullScreenUIWidget,
                 SIGNAL(toggled(bool)),
-                SLOT(fullScreenControlsCallback(bool)));
+                SLOT(fullScreenUICallback(bool)));
             connect(
-                _p->toolBarButtonGroup,
+                _p->uiComponentVisibleButtonGroup,
                 SIGNAL(buttonClicked(int)),
-                SLOT(toolBarCallback(int)));
+                SLOT(uiComponentVisibleCallback(int)));
         }
 
         WindowPrefsWidget::~WindowPrefsWidget()
@@ -157,8 +155,8 @@ namespace djv
             context()->windowPrefs()->setAutoFit(WindowPrefs::autoFitDefault());
             context()->windowPrefs()->setViewMax(WindowPrefs::viewMaxDefault());
             context()->windowPrefs()->setViewMaxUser(WindowPrefs::viewMaxUserDefault());
-            context()->windowPrefs()->setFullScreenControls(WindowPrefs::fullScreenControlsDefault());
-            context()->windowPrefs()->setToolBar(WindowPrefs::toolBarDefault());
+            context()->windowPrefs()->setFullScreenUI(WindowPrefs::fullScreenUIDefault());
+            context()->windowPrefs()->setUIComponentVisible(WindowPrefs::uiComponentVisibleDefault());
             widgetUpdate();
         }
 
@@ -169,7 +167,7 @@ namespace djv
 
         void WindowPrefsWidget::viewMaxCallback(int in)
         {
-            context()->windowPrefs()->setViewMax(static_cast<Util::VIEW_MAX>(in));
+            context()->windowPrefs()->setViewMax(static_cast<Enum::VIEW_MAX>(in));
 
             widgetUpdate();
         }
@@ -179,16 +177,16 @@ namespace djv
             context()->windowPrefs()->setViewMaxUser(in);
         }
 
-        void WindowPrefsWidget::fullScreenControlsCallback(bool in)
+        void WindowPrefsWidget::fullScreenUICallback(bool in)
         {
-            context()->windowPrefs()->setFullScreenControls(in);
+            context()->windowPrefs()->setFullScreenUI(in);
         }
 
-        void WindowPrefsWidget::toolBarCallback(int id)
+        void WindowPrefsWidget::uiComponentVisibleCallback(int id)
         {
-            QVector<bool> visible = context()->windowPrefs()->toolBar();
-            visible[id] = _p->toolBarButtonGroup->button(id)->isChecked();
-            context()->windowPrefs()->setToolBar(visible);
+            QVector<bool> visible = context()->windowPrefs()->uiComponentVisible();
+            visible[id] = _p->uiComponentVisibleButtonGroup->button(id)->isChecked();
+            context()->windowPrefs()->setUIComponentVisible(visible);
         }
 
         void WindowPrefsWidget::widgetUpdate()
@@ -197,17 +195,17 @@ namespace djv
                 _p->autoFitWidget <<
                 _p->viewMaxWidget <<
                 _p->viewMaxUserWidget <<
-                _p->fullScreenControlsWidget <<
-                _p->toolBarButtonGroup);
+                _p->fullScreenUIWidget <<
+                _p->uiComponentVisibleButtonGroup);
             _p->autoFitWidget->setChecked(context()->windowPrefs()->hasAutoFit());
             _p->viewMaxWidget->setCurrentIndex(context()->windowPrefs()->viewMax());
             _p->viewMaxUserWidget->setValue(context()->windowPrefs()->viewMaxUser());
-            _p->viewMaxUserWidget->setVisible(Util::VIEW_MAX_USER == context()->windowPrefs()->viewMax());
-            _p->fullScreenControlsWidget->setChecked(context()->windowPrefs()->hasFullScreenControls());
-            const QVector<bool> & visible = context()->windowPrefs()->toolBar();
+            _p->viewMaxUserWidget->setVisible(Enum::VIEW_MAX_USER == context()->windowPrefs()->viewMax());
+            _p->fullScreenUIWidget->setChecked(context()->windowPrefs()->hasFullScreenUI());
+            const QVector<bool> & visible = context()->windowPrefs()->uiComponentVisible();
             for (int i = 0; i < visible.count(); ++i)
             {
-                _p->toolBarButtonGroup->button(i)->setChecked(visible[i]);
+                _p->uiComponentVisibleButtonGroup->button(i)->setChecked(visible[i]);
             }
         }
 

@@ -149,7 +149,7 @@ namespace djv
             catch (Core::Error error)
             {
                 error.add(
-                    Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
+                    Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
                     arg(QDir::toNativeSeparators(_p->info.inputFile)));
                 _p->context->printError(error);
                 return;
@@ -167,7 +167,7 @@ namespace djv
             catch (Core::Error error)
             {
                 error.add(
-                    Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
+                    Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
                     arg(QDir::toNativeSeparators(_p->info.outputFile)));
                 _p->context->printError(error);
                 return;
@@ -199,7 +199,7 @@ namespace djv
                 catch (Core::Error error)
                 {
                     error.add(
-                        Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
+                        Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
                         arg(QDir::toNativeSeparators(_p->info.outputFile)));
                     _p->context->printError(error);
                 }
@@ -237,7 +237,7 @@ namespace djv
             catch (Core::Error error)
             {
                 error.add(
-                    Util::errorLabels()[Util::ERROR_READ_IMAGE].
+                    Enum::errorLabels()[Enum::ERROR_READ_IMAGE].
                     arg(QDir::toNativeSeparators(_p->info.inputFile)));
                 _p->context->printError(error);
                 cancel();
@@ -267,7 +267,7 @@ namespace djv
                 catch (Core::Error error)
                 {
                     error.add(
-                        Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
+                        Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
                         arg(QDir::toNativeSeparators(_p->info.outputFile)));
                     _p->context->printError(error);
                     cancel();
@@ -289,7 +289,7 @@ namespace djv
             catch (Core::Error error)
             {
                 error.add(
-                    Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
+                    Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
                     arg(QDir::toNativeSeparators(_p->info.outputFile)));
                 _p->context->printError(error);
                 cancel();
@@ -305,7 +305,7 @@ namespace djv
                 catch (Core::Error error)
                 {
                     error.add(
-                        Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
+                        Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
                         arg(QDir::toNativeSeparators(_p->info.outputFile)));
                     _p->context->printError(error);
                 }
@@ -323,7 +323,7 @@ namespace djv
             catch (Core::Error error)
             {
                 error.add(
-                    Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
+                    Enum::errorLabels()[Enum::ERROR_WRITE_IMAGE].
                     arg(QDir::toNativeSeparators(_p->info.outputFile)));
                 _p->context->printError(error);
             }

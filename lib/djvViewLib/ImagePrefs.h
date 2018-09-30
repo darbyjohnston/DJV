@@ -31,7 +31,7 @@
 
 #include <djvViewLib/AbstractPrefs.h>
 #include <djvViewLib/DisplayProfile.h>
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 namespace djv
 {
@@ -59,16 +59,16 @@ namespace djv
             const Graphics::PixelDataInfo::Mirror & mirror() const;
 
             //! Get the default scale.
-            static Util::IMAGE_SCALE scaleDefault();
+            static Enum::IMAGE_SCALE scaleDefault();
 
             //! Get the scale.
-            Util::IMAGE_SCALE scale() const;
+            Enum::IMAGE_SCALE scale() const;
 
             //! Get the default rotation.
-            static Util::IMAGE_ROTATE rotateDefault();
+            static Enum::IMAGE_ROTATE rotateDefault();
 
             //! Get the rotation.
-            Util::IMAGE_ROTATE rotate() const;
+            Enum::IMAGE_ROTATE rotate() const;
 
             //! Get the default for whether the color profile is enabled.
             static bool colorProfileDefault();
@@ -105,10 +105,10 @@ namespace djv
             void setMirror(const djv::Graphics::PixelDataInfo::Mirror &);
 
             //! Set the scale.
-            void setScale(djv::ViewLib::Util::IMAGE_SCALE);
+            void setScale(djv::ViewLib::Enum::IMAGE_SCALE);
 
             //! Set the rotation.
-            void setRotate(djv::ViewLib::Util::IMAGE_ROTATE);
+            void setRotate(djv::ViewLib::Enum::IMAGE_ROTATE);
 
             //! Set whether the color profile is enabled.
             void setColorProfile(bool);
@@ -127,10 +127,10 @@ namespace djv
             void mirrorChanged(djv::Graphics::PixelDataInfo::Mirror);
 
             //! This signal is emitted when the scale is changed.
-            void scaleChanged(djv::ViewLib::Util::IMAGE_SCALE);
+            void scaleChanged(djv::ViewLib::Enum::IMAGE_SCALE);
 
             //! This signal is emitted when the rotation is changed.
-            void rotateChanged(djv::ViewLib::Util::IMAGE_ROTATE);
+            void rotateChanged(djv::ViewLib::Enum::IMAGE_ROTATE);
 
             //! This signal is emitted when the color profile is changed.
             void colorProfileChanged(bool);
@@ -148,8 +148,8 @@ namespace djv
         private:
             bool                                  _frameStoreFileReload;
             Graphics::PixelDataInfo::Mirror       _mirror;
-            Util::IMAGE_SCALE                     _scale;
-            Util::IMAGE_ROTATE                    _rotate;
+            Enum::IMAGE_SCALE                     _scale;
+            Enum::IMAGE_ROTATE                    _rotate;
             bool                                  _colorProfile;
             int                                   _displayProfileIndex;
             QVector<DisplayProfile>               _displayProfiles;

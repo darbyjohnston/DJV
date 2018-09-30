@@ -56,11 +56,11 @@ namespace djv
             //! Get whether full screen is enabled.    
             bool hasFullScreen() const;
 
-            //! Get the user interface controls visibility.
-            bool hasControlsVisible() const;
+            //! Get the user interface visibility.
+            bool isUIVisible() const;
 
-            //! Get the tool bar visibility.
-            const QVector<bool> & toolBarVisible() const;
+            //! Get the UI component visibility.
+            const QVector<bool> & uiComponentVisible() const;
 
             QToolBar * toolBar() const override;
 
@@ -68,29 +68,28 @@ namespace djv
             //! Set whether full screen is enabled.
             void setFullScreen(bool);
 
-            //! Set the user interface controls visibility.
-            void setControlsVisible(bool);
+            //! Set the user interface visibility.
+            void setUIVisible(bool);
 
-            //! Set the tool bar visibility.
-            void setToolBarVisible(const QVector<bool> &);
+            //! Set the UI component visibility.
+            void setUIComponentVisible(const QVector<bool> &);
 
         Q_SIGNALS:
             //! This signal is emitted when full screen is changed.
             void fullScreenChanged(bool);
 
-            //! This signal is emitted when the user interface control visibility
-            //! is changed.
-            void controlsVisibleChanged(bool);
+            //! This signal is emitted when the user interface visibility is changed.
+            void uiVisibleChanged(bool);
 
-            //! This signal is emitted when the tool bar visibility is changed.
-            void toolBarVisibleChanged(const QVector<bool> &);
+            //! This signal is emitted when the UI component visibility is changed.
+            void uiComponentVisibleChanged(const QVector<bool> &);
 
         private Q_SLOTS:
             void newCallback();
-            void copyCallback();
+            void duplicateCallback();
             void closeCallback();
             void fitCallback();
-            void toolBarVisibleCallback(QAction *);
+            void uiComponentVisibleCallback(QAction *);
 
             void update();
 

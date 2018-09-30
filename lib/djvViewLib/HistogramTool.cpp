@@ -207,7 +207,7 @@ namespace djv
 
         struct HistogramTool::Private
         {
-            Util::HISTOGRAM size = static_cast<Util::HISTOGRAM>(0);
+            Enum::HISTOGRAM size = static_cast<Enum::HISTOGRAM>(0);
             bool colorProfile = true;
             bool displayProfile = true;
             Graphics::PixelData histogram;
@@ -243,21 +243,21 @@ namespace djv
             _p->maxWidget->setReadOnly(true);
 
             _p->sizeWidget = new QComboBox;
-            _p->sizeWidget->addItems(Util::histogramLabels());
+            _p->sizeWidget->addItems(Enum::histogramLabels());
             _p->sizeWidget->setToolTip(
-                qApp->translate("djv::ViewLib::HistogramTool", "The size of the histogram"));
+                qApp->translate("djv::ViewLib::HistogramTool", "Histogram size"));
 
             _p->maskWidget = new UI::PixelMaskWidget(context.data());
 
             _p->colorProfileButton = new UI::ToolButton(context.data());
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
-                qApp->translate("djv::ViewLib::HistogramTool", "Set whether the color profile is enabled"));
+                qApp->translate("djv::ViewLib::HistogramTool", "Enable the color profile"));
 
             _p->displayProfileButton = new UI::ToolButton(context.data());
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
-                qApp->translate("djv::ViewLib::HistogramTool", "Set whether the display profile is enabled"));
+                qApp->translate("djv::ViewLib::HistogramTool", "Enable the display profile"));
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
@@ -327,7 +327,7 @@ namespace djv
 
         void HistogramTool::sizeCallback(int in)
         {
-            _p->size = static_cast<Util::HISTOGRAM>(in);
+            _p->size = static_cast<Enum::HISTOGRAM>(in);
             widgetUpdate();
         }
 
@@ -420,14 +420,14 @@ namespace djv
                         _p->openGLImage->histogram(
                             tmp,
                             _p->histogram,
-                            Util::histogramSize(_p->size),
+                            Enum::histogramSize(_p->size),
                             _p->min,
                             _p->max,
                             _p->mask);
                     }
                     catch (Core::Error error)
                     {
-                        error.add(Util::errorLabels()[Util::ERROR_HISTOGRAM]);
+                        error.add(Enum::errorLabels()[Enum::ERROR_HISTOGRAM]);
                         context()->printError(error);
                     }
                 }

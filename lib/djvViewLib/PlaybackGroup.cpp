@@ -72,11 +72,11 @@ namespace djv
             {}
 
             Core::Sequence    sequence;
-            Util::PLAYBACK    playback = Util::STOP;
-            Util::PLAYBACK    playbackPrev = Util::STOP;
-            Util::LOOP        loop = Util::LOOP_REPEAT;
+            Enum::PLAYBACK    playback = Enum::STOP;
+            Enum::PLAYBACK    playbackPrev = Enum::STOP;
+            Enum::LOOP        loop = Enum::LOOP_REPEAT;
             Core::Speed       speed;
-            float             realSpeed = 0.f;
+            float             actualSpeed = 0.f;
             bool              droppedFrames = false;
             bool              droppedFramesTmp = false;
             bool              everyFrame = false;
@@ -94,7 +94,7 @@ namespace djv
             quint64           idleFrame = 0;
             Core::Timer       speedTimer;
             quint64           speedCounter = 0;
-            Util::LAYOUT      layout = static_cast<Util::LAYOUT>(0);
+            Enum::LAYOUT      layout = static_cast<Enum::LAYOUT>(0);
 
             QPointer<PlaybackActions> actions;
             QPointer<PlaybackMenu>    menu;
@@ -229,8 +229,8 @@ namespace djv
                 SLOT(setEveryFrame(bool)));
             connect(
                 context->playbackPrefs(),
-                SIGNAL(layoutChanged(djv::ViewLib::Util::LAYOUT)),
-                SLOT(setLayout(djv::ViewLib::Util::LAYOUT)));
+                SIGNAL(layoutChanged(djv::ViewLib::Enum::LAYOUT)),
+                SLOT(setLayout(djv::ViewLib::Enum::LAYOUT)));
 
             // Setup other callbacks.
             connect(
@@ -247,12 +247,12 @@ namespace djv
             return _p->sequence;
         }
 
-        Util::PLAYBACK PlaybackGroup::playback() const
+        Enum::PLAYBACK PlaybackGroup::playback() const
         {
             return _p->playback;
         }
 
-        Util::LOOP PlaybackGroup::loop() const
+        Enum::LOOP PlaybackGroup::loop() const
         {
             return _p->loop;
         }
@@ -262,9 +262,9 @@ namespace djv
             return _p->speed;
         }
 
-        float PlaybackGroup::realSpeed() const
+        float PlaybackGroup::actualSpeed() const
         {
-            return _p->realSpeed;
+            return _p->actualSpeed;
         }
 
         bool PlaybackGroup::hasDroppedFrames() const
@@ -297,7 +297,7 @@ namespace djv
             return _p->outPoint;
         }
 
-        Util::LAYOUT PlaybackGroup::layout() const
+        Enum::LAYOUT PlaybackGroup::layout() const
         {
             return _p->layout;
         }
@@ -315,7 +315,7 @@ namespace djv
             //DJV_DEBUG_PRINT("sequence = " << sequence);
             _p->sequence = sequence;
             _p->speed = sequence.speed;
-            _p->realSpeed = 0.f;
+            _p->actualSpeed = 0.f;
             _p->droppedFrames = false;
             _p->inPoint = 0;
             _p->outPoint = sequenceEnd(_p->sequence);
@@ -323,11 +323,11 @@ namespace djv
             speedUpdate();
             Q_EMIT sequenceChanged(_p->sequence);
             Q_EMIT speedChanged(_p->speed);
-            Q_EMIT realSpeedChanged(_p->realSpeed);
+            Q_EMIT actualSpeedChanged(_p->actualSpeed);
             Q_EMIT droppedFramesChanged(_p->droppedFrames);
         }
 
-        void PlaybackGroup::setPlayback(Util::PLAYBACK playback)
+        void PlaybackGroup::setPlayback(Enum::PLAYBACK playback)
         {
             if (playback == _p->playback)
                 return;
@@ -343,13 +343,13 @@ namespace djv
         {
             switch (_p->playback)
             {
-            case Util::FORWARD:
-            case Util::REVERSE: setPlayback(Util::STOP); break;
+            case Enum::FORWARD:
+            case Enum::REVERSE: setPlayback(Enum::STOP); break;
             default: setPlayback(_p->playbackPrev); break;
             }
         }
 
-        void PlaybackGroup::setLoop(Util::LOOP loop)
+        void PlaybackGroup::setLoop(Enum::LOOP loop)
         {
             if (loop == _p->loop)
                 return;
@@ -367,12 +367,12 @@ namespace djv
             //DJV_DEBUG("PlaybackGroup::speed");
             //DJV_DEBUG_PRINT("in = " << in);
             _p->speed = in;
-            _p->realSpeed = 0.f;
+            _p->actualSpeed = 0.f;
             _p->droppedFrames = false;
             playbackUpdate();
             speedUpdate();
             Q_EMIT speedChanged(_p->speed);
-            Q_EMIT realSpeedChanged(_p->realSpeed);
+            Q_EMIT actualSpeedChanged(_p->actualSpeed);
             Q_EMIT droppedFramesChanged(_p->droppedFrames);
         }
 
@@ -391,26 +391,26 @@ namespace djv
             const qint64 frameEnd = inOutEnabled ? this->frameEnd() : sequenceEnd(_p->sequence);
             switch (_p->loop)
             {
-            case Util::LOOP_ONCE:
+            case Enum::LOOP_ONCE:
                 if (in <= frameStart || in >= frameEnd)
                 {
-                    setPlayback(Util::STOP);
+                    setPlayback(Enum::STOP);
                 }
                 in = Core::Math::clamp(in, frameStart, frameEnd);
                 break;
-            case Util::LOOP_REPEAT:
+            case Enum::LOOP_REPEAT:
                 in = Core::Math::wrap(in, frameStart, frameEnd);
                 break;
-            case Util::LOOP_PING_PONG:
-                if (_p->playback != Util::STOP)
+            case Enum::LOOP_PING_PONG:
+                if (_p->playback != Enum::STOP)
                 {
                     if (in <= frameStart)
                     {
-                        setPlayback(Util::FORWARD);
+                        setPlayback(Enum::FORWARD);
                     }
                     else if (in >= frameEnd)
                     {
-                        setPlayback(Util::REVERSE);
+                        setPlayback(Enum::REVERSE);
                     }
                 }
                 in = Core::Math::clamp(in, frameStart, frameEnd);
@@ -454,7 +454,7 @@ namespace djv
             Q_EMIT outPointChanged(_p->outPoint);
         }
 
-        void PlaybackGroup::setLayout(Util::LAYOUT in)
+        void PlaybackGroup::setLayout(Enum::LAYOUT in)
         {
             if (in == _p->layout)
                 return;
@@ -500,7 +500,7 @@ namespace djv
 
             // Calculate current frame.
             _p->idleFrame = absoluteFrame;
-            if (Util::REVERSE == _p->playback)
+            if (Enum::REVERSE == _p->playback)
             {
                 inc = -inc;
             }
@@ -515,18 +515,18 @@ namespace djv
             }
             _p->speedCounter += Core::Math::abs(inc);
 
-            // Calculate real playback speed.
+            // Calculate the actual playback speed.
             _p->speedTimer.check();
             if (_p->speedTimer.seconds() >= 1.f)
             {
-                _p->realSpeed = _p->speedCounter / _p->speedTimer.seconds();
+                _p->actualSpeed = _p->speedCounter / _p->speedTimer.seconds();
                 _p->speedTimer.start();
                 _p->droppedFrames = _p->droppedFramesTmp;
                 _p->droppedFramesTmp = false;
                 _p->speedCounter = 0;
-                _p->toolBar->setRealSpeed(_p->realSpeed);
+                _p->toolBar->setActualSpeed(_p->actualSpeed);
                 _p->toolBar->setDroppedFrames(everyFrame ? false : _p->droppedFrames);
-                Q_EMIT realSpeedChanged(_p->realSpeed);
+                Q_EMIT actualSpeedChanged(_p->actualSpeed);
                 Q_EMIT droppedFramesChanged(_p->droppedFrames);
             }
 
@@ -538,7 +538,7 @@ namespace djv
             //DJV_DEBUG("PlaybackGroup::playbackCallback");
             const int data = action->data().toInt();
             //DJV_DEBUG_PRINT("data = " << data);
-            setPlayback(static_cast<Util::PLAYBACK>(data));
+            setPlayback(static_cast<Enum::PLAYBACK>(data));
         }
 
         void PlaybackGroup::playbackShuttleCallback(bool in)
@@ -547,7 +547,7 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
             if (in)
             {
-                setPlayback(Util::STOP);
+                setPlayback(Enum::STOP);
                 _p->shuttle = true;
                 _p->shuttleSpeed = 0.f;
                 _p->idleInit = true;
@@ -580,23 +580,23 @@ namespace djv
 
         void PlaybackGroup::loopCallback(QAction * action)
         {
-            setLoop(static_cast<Util::LOOP>(action->data().toInt()));
+            setLoop(static_cast<Enum::LOOP>(action->data().toInt()));
         }
 
         void PlaybackGroup::frameCallback(QAction * action)
         {
-            switch (static_cast<Util::FRAME>(action->data().toInt()))
+            switch (static_cast<Enum::FRAME>(action->data().toInt()))
             {
-            case Util::FRAME_START:     frameCallback(_p->inPoint);     break;
-            case Util::FRAME_START_ABS: frameSliderCallback(0);         break;
-            case Util::FRAME_PREV:      frameCallback(_p->frame - 1);   break;
-            case Util::FRAME_PREV_10:   frameCallback(_p->frame - 10);  break;
-            case Util::FRAME_PREV_100:  frameCallback(_p->frame - 100); break;
-            case Util::FRAME_NEXT:      frameCallback(_p->frame + 1);   break;
-            case Util::FRAME_NEXT_10:   frameCallback(_p->frame + 10);  break;
-            case Util::FRAME_NEXT_100:  frameCallback(_p->frame + 100); break;
-            case Util::FRAME_END:       frameCallback(_p->outPoint);    break;
-            case Util::FRAME_END_ABS:   frameSliderCallback(sequenceEnd(_p->sequence)); break;
+            case Enum::FRAME_START:     frameCallback(_p->inPoint);     break;
+            case Enum::FRAME_START_ABS: frameSliderCallback(0);         break;
+            case Enum::FRAME_PREV:      frameCallback(_p->frame - 1);   break;
+            case Enum::FRAME_PREV_10:   frameCallback(_p->frame - 10);  break;
+            case Enum::FRAME_PREV_100:  frameCallback(_p->frame - 100); break;
+            case Enum::FRAME_NEXT:      frameCallback(_p->frame + 1);   break;
+            case Enum::FRAME_NEXT_10:   frameCallback(_p->frame + 10);  break;
+            case Enum::FRAME_NEXT_100:  frameCallback(_p->frame + 100); break;
+            case Enum::FRAME_END:       frameCallback(_p->outPoint);    break;
+            case Enum::FRAME_END_ABS:   frameSliderCallback(sequenceEnd(_p->sequence)); break;
             default: break;
             }
         }
@@ -608,7 +608,7 @@ namespace djv
 
         void PlaybackGroup::frameStopCallback(qint64 in)
         {
-            setPlayback(Util::STOP);
+            setPlayback(Enum::STOP);
             frameCallback(in);
         }
 
@@ -646,15 +646,15 @@ namespace djv
 
         void PlaybackGroup::inOutCallback(QAction * action)
         {
-            switch (static_cast<Util::IN_OUT>(action->data().toInt()))
+            switch (static_cast<Enum::IN_OUT>(action->data().toInt()))
             {
-            case Util::IN_OUT_ENABLE:
+            case Enum::IN_OUT_ENABLE:
                 setInOutEnabled(action->isChecked());
                 break;
-            case Util::MARK_IN:   _p->toolBar->markInPoint();   break;
-            case Util::MARK_OUT:  _p->toolBar->markOutPoint();  break;
-            case Util::RESET_IN:  _p->toolBar->resetInPoint();  break;
-            case Util::RESET_OUT: _p->toolBar->resetOutPoint(); break;
+            case Enum::MARK_IN:   _p->toolBar->markInPoint();   break;
+            case Enum::MARK_OUT:  _p->toolBar->markOutPoint();  break;
+            case Enum::RESET_IN:  _p->toolBar->resetInPoint();  break;
+            case Enum::RESET_OUT: _p->toolBar->resetOutPoint(); break;
             default: break;
             }
             timeUpdate();
@@ -663,7 +663,7 @@ namespace djv
 
         void PlaybackGroup::layoutCallback(QAction * action)
         {
-            setLayout(static_cast<Util::LAYOUT>(action->data().toInt()));
+            setLayout(static_cast<Enum::LAYOUT>(action->data().toInt()));
         }
 
         void PlaybackGroup::cacheCallback()
@@ -701,17 +701,17 @@ namespace djv
                         _p->loop]->trigger();
                 }
 
-                    if (Util::LOOP_ONCE == _p->loop)
+                    if (Enum::LOOP_ONCE == _p->loop)
                     {
                         switch (_p->playback)
                         {
-                        case Util::REVERSE:
+                        case Enum::REVERSE:
                             if (_p->frame == frameStart())
                             {
                                 _p->frame = frameEnd();
                             }
                             break;
-                        case Util::FORWARD:
+                        case Enum::FORWARD:
                             if (_p->frame == frameEnd())
                             {
                                 _p->frame = frameStart();
@@ -729,8 +729,8 @@ namespace djv
 
                     switch (_p->playback)
                     {
-                    case Util::REVERSE:
-                    case Util::FORWARD:
+                    case Enum::REVERSE:
+                    case Enum::FORWARD:
                         _p->timer = startTimer(0);
                         _p->idleInit = true;
                         break;
@@ -749,41 +749,38 @@ namespace djv
         void PlaybackGroup::timeUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::timeUpdate");
-            _p->actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
-                Util::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
-                const qint64 end = sequenceEnd(_p->sequence);
-                Core::SignalBlocker signalBlocker(_p->toolBar);
-                _p->toolBar->setFrameList(_p->sequence.frames);
-                _p->toolBar->setFrame(_p->frame);
-                _p->toolBar->setStart(_p->inOutEnabled ? _p->inPoint : 0);
-                _p->toolBar->setEnd(_p->inOutEnabled ? _p->outPoint : end);
-                _p->toolBar->setDuration(
-                    _p->inOutEnabled ?
-                    (_p->outPoint - _p->inPoint + 1) :
-                    (end + 1),
-                    _p->inOutEnabled && (_p->inPoint != 0 || _p->outPoint != end));
-                _p->toolBar->setInOutEnabled(_p->inOutEnabled);
-                _p->toolBar->setInPoint(_p->inPoint);
-                _p->toolBar->setOutPoint(_p->outPoint);
+            _p->actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
+            const qint64 end = sequenceEnd(_p->sequence);
+            Core::SignalBlocker signalBlocker(_p->toolBar);
+            _p->toolBar->setFrameList(_p->sequence.frames);
+            _p->toolBar->setFrame(_p->frame);
+            _p->toolBar->setStart(_p->inOutEnabled ? _p->inPoint : 0);
+            _p->toolBar->setEnd(_p->inOutEnabled ? _p->outPoint : end);
+            _p->toolBar->setDuration(
+                _p->inOutEnabled ?
+                (_p->outPoint - _p->inPoint + 1) :
+                (end + 1),
+                _p->inOutEnabled && (_p->inPoint != 0 || _p->outPoint != end));
+            _p->toolBar->setInOutEnabled(_p->inOutEnabled);
+            _p->toolBar->setInPoint(_p->inPoint);
+            _p->toolBar->setOutPoint(_p->outPoint);
         }
 
         void PlaybackGroup::speedUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::speedUpdate");
-            _p->actions->action(PlaybackActions::EVERY_FRAME)->
-                setChecked(_p->everyFrame);
+            _p->actions->action(PlaybackActions::EVERY_FRAME)->setChecked(_p->everyFrame);
             Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setSpeed(_p->speed);
             _p->toolBar->setDefaultSpeed(_p->sequence.speed);
-            _p->toolBar->setRealSpeed(_p->realSpeed);
+            _p->toolBar->setActualSpeed(_p->actualSpeed);
             _p->toolBar->setDroppedFrames(_p->droppedFrames);
         }
 
         void PlaybackGroup::layoutUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::layoutUpdate");
-            _p->actions->group(PlaybackActions::LAYOUT_GROUP)->
-                actions()[_p->layout]->trigger();
+            _p->actions->group(PlaybackActions::LAYOUT_GROUP)->actions()[_p->layout]->trigger();
             Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setLayout(_p->layout);
         }

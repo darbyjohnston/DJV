@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Core.h>
+#include <djvViewLib/ViewLib.h>
 
 #include <djvCore/Util.h>
 

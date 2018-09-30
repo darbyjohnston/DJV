@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvUI/ImageView.h>
 
@@ -67,7 +67,7 @@ namespace djv
             void setZoomFocus(float);
 
             //! Set the grid.
-            void setGrid(djv::ViewLib::Util::GRID);
+            void setGrid(djv::ViewLib::Enum::GRID);
 
             //! Set the grid color.
             void setGridColor(const djv::Graphics::Color &);
@@ -82,7 +82,7 @@ namespace djv
             void setHudColor(const djv::Graphics::Color &);
 
             //! Set the HUD background.
-            void setHudBackground(djv::ViewLib::Util::HUD_BACKGROUND);
+            void setHudBackground(djv::ViewLib::Enum::HUD_BACKGROUND);
 
             //! Set the HUD background color.
             void setHudBackgroundColor(const djv::Graphics::Color &);
@@ -92,7 +92,7 @@ namespace djv
             void pickChanged(const glm::ivec2 &);
 
             //! This signal is emitted when the mouse wheel is changed.
-            void mouseWheelChanged(djv::ViewLib::Util::MOUSE_WHEEL);
+            void mouseWheelChanged(djv::ViewLib::Enum::MOUSE_WHEEL);
 
             //! This signal is emitted when the mouse wheel value is changed.
             void mouseWheelValueChanged(int);

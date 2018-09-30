@@ -30,25 +30,22 @@
 #include <djvUI/PrefsDialog.h>
 
 #include <djvUI/FileBrowserPrefsWidget.h>
-#include <djvUI/UIContext.h>
-#include <djvUI/HelpPrefsWidget.h>
 #include <djvUI/ImageIOWidget.h>
-#include <djvUI/ImagePrefsWidget.h>
+#include <djvUI/MiscPrefsWidget.h>
 #include <djvUI/QuestionDialog.h>
-#include <djvUI/SequencePrefsWidget.h>
 #include <djvUI/StylePrefsWidget.h>
-#include <djvUI/TimePrefsWidget.h>
+#include <djvUI/UIContext.h>
 
 #include <djvGraphics/ImageIO.h>
 
 #include <QApplication>
 #include <QDialogButtonBox>
 #include <QHeaderView>
+#include <QListWidget>
 #include <QPointer>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSplitter>
-#include <QTreeWidget>
 #include <QVBoxLayout>
 
 namespace djv
@@ -57,21 +54,20 @@ namespace djv
     {
         namespace
         {
-            class TreeWidgetItem : public QTreeWidgetItem
+            class ListWidgetItem : public QListWidgetItem
             {
             public:
-                explicit TreeWidgetItem(TreeWidgetItem * parent = nullptr) :
-                    QTreeWidgetItem(parent)
+                explicit ListWidgetItem(QListWidget * parent = nullptr) :
+                    QListWidgetItem(parent)
                 {
                     init();
                 }
-                explicit TreeWidgetItem(AbstractPrefsWidget * widget, TreeWidgetItem * parent = nullptr) :
-                    QTreeWidgetItem(parent),
+                explicit ListWidgetItem(AbstractPrefsWidget * widget, QListWidget * parent = nullptr) :
+                    QListWidgetItem(parent),
                     _widget(widget)
                 {
                     init();
-
-                    setText(0, widget->name());
+                    setText(widget->name());
                 }
 
                 AbstractPrefsWidget * widget() const { return _widget; }
@@ -90,8 +86,7 @@ namespace djv
         struct PrefsDialog::Private
         {
             QVector<QPointer<AbstractPrefsWidget> > widgets;
-            QPointer<QTreeWidget> browser;
-            QMap<QString, TreeWidgetItem *> browserGroups;
+            QPointer<QListWidget> browser;
             QPointer<QScrollArea> scrollArea;
             QPointer<QDialogButtonBox> buttonBox;
             QPointer<QPushButton> resetPageButton;
@@ -105,9 +100,7 @@ namespace djv
             //DJV_DEBUG("PrefsDialog::PrefsDialog");
 
             // Create the widgets.
-            _p->browser = new QTreeWidget;
-            _p->browser->setColumnCount(1);
-            _p->browser->header()->hide();
+            _p->browser = new QListWidget;
             _p->scrollArea = new QScrollArea;
             _p->scrollArea->setWidgetResizable(true);
             _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
@@ -132,24 +125,9 @@ namespace djv
             setWindowTitle(qApp->translate("djv::UI::PrefsDialog", "Preferences"));
             setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
 
-            addWidget(
-                new FileBrowserPrefsWidget(context),
-                qApp->translate("djv::UI::PrefsDialog", "General"));
-            addWidget(
-                new HelpPrefsWidget(context),
-                qApp->translate("djv::UI::PrefsDialog", "General"));
-            addWidget(
-                new ImagePrefsWidget(context),
-                qApp->translate("djv::UI::PrefsDialog", "General"));
-            addWidget(
-                new SequencePrefsWidget(context),
-                qApp->translate("djv::UI::PrefsDialog", "General"));
-            addWidget(
-                new StylePrefsWidget(context),
-                qApp->translate("djv::UI::PrefsDialog", "General"));
-            addWidget(
-                new TimePrefsWidget(context),
-                qApp->translate("djv::UI::PrefsDialog", "General"));
+            addWidget(new MiscPrefsWidget(context));
+            addWidget(new StylePrefsWidget(context));
+            addWidget(new FileBrowserPrefsWidget(context));
 
             const QList<Core::Plugin *> & imageIOPlugins = context->imageIOFactory()->plugins();
             for (int i = 0; i < imageIOPlugins.count(); ++i)
@@ -158,7 +136,7 @@ namespace djv
                 {
                     if (AbstractPrefsWidget * widget = context->imageIOWidgetFactory()->createWidget(imageIOPlugin))
                     {
-                        addWidget(widget, qApp->translate("djv::UI::PrefsDialog", "Image I/O"));
+                        addWidget(widget);
                     }
                 }
             }
@@ -169,8 +147,8 @@ namespace djv
             // Setup the callbacks.
             connect(
                 _p->browser,
-                SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-                SLOT(browserCallback(QTreeWidgetItem *, QTreeWidgetItem *)));
+                SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
+                SLOT(browserCallback(QListWidgetItem *, QListWidgetItem *)));
             connect(
                 _p->buttonBox,
                 SIGNAL(clicked(QAbstractButton *)),
@@ -180,35 +158,21 @@ namespace djv
         PrefsDialog::~PrefsDialog()
         {}
 
-        void PrefsDialog::addWidget(AbstractPrefsWidget * widget, const QString & group)
+        void PrefsDialog::addWidget(AbstractPrefsWidget * widget)
         {
             //DJV_DEBUG("PrefsDialog::addWidget");
-            //DJV_DEBUG_PRINT("group = " << group);
             //DJV_DEBUG_PRINT("name = " << widget->name());
 
-            _p->widgets += widget;
+            _p->widgets.insert(0, widget);
             widget->setParent(this);
             widget->hide();
 
-            TreeWidgetItem * groupItem = 0;
-            if (_p->browserGroups.contains(group))
-            {
-                groupItem = _p->browserGroups[group];
-            }
-            else
-            {
-                groupItem = new TreeWidgetItem;
-                groupItem->setText(0, group);
-                _p->browser->addTopLevelItem(groupItem);
-                _p->browser->expandItem(groupItem);
-                _p->browserGroups[group] = groupItem;
-            }
-            new TreeWidgetItem(widget, groupItem);
+            _p->browser->insertItem(0, new ListWidgetItem(widget));
         }
 
-        void PrefsDialog::browserCallback(QTreeWidgetItem * current, QTreeWidgetItem *)
+        void PrefsDialog::browserCallback(QListWidgetItem * current, QListWidgetItem *)
         {
-            if (TreeWidgetItem * item = dynamic_cast<TreeWidgetItem *>(current))
+            if (ListWidgetItem * item = dynamic_cast<ListWidgetItem *>(current))
             {
                 if (QWidget * oldWidget = _p->scrollArea->takeWidget())
                 {
@@ -244,8 +208,7 @@ namespace djv
 
                 if (QDialog::Accepted == dialog.exec())
                 {
-                    if (TreeWidgetItem * item =
-                        dynamic_cast<TreeWidgetItem *>(_p->browser->currentItem()))
+                    if (ListWidgetItem * item = dynamic_cast<ListWidgetItem *>(_p->browser->currentItem()))
                     {
                         if (AbstractPrefsWidget * widget = item->widget())
                         {

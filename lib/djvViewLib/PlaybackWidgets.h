@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Util.h>
+#include <djvViewLib/Enum.h>
 
 #include <QWidget>
 
@@ -92,8 +92,9 @@ namespace djv
                 const QPointer<Context> &,
                 QWidget * parent = nullptr);
             ~LoopWidget() override;
-
+                        
         private Q_SLOTS:
+            void actionCallback(QAction *);
             void widgetUpdate();
 
         private:

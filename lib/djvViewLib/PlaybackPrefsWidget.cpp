@@ -66,14 +66,14 @@ namespace djv
 
             _p->loopWidget = new QComboBox;
             _p->loopWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->loopWidget->addItems(Util::loopLabels());
+            _p->loopWidget->addItems(Enum::loopLabels());
 
             _p->everyFrameWidget = new QCheckBox(
                 qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Play every frame"));
 
             _p->layoutWidget = new QComboBox;
             _p->layoutWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->layoutWidget->addItems(Util::layoutLabels());
+            _p->layoutWidget->addItems(Enum::layoutLabels());
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
@@ -139,7 +139,7 @@ namespace djv
 
         void PlaybackPrefsWidget::loopCallback(int in)
         {
-            context()->playbackPrefs()->setLoop(static_cast<Util::LOOP>(in));
+            context()->playbackPrefs()->setLoop(static_cast<Enum::LOOP>(in));
         }
 
         void PlaybackPrefsWidget::everyFrameCallback(bool in)
@@ -149,7 +149,7 @@ namespace djv
 
         void PlaybackPrefsWidget::layoutCallback(int in)
         {
-            context()->playbackPrefs()->setLayout(static_cast<Util::LAYOUT>(in));
+            context()->playbackPrefs()->setLayout(static_cast<Enum::LAYOUT>(in));
         }
 
         void PlaybackPrefsWidget::widgetUpdate()
