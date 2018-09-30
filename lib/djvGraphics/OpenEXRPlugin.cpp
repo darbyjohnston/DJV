@@ -257,7 +257,7 @@ namespace djv
                         in >> _options.inputColorProfile;
                     }
                     else if (
-                        qApp->translate("vOpenEXRPlugin", "-exr_input_gamma") == arg)
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_input_gamma") == arg)
                     {
                         in >> _options.inputGamma;
                     }

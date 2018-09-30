@@ -90,13 +90,11 @@ namespace djv
             _p->shortcutPrefs = new ShortcutPrefs(this);
             _p->viewPrefs = new ViewPrefs(this);
             _p->windowPrefs = new WindowPrefs(this);
-            DJV_LOG(debugLog(), "Context", "");
 
             // Initialize objects.
             DJV_LOG(debugLog(), "Context", "Initialize objects...");
             _p->fileCache = new FileCache(this);
             _p->fileSave = new FileSave(this);
-            DJV_LOG(debugLog(), "Context", "");
         }
 
         Context::~Context()

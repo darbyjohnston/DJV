@@ -110,7 +110,6 @@ namespace djv
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Initialize user interface...");
             _p->context->setValid(true);
             setWindowIcon(QPixmap(":projector32x32.png"));
-            DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
 
             // Show main window(s).
             QStringList input = _p->context->commandLineOptions().input;
@@ -163,7 +162,6 @@ namespace djv
                     }
                     DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Show window...");
                     window->show();
-                    DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
                 }
             }
             else
@@ -171,7 +169,6 @@ namespace djv
                 // Create and show an empty window.
                 DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Show window...");
                 ViewLib::MainWindow::createWindow(_p->context.data())->show();
-                DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
             }
         }
 

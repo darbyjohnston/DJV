@@ -298,7 +298,7 @@ namespace djv
             }
             throw Core::Error(
                 "ImageIOFactory",
-                qApp->translate("ImageIOFactory", "Unrecognized image: %1").
+                qApp->translate("djv::Graphics::ImageIOFactory", "Unrecognized image: %1").
                 arg(QDir::toNativeSeparators(fileInfo)));
             return 0;
         }

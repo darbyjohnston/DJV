@@ -112,7 +112,7 @@ namespace djv
             _layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
-                qApp->translate("vOpenEXRWidget", "Color Profile"),
+                qApp->translate("djv::UI::OpenEXRWidget", "Color Profile"),
                 qApp->translate("djv::UI::OpenEXRWidget",
                     "Set the color profile used when loading OpenEXR images."),
                 context);

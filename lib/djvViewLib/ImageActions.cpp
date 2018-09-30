@@ -69,7 +69,7 @@ namespace djv
             _actions[SET_FRAME_STORE]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "&Set Frame Store"));
             _actions[MIRROR_H]->setText(
-                qApp->translate("vImageActions", "Mirror &Horizontal"));
+                qApp->translate("djv::ViewLib::ImageActions", "Mirror &Horizontal"));
             _actions[MIRROR_H]->setCheckable(true);
             _actions[MIRROR_V]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "Mirror &Vertical"));

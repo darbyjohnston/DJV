@@ -232,7 +232,7 @@ namespace djv
             _p->estimateLabel->setText(estimateLabel);
 
             const QString elapsedLabel = QString(
-                qApp->translate("Core::::UI::ProgressDialog", "Elapsed: %1")).
+                qApp->translate("djv::UI::ProgressDialog", "Elapsed: %1")).
                 arg(Core::Time::labelTime(_p->elapsed.seconds()));
 
             _p->elapsedLabel->setText(elapsedLabel);

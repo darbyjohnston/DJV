@@ -114,7 +114,7 @@ namespace djv
             {
                 throw Core::Error(
                     "djv::Graphics::OpenGLShader",
-                    qApp->translate("vOpenGLShader", "Cannot link shader:\n%1").
+                    qApp->translate("djv::Graphics::OpenGLShader", "Cannot link shader:\n%1").
                     arg(log));
             }
         }

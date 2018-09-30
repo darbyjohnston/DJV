@@ -75,12 +75,9 @@ namespace djv
             qRegisterMetaType<Sequence>("djv::Core::Sequence");
             qRegisterMetaType<Sequence::COMPRESS>("djv::Core::Sequence::COMPRESS");
 
-            // Find the application path.
-            //DJV_DEBUG_PRINT("application path = " << applicationPath(argc, argv));
-            DJV_LOG(debugLog(), "djv::Core::CoreContext",
-                QString("Application path: %1").arg(applicationPath(argc, argv)));
-
             // Load translators.
+            DJV_LOG(debugLog(), "djv::Core::CoreContext",
+                QString("Search paths: %1").arg(StringUtil::addQuotes(System::searchPath()).join(", ")));                
             QTranslator * qtTranslator = new QTranslator(this);
             qtTranslator->load("qt_" + QLocale::system().name(),
                 QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -93,18 +90,22 @@ namespace djv
             //DJV_DEBUG("CoreContext::~CoreContext");    
         }
 
-        QString CoreContext::applicationPath(int & argc, char ** argv)
+        namespace
         {
-            QFileInfo applicationPath(argv[0]);
-            QDir applicationDir = applicationPath.absoluteDir();
-            while (applicationDir.exists() && !applicationDir.isRoot())
+            QString applicationPath(int & argc, char ** argv)
             {
-                if (applicationDir.exists("lib"))
-                    break;
-                applicationDir.cdUp();
+                QFileInfo applicationPath(argv[0]);
+                QDir applicationDir = applicationPath.absoluteDir();
+                while (applicationDir.exists() && !applicationDir.isRoot())
+                {
+                    if (applicationDir.exists("lib"))
+                        break;
+                    applicationDir.cdUp();
+                }
+                return applicationDir.absolutePath();
             }
-            return applicationDir.absolutePath();
-        }
+        
+        } // namespace
 
         void CoreContext::initLibPaths(int & argc, char ** argv)
         {
@@ -317,19 +318,16 @@ namespace djv
 
         void CoreContext::loadTranslator(const QString & baseName)
         {
-            DJV_LOG(debugLog(), "djv::Core::CoreContext",
-                QString("Searching for translator: \"%1\"").arg(baseName));
-            const QString fileName = System::findFile(
-                QString("%1_%2.qm").arg(baseName).arg(QLocale::system().name()));
+            const QString qmName = QString("%1_%2.qm").arg(baseName).arg(QLocale::system().name());
+            DJV_LOG(debugLog(), "djv::Core::CoreContext", QString("Searching for translator: \"%1\"").arg(qmName));
+            const QString fileName = System::findFile(qmName);
             if (!fileName.isEmpty())
             {
-                DJV_LOG(debugLog(), "djv::Core::CoreContext",
-                    QString("Found translator: \"%1\"").arg(fileName));
+                DJV_LOG(debugLog(), "djv::Core::CoreContext", QString("Found translator: \"%1\"").arg(fileName));
                 QTranslator * qTranslator = new QTranslator(qApp);
                 qTranslator->load(fileName);
                 qApp->installTranslator(qTranslator);
             }
-            DJV_LOG(debugLog(), "djv::Core::CoreContext", "");
         }
 
         bool CoreContext::commandLineParse(QStringList & in)

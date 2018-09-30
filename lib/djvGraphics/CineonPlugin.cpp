@@ -164,12 +164,12 @@ namespace djv
                         in >> _options.inputFilmPrint;
                     }
                     else if (
-                        qApp->translate("vCineonPlugin", "-cineon_output_color_profile") == arg)
+                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_output_color_profile") == arg)
                     {
                         in >> _options.outputColorProfile;
                     }
                     else if (
-                        qApp->translate("vCineonPlugin", "-cineon_output_film_print") == arg)
+                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_output_film_print") == arg)
                     {
                         in >> _options.outputFilmPrint;
                     }

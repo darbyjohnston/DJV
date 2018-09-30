@@ -2,262 +2,1677 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="cs_CZ">
 <context>
-    <name>djvAboutDialog</name>
+    <name>Core::::UI::ProgressDialog</name>
     <message>
-        <location filename="djvAboutDialog.cpp" line="84"/>
+        <source>Elapsed: %1</source>
+        <translation type="obsolete">Uplynulo: %1</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::AboutDialog</name>
+    <message>
+        <location filename="AboutDialog.cpp" line="73"/>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation type="unfinished">Kopírovat</translation>
     </message>
     <message>
-        <location filename="djvAboutDialog.cpp" line="98"/>
+        <location filename="AboutDialog.cpp" line="87"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::ChoiceDialog</name>
+    <message>
+        <location filename="ChoiceDialog.cpp" line="86"/>
+        <source>Choice</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::CineonWidget</name>
+    <message>
+        <location filename="CineonWidget.cpp" line="93"/>
+        <source>Input Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="94"/>
+        <source>Set the color profile used when loading Cineon images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="98"/>
+        <location filename="CineonWidget.cpp" line="120"/>
+        <source>Profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="101"/>
+        <location filename="CineonWidget.cpp" line="123"/>
+        <source>Black:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="104"/>
+        <location filename="CineonWidget.cpp" line="126"/>
+        <source>White:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="107"/>
+        <location filename="CineonWidget.cpp" line="129"/>
+        <source>Gamma:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="110"/>
+        <source>Soft clip:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="115"/>
+        <source>Output Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CineonWidget.cpp" line="116"/>
+        <source>Set the color profile used when saving Cineon images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::ColorDialog</name>
+    <message>
+        <location filename="ColorDialog.cpp" line="82"/>
+        <source>Pick a color</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::ColorWidget</name>
+    <message>
+        <location filename="ColorWidget.cpp" line="82"/>
+        <source>Pixel format</source>
+        <translation type="unfinished">Formát pixelu</translation>
+    </message>
+    <message>
+        <location filename="ColorWidget.cpp" line="86"/>
+        <source>Pixel type</source>
+        <translation type="unfinished">Typ pixelu</translation>
+    </message>
+    <message>
+        <location filename="ColorWidget.cpp" line="248"/>
+        <source>Luminance channel</source>
+        <translation type="unfinished">Kanál svítivosti</translation>
+    </message>
+    <message>
+        <location filename="ColorWidget.cpp" line="249"/>
+        <location filename="ColorWidget.cpp" line="256"/>
+        <source>Alpha channel</source>
+        <translation type="unfinished">Kanál alfa</translation>
+    </message>
+    <message>
+        <location filename="ColorWidget.cpp" line="253"/>
+        <source>Red channel</source>
+        <translation type="unfinished">Kanál červená</translation>
+    </message>
+    <message>
+        <location filename="ColorWidget.cpp" line="254"/>
+        <source>Green channel</source>
+        <translation type="unfinished">Kanál zelená</translation>
+    </message>
+    <message>
+        <location filename="ColorWidget.cpp" line="255"/>
+        <source>Blue channel</source>
+        <translation type="unfinished">Kanál modrá</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::DPXWidget</name>
+    <message>
+        <location filename="DPXWidget.cpp" line="107"/>
+        <source>Input Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="108"/>
+        <source>Set the color profile used when loading DPX images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="112"/>
+        <location filename="DPXWidget.cpp" line="134"/>
+        <source>Profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="115"/>
+        <location filename="DPXWidget.cpp" line="137"/>
+        <source>Black:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="118"/>
+        <location filename="DPXWidget.cpp" line="140"/>
+        <source>White:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="121"/>
+        <location filename="DPXWidget.cpp" line="143"/>
+        <source>Gamma:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="124"/>
+        <source>Soft clip:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="129"/>
+        <source>Output Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="130"/>
+        <source>Set the color profile used when saving DPX images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="148"/>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="149"/>
+        <source>Set the file version used when saving DPX images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="153"/>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="158"/>
+        <source>Pixel Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="159"/>
+        <source>Set the pixel type used when saving DPX images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="163"/>
+        <source>Pixel type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="168"/>
+        <source>Endian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="169"/>
+        <source>Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPXWidget.cpp" line="175"/>
+        <source>Endian:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::DebugLogDialog</name>
+    <message>
+        <location filename="DebugLogDialog.cpp" line="70"/>
+        <source>Copy</source>
+        <translation type="unfinished">Kopírovat</translation>
+    </message>
+    <message>
+        <location filename="DebugLogDialog.cpp" line="72"/>
+        <source>Clear</source>
+        <translation type="unfinished">Smazat</translation>
+    </message>
+    <message>
+        <location filename="DebugLogDialog.cpp" line="84"/>
+        <source>Debugging Log</source>
+        <translation type="unfinished">Záznam o ladění</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::FFmpegWidget</name>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="66"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="67"/>
+        <source>Set the format used when saving movies.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="71"/>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="74"/>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::FileBrowser</name>
+    <message>
+        <location filename="FileBrowser.cpp" line="166"/>
+        <source>&amp;Directory</source>
+        <translation type="unfinished">&amp;Adresář</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="169"/>
+        <source>&amp;Up</source>
+        <translation type="unfinished">&amp;Nahoru</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="172"/>
+        <source>&amp;Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="175"/>
+        <source>&amp;Recent</source>
+        <translation type="unfinished">Nedáv&amp;ný</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="181"/>
+        <source>&amp;Current</source>
+        <translation type="unfinished">&amp;Nynější</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="184"/>
+        <source>&amp;Home</source>
+        <translation type="unfinished">&amp;Domovská složka</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="187"/>
+        <source>&amp;Desktop</source>
+        <translation type="unfinished">&amp;Plocha</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="190"/>
+        <source>&amp;Drives</source>
+        <translation type="unfinished">&amp;Mechaniky</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="196"/>
+        <source>Re&amp;load</source>
+        <translation type="unfinished">Na&amp;hrát znovu</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="199"/>
+        <source>&amp;Options</source>
+        <translation type="unfinished">&amp;Volby</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="202"/>
+        <source>Thu&amp;mbnails</source>
+        <translation type="unfinished">Ná&amp;hledy</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="207"/>
+        <source>Thumbnail Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="212"/>
+        <source>File Se&amp;quences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="217"/>
+        <source>Show &amp;Hidden Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="225"/>
+        <source>&amp;Sort</source>
+        <translation type="unfinished">&amp;Seřadit</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="230"/>
+        <source>&amp;Reverse Sort</source>
+        <translation type="unfinished">&amp;Obrácené řazení</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="237"/>
+        <source>Sort &amp;Directories First</source>
+        <translation type="unfinished">Třídit nejprve &amp;adresáře</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="243"/>
+        <source>&amp;Bookmarks</source>
+        <translation type="unfinished">&amp;Záložky</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="262"/>
+        <source>File sequences:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="279"/>
+        <source>Pin dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="282"/>
+        <source>Ok</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="285"/>
+        <source>Close</source>
+        <translation type="unfinished">Zavřít</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="340"/>
+        <source>File Browser</source>
+        <translation type="unfinished">Prohlížeč souborů</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="751"/>
+        <source>Choose which bookmarks to delete:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="775"/>
+        <source>Delete all bookmarks?</source>
+        <translation type="unfinished">Smazat všechny záložky?</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="983"/>
+        <source>&amp;Add</source>
+        <translation type="unfinished">&amp;Přidat</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="988"/>
+        <source>&amp;Delete</source>
+        <translation type="unfinished">S&amp;mazat</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="994"/>
+        <source>D&amp;elete All</source>
+        <translation type="unfinished">&amp;Smazat vše</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="1027"/>
+        <source>File name</source>
+        <translation type="unfinished">Název souboru</translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="1029"/>
+        <source>Go up a directory
+
+Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="1032"/>
+        <source>Go to the previous directory
+
+Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="1035"/>
+        <source>Reload the current directory
+
+Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowser.cpp" line="1038"/>
+        <source>File sequence options:
+%1 - Show every file
+%2 - Show sequences of files including gaps between ranges; for example: 1-3,5,7-10
+%3 - Show sequences of files as a continuous range; for example: 1-10
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::FileBrowserModel</name>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="79"/>
+        <source>Name</source>
+        <translation type="unfinished">Název</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="80"/>
+        <source>Size</source>
+        <translation type="unfinished">Velikost</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="82"/>
+        <source>User</source>
+        <translation type="unfinished">Uživatel</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="84"/>
+        <source>Permissions</source>
+        <translation type="unfinished">Oprávnění</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="85"/>
+        <source>Time</source>
+        <translation type="unfinished">Čas</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="164"/>
+        <source>Off</source>
+        <translation type="unfinished">Vypnuto</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="165"/>
+        <source>Low Quality</source>
+        <translation type="unfinished">Nízká kvalita</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="166"/>
+        <source>High Quality</source>
+        <translation type="unfinished">Vysoká kvalita</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="179"/>
+        <source>Small</source>
+        <translation type="unfinished">Malá</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="180"/>
+        <source>Medium</source>
+        <translation type="unfinished">Střední</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserModel.cpp" line="181"/>
+        <source>Large</source>
+        <translation type="unfinished">Velká</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::FileBrowserPrefs</name>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="222"/>
+        <source>Up</source>
+        <translation type="unfinished">Nahoru</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="223"/>
+        <source>Previous</source>
+        <translation type="unfinished">Předchozí</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="224"/>
+        <source>Current</source>
+        <translation type="unfinished">Nynější</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="225"/>
+        <source>Home</source>
+        <translation type="unfinished">Domovská složka</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="226"/>
+        <source>Desktop</source>
+        <translation type="unfinished">Plocha</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="227"/>
+        <source>Root</source>
+        <translation type="unfinished">Kořen</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="228"/>
+        <source>Reload</source>
+        <translation type="unfinished">Obnovit</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="229"/>
+        <source>Sequence Off</source>
+        <translation type="unfinished">Řada Vypnuto</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="230"/>
+        <source>Sequence Sparse</source>
+        <translation type="unfinished">Řada Řídká</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="231"/>
+        <source>Sequence Range</source>
+        <translation type="unfinished">Řada Rozsah</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="232"/>
+        <source>Show Hidden</source>
+        <translation type="unfinished">Ukázat skryté</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="233"/>
+        <source>Sort Name</source>
+        <translation type="unfinished">Třídit podle názvu</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="234"/>
+        <source>Sort Size</source>
+        <translation type="unfinished">Třídit podle velikosti</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="236"/>
+        <source>SortUser</source>
+        <translation type="unfinished">Třídit podle uživatele</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="238"/>
+        <source>Sort Time</source>
+        <translation type="unfinished">Třídit podle času</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="239"/>
+        <source>Sort Permissions</source>
+        <translation type="unfinished">Třídit podle oprávnění</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="240"/>
+        <source>Reverse Sort</source>
+        <translation type="unfinished">Obrácené třídění</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="241"/>
+        <source>Sort Dirs First</source>
+        <translation type="unfinished">Třídit nejprve adresáře</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="242"/>
+        <source>Add Bookmark</source>
+        <translation type="unfinished">Přídat záložku</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="243"/>
+        <source>Bookmark 1</source>
+        <translation type="unfinished">Záložka 1</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="244"/>
+        <source>Bookmark 2</source>
+        <translation type="unfinished">Záložka 2</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="245"/>
+        <source>Bookmark 3</source>
+        <translation type="unfinished">Záložka 3</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="246"/>
+        <source>Bookmark 4</source>
+        <translation type="unfinished">Záložka 4</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="247"/>
+        <source>Bookmark 5</source>
+        <translation type="unfinished">Záložka 5</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="248"/>
+        <source>Bookmark 6</source>
+        <translation type="unfinished">Záložka 6</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="249"/>
+        <source>Bookmark 7</source>
+        <translation type="unfinished">Záložka 7</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="250"/>
+        <source>Bookmark 8</source>
+        <translation type="unfinished">Záložka 8</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="251"/>
+        <source>Bookmark 9</source>
+        <translation type="unfinished">Záložka 9</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="252"/>
+        <source>Bookmark 10</source>
+        <translation type="unfinished">Záložka 10</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="253"/>
+        <source>Bookmark 11</source>
+        <translation type="unfinished">Záložka 11</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefs.cpp" line="254"/>
+        <source>Bookmark 12</source>
+        <translation type="unfinished">Záložka 12</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::FileBrowserPrefsWidget</name>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="94"/>
+        <source>File Browser</source>
+        <translation type="unfinished">Prohlížeč souborů</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="103"/>
+        <source>Show hidden files</source>
+        <translation type="unfinished">Ukázat skryté soubory</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="110"/>
+        <source>Reverse the sort direction</source>
+        <translation type="unfinished">Obrátit směr třídění</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="113"/>
+        <source>Sort directories first</source>
+        <translation type="unfinished">Třídit nejprve adresáře</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="131"/>
+        <source>Add a new bookmark</source>
+        <translation type="unfinished">Přídat novou záložku</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="135"/>
+        <source>Remove the selected bookmark</source>
+        <translation type="unfinished">Odstranit vybranou záložku</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="139"/>
+        <source>Move the selected bookmark up</source>
+        <translation type="unfinished">Posunout vybranou záložku nahoru</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="143"/>
+        <source>Move the selected bookmark down</source>
+        <translation type="unfinished">Posunout vybranou záložku dolů</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="151"/>
+        <source>Files</source>
+        <translation type="unfinished">Soubory</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="154"/>
+        <source>File sequencing:</source>
+        <translation type="unfinished">Pořadí souborů:</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="160"/>
+        <source>Sorting</source>
+        <translation type="unfinished">Třídění</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="163"/>
+        <source>Sort by:</source>
+        <translation type="unfinished">Třídit dle:</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="170"/>
+        <source>Thumbnails</source>
+        <translation type="unfinished">Náhledy</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="173"/>
+        <source>Mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="176"/>
+        <source>Size:</source>
+        <translation type="unfinished">Velikost:</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="181"/>
+        <source>(MB)</source>
+        <translation type="unfinished">(MB)</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="183"/>
+        <source>Cache size:</source>
+        <translation type="unfinished">Vyrovnávací paměť:</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="188"/>
+        <source>Bookmarks</source>
+        <translation type="unfinished">Záložky</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="201"/>
+        <source>Keyboard Shortcuts</source>
+        <translation type="unfinished">Klávesové zkratky</translation>
+    </message>
+    <message>
+        <location filename="FileBrowserPrefsWidget.cpp" line="327"/>
+        <source>Add bookmark:</source>
+        <translation type="unfinished">Přidat záložku:</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::FileEdit</name>
+    <message>
+        <location filename="FileEdit.cpp" line="66"/>
+        <source>&amp;Browse</source>
+        <translation type="unfinished">&amp;Procházet</translation>
+    </message>
+    <message>
+        <location filename="FileEdit.cpp" line="69"/>
+        <source>Clear the file name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::FloatEditSlider</name>
+    <message>
+        <location filename="FloatEditSlider.cpp" line="70"/>
+        <source>Reset to the default value</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::IFFWidget</name>
+    <message>
+        <location filename="IFFWidget.cpp" line="62"/>
+        <source>Compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="IFFWidget.cpp" line="63"/>
+        <source>Set the file compression used when saving IFF images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="IFFWidget.cpp" line="67"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::InfoDialog</name>
+    <message>
+        <location filename="InfoDialog.cpp" line="65"/>
+        <source>Copy</source>
+        <translation type="unfinished">Kopírovat</translation>
+    </message>
+    <message>
+        <location filename="InfoDialog.cpp" line="75"/>
+        <source>Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::InputDialog</name>
+    <message>
+        <location filename="InputDialog.cpp" line="77"/>
+        <source>Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::IntEditSlider</name>
+    <message>
+        <location filename="IntEditSlider.cpp" line="70"/>
+        <source>Reset to the default value</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::JPEGWidget</name>
+    <message>
+        <location filename="JPEGWidget.cpp" line="60"/>
+        <source>Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="JPEGWidget.cpp" line="61"/>
+        <source>Set the quality used when saving JPEG images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="JPEGWidget.cpp" line="65"/>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::LUTWidget</name>
+    <message>
+        <location filename="LUTWidget.cpp" line="60"/>
+        <source>Pixel Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="LUTWidget.cpp" line="61"/>
+        <source>Set the pixel type used when loading LUTs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="LUTWidget.cpp" line="65"/>
+        <source>Pixel type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::MessagesDialog</name>
+    <message>
+        <location filename="MessagesDialog.cpp" line="77"/>
+        <source>Show</source>
+        <translation type="unfinished">Ukázat</translation>
+    </message>
+    <message>
+        <location filename="MessagesDialog.cpp" line="80"/>
+        <source>Clear</source>
+        <translation type="unfinished">Smazat</translation>
+    </message>
+    <message>
+        <location filename="MessagesDialog.cpp" line="96"/>
+        <source>Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::MiscPrefsWidget</name>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="67"/>
+        <source>Miscellaneous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="92"/>
+        <source>Enable tool tips</source>
+        <translation type="unfinished">Povolit nástrojové rady</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="98"/>
+        <source>Time</source>
+        <translation type="unfinished">Čas</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="101"/>
+        <source>Time units:</source>
+        <translation type="unfinished">Jednotky času:</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="106"/>
+        <source>(frames per second)</source>
+        <translation type="unfinished">(snímků za sekundu)</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="108"/>
+        <source>Default speed:</source>
+        <translation type="unfinished">Výchozí rychlost:</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="112"/>
+        <source>Max Frames</source>
+        <translation type="unfinished">Nejvíce snímků</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="113"/>
+        <source>Set the maximum number of frames allowed in a file sequence. This is used as a safety feature to prevent file sequences from becoming too large.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="119"/>
+        <source>Frames:</source>
+        <translation type="unfinished">Snímky:</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="124"/>
+        <source>Scaling</source>
+        <translation type="unfinished">Změna velikosti</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="125"/>
+        <source>Set the image scaling quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are slower.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="132"/>
+        <source>Scale down:</source>
+        <translation type="unfinished">Zmenšit:</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="135"/>
+        <source>Scale up:</source>
+        <translation type="unfinished">Zvětšit:</translation>
+    </message>
+    <message>
+        <location filename="MiscPrefsWidget.cpp" line="140"/>
+        <source>Tool Tips</source>
+        <translation type="unfinished">Nástrojové rady</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::MultiChoiceDialog</name>
+    <message>
+        <location filename="MultiChoiceDialog.cpp" line="85"/>
+        <source>Choice</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::NoticeDialog</name>
+    <message>
+        <location filename="NoticeDialog.cpp" line="68"/>
+        <source>Notice</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::OpenEXRWidget</name>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="59"/>
+        <source>Enable multi-threading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="106"/>
+        <source>Multi-Threading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="110"/>
+        <source>Thread count:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="115"/>
+        <source>Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="116"/>
+        <source>Set the color profile used when loading OpenEXR images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="121"/>
+        <source>Profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="123"/>
+        <source>Gamma:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="125"/>
+        <source>Exposure:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="127"/>
+        <source>Defog:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="129"/>
+        <source>Knee low:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="131"/>
+        <source>Knee high:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="137"/>
+        <source>Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="138"/>
+        <source>Set how channels are grouped when loading OpenEXR images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="143"/>
+        <source>Channels:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="148"/>
+        <source>Compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="149"/>
+        <source>Set the file compression used when saving OpenEXR images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="154"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXRWidget.cpp" line="158"/>
+        <source>DWA compression level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::PPMWidget</name>
+    <message>
+        <location filename="PPMWidget.cpp" line="64"/>
+        <source>File Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PPMWidget.cpp" line="65"/>
+        <source>Set the file type used when saving PPM images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PPMWidget.cpp" line="69"/>
+        <source>File type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PPMWidget.cpp" line="74"/>
+        <source>Data Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PPMWidget.cpp" line="75"/>
+        <source>Set the data type used when saving PPM images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PPMWidget.cpp" line="79"/>
+        <source>Data type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::PixelMaskWidget</name>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="63"/>
+        <source>Set the pixel mask</source>
+        <translation type="unfinished">Nastavit masku pixelu</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="109"/>
+        <source>Solo red</source>
+        <translation type="unfinished">Samostatně červená</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="110"/>
+        <source>Solo green</source>
+        <translation type="unfinished">Samostatně zelená</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="111"/>
+        <source>Solo blue</source>
+        <translation type="unfinished">Samostatně modrá</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="112"/>
+        <source>Solo alpha</source>
+        <translation type="unfinished">Samostatně alfa</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="127"/>
+        <source>Red</source>
+        <translation type="unfinished">Červená</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="128"/>
+        <source>Green</source>
+        <translation type="unfinished">Zelená</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="129"/>
+        <source>Blue</source>
+        <translation type="unfinished">Modrá</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="130"/>
+        <source>Alpha</source>
+        <translation type="unfinished">Alfa</translation>
+    </message>
+    <message>
+        <location filename="PixelMaskWidget.cpp" line="146"/>
+        <source>Reset</source>
+        <translation type="unfinished">Nastavit znovu</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::PlaybackButtons</name>
+    <message>
+        <location filename="PlaybackButtons.cpp" line="62"/>
+        <source>Reverse playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PlaybackButtons.cpp" line="63"/>
+        <source>Stop playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PlaybackButtons.cpp" line="64"/>
+        <source>Forward playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::PlaybackUtil</name>
+    <message>
+        <location filename="PlaybackUtil.cpp" line="43"/>
+        <source>Reverse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PlaybackUtil.cpp" line="44"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PlaybackUtil.cpp" line="45"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::PrefsDialog</name>
+    <message>
+        <location filename="PrefsDialog.cpp" line="108"/>
+        <source>Reset Page</source>
+        <translation type="unfinished">Nastavit stranu znovu</translation>
+    </message>
+    <message>
+        <location filename="PrefsDialog.cpp" line="112"/>
+        <source>Reset All</source>
+        <translation type="unfinished">Nastavit vše znovu</translation>
+    </message>
+    <message>
+        <location filename="PrefsDialog.cpp" line="125"/>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PrefsDialog.cpp" line="195"/>
+        <source>Are you sure you want to reset all of the preferences?</source>
+        <translation type="unfinished">Jste si jistý, že chcete všechna nastavení nastavit znovu?</translation>
+    </message>
+    <message>
+        <location filename="PrefsDialog.cpp" line="207"/>
+        <source>Are you sure you want to reset the preferences for the current page?</source>
+        <translation type="unfinished">Jste si jistý, že chcete nastavení nynější strany nastavit znovu?</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::ProgressDialog</name>
+    <message>
+        <location filename="ProgressDialog.cpp" line="146"/>
+        <source>Progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ProgressDialog.cpp" line="228"/>
+        <source>Estimated: %1 (%2 Frames/Second)</source>
+        <translation type="unfinished">Odhadováno: %1 (%2 snímků za sekundu)</translation>
+    </message>
+    <message>
+        <location filename="ProgressDialog.cpp" line="235"/>
+        <source>Elapsed: %1</source>
+        <translation type="unfinished">Uplynulo: %1</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::QuestionDialog</name>
+    <message>
+        <location filename="QuestionDialog.cpp" line="69"/>
+        <source>Question</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::SGIWidget</name>
+    <message>
+        <location filename="SGIWidget.cpp" line="59"/>
+        <source>Compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SGIWidget.cpp" line="60"/>
+        <source>Set the file compression used when saving SGI images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SGIWidget.cpp" line="64"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::SearchBox</name>
+    <message>
+        <location filename="SearchBox.cpp" line="62"/>
+        <source>Enter text to search for</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::ShortcutsModel</name>
+    <message>
+        <location filename="ShortcutsModel.cpp" line="171"/>
+        <source>Name</source>
+        <translation type="unfinished">Název</translation>
+    </message>
+    <message>
+        <location filename="ShortcutsModel.cpp" line="172"/>
+        <source>Shortcut</source>
+        <translation type="unfinished">Klávesová zkratka</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::StylePrefs</name>
+    <message>
+        <location filename="StylePrefs.cpp" line="176"/>
+        <source>Dark</source>
+        <translation type="unfinished">Tmavý</translation>
+    </message>
+    <message>
+        <location filename="StylePrefs.cpp" line="183"/>
+        <source>Light</source>
+        <translation type="unfinished">Světlý</translation>
+    </message>
+    <message>
+        <location filename="StylePrefs.cpp" line="190"/>
+        <location filename="StylePrefs.cpp" line="309"/>
+        <source>Default</source>
+        <translation type="unfinished">Výchozí</translation>
+    </message>
+    <message>
+        <location filename="StylePrefs.cpp" line="197"/>
+        <source>Vaporwave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StylePrefs.cpp" line="204"/>
+        <source>Custom</source>
+        <translation type="unfinished">Vlastní</translation>
+    </message>
+    <message>
+        <location filename="StylePrefs.cpp" line="310"/>
+        <source>Large</source>
+        <translation type="unfinished">Velká</translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::StylePrefsWidget</name>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="69"/>
+        <source>Style</source>
+        <translation type="unfinished">Styl</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="81"/>
+        <source>Foreground</source>
+        <translation type="unfinished">Popředí</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="87"/>
+        <source>Background</source>
+        <translation type="unfinished">Pozadí</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="93"/>
+        <source>Background 2</source>
+        <translation type="unfinished">Pozadí 2</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="99"/>
+        <source>Button</source>
+        <translation type="unfinished">Tlačítko</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="105"/>
+        <source>Select</source>
+        <translation type="unfinished">Vybrat</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="108"/>
+        <source>Show transparency in color swatches</source>
+        <translation type="unfinished">Ukázat průhlednost ve vzorcích barev</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="124"/>
+        <source>Colors</source>
+        <translation type="unfinished">Barvy</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="134"/>
+        <source>Color palette:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="140"/>
+        <source>Fonts</source>
+        <translation type="unfinished">Písma</translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="143"/>
+        <source>Normal font:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="146"/>
+        <source>Fixed font:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StylePrefsWidget.cpp" line="149"/>
+        <source>Font size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::TIFFWidget</name>
+    <message>
+        <location filename="TIFFWidget.cpp" line="63"/>
+        <source>Compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TIFFWidget.cpp" line="64"/>
+        <source>Set the file compression used when saving TIFF images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TIFFWidget.cpp" line="68"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::TargaWidget</name>
+    <message>
+        <location filename="TargaWidget.cpp" line="61"/>
+        <source>Compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TargaWidget.cpp" line="62"/>
+        <source>Set the file compression used when saving Targa images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TargaWidget.cpp" line="66"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::UIContext</name>
+    <message>
+        <location filename="UIContext.cpp" line="148"/>
+        <location filename="UIContext.cpp" line="377"/>
+        <source>-reset_prefs</source>
+        <translation type="unfinished">-reset_prefs</translation>
+    </message>
+    <message>
+        <location filename="UIContext.cpp" line="224"/>
+        <source>File Browser</source>
+        <translation type="unfinished">Prohlížeč souborů</translation>
+    </message>
+    <message>
+        <location filename="UIContext.cpp" line="346"/>
+        <source>%1
+Image I/O Widgets
+
+    Plugins: %2
+
+Preferences
+
+    User: %3
+    System: %4
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="UIContext.cpp" line="397"/>
+        <source>
+User Interface Options
+
+    -reset_prefs
+        Do not load the preference at start up.
+%2</source>
+        <translation type="unfinished">
+Volby pro uživatelské rozhraní
+
+    -reset_prefs
+        Nenahrávat nastavení při spuštění.
+%2</translation>
+    </message>
+</context>
+<context>
+    <name>djvAboutDialog</name>
+    <message>
+        <source>Copy</source>
+        <translation type="vanished">Kopírovat</translation>
+    </message>
+    <message>
         <source>About Dialog</source>
-        <translation>O programu</translation>
+        <translation type="vanished">O programu</translation>
     </message>
 </context>
 <context>
     <name>djvChoiceDialog</name>
     <message>
-        <location filename="djvChoiceDialog.cpp" line="95"/>
         <source>Choice Dialog</source>
-        <translation>Výběr</translation>
+        <translation type="vanished">Výběr</translation>
     </message>
 </context>
 <context>
     <name>djvColorDialog</name>
     <message>
-        <location filename="djvColorDialog.cpp" line="94"/>
         <source>Color Dialog</source>
-        <translation>Barva</translation>
+        <translation type="vanished">Barva</translation>
     </message>
 </context>
 <context>
     <name>djvColorWidget</name>
     <message>
-        <location filename="djvColorWidget.cpp" line="96"/>
         <source>Pixel format</source>
-        <translation>Formát pixelu</translation>
+        <translation type="vanished">Formát pixelu</translation>
     </message>
     <message>
-        <location filename="djvColorWidget.cpp" line="100"/>
         <source>Pixel type</source>
-        <translation>Typ pixelu</translation>
+        <translation type="vanished">Typ pixelu</translation>
     </message>
     <message>
-        <location filename="djvColorWidget.cpp" line="277"/>
         <source>Luminance channel</source>
-        <translation>Kanál svítivosti</translation>
+        <translation type="vanished">Kanál svítivosti</translation>
     </message>
     <message>
-        <location filename="djvColorWidget.cpp" line="278"/>
-        <location filename="djvColorWidget.cpp" line="286"/>
         <source>Alpha channel</source>
-        <translation>Kanál alfa</translation>
+        <translation type="vanished">Kanál alfa</translation>
     </message>
     <message>
-        <location filename="djvColorWidget.cpp" line="283"/>
         <source>Red channel</source>
-        <translation>Kanál červená</translation>
+        <translation type="vanished">Kanál červená</translation>
     </message>
     <message>
-        <location filename="djvColorWidget.cpp" line="284"/>
         <source>Green channel</source>
-        <translation>Kanál zelená</translation>
+        <translation type="vanished">Kanál zelená</translation>
     </message>
     <message>
-        <location filename="djvColorWidget.cpp" line="285"/>
         <source>Blue channel</source>
-        <translation>Kanál modrá</translation>
+        <translation type="vanished">Kanál modrá</translation>
     </message>
 </context>
 <context>
     <name>djvDebugLogDialog</name>
     <message>
-        <location filename="djvDebugLogDialog.cpp" line="80"/>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation type="vanished">Kopírovat</translation>
     </message>
     <message>
-        <location filename="djvDebugLogDialog.cpp" line="82"/>
         <source>Clear</source>
-        <translation>Smazat</translation>
+        <translation type="vanished">Smazat</translation>
     </message>
     <message>
-        <location filename="djvDebugLogDialog.cpp" line="96"/>
         <source>Debugging Log</source>
-        <translation>Záznam o ladění</translation>
+        <translation type="vanished">Záznam o ladění</translation>
     </message>
 </context>
 <context>
     <name>djvFileBrowser</name>
     <message>
-        <location filename="djvFileBrowser.cpp" line="199"/>
         <source>&amp;Directory</source>
-        <translation>&amp;Adresář</translation>
+        <translation type="vanished">&amp;Adresář</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="202"/>
         <source>&amp;Up</source>
-        <translation>&amp;Nahoru</translation>
+        <translation type="vanished">&amp;Nahoru</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="207"/>
         <source>&amp;Prev</source>
-        <translation>Před&amp;chozí</translation>
+        <translation type="vanished">Před&amp;chozí</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="212"/>
         <source>&amp;Recent</source>
-        <translation>Nedáv&amp;ný</translation>
+        <translation type="vanished">Nedáv&amp;ný</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="218"/>
         <source>&amp;Current</source>
-        <translation>&amp;Nynější</translation>
+        <translation type="vanished">&amp;Nynější</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="221"/>
         <source>&amp;Home</source>
-        <translation>&amp;Domovská složka</translation>
+        <translation type="vanished">&amp;Domovská složka</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="224"/>
         <source>&amp;Desktop</source>
-        <translation>&amp;Plocha</translation>
+        <translation type="vanished">&amp;Plocha</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="227"/>
         <source>&amp;Drives</source>
-        <translation>&amp;Mechaniky</translation>
+        <translation type="vanished">&amp;Mechaniky</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="233"/>
         <source>Re&amp;load</source>
-        <translation>Na&amp;hrát znovu</translation>
+        <translation type="vanished">Na&amp;hrát znovu</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="238"/>
         <source>&amp;Options</source>
-        <translation>&amp;Volby</translation>
+        <translation type="vanished">&amp;Volby</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="241"/>
         <source>Thu&amp;mbnails</source>
-        <translation>Ná&amp;hledy</translation>
+        <translation type="vanished">Ná&amp;hledy</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="246"/>
         <source>Thumbnails Size</source>
-        <translation>Velikost náhledu</translation>
+        <translation type="vanished">Velikost náhledu</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="251"/>
         <source>Se&amp;quence</source>
-        <translation>Ŕ&amp;ada</translation>
+        <translation type="vanished">Ŕ&amp;ada</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="256"/>
         <source>Show &amp;Hidden</source>
-        <translation>Zobrazit &amp;skryté</translation>
+        <translation type="vanished">Zobrazit &amp;skryté</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="264"/>
         <source>&amp;Sort</source>
-        <translation>&amp;Seřadit</translation>
+        <translation type="vanished">&amp;Seřadit</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="269"/>
         <source>&amp;Reverse Sort</source>
-        <translation>&amp;Obrácené řazení</translation>
+        <translation type="vanished">&amp;Obrácené řazení</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="276"/>
         <source>Sort &amp;Directories First</source>
-        <translation>Třídit nejprve &amp;adresáře</translation>
+        <translation type="vanished">Třídit nejprve &amp;adresáře</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="282"/>
         <source>&amp;Bookmarks</source>
-        <translation>&amp;Záložky</translation>
+        <translation type="vanished">&amp;Záložky</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="302"/>
         <source>Sequence:</source>
-        <translation>Ŕada:</translation>
+        <translation type="vanished">Ŕada:</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="319"/>
         <source>Pin</source>
-        <translation>Přišpendlit</translation>
+        <translation type="vanished">Přišpendlit</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="322"/>
         <source>Ok</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="325"/>
         <source>Close</source>
-        <translation>Zavřít</translation>
+        <translation type="vanished">Zavřít</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="387"/>
         <source>File Browser</source>
-        <translation>Prohlížeč souborů</translation>
+        <translation type="vanished">Prohlížeč souborů</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="885"/>
         <source>Delete bookmarks:</source>
-        <translation>Smazat záložky:</translation>
+        <translation type="vanished">Smazat záložky:</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="917"/>
         <source>Delete all bookmarks?</source>
-        <translation>Smazat všechny záložky?</translation>
+        <translation type="vanished">Smazat všechny záložky?</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1179"/>
         <source>&amp;Add</source>
-        <translation>&amp;Přidat</translation>
+        <translation type="vanished">&amp;Přidat</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1186"/>
         <source>&amp;Delete</source>
-        <translation>S&amp;mazat</translation>
+        <translation type="vanished">S&amp;mazat</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1191"/>
         <source>D&amp;elete All</source>
-        <translation>&amp;Smazat vše</translation>
+        <translation type="vanished">&amp;Smazat vše</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1241"/>
         <source>File name</source>
-        <translation>Název souboru</translation>
+        <translation type="vanished">Název souboru</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1244"/>
         <source>Go up a directory
 
 Shortcut: %1</source>
-        <translation>Jít o adresář nahoru
+        <translation type="vanished">Jít o adresář nahoru
 
 Klávesová zkratka: %1</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1248"/>
         <source>Go to the previous directory
 
 Shortcut: %1</source>
-        <translation>Jít do předchozího adresáře
+        <translation type="vanished">Jít do předchozího adresáře
 
 Klávesová zkratka: %1</translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1252"/>
         <source>Reload the current directory
 
 Shortcut: %1</source>
-        <translation>Nahrát nynější adresář znovu
+        <translation type="vanished">Nahrát nynější adresář znovu
 
 Klávesová zkratka: %1</translation>
     </message>
@@ -265,353 +1680,285 @@ Klávesová zkratka: %1</translation>
 <context>
     <name>djvFileBrowserModel</name>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="95"/>
         <source>Name</source>
-        <translation>Název</translation>
+        <translation type="vanished">Název</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="96"/>
         <source>Size</source>
-        <translation>Velikost</translation>
+        <translation type="vanished">Velikost</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="98"/>
         <source>User</source>
-        <translation>Uživatel</translation>
+        <translation type="vanished">Uživatel</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="100"/>
         <source>Permissions</source>
-        <translation>Oprávnění</translation>
+        <translation type="vanished">Oprávnění</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="101"/>
         <source>Time</source>
-        <translation>Čas</translation>
+        <translation type="vanished">Čas</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="190"/>
         <source>Off</source>
-        <translation>Vypnuto</translation>
+        <translation type="vanished">Vypnuto</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="191"/>
         <source>Low Quality</source>
-        <translation>Nízká kvalita</translation>
+        <translation type="vanished">Nízká kvalita</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="192"/>
         <source>High Quality</source>
-        <translation>Vysoká kvalita</translation>
+        <translation type="vanished">Vysoká kvalita</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="207"/>
         <source>Small</source>
-        <translation>Malá</translation>
+        <translation type="vanished">Malá</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="208"/>
         <source>Medium</source>
-        <translation>Střední</translation>
+        <translation type="vanished">Střední</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="209"/>
         <source>Large</source>
-        <translation>Velká</translation>
+        <translation type="vanished">Velká</translation>
     </message>
 </context>
 <context>
     <name>djvFileBrowserPrefs</name>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="252"/>
         <source>Up</source>
-        <translation>Nahoru</translation>
+        <translation type="vanished">Nahoru</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="253"/>
         <source>Previous</source>
-        <translation>Předchozí</translation>
+        <translation type="vanished">Předchozí</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="254"/>
         <source>Current</source>
-        <translation>Nynější</translation>
+        <translation type="vanished">Nynější</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="255"/>
         <source>Home</source>
-        <translation>Domovská složka</translation>
+        <translation type="vanished">Domovská složka</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="256"/>
         <source>Desktop</source>
-        <translation>Plocha</translation>
+        <translation type="vanished">Plocha</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="257"/>
         <source>Root</source>
-        <translation>Kořen</translation>
+        <translation type="vanished">Kořen</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="258"/>
         <source>Reload</source>
-        <translation>Obnovit</translation>
+        <translation type="vanished">Obnovit</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="259"/>
         <source>Sequence Off</source>
-        <translation>Řada Vypnuto</translation>
+        <translation type="vanished">Řada Vypnuto</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="260"/>
         <source>Sequence Sparse</source>
-        <translation>Řada Řídká</translation>
+        <translation type="vanished">Řada Řídká</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="261"/>
         <source>Sequence Range</source>
-        <translation>Řada Rozsah</translation>
+        <translation type="vanished">Řada Rozsah</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="262"/>
         <source>Show Hidden</source>
-        <translation>Ukázat skryté</translation>
+        <translation type="vanished">Ukázat skryté</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="263"/>
         <source>Sort Name</source>
-        <translation>Třídit podle názvu</translation>
+        <translation type="vanished">Třídit podle názvu</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="264"/>
         <source>Sort Size</source>
-        <translation>Třídit podle velikosti</translation>
+        <translation type="vanished">Třídit podle velikosti</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="266"/>
         <source>SortUser</source>
-        <translation>Třídit podle uživatele</translation>
+        <translation type="vanished">Třídit podle uživatele</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="268"/>
         <source>Sort Time</source>
-        <translation>Třídit podle času</translation>
+        <translation type="vanished">Třídit podle času</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="269"/>
         <source>Sort Permissions</source>
-        <translation>Třídit podle oprávnění</translation>
+        <translation type="vanished">Třídit podle oprávnění</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="270"/>
         <source>Reverse Sort</source>
-        <translation>Obrácené třídění</translation>
+        <translation type="vanished">Obrácené třídění</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="271"/>
         <source>Sort Dirs First</source>
-        <translation>Třídit nejprve adresáře</translation>
+        <translation type="vanished">Třídit nejprve adresáře</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="272"/>
         <source>Add Bookmark</source>
-        <translation>Přídat záložku</translation>
+        <translation type="vanished">Přídat záložku</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="273"/>
         <source>Bookmark 1</source>
-        <translation>Záložka 1</translation>
+        <translation type="vanished">Záložka 1</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="274"/>
         <source>Bookmark 2</source>
-        <translation>Záložka 2</translation>
+        <translation type="vanished">Záložka 2</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="275"/>
         <source>Bookmark 3</source>
-        <translation>Záložka 3</translation>
+        <translation type="vanished">Záložka 3</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="276"/>
         <source>Bookmark 4</source>
-        <translation>Záložka 4</translation>
+        <translation type="vanished">Záložka 4</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="277"/>
         <source>Bookmark 5</source>
-        <translation>Záložka 5</translation>
+        <translation type="vanished">Záložka 5</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="278"/>
         <source>Bookmark 6</source>
-        <translation>Záložka 6</translation>
+        <translation type="vanished">Záložka 6</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="279"/>
         <source>Bookmark 7</source>
-        <translation>Záložka 7</translation>
+        <translation type="vanished">Záložka 7</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="280"/>
         <source>Bookmark 8</source>
-        <translation>Záložka 8</translation>
+        <translation type="vanished">Záložka 8</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="281"/>
         <source>Bookmark 9</source>
-        <translation>Záložka 9</translation>
+        <translation type="vanished">Záložka 9</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="282"/>
         <source>Bookmark 10</source>
-        <translation>Záložka 10</translation>
+        <translation type="vanished">Záložka 10</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="283"/>
         <source>Bookmark 11</source>
-        <translation>Záložka 11</translation>
+        <translation type="vanished">Záložka 11</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="284"/>
         <source>Bookmark 12</source>
-        <translation>Záložka 12</translation>
+        <translation type="vanished">Záložka 12</translation>
     </message>
 </context>
 <context>
     <name>djvFileBrowserPrefsWidget</name>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="113"/>
         <source>File Browser</source>
-        <translation>Prohlížeč souborů</translation>
+        <translation type="vanished">Prohlížeč souborů</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="123"/>
         <source>Show hidden files</source>
-        <translation>Ukázat skryté soubory</translation>
+        <translation type="vanished">Ukázat skryté soubory</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="130"/>
         <source>Reverse the sort direction</source>
-        <translation>Obrátit směr třídění</translation>
+        <translation type="vanished">Obrátit směr třídění</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="133"/>
         <source>Sort directories first</source>
-        <translation>Třídit nejprve adresáře</translation>
+        <translation type="vanished">Třídit nejprve adresáře</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="152"/>
         <source>Add a new bookmark</source>
-        <translation>Přídat novou záložku</translation>
+        <translation type="vanished">Přídat novou záložku</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="158"/>
         <source>Remove the selected bookmark</source>
-        <translation>Odstranit vybranou záložku</translation>
+        <translation type="vanished">Odstranit vybranou záložku</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="164"/>
         <source>Move the selected bookmark up</source>
-        <translation>Posunout vybranou záložku nahoru</translation>
+        <translation type="vanished">Posunout vybranou záložku nahoru</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="170"/>
         <source>Move the selected bookmark down</source>
-        <translation>Posunout vybranou záložku dolů</translation>
+        <translation type="vanished">Posunout vybranou záložku dolů</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="180"/>
         <source>Files</source>
-        <translation>Soubory</translation>
+        <translation type="vanished">Soubory</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="183"/>
         <source>File sequencing:</source>
-        <translation>Pořadí souborů:</translation>
+        <translation type="vanished">Pořadí souborů:</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="189"/>
         <source>Sorting</source>
-        <translation>Třídění</translation>
+        <translation type="vanished">Třídění</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="192"/>
         <source>Sort by:</source>
-        <translation>Třídit dle:</translation>
+        <translation type="vanished">Třídit dle:</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="199"/>
         <source>Thumbnails</source>
-        <translation>Náhledy</translation>
+        <translation type="vanished">Náhledy</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="202"/>
         <source>Thumbnails:</source>
-        <translation>Náhledy:</translation>
+        <translation type="vanished">Náhledy:</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="205"/>
         <source>Size:</source>
-        <translation>Velikost:</translation>
+        <translation type="vanished">Velikost:</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="210"/>
         <source>(MB)</source>
-        <translation>(MB)</translation>
+        <translation type="vanished">(MB)</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="212"/>
         <source>Cache size:</source>
-        <translation>Vyrovnávací paměť:</translation>
+        <translation type="vanished">Vyrovnávací paměť:</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="217"/>
         <source>Bookmarks</source>
-        <translation>Záložky</translation>
+        <translation type="vanished">Záložky</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="230"/>
         <source>Keyboard Shortcuts</source>
-        <translation>Klávesové zkratky</translation>
+        <translation type="vanished">Klávesové zkratky</translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="400"/>
         <source>Add bookmark:</source>
-        <translation>Přidat záložku:</translation>
+        <translation type="vanished">Přidat záložku:</translation>
     </message>
 </context>
 <context>
     <name>djvFileEdit</name>
     <message>
-        <location filename="djvFileEdit.cpp" line="73"/>
         <source>&amp;Browse</source>
-        <translation>&amp;Procházet</translation>
+        <translation type="vanished">&amp;Procházet</translation>
     </message>
 </context>
 <context>
     <name>djvFloatEditSlider</name>
     <message>
-        <location filename="djvFloatEditSlider.cpp" line="86"/>
         <source>Reset the value</source>
-        <translation>Nastavit hodnotu znovu</translation>
+        <translation type="vanished">Nastavit hodnotu znovu</translation>
     </message>
 </context>
 <context>
     <name>djvGuiContext</name>
     <message>
-        <location filename="djvGuiContext.cpp" line="115"/>
-        <location filename="djvGuiContext.cpp" line="357"/>
         <source>-reset_prefs</source>
-        <translation>-reset_prefs</translation>
+        <translation type="vanished">-reset_prefs</translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="193"/>
         <source>File Browser</source>
-        <translation>Prohlížeč souborů</translation>
+        <translation type="vanished">Prohlížeč souborů</translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="321"/>
         <source>%1
 Image I/O Widgets
 
@@ -632,7 +1979,7 @@ Preferences
     User: %3
     System: %4
 </oldsource>
-        <translation>%1
+        <translation type="vanished">%1
 Doplňky pro vstup/výstup obrázků
 
     %2
@@ -644,14 +1991,13 @@ Nastavení
 </translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="379"/>
         <source>
 User Interface Options
 
     -reset_prefs
         Do not load the preference at start up.
 %2</source>
-        <translation>
+        <translation type="vanished">
 Volby pro uživatelské rozhraní
 
     -reset_prefs
@@ -662,453 +2008,339 @@ Volby pro uživatelské rozhraní
 <context>
     <name>djvHelpPrefsWidget</name>
     <message>
-        <location filename="djvHelpPrefsWidget.cpp" line="69"/>
         <source>Help</source>
-        <translation>Nápověda</translation>
+        <translation type="vanished">Nápověda</translation>
     </message>
     <message>
-        <location filename="djvHelpPrefsWidget.cpp" line="75"/>
         <source>Enable tool tips</source>
-        <translation>Povolit nástrojové rady</translation>
+        <translation type="vanished">Povolit nástrojové rady</translation>
     </message>
     <message>
-        <location filename="djvHelpPrefsWidget.cpp" line="83"/>
         <source>Tool Tips</source>
-        <translation>Nástrojové rady</translation>
+        <translation type="vanished">Nástrojové rady</translation>
     </message>
 </context>
 <context>
     <name>djvImagePrefsWidget</name>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="69"/>
         <source>Images</source>
-        <translation>Obrázky</translation>
+        <translation type="vanished">Obrázky</translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="88"/>
         <source>Scaling</source>
-        <translation>Změna velikosti</translation>
+        <translation type="vanished">Změna velikosti</translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="89"/>
         <source>Set the image scaling quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</source>
-        <translation>Nastavit jakost změny velikosti obrázku. Obecně jsou nejrychlejší filtry Nejbližší a Lineární. Jiné filtry mohou poskytnout vysokou jakost, ale jsou obecně pomalejší.</translation>
+        <translation type="vanished">Nastavit jakost změny velikosti obrázku. Obecně jsou nejrychlejší filtry Nejbližší a Lineární. Jiné filtry mohou poskytnout vysokou jakost, ale jsou obecně pomalejší.</translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="96"/>
         <source>Scale down:</source>
-        <translation>Zmenšit:</translation>
+        <translation type="vanished">Zmenšit:</translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="99"/>
         <source>Scale up:</source>
-        <translation>Zvětšit:</translation>
+        <translation type="vanished">Zvětšit:</translation>
     </message>
 </context>
 <context>
     <name>djvInfoDialog</name>
     <message>
-        <location filename="djvInfoDialog.cpp" line="78"/>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation type="vanished">Kopírovat</translation>
     </message>
     <message>
-        <location filename="djvInfoDialog.cpp" line="92"/>
         <source>Information Dialog</source>
-        <translation>Informace</translation>
+        <translation type="vanished">Informace</translation>
     </message>
 </context>
 <context>
     <name>djvInputDialog</name>
     <message>
-        <location filename="djvInputDialog.cpp" line="88"/>
         <source>Input Dialog</source>
-        <translation>Vstup</translation>
+        <translation type="vanished">Vstup</translation>
     </message>
 </context>
 <context>
     <name>djvIntEditSlider</name>
     <message>
-        <location filename="djvIntEditSlider.cpp" line="86"/>
         <source>Reset the value</source>
-        <translation>Nastavit hodnotu znovu</translation>
+        <translation type="vanished">Nastavit hodnotu znovu</translation>
     </message>
 </context>
 <context>
     <name>djvMessagesDialog</name>
     <message>
-        <location filename="djvMessagesDialog.cpp" line="89"/>
         <source>Show</source>
-        <translation>Ukázat</translation>
+        <translation type="vanished">Ukázat</translation>
     </message>
     <message>
-        <location filename="djvMessagesDialog.cpp" line="92"/>
         <source>Clear</source>
-        <translation>Smazat</translation>
+        <translation type="vanished">Smazat</translation>
     </message>
     <message>
-        <location filename="djvMessagesDialog.cpp" line="112"/>
         <source>Messages Dialog</source>
-        <translation>Zprávy</translation>
+        <translation type="vanished">Zprávy</translation>
     </message>
 </context>
 <context>
     <name>djvMultiChoiceDialog</name>
     <message>
-        <location filename="djvMultiChoiceDialog.cpp" line="95"/>
         <source>Multi Choice Dialog</source>
-        <translation>Více voleb</translation>
+        <translation type="vanished">Více voleb</translation>
     </message>
 </context>
 <context>
     <name>djvNoticeDialog</name>
     <message>
-        <location filename="djvNoticeDialog.cpp" line="76"/>
         <source>Notice Dialog</source>
-        <translation>Upozornění</translation>
+        <translation type="vanished">Upozornění</translation>
     </message>
 </context>
 <context>
     <name>djvPixelMaskWidget</name>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="72"/>
         <source>Set the pixel mask</source>
-        <translation>Nastavit masku pixelu</translation>
+        <translation type="vanished">Nastavit masku pixelu</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="115"/>
         <source>Solo red</source>
-        <translation>Samostatně červená</translation>
+        <translation type="vanished">Samostatně červená</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="116"/>
         <source>Solo green</source>
-        <translation>Samostatně zelená</translation>
+        <translation type="vanished">Samostatně zelená</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="117"/>
         <source>Solo blue</source>
-        <translation>Samostatně modrá</translation>
+        <translation type="vanished">Samostatně modrá</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="118"/>
         <source>Solo alpha</source>
-        <translation>Samostatně alfa</translation>
+        <translation type="vanished">Samostatně alfa</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="137"/>
         <source>Red</source>
-        <translation>Červená</translation>
+        <translation type="vanished">Červená</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="138"/>
         <source>Green</source>
-        <translation>Zelená</translation>
+        <translation type="vanished">Zelená</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="139"/>
         <source>Blue</source>
-        <translation>Modrá</translation>
+        <translation type="vanished">Modrá</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="140"/>
         <source>Alpha</source>
-        <translation>Alfa</translation>
+        <translation type="vanished">Alfa</translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="160"/>
         <source>Reset</source>
-        <translation>Nastavit znovu</translation>
-    </message>
-</context>
-<context>
-    <name>djvPlaybackButtons</name>
-    <message>
-        <location filename="djvPlaybackButtons.cpp" line="57"/>
-        <source>Reverse playback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvPlaybackButtons.cpp" line="58"/>
-        <source>Stop playback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvPlaybackButtons.cpp" line="59"/>
-        <source>Forward playback</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvPlaybackUtil</name>
-    <message>
-        <location filename="djvPlaybackUtil.cpp" line="47"/>
-        <source>Reverse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvPlaybackUtil.cpp" line="48"/>
-        <source>Stop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvPlaybackUtil.cpp" line="49"/>
-        <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Nastavit znovu</translation>
     </message>
 </context>
 <context>
     <name>djvPrefsDialog</name>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="143"/>
         <source>Reset Page</source>
-        <translation>Nastavit stranu znovu</translation>
+        <translation type="vanished">Nastavit stranu znovu</translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="148"/>
         <source>Reset All</source>
-        <translation>Nastavit vše znovu</translation>
+        <translation type="vanished">Nastavit vše znovu</translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="165"/>
         <source>Preferences Dialog</source>
-        <translation>Nastavení</translation>
+        <translation type="vanished">Nastavení</translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="169"/>
-        <location filename="djvPrefsDialog.cpp" line="172"/>
-        <location filename="djvPrefsDialog.cpp" line="175"/>
-        <location filename="djvPrefsDialog.cpp" line="178"/>
-        <location filename="djvPrefsDialog.cpp" line="181"/>
-        <location filename="djvPrefsDialog.cpp" line="184"/>
         <source>General</source>
-        <translation>Obecné</translation>
+        <translation type="vanished">Obecné</translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="197"/>
         <source>Image I/O</source>
-        <translation>Obrázek vstup/výstup</translation>
+        <translation type="vanished">Obrázek vstup/výstup</translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="279"/>
         <source>Are you sure you want to reset all of the preferences?</source>
-        <translation>Jste si jistý, že chcete všechna nastavení nastavit znovu?</translation>
+        <translation type="vanished">Jste si jistý, že chcete všechna nastavení nastavit znovu?</translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="292"/>
         <source>Are you sure you want to reset the preferences for the current page?</source>
-        <translation>Jste si jistý, že chcete nastavení nynější strany nastavit znovu?</translation>
+        <translation type="vanished">Jste si jistý, že chcete nastavení nynější strany nastavit znovu?</translation>
     </message>
 </context>
 <context>
     <name>djvProgressDialog</name>
     <message>
-        <location filename="djvProgressDialog.cpp" line="193"/>
         <source>Progress Dialog</source>
-        <translation>Postup</translation>
+        <translation type="vanished">Postup</translation>
     </message>
     <message>
-        <location filename="djvProgressDialog.cpp" line="293"/>
         <source>Estimated: %1 (%2 Frames/Second)</source>
-        <translation>Odhadováno: %1 (%2 snímků za sekundu)</translation>
+        <translation type="vanished">Odhadováno: %1 (%2 snímků za sekundu)</translation>
     </message>
     <message>
-        <location filename="djvProgressDialog.cpp" line="300"/>
         <source>Elapsed: %1</source>
-        <translation>Uplynulo: %1</translation>
+        <translation type="vanished">Uplynulo: %1</translation>
     </message>
 </context>
 <context>
     <name>djvQuestionDialog</name>
     <message>
-        <location filename="djvQuestionDialog.cpp" line="77"/>
         <source>Question Dialog</source>
-        <translation>Otázka</translation>
+        <translation type="vanished">Otázka</translation>
     </message>
 </context>
 <context>
     <name>djvSearchBox</name>
     <message>
-        <location filename="djvSearchBox.cpp" line="73"/>
         <source>Enter a search</source>
-        <translation>Začít hledání</translation>
+        <translation type="vanished">Začít hledání</translation>
     </message>
     <message>
-        <location filename="djvSearchBox.cpp" line="80"/>
         <source>Reset the search</source>
-        <translation>Nastavit hledání znovu</translation>
+        <translation type="vanished">Nastavit hledání znovu</translation>
     </message>
 </context>
 <context>
     <name>djvSequencePrefsWidget</name>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="72"/>
         <source>Sequences</source>
-        <translation>Řady</translation>
+        <translation type="vanished">Řady</translation>
     </message>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="87"/>
         <source>Max Frames</source>
-        <translation>Nejvíce snímků</translation>
+        <translation type="vanished">Nejvíce snímků</translation>
     </message>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="88"/>
         <source>Set the maximum number of frames allowed in a sequence. This is used as a safety feature to prevent file sequences from becoming too large.</source>
-        <translation>Nastavit největší  povolený počet snímků v řadě. Používá se jako bezpečnostní opatření, aby se zabránilo tomu, že by se řady souborů staly příliš velkými.</translation>
+        <translation type="vanished">Nastavit největší  povolený počet snímků v řadě. Používá se jako bezpečnostní opatření, aby se zabránilo tomu, že by se řady souborů staly příliš velkými.</translation>
     </message>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="94"/>
         <source>Frames:</source>
-        <translation>Snímky:</translation>
+        <translation type="vanished">Snímky:</translation>
     </message>
 </context>
 <context>
     <name>djvShortcutsModel</name>
     <message>
-        <location filename="djvShortcutsModel.cpp" line="211"/>
         <source>Name</source>
-        <translation>Název</translation>
+        <translation type="vanished">Název</translation>
     </message>
     <message>
-        <location filename="djvShortcutsModel.cpp" line="212"/>
         <source>Shortcut</source>
-        <translation>Klávesová zkratka</translation>
+        <translation type="vanished">Klávesová zkratka</translation>
     </message>
 </context>
 <context>
     <name>djvStyle</name>
     <message>
-        <location filename="djvStyle.cpp" line="253"/>
         <source>Dark</source>
-        <translation>Tmavý</translation>
+        <translation type="vanished">Tmavý</translation>
     </message>
     <message>
-        <location filename="djvStyle.cpp" line="260"/>
         <source>Light</source>
-        <translation>Světlý</translation>
+        <translation type="vanished">Světlý</translation>
     </message>
     <message>
-        <location filename="djvStyle.cpp" line="267"/>
         <source>Default</source>
-        <translation>Výchozí</translation>
+        <translation type="vanished">Výchozí</translation>
     </message>
     <message>
-        <location filename="djvStyle.cpp" line="274"/>
-        <location filename="djvStyle.cpp" line="372"/>
         <source>Custom</source>
-        <translation>Vlastní</translation>
+        <translation type="vanished">Vlastní</translation>
     </message>
     <message>
-        <location filename="djvStyle.cpp" line="369"/>
         <source>Small</source>
-        <translation>Malá</translation>
+        <translation type="vanished">Malá</translation>
     </message>
     <message>
-        <location filename="djvStyle.cpp" line="370"/>
         <source>Medium</source>
-        <translation>Střední</translation>
+        <translation type="vanished">Střední</translation>
     </message>
     <message>
-        <location filename="djvStyle.cpp" line="371"/>
         <source>Large</source>
-        <translation>Velká</translation>
+        <translation type="vanished">Velká</translation>
     </message>
 </context>
 <context>
     <name>djvStylePrefsWidget</name>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="89"/>
         <source>Style</source>
-        <translation>Styl</translation>
+        <translation type="vanished">Styl</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="102"/>
         <source>Foreground</source>
-        <translation>Popředí</translation>
+        <translation type="vanished">Popředí</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="108"/>
         <source>Background</source>
-        <translation>Pozadí</translation>
+        <translation type="vanished">Pozadí</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="114"/>
         <source>Background 2</source>
-        <translation>Pozadí 2</translation>
+        <translation type="vanished">Pozadí 2</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="120"/>
         <source>Button</source>
-        <translation>Tlačítko</translation>
+        <translation type="vanished">Tlačítko</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="126"/>
         <source>Select</source>
-        <translation>Vybrat</translation>
+        <translation type="vanished">Vybrat</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="129"/>
         <source>Show transparency in color swatches</source>
-        <translation>Ukázat průhlednost ve vzorcích barev</translation>
+        <translation type="vanished">Ukázat průhlednost ve vzorcích barev</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="151"/>
         <source>Colors</source>
-        <translation>Barvy</translation>
+        <translation type="vanished">Barvy</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="161"/>
         <source>Color:</source>
-        <translation>Barva:</translation>
+        <translation type="vanished">Barva:</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="167"/>
         <source>Size</source>
-        <translation>Velikost</translation>
+        <translation type="vanished">Velikost</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="174"/>
         <source>Size:</source>
-        <translation>Velikost:</translation>
+        <translation type="vanished">Velikost:</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="179"/>
         <source>Fonts</source>
-        <translation>Písma</translation>
+        <translation type="vanished">Písma</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="182"/>
         <source>Normal:</source>
-        <translation>Normální:</translation>
+        <translation type="vanished">Normální:</translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="185"/>
         <source>Fixed:</source>
-        <translation>Pevná:</translation>
+        <translation type="vanished">Pevná:</translation>
     </message>
 </context>
 <context>
     <name>djvTimePrefsWidget</name>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="72"/>
-        <location filename="djvTimePrefsWidget.cpp" line="91"/>
         <source>Time</source>
-        <translation>Čas</translation>
+        <translation type="vanished">Čas</translation>
     </message>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="94"/>
         <source>Time units:</source>
-        <translation>Jednotky času:</translation>
+        <translation type="vanished">Jednotky času:</translation>
     </message>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="99"/>
         <source>(frames per second)</source>
-        <translation>(snímků za sekundu)</translation>
+        <translation type="vanished">(snímků za sekundu)</translation>
     </message>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="101"/>
         <source>Default speed:</source>
-        <translation>Výchozí rychlost:</translation>
+        <translation type="vanished">Výchozí rychlost:</translation>
     </message>
 </context>
 </TS>

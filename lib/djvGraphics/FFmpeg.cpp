@@ -138,8 +138,8 @@ namespace djv
         const QStringList & FFmpeg::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("Core::FFmpeg", "Format") <<
-                qApp->translate("Core::FFmpeg", "Quality");
+                qApp->translate("djv::Graphics::FFmpeg", "Format") <<
+                qApp->translate("djv::Graphics::FFmpeg", "Quality");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }

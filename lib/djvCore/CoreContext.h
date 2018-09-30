@@ -56,9 +56,6 @@ namespace djv
             explicit CoreContext(int & argc, char ** argv, QObject * parent = nullptr);
             virtual ~CoreContext();
             
-            // Get the application path.
-            static QString applicationPath(int & argc, char ** argv);
-            
             // Initialize the library paths. This needs to be called before the
             // application is created.
             static void initLibPaths(int & argc, char ** argv);

@@ -158,7 +158,6 @@ namespace djv
             _p->prefs->style.reset(new StylePrefs);
             _p->prefs->imageIO.reset(new ImageIOPrefs(this));
             _p->prefs->fileBrowser.reset(new FileBrowserPrefs(this));
-            DJV_LOG(debugLog(), "djv::UI::UIContext", "");
 
             // Initialize.
             _p->fileBrowser->cache.reset(new FileBrowserCache);
@@ -174,7 +173,6 @@ namespace djv
             connect(_p->prefs->style.data(), SIGNAL(prefChanged()), SLOT(styleUpdate()));
 
             DJV_LOG(debugLog(), "djv::UI::UIContext", "Information:");
-            DJV_LOG(debugLog(), "djv::UI::UIContext", "");
             DJV_LOG(debugLog(), "djv::UI::UIContext", info());
         }
 

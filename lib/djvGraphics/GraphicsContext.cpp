@@ -137,8 +137,6 @@ namespace djv
                 _p->openGLDebugLogger->startLogging();
             }
 
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
-
             //! Create the image I/O plugins.
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Loading image I/O plugins...");
 
@@ -169,9 +167,7 @@ namespace djv
             _p->imageIOFactory->addPlugin(new FFmpegPlugin(this));
 #endif // FFMPEG_FOUND
 
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Information:");
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", info());
         }
 

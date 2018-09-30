@@ -201,7 +201,7 @@ namespace djv
                         in >> _options.inputFilmPrint;
                     }
                     else if (
-                        qApp->translate("vDPXPlugin", "-dpx_output_color_profile") == arg)
+                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_output_color_profile") == arg)
                     {
                         in >> _options.outputColorProfile;
                     }
