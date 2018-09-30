@@ -59,6 +59,8 @@ namespace djv
         class ImageView;
 
         //! This class provides a main window.
+        //!
+        //! \todo Move groups to the context.
         class MainWindow : public QMainWindow
         {
             Q_OBJECT
