@@ -185,42 +185,42 @@ namespace djv
             return _p->filePrefs;
         }
 
-        ImagePrefs * Context::imagePrefs() const
+        const QPointer<ImagePrefs> & Context::imagePrefs() const
         {
             return _p->imagePrefs;
         }
 
-        InputPrefs * Context::inputPrefs() const
+        const QPointer<InputPrefs> & Context::inputPrefs() const
         {
             return _p->inputPrefs;
         }
 
-        PlaybackPrefs * Context::playbackPrefs() const
+        const QPointer<PlaybackPrefs> & Context::playbackPrefs() const
         {
             return _p->playbackPrefs;
         }
 
-        ShortcutPrefs * Context::shortcutPrefs() const
+        const QPointer<ShortcutPrefs> & Context::shortcutPrefs() const
         {
             return _p->shortcutPrefs;
         }
 
-        ViewPrefs * Context::viewPrefs() const
+        const QPointer<ViewPrefs> & Context::viewPrefs() const
         {
             return _p->viewPrefs;
         }
 
-        WindowPrefs * Context::windowPrefs() const
+        const QPointer<WindowPrefs> & Context::windowPrefs() const
         {
             return _p->windowPrefs;
         }
 
-        FileCache * Context::fileCache() const
+        const QPointer<FileCache> & Context::fileCache() const
         {
             return _p->fileCache;
         }
 
-        FileSave * Context::fileSave() const
+        const QPointer<FileSave> & Context::fileSave() const
         {
             return _p->fileSave;
         }

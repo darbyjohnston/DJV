@@ -101,28 +101,28 @@ namespace djv
             const QPointer<FilePrefs> & filePrefs() const;
 
             //! Get the image preferences.
-            ImagePrefs * imagePrefs() const;
+            const QPointer<ImagePrefs> & imagePrefs() const;
 
             //! Get the input preferences.
-            InputPrefs * inputPrefs() const;
+            const QPointer<InputPrefs> & inputPrefs() const;
 
             //! Get the playback preferences.
-            PlaybackPrefs * playbackPrefs() const;
+            const QPointer<PlaybackPrefs> & playbackPrefs() const;
 
             //! Get the shortcut preferences.
-            ShortcutPrefs * shortcutPrefs() const;
+            const QPointer<ShortcutPrefs> & shortcutPrefs() const;
 
             //! Get the view preferences.
-            ViewPrefs * viewPrefs() const;
+            const QPointer<ViewPrefs> & viewPrefs() const;
 
             //! Get the window preferences.
-            WindowPrefs * windowPrefs() const;
+            const QPointer<WindowPrefs> & windowPrefs() const;
 
             //! Get the file cache.
-            FileCache * fileCache() const;
+            const QPointer<FileCache> & fileCache() const;
 
             //! Get the file save.
-            FileSave * fileSave() const;
+            const QPointer<FileSave> & fileSave() const;
 
             void setValid(bool) override;
 
