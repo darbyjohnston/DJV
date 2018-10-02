@@ -5,13 +5,13 @@
 
 a:link
 {
-    color: #ffffff;
+    color: rgba(255, 255, 255, 1.0);
     text-decoration: none;
 }
 
 a:visited
 {
-    color: #ffffff;
+    color: rgba(255, 255, 255, 1.0);
     text-decoration: none;
 }
 
@@ -19,14 +19,14 @@ body
 {
     margin: 0;
     padding: 0;
-    color: #ffffff;
+    color: rgba(255, 255, 255, 1.0);
     background-image: url("images/Berkeley 2010-12-19 Tinted.jpg");
-    background-color: #000000;
+    background-color: rgba(0.0, 0.0, 0.0, 1.0);
 }
 
 div.header
 {
-    background-color: #000000aa;
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 20;
     width: 100%;
 }
