@@ -20,7 +20,7 @@ set(html
     Testimonials.html)
 set(images
     "images/Berkeley 2010-12-19.png"
-    "images/Berkeley 2010-12-19 Tinted.png"
+    "images/Berkeley 2010-12-19 Tinted.jpg"
     "images/Bodega Bay 2013-01-02.png"
     "images/djv_view Color Picker Tool.png"
     "images/djv_view Histogram Tool.png"
