@@ -1,0 +1,115 @@
+<!-- ---------------------------------------------------------------------------
+  Copyright (c) 2004-2018 Darby Johnston
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  * Neither the names of the copyright holders nor the names of any
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+---------------------------------------------------------------------------- -->
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="Style.css">
+<title>DJV Imaging</title>
+</head>
+<body>
+
+<div class="header">
+<a class="header" href="index.html">
+    <img src="images/logo-filmreel.png" style="vertical-align: middle;">
+    DJV Imaging</a>
+<p>Media review software for VFX artists and filmmakers</p>
+</div>
+
+<div class="content">
+
+<div class="block">
+<h1>Frequently Asked Questions</h1>
+<li><a href="#1">Is DJV free?</a></li>
+<li><a href="#2">How do I setup the DJV command line tools?</a></li>
+<li><a href="#3">How do I use a LUT (lookup table) with the DJV viewer?</a></li>
+<li><a href="#4">Are 3D LUTs supported?</a></li>
+<li><a href="#5">How can I convert an image sequence to a movie (or vice versa)?</a></li>
+<li><a href="#6">What image and movie file formats are supported?</a></li>
+<li><a href="#7">How can I enable timecode display?</a></li>
+</div>
+
+<div class="block">
+<h3><a name="1">Is DJV free?</a></h3>
+<p>The DJV source code is covered by an open source BSD style license, which
+means that it is basically free to use, modify, and distribute, as long as the
+copyright notices and license are retained. See the <b><a href="Legal.html">legal
+</a></b> page for additional information.</p>
+<p>Note that some of the third party software that DJV depends on may have
+different licensing requirements, see the <b><a href="Legal.html">legal</a></b> page
+for additional details.</p>
+</div>
+
+<div class="block">
+<h3><a name="2">How do I setup the DJV command line tools?</a></h3>
+<p>You can find information about setting up the command line tools on the
+<b><a href="Install.html">installation</a></b> page.</p>
+</div>
+
+<div class="block">
+<h3><a name="3">How do I use a LUT (lookup table) with the DJV viewer?</a></h3>
+<p>You can find information about using LUTs on the 
+<b><a href="djv_view.html#ColorAndDisplayProfiles">color and display profiles</a></b> page.</p>
+</div>
+
+<div class="block">
+<h3><a name="4">Are 3D LUTs supported?</a></h3>
+<p>3D LUTs are not currently supported.</p>
+</div>
+
+<div class="block">
+<h3><a name="5">How can I convert an image sequence to a movie (or vice versa)?</a></h3>
+<p>To convert an image sequence or movie you can use either the <b><a href="djv_view.html#SavingFiles">djv_view</a></b>
+application or the <b><a href="djv_convert.html">djv_convert</a></b> command line tool.</p>
+<p>Here is an example of using the djv_convert command line tool:</p>
+<pre>
+> djv_convert input.1-100.sgi output.mp4
+</pre>
+</div>
+
+<div class="block">
+<h3><a name="6">What image and movie file formats are supported?</a></h3>
+<p>You can find information on the <b><a href="ImageFormtats.html">supported image formats</a></b> page.</p>
+</div>
+
+<div class="block">
+<h3><a name="7">How can I enable timecode display?</a></h3>
+<p>Open the preferences dialog from the "File" menu and click on "Miscellaneous".
+Set the time units to "Timecode":</p>
+<img src="images/Miscellaneous Preferences.png" align="middle">
+</div>
+
+</div>
+
+<div class="footer">
+<p align=center>Copyright (c) 2004-2018 Darby Johnston</p>
+</div>
+
+</body>
+</html>
+

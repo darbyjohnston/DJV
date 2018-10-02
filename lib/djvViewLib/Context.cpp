@@ -281,9 +281,7 @@ namespace djv
             static const QString label = qApp->translate("djv::ViewLib::Context",
                 "djv_view\n"
                 "\n"
-                "    The djv_view application provides real-time image sequence and movie "
-                "playback. It is intended as a professional tool for reviewing computer "
-                "animation, film, and video footage.\n"
+                "    An application for real-time image sequence and movie playback."
                 "\n"
                 "Usage\n"
                 "\n"

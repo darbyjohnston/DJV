@@ -43,7 +43,6 @@ namespace djv
         //! Supported features:
         //!
         //! - 8-bit RGBA
-        //! - File compression
         //!
         //! References:
         //!

@@ -28,130 +28,51 @@
 ---------------------------------------------------------------------------- -->
 
 <html>
-
 <head>
 <link rel="stylesheet" type="text/css" href="Style.css">
-<title>DJV Imaging - djv_view</title>
+<title>DJV Imaging</title>
 </head>
-
 <body>
 
 <div class="header">
-<div style="position:absolute; top:10; left:10; height:50;">
-<a href="index.html"><img src="images/Title.gif" align="middle"></a>
-</div>
-<div style="position:absolute; top:0; right:0;">
-<a href="index.html"><img src="images/Logo.gif"></a>
-</div>
-<table width="100%" height="100%">
-<tr>
-<td align="center" valign="bottom">
-    <a class="nav" href="index.html">Home</a>
-    <a class="nav" href="Screenshots.html">Screenshots</a>
-    <a class="nav" href="Documentation.html">Documentation</a>
-    <a class="nav" href="Credits.html">Credits</a>
-    <a class="nav" href="Legal.html">Legal</a>
-</td>
-</tr>
-</table>
+<a class="header" href="index.html">
+    <img src="images/logo-filmreel.png" style="vertical-align: middle;">
+    DJV Imaging</a>
+<p>Media review software for VFX artists and filmmakers</p>
 </div>
 
-<table width="100%" height="600">
-<tr>
+<div class="content">
 
-<td class="sidebar" valign="top">
-
-<h3>djv_view</h3>
+<div class="block">
+<h1>djv_view</h1>
+<p>An application for real-time image sequence and movie playback.</p>
 <li><a href="#Files">Files</a></li>
-<ul>
-    <li><a href="#FileFormats">File Formats</a></li>
-    <li><a href="#FileSequences">File Sequences</a></li>
-    <li><a href="#OpeningFiles">Opening Files</a></li>
-    <li><a href="#SavingFiles">Saving Files</a></li>
-    <li><a href="#FileLayers">File Layers</a></li>
-    <li><a href="#ProxyScaling">Proxy Scaling</a></li>
-    <li><a href="#8BitConversion">8-Bit Conversion</a></li>
-    <li><a href="#MemoryCache">Memory Cache</a></li>
-    <li><a href="#FileMenu">File Menu</a></li>
-</ul>
 <li><a href="#Windows">Windows</a></li>
-<ul>
-    <li><a href="#OpeningAndClosingWindows">Opening and Closing Windows</a></li>
-    <li><a href="#ResizingWindows">Resizing Windows</a></li>
-    <li><a href="#FullScreenMode">Full Screen Mode</a></li>
-    <li><a href="#WindowControls">Window Controls</a></li>
-    <li><a href="#WindowMenu">Window Menu</a></li>
-</ul>
 <li><a href="#Views">Views</a></li>
-<ul>
-    <li><a href="#ViewNavigation">View Navigation</a></li>
-    <li><a href="#Grid">Grid</a></li>
-    <li><a href="#HeadsUpDisplay">Heads Up Display (HUD)</a></li>
-    <li><a href="#ViewMenu">View Menu</a></li>
-</ul>
 <li><a href="#Images">Images</a></li>
-<ul>
-    <li><a href="#FrameStore">Frame Store</a></li>
-    <li><a href="#ImageTransforms">Image Transforms</a></li>
-    <li><a href="#ColorAndDisplayProfiles">Color and Display Profiles</a></li>
-    <li><a href="#ImageChannels">Image Channels</a></li>
-    <li><a href="#ImageMenu">Image Menu</a></li>
-</ul>
 <li><a href="#Playback">Playback</a></li>
-<ul>
-    <li><a href="#PlaybackControls">Playback Controls</a></li>
-    <li><a href="#FrameControls">Frame Controls</a></li>
-    <li><a href="#InAndOutPoints">In and Out Points</a></li>
-    <li><a href="#PlaybackSpeed">Playback Speed</a></li>
-    <li><a href="#PlaybackLayout">Playback Layout</a></li>
-    <li><a href="#FramesAndTimecode">Frames and Timecode</a></li>
-    <li><a href="#PlaybackMenu">Playback Menu</a></li>
-</ul>
 <li><a href="#Tools">Tools</a></li>
-<ul>
-    <li><a href="#Magnify">Magnify</a></li>
-    <li><a href="#ColorPicker">Color Picker</a></li>
-    <li><a href="#Histogram">Histogram</a></li>
-    <li><a href="#Information">Information</a></li>
-    <li><a href="#ToolsMenu">Tools Menu</a></li>
-</ul>
 <li><a href="#CommandLine">Command Line</a></li>
+<br>
+<img src="images/djv_view.png">
+</div>
 
-</td>
-
-<td class="content" valign="top">
-
-<p>The djv_view application provides real-time image sequence and movie
-playback. It is intended as a professional tool for reviewing computer
-animation, film, and video footage.</p>
-<p>This screenshot shows the main window:</p>
-<table align="center">
-    <tr><td><img src="images/ViewDiagram.png"/></td></tr>
-</table>
-<h4>Key:</h4>
-<ol>
-    <li>Menu bar</li>
-    <li>Tool bar</li>
-    <li>Image view</li>
-    <li>Playback controls and information</li>
-    <li>Information about the selected pixel</li>
-    <li>Information about the current image</li>
-    <li>Information about the memory cache</li>
-</ol>
-
+<div class="block">
 <h2><a name="Files">Files</a></h2>
-
 <a name="FileFormats"><h3>File Formats</h3></a>
-<p>For the list of supported file formats see the image formats
-<a href="ImageIo.html">page</a>.</p>
+<p>For the list of supported file formats see the <b><a href="ImageFormats.html">supported image formats</a></b> page.</p>
 
 <a name="FileSequences"><h3>File Sequences</h3></a>
+<p><b>TODO</b></p>
 
 <a name="OpeningFiles"><h3>Opening Files</h3></a>
+<p><b>TODO</b></p>
 
 <a name="SavingFiles"><h3>Saving Files</h3></a>
+<p><b>TODO</b></p>
 
 <a name="FileLayers"><h3>File Layers</h3></a>
+<p><b>TODO</b></p>
 
 <a name="ProxyScaling"><h3>Proxy Scaling</h3></a>
 <p>Proxy scaling reduces the resolution when loading files to allow more images
@@ -176,649 +97,504 @@ amount of memory in your computer.</p>
 memory cache is shown in the information bar.</p>
 
 <a name="FileMenu"><h3>File Menu</h3></a>
-<table align="center">
-<tr>
-<td><img src="images/ViewFileMenu.png"/></td>
-<td>
 <table>
-    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
-    <tr>
-        <td><img src="images/FileOpenIcon.png"/></td>
-        <td>Open</td>
-        <td>Open a new file</td>
-        <td>Ctrl+O</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Recent</td>
-        <td>A list of recently opened files</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><img src="images/FileReloadIcon.png"/></td>
-        <td>Reload</td>
-        <td>Reload the current file</td>
-        <td>Ctrl+R</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Reload Frame</td>
-        <td>Reload the current frame</td>
-        <td>Ctrl+Shift+R</td>
-    </tr>
-    <tr>
-        <td><img src="images/FileCloseIcon.png"/></td>
-        <td>Close</td>
-        <td>Close the current file</td>
-        <td>Ctrl+W</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Save</td>
-        <td>Save a copy of the current file</td>
-        <td>Ctrl+S</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Save Frame</td>
-        <td>Save a copy of the current frame</td>
-        <td>Shift+Ctrl+S</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Layer</td>
-        <td>A list of the layers in the current file</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Layer Previous</td>
-        <td>Go to the previous layer</td>
-        <td>Ctrl+-</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Layer Next</td>
-        <td>Go to the next layer</td>
-        <td>Ctrl+=</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Proxy Scale</td>
-        <td>Set the proxy scale</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>8-bit Conversion</td>
-        <td>Enable 8-bit conversion</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Memory Cache</td>
-        <td>Enable the memory cache</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Preload Cache</td>
-        <td>Enable the memory cache pre-load</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Clear Memory Cache</td>
-        <td>Clear the contents of the memory cache</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Messages</td>
-        <td>Show the message dialog</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Preferences</td>
-        <td>Show the preferences dialog</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Exit</td>
-        <td>Exit the application</td>
-        <td>Ctrl+Q</td>
-    </tr>
-</table>
-</td>
+<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
+<tr>
+    <td>Open</td>
+    <td>Open a new file</td>
+    <td>Ctrl+O</td>
+</tr>
+<tr>
+    <td>Recent</td>
+    <td>List of recently opened files</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Reload</td>
+    <td>Reload the current file</td>
+    <td>Ctrl+R</td>
+</tr>
+<tr>
+    <td>Reload Frame</td>
+    <td>Reload the current frame</td>
+    <td>Ctrl+Shift+R</td>
+</tr>
+<tr>
+    <td>Close</td>
+    <td>Close the current file</td>
+    <td>Ctrl+W</td>
+</tr>
+<tr>
+    <td>Save</td>
+    <td>Save a copy of the current file</td>
+    <td>Ctrl+S</td>
+</tr>
+<tr>
+    <td>Save Frame</td>
+    <td>Save a copy of the current frame</td>
+    <td>Shift+Ctrl+S</td>
+</tr>
+<tr>
+    <td>Layer</td>
+    <td>A list of the layers in the current file</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Layer Previous</td>
+    <td>Go to the previous layer</td>
+    <td>Ctrl+-</td>
+</tr>
+<tr>
+    <td>Layer Next</td>
+    <td>Go to the next layer</td>
+    <td>Ctrl+=</td>
+</tr>
+<tr>
+    <td>Proxy Scale</td>
+    <td>Set the proxy scale</td>
+    <td></td>
+</tr>
+<tr>
+    <td>8-bit Conversion</td>
+    <td>Enable 8-bit conversion</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Memory Cache</td>
+    <td>Enable the memory cache</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Preload Cache</td>
+    <td>Enable the memory cache pre-load</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Clear Memory Cache</td>
+    <td>Clear the contents of the memory cache</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Messages</td>
+    <td>Show the message dialog</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Preferences</td>
+    <td>Show the preferences dialog</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Exit</td>
+    <td>Exit the application</td>
+    <td>Ctrl+Q</td>
 </tr>
 </table>
+</div>
 
+<div class="block">
 <h2><a name="Windows">Windows</a></h2>
 
 <a name="OpeningAndClosingWindows"><h3>Opening and Closing Windows</h3></a>
+<p><b>TODO</b></p>
 
 <a name="ResizingWindows"><h3>Resizing Windows</h3></a>
+<p><b>TODO</b></p>
 
 <a name="FullScreenMode"><h3>Full Screen Mode</h3></a>
+<p><b>TODO</b></p>
 
 <a name="WindowControls"><h3>Window Controls</h3></a>
+<p><b>TODO</b></p>
 
 <a name="WindowMenu"><h3>Window Menu</h3></a>
-<table align="center">
-<tr>
-<td><img src="images/ViewWindowMenu.png"/></td>
-<td>
 <table>
-    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
-    <tr>
-        <td><img src="images/WindowNewIcon.png"/></td>
-        <td>New</td>
-        <td>Create a new window</td>
-        <td>Ctrl+N</td>
-    </tr>
-    <tr>
-        <td><img src="images/WindowCopyIcon.png"/></td>
-        <td>Copy</td>
-        <td>Copy the current window</td>
-        <td>Ctrl+C</td>
-    </tr>
-    <tr>
-        <td><img src="images/WindowCloseIcon.png"/></td>
-        <td>Close</td>
-        <td>Close the current window</td>
-        <td>Ctrl+E</td>
-    </tr>
-    <tr>
-        <td><img src="images/WindowFitIcon.png"/></td>
-        <td>Fit</td>
-        <td>Resize the window to fit the image</td>
-        <td>F</td>
-    </tr>
-    <tr>
-        <td><img src="images/WindowFullScreenIcon.png"/></td>
-        <td>Full Screen</td>
-        <td>Show the window full screen</td>
-        <td>U</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Show Controls</td>
-        <td>Set whether the tool bars, playback bar, and information bar are
-        visible</td>
-        <td>C</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Show Tool Bars</td>
-        <td>Set whether the tool bars are visible</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Show Playback Bar</td>
-        <td>Set whether the playback bar is visible</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Show Information Bar</td>
-        <td>Set whether the information bar is visible</td>
-        <td></td>
-    </tr>
-</table>
-</td>
+<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
+<tr>
+    <td>New</td>
+    <td>Create a new window</td>
+    <td>Ctrl+N</td>
+</tr>
+<tr>
+    <td>Copy</td>
+    <td>Copy the current window</td>
+    <td>Ctrl+C</td>
+</tr>
+<tr>
+    <td>Close</td>
+    <td>Close the current window</td>
+    <td>Ctrl+E</td>
+</tr>
+<tr>
+    <td>Fit</td>
+    <td>Resize the window to fit the image</td>
+    <td>F</td>
+</tr>
+<tr>
+    <td>Full Screen</td>
+    <td>Show the window full screen</td>
+    <td>U</td>
+</tr>
+<tr>
+    <td>Show Controls</td>
+    <td>Set whether the tool bars, playback bar, and information bar are
+    visible</td>
+    <td>C</td>
+</tr>
+<tr>
+    <td>Show Tool Bars</td>
+    <td>Set whether the tool bars are visible</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Show Playback Bar</td>
+    <td>Set whether the playback bar is visible</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Show Information Bar</td>
+    <td>Set whether the information bar is visible</td>
+    <td></td>
 </tr>
 </table>
+</div>
 
+<div class="block">
 <h2><a name="Views">Views</a></h2>
 
 <a name="ViewNavigation"><h3>View Navigation</h3></a>
+<p><b>TODO</b></p>
 
 <a name="Grid"><h3>Grid</h3></a>
+<p><b>TODO</b></p>
 
 <a name="HeadsUpDisplay"><h3>Heads Up Display (HUD)</h3></a>
+<p><b>TODO</b></p>
 
 <a name="ViewMenu"><h3>View Menu</h3></a>
-<table align="center">
-<tr>
-<td><img src="images/ViewViewMenu.png"/></td>
-<td>
 <table>
-    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
-    <tr>
-        <td></td>
-        <td>Left</td>
-        <td>Move the view left</td>
-        <td>Left Arrow</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Right</td>
-        <td>Move the view right</td>
-        <td>Right Arrow</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Up</td>
-        <td>Move the view up</td>
-        <td>Up Arrow</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Down</td>
-        <td>Move the view down</td>
-        <td>Down Arrow</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Center</td>
-        <td>Center the view</td>
-        <td>Insert</td>
-    </tr>
-    <tr>
-        <td><img src="images/ViewZoomInIcon.png"/></td>
-        <td>Zoom In</td>
-        <td>Zoom into the view</td>
-        <td>=</td>
-    </tr>
-    <tr>
-        <td><img src="images/ViewZoomOutIcon.png"/></td>
-        <td>Zoom Out</td>
-        <td>Zoom out of the view</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td><img src="images/ViewZoomResetIcon.png"/></td>
-        <td>Zoom Reset</td>
-        <td>Rest the zoom</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Reset</td>
-        <td>Reset the position and zoom</td>
-        <td>Delete</td>
-    </tr>
-    <tr>
-        <td><img src="images/ViewFitIcon.png"/></td>
-        <td>Fit</td>
-        <td>Fit the image to the view</td>
-        <td>Backspace</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Grid</td>
-        <td>Set the grid overlay</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>HUD</td>
-        <td>Toggle the HUD (Heads Up Display)</td>
-        <td>H</td>
-    </tr>
-</table>
-</td>
+<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
+<tr>
+    <td>Left</td>
+    <td>Pan the view left</td>
+    <td>Left Arrow</td>
+</tr>
+<tr>
+    <td>Right</td>
+    <td>Pan the view right</td>
+    <td>Right Arrow</td>
+</tr>
+<tr>
+    <td>Up</td>
+    <td>Pan the view up</td>
+    <td>Up Arrow</td>
+</tr>
+<tr>
+    <td></td>
+    <td>Down</td>
+    <td>Pan the view down</td>
+    <td>Down Arrow</td>
+</tr>
+<tr>
+    <td>Center</td>
+    <td>Center the view</td>
+    <td>Insert</td>
+</tr>
+<tr>
+    <td>Zoom In</td>
+    <td>Zoom into the view</td>
+    <td>=</td>
+</tr>
+<tr>
+    <td>Zoom Out</td>
+    <td>Zoom out of the view</td>
+    <td>-</td>
+</tr>
+<tr>
+    <td>Zoom Reset</td>
+    <td>Rest the zoom</td>
+    <td>0</td>
+</tr>
+<tr>
+    <td>Reset</td>
+    <td>Reset the position and zoom</td>
+    <td>Delete</td>
+</tr>
+<tr>
+    <td>Fit</td>
+    <td>Fit the image to the view</td>
+    <td>Backspace</td>
+</tr>
+<tr>
+    <td>Grid</td>
+    <td>Set the grid overlay</td>
+    <td></td>
+</tr>
+<tr>
+    <td>HUD</td>
+    <td>Toggle the HUD (Heads Up Display)</td>
+    <td>H</td>
 </tr>
 </table>
+</div>
 
+<div class="block">
 <h2><a name="Images">Images</a></h2>
 
 <a name="FrameStore"><h3>Frame Store</h3></a>
+<p><b>TODO</b></p>
 
 <a name="ImageTransforms"><h3>Image Transforms</h3></a>
+<p><b>TODO</b></p>
 
 <a name="ColorAndDisplayProfiles"><h3>Color and Display Profiles</h3></a>
+<p><b>TODO</b></p>
 
 <a name="ImageChannels"><h3>Image Channels</h3></a>
+<p><b>TODO</b></p>
 
 <a name="ImageMenu"><h3>Image Menu</h3></a>
-<table align="center">
-<tr>
-<td><img src="images/ViewImageMenu.png"/></td>
-<td>
 <table>
-    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
-    <tr>
-        <td></td>
-        <td>Show Frame Store</td>
-        <td>Show the currently loaded frame store</td>
-        <td>E</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Load Frame Store</td>
-        <td>Load the current image into the frame store</td>
-        <td>Shift+E</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Mirror Horizontal</td>
-        <td>Mirror the image horizontally</td>
-        <td>F1</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Mirror Vertical</td>
-        <td>Mirror the image vertically</td>
-        <td>F2</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Scale</td>
-        <td>Set the image scale</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Rotate</td>
-        <td>Set the image rotation</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Color Profile</td>
-        <td>Set whether the image color profile is enabled</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Show Display Profile</td>
-        <td>Show the image display profile settings</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Display Profile</td>
-        <td>Set the current image display profile</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Channel</td>
-        <td>Set which image channels are visible</td>
-        <td></td>
-    </tr>
-</table>
-</td>
+<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
+<tr>
+    <td>Show Frame Store</td>
+    <td>Show the currently loaded frame store</td>
+    <td>E</td>
+</tr>
+<tr>
+    <td>Load Frame Store</td>
+    <td>Load the current image into the frame store</td>
+    <td>Shift+E</td>
+</tr>
+<tr>
+    <td>Mirror Horizontal</td>
+    <td>Mirror the image horizontally</td>
+    <td>F1</td>
+</tr>
+<tr>
+    <td>Mirror Vertical</td>
+    <td>Mirror the image vertically</td>
+    <td>F2</td>
+</tr>
+<tr>
+    <td>Scale</td>
+    <td>Set the image scale</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Rotate</td>
+    <td>Set the image rotation</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Color Profile</td>
+    <td>Set whether the image color profile is enabled</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Show Display Profile</td>
+    <td>Show the image display profile settings</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Display Profile</td>
+    <td>Set the current image display profile</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Channel</td>
+    <td>Set which image channels are visible</td>
+    <td></td>
 </tr>
 </table>
+</div>
 
+<div class="block">
 <h2><a name="Playback">Playback</a></h2>
-<table align="center">
-    <tr><td><img src="images/ViewPlaybackDiagram.png"/></td></tr>
-</table>
-<h4>Key:</h4>
-<ol>
-    <li>Playback controls: reverse, stop, and forward</li>
-    <li>Playback shuttle wheel</li>
-    <li>Frame controls: start, previous, next, and end</li>
-    <li>Frame shuttle wheel</li>
-    <li>Frame slider</li>
-    <li>Playback speed</li>
-    <li>Real playback speed</li>
-    <li>Set whether every frame is played back</li>
-    <li>Set the loop mode</li>
-    <li>Enable in/out points</li>
-    <li>Current frame</li>
-    <li>Set or reset the in point</li>
-    <li>Start frame</li>
-    <li>End frame</li>
-    <li>Set or reset the end point</li>
-    <li>Playback duration</li>
-</ol>
 
 <a name="PlaybackControls"><h3>Playback Controls</h3></a>
+<p><b>TODO</b></p>
 
 <a name="FrameControls"><h3>Frame Controls</h3></a>
+<p><b>TODO</b></p>
 
 <a name="InAndOutPoints"><h3>In and Out Points</h3></a>
+<p><b>TODO</b></p>
 
 <a name="PlaybackSpeed"><h3>Playback Speed</h3></a>
+<p><b>TODO</b></p>
 
 <a name="PlaybackLayout"><h3>Playback Layout</h3></a>
+<p><b>TODO</b></p>
 
 <a name="FramesAndTimecode"><h3>Frames and Timecode</h3></a>
+<p><b>TODO</b></p>
 
 <a name="PlaybackMenu"><h3>Playback Menu</h3></a>
-<table align="center">
-<tr>
-<td><img src="images/ViewPlaybackMenu.png"/></td>
-<td>
 <table>
-    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
-    <tr>
-        <td><img src="images/PlayReverseIcon.png"/></td>
-        <td>Reverse</td>
-        <td>Start reverse playback</td>
-        <td>J</td>
-    </tr>
-    <tr>
-        <td><img src="images/PlayStopIcon.png"/></td>
-        <td>Stop</td>
-        <td>Stop playback</td>
-        <td>K</td>
-    </tr>
-    <tr>
-        <td><img src="images/PlayForwardIcon.png"/></td>
-        <td>Forward</td>
-        <td>Start forward playback</td>
-        <td>L</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Toggle Playback</td>
-        <td>Toggle playback</td>
-        <td>Space</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Loop</td>
-        <td>Set the playback loop mode</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><img src="images/LockIcon.png"/></td>
-        <td>Every Frame</td>
-        <td>Set whether every frame is played back</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><img src="images/FrameStartIcon.png"/></td>
-        <td>Start</td>
-        <td>Go to the start frame or in point</td>
-        <td>Home</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Start Absolute</td>
-        <td>Go to the start frame</td>
-        <td>Shift+Home</td>
-    </tr>
-    <tr>
-        <td><img src="images/FramePrevIcon.png"/></td>
-        <td>Previous</td>
-        <td>Go to the previous frame</td>
-        <td>[</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Previous X10</td>
-        <td>Go backwards 10 frames</td>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Previous X100</td>
-        <td>Go backwards 100 frames</td>
-        <td>Ctrl+{</td>
-    </tr>
-    <tr>
-        <td><img src="images/FrameNextIcon.png"/></td>
-        <td>Next</td>
-        <td>Go to the next frame</td>
-        <td>]</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Next X10</td>
-        <td>Go forward 10 frames</td>
-        <td>}</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Next X100</td>
-        <td>Go forward 100 frames</td>
-        <td>Ctrl+}</td>
-    </tr>
-    <tr>
-        <td><img src="images/FrameEndIcon.png"/></td>
-        <td>End</td>
-        <td>Go to the end frame or out point</td>
-        <td>End</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>End Absolute</td>
-        <td>Go to the end frame</td>
-        <td>Shift+End</td>
-    </tr>
-    <tr>
-        <td><img src="images/PlayInOutIcon.png"/></td>
-        <td>Enable In/Out Points</td>
-        <td>Set whether in/out points are enabled</td>
-        <td>P</td>
-    </tr>
-    <tr>
-        <td><img src="images/InPointMarkIcon.png"/></td>
-        <td>Mark In Point</td>
-        <td>Set the current frame as the in point</td>
-        <td>I</td>
-    </tr>
-    <tr>
-        <td><img src="images/OutPointMarkIcon.png"/></td>
-        <td>Mark Out Point</td>
-        <td>Set the current frame as the out point</td>
-        <td>O</td>
-    </tr>
-    <tr>
-        <td><img src="images/InPointResetIcon.png"/></td>
-        <td>Reset In Point</td>
-        <td>Reset the in point</td>
-        <td>Shift+I</td>
-    </tr>
-    <tr>
-        <td><img src="images/OutPointResetIcon.png"/></td>
-        <td>Reset Out Point</td>
-        <td>Reset the out point</td>
-        <td>Shift+O</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Layout</td>
-        <td>Set the playback bar layout</td>
-        <td></td>
-    </tr>
-</table>
-</td>
+<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
+<tr>
+    <td>Reverse</td>
+    <td>Start reverse playback</td>
+    <td>J</td>
+</tr>
+<tr>
+    <td>Stop</td>
+    <td>Stop playback</td>
+    <td>K</td>
+</tr>
+<tr>
+    <td>Forward</td>
+    <td>Start forward playback</td>
+    <td>L</td>
+</tr>
+<tr>
+    <td>Toggle Playback</td>
+    <td>Toggle playback</td>
+    <td>Space</td>
+</tr>
+<tr>
+    <td>Loop</td>
+    <td>Set the playback loop mode</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Every Frame</td>
+    <td>Set whether every frame is played back</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Start</td>
+    <td>Go to the start frame or in point</td>
+    <td>Home</td>
+</tr>
+<tr>
+    <td>Start Absolute</td>
+    <td>Go to the start frame</td>
+    <td>Shift+Home</td>
+</tr>
+<tr>
+    <td>Previous</td>
+    <td>Go to the previous frame</td>
+    <td>[</td>
+</tr>
+<tr>
+    <td>Previous X10</td>
+    <td>Go backwards 10 frames</td>
+    <td>{</td>
+</tr>
+<tr>
+    <td>Previous X100</td>
+    <td>Go backwards 100 frames</td>
+    <td>Ctrl+{</td>
+</tr>
+<tr>
+    <td>Next</td>
+    <td>Go to the next frame</td>
+    <td>]</td>
+</tr>
+<tr>
+    <td>Next X10</td>
+    <td>Go forward 10 frames</td>
+    <td>}</td>
+</tr>
+<tr>
+    <td>Next X100</td>
+    <td>Go forward 100 frames</td>
+    <td>Ctrl+}</td>
+</tr>
+<tr>
+    <td>End</td>
+    <td>Go to the end frame or out point</td>
+    <td>End</td>
+</tr>
+<tr>
+    <td>End Absolute</td>
+    <td>Go to the end frame</td>
+    <td>Shift+End</td>
+</tr>
+<tr>
+    <td>Enable In/Out Points</td>
+    <td>Set whether in/out points are enabled</td>
+    <td>P</td>
+</tr>
+<tr>
+    <td>Mark In Point</td>
+    <td>Set the current frame as the in point</td>
+    <td>I</td>
+</tr>
+<tr>
+    <td>Mark Out Point</td>
+    <td>Set the current frame as the out point</td>
+    <td>O</td>
+</tr>
+<tr>
+    <td>Reset In Point</td>
+    <td>Reset the in point</td>
+    <td>Shift+I</td>
+</tr>
+<tr>
+    <td>Reset Out Point</td>
+    <td>Reset the out point</td>
+    <td>Shift+O</td>
+</tr>
+<tr>
+    <td>Layout</td>
+    <td>Set the playback bar layout</td>
+    <td></td>
 </tr>
 </table>
+</div>
 
+<div class="block">
 <h2><a name="Tools">Tools</a></h2>
 
 <a name="Magnify"><h3>Magnify</h3></a>
 <p>This tool provides image magnification.</p>
-<table align="center">
-    <tr><td><img src="images/ViewMagnifyToolDiagram.png"/></td></tr>
-</table>
-<h4>Key:</h4>
-<ol>
-    <li>Magnification view</li>
-    <li>Magnification slider</li>
-    <li>Set whether the color profile is enabled</li>
-    <li>Set whether the display profile is enabled</li>
-</ol>
+<img src="images/djv_view Magnify Tool.png"/>
 
 <a name="ColorPicker"><h3>Color Picker</h3></a>
 <p>This tool provides color picking.</p>
-<table align="center">
-    <tr><td><img src="images/ViewColorPickerToolDiagram.png"/></td></tr>
-</table>
-<h4>Key:</h4>
-<ol>
-    <li>Color swatch</li>
-    <li>Color sliders</li>
-    <li>Pixel information and lock</li>
-    <li>Color picker sample size</li>
-    <li>Set whether the color profile is enabled</li>
-    <li>Set whether the display profile is enabled</li>
-</ol>
+<img src="images/djv_view Color Picker Tool.png"/>
 
 <a name="Histogram"><h3>Histogram</h3></a>
 <p>This tool provides an image histogram.</p>
-<table align="center">
-    <tr><td><img src="images/ViewHistogramToolDiagram.png"/></td></tr>
-</table>
-<h4>Key:</h4>
-<ol>
-    <li>Histogram view</li>
-    <li>Minimum pixel value</li>
-    <li>Maximum pixel value</li>
-    <li>Histogram size</li>
-    <li>Set the pixel mask</li>
-    <li>Set whether the color profile is enabled</li>
-    <li>Set whether the display profile is enabled</li>
-</ol>
+<img src="images/djv_view Histogram Tool.png"/>
 
 <a name="Information"><h3>Information</h3></a>
 <p>This tool provides image information.</p>
-<table align="center">
-    <tr><td><img src="images/ViewInfoToolDiagram.png"/></td></tr>
-</table>
-<h4>Key:</h4>
-<ol>
-    <li>File name</li>
-    <li>Current file layer</li>
-    <li>Image size and aspect ratio</li>
-    <li>Pixel information</li>
-    <li>Time information</li>
-    <li>Image tags</li>
-</ol>
+<img src="images/djv_view Info Tool.png"/></td>
 
 <a name="ToolsMenu"><h3>Tools Menu</h3></a>
-<table align="center">
-    <tr><th></th><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
-    <tr>
-        <td rowspan="8"><img src="images/ViewToolMenu.png"/></td>
-        <td><img src="images/MagnifyIcon.png"/></td>
-        <td>Magnify</td>
-        <td>Toggle the magnify tool</td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td><img src="images/ColorPickerIcon.png"/></td>
-        <td>Color Picker</td>
-        <td>Toggle the color picker tool</td>
-        <td>2</td>
-    </tr>
-    <tr>
-        <td><img src="images/HistogramIcon.png"/></td>
-        <td>Histogram</td>
-        <td>Toggle the histogram tool</td>
-        <td>3</td>
-    </tr>
-    <tr>
-        <td><img src="images/InfoIcon.png"/></td>
-        <td>Information</td>
-        <td>Toggle the information tool</td>
-        <td>4</td>
-    </tr>
+<table>
+<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
+<tr>
+    <td>Magnify</td>
+    <td>Toggle the magnify tool</td>
+    <td>1</td>
+</tr>
+<tr>
+    <td>Color Picker</td>
+    <td>Toggle the color picker tool</td>
+    <td>2</td>
+</tr>
+<tr>
+    <td>Histogram</td>
+    <td>Toggle the histogram tool</td>
+    <td>3</td>
+</tr>
+<tr>
+    <td>Information</td>
+    <td>Toggle the information tool</td>
+    <td>4</td>
+</tr>
 </table>
 
+</div>
+
+<div class="block">
 <h2><a name="CommandLine">Command Line</a></h2>
-<h4>Usage:</h4>
+<h3>Usage:</h3>
 <pre>
 djv_view [image]... [option]...
 </pre>
@@ -828,7 +604,7 @@ or movies</td></tr>
 <tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
 </table>
 
-<h4>Options:</h4>
+<h3>Options:</h3>
 <table>
 <tr><td width="200"><i>-combine</i></td><td>Combine multiple command line
 arguments into a single sequence.</td></tr>
@@ -838,7 +614,7 @@ Options = Off, Sparse, Range. Default = Range.</td></tr>
 opening files. Options = False, True. Default = True.</td></tr>
 </table>
 
-<h4>File options:</h4>
+<h3>File options:</h3>
 <table>
 <tr><td width="200"><i>-file_layer (value)</i></td><td>Set the input layer.
 Default = 0.</td></tr>
@@ -848,13 +624,13 @@ Default = 0.</td></tr>
 Options = False, True.</td></tr>
 </table>
 
-<h4>Window options:</h4>
+<h3>Window options:</h3>
 <table>
 <tr><td width="200"><i>-window_full_screen</i></td><td>Set the window full
 screen.</td></tr>
 </table>
 
-<h4>Playback options:</h4>
+<h3>Playback options:</h3>
 <table>
 <tr><td width="200"><i>-playback (value)</i></td><td>Set the playback. Options =
 Reverse, Stop, Forward.</td></tr>
@@ -864,20 +640,16 @@ Options = 1, 3, 6, 12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60,
 120.</td></tr>
 </table>
 
-<p>Documentation for image I/O command line options is available
-<a href="ImageIo.html">here</a>.<p>
-<p>Documentation for general command line options is available
-<a href="CommandLine.html">here</a>.<p>
+<p>Image format command line options can be found on the
+<b><a href="ImageFormats.html">supported image formats</a></b> page.<p>
+</div>
 
-</td>
-
-</tr>
-</table>
+</div>
 
 <div class="footer">
-Copyright (c) 2004-2018 Darby Johnston
+<p align=center>Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
 </body>
-
 </html>
+

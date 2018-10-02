@@ -186,7 +186,118 @@
         <location filename="ConvertContext.cpp" line="272"/>
         <source>djv_convert
 
-    The djv_convert application is a command line tool for batch processing images and movies. Common uses include resizing images and converting sequences of images to a QuickTime movie.
+    A command line tool for batch processing images and movies.Common uses include resizing images and converting sequences of images to a movie.
+
+    Here is an example of how to resize a sequence of images:
+
+    &gt; djv_convert input.1-100.tga output.1.tga -resize 2048 1556
+
+    Note that only the first frame of the output sequence needs to be specified, the remaining frames will be added automatically. See below for more examples.
+
+    Note also that djv_convert uses OpenGL for image processing and needs to be run on a machine with graphics resources.
+
+Usage
+
+    djv_convert (input) (output) [option]...
+
+    input  - Input image, image sequence, or movie
+    output - Output image, image sequence, or movie
+    option - Additional options (see below)
+
+Conversion Options
+
+    -mirror_h
+        Mirror the image horizontally.
+    -mirror_v
+        Mirror the image vertically.
+    -scale (value)
+        Scale the image width and height using a floating point value         (1.0 = 100%).
+    -scale_separate (width) (height)
+        Scale the image width and height separately using a floating point value (1.0 = 100%).
+    -resize (width) (height)
+        Resize the image width and height to the given resolution.
+    -width (value)
+        Resize the image width to the given resolution maintaining the aspect ratio.
+    -height (value)
+        Resize the image height to the given resolution maintaining the aspect ratio.
+    -crop (x) (y) (width) (height)
+        Crop the image.
+    -crop_percent (x) (y) (width) (height)
+        Crop the image using percentages.
+    -channel (value)
+        Show only specific image channels. Options = %1. Default = %2.
+    -seq, -q (value)
+        Set whether file sequencing is enabled. Options = %3. Default = %4.
+
+Input Options
+
+    -layer (value)
+        Set the input layer.
+    -proxy (value)
+        Set the proxy scale. Options = %5. Default = %6.
+    -time (start) (end)
+        Set the start and end time.
+    -slate (input) (frames)
+        Set the slate.
+    -timeout (value)
+        Set the maximum number of seconds to wait for each input frame. Default = %7.
+
+Output Options
+
+    -pixel (value)
+        Convert the pixel type. Options = %8.
+    -speed (value)
+        Set the speed. Options = %9.
+    -tag (name) (value)
+        Set an image tag.
+    -tags_auto (value)
+        Automatically generate image tags (e.g., timecode). Options = %10. Default = %11.
+%12
+Examples
+
+    Convert an image:
+
+    &gt; djv_convert input.sgi output.tga
+
+    Convert an image sequence. Note that only the first frame of the output sequence needs to be specified, the remaining frames will be added automatically:
+
+    &gt; djv_convert input.1-100.sgi output.1.tga
+
+    Create an RLE compressed image sequence:
+
+    &gt; djv_convert input.1-100.sgi output.1.tga -targa_compression RLE
+
+    Convert an image sequence to a movie:
+
+    &gt; djv_convert input.0001-0100.dpx output.m4v
+
+    Convert a movie to an image sequence:
+
+    &gt; djv_convert input.m4v output.1.tga
+
+    Convert the pixel type. Note the use of the quotes around the pixel typeoption:
+
+    &gt; djv_convert input.sgi output.sgi -pixel &quot;RGB U16&quot;
+
+    Scale an image by half:
+
+    &gt; djv_convert input.tga output.tga -scale 0.5
+
+    Resize an image:
+
+    &gt; djv_convert input.tga output.tga -resize 2048 1556
+
+    Convert a Cineon file to a linear format using the default settings:
+
+    &gt; djv_convert input.cin output.tga
+
+    Convert a Cineon file to a linear format using custom film print settings (black point, white point, gamma, and soft clip):
+
+    &gt; djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2
+</source>
+        <oldsource>djv_convert
+
+    An command line tool for batch processing images and movies.Common uses include resizing images and converting sequences of images to a movie.
 
     Here is an example of how to resize a sequence of images:
 
@@ -294,7 +405,7 @@ Examples
     Convert a Cineon file to a linear format using custom film print settings (black point, white point, gamma, and soft clip):
 
     &gt; djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2
-</source>
+</oldsource>
         <translation></translation>
     </message>
 </context>

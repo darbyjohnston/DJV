@@ -48,7 +48,6 @@ namespace djv
         //! Supported features:
         //!
         //! - 8-bit, 16-bit, Luminance, RGB, RGBA
-        //! - File compression
         class PNGPlugin : public ImageIO
         {
         public:

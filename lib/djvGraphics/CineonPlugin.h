@@ -45,7 +45,7 @@ namespace djv
         //!
         //! Supported features:
         //!
-        //! - 10-bit RGB (the most common variety)
+        //! - 10-bit RGB
         //! - Interleaved channels only
         //!
         //! References:

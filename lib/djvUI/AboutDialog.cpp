@@ -70,17 +70,20 @@ namespace djv
             auto scrollArea = new QScrollArea;
             scrollArea->setWidgetResizable(true);
             scrollArea->setWidget(_p->label);
+            scrollArea->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             auto copyButton = new QPushButton(qApp->translate("djv::UI::AboutDialog", "Copy"));
             _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
             _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
+            layout->addStretch(1);
             auto hLayout = new QHBoxLayout;
             hLayout->addStretch(1);
-            hLayout->addWidget(scrollArea, 4);
+            hLayout->addWidget(scrollArea);
             hLayout->addStretch(1);
             layout->addLayout(hLayout);
+            layout->addStretch(1);
             layout->addWidget(_p->buttonBox);
 
             // Initialize.

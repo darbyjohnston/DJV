@@ -4,12 +4,12 @@
 <context>
     <name>djv::UI::AboutDialog</name>
     <message>
-        <location filename="AboutDialog.cpp" line="73"/>
+        <location filename="AboutDialog.cpp" line="74"/>
         <source>Copy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="AboutDialog.cpp" line="87"/>
+        <location filename="AboutDialog.cpp" line="90"/>
         <source>About</source>
         <translation></translation>
     </message>

@@ -208,6 +208,6 @@ set(CPACK_PACKAGE_DESCRIPTION_FILE ${PROJECT_SOURCE_DIR}/README)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
     "DJV Imaging provides professional movie playback software for use in film, VFX, and computer animation.")
 set(CPACK_PACKAGE_EXECUTABLES djv_view djv_view)
-set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE)
+set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE.txt)
 set(CPACK_PACKAGE_FILE_NAME ${djvPackageName})
 

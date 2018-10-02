@@ -165,8 +165,7 @@ namespace djv
             static const QString label = qApp->translate("djv::info::Context",
                 "djv_info\n"
                 "\n"
-                "    The djv_info application is a command line tool for displaying information "
-                "about images and movies.\n"
+                "    A command line tool for displaying information about images and movies.\n"
                 "\n"
                 "    Example output:\n"
                 "\n"

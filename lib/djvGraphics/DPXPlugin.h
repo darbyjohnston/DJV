@@ -45,8 +45,7 @@ namespace djv
         //!
         //! Supported features:
         //!
-        //! - 10-bit RGB type "A" packing (the most common variety); 8-bit, 16-bit,
-        //!   Luminance, RGB, RGBA
+        //! - 10-bit RGB type "A" packing, 8-bit, 16-bit, Luminance, RGB, RGBA
         //! - Interleaved channels only
         //!
         //! References:

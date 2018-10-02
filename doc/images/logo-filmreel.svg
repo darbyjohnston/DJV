@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 511.99997 511.99997"
+   version="1.1"
+   id="svg14"
+   sodipodi:docname="logo-filmreel.svg"
+   width="512"
+   height="512"
+   inkscape:export-filename="/home/darby/dev/djv-git/doc/images/logo-filmreel.png"
+   inkscape:export-xdpi="14"
+   inkscape:export-ydpi="14"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>logo-filmreel</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1101"
+     id="namedview16"
+     showgrid="false"
+     inkscape:zoom="1.6914062"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg14" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:#070707;}.cls-1,.cls-2{stroke:#000;stroke-miterlimit:10;}.cls-2{fill:#353535;}</style>
+  </defs>
+  <title
+     id="title6">logo-filmreel</title>
+  <path
+     inkscape:connector-curvature="0"
+     style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path11"
+     d="m 256.03186,46.474956 a 61.833733,61.811051 0 1 1 -43.7014,18.100615 61.599767,61.577171 0 0 1 43.7014,-18.100615 m 76.99136,170.506624 -0.15041,0.10023 -2.35637,-4.03442 a 61.833733,61.811051 0 0 1 22.61945,-84.36374 l 0.11699,-0.0752 a 61.833733,61.811051 0 1 1 -20.22966,88.3731 z m 21.80057,167.42441 h -1.06956 l -1.39544,-1.39492 a 61.783597,61.760934 0 0 1 -22.09302,-83.40316 v 0 l 0.27574,-0.48446 A 61.833733,61.811051 0 0 1 414.9362,276.5123 l 4.17796,2.39727 -0.10863,0.1587 a 61.775241,61.752581 0 0 1 18.56683,81.85788 v 0 a 61.833733,61.811051 0 0 1 -82.74857,23.47984 z m -98.79193,81.22307 a 61.833733,61.811051 0 1 1 43.70141,-18.10062 61.633191,61.610583 0 0 1 -43.70141,18.10062 z m -77.07491,-170.5985 0.15877,-0.10024 2.39814,4.17642 a 61.833733,61.811051 0 0 1 -22.61945,84.36374 l -0.11698,0.0668 a 61.833733,61.811051 0 1 1 20.17952,-88.54016 z M 74.40781,151.36163 l 0.06685,-0.1253 a 61.783597,61.760934 0 0 1 82.76528,-23.52161 h 1.06956 l 1.39544,1.39493 a 61.783597,61.760934 0 0 1 22.07631,83.44492 v 0 l -0.26739,0.4594 a 61.783597,61.760934 0 0 1 -84.394685,22.6028 l -4.353429,-2.50585 0.125339,-0.16706 A 61.783597,61.760934 0 0 1 74.40781,151.36163 Z m 181.62405,66.6557 a 38.027745,38.013796 0 1 1 -38.01938,38.00544 38.027745,38.013796 0 0 1 38.01938,-37.98038 z m 0,-201.520733 C 123.69097,16.521655 16.417795,123.79724 16.417795,256.04783 c 0,132.25059 107.273175,239.53453 239.614065,239.53453 132.3409,0 239.62243,-107.24218 239.62243,-239.53453 0,-132.29235 -107.28153,-239.526175 -239.62243,-239.526175 z"
+     class="cls-2" />
+</svg>

@@ -42,10 +42,6 @@ namespace djv
         //! line.
         //!
         //! File extensions: .ifl
-        //!
-        //! Supported features:
-        //!
-        //! - Read only
         class IFLPlugin : public ImageIO
         {
         public:

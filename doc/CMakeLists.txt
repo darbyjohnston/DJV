@@ -1,18 +1,10 @@
-configure_file(
-    ${PROJECT_SOURCE_DIR}/doc/index.html.in
-    ${PROJECT_BINARY_DIR}/doc/index.html
-    @ONLY)
-configure_file(
-    ${PROJECT_SOURCE_DIR}/doc/Install.html.in
-    ${PROJECT_BINARY_DIR}/doc/Install.html
-    @ONLY)
-
 set(html
     ChangeList.html
     CommandLine.html
     Credits.html
     Documentation.html
-    Faq.html
+    Download.html
+    FAQ.html
     ImageIO.html
     Legal.html
     Screenshots.html
@@ -25,78 +17,22 @@ set(html
     ${PROJECT_BINARY_DIR}/doc/index.html
     ${PROJECT_BINARY_DIR}/doc/Install.html)
 set(images
-    images/ColorPickerIcon.png
-    images/DirPrevIcon.png
-    images/DirReloadIcon.png
-    images/DirUpIcon.png
-    images/FileBrowser.png
-    images/FileBrowserSmall.png
-    images/FileCloseIcon.png
-    images/FileOpenIcon.png
-    images/FileReloadIcon.png
-    images/FrameEndIcon.png
-    images/FrameNextIcon.png
-    images/FramePrevIcon.png
-    images/FrameStartIcon.png
-    images/HistogramIcon.png
-    images/InPointMarkIcon.png
-    images/InPointResetIcon.png
-    images/InfoIcon.png
-    images/LockIcon.png
-    images/Logo.gif
-    images/MagnifyIcon.png
-    images/OutPointMarkIcon.png
-    images/OutPointResetIcon.png
-    images/PlayForwardIcon.png
-    images/PlayInOutIcon.png
-    images/PlayReverseIcon.png
-    images/PlayStopIcon.png
-    images/Title.gif
-    images/View.png
-    images/ViewColorPickerTool.png
-    images/ViewColorPickerToolDiagram.png
-    images/ViewDiagram.png
-    images/ViewDisplayProfile.png
-    images/ViewFileMenu.png
-    images/ViewFitIcon.png
-    images/ViewHelpMenu.png
-    images/ViewHistogramTool.png
-    images/ViewHistogramToolDiagram.png
-    images/ViewImageMenu.png
-    images/ViewInfoTool.png
-    images/ViewInfoToolDiagram.png
-    images/ViewMagnifyTool.png
-    images/ViewMagnifyToolDiagram.png
-    images/ViewPlaybackDiagram.png
-    images/ViewPlaybackMenu.png
-    images/ViewToolMenu.png
-    images/ViewTools.png
-    images/ViewToolsSmall.png
-    images/ViewViewMenu.png
-    images/ViewWindowMenu.png
-    images/ViewZoomInIcon.png
-    images/ViewZoomOutIcon.png
-    images/ViewZoomResetIcon.png
-    images/WindowCloseIcon.png
-    images/WindowCopyIcon.png
-    images/WindowFitIcon.png
-    images/WindowFullScreenIcon.png
-    images/WindowNewIcon.png
+    images/Berkeley 2010-12-19.png
+    images/Bodega Bay 2013-01-02.png
     images/index.png
-    images/indexSmall.png
-    images/OpenGL.png)
+    images/logo-filmreel.png)
 set(legal
-    ../LICENSE
-    ../LICENSE.CMake
-    ../LICENSE.FFmpeg
-    ../LICENSE.GLM
-    ../LICENSE.OpenAL
-    ../LICENSE.OpenEXR
-    ../LICENSE.Qt
-    ../LICENSE.libjpeg
-    ../LICENSE.libpng
-    ../LICENSE.libtiff
-    ../LICENSE.zlib)
+    ../LICENSE.txt
+    ../LICENSE_CMake.txt
+    ../LICENSE_FFmpeg.txt
+    ../LICENSE_GLM.txt
+    ../LICENSE_OpenAL.txt
+    ../LICENSE_OpenEXR.txt
+    ../LICENSE_Qt.txt
+    ../LICENSE_libjpeg.txt
+    ../LICENSE_libpng.txt
+    ../LICENSE_libtiff.txt
+    ../LICENSE_zlib.txt)
 
 install(
     FILES
@@ -114,3 +50,4 @@ install(
     FILES
     ${legal}
     DESTINATION doc)
+

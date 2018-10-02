@@ -47,7 +47,6 @@ namespace djv
         //! Supported features:
         //!
         //! - 8-bit, Luminance, RGB
-        //! - File compression
         class JPEGPlugin : public ImageIO
         {
         public:

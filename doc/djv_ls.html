@@ -28,80 +28,39 @@
 ---------------------------------------------------------------------------- -->
 
 <html>
-
 <head>
 <link rel="stylesheet" type="text/css" href="Style.css">
-<title>DJV Imaging - djv_ls</title>
+<title>DJV Imaging</title>
 </head>
-
 <body>
 
 <div class="header">
-<div style="position:absolute; top:10; left:10; height:50;">
-<a href="index.html"><img src="images/Title.gif" align="middle"></a>
-</div>
-<div style="position:absolute; top:0; right:0;">
-<a href="index.html"><img src="images/Logo.gif"></a>
-</div>
-<table width="100%" height="100%">
-<tr>
-<td align="center" valign="bottom">
-    <a class="nav" href="index.html">Home</a>
-    <a class="nav" href="Screenshots.html">Screenshots</a>
-    <a class="nav" href="Documentation.html">Documentation</a>
-    <a class="nav" href="Credits.html">Credits</a>
-    <a class="nav" href="Legal.html">Legal</a>
-</td>
-</tr>
-</table>
-</div>
+<a class="header" href="index.html">
+    <img src="images/logo-filmreel.png" style="vertical-align: middle;">
+    DJV Imaging</a>
+<p>Media review software for VFX artists and filmmakers</p>
 </div>
 
 <div class="content">
-<table width="100%" height="600">
-<tr>
 
-<td class="sidebar" valign="top">
-
-<h3>djv_ls</h3>
-<li><a href="#CommandLine">Command Line</a></li>
-<li><a href="#Examples">Examples</a></li>
-
-</td>
-
-<td class="content" valign="top">
-
-<p>The djv_ls application is a command line tool for listing directories with
-file sequences.</p>
-<h4>Example output:</h4>
+<div class="block">
+<h1>djv_ls</h1>
+<p>A command line tool for listing directories with file sequences.</p>
+<h3>Example output:</h3>
 <pre>
 el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006
 richmond_train.2k.tiff    File 8.86MB darby rw Mon Jun 12 21:21:58 2006
 fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 </pre>
-<h4>Key:</h4>
+<h3>Key:</h3>
 <pre>
 (name)                        (type) (size) (user) (permissions) (time)
 </pre>
-<table><tr><td>
-<table>
-<tr><th colspan="2">File Types</th></tr>
-<tr><td>File</td><td>Regular file</td></tr>
-<td>Seq</td><td>File sequence</td></tr>
-<td>Dir</td><td>Directory</td></tr>
-</table>
-</td>
-<td>
-<table>
-<tr><th colspan="2">Permissions</th></tr>
-<tr><td>r</td><td>Readable</td></tr>
-<tr><td>w</td><td>Writable</td></tr>
-<tr><td>x</td><td>Executable</td></tr>
-</table>
-</td></tr></table>
+</div>
 
+<div class="block">
 <h2><a name="CommandLine">Command Line</a></h2>
-<h4>Usage:</h4>
+<h3>Usage:</h3>
 <pre>
 djv_ls [file|directory]... [option]...
 </pre>
@@ -113,7 +72,7 @@ djv_ls [file|directory]... [option]...
 <p>If no files or directories are given then the current directory will be
 used.</p>
 
-<h4>Options:</h4>
+<h3>Options:</h3>
 <table>
 <tr><td width="200"><i>-x_info, -xi</i></td><td>Don't show information, only
 file names.</td></tr>
@@ -126,7 +85,7 @@ Sparse, Range. Default = Range.</td></tr>
 formatting output. A value of zero disables formatting.</td></tr>
 </table>
 
-<h4>Sorting options:</h4>
+<h3>Sorting options:</h3>
 <table>
 <tr><td width="200"><i>-sort, -s (value)</i></td><td>Set the sorting. Options =
 Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
@@ -134,17 +93,17 @@ Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 <tr><td><i>-x_sort_dirs, -xsd</i></td><td>Don't sort directories first.</td></tr>
 </table>
 
-<p>Documentation for image I/O command line options is available
-<a href="ImageIo.html">here</a>.<p>
-<p>Documentation for general command line options is available
-<a href="CommandLine.html">here</a>.<p>
+<p>Image format command line options can be found on the
+<b><a href="ImageFormats.html">supported image formats</a></b> page.<p>
+</div>
 
+<div class="block">
 <h2><a name="Examples">Examples</a></h2>
 <p>List the current directory:</p>
 <pre>
 > djv_ls
 </pre>
-<p>List specific directories:</p>
+<p>List multiple directories:</p>
 <pre>
 > djv_ls ~/movies ~/pictures
 </pre>
@@ -152,16 +111,14 @@ Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 <pre>
 > djv_ls -sort time -reverse_sort
 </pre>
+</div>
 
-</td>
-
-</tr>
-</table>
+</div>
 
 <div class="footer">
-Copyright (c) 2004-2018 Darby Johnston
+<p align=center>Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
 </body>
-
 </html>
+
