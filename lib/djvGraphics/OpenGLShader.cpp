@@ -48,7 +48,7 @@ namespace djv
             {
                 //DJV_DEBUG("shaderCompile");
                 //DJV_DEBUG_PRINT("source = " << source);
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 std::vector<char> buf(source.length());
                 memcpy(buf.data(), source.toLatin1().data(), buf.size());
                 const char * sources[] = { buf.data() };
@@ -83,7 +83,7 @@ namespace djv
             //DJV_DEBUG_PRINT("vertexSource = " << vertexSource);
             //DJV_DEBUG_PRINT("fragmentSource = " << fragmentSource);
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
             del();
 
@@ -122,7 +122,7 @@ namespace djv
         void OpenGLShader::bind()
         {
             //DJV_DEBUG("OpenGLShader::bind");
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glUseProgram(_programId);
         }
 
@@ -143,7 +143,7 @@ namespace djv
 
         void OpenGLShader::setUniform(const QString& name, int value)
         {
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glUniform1i(
                 glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
                 static_cast<GLint>(value));
@@ -151,7 +151,7 @@ namespace djv
 
         void OpenGLShader::setUniform(const QString& name, float value)
         {
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glUniform1f(
                 glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
                 static_cast<GLfloat>(value));
@@ -159,7 +159,7 @@ namespace djv
 
         void OpenGLShader::setUniform(const QString& name, const glm::mat4x4& value)
         {
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glUniformMatrix4fv(
                 glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
                 1,
@@ -169,7 +169,7 @@ namespace djv
 
         void OpenGLShader::del()
         {
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             if (_vertexId)
             {
                 glFuncs->glDeleteShader(_vertexId);

@@ -52,7 +52,7 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLImageMesh::OpenGLImageMesh");
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glGenBuffers(1, &_vbo);
             glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
             glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), 0, GL_DYNAMIC_DRAW);
@@ -67,7 +67,7 @@ namespace djv
 
         OpenGLImageMesh::~OpenGLImageMesh()
         {
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glDeleteVertexArrays(1, &_vao);
             glFuncs->glDeleteBuffers(1, &_vbo);
         }
@@ -129,7 +129,7 @@ namespace djv
                 verticesP += 8;
             }
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
             glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data());
         }
@@ -137,7 +137,7 @@ namespace djv
         void OpenGLImageMesh::draw()
         {
             //DJV_DEBUG("OpenGLImageMesh::draw");
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
             glFuncs->glBindVertexArray(_vao);
             glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -404,7 +404,7 @@ namespace djv
         namespace
         {
             const QString sourceVertex =
-                "#version 400 core\n"
+                "#version 330 core\n"
                 "\n"
                 "layout (location = 0) in vec2 aPos;\n"
                 "layout (location = 1) in vec2 aTexture;\n"
@@ -433,7 +433,7 @@ namespace djv
             //! \todo How should we handle negative numbers when making color adjustments?
             //! Should they be clamped to zero?
             const QString sourceFragmentHeader =
-                "#version 400 core\n"
+                "#version 330 core\n"
                 "\n"
                 "struct Levels\n"
                 "{\n"
@@ -760,7 +760,7 @@ namespace djv
             {
                 //DJV_DEBUG("colorProfileInit");
                 //DJV_DEBUG_PRINT("type = " << options.colorProfile.type);    
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 switch (options.colorProfile.type)
                 {
                 case ColorProfile::LUT:
@@ -819,7 +819,7 @@ namespace djv
             {
                 //DJV_DEBUG("displayProfileInit");
 
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
                 // Color matrix.
                 shader.setUniform(
@@ -872,7 +872,7 @@ namespace djv
             //DJV_DEBUG_PRINT("data = " << data);
             //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
             const PixelDataInfo & info = data.info();
             const int proxyScale =

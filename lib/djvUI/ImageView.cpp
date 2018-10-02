@@ -235,7 +235,7 @@ namespace djv
                 height() * devicePixelRatio);
             //DJV_DEBUG_PRINT("geom = " << geom.size);
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glViewport(0, 0, geom.w, geom.h);
             Graphics::Color background(Graphics::Pixel::RGB_F32);
             Graphics::ColorUtil::convert(_p->options.background, background);

@@ -53,7 +53,7 @@ namespace djv
             if (info == _info && target == _target && min == _min && mag == _mag)
                 return;
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
             del();
 
@@ -104,7 +104,7 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLTexture::copy");
             //DJV_DEBUG_PRINT("in = " << in);
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             bind();
             const PixelDataInfo & info = in.info();
             OpenGLImage::stateUnpack(in.info());
@@ -130,7 +130,7 @@ namespace djv
             //DJV_DEBUG("OpenGLTexture::copy");
             //DJV_DEBUG_PRINT("in = " << in);
             //DJV_DEBUG_PRINT("area = " << area);
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             bind();
             const PixelDataInfo & info = in.info();
             glm::ivec2 position = area.position;
@@ -159,7 +159,7 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLTexture::copy");
             //DJV_DEBUG_PRINT("in = " << in);
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glBindTexture(_target, _id);
             glFuncs->glCopyTexSubImage2D(
                 _target,
@@ -175,7 +175,7 @@ namespace djv
         void OpenGLTexture::bind()
         {
             //DJV_DEBUG("OpenGLTexture::bind");
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glBindTexture(_target, _id);
         }
 
@@ -208,7 +208,7 @@ namespace djv
         {
             if (_id)
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 glFuncs->glDeleteTextures(1, &_id);
                 _id = 0;
             }

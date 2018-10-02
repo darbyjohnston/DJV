@@ -52,7 +52,7 @@ namespace djv
             //DJV_DEBUG_PRINT("info = " << info);
             //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
             // Create the texture.
             glFuncs->glGenTextures(1, &_texture);
@@ -111,7 +111,7 @@ namespace djv
             //DJV_DEBUG("OpenGLOffscreenBuffer::~OpenGLOffscreenBuffer");
             //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
 
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
             --bufferCount;
             //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
@@ -147,7 +147,7 @@ namespace djv
                 return;
             //DJV_DEBUG("OpenGLOffscreenBuffer::bind");
             //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore);
             //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
             glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _id);
@@ -160,7 +160,7 @@ namespace djv
             //DJV_DEBUG("OpenGLOffscreenBuffer::unbind");
             //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
             //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _restore);
             _restore = 0;
         }

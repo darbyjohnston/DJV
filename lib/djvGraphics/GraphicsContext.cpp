@@ -130,7 +130,7 @@ namespace djv
                 QString("OpenGL version = %1.%2").
                 arg(_p->openGLContext->format().majorVersion()).
                 arg(_p->openGLContext->format().minorVersion()));
-            if (!_p->openGLContext->versionFunctions<QOpenGLFunctions_4_1_Core>())
+            if (!_p->openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
             {
                 throw Core::Error(
                     "djv::Graphics::GraphicsContext",

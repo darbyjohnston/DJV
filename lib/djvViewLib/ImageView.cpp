@@ -557,7 +557,7 @@ namespace djv
 
             try
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 glFuncs->glEnable(GL_BLEND);
                 glFuncs->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 const auto viewMatrix = glm::ortho(
@@ -676,7 +676,7 @@ namespace djv
 
             try
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 glFuncs->glEnable(GL_BLEND);
                 glFuncs->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 const auto viewMatrix = glm::ortho(

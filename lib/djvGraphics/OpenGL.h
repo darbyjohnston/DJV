@@ -34,7 +34,7 @@
 #include <djvCore/Box.h>
 #include <djvCore/Vector.h>
 
-#include <QOpenGLFunctions_4_1_Core>
+#include <QOpenGLFunctions_3_3_Core>
 
 namespace djv
 {
