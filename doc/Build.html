@@ -4,35 +4,6 @@
   
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
- 
-  * Redistributions of source code must retain the above copyright notice,
-    this list of conditions, and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions, and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-  * Neither the names of the copyright holders nor the names of any
-    contributors may be used to endorse or promote products derived from this
-    software without specific prior written permission.
- 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
----------------------------------------------------------------------------- -->
-
-<!-- ---------------------------------------------------------------------------
-  Copyright (c) 2004-2018 Darby Johnston
-  All rights reserved.
-  
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
   
   * Redistributions of source code must retain the above copyright notice,
     this list of conditions, and the following disclaimer.
@@ -74,26 +45,167 @@
 
 <div class="block">
 <h1>Building the Source Code</h1>
-<li><a href="#Linux">Linux</a></li>
-<li><a href="#OSX">OS X</a></li>
-<li><a href="#Windows">Windows</a></li>
+<p>Building the DJV source code is performed in two stages, first the third party
+software that DJV depends on, and then the DJV source code itself. The following
+instructions describe the steps needed for the various operating systems that DJV
+supports.</p>
+<li><b><a href="#Linux">Linux</a></b></li>
+<li><b><a href="#OSX">OS X</a></b></li>
+<li><b><a href="#Windows">Windows</a></b></li>
 </div>
 
 <div class="block">
 <h2><a name="Linux">Linux</a></h2>
-<p><b>TODO</b></p>
+<p>These are the requirements for building DJV on Linux:</p>
+<ul>
+    <li>OpenGL</li>
+    <li>C++11 compiler</li>
+    <li>git</li>
+</ul>
+<p>First choose a working directory to hold the source code and builds. We will
+refer to the path of this directory as $BUILD_DIR.</p>
+<p>Clone the DJV third party source code repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+</pre>
+<p>DJV uses the CMake build system. You can either download and install it from
+the <b><a href="http://cmake.org">CMake</a></b> website, or build it from source.
+The following is how to build CMake from source:</p>
+<pre>
+> tar xvf djv-git-third-party/cmake-3.12.1.tar.gz
+> cd cmake-3.12.1
+> ./configure --prefix=$BUILD_DIR/cmake
+> make
+> make install
+</pre>
+<p>Once CMake has finished building go back to the working directory and add
+the CMake binary directory to your $PATH:</p>
+<pre>
+> cd ..
+> export PATH=$PATH:$BUILD_DIR/cmake/bin
+</pre>
+<p>Create a directory for building the third party software and start the build:</p>
+<pre>
+> mkdir djv-git-third-party-Debug
+> cd djv-git-third-party-Debug
+> cmake ../djv-git-third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+> make
+</pre>
+<p>The build should take around 10 or 20 minutes on a decent workstation. Hopefully
+everything completes OK and you will have built over a dozen software packages including
+OpenEXR, Qt, FFmpeg, and others.</p>
+<p>Next we will build the DJV source code. Go back to the working directory and
+clone the DJV source code repository:</p>
+<pre>
+> cd ..
+> git clone git://git.code.sf.net/p/djv/git djv-git
+</pre>
+<p>Create a directory for building the DJV software and start the build:</p>
+<pre>
+> mkdir djv-git-Debug
+> cd djv-git-Debug
+> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+> make
+</pre>
+<p>If everything completes OK try running the confidence tests:</p>
+<pre>
+> make test
+</pre>
+<p>You can also try starting the djv_view application:</p>
+<pre>
+> ./build/bin/djv_view
+</pre>
+<p>Or build packages for installation:</p>
+<pre>
+> make package
+</pre>
 </div>
 
 <div class="block">
 <h2><a name="OSX">OS X</a></h2>
-<p><b>TODO</b></p>
+<p>These are the requirements for building DJV on OS X:</p>
+<ul>
+    <li>Xcode</li>
+    <li>git</li>
+</ul>
+<p>Building DJV on OS X is the same as Linux, open a terminal and follow the above
+directions for building on Linux.</p>
 </div>
 
 <div class="block">
 <h2><a name="Windows">Windows</a></h2>
-<p><b>TODO</b></p>
-</div>
-
+<p>These are the requirements for building DJV on Windows:</p>
+<ul>
+    <li>Visual Studio 2017</li>
+    <li>Windows Subsystem for Linux running Ubuntu</li>
+    <li>git</li>
+    <li>CMake</li>
+</ul>
+<p>First choose a working directory to hold the source code and builds. We will
+refer to the path of this directory as $BUILD_DIR.</p>
+<p>Open a command prompt and clone the DJV third party source code repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+</pre>
+<p>Create a directory for building the third party software and run CMake:</p>
+<pre>
+> mkdir djv-git-third-party-Debug
+> cd djv-git-third-party-Debug
+> cmake ../djv-git-third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+</pre>
+<p>Open "djv-third-party.sln" in Visual Studio and build the solution. The build should
+take around 10 or 20 minutes on a decent workstation. Hopefully everything completes
+OK and you will have built over a dozen software packages including OpenEXR, Qt, and
+others.</p>
+<p>Building FFmpeg on Windows requires some additional steps, namely using the
+Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
+<p>First enable the Windows Subsystem for Linux:</p>
+<ul>
+    <li>Open the Windows control panel and click on "Programs and Features"</li>
+    <li>Click on "Turn Windows features on or off" on the left side of the
+        "Programs and Features" window</li>
+    <li>Check the "Windows Subsystem for Linux" item in the "Windows Features"
+        window</li>
+    <li>Restart your computer</li>
+    <li>Install Ubuntu from the Windows app store</li>
+</ul>
+<p>Start an Ubuntu shell and setup the environment:</p>
+<pre>
+> sudo apt update
+> sudo apt install mingw-w64 yasm make unzip
+</pre>
+<p>Build FFmpeg:</p>
+<pre>
+> ./configure \
+      --disable-programs \
+      --disable-doc \
+      --disable-bzlib \
+      --disable-iconv \
+      --disable-lzma \
+      --enable-pic \
+      --arch=x86_64 \
+      --cross-prefix=x86_64-w64-mingw32- \
+      --target-os=mingw32 \
+      --enable-cross-compile \
+      --prefix=$BUILD_DIR/install-Debug/ \
+      --enable-shared
+> make
+> make install
+</pre>
+<p>Next we will build the DJV source code. Go back to the working directory and
+clone the DJV source code repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git djv-git
+</pre>
+<p>Create a directory for building the DJV software and run CMake:</p>
+<pre>
+> mkdir djv-git-Debug
+> cd djv-git-Debug
+> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+</pre>
+<p>Open "djv.sln" in Visual Studio and build the solution. If everything completes OK try
+running the confidence tests by building the "RUN_TESTS" target. You can also create
+packages for installation by building the "PACKAGE" target.</p>
 </div>
 
 <div class="footer">
