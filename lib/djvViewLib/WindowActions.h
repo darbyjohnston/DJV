@@ -31,6 +31,11 @@
 
 #include <djvViewLib/AbstractActions.h>
 
+#if defined(DJV_WINDOWS)
+//! \todo Windows defines the macro "DUPLICATE".
+#undef DUPLICATE
+#endif
+
 namespace djv
 {
     namespace ViewLib
