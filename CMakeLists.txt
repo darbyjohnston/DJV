@@ -15,13 +15,13 @@ project(${djvProjectName})
 #
 # Git example for tagging a version:
 #
-# > git tag -a 1.2.0 -m "Version 1.2.0"
-# > git push origin 1.2.0
+# > git tag -a 1.2.1 -m "Version 1.2.1"
+# > git push origin 1.2.1
 #-------------------------------------------------------------------------------
 
 set(djvVersionMajor "1")
 set(djvVersionMinor "2")
-set(djvVersionPatch "0")
+set(djvVersionPatch "1")
 set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
 
 #-------------------------------------------------------------------------------
