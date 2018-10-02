@@ -65,8 +65,19 @@ namespace djv
             //! \todo Fix these image I/O confidence tests.    
             typedef QPair<QString, Graphics::Pixel::PIXEL> Disable;
             QVector<Disable> disabled;
+            disabled += Disable("IFF", Graphics::Pixel::L_U16);
+            disabled += Disable("IFF", Graphics::Pixel::L_F16);
+            disabled += Disable("IFF", Graphics::Pixel::L_F32);
+            disabled += Disable("IFF", Graphics::Pixel::LA_U16);
+            disabled += Disable("IFF", Graphics::Pixel::LA_F16);
+            disabled += Disable("IFF", Graphics::Pixel::LA_F32);
+            disabled += Disable("IFF", Graphics::Pixel::RGB_U10);
             disabled += Disable("IFF", Graphics::Pixel::RGB_U16);
+            disabled += Disable("IFF", Graphics::Pixel::RGB_F16);
+            disabled += Disable("IFF", Graphics::Pixel::RGB_F32);
             disabled += Disable("IFF", Graphics::Pixel::RGBA_U16);
+            disabled += Disable("IFF", Graphics::Pixel::RGBA_F16);
+            disabled += Disable("IFF", Graphics::Pixel::RGBA_F32);
 
             for (int j = 0; j < _plugins.count(); ++j)
             {
