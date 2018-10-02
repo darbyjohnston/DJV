@@ -3,6 +3,22 @@ cmake_minimum_required(VERSION 3.0)
 set(djvProjectName djv)
 project(${djvProjectName})
 
+#-------------------------------------------------------------------------------
+# Version Number
+#
+# When changing version numbers the following files need to be updated:
+#
+# * Set the new version in the top-level CMakeLists.txt file
+# * Set the new version in the top-level Doxyfile
+# * Update the download links in doc/Download.html
+# * Tag the git repository
+#
+# Git example for tagging a version:
+#
+# > git tag -a 1.2.0 -m "Version 1.2.0"
+# > git push origin 1.2.0
+#-------------------------------------------------------------------------------
+
 set(djvVersionMajor "1")
 set(djvVersionMinor "2")
 set(djvVersionPatch "0")
