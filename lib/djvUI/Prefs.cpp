@@ -39,6 +39,12 @@ namespace djv
 {
     namespace UI
     {
+        namespace
+        {
+            const int version = 2;
+            
+        } // namespace
+        
         struct Prefs::Private
         {
             //! \todo QSettings::SystemScope isn't working?
@@ -50,8 +56,8 @@ namespace djv
                     QSettings::UserScope,
                     //            USER == scope ? QSettings::UserScope : QSettings::SystemScope,
                     Core::System::env("LANG").isEmpty() ?
-                    QString("djv.sourceforge.net") :
-                    QString("djv.sourceforge.net.%1").arg(Core::System::env("LANG")))
+                    QString("djv.sourceforge.net.v%1").arg(version) :
+                    QString("djv.sourceforge.net.v%1.%2").arg(version).arg(Core::System::env("LANG")))
             {}
 
             Prefs::SCOPE scope;
