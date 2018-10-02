@@ -63,7 +63,7 @@ supports.</p>
     <li>git</li>
 </ul>
 <p>First choose a working directory to hold the source code and builds. We will
-refer to the path of this directory as $BUILD_DIR.</p>
+refer to the path of this directory as "$BUILD_DIR".</p>
 <p>Clone the DJV third party source code repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
@@ -79,7 +79,7 @@ The following is how to build CMake from source:</p>
 > make install
 </pre>
 <p>Once CMake has finished building go back to the working directory and add
-the CMake binary directory to your $PATH:</p>
+the CMake binary directory to your "$PATH":</p>
 <pre>
 > cd ..
 > export PATH=$PATH:$BUILD_DIR/cmake/bin
@@ -107,8 +107,10 @@ clone the DJV source code repository:</p>
 > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
 > make
 </pre>
-<p>If everything completes OK try running the confidence tests:</p>
+<p>If everything completes OK add the install path to your "$LD_LIBRARY_PATH"
+and try running the confidence tests:</p>
 <pre>
+> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/install-Debug/lib
 > make test
 </pre>
 <p>You can also try starting the djv_view application:</p>
@@ -142,7 +144,7 @@ directions for building on Linux.</p>
     <li>CMake</li>
 </ul>
 <p>First choose a working directory to hold the source code and builds. We will
-refer to the path of this directory as $BUILD_DIR.</p>
+refer to the path of this directory as "$BUILD_DIR".</p>
 <p>Open a command prompt and clone the DJV third party source code repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
@@ -158,6 +160,7 @@ take around 10 or 20 minutes on a decent workstation. Hopefully everything compl
 OK and you will have built over a dozen software packages including OpenEXR, Qt, and
 others.</p>
 <p>Building FFmpeg on Windows requires some additional steps, namely using the
+Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
 Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
 <p>First enable the Windows Subsystem for Linux:</p>
 <ul>
@@ -203,6 +206,8 @@ clone the DJV source code repository:</p>
 > cd djv-git-Debug
 > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
 </pre>
+<p>Add the install path "$BUILD_DIR/install-Debug/bin" to your path environment variable
+in the Windows control panel.</p>
 <p>Open "djv.sln" in Visual Studio and build the solution. If everything completes OK try
 running the confidence tests by building the "RUN_TESTS" target. You can also create
 packages for installation by building the "PACKAGE" target.</p>
