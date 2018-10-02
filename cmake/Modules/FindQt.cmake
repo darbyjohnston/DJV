@@ -17,8 +17,7 @@
 # * Qt5::QtNetwork
 # * Qt5::QtOpenGL
 # * Qt5::QtOpenGLExtensions
-# * Qt5::QtPlatformHeaders
-# * Qt5::QtPlatformSupport
+# * Qt5::QtPrintSupport
 # * Qt5::QtSql
 # * Qt5::QtSvg
 # * Qt5::QtTest
@@ -46,8 +45,7 @@ set(QT_INCLUDE_DIRS
     ${CMAKE_INSTALL_PREFIX}/include/QtNetwork
     ${CMAKE_INSTALL_PREFIX}/include/QtOpenGL
     ${CMAKE_INSTALL_PREFIX}/include/QtOpenGLExtensions
-    ${CMAKE_INSTALL_PREFIX}/include/QtPlatformHeaders
-    ${CMAKE_INSTALL_PREFIX}/include/QtPlatformSupport
+    ${CMAKE_INSTALL_PREFIX}/include/QtPrintSupport
     ${CMAKE_INSTALL_PREFIX}/include/QtSql
     ${CMAKE_INSTALL_PREFIX}/include/QtSvg
     ${CMAKE_INSTALL_PREFIX}/include/QtTest
@@ -70,6 +68,7 @@ if(WIN32)
         set(QT_HELP_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Helpd.lib)
         set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Networkd.lib)
         set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5OpenGLd.lib)
+        set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5PrintSupportd.lib)
         set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Sqld.lib)
         set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Svgd.lib)
         set(QT_TEST_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Testd.lib)
@@ -84,6 +83,7 @@ if(WIN32)
         set(QT_HELP_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Help.lib)
         set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Network.lib)
         set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5OpenGL.lib)
+        set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5PrintSupport.lib)
         set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Sql.lib)
         set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Svg.lib)
         set(QT_TEST_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Test.lib)
@@ -100,6 +100,7 @@ if(WIN32)
                 ${CMAKE_INSTALL_PREFIX}/bin/Qt5Help.dll
                 ${CMAKE_INSTALL_PREFIX}/bin/Qt5Network.dll
                 ${CMAKE_INSTALL_PREFIX}/bin/Qt5OpenGL.dll
+                ${CMAKE_INSTALL_PREFIX}/bin/Qt5PrintSupport.dll
                 ${CMAKE_INSTALL_PREFIX}/bin/Qt5Sql.dll
                 ${CMAKE_INSTALL_PREFIX}/bin/Qt5Svg.dll
                 ${CMAKE_INSTALL_PREFIX}/bin/Qt5Test.dll
@@ -127,6 +128,7 @@ elseif(APPLE)
         set(QT_HELP_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Help_debug.dylib)
         set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network_debug.dylib)
         set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL_debug.dylib)
+        set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport_debug.dylib)
         set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql_debug.dylib)
         set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg_debug.dylib)
         set(QT_TEST_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Test_debug.dylib)
@@ -141,6 +143,7 @@ elseif(APPLE)
         set(QT_HELP_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Help.dylib)
         set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.dylib)
         set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.dylib)
+        set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.dylib)
         set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.dylib)
         set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.dylib)
         set(QT_TEST_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Test.dylib)
@@ -181,6 +184,10 @@ elseif(APPLE)
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.5.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.5.6.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.5.6.3.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.5.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.5.6.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.5.6.3.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.5.dylib
                 ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.5.6.dylib
@@ -223,6 +230,7 @@ else()
         set(QT_HELP_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Help.so)
         set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.so)
         set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.so)
+        set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.so)
         set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.so)
         set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.so)
         set(QT_TEST_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Test.so)
@@ -237,6 +245,7 @@ else()
         set(QT_HELP_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Help.so)
         set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.so)
         set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.so)
+        set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.so)
         set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.so)
         set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.so)
         set(QT_TEST_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Test.so)
@@ -281,6 +290,10 @@ else()
                 ${QT_SQL_LIBRARY}.5
                 ${QT_SQL_LIBRARY}.5.6
                 ${QT_SQL_LIBRARY}.5.6.3
+                ${QT_PRINT_SUPPORT_LIBRARY}
+                ${QT_PRINT_SUPPORT_LIBRARY}.5
+                ${QT_PRINT_SUPPORT_LIBRARY}.5.6
+                ${QT_PRINT_SUPPORT_LIBRARY}.5.6.3
                 ${QT_SVG_LIBRARY}
                 ${QT_SVG_LIBRARY}.5
                 ${QT_SVG_LIBRARY}.5.6
@@ -328,6 +341,7 @@ set(QT_LIBRARIES
     ${QT_NETWORK_LIBRARY}
     ${QT_OPENGL_LIBRARY}
     ${QT_SQL_LIBRARY}
+    ${QT_PRINT_SUPPORT_LIBRARY}
     ${QT_SVG_LIBRARY}
     ${QT_TEST_LIBRARY}
     ${QT_WIDGETS_LIBRARY}
@@ -476,6 +490,13 @@ if(QT_FOUND AND NOT TARGET Qt5::QtSql)
         IMPORTED_LINK_INTERFACE_LIBRARIES PNG JPEG ZLIB
         INTERFACE_INCLUDE_DIRECTORIES "${QT_INCLUDE_DIRS}")
 endif()
+if(QT_FOUND AND NOT TARGET Qt5::QtPrintSupport)
+    add_library(Qt5::QtPrintSupport UNKNOWN IMPORTED)
+    set_target_properties(Qt5::QtPrintSupport PROPERTIES
+        IMPORTED_LOCATION "${QT_PRINT_SUPPORT_LIBRARY}"
+        IMPORTED_LINK_INTERFACE_LIBRARIES PNG JPEG ZLIB
+        INTERFACE_INCLUDE_DIRECTORIES "${QT_INCLUDE_DIRS}")
+endif()
 if(QT_FOUND AND NOT TARGET Qt5::QtTest)
     add_library(Qt5::QtTest UNKNOWN IMPORTED)
     set_target_properties(Qt5::QtTest PROPERTIES
@@ -507,6 +528,7 @@ if(QT_FOUND AND NOT TARGET Qt5)
     target_link_libraries(Qt5 INTERFACE Qt5::QtHelp)
     target_link_libraries(Qt5 INTERFACE Qt5::QtNetwork)
     target_link_libraries(Qt5 INTERFACE Qt5::QtOpenGL)
+    target_link_libraries(Qt5 INTERFACE Qt5::QtPrintSupport)
     target_link_libraries(Qt5 INTERFACE Qt5::QtSql)
     target_link_libraries(Qt5 INTERFACE Qt5::QtSvg)
     target_link_libraries(Qt5 INTERFACE Qt5::QtTest)

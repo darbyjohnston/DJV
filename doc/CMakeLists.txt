@@ -15,6 +15,7 @@ set(html
     Install.html
     Legal.html
     Screenshots.html
+    Style.css
     test.html
     Testimonials.html)
 set(images

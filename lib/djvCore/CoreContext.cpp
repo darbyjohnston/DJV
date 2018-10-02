@@ -109,9 +109,12 @@ namespace djv
 
         void CoreContext::initLibPaths(int & argc, char ** argv)
         {
+            //DJV_DEBUG("CoreContexT::initLibPaths");
             QDir dir(applicationPath(argc, argv));
+            //DJV_DEBUG_PRINT("dir = " << dir.absolutePath());
             if (dir.cd("plugins"))
             {
+                //DJV_DEBUG_PRINT("dir = " << dir.absolutePath());
                 QCoreApplication::addLibraryPath(dir.absolutePath());
             }
         }
@@ -151,8 +154,7 @@ namespace djv
 
         QString CoreContext::doc() const
         {
-            return FileInfoUtil::fixPath(qApp->applicationDirPath() + "/../doc/" +
-                "djvDocumentation.html");
+            return FileInfoUtil::fixPath(qApp->applicationDirPath() + "/../doc/Documentation.html");
         }
 
         QString CoreContext::info() const

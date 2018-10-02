@@ -4,12 +4,12 @@
 <context>
     <name>djv::Core::CoreContext</name>
     <message>
-        <location filename="CoreContext.cpp" line="140"/>
+        <location filename="CoreContext.cpp" line="143"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished">Nelze zpracovat argument příkazového řádku: %1</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="168"/>
+        <location filename="CoreContext.cpp" line="170"/>
         <source>General
 
     Version: %1
@@ -42,7 +42,7 @@ Systém
 </translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="198"/>
+        <location filename="CoreContext.cpp" line="200"/>
         <source>DJV Imaging, Version: %1
 http://djv.sourceforge.net
 Made in Berkeley, CA, USA
@@ -117,52 +117,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="347"/>
+        <location filename="CoreContext.cpp" line="349"/>
         <source>-time_units</source>
         <translation type="unfinished">-time_units</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="354"/>
+        <location filename="CoreContext.cpp" line="356"/>
         <source>-default_speed</source>
         <translation type="unfinished">-default_speed</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="361"/>
+        <location filename="CoreContext.cpp" line="363"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished">-max_sequence_frames</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="369"/>
+        <location filename="CoreContext.cpp" line="371"/>
         <source>-debug_log</source>
         <translation type="unfinished">-debug_log</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="383"/>
+        <location filename="CoreContext.cpp" line="385"/>
         <source>-help</source>
         <translation type="unfinished">-help</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="384"/>
+        <location filename="CoreContext.cpp" line="386"/>
         <source>-h</source>
         <translation type="unfinished">-h</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="391"/>
+        <location filename="CoreContext.cpp" line="393"/>
         <source>-info</source>
         <translation type="unfinished">-info</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="398"/>
+        <location filename="CoreContext.cpp" line="400"/>
         <source>-about</source>
         <translation type="unfinished">-about</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="407"/>
+        <location filename="CoreContext.cpp" line="409"/>
         <source>-psn_</source>
         <translation type="unfinished">-psn_</translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="438"/>
+        <location filename="CoreContext.cpp" line="440"/>
         <source>
 General Options
 
