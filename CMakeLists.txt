@@ -15,8 +15,8 @@ project(${djvProjectName})
 #
 # Git example for tagging a version:
 #
-# > git tag -a 1.1.1 -m "Version 1.1.1" df2f2e21232ceeab85ca40fc988aba5591fe9e64
-# > git push origin 1.1.1
+# > git tag -a 1.2.0 -m "Version 1.2.0"
+# > git push origin 1.2.0
 #-------------------------------------------------------------------------------
 
 set(djvVersionMajor "1")
