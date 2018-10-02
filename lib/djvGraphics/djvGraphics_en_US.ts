@@ -547,7 +547,12 @@ FFmpeg Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="GraphicsContext.cpp" line="207"/>
+        <location filename="GraphicsContext.cpp" line="137"/>
+        <source>Cannot find OpenGL 4.1 functions, found version %1.%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="GraphicsContext.cpp" line="214"/>
         <source>%1
 OpenGL
 
@@ -561,17 +566,17 @@ Image I/O
         <translation></translation>
     </message>
     <message>
-        <location filename="GraphicsContext.cpp" line="254"/>
+        <location filename="GraphicsContext.cpp" line="261"/>
         <source>-render_filter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="GraphicsContext.cpp" line="260"/>
+        <location filename="GraphicsContext.cpp" line="267"/>
         <source>-render_filter_high</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="GraphicsContext.cpp" line="290"/>
+        <location filename="GraphicsContext.cpp" line="297"/>
         <source>%1
 OpenGL Options
 

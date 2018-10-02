@@ -130,6 +130,13 @@ namespace djv
                 QString("OpenGL version = %1.%2").
                 arg(_p->openGLContext->format().majorVersion()).
                 arg(_p->openGLContext->format().minorVersion()));
+            if (!_p->openGLContext->versionFunctions<QOpenGLFunctions_4_1_Core>())
+            {
+                throw Core::Error(
+                    "djv::Graphics::GraphicsContext",
+                    qApp->translate("djv::Graphics::GraphicsContext", "Cannot find OpenGL 4.1 functions, found version %1.%2").
+                    arg(_p->openGLContext->format().majorVersion()).arg(_p->openGLContext->format().minorVersion()));
+            }
 
             _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
             connect(
