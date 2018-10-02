@@ -542,7 +542,12 @@ FFmpeg Options
 <context>
     <name>djv::Graphics::GraphicsContext</name>
     <message>
-        <location filename="GraphicsContext.cpp" line="201"/>
+        <location filename="GraphicsContext.cpp" line="123"/>
+        <source>Cannot create OpenGL context, found version %1.%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="GraphicsContext.cpp" line="207"/>
         <source>%1
 OpenGL
 
@@ -556,17 +561,17 @@ Image I/O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="GraphicsContext.cpp" line="248"/>
+        <location filename="GraphicsContext.cpp" line="254"/>
         <source>-render_filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="GraphicsContext.cpp" line="254"/>
+        <location filename="GraphicsContext.cpp" line="260"/>
         <source>-render_filter_high</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="GraphicsContext.cpp" line="284"/>
+        <location filename="GraphicsContext.cpp" line="290"/>
         <source>%1
 OpenGL Options
 

@@ -116,7 +116,13 @@ namespace djv
             _p->offscreenSurface->create();
             _p->openGLContext.reset(new QOpenGLContext);
             _p->openGLContext->setFormat(surfaceFormat);
-            _p->openGLContext->create();
+            if (!_p->openGLContext->create())
+            {
+                throw Core::Error(
+                    "djv::Graphics::GraphicsContext",
+                    qApp->translate("djv::Graphics::GraphicsContext", "Cannot create OpenGL context, found version %1.%2").
+                    arg(_p->openGLContext->format().majorVersion()).arg(_p->openGLContext->format().minorVersion()));
+            }
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
                 QString("OpenGL context valid = %1").arg(_p->openGLContext->isValid()));
