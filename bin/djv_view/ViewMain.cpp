@@ -38,10 +38,26 @@
 #include <tchar.h>
 #endif // DJV_WINDOWS
 
+using namespace djv;
+
 int main(int argc, char ** argv)
 {
-    djv::Core::CoreContext::initLibPaths(argc, argv);
-    return djv::view::Application(argc, argv).exec();
+    int r = 0;
+    try
+    {
+        Core::CoreContext::initLibPaths(argc, argv);
+        r = view::Application(argc, argv).exec();
+    }
+    catch (const Core::Error & error)
+    {
+        Q_FOREACH(const Core::Error::Message & message, error.messages())
+        {
+            std::cout << "ERROR " <<
+                message.prefix.toLatin1().data() << ": " <<
+                message.string.toLatin1().data() << std::endl;
+        }
+    }
+    return r; 
 }
 
 #if defined(DJV_WINDOWS)
