@@ -32,12 +32,28 @@ if(WIN32)
 elseif(APPLE)
     if(OPENEXR_SHARED_LIBS)
         set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.dylib)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${OPENEXR_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.24.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.2.3.0.dylib
+                DESTINATION lib)
+        endif()
     else()
         set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s.a)
     endif()
 else()
     if(OPENEXR_SHARED_LIBS)
         set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.so)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${OPENEXR_LIBRARY}
+                ${OPENEXR_LIBRARY}.24
+                ${OPENEXR_LIBRARY}.2.3.0
+                DESTINATION lib)
+        endif()
     else()
         set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s.a)
     endif()
@@ -58,7 +74,7 @@ if(OPENEXR_FOUND AND NOT TARGET OpenEXR::IlmImf)
     set_target_properties(OpenEXR::IlmImf PROPERTIES
         IMPORTED_LOCATION "${OPENEXR_LIBRARY}"
         IMPORTED_LINK_INTERFACE_LIBRARIES ZLIB
-        IMPORTED_LINK_INTERFACE_LIBRARIES IlmBase_static
+        IMPORTED_LINK_INTERFACE_LIBRARIES IlmBase
         INTERFACE_INCLUDE_DIRECTORIES "${OPENEXR_INCLUDE_DIRS}"
         INTERFACE_COMPILE_DEFINITIONS OPENEXR_FOUND)
 endif()

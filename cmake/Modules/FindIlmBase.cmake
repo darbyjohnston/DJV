@@ -59,6 +59,26 @@ elseif(APPLE)
         set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.dylib)
         set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.dylib)
         set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath.dylib)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${ILMBASE_HALF_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libHalf.24.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libHalf.2.3.0.dylib
+                ${ILMBASE_IEX_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libIex.24.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libIex.2.3.0.dylib
+                ${ILMBASE_IEXMATH_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.24.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.2.3.0.dylib
+                ${ILMBASE_ILMTHREAD_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.24.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.2.3.0.dylib
+                ${ILMBASE_IMATH_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libImath.24.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libImath.2.3.0.dylib
+                DESTINATION lib)
+        endif()
     else()
         set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
         set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})
@@ -78,6 +98,26 @@ else()
         set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.so)
         set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.so)
         set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath.so)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${ILMBASE_HALF_LIBRARY}
+                ${ILMBASE_HALF_LIBRARY}.24
+                ${ILMBASE_HALF_LIBRARY}.2.3.0
+                ${ILMBASE_IEX_LIBRARY}
+                ${ILMBASE_IEX_LIBRARY}.24
+                ${ILMBASE_IEX_LIBRARY}.2.3.0
+                ${ILMBASE_IEXMATH_LIBRARY}
+                ${ILMBASE_IEXMATH_LIBRARY}.24
+                ${ILMBASE_IEXMATH_LIBRARY}.2.3.0
+                ${ILMBASE_ILMTHREAD_LIBRARY}
+                ${ILMBASE_ILMTHREAD_LIBRARY}.24
+                ${ILMBASE_ILMTHREAD_LIBRARY}.2.3.0
+                ${ILMBASE_IMATH_LIBRARY}
+                ${ILMBASE_IMATH_LIBRARY}.24
+                ${ILMBASE_IMATH_LIBRARY}.2.3.0
+                DESTINATION lib)
+        endif()
     else()
         set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
         set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})

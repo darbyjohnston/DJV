@@ -15,13 +15,13 @@ project(${djvProjectName})
 #
 # Git example for tagging a version:
 #
-# > git tag -a 1.2.1 -m "Version 1.2.1"
-# > git push origin 1.2.1
+# > git tag -a 1.2.2 -m "Version 1.2.2"
+# > git push origin 1.2.2
 #-------------------------------------------------------------------------------
 
 set(djvVersionMajor "1")
 set(djvVersionMinor "2")
-set(djvVersionPatch "1")
+set(djvVersionPatch "2")
 set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
 
 #-------------------------------------------------------------------------------
@@ -58,7 +58,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${djvBuildDir}/bin)
 set(djvBuildArch x64)
 add_definitions(-DDJV_MMAP)
 add_definitions(-DDJV_ASSERT)
-set(BUILD_SHARED_LIBS OFF)
+if(WIN32)
+    set(BUILD_SHARED_LIBS OFF)
+else()
+    set(BUILD_SHARED_LIBS ON)
+endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Set the configuration file.
@@ -115,20 +119,20 @@ set(djvThirdParty
     ZLIB
     GLM
     OpenAL
-    IlmBase
+    #IlmBase
     Qt)
 set(djvThirdPartyPackage true)
 
 find_package(OpenGL REQUIRED)
 
-set(ZLIB_SHARED_LIBS OFF)
-set(GLM_SHARED_LIBS ON)
+set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(GLM_SHARED_LIBS ${BUILD_SHARED_LIBS})
 set(OPENAL_SHARED_LIBS ON)
-set(JPEG_SHARED_LIBS OFF)
-set(TIFF_SHARED_LIBS OFF)
-set(PNG_SHARED_LIBS OFF)
-set(ILMBASE_SHARED_LIBS OFF)
-set(OPENEXR_SHARED_LIBS OFF)
+set(JPEG_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(TIFF_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(PNG_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(ILMBASE_SHARED_LIBS ${BUILD_SHARED_LIBS})
+set(OPENEXR_SHARED_LIBS ${BUILD_SHARED_LIBS})
 set(FFMPEG_SHARED_LIBS ON)
 set(QT_SHARED_LIBS ON)
 

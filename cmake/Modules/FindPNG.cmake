@@ -48,6 +48,15 @@ elseif(APPLE)
             set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.16.dylib)
             set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.16.34.0.dylib)
         endif()
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${PNG_LIBRARY}
+                ${PNG_LIBRARY_1}
+                ${PNG_LIBRARY_2}
+                ${PNG_LIBRARY_3}
+                DESTINATION lib)
+        endif()
     else()
         set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.a)
     endif()
@@ -63,6 +72,15 @@ else()
             set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so)
             set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so.16)
             set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so.16.34.0)
+        endif()
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${PNG_LIBRARY}
+                ${PNG_LIBRARY_1}
+                ${PNG_LIBRARY_2}
+                ${PNG_LIBRARY_3}
+                DESTINATION lib)
         endif()
     else()
         set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.a)

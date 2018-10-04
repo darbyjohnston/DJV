@@ -22,12 +22,24 @@ if(WIN32)
 elseif(APPLE)
     if(JPEG_SHARED_LIBS)
         set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.dylib)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${JPEG_LIBRARY}
+                DESTINATION lib)
+        endif()
     else()
         set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
     endif()
 else()
     if(JPEG_SHARED_LIBS)
         set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.so)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${JPEG_LIBRARY}
+                DESTINATION lib)
+        endif()
     else()
         set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
     endif()

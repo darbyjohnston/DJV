@@ -163,12 +163,8 @@ elseif (UNIX)
         /usr/share/mime
         /usr/share/mime/packages
         /usr/share/icons/hicolor
-        /usr/share/icons/hicolor/16x16
-        /usr/share/icons/hicolor/32x32
-        /usr/share/icons/hicolor/48x48
-        /usr/share/icons/hicolor/16x16/apps
-        /usr/share/icons/hicolor/32x32/apps
-        /usr/share/icons/hicolor/48x48/apps)
+        /usr/share/icons/hicolor/scalable
+        /usr/share/icons/hicolor/scalable/apps)
     configure_file(
         ${PROJECT_SOURCE_DIR}/etc/Linux/install.sh.in
         ${PROJECT_BINARY_DIR}/etc/Linux/install.sh
@@ -177,11 +173,9 @@ elseif (UNIX)
         ${PROJECT_SOURCE_DIR}/etc/Linux/uninstall.sh.in
         ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh
         @ONLY)
-    SET(
-        CPACK_RPM_POST_INSTALL_SCRIPT_FILE
+    SET(CPACK_RPM_POST_INSTALL_SCRIPT_FILE
         ${PROJECT_BINARY_DIR}/etc/Linux/install.sh)
-    SET(
-        CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE
+    SET(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE
         ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh)
         
     set(CPACK_DEBIAN_PACKAGE_NAME djv)

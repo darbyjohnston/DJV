@@ -32,12 +32,28 @@ if(WIN32)
 elseif(APPLE)
     if(TIFF_SHARED_LIBS)
         set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.dylib)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${TIFF_LIBRARY}
+                ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.3.0.dylib
+                DESTINATION lib)
+        endif()
     else()
         set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
     endif()
 else()
     if(TIFF_SHARED_LIBS)
         set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.so)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${TIFF_LIBRARY}
+                ${TIFF_LIBRARY}.5
+                ${TIFF_LIBRARY}.5.3.0
+                DESTINATION lib)
+        endif()
     else()
         set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
     endif()

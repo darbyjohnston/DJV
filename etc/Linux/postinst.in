@@ -5,5 +5,10 @@ ln -s @CPACK_INSTALL_PREFIX@/bin/djv_info.sh /usr/bin/djv_info
 ln -s @CPACK_INSTALL_PREFIX@/bin/djv_ls.sh /usr/bin/djv_ls
 ln -s @CPACK_INSTALL_PREFIX@/bin/djv_view.sh /usr/bin/djv_view
 
-update-mime-database /usr/share/mime
+if [ -x "$(command -v update-mime-database)" ]; then
+    update-mime-database /usr/share/mime
+fi
+if [ -x "$(command -v gtk-update-icon-cache)" ]; then
+    gtk-update-icon-cache /usr/share/icons/hicolor
+fi
 
