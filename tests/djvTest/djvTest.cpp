@@ -74,67 +74,86 @@ using namespace djv;
 
 int main(int argc, char ** argv)
 {
-    Core::CoreContext::initLibPaths(argc, argv);
-    QApplication app(argc, argv);
-    
-    QVector<TestLib::AbstractTest *> tests = QVector<TestLib::AbstractTest *>() <<
-        new CoreTest::BoxTest <<
-        new CoreTest::BoxUtilTest <<
-        new CoreTest::CoreContextTest <<
-        new CoreTest::DebugTest <<
-        new CoreTest::ErrorTest <<
-        new CoreTest::FileInfoTest <<
-        new CoreTest::FileInfoUtilTest <<
-        new CoreTest::FileIOTest <<
-        new CoreTest::FileIOUtilTest <<
-        new CoreTest::ListUtilTest <<
-        new CoreTest::MathTest <<
-        new CoreTest::MemoryTest <<
-        new CoreTest::RangeTest <<
-        new CoreTest::SequenceTest <<
-        new CoreTest::SequenceUtilTest <<
-        new CoreTest::SignalBlockerTest <<
-        new CoreTest::SpeedTest <<
-        new CoreTest::StringUtilTest <<
-        new CoreTest::SystemTest <<
-        new CoreTest::TimeTest <<
-        new CoreTest::TimerTest <<
-        new CoreTest::UserTest <<
-        new CoreTest::VectorUtilTest <<
-
-        new GraphicsTest::ColorProfileTest <<
-        new GraphicsTest::ColorTest <<
-        new GraphicsTest::ColorUtilTest <<
-        new GraphicsTest::GraphicsContextTest <<
-        new GraphicsTest::ImageIOFormatsTest <<
-        new GraphicsTest::ImageIOTest <<
-        new GraphicsTest::ImageTagsTest <<
-        new GraphicsTest::ImageTest <<
-        new GraphicsTest::OpenGLImageTest <<
-        new GraphicsTest::OpenGLTest <<
-        new GraphicsTest::PixelDataTest <<
-        new GraphicsTest::PixelDataUtilTest <<
-        new GraphicsTest::PixelTest;
-
-    for (int i = 0; i < tests.count(); ++i)
+    int r = 1;
+    try
     {
-        int     argcCopy = argc;
-        char ** argvCopy = 0;
-        argvCopy = (char **)malloc(sizeof(char **) * argcCopy);
-        for (int j = 0; j < argc; ++j)
+        Core::CoreContext::initLibPaths(argc, argv);
+        QApplication app(argc, argv);
+        
+        QVector<TestLib::AbstractTest *> tests = QVector<TestLib::AbstractTest *>() <<
+            new CoreTest::BoxTest <<
+            new CoreTest::BoxUtilTest <<
+            new CoreTest::CoreContextTest <<
+            new CoreTest::DebugTest <<
+            new CoreTest::ErrorTest <<
+            new CoreTest::FileInfoTest <<
+            new CoreTest::FileInfoUtilTest <<
+            new CoreTest::FileIOTest <<
+            new CoreTest::FileIOUtilTest <<
+            new CoreTest::ListUtilTest <<
+            new CoreTest::MathTest <<
+            new CoreTest::MemoryTest <<
+            new CoreTest::RangeTest <<
+            new CoreTest::SequenceTest <<
+            new CoreTest::SequenceUtilTest <<
+            new CoreTest::SignalBlockerTest <<
+            new CoreTest::SpeedTest <<
+            new CoreTest::StringUtilTest <<
+            new CoreTest::SystemTest <<
+            new CoreTest::TimeTest <<
+            new CoreTest::TimerTest <<
+            new CoreTest::UserTest <<
+            new CoreTest::VectorUtilTest <<
+
+            new GraphicsTest::ColorProfileTest <<
+            new GraphicsTest::ColorTest <<
+            new GraphicsTest::ColorUtilTest <<
+            new GraphicsTest::GraphicsContextTest <<
+            new GraphicsTest::ImageIOFormatsTest <<
+            new GraphicsTest::ImageIOTest <<
+            new GraphicsTest::ImageTagsTest <<
+            new GraphicsTest::ImageTest <<
+            new GraphicsTest::OpenGLImageTest <<
+            new GraphicsTest::OpenGLTest <<
+            new GraphicsTest::PixelDataTest <<
+            new GraphicsTest::PixelDataUtilTest <<
+            new GraphicsTest::PixelTest;
+
+        for (int i = 0; i < tests.count(); ++i)
         {
-            argvCopy[j] = (char *)malloc(sizeof(char) * (strlen(argv[j]) + 1));
-            strcpy(argvCopy[j], argv[j]);
+            int     argcCopy = argc;
+            char ** argvCopy = 0;
+            argvCopy = (char **)malloc(sizeof(char **) * argcCopy);
+            for (int j = 0; j < argc; ++j)
+            {
+                argvCopy[j] = (char *)malloc(sizeof(char) * (strlen(argv[j]) + 1));
+                strcpy(argvCopy[j], argv[j]);
+            }
+            tests[i]->run(argcCopy, argvCopy);
+            for (int j = 0; j < argc; ++j)
+            {
+                free(argvCopy[j]);
+            }
+            free(argvCopy);
         }
-        tests[i]->run(argcCopy, argvCopy);
-        for (int j = 0; j < argc; ++j)
-        {
-            free(argvCopy[j]);
-        }
-        free(argvCopy);
+        
+        qDeleteAll(tests);
+        
+        r = 0;
     }
-    
-    qDeleteAll(tests);    
-    return 0;
+    catch (const Core::Error & error)
+    {
+        Q_FOREACH(const Core::Error::Message & message, error.messages())
+        {
+            std::cout << "ERROR " <<
+                message.prefix.toLatin1().data() << ": " <<
+                message.string.toLatin1().data() << std::endl;
+        }
+    }
+    catch (const std::exception & error)
+    {
+        std::cout << "ERROR: " << error.what() << std::endl;
+    }
+    return r;
 }
 

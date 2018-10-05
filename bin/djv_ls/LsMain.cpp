@@ -52,5 +52,9 @@ int main(int argc, char ** argv)
                 message.string.toLatin1().data() << std::endl;
         }
     }
+    catch (const std::exception & error)
+    {
+        std::cout << "ERROR: " << error.what() << std::endl;
+    }
     return r;
 }

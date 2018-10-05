@@ -42,7 +42,7 @@ using namespace djv;
 
 int main(int argc, char ** argv)
 {
-    int r = 0;
+    int r = 1;
     try
     {
         Core::CoreContext::initLibPaths(argc, argv);
@@ -56,6 +56,10 @@ int main(int argc, char ** argv)
                 message.prefix.toLatin1().data() << ": " <<
                 message.string.toLatin1().data() << std::endl;
         }
+    }
+    catch (const std::exception & error)
+    {
+        std::cout << "ERROR: " << error.what() << std::endl;
     }
     return r; 
 }

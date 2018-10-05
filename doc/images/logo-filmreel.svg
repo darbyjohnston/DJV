@@ -13,10 +13,10 @@
    sodipodi:docname="logo-filmreel.svg"
    width="512"
    height="512"
-   inkscape:export-filename="/Users/darby/Projects/djv-git/etc/images/djv_view_256x256.png"
-   inkscape:export-xdpi="45"
-   inkscape:export-ydpi="45"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+   inkscape:export-filename="/Users/darby/Projects/djv-git/etc/OSX/djv_view.iconset/icon_512x512@2x.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180"
+   inkscape:version="0.91 r13725">
   <metadata
      id="metadata18">
     <rdf:RDF>
@@ -45,8 +45,8 @@
      inkscape:zoom="1.2851562"
      inkscape:cx="256"
      inkscape:cy="256"
-     inkscape:window-x="35"
-     inkscape:window-y="151"
+     inkscape:window-x="27"
+     inkscape:window-y="23"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg14" />
   <defs
