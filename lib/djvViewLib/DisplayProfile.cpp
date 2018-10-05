@@ -49,9 +49,7 @@ namespace djv
     QStringList & operator >> (QStringList & in, ViewLib::DisplayProfile & out)
     {
         in >> out.name;
-        QString tmp;
-        in >> tmp;
-        out.lutFile = tmp;
+        in >> out.lutFile;
         in >> out.color;
         in >> out.levels;
         in >> out.softClip;
