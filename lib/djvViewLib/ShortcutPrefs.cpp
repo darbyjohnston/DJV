@@ -207,6 +207,8 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_COLOR_PROFILE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
+                    Enum::SHORTCUT_IMAGE_CHANNEL_DEFAULT], QKeySequence("`")) <<
+                UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_CHANNEL_RED], QKeySequence("R")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_CHANNEL_GREEN], QKeySequence("G")) <<

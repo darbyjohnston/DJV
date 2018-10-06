@@ -209,7 +209,7 @@ namespace djv
             }
 
             const QVector<QKeySequence> channelShortcuts = QVector<QKeySequence>() <<
-                QKeySequence() <<
+                shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_DEFAULT].value <<
                 shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_RED].value <<
                 shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
                 shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<

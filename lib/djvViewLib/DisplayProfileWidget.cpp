@@ -49,6 +49,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QPointer>
+#include <QScrollArea>
 #include <QVBoxLayout>
 
 namespace djv
@@ -148,20 +149,26 @@ namespace djv
             // Create the other widgets.
             _p->addButton = new UI::ToolButton(context.data());
             _p->addButton->setToolTip(
-                qApp->translate("djv::ViewLib::DisplayProfileWidget", "Add this display profile to the favorites list"));
+                qApp->translate("djv::ViewLib::DisplayProfileWidget", "Add the current display profile to the favorites list"));
 
             _p->resetButton = new UI::ToolButton(context.data());
             _p->resetButton->setToolTip(
-                qApp->translate("djv::ViewLib::DisplayProfileWidget", "Reset the display profile"));
+                qApp->translate("djv::ViewLib::DisplayProfileWidget", "Reset the current display profile"));
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
+            auto scrollArea = new QScrollArea;
+            scrollArea->setWidgetResizable(true);
+            layout->addWidget(scrollArea);
+            auto scrollWidget = new QWidget;
+            scrollArea->setWidget(scrollWidget);
+            auto scrollLayout = new QVBoxLayout(scrollWidget);
 
-            layout->addWidget(lutGroup);
+            scrollLayout->addWidget(lutGroup);
             auto formLayout = new QFormLayout(lutGroup);
             formLayout->addRow(_p->lutWidget);
 
-            layout->addWidget(colorGroup);
+            scrollLayout->addWidget(colorGroup);
             formLayout = new QFormLayout(colorGroup);
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Brightness:"),
@@ -173,7 +180,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Saturation:"),
                 _p->saturationWidget);
 
-            layout->addWidget(levelsGroup);
+            scrollLayout->addWidget(levelsGroup);
             formLayout = new QFormLayout(levelsGroup);
             auto vLayout = new QVBoxLayout;
             vLayout->addWidget(_p->levelsInWidget[0]);
@@ -199,8 +206,6 @@ namespace djv
             hLayout->addWidget(_p->addButton);
             hLayout->addWidget(_p->resetButton);
             layout->addLayout(hLayout);
-
-            layout->addStretch();
 
             // Initialize.
             styleUpdate();

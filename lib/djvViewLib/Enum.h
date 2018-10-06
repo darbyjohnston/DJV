@@ -372,6 +372,7 @@ namespace djv
                 SHORTCUT_IMAGE_ROTATE_180,
                 SHORTCUT_IMAGE_ROTATE_270,
                 SHORTCUT_IMAGE_COLOR_PROFILE,
+                SHORTCUT_IMAGE_CHANNEL_DEFAULT,
                 SHORTCUT_IMAGE_CHANNEL_RED,
                 SHORTCUT_IMAGE_CHANNEL_GREEN,
                 SHORTCUT_IMAGE_CHANNEL_BLUE,

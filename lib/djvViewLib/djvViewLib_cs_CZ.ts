@@ -179,67 +179,69 @@ Playback Options
 <context>
     <name>djv::ViewLib::DisplayProfileWidget</name>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="91"/>
+        <location filename="DisplayProfileWidget.cpp" line="92"/>
         <source>Lookup Table</source>
         <translation type="unfinished">Vyhledávací tabulka</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="97"/>
+        <location filename="DisplayProfileWidget.cpp" line="98"/>
         <source>Color</source>
         <translation type="unfinished">Barva</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="116"/>
+        <location filename="DisplayProfileWidget.cpp" line="117"/>
         <source>Levels</source>
         <translation type="unfinished">Úrovně</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="151"/>
-        <source>Add this display profile to the favorites list</source>
+        <location filename="DisplayProfileWidget.cpp" line="152"/>
+        <source>Add the current display profile to the favorites list</source>
+        <oldsource>Add this display profile to the favorites list</oldsource>
         <translation type="unfinished">Přidat tento zobrazovací profil do seznamu oblíbených</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="155"/>
-        <source>Reset the display profile</source>
+        <location filename="DisplayProfileWidget.cpp" line="156"/>
+        <source>Reset the current display profile</source>
+        <oldsource>Reset the display profile</oldsource>
         <translation type="unfinished">Nastavit zobrazovací profil znovu</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="167"/>
+        <location filename="DisplayProfileWidget.cpp" line="174"/>
         <source>Brightness:</source>
         <translation type="unfinished">Jas:</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="170"/>
+        <location filename="DisplayProfileWidget.cpp" line="177"/>
         <source>Contrast:</source>
         <translation type="unfinished">Kontrast:</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="173"/>
+        <location filename="DisplayProfileWidget.cpp" line="180"/>
         <source>Saturation:</source>
         <translation type="unfinished">Sytost:</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="182"/>
+        <location filename="DisplayProfileWidget.cpp" line="189"/>
         <source>Input:</source>
         <translation type="unfinished">Vstup:</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="185"/>
+        <location filename="DisplayProfileWidget.cpp" line="192"/>
         <source>Gamma:</source>
         <translation type="unfinished">Gama:</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="191"/>
+        <location filename="DisplayProfileWidget.cpp" line="198"/>
         <source>Output:</source>
         <translation type="unfinished">Výstup:</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="194"/>
+        <location filename="DisplayProfileWidget.cpp" line="201"/>
         <source>Soft clip:</source>
         <translation type="unfinished">Jemná ukázka:</translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="369"/>
+        <location filename="DisplayProfileWidget.cpp" line="374"/>
         <source>Name this display profile:</source>
         <translation type="unfinished">Pojmenovat tento zobrazovací profil:</translation>
     </message>
@@ -346,7 +348,7 @@ Playback Options
     </message>
     <message>
         <location filename="Enum.cpp" line="88"/>
-        <location filename="Enum.cpp" line="398"/>
+        <location filename="Enum.cpp" line="399"/>
         <source>Playback Speed</source>
         <translation type="unfinished">Rychlost přehrávání</translation>
     </message>
@@ -961,262 +963,262 @@ Playback Options
         <translation type="unfinished">Obrázek Barevný profil</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="347"/>
+        <location filename="Enum.cpp" line="348"/>
         <source>Image Channel Red</source>
         <translation type="unfinished">Obrázek Kanál červené</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="348"/>
+        <location filename="Enum.cpp" line="349"/>
         <source>Image Channel Green</source>
         <translation type="unfinished">Obrázek Kanál zelené</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="349"/>
+        <location filename="Enum.cpp" line="350"/>
         <source>Image Channel Blue</source>
         <translation type="unfinished">Obrázek Kanál modré</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="350"/>
+        <location filename="Enum.cpp" line="351"/>
         <source>Image Channel Alpha</source>
         <translation type="unfinished">Obrázek Kanál alfa</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="351"/>
+        <location filename="Enum.cpp" line="352"/>
         <source>Image Display Profile</source>
         <translation type="unfinished">Obrázek Zobrazovací profil</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="352"/>
+        <location filename="Enum.cpp" line="353"/>
         <source>Image Display Profile Reset</source>
         <translation type="unfinished">Obrázek Nastavit zobrazovací profil znovu</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="353"/>
+        <location filename="Enum.cpp" line="354"/>
         <source>Image Display Profile 1</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 1</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="354"/>
+        <location filename="Enum.cpp" line="355"/>
         <source>Image Display Profile 2</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 2</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="355"/>
+        <location filename="Enum.cpp" line="356"/>
         <source>Image Display Profile 3</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 3</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="356"/>
+        <location filename="Enum.cpp" line="357"/>
         <source>Image Display Profile 4</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 4</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="357"/>
+        <location filename="Enum.cpp" line="358"/>
         <source>Image Display Profile 5</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 5</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="358"/>
+        <location filename="Enum.cpp" line="359"/>
         <source>Image Display Profile 6</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 6</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="359"/>
+        <location filename="Enum.cpp" line="360"/>
         <source>Image Display Profile 7</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 7</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="360"/>
+        <location filename="Enum.cpp" line="361"/>
         <source>Image Display Profile 8</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 8</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="361"/>
+        <location filename="Enum.cpp" line="362"/>
         <source>Image Display Profile 9</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 9</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="362"/>
+        <location filename="Enum.cpp" line="363"/>
         <source>Image Display Profile 10</source>
         <translation type="unfinished">Obrázek Zobrazovací profil 10</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="364"/>
+        <location filename="Enum.cpp" line="365"/>
         <source>Playback Reverse</source>
         <translation type="unfinished">Přehrávání Obrátit</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="365"/>
+        <location filename="Enum.cpp" line="366"/>
         <source>Playback Stop</source>
         <translation type="unfinished">Přehrávání Zastavit</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="366"/>
+        <location filename="Enum.cpp" line="367"/>
         <source>Playback Forward</source>
         <translation type="unfinished">Přehrávání Vpřed</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="367"/>
+        <location filename="Enum.cpp" line="368"/>
         <source>Playback Toggle</source>
         <translation type="unfinished">Přehrávání Přepnout</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="368"/>
+        <location filename="Enum.cpp" line="369"/>
         <source>Playback Loop</source>
         <translation type="unfinished">Přehrávání Smyčka</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="369"/>
+        <location filename="Enum.cpp" line="370"/>
         <source>Playback Start</source>
         <translation type="unfinished">Přehrávání Spustit</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="370"/>
+        <location filename="Enum.cpp" line="371"/>
         <source>Playback Start Absolute</source>
         <translation type="unfinished">Přehrávání Absolutní začátek</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="371"/>
+        <location filename="Enum.cpp" line="372"/>
         <source>Playback Previous</source>
         <translation type="unfinished">Přehrávání Předchozí</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="372"/>
+        <location filename="Enum.cpp" line="373"/>
         <source>Playback Previous 10</source>
         <translation type="unfinished">Přehrávání Předchozí 10</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="373"/>
+        <location filename="Enum.cpp" line="374"/>
         <source>Playback Previous 100</source>
         <translation type="unfinished">Přehrávání Předchozí 100</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="374"/>
+        <location filename="Enum.cpp" line="375"/>
         <source>Playback Next</source>
         <translation type="unfinished">Přehrávání Další</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="375"/>
+        <location filename="Enum.cpp" line="376"/>
         <source>Playback Next 10</source>
         <translation type="unfinished">Přehrávání Další 10</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="376"/>
+        <location filename="Enum.cpp" line="377"/>
         <source>Playback Next 100</source>
         <translation type="unfinished">Přehrávání Další 100</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="377"/>
+        <location filename="Enum.cpp" line="378"/>
         <source>Playback End</source>
         <translation type="unfinished">Přehrávání Ukončit</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="378"/>
+        <location filename="Enum.cpp" line="379"/>
         <source>Playback End Absolute</source>
         <translation type="unfinished">Přehrávání Absolutní konec</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="379"/>
+        <location filename="Enum.cpp" line="380"/>
         <source>Playback In/Out Points</source>
         <translation type="unfinished">Přehrávání začáteční/koncový bod</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="380"/>
+        <location filename="Enum.cpp" line="381"/>
         <source>Playback In Point Mark</source>
         <translation type="unfinished">Přehrávání Označit začáteční bod</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="381"/>
+        <location filename="Enum.cpp" line="382"/>
         <source>Playback In Point Reset</source>
         <translation type="unfinished">Přehrávání Nastavit začáteční bod znovu</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="382"/>
+        <location filename="Enum.cpp" line="383"/>
         <source>Playback Out Point Mark</source>
         <translation type="unfinished">Přehrávání Označit koncový bod</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="383"/>
+        <location filename="Enum.cpp" line="384"/>
         <source>Playback Out Point Reset</source>
         <translation type="unfinished">Přehrávání Nastavit koncový bod znovu</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="385"/>
+        <location filename="Enum.cpp" line="386"/>
         <source>Tool Magnify</source>
         <translation type="unfinished">Nástroj Zvětšit</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="386"/>
+        <location filename="Enum.cpp" line="387"/>
         <source>Tool Color Picker</source>
         <translation type="unfinished">Nástroj Kapátko</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="387"/>
+        <location filename="Enum.cpp" line="388"/>
         <source>Tool Histogram</source>
         <translation type="unfinished">Nástroj Histogram</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="388"/>
+        <location filename="Enum.cpp" line="389"/>
         <source>Tool Information</source>
         <translation type="unfinished">Nástroj Informace</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="396"/>
+        <location filename="Enum.cpp" line="397"/>
         <source>View Zoom</source>
         <translation type="unfinished">Pohled Zvětšení</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="397"/>
+        <location filename="Enum.cpp" line="398"/>
         <source>Playback Shuttle</source>
         <translation type="unfinished">Přehrávat tam a zpět</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="406"/>
+        <location filename="Enum.cpp" line="407"/>
         <source>10%</source>
         <translation type="unfinished">10 %</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="407"/>
+        <location filename="Enum.cpp" line="408"/>
         <source>50%</source>
         <translation type="unfinished">50 %</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="408"/>
+        <location filename="Enum.cpp" line="409"/>
         <source>100%</source>
         <translation type="unfinished">100 %</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="429"/>
+        <location filename="Enum.cpp" line="430"/>
         <source>Cannot open image: %1</source>
         <translation type="unfinished">Nelze otevřít obrázek: %1</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="430"/>
+        <location filename="Enum.cpp" line="431"/>
         <source>Cannot read image: %1</source>
         <translation type="unfinished">Nelze přečíst obrázek: %1</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="431"/>
+        <location filename="Enum.cpp" line="432"/>
         <source>Cannot write image: %1</source>
         <translation type="unfinished">Nelze zapsat obrázek: %1</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="432"/>
+        <location filename="Enum.cpp" line="433"/>
         <source>Cannot open LUT: %1</source>
         <translation type="unfinished">Nelze otevřít LUT: %1</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="433"/>
+        <location filename="Enum.cpp" line="434"/>
         <source>Cannot pick color</source>
         <translation type="unfinished">Nelze vybrat barvu</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="434"/>
+        <location filename="Enum.cpp" line="435"/>
         <source>Cannot compute histogram</source>
         <translation type="unfinished">Nelze spočítat histogram</translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="435"/>
+        <location filename="Enum.cpp" line="436"/>
         <source>Cannot magnify</source>
         <translation type="unfinished">Nelze zvětšit</translation>
     </message>

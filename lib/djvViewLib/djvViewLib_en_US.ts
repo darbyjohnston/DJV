@@ -179,67 +179,69 @@ Playback Options
 <context>
     <name>djv::ViewLib::DisplayProfileWidget</name>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="91"/>
+        <location filename="DisplayProfileWidget.cpp" line="92"/>
         <source>Lookup Table</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="97"/>
+        <location filename="DisplayProfileWidget.cpp" line="98"/>
         <source>Color</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="116"/>
+        <location filename="DisplayProfileWidget.cpp" line="117"/>
         <source>Levels</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="151"/>
-        <source>Add this display profile to the favorites list</source>
-        <translation></translation>
+        <location filename="DisplayProfileWidget.cpp" line="152"/>
+        <source>Add the current display profile to the favorites list</source>
+        <oldsource>Add this display profile to the favorites list</oldsource>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="155"/>
-        <source>Reset the display profile</source>
-        <translation></translation>
+        <location filename="DisplayProfileWidget.cpp" line="156"/>
+        <source>Reset the current display profile</source>
+        <oldsource>Reset the display profile</oldsource>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="167"/>
+        <location filename="DisplayProfileWidget.cpp" line="174"/>
         <source>Brightness:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="170"/>
+        <location filename="DisplayProfileWidget.cpp" line="177"/>
         <source>Contrast:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="173"/>
+        <location filename="DisplayProfileWidget.cpp" line="180"/>
         <source>Saturation:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="182"/>
+        <location filename="DisplayProfileWidget.cpp" line="189"/>
         <source>Input:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="185"/>
+        <location filename="DisplayProfileWidget.cpp" line="192"/>
         <source>Gamma:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="191"/>
+        <location filename="DisplayProfileWidget.cpp" line="198"/>
         <source>Output:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="194"/>
+        <location filename="DisplayProfileWidget.cpp" line="201"/>
         <source>Soft clip:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="DisplayProfileWidget.cpp" line="369"/>
+        <location filename="DisplayProfileWidget.cpp" line="374"/>
         <source>Name this display profile:</source>
         <translation></translation>
     </message>
@@ -346,7 +348,7 @@ Playback Options
     </message>
     <message>
         <location filename="Enum.cpp" line="88"/>
-        <location filename="Enum.cpp" line="398"/>
+        <location filename="Enum.cpp" line="399"/>
         <source>Playback Speed</source>
         <translation></translation>
     </message>
@@ -961,262 +963,262 @@ Playback Options
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="347"/>
+        <location filename="Enum.cpp" line="348"/>
         <source>Image Channel Red</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="348"/>
+        <location filename="Enum.cpp" line="349"/>
         <source>Image Channel Green</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="349"/>
+        <location filename="Enum.cpp" line="350"/>
         <source>Image Channel Blue</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="350"/>
+        <location filename="Enum.cpp" line="351"/>
         <source>Image Channel Alpha</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="351"/>
+        <location filename="Enum.cpp" line="352"/>
         <source>Image Display Profile</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="352"/>
+        <location filename="Enum.cpp" line="353"/>
         <source>Image Display Profile Reset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="353"/>
+        <location filename="Enum.cpp" line="354"/>
         <source>Image Display Profile 1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="354"/>
+        <location filename="Enum.cpp" line="355"/>
         <source>Image Display Profile 2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="355"/>
+        <location filename="Enum.cpp" line="356"/>
         <source>Image Display Profile 3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="356"/>
+        <location filename="Enum.cpp" line="357"/>
         <source>Image Display Profile 4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="357"/>
+        <location filename="Enum.cpp" line="358"/>
         <source>Image Display Profile 5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="358"/>
+        <location filename="Enum.cpp" line="359"/>
         <source>Image Display Profile 6</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="359"/>
+        <location filename="Enum.cpp" line="360"/>
         <source>Image Display Profile 7</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="360"/>
+        <location filename="Enum.cpp" line="361"/>
         <source>Image Display Profile 8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="361"/>
+        <location filename="Enum.cpp" line="362"/>
         <source>Image Display Profile 9</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="362"/>
+        <location filename="Enum.cpp" line="363"/>
         <source>Image Display Profile 10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="364"/>
+        <location filename="Enum.cpp" line="365"/>
         <source>Playback Reverse</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="365"/>
+        <location filename="Enum.cpp" line="366"/>
         <source>Playback Stop</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="366"/>
+        <location filename="Enum.cpp" line="367"/>
         <source>Playback Forward</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="367"/>
+        <location filename="Enum.cpp" line="368"/>
         <source>Playback Toggle</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="368"/>
+        <location filename="Enum.cpp" line="369"/>
         <source>Playback Loop</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="369"/>
+        <location filename="Enum.cpp" line="370"/>
         <source>Playback Start</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="370"/>
+        <location filename="Enum.cpp" line="371"/>
         <source>Playback Start Absolute</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="371"/>
+        <location filename="Enum.cpp" line="372"/>
         <source>Playback Previous</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="372"/>
+        <location filename="Enum.cpp" line="373"/>
         <source>Playback Previous 10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="373"/>
+        <location filename="Enum.cpp" line="374"/>
         <source>Playback Previous 100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="374"/>
+        <location filename="Enum.cpp" line="375"/>
         <source>Playback Next</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="375"/>
+        <location filename="Enum.cpp" line="376"/>
         <source>Playback Next 10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="376"/>
+        <location filename="Enum.cpp" line="377"/>
         <source>Playback Next 100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="377"/>
+        <location filename="Enum.cpp" line="378"/>
         <source>Playback End</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="378"/>
+        <location filename="Enum.cpp" line="379"/>
         <source>Playback End Absolute</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="379"/>
+        <location filename="Enum.cpp" line="380"/>
         <source>Playback In/Out Points</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="380"/>
+        <location filename="Enum.cpp" line="381"/>
         <source>Playback In Point Mark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="381"/>
+        <location filename="Enum.cpp" line="382"/>
         <source>Playback In Point Reset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="382"/>
+        <location filename="Enum.cpp" line="383"/>
         <source>Playback Out Point Mark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="383"/>
+        <location filename="Enum.cpp" line="384"/>
         <source>Playback Out Point Reset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="385"/>
+        <location filename="Enum.cpp" line="386"/>
         <source>Tool Magnify</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="386"/>
+        <location filename="Enum.cpp" line="387"/>
         <source>Tool Color Picker</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="387"/>
+        <location filename="Enum.cpp" line="388"/>
         <source>Tool Histogram</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="388"/>
+        <location filename="Enum.cpp" line="389"/>
         <source>Tool Information</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="396"/>
+        <location filename="Enum.cpp" line="397"/>
         <source>View Zoom</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="397"/>
+        <location filename="Enum.cpp" line="398"/>
         <source>Playback Shuttle</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="406"/>
+        <location filename="Enum.cpp" line="407"/>
         <source>10%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="407"/>
+        <location filename="Enum.cpp" line="408"/>
         <source>50%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="408"/>
+        <location filename="Enum.cpp" line="409"/>
         <source>100%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="429"/>
+        <location filename="Enum.cpp" line="430"/>
         <source>Cannot open image: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="430"/>
+        <location filename="Enum.cpp" line="431"/>
         <source>Cannot read image: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="431"/>
+        <location filename="Enum.cpp" line="432"/>
         <source>Cannot write image: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="432"/>
+        <location filename="Enum.cpp" line="433"/>
         <source>Cannot open LUT: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="433"/>
+        <location filename="Enum.cpp" line="434"/>
         <source>Cannot pick color</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="434"/>
+        <location filename="Enum.cpp" line="435"/>
         <source>Cannot compute histogram</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="435"/>
+        <location filename="Enum.cpp" line="436"/>
         <source>Cannot magnify</source>
         <translation></translation>
     </message>
