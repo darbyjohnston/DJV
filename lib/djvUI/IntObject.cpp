@@ -39,8 +39,22 @@ namespace djv
         const int IntObject::intMin = -1000000;
         const int IntObject::intMax = 1000000;
 
+        struct IntObject::Private
+        {
+            int     value = 0;
+            bool    isDefaultValid = false;
+            int     defaultValue = 0;
+            int     min = intMin;
+            int     max = intMax;
+            bool    clamp = true;
+            int     smallInc = 0;
+            int     largeInc = 0;
+            QString sizeString = "00000";
+        };
+
         IntObject::IntObject(QObject * parent) :
-            QObject(parent)
+            QObject(parent),
+            _p(new Private)
         {
             setValue(0);
             setDefaultValue(0);
@@ -53,175 +67,175 @@ namespace djv
         
         int IntObject::value() const
         {
-            return _value;
+            return _p->value;
         }
 
         int IntObject::defaultValue() const
         {
-            return _defaultValue;
+            return _p->defaultValue;
         }
 
         bool IntObject::isDefaultValid() const
         {
-            return _isDefaultValid;
+            return _p->isDefaultValid;
         }
 
         int IntObject::min() const
         {
-            return _min;
+            return _p->min;
         }
 
         int IntObject::max() const
         {
-            return _max;
+            return _p->max;
         }
 
         int IntObject::smallInc() const
         {
-            return _smallInc;
+            return _p->smallInc;
         }
 
         int IntObject::largeInc() const
         {
-            return _largeInc;
+            return _p->largeInc;
         }
 
         bool IntObject::hasClamp() const
         {
-            return _clamp;
+            return _p->clamp;
         }
 
         const QString & IntObject::sizeString() const
         {
-            return _sizeString;
+            return _p->sizeString;
         }
 
         void IntObject::setValue(int in)
         {
-            const int tmp = _clamp ? Core::Math::clamp(in, _min, _max) : in;
-            if (tmp == _value)
+            const int tmp = _p->clamp ? Core::Math::clamp(in, _p->min, _p->max) : in;
+            if (tmp == _p->value)
                 return;
-            _value = tmp;
+            _p->value = tmp;
             defaultValidUpdate();
-            Q_EMIT valueChanged(_value);
+            Q_EMIT valueChanged(_p->value);
         }
 
         void IntObject::setDefaultValue(int in)
         {
-            if (in == _defaultValue)
+            if (in == _p->defaultValue)
                 return;
-            _defaultValue = in;
+            _p->defaultValue = in;
             defaultValidUpdate();
-            Q_EMIT defaultValueChanged(_defaultValue);
+            Q_EMIT defaultValueChanged(_p->defaultValue);
         }
 
         void IntObject::setMin(int min)
         {
-            setRange(min, _max);
+            setRange(min, _p->max);
         }
 
         void IntObject::setMax(int max)
         {
-            setRange(_min, max);
+            setRange(_p->min, max);
         }
 
         void IntObject::setRange(int min, int max)
         {
-            const bool minChange = min != _min;
-            const bool maxChange = max != _max;
+            const bool minChange = min != _p->min;
+            const bool maxChange = max != _p->max;
             if (!(minChange || maxChange))
                 return;
             //DJV_DEBUG("IntObject::setRange");
             //DJV_DEBUG_PRINT("min = " << min);
             //DJV_DEBUG_PRINT("max = " << max);
-            _min = min;
-            _max = max;
-            setValue(_value);
+            _p->min = min;
+            _p->max = max;
+            setValue(_p->value);
             if (minChange)
-                Q_EMIT minChanged(_min);
+                Q_EMIT minChanged(_p->min);
             if (maxChange)
-                Q_EMIT minChanged(_max);
-            Q_EMIT rangeChanged(_min, _max);
+                Q_EMIT minChanged(_p->max);
+            Q_EMIT rangeChanged(_p->min, _p->max);
         }
 
         void IntObject::setToMin()
         {
-            setValue(_min);
+            setValue(_p->min);
         }
 
         void IntObject::setToMax()
         {
-            setValue(_max);
+            setValue(_p->max);
         }
 
         void IntObject::setSmallInc(int inc)
         {
-            setInc(inc, _largeInc);
+            setInc(inc, _p->largeInc);
         }
 
         void IntObject::setLargeInc(int inc)
         {
-            setInc(_smallInc, inc);
+            setInc(_p->smallInc, inc);
         }
 
         void IntObject::setInc(int smallInc, int largeInc)
         {
-            const bool smallChange = smallInc != _smallInc;
-            const bool largeChange = largeInc != _largeInc;
+            const bool smallChange = smallInc != _p->smallInc;
+            const bool largeChange = largeInc != _p->largeInc;
             if (!(smallChange || largeChange))
                 return;
-            _smallInc = smallInc;
-            _largeInc = largeInc;
+            _p->smallInc = smallInc;
+            _p->largeInc = largeInc;
             if (smallChange)
-                Q_EMIT smallIncChanged(_smallInc);
+                Q_EMIT smallIncChanged(_p->smallInc);
             if (largeChange)
-                Q_EMIT largeIncChanged(_largeInc);
-            Q_EMIT incChanged(_smallInc, _largeInc);
+                Q_EMIT largeIncChanged(_p->largeInc);
+            Q_EMIT incChanged(_p->smallInc, _p->largeInc);
         }
 
         void IntObject::smallIncAction()
         {
-            setValue(_value + _smallInc);
+            setValue(_p->value + _p->smallInc);
         }
 
         void IntObject::largeIncAction()
         {
-            setValue(_value + _largeInc);
+            setValue(_p->value + _p->largeInc);
         }
 
         void IntObject::smallDecAction()
         {
-            setValue(_value - _smallInc);
+            setValue(_p->value - _p->smallInc);
         }
 
         void IntObject::largeDecAction()
         {
-            setValue(_value - _largeInc);
+            setValue(_p->value - _p->largeInc);
         }
 
         void IntObject::setClamp(bool in)
         {
-            if (in == _clamp)
+            if (in == _p->clamp)
                 return;
-            _clamp = in;
-            setValue(_value);
+            _p->clamp = in;
+            setValue(_p->value);
         }
 
         void IntObject::setSizeString(const QString & string)
         {
-            if (string == _sizeString)
+            if (string == _p->sizeString)
                 return;
-            _sizeString = string;
-            Q_EMIT sizeStringChanged(_sizeString);
+            _p->sizeString = string;
+            Q_EMIT sizeStringChanged(_p->sizeString);
         }
 
         void IntObject::defaultValidUpdate()
         {
-            const bool defaultValid = _value == _defaultValue;
-            if (defaultValid != _isDefaultValid)
+            const bool defaultValid = _p->value == _p->defaultValue;
+            if (defaultValid != _p->isDefaultValid)
             {
-                _isDefaultValid = defaultValid;
-                Q_EMIT defaultValidChanged(_isDefaultValid);
+                _p->isDefaultValid = defaultValid;
+                Q_EMIT defaultValidChanged(_p->isDefaultValid);
             }
         }
 

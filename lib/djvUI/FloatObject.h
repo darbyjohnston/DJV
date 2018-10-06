@@ -33,6 +33,8 @@
 
 #include <QObject>
 
+#include <memory>
+
 namespace djv
 {
     namespace UI
@@ -42,66 +44,66 @@ namespace djv
         {
             Q_OBJECT
 
-                //! This property holds the value.
-                Q_PROPERTY(
-                    float  value
-                    READ   value
-                    WRITE  setValue
-                    NOTIFY valueChanged)
+            //! This property holds the value.
+            Q_PROPERTY(
+                float  value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
-                //! This property holds the default value.
-                Q_PROPERTY(
-                    float  defaultValue
-                    READ   defaultValue
-                    WRITE  setDefaultValue
-                    NOTIFY defaultValueChanged)
+            //! This property holds the default value.
+            Q_PROPERTY(
+                float  defaultValue
+                READ   defaultValue
+                WRITE  setDefaultValue
+                NOTIFY defaultValueChanged)
 
-                //! This property holds whether the default value is valid.
-                Q_PROPERTY(
-                    bool   defaultValid
-                    READ   isDefaultValid
-                    NOTIFY defaultValidChanged)
+            //! This property holds whether the default value is valid.
+            Q_PROPERTY(
+                bool   defaultValid
+                READ   isDefaultValid
+                NOTIFY defaultValidChanged)
 
-                //! This property holds the minimum value.
-                Q_PROPERTY(
-                    float  min
-                    READ   min
-                    WRITE  setMin
-                    NOTIFY minChanged)
+            //! This property holds the minimum value.
+            Q_PROPERTY(
+                float  min
+                READ   min
+                WRITE  setMin
+                NOTIFY minChanged)
 
-                //! This property holds the maximum value.
-                Q_PROPERTY(
-                    float  max
-                    READ   max
-                    WRITE  setMax
-                    NOTIFY maxChanged)
+            //! This property holds the maximum value.
+            Q_PROPERTY(
+                float  max
+                READ   max
+                WRITE  setMax
+                NOTIFY maxChanged)
 
-                //! This property holds the small increment.
-                Q_PROPERTY(
-                    float  smallInc
-                    READ   smallInc
-                    WRITE  setSmallInc
-                    NOTIFY smallIncChanged)
+            //! This property holds the small increment.
+            Q_PROPERTY(
+                float  smallInc
+                READ   smallInc
+                WRITE  setSmallInc
+                NOTIFY smallIncChanged)
 
-                //! This property holds the large increment.
-                Q_PROPERTY(
-                    float  largeInc
-                    READ   largeInc
-                    WRITE  setLargeInc
-                    NOTIFY largeIncChanged)
+            //! This property holds the large increment.
+            Q_PROPERTY(
+                float  largeInc
+                READ   largeInc
+                WRITE  setLargeInc
+                NOTIFY largeIncChanged)
 
-                //! This property holds whether clamping is enabled.
-                Q_PROPERTY(
-                    bool  clamp
-                    READ  hasClamp
-                    WRITE setClamp)
+            //! This property holds whether clamping is enabled.
+            Q_PROPERTY(
+                bool  clamp
+                READ  hasClamp
+                WRITE setClamp)
 
-                //! This property holds the size string.
-                Q_PROPERTY(
-                    QString sizeString
-                    READ    sizeString
-                    WRITE   setSizeString
-                    NOTIFY  sizeStringChanged)
+            //! This property holds the size string.
+            Q_PROPERTY(
+                QString sizeString
+                READ    sizeString
+                WRITE   setSizeString
+                NOTIFY  sizeStringChanged)
 
         public:
             //! The minimum floating point value.
@@ -222,15 +224,8 @@ namespace djv
         private:
             void defaultValidUpdate();
 
-            float   _value = 0.f;
-            bool    _isDefaultValid = false;
-            float   _defaultValue = 0.f;
-            float   _min = 0.f;
-            float   _max = 0.f;
-            bool    _clamp = true;
-            float   _smallInc = 0.f;
-            float   _largeInc = 0.f;
-            QString _sizeString = "00000";
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

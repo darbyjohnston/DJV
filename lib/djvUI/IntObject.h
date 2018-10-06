@@ -33,6 +33,8 @@
 
 #include <QObject>
 
+#include <memory>
+
 namespace djv
 {
     namespace UI
@@ -225,15 +227,8 @@ namespace djv
         private:
             void defaultValidUpdate();
 
-            int     _value = 0;
-            bool    _isDefaultValid = false;
-            int     _defaultValue = 0;
-            int     _min = 0;
-            int     _max = 0;
-            bool    _clamp = true;
-            int     _smallInc = 0;
-            int     _largeInc = 0;
-            QString _sizeString = "00000";
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace UI

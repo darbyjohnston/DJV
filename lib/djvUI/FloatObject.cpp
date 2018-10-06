@@ -39,10 +39,22 @@ namespace djv
         const float FloatObject::floatMin = -9999.f;
         const float FloatObject::floatMax = 9999.f;
 
+        struct FloatObject::Private
+        {
+            float   value = 0.f;
+            bool    isDefaultValid = false;
+            float   defaultValue = 0.f;
+            float   min = floatMin;
+            float   max = floatMax;
+            bool    clamp = true;
+            float   smallInc = 0.f;
+            float   largeInc = 0.f;
+            QString sizeString = "00000";
+        };
+
         FloatObject::FloatObject(QObject * parent) :
             QObject(parent),
-            _min(floatMin),
-            _max(floatMax)
+            _p(new Private)
         {
             setValue(0.f);
             setDefaultValue(0.f);
@@ -52,174 +64,174 @@ namespace djv
 
         float FloatObject::value() const
         {
-            return _value;
+            return _p->value;
         }
 
         float FloatObject::defaultValue() const
         {
-            return _defaultValue;
+            return _p->defaultValue;
         }
 
         bool FloatObject::isDefaultValid() const
         {
-            return _isDefaultValid;
+            return _p->isDefaultValid;
         }
 
         float FloatObject::min() const
         {
-            return _min;
+            return _p->min;
         }
 
         float FloatObject::max() const
         {
-            return _max;
+            return _p->max;
         }
 
         float FloatObject::smallInc() const
         {
-            return _smallInc;
+            return _p->smallInc;
         }
 
         float FloatObject::largeInc() const
         {
-            return _largeInc;
+            return _p->largeInc;
         }
 
         bool FloatObject::hasClamp() const
         {
-            return _clamp;
+            return _p->clamp;
         }
 
         const QString & FloatObject::sizeString() const
         {
-            return _sizeString;
+            return _p->sizeString;
         }
 
         void FloatObject::setValue(float in)
         {
-            const float tmp = _clamp ? Core::Math::clamp(in, _min, _max) : in;
-            if (Core::Math::fuzzyCompare(tmp, _value))
+            const float tmp = _p->clamp ? Core::Math::clamp(in, _p->min, _p->max) : in;
+            if (Core::Math::fuzzyCompare(tmp, _p->value))
                 return;
-            _value = tmp;
+            _p->value = tmp;
             defaultValidUpdate();
-            Q_EMIT valueChanged(_value);
+            Q_EMIT valueChanged(_p->value);
         }
 
         void FloatObject::setDefaultValue(float in)
         {
-            if (Core::Math::fuzzyCompare(in, _defaultValue))
+            if (Core::Math::fuzzyCompare(in, _p->defaultValue))
                 return;
             //DJV_DEBUG("FloatObject::setDefaultValue");
             //DJV_DEBUG_PRINT("in = " << in);
-            _defaultValue = in;
+            _p->defaultValue = in;
             defaultValidUpdate();
-            Q_EMIT defaultValueChanged(_defaultValue);
+            Q_EMIT defaultValueChanged(_p->defaultValue);
         }
 
         void FloatObject::setMin(float min)
         {
-            setRange(min, _max);
+            setRange(min, _p->max);
         }
 
         void FloatObject::setMax(float max)
         {
-            setRange(_min, max);
+            setRange(_p->min, max);
         }
 
         void FloatObject::setRange(float min, float max)
         {
-            const bool minChange = !Core::Math::fuzzyCompare(min, _min);
-            const bool maxChange = !Core::Math::fuzzyCompare(max, _max);
+            const bool minChange = !Core::Math::fuzzyCompare(min, _p->min);
+            const bool maxChange = !Core::Math::fuzzyCompare(max, _p->max);
             if (!(minChange || maxChange))
                 return;
-            _min = min;
-            _max = max;
-            setValue(_value);
+            _p->min = min;
+            _p->max = max;
+            setValue(_p->value);
             if (minChange)
-                Q_EMIT minChanged(_min);
+                Q_EMIT minChanged(_p->min);
             if (maxChange)
-                Q_EMIT minChanged(_max);
-            Q_EMIT rangeChanged(_min, _max);
+                Q_EMIT minChanged(_p->max);
+            Q_EMIT rangeChanged(_p->min, _p->max);
         }
 
         void FloatObject::setToMin()
         {
-            setValue(_min);
+            setValue(_p->min);
         }
 
         void FloatObject::setToMax()
         {
-            setValue(_max);
+            setValue(_p->max);
         }
 
         void FloatObject::setSmallInc(float inc)
         {
-            setInc(inc, _largeInc);
+            setInc(inc, _p->largeInc);
         }
 
         void FloatObject::setLargeInc(float inc)
         {
-            setInc(_smallInc, inc);
+            setInc(_p->smallInc, inc);
         }
 
         void FloatObject::setInc(float smallInc, float largeInc)
         {
-            const bool smallChange = !Core::Math::fuzzyCompare(smallInc, _smallInc);
-            const bool largeChange = !Core::Math::fuzzyCompare(largeInc, _largeInc);
+            const bool smallChange = !Core::Math::fuzzyCompare(smallInc, _p->smallInc);
+            const bool largeChange = !Core::Math::fuzzyCompare(largeInc, _p->largeInc);
             if (!(smallChange || largeChange))
                 return;
-            _smallInc = smallInc;
-            _largeInc = largeInc;
+            _p->smallInc = smallInc;
+            _p->largeInc = largeInc;
             if (smallChange)
-                Q_EMIT smallIncChanged(_smallInc);
+                Q_EMIT smallIncChanged(_p->smallInc);
             if (largeChange)
-                Q_EMIT largeIncChanged(_largeInc);
-            Q_EMIT incChanged(_smallInc, _largeInc);
+                Q_EMIT largeIncChanged(_p->largeInc);
+            Q_EMIT incChanged(_p->smallInc, _p->largeInc);
         }
 
         void FloatObject::smallIncAction()
         {
-            setValue(_value + _smallInc);
+            setValue(_p->value + _p->smallInc);
         }
 
         void FloatObject::largeIncAction()
         {
-            setValue(_value + _largeInc);
+            setValue(_p->value + _p->largeInc);
         }
 
         void FloatObject::smallDecAction()
         {
-            setValue(_value - _smallInc);
+            setValue(_p->value - _p->smallInc);
         }
 
         void FloatObject::largeDecAction()
         {
-            setValue(_value - _largeInc);
+            setValue(_p->value - _p->largeInc);
         }
 
         void FloatObject::setClamp(bool in)
         {
-            if (in == _clamp)
+            if (in == _p->clamp)
                 return;
-            _clamp = in;
-            setValue(_value);
+            _p->clamp = in;
+            setValue(_p->value);
         }
 
         void FloatObject::setSizeString(const QString & string)
         {
-            if (string == _sizeString)
+            if (string == _p->sizeString)
                 return;
-            _sizeString = string;
-            Q_EMIT sizeStringChanged(_sizeString);
+            _p->sizeString = string;
+            Q_EMIT sizeStringChanged(_p->sizeString);
         }
 
         void FloatObject::defaultValidUpdate()
         {
-            const bool defaultValid = Core::Math::fuzzyCompare(_value, _defaultValue);
-            if (defaultValid != _isDefaultValid)
+            const bool defaultValid = Core::Math::fuzzyCompare(_p->value, _p->defaultValue);
+            if (defaultValid != _p->isDefaultValid)
             {
-                _isDefaultValid = defaultValid;
-                Q_EMIT defaultValidChanged(_isDefaultValid);
+                _p->isDefaultValid = defaultValid;
+                Q_EMIT defaultValidChanged(_p->isDefaultValid);
             }
         }
 
