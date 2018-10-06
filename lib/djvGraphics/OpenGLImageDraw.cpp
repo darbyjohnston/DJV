@@ -465,33 +465,35 @@ namespace djv
                 "\n"
                 "vec4 lut1(vec4 value, sampler2D lut)\n"
                 "{\n"
-                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
-                "    value[1] = texture(lut, vec2(value[1], 0))[0];\n"
-                "    value[2] = texture(lut, vec2(value[2], 0))[0];\n"
+                "    value[0] = texture(lut, vec2(value[0], 0.0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0.0))[0];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0.0))[0];\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
                 "vec4 lut2(vec4 value, sampler2D lut)\n"
                 "{\n"
-                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
-                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
+                "    value[0] = texture(lut, vec2(value[0], 0.0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0.0))[0];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0.0))[0];\n"
+                "    value[3] = texture(lut, vec2(value[3], 0.0))[1];\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
                 "vec4 lut3(vec4 value, sampler2D lut)\n"
                 "{\n"
-                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
-                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
-                "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
+                "    value[0] = texture(lut, vec2(value[0], 0.0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0.0))[1];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0.0))[2];\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
                 "vec4 lut4(vec4 value, sampler2D lut)\n"
                 "{\n"
-                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
-                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
-                "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
-                "    value[3] = texture(lut, vec2(value[2], 0))[3];\n"
+                "    value[0] = texture(lut, vec2(value[0], 0.0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0.0))[1];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0.0))[2];\n"
+                "    value[3] = texture(lut, vec2(value[2], 0.0))[3];\n"
                 "    return value;\n"
                 "}\n"
                 "\n"
@@ -594,6 +596,7 @@ namespace djv
         namespace
         {
             QString sourceFragment(
+                Pixel::FORMAT                     format,
                 ColorProfile                      colorProfile,
                 const OpenGLImageDisplayProfile & displayProfile,
                 OpenGLImageOptions::CHANNEL       channel,
@@ -602,6 +605,8 @@ namespace djv
                 bool                              scaleX)
             {
                 //DJV_DEBUG("sourceFragment");
+                //DJV_DEBUG_PRINT("in format = " << inFormat);
+                //DJV_DEBUG_PRINT("out format = " << outFormat);
                 //DJV_DEBUG_PRINT("colorProfile = " << colorProfile);
                 //DJV_DEBUG_PRINT("displayProfile = " << displayProfile);
                 //DJV_DEBUG_PRINT("channel = " << channel);
@@ -618,6 +623,17 @@ namespace djv
                 header += "out vec4 FragColor;\n";
                 header += "uniform sampler2D inTexture;\n";
 
+                // Input swizzle.
+                QString swizzle = "rgba";
+                switch (format)
+                {
+                case Pixel::FORMAT::L: swizzle = "rrra"; break;
+                case Pixel::FORMAT::LA: swizzle = "rrrg"; break;
+                case Pixel::FORMAT::RGB:
+                case Pixel::FORMAT::RGBA:
+                default: break;
+                }
+
                 // Color profile.
                 QString sample;
                 switch (colorProfile.type)
@@ -626,22 +642,22 @@ namespace djv
                     header += "uniform sampler2D inColorProfileLut;\n";
                     switch (colorProfile.lut.channels())
                     {
-                    case 1: sample = "lut1(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
-                    case 2: sample = "lut2(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
-                    case 3: sample = "lut3(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
-                    case 4: sample = "lut4(texture(inTexture, TextureCoord), inColorProfileLut)"; break;
+                    case 1: sample = QString("lut1(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
+                    case 2: sample = QString("lut2(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
+                    case 3: sample = QString("lut3(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
+                    case 4: sample = QString("lut4(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
                     }
                     break;
                 case ColorProfile::GAMMA:
                     header += "uniform float inColorProfileGamma;\n";
-                    sample = "gamma(texture(inTexture, TextureCoord), inColorProfileGamma)";
+                    sample = QString("gamma(texture(inTexture, TextureCoord).%1, inColorProfileGamma)").arg(swizzle);
                     break;
                 case ColorProfile::EXPOSURE:
                     header += "uniform Exposure inColorProfileExposure;\n";
-                    sample = "exposure(texture(inTexture, TextureCoord), inColorProfileExposure)";
+                    sample = QString("exposure(texture(inTexture, TextureCoord).%1, inColorProfileExposure)").arg(swizzle);
                     break;
                 default:
-                    sample = "texture(inTexture, TextureCoord)";
+                    sample = QString("texture(inTexture, TextureCoord).%1").arg(swizzle);
                     break;
                 }
 
@@ -914,6 +930,7 @@ namespace djv
                     _shader->init(
                         sourceVertex,
                         sourceFragment(
+                            Pixel::format(info.pixel),
                             options.colorProfile,
                             options.displayProfile,
                             options.channel,
@@ -940,6 +957,7 @@ namespace djv
                     _scaleXShader->init(
                         sourceVertex,
                         sourceFragment(
+                            Pixel::format(info.pixel),
                             options.colorProfile,
                             OpenGLImageDisplayProfile(),
                             static_cast<OpenGLImageOptions::CHANNEL>(0),
@@ -953,6 +971,7 @@ namespace djv
                     _scaleYShader->init(
                         sourceVertex,
                         sourceFragment(
+                            Pixel::format(info.pixel),
                             ColorProfile(),
                             options.displayProfile,
                             options.channel,
