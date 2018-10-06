@@ -50,7 +50,7 @@ namespace djv
         struct IntEditSlider::Private
         {
             QPointer<UIContext> context;
-            bool resetToDefault = false;
+            bool resetToDefault = true;
             QPointer<IntEdit> edit;
             QPointer<IntSlider> slider;
             QPointer<ToolButton> defaultButton;
