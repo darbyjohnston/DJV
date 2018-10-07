@@ -268,47 +268,51 @@ namespace djv
             //DJV_DEBUG("MagnifyTool::pixelDataUpdate");
             Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->widget);
-            Graphics::PixelData tmp(Graphics::PixelDataInfo(
-                _p->widget->width(),
-                _p->widget->height(),
-                Graphics::Pixel::RGB_U8));
-            if (const Graphics::PixelData * data = viewWidget()->data())
+            QPixmap pixmap;
+            const glm::ivec2 size(_p->widget->width(), _p->widget->height());
+            if (Core::VectorUtil::isSizeValid(size))
             {
-                //DJV_DEBUG_PRINT("data = " << *data);
-                const float zoom = Core::Math::pow(2, _p->zoom);
-                glm::ivec2 pick = Core::VectorUtil::floor(
-                    glm::vec2(_p->pick - viewWidget()->viewPos()) * zoom -
-                    glm::vec2(tmp.info().size) / 2.f);
-                //DJV_DEBUG_PRINT("zoom = " << zoom);
-                //DJV_DEBUG_PRINT("pick = " << pick);
-                try
+                Graphics::PixelData tmp(Graphics::PixelDataInfo(
+                    size,
+                    Graphics::Pixel::RGB_U8));
+                if (const Graphics::PixelData * data = viewWidget()->data())
                 {
-                    context()->makeGLContextCurrent();
-                    if (!_p->openGLImage)
+                    //DJV_DEBUG_PRINT("data = " << *data);
+                    const float zoom = Core::Math::pow(2, _p->zoom);
+                    glm::ivec2 pick = Core::VectorUtil::floor(
+                        glm::vec2(_p->pick - viewWidget()->viewPos()) * zoom -
+                        glm::vec2(tmp.info().size) / 2.f);
+                    //DJV_DEBUG_PRINT("zoom = " << zoom);
+                    //DJV_DEBUG_PRINT("pick = " << pick);
+                    try
                     {
-                        _p->openGLImage.reset(new Graphics::OpenGLImage);
+                        context()->makeGLContextCurrent();
+                        if (!_p->openGLImage)
+                        {
+                            _p->openGLImage.reset(new Graphics::OpenGLImage);
+                        }
+                        Graphics::OpenGLImageOptions options = viewWidget()->options();
+                        options.xform.position -= pick;
+                        options.xform.scale *= zoom * viewWidget()->viewZoom();
+                        if (!_p->colorProfile)
+                        {
+                            options.colorProfile = Graphics::ColorProfile();
+                        }
+                        if (!_p->displayProfile)
+                        {
+                            options.displayProfile = DisplayProfile();
+                        }
+                        _p->openGLImage->copy(*data, tmp, options);
+                        pixmap = _p->openGLImage->toQt(tmp);
                     }
-                    Graphics::OpenGLImageOptions options = viewWidget()->options();
-                    options.xform.position -= pick;
-                    options.xform.scale *= zoom * viewWidget()->viewZoom();
-                    if (!_p->colorProfile)
+                    catch (Core::Error error)
                     {
-                        options.colorProfile = Graphics::ColorProfile();
+                        error.add(Enum::errorLabels()[Enum::ERROR_MAGNIFY]);
+                        context()->printError(error);
                     }
-                    if (!_p->displayProfile)
-                    {
-                        options.displayProfile = DisplayProfile();
-                    }
-                    _p->openGLImage->copy(*data, tmp, options);
-                    _p->widget->setPixmap(_p->openGLImage->toQt(tmp));
-                }
-                catch (Core::Error error)
-                {
-                    error.add(Enum::errorLabels()[Enum::ERROR_MAGNIFY]);
-                    context()->printError(error);
                 }
             }
-            //_p->widget->setPixelData(tmp);
+            _p->widget->setPixmap(pixmap);
             _p->pixelDataInit = false;
         }
 
