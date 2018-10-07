@@ -112,10 +112,6 @@ namespace djv
                         a(Graphics::PixelDataInfo(1, 1, pixel)),
                         b(Graphics::PixelDataInfo(1, 1, pixel));
                     Graphics::Color color(pixel);
-                    Graphics::ColorUtil::convert(Graphics::Color(0.5), color);
-                    DJV_DEBUG_PRINT("color = " << color);
-                    memcpy(a.data(), color.data(), a.dataByteCount());
-                    DJV_DEBUG_PRINT("pixel = " << Graphics::OpenGLImage().read(a, 0, 0));
 
                     Graphics::OpenGLImage().copy(a, b);
                     DJV_DEBUG_PRINT("compare = " << (a == b));
