@@ -596,7 +596,8 @@ namespace djv
         namespace
         {
             QString sourceFragment(
-                Pixel::FORMAT                     format,
+                Pixel::FORMAT                     inFormat,
+                Pixel::FORMAT                     outFormat,
                 ColorProfile                      colorProfile,
                 const OpenGLImageDisplayProfile & displayProfile,
                 OpenGLImageOptions::CHANNEL       channel,
@@ -624,11 +625,11 @@ namespace djv
                 header += "uniform sampler2D inTexture;\n";
 
                 // Input swizzle.
-                QString swizzle = "rgba";
-                switch (format)
+                QString inSwizzle = "rgba";
+                switch (inFormat)
                 {
-                case Pixel::FORMAT::L: swizzle = "rrra"; break;
-                case Pixel::FORMAT::LA: swizzle = "rrrg"; break;
+                case Pixel::FORMAT::L: inSwizzle = "rrra"; break;
+                case Pixel::FORMAT::LA: inSwizzle = "rrrg"; break;
                 case Pixel::FORMAT::RGB:
                 case Pixel::FORMAT::RGBA:
                 default: break;
@@ -642,22 +643,22 @@ namespace djv
                     header += "uniform sampler2D inColorProfileLut;\n";
                     switch (colorProfile.lut.channels())
                     {
-                    case 1: sample = QString("lut1(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
-                    case 2: sample = QString("lut2(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
-                    case 3: sample = QString("lut3(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
-                    case 4: sample = QString("lut4(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(swizzle); break;
+                    case 1: sample = QString("lut1(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 2: sample = QString("lut2(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 3: sample = QString("lut3(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 4: sample = QString("lut4(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
                     }
                     break;
                 case ColorProfile::GAMMA:
                     header += "uniform float inColorProfileGamma;\n";
-                    sample = QString("gamma(texture(inTexture, TextureCoord).%1, inColorProfileGamma)").arg(swizzle);
+                    sample = QString("gamma(texture(inTexture, TextureCoord).%1, inColorProfileGamma)").arg(inSwizzle);
                     break;
                 case ColorProfile::EXPOSURE:
                     header += "uniform Exposure inColorProfileExposure;\n";
-                    sample = QString("exposure(texture(inTexture, TextureCoord).%1, inColorProfileExposure)").arg(swizzle);
+                    sample = QString("exposure(texture(inTexture, TextureCoord).%1, inColorProfileExposure)").arg(inSwizzle);
                     break;
                 default:
-                    sample = QString("texture(inTexture, TextureCoord).%1").arg(swizzle);
+                    sample = QString("texture(inTexture, TextureCoord).%1").arg(inSwizzle);
                     break;
                 }
 
@@ -726,6 +727,17 @@ namespace djv
                 // Clamp pixel values.
                 //if (clamp)
                 //    main += "color = clamp(color, vec4(0.f), vec4(1.f));\n";
+
+                // Output swizzle.
+                switch (outFormat)
+                {
+                case Pixel::FORMAT::L:
+                    main += "color = color.rrrr;\n";
+                    break;
+                case Pixel::FORMAT::LA:
+                    main += "color = color.raaa;\n";
+                    break;
+                }
 
                 QString out = header + "\n" + QString(sourceFragmentMain).arg(main);
                 //int line = 0;
@@ -882,7 +894,8 @@ namespace djv
         void OpenGLImage::draw(
             const PixelData &          data,
             const glm::mat4x4&         viewMatrix,
-            const OpenGLImageOptions & options)
+            const OpenGLImageOptions & options,
+            Pixel::FORMAT              outputFormat)
         {
             //DJV_DEBUG("OpenGLImage::draw");
             //DJV_DEBUG_PRINT("data = " << data);
@@ -931,6 +944,7 @@ namespace djv
                         sourceVertex,
                         sourceFragment(
                             Pixel::format(info.pixel),
+                            outputFormat,
                             options.colorProfile,
                             options.displayProfile,
                             options.channel,
@@ -958,6 +972,7 @@ namespace djv
                         sourceVertex,
                         sourceFragment(
                             Pixel::format(info.pixel),
+                            outputFormat,
                             options.colorProfile,
                             OpenGLImageDisplayProfile(),
                             static_cast<OpenGLImageOptions::CHANNEL>(0),
@@ -972,6 +987,7 @@ namespace djv
                         sourceVertex,
                         sourceFragment(
                             Pixel::format(info.pixel),
+                            outputFormat,
                             ColorProfile(),
                             options.displayProfile,
                             options.channel,

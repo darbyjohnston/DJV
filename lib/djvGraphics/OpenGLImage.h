@@ -225,16 +225,8 @@ namespace djv
             void draw(
                 const PixelData &          data,
                 const glm::mat4x4&         viewMatrix,
-                const OpenGLImageOptions & options = OpenGLImageOptions());
-
-            //! Read pixel data.
-            void read(PixelData &);
-
-            //! Read pixel data.
-            void read(PixelData &, const Core::Box2i &);
-
-            //! Read a pixel.
-            Color read(const PixelData &, int x, int y);
+                const OpenGLImageOptions & options = OpenGLImageOptions(),
+                Pixel::FORMAT              outputFormat = Pixel::RGBA);
 
             //! Copy pixel data.
             //!

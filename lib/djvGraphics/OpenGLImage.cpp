@@ -233,35 +233,6 @@ namespace djv
         OpenGLImage::~OpenGLImage()
         {}
 
-        void OpenGLImage::read(PixelData & output)
-        {
-            read(output, Core::Box2i(output.size()));
-        }
-
-        void OpenGLImage::read(PixelData & output, const Core::Box2i & area)
-        {
-            //DJV_DEBUG("OpenGLImage::read");
-            //DJV_DEBUG_PRINT("output = " << output);
-            //DJV_DEBUG_PRINT("area = " << area);    
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            const PixelDataInfo & info = output.info();
-            statePack(info, area.position);
-            glFuncs->glReadPixels(
-                0, 0, area.w, area.h,
-                OpenGL::format(info.pixel, info.bgr),
-                OpenGL::type(info.pixel),
-                output.data());
-        }
-
-        Color OpenGLImage::read(const PixelData & data, int x, int y)
-        {
-            PixelData p(PixelDataInfo(1, 1, data.pixel()));
-            OpenGLImageOptions options;
-            options.xform.position = glm::vec2(-x, -y);
-            OpenGLImage::copy(data, p, options);
-            return Color(p.data(), p.pixel());
-        }
-
         namespace
         {
             bool initAlpha(const Pixel::PIXEL & input, const Pixel::PIXEL & output)
@@ -273,8 +244,7 @@ namespace djv
                     switch (Pixel::format(output))
                     {
                     case Pixel::LA:
-                    case Pixel::RGBA:
-                        return true;
+                    case Pixel::RGBA: return true;
                     default: break;
                     }
                     break;
@@ -294,6 +264,7 @@ namespace djv
             //DJV_DEBUG_PRINT("input = " << input);
             //DJV_DEBUG_PRINT("output = " << output);
             //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
+            //DJV_DEBUG_PRINT("output format = " << outputFormat);
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
@@ -334,8 +305,15 @@ namespace djv
                     static_cast<float>(input.h()),
                     -1.f,
                     1.f);
-                draw(input, viewMatrix, _options);
-                read(output);
+                draw(input, viewMatrix, _options, Pixel::format(output.pixel()));
+
+                const PixelDataInfo & info = output.info();
+                statePack(info);
+                glFuncs->glReadPixels(
+                    0, 0, output.w(), output.h(),
+                    OpenGL::format(info.pixel, info.bgr),
+                    OpenGL::type(info.pixel),
+                    output.data());
             }
             catch (const Core::Error & error)
             {
