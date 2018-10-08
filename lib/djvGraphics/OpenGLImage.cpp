@@ -30,6 +30,7 @@
 #include <djvGraphics/OpenGLImage.h>
 
 #include <djvGraphics/ColorUtil.h>
+#include <djvGraphics/OpenGLImagePrivate.h>
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
 #include <djvGraphics/OpenGLLUT.h>
 #include <djvGraphics/OpenGLShader.h>
@@ -217,17 +218,18 @@ namespace djv
             return data;
         }
 
-        OpenGLImage::OpenGLImage()
+        OpenGLImage::OpenGLImage() :
+            _p(new Private)
         {
-            _texture.reset(new OpenGLTexture);
-            _shader.reset(new OpenGLShader);
-            _scaleXContrib.reset(new OpenGLTexture);
-            _scaleYContrib.reset(new OpenGLTexture);
-            _scaleXShader.reset(new OpenGLShader);
-            _scaleYShader.reset(new OpenGLShader);
-            _lutColorProfile.reset(new OpenGLLUT);
-            _lutDisplayProfile.reset(new OpenGLLUT);
-            _mesh.reset(new OpenGLImageMesh);
+            _p->texture.reset(new OpenGLTexture);
+            _p->shader.reset(new OpenGLShader);
+            _p->scaleXContrib.reset(new OpenGLTexture);
+            _p->scaleYContrib.reset(new OpenGLTexture);
+            _p->scaleXShader.reset(new OpenGLShader);
+            _p->scaleYShader.reset(new OpenGLShader);
+            _p->lutColorProfile.reset(new OpenGLLUT);
+            _p->lutDisplayProfile.reset(new OpenGLLUT);
+            _p->mesh.reset(new OpenGLImageMesh);
         }
 
         OpenGLImage::~OpenGLImage()
@@ -264,18 +266,17 @@ namespace djv
             //DJV_DEBUG_PRINT("input = " << input);
             //DJV_DEBUG_PRINT("output = " << output);
             //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
-            //DJV_DEBUG_PRINT("output format = " << outputFormat);
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
-            if (!_buffer || (_buffer && _buffer->info() != output.info()))
+            if (!_p->buffer || (_p->buffer && _p->buffer->info() != output.info()))
             {
-                _buffer.reset(new OpenGLOffscreenBuffer(PixelDataInfo(output.info())));
+                _p->buffer.reset(new OpenGLOffscreenBuffer(PixelDataInfo(output.info())));
             }
 
             try
             {
-                OpenGLOffscreenBufferScope bufferScope(_buffer.get());
+                OpenGLOffscreenBufferScope bufferScope(_p->buffer.get());
 
                 glFuncs->glViewport(0, 0, input.w(), input.h());
                 Color background(Pixel::RGB_F32);

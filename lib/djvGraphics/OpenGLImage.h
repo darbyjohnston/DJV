@@ -201,12 +201,8 @@ namespace djv
             void draw();
 
         private:
-            glm::ivec2 _size = glm::ivec2(0, 0);
-            PixelDataInfo::Mirror _mirror;
-            int _proxyScale = 1;
-            size_t _vertexSize = 0;
-            GLuint _vbo = 0;
-            GLuint _vao = 0;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
         //! This class provides OpenGL image utilities.
@@ -288,19 +284,8 @@ namespace djv
             static const QStringList & errorLabels();
 
         private:
-            bool _init = false;
-            PixelDataInfo _info;
-            OpenGLImageOptions _options;
-            std::unique_ptr<OpenGLTexture> _texture;
-            std::unique_ptr<OpenGLShader> _shader;
-            std::unique_ptr<OpenGLTexture> _scaleXContrib;
-            std::unique_ptr<OpenGLTexture> _scaleYContrib;
-            std::unique_ptr<OpenGLShader> _scaleXShader;
-            std::unique_ptr<OpenGLShader> _scaleYShader;
-            std::unique_ptr<OpenGLLUT> _lutColorProfile;
-            std::unique_ptr<OpenGLLUT> _lutDisplayProfile;
-            std::unique_ptr<OpenGLImageMesh> _mesh;
-            std::unique_ptr<OpenGLOffscreenBuffer> _buffer;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace Graphics

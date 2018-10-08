@@ -30,6 +30,7 @@
 #include <djvGraphics/OpenGLImage.h>
 
 #include <djvGraphics/OpenGLLUT.h>
+#include <djvGraphics/OpenGLImagePrivate.h>
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
 #include <djvGraphics/OpenGLShader.h>
 #include <djvGraphics/OpenGLTexture.h>
@@ -47,60 +48,70 @@ namespace djv
 {
     namespace Graphics
     {
+        struct OpenGLImageMesh::Private
+        {
+            glm::ivec2 size = glm::ivec2(0, 0);
+            PixelDataInfo::Mirror mirror;
+            int proxyScale = 1;
+            size_t vertexSize = 8 + 8;
+            GLuint vbo = 0;
+            GLuint vao = 0;
+        };
+
         OpenGLImageMesh::OpenGLImageMesh() :
-            _vertexSize(8 + 8)
+            _p(new Private)
         {
             //DJV_DEBUG("OpenGLImageMesh::OpenGLImageMesh");
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glGenBuffers(1, &_vbo);
-            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-            glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), 0, GL_DYNAMIC_DRAW);
+            glFuncs->glGenBuffers(1, &_p->vbo);
+            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _p->vbo);
+            glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _p->vertexSize), 0, GL_DYNAMIC_DRAW);
 
-            glFuncs->glGenVertexArrays(1, &_vao);
-            glFuncs->glBindVertexArray(_vao);
-            glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0);
+            glFuncs->glGenVertexArrays(1, &_p->vao);
+            glFuncs->glBindVertexArray(_p->vao);
+            glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_p->vertexSize), (GLvoid*)0);
             glFuncs->glEnableVertexAttribArray(0);
-            glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8);
+            glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_p->vertexSize), (GLvoid*)8);
             glFuncs->glEnableVertexAttribArray(1);
         }
 
         OpenGLImageMesh::~OpenGLImageMesh()
         {
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glDeleteVertexArrays(1, &_vao);
-            glFuncs->glDeleteBuffers(1, &_vbo);
+            glFuncs->glDeleteVertexArrays(1, &_p->vao);
+            glFuncs->glDeleteBuffers(1, &_p->vbo);
         }
 
         void OpenGLImageMesh::setSize(const glm::ivec2& size, const PixelDataInfo::Mirror & mirror, int proxyScale)
         {
-            if (size == _size && mirror == _mirror && proxyScale == _proxyScale)
+            if (size == _p->size && mirror == _p->mirror && proxyScale == _p->proxyScale)
                 return;
 
             //DJV_DEBUG("OpenGLImageMesh::setSize");
-            //DJV_DEBUG_PRINT("size = " << size);
-            //DJV_DEBUG_PRINT("mirror = " << mirror);
-            //DJV_DEBUG_PRINT("proxy = " << proxyScale);
+            //DJV_DEBUG_PRINT("size = " << _p->size);
+            //DJV_DEBUG_PRINT("mirror = " << _p->mirror);
+            //DJV_DEBUG_PRINT("proxy = " << _p->proxyScale);
 
-            _size = size;
-            _mirror = mirror;
-            _proxyScale = proxyScale;
+            _p->size = size;
+            _p->mirror = mirror;
+            _p->proxyScale = proxyScale;
 
             const glm::vec2 p[] =
             {
                 glm::vec2(0.f, 0.f),
-                glm::vec2(_size.x * _proxyScale, 0.f),
-                glm::vec2(_size.x * _proxyScale, _size.y * _proxyScale),
+                glm::vec2(_p->size.x * _p->proxyScale, 0.f),
+                glm::vec2(_p->size.x * _p->proxyScale, _p->size.y * _p->proxyScale),
 
-                glm::vec2(_size.x * _proxyScale, _size.y * _proxyScale),
-                glm::vec2(0.f, _size.y * _proxyScale),
+                glm::vec2(_p->size.x * _p->proxyScale, _p->size.y * _p->proxyScale),
+                glm::vec2(0.f, _p->size.y * _p->proxyScale),
                 glm::vec2(0.f, 0.f)
             };
 
             float u[] = { 0.f, 0.f };
             float v[] = { 0.f, 0.f };
-            u[!_mirror.x] = 1.f;
-            v[!_mirror.y] = 1.f;
+            u[!_p->mirror.x] = 1.f;
+            v[!_p->mirror.y] = 1.f;
             //DJV_DEBUG_PRINT("u = " << u[0] << " " << u[1]);
             //DJV_DEBUG_PRINT("v = " << v[0] << " " << v[1]);
             const glm::vec2 uv[] =
@@ -114,7 +125,7 @@ namespace djv
                 glm::vec2(u[0], v[0])
             };
 
-            std::vector<uint8_t> vertices(6 * _vertexSize);
+            std::vector<uint8_t> vertices(6 * _p->vertexSize);
             uint8_t* verticesP = vertices.data();
             for (size_t i = 0; i < 6; ++i)
             {
@@ -130,16 +141,16 @@ namespace djv
             }
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-            glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data());
+            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _p->vbo);
+            glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _p->vertexSize), vertices.data());
         }
 
         void OpenGLImageMesh::draw()
         {
             //DJV_DEBUG("OpenGLImageMesh::draw");
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-            glFuncs->glBindVertexArray(_vao);
+            glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _p->vbo);
+            glFuncs->glBindVertexArray(_p->vao);
             glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6);
             glFuncs->glBindVertexArray(0);
             glFuncs->glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -924,23 +935,23 @@ namespace djv
             //DJV_DEBUG_PRINT("filter mag = " << options.filter.mag);
             //DJV_DEBUG_PRINT("filter = " << filter);
 
-            if (!_init || _info != info || _options != options)
+            if (!_p->init || _p->info != info || _p->options != options)
             {
-                _init = true;
-                _info = info;
-                _options = options;
+                _p->init = true;
+                _p->info = info;
+                _p->options = options;
                 switch (filter)
                 {
                 case OpenGLImageFilter::NEAREST:
                 case OpenGLImageFilter::LINEAR:
                 {
                     //DJV_DEBUG_PRINT("init single pass");
-                    _texture->init(
+                    _p->texture->init(
                         data.info(),
                         GL_TEXTURE_2D,
                         OpenGLImageFilter::toGl(filter),
                         OpenGLImageFilter::toGl(filter));
-                    _shader->init(
+                    _p->shader->init(
                         sourceVertex,
                         sourceFragment(
                             Pixel::format(info.pixel),
@@ -962,13 +973,13 @@ namespace djv
                 case OpenGLImageFilter::MITCHELL:
                 {
                     //DJV_DEBUG_PRINT("init two pass");
-                    _texture->init(data.info(), GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
+                    _p->texture->init(data.info(), GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
 
                     // Initialize horizontal pass.
                     PixelData contrib;
                     scaleContrib(data.w(), scale.x, filter, contrib);
-                    _scaleXContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
-                    _scaleXShader->init(
+                    _p->scaleXContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
+                    _p->scaleXShader->init(
                         sourceVertex,
                         sourceFragment(
                             Pixel::format(info.pixel),
@@ -982,8 +993,8 @@ namespace djv
 
                     // Initialize vertical pass.
                     scaleContrib(data.h(), scale.y, filter, contrib);
-                    _scaleYContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
-                    _scaleYShader->init(
+                    _p->scaleYContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
+                    _p->scaleYShader->init(
                         sourceVertex,
                         sourceFragment(
                             Pixel::format(info.pixel),
@@ -1012,19 +1023,19 @@ namespace djv
             {
                 //DJV_DEBUG_PRINT("draw single pass");
 
-                _shader->bind();
+                _p->shader->bind();
 
                 // Initialize color and display profiles.
-                colorProfileInit(options, *_shader, *_lutColorProfile);
-                displayProfileInit(options, *_shader, *_lutDisplayProfile);
+                colorProfileInit(options, *(_p->shader), *(_p->lutColorProfile));
+                displayProfileInit(options, *_p->shader, *_p->lutDisplayProfile);
 
                 // Draw.
                 glFuncs->glActiveTexture(GL_TEXTURE0);
-                _shader->setUniform("inTexture", 0);
-                _texture->copy(data);
-                _shader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(options.xform));
-                _mesh->setSize(info.size, mirror, proxyScale);
-                _mesh->draw();
+                _p->shader->setUniform("inTexture", 0);
+                _p->texture->copy(data);
+                _p->shader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(options.xform));
+                _p->mesh->setSize(info.size, mirror, proxyScale);
+                _p->mesh->draw();
             }
             break;
             case OpenGLImageFilter::BOX:
@@ -1045,15 +1056,15 @@ namespace djv
                     glFuncs->glViewport(0, 0, scaleTmp.x, scaleTmp.y);
 
                     OpenGLOffscreenBufferScope bufferScope(&buffer);
-                    _scaleXShader->bind();
-                    colorProfileInit(options, *_scaleXShader, *_lutColorProfile);
+                    _p->scaleXShader->bind();
+                    colorProfileInit(options, *(_p->scaleXShader), *(_p->lutColorProfile));
                     glFuncs->glActiveTexture(GL_TEXTURE0);
-                    _scaleXShader->setUniform("inTexture", 0);
-                    _texture->copy(data);
-                    _texture->bind();
+                    _p->scaleXShader->setUniform("inTexture", 0);
+                    _p->texture->copy(data);
+                    _p->texture->bind();
                     glFuncs->glActiveTexture(GL_TEXTURE1);
-                    _scaleXShader->setUniform("inScaleContrib", 1);
-                    _scaleXContrib->bind();
+                    _p->scaleXShader->setUniform("inScaleContrib", 1);
+                    _p->scaleXContrib->bind();
                     auto m = glm::ortho(
                         0.f,
                         static_cast<float>(scaleTmp.x),
@@ -1061,27 +1072,27 @@ namespace djv
                         static_cast<float>(scaleTmp.y),
                         -1.f,
                         1.f);
-                    _scaleXShader->setUniform("transform.mvp", m);
-                    _mesh->setSize(scaleTmp, mirror);
-                    _mesh->draw();
+                    _p->scaleXShader->setUniform("transform.mvp", m);
+                    _p->mesh->setSize(scaleTmp, mirror);
+                    _p->mesh->draw();
 
                     glFuncs->glViewport(vp[0], vp[1], vp[2], vp[3]);
                 }
 
                 // Vertical pass.
-                _scaleYShader->bind();
-                displayProfileInit(options, *_scaleYShader, *_lutDisplayProfile);
+                _p->scaleYShader->bind();
+                displayProfileInit(options, *(_p->scaleYShader), *(_p->lutDisplayProfile));
                 glFuncs->glActiveTexture(GL_TEXTURE0);
-                _scaleYShader->setUniform("inTexture", 0);
+                _p->scaleYShader->setUniform("inTexture", 0);
                 glBindTexture(GL_TEXTURE_2D, buffer.texture());
                 glFuncs->glActiveTexture(GL_TEXTURE1);
-                _scaleYShader->setUniform("inScaleContrib", 1);
-                _scaleYContrib->bind();
+                _p->scaleYShader->setUniform("inScaleContrib", 1);
+                _p->scaleYContrib->bind();
                 OpenGLImageXform xform = options.xform;
                 xform.scale = glm::vec2(1.f, 1.f);
-                _scaleYShader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(xform));
-                _mesh->setSize(scale);
-                _mesh->draw();
+                _p->scaleYShader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(xform));
+                _p->mesh->setSize(scale);
+                _p->mesh->draw();
             }
             break;
             default: break;
