@@ -42,6 +42,7 @@ namespace djv
         class OpenGLTexture
         {
         public:
+            OpenGLTexture();
             ~OpenGLTexture();
 
             //! Initialize the texture.
@@ -94,11 +95,8 @@ namespace djv
         private:
             void del();
 
-            PixelDataInfo _info;
-            GLenum        _target = GL_NONE;
-            GLenum        _min = GL_NONE;
-            GLenum        _mag = GL_NONE;
-            GLuint        _id = 0;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace Graphics

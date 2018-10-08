@@ -84,10 +84,8 @@ namespace djv
         private:
             DJV_PRIVATE_COPY(OpenGLOffscreenBuffer);
 
-            PixelDataInfo _info;
-            GLuint        _id = 0;
-            GLuint        _texture = 0;
-            GLint         _restore = 0;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
         //! This class provides automatic binding for an OpenGL offscreen buffer.
@@ -100,7 +98,7 @@ namespace djv
         private:
             DJV_PRIVATE_COPY(OpenGLOffscreenBufferScope);
 
-            OpenGLOffscreenBuffer * _buffer;
+            OpenGLOffscreenBuffer * _buffer = nullptr;
         };
 
     } // namespace Graphics

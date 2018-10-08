@@ -39,6 +39,16 @@ namespace djv
 {
     namespace Graphics
     {
+        struct OpenGLLUT::Private
+        {
+            PixelDataInfo info;
+            GLuint        id = 0;
+        };
+
+        OpenGLLUT::OpenGLLUT() :
+            _p(new Private)
+        {}
+
         OpenGLLUT::~OpenGLLUT()
         {
             del();
@@ -46,37 +56,37 @@ namespace djv
 
         void OpenGLLUT::init(const PixelDataInfo & info)
         {
-            if (info == _info)
+            if (info == _p->info)
                 return;
 
             //DJV_DEBUG("OpenGLLUT::init");
-            //DJV_DEBUG_PRINT("info = " << info);
+            //DJV_DEBUG_PRINT("info = " << _p->info);
 
             del();
 
-            _info = info;
+            _p->info = info;
 
-            glGenTextures(1, &_id);
-            if (!_id)
+            glGenTextures(1, &_p->id);
+            if (!_p->id)
             {
                 throw Core::Error(
                     "djv::Graphics::OpenGLLUT",
                     qApp->translate("djv::Graphics::OpenGLLUT", "Cannot create texture"));
             }
 
-            glBindTexture(GL_TEXTURE_2D, _id);
+            glBindTexture(GL_TEXTURE_2D, _p->id);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexImage2D(
                 GL_TEXTURE_2D,
                 0,
-                OpenGL::internalFormat(_info.pixel),
-                _info.size.x,
-                _info.size.y,
+                OpenGL::internalFormat(_p->info.pixel),
+                _p->info.size.x,
+                _p->info.size.y,
                 0,
-                OpenGL::format(_info.pixel, _info.bgr),
-                OpenGL::type(_info.pixel),
+                OpenGL::format(_p->info.pixel, _p->info.bgr),
+                OpenGL::type(_p->info.pixel),
                 0);
         }
 
@@ -89,18 +99,18 @@ namespace djv
 
         const PixelDataInfo & OpenGLLUT::info() const
         {
-            return _info;
+            return _p->info;
         }
 
         GLuint OpenGLLUT::id() const
         {
-            return _id;
+            return _p->id;
         }
 
         void OpenGLLUT::bind()
         {
             //DJV_DEBUG("OpenGLLUT::bind");
-            glBindTexture(GL_TEXTURE_2D, _id);
+            glBindTexture(GL_TEXTURE_2D, _p->id);
         }
 
         void OpenGLLUT::copy(const PixelData & in)
@@ -123,10 +133,10 @@ namespace djv
 
         void OpenGLLUT::del()
         {
-            if (_id)
+            if (_p->id)
             {
-                glDeleteTextures(1, &_id);
-                _id = 0;
+                glDeleteTextures(1, &_p->id);
+                _p->id = 0;
             }
         }
 

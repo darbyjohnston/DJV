@@ -37,6 +37,19 @@ namespace djv
 {
     namespace Graphics
     {
+        struct OpenGLShader::Private
+        {
+            QString vertexSource;
+            QString fragmentSource;
+            GLuint  vertexId = 0;
+            GLuint  fragmentId = 0;
+            GLuint  programId = 0;
+        };
+
+        OpenGLShader::OpenGLShader() :
+            _p(new Private)
+        {}
+
         OpenGLShader::~OpenGLShader()
         {
             del();
@@ -76,7 +89,7 @@ namespace djv
             const QString & vertexSource,
             const QString & fragmentSource)
         {
-            if (vertexSource == _vertexSource && fragmentSource == _fragmentSource)
+            if (vertexSource == _p->vertexSource && fragmentSource == _p->fragmentSource)
                 return;
 
             //DJV_DEBUG("OpenGLShader::init");
@@ -87,28 +100,28 @@ namespace djv
 
             del();
 
-            _vertexSource = vertexSource;
-            _fragmentSource = fragmentSource;
+            _p->vertexSource = vertexSource;
+            _p->fragmentSource = fragmentSource;
 
-            _vertexId = glFuncs->glCreateShader(GL_VERTEX_SHADER);
-            _fragmentId = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
-            shaderCompile(_vertexId, _vertexSource);
-            shaderCompile(_fragmentId, _fragmentSource);
-            _programId = glFuncs->glCreateProgram();
-            if (!_programId)
+            _p->vertexId = glFuncs->glCreateShader(GL_VERTEX_SHADER);
+            _p->fragmentId = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
+            shaderCompile(_p->vertexId, _p->vertexSource);
+            shaderCompile(_p->fragmentId, _p->fragmentSource);
+            _p->programId = glFuncs->glCreateProgram();
+            if (!_p->programId)
             {
                 throw Core::Error(
                     "djv::Graphics::OpenGLShader",
                     qApp->translate("djv::Graphics::OpenGLShader", "Cannot create shader program"));
             }
-            glFuncs->glAttachShader(_programId, _vertexId);
-            glFuncs->glAttachShader(_programId, _fragmentId);
-            glFuncs->glLinkProgram(_programId);
+            glFuncs->glAttachShader(_p->programId, _p->vertexId);
+            glFuncs->glAttachShader(_p->programId, _p->fragmentId);
+            glFuncs->glLinkProgram(_p->programId);
             GLint error = 0;
-            glFuncs->glGetProgramiv(_programId, GL_LINK_STATUS, &error);
+            glFuncs->glGetProgramiv(_p->programId, GL_LINK_STATUS, &error);
             char log[4096] = "";
             GLsizei logSize = 0;
-            glFuncs->glGetProgramInfoLog(_programId, 4096, &logSize, log);
+            glFuncs->glGetProgramInfoLog(_p->programId, 4096, &logSize, log);
             //DJV_DEBUG_PRINT("log = " << QString(log));
             if (error != GL_TRUE)
             {
@@ -123,29 +136,29 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLShader::bind");
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glUseProgram(_programId);
+            glFuncs->glUseProgram(_p->programId);
         }
 
         const QString & OpenGLShader::vertexSource() const
         {
-            return _vertexSource;
+            return _p->vertexSource;
         }
 
         const QString & OpenGLShader::fragmentSource() const
         {
-            return _fragmentSource;
+            return _p->fragmentSource;
         }
 
         GLuint OpenGLShader::program() const
         {
-            return _programId;
+            return _p->programId;
         }
 
         void OpenGLShader::setUniform(const QString& name, int value)
         {
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glUniform1i(
-                glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+                glFuncs->glGetUniformLocation(_p->programId, name.toLatin1().data()),
                 static_cast<GLint>(value));
         }
 
@@ -153,7 +166,7 @@ namespace djv
         {
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glUniform1f(
-                glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+                glFuncs->glGetUniformLocation(_p->programId, name.toLatin1().data()),
                 static_cast<GLfloat>(value));
         }
 
@@ -161,7 +174,7 @@ namespace djv
         {
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             glFuncs->glUniformMatrix4fv(
-                glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+                glFuncs->glGetUniformLocation(_p->programId, name.toLatin1().data()),
                 1,
                 false,
                 &value[0][0]);
@@ -170,20 +183,20 @@ namespace djv
         void OpenGLShader::del()
         {
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            if (_vertexId)
+            if (_p->vertexId)
             {
-                glFuncs->glDeleteShader(_vertexId);
-                _vertexId = 0;
+                glFuncs->glDeleteShader(_p->vertexId);
+                _p->vertexId = 0;
             }
-            if (_fragmentId)
+            if (_p->fragmentId)
             {
-                glFuncs->glDeleteShader(_fragmentId);
-                _fragmentId = 0;
+                glFuncs->glDeleteShader(_p->fragmentId);
+                _p->fragmentId = 0;
             }
-            if (_programId)
+            if (_p->programId)
             {
-                glFuncs->glDeleteProgram(_programId);
-                _programId = 0;
+                glFuncs->glDeleteProgram(_p->programId);
+                _p->programId = 0;
             }
         }
 

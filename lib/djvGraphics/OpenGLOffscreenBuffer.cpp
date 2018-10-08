@@ -40,29 +40,38 @@ namespace djv
     {
         namespace
         {
-
             int bufferCount = 0;
 
         } // namespace
 
+        struct OpenGLOffscreenBuffer::Private
+        {
+            PixelDataInfo info;
+            GLuint        id = 0;
+            GLuint        texture = 0;
+            GLint         restore = 0;
+        };
+
         OpenGLOffscreenBuffer::OpenGLOffscreenBuffer(const PixelDataInfo & info) :
-            _info(info)
+            _p(new Private)
         {
             //DJV_DEBUG("OpenGLOffscreenBuffer::OpenGLOffscreenBuffer");
             //DJV_DEBUG_PRINT("info = " << info);
             //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
+            _p->info = info;
+
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
 
             // Create the texture.
-            glFuncs->glGenTextures(1, &_texture);
-            if (!_texture)
+            glFuncs->glGenTextures(1, &_p->texture);
+            if (!_p->texture)
             {
                 throw Core::Error(
                     "djv::Graphics::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_CREATE_TEXTURE]);
             }
-            glFuncs->glBindTexture(GL_TEXTURE_2D, _texture);
+            glFuncs->glBindTexture(GL_TEXTURE_2D, _p->texture);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -70,18 +79,18 @@ namespace djv
             glFuncs->glTexImage2D(
                 GL_TEXTURE_2D,
                 0,
-                OpenGL::internalFormat(_info.pixel),
-                _info.size.x,
-                _info.size.y,
+                OpenGL::internalFormat(_p->info.pixel),
+                _p->info.size.x,
+                _p->info.size.y,
                 0,
-                OpenGL::format(_info.pixel, _info.bgr),
-                OpenGL::type(_info.pixel),
+                OpenGL::format(_p->info.pixel, _p->info.bgr),
+                OpenGL::type(_p->info.pixel),
                 0);
             glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
 
             // Create the FBO.
-            glFuncs->glGenFramebuffers(1, &_id);
-            if (!_id)
+            glFuncs->glGenFramebuffers(1, &_p->id);
+            if (!_p->id)
             {
                 throw Core::Error(
                     "djv::Graphics::OpenGLOffscreenBuffer",
@@ -92,7 +101,7 @@ namespace djv
                 GL_FRAMEBUFFER,
                 GL_COLOR_ATTACHMENT0,
                 GL_TEXTURE_2D,
-                _texture,
+                _p->texture,
                 0);
             GLenum error = glFuncs->glCheckFramebufferStatus(GL_FRAMEBUFFER);
             if (error != GL_FRAMEBUFFER_COMPLETE)
@@ -116,53 +125,53 @@ namespace djv
             --bufferCount;
             //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
-            if (_id)
+            if (_p->id)
             {
-                glFuncs->glDeleteFramebuffers(1, &_id);
+                glFuncs->glDeleteFramebuffers(1, &_p->id);
             }
-            if (_texture)
+            if (_p->texture)
             {
-                glFuncs->glDeleteTextures(1, &_texture);
+                glFuncs->glDeleteTextures(1, &_p->texture);
             }
         }
 
         const PixelDataInfo & OpenGLOffscreenBuffer::info() const
         {
-            return _info;
+            return _p->info;
         }
 
         GLuint OpenGLOffscreenBuffer::id() const
         {
-            return _id;
+            return _p->id;
         }
 
         GLuint OpenGLOffscreenBuffer::texture() const
         {
-            return _texture;
+            return _p->texture;
         }
 
         void OpenGLOffscreenBuffer::bind()
         {
-            if (!_id)
+            if (!_p->id)
                 return;
             //DJV_DEBUG("OpenGLOffscreenBuffer::bind");
-            //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
+            //DJV_DEBUG_PRINT("id = " << static_cast<int>(_p->id));
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore);
-            //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
-            glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _id);
+            glFuncs->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_p->restore);
+            //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_p->restore));
+            glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _p->id);
         }
 
         void OpenGLOffscreenBuffer::unbind()
         {
-            if (!_id)
+            if (!_p->id)
                 return;
             //DJV_DEBUG("OpenGLOffscreenBuffer::unbind");
             //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
             //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _restore);
-            _restore = 0;
+            glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _p->restore);
+            _p->restore = 0;
         }
 
         const QStringList & OpenGLOffscreenBuffer::errorLabels()

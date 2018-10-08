@@ -42,6 +42,7 @@ namespace djv
         class OpenGLShader
         {
         public:
+            OpenGLShader();
             ~OpenGLShader();
 
             //! Initialize the shader.
@@ -76,11 +77,8 @@ namespace djv
         private:
             void del();
 
-            QString _vertexSource;
-            QString _fragmentSource;
-            GLuint  _vertexId = 0;
-            GLuint  _fragmentId = 0;
-            GLuint  _programId = 0;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace Graphics

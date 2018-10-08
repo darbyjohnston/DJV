@@ -39,6 +39,19 @@ namespace djv
 {
     namespace Graphics
     {
+        struct OpenGLTexture::Private
+        {
+            PixelDataInfo info;
+            GLenum        target = GL_NONE;
+            GLenum        min = GL_NONE;
+            GLenum        mag = GL_NONE;
+            GLuint        id = 0;
+        };
+
+        OpenGLTexture::OpenGLTexture() :
+            _p(new Private)
+        {}
+
         OpenGLTexture::~OpenGLTexture()
         {
             del();
@@ -50,7 +63,7 @@ namespace djv
             GLenum                min,
             GLenum                mag)
         {
-            if (info == _info && target == _target && min == _min && mag == _mag)
+            if (info == _p->info && target == _p->target && min == _p->min && mag == _p->mag)
                 return;
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
@@ -60,33 +73,33 @@ namespace djv
             //DJV_DEBUG("OpenGLTexture::init");
             //DJV_DEBUG_PRINT("info = " << info);
 
-            _info = info;
-            _target = target;
-            _min = min;
-            _mag = mag;
-            glGenTextures(1, &_id);
-            //DJV_DEBUG_PRINT("id = " << int(_id));
-            if (!_id)
+            _p->info = info;
+            _p->target = target;
+            _p->min = min;
+            _p->mag = mag;
+            glGenTextures(1, &_p->id);
+            //DJV_DEBUG_PRINT("id = " << int(_p->id));
+            if (!_p->id)
             {
                 throw Core::Error(
                     "djv::Graphics::OpenGLTexture",
                     qApp->translate("djv::Graphics::OpenGLTexture", "Cannot create texture"));
             }
 
-            glFuncs->glBindTexture(_target, _id);
-            glFuncs->glTexParameteri(_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glFuncs->glTexParameteri(_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glFuncs->glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, _min);
-            glFuncs->glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _mag);
+            glFuncs->glBindTexture(_p->target, _p->id);
+            glFuncs->glTexParameteri(_p->target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glFuncs->glTexParameteri(_p->target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glFuncs->glTexParameteri(_p->target, GL_TEXTURE_MIN_FILTER, _p->min);
+            glFuncs->glTexParameteri(_p->target, GL_TEXTURE_MAG_FILTER, _p->mag);
             glFuncs->glTexImage2D(
-                _target,
+                _p->target,
                 0,
-                OpenGL::internalFormat(_info.pixel),
-                _info.size.x,
-                _info.size.y,
+                OpenGL::internalFormat(_p->info.pixel),
+                _p->info.size.x,
+                _p->info.size.y,
                 0,
-                OpenGL::format(_info.pixel, _info.bgr),
-                OpenGL::type(_info.pixel),
+                OpenGL::format(_p->info.pixel, _p->info.bgr),
+                OpenGL::type(_p->info.pixel),
                 0);
         }
 
@@ -114,7 +127,7 @@ namespace djv
             //DJV_DEBUG_PRINT("format = " << format);
             //DJV_DEBUG_PRINT("type = " << type);
             glFuncs->glTexSubImage2D(
-                _target,
+                _p->target,
                 0,
                 0,
                 0,
@@ -144,7 +157,7 @@ namespace djv
             }
             OpenGLImage::stateUnpack(in.info(), position);
             glFuncs->glTexSubImage2D(
-                _target,
+                _p->target,
                 0,
                 0,
                 0,
@@ -160,9 +173,9 @@ namespace djv
             //DJV_DEBUG("OpenGLTexture::copy");
             //DJV_DEBUG_PRINT("in = " << in);
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glBindTexture(_target, _id);
+            glFuncs->glBindTexture(_p->target, _p->id);
             glFuncs->glCopyTexSubImage2D(
-                _target,
+                _p->target,
                 0,
                 0,
                 0,
@@ -176,41 +189,41 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLTexture::bind");
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glBindTexture(_target, _id);
+            glFuncs->glBindTexture(_p->target, _p->id);
         }
 
         const PixelDataInfo & OpenGLTexture::info() const
         {
-            return _info;
+            return _p->info;
         }
 
         GLenum OpenGLTexture::target() const
         {
-            return _target;
+            return _p->target;
         }
 
         GLenum OpenGLTexture::min() const
         {
-            return _min;
+            return _p->min;
         }
 
         GLenum OpenGLTexture::mag() const
         {
-            return _mag;
+            return _p->mag;
         }
 
         GLuint OpenGLTexture::id() const
         {
-            return _id;
+            return _p->id;
         }
 
         void OpenGLTexture::del()
         {
-            if (_id)
+            if (_p->id)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glDeleteTextures(1, &_id);
-                _id = 0;
+                glFuncs->glDeleteTextures(1, &_p->id);
+                _p->id = 0;
             }
         }
 

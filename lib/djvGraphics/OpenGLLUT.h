@@ -42,6 +42,7 @@ namespace djv
         class OpenGLLUT
         {
         public:
+            OpenGLLUT();
             ~OpenGLLUT();
 
             //! Initialize the LUT.
@@ -71,8 +72,8 @@ namespace djv
         private:
             void del();
 
-            PixelDataInfo _info;
-            GLuint        _id = 0;
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
     } // namespace Graphics
