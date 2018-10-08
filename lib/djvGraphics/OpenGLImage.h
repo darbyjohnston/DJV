@@ -55,10 +55,9 @@ namespace djv
         class OpenGLTexture;
         class OpenGLShader;
 
-        //! This class provides OpenGL image transform options.
-        class OpenGLImageXform
+        //! This struct provides OpenGL image transform options.
+        struct OpenGLImageXform
         {
-        public:
             PixelDataInfo::Mirror mirror;
             glm::vec2             position = glm::vec2(0.f, 0.f);
             glm::vec2             scale = glm::vec2(1.f, 1.f);
@@ -68,10 +67,9 @@ namespace djv
             static glm::mat4x4 xformMatrix(const OpenGLImageXform &);
         };
 
-        //! This class provides OpenGL image color options.
-        class OpenGLImageColor
+        //! This struct provides OpenGL image color options.
+        struct OpenGLImageColor
         {
-        public:
             float brightness = 1.f;
             float contrast = 1.f;
             float saturation = 1.f;
@@ -89,10 +87,9 @@ namespace djv
             static glm::mat4x4 colorMatrix(const OpenGLImageColor &);
         };
 
-        //! This class provides OpenGL image color levels options.
-        class OpenGLImageLevels
+        //! This struct provides OpenGL image color levels options.
+        struct OpenGLImageLevels
         {
-        public:
             float inLow = 0.f;
             float inHigh = 1.f;
             float gamma = 1.f;
@@ -103,10 +100,9 @@ namespace djv
             static PixelData colorLut(const OpenGLImageLevels &, float softClip);
         };
 
-        //! This class provides OpenGL image display profile options.
-        class OpenGLImageDisplayProfile
+        //! This struct provides OpenGL image display profile options.
+        struct OpenGLImageDisplayProfile
         {
-        public:
             PixelData         lut;
             OpenGLImageColor  color;
             OpenGLImageLevels levels;
@@ -120,6 +116,7 @@ namespace djv
             Q_ENUMS(FILTER)
 
         public:
+
             //! This enumeration provides the image filters.
             enum FILTER
             {
@@ -168,6 +165,7 @@ namespace djv
             Q_ENUMS(CHANNEL)
 
         public:
+
             //! This enumeration provides the channels to display.
             enum CHANNEL
             {
