@@ -137,16 +137,12 @@ namespace djv
             {
                 if (!jpegScanline(&_jpeg, p->data(0, h - 1 - y), &_jpegError))
                 {
-                    throw Core::Error(
-                        JPEG::staticName,
-                        _jpegError.msg);
+                    throw Core::Error(JPEG::staticName, _jpegError.msg);
                 }
             }
             if (!jpeg_end(&_jpeg, &_jpegError))
             {
-                throw Core::Error(
-                    JPEG::staticName,
-                    _jpegError.msg);
+                throw Core::Error(JPEG::staticName, _jpegError.msg);
             }
             close();
         }
@@ -232,14 +228,10 @@ namespace djv
             _jpegError.pub.error_exit = djvJPEGError;
             _jpegError.pub.emit_message = djvJPEGWarning;
             _jpegError.msg[0] = 0;
-
             if (!jpegInit(&_jpeg, &_jpegError))
             {
-                throw Core::Error(
-                    JPEG::staticName,
-                    _jpegError.msg);
+                throw Core::Error(JPEG::staticName, _jpegError.msg);
             }
-
             _jpegInit = true;
 
             // Open the file.
@@ -256,9 +248,7 @@ namespace djv
             }
             if (!jpegOpen(_f, &_jpeg, info, _options.quality, &_jpegError))
             {
-                throw Core::Error(
-                    JPEG::staticName,
-                    _jpegError.msg);
+                throw Core::Error(JPEG::staticName, _jpegError.msg);
             }
         }
 
