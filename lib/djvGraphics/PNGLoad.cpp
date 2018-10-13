@@ -41,12 +41,10 @@ namespace djv
     namespace Graphics
     {
         PNGLoad::PNGLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context),
-            _f(0),
-            _png(0),
-            _pngInfo(0),
-            _pngInfoEnd(0)
-        {}
+            ImageLoad(context)
+        {
+            _pngError.context = context;
+        }
 
         PNGLoad::~PNGLoad()
         {
@@ -67,7 +65,6 @@ namespace djv
 
         namespace
         {
-
             bool pngScanline(png_structp png, quint8 * out)
             {
                 if (setjmp(png_jmpbuf(png)))
@@ -112,12 +109,13 @@ namespace djv
             {
                 if (!pngScanline(_png, data->data(0, data->h() - 1 - y)))
                 {
-                    throw Core::Error(
-                        PNG::staticName,
-                        _pngError.msg);
+                    throw Core::Error(PNG::staticName, _pngError.msg);
                 }
             }
-            pngEnd(_png, _pngInfoEnd);
+            if (!pngEnd(_png, _pngInfoEnd))
+            {
+                throw Core::Error(PNG::staticName, _pngError.msg);
+            }
 
             // Proxy scale the image.
             if (frame.proxy)
@@ -141,21 +139,20 @@ namespace djv
                     _png ? &_png : 0,
                     _pngInfo ? &_pngInfo : 0,
                     _pngInfoEnd ? &_pngInfoEnd : 0);
-                _png = 0;
-                _pngInfo = 0;
-                _pngInfoEnd = 0;
+                _png = nullptr;
+                _pngInfo = nullptr;
+                _pngInfoEnd = nullptr;
             }
 
             if (_f)
             {
                 ::fclose(_f);
-                _f = 0;
+                _f = nullptr;
             }
         }
 
         namespace
         {
-
             bool pngOpen(
                 FILE *      f,
                 png_structp png,
@@ -218,7 +215,7 @@ namespace djv
             {
                 throw Core::Error(
                     PNG::staticName,
-                    _pngError.msg);
+                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }
 
             // Open the file.

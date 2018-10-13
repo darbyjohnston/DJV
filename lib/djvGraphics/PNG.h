@@ -31,10 +31,18 @@
 
 #include <djvCore/StringUtil.h>
 
+#include <QPointer>
+
 #include <png.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        class CoreContext;
+
+    } // namespace Core
+
     namespace Graphics
     {
         //! This struct provides PNG utilities.
@@ -46,7 +54,8 @@ namespace djv
         //! This struct provides libpng error handling.
         struct PNGErrorStruct
         {
-            char msg[Core::StringUtil::cStringLength];
+            char msg[Core::StringUtil::cStringLength] = "";
+            QPointer<Core::CoreContext> context;
         };
 
     } // namespace Graphics

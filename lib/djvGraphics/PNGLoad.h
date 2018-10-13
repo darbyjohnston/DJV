@@ -53,10 +53,10 @@ namespace djv
             void _open(const QString &, ImageIOInfo &);
 
             Core::FileInfo _file;
-            FILE *         _f;
-            png_structp    _png;
-            png_infop      _pngInfo;
-            png_infop      _pngInfoEnd;
+            FILE *         _f = nullptr;
+            png_structp    _png = nullptr;
+            png_infop      _pngInfo = nullptr;
+            png_infop      _pngInfoEnd = nullptr;
             PNGErrorStruct _pngError;
             PixelData      _tmp;
         };

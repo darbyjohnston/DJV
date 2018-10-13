@@ -40,11 +40,10 @@ namespace djv
     namespace Graphics
     {
         PNGSave::PNGSave(const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
-            _f(0),
-            _png(0),
-            _pngInfo(0)
-        {}
+            ImageSave(context)
+        {
+            _pngError.context = context;
+        }
 
         PNGSave::~PNGSave()
         {
@@ -77,7 +76,6 @@ namespace djv
 
         namespace
         {
-
             bool pngScanline(png_structp png, const quint8 * in)
             {
                 if (setjmp(png_jmpbuf(png)))
@@ -123,16 +121,12 @@ namespace djv
             {
                 if (!pngScanline(_png, p->data(0, h - 1 - y)))
                 {
-                    throw Core::Error(
-                        PNG::staticName,
-                        _pngError.msg);
+                    throw Core::Error(PNG::staticName, _pngError.msg);
                 }
             }
             if (!pngEnd(_png, _pngInfo))
             {
-                throw Core::Error(
-                    PNG::staticName,
-                    _pngError.msg);
+                throw Core::Error(PNG::staticName, _pngError.msg);
             }
 
             close();
@@ -145,13 +139,13 @@ namespace djv
                 png_destroy_write_struct(
                     _png ? &_png : 0,
                     _pngInfo ? &_pngInfo : 0);
-                _png = 0;
-                _pngInfo = 0;
+                _png = nullptr;
+                _pngInfo = nullptr;
             }
             if (_f)
             {
                 ::fclose(_f);
-                _f = 0;
+                _f = nullptr;
             }
         }
 
@@ -227,12 +221,8 @@ namespace djv
             {
                 throw Core::Error(
                     PNG::staticName,
-                    _pngError.msg);
+                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }
-            SNPRINTF(
-                _pngError.msg,
-                Core::StringUtil::cStringLength,
-                "%s", QString("Error opening: %1").arg(in).toLatin1().data());
 
             // Open the file.
 #if defined(DJV_WINDOWS)
@@ -248,9 +238,7 @@ namespace djv
             }
             if (!pngOpen(_f, _png, &_pngInfo, info))
             {
-                throw Core::Error(
-                    PNG::staticName,
-                    _pngError.msg);
+                throw Core::Error(PNG::staticName, _pngError.msg);
             }
 
             // Set the endian.
