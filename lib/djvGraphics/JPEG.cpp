@@ -61,7 +61,7 @@ extern "C"
 {
     void djvJPEGError(libjpeg::j_common_ptr in)
     {
-        Graphics::JPEGErrorStruct * error = (Graphics::JPEGErrorStruct *)in->err;
+        auto error = reinterpret_cast<Graphics::JPEGErrorStruct *>(in->err);
         in->err->format_message(in, error->msg);
         ::longjmp(error->jump, 1);
     }
@@ -69,8 +69,11 @@ extern "C"
     void djvJPEGWarning(libjpeg::j_common_ptr in, int level)
     {
         if (level > 0)
+        {
+            //! \todo Should we send "trace" messages to the debug log?
             return;
-        Graphics::JPEGErrorStruct * error = (Graphics::JPEGErrorStruct *)in->err;
+        }
+        auto error = reinterpret_cast<Graphics::JPEGErrorStruct *>(in->err);
         in->err->format_message(in, error->msg);
         ::longjmp(error->jump, 1);
     }
