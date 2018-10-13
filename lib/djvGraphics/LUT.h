@@ -140,9 +140,7 @@ namespace djv
             //! This struct provides options.
             struct Options
             {
-                Options();
-
-                TYPE type;
+                TYPE type = TYPE_AUTO;
             };
         };
 

@@ -53,10 +53,10 @@ namespace djv
             void _open(const QString &, ImageIOInfo &);
 
             Core::FileInfo _file;
-            ::TIFF *       _f;
-            bool           _compression;
-            bool           _palette;
-            uint16 *       _colormap[3];
+            ::TIFF *       _f           = nullptr;
+            bool           _compression = false;
+            bool           _palette     = false;
+            uint16 *       _colormap[3] = { nullptr, nullptr, nullptr };
             PixelData      _tmp;
         };
 

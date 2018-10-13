@@ -51,7 +51,7 @@ namespace djv
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
             Core::FileInfo       _file;
-            bool                 _compression;
+            bool                 _compression = false;
             std::vector<quint32> _rleOffset;
             std::vector<quint32> _rleSize;
             PixelData            _tmp;

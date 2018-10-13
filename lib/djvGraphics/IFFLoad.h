@@ -55,8 +55,8 @@ namespace djv
             void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &);
 
             Core::FileInfo _file;
-            int            _tiles;
-            bool           _compression;
+            int            _tiles       = 0;
+            bool           _compression = false;
             PixelData      _tmp;
         };
 

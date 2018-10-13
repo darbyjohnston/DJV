@@ -40,12 +40,8 @@ namespace djv
     namespace Graphics
     {
         PICLoad::PICLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context),
-            _type(static_cast<PIC::TYPE>(0))
-        {
-            _compression[0] = false;
-            _compression[1] = false;
-        }
+            ImageLoad(context)
+        {}
 
         PICLoad::~PICLoad()
         {}

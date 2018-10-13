@@ -51,7 +51,7 @@ namespace djv
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
             Core::FileInfo _file;
-            bool           _compression;
+            bool           _compression = false;
             PixelData      _tmp;
         };
 

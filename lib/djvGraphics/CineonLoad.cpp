@@ -43,8 +43,7 @@ namespace djv
     {
         CineonLoad::CineonLoad(const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
-            _options(options),
-            _filmPrint(false)
+            _options(options)
         {}
 
         CineonLoad::~CineonLoad()

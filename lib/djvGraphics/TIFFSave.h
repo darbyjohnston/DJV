@@ -55,7 +55,7 @@ namespace djv
 
             TIFF::Options  _options;
             Core::FileInfo _file;
-            ::TIFF *       _f;
+            ::TIFF *       _f = nullptr;
             PixelDataInfo  _info;
             Image          _image;
         };

@@ -45,6 +45,9 @@ namespace djv
 {
     namespace Graphics
     {
+        OpenEXR::Channel::Channel()
+        {}
+
         OpenEXR::Channel::Channel(
             const QString &    name,
             Pixel::TYPE        type,
@@ -67,19 +70,6 @@ namespace djv
             }
             name = layerName(names);
         }
-
-        OpenEXR::Options::Options() :
-            threadsEnable(true),
-            threadCount(4),
-            inputColorProfile(OpenEXR::COLOR_PROFILE_GAMMA),
-            inputGamma(2.2f),
-            channels(OpenEXR::CHANNELS_GROUP_KNOWN),
-            compression(OpenEXR::COMPRESSION_NONE)
-#if OPENEXR_VERSION_HEX >= 0x02020000
-            ,
-            dwaCompressionLevel(45.f)
-#endif // OPENEXR_VERSION_HEX
-        {}
 
         const QString OpenEXR::staticName = "OpenEXR";
 

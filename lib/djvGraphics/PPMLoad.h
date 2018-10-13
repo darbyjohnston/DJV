@@ -52,8 +52,8 @@ namespace djv
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
             Core::FileInfo _file;
-            int            _bitDepth;
-            PPM::DATA      _data;
+            int            _bitDepth = 0;
+            PPM::DATA      _data     = static_cast<PPM::DATA>(0);
             PixelData      _tmp;
         };
 

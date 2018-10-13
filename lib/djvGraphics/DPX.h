@@ -138,15 +138,13 @@ namespace djv
             //! This struct provides options.
             struct Options
             {
-                Options();
-
-                Cineon::COLOR_PROFILE     inputColorProfile;
+                Cineon::COLOR_PROFILE     inputColorProfile  = Cineon::COLOR_PROFILE_AUTO;
                 Cineon::FilmPrintToLinear inputFilmPrint;
-                Cineon::COLOR_PROFILE     outputColorProfile;
+                Cineon::COLOR_PROFILE     outputColorProfile = Cineon::COLOR_PROFILE_FILM_PRINT;
                 Cineon::LinearToFilmPrint outputFilmPrint;
-                DPX::VERSION              version;
-                DPX::TYPE                 type;
-                DPX::ENDIAN               endian;
+                DPX::VERSION              version            = DPX::VERSION_2_0;
+                DPX::TYPE                 type               = DPX::TYPE_U10;
+                DPX::ENDIAN               endian             = DPX::ENDIAN_MSB;
             };
         };
 

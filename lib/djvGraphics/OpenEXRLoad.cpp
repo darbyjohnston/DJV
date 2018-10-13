@@ -50,9 +50,7 @@ namespace djv
     {
         OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
-            _options(options),
-            _f(0),
-            _fast(false)
+            _options(options)
         {}
 
         OpenEXRLoad::~OpenEXRLoad()

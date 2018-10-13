@@ -42,8 +42,7 @@ namespace djv
     {
         DPXLoad::DPXLoad(const DPX::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
-            _options(options),
-            _filmPrint(false)
+            _options(options)
         {}
 
         DPXLoad::~DPXLoad()

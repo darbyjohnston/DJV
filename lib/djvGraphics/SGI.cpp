@@ -38,10 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        SGI::Options::Options() :
-            compression(SGI::COMPRESSION_NONE)
-        {}
-
         const QString SGI::staticName = "SGI";
 
         const QStringList & SGI::compressionLabels()

@@ -54,7 +54,7 @@ namespace djv
 
             PPM::Options   _options;
             Core::FileInfo _file;
-            int            _bitDepth;
+            int            _bitDepth = 0;
             PixelDataInfo  _info;
             Image          _image;
         };

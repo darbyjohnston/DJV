@@ -119,9 +119,9 @@ namespace djv
 #endif
 
             static const int channelsMax = 4;
-            static const int bytesMax = 4;
+            static const int bytesMax    = 4;
 
-            static const int u8Max = 255;
+            static const int u8Max  = 255;
             static const int u10Max = 1023;
             static const int u12Max = 4095;
             static const int u16Max = 65535;
@@ -213,7 +213,6 @@ namespace djv
                 inline Mask & operator = (const Mask &);
 
                 inline bool operator [] (int) const;
-
                 inline bool & operator [] (int);
             };
 

@@ -99,10 +99,8 @@ namespace djv
             //! This struct provides options.
             struct Options
             {
-                Options();
-
-                TYPE type;
-                DATA data;
+                TYPE type = TYPE_AUTO;
+                DATA data = DATA_BINARY;
             };
         };
 

@@ -53,29 +53,27 @@ namespace djv
             //! This struct provides an image channel.
             struct Channel
             {
-                Channel() :
-                    sampling(1)
-                {}
+                Channel();
                 Channel(
                     const QString &    name,
                     Pixel::TYPE        type,
                     const glm::ivec2 & sampling = glm::ivec2(1, 1));
 
                 QString     name;
-                Pixel::TYPE type;
-                glm::ivec2  sampling;
+                Pixel::TYPE type     = static_cast<Pixel::TYPE>(0);
+                glm::ivec2  sampling = glm::ivec2(1, 1);
             };
 
             //! This struct provides an image layer.
             struct Layer
             {
                 Layer(
-                    const QVector<Channel> & channels = QVector<Channel>(),
+                    const QVector<Channel> & channels        = QVector<Channel>(),
                     bool                     luminanceChroma = false);
 
                 QString          name;
                 QVector<Channel> channels;
-                bool             luminanceChroma;
+                bool             luminanceChroma = false;
             };
 
             //! This enumeration provides the color profiles.
@@ -204,17 +202,15 @@ namespace djv
             //! This struct provides options.
             struct Options
             {
-                Options();
-
-                bool                   threadsEnable;
-                int                    threadCount;
-                OpenEXR::COLOR_PROFILE inputColorProfile;
-                float                  inputGamma;
+                bool                   threadsEnable       = true;
+                int                    threadCount         = 4;
+                OpenEXR::COLOR_PROFILE inputColorProfile   = OpenEXR::COLOR_PROFILE_GAMMA;
+                float                  inputGamma          = 2.2f;
                 ColorProfile::Exposure inputExposure;
-                OpenEXR::CHANNELS      channels;
-                OpenEXR::COMPRESSION   compression;
+                OpenEXR::CHANNELS      channels            = OpenEXR::CHANNELS_GROUP_KNOWN;
+                OpenEXR::COMPRESSION   compression         = OpenEXR::COMPRESSION_NONE;
 #if OPENEXR_VERSION_HEX >= 0x02020000
-                float                  dwaCompressionLevel;
+                float                  dwaCompressionLevel = 45.f;
 #endif // OPENEXR_VERSION_HEX
             };
         };

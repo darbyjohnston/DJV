@@ -80,9 +80,7 @@ namespace djv
             //! This struct provides options.
             struct Options
             {
-                Options();
-
-                COMPRESSION compression;
+                COMPRESSION compression = _COMPRESSION_NONE;
             };
         };
 

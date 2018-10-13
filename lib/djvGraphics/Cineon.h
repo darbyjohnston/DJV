@@ -62,15 +62,9 @@ namespace djv
             //! - Gamma range = 0.01 - 4.0, default value = 1.7
             struct LinearToFilmPrint
             {
-                LinearToFilmPrint() :
-                    black(95),
-                    white(685),
-                    gamma(1.7f)
-                {}
-
-                int   black;
-                int   white;
-                float gamma;
+                int   black = 95;
+                int   white = 685;
+                float gamma = 1.7f;
             };
 
             //! Create a linear color space to Cineon film print color space LUT.
@@ -85,17 +79,10 @@ namespace djv
             //! - Soft clip range = 0 - 50, default value = 0
             struct FilmPrintToLinear
             {
-                FilmPrintToLinear() :
-                    black(95),
-                    white(685),
-                    gamma(1.7f),
-                    softClip(0)
-                {}
-
-                int   black;
-                int   white;
-                float gamma;
-                int   softClip;
+                int   black    = 95;
+                int   white    = 685;
+                float gamma    = 1.7f;
+                int   softClip = 0;
             };
 
             //! Create a Cineon film print color space to linear space LUT.
@@ -141,11 +128,9 @@ namespace djv
             //! This struct provides options.
             struct Options
             {
-                Options();
-
-                Cineon::COLOR_PROFILE     inputColorProfile;
+                Cineon::COLOR_PROFILE     inputColorProfile  = Cineon::COLOR_PROFILE_AUTO;
                 Cineon::FilmPrintToLinear inputFilmPrint;
-                Cineon::COLOR_PROFILE     outputColorProfile;
+                Cineon::COLOR_PROFILE     outputColorProfile = Cineon::COLOR_PROFILE_FILM_PRINT;
                 Cineon::LinearToFilmPrint outputFilmPrint;
             };
         };

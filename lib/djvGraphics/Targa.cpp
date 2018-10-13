@@ -38,10 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        Targa::Options::Options() :
-            compression(Targa::COMPRESSION_NONE)
-        {}
-
         const QString Targa::staticName = "Targa";
 
         const QStringList & Targa::compressionLabels()

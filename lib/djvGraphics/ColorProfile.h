@@ -49,16 +49,17 @@ namespace djv
             //! This struct provides exposure values.
             struct Exposure
             {
+                Exposure();
                 Exposure(
-                    float value = 0.f,
-                    float defog = 0.f,
-                    float kneeLow = 0.f,
-                    float kneeHigh = 5.f);
+                    float value,
+                    float defog,
+                    float kneeLow,
+                    float kneeHigh);
 
-                float value;
-                float defog;
-                float kneeLow;
-                float kneeHigh;
+                float value = 0.f;
+                float defog = 0.f;
+                float kneeLow = 0.f;
+                float kneeHigh = 5.f;
             };
 
             //! This enumeration provides the color profiles.

@@ -37,11 +37,6 @@ namespace djv
 {
     namespace Graphics
     {
-        Cineon::Options::Options() :
-            inputColorProfile(Cineon::COLOR_PROFILE_AUTO),
-            outputColorProfile(Cineon::COLOR_PROFILE_FILM_PRINT)
-        {}
-
         const QString Cineon::staticName = "Cineon";
 
         const QStringList & Cineon::colorProfileLabels()

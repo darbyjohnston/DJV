@@ -58,13 +58,13 @@ namespace djv
 
             OpenEXR::Options        _options;
             Core::FileInfo          _file;
-            Imf::InputFile *        _f;
+            Imf::InputFile *        _f = nullptr;
             Core::Box2i             _displayWindow;
             Core::Box2i             _dataWindow;
             Core::Box2i             _intersectedWindow;
             QVector<OpenEXR::Layer> _layers;
             PixelData               _tmp;
-            bool                    _fast;
+            bool                    _fast = false;
         };
 
     } // namespace Graphics

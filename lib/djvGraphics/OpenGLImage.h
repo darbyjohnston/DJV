@@ -60,8 +60,8 @@ namespace djv
         {
             PixelDataInfo::Mirror mirror;
             glm::vec2             position = glm::vec2(0.f, 0.f);
-            glm::vec2             scale = glm::vec2(1.f, 1.f);
-            float                 rotate = 0.f;
+            glm::vec2             scale    = glm::vec2(1.f, 1.f);
+            float                 rotate   = 0.f;
 
             //! Create a transform matrix.
             static glm::mat4x4 xformMatrix(const OpenGLImageXform &);
@@ -71,7 +71,7 @@ namespace djv
         struct OpenGLImageColor
         {
             float brightness = 1.f;
-            float contrast = 1.f;
+            float contrast   = 1.f;
             float saturation = 1.f;
 
             //! Create a brightness matrix.
@@ -90,10 +90,10 @@ namespace djv
         //! This struct provides OpenGL image color levels options.
         struct OpenGLImageLevels
         {
-            float inLow = 0.f;
-            float inHigh = 1.f;
-            float gamma = 1.f;
-            float outLow = 0.f;
+            float inLow   = 0.f;
+            float inHigh  = 1.f;
+            float gamma   = 1.f;
+            float outLow  = 0.f;
             float outHigh = 1.f;
 
             //! Create a lookup table from color levels.

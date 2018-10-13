@@ -40,11 +40,6 @@ namespace djv
 {
     namespace Graphics
     {
-        PPM::Options::Options() :
-            type(TYPE_AUTO),
-            data(DATA_BINARY)
-        {}
-
         const QString PPM::staticName = "PPM";
 
         const QStringList & PPM::typeLabels()

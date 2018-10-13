@@ -39,10 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        IFF::Options::Options() :
-            compression(IFF::COMPRESSION_RLE)
-        {}
-
         const QString IFF::staticName = "IFF";
 
         const QStringList & IFF::compressionLabels()
@@ -58,8 +54,6 @@ namespace djv
         {
             struct Header
             {
-                Header();
-
                 void load(Core::FileIO &, ImageIOInfo &, int * tiles, bool * compression);
                 void save(Core::FileIO &, const ImageIOInfo &, bool compression);
 
@@ -68,27 +62,16 @@ namespace djv
             private:
                 struct Data
                 {
-                    quint32 x;
-                    quint32 y;
-                    quint32 width;
-                    quint32 height;
-                    quint8  pixelBits;
-                    quint8  pixelChannels;
-                    quint16 tiles;
+                    quint32 x = 0;
+                    quint32 y = 0;
+                    quint32 width = 0;
+                    quint32 height = 0;
+                    quint8  pixelBits = 0;
+                    quint8  pixelChannels = 0;
+                    quint16 tiles = 0;
                 }
                 _data;
             };
-
-            Header::Header()
-            {
-                _data.x = 0;
-                _data.y = 0;
-                _data.width = 0;
-                _data.height = 0;
-                _data.pixelBits = 0;
-                _data.pixelChannels = 0;
-                _data.tiles = 0;
-            }
 
             void Header::load(
                 Core::FileIO & io,
@@ -238,8 +221,7 @@ namespace djv
                                         // Test pixel bits.
                                         if (flags & 0x00002000)
                                         {
-                                            data.pixelBits = 16; // 12bit represented as
-                                                                  // 16bit
+                                            data.pixelBits = 16; // 12bit represented as 16bit
 
                                             if (!alpha)
                                             {
@@ -281,8 +263,7 @@ namespace djv
                                         }
 
                                         // Test bits.
-                                        const int bits =
-                                            data.pixelChannels * data.pixelBits;
+                                        const int bits = data.pixelChannels * data.pixelBits;
                                         DJV_ASSERT(
                                             bits == (Pixel::channels(info.pixel) *
                                                 data.pixelBits) &&
@@ -321,7 +302,6 @@ namespace djv
                                 debug();
                                 break;
                             }
-
                         }
                     }
 

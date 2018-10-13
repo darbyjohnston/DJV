@@ -39,8 +39,7 @@ namespace djv
     namespace Graphics
     {
         TIFFLoad::TIFFLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context),
-            _f(0)
+            ImageLoad(context)
         {}
 
         TIFFLoad::~TIFFLoad()

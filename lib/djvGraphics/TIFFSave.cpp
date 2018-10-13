@@ -39,8 +39,7 @@ namespace djv
     {
         TIFFSave::TIFFSave(const TIFF::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
-            _options(options),
-            _f(0)
+            _options(options)
         {}
 
         TIFFSave::~TIFFSave()

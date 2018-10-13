@@ -38,6 +38,9 @@ namespace djv
 {
     namespace Graphics
     {
+        ColorProfile::Exposure::Exposure()
+        {}
+
         ColorProfile::Exposure::Exposure(
             float value,
             float defog,

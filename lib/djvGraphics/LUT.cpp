@@ -45,10 +45,6 @@ namespace djv
 {
     namespace Graphics
     {
-        LUT::Options::Options() :
-            type(TYPE_AUTO)
-        {}
-
         const QString LUT::staticName = "LUT";
 
         const QStringList LUT::staticExtensions = QStringList() <<

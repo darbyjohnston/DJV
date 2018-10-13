@@ -57,7 +57,7 @@ namespace djv
 
             OpenEXR::Options  _options;
             Core::FileInfo    _file;
-            Imf::OutputFile * _f;
+            Imf::OutputFile * _f = nullptr;
             PixelDataInfo     _info;
             QStringList       _channels;
             Core::Speed       _speed;

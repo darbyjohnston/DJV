@@ -38,10 +38,6 @@ namespace djv
 {
     namespace Graphics
     {
-        TIFF::Options::Options() :
-            compression(TIFF::_COMPRESSION_NONE)
-        {}
-
         const QString TIFF::staticName = "TIFF";
 
         const QStringList & TIFF::compressionLabels()

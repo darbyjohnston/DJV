@@ -52,7 +52,7 @@ namespace djv
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
             DPX::Options   _options;
-            bool           _filmPrint;
+            bool           _filmPrint = false;
             PixelData      _filmPrintLut;
             Core::FileInfo _file;
             PixelData      _tmp;

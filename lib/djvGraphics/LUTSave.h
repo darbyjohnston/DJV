@@ -54,7 +54,7 @@ namespace djv
 
             LUT::Options   _options;
             Core::FileInfo _file;
-            LUT::FORMAT    _format;
+            LUT::FORMAT    _format = static_cast<LUT::FORMAT>(0);
             PixelDataInfo  _info;
             Image          _image;
         };

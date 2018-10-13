@@ -39,14 +39,6 @@ namespace djv
 {
     namespace Graphics
     {
-        DPX::Options::Options() :
-            inputColorProfile(Cineon::COLOR_PROFILE_AUTO),
-            outputColorProfile(Cineon::COLOR_PROFILE_FILM_PRINT),
-            version(DPX::VERSION_2_0),
-            type(DPX::TYPE_U10),
-            endian(DPX::ENDIAN_MSB)
-        {}
-
         const QString DPX::staticName = "DPX";
 
         const QStringList & DPX::versionLabels()
