@@ -53,9 +53,9 @@ namespace djv
             void _open(const QString &, ImageIOInfo &);
 
             Core::FileInfo                  _file;
-            FILE *                          _f;
+            FILE *                          _f = nullptr;
             libjpeg::jpeg_decompress_struct _jpeg;
-            bool                            _jpegInit;
+            bool                            _jpegInit = false;
             JPEGErrorStruct                 _jpegError;
             PixelData                       _tmp;
         };

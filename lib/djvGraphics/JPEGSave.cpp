@@ -40,9 +40,7 @@ namespace djv
     {
         JPEGSave::JPEGSave(const JPEG::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(context),
-            _options(options),
-            _f(0),
-            _jpegInit(false)
+            _options(options)
         {}
 
         JPEGSave::~JPEGSave()

@@ -40,9 +40,7 @@ namespace djv
     namespace Graphics
     {
         JPEGLoad::JPEGLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context),
-            _f(0),
-            _jpegInit(false)
+            ImageLoad(context)
         {}
 
         JPEGLoad::~JPEGLoad()

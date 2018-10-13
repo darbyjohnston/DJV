@@ -40,10 +40,6 @@ namespace djv
 {
     namespace Graphics
     {
-        JPEG::Options::Options() :
-            quality(90)
-        {}
-
         const QString JPEG::staticName = "JPEG";
 
         const QStringList & JPEG::optionsLabels()

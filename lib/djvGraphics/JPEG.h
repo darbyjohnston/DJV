@@ -71,9 +71,7 @@ namespace djv
             //! This struct provides options.
             struct Options
             {
-                Options();
-
-                int quality;
+                int quality = 90;
             };
         };
 
@@ -81,7 +79,7 @@ namespace djv
         struct JPEGErrorStruct
         {
             struct libjpeg::jpeg_error_mgr pub;
-            char msg[JMSG_LENGTH_MAX];
+            char msg[JMSG_LENGTH_MAX] = "";
             jmp_buf jump;
         };
 

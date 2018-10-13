@@ -55,9 +55,9 @@ namespace djv
 
             JPEG::Options                 _options;
             Core::FileInfo                _file;
-            FILE *                        _f;
+            FILE *                        _f = nullptr;
             libjpeg::jpeg_compress_struct _jpeg;
-            bool                          _jpegInit;
+            bool                          _jpegInit = false;
             JPEGErrorStruct               _jpegError;
             PixelDataInfo                 _info;
             Image                         _image;
