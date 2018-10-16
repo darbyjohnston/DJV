@@ -278,7 +278,7 @@ namespace djv
             {
                 OpenGLOffscreenBufferScope bufferScope(_p->buffer.get());
 
-                glFuncs->glViewport(0, 0, input.w(), input.h());
+                glFuncs->glViewport(0, 0, output.w(), output.h());
                 Color background(Pixel::RGB_F32);
                 ColorUtil::convert(options.background, background);
                 glFuncs->glClearColor(
@@ -301,9 +301,9 @@ namespace djv
 
                 auto viewMatrix = glm::ortho(
                     0.f,
-                    static_cast<float>(input.w()),
+                    static_cast<float>(output.w()),
                     0.f,
-                    static_cast<float>(input.h()),
+                    static_cast<float>(output.h()),
                     -1.f,
                     1.f);
                 draw(input, viewMatrix, _options, Pixel::format(output.pixel()));
