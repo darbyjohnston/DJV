@@ -117,8 +117,13 @@ include_directories(
 # Third Party Packages
 #-------------------------------------------------------------------------------
 
-set(djvThirdPartyBuild false)
-set(djvThirdPartyPackage false)
+if(WIN32 OR APPLE)
+    set(djvThirdPartyBuild true)
+    set(djvThirdPartyPackage true)
+elseif(UNIX)
+    set(djvThirdPartyBuild false)
+    set(djvThirdPartyPackage false)
+endif()
 
 if(djvThirdPartyBuild)
     set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
