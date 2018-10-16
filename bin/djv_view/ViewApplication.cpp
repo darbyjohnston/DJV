@@ -109,7 +109,7 @@ namespace djv
             // Initialize user interface.
             DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Initialize user interface...");
             _p->context->setValid(true);
-            setWindowIcon(QPixmap(":projector32x32.png"));
+            setWindowIcon(QPixmap(":djv_view_256x256.png"));
 
             // Show main window(s).
             QStringList input = _p->context->commandLineOptions().input;

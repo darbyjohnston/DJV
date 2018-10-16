@@ -1,5 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-    <file alias="projector32x32.png">images/projector32x32.png</file>
+    <file alias="djv_view_256x256.png">images/djv_view_256x256.png</file>
 </qresource>
 </RCC>
+

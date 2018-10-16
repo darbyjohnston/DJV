@@ -4,104 +4,104 @@
 <context>
     <name>djv::Graphics::Cineon</name>
     <message>
-        <location filename="Cineon.cpp" line="50"/>
+        <location filename="Cineon.cpp" line="45"/>
         <source>Auto</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Cineon.cpp" line="51"/>
+        <location filename="Cineon.cpp" line="46"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Cineon.cpp" line="52"/>
+        <location filename="Cineon.cpp" line="47"/>
         <source>Film Print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Cineon.cpp" line="153"/>
+        <source>Source Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Cineon.cpp" line="154"/>
+        <source>Source File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Cineon.cpp" line="155"/>
+        <source>Source Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Cineon.cpp" line="156"/>
+        <source>Source Input Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Cineon.cpp" line="157"/>
+        <source>Source Input Model</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="158"/>
-        <source>Source Offset</source>
-        <translation></translation>
+        <source>Source Input Serial</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="159"/>
-        <source>Source File</source>
-        <translation></translation>
+        <source>Source Input Pitch</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="160"/>
-        <source>Source Time</source>
-        <translation></translation>
+        <source>Source Gamma</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="161"/>
-        <source>Source Input Device</source>
-        <translation></translation>
+        <source>Film Format</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="162"/>
-        <source>Source Input Model</source>
-        <translation></translation>
+        <source>Film Frame</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="163"/>
-        <source>Source Input Serial</source>
-        <translation></translation>
+        <source>Film Frame Rate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="164"/>
-        <source>Source Input Pitch</source>
-        <translation></translation>
+        <source>Film Frame ID</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Cineon.cpp" line="165"/>
-        <source>Source Gamma</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="Cineon.cpp" line="166"/>
-        <source>Film Format</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="Cineon.cpp" line="167"/>
-        <source>Film Frame</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="Cineon.cpp" line="168"/>
-        <source>Film Frame Rate</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="Cineon.cpp" line="169"/>
-        <source>Film Frame ID</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="Cineon.cpp" line="170"/>
         <source>Film Slate</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Cineon.cpp" line="178"/>
+        <location filename="Cineon.cpp" line="173"/>
         <source>Input Color Profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Cineon.cpp" line="179"/>
+        <location filename="Cineon.cpp" line="174"/>
         <source>Input Film Print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Cineon.cpp" line="180"/>
+        <location filename="Cineon.cpp" line="175"/>
         <source>Output Color Profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Cineon.cpp" line="181"/>
+        <location filename="Cineon.cpp" line="176"/>
         <source>Output Film Print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -109,22 +109,22 @@
     <message>
         <location filename="CineonPlugin.cpp" line="157"/>
         <source>-cineon_input_color_profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CineonPlugin.cpp" line="162"/>
         <source>-cineon_input_film_print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CineonPlugin.cpp" line="167"/>
         <source>-cineon_output_color_profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CineonPlugin.cpp" line="172"/>
         <source>-cineon_output_film_print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CineonPlugin.cpp" line="199"/>
@@ -140,239 +140,239 @@ Cineon Options
     -cineon_output_film_print (black) (white) (gamma) (soft clip)
         Set the film print values used when saving Cineon images. Default = %6.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::ColorProfile</name>
     <message>
-        <location filename="ColorProfile.cpp" line="58"/>
-        <source>Raw</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="ColorProfile.cpp" line="59"/>
-        <source>Gamma</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="ColorProfile.cpp" line="60"/>
-        <source>LUT</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="ColorProfile.cpp" line="61"/>
+        <source>Raw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ColorProfile.cpp" line="62"/>
+        <source>Gamma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ColorProfile.cpp" line="63"/>
+        <source>LUT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ColorProfile.cpp" line="64"/>
         <source>Exposure</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::DPX</name>
     <message>
-        <location filename="DPX.cpp" line="55"/>
+        <location filename="DPX.cpp" line="47"/>
         <source>1.0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="48"/>
+        <source>2.0</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="56"/>
-        <source>2.0</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="64"/>
-        <location filename="DPX.cpp" line="73"/>
-        <source>Auto</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="DPX.cpp" line="65"/>
+        <source>Auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="57"/>
         <source>U10</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="74"/>
+        <source>Source Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="75"/>
+        <source>Source Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="76"/>
+        <source>Source Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="77"/>
+        <source>Source File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="78"/>
+        <source>Source Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="79"/>
+        <source>Source Input Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="80"/>
+        <source>Source Input Serial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DPX.cpp" line="81"/>
+        <source>Source Border</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="82"/>
-        <source>Source Offset</source>
-        <translation></translation>
+        <source>Source Pixel Aspect</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="83"/>
-        <source>Source Center</source>
-        <translation></translation>
+        <source>Source ScanSize</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="84"/>
-        <source>Source Size</source>
-        <translation></translation>
+        <source>Film Format</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="85"/>
-        <source>Source File</source>
-        <translation></translation>
+        <source>Film Frame</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="86"/>
-        <source>Source Time</source>
-        <translation></translation>
+        <source>Film Sequence</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="87"/>
-        <source>Source Input Device</source>
-        <translation></translation>
+        <source>Film Hold</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="88"/>
-        <source>Source Input Serial</source>
-        <translation></translation>
+        <source>Film Frame Rate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="89"/>
-        <source>Source Border</source>
-        <translation></translation>
+        <source>Film Shutter</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="90"/>
-        <source>Source Pixel Aspect</source>
-        <translation></translation>
+        <source>Film Frame ID</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="91"/>
-        <source>Source ScanSize</source>
-        <translation></translation>
+        <source>Film Slate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="92"/>
-        <source>Film Format</source>
-        <translation></translation>
+        <source>TV Interlace</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="93"/>
-        <source>Film Frame</source>
-        <translation></translation>
+        <source>TV Field</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="94"/>
-        <source>Film Sequence</source>
-        <translation></translation>
+        <source>TV Video Signal</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="95"/>
-        <source>Film Hold</source>
-        <translation></translation>
+        <source>TV Sample Rate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="96"/>
-        <source>Film Frame Rate</source>
-        <translation></translation>
+        <source>TV Frame Rate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="97"/>
-        <source>Film Shutter</source>
-        <translation></translation>
+        <source>TV Time Offset</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="98"/>
-        <source>Film Frame ID</source>
-        <translation></translation>
+        <source>TV Gamma</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="99"/>
-        <source>Film Slate</source>
-        <translation></translation>
+        <source>TV Black Level</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="100"/>
-        <source>TV Interlace</source>
-        <translation></translation>
+        <source>TV Black Gain</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="101"/>
-        <source>TV Field</source>
-        <translation></translation>
+        <source>TV Break Point</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="102"/>
-        <source>TV Video Signal</source>
-        <translation></translation>
+        <source>TV White Level</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="103"/>
-        <source>TV Sample Rate</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="104"/>
-        <source>TV Frame Rate</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="105"/>
-        <source>TV Time Offset</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="106"/>
-        <source>TV Gamma</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="107"/>
-        <source>TV Black Level</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="108"/>
-        <source>TV Black Gain</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="109"/>
-        <source>TV Break Point</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="110"/>
-        <source>TV White Level</source>
-        <translation></translation>
+        <source>TV Integration Times</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPX.cpp" line="111"/>
-        <source>TV Integration Times</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="DPX.cpp" line="119"/>
         <source>Input Color Profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DPX.cpp" line="120"/>
+        <location filename="DPX.cpp" line="112"/>
         <source>Input Film Print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DPX.cpp" line="121"/>
+        <location filename="DPX.cpp" line="113"/>
         <source>Output Color Profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DPX.cpp" line="122"/>
+        <location filename="DPX.cpp" line="114"/>
         <source>Output Film Print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DPX.cpp" line="123"/>
+        <location filename="DPX.cpp" line="115"/>
         <source>Version</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DPX.cpp" line="124"/>
+        <location filename="DPX.cpp" line="116"/>
         <source>Type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DPX.cpp" line="125"/>
+        <location filename="DPX.cpp" line="117"/>
         <source>Endian</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -380,37 +380,37 @@ Cineon Options
     <message>
         <location filename="DPXPlugin.cpp" line="194"/>
         <source>-dpx_input_color_profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPXPlugin.cpp" line="199"/>
         <source>-dpx_input_film_print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPXPlugin.cpp" line="204"/>
         <source>-dpx_output_color_profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPXPlugin.cpp" line="209"/>
         <source>-dpx_output_film_print</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPXPlugin.cpp" line="214"/>
         <source>-dpx_version</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPXPlugin.cpp" line="219"/>
         <source>-dpx_type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPXPlugin.cpp" line="224"/>
         <source>-dpx_endian</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="DPXPlugin.cpp" line="257"/>
@@ -432,7 +432,7 @@ DPX Options
     -dpx_endian (value)
         Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware. Options = %11. Default = %12.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -440,42 +440,42 @@ DPX Options
     <message>
         <location filename="FFmpeg.cpp" line="106"/>
         <source>MPEG4</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpeg.cpp" line="107"/>
         <source>ProRes</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpeg.cpp" line="108"/>
         <source>MJPEG</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpeg.cpp" line="116"/>
         <source>Low</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpeg.cpp" line="117"/>
         <source>Medium</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpeg.cpp" line="118"/>
         <source>High</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpeg.cpp" line="141"/>
         <source>Format</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpeg.cpp" line="142"/>
         <source>Quality</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -483,12 +483,12 @@ DPX Options
     <message>
         <location filename="FFmpegLoad.cpp" line="97"/>
         <source>Cannot find video stream</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpegLoad.cpp" line="108"/>
         <source>Cannot find codec</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -496,12 +496,12 @@ DPX Options
     <message>
         <location filename="FFmpegPlugin.cpp" line="188"/>
         <source>-ffmpeg_format</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpegPlugin.cpp" line="192"/>
         <source>-ffmpeg_quality</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpegPlugin.cpp" line="215"/>
@@ -513,7 +513,7 @@ FFmpeg Options
     -ffmpeg_quality (value)
         Set the quality used when saving FFmpeg movies. Options = %3. Default = %4.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -521,22 +521,22 @@ FFmpeg Options
     <message>
         <location filename="FFmpegSave.cpp" line="159"/>
         <source>Cannot find format: %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpegSave.cpp" line="172"/>
         <source>Cannot find encoder: %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpegSave.cpp" line="209"/>
         <source>Cannot create stream</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FFmpegSave.cpp" line="283"/>
         <source>Cannot create software scaler</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -563,17 +563,17 @@ Image I/O
 
     Plugins: %6
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="GraphicsContext.cpp" line="261"/>
         <source>-render_filter</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="GraphicsContext.cpp" line="267"/>
         <source>-render_filter_high</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="GraphicsContext.cpp" line="297"/>
@@ -585,20 +585,20 @@ OpenGL Options
     -render_filter_high
         Set the render filter to high quality settings (%5, %6).
 %7</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::IFF</name>
     <message>
-        <location filename="IFF.cpp" line="51"/>
+        <location filename="IFF.cpp" line="47"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="IFF.cpp" line="52"/>
+        <location filename="IFF.cpp" line="48"/>
         <source>RLE</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -611,7 +611,7 @@ IFF Options
     -iff_compression (value)
         Set the file compression used when saving IFF images. Options = %1. Default = %2.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -619,27 +619,27 @@ IFF Options
     <message>
         <location filename="ImageIO.cpp" line="199"/>
         <source>Unrecognized file</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageIO.cpp" line="200"/>
         <source>Unsupported file</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageIO.cpp" line="201"/>
         <source>Cannot open file</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageIO.cpp" line="202"/>
         <source>Error reading file</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageIO.cpp" line="203"/>
         <source>Error writing file</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -648,12 +648,12 @@ IFF Options
         <location filename="ImageIO.cpp" line="301"/>
         <location filename="ImageIO.cpp" line="333"/>
         <source>Unrecognized image: %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageIO.cpp" line="341"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -661,50 +661,50 @@ IFF Options
     <message>
         <location filename="ImageTags.cpp" line="142"/>
         <source>Project</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageTags.cpp" line="143"/>
         <source>Creator</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageTags.cpp" line="144"/>
         <source>Description</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageTags.cpp" line="145"/>
         <source>Copyright</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageTags.cpp" line="146"/>
         <source>Time</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageTags.cpp" line="147"/>
         <source>UTC Offset</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageTags.cpp" line="148"/>
         <source>Keycode</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ImageTags.cpp" line="149"/>
         <source>Timecode</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::JPEG</name>
     <message>
-        <location filename="JPEG.cpp" line="52"/>
+        <location filename="JPEG.cpp" line="48"/>
         <source>Quality</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -712,7 +712,7 @@ IFF Options
     <message>
         <location filename="JPEGPlugin.cpp" line="108"/>
         <source>-jpeg_quality</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="JPEGPlugin.cpp" line="129"/>
@@ -722,40 +722,40 @@ JPEG Options
     -jpeg_quality (value)
         Set the quality used when saving JPEG images. Default = %1.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::LUT</name>
     <message>
-        <location filename="LUT.cpp" line="61"/>
+        <location filename="LUT.cpp" line="57"/>
         <source>Inferno</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LUT.cpp" line="62"/>
+        <location filename="LUT.cpp" line="58"/>
         <source>Kodak</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LUT.cpp" line="70"/>
+        <location filename="LUT.cpp" line="66"/>
         <source>Auto</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LUT.cpp" line="71"/>
+        <location filename="LUT.cpp" line="67"/>
         <source>U8</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LUT.cpp" line="72"/>
+        <location filename="LUT.cpp" line="68"/>
         <source>U10</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LUT.cpp" line="73"/>
+        <location filename="LUT.cpp" line="69"/>
         <source>U16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -763,7 +763,7 @@ JPEG Options
     <message>
         <location filename="LUTPlugin.cpp" line="57"/>
         <source>-lut_type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="LUTPlugin.cpp" line="78"/>
@@ -773,168 +773,168 @@ LUT Options
     -lut_type (value)
         Set the pixel type used when loading LUTs. Options = %1. Default = %2.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::OpenEXR</name>
     <message>
+        <location filename="OpenEXR.cpp" line="79"/>
         <location filename="OpenEXR.cpp" line="89"/>
-        <location filename="OpenEXR.cpp" line="99"/>
-        <location filename="OpenEXR.cpp" line="120"/>
+        <location filename="OpenEXR.cpp" line="110"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="80"/>
+        <source>Gamma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="81"/>
+        <location filename="OpenEXR.cpp" line="124"/>
+        <source>Exposure</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXR.cpp" line="90"/>
-        <source>Gamma</source>
-        <translation></translation>
+        <source>RLE</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXR.cpp" line="91"/>
-        <location filename="OpenEXR.cpp" line="134"/>
-        <source>Exposure</source>
-        <translation></translation>
+        <source>ZIPS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="92"/>
+        <source>ZIP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="93"/>
+        <source>PIZ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="94"/>
+        <source>PXR24</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="95"/>
+        <source>B44</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="96"/>
+        <source>B44A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="99"/>
+        <source>DWAA</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXR.cpp" line="100"/>
-        <source>RLE</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="101"/>
-        <source>ZIPS</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="102"/>
-        <source>ZIP</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="103"/>
-        <source>PIZ</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="104"/>
-        <source>PXR24</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="105"/>
-        <source>B44</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="106"/>
-        <source>B44A</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="109"/>
-        <source>DWAA</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="110"/>
         <source>DWAB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="111"/>
+        <source>Known</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="112"/>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenEXR.cpp" line="120"/>
+        <source>Longitude</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXR.cpp" line="121"/>
-        <source>Known</source>
-        <translation></translation>
+        <source>Latitude</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXR.cpp" line="122"/>
-        <source>All</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="130"/>
-        <source>Longitude</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="131"/>
-        <source>Latitude</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="OpenEXR.cpp" line="132"/>
         <source>Altitude</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="133"/>
+        <location filename="OpenEXR.cpp" line="123"/>
         <source>Focus</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="135"/>
+        <location filename="OpenEXR.cpp" line="125"/>
         <source>Aperture</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="136"/>
+        <location filename="OpenEXR.cpp" line="126"/>
         <source>ISO Speed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="137"/>
+        <location filename="OpenEXR.cpp" line="127"/>
         <source>Chromaticities</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="138"/>
+        <location filename="OpenEXR.cpp" line="128"/>
         <source>White Luminance</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="139"/>
+        <location filename="OpenEXR.cpp" line="129"/>
         <source>XDensity</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="678"/>
+        <location filename="OpenEXR.cpp" line="668"/>
         <source>Threads Enable</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="679"/>
+        <location filename="OpenEXR.cpp" line="669"/>
         <source>Thread Count</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="680"/>
+        <location filename="OpenEXR.cpp" line="670"/>
         <source>Input Color Profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="681"/>
+        <location filename="OpenEXR.cpp" line="671"/>
         <source>Input Gamma</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="682"/>
+        <location filename="OpenEXR.cpp" line="672"/>
         <source>Input Exposure</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="683"/>
+        <location filename="OpenEXR.cpp" line="673"/>
         <source>Channels</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="684"/>
+        <location filename="OpenEXR.cpp" line="674"/>
         <source>Compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="686"/>
+        <location filename="OpenEXR.cpp" line="676"/>
         <source>DWA Compression Level</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -942,42 +942,42 @@ LUT Options
     <message>
         <location filename="OpenEXRPlugin.cpp" line="245"/>
         <source>-exr_threads_enable</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="250"/>
         <source>-exr_thread_count</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="255"/>
         <source>-exr_input_color_profile</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="260"/>
         <source>-exr_input_gamma</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="265"/>
         <source>-exr_input_exposure</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="270"/>
         <source>-exr_channels</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="275"/>
         <source>-exr_compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="281"/>
         <source>-exr_dwa_compression_level</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="315"/>
@@ -1001,142 +1001,142 @@ OpenEXR Options
     -exr_dwa_compression_level (value)
         Set the DWA compression level used when saving OpenEXR images. Default = %11.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::OpenGLImageFilter</name>
     <message>
-        <location filename="OpenGLImage.cpp" line="143"/>
-        <source>Nearest</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="OpenGLImage.cpp" line="144"/>
-        <source>Linear</source>
-        <translation></translation>
+        <source>Nearest</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="145"/>
-        <source>Box</source>
-        <translation></translation>
+        <source>Linear</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="146"/>
-        <source>Triangle</source>
-        <translation></translation>
+        <source>Box</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="147"/>
-        <source>Bell</source>
-        <translation></translation>
+        <source>Triangle</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="148"/>
-        <source>B-Spline</source>
-        <translation></translation>
+        <source>Bell</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="149"/>
-        <source>Lanczos3</source>
-        <translation></translation>
+        <source>B-Spline</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="150"/>
-        <source>Cubic</source>
-        <translation></translation>
+        <source>Lanczos3</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="151"/>
+        <source>Cubic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenGLImage.cpp" line="152"/>
         <source>Mitchell</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::OpenGLImageOptions</name>
     <message>
-        <location filename="OpenGLImage.cpp" line="211"/>
-        <source>Default</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="OpenGLImage.cpp" line="212"/>
-        <source>Red</source>
-        <translation></translation>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="213"/>
-        <source>Green</source>
-        <translation></translation>
+        <source>Red</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="214"/>
-        <source>Blue</source>
-        <translation></translation>
+        <source>Green</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="OpenGLImage.cpp" line="215"/>
+        <source>Blue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenGLImage.cpp" line="216"/>
         <source>Alpha</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::OpenGLLUT</name>
     <message>
-        <location filename="OpenGLLUT.cpp" line="64"/>
+        <location filename="OpenGLLUT.cpp" line="74"/>
         <source>Cannot create texture</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::OpenGLOffscreenBuffer</name>
     <message>
-        <location filename="OpenGLOffscreenBuffer.cpp" line="171"/>
+        <location filename="OpenGLOffscreenBuffer.cpp" line="180"/>
         <source>Cannot create texture</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLOffscreenBuffer.cpp" line="172"/>
+        <location filename="OpenGLOffscreenBuffer.cpp" line="181"/>
         <source>Cannot initialize texture</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLOffscreenBuffer.cpp" line="173"/>
+        <location filename="OpenGLOffscreenBuffer.cpp" line="182"/>
         <source>Cannot create FBO</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLOffscreenBuffer.cpp" line="174"/>
+        <location filename="OpenGLOffscreenBuffer.cpp" line="183"/>
         <source>Cannot initialize FBO</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::OpenGLShader</name>
     <message>
-        <location filename="OpenGLShader.cpp" line="68"/>
+        <location filename="OpenGLShader.cpp" line="81"/>
         <source>Cannot compile shader:
 %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLShader.cpp" line="102"/>
+        <location filename="OpenGLShader.cpp" line="115"/>
         <source>Cannot create shader program</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLShader.cpp" line="117"/>
+        <location filename="OpenGLShader.cpp" line="130"/>
         <source>Cannot link shader:
 %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::OpenGLTexture</name>
     <message>
-        <location filename="OpenGLTexture.cpp" line="73"/>
+        <location filename="OpenGLTexture.cpp" line="86"/>
         <source>Cannot create texture</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1144,45 +1144,45 @@ OpenEXR Options
     <message>
         <location filename="PIC.cpp" line="47"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PIC.cpp" line="48"/>
         <source>RLE</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::PPM</name>
     <message>
-        <location filename="PPM.cpp" line="53"/>
+        <location filename="PPM.cpp" line="48"/>
         <source>Auto</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PPM.cpp" line="54"/>
+        <location filename="PPM.cpp" line="49"/>
         <source>U1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PPM.cpp" line="62"/>
+        <location filename="PPM.cpp" line="57"/>
         <source>ASCII</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PPM.cpp" line="63"/>
+        <location filename="PPM.cpp" line="58"/>
         <source>Binary</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PPM.cpp" line="204"/>
+        <location filename="PPM.cpp" line="199"/>
         <source>Type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PPM.cpp" line="205"/>
+        <location filename="PPM.cpp" line="200"/>
         <source>Data</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1190,12 +1190,12 @@ OpenEXR Options
     <message>
         <location filename="PPMPlugin.cpp" line="125"/>
         <source>-ppm_type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PPMPlugin.cpp" line="129"/>
         <source>-ppm_data</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PPMPlugin.cpp" line="152"/>
@@ -1207,7 +1207,7 @@ PPM Options
     -ppm_data (value)
         Set the data type used when saving PPM images. Options = %3. Default = %4.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1215,142 +1215,142 @@ PPM Options
     <message>
         <location filename="Pixel.cpp" line="47"/>
         <source>L</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="48"/>
         <source>LA</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="49"/>
         <source>RGB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="50"/>
         <source>RGBA</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="58"/>
         <source>U8</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="59"/>
         <source>U10</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="60"/>
         <source>U16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="61"/>
         <source>F16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="62"/>
         <source>F32</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="70"/>
         <source>Integer</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="71"/>
         <source>Float</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="79"/>
         <source>L U8</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="80"/>
         <source>L U16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="81"/>
         <source>L F16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="82"/>
         <source>L F32</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="83"/>
         <source>LA U8</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="84"/>
         <source>LA U16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="85"/>
         <source>LA F16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="86"/>
         <source>LA F32</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="87"/>
         <source>RGB U8</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="88"/>
         <source>RGB U10</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="89"/>
         <source>RGB U16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="90"/>
         <source>RGB F16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="91"/>
         <source>RGB F32</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="92"/>
         <source>RGBA U8</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="93"/>
         <source>RGBA U16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="94"/>
         <source>RGBA F16</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Pixel.cpp" line="95"/>
         <source>RGBA F32</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1358,40 +1358,40 @@ PPM Options
     <message>
         <location filename="PixelData.cpp" line="109"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PixelData.cpp" line="110"/>
         <source>1/2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PixelData.cpp" line="111"/>
         <source>1/4</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PixelData.cpp" line="112"/>
         <source>1/8</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::SGI</name>
     <message>
-        <location filename="SGI.cpp" line="50"/>
+        <location filename="SGI.cpp" line="46"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SGI.cpp" line="51"/>
+        <location filename="SGI.cpp" line="47"/>
         <source>RLE</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SGI.cpp" line="388"/>
+        <location filename="SGI.cpp" line="384"/>
         <source>Compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1399,7 +1399,7 @@ PPM Options
     <message>
         <location filename="SGIPlugin.cpp" line="109"/>
         <source>-sgi_compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="SGIPlugin.cpp" line="130"/>
@@ -1409,30 +1409,30 @@ SGI Options
     -sgi_compression (value)
         Set the file compression used when saving SGI images. Options = %1. Default = %2.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::TIFF</name>
     <message>
-        <location filename="TIFF.cpp" line="50"/>
+        <location filename="TIFF.cpp" line="46"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TIFF.cpp" line="51"/>
+        <location filename="TIFF.cpp" line="47"/>
         <source>RLE</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TIFF.cpp" line="52"/>
+        <location filename="TIFF.cpp" line="48"/>
         <source>LZW</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="TIFF.cpp" line="101"/>
+        <location filename="TIFF.cpp" line="97"/>
         <source>Compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1440,7 +1440,7 @@ SGI Options
     <message>
         <location filename="TIFFPlugin.cpp" line="113"/>
         <source>-tiff_compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="TIFFPlugin.cpp" line="134"/>
@@ -1450,25 +1450,25 @@ TIFF Options
     -tiff_compression (value)
         Set the file compression used when saving TIFF images. Options = %1. Default = %2.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djv::Graphics::Targa</name>
     <message>
-        <location filename="Targa.cpp" line="50"/>
+        <location filename="Targa.cpp" line="46"/>
         <source>None</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Targa.cpp" line="51"/>
+        <location filename="Targa.cpp" line="47"/>
         <source>RLE</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Targa.cpp" line="382"/>
+        <location filename="Targa.cpp" line="378"/>
         <source>Compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1476,7 +1476,7 @@ TIFF Options
     <message>
         <location filename="TargaPlugin.cpp" line="105"/>
         <source>-targa_compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="TargaPlugin.cpp" line="126"/>
@@ -1486,7 +1486,7 @@ Targa Options
     -targa_compression (value)
         Set the file compression used when saving Targa images. Options = %1. Default = %2.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1494,7 +1494,7 @@ Targa Options
     <message>
         <location filename="IFFPlugin.cpp" line="108"/>
         <source>-iff_compression</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1502,7 +1502,7 @@ Targa Options
     <message>
         <location filename="PixelData.cpp" line="55"/>
         <source>Default</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

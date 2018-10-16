@@ -1,6 +1,9 @@
 if [ -x "$(command -v update-mime-database)" ]; then
     update-mime-database /usr/share/mime
 fi
+if [ -x "$(command -v update-icon-caches)" ]; then
+    update-icon-caches /usr/share/icons/hicolor
+fi
 if [ -x "$(command -v gtk-update-icon-cache)" ]; then
     gtk-update-icon-cache /usr/share/icons/hicolor
 fi

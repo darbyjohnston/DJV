@@ -237,6 +237,29 @@
     </message>
 </context>
 <context>
+    <name>djv::UI::FFmpegWidget</name>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="66"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="67"/>
+        <source>Set the format used when saving movies.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="71"/>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegWidget.cpp" line="74"/>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>djv::UI::FileBrowser</name>
     <message>
         <location filename="FileBrowser.cpp" line="166"/>
