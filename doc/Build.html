@@ -73,6 +73,11 @@
 > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
 > make
 </pre>
+<p>On some systems you may need to add a flag to CMake so it can find the
+correct Qt 5 programs:</p>
+<pre>
+> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PROGRAM_PATH=/usr/lib64/qt5/bin
+</pre>
 <p>If everything completes OK try running the confidence tests:</p>
 <pre>
 > make test

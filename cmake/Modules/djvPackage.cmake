@@ -147,8 +147,7 @@ elseif (APPLE)
 
 elseif (UNIX)
 
-    #set(CPACK_GENERATOR TGZ RPM DEB)
-    set(CPACK_GENERATOR DEB)
+    set(CPACK_GENERATOR RPM DEB)
         
     set(CPACK_RPM_PACKAGE_NAME djv)
     set(CPACK_RPM_PACKAGE_RELOCATABLE true)
