@@ -45,23 +45,58 @@
 
 <div class="block">
 <h1>Building the Source Code</h1>
-<p>Building the DJV source code is performed in two stages, first the third party
-software that DJV depends on, and then the DJV source code itself. The following
-instructions describe the steps needed for the various operating systems that DJV
-supports.</p>
 <li><b><a href="#Linux">Linux</a></b></li>
+<li><b><a href="#LinuxThirdPartyPackages">Linux with Third Party Packages</a></b></li>
 <li><b><a href="#OSX">OS X</a></b></li>
 <li><b><a href="#Windows">Windows</a></b></li>
 </div>
 
 <div class="block">
 <h2><a name="Linux">Linux</a></h2>
-<p>These are the requirements for building DJV on Linux:</p>
+<p>Requirements:</p>
+<ul>
+    <li>OpenGL 3.3 or higher</li>
+    <li>C++11 compiler</li>
+    <li>CMake</li>
+    <li>git</li>
+    <li>Development packages: GLM, Qt5, IlmBase</li>
+    <li>Optional development packages: JPEG, PNG, TIFF, OpenEXR, FFmpeg</li>
+</ul>
+<p>Clone the DJV source code repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git djv-git
+</pre>
+<p>Create a directory for building the DJV software and start the build:</p>
+<pre>
+> mkdir djv-git-Debug
+> cd djv-git-Debug
+> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
+> make
+</pre>
+<p>If everything completes OK try running the confidence tests:</p>
+<pre>
+> make test
+</pre>
+<p>You can also try starting the djv_view application:</p>
+<pre>
+> ./build/bin/djv_view
+</pre>
+<p>Or build packages for installation:</p>
+<pre>
+> make package
+</pre>
+</div>
+
+<div class="block">
+<h2><a name="LinuxThirdPartyPackages">Linux with Third Party Packages</a></h2>
+<p>Requirements:</p>
 <ul>
     <li>OpenGL 3.3 or higher</li>
     <li>C++11 compiler</li>
     <li>git</li>
 </ul>
+<p>Building the DJV source code is performed in two stages, first the third party
+software that DJV depends on, and then the DJV source code itself.</p>
 <p>First choose a working directory to hold the source code and builds. We will
 refer to the path of this directory as "$BUILD_DIR".</p>
 <p>Clone the DJV third party source code repository:</p>
@@ -125,19 +160,19 @@ and try running the confidence tests:</p>
 
 <div class="block">
 <h2><a name="OSX">OS X</a></h2>
-<p>These are the requirements for building DJV on OS X:</p>
+<p>Requirements:</p>
 <ul>
     <li>OpenGL 3.3 or higher</li>
     <li>Xcode</li>
     <li>git</li>
 </ul>
 <p>Building DJV on OS X is the same as Linux, open a terminal and follow the above
-directions for building on Linux.</p>
+directions for building on <b><a href="#LinuxThirdPartyPackages">Linux with Third Party Packages</a></b></p>
 </div>
 
 <div class="block">
 <h2><a name="Windows">Windows</a></h2>
-<p>These are the requirements for building DJV on Windows:</p>
+<p>Requirements:</p>
 <ul>
     <li>OpenGL 3.3 or higher</li>
     <li>Visual Studio 2017</li>
