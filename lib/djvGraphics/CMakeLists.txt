@@ -1,3 +1,12 @@
+find_package(IlmBase REQUIRED)
+find_package(OpenGL REQUIRED)
+
+find_package(JPEG)
+find_package(PNG)
+find_package(TIFF)
+find_package(OpenEXR)
+find_package(FFmpeg)
+
 set(header
     Cineon.h
     CineonHeader.h
@@ -203,18 +212,29 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvGraphics_en_US.ts
     djvGraphics_cs_CZ.ts)
 
-include_directories(
-    ${OPENGL_INCLUDE_DIRS})
+include_directories(${OPENGL_INCLUDE_DIRS})
 add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-target_link_libraries(djvGraphics
+set(djvGraphicsLibs
     djvCore
+    IlmBase
     ${OPENGL_LIBRARIES})
+if(JPEG_FOUND)
+    set(djvGraphicsLibs ${djvGraphicsLibs} JPEG)
+endif()
+if(PNG_FOUND)
+    set(djvGraphicsLibs ${djvGraphicsLibs} PNG)
+endif()
+if(TIFF_FOUND)
+    set(djvGraphicsLibs ${djvGraphicsLibs} TIFF)
+endif()
+if(OPENEXR_FOUND)
+    set(djvGraphicsLibs ${djvGraphicsLibs} OpenEXR)
+endif()
+if(FFMPEG_FOUND)
+    set(djvGraphicsLibs ${djvGraphicsLibs} FFMPEG)
+endif()
+target_link_libraries(djvGraphics ${djvGraphicsLibs})
 set_target_properties(djvGraphics PROPERTIES FOLDER lib CXX_STANDARD 11)
-if (djvInstallRpath)
-    set_target_properties(
-        djvGraphics PROPERTIES
-        INSTALL_RPATH "${djvInstallRpath}")
-endif (djvInstallRpath)
 
 #install(
 #    FILES ${header}

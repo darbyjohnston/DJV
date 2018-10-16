@@ -1,10 +1,5 @@
 #!/bin/bash
 
-ln -s @CPACK_INSTALL_PREFIX@/bin/djv_convert.sh /usr/bin/djv_convert
-ln -s @CPACK_INSTALL_PREFIX@/bin/djv_info.sh /usr/bin/djv_info
-ln -s @CPACK_INSTALL_PREFIX@/bin/djv_ls.sh /usr/bin/djv_ls
-ln -s @CPACK_INSTALL_PREFIX@/bin/djv_view.sh /usr/bin/djv_view
-
 if [ -x "$(command -v update-mime-database)" ]; then
     update-mime-database /usr/share/mime
 fi

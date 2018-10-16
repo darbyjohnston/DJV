@@ -14,34 +14,39 @@
 #
 # * JPEG
 
-set(JPEG_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+find_path(JPEG_INCLUDE_DIR
+    NAMES jpeglib.h)
 set(JPEG_INCLUDE_DIRS ${JPEG_INCLUDE_DIR})
 
-if(WIN32)
-    set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/jpeg.lib)
-elseif(APPLE)
-    if(JPEG_SHARED_LIBS)
-        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.dylib)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${JPEG_LIBRARY}
-                DESTINATION lib)
-        endif()
-    else()
-        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
-    endif()
+if(NOT djvThirdPartyBuild)
+    find_library(JPEG_LIBRARY NAMES jpeg)
 else()
-    if(JPEG_SHARED_LIBS)
-        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.so)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${JPEG_LIBRARY}
-                DESTINATION lib)
+    if(WIN32)
+        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/jpeg.lib)
+    elseif(APPLE)
+        if(JPEG_SHARED_LIBS)
+            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.dylib)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${JPEG_LIBRARY}
+                    DESTINATION lib)
+            endif()
+        else()
+            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
         endif()
     else()
-        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
+        if(JPEG_SHARED_LIBS)
+            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.so)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${JPEG_LIBRARY}
+                    DESTINATION lib)
+            endif()
+        else()
+            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
+        endif()
     endif()
 endif()
 set(JPEG_LIBRARIES ${JPEG_LIBRARY})

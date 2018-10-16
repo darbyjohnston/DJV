@@ -18,11 +18,6 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 add_executable(djv_convert ${header} ${source} ${mocSource} ${qmSource})
 target_link_libraries(djv_convert djvGraphics)
 set_target_properties(djv_convert PROPERTIES FOLDER bin CXX_STANDARD 11)
-if (djvInstallRpath)
-    set_target_properties(
-        djv_convert PROPERTIES
-        INSTALL_RPATH "${djvInstallRpath}")
-endif (djvInstallRpath)
 
 install(
     FILES ${qmSource}
@@ -30,13 +25,4 @@ install(
 install(
     TARGETS djv_convert
     RUNTIME DESTINATION bin)
-if (UNIX)
-    configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/djv_convert_linux.sh.in
-        ${CMAKE_CURRENT_BINARY_DIR}/djv_convert.sh
-        @ONLY)
-    install(
-        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_convert.sh
-        DESTINATION bin)
-endif (UNIX)
 

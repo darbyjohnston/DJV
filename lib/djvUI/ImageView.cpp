@@ -288,7 +288,7 @@ namespace djv
             xform.scale *= zoom;
             //DJV_DEBUG_PRINT("xform = " << xform);
 
-            const glm::mat3x3 m = Graphics::OpenGLImageXform::xformMatrix(xform);
+            const auto m = glm::mat3x3(Graphics::OpenGLImageXform::xformMatrix(xform));
             //DJV_DEBUG_PRINT("m = " << m);
 
             Core::Box2f box(_p->data->info().size * Graphics::PixelDataUtil::proxyScale(info.proxy));

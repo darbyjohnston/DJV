@@ -1,3 +1,9 @@
+find_package(JPEG)
+find_package(PNG)
+find_package(TIFF)
+find_package(OpenEXR)
+find_package(FFmpeg)
+
 set(header
     AboutDialog.h
     AbstractPrefsWidget.h
@@ -265,11 +271,6 @@ include_directories(
 add_library(djvUI ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 target_link_libraries(djvUI djvGraphics)
 set_target_properties(djvUI PROPERTIES FOLDER lib CXX_STANDARD 11)
-if (djvInstallRpath)
-    set_target_properties(
-        djvUI PROPERTIES
-        INSTALL_RPATH "${djvInstallRpath}")
-endif (djvInstallRpath)
 
 #install(
 #    FILES ${header}

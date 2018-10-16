@@ -14,61 +14,66 @@
 #
 # * ZLIB
 
-set(ZLIB_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+find_path(ZLIB_INCLUDE_DIR
+    NAMES zlib.h)
 set(ZLIB_INCLUDE_DIRS ${ZLIB_INCLUDE_DIR})
 
-if(WIN32)
-    if(ZLIB_SHARED_LIBS)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibd.lib)
+if(NOT djvThirdPartyBuild)
+    find_library(ZLIB_LIBRARY NAMES z)
+else()
+    if(WIN32)
+        if(ZLIB_SHARED_LIBS)
+            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibd.lib)
+                if(djvThirdPartyPackage)
+                    install(
+                        FILES ${CMAKE_INSTALL_PREFIX}/bin/zlibd.dll
+                        DESTINATION bin)
+                endif()
+            else()
+                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib)
+            endif()
             if(djvThirdPartyPackage)
                 install(
-                    FILES ${CMAKE_INSTALL_PREFIX}/bin/zlibd.dll
+                    FILES ${CMAKE_INSTALL_PREFIX}/bin/zlib.dll
                     DESTINATION bin)
             endif()
         else()
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib)
+            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibstaticd.lib)
+            else()
+                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibstatic.lib)
+            endif()
+        endif()
+    elseif(APPLE)
+        if(ZLIB_SHARED_LIBS)
+            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.dylib)
+        else()
+            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
         endif()
         if(djvThirdPartyPackage)
             install(
-                FILES ${CMAKE_INSTALL_PREFIX}/bin/zlib.dll
-                DESTINATION bin)
+                FILES
+                ${CMAKE_INSTALL_PREFIX}/lib/libz.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libz.1.dylib
+                ${CMAKE_INSTALL_PREFIX}/lib/libz.1.2.11.dylib
+                DESTINATION lib)
         endif()
     else()
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibstaticd.lib)
+        if(ZLIB_SHARED_LIBS)
+            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.so)
+            set(ZLIB_LIBRARIES_INSTALL)
         else()
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibstatic.lib)
+            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
         endif()
-    endif()
-elseif(APPLE)
-    if(ZLIB_SHARED_LIBS)
-        set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.dylib)
-    else()
-        set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
-    endif()
-    if(djvThirdPartyPackage)
-        install(
-            FILES
-            ${CMAKE_INSTALL_PREFIX}/lib/libz.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libz.1.dylib
-            ${CMAKE_INSTALL_PREFIX}/lib/libz.1.2.11.dylib
-            DESTINATION lib)
-    endif()
-else()
-    if(ZLIB_SHARED_LIBS)
-        set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.so)
-        set(ZLIB_LIBRARIES_INSTALL)
-    else()
-        set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
-    endif()
-    if(djvThirdPartyPackage)
-        install(
-            FILES
-            ${CMAKE_INSTALL_PREFIX}/lib/libz.so
-            ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1
-            ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1.2.11
-            DESTINATION lib)
+        if(djvThirdPartyPackage)
+            install(
+                FILES
+                ${CMAKE_INSTALL_PREFIX}/lib/libz.so
+                ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1
+                ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1.2.11
+                DESTINATION lib)
+        endif()
     endif()
 endif()
 set(ZLIB_LIBRARIES ${ZLIB_LIBRARY})

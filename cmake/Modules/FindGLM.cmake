@@ -9,7 +9,9 @@
 #
 # * GLM
 
-set(GLM_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+find_path(GLM_INCLUDE_DIR
+  NAMES glm.hpp
+  PATH_SUFFIXES glm)
 set(GLM_INCLUDE_DIRS ${GLM_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)

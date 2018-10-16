@@ -113,7 +113,8 @@ namespace djv
             static const float floatMax;
 
             explicit FloatObject(QObject * parent = nullptr);
-
+            ~FloatObject() override;
+            
             //! Get the value.
             float value() const;
 

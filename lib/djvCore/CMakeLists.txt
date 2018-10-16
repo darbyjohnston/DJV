@@ -1,3 +1,5 @@
+find_package(GLM REQUIRED)
+
 set(header
     Assert.h
     Box.h
@@ -92,16 +94,10 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
 
 add_library(djvCore ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 target_link_libraries(djvCore
-    ${djvThirdPartyOptional}
     Qt5
     GLM
     ${CMAKE_DL_LIBS})
 set_target_properties(djvCore PROPERTIES FOLDER lib CXX_STANDARD 11)
-if (djvInstallRpath)
-    set_target_properties(
-        djvCore PROPERTIES
-        INSTALL_RPATH "${djvInstallRpath}")
-endif (djvInstallRpath)
 
 #install(
 #    FILES ${header}
@@ -116,3 +112,4 @@ if(BUILD_SHARED_LIBS)
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 endif()
+

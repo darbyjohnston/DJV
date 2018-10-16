@@ -39,6 +39,8 @@ elseif(UNIX)
         add_definitions(-DDJV_LINUX)
         set(CMAKE_C_FLAGS -fPIC)
         set(CMAKE_CXX_FLAGS -fPIC)
+        # \bug This is hard-coded for CentOS.
+        set(CMAKE_INSTALL_RPATH "/usr/lib")
     endif()
 elseif(WIN32)
     set(djvSystemName Windows)
@@ -115,53 +117,23 @@ include_directories(
 # Third Party Packages
 #-------------------------------------------------------------------------------
 
-set(djvThirdParty
-    ZLIB
-    GLM
-    OpenAL
-    #IlmBase
-    Qt)
-set(djvThirdPartyPackage true)
+set(djvThirdPartyBuild false)
+set(djvThirdPartyPackage false)
 
-find_package(OpenGL REQUIRED)
+if(djvThirdPartyBuild)
+    set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
+    set(GLM_SHARED_LIBS ${BUILD_SHARED_LIBS})
+    set(OPENAL_SHARED_LIBS ON)
+    set(JPEG_SHARED_LIBS ${BUILD_SHARED_LIBS})
+    set(TIFF_SHARED_LIBS ${BUILD_SHARED_LIBS})
+    set(PNG_SHARED_LIBS ${BUILD_SHARED_LIBS})
+    set(ILMBASE_SHARED_LIBS ${BUILD_SHARED_LIBS})
+    set(OPENEXR_SHARED_LIBS ${BUILD_SHARED_LIBS})
+    set(FFMPEG_SHARED_LIBS ON)
+    set(QT_SHARED_LIBS ON)
+endif()
 
-set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(GLM_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(OPENAL_SHARED_LIBS ON)
-set(JPEG_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(TIFF_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(PNG_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(ILMBASE_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(OPENEXR_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(FFMPEG_SHARED_LIBS ON)
-set(QT_SHARED_LIBS ON)
-
-foreach(PACKAGE ${djvThirdParty})
-    find_package(${PACKAGE} REQUIRED)
-endforeach()
-
-find_package(JPEG)
-find_package(PNG)
-find_package(TIFF)
-find_package(OpenEXR)
-find_package(FFmpeg)
-
-set(djvThirdPartyOptional)
-if(JPEG_FOUND)
-    set(djvThirdPartyOptional ${djvThirdPartyOptional} JPEG)
-endif()
-if(PNG_FOUND)
-    set(djvThirdPartyOptional ${djvThirdPartyOptional} PNG)
-endif()
-if(TIFF_FOUND)
-    set(djvThirdPartyOptional ${djvThirdPartyOptional} TIFF)
-endif()
-if(OPENEXR_FOUND)
-    set(djvThirdPartyOptional ${djvThirdPartyOptional} OpenEXR)
-endif()
-if(FFMPEG_FOUND)
-    set(djvThirdPartyOptional ${djvThirdPartyOptional} FFMPEG)
-endif()
+find_package(Qt5 REQUIRED)
 
 #-------------------------------------------------------------------------------
 # Sub-Directories

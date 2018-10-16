@@ -19,11 +19,6 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 add_executable(djv_view WIN32 ${header} ${source} ${mocSource} ViewMain.cpp)
 target_link_libraries(djv_view djvViewLib)
 set_target_properties(djv_view PROPERTIES FOLDER bin CXX_STANDARD 11)
-if (djvInstallRpath)
-    set_target_properties(
-        djv_view PROPERTIES
-        INSTALL_RPATH "${djvInstallRpath}")
-endif (djvInstallRpath)
 
 install(
     TARGETS djv_view
@@ -38,16 +33,9 @@ if (APPLE)
         DESTINATION bin)
 elseif (UNIX)
     configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/djv_view_linux.sh.in
-        ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
-        @ONLY)
-    configure_file(
         ${PROJECT_SOURCE_DIR}/etc/Linux/djv_view.desktop.in
         ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
         @ONLY)
-    install(
-        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
-        DESTINATION bin)
     install(
         FILES ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
         DESTINATION /usr/share/applications)
@@ -68,13 +56,6 @@ if (WIN32)
         djv_view. PROPERTIES
         SUFFIX com
         FOLDER bin)
-    if (djvInstallRpath)
-        set_target_properties(
-            djv_view.
-            PROPERTIES
-            INSTALL_RPATH "${djvInstallRpath}")
-    endif (djvInstallRpath)
-
     install(
         TARGETS djv_view.
         RUNTIME DESTINATION bin)

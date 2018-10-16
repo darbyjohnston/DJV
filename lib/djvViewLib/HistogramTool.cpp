@@ -403,7 +403,7 @@ namespace djv
                         //! \todo Why do we need to reverse the rotation here?
                         options.xform.rotate = options.xform.rotate;
                         const Core::Box2f bbox =
-                            Graphics::OpenGLImageXform::xformMatrix(options.xform) *
+                            glm::mat3x3(Graphics::OpenGLImageXform::xformMatrix(options.xform)) *
                             Core::Box2f(data->size());
                         //DJV_DEBUG_PRINT("bbox = " << bbox);
                         options.xform.position = -bbox.position;

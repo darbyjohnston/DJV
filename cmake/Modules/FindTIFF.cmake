@@ -17,45 +17,50 @@
 find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
 
-set(TIFF_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+find_path(TIFF_INCLUDE_DIR
+    NAMES tiff.h)
 set(TIFF_INCLUDE_DIRS
     ${TIFF_INCLUDE_DIR}
     ${JPEG_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS})
 
-if(WIN32)
-    if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiffd.lib)
-    else()
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiff.lib)
-    endif()
-elseif(APPLE)
-    if(TIFF_SHARED_LIBS)
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.dylib)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${TIFF_LIBRARY}
-                ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.3.0.dylib
-                DESTINATION lib)
-        endif()
-    else()
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
-    endif()
+if(NOT djvThirdPartyBuild)
+    find_library(TIFF_LIBRARY NAMES tiff)
 else()
-    if(TIFF_SHARED_LIBS)
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.so)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${TIFF_LIBRARY}
-                ${TIFF_LIBRARY}.5
-                ${TIFF_LIBRARY}.5.3.0
-                DESTINATION lib)
+    if(WIN32)
+        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiffd.lib)
+        else()
+            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiff.lib)
+        endif()
+    elseif(APPLE)
+        if(TIFF_SHARED_LIBS)
+            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.dylib)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${TIFF_LIBRARY}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.3.0.dylib
+                    DESTINATION lib)
+            endif()
+        else()
+            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
         endif()
     else()
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
+        if(TIFF_SHARED_LIBS)
+            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.so)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${TIFF_LIBRARY}
+                    ${TIFF_LIBRARY}.5
+                    ${TIFF_LIBRARY}.5.3.0
+                    DESTINATION lib)
+            endif()
+        else()
+            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
+        endif()
     endif()
 endif()
 set(TIFF_LIBRARIES

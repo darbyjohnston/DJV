@@ -1,8 +1,0 @@
-#!/bin/sh
-
-#!/bin/sh
-
-export LD_LIBRARY_PATH="@CPACK_INSTALL_PREFIX@/lib"
-
-@CPACK_INSTALL_PREFIX@/bin/djv_ls "$@"
-

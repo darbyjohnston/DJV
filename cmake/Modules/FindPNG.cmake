@@ -16,74 +16,79 @@
 
 find_package(ZLIB REQUIRED)
 
-set(PNG_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+find_path(PNG_INCLUDE_DIR
+    NAMES png.h)
 set(PNG_INCLUDE_DIRS
     ${PNG_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS})
 
-if(WIN32)
-    if(PNG_SHARED_LIBS)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.lib)
-        else()
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.lib)
-        endif()
-    else()
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16_staticd.lib)
-        else()
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16_static.lib)
-        endif()
-    endif()
-elseif(APPLE)
-    if(PNG_SHARED_LIBS)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.dylib)
-            set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.dylib)
-            set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.16.dylib)
-            set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.16.34.0.dylib)
-        else()
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.dylib)
-            set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.dylib)
-            set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.16.dylib)
-            set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.16.34.0.dylib)
-        endif()
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${PNG_LIBRARY}
-                ${PNG_LIBRARY_1}
-                ${PNG_LIBRARY_2}
-                ${PNG_LIBRARY_3}
-                DESTINATION lib)
-        endif()
-    else()
-        set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.a)
-    endif()
+if(NOT djvThirdPartyBuild)
+    find_library(PNG_LIBRARY NAMES png)
 else()
-    if(PNG_SHARED_LIBS)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.so)
-            set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.so)
-            set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.so.16)
-            set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.so.16.34.0)
+    if(WIN32)
+        if(PNG_SHARED_LIBS)
+            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.lib)
+            else()
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.lib)
+            endif()
         else()
-            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.so)
-            set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so)
-            set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so.16)
-            set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so.16.34.0)
+            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16_staticd.lib)
+            else()
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16_static.lib)
+            endif()
         endif()
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${PNG_LIBRARY}
-                ${PNG_LIBRARY_1}
-                ${PNG_LIBRARY_2}
-                ${PNG_LIBRARY_3}
-                DESTINATION lib)
+    elseif(APPLE)
+        if(PNG_SHARED_LIBS)
+            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.dylib)
+                set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.dylib)
+                set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.16.dylib)
+                set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.16.34.0.dylib)
+            else()
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.dylib)
+                set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.dylib)
+                set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.16.dylib)
+                set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.16.34.0.dylib)
+            endif()
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${PNG_LIBRARY}
+                    ${PNG_LIBRARY_1}
+                    ${PNG_LIBRARY_2}
+                    ${PNG_LIBRARY_3}
+                    DESTINATION lib)
+            endif()
+        else()
+            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.a)
         endif()
     else()
-        set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.a)
+        if(PNG_SHARED_LIBS)
+            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.so)
+                set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.so)
+                set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.so.16)
+                set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16d.so.16.34.0)
+            else()
+                set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.so)
+                set(PNG_LIBRARY_1 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so)
+                set(PNG_LIBRARY_2 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so.16)
+                set(PNG_LIBRARY_3 ${CMAKE_INSTALL_PREFIX}/lib/libpng16.so.16.34.0)
+            endif()
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${PNG_LIBRARY}
+                    ${PNG_LIBRARY_1}
+                    ${PNG_LIBRARY_2}
+                    ${PNG_LIBRARY_3}
+                    DESTINATION lib)
+            endif()
+        else()
+            set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng.a)
+        endif()
     endif()
 endif()
 set(PNG_LIBRARIES

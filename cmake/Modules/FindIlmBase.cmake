@@ -24,106 +24,116 @@
 
 find_package(Threads REQUIRED)
 
-set(ILMBASE_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/OpenEXR)
+find_path(ILMBASE_INCLUDE_DIR
+    NAMES half.h
+    PATH_SUFFIXES OpenEXR)
 set(ILMBASE_DEFINES)
 
-if(WIN32)
-    set(ILMBASE_HALF_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Half_s.lib)
-    set(ILMBASE_IEX_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Iex_s.lib)
-    set(ILMBASE_IEXMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IexMath_s.lib)
-    set(ILMBASE_ILMTHREAD_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmThread_s.lib)
-    set(ILMBASE_IMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Imath_s.lib)
-    if(ILMBASE_SHARED_LIBS)
-        set(ILMBASE_HALF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Half.lib)
-        set(ILMBASE_IEX_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Iex.lib)
-        set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IexMath.lib)
-        set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmThread.lib)
-        set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Imath.lib)
-        set(ILMBASE_DEFINES -DOPENEXR_DLL)
-    else()
-        set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
-        set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})
-        set(ILMBASE_IEXMATH_LIBRARY ${ILMBASE_IEXMATH_STATIC_LIBRARY})
-        set(ILMBASE_ILMTHREAD_LIBRARY ${ILMBASE_ILMTHREAD_STATIC_LIBRARY})
-        set(ILMBASE_IMATH_LIBRARY ${ILMBASE_IMATH_STATIC_LIBRARY})
-    endif()
-elseif(APPLE)
-    set(ILMBASE_HALF_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf_s.a)
-    set(ILMBASE_IEX_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex_s.a)
-    set(ILMBASE_IEXMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath_s.a)
-    set(ILMBASE_ILMTHREAD_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread_s.a)
-    set(ILMBASE_IMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath_s.a)
-    if(ILMBASE_SHARED_LIBS)
-        set(ILMBASE_HALF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf.dylib)
-        set(ILMBASE_IEX_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex.dylib)
-        set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.dylib)
-        set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.dylib)
-        set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath.dylib)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${ILMBASE_HALF_LIBRARY}
-                ${CMAKE_INSTALL_PREFIX}/lib/libHalf.24.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libHalf.2.3.0.dylib
-                ${ILMBASE_IEX_LIBRARY}
-                ${CMAKE_INSTALL_PREFIX}/lib/libIex.24.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libIex.2.3.0.dylib
-                ${ILMBASE_IEXMATH_LIBRARY}
-                ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.24.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.2.3.0.dylib
-                ${ILMBASE_ILMTHREAD_LIBRARY}
-                ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.24.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.2.3.0.dylib
-                ${ILMBASE_IMATH_LIBRARY}
-                ${CMAKE_INSTALL_PREFIX}/lib/libImath.24.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libImath.2.3.0.dylib
-                DESTINATION lib)
-        endif()
-    else()
-        set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
-        set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})
-        set(ILMBASE_IEXMATH_LIBRARY ${ILMBASE_IEXMATH_STATIC_LIBRARY})
-        set(ILMBASE_ILMTHREAD_LIBRARY ${ILMBASE_ILMTHREAD_STATIC_LIBRARY})
-        set(ILMBASE_IMATH_LIBRARY ${ILMBASE_IMATH_STATIC_LIBRARY})
-    endif()
+if(NOT djvThirdPartyBuild)
+    find_library(ILMBASE_HALF_LIBRARY NAMES Half)
+    find_library(ILMBASE_IEX_LIBRARY NAMES Iex)
+    find_library(ILMBASE_IEXMATH_LIBRARY NAMES IexMath)
+    find_library(ILMBASE_ILMTHREAD_LIBRARY NAMES IlmThread)
+    find_library(ILMBASE_IMATH_LIBRARY NAMES Imath)
 else()
-    set(ILMBASE_HALF_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf_s.a)
-    set(ILMBASE_IEX_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex_s.a)
-    set(ILMBASE_IEXMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath_s.a)
-    set(ILMBASE_ILMTHREAD_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread_s.a)
-    set(ILMBASE_IMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath_s.a)
-    if(ILMBASE_SHARED_LIBS)
-        set(ILMBASE_HALF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf.so)
-        set(ILMBASE_IEX_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex.so)
-        set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.so)
-        set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.so)
-        set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath.so)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${ILMBASE_HALF_LIBRARY}
-                ${ILMBASE_HALF_LIBRARY}.24
-                ${ILMBASE_HALF_LIBRARY}.2.3.0
-                ${ILMBASE_IEX_LIBRARY}
-                ${ILMBASE_IEX_LIBRARY}.24
-                ${ILMBASE_IEX_LIBRARY}.2.3.0
-                ${ILMBASE_IEXMATH_LIBRARY}
-                ${ILMBASE_IEXMATH_LIBRARY}.24
-                ${ILMBASE_IEXMATH_LIBRARY}.2.3.0
-                ${ILMBASE_ILMTHREAD_LIBRARY}
-                ${ILMBASE_ILMTHREAD_LIBRARY}.24
-                ${ILMBASE_ILMTHREAD_LIBRARY}.2.3.0
-                ${ILMBASE_IMATH_LIBRARY}
-                ${ILMBASE_IMATH_LIBRARY}.24
-                ${ILMBASE_IMATH_LIBRARY}.2.3.0
-                DESTINATION lib)
+    if(WIN32)
+        set(ILMBASE_HALF_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Half_s.lib)
+        set(ILMBASE_IEX_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Iex_s.lib)
+        set(ILMBASE_IEXMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IexMath_s.lib)
+        set(ILMBASE_ILMTHREAD_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmThread_s.lib)
+        set(ILMBASE_IMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Imath_s.lib)
+        if(ILMBASE_SHARED_LIBS)
+            set(ILMBASE_HALF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Half.lib)
+            set(ILMBASE_IEX_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Iex.lib)
+            set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IexMath.lib)
+            set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmThread.lib)
+            set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Imath.lib)
+            set(ILMBASE_DEFINES -DOPENEXR_DLL)
+        else()
+            set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
+            set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})
+            set(ILMBASE_IEXMATH_LIBRARY ${ILMBASE_IEXMATH_STATIC_LIBRARY})
+            set(ILMBASE_ILMTHREAD_LIBRARY ${ILMBASE_ILMTHREAD_STATIC_LIBRARY})
+            set(ILMBASE_IMATH_LIBRARY ${ILMBASE_IMATH_STATIC_LIBRARY})
+        endif()
+    elseif(APPLE)
+        set(ILMBASE_HALF_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf_s.a)
+        set(ILMBASE_IEX_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex_s.a)
+        set(ILMBASE_IEXMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath_s.a)
+        set(ILMBASE_ILMTHREAD_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread_s.a)
+        set(ILMBASE_IMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath_s.a)
+        if(ILMBASE_SHARED_LIBS)
+            set(ILMBASE_HALF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf.dylib)
+            set(ILMBASE_IEX_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex.dylib)
+            set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.dylib)
+            set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.dylib)
+            set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath.dylib)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${ILMBASE_HALF_LIBRARY}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libHalf.24.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libHalf.2.3.0.dylib
+                    ${ILMBASE_IEX_LIBRARY}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIex.24.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIex.2.3.0.dylib
+                    ${ILMBASE_IEXMATH_LIBRARY}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.24.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.2.3.0.dylib
+                    ${ILMBASE_ILMTHREAD_LIBRARY}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.24.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.2.3.0.dylib
+                    ${ILMBASE_IMATH_LIBRARY}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libImath.24.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libImath.2.3.0.dylib
+                    DESTINATION lib)
+            endif()
+        else()
+            set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
+            set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})
+            set(ILMBASE_IEXMATH_LIBRARY ${ILMBASE_IEXMATH_STATIC_LIBRARY})
+            set(ILMBASE_ILMTHREAD_LIBRARY ${ILMBASE_ILMTHREAD_STATIC_LIBRARY})
+            set(ILMBASE_IMATH_LIBRARY ${ILMBASE_IMATH_STATIC_LIBRARY})
         endif()
     else()
-        set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
-        set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})
-        set(ILMBASE_IEXMATH_LIBRARY ${ILMBASE_IEXMATH_STATIC_LIBRARY})
-        set(ILMBASE_ILMTHREAD_LIBRARY ${ILMBASE_ILMTHREAD_STATIC_LIBRARY})
-        set(ILMBASE_IMATH_LIBRARY ${ILMBASE_IMATH_STATIC_LIBRARY})
+        set(ILMBASE_HALF_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf_s.a)
+        set(ILMBASE_IEX_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex_s.a)
+        set(ILMBASE_IEXMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath_s.a)
+        set(ILMBASE_ILMTHREAD_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread_s.a)
+        set(ILMBASE_IMATH_STATIC_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath_s.a)
+        if(ILMBASE_SHARED_LIBS)
+            set(ILMBASE_HALF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libHalf.so)
+            set(ILMBASE_IEX_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIex.so)
+            set(ILMBASE_IEXMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIexMath.so)
+            set(ILMBASE_ILMTHREAD_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmThread.so)
+            set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libImath.so)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${ILMBASE_HALF_LIBRARY}
+                    ${ILMBASE_HALF_LIBRARY}.24
+                    ${ILMBASE_HALF_LIBRARY}.2.3.0
+                    ${ILMBASE_IEX_LIBRARY}
+                    ${ILMBASE_IEX_LIBRARY}.24
+                    ${ILMBASE_IEX_LIBRARY}.2.3.0
+                    ${ILMBASE_IEXMATH_LIBRARY}
+                    ${ILMBASE_IEXMATH_LIBRARY}.24
+                    ${ILMBASE_IEXMATH_LIBRARY}.2.3.0
+                    ${ILMBASE_ILMTHREAD_LIBRARY}
+                    ${ILMBASE_ILMTHREAD_LIBRARY}.24
+                    ${ILMBASE_ILMTHREAD_LIBRARY}.2.3.0
+                    ${ILMBASE_IMATH_LIBRARY}
+                    ${ILMBASE_IMATH_LIBRARY}.24
+                    ${ILMBASE_IMATH_LIBRARY}.2.3.0
+                    DESTINATION lib)
+            endif()
+        else()
+            set(ILMBASE_HALF_LIBRARY ${ILMBASE_HALF_STATIC_LIBRARY})
+            set(ILMBASE_IEX_LIBRARY ${ILMBASE_IEX_STATIC_LIBRARY})
+            set(ILMBASE_IEXMATH_LIBRARY ${ILMBASE_IEXMATH_STATIC_LIBRARY})
+            set(ILMBASE_ILMTHREAD_LIBRARY ${ILMBASE_ILMTHREAD_STATIC_LIBRARY})
+            set(ILMBASE_IMATH_LIBRARY ${ILMBASE_IMATH_STATIC_LIBRARY})
+        endif()
     endif()
 endif()
 

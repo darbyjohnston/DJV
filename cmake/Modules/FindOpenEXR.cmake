@@ -17,45 +17,51 @@
 find_package(ZLIB REQUIRED)
 find_package(IlmBase REQUIRED)
 
-set(OPENEXR_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/OpenEXR)
+find_path(OPENEXR_INCLUDE_DIR
+    NAMES ImfIO.h
+    PATH_SUFFIXES OpenEXR)
 set(OPENEXR_INCLUDE_DIRS
     ${OPENEXR_INCLUDE_DIR}
     ${ILMBASE_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS})
 
-if(WIN32)
-    if(OPENEXR_SHARED_LIBS)
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmImf.lib)
-    else()
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmImf_s.lib)
-    endif()
-elseif(APPLE)
-    if(OPENEXR_SHARED_LIBS)
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.dylib)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${OPENEXR_LIBRARY}
-                ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.24.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.2.3.0.dylib
-                DESTINATION lib)
-        endif()
-    else()
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s.a)
-    endif()
+if(NOT djvThirdPartyBuild)
+    find_library(OPENEXR_LIBRARY NAMES IlmImf)
 else()
-    if(OPENEXR_SHARED_LIBS)
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.so)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${OPENEXR_LIBRARY}
-                ${OPENEXR_LIBRARY}.24
-                ${OPENEXR_LIBRARY}.2.3.0
-                DESTINATION lib)
+    if(WIN32)
+        if(OPENEXR_SHARED_LIBS)
+            set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmImf.lib)
+        else()
+            set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmImf_s.lib)
+        endif()
+    elseif(APPLE)
+        if(OPENEXR_SHARED_LIBS)
+            set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.dylib)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${OPENEXR_LIBRARY}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.24.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.2.3.0.dylib
+                    DESTINATION lib)
+            endif()
+        else()
+            set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s.a)
         endif()
     else()
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s.a)
+        if(OPENEXR_SHARED_LIBS)
+            set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.so)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${OPENEXR_LIBRARY}
+                    ${OPENEXR_LIBRARY}.24
+                    ${OPENEXR_LIBRARY}.2.3.0
+                    DESTINATION lib)
+            endif()
+        else()
+            set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s.a)
+        endif()
     endif()
 endif()
 set(OPENEXR_LIBRARIES

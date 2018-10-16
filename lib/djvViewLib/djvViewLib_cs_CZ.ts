@@ -963,6 +963,11 @@ Playback Options
         <translation type="unfinished">Obrázek Barevný profil</translation>
     </message>
     <message>
+        <location filename="Enum.cpp" line="347"/>
+        <source>Image Channel Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="Enum.cpp" line="348"/>
         <source>Image Channel Red</source>
         <translation type="unfinished">Obrázek Kanál červené</translation>

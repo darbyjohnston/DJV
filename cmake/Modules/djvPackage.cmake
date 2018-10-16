@@ -147,16 +147,19 @@ elseif (APPLE)
 
 elseif (UNIX)
 
-    set(CPACK_GENERATOR TGZ RPM DEB)
-    set(CPACK_SET_DESTDIR true)
-    set(CPACK_INSTALL_PREFIX /usr/local/${djvPackageName})
+    #set(CPACK_GENERATOR TGZ RPM DEB)
+    set(CPACK_GENERATOR RPM)
         
     set(CPACK_RPM_PACKAGE_NAME djv)
-    set(CPACK_RPM_PACKAGE_RELOCATABLE false)
-    set(CPACK_RPM_PACKAGE_AUTOREQPROV false)
+    set(CPACK_RPM_PACKAGE_RELOCATABLE true)
+    if(djvThirdPartyPackage)
+        set(CPACK_RPM_PACKAGE_AUTOREQPROV false)
+    endif()
     set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST
         /usr
-        /usr/local
+        /usr/bin
+        /usr/include
+        /usr/lib
         /usr/share
         /usr/share/applications
         /usr/share/icons

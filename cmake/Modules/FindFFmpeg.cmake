@@ -22,152 +22,163 @@
 
 find_package(ZLIB REQUIRED)
 
-set(FFMPEG_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+find_path(FFMPEG_INCLUDE_DIR
+    NAMES libavcodec/avcodec.h)
 set(FFMPEG_INCLUDE_DIRS
     ${FFMPEG_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS})
 
-if(WIN32)
-    if(FFMPEG_SHARED_LIBS)
-        set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/bin/avcodec.lib)
-        set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/bin/avdevice.lib)
-        set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/bin/avfilter.lib)
-        set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/bin/avformat.lib)
-        set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/bin/avutil.lib)
-        set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/bin/swresample.lib)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/bin/swscale.lib)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${CMAKE_INSTALL_PREFIX}/bin/avcodec-58.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avdevice-58.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avfilter-7.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avformat-58.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/avutil-56.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/swresample-3.dll
-                ${CMAKE_INSTALL_PREFIX}/bin/swscale-5.dll
-                DESTINATION bin)
-        endif()
-    else()
-        set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.a)
-        set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.a)
-        set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
-        set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
-        set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
-        set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
-    endif()
-elseif(APPLE)
-    if(FFMPEG_SHARED_LIBS)
-        set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.dylib)
-        set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.dylib)
-        set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.dylib)
-        set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.dylib)
-        set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.dylib)
-        set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.dylib)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.dylib)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${FFMPEG_LIBAVCODEC}
-                ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.18.100.dylib
-                ${FFMPEG_LIBAVDEVICE}
-                ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.3.100.dylib
-                ${FFMPEG_LIBAVFILTER}
-                ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.16.100.dylib
-                ${FFMPEG_LIBAVFORMAT}
-                ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.12.100.dylib
-                ${FFMPEG_LIBAVUTIL}
-                ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.14.100.dylib
-                ${FFMPEG_LIBSWRESAMPLE}
-                ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.1.100.dylib
-                ${FFMPEG_LIBSWSCALE}
-                ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.1.100.dylib
-                DESTINATION lib)
-        endif()
-    else()
-        set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.a)
-        set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.a)
-        set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
-        set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
-        set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
-        set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
-    endif()
-    set(FFMPEG_LIBRARIES
-        ${FFMPEG_LIBAVFORMAT}
-        ${FFMPEG_LIBAVCODEC}
-        ${FFMPEG_LIBSWSCALE}
-        ${FFMPEG_LIBAVUTIL}
-        ${FFMPEG_LIBAVFILTER}
-        ${FFMPEG_LIBSWRESAMPLE}
-        ${FFMPEG_LIBAVDEVICE}
-        ${ZLIB_LIBRARIES}
-        "-framework Security"
-        "-framework VideoToolbox"
-        "-framework CoreMedia"
-        "-framework CoreVideo"
-        "-framework CoreFoundation")
+if(NOT djvThirdPartyBuild)
+    find_library(FFMPEG_LIBAVCODEC NAMES avcodec)
+    find_library(FFMPEG_LIBAVDEVICE NAMES avdevice)
+    find_library(FFMPEG_LIBAVFILTER NAMES avfilter)
+    find_library(FFMPEG_LIBAVFORMAT NAMES avformat)
+    find_library(FFMPEG_LIBAVUTIL NAMES avutil)
+    find_library(FFMPEG_LIBSWRESAMPLE NAMES swresample)
+    find_library(FFMPEG_LIBSWSCALE NAMES swscale)
 else()
-    if(FFMPEG_SHARED_LIBS)
-        set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.so)
-        set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.so)
-        set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.so)
-        set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.so)
-        set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.so)
-        set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.so)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.so)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${FFMPEG_LIBAVCODEC}
-                ${FFMPEG_LIBAVCODEC}.58
-                ${FFMPEG_LIBAVCODEC}.58.18.100
-                ${FFMPEG_LIBAVDEVICE}
-                ${FFMPEG_LIBAVDEVICE}.58
-                ${FFMPEG_LIBAVDEVICE}.58.3.100
-                ${FFMPEG_LIBAVFILTER}
-                ${FFMPEG_LIBAVFILTER}.7
-                ${FFMPEG_LIBAVFILTER}.7.16.100
-                ${FFMPEG_LIBAVFORMAT}
-                ${FFMPEG_LIBAVFORMAT}.58
-                ${FFMPEG_LIBAVFORMAT}.58.12.100
-                ${FFMPEG_LIBAVUTIL}
-                ${FFMPEG_LIBAVUTIL}.56
-                ${FFMPEG_LIBAVUTIL}.56.14.100
-                ${FFMPEG_LIBSWRESAMPLE}
-                ${FFMPEG_LIBSWRESAMPLE}.3
-                ${FFMPEG_LIBSWRESAMPLE}.3.1.100
-                ${FFMPEG_LIBSWSCALE}
-                ${FFMPEG_LIBSWSCALE}.5
-                ${FFMPEG_LIBSWSCALE}.5.1.100
-                DESTINATION lib)
+    if(WIN32)
+        if(FFMPEG_SHARED_LIBS)
+            set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/bin/avcodec.lib)
+            set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/bin/avdevice.lib)
+            set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/bin/avfilter.lib)
+            set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/bin/avformat.lib)
+            set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/bin/avutil.lib)
+            set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/bin/swresample.lib)
+            set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/bin/swscale.lib)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${CMAKE_INSTALL_PREFIX}/bin/avcodec-58.dll
+                    ${CMAKE_INSTALL_PREFIX}/bin/avdevice-58.dll
+                    ${CMAKE_INSTALL_PREFIX}/bin/avfilter-7.dll
+                    ${CMAKE_INSTALL_PREFIX}/bin/avformat-58.dll
+                    ${CMAKE_INSTALL_PREFIX}/bin/avutil-56.dll
+                    ${CMAKE_INSTALL_PREFIX}/bin/swresample-3.dll
+                    ${CMAKE_INSTALL_PREFIX}/bin/swscale-5.dll
+                    DESTINATION bin)
+            endif()
+        else()
+            set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.a)
+            set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.a)
+            set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
+            set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
+            set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
+            set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
+            set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
         endif()
+    elseif(APPLE)
+        if(FFMPEG_SHARED_LIBS)
+            set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.dylib)
+            set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.dylib)
+            set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.dylib)
+            set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.dylib)
+            set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.dylib)
+            set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.dylib)
+            set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.dylib)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${FFMPEG_LIBAVCODEC}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.18.100.dylib
+                    ${FFMPEG_LIBAVDEVICE}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.3.100.dylib
+                    ${FFMPEG_LIBAVFILTER}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.16.100.dylib
+                    ${FFMPEG_LIBAVFORMAT}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.12.100.dylib
+                    ${FFMPEG_LIBAVUTIL}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.14.100.dylib
+                    ${FFMPEG_LIBSWRESAMPLE}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.1.100.dylib
+                    ${FFMPEG_LIBSWSCALE}
+                    ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.dylib
+                    ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.1.100.dylib
+                    DESTINATION lib)
+            endif()
+        else()
+            set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.a)
+            set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.a)
+            set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
+            set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
+            set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
+            set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
+            set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
+        endif()
+        set(FFMPEG_LIBRARIES
+            ${FFMPEG_LIBAVFORMAT}
+            ${FFMPEG_LIBAVCODEC}
+            ${FFMPEG_LIBSWSCALE}
+            ${FFMPEG_LIBAVUTIL}
+            ${FFMPEG_LIBAVFILTER}
+            ${FFMPEG_LIBSWRESAMPLE}
+            ${FFMPEG_LIBAVDEVICE}
+            ${ZLIB_LIBRARIES}
+            "-framework Security"
+            "-framework VideoToolbox"
+            "-framework CoreMedia"
+            "-framework CoreVideo"
+            "-framework CoreFoundation")
     else()
-        set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.a)
-        set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.a)
-        set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
-        set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
-        set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
-        set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
-        set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
+        if(FFMPEG_SHARED_LIBS)
+            set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.so)
+            set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.so)
+            set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.so)
+            set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.so)
+            set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.so)
+            set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.so)
+            set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.so)
+            if(djvThirdPartyPackage)
+                install(
+                    FILES
+                    ${FFMPEG_LIBAVCODEC}
+                    ${FFMPEG_LIBAVCODEC}.58
+                    ${FFMPEG_LIBAVCODEC}.58.18.100
+                    ${FFMPEG_LIBAVDEVICE}
+                    ${FFMPEG_LIBAVDEVICE}.58
+                    ${FFMPEG_LIBAVDEVICE}.58.3.100
+                    ${FFMPEG_LIBAVFILTER}
+                    ${FFMPEG_LIBAVFILTER}.7
+                    ${FFMPEG_LIBAVFILTER}.7.16.100
+                    ${FFMPEG_LIBAVFORMAT}
+                    ${FFMPEG_LIBAVFORMAT}.58
+                    ${FFMPEG_LIBAVFORMAT}.58.12.100
+                    ${FFMPEG_LIBAVUTIL}
+                    ${FFMPEG_LIBAVUTIL}.56
+                    ${FFMPEG_LIBAVUTIL}.56.14.100
+                    ${FFMPEG_LIBSWRESAMPLE}
+                    ${FFMPEG_LIBSWRESAMPLE}.3
+                    ${FFMPEG_LIBSWRESAMPLE}.3.1.100
+                    ${FFMPEG_LIBSWSCALE}
+                    ${FFMPEG_LIBSWSCALE}.5
+                    ${FFMPEG_LIBSWSCALE}.5.1.100
+                    DESTINATION lib)
+            endif()
+        else()
+            set(FFMPEG_LIBAVCODEC ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.a)
+            set(FFMPEG_LIBAVDEVICE ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.a)
+            set(FFMPEG_LIBAVFILTER ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.a)
+            set(FFMPEG_LIBAVFORMAT ${CMAKE_INSTALL_PREFIX}/lib/libavformat.a)
+            set(FFMPEG_LIBAVUTIL ${CMAKE_INSTALL_PREFIX}/lib/libavutil.a)
+            set(FFMPEG_LIBSWRESAMPLE ${CMAKE_INSTALL_PREFIX}/lib/libswresample.a)
+            set(FFMPEG_LIBSWSCALE ${CMAKE_INSTALL_PREFIX}/lib/libswscale.a)
+        endif()
+        set(FFMPEG_LIBRARIES
+            ${FFMPEG_LIBAVFORMAT}
+            ${FFMPEG_LIBAVCODEC}
+            ${FFMPEG_LIBSWSCALE}
+            ${FFMPEG_LIBAVUTIL}
+            ${FFMPEG_LIBAVFILTER}
+            ${FFMPEG_LIBSWRESAMPLE}
+            ${FFMPEG_LIBAVDEVICE}
+            ${ZLIB_LIBRARIES})
     endif()
-    set(FFMPEG_LIBRARIES
-        ${FFMPEG_LIBAVFORMAT}
-        ${FFMPEG_LIBAVCODEC}
-        ${FFMPEG_LIBSWSCALE}
-        ${FFMPEG_LIBAVUTIL}
-        ${FFMPEG_LIBAVFILTER}
-        ${FFMPEG_LIBSWRESAMPLE}
-        ${FFMPEG_LIBAVDEVICE}
-        ${ZLIB_LIBRARIES})
 endif()
 
 include(FindPackageHandleStandardArgs)

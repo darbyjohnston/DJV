@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Application
 Icon=djv_view
-Exec=/usr/local/@djvPackageName@/bin/djv_view.sh %U
+Exec=djv_view %U
 Name=djv_view
 Comment=Media review software for VFX artists and filmmakers
 Categories=Graphics
