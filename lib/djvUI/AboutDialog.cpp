@@ -62,7 +62,7 @@ namespace djv
         AboutDialog::AboutDialog(const QString & text, const QPointer<UIContext> & context) :
             _p(new Private(context))
         {
-            _p->pixmap = QPixmap(":/djv/UI/Durant.png");
+            _p->pixmap = QPixmap(":/djv/UI/Durant.jpg");
             
             // Create the widgets.
             _p->label = new QLabel;
