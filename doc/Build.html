@@ -128,7 +128,7 @@ the CMake binary directory to your "$PATH":</p>
 <pre>
 > mkdir djv-git-third-party-Debug
 > cd djv-git-third-party-Debug
-> cmake ../djv-git-third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+> cmake ../djv-git-third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
 > make
 </pre>
 <p>The build should take around 10 or 20 minutes on a decent workstation. Hopefully
@@ -144,7 +144,7 @@ clone the DJV source code repository:</p>
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
-> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
 > make
 </pre>
 <p>If everything completes OK add the install path to your "$LD_LIBRARY_PATH"
