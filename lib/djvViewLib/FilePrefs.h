@@ -75,16 +75,16 @@ namespace djv
             bool hasU8Conversion() const;
 
             //! Get the default for whether the cache is enabled.
-            static bool cacheDefault();
+            static bool cacheEnabledDefault();
 
             //! Get whether the cache is enabled.
-            bool hasCache() const;
+            bool isCacheEnabled() const;
 
             //! Get the default cache size in gigabytes.
-            static float cacheSizeDefault();
+            static float cacheSizeGBDefault();
 
             //! Get the cache size in gigabytes.
-            float cacheSize() const;
+            float cacheSizeGB() const;
 
             //! Get the default for whether the cache is pre-loaded.
             static bool preloadDefault();
@@ -109,10 +109,10 @@ namespace djv
             void setU8Conversion(bool);
 
             //! Set whether the cache is enabled.
-            void setCache(bool);
+            void setCacheEnabled(bool);
 
             //! Set the cache size in gigabytes.
-            void setCacheSize(float);
+            void setCacheSizeGB(float);
 
             //! Set whether the cache pre-load is enabled.
             void setPreload(bool);
@@ -134,10 +134,10 @@ namespace djv
             void u8ConversionChanged(bool);
 
             //! This signal is emitted when the cache is enabled or disabled.
-            void cacheChanged(bool);
+            void cacheEnabledChanged(bool);
 
             //! This signal is emitted when the cache size is changed.
-            void cacheSizeChanged(float);
+            void cacheSizeGBChanged(float);
 
             //! This signal is emitted when the cache pre-load is changed.
             void preloadChanged(bool);
@@ -150,8 +150,8 @@ namespace djv
             bool                           _autoSequence;
             Graphics::PixelDataInfo::PROXY _proxy;
             bool                           _u8Conversion;
-            bool                           _cache;
-            float                          _cacheSize;
+            bool                           _cacheEnabled;
+            float                          _cacheSizeGB;
             bool                           _preload;
             bool                           _displayCache;
         };

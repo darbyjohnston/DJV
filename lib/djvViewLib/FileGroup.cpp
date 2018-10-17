@@ -70,23 +70,22 @@ namespace djv
             Private(const QPointer<Context> & context) :
                 proxy(context->filePrefs()->proxy()),
                 u8Conversion(context->filePrefs()->hasU8Conversion()),
-                cache(context->filePrefs()->hasCache()),
+                cacheEnabled(context->filePrefs()->isCacheEnabled()),
                 preload(context->filePrefs()->hasPreload())
             {}
 
             Core::FileInfo fileInfo;
             Graphics::ImageIOInfo imageIOInfo;
-            const Graphics::Image * image = nullptr;
-            Graphics::Image imageTmp;
-            Graphics::Image imageTmp2;
+            std::shared_ptr<Graphics::Image> image;
+            std::shared_ptr<Graphics::Image> imageTmp;
+            std::shared_ptr<Graphics::Image> imageTmp2;
             QScopedPointer<Graphics::ImageLoad> imageLoad;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             int layer = 0;
             QStringList layers;
             Graphics::PixelDataInfo::PROXY proxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
             bool u8Conversion = false;
-            bool cache = false;
-            FileCacheItem * cacheItem = nullptr;
+            bool cacheEnabled = false;
             bool preload = false;
             bool preloadActive = false;
             int preloadTimer = 0;
@@ -111,7 +110,7 @@ namespace djv
                 _p->layer = copy->_p->layer;
                 _p->proxy = copy->_p->proxy;
                 _p->u8Conversion = copy->_p->u8Conversion;
-                _p->cache = copy->_p->cache;
+                _p->cacheEnabled = copy->_p->cacheEnabled;
                 _p->preload = copy->_p->preload;
             }
 
@@ -131,6 +130,8 @@ namespace djv
             {
                 open(_p->fileInfo);
             }
+            context->makeGLContextCurrent();
+            _p->openGLImage.reset(new Graphics::OpenGLImage);
             preloadUpdate();
             update();
 
@@ -174,7 +175,7 @@ namespace djv
             connect(
                 _p->actions->action(FileActions::CACHE),
                 SIGNAL(toggled(bool)),
-                SLOT(setCache(bool)));
+                SLOT(setCacheEnabled(bool)));
             connect(
                 _p->actions->action(FileActions::PRELOAD),
                 SIGNAL(toggled(bool)),
@@ -226,11 +227,11 @@ namespace djv
                 SLOT(setU8Conversion(bool)));
             connect(
                 context->filePrefs(),
-                SIGNAL(cacheChanged(bool)),
-                SLOT(setCache(bool)));
+                SIGNAL(cacheEnabledChanged(bool)),
+                SLOT(setCacheEnabled(bool)));
             connect(
                 context->filePrefs(),
-                SIGNAL(cacheSizeChanged(float)),
+                SIGNAL(cacheSizeGBChanged(float)),
                 SLOT(preloadUpdate()));
             connect(
                 context->filePrefs(),
@@ -251,14 +252,10 @@ namespace djv
                 killTimer(_p->preloadTimer);
                 _p->preloadTimer = 0;
             }
-            _p->image = 0;
-
-            if (_p->cacheItem)
-            {
-                _p->cacheItem->decrement();
-            }
+            _p->image.reset();
+            _p->imageTmp.reset();
+            _p->imageTmp2.reset();
             cacheDel();
-
             context()->makeGLContextCurrent();
             _p->openGLImage.reset();
         }
@@ -283,9 +280,9 @@ namespace djv
             return _p->u8Conversion;
         }
 
-        bool FileGroup::hasCache() const
+        bool FileGroup::isCacheEnabled() const
         {
-            return _p->cache;
+            return _p->cacheEnabled;
         }
 
         bool FileGroup::hasPreload() const
@@ -303,32 +300,28 @@ namespace djv
             return _p->preloadFrame;
         }
 
-        const Graphics::Image * FileGroup::image(qint64 frame) const
+        std::shared_ptr<Graphics::Image> FileGroup::image(qint64 frame) const
         {
             //DJV_DEBUG("FileGroup::image");
             //DJV_DEBUG_PRINT("frame = " << frame);
-
             context()->makeGLContextCurrent();
-
             FileGroup * that = const_cast<FileGroup *>(this);
-            that->_p->image = 0;
             FileCache * cache = context()->fileCache();
-            FileCacheItem * prev = _p->cacheItem;
-            that->_p->cacheItem = _p->cache ? cache->get(mainWindow(), frame) : 0;
-            if (_p->cacheItem)
+            const auto key = FileCacheKey(mainWindow(), frame);
+            if (cache->hasItem(key))
             {
-                //DJV_DEBUG_PRINT("cached image");
-                that->_p->image = _p->cacheItem->image();
+                _p->image = cache->item(key);
             }
             else
             {
                 if (_p->imageLoad.data())
                 {
                     //DJV_DEBUG_PRINT("loading image");
+                    auto image = std::shared_ptr<Graphics::Image>(new Graphics::Image);
                     try
                     {
                         _p->imageLoad->read(
-                            _p->u8Conversion ? that->_p->imageTmp2 : that->_p->imageTmp,
+                            *image,
                             Graphics::ImageIOFrameInfo(
                                 _p->imageIOInfo.sequence.frames.count() ?
                                 _p->imageIOInfo.sequence.frames[frame] :
@@ -343,22 +336,21 @@ namespace djv
                             arg(QDir::toNativeSeparators(_p->fileInfo)));
                         context()->printError(error);
                     }
-
                     try
                     {
                         if (_p->u8Conversion)
                         {
                             //DJV_DEBUG_PRINT("u8 conversion");
                             //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
-                            Graphics::PixelDataInfo info(_p->imageTmp2.info());
+                            Graphics::PixelDataInfo info(image->info());
                             info.pixel = Graphics::Pixel::pixel(Graphics::Pixel::format(info.pixel), Graphics::Pixel::U8);
-                            that->_p->imageTmp.set(info);
-                            that->_p->imageTmp.tags = _p->imageTmp2.tags;
-                            that->_p->imageTmp.colorProfile = Graphics::ColorProfile();
+                            auto tmp = image;
+                            image = std::shared_ptr<Graphics::Image>(new Graphics::Image(info));
+                            image->tags = tmp->tags;
                             Graphics::OpenGLImageOptions options;
-                            options.colorProfile = _p->imageTmp2.colorProfile;
+                            options.colorProfile = tmp->colorProfile;
                             options.proxyScale = false;
-                            _p->openGLImage->copy(_p->imageTmp2, that->_p->imageTmp, options);
+                            _p->openGLImage->copy(*tmp, *image, options);
                         }
                     }
                     catch (Core::Error error)
@@ -368,24 +360,14 @@ namespace djv
                             arg(QDir::toNativeSeparators(_p->fileInfo)));
                         context()->printError(error);
                     }
-                    that->_p->image = &_p->imageTmp;
+                    that->_p->image = image;
                     //DJV_DEBUG_PRINT("image = " << *that->_p->image);
                 }
-                if (_p->cache && _p->image)
+                if (_p->cacheEnabled && _p->image)
                 {
-                    //DJV_DEBUG_PRINT("cache image");   
-                    that->_p->cacheItem = cache->create(
-                        new Graphics::Image(*_p->image),
-                        mainWindow(),
-                        frame);
-                    that->_p->image = _p->cacheItem->image();
-                    _p->imageTmp.close();
-                    _p->imageTmp2.close();
+                    //DJV_DEBUG_PRINT("cache image");
+                    cache->addItem(key, _p->image);
                 }
-            }
-            if (prev)
-            {
-                prev->decrement();
             }
             return _p->image;
         }
@@ -421,8 +403,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("loading...");
                 try
                 {
-                    _p->imageLoad.reset(
-                        context()->imageIOFactory()->load(tmp, _p->imageIOInfo));
+                    _p->imageLoad.reset(context()->imageIOFactory()->load(tmp, _p->imageIOInfo));
                     _p->fileInfo = tmp;
                     context()->filePrefs()->addRecent(_p->fileInfo);
                 }
@@ -433,11 +414,6 @@ namespace djv
                         arg(QDir::toNativeSeparators(tmp)));
                     context()->printError(error);
                 }
-            }
-            else
-            {
-                _p->imageTmp = Graphics::Image();
-                _p->imageTmp2 = Graphics::Image();
             }
 
             _p->layer = 0;
@@ -491,13 +467,13 @@ namespace djv
             Q_EMIT imageChanged();
         }
 
-        void FileGroup::setCache(bool cache)
+        void FileGroup::setCacheEnabled(bool cache)
         {
-            if (cache == _p->cache)
+            if (cache == _p->cacheEnabled)
                 return;
-            //DJV_DEBUG("FileGroup::setCache");
+            //DJV_DEBUG("FileGroup::setCacheEnabled");
             //DJV_DEBUG_PRINT("cache = " << cache);
-            _p->cache = cache;
+            _p->cacheEnabled = cache;
             cacheDel();
             preloadUpdate();
             update();
@@ -544,7 +520,7 @@ namespace djv
             //DJV_DEBUG_PRINT("cache byte count     = " << cache->byteCount());
             //DJV_DEBUG_PRINT("cache max byte count = " << cache->maxByteCount());
 
-            const FileCacheItemList items = cache->items(mainWindow());
+            const auto items = cache->items(mainWindow());
 
             // Search for the next frame that isn't in the cache. We then load the
             // frame if it won't exceed the cache size.
@@ -554,19 +530,19 @@ namespace djv
             int       frameCount = 0;
             const int totalFrames = _p->imageIOInfo.sequence.frames.count();
             for (;
-                byteCount <= cache->maxByteCount() &&
+                byteCount <= cache->maxSizeBytes() &&
                 frameCount < totalFrames;
                 frame = Core::Math::wrap<qint64>(frame + 1, 0, totalFrames - 1), ++frameCount)
             {
-                if (FileCacheItem * item = cache->get(mainWindow(), frame))
+                const auto key = FileCacheKey(mainWindow(), frame);
+                if (cache->hasItem(key))
                 {
-                    byteCount += Graphics::PixelDataUtil::dataByteCount(item->image()->info());
-                    item->decrement();
+                    byteCount += cache->item(key)->dataByteCount();
                 }
                 else
                 {
                     byteCount += Graphics::PixelDataUtil::dataByteCount(_p->imageIOInfo);
-                    if (byteCount <= cache->maxByteCount())
+                    if (byteCount <= cache->maxSizeBytes())
                     {
                         preload = true;
                     }
@@ -580,64 +556,43 @@ namespace djv
             if (preload)
             {
                 context()->makeGLContextCurrent();
-                if (!_p->openGLImage)
-                {
-                    _p->openGLImage.reset(new Graphics::OpenGLImage);
-                }
-                Graphics::Image * image = 0;
+                auto image = std::shared_ptr<Graphics::Image>(new Graphics::Image);
                 if (_p->imageLoad.data())
                 {
                     //DJV_DEBUG_PRINT("loading image");
                     try
                     {
                         _p->imageLoad->read(
-                            _p->u8Conversion ? _p->imageTmp2 : _p->imageTmp,
+                            *image,
                             Graphics::ImageIOFrameInfo(
                                 _p->imageIOInfo.sequence.frames.count() ?
                                 _p->imageIOInfo.sequence.frames[frame] :
                                 -1,
                                 _p->layer,
                                 _p->proxy));
-                    }
-                    catch (const Core::Error &)
-                    {
-                    }
-                    try
-                    {
-                        if (_p->u8Conversion)
+                        if (image->isValid() && _p->u8Conversion)
                         {
                             //DJV_DEBUG_PRINT("u8 conversion");
-                            //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
-                            Graphics::PixelDataInfo info(_p->imageTmp2.info());
+                            //DJV_DEBUG_PRINT("image = " << *image);
+                            Graphics::PixelDataInfo info(image->info());
                             info.pixel = Graphics::Pixel::pixel(Graphics::Pixel::format(info.pixel), Graphics::Pixel::U8);
-                            _p->imageTmp.set(info);
-                            _p->imageTmp.tags = _p->imageTmp2.tags;
-                            _p->imageTmp.colorProfile = Graphics::ColorProfile();
-
+                            auto tmp = image;
+                            image = std::shared_ptr<Graphics::Image>(new Graphics::Image(info));
+                            image->tags = tmp->tags;
                             Graphics::OpenGLImageOptions options;
-                            options.colorProfile = _p->imageTmp2.colorProfile;
+                            options.colorProfile = tmp->colorProfile;
                             options.proxyScale = false;
-
-                            _p->openGLImage->copy(_p->imageTmp2, _p->imageTmp, options);
+                            _p->openGLImage->copy(*tmp, *image, options);
                         }
                     }
                     catch (const Core::Error &)
                     {
                     }
-                    image = &_p->imageTmp;
                 }
-                if (image)
+                if (image->isValid())
                 {
                     //DJV_DEBUG_PRINT("image = " << *image);
-                    if (FileCacheItem * item = cache->create(
-                        new Graphics::Image(*image),
-                        mainWindow(),
-                        frame))
-                    {
-                        item->decrement();
-                    }
-                    _p->imageTmp.close();
-                    _p->imageTmp2.close();
+                    cache->addItem(FileCacheKey(mainWindow(), frame), image);
                 }
             }
             else
@@ -834,7 +789,7 @@ namespace djv
 
         void FileGroup::preloadUpdate()
         {
-            if (_p->cache && _p->preload && _p->preloadActive)
+            if (_p->cacheEnabled && _p->preload && _p->preloadActive)
             {
                 if (!_p->preloadTimer)
                 {
@@ -846,7 +801,6 @@ namespace djv
                 if (_p->preloadTimer)
                 {
                     killTimer(_p->preloadTimer);
-
                     _p->preloadTimer = 0;
                 }
             }
@@ -855,32 +809,25 @@ namespace djv
         void FileGroup::update()
         {
             // Update actions.
-            _p->actions->action(FileActions::SAVE)->
-                setEnabled(_p->imageLoad.data());
-            _p->actions->action(FileActions::SAVE_FRAME)->
-                setEnabled(_p->imageLoad.data());
+            _p->actions->action(FileActions::SAVE)->setEnabled(_p->imageLoad.data());
+            _p->actions->action(FileActions::SAVE_FRAME)->setEnabled(_p->imageLoad.data());
             _p->actions->setLayers(_p->layers);
             _p->actions->setLayer(_p->layer);
-            _p->actions->action(FileActions::U8_CONVERSION)->
-                setChecked(_p->u8Conversion);
-            _p->actions->action(FileActions::CACHE)->
-                setChecked(_p->cache);
-            _p->actions->action(FileActions::PRELOAD)->
-                setChecked(_p->preload);
+            _p->actions->action(FileActions::U8_CONVERSION)->setChecked(_p->u8Conversion);
+            _p->actions->action(FileActions::CACHE)->setChecked(_p->cacheEnabled);
+            _p->actions->action(FileActions::PRELOAD)->setChecked(_p->preload);
 
             // Update action groups.
-            if (!_p->actions->group(FileActions::PROXY_GROUP)->
-                actions()[_p->proxy]->isChecked())
+            if (!_p->actions->group(FileActions::PROXY_GROUP)->actions()[_p->proxy]->isChecked())
             {
-                _p->actions->group(FileActions::PROXY_GROUP)->
-                    actions()[_p->proxy]->trigger();
+                _p->actions->group(FileActions::PROXY_GROUP)->actions()[_p->proxy]->trigger();
             }
         }
 
         void FileGroup::cacheDel()
         {
             //DJV_DEBUG("FileGroup::cacheDel");
-            context()->fileCache()->del(mainWindow());
+            context()->fileCache()->clearItems(mainWindow());
         }
 
     } // namespace ViewLib

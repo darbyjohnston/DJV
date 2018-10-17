@@ -45,8 +45,8 @@ namespace djv
             _autoSequence(autoSequenceDefault()),
             _proxy(proxyDefault()),
             _u8Conversion(u8ConversionDefault()),
-            _cache(cacheDefault()),
-            _cacheSize(cacheSizeDefault()),
+            _cacheEnabled(cacheEnabledDefault()),
+            _cacheSizeGB(cacheSizeGBDefault()),
             _preload(preloadDefault()),
             _displayCache(displayCacheDefault())
         {
@@ -55,8 +55,8 @@ namespace djv
             prefs.get("autoSequence", _autoSequence);
             prefs.get("proxy", _proxy);
             prefs.get("u8Conversion", _u8Conversion);
-            prefs.get("cache", _cache);
-            prefs.get("cacheSize", _cacheSize);
+            prefs.get("cache", _cacheEnabled);
+            prefs.get("cacheSize", _cacheSizeGB);
             prefs.get("preload", _preload);
             prefs.get("displayCache", _displayCache);
             if (_recent.count() > Core::FileInfoUtil::recentMax)
@@ -70,8 +70,8 @@ namespace djv
             prefs.set("autoSequence", _autoSequence);
             prefs.set("proxy", _proxy);
             prefs.set("u8Conversion", _u8Conversion);
-            prefs.set("cache", _cache);
-            prefs.set("cacheSize", _cacheSize);
+            prefs.set("cache", _cacheEnabled);
+            prefs.set("cacheSize", _cacheSizeGB);
             prefs.set("preload", _preload);
             prefs.set("displayCache", _displayCache);
         }
@@ -120,24 +120,24 @@ namespace djv
             return _u8Conversion;
         }
 
-        bool FilePrefs::cacheDefault()
+        bool FilePrefs::cacheEnabledDefault()
         {
             return true;
         }
 
-        bool FilePrefs::hasCache() const
+        bool FilePrefs::isCacheEnabled() const
         {
-            return _cache;
+            return _cacheEnabled;
         }
 
-        float FilePrefs::cacheSizeDefault()
+        float FilePrefs::cacheSizeGBDefault()
         {
-            return FileCache::sizeDefaults()[0];
+            return FileCache::sizeGBDefaults()[0];
         }
 
-        float FilePrefs::cacheSize() const
+        float FilePrefs::cacheSizeGB() const
         {
-            return _cacheSize;
+            return _cacheSizeGB;
         }
 
         bool FilePrefs::preloadDefault()
@@ -187,23 +187,21 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void FilePrefs::setCache(bool cache)
+        void FilePrefs::setCacheEnabled(bool cache)
         {
-            if (cache == _cache)
+            if (cache == _cacheEnabled)
                 return;
-            _cache = cache;
-            Q_EMIT cacheChanged(_cache);
+            _cacheEnabled = cache;
+            Q_EMIT cacheEnabledChanged(_cacheEnabled);
             Q_EMIT prefChanged();
         }
 
-        void FilePrefs::setCacheSize(float size)
+        void FilePrefs::setCacheSizeGB(float size)
         {
-            if (size == _cacheSize)
+            if (size == _cacheSizeGB)
                 return;
-            //DJV_DEBUG("FilePrefs::cacheSize");
-            //DJV_DEBUG_PRINT("size = " << size);
-            _cacheSize = size;
-            Q_EMIT cacheSizeChanged(_cacheSize);
+            _cacheSizeGB = size;
+            Q_EMIT cacheSizeGBChanged(_cacheSizeGB);
             Q_EMIT prefChanged();
         }
 

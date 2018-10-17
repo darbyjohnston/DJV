@@ -71,7 +71,7 @@ namespace djv
             bool hasU8Conversion() const;
 
             //! Get whether the cache is enabled.
-            bool hasCache() const;
+            bool isCacheEnabled() const;
 
             //! Get whether the cache pre-load is enabled.
             bool hasPreload() const;
@@ -83,7 +83,7 @@ namespace djv
             qint64 preloadFrame() const;
 
             //! Get an image.
-            const Graphics::Image * image(qint64 frame) const;
+            std::shared_ptr<Graphics::Image> image(qint64 frame) const;
 
             //! Get image I/O information.
             const Graphics::ImageIOInfo & imageIOInfo() const;
@@ -104,7 +104,7 @@ namespace djv
             void setU8Conversion(bool);
 
             //! Set whether the cache is enabled.
-            void setCache(bool);
+            void setCacheEnabled(bool);
 
             //! Set whether the cache pre-load is enabled.
             void setPreload(bool);

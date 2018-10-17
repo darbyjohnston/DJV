@@ -161,11 +161,11 @@ namespace djv
             connect(
                 _p->cacheWidget,
                 SIGNAL(toggled(bool)),
-                SLOT(cacheCallback(bool)));
+                SLOT(cacheEnabledCallback(bool)));
             connect(
                 _p->cacheSizeWidget,
-                SIGNAL(cacheSizeChanged(float)),
-                SLOT(cacheSizeCallback(float)));
+                SIGNAL(cacheSizeGBChanged(float)),
+                SLOT(cacheSizeGBCallback(float)));
             connect(
                 _p->preloadWidget,
                 SIGNAL(toggled(bool)),
@@ -184,8 +184,8 @@ namespace djv
             context()->filePrefs()->setAutoSequence(FilePrefs::autoSequenceDefault());
             context()->filePrefs()->setProxy(FilePrefs::proxyDefault());
             context()->filePrefs()->setU8Conversion(FilePrefs::u8ConversionDefault());
-            context()->filePrefs()->setCache(FilePrefs::cacheDefault());
-            context()->filePrefs()->setCacheSize(FilePrefs::cacheSizeDefault());
+            context()->filePrefs()->setCacheEnabled(FilePrefs::cacheEnabledDefault());
+            context()->filePrefs()->setCacheSizeGB(FilePrefs::cacheSizeGBDefault());
             context()->filePrefs()->setPreload(FilePrefs::preloadDefault());
             context()->filePrefs()->setDisplayCache(FilePrefs::displayCacheDefault());
             widgetUpdate();
@@ -206,14 +206,14 @@ namespace djv
             context()->filePrefs()->setU8Conversion(in);
         }
 
-        void FilePrefsWidget::cacheCallback(bool in)
+        void FilePrefsWidget::cacheEnabledCallback(bool in)
         {
-            context()->filePrefs()->setCache(in);
+            context()->filePrefs()->setCacheEnabled(in);
         }
 
-        void FilePrefsWidget::cacheSizeCallback(float in)
+        void FilePrefsWidget::cacheSizeGBCallback(float in)
         {
-            context()->filePrefs()->setCacheSize(in);
+            context()->filePrefs()->setCacheSizeGB(in);
         }
 
         void FilePrefsWidget::preloadCallback(bool in)
@@ -239,8 +239,8 @@ namespace djv
             _p->autoSequenceWidget->setChecked(context()->filePrefs()->hasAutoSequence());
             _p->proxyWidget->setCurrentIndex(context()->filePrefs()->proxy());
             _p->u8ConversionWidget->setChecked(context()->filePrefs()->hasU8Conversion());
-            _p->cacheWidget->setChecked(context()->filePrefs()->hasCache());
-            _p->cacheSizeWidget->setCacheSize(context()->filePrefs()->cacheSize());
+            _p->cacheWidget->setChecked(context()->filePrefs()->isCacheEnabled());
+            _p->cacheSizeWidget->setCacheSizeGB(context()->filePrefs()->cacheSizeGB());
             _p->preloadWidget->setChecked(context()->filePrefs()->hasPreload());
             _p->displayCacheWidget->setChecked(context()->filePrefs()->hasDisplayCache());
         }

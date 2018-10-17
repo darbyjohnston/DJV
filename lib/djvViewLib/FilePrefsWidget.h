@@ -54,8 +54,8 @@ namespace djv
             void autoSequenceCallback(bool);
             void proxyCallback(int);
             void u8ConversionCallback(bool);
-            void cacheCallback(bool);
-            void cacheSizeCallback(float);
+            void cacheEnabledCallback(bool);
+            void cacheSizeGBCallback(float);
             void preloadCallback(bool);
             void displayCacheCallback(bool);
 

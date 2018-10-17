@@ -96,7 +96,7 @@ namespace djv
             void setFileProxy(djv::Graphics::PixelDataInfo::PROXY);
 
             //! Set whether the file cache is enabled.
-            void setFileCache(bool);
+            void setFileCacheEnabled(bool);
 
             //! Fit the window to the image.
             void fitWindow(bool move = true);
@@ -140,7 +140,7 @@ namespace djv
 
         private:
             //! Get the current image.
-            const Graphics::Image * image() const;
+            const std::shared_ptr<Graphics::Image> & image() const;
 
             //! Get the image drawing options.
             Graphics::OpenGLImageOptions imageOptions() const;

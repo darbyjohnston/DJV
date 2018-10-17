@@ -91,8 +91,8 @@ namespace djv
             float playbackSpeedTmp = 0.f;
             QPointer<ToolGroup> toolGroup;
             QPointer<HelpGroup> helpGroup;
-            const Graphics::Image * imageP;
-            Graphics::Image imageTmp;
+            std::shared_ptr<Graphics::Image> image;
+            std::shared_ptr<Graphics::Image> imageTmp;
             glm::ivec2 imagePick = glm::ivec2(0, 0);
             Graphics::Color imageSample;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
@@ -332,7 +332,7 @@ namespace djv
             }
             if (context->commandLineOptions().fileCacheEnable.data())
             {
-                out->setFileCache(*context->commandLineOptions().fileCacheEnable);
+                out->setFileCacheEnabled(*context->commandLineOptions().fileCacheEnable);
             }
 
             // Apply command line window options.
@@ -368,7 +368,7 @@ namespace djv
                 QString("Open file = \"%1\"").arg(fileInfo));
 
             // Initialize.
-            _p->imageP = 0;
+            _p->image.reset();
             _p->viewWidget->setData(0);
 
             // Open the file.
@@ -423,9 +423,9 @@ namespace djv
             _p->fileGroup->setProxy(in);
         }
 
-        void MainWindow::setFileCache(bool in)
+        void MainWindow::setFileCacheEnabled(bool in)
         {
-            _p->fileGroup->setCache(in);
+            _p->fileGroup->setCacheEnabled(in);
         }
 
         void MainWindow::fitWindow(bool move)
@@ -559,7 +559,7 @@ namespace djv
             //DJV_DEBUG("MainWindow::reloadFrameCallback");
             const qint64 frame = _p->playbackGroup->frame();
             //DJV_DEBUG_PRINT("frame = " << frame);
-            _p->context->fileCache()->del(this, frame);
+            _p->context->fileCache()->removeItem(FileCacheKey(this, frame));
         }
 
         void MainWindow::saveCallback(const Core::FileInfo & in)
@@ -616,9 +616,9 @@ namespace djv
         void MainWindow::setFrameStoreCallback()
         {
             //DJV_DEBUG("MainWindow::setFrameStoreCallback");
-            if (_p->imageP)
+            if (_p->image)
             {
-                _p->imageTmp = *_p->imageP;
+                _p->imageTmp = _p->image;
             }
         }
 
@@ -677,13 +677,13 @@ namespace djv
         void MainWindow::fileCacheUpdate()
         {
             //DJV_DEBUG("MainWindow::cacheUpdate");
-            const float size = _p->context->fileCache()->size();
-            const float maxSize = _p->context->fileCache()->maxSize();
+            const float sizeGB = _p->context->fileCache()->currentSizeGB();
+            const float maxSizeGB = _p->context->fileCache()->maxSizeGB();
             _p->infoCacheLabel->setText(
                 qApp->translate("djv::ViewLib::MainWindow", "Cache: %1% %2/%3GB").
-                arg(static_cast<int>(size / maxSize * 100)).
-                arg(size, 0, 'f', 2).
-                arg(maxSize, 0, 'f', 2));
+                arg(static_cast<int>(sizeGB / maxSizeGB * 100)).
+                arg(sizeGB, 0, 'f', 2).
+                arg(maxSizeGB, 0, 'f', 2));
         }
 
         void MainWindow::imageUpdate()
@@ -692,18 +692,17 @@ namespace djv
 
             // Update the image.
             const qint64 frame = _p->playbackGroup->frame();
-            _p->imageP = _p->fileGroup->image(frame);
-            if (_p->imageP)
+            _p->image = _p->fileGroup->image(frame);
+            if (_p->image)
             {
-                //DJV_DEBUG_PRINT("image = " << *_p->imageP);
+                //DJV_DEBUG_PRINT("image = " << *_p->image);
             }
-            const Graphics::Image * image = this->image();
 
             // Update the information tool bar.
             Graphics::PixelDataInfo info;
-            if (image)
+            if (_p->image)
             {
-                info = image->info();
+                info = _p->image->info();
             }
             //DJV_DEBUG_PRINT("info = " << info);
             QStringList pixelLabel;
@@ -717,7 +716,7 @@ namespace djv
 
             //! Update the view.
             _p->viewWidget->setOptions(imageOptions());
-            _p->viewWidget->setData(image);
+            _p->viewWidget->setData(_p->image ? &*_p->image : nullptr);
             viewOverlayUpdate();
             _p->viewWidget->update();
 
@@ -775,7 +774,7 @@ namespace djv
 
             //! Update the HUD.
             HudInfo hudInfo;
-            const Graphics::Image * image = this->image();
+            auto image = this->image();
             if (image)
             {
                 hudInfo.info = image->info();
@@ -813,7 +812,7 @@ namespace djv
             //DJV_DEBUG_PRINT("pick = " << pick);
             Graphics::OpenGLImageOptions options = imageOptions();
             _p->imageSample = options.background;
-            const Graphics::Image * image = this->image();
+            auto image = this->image();
             if (image && _p->windowGroup->uiComponentVisible()[Enum::UI_COMPONENT_INFO])
             {
                 //DJV_DEBUG_PRINT("sample");
@@ -862,20 +861,19 @@ namespace djv
             }
         }
 
-        const Graphics::Image * MainWindow::image() const
+        const std::shared_ptr<Graphics::Image> & MainWindow::image() const
         {
-            return _p->imageGroup->isFrameStoreVisible() ? &_p->imageTmp : _p->imageP;
+            return _p->imageGroup->isFrameStoreVisible() ? _p->imageTmp : _p->image;
         }
 
         Graphics::OpenGLImageOptions MainWindow::imageOptions() const
         {
             Graphics::OpenGLImageOptions out;
             out.xform.mirror = _p->imageGroup->mirror();
-            const Graphics::Image * image = this->image();
+            auto image = this->image();
             if (image)
             {
-                out.xform.scale = Enum::imageScale(
-                    _p->imageGroup->scale(), image->size());
+                out.xform.scale = Enum::imageScale(_p->imageGroup->scale(), image->size());
             }
             out.xform.rotate = Enum::imageRotate(_p->imageGroup->rotate());
             if (image && _p->imageGroup->hasColorProfile())

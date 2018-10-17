@@ -136,8 +136,8 @@ namespace djv
         struct CacheSizeWidget::Private
         {
             QPointer<UI::UIContext> context;
-            QVector<float> cacheSizes;
-            float cacheSize = 0.f;
+            QVector<float> cacheSizesGB;
+            float cacheSizeGB = 0.f;
             QPointer<UI::FloatEdit>  edit;
             QPointer<UI::ToolButton> button;
         };
@@ -171,7 +171,7 @@ namespace djv
             connect(
                 _p->edit,
                 SIGNAL(valueChanged(float)),
-                SLOT(setCacheSize(float)));
+                SLOT(setCacheSizeGB(float)));
             connect(
                 _p->button,
                 SIGNAL(pressed()),
@@ -181,32 +181,32 @@ namespace djv
         CacheSizeWidget::~CacheSizeWidget()
         {}
 
-        const QVector<float> & CacheSizeWidget::cacheSizes() const
+        const QVector<float> & CacheSizeWidget::cacheSizesGB() const
         {
-            return _p->cacheSizes;
+            return _p->cacheSizesGB;
         }
 
-        float CacheSizeWidget::cacheSize() const
+        float CacheSizeWidget::cacheSizeGB() const
         {
-            return _p->cacheSize;
+            return _p->cacheSizeGB;
         }
 
-        void CacheSizeWidget::setCacheSizes(const QVector<float> & in)
+        void CacheSizeWidget::setCacheSizesGB(const QVector<float> & in)
         {
-            if (in == _p->cacheSizes)
+            if (in == _p->cacheSizesGB)
                 return;
-            _p->cacheSizes = in;
+            _p->cacheSizesGB = in;
             widgetUpdate();
-            Q_EMIT cacheSizesChanged(_p->cacheSizes);
+            Q_EMIT cacheSizesGBChanged(_p->cacheSizesGB);
         }
 
-        void CacheSizeWidget::setCacheSize(float size)
+        void CacheSizeWidget::setCacheSizeGB(float size)
         {
-            if (size == _p->cacheSize)
+            if (size == _p->cacheSizeGB)
                 return;
-            _p->cacheSize = size;
+            _p->cacheSizeGB = size;
             widgetUpdate();
-            Q_EMIT cacheSizeChanged(_p->cacheSize);
+            Q_EMIT cacheSizeGBChanged(_p->cacheSizeGB);
         }
 
         bool CacheSizeWidget::event(QEvent * event)
@@ -221,14 +221,14 @@ namespace djv
         void CacheSizeWidget::buttonCallback()
         {
             QMenu menu;
-            const QStringList & labels = FileCache::sizeLabels();
-            for (int i = 0; i < labels.count(); ++i)
+            const auto & sizes = FileCache::sizeGBDefaults();
+            for (int i = 0; i < sizes.count(); ++i)
             {
                 auto action = menu.addAction(
-                    labels[i],
+                    QString("%1").arg(sizes[i]),
                     this,
                     SLOT(menuCallback()));
-                action->setData(FileCache::sizeDefaults()[i]);
+                action->setData(sizes[i]);
             }
             menu.exec(mapToGlobal(
                 QPoint(_p->button->x(), _p->button->y() + _p->button->height())));
@@ -238,7 +238,7 @@ namespace djv
         void CacheSizeWidget::menuCallback()
         {
             auto action = qobject_cast<QAction *>(sender());
-            setCacheSize(action->data().toInt());
+            setCacheSizeGB(action->data().toInt());
         }
 
         void CacheSizeWidget::styleUpdate()
@@ -250,7 +250,7 @@ namespace djv
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->edit);
-            _p->edit->setValue(_p->cacheSize);
+            _p->edit->setValue(_p->cacheSizeGB);
         }
 
         struct FrameWidget::Private

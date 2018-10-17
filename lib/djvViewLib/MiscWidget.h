@@ -56,43 +56,43 @@ namespace djv
         {
             Q_OBJECT
 
-            //! This property holds the cache sizes.
+            //! This property holds the cache sizes in gigabytes.
             Q_PROPERTY(
-                QVector<float> cacheSizes
-                READ           cacheSizes
-                WRITE          setCacheSizes
-                NOTIFY         cacheSizesChanged)
+                QVector<float> cacheSizesGB
+                READ           cacheSizesGB
+                WRITE          setCacheSizesGB
+                NOTIFY         cacheSizesGBChanged)
 
-            //! This property holds the cache size.
+            //! This property holds the cache size in gigabytes.
             Q_PROPERTY(
-                float  cacheSize
-                READ   cacheSize
-                WRITE  setCacheSize
-                NOTIFY cacheSizeChanged)
+                float  cacheSizeGB
+                READ   cacheSizeGB
+                WRITE  setCacheSizeGB
+                NOTIFY cacheSizeGBChanged)
 
         public:
             explicit CacheSizeWidget(const QPointer<UI::UIContext> &, QWidget * parent = nullptr);
             ~CacheSizeWidget() override;
 
-            //! Get the cache sizes.
-            const QVector<float> & cacheSizes() const;
+            //! Get the cache sizes in gigabytes.
+            const QVector<float> & cacheSizesGB() const;
 
-            //! Get the current cache size.
-            float cacheSize() const;
+            //! Get the current cache size in gigabytes.
+            float cacheSizeGB() const;
 
         public Q_SLOTS:
-            //! Set the cache sizes.
-            void setCacheSizes(const QVector<float> &);
+            //! Set the cache sizes in gigabytes.
+            void setCacheSizesGB(const QVector<float> &);
 
-            //! Set the current cache size.
-            void setCacheSize(float);
+            //! Set the current cache size in gigabytes.
+            void setCacheSizeGB(float);
 
         Q_SIGNALS:
             //! This signal is emitted when the cache sizes are changed.
-            void cacheSizesChanged(const QVector<float> &);
+            void cacheSizesGBChanged(const QVector<float> &);
 
             //! This signal is emitted when the current cache size is changed.
-            void cacheSizeChanged(float);
+            void cacheSizeGBChanged(float);
 
         protected:
             bool event(QEvent *) override;

@@ -37,6 +37,7 @@
 #include <QObject>
 
 #include <memory>
+#include <map>
 
 namespace djv
 {
@@ -50,49 +51,16 @@ namespace djv
     {
         class Context;
 
-        //! This class provides a file cache reference.
-        class FileCacheItem
+        struct FileCacheKey
         {
-        public:
-            //! \param image The image to be cached. Ownership of the image is passed
-            //! to the cache item.
-            //! \param key   A key to be associated with this cache item.
-            //! \param frame The frame number associated with this cache item.
-            FileCacheItem(
-                Graphics::Image * image,
-                const void *      key,
-                qint64            frame);
-            ~FileCacheItem();
+            FileCacheKey();
+            FileCacheKey(void * window, qint64 frame);
 
-            //! Get the image.
-            Graphics::Image * image();
+            void * window = nullptr;
+            qint64 frame = 0;
 
-            //! Get the key.
-            const void * key() const;
-
-            //! Set the key to null.
-            void resetKey();
-
-            //! Get the frame.
-            qint64 frame() const;
-
-            //! Increment the reference count.
-            void increment();
-
-            //! Decrement the reference count.
-            void decrement();
-
-            //! Get the reference count.
-            int count() const;
-
-        private:
-            DJV_PRIVATE_COPY(FileCacheItem);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
+            bool operator < (const FileCacheKey &) const;
         };
-
-        typedef QVector<FileCacheItem *> FileCacheItemList;
 
         //! This class provides the file cache.
         class FileCache : public QObject
@@ -103,75 +71,68 @@ namespace djv
             explicit FileCache(const QPointer<Context> &, QObject * parent = nullptr);
             ~FileCache() override;
 
-            //! Create a new cache item. The reference count on the item is
-            //! automatically set to one.
-            FileCacheItem * create(Graphics::Image *, const void * key, qint64 frame);
+            //! Get whether the cache contains an item.
+            bool hasItem(const FileCacheKey &);
 
-            //! Get a cache item. The reference count on the item is automatically
-            //! incremented.
-            FileCacheItem * get(const void * key, qint64 frame);
+            //! Get an item from the cache.
+            std::shared_ptr<Graphics::Image> item(const FileCacheKey &) const;
 
-            //! Get whether the cache contains the given item.
-            bool contains(const void * key, qint64 frame) const;
+            //! Add an item to the cache.
+            void addItem(const FileCacheKey &, const std::shared_ptr<Graphics::Image> &);
 
-            //! Delete all items matching the given key that have a reference count
-            //! of zero.
-            void del(const void * key);
+            //! Remove all items with a zero reference count that match the given window.
+            void clearItems(void *);
 
-            //! Delete all items matching the given key and frame that have a
-            //! reference count of zero.
-            void del(const void * key, qint64 frame);
-
-            //! Delete all items that have a reference count of zero.
+            //! Remove all items with a zero reference count.
             void clear();
 
-            //! Get the list of items for the given key.
-            FileCacheItemList items(const void * key);
+            //! Remove an item.
+            void removeItem(const FileCacheKey &);
 
-            //! Get the list of frames for the given key. The frames are sorted in
+            //! Get the list of items that match the given window.
+            std::vector<std::shared_ptr<Graphics::Image> > items(void *);
+
+            //! Get the list of frames that match the given window. The frames are sorted in
             //! ascending order.
-            Core::FrameList frames(const void * key);
+            Core::FrameList frames(void *);
 
             //! Get the maximum cache size in gigabytes.
-            float maxSize() const;
+            float maxSizeGB() const;
 
             //! Get the maximum cache size in bytes.
-            quint64 maxByteCount() const;
+            quint64 maxSizeBytes() const;
 
-            //! Get the size in gigabytes for the given key.
-            float size(const void * key) const;
+            //! Get the current size in gigabytes for the given window.
+            float currentSizeGB(void *) const;
 
-            //! Get the cache size in gigabytes.
-            float size() const;
+            //! Get the current cache size in gigabytes.
+            float currentSizeGB() const;
 
-            //! Get the cache size in bytes.
-            quint64 byteCount() const;
+            //! Get the current cache size in bytes.
+            quint64 currentSizeBytes() const;
 
-            //! Get the cache size defaults.
-            static const QVector<float> & sizeDefaults();
-
-            //! Get the default cache size labels.
-            static const QStringList & sizeLabels();
+            //! Get the cache size defaults in gigabytes.
+            static const QVector<float> & sizeGBDefaults();
 
             //! Print debugging information.
             void debug();
 
         public Q_SLOTS:
             //! Set the maximum cache size in gigabytes.
-            void setMaxSize(float gigabytes);
+            void setMaxSizeGB(float);
 
         Q_SIGNALS:
-            //! This signal is emitted when the cache changes.
+            //! This signal is emitted when the cache is modified.
             void cacheChanged();
 
         private Q_SLOTS:
-            void cacheCallback(bool);
-            void cacheSizeCallback(float);
+            void cacheEnabledCallback(bool);
+            void cacheSizeGBCallback(float);
 
         private:
             void removeItem(int index);
 
-            // Delete the null references only if the cache size exceeds the maximum.
+            // Delete null references only if the cache size exceeds the maximum.
             void purge();
 
             DJV_PRIVATE_COPY(FileCache);
