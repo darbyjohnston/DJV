@@ -121,7 +121,7 @@ namespace djv
             auto i = _p->items.begin();
             while (i != _p->items.end())
             {
-                if (window == i->first.window && i->second.use_count() <= 1)
+                if (window == i->first.window)
                 {
                     _p->cacheBytes -= i->second->dataByteCount();
                     i = _p->items.erase(i);
@@ -140,15 +140,8 @@ namespace djv
             auto i = _p->items.begin();
             while (i != _p->items.end())
             {
-                if (i->second.use_count() <= 1)
-                {
-                    _p->cacheBytes -= i->second->dataByteCount();
-                    i = _p->items.erase(i);
-                }
-                else
-                {
-                    ++i;
-                }
+                _p->cacheBytes -= i->second->dataByteCount();
+                i = _p->items.erase(i);
             }
             Q_EMIT cacheChanged();
             debug();
@@ -285,15 +278,8 @@ namespace djv
             auto i = _p->items.begin();
             while (_p->cacheBytes > _p->maxBytes && i != _p->items.end())
             {
-                if (i->second.use_count() <= 1)
-                {
-                    _p->cacheBytes -= i->second->dataByteCount();
-                    i = _p->items.erase(i);
-                }
-                else
-                {
-                    ++i;
-                }
+                _p->cacheBytes -= i->second->dataByteCount();
+                i = _p->items.erase(i);
             }
 
             Q_EMIT cacheChanged();
