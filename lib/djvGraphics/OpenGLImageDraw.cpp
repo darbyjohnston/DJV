@@ -748,6 +748,7 @@ namespace djv
                 case Pixel::FORMAT::LA:
                     main += "color = color.raaa;\n";
                     break;
+                default: break;
                 }
 
                 QString out = header + "\n" + QString(sourceFragmentMain).arg(main);
@@ -901,7 +902,7 @@ namespace djv
             }
 
         } // namespace
-
+        
         void OpenGLImage::draw(
             const PixelData &          data,
             const glm::mat4x4&         viewMatrix,

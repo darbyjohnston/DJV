@@ -1134,7 +1134,7 @@ OpenEXR Options
 <context>
     <name>djv::Graphics::OpenGLTexture</name>
     <message>
-        <location filename="OpenGLTexture.cpp" line="86"/>
+        <location filename="OpenGLTexture.cpp" line="88"/>
         <source>Cannot create texture</source>
         <translation type="unfinished"></translation>
     </message>

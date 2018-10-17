@@ -30,6 +30,7 @@
 #include <djvGraphics/OpenGLTexture.h>
 
 #include <djvGraphics/OpenGLImage.h>
+#include <djvGraphics/PixelDataUtil.h>
 
 #include <djvCore/Debug.h>
 
@@ -46,6 +47,7 @@ namespace djv
             GLenum        min = GL_NONE;
             GLenum        mag = GL_NONE;
             GLuint        id = 0;
+            GLuint        pbo = 0;
         };
 
         OpenGLTexture::OpenGLTexture() :
@@ -101,6 +103,9 @@ namespace djv
                 OpenGL::format(_p->info.pixel, _p->info.bgr),
                 OpenGL::type(_p->info.pixel),
                 0);
+            glFuncs->glGenBuffers(1, &_p->pbo);
+            glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _p->pbo);
+            glFuncs->glBufferData(GL_PIXEL_UNPACK_BUFFER, PixelDataUtil::dataByteCount(info), 0, GL_STREAM_DRAW);
         }
 
         void OpenGLTexture::init(
@@ -118,8 +123,10 @@ namespace djv
             //DJV_DEBUG("OpenGLTexture::copy");
             //DJV_DEBUG_PRINT("in = " << in);
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            bind();
             const PixelDataInfo & info = in.info();
+            glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _p->pbo);
+            glFuncs->glBufferSubData(GL_PIXEL_UNPACK_BUFFER, 0, PixelDataUtil::dataByteCount(info), in.data());
+            bind();
             OpenGLImage::stateUnpack(in.info());
             GLenum format = OpenGL::format(info.pixel, info.bgr);
             GLenum type = OpenGL::type(info.pixel);
@@ -135,7 +142,8 @@ namespace djv
                 info.size.y,
                 format,
                 type,
-                in.data());
+                0);
+            glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
         }
 
         void OpenGLTexture::copy(const PixelData & in, const Core::Box2i & area)
@@ -144,8 +152,10 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
             //DJV_DEBUG_PRINT("area = " << area);
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            bind();
             const PixelDataInfo & info = in.info();
+            glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _p->pbo);
+            glFuncs->glBufferSubData(GL_PIXEL_UNPACK_BUFFER, 0, PixelDataUtil::dataByteCount(info), in.data());
+            bind();
             glm::ivec2 position = area.position;
             if (info.mirror.x)
             {
@@ -165,7 +175,8 @@ namespace djv
                 area.size.y,
                 OpenGL::format(info.pixel, info.bgr),
                 OpenGL::type(info.pixel),
-                in.data());
+                0);
+            glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
         }
 
         void OpenGLTexture::copy(const glm::ivec2 & in)
@@ -219,11 +230,16 @@ namespace djv
 
         void OpenGLTexture::del()
         {
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
             if (_p->id)
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 glFuncs->glDeleteTextures(1, &_p->id);
                 _p->id = 0;
+            }
+            if (_p->pbo)
+            {
+                glFuncs->glDeleteBuffers(1, &_p->pbo);
+                _p->pbo = 0;
             }
         }
 
