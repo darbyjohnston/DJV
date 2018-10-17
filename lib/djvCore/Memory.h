@@ -75,18 +75,25 @@ namespace djv
             //! Get the opposite of the given endian.
             static inline ENDIAN endianOpposite(ENDIAN);
 
-            //! Convert the endianness of a block of memory in place.
+            //! Convert the endian of a block of memory in place.
             static inline void convertEndian(
                 void *  in,
                 quint64 size,
                 int     wordSize);
 
-            //! Convert the endianness of a block of memory.
+            //! Convert the endian of a block of memory.
             static inline void convertEndian(
                 const void * in,
                 void *       out,
                 quint64      size,
                 int          wordSize);
+
+            //! Combine hashes.
+            //!
+            //! References:
+            //! - http://www.boost.org/doc/libs/1_65_1/doc/html/hash/combine.html
+            template <class T>
+            static inline void hashCombine(std::size_t &, const T &);
         };
 
     } // namespace Core
