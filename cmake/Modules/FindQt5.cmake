@@ -380,7 +380,10 @@ function(QT5_CREATE_TRANSLATION QM_SOURCE)
             COMMAND ${QT_LCONVERT} -i ${TS_FILE} -o ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm
             DEPENDS ${TS_FILE})
         set(TMP ${TMP} ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm)
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm ${PROJECT_BINARY_DIR}/build/translations/${BASE_NAME}.qm COPYONLY)
+        add_custom_command(
+            OUTPUT ${PROJECT_BINARY_DIR}/build/translations/${BASE_NAME}.qm
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm ${PROJECT_BINARY_DIR}/build/translations
+            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${BASE_NAME}.qm)
     endforeach()
     set(${QM_SOURCE} ${TMP} PARENT_SCOPE)
 endfunction()
