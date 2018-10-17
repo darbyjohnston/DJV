@@ -52,35 +52,35 @@ namespace djv
     w(Box2::size.x),     \
     h(Box2::size.y)
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::Box2() :
             position(T(0), T(0)),
             size(T(0), T(0)),
             _BOX2_INIT()
         {}
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::Box2(const Box2<T, P> & in) :
             position(in.position),
             size(in.size),
             _BOX2_INIT()
         {}
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::Box2(const glm::tvec2<T, P> & position, const glm::tvec2<T, P> & size) :
             position(position),
             size(size),
             _BOX2_INIT()
         {}
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::Box2(const glm::tvec2<T, P> & size) :
             position(T(0), T(0)),
             size(size),
             _BOX2_INIT()
         {}
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::Box2(T _x, T _y, T _w, T _h) :
             _BOX2_INIT()
         {
@@ -90,7 +90,7 @@ namespace djv
             h = _h;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::Box2(T _w, T _h) :
             position(T(0), T(0)),
             _BOX2_INIT()
@@ -99,32 +99,32 @@ namespace djv
             h = _h;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline bool Box2<T, P>::isValid() const
         {
             return size.x > T(0) && size.y > T(0);
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline void Box2<T, P>::zero()
         {
             position.x = position.y = T(0);
             size.x = size.y = T(0);
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline glm::tvec2<T, P> Box2<T, P>::lowerRight() const
         {
             return position + size;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline void Box2<T, P>::setLowerRight(const glm::tvec2<T, P> & in)
         {
             size = in - position;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P> & Box2<T, P>::operator = (const Box2<T, P> & in)
         {
             if (&in != this)
@@ -135,7 +135,7 @@ namespace djv
             return *this;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P> & Box2<T, P>::operator *= (const glm::tvec2<T, P> & in)
         {
             position *= in;
@@ -143,7 +143,7 @@ namespace djv
             return *this;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P> & Box2<T, P>::operator /= (const glm::tvec2<T, P> & in)
         {
             position /= in;
@@ -151,7 +151,7 @@ namespace djv
             return *this;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P> & Box2<T, P>::operator *= (T in)
         {
             position *= in;
@@ -159,7 +159,7 @@ namespace djv
             return *this;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P> & Box2<T, P>::operator /= (T in)
         {
             position /= in;
@@ -167,7 +167,7 @@ namespace djv
             return *this;
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::operator Box2<int, P>() const
         {
             return Box2<int, P>(
@@ -177,7 +177,7 @@ namespace djv
                 static_cast<int>(h));
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline Box2<T, P>::operator Box2<float, P>() const
         {
             return Box2<float, P>(

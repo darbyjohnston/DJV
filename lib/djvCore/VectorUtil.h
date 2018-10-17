@@ -42,23 +42,23 @@ namespace djv
             inline virtual ~VectorUtil() = 0;
 
             //! Are all of the components greater than zero?
-            template<typename T, glm::precision P = glm::defaultp>
+            template<typename T, glm::qualifier P = glm::defaultp>
             static inline bool isSizeValid(const glm::tvec2<T, P> &);
 
             //! Get the minimum vector components.
-            template<typename T, glm::precision P = glm::defaultp>
+            template<typename T, glm::qualifier P = glm::defaultp>
             static inline glm::tvec2<T, P> min(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
 
             //! Get the maximum vector components.
-            template<typename T, glm::precision P = glm::defaultp>
+            template<typename T, glm::qualifier P = glm::defaultp>
             static inline glm::tvec2<T, P> max(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
 
             //! Swap the vector components.
-            template<typename T, glm::precision P = glm::defaultp>
+            template<typename T, glm::qualifier P = glm::defaultp>
             static inline glm::tvec2<T, P> swap(const glm::tvec2<T, P> &);
 
             //! Get the aspect ratio of the components.
-            template<typename T, glm::precision P = glm::defaultp>
+            template<typename T, glm::qualifier P = glm::defaultp>
             static inline float aspect(const glm::tvec2<T, P> &);
 
             //! Round to the smallest integer value.

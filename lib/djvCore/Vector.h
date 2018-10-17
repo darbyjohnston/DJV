@@ -40,25 +40,25 @@
 
 namespace djv
 {
-    template<typename T, glm::precision P = glm::defaultp>
+    template<typename T, glm::qualifier P = glm::defaultp>
     inline QStringList & operator >> (QStringList &, glm::tvec2<T, P> &);
-    template<typename T, glm::precision P = glm::defaultp>
+    template<typename T, glm::qualifier P = glm::defaultp>
     inline QStringList & operator >> (QStringList &, glm::tvec3<T, P> &);
-    template<typename T, glm::precision P = glm::defaultp>
+    template<typename T, glm::qualifier P = glm::defaultp>
     inline QStringList & operator >> (QStringList &, glm::tvec4<T, P> &);
 
-    template<typename T, glm::precision P = glm::defaultp>
+    template<typename T, glm::qualifier P = glm::defaultp>
     inline QStringList & operator << (QStringList &, const glm::tvec2<T, P> &);
-    template<typename T, glm::precision P = glm::defaultp>
+    template<typename T, glm::qualifier P = glm::defaultp>
     inline QStringList & operator << (QStringList &, const glm::tvec3<T, P> &);
-    template<typename T, glm::precision P = glm::defaultp>
+    template<typename T, glm::qualifier P = glm::defaultp>
     inline QStringList & operator << (QStringList &, const glm::tvec4<T, P> &);
 
-    template <typename T, glm::precision P = glm::defaultp>
+    template <typename T, glm::qualifier P = glm::defaultp>
     inline Core::Debug & operator << (Core::Debug &, const glm::tvec2<T, P> &);
-    template <typename T, glm::precision P = glm::defaultp>
+    template <typename T, glm::qualifier P = glm::defaultp>
     inline Core::Debug & operator << (Core::Debug &, const glm::tvec3<T, P> &);
-    template <typename T, glm::precision P = glm::defaultp>
+    template <typename T, glm::qualifier P = glm::defaultp>
     inline Core::Debug & operator << (Core::Debug &, const glm::tvec4<T, P> &);
 
 } // namespace djv

@@ -36,31 +36,31 @@ namespace djv
         inline VectorUtil::~VectorUtil()
         {}
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline bool VectorUtil::isSizeValid(const glm::tvec2<T, P> & in)
         {
             return in.x > T(0) && in.y > T(0);
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline glm::tvec2<T, P> VectorUtil::min(const glm::tvec2<T, P> & a, const glm::tvec2<T, P> & b)
         {
             return glm::tvec2<T, P>(Math::min(a.x, b.x), Math::min(a.y, b.y));
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline glm::tvec2<T, P> VectorUtil::max(const glm::tvec2<T, P> & a, const glm::tvec2<T, P> & b)
         {
             return glm::tvec2<T, P>(Math::max(a.x, b.x), Math::max(a.y, b.y));
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline glm::tvec2<T, P> VectorUtil::swap(const glm::tvec2<T, P> & in)
         {
             return glm::tvec2<T, P>(in.y, in.x);
         }
 
-        template<typename T, glm::precision P>
+        template<typename T, glm::qualifier P>
         inline float VectorUtil::aspect(const glm::tvec2<T, P> & in)
         {
             return in.y > T(0) ? in.x / static_cast<float>(in.y) : T(0);

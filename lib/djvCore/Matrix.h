@@ -38,7 +38,7 @@
 
 namespace djv
 {
-    template<typename T, glm::precision P = glm::defaultp>
+    template<typename T, glm::qualifier P = glm::defaultp>
     inline Core::Box2<T, P> operator * (const glm::mat3x3 &, const Core::Box2<T, P> &);
 
     inline Core::Debug & operator << (Core::Debug &, const glm::mat3x3 &);
