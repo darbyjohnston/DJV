@@ -636,11 +636,11 @@ namespace djv
                 header += "uniform sampler2D inTexture;\n";
 
                 // Input swizzle.
-                QString inSwizzle = "rgba";
+                QString inSwizzle = "";
                 switch (inFormat)
                 {
-                case Pixel::FORMAT::L: inSwizzle = "rrra"; break;
-                case Pixel::FORMAT::LA: inSwizzle = "rrrg"; break;
+                case Pixel::FORMAT::L: inSwizzle = ".rrra"; break;
+                case Pixel::FORMAT::LA: inSwizzle = ".rrrg"; break;
                 case Pixel::FORMAT::RGB:
                 case Pixel::FORMAT::RGBA:
                 default: break;
@@ -654,22 +654,22 @@ namespace djv
                     header += "uniform sampler2D inColorProfileLut;\n";
                     switch (colorProfile.lut.channels())
                     {
-                    case 1: sample = QString("lut1(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
-                    case 2: sample = QString("lut2(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
-                    case 3: sample = QString("lut3(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
-                    case 4: sample = QString("lut4(texture(inTexture, TextureCoord).%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 1: sample = QString("lut1(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 2: sample = QString("lut2(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 3: sample = QString("lut3(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 4: sample = QString("lut4(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
                     }
                     break;
                 case ColorProfile::GAMMA:
                     header += "uniform float inColorProfileGamma;\n";
-                    sample = QString("gamma(texture(inTexture, TextureCoord).%1, inColorProfileGamma)").arg(inSwizzle);
+                    sample = QString("gamma(texture(inTexture, TextureCoord)%1, inColorProfileGamma)").arg(inSwizzle);
                     break;
                 case ColorProfile::EXPOSURE:
                     header += "uniform Exposure inColorProfileExposure;\n";
-                    sample = QString("exposure(texture(inTexture, TextureCoord).%1, inColorProfileExposure)").arg(inSwizzle);
+                    sample = QString("exposure(texture(inTexture, TextureCoord)%1, inColorProfileExposure)").arg(inSwizzle);
                     break;
                 default:
-                    sample = QString("texture(inTexture, TextureCoord).%1").arg(inSwizzle);
+                    sample = QString("texture(inTexture, TextureCoord)%1").arg(inSwizzle);
                     break;
                 }
 
@@ -751,12 +751,12 @@ namespace djv
                 }
 
                 QString out = header + "\n" + QString(sourceFragmentMain).arg(main);
-                //int line = 0;
-                //Q_FOREACH(QString s, out.split('\n'))
-                //{
-                //    DJV_DEBUG_PRINT(line << ": " << s);
-                //    ++line;
-                //}
+                /*int line = 0;
+                Q_FOREACH(QString s, out.split('\n'))
+                {
+                    DJV_DEBUG_PRINT(line << ": " << s);
+                    ++line;
+                }*/
                 return out;
             }
 
