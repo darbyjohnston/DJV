@@ -51,7 +51,7 @@ namespace djv
 
         PlaybackPrefs::~PlaybackPrefs()
         {
-            UI::Prefs prefs("PlaybackPrefs");
+            UI::Prefs prefs("djv::ViewLib::PlaybackPrefs");
             prefs.set("autoStart", _autoStart);
             prefs.set("loop", _loop);
             prefs.set("everyFrame", _everyFrame);
