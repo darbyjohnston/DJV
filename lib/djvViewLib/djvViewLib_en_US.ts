@@ -1342,23 +1342,23 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::ViewLib::FileGroup</name>
     <message>
-        <location filename="FileGroup.cpp" line="653"/>
+        <location filename="FileGroup.cpp" line="605"/>
         <source>Open</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="743"/>
+        <location filename="FileGroup.cpp" line="695"/>
         <source>Save</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="752"/>
-        <location filename="FileGroup.cpp" line="776"/>
+        <location filename="FileGroup.cpp" line="704"/>
+        <location filename="FileGroup.cpp" line="728"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="769"/>
+        <location filename="FileGroup.cpp" line="721"/>
         <source>Save Frame</source>
         <translation></translation>
     </message>
@@ -1929,12 +1929,12 @@ Click and drag inside the image.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="712"/>
+        <location filename="MainWindow.cpp" line="711"/>
         <source>Image: %1x%2:%3 %4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="842"/>
+        <location filename="MainWindow.cpp" line="841"/>
         <source>Pixel: %1, %2, %3</source>
         <translation></translation>
     </message>

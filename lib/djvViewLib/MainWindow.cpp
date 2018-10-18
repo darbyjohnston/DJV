@@ -369,7 +369,7 @@ namespace djv
 
             // Initialize.
             _p->image.reset();
-            _p->viewWidget->setData(0);
+            _p->viewWidget->setData(nullptr);
 
             // Open the file.
             {

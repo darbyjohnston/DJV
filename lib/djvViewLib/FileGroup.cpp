@@ -77,8 +77,6 @@ namespace djv
             Core::FileInfo fileInfo;
             Graphics::ImageIOInfo imageIOInfo;
             std::shared_ptr<Graphics::Image> image;
-            std::shared_ptr<Graphics::Image> imageTmp;
-            std::shared_ptr<Graphics::Image> imageTmp2;
             QScopedPointer<Graphics::ImageLoad> imageLoad;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             int layer = 0;
@@ -253,8 +251,6 @@ namespace djv
                 _p->preloadTimer = 0;
             }
             _p->image.reset();
-            _p->imageTmp.reset();
-            _p->imageTmp2.reset();
             cacheDel();
             context()->makeGLContextCurrent();
             _p->openGLImage.reset();
@@ -395,6 +391,7 @@ namespace djv
             Core::FileInfo tmp = fileInfo;
             _p->fileInfo = Core::FileInfo();
             _p->imageIOInfo = Graphics::ImageIOInfo();
+            _p->image.reset();
             _p->imageLoad.reset();
 
             // Load the file.
