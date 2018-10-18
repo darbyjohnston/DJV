@@ -110,7 +110,7 @@ namespace djv
                 avFormatName = "mov";
                 avCodecId = AV_CODEC_ID_PRORES;
                 avPixel = AV_PIX_FMT_YUV422P10;
-                _avFrameRgbPixel = bgr ? AV_PIX_FMT_RGB48 : AV_PIX_FMT_BGR48;
+                _avFrameRgbPixel = bgr ? AV_PIX_FMT_BGR48 : AV_PIX_FMT_RGB48;
                 switch (_options.quality)
                 {
                 case FFmpeg::LOW:    value = "1"; break;
