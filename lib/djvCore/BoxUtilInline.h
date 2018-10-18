@@ -40,7 +40,7 @@ namespace djv
         inline BoxUtil::~BoxUtil()
         {}
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline Box2<T, P> BoxUtil::corners(
             const glm::tvec2<T, P> & upperLeft,
             const glm::tvec2<T, P> & lowerRight)
@@ -53,13 +53,13 @@ namespace djv
             return out;
         }
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline Box2<T, P> BoxUtil::swap(const Box2<T, P> & in)
         {
             return Box2<T, P>(VectorUtil::swap(in.position), VectorUtil::swap(in.size));
         }
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline bool BoxUtil::intersect(const Box2<T, P> & a, const glm::tvec2<T, P> & b)
         {
             const glm::tvec2<T, P> a1 = a.lowerRight();
@@ -73,7 +73,7 @@ namespace djv
             return true;
         }
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline Box2<T, P> BoxUtil::intersect(const Box2<T, P> & a, const Box2<T, P> & b)
         {
             const glm::tvec2<T, P> a1 = a.lowerRight();
@@ -94,7 +94,7 @@ namespace djv
             return out;
         }
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline Box2<T, P> BoxUtil::bound(const Box2<T, P> & a, const Box2<T, P> & b)
         {
             const glm::tvec2<T, P> a1 = a.lowerRight();
@@ -115,7 +115,7 @@ namespace djv
             return out;
         }
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline Box2<T, P> BoxUtil::expand(const Box2<T, P> & in, const glm::tvec2<T, P> & expand)
         {
             return corners(
@@ -123,13 +123,13 @@ namespace djv
                 VectorUtil::max(in.lowerRight(), expand));
         }
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline Box2<T, P> BoxUtil::border(const Box2<T, P> & in, const glm::tvec2<T, P> & border)
         {
             return Box2<T, P>(in.position - border, in.size + border * T(2));
         }
 
-        template<typename T, glm::qualifier P>
+        template<typename T, precision P>
         inline bool BoxUtil::isSizeValid(const Box2<T, P> & in)
         {
             return in.size.x > T(0) && in.size.y > T(0);

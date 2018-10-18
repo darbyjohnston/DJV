@@ -31,7 +31,7 @@
 
 namespace djv
 {
-    template<typename T, glm::qualifier P>
+    template<typename T, precision P>
     inline Core::Box2<T, P> operator * (const glm::mat3x3 & a, const Core::Box2<T, P> & b)
     {
         const glm::tvec2<T, P> lowerRight = b.lowerRight();

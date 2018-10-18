@@ -45,37 +45,37 @@ namespace djv
             inline virtual ~BoxUtil() = 0;
 
             //! Create a box with the given corners.
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline Box2<T, P> corners(
                 const glm::tvec2<T, P> & upperLeft,
                 const glm::tvec2<T, P> & lowerRight);
 
             //! Swap the box position and size components.
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline Box2<T, P> swap(const Box2<T, P> &);
 
             //! Get the intersection of two boxes.
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline Box2<T, P> intersect(const Box2<T, P> &, const Box2<T, P> &);
 
             //! Get whether a point is inside a box.
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline bool intersect(const Box2<T, P> &, const glm::tvec2<T, P> &);
 
             //! Get the union of two boxes.
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline Box2<T, P> bound(const Box2<T, P> &, const Box2<T, P> &);
 
             //! Expand a box to contain the given point.
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline Box2<T, P> expand(const Box2<T, P> &, const glm::tvec2<T, P> &);
 
             //! Add a border to a box.
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline Box2<T, P> border(const Box2<T, P> &, const glm::tvec2<T, P> &);
 
             //! Is the box's size greater than zero?
-            template<typename T, glm::qualifier P = glm::defaultp>
+            template<typename T, precision P = glm::defaultp>
             static inline bool isSizeValid(const Box2<T, P> &);
 
             //! Convert to Qt.
