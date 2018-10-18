@@ -732,8 +732,11 @@ namespace djv
             current.labelRect = QRect(
                 current.x + spacing,
                 5,
+                fontMetrics().width(current.label),
+                fontMetrics().height());
+            labelWidthMax = Core::Math::max(
                 labelWidthMax,
-                labelBounds.height());
+                current.labelRect.width());
             if (current.labelRect.right() > box.w)
                 current.labelRect.moveLeft(current.x - spacing - labelWidthMax);
             current.draw(&painter, palette, box.h);

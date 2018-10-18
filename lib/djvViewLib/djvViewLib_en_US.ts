@@ -2189,7 +2189,7 @@ Keyboard shortcut: %2</source>
 <context>
     <name>djv::ViewLib::SpeedButton</name>
     <message>
-        <location filename="MiscWidget.cpp" line="987"/>
+        <location filename="MiscWidget.cpp" line="990"/>
         <source>Default: %1</source>
         <translation></translation>
     </message>
