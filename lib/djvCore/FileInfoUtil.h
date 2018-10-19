@@ -42,8 +42,6 @@ namespace djv
         class FileInfoUtil
         {
             Q_GADGET
-            Q_FLAGS(FILTER)
-            Q_ENUMS(SORT)
 
         public:
             virtual ~FileInfoUtil() = 0;
@@ -88,6 +86,7 @@ namespace djv
                 FILTER_DIRECTORIES = 2, //!< Filter directories
                 FILTER_HIDDEN = 4  //!< Filter hidden items
             };
+            Q_FLAGS(FILTER);
 
             //! Filter a list of files.
             static void filter(
@@ -108,6 +107,7 @@ namespace djv
 
                 SORT_COUNT
             };
+            Q_ENUM(SORT);
 
             //! Get the file sorting labels.
             static const QStringList & sortLabels();

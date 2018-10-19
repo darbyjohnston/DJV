@@ -46,7 +46,6 @@ namespace djv
         class ColorSwatch : public QWidget
         {
             Q_OBJECT
-            Q_ENUMS(SWATCH_SIZE)
 
             //! This property holds the color.    
             Q_PROPERTY(
@@ -69,6 +68,7 @@ namespace djv
                 SWATCH_MEDIUM,
                 SWATCH_LARGE,
             };
+            Q_ENUM(SWATCH_SIZE);
 
             //! Get the size.    
             SWATCH_SIZE swatchSize() const;

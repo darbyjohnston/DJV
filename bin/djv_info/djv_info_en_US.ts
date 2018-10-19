@@ -6,89 +6,89 @@
     <message>
         <location filename="InfoApplication.cpp" line="170"/>
         <source>Cannot open image: &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="186"/>
         <source>%1x%2:%3 %4 %5@%6</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="196"/>
         <location filename="InfoApplication.cpp" line="208"/>
         <location filename="InfoApplication.cpp" line="227"/>
         <source>%1 %2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="203"/>
         <source>%1@%2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="215"/>
         <source>    %1. %2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="221"/>
         <source>%1x%2:%3 %4</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="239"/>
         <source>Layer = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="241"/>
         <source>  Width = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="243"/>
         <source>  Height = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="245"/>
         <source>  Aspect = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="249"/>
         <source>  Pixel = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="252"/>
         <source>Start = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="256"/>
         <source>End = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="260"/>
         <source>Duration = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="264"/>
         <source>Speed = %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="269"/>
         <source>Tag %1 = %2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="297"/>
         <source>%1:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -96,62 +96,62 @@
     <message>
         <location filename="InfoContext.cpp" line="112"/>
         <source>-x_info</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="113"/>
         <source>-xi</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="118"/>
         <source>-verbose</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="119"/>
         <source>-v</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="124"/>
         <source>-file_path</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="125"/>
         <source>-fp</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="130"/>
         <source>-seq</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="131"/>
         <source>-q</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="136"/>
         <source>-recurse</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="137"/>
         <source>-r</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="142"/>
         <source>-columns</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="143"/>
         <source>-c</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoContext.cpp" line="165"/>
@@ -218,70 +218,7 @@ Examples
 
     &gt; djv_info ~/pics
 </source>
-        <oldsource>djv_info
-
-    The djv_info application is a command line tool for displaying information about images and movies.
-
-    Example output:
-
-    yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
-    dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24
-    render0001-1000.exr                                      00:00:41:16@24
-        0: A,B,G,R                                     720x480:1.5 RGBA F16
-        1: Ambient                                      720x480:1.5 RGB F16
-        2: Diffuse                                      720x480:1.5 RGB F16
-        3: Specular                                     720x480:1.5 RGB F16
-        4: Z                                              720x480:1.5 L F32
-
-    Key:
-
-    (name)     (width)x(height):(aspect) (format) (type) (duration)@(speed)
-
-    Layer key:
-
-    (name)                                               (duration)@(speed)
-        (layer): (name)           (width)x(height):(aspect) (format) (type)
-
-Usage
-
-    djv_info [image|directory]... [option]...
-
-    image     - One or more images, image sequences, or movies
-    directory - One or more directories
-    option    - Additional options (see below)
-
-    If no images or directories are given then the current directory will be used.
-
-Options
-
-    -x_info, -xi
-        Don&apos;t show image information, only file names.
-    -verbose, -v
-        Show verbose image information.
-    -file_path, -fp
-        Show file path names.
-    -seq, -q (value)
-        Set file sequencing. Options = %1. Default = %2.
-    -recurse, -r
-        Descend into sub-directories.
-    -columns, -c (value)
-        Set the number of columns for formatting output. A value of zero disables formatting.
-%3
-Examples
-
-    Display image information:
-
-    &gt; djv_info image.sgi image2.sgi
-
-    Display image sequence information:
-
-    &gt; djv_info image.1-100.sgi
-
-    Display information about all images within a directory:
-
-    &gt; djv_info ~/pics
-</oldsource>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

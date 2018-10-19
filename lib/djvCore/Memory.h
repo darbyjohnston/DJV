@@ -40,7 +40,6 @@ namespace djv
         class Memory
         {
             Q_GADGET
-            Q_ENUMS(ENDIAN)
 
         public:
             virtual ~Memory() = 0;
@@ -61,6 +60,7 @@ namespace djv
 
                 ENDIAN_COUNT
             };
+            Q_ENUM(ENDIAN);
 
             //! Get the machine endian labels.
             static const QStringList & endianLabels();

@@ -44,8 +44,6 @@ namespace djv
         class PlaybackActions : public AbstractActions
         {
             Q_OBJECT
-            Q_ENUMS(ACTION)
-            Q_ENUMS(GROUP)
 
         public:
             //! This enumeration provides the actions.
@@ -56,6 +54,7 @@ namespace djv
 
                 ACTION_COUNT
             };
+            Q_ENUM(ACTION);
 
             //! This enumeration provides the action groups.
             enum GROUP
@@ -68,6 +67,7 @@ namespace djv
 
                 GROUP_COUNT
             };
+            Q_ENUM(GROUP);
 
             explicit PlaybackActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~PlaybackActions() override;

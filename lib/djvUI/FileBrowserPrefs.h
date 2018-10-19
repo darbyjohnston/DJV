@@ -44,7 +44,6 @@ namespace djv
         class FileBrowserPrefs : public QObject
         {
             Q_OBJECT
-            Q_ENUMS(SHORTCUT)
 
             //! This property holds the file sequencing.    
             Q_PROPERTY(
@@ -222,6 +221,7 @@ namespace djv
 
                 SHORTCUT_COUNT
             };
+            Q_ENUM(SHORTCUT);
 
             //! Get the shortcut labels.
             static const QStringList & shortcutLabels();

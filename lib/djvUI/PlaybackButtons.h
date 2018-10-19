@@ -47,7 +47,6 @@ namespace djv
         class PlaybackButtons : public QWidget
         {
             Q_OBJECT
-            Q_ENUMS(PLAYBACK)
 
             //! This property holds the current playback state.    
             Q_PROPERTY(

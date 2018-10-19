@@ -44,10 +44,6 @@ namespace djv
         class Pixel
         {
             Q_GADGET
-            Q_ENUMS(FORMAT)
-            Q_ENUMS(TYPE)
-            Q_ENUMS(DATA)
-            Q_ENUMS(PIXEL)
 
         public:
             virtual ~Pixel() = 0;
@@ -62,6 +58,7 @@ namespace djv
 
                 FORMAT_COUNT
             };
+            Q_ENUM(FORMAT);
 
             //! Get the pixel format labels.
             static const QStringList & formatLabels();
@@ -77,6 +74,7 @@ namespace djv
 
                 TYPE_COUNT
             };
+            Q_ENUM(TYPE);
 
             //! Get the pixel type labels.
             static const QStringList & typeLabels();
@@ -90,6 +88,7 @@ namespace djv
 
                 DATA_COUNT
             };
+            Q_ENUM(DATA);
 
             //! Get the data labels.
             static const QStringList & dataLabels();
@@ -149,6 +148,7 @@ namespace djv
 
                 PIXEL_COUNT
             };
+            Q_ENUM(PIXEL);
 
             //! Get the pixel labels.
             static const QStringList & pixelLabels();

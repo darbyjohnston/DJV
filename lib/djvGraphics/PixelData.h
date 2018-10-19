@@ -55,7 +55,6 @@ namespace djv
         class PixelDataInfo
         {
             Q_GADGET
-            Q_ENUMS(PROXY)
 
         public:
             PixelDataInfo();
@@ -86,6 +85,7 @@ namespace djv
 
                 PROXY_COUNT
             };
+            Q_ENUM(PROXY);
 
             //! Get the proxy scale labels.
             static const QStringList & proxyLabels();

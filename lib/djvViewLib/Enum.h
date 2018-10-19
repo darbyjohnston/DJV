@@ -50,23 +50,6 @@ namespace djv
         class Enum
         {
             Q_GADGET
-            Q_ENUMS(VIEW_MAX)
-            Q_ENUMS(TOOL_BAR)
-            Q_ENUMS(GRID)
-            Q_ENUMS(HUD)
-            Q_ENUMS(HUD_BACKGROUND)
-            Q_ENUMS(IMAGE_SCALE)
-            Q_ENUMS(IMAGE_ROTATE)
-            Q_ENUMS(PLAYBACK)
-            Q_ENUMS(FRAME)
-            Q_ENUMS(LOOP)
-            Q_ENUMS(IN_OUT)
-            Q_ENUMS(LAYOUT)
-            Q_ENUMS(HISTOGRAM)
-            Q_ENUMS(SHORTCUT)
-            Q_ENUMS(MOUSE_WHEEL)
-            Q_ENUMS(ZOOM_FACTOR)
-            Q_ENUMS(ERROR)
 
         public:
             virtual ~Enum() = 0;
@@ -82,6 +65,7 @@ namespace djv
 
                 VIEW_MAX_COUNT
             };
+            Q_ENUM(VIEW_MAX);
 
             //! Get the maximum view size labels.
             static const QStringList & viewMaxLabels();
@@ -95,6 +79,7 @@ namespace djv
 
                 UI_COMPONENT_COUNT
             };
+            Q_ENUM(UI_COMPONENT);
 
             //! Get the user interface component labels.
             static const QStringList & uiComponentLabels();
@@ -109,6 +94,7 @@ namespace djv
 
                 GRID_COUNT
             };
+            Q_ENUM(GRID);
 
             //! Get the grid overlay labels.
             static const QStringList & gridLabels();
@@ -127,6 +113,7 @@ namespace djv
 
                 HUD_COUNT
             };
+            Q_ENUM(HUD);
 
             //! Get the HUD information labels.
             static const QStringList & hudInfoLabels();
@@ -140,6 +127,7 @@ namespace djv
 
                 HUD_BACKGROUND_COUNT
             };
+            Q_ENUM(HUD_BACKGROUND);
 
             //! Get the HUD background labels.
             static const QStringList & hudBackgroundLabels();
@@ -166,6 +154,7 @@ namespace djv
 
                 IMAGE_SCALE_COUNT
             };
+            Q_ENUM(IMAGE_SCALE);
 
             //! Get image scale labels.
             static const QStringList & imageScaleLabels();
@@ -183,6 +172,7 @@ namespace djv
 
                 IMAGE_ROTATE_COUNT
             };
+            Q_ENUM(IMAGE_ROTATE);
 
             //! Get image rotate labels.
             static const QStringList & imageRotateLabels();
@@ -199,6 +189,7 @@ namespace djv
 
                 PLAYBACK_COUNT
             };
+            Q_ENUM(PLAYBACK);
 
             //! Get the playback labels.
             static const QStringList & playbackLabels();
@@ -219,6 +210,7 @@ namespace djv
 
                 FRAME_COUNT
             };
+            Q_ENUM(FRAME);
 
             //! Get the frame labels.
             static const QStringList & frameLabels();
@@ -232,6 +224,7 @@ namespace djv
 
                 LOOP_COUNT
             };
+            Q_ENUM(LOOP);
 
             //! Get the loop mode labels.
             static const QStringList & loopLabels();
@@ -247,6 +240,7 @@ namespace djv
 
                 IN_OUT_COUNT
             };
+            Q_ENUM(IN_OUT);
 
             //! Get the in/out labels.
             static const QStringList & inOutLabels();
@@ -261,6 +255,7 @@ namespace djv
 
                 LAYOUT_COUNT
             };
+            Q_ENUM(LAYOUT);
 
             //! Get the playback bar layout labels.
             static const QStringList & layoutLabels();
@@ -289,6 +284,7 @@ namespace djv
 
                 HISTOGRAM_COUNT
             };
+            Q_ENUM(HISTOGRAM);
 
             //! Get the histogram size labels.
             static const QStringList & histogramLabels();
@@ -418,6 +414,7 @@ namespace djv
 
                 SHORTCUT_COUNT
             };
+            Q_ENUM(SHORTCUT);
 
             //! Get the shortcut labels.
             static const QStringList & shortcutLabels();
@@ -431,6 +428,7 @@ namespace djv
 
                 MOUSE_WHEEL_COUNT
             };
+            Q_ENUM(MOUSE_WHEEL);
 
             //! Get the mouse wheel action labels.
             static const QStringList & mouseWheelLabels();
@@ -444,6 +442,7 @@ namespace djv
 
                 ZOOM_FACTOR_COUNT
             };
+            Q_ENUM(ZOOM_FACTOR);
 
             //! Get the mouse wheel zoom factor labels.
             static const QStringList & zoomFactorLabels();
@@ -464,6 +463,7 @@ namespace djv
 
                 ERROR_COUNT
             };
+            Q_ENUM(ERROR);
 
             //! Get the error code labels.
             static const QStringList & errorLabels();

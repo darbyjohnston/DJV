@@ -45,10 +45,8 @@ namespace djv
         class Sequence
         {
             Q_GADGET
-            Q_ENUMS(COMPRESS)
 
         public:
-
             //! This enumeration provides the sequence compression.
             enum COMPRESS
             {
@@ -58,6 +56,7 @@ namespace djv
 
                 COMPRESS_COUNT
             };
+            Q_ENUM(COMPRESS);
 
             //! Get the compression labels.
             static const QStringList & compressLabels();

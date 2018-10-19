@@ -42,7 +42,6 @@ namespace djv
         class Speed
         {
             Q_GADGET
-            Q_ENUMS(FPS)
 
         public:
             //! This enumeration provides the frames per second.
@@ -67,6 +66,7 @@ namespace djv
 
                 FPS_COUNT
             };
+            Q_ENUM(FPS);
 
             //! Get the frames per second labels.
             static const QStringList & fpsLabels();

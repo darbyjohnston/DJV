@@ -6,7 +6,7 @@
     <message>
         <location filename="CoreContext.cpp" line="143"/>
         <source>Cannot parse the command line argument: %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="170"/>
@@ -25,7 +25,7 @@ System
     Search path: %8
     Qt version: %9
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="200"/>
@@ -100,52 +100,52 @@ This software is based in part on the works of (in alphabetical order):
     http://www.zlib.net/
     Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="349"/>
         <source>-time_units</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="356"/>
         <source>-default_speed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="363"/>
         <source>-max_sequence_frames</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="371"/>
         <source>-debug_log</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="385"/>
         <source>-help</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="386"/>
         <source>-h</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="393"/>
         <source>-info</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="400"/>
         <source>-about</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="409"/>
         <source>-psn_</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="CoreContext.cpp" line="440"/>
@@ -167,7 +167,7 @@ General Options
     -about
         Show the about message.
 </source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -175,12 +175,12 @@ General Options
     <message>
         <location filename="ErrorUtil.cpp" line="53"/>
         <source>[ERROR] %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ErrorUtil.cpp" line="54"/>
         <source>[ERROR %1] %2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -188,37 +188,37 @@ General Options
     <message>
         <location filename="FileIO.cpp" line="526"/>
         <source>Cannot open file: &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileIO.cpp" line="528"/>
         <source>Cannot create file mapping: &quot;%1&quot; (%2)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileIO.cpp" line="529"/>
         <source>Cannot memory-map file: &quot;%1&quot; (%2)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileIO.cpp" line="531"/>
         <source>Cannot memory-map file: &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileIO.cpp" line="533"/>
         <source>Error reading file: &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileIO.cpp" line="534"/>
         <source>Error writing file: &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileIO.cpp" line="535"/>
         <source>Cannot set file position: &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -226,55 +226,55 @@ General Options
     <message>
         <location filename="FileInfo.cpp" line="159"/>
         <source>File</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="160"/>
         <source>Seq</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="161"/>
         <source>Dir</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="204"/>
         <location filename="FileInfo.cpp" line="216"/>
         <source>r</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="205"/>
         <location filename="FileInfo.cpp" line="217"/>
         <source>w</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="206"/>
         <location filename="FileInfo.cpp" line="219"/>
         <source>x</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="218"/>
         <source>rw</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="220"/>
         <source>rx</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="221"/>
         <source>wx</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfo.cpp" line="222"/>
         <source>rwx</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -282,32 +282,32 @@ General Options
     <message>
         <location filename="FileInfoUtil.cpp" line="628"/>
         <source>Name</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfoUtil.cpp" line="629"/>
         <source>Type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfoUtil.cpp" line="630"/>
         <source>Size</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfoUtil.cpp" line="631"/>
         <source>User</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfoUtil.cpp" line="632"/>
         <source>Permissions</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileInfoUtil.cpp" line="633"/>
         <source>Time</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -315,32 +315,32 @@ General Options
     <message>
         <location filename="Memory.cpp" line="53"/>
         <source>%1TB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Memory.cpp" line="54"/>
         <source>%1GB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Memory.cpp" line="55"/>
         <source>%1MB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Memory.cpp" line="56"/>
         <source>%1KB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Memory.cpp" line="78"/>
         <source>MSB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Memory.cpp" line="79"/>
         <source>LSB</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -348,12 +348,12 @@ General Options
     <message>
         <location filename="Plugin.cpp" line="349"/>
         <source>Cannot open plugin &quot;%1&quot;: %2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Plugin.cpp" line="350"/>
         <source>Cannot load plugin &quot;%1&quot;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -361,17 +361,17 @@ General Options
     <message>
         <location filename="Sequence.cpp" line="48"/>
         <source>Off</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Sequence.cpp" line="49"/>
         <source>Sparse</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Sequence.cpp" line="50"/>
         <source>Range</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -379,12 +379,12 @@ General Options
     <message>
         <location filename="StringUtil.cpp" line="61"/>
         <source>False</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="StringUtil.cpp" line="62"/>
         <source>True</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -392,52 +392,52 @@ General Options
     <message>
         <location filename="System.cpp" line="179"/>
         <source>Unknown</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="180"/>
         <source>Windows 2000</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="181"/>
         <source>Windows XP</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="182"/>
         <source>Windows XPProfessional x64 Edition</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="183"/>
         <source>Windows Server2003</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="184"/>
         <source>Windows Server 2003 R2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="185"/>
         <source>Windows Vista</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="186"/>
         <source>Windows Server 2008</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="187"/>
         <source>Windows 7</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="System.cpp" line="188"/>
         <source>Windows Server 2008 R2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -445,12 +445,12 @@ General Options
     <message>
         <location filename="Time.cpp" line="272"/>
         <source>Timecode</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Time.cpp" line="273"/>
         <source>Frames</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

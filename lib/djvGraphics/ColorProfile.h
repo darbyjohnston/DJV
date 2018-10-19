@@ -41,7 +41,6 @@ namespace djv
         class ColorProfile
         {
             Q_GADGET
-            Q_ENUMS(PROFILE)
 
         public:
             ColorProfile();
@@ -72,6 +71,7 @@ namespace djv
 
                 PROFILE_COUNT
             };
+            Q_ENUM(PROFILE);
 
             //! Get the color profile labels.
             static const QStringList & profileLabels();

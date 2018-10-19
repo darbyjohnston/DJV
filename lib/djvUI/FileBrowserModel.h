@@ -49,9 +49,6 @@ namespace djv
         class FileBrowserModel : public QAbstractItemModel
         {
             Q_OBJECT
-            Q_ENUMS(COLUMNS)
-            Q_ENUMS(THUMBNAIL_MODE)
-            Q_ENUMS(THUMBNAIL_SIZE)
 
             //! This property holds the path.
             Q_PROPERTY(
@@ -131,6 +128,7 @@ namespace djv
 
                 COLUMNS_COUNT
             };
+            Q_ENUM(COLUMNS);
 
             //! Get the column labels.
             static const QStringList & columnsLabels();
@@ -174,6 +172,7 @@ namespace djv
 
                 THUMBNAIL_MODE_COUNT
             };
+            Q_ENUM(THUMBNAIL_MODE);
 
             //! Get the image thumbnail mode labels.
             static const QStringList & thumbnailModeLabels();
@@ -190,6 +189,7 @@ namespace djv
 
                 THUMBNAIL_SIZE_COUNT
             };
+            Q_ENUM(THUMBNAIL_SIZE);
 
             //! Get the image thumbnail size labels.
             static const QStringList & thumbnailSizeLabels();

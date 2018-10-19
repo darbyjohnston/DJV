@@ -43,7 +43,6 @@ namespace djv
         class ImageTags
         {
             Q_GADGET
-            Q_ENUMS(TAGS)
 
         public:
             ImageTags();
@@ -88,6 +87,7 @@ namespace djv
 
                 TAGS_COUNT
             };
+            Q_ENUM(TAGS);
 
             //! Get the image tag labels.
             static const QStringList & tagLabels();

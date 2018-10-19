@@ -41,7 +41,6 @@ namespace djv
         class HelpActions : public AbstractActions
         {
             Q_OBJECT
-            Q_ENUMS(ACTION)
 
         public:
             //! This enumeration provides the actions.
@@ -53,6 +52,7 @@ namespace djv
 
                 ACTION_COUNT
             };
+            Q_ENUM(ACTION);
 
             explicit HelpActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~HelpActions() override;

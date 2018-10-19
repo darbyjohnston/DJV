@@ -48,16 +48,15 @@ namespace djv
         class Prefs
         {
             Q_GADGET
-            Q_ENUMS(SCOPE)
 
         public:
-
             //! This enumeration provides the preferences scope.    
             enum SCOPE
             {
                 USER,
                 SYSTEM
             };
+            Q_ENUM(SCOPE);
 
             Prefs(const QString & group, SCOPE = USER);
 

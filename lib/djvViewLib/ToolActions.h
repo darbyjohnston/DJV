@@ -41,7 +41,6 @@ namespace djv
         class ToolActions : public AbstractActions
         {
             Q_OBJECT
-            Q_ENUMS(GROUP)
 
         public:
 
@@ -52,6 +51,7 @@ namespace djv
 
                 GROUP_COUNT
             };
+            Q_ENUM(GROUP);
 
             explicit ToolActions(const QPointer<Context> &, QObject * parent = nullptr);
             ~ToolActions() override;

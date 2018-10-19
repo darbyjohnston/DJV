@@ -47,7 +47,6 @@ namespace djv
         class Time
         {
             Q_GADGET
-            Q_ENUMS(UNITS)
 
         public:
             virtual ~Time() = 0;
@@ -129,6 +128,7 @@ namespace djv
 
                 UNITS_COUNT
             };
+            Q_ENUM(UNITS);
 
             //! Get the time units labels.
             static const QStringList & unitsLabels();

@@ -103,8 +103,6 @@ namespace djv
         class FileInfo
         {
             Q_GADGET
-            Q_ENUMS(TYPE)
-            Q_FLAGS(PERMISSIONS)
 
         public:
             FileInfo();
@@ -167,6 +165,7 @@ namespace djv
 
                 TYPE_COUNT
             };
+            Q_ENUM(TYPE);
 
             //! Get the file type labels.
             static const QStringList & typeLabels();
@@ -180,10 +179,11 @@ namespace djv
             //! This enumeration provides the file permissions.
             enum PERMISSIONS
             {
-                READ = 1, //!< Readable
+                READ  = 1, //!< Readable
                 WRITE = 2, //!< Writable
-                EXEC = 4  //!< Executable
+                EXEC  = 4  //!< Executable
             };
+            Q_FLAGS(PERMISSIONS);
 
             static const int PERMISSIONS_COUNT = 3;
 

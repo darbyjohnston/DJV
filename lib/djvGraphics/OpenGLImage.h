@@ -113,10 +113,8 @@ namespace djv
         class OpenGLImageFilter
         {
             Q_GADGET
-            Q_ENUMS(FILTER)
 
         public:
-
             //! This enumeration provides the image filters.
             enum FILTER
             {
@@ -132,6 +130,7 @@ namespace djv
 
                 FILTER_COUNT
             };
+            Q_ENUM(FILTER);
 
             //! Get the image filter labels.
             static const QStringList & filterLabels();
@@ -162,10 +161,8 @@ namespace djv
         class OpenGLImageOptions
         {
             Q_GADGET
-            Q_ENUMS(CHANNEL)
 
         public:
-
             //! This enumeration provides the channels to display.
             enum CHANNEL
             {
@@ -177,6 +174,7 @@ namespace djv
 
                 CHANNEL_COUNT
             };
+            Q_ENUM(CHANNEL);
 
             //! Get the channel labels.
             static const QStringList & channelLabels();

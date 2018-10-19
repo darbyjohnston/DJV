@@ -45,7 +45,6 @@ namespace djv
         class FileIO
         {
             Q_GADGET
-            Q_ENUMS(MODE)
 
         public:
             FileIO();
@@ -57,6 +56,7 @@ namespace djv
                 READ,
                 WRITE
             };
+            Q_ENUM(MODE);
 
             //! Open a file.
             //!
