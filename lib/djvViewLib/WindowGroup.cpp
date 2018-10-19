@@ -149,9 +149,9 @@ namespace djv
             return _p->uiComponentVisible;
         }
 
-        QToolBar * WindowGroup::toolBar() const
+        QPointer<QToolBar> WindowGroup::toolBar() const
         {
-            return _p->toolBar;
+            return _p->toolBar.data();
         }
 
         void WindowGroup::setFullScreen(bool fullScreen)

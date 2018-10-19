@@ -97,7 +97,7 @@ namespace djv
             //! Get the layout.
             Enum::LAYOUT layout() const;
 
-            QToolBar * toolBar() const override;
+            QPointer<QToolBar> toolBar() const override;
 
         public Q_SLOTS:
             //! Set the sequence.

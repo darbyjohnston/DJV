@@ -262,9 +262,9 @@ namespace djv
             return _p->channel;
         }
 
-        QToolBar * ImageGroup::toolBar() const
+        QPointer<QToolBar> ImageGroup::toolBar() const
         {
-            return _p->toolBar;
+            return _p->toolBar.data();
         }
 
         void ImageGroup::showFrameStoreCallback(bool in)

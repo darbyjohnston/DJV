@@ -34,6 +34,7 @@
 #include <djvCore/Util.h>
 
 #include <QObject>
+#include <QPointer>
 
 #include <memory>
 
@@ -59,7 +60,7 @@ namespace djv
             const QPointer<MainWindow> & mainWindow() const;
 
             //! Get the tool bar.
-            virtual QToolBar * toolBar() const;
+            virtual QPointer<QToolBar> toolBar() const;
 
             //! Get the context.
             const QPointer<Context> & context() const;

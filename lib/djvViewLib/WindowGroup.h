@@ -62,7 +62,7 @@ namespace djv
             //! Get the UI component visibility.
             const QVector<bool> & uiComponentVisible() const;
 
-            QToolBar * toolBar() const override;
+            QPointer<QToolBar> toolBar() const override;
 
         public Q_SLOTS:
             //! Set whether full screen is enabled.

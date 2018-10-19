@@ -56,7 +56,7 @@ namespace djv
             //! Get the tool visibility.
             const QVector<bool> & toolsVisible() const;
 
-            QToolBar * toolBar() const override;
+            QPointer<QToolBar> toolBar() const override;
 
         public Q_SLOTS:
             //! Set the tool visibility.

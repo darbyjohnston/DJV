@@ -373,9 +373,9 @@ namespace djv
             return _p->imageIOInfo;
         }
 
-        QToolBar * FileGroup::toolBar() const
+        QPointer<QToolBar> FileGroup::toolBar() const
         {
-            return _p->toolBar;
+            return _p->toolBar.data();
         }
 
         void FileGroup::open(const Core::FileInfo & fileInfo)

@@ -75,7 +75,7 @@ namespace djv
             //! Get the image channel.
             Graphics::OpenGLImageOptions::CHANNEL channel() const;
 
-            QToolBar * toolBar() const override;
+            QPointer<QToolBar> toolBar() const override;
 
         public Q_SLOTS:
             //! Set the display profile.

@@ -302,9 +302,9 @@ namespace djv
             return _p->layout;
         }
 
-        QToolBar * PlaybackGroup::toolBar() const
+        QPointer<QToolBar> PlaybackGroup::toolBar() const
         {
-            return _p->toolBar;
+            return _p->toolBar.data();
         }
 
         void PlaybackGroup::setSequence(const Core::Sequence & sequence)

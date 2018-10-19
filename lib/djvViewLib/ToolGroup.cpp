@@ -153,9 +153,9 @@ namespace djv
             return _p->toolsVisible;
         }
 
-        QToolBar * ToolGroup::toolBar() const
+        QPointer<QToolBar> ToolGroup::toolBar() const
         {
-            return _p->toolBar;
+            return _p->toolBar.data();
         }
 
         void ToolGroup::setToolsVisible(const QVector<bool> & value)

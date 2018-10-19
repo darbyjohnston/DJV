@@ -56,7 +56,7 @@ namespace djv
                 const QPointer<Context> &);
             ~ViewGroup() override;
 
-            QToolBar * toolBar() const override;
+            QPointer<QToolBar> toolBar() const override;
 
         private Q_SLOTS:
             void leftCallback();

@@ -32,7 +32,7 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
-#include <QPointer>
+#include <QToolBar>
 
 namespace djv
 {
@@ -66,9 +66,9 @@ namespace djv
             return _p->mainWindow;
         }
 
-        QToolBar * AbstractGroup::toolBar() const
+        QPointer<QToolBar> AbstractGroup::toolBar() const
         {
-            return 0;
+            return nullptr;
         }
 
         const QPointer<Context> & AbstractGroup::context() const

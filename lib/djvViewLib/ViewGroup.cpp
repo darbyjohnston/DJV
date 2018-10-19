@@ -170,9 +170,9 @@ namespace djv
         ViewGroup::~ViewGroup()
         {}
 
-        QToolBar * ViewGroup::toolBar() const
+        QPointer<QToolBar> ViewGroup::toolBar() const
         {
-            return _p->toolBar;
+            return _p->toolBar.data();
         }
 
         void ViewGroup::leftCallback()
