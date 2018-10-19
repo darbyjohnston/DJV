@@ -55,14 +55,14 @@ namespace djv
 
 extern "C"
 {
-    void djvJPEGError(libjpeg::j_common_ptr in)
+    void djvJPEGError(j_common_ptr in)
     {
         auto error = reinterpret_cast<Graphics::JPEGErrorStruct *>(in->err);
         in->err->format_message(in, error->msg);
         ::longjmp(error->jump, 1);
     }
 
-    void djvJPEGWarning(libjpeg::j_common_ptr in, int level)
+    void djvJPEGWarning(j_common_ptr in, int level)
     {
         if (level > 0)
         {

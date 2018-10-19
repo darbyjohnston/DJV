@@ -33,6 +33,7 @@
 #include <djvGraphics/FFmpegSave.h>
 
 #include <djvCore/CoreContext.h>
+#include <djvCore/DebugLog.h>
 
 #include <QCoreApplication>
 
@@ -40,29 +41,37 @@ namespace djv
 {
     namespace Graphics
     {
-        FFmpegPlugin::FFmpegPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
-        {}
-
         namespace
         {
+            QPointer<Core::CoreContext> _context;
+
             void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
             {
                 if (level > av_log_get_level())
                     return;
-
-                //! \todo Add multi-thread safe logging.
-                /*char s [Core::StringUtil::cStringLength];
-                SNPRINTF(s, Core::StringUtil::cStringLength, fmt, vl);
-                DJV_LOG("djv::Graphics::FFmpegPlugin", s);*/
+                char s[Core::StringUtil::cStringLength] = "";
+                vsnprintf(s, Core::StringUtil::cStringLength, fmt, vl);
+                DJV_LOG(_context->debugLog(), "djv::Graphics::FFmpegPlugin", s);
             }
 
         } // namespace
+
+        FFmpegPlugin::FFmpegPlugin(const QPointer<Core::CoreContext> & context) :
+            ImageIO(context)
+        {
+            _context = context;
+        }
+
+        FFmpegPlugin::~FFmpegPlugin()
+        {
+            _context = nullptr;
+        }
 
         void FFmpegPlugin::initPlugin()
         {
             //DJV_DEBUG("FFmpegPlugin::initPlugin");
 
+            av_log_set_level(AV_LOG_ERROR);
             av_log_set_callback(avLogCallback);
             av_register_all();
             /*const AVOutputFormat * avFormat = 0;

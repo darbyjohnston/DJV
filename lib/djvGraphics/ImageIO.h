@@ -113,8 +113,7 @@ namespace djv
 
         //! This class provides the base functionality for image loading.
         //!
-        //! \todo Add comments about ensuring loaders are thread safe (ie. don't use
-        //! OpenGL functionality, debug logging, etc.).
+        //! Note that image loaders may be run in a separate thread.
         class ImageLoad
         {
         public:

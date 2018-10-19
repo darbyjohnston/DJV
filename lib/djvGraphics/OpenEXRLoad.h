@@ -41,8 +41,6 @@ namespace djv
     namespace Graphics
     {
         //! This class provides an OpenEXR loader.
-        //!
-        //! \todo Add support for luminance/chroma images.
         class OpenEXRLoad : public ImageLoad
         {
         public:

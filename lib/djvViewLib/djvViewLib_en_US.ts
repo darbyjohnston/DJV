@@ -1889,7 +1889,7 @@ Click and drag inside the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="841"/>
+        <location filename="MainWindow.cpp" line="836"/>
         <source>Pixel: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>

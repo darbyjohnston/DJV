@@ -31,21 +31,6 @@ namespace djv
 {
     namespace Core
     {
-        //! \todo Is this specialization for integer box types correct?
-        //! \todo Why do these specializations need to come first on Windows (error
-        //! C2908)?
-        template<>
-        inline glm::ivec2 Box2<int>::lowerRight() const
-        {
-            return position + size - 1;
-        }
-
-        template<>
-        inline void Box2<int>::setLowerRight(const glm::ivec2 & in)
-        {
-            size = in - position + 1;
-        }
-
 #define _BOX2_INIT() \
     x(Box2::position.x), \
     y(Box2::position.y), \
@@ -118,10 +103,24 @@ namespace djv
             return position + size;
         }
 
+        //! \todo Is this specialization for integer box types correct?
+        template<>
+        inline glm::ivec2 Box2<int>::lowerRight() const
+        {
+            return position + size - 1;
+        }
+
         template<typename T, precision P>
         inline void Box2<T, P>::setLowerRight(const glm::tvec2<T, P> & in)
         {
             size = in - position;
+        }
+
+        //! \todo Is this specialization for integer box types correct?
+        template<>
+        inline void Box2<int>::setLowerRight(const glm::ivec2 & in)
+        {
+            size = in - position + 1;
         }
 
         template<typename T, precision P>

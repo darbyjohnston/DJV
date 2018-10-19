@@ -205,11 +205,8 @@ namespace djv
             io.set(tmp, size);
             if (_bitDepth != 1)
             {
-                //! \todo The symbol Pixel::u16Max is undefined on Mac OS 10.6?
-                //const int maxValue =
-                //    (8 == _bitDepth) ? Pixel::u8Max : Pixel::u16Max;
-                const int max_value = (8 == _bitDepth) ? Pixel::u8Max : 65535;
-                size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%d\n", max_value);
+                const int maxValue = (8 == _bitDepth) ? Pixel::u8Max : Pixel::u16Max;
+                size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%d\n", maxValue);
                 io.set(tmp, size);
             }
         }

@@ -79,29 +79,29 @@ namespace djv
         {
 
             bool jpegScanline(
-                libjpeg::jpeg_compress_struct * jpeg,
-                const quint8 *                  in,
-                JPEGErrorStruct *               error)
+                jpeg_compress_struct * jpeg,
+                const quint8 *         in,
+                JPEGErrorStruct *      error)
             {
                 if (::setjmp(error->jump))
                 {
                     return false;
                 }
-                libjpeg::JSAMPROW p[] = { (libjpeg::JSAMPLE *)(in) };
-                if (!libjpeg::jpeg_write_scanlines(jpeg, p, 1))
+                JSAMPROW p[] = { (JSAMPLE *)(in) };
+                if (!jpeg_write_scanlines(jpeg, p, 1))
                 {
                     return false;
                 }
                 return true;
             }
 
-            bool jpeg_end(libjpeg::jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
+            bool jpeg_end(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
             {
                 if (::setjmp(error->jump))
                 {
                     return false;
                 }
-                libjpeg::jpeg_finish_compress(jpeg);
+                jpeg_finish_compress(jpeg);
                 return true;
             }
 
@@ -149,7 +149,7 @@ namespace djv
         {
             if (_jpegInit)
             {
-                libjpeg::jpeg_destroy_compress(&_jpeg);
+                jpeg_destroy_compress(&_jpeg);
                 _jpegInit = false;
             }
             if (_f)
@@ -162,51 +162,50 @@ namespace djv
         namespace
         {
 
-            bool jpegInit(libjpeg::jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
+            bool jpegInit(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
             {
                 if (setjmp(error->jump))
                 {
                     return false;
                 }
-                using libjpeg::jpeg_compress_struct;
-                libjpeg::jpeg_create_compress(jpeg);
+                jpeg_create_compress(jpeg);
                 return true;
             }
 
             bool jpegOpen(
-                FILE *                          f,
-                libjpeg::jpeg_compress_struct * jpeg,
-                const ImageIOInfo &             info,
-                int                             quality,
-                JPEGErrorStruct *               error)
+                FILE *                 f,
+                jpeg_compress_struct * jpeg,
+                const ImageIOInfo &    info,
+                int                    quality,
+                JPEGErrorStruct *      error)
             {
                 if (setjmp(error->jump))
                 {
                     return false;
                 }
-                libjpeg::jpeg_stdio_dest(jpeg, f);
+                jpeg_stdio_dest(jpeg, f);
                 jpeg->image_width = info.size.x;
                 jpeg->image_height = info.size.y;
                 if (Pixel::L_U8 == info.pixel)
                 {
                     jpeg->input_components = 1;
-                    jpeg->in_color_space = libjpeg::JCS_GRAYSCALE;
+                    jpeg->in_color_space = JCS_GRAYSCALE;
                 }
                 else if (Pixel::RGB_U8 == info.pixel)
                 {
                     jpeg->input_components = 3;
-                    jpeg->in_color_space = libjpeg::JCS_RGB;
+                    jpeg->in_color_space = JCS_RGB;
                 }
-                libjpeg::jpeg_set_defaults(jpeg);
-                libjpeg::jpeg_set_quality(jpeg, quality, static_cast<libjpeg::boolean>(1));
-                libjpeg::jpeg_start_compress(jpeg, static_cast<libjpeg::boolean>(1));
+                jpeg_set_defaults(jpeg);
+                jpeg_set_quality(jpeg, quality, static_cast<boolean>(1));
+                jpeg_start_compress(jpeg, static_cast<boolean>(1));
                 QString tag = info.tags[ImageTags::tagLabels()[ImageTags::DESCRIPTION]];
                 if (tag.length())
                 {
-                    libjpeg::jpeg_write_marker(
+                    jpeg_write_marker(
                         jpeg,
                         JPEG_COM,
-                        (libjpeg::JOCTET *)tag.toLatin1().data(),
+                        (JOCTET *)tag.toLatin1().data(),
                         static_cast<uint>(tag.length()));
                 }
                 return true;
@@ -222,7 +221,7 @@ namespace djv
             close();
 
             // Initialize libjpeg.
-            _jpeg.err = libjpeg::jpeg_std_error(&_jpegError.pub);
+            _jpeg.err = jpeg_std_error(&_jpegError.pub);
             _jpegError.pub.error_exit = djvJPEGError;
             _jpegError.pub.emit_message = djvJPEGWarning;
             _jpegError.msg[0] = 0;

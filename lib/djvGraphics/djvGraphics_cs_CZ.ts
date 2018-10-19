@@ -494,17 +494,17 @@ DPX Options
 <context>
     <name>djv::Graphics::FFmpegPlugin</name>
     <message>
-        <location filename="FFmpegPlugin.cpp" line="188"/>
+        <location filename="FFmpegPlugin.cpp" line="197"/>
         <source>-ffmpeg_format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegPlugin.cpp" line="192"/>
+        <location filename="FFmpegPlugin.cpp" line="201"/>
         <source>-ffmpeg_quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegPlugin.cpp" line="215"/>
+        <location filename="FFmpegPlugin.cpp" line="224"/>
         <source>
 FFmpeg Options
 

@@ -81,8 +81,6 @@ namespace djv
             static QVector<QPointer<MainWindow> > mainWindowList();
 
             //! Create a new main window.
-            //!
-            //! \todo Can we remove this function?
             static QPointer<MainWindow> createWindow(const QPointer<Context> &);
 
         public Q_SLOTS:

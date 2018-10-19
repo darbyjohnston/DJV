@@ -735,11 +735,6 @@ namespace djv
 
             const bool visible = _p->windowGroup->isUIVisible();
 
-            //! \todo It seems that when the menu bar is hidden the associated
-            //! keyboard shortcuts no longer work. To work around this we resize
-            //! the menu bar's height to zero instead of hiding it.
-            //menuBar()->setVisible(visible);
-
             if (visible)
             {
                 if (_p->menuBarHeight != 0)

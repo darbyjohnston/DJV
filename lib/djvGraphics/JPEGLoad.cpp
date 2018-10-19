@@ -65,16 +65,16 @@ namespace djv
         {
 
             bool jpegScanline(
-                libjpeg::jpeg_decompress_struct * jpeg,
-                quint8 *                          out,
-                JPEGErrorStruct *                 error)
+                jpeg_decompress_struct * jpeg,
+                quint8 *                 out,
+                JPEGErrorStruct *        error)
             {
                 if (::setjmp(error->jump))
                 {
                     return false;
                 }
-                libjpeg::JSAMPROW p[] = { (libjpeg::JSAMPLE *)(out) };
-                if (!libjpeg::jpeg_read_scanlines(jpeg, p, 1))
+                JSAMPROW p[] = { (JSAMPLE *)(out) };
+                if (!jpeg_read_scanlines(jpeg, p, 1))
                 {
                     return false;
                 }
@@ -82,14 +82,14 @@ namespace djv
             }
 
             bool jpegEnd(
-                libjpeg::jpeg_decompress_struct * jpeg,
-                JPEGErrorStruct *                 error)
+                jpeg_decompress_struct * jpeg,
+                JPEGErrorStruct *        error)
             {
                 if (::setjmp(error->jump))
                 {
                     return false;
                 }
-                libjpeg::jpeg_finish_decompress(jpeg);
+                jpeg_finish_decompress(jpeg);
                 return true;
             }
 
@@ -145,7 +145,7 @@ namespace djv
         {
             if (_jpegInit)
             {
-                libjpeg::jpeg_destroy_decompress(&_jpeg);
+                jpeg_destroy_decompress(&_jpeg);
                 _jpegInit = false;
             }
             if (_f)
@@ -159,34 +159,33 @@ namespace djv
         {
 
             bool jpegInit(
-                libjpeg::jpeg_decompress_struct * jpeg,
-                JPEGErrorStruct *                 error)
+                jpeg_decompress_struct * jpeg,
+                JPEGErrorStruct *        error)
             {
                 if (::setjmp(error->jump))
                 {
                     return false;
                 }
-                using libjpeg::jpeg_decompress_struct;
-                libjpeg::jpeg_create_decompress(jpeg);
+                jpeg_create_decompress(jpeg);
                 return true;
             }
 
             bool jpegOpen(
-                FILE *                            f,
-                libjpeg::jpeg_decompress_struct * jpeg,
-                JPEGErrorStruct *                 error)
+                FILE *                   f,
+                jpeg_decompress_struct * jpeg,
+                JPEGErrorStruct *        error)
             {
                 if (::setjmp(error->jump))
                 {
                     return false;
                 }
-                libjpeg::jpeg_stdio_src(jpeg, f);
-                libjpeg::jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
-                if (!libjpeg::jpeg_read_header(jpeg, static_cast<libjpeg::boolean>(1)))
+                jpeg_stdio_src(jpeg, f);
+                jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
+                if (!jpeg_read_header(jpeg, static_cast<boolean>(1)))
                 {
                     return false;
                 }
-                if (!libjpeg::jpeg_start_decompress(jpeg))
+                if (!jpeg_start_decompress(jpeg))
                 {
                     return false;
                 }
@@ -203,7 +202,7 @@ namespace djv
             close();
 
             // Initialize libjpeg.
-            _jpeg.err = libjpeg::jpeg_std_error(&_jpegError.pub);
+            _jpeg.err = jpeg_std_error(&_jpegError.pub);
             _jpegError.pub.error_exit = djvJPEGError;
             _jpegError.pub.emit_message = djvJPEGWarning;
             _jpegError.msg[0] = 0;
@@ -241,7 +240,7 @@ namespace djv
             }
 
             // Image tags.
-            const libjpeg::jpeg_saved_marker_ptr marker = _jpeg.marker_list;
+            const jpeg_saved_marker_ptr marker = _jpeg.marker_list;
             if (marker)
                 info.tags[ImageTags::tagLabels()[ImageTags::DESCRIPTION]] =
                 QString((const char *)marker->data).mid(0, marker->data_length);

@@ -54,6 +54,7 @@ namespace djv
         {
         public:
             explicit FFmpegPlugin(const QPointer<Core::CoreContext> &);
+            ~FFmpegPlugin() override;
 
             void initPlugin() override;
             QString pluginName() const override;

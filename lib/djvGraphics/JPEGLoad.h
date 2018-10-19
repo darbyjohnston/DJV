@@ -52,12 +52,12 @@ namespace djv
         private:
             void _open(const QString &, ImageIOInfo &);
 
-            Core::FileInfo                  _file;
-            FILE *                          _f = nullptr;
-            libjpeg::jpeg_decompress_struct _jpeg;
-            bool                            _jpegInit = false;
-            JPEGErrorStruct                 _jpegError;
-            PixelData                       _tmp;
+            Core::FileInfo         _file;
+            FILE *                 _f = nullptr;
+            jpeg_decompress_struct _jpeg;
+            bool                   _jpegInit = false;
+            JPEGErrorStruct        _jpegError;
+            PixelData              _tmp;
         };
 
     } // namespace Graphics

@@ -34,18 +34,7 @@
 #include <stdio.h>
 #include <setjmp.h>
 
-//! \todo This namespace is meant to resolve conflicts on Windows, is it still
-//! necessary?
-namespace libjpeg
-{
-extern "C"
-{
 #include <jpeglib.h>
-
-} // extern "C"
-} // namespce libjpeg
-
-#undef TRUE
 
 namespace djv
 {
@@ -78,7 +67,7 @@ namespace djv
         //! This struct provides libjpeg error handling.
         struct JPEGErrorStruct
         {
-            struct libjpeg::jpeg_error_mgr pub;
+            struct jpeg_error_mgr pub;
             char msg[JMSG_LENGTH_MAX] = "";
             jmp_buf jump;
         };
@@ -88,7 +77,7 @@ namespace djv
 
 extern "C"
 {
-    void djvJPEGError(libjpeg::j_common_ptr);
-    void djvJPEGWarning(libjpeg::j_common_ptr, int);
+    void djvJPEGError(j_common_ptr);
+    void djvJPEGWarning(j_common_ptr, int);
 
 } // extern "C"

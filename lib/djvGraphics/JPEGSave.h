@@ -53,14 +53,14 @@ namespace djv
         private:
             void _open(const QString &, const ImageIOInfo &);
 
-            JPEG::Options                 _options;
-            Core::FileInfo                _file;
-            FILE *                        _f = nullptr;
-            libjpeg::jpeg_compress_struct _jpeg;
-            bool                          _jpegInit = false;
-            JPEGErrorStruct               _jpegError;
-            PixelDataInfo                 _info;
-            Image                         _image;
+            JPEG::Options        _options;
+            Core::FileInfo       _file;
+            FILE *               _f = nullptr;
+            jpeg_compress_struct _jpeg;
+            bool                 _jpegInit = false;
+            JPEGErrorStruct      _jpegError;
+            PixelDataInfo        _info;
+            Image                _image;
         };
 
     } // namespace Graphics
