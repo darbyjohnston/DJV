@@ -182,6 +182,7 @@ elseif (UNIX)
         
     set(CPACK_DEBIAN_PACKAGE_NAME djv)
     set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
+    set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
     configure_file(
         ${PROJECT_SOURCE_DIR}/etc/Linux/postinst.in
         ${PROJECT_BINARY_DIR}/etc/Linux/postinst
