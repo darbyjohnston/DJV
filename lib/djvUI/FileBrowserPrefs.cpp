@@ -49,7 +49,6 @@ namespace djv
                 context(context)
             {}
 
-            Core::Sequence::COMPRESS sequence = FileBrowserPrefs::sequenceDefault();
             bool showHidden = FileBrowserPrefs::showHiddenDefault();
             FileBrowserModel::COLUMNS columnsSort = FileBrowserPrefs::columnsSortDefault();
             bool reverseSort = FileBrowserPrefs::reverseSortDefault();
@@ -75,7 +74,6 @@ namespace djv
         {
             //DJV_DEBUG("FileBrowserPrefs::FileBrowserPrefs");
             Prefs prefs("djv::UI::FileBrowserPrefs");
-            prefs.get("sequence", _p->sequence);
             prefs.get("showHidden", _p->showHidden);
             prefs.get("columnsSort", _p->columnsSort);
             prefs.get("reverseSort", _p->reverseSort);
@@ -102,7 +100,6 @@ namespace djv
         {
             //DJV_DEBUG("FileBrowserPrefs::~FileBrowserPrefs");
             Prefs prefs("djv::UI::FileBrowserPrefs");
-            prefs.set("sequence", _p->sequence);
             prefs.set("showHidden", _p->showHidden);
             prefs.set("columnsSort", _p->columnsSort);
             prefs.set("reverseSort", _p->reverseSort);
@@ -124,16 +121,6 @@ namespace djv
         const QString & FileBrowserPrefs::pathDefault()
         {
             return _pathDefault;
-        }
-
-        Core::Sequence::COMPRESS FileBrowserPrefs::sequenceDefault()
-        {
-            return Core::Sequence::COMPRESS_RANGE;
-        }
-
-        Core::Sequence::COMPRESS FileBrowserPrefs::sequence() const
-        {
-            return _p->sequence;
         }
 
         bool FileBrowserPrefs::showHiddenDefault()
@@ -306,15 +293,6 @@ namespace djv
         void FileBrowserPrefs::setPathDefault(const QString & in)
         {
             _pathDefault = in;
-        }
-
-        void FileBrowserPrefs::setSequence(Core::Sequence::COMPRESS in)
-        {
-            if (in == _p->sequence)
-                return;
-            _p->sequence = in;
-            Q_EMIT sequenceChanged(_p->sequence);
-            Q_EMIT prefChanged();
         }
 
         void FileBrowserPrefs::setShowHidden(bool show)

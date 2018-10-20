@@ -601,7 +601,7 @@ namespace djv
 
         void FileGroup::openCallback()
         {
-            UI::FileBrowser * fileBrowser = context()->fileBrowser(
+            auto fileBrowser = context()->fileBrowser(
                 qApp->translate("djv::ViewLib::FileGroup", "Open"));
             fileBrowser->setPinnable(true);
             connect(

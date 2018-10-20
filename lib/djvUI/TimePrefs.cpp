@@ -27,57 +27,75 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUI/TimePrefs.h>
 
-#include <djvUI/AbstractPrefsWidget.h>
+#include <djvUI/Prefs.h>
 
-#include <djvCore/Util.h>
+#include <djvCore/Debug.h>
 
-#include <memory>
-
-class QListWidgetItem;
+#include <QApplication>
 
 namespace djv
 {
     namespace UI
     {
-        struct Shortcut;
-
-        //! This class provides a file browser preferences widget.
-        class FileBrowserPrefsWidget : public AbstractPrefsWidget
+        struct TimePrefs::Private
         {
-            Q_OBJECT
-
-        public:
-            explicit FileBrowserPrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
-            ~FileBrowserPrefsWidget() override;
-
-            void resetPreferences() override;
-
-        private Q_SLOTS:
-            void sortCallback(int);
-            void thumbnailModeCallback(int);
-            void thumbnailSizeCallback(int);
-            void thumbnailCacheCallback(int);
-            void bookmarkCallback(QListWidgetItem *);
-            void addBookmarkCallback();
-            void removeBookmarkCallback();
-            void moveBookmarkUpCallback();
-            void moveBookmarkDownCallback();
-            void shortcutsCallback(const QVector<djv::UI::Shortcut> &);
-
-            void styleUpdate();
-            void widgetUpdate();
-
-        protected:
-            bool event(QEvent *) override;
-            
-        private:
-            DJV_PRIVATE_COPY(FileBrowserPrefsWidget);
-
-            struct Private;
-            std::unique_ptr<Private> _p;
         };
+
+        TimePrefs::TimePrefs(QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            //DJV_DEBUG("TimePrefs::TimePrefs");
+            Prefs prefs("djv::UI::TimePrefs", Prefs::SYSTEM);
+            Core::Time::UNITS units = Core::Time::units();
+            if (prefs.get("units", units))
+            {
+                Core::Time::setUnits(units);
+            }
+            Core::Speed::FPS speed = Core::Speed::speed();
+            if (prefs.get("speed", speed))
+            {
+                Core::Speed::setSpeed(speed);
+            }
+        }
+
+        TimePrefs::~TimePrefs()
+        {
+            //DJV_DEBUG("TimePrefs::~TimePrefs");
+            Prefs prefs("djv::UI::TimePrefs", Prefs::SYSTEM);
+            prefs.set("units", Core::Time::units());
+            prefs.set("speed", Core::Speed::speed());
+        }
+
+        Core::Time::UNITS TimePrefs::units() const
+        {
+            return Core::Time::units();
+        }
+
+        Core::Speed::FPS TimePrefs::speed() const
+        {
+            return Core::Speed::speed();
+        }
+
+        void TimePrefs::setUnits(Core::Time::UNITS units)
+        {
+            if (units == Core::Time::units())
+                return;
+            Core::Time::setUnits(units);
+            Q_EMIT unitsChanged(Core::Time::units());
+            Q_EMIT prefChanged();
+        }
+
+        void TimePrefs::setSpeed(Core::Speed::FPS speed)
+        {
+            if (speed == this->speed())
+                return;
+            Core::Speed::setSpeed(speed);
+            Q_EMIT speedChanged(this->speed());
+            Q_EMIT prefChanged();
+        }
 
     } // namespace UI
 } // namespace djv

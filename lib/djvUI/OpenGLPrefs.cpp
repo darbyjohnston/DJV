@@ -27,53 +27,55 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUI/OpenGLPrefs.h>
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvUI/Prefs.h>
+
+#include <djvCore/Debug.h>
+
+#include <QApplication>
 
 namespace djv
 {
-    namespace info
+    namespace UI
     {
-        //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        struct OpenGLPrefs::Private
         {
-            Q_OBJECT
-
-        public:
-            explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
-
-            //! Get the list of inputs.    
-            const QStringList & input() const;
-
-            //! Get whether to show image information.
-            bool hasInfo() const;
-
-            //! Get whether to show verbose information.
-            bool hasVerbose() const;
-
-            //! Get whether to show file paths.
-            bool hasFilePath() const;
-
-            // Get whether to descend into sub-directories.
-            bool hasRecurse() const;
-
-            //! Get the number of columns for formatting the output.
-            int columns() const;
-
-        protected:
-            bool commandLineParse(QStringList &) override;
-            QString commandLineHelp() const override;
-
-        private:
-            QStringList _input;
-            bool        _info     = true;
-            bool        _verbose  = false;
-            bool        _filePath = false;
-            bool        _recurse  = false;
-            int         _columns  = 0;
         };
 
-    } // namespace info
+        OpenGLPrefs::OpenGLPrefs(QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            //DJV_DEBUG("OpenGLPrefs::OpenGLPrefs");
+            Prefs prefs("djv::UI::OpenGLPrefs", Prefs::SYSTEM);
+            Graphics::OpenGLImageFilter filter;
+            if (prefs.get("filter", filter))
+            {
+                Graphics::OpenGLImageFilter::setFilter(filter);
+            }
+        }
+
+        OpenGLPrefs::~OpenGLPrefs()
+        {
+            //DJV_DEBUG("OpenGLPrefs::~OpenGLPrefs");
+            Prefs prefs("djv::UI::OpenGLPrefs", Prefs::SYSTEM);
+            prefs.set("filter", Graphics::OpenGLImageFilter::filter());
+        }
+
+        const Graphics::OpenGLImageFilter & OpenGLPrefs::filter() const
+        {
+            return Graphics::OpenGLImageFilter::filter();
+        }
+
+        void OpenGLPrefs::setFilter(const Graphics::OpenGLImageFilter & filter)
+        {
+            if (filter == this->filter())
+                return;
+            Graphics::OpenGLImageFilter::setFilter(filter);
+            Q_EMIT filterChanged(filter);
+            Q_EMIT prefChanged();
+        }
+
+    } // namespace UI
 } // namespace djv

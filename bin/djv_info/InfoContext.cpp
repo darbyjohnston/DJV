@@ -39,11 +39,6 @@ namespace djv
     {
         Context::Context(int & argc, char ** argv, QObject * parent) :
             Graphics::GraphicsContext(argc, argv, parent),
-            _info(true),
-            _verbose(false),
-            _filePath(false),
-            _sequence(Core::Sequence::COMPRESS_RANGE),
-            _recurse(false),
             _columns(Core::System::terminalWidth())
         {
             //DJV_DEBUG("Context::Context");
@@ -75,11 +70,6 @@ namespace djv
         bool Context::hasFilePath() const
         {
             return _filePath;
-        }
-
-        Core::Sequence::COMPRESS Context::sequence() const
-        {
-            return _sequence;
         }
 
         bool Context::hasRecurse() const
@@ -125,12 +115,6 @@ namespace djv
                         qApp->translate("djv::info::Context", "-fp") == arg)
                     {
                         _filePath = true;
-                    }
-                    else if (
-                        qApp->translate("djv::info::Context", "-seq") == arg ||
-                        qApp->translate("djv::info::Context", "-q") == arg)
-                    {
-                        in >> _sequence;
                     }
                     else if (
                         qApp->translate("djv::info::Context", "-recurse") == arg ||
@@ -206,14 +190,12 @@ namespace djv
                 "        Show verbose image information.\n"
                 "    -file_path, -fp\n"
                 "        Show file path names.\n"
-                "    -seq, -q (value)\n"
-                "        Set file sequencing. Options = %1. Default = %2.\n"
                 "    -recurse, -r\n"
                 "        Descend into sub-directories.\n"
                 "    -columns, -c (value)\n"
                 "        Set the number of columns for formatting output. A value of zero "
                 "disables formatting.\n"
-                "%3"
+                "%1"
                 "\n"
                 "Examples\n"
                 "\n"
@@ -228,11 +210,7 @@ namespace djv
                 "    Display information about all images within a directory:\n"
                 "\n"
                 "    > djv_info ~/pics\n");
-            QStringList sequenceLabel;
-            sequenceLabel << _sequence;
             return QString(label).
-                arg(Core::Sequence::compressLabels().join(", ")).
-                arg(sequenceLabel.join(", ")).
                 arg(Graphics::GraphicsContext::commandLineHelp());
         }
     

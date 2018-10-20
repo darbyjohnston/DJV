@@ -47,14 +47,17 @@ namespace djv
         class FileBrowserCache;
         class FileBrowserPrefs;
         class FileBrowserThumbnailSystem;
+        class HelpPrefs;
         class IconLibrary;
         class ImageIOPrefs;
         class ImageIOWidgetFactory;
         class InfoDialog;
         class MessagesDialog;
-        class MiscPrefs;
+        class OpenGLPrefs;
         class PrefsDialog;
+        class SequencePrefs;
         class StylePrefs;
+        class TimePrefs;
 
         //! This class provides global functionality for the library.
         class UIContext : public Graphics::GraphicsContext
@@ -104,8 +107,17 @@ namespace djv
             //! Get the style preferences.
             QPointer<StylePrefs> stylePrefs() const;
 
-            //! Get the miscellaneous preferences.
-            QPointer<MiscPrefs> miscPrefs() const;
+            //! Get the OpenGL preferences.
+            QPointer<OpenGLPrefs> openGLPrefs() const;
+
+            //! Get the sequence preferences.
+            QPointer<SequencePrefs> sequencePrefs() const;
+
+            //! Get the time preferences.
+            QPointer<TimePrefs> timePrefs() const;
+
+            //! Get the help preferences.
+            QPointer<HelpPrefs> helpPrefs() const;
 
             //! Get the file browser cache.
             FileBrowserCache * fileBrowserCache() const;

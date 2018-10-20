@@ -39,29 +39,26 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a miscellaneous preferences widget.
-        class MiscPrefsWidget : public AbstractPrefsWidget
+        //! This class provides a file sequence preferences widget.
+        class SequencePrefsWidget : public AbstractPrefsWidget
         {
             Q_OBJECT
 
         public:
-            explicit MiscPrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
-            ~MiscPrefsWidget() override;
+            explicit SequencePrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
+            ~SequencePrefsWidget() override;
 
             void resetPreferences() override;
 
         private Q_SLOTS:
-            void timeUnitsCallback(int);
-            void speedCallback(int);
-            void maxFramesCallback(int);
-            void filterMinCallback(int);
-            void filterMagCallback(int);
-            void toolTipsCallback(bool);
+            void compressCallback(int);
+            void autoEnabledCallback(bool);
+            void maxSizeCallback(int);
             
             void widgetUpdate();
 
         private:
-            DJV_PRIVATE_COPY(MiscPrefsWidget);
+            DJV_PRIVATE_COPY(SequencePrefsWidget);
 
             struct Private;
             std::unique_ptr<Private> _p;

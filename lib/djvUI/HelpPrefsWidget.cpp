@@ -27,84 +27,84 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ShortcutPrefsWidget.h>
+#include <djvUI/HelpPrefsWidget.h>
 
-#include <djvViewLib/Context.h>
-#include <djvViewLib/ShortcutPrefs.h>
-
+#include <djvUI/HelpPrefs.h>
 #include <djvUI/PrefsGroupBox.h>
-#include <djvUI/ShortcutsWidget.h>
+#include <djvUI/UIContext.h>
 
+#include <djvCore/Debug.h>
 #include <djvCore/SignalBlocker.h>
 
 #include <QApplication>
+#include <QCheckBox>
 #include <QFormLayout>
+#include <QPointer>
 #include <QVBoxLayout>
 
 namespace djv
 {
-    namespace ViewLib
+    namespace UI
     {
-        struct ShortcutPrefsWidget::Private
+        struct HelpPrefsWidget::Private
         {
-            Private() :
-                shortcutsWidget(0)
-            {}
-
-            UI::ShortcutsWidget * shortcutsWidget;
+            QPointer<QCheckBox> toolTipsWidget;
+            QPointer<QVBoxLayout> layout;
         };
 
-        ShortcutPrefsWidget::ShortcutPrefsWidget(const QPointer<Context> & context) :
-            AbstractPrefsWidget(qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Shortcuts"), context),
+        HelpPrefsWidget::HelpPrefsWidget(const QPointer<UIContext> & context, QWidget * parent) :
+            AbstractPrefsWidget(
+                qApp->translate("djv::UI::HelpPrefsWidget", "Help"), context, parent),
             _p(new Private)
         {
             // Create the widgets.
-            _p->shortcutsWidget = new UI::ShortcutsWidget(context.data());
+            _p->toolTipsWidget = new QCheckBox(
+                qApp->translate("djv::UI::HelpPrefsWidget", "Enable tool tips"));
 
             // Layout the widgets.
-            QVBoxLayout * layout = new QVBoxLayout(this);
+            _p->layout = new QVBoxLayout(this);
 
-            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Keyboard Shortcuts"), context.data());
-            QFormLayout * formLayout = prefsGroupBox->createLayout();
-            formLayout->addRow(_p->shortcutsWidget);
-            layout->addWidget(prefsGroupBox);
+            auto prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::HelpPrefsWidget", "Tool Tips"), context);
+            auto formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(_p->toolTipsWidget);
+            _p->layout->addWidget(prefsGroupBox);
 
-            layout->addStretch();
+            _p->layout->addStretch();
 
             // Initialize.
             widgetUpdate();
 
             // Setup the callbacks.
             connect(
-                _p->shortcutsWidget,
-                SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
-                SLOT(shortcutsCallback(const QVector<djv::UI::Shortcut> &)));
+                _p->toolTipsWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(toolTipsCallback(bool)));
             connect(
-                context->shortcutPrefs(),
+                context->helpPrefs(),
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
         }
 
-        ShortcutPrefsWidget::~ShortcutPrefsWidget()
+        HelpPrefsWidget::~HelpPrefsWidget()
         {}
-
-        void ShortcutPrefsWidget::resetPreferences()
+        
+        void HelpPrefsWidget::resetPreferences()
         {
-            context()->shortcutPrefs()->setShortcuts(ShortcutPrefs::shortcutsDefault());
+            context()->helpPrefs()->setToolTips(HelpPrefs::toolTipsDefault());
         }
 
-        void ShortcutPrefsWidget::shortcutsCallback(const QVector<UI::Shortcut> & in)
+        void HelpPrefsWidget::toolTipsCallback(bool toolTips)
         {
-            context()->shortcutPrefs()->setShortcuts(in);
+            context()->helpPrefs()->setToolTips(toolTips);
         }
 
-        void ShortcutPrefsWidget::widgetUpdate()
+        void HelpPrefsWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
-                _p->shortcutsWidget);
-            _p->shortcutsWidget->setShortcuts(context()->shortcutPrefs()->shortcuts());
+                _p->toolTipsWidget);
+            _p->toolTipsWidget->setChecked(context()->helpPrefs()->hasToolTips());
         }
 
-    } // namespace ViewLib
+    } // namespace UI
 } // namespace djv

@@ -55,9 +55,6 @@ namespace djv
             //! Get whether to show file paths.
             bool hasFilePath() const;
 
-            //! Get the file sequencing.
-            Core::Sequence::COMPRESS sequence() const;
-
             //! Get whether to descend into sub-directories.
             bool hasRecurse() const;
 
@@ -85,16 +82,15 @@ namespace djv
 
         private:
             QStringList              _input;
-            bool                     _fileInfo;
-            bool                     _filePath;
-            Core::Sequence::COMPRESS _sequence;
-            bool                     _recurse;
-            bool                     _hidden;
+            bool                     _fileInfo      = true;
+            bool                     _filePath      = false;
+            bool                     _recurse       = false;
+            bool                     _hidden        = false;
             QStringList              _glob;
-            int                      _columns;
-            Core::FileInfoUtil::SORT _sort;
-            bool                     _reverseSort;
-            bool                     _sortDirsFirst;
+            int                      _columns       = 0;
+            Core::FileInfoUtil::SORT _sort          = Core::FileInfoUtil::SORT_NAME;
+            bool                     _reverseSort   = false;
+            bool                     _sortDirsFirst = true;
         };
 
     } // namespace ls

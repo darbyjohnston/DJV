@@ -162,7 +162,6 @@ namespace djv
             tmp = plugin->option(
                 plugin->options()[Graphics::Cineon::OUTPUT_FILM_PRINT_OPTION]);
             tmp >> _options.outputFilmPrint;
-
             widgetUpdate();
 
             // Setup the callbacks.

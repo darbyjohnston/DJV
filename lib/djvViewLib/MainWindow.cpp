@@ -49,7 +49,7 @@
 #include <djvViewLib/WindowPrefs.h>
 
 #include <djvUI/ColorSwatch.h>
-#include <djvUI/MiscPrefs.h>
+#include <djvUI/OpenGLPrefs.h>
 
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
@@ -288,7 +288,7 @@ namespace djv
                 SIGNAL(cacheChanged()),
                 SLOT(fileCacheUpdate()));
             connect(
-                context->UIContext::miscPrefs(),
+                context->UIContext::openGLPrefs(),
                 SIGNAL(filterChanged(const djv::Graphics::OpenGLImageFilter &)),
                 SLOT(imageUpdate()));
             connect(

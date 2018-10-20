@@ -29,51 +29,39 @@
 
 #pragma once
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvUI/AbstractPrefsWidget.h>
+
+#include <djvCore/Util.h>
+
+#include <memory>
 
 namespace djv
 {
-    namespace info
+    namespace UI
     {
-        //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        //! This class provides a time preferences widget.
+        class TimePrefsWidget : public AbstractPrefsWidget
         {
             Q_OBJECT
 
         public:
-            explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
+            explicit TimePrefsWidget(const QPointer<UIContext> &, QWidget * parent = nullptr);
+            ~TimePrefsWidget() override;
 
-            //! Get the list of inputs.    
-            const QStringList & input() const;
+            void resetPreferences() override;
 
-            //! Get whether to show image information.
-            bool hasInfo() const;
-
-            //! Get whether to show verbose information.
-            bool hasVerbose() const;
-
-            //! Get whether to show file paths.
-            bool hasFilePath() const;
-
-            // Get whether to descend into sub-directories.
-            bool hasRecurse() const;
-
-            //! Get the number of columns for formatting the output.
-            int columns() const;
-
-        protected:
-            bool commandLineParse(QStringList &) override;
-            QString commandLineHelp() const override;
+        private Q_SLOTS:
+            void unitsCallback(int);
+            void speedCallback(int);
+            
+            void widgetUpdate();
 
         private:
-            QStringList _input;
-            bool        _info     = true;
-            bool        _verbose  = false;
-            bool        _filePath = false;
-            bool        _recurse  = false;
-            int         _columns  = 0;
+            DJV_PRIVATE_COPY(TimePrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
-    } // namespace info
+    } // namespace UI
 } // namespace djv

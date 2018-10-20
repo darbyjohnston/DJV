@@ -66,9 +66,6 @@ namespace djv
             //! This signal is emitted when the shortcuts are changed.
             void shortcutsChanged(const QVector<djv::UI::Shortcut> &);
 
-            //! This signal is emitted when a preference is changed.
-            void prefChanged();
-
         private:
             QVector<UI::Shortcut> _shortcuts;
         };

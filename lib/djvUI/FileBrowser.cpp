@@ -38,6 +38,7 @@
 #include <djvUI/Prefs.h>
 #include <djvUI/QuestionDialog.h>
 #include <djvUI/SearchBox.h>
+#include <djvUI/SequencePrefs.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Debug.h>
@@ -327,7 +328,7 @@ namespace djv
 
             // Load the preferences.
             _p->model = new FileBrowserModel(context, this);
-            _p->model->setSequence(context->fileBrowserPrefs()->sequence());
+            _p->model->setSequence(context->sequencePrefs()->compress());
             _p->model->setShowHidden(context->fileBrowserPrefs()->hasShowHidden());
             _p->model->setColumnsSort(context->fileBrowserPrefs()->columnsSort());
             _p->model->setReverseSort(context->fileBrowserPrefs()->hasReverseSort());
@@ -368,10 +369,6 @@ namespace djv
                 _p->model,
                 SIGNAL(optionChanged()),
                 SLOT(menuUpdate()));
-            _p->model->connect(
-                context->fileBrowserPrefs(),
-                SIGNAL(sequenceChanged(djv::Core::Sequence::COMPRESS)),
-                SLOT(setSequence(djv::Core::Sequence::COMPRESS)));
             _p->model->connect(
                 context->fileBrowserPrefs(),
                 SIGNAL(showHiddenChanged(bool)),
@@ -470,6 +467,10 @@ namespace djv
                 context->fileBrowserPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
                 SLOT(toolTipUpdate()));
+            connect(
+                context->sequencePrefs(),
+                SIGNAL(compressChanged(djv::Core::Sequence::COMPRESS)),
+                SLOT(modelUpdate()));
         }
 
         FileBrowser::~FileBrowser()
@@ -480,7 +481,6 @@ namespace djv
             FileBrowserPrefs::setPathDefault(_p->model->path());
 
             // Save the preferences.
-            _p->context->fileBrowserPrefs()->setSequence(_p->model->sequence());
             _p->context->fileBrowserPrefs()->setShowHidden(_p->model->hasShowHidden());
             _p->context->fileBrowserPrefs()->setColumnsSort(_p->model->columnsSort());
             _p->context->fileBrowserPrefs()->setReverseSort(_p->model->hasReverseSort());
@@ -661,13 +661,12 @@ namespace djv
 
         void FileBrowser::seqCallback(QAction * action)
         {
-            _p->model->setSequence(
-                static_cast<Core::Sequence::COMPRESS>(action->data().toInt()));
+            _p->context->sequencePrefs()->setCompress(static_cast<Core::Sequence::COMPRESS>(action->data().toInt()));
         }
 
         void FileBrowser::seqCallback(int in)
         {
-            _p->model->setSequence(static_cast<Core::Sequence::COMPRESS>(in));
+            _p->context->sequencePrefs()->setCompress(static_cast<Core::Sequence::COMPRESS>(in));
         }
 
         void FileBrowser::searchCallback(const QString & text)
@@ -855,6 +854,7 @@ namespace djv
             //DJV_DEBUG("FileBrowser::modelUpdate");
             //DJV_DEBUG_PRINT("path = " << _p->fileInfo.path());
             setCursor(Qt::WaitCursor);
+            _p->model->setSequence(_p->context->sequencePrefs()->compress());
             _p->model->setThumbnailMode(_p->context->fileBrowserPrefs()->thumbnailMode());
             _p->model->setThumbnailSize(_p->context->fileBrowserPrefs()->thumbnailSize());
             _p->model->setPath(_p->fileInfo.path());

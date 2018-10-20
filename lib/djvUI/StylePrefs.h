@@ -165,6 +165,7 @@ namespace djv
             void setFonts(const Fonts &);
 
         Q_SIGNALS:
+            //! This signal is emitted when a preference is changed.
             void prefChanged();
             
         private:

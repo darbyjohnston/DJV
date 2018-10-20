@@ -73,10 +73,6 @@ namespace djv
             //! Set the control + mouse wheel action.
             void setMouseWheelCtrl(djv::ViewLib::Enum::MOUSE_WHEEL);
 
-        Q_SIGNALS:
-            //! This signal is emitted when a preference is changed.
-            void prefChanged();
-
         private:
             Enum::MOUSE_WHEEL _mouseWheel;
             Enum::MOUSE_WHEEL _mouseWheelShift;

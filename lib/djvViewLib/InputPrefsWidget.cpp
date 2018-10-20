@@ -105,6 +105,10 @@ namespace djv
                 _p->mouseWheelCtrlWidget,
                 SIGNAL(activated(int)),
                 SLOT(mouseWheelCtrlCallback(int)));
+            connect(
+                context->inputPrefs(),
+                SIGNAL(prefChanged()),
+                SLOT(widgetUpdate()));
         }
 
         InputPrefsWidget::~InputPrefsWidget()
@@ -115,7 +119,6 @@ namespace djv
             context()->inputPrefs()->setMouseWheel(InputPrefs::mouseWheelDefault());
             context()->inputPrefs()->setMouseWheelShift(InputPrefs::mouseWheelShiftDefault());
             context()->inputPrefs()->setMouseWheelCtrl(InputPrefs::mouseWheelCtrlDefault());
-            widgetUpdate();
         }
 
         void InputPrefsWidget::mouseWheelCallback(int in)

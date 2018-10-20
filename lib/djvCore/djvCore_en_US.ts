@@ -9,26 +9,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="170"/>
-        <source>General
-
-    Version: %1
-    Time units: %2
-    Default speed: %3
-    Maximum sequence size: %4
-
-System
-
-    %5
-    Endian: %6
-    Locale: %7
-    Search path: %8
-    Qt version: %9
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="CoreContext.cpp" line="200"/>
+        <location filename="CoreContext.cpp" line="214"/>
         <source>DJV Imaging, Version: %1
 http://djv.sourceforge.net
 Made in Berkeley, CA, USA
@@ -103,61 +84,103 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="349"/>
+        <location filename="CoreContext.cpp" line="380"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="356"/>
+        <location filename="CoreContext.cpp" line="386"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="363"/>
-        <source>-max_sequence_frames</source>
+        <location filename="CoreContext.cpp" line="374"/>
+        <source>-seq_max_size</source>
+        <oldsource>-seq_max_digits</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="371"/>
+        <location filename="CoreContext.cpp" line="174"/>
+        <source>General
+
+    Version: %1
+
+File Sequences
+
+    Compression: %2
+    Auto sequencing: %3
+    Maximum size: %4
+
+Time
+
+    Units: %5
+    Default speed: %6
+
+System
+
+    %7
+    Endian: %8
+    Locale: %9
+    Search path: %10
+    Qt version: %11
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CoreContext.cpp" line="362"/>
+        <source>-seq_compress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CoreContext.cpp" line="368"/>
+        <source>-seq_auto_enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CoreContext.cpp" line="392"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="385"/>
+        <location filename="CoreContext.cpp" line="404"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="386"/>
+        <location filename="CoreContext.cpp" line="405"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="393"/>
+        <location filename="CoreContext.cpp" line="410"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="400"/>
+        <location filename="CoreContext.cpp" line="415"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="409"/>
+        <location filename="CoreContext.cpp" line="421"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="440"/>
+        <location filename="CoreContext.cpp" line="455"/>
         <source>
 General Options
 
+    -seq_compress (value)
+        Set the file sequence compression. Options = %1. Default = %2.
+    -seq_auto_enabled (value)
+        Set whether auto file sequencing is enabled. Options = %3. Default = %4.
+    -seq_max_size (value)
+        Set the maximum allowed size of file sequences. Default = %5.
     -time_units (value)
-        Set the time units. Options = %1. Default = %2.
+        Set the time units. Options = %6. Default = %7.
     -default_speed (value)
-        Set the default speed. Options = %3. Default = %4.
-    -max_sequence_frames (value)
-        Set the maximum number of frames a sequence can hold. Default = %5.
+        Set the default speed. Options = %8. Default = %9.
     -debug_log
         Print debug log messages.
     -help, -h
@@ -359,17 +382,17 @@ General Options
 <context>
     <name>djv::Core::Sequence</name>
     <message>
-        <location filename="Sequence.cpp" line="48"/>
+        <location filename="Sequence.cpp" line="56"/>
         <source>Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Sequence.cpp" line="49"/>
+        <location filename="Sequence.cpp" line="57"/>
         <source>Sparse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Sequence.cpp" line="50"/>
+        <location filename="Sequence.cpp" line="58"/>
         <source>Range</source>
         <translation type="unfinished"></translation>
     </message>

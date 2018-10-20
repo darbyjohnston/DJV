@@ -94,67 +94,37 @@
 <context>
     <name>djv::info::Context</name>
     <message>
-        <location filename="InfoContext.cpp" line="112"/>
+        <location filename="InfoContext.cpp" line="102"/>
         <source>-x_info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoContext.cpp" line="113"/>
+        <location filename="InfoContext.cpp" line="103"/>
         <source>-xi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoContext.cpp" line="118"/>
+        <location filename="InfoContext.cpp" line="108"/>
         <source>-verbose</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoContext.cpp" line="119"/>
+        <location filename="InfoContext.cpp" line="109"/>
         <source>-v</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoContext.cpp" line="124"/>
+        <location filename="InfoContext.cpp" line="114"/>
         <source>-file_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoContext.cpp" line="125"/>
+        <location filename="InfoContext.cpp" line="115"/>
         <source>-fp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoContext.cpp" line="130"/>
-        <source>-seq</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="InfoContext.cpp" line="131"/>
-        <source>-q</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="InfoContext.cpp" line="136"/>
-        <source>-recurse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="InfoContext.cpp" line="137"/>
-        <source>-r</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="InfoContext.cpp" line="142"/>
-        <source>-columns</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="InfoContext.cpp" line="143"/>
-        <source>-c</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="InfoContext.cpp" line="165"/>
+        <location filename="InfoContext.cpp" line="149"/>
         <source>djv_info
 
     A command line tool for displaying information about images and movies.
@@ -197,13 +167,11 @@ Options
         Show verbose image information.
     -file_path, -fp
         Show file path names.
-    -seq, -q (value)
-        Set file sequencing. Options = %1. Default = %2.
     -recurse, -r
         Descend into sub-directories.
     -columns, -c (value)
         Set the number of columns for formatting output. A value of zero disables formatting.
-%3
+%1
 Examples
 
     Display image information:
@@ -218,6 +186,26 @@ Examples
 
     &gt; djv_info ~/pics
 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InfoContext.cpp" line="120"/>
+        <source>-recurse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InfoContext.cpp" line="121"/>
+        <source>-r</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InfoContext.cpp" line="126"/>
+        <source>-columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InfoContext.cpp" line="127"/>
+        <source>-c</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

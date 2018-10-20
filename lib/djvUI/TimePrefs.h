@@ -29,51 +29,71 @@
 
 #pragma once
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvUI/Core.h>
+
+#include <djvCore/Time.h>
+#include <djvCore/Util.h>
+
+#include <QObject>
+
+#include <memory>
 
 namespace djv
 {
-    namespace info
+    namespace UI
     {
-        //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        //! This class provides time preferences.
+        class TimePrefs : public QObject
         {
             Q_OBJECT
 
+            //! This property holds the time units.
+            Q_PROPERTY(
+                djv::Core::Time::UNITS units
+                READ                   units
+                WRITE                  setUnits
+                NOTIFY                 unitsChanged);
+
+            //! This property holds the speed.
+            Q_PROPERTY(
+                djv::Core::Speed::FPS speed
+                READ                  speed
+                WRITE                 setSpeed
+                NOTIFY                speedChanged);
+
         public:
-            explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
+            explicit TimePrefs(QObject * parent = nullptr);
+            ~TimePrefs();
 
-            //! Get the list of inputs.    
-            const QStringList & input() const;
+            //! Get the time units.
+            Core::Time::UNITS units() const;
 
-            //! Get whether to show image information.
-            bool hasInfo() const;
+            //! Get the speed.
+            Core::Speed::FPS speed() const;
 
-            //! Get whether to show verbose information.
-            bool hasVerbose() const;
+        public Q_SLOTS:
+            //! Set the time units.
+            void setUnits(djv::Core::Time::UNITS);
 
-            //! Get whether to show file paths.
-            bool hasFilePath() const;
+            //! Set the speed.
+            void setSpeed(djv::Core::Speed::FPS);
+            
+        Q_SIGNALS:
+            //! This signal is emitted when the time units are changed.
+            void unitsChanged(djv::Core::Time::UNITS);
 
-            // Get whether to descend into sub-directories.
-            bool hasRecurse() const;
+            //! This signal is emitted when the default speed is changed.
+            void speedChanged(djv::Core::Speed::FPS);
 
-            //! Get the number of columns for formatting the output.
-            int columns() const;
-
-        protected:
-            bool commandLineParse(QStringList &) override;
-            QString commandLineHelp() const override;
-
+            //! This signal is emitted when a preference is changed.
+            void prefChanged();
+            
         private:
-            QStringList _input;
-            bool        _info     = true;
-            bool        _verbose  = false;
-            bool        _filePath = false;
-            bool        _recurse  = false;
-            int         _columns  = 0;
+            DJV_PRIVATE_COPY(TimePrefs);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
-    } // namespace info
+    } // namespace UI
 } // namespace djv

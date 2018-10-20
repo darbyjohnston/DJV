@@ -32,6 +32,8 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
+#include <djvUI/SequencePrefs.h>
+
 #include <djvCore/DebugLog.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfoUtil.h>
@@ -137,7 +139,9 @@ namespace djv
                 {
                     // Parse the input.
                     const Core::FileInfo fileInfo = Core::FileInfoUtil::parse(
-                        input[i], _p->context->commandLineOptions().sequence, _p->context->commandLineOptions().autoSequence);
+                        input[i],
+                        _p->context->sequencePrefs()->compress(),
+                        _p->context->sequencePrefs()->isAutoEnabled());
                     DJV_LOG(_p->context->debugLog(), "djv::view::Application", QString("Input = \"%1\"").arg(fileInfo));
 
                     // Initialize the window.

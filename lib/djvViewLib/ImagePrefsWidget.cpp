@@ -278,7 +278,6 @@ namespace djv
             context()->imagePrefs()->setColorProfile(ImagePrefs::colorProfileDefault());
             context()->imagePrefs()->setDisplayProfileIndex(ImagePrefs::displayProfileIndexDefault());
             context()->imagePrefs()->setChannel(ImagePrefs::channelDefault());
-            widgetUpdate();
         }
 
         bool ImagePrefsWidget::event(QEvent * event)

@@ -68,122 +68,112 @@
 <context>
     <name>djv::convert::Context</name>
     <message>
-        <location filename="ConvertContext.cpp" line="111"/>
+        <location filename="ConvertContext.cpp" line="110"/>
         <source>-mirror_h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="116"/>
+        <location filename="ConvertContext.cpp" line="115"/>
         <source>-mirror_v</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="121"/>
+        <location filename="ConvertContext.cpp" line="120"/>
         <source>-scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="127"/>
+        <location filename="ConvertContext.cpp" line="126"/>
         <source>-scale_separate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="132"/>
+        <location filename="ConvertContext.cpp" line="131"/>
         <source>-resize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="137"/>
+        <location filename="ConvertContext.cpp" line="136"/>
         <source>-width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="142"/>
+        <location filename="ConvertContext.cpp" line="141"/>
         <source>-height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="147"/>
+        <location filename="ConvertContext.cpp" line="146"/>
         <source>-crop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="152"/>
+        <location filename="ConvertContext.cpp" line="151"/>
         <source>-crop_percent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="157"/>
+        <location filename="ConvertContext.cpp" line="156"/>
         <source>-channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="162"/>
-        <source>-seq</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="ConvertContext.cpp" line="163"/>
-        <source>-q</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ConvertContext.cpp" line="170"/>
         <source>-layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="175"/>
+        <location filename="ConvertContext.cpp" line="168"/>
         <source>-proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="180"/>
+        <location filename="ConvertContext.cpp" line="173"/>
         <source>-time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="186"/>
+        <location filename="ConvertContext.cpp" line="179"/>
         <source>-slate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="194"/>
+        <location filename="ConvertContext.cpp" line="187"/>
         <source>-timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="201"/>
+        <location filename="ConvertContext.cpp" line="194"/>
         <source>-pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="208"/>
+        <location filename="ConvertContext.cpp" line="201"/>
         <source>-speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="215"/>
+        <location filename="ConvertContext.cpp" line="208"/>
         <source>-tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="223"/>
+        <location filename="ConvertContext.cpp" line="216"/>
         <source>-tags_auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="248"/>
+        <location filename="ConvertContext.cpp" line="241"/>
         <source>input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="257"/>
+        <location filename="ConvertContext.cpp" line="250"/>
         <source>output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="272"/>
+        <location filename="ConvertContext.cpp" line="265"/>
         <source>djv_convert
 
     A command line tool for batch processing images and movies.Common uses include resizing images and converting sequences of images to a movie.
@@ -226,33 +216,31 @@ Conversion Options
         Crop the image using percentages.
     -channel (value)
         Show only specific image channels. Options = %1. Default = %2.
-    -seq, -q (value)
-        Set whether file sequencing is enabled. Options = %3. Default = %4.
 
 Input Options
 
     -layer (value)
         Set the input layer.
     -proxy (value)
-        Set the proxy scale. Options = %5. Default = %6.
+        Set the proxy scale. Options = %3. Default = %4.
     -time (start) (end)
         Set the start and end time.
     -slate (input) (frames)
         Set the slate.
     -timeout (value)
-        Set the maximum number of seconds to wait for each input frame. Default = %7.
+        Set the maximum number of seconds to wait for each input frame. Default = %5.
 
 Output Options
 
     -pixel (value)
-        Convert the pixel type. Options = %8.
+        Convert the pixel type. Options = %6.
     -speed (value)
-        Set the speed. Options = %9.
+        Set the speed. Options = %7.
     -tag (name) (value)
         Set an image tag.
     -tags_auto (value)
-        Automatically generate image tags (e.g., timecode). Options = %10. Default = %11.
-%12
+        Automatically generate image tags (e.g., timecode). Options = %8. Default = %9.
+%10
 Examples
 
     Convert an image:

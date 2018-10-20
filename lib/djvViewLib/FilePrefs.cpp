@@ -42,7 +42,6 @@ namespace djv
     {
         FilePrefs::FilePrefs(const QPointer<Context> & context, QObject * parent) :
             AbstractPrefs(context, parent),
-            _autoSequence(autoSequenceDefault()),
             _proxy(proxyDefault()),
             _u8Conversion(u8ConversionDefault()),
             _cacheEnabled(cacheEnabledDefault()),
@@ -52,7 +51,6 @@ namespace djv
         {
             UI::Prefs prefs("djv::ViewLib::FilePrefs");
             prefs.get("recent", _recent);
-            prefs.get("autoSequence", _autoSequence);
             prefs.get("proxy", _proxy);
             prefs.get("u8Conversion", _u8Conversion);
             prefs.get("cache", _cacheEnabled);
@@ -67,7 +65,6 @@ namespace djv
         {
             UI::Prefs prefs("djv::ViewLib::FilePrefs");
             prefs.set("recent", _recent);
-            prefs.set("autoSequence", _autoSequence);
             prefs.set("proxy", _proxy);
             prefs.set("u8Conversion", _u8Conversion);
             prefs.set("cache", _cacheEnabled);
@@ -88,16 +85,6 @@ namespace djv
         const Core::FileInfoList & FilePrefs::recentFiles() const
         {
             return _recent;
-        }
-
-        bool FilePrefs::autoSequenceDefault()
-        {
-            return true;
-        }
-
-        bool FilePrefs::hasAutoSequence() const
-        {
-            return _autoSequence;
         }
 
         Graphics::PixelDataInfo::PROXY FilePrefs::proxyDefault()
@@ -158,15 +145,6 @@ namespace djv
         bool FilePrefs::hasDisplayCache() const
         {
             return _displayCache;
-        }
-
-        void FilePrefs::setAutoSequence(bool autoSequence)
-        {
-            if (autoSequence == _autoSequence)
-                return;
-            _autoSequence = autoSequence;
-            Q_EMIT autoSequenceChanged(_autoSequence);
-            Q_EMIT prefChanged();
         }
 
         void FilePrefs::setProxy(Graphics::PixelDataInfo::PROXY proxy)

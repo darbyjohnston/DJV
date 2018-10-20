@@ -95,9 +95,6 @@ namespace djv
             //! This signal is emitted when the playback layout is changed.
             void layoutChanged(djv::ViewLib::Enum::LAYOUT);
 
-            //! This signal is emitted when a preference is changed.
-            void prefChanged();
-
         private:
             bool          _autoStart;
             Enum::LOOP   _loop;

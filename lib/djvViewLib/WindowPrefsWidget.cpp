@@ -145,6 +145,10 @@ namespace djv
                 _p->uiComponentVisibleButtonGroup,
                 SIGNAL(buttonClicked(int)),
                 SLOT(uiComponentVisibleCallback(int)));
+            connect(
+                context->windowPrefs(),
+                SIGNAL(prefChanged()),
+                SLOT(widgetUpdate()));
         }
 
         WindowPrefsWidget::~WindowPrefsWidget()
@@ -157,7 +161,6 @@ namespace djv
             context()->windowPrefs()->setViewMaxUser(WindowPrefs::viewMaxUserDefault());
             context()->windowPrefs()->setFullScreenUI(WindowPrefs::fullScreenUIDefault());
             context()->windowPrefs()->setUIComponentVisible(WindowPrefs::uiComponentVisibleDefault());
-            widgetUpdate();
         }
 
         void WindowPrefsWidget::autoFitCallback(bool in)

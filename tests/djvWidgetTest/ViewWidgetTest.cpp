@@ -31,8 +31,8 @@
 
 #include <djvViewLib/MiscWidget.h>
 
-#include <djvUI/MiscPrefs.h>
 #include <djvUI/IconLibrary.h>
+#include <djvUI/TimePrefs.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
@@ -151,7 +151,7 @@ namespace djv
 
         void ViewWidget::timeUnitsCallback(int index)
         {
-            _context->miscPrefs()->setTimeUnits(static_cast<Core::Time::UNITS>(index));
+            _context->timePrefs()->setUnits(static_cast<Core::Time::UNITS>(index));
         }
 
         void ViewWidget::frameCallback(qint64 frame)
@@ -188,7 +188,7 @@ namespace djv
                 _timeUnitsWidget <<
                 _frameWidget <<
                 _frameSlider);
-            _timeUnitsWidget->setCurrentIndex(_context->miscPrefs()->timeUnits());
+            _timeUnitsWidget->setCurrentIndex(_context->timePrefs()->units());
             _frameWidget->setFrameList(_frameList);
             _frameWidget->setSpeed(_speed);
             _frameSlider->setFrameList(_frameList);

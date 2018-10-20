@@ -42,6 +42,14 @@ namespace djv
 {
     namespace Core
     {
+        namespace
+        {
+            Sequence::COMPRESS _compress = Sequence::COMPRESS_SPARSE;
+            bool _autoEnabled = true;
+            qint64 _maxSize = 50000;
+
+        } // namespace
+
         const QStringList & Sequence::compressLabels()
         {
             static const QStringList data = QStringList() <<
@@ -68,18 +76,11 @@ namespace djv
             setFrames(start, end);
         }
 
-        namespace
-        {
-            // Set the maximum number of frames large enough for a two hour movie.
-            qint64 _maxFrames = Sequence::maxFramesDefault();
-
-        } // namespace
-
         void Sequence::setFrames(qint64 start, qint64 end)
         {
             if (start < end)
             {
-                const qint64 size = Math::min<qint64>(end - start + 1, _maxFrames);
+                const qint64 size = Math::min<qint64>(end - start + 1, _maxSize);
                 frames.resize(size);
                 for (qint64 i = start, j = 0; i <= end && j < size; ++i, ++j)
                 {
@@ -88,7 +89,7 @@ namespace djv
             }
             else
             {
-                const qint64 size = Math::min<qint64>(start - end + 1, _maxFrames);
+                const qint64 size = Math::min<qint64>(start - end + 1, _maxSize);
                 frames.resize(size);
                 for (qint64 i = start, j = 0; i >= end && j < size; --i, ++j)
                 {
@@ -111,19 +112,49 @@ namespace djv
             qSort(frames.begin(), frames.end(), compare);
         }
 
-        qint64 Sequence::maxFramesDefault()
+        Sequence::COMPRESS Sequence::compressDefault()
         {
-            return 4 * 60 * 60 * 24;
+            return COMPRESS_SPARSE;
         }
 
-        qint64 Sequence::maxFrames()
+        Sequence::COMPRESS Sequence::compress()
         {
-            return _maxFrames;
+            return _compress;
         }
 
-        void Sequence::setMaxFrames(qint64 size)
+        void Sequence::setCompress(COMPRESS value)
         {
-            _maxFrames = size;
+            _compress = value;
+        }
+
+        bool Sequence::autoEnabledDefault()
+        {
+            return true;
+        }
+
+        bool Sequence::isAutoEnabled()
+        {
+            return _autoEnabled;
+        }
+
+        void Sequence::setAutoEnabled(bool value)
+        {
+            _autoEnabled = value;
+        }
+
+        qint64 Sequence::maxSizeDefault()
+        {
+            return 50000;
+        }
+
+        qint64 Sequence::maxSize()
+        {
+            return _maxSize;
+        }
+
+        void Sequence::setMaxSize(qint64 size)
+        {
+            _maxSize = size;
         }
 
     } // namespace Core

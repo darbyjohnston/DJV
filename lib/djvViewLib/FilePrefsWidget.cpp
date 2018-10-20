@@ -52,7 +52,6 @@ namespace djv
     {
         struct FilePrefsWidget::Private
         {
-            QPointer<QCheckBox>       autoSequenceWidget;
             QPointer<QComboBox>       proxyWidget;
             QPointer<QCheckBox>       u8ConversionWidget;
             QPointer<QCheckBox>       cacheWidget;
@@ -65,11 +64,6 @@ namespace djv
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::FilePrefsWidget", "Files"), context),
             _p(new Private)
         {
-            // Create the options widgets.
-            _p->autoSequenceWidget = new QCheckBox(
-                qApp->translate("djv::ViewLib::FilePrefsWidget",
-                "Automatically detect file sequences when opening files"));
-
             // Create the proxy scale widgets.
             _p->proxyWidget = new QComboBox;
             _p->proxyWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -95,12 +89,6 @@ namespace djv
             auto layout = new QVBoxLayout(this);
 
             auto prefsGroupBox = new UI::PrefsGroupBox(
-                qApp->translate("djv::ViewLib::FilePrefsWidget", "Files"), context.data());
-            auto formLayout = prefsGroupBox->createLayout();
-            formLayout->addRow(_p->autoSequenceWidget);
-            layout->addWidget(prefsGroupBox);
-
-            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Proxy Scale"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
                     "Use proxy scaling to reduce the resolution when loading images. This "
@@ -108,7 +96,7 @@ namespace djv
                     "image quality. Proxy scaling can also improve playback speed since the "
                     "images are smaller."),
                 context.data());
-            formLayout = prefsGroupBox->createLayout();
+            auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Proxy scale:"),
                 _p->proxyWidget);
@@ -147,10 +135,6 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                _p->autoSequenceWidget,
-                SIGNAL(toggled(bool)),
-                SLOT(autoSequenceCallback(bool)));
-            connect(
                 _p->proxyWidget,
                 SIGNAL(activated(int)),
                 SLOT(proxyCallback(int)));
@@ -174,6 +158,10 @@ namespace djv
                 _p->displayCacheWidget,
                 SIGNAL(toggled(bool)),
                 SLOT(displayCacheCallback(bool)));
+            connect(
+                context->filePrefs(),
+                SIGNAL(prefChanged()),
+                SLOT(widgetUpdate()));
         }
 
         FilePrefsWidget::~FilePrefsWidget()
@@ -181,19 +169,12 @@ namespace djv
 
         void FilePrefsWidget::resetPreferences()
         {
-            context()->filePrefs()->setAutoSequence(FilePrefs::autoSequenceDefault());
             context()->filePrefs()->setProxy(FilePrefs::proxyDefault());
             context()->filePrefs()->setU8Conversion(FilePrefs::u8ConversionDefault());
             context()->filePrefs()->setCacheEnabled(FilePrefs::cacheEnabledDefault());
             context()->filePrefs()->setCacheSizeGB(FilePrefs::cacheSizeGBDefault());
             context()->filePrefs()->setPreload(FilePrefs::preloadDefault());
             context()->filePrefs()->setDisplayCache(FilePrefs::displayCacheDefault());
-            widgetUpdate();
-        }
-
-        void FilePrefsWidget::autoSequenceCallback(bool in)
-        {
-            context()->filePrefs()->setAutoSequence(in);
         }
 
         void FilePrefsWidget::proxyCallback(int in)
@@ -229,14 +210,12 @@ namespace djv
         void FilePrefsWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
-                _p->autoSequenceWidget <<
                 _p->proxyWidget <<
                 _p->u8ConversionWidget <<
                 _p->cacheWidget <<
                 _p->cacheSizeWidget <<
                 _p->preloadWidget <<
                 _p->displayCacheWidget);
-            _p->autoSequenceWidget->setChecked(context()->filePrefs()->hasAutoSequence());
             _p->proxyWidget->setCurrentIndex(context()->filePrefs()->proxy());
             _p->u8ConversionWidget->setChecked(context()->filePrefs()->hasU8Conversion());
             _p->cacheWidget->setChecked(context()->filePrefs()->isCacheEnabled());

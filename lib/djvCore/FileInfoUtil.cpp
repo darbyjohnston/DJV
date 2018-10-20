@@ -871,7 +871,7 @@ namespace djv
             if (sequence && autoSequence)
             {
                 //DJV_DEBUG_PRINT("auto sequence");
-                const FileInfoList items = FileInfoUtil::list(fileInfo.path());
+                const FileInfoList items = FileInfoUtil::list(fileInfo.path(), sequence);
                 for (int i = 0; i < items.count(); ++i)
                 {
                     if (items[i].isSequenceValid() &&

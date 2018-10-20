@@ -94,7 +94,7 @@ namespace djv
             for (int i = 0; i < input.count(); ++i)
             {
                 // Parse the input.
-                Core::FileInfo fileInfo = Core::FileInfoUtil::parse(input[i], _context->sequence());
+                Core::FileInfo fileInfo = Core::FileInfoUtil::parse(input[i], Core::Sequence::compress());
                 //DJV_DEBUG_PRINT("input = " << fileInfo);
                 DJV_LOG(_context->debugLog(), "djv_info", QString("Input = \"%1\"").arg(fileInfo));
 
@@ -103,7 +103,7 @@ namespace djv
                 for (int j = 0; j < tmp.count(); ++j)
                 {
                     fileInfo = Core::FileInfo(tmp[j]);
-                    if (_context->sequence() && fileInfo.isSequenceValid())
+                    if (Core::Sequence::compress() && fileInfo.isSequenceValid())
                     {
                         fileInfo.setType(Core::FileInfo::SEQUENCE);
                     }
@@ -115,7 +115,7 @@ namespace djv
                 QString("Input count = %1").arg(list.count()));
 
             // Compress files into sequences.
-            Core::FileInfoUtil::compressSequence(list, _context->sequence());
+            Core::FileInfoUtil::compressSequence(list, Core::Sequence::compress());
             //DJV_DEBUG_PRINT("list = " << list);
             DJV_LOG(_context->debugLog(), "djv_info",
                 QString("Processed count = %1").arg(list.count()));
@@ -285,7 +285,7 @@ namespace djv
 
             // Read the directory contents.
             Core::FileInfoList items;
-            items = Core::FileInfoUtil::list(in, _context->sequence());
+            items = Core::FileInfoUtil::list(in, Core::Sequence::compress());
 
             // Process the items.
             Core::FileInfoUtil::filter(items, Core::FileInfoUtil::FILTER_DIRECTORIES);
@@ -319,7 +319,7 @@ namespace djv
             // Recurse.
             if (_context->hasRecurse())
             {
-                Core::FileInfoList list = Core::FileInfoUtil::list(in, _context->sequence());
+                Core::FileInfoList list = Core::FileInfoUtil::list(in, Core::Sequence::compress());
                 Core::FileInfoUtil::filter(
                     list,
                     Core::FileInfoUtil::FILTER_FILES | Core::FileInfoUtil::FILTER_HIDDEN);

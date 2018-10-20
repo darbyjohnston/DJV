@@ -39,15 +39,7 @@ namespace djv
     {
         Context::Context(int & argc, char ** argv, QObject * parent) :
             Graphics::GraphicsContext(argc, argv, parent),
-            _fileInfo(true),
-            _filePath(false),
-            _sequence(Core::Sequence::COMPRESS_RANGE),
-            _recurse(false),
-            _hidden(false),
-            _columns(Core::System::terminalWidth()),
-            _sort(Core::FileInfoUtil::SORT_NAME),
-            _reverseSort(false),
-            _sortDirsFirst(true)
+            _columns(Core::System::terminalWidth())
         {
             //DJV_DEBUG("Context::Context");
 
@@ -73,11 +65,6 @@ namespace djv
         bool Context::hasFilePath() const
         {
             return _filePath;
-        }
-
-        Core::Sequence::COMPRESS Context::sequence() const
-        {
-            return _sequence;
         }
 
         bool Context::hasRecurse() const
@@ -143,12 +130,6 @@ namespace djv
                         qApp->translate("djv::ls::Context", "-fp") == arg)
                     {
                         _filePath = true;
-                    }
-                    else if (
-                        qApp->translate("djv::ls::Context", "-seq") == arg ||
-                        qApp->translate("djv::ls::Context", "-q") == arg)
-                    {
-                        in >> _sequence;
                     }
                     else if (
                         qApp->translate("djv::ls::Context", "-recurse") == arg ||
@@ -243,8 +224,6 @@ namespace djv
                 "        Don't show information, only file names.\n"
                 "    -file_path, -fp\n"
                 "        Show file path names.\n"
-                "    -seq, -q (value)\n"
-                "        Set file sequencing. Options = %1. Default = %2.\n"
                 "    -recurse, -r\n"
                 "        Descend into sub-directories.\n"
                 "    -hidden\n"
@@ -256,12 +235,12 @@ namespace djv
                 "Sorting Options\n"
                 "\n"
                 "    -sort, -s (value)\n"
-                "        Set the sorting. Options = %3. Default = %4.\n"
+                "        Set the sorting. Options = %1. Default = %2.\n"
                 "    -reverse_sort, -rs\n"
                 "        Reverse the sorting order.\n"
                 "    -x_sort_dirs, -xsd\n"
                 "        Don't sort directories first.\n"
-                "%5"
+                "%3"
                 "\n"
                 "Examples\n"
                 "\n"
@@ -276,13 +255,9 @@ namespace djv
                 "    Sort by time with the most recent first:\n"
                 "\n"
                 "    > djv_ls -sort time -reverse_sort\n");
-            QStringList sequenceLabel;
-            sequenceLabel << _sequence;
             QStringList sortLabel;
             sortLabel << _sort;
             return QString(label).
-                arg(Core::Sequence::compressLabels().join(", ")).
-                arg(sequenceLabel.join(", ")).
                 arg(Core::FileInfoUtil::sortLabels().join(", ")).
                 arg(sortLabel.join(", ")).
                 arg(Graphics::GraphicsContext::commandLineHelp());

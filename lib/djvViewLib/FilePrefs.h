@@ -56,12 +56,6 @@ namespace djv
             //! Get the recent files.
             const Core::FileInfoList & recentFiles() const;
 
-            //! Get the default for whether sequences are automatically opened.
-            static bool autoSequenceDefault();
-
-            //! Get whether sequences are automatically opened.
-            bool hasAutoSequence() const;
-
             //! Get the default proxy scale.
             static Graphics::PixelDataInfo::PROXY proxyDefault();
 
@@ -99,9 +93,6 @@ namespace djv
             bool hasDisplayCache() const;
 
         public Q_SLOTS:
-            //! Set whether sequences are automatically opened.
-            void setAutoSequence(bool);
-
             //! Set the proxy scale.
             void setProxy(djv::Graphics::PixelDataInfo::PROXY);
 
@@ -124,9 +115,6 @@ namespace djv
             //! This signal is emitted when the recent files are changed.
             void recentChanged(const djv::Core::FileInfoList &);
 
-            //! This signal is emitted when automatic sequences is changed.
-            void autoSequenceChanged(bool);
-
             //! This signal is emitted when the proxy scale is changed.
             void proxyChanged(djv::Graphics::PixelDataInfo::PROXY);
 
@@ -147,7 +135,6 @@ namespace djv
 
         private:
             Core::FileInfoList             _recent;
-            bool                           _autoSequence;
             Graphics::PixelDataInfo::PROXY _proxy;
             bool                           _u8Conversion;
             bool                           _cacheEnabled;

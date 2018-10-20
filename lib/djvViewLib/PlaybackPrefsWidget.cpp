@@ -118,6 +118,10 @@ namespace djv
                 _p->layoutWidget,
                 SIGNAL(activated(int)),
                 SLOT(layoutCallback(int)));
+            connect(
+                context->playbackPrefs(),
+                SIGNAL(prefChanged()),
+                SLOT(widgetUpdate()));
         }
 
         PlaybackPrefsWidget::~PlaybackPrefsWidget()
@@ -129,7 +133,6 @@ namespace djv
             context()->playbackPrefs()->setLoop(PlaybackPrefs::loopDefault());
             context()->playbackPrefs()->setEveryFrame(PlaybackPrefs::everyFrameDefault());
             context()->playbackPrefs()->setLayout(PlaybackPrefs::layoutDefault());
-            widgetUpdate();
         }
 
         void PlaybackPrefsWidget::autoStartCallback(bool in)

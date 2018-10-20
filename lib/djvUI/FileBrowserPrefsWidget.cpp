@@ -71,7 +71,6 @@ namespace djv
 
         struct FileBrowserPrefsWidget::Private
         {
-            QPointer<QComboBox> seqWidget;
             QPointer<QCheckBox> showHiddenWidget;
             QPointer<QComboBox> sortWidget;
             QPointer<QCheckBox> reverseSortWidget;
@@ -95,10 +94,6 @@ namespace djv
             _p(new Private)
         {
             // Create the widgets.
-            _p->seqWidget = new QComboBox;
-            _p->seqWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->seqWidget->addItems(Core::Sequence::compressLabels());
-
             _p->showHiddenWidget = new QCheckBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Show hidden files"));
 
@@ -150,9 +145,6 @@ namespace djv
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Files"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
-            formLayout->addRow(
-                qApp->translate("djv::UI::FileBrowserPrefsWidget", "File sequencing:"),
-                _p->seqWidget);
             formLayout->addRow(_p->showHiddenWidget);
             _p->layout->addWidget(prefsGroupBox);
 
@@ -208,10 +200,6 @@ namespace djv
             widgetUpdate();
 
             // Setup the callbacks.
-            connect(
-                _p->seqWidget,
-                SIGNAL(activated(int)),
-                SLOT(seqCallback(int)));
             connect(
                 _p->showHiddenWidget,
                 SIGNAL(toggled(bool)),
@@ -278,7 +266,6 @@ namespace djv
 
         void FileBrowserPrefsWidget::resetPreferences()
         {
-            context()->fileBrowserPrefs()->setSequence(FileBrowserPrefs::sequenceDefault());
             context()->fileBrowserPrefs()->setShowHidden(FileBrowserPrefs::showHiddenDefault());
             context()->fileBrowserPrefs()->setColumnsSort(FileBrowserPrefs::columnsSortDefault());
             context()->fileBrowserPrefs()->setReverseSort(FileBrowserPrefs::reverseSortDefault());
@@ -287,12 +274,6 @@ namespace djv
             context()->fileBrowserPrefs()->setThumbnailSize(FileBrowserPrefs::thumbnailSizeDefault());
             context()->fileBrowserPrefs()->setThumbnailCache(FileBrowserPrefs::thumbnailCacheDefault());
             context()->fileBrowserPrefs()->setShortcuts(FileBrowserPrefs::shortcutsDefault());
-            widgetUpdate();
-        }
-
-        void FileBrowserPrefsWidget::seqCallback(int index)
-        {
-            context()->fileBrowserPrefs()->setSequence(static_cast<Core::Sequence::COMPRESS>(index));
         }
 
         void FileBrowserPrefsWidget::sortCallback(int index)
@@ -394,7 +375,6 @@ namespace djv
         void FileBrowserPrefsWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
-                _p->seqWidget <<
                 _p->showHiddenWidget <<
                 _p->sortWidget <<
                 _p->reverseSortWidget <<
@@ -404,7 +384,6 @@ namespace djv
                 _p->thumbnailCacheWidget <<
                 _p->bookmarksWidget <<
                 _p->shortcutsWidget);
-            _p->seqWidget->setCurrentIndex(context()->fileBrowserPrefs()->sequence());
             _p->showHiddenWidget->setChecked(context()->fileBrowserPrefs()->hasShowHidden());
             _p->sortWidget->setCurrentIndex(context()->fileBrowserPrefs()->columnsSort());
             _p->reverseSortWidget->setChecked(context()->fileBrowserPrefs()->hasReverseSort());

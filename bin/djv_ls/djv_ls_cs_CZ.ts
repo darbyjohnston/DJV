@@ -33,92 +33,82 @@
 <context>
     <name>djv::ls::Context</name>
     <message>
-        <location filename="LsContext.cpp" line="136"/>
+        <location filename="LsContext.cpp" line="123"/>
         <source>-x_info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="137"/>
+        <location filename="LsContext.cpp" line="124"/>
         <source>-xi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="142"/>
+        <location filename="LsContext.cpp" line="129"/>
         <source>-file_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="143"/>
+        <location filename="LsContext.cpp" line="130"/>
         <source>-fp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="148"/>
-        <source>-seq</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="LsContext.cpp" line="149"/>
-        <source>-q</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="LsContext.cpp" line="154"/>
+        <location filename="LsContext.cpp" line="135"/>
         <source>-recurse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="155"/>
+        <location filename="LsContext.cpp" line="136"/>
         <source>-r</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="160"/>
+        <location filename="LsContext.cpp" line="141"/>
         <source>-hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="165"/>
+        <location filename="LsContext.cpp" line="146"/>
         <source>-columns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="166"/>
+        <location filename="LsContext.cpp" line="147"/>
         <source>-c</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="173"/>
+        <location filename="LsContext.cpp" line="154"/>
         <source>-sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="174"/>
+        <location filename="LsContext.cpp" line="155"/>
         <source>-s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="179"/>
+        <location filename="LsContext.cpp" line="160"/>
         <source>-reverse_sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="180"/>
+        <location filename="LsContext.cpp" line="161"/>
         <source>-rs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="185"/>
+        <location filename="LsContext.cpp" line="166"/>
         <source>-x_sort_dirs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="186"/>
+        <location filename="LsContext.cpp" line="167"/>
         <source>-xsd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsContext.cpp" line="208"/>
+        <location filename="LsContext.cpp" line="189"/>
         <source>djv_ls
 
     A command line tool for listing directories with file sequences.
@@ -155,8 +145,6 @@ Options
         Don&apos;t show information, only file names.
     -file_path, -fp
         Show file path names.
-    -seq, -q (value)
-        Set file sequencing. Options = %1. Default = %2.
     -recurse, -r
         Descend into sub-directories.
     -hidden
@@ -167,12 +155,12 @@ Options
 Sorting Options
 
     -sort, -s (value)
-        Set the sorting. Options = %3. Default = %4.
+        Set the sorting. Options = %1. Default = %2.
     -reverse_sort, -rs
         Reverse the sorting order.
     -x_sort_dirs, -xsd
         Don&apos;t sort directories first.
-%5
+%3
 Examples
 
     List the current directory:

@@ -69,8 +69,6 @@ namespace djv
             {
                 QStringList                                    input;
                 bool                                           combine = false;
-                Core::Sequence::COMPRESS                       sequence = Core::Sequence::COMPRESS_RANGE;
-                bool                                           autoSequence = true;
                 QScopedPointer<int>                            fileLayer;
                 QScopedPointer<Graphics::PixelDataInfo::PROXY> fileProxy;
                 QScopedPointer<bool>                           fileCacheEnable;

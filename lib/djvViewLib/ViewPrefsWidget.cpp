@@ -212,6 +212,10 @@ namespace djv
                 _p->hudBackgroundColorWidget,
                 SIGNAL(colorChanged(const djv::Graphics::Color &)),
                 SLOT(hudBackgroundColorCallback(const djv::Graphics::Color &)));
+            connect(
+                context->viewPrefs(),
+                SIGNAL(prefChanged()),
+                SLOT(widgetUpdate()));
         }
 
         ViewPrefsWidget::~ViewPrefsWidget()
@@ -228,7 +232,6 @@ namespace djv
             context()->viewPrefs()->setHudColor(ViewPrefs::hudColorDefault());
             context()->viewPrefs()->setHudBackground(ViewPrefs::hudBackgroundDefault());
             context()->viewPrefs()->setHudBackgroundColor(ViewPrefs::hudBackgroundColorDefault());
-            widgetUpdate();
         }
 
         void ViewPrefsWidget::zoomFactorCallback(int in)

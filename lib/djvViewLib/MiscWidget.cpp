@@ -34,8 +34,8 @@
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatObject.h>
 #include <djvUI/IconLibrary.h>
-#include <djvUI/MiscPrefs.h>
 #include <djvUI/Prefs.h>
+#include <djvUI/TimePrefs.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
@@ -279,8 +279,8 @@ namespace djv
                 SIGNAL(editingFinished()),
                 SLOT(editingFinishedCallback()));
             connect(
-                context->miscPrefs(),
-                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
+                context->timePrefs(),
+                SIGNAL(unitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
         }
 
@@ -447,8 +447,8 @@ namespace djv
             styleUpdate();
 
             connect(
-                context->miscPrefs(),
-                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
+                context->timePrefs(),
+                SIGNAL(unitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
         }
 
@@ -833,8 +833,8 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                context->miscPrefs(),
-                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
+                context->timePrefs(),
+                SIGNAL(unitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
         }
 

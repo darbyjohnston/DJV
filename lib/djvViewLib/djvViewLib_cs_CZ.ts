@@ -37,57 +37,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="201"/>
-        <source>-seq</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Context.cpp" line="202"/>
-        <source>-q</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Context.cpp" line="207"/>
-        <source>-auto_seq</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Context.cpp" line="214"/>
+        <location filename="Context.cpp" line="203"/>
         <source>-file_layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="221"/>
+        <location filename="Context.cpp" line="210"/>
         <source>-file_proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="228"/>
+        <location filename="Context.cpp" line="217"/>
         <source>-file_cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="237"/>
+        <location filename="Context.cpp" line="226"/>
         <source>-window_full_screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="244"/>
+        <location filename="Context.cpp" line="233"/>
         <source>-playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="251"/>
+        <location filename="Context.cpp" line="240"/>
         <source>-playback_frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="258"/>
+        <location filename="Context.cpp" line="247"/>
         <source>-playback_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Context.cpp" line="281"/>
+        <location filename="Context.cpp" line="270"/>
         <source>djv_view
 
     An application for real-time image sequence and movie playback.
@@ -102,19 +87,15 @@ Options
 
     -combine
         Combine multiple command line arguments into a single sequence.
-    -seq, -q (value)
-        Set command line file sequencing. Options = %1. Default = %2.
-    -auto_seq (value)
-        Automatically detect sequences when opening files. Options = %3. Default = %4.
 
 File Options
 
     -file_layer (value)
         Set the input layer.
     -file_proxy (value)
-        Set the proxy scale. Options = %5.
+        Set the proxy scale. Options = %1.
     -file_cache (value)
-        Set whether the file cache is enabled. Options = %6.
+        Set whether the file cache is enabled. Options = %2.
 
 Window Options
 
@@ -124,12 +105,12 @@ Window Options
 Playback Options
 
     -playback (value)
-        Set the playback. Options = %7.
+        Set the playback. Options = %3.
     -playback_frame (value)
         Set the playback frame.
     -playback_speed (value)
-        Set the playback speed. Options = %8.
-%9</source>
+        Set the playback speed. Options = %4.
+%5</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1344,73 +1325,67 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::ViewLib::FilePrefsWidget</name>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="65"/>
-        <location filename="FilePrefsWidget.cpp" line="98"/>
+        <location filename="FilePrefsWidget.cpp" line="64"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="70"/>
-        <source>Automatically detect file sequences when opening files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="FilePrefsWidget.cpp" line="80"/>
+        <location filename="FilePrefsWidget.cpp" line="74"/>
         <source>Enable 8-bit conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="84"/>
+        <location filename="FilePrefsWidget.cpp" line="78"/>
         <source>Enable the memory cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="89"/>
+        <location filename="FilePrefsWidget.cpp" line="83"/>
         <source>Pre-load cache frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="92"/>
+        <location filename="FilePrefsWidget.cpp" line="86"/>
         <source>Display cached frames in the timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="104"/>
+        <location filename="FilePrefsWidget.cpp" line="92"/>
         <source>Proxy Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="105"/>
+        <location filename="FilePrefsWidget.cpp" line="93"/>
         <source>Use proxy scaling to reduce the resolution when loading images. This allows more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="113"/>
+        <location filename="FilePrefsWidget.cpp" line="101"/>
         <source>Proxy scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="118"/>
+        <location filename="FilePrefsWidget.cpp" line="106"/>
         <source>8-bit Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="119"/>
+        <location filename="FilePrefsWidget.cpp" line="107"/>
         <source>Use 8-bit conversion to allow more images to be stored in the memory cache at the expense of image quality.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="128"/>
+        <location filename="FilePrefsWidget.cpp" line="116"/>
         <source>Memory Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="129"/>
+        <location filename="FilePrefsWidget.cpp" line="117"/>
         <source>The memory cache allows the application to store images in memory which can improve playback performance. When the memory cache is disabled the images are streamed directly from disk.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FilePrefsWidget.cpp" line="137"/>
+        <location filename="FilePrefsWidget.cpp" line="125"/>
         <source>Cache size (gigabytes):</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1683,17 +1658,17 @@ Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="345"/>
+        <location filename="ImagePrefsWidget.cpp" line="344"/>
         <source>Add a new display profile:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="367"/>
+        <location filename="ImagePrefsWidget.cpp" line="366"/>
         <source>Are you sure you want to remove the display profile &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="449"/>
+        <location filename="ImagePrefsWidget.cpp" line="448"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>

@@ -29,51 +29,56 @@
 
 #pragma once
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvUI/Core.h>
+
+#include <djvGraphics/OpenGLImage.h>
+
+#include <djvCore/Util.h>
+
+#include <QObject>
+
+#include <memory>
 
 namespace djv
 {
-    namespace info
+    namespace UI
     {
-        //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        //! This class provides OpenGL preferences.
+        class OpenGLPrefs : public QObject
         {
             Q_OBJECT
 
+            //! This property holds the image filter.
+            Q_PROPERTY(
+                djv::Graphics::OpenGLImageFilter filter
+                READ                             filter
+                WRITE                            setFilter
+                NOTIFY                           filterChanged);
+
         public:
-            explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
+            explicit OpenGLPrefs(QObject * parent = nullptr);
+            ~OpenGLPrefs();
 
-            //! Get the list of inputs.    
-            const QStringList & input() const;
+            //! Get the image filter.
+            const Graphics::OpenGLImageFilter & filter() const;
+            
+        public Q_SLOTS:
+            //! Set the image filter.
+            void setFilter(const djv::Graphics::OpenGLImageFilter &);
+            
+        Q_SIGNALS:
+            //! This signal is emitted when the image filter is changed.
+            void filterChanged(const djv::Graphics::OpenGLImageFilter &);
 
-            //! Get whether to show image information.
-            bool hasInfo() const;
-
-            //! Get whether to show verbose information.
-            bool hasVerbose() const;
-
-            //! Get whether to show file paths.
-            bool hasFilePath() const;
-
-            // Get whether to descend into sub-directories.
-            bool hasRecurse() const;
-
-            //! Get the number of columns for formatting the output.
-            int columns() const;
-
-        protected:
-            bool commandLineParse(QStringList &) override;
-            QString commandLineHelp() const override;
-
+            //! This signal is emitted when a preference is changed.
+            void prefChanged();
+            
         private:
-            QStringList _input;
-            bool        _info     = true;
-            bool        _verbose  = false;
-            bool        _filePath = false;
-            bool        _recurse  = false;
-            int         _columns  = 0;
+            DJV_PRIVATE_COPY(OpenGLPrefs);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
-    } // namespace info
+    } // namespace UI
 } // namespace djv

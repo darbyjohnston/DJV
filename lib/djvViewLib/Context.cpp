@@ -197,17 +197,6 @@ namespace djv
                     {
                         _p->commandLineOptions.combine = true;
                     }
-                    else if (
-                        qApp->translate("djv::ViewLib::Context", "-seq") == arg ||
-                        qApp->translate("djv::ViewLib::Context", "-q") == arg)
-                    {
-                        in >> _p->commandLineOptions.sequence;
-                    }
-                    else if (
-                        qApp->translate("djv::ViewLib::Context", "-auto_seq") == arg)
-                    {
-                        in >> _p->commandLineOptions.autoSequence;
-                    }
 
                     // Parse the file options.
                     else if (
@@ -294,19 +283,15 @@ namespace djv
                 "\n"
                 "    -combine\n"
                 "        Combine multiple command line arguments into a single sequence.\n"
-                "    -seq, -q (value)\n"
-                "        Set command line file sequencing. Options = %1. Default = %2.\n"
-                "    -auto_seq (value)\n"
-                "        Automatically detect sequences when opening files. Options = %3. Default = %4.\n"
                 "\n"
                 "File Options\n"
                 "\n"
                 "    -file_layer (value)\n"
                 "        Set the input layer.\n"
                 "    -file_proxy (value)\n"
-                "        Set the proxy scale. Options = %5.\n"
+                "        Set the proxy scale. Options = %1.\n"
                 "    -file_cache (value)\n"
-                "        Set whether the file cache is enabled. Options = %6.\n"
+                "        Set whether the file cache is enabled. Options = %2.\n"
                 "\n"
                 "Window Options\n"
                 "\n"
@@ -316,21 +301,13 @@ namespace djv
                 "Playback Options\n"
                 "\n"
                 "    -playback (value)\n"
-                "        Set the playback. Options = %7.\n"
+                "        Set the playback. Options = %3.\n"
                 "    -playback_frame (value)\n"
                 "        Set the playback frame.\n"
                 "    -playback_speed (value)\n"
-                "        Set the playback speed. Options = %8.\n"
-                "%9");
-            QStringList sequenceLabel;
-            sequenceLabel << _p->commandLineOptions.sequence;
-            QStringList autoSequenceLabel;
-            autoSequenceLabel << _p->commandLineOptions.autoSequence;
+                "        Set the playback speed. Options = %4.\n"
+                "%5");
             return QString(label).
-                arg(Core::Sequence::compressLabels().join(", ")).
-                arg(sequenceLabel.join(", ")).
-                arg(Core::StringUtil::boolLabels().join(", ")).
-                arg(autoSequenceLabel.join(", ")).
                 arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
                 arg(Core::StringUtil::boolLabels().join(", ")).
                 arg(Enum::playbackLabels().join(", ")).

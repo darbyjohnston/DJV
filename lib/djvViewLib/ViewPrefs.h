@@ -163,9 +163,6 @@ namespace djv
             //! This signal is emitted when the HUD background color is changed.
             void hudBackgroundColorChanged(const djv::Graphics::Color &);
 
-            //! This signal is emitted when a preference is changed.
-            void prefChanged();
-
         private:
             Enum::ZOOM_FACTOR    _zoomFactor;
             Graphics::Color      _background;

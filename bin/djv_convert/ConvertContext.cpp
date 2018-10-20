@@ -40,8 +40,7 @@ namespace djv
     {
         Options::Options() :
             scale(1.0),
-            channel(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0)),
-            sequence(Core::Sequence::COMPRESS_RANGE)
+            channel(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0))
         {}
 
         Input::Input() :
@@ -158,12 +157,6 @@ namespace djv
                     {
                         in >> _options.channel;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-seq") == arg ||
-                        qApp->translate("djv::convert::Context", "-q") == arg)
-                    {
-                        in >> _options.sequence;
-                    }
 
                     // Parse the input options.
                     else if (
@@ -247,7 +240,7 @@ namespace djv
             {
                 throw QString(qApp->translate("djv::convert::Context", "input"));
             }
-            _input.file = Core::FileInfoUtil::parse(args.first(), _options.sequence);
+            _input.file = Core::FileInfoUtil::parse(args.first(), Core::Sequence::compress());
             DJV_LOG(debugLog(), "djv_convert", QString("Input = \"%1\"").arg(_input.file));
             args.pop_front();
 
@@ -256,7 +249,7 @@ namespace djv
             {
                 throw QString(qApp->translate("djv::convert::Context", "output"));
             }
-            _output.file = Core::FileInfoUtil::parse(args.first(), _options.sequence);
+            _output.file = Core::FileInfoUtil::parse(args.first(), Core::Sequence::compress());
             DJV_LOG(debugLog(), "djv_convert", QString("Output = \"%1\"").arg(_output.file));
             args.pop_front();
             if (!args.isEmpty())
@@ -320,35 +313,33 @@ namespace djv
                 "        Crop the image using percentages.\n"
                 "    -channel (value)\n"
                 "        Show only specific image channels. Options = %1. Default = %2.\n"
-                "    -seq, -q (value)\n"
-                "        Set whether file sequencing is enabled. Options = %3. Default = %4.\n"
                 "\n"
                 "Input Options\n"
                 "\n"
                 "    -layer (value)\n"
                 "        Set the input layer.\n"
                 "    -proxy (value)\n"
-                "        Set the proxy scale. Options = %5. Default = %6.\n"
+                "        Set the proxy scale. Options = %3. Default = %4.\n"
                 "    -time (start) (end)\n"
                 "        Set the start and end time.\n"
                 "    -slate (input) (frames)\n"
                 "        Set the slate.\n"
                 "    -timeout (value)\n"
                 "        Set the maximum number of seconds to wait for each input frame. "
-                "Default = %7.\n"
+                "Default = %5.\n"
                 "\n"
                 "Output Options\n"
                 "\n"
                 "    -pixel (value)\n"
-                "        Convert the pixel type. Options = %8.\n"
+                "        Convert the pixel type. Options = %6.\n"
                 "    -speed (value)\n"
-                "        Set the speed. Options = %9.\n"
+                "        Set the speed. Options = %7.\n"
                 "    -tag (name) (value)\n"
                 "        Set an image tag.\n"
                 "    -tags_auto (value)\n"
-                "        Automatically generate image tags (e.g., timecode). Options = %10. "
-                "Default = %11.\n"
-                "%12"
+                "        Automatically generate image tags (e.g., timecode). Options = %8. "
+                "Default = %9.\n"
+                "%10"
                 "\n"
                 "Examples\n"
                 "\n"
@@ -397,8 +388,6 @@ namespace djv
                 "    > djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2\n");
             QStringList channelLabel;
             channelLabel << _options.channel;
-            QStringList sequenceLabel;
-            sequenceLabel << _options.sequence;
             QStringList proxyLabel;
             proxyLabel << _input.proxy;
             QStringList tagsAutoLabel;
@@ -406,8 +395,6 @@ namespace djv
             return QString(label).
                 arg(Graphics::OpenGLImageOptions::channelLabels().join(", ")).
                 arg(channelLabel.join(", ")).
-                arg(Core::Sequence::compressLabels().join(", ")).
-                arg(sequenceLabel.join(", ")).
                 arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
                 arg(proxyLabel.join(", ")).
                 arg(_input.timeout).

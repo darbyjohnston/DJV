@@ -91,14 +91,15 @@ namespace djv
                 DJV_ASSERT((FrameList() << 3 << 2 << 1) == seq.frames);
                 DJV_ASSERT(3 == seq.start());
                 DJV_ASSERT(1 == seq.end());
-                seq.setFrames(0, Sequence::maxFrames() - 1);
+                const qint64 max = Sequence::maxSize();
+                seq.setFrames(0, max - 1);
                 DJV_ASSERT(0 == seq.start());
-                DJV_ASSERT((Sequence::maxFrames() - 1) == seq.end());
-                seq.setFrames(0, Sequence::maxFrames());
+                DJV_ASSERT((max - 1) == seq.end());
+                seq.setFrames(0, max);
                 DJV_ASSERT(0 == seq.start());
-                DJV_ASSERT((Sequence::maxFrames() - 1) == seq.end());
-                seq.setFrames(Sequence::maxFrames(), 0);
-                DJV_ASSERT(Sequence::maxFrames() == seq.start());
+                DJV_ASSERT((max - 1) == seq.end());
+                seq.setFrames(max, 0);
+                DJV_ASSERT(max == seq.start());
                 DJV_ASSERT(1 == seq.end());
             }
             {
@@ -111,15 +112,16 @@ namespace djv
                 DJV_ASSERT((FrameList() << -3 << -2 << -1) == seq.frames);
                 DJV_ASSERT(-3 == seq.start());
                 DJV_ASSERT(-1 == seq.end());
-                seq.setFrames(-(Sequence::maxFrames() - 1), 0);
-                DJV_ASSERT(-(Sequence::maxFrames() - 1) == seq.start());
+                const qint64 max = Sequence::maxSize();
+                seq.setFrames(-(max - 1), 0);
+                DJV_ASSERT(-(max - 1) == seq.start());
                 DJV_ASSERT(0 == seq.end());
-                seq.setFrames(-Sequence::maxFrames(), 0);
-                DJV_ASSERT(-Sequence::maxFrames() == seq.start());
+                seq.setFrames(-max, 0);
+                DJV_ASSERT(-max == seq.start());
                 DJV_ASSERT(-1 == seq.end());
-                seq.setFrames(0, -Sequence::maxFrames());
+                seq.setFrames(0, -max);
                 DJV_ASSERT(0 == seq.start());
-                DJV_ASSERT(-(Sequence::maxFrames() - 1) == seq.end());
+                DJV_ASSERT(-(max - 1) == seq.end());
             }
             {
                 Sequence seq(FrameList() << 2 << 3 << 1);

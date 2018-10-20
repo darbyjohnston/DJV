@@ -36,7 +36,8 @@
 #include <djvViewLib/ViewPrefs.h>
 #include <djvViewLib/WindowPrefs.h>
 
-#include <djvUI/MiscPrefs.h>
+#include <djvUI/SequencePrefs.h>
+#include <djvUI/TimePrefs.h>
 
 #include <djvGraphics/OpenGL.h>
 #include <djvGraphics/Pixel.h>
@@ -127,8 +128,8 @@ namespace djv
                 SIGNAL(hudBackgroundColorChanged(const djv::Graphics::Color &)),
                 SLOT(setHudBackgroundColor(const djv::Graphics::Color &)));
             connect(
-                context->miscPrefs(),
-                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
+                context->timePrefs(),
+                SIGNAL(unitsChanged(djv::Core::Time::UNITS)),
                 SLOT(update()));
         }
 
@@ -430,7 +431,6 @@ namespace djv
             //Q_FOREACH(const QString & format, event->mimeData()->formats())
             //    DJV_DEBUG_PRINT("mime = " << format);
             event->acceptProposedAction();
-            const bool autoSequence = _p->context->filePrefs()->hasAutoSequence();
             //DJV_DEBUG_PRINT("autoSequence = " << autoSequence);
             Core::FileInfo fileInfo;
             if (event->mimeData()->hasFormat("application/x-filebrowser"))
@@ -458,16 +458,16 @@ namespace djv
                 //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");         
                 fileInfo = Core::FileInfoUtil::parse(
                     fileName,
-                    autoSequence ? Core::Sequence::COMPRESS_RANGE : Core::Sequence::COMPRESS_OFF,
-                    autoSequence);
+                    _p->context->sequencePrefs()->compress(),
+                    _p->context->sequencePrefs()->isAutoEnabled());
             }
             else if (event->mimeData()->hasFormat("text/plain"))
             {
                 //DJV_DEBUG_PRINT("text/plain");
                 fileInfo = Core::FileInfoUtil::parse(
                     event->mimeData()->text(),
-                    autoSequence ? Core::Sequence::COMPRESS_RANGE : Core::Sequence::COMPRESS_OFF,
-                    autoSequence);
+                    _p->context->sequencePrefs()->compress(),
+                    _p->context->sequencePrefs()->isAutoEnabled());
             }
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
             Q_EMIT fileDropped(fileInfo);

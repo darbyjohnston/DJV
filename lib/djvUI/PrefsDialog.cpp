@@ -30,10 +30,13 @@
 #include <djvUI/PrefsDialog.h>
 
 #include <djvUI/FileBrowserPrefsWidget.h>
+#include <djvUI/HelpPrefsWidget.h>
 #include <djvUI/ImageIOWidget.h>
-#include <djvUI/MiscPrefsWidget.h>
+#include <djvUI/OpenGLPrefsWidget.h>
 #include <djvUI/QuestionDialog.h>
+#include <djvUI/SequencePrefsWidget.h>
 #include <djvUI/StylePrefsWidget.h>
+#include <djvUI/TimePrefsWidget.h>
 #include <djvUI/UIContext.h>
 
 #include <djvGraphics/ImageIO.h>
@@ -125,7 +128,10 @@ namespace djv
             setWindowTitle(qApp->translate("djv::UI::PrefsDialog", "Preferences"));
             setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
 
-            addWidget(new MiscPrefsWidget(context));
+            addWidget(new HelpPrefsWidget(context));
+            addWidget(new TimePrefsWidget(context));
+            addWidget(new SequencePrefsWidget(context));
+            addWidget(new OpenGLPrefsWidget(context));
             addWidget(new StylePrefsWidget(context));
             addWidget(new FileBrowserPrefsWidget(context));
 

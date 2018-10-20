@@ -51,7 +51,6 @@ namespace djv
             void resetPreferences() override;
 
         private Q_SLOTS:
-            void autoSequenceCallback(bool);
             void proxyCallback(int);
             void u8ConversionCallback(bool);
             void cacheEnabledCallback(bool);

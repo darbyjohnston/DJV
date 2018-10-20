@@ -50,7 +50,6 @@ namespace djv
             glm::ivec2 size = glm::ivec2(0, 0);
             Core::Box2i crop;
             Core::Box2f cropPercent;
-            Core::Sequence::COMPRESS sequence;
         };
 
         //! This struct provides input options.

@@ -262,127 +262,127 @@
 <context>
     <name>djv::UI::FileBrowser</name>
     <message>
-        <location filename="FileBrowser.cpp" line="166"/>
+        <location filename="FileBrowser.cpp" line="167"/>
         <source>&amp;Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="169"/>
+        <location filename="FileBrowser.cpp" line="170"/>
         <source>&amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="172"/>
+        <location filename="FileBrowser.cpp" line="173"/>
         <source>&amp;Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="175"/>
+        <location filename="FileBrowser.cpp" line="176"/>
         <source>&amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="181"/>
+        <location filename="FileBrowser.cpp" line="182"/>
         <source>&amp;Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="184"/>
+        <location filename="FileBrowser.cpp" line="185"/>
         <source>&amp;Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="187"/>
+        <location filename="FileBrowser.cpp" line="188"/>
         <source>&amp;Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="190"/>
+        <location filename="FileBrowser.cpp" line="191"/>
         <source>&amp;Drives</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="196"/>
+        <location filename="FileBrowser.cpp" line="197"/>
         <source>Re&amp;load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="199"/>
+        <location filename="FileBrowser.cpp" line="200"/>
         <source>&amp;Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="202"/>
+        <location filename="FileBrowser.cpp" line="203"/>
         <source>Thu&amp;mbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="207"/>
+        <location filename="FileBrowser.cpp" line="208"/>
         <source>Thumbnail Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="212"/>
+        <location filename="FileBrowser.cpp" line="213"/>
         <source>File Se&amp;quences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="217"/>
+        <location filename="FileBrowser.cpp" line="218"/>
         <source>Show &amp;Hidden Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="225"/>
+        <location filename="FileBrowser.cpp" line="226"/>
         <source>&amp;Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="230"/>
+        <location filename="FileBrowser.cpp" line="231"/>
         <source>&amp;Reverse Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="237"/>
+        <location filename="FileBrowser.cpp" line="238"/>
         <source>Sort &amp;Directories First</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="243"/>
+        <location filename="FileBrowser.cpp" line="244"/>
         <source>&amp;Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="262"/>
+        <location filename="FileBrowser.cpp" line="263"/>
         <source>File sequences:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="279"/>
+        <location filename="FileBrowser.cpp" line="280"/>
         <source>Pin dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="282"/>
+        <location filename="FileBrowser.cpp" line="283"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="285"/>
+        <location filename="FileBrowser.cpp" line="286"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="340"/>
+        <location filename="FileBrowser.cpp" line="341"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="751"/>
+        <location filename="FileBrowser.cpp" line="750"/>
         <source>Choose which bookmarks to delete:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="775"/>
+        <location filename="FileBrowser.cpp" line="774"/>
         <source>Delete all bookmarks?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -498,157 +498,157 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::FileBrowserPrefs</name>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="222"/>
+        <location filename="FileBrowserPrefs.cpp" line="209"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="223"/>
+        <location filename="FileBrowserPrefs.cpp" line="210"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="224"/>
+        <location filename="FileBrowserPrefs.cpp" line="211"/>
         <source>Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="225"/>
+        <location filename="FileBrowserPrefs.cpp" line="212"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="226"/>
+        <location filename="FileBrowserPrefs.cpp" line="213"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="227"/>
+        <location filename="FileBrowserPrefs.cpp" line="214"/>
         <source>Root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="228"/>
+        <location filename="FileBrowserPrefs.cpp" line="215"/>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="229"/>
+        <location filename="FileBrowserPrefs.cpp" line="216"/>
         <source>Sequence Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="230"/>
+        <location filename="FileBrowserPrefs.cpp" line="217"/>
         <source>Sequence Sparse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="231"/>
+        <location filename="FileBrowserPrefs.cpp" line="218"/>
         <source>Sequence Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="232"/>
+        <location filename="FileBrowserPrefs.cpp" line="219"/>
         <source>Show Hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="233"/>
+        <location filename="FileBrowserPrefs.cpp" line="220"/>
         <source>Sort Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="234"/>
+        <location filename="FileBrowserPrefs.cpp" line="221"/>
         <source>Sort Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="236"/>
+        <location filename="FileBrowserPrefs.cpp" line="223"/>
         <source>SortUser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="238"/>
+        <location filename="FileBrowserPrefs.cpp" line="225"/>
         <source>Sort Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="239"/>
+        <location filename="FileBrowserPrefs.cpp" line="226"/>
         <source>Sort Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="240"/>
+        <location filename="FileBrowserPrefs.cpp" line="227"/>
         <source>Reverse Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="241"/>
+        <location filename="FileBrowserPrefs.cpp" line="228"/>
         <source>Sort Dirs First</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="242"/>
+        <location filename="FileBrowserPrefs.cpp" line="229"/>
         <source>Add Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="243"/>
+        <location filename="FileBrowserPrefs.cpp" line="230"/>
         <source>Bookmark 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="244"/>
+        <location filename="FileBrowserPrefs.cpp" line="231"/>
         <source>Bookmark 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="245"/>
+        <location filename="FileBrowserPrefs.cpp" line="232"/>
         <source>Bookmark 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="246"/>
+        <location filename="FileBrowserPrefs.cpp" line="233"/>
         <source>Bookmark 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="247"/>
+        <location filename="FileBrowserPrefs.cpp" line="234"/>
         <source>Bookmark 5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="248"/>
+        <location filename="FileBrowserPrefs.cpp" line="235"/>
         <source>Bookmark 6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="249"/>
+        <location filename="FileBrowserPrefs.cpp" line="236"/>
         <source>Bookmark 7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="250"/>
+        <location filename="FileBrowserPrefs.cpp" line="237"/>
         <source>Bookmark 8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="251"/>
+        <location filename="FileBrowserPrefs.cpp" line="238"/>
         <source>Bookmark 9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="252"/>
+        <location filename="FileBrowserPrefs.cpp" line="239"/>
         <source>Bookmark 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="253"/>
+        <location filename="FileBrowserPrefs.cpp" line="240"/>
         <source>Bookmark 11</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefs.cpp" line="254"/>
+        <location filename="FileBrowserPrefs.cpp" line="241"/>
         <source>Bookmark 12</source>
         <translation type="unfinished"></translation>
     </message>
@@ -656,102 +656,97 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::FileBrowserPrefsWidget</name>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="94"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="93"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="103"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="98"/>
         <source>Show hidden files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="110"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="105"/>
         <source>Reverse the sort direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="113"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="108"/>
         <source>Sort directories first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="131"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="126"/>
         <source>Add a new bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="135"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="130"/>
         <source>Remove the selected bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="139"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="134"/>
         <source>Move the selected bookmark up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="143"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="138"/>
         <source>Move the selected bookmark down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="151"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="146"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="154"/>
-        <source>File sequencing:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="160"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="152"/>
         <source>Sorting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="163"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="155"/>
         <source>Sort by:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="170"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="162"/>
         <source>Thumbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="173"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="165"/>
         <source>Mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="176"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="168"/>
         <source>Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="181"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="173"/>
         <source>(MB)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="183"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="175"/>
         <source>Cache size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="188"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="180"/>
         <source>Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="201"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="193"/>
         <source>Keyboard Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserPrefsWidget.cpp" line="327"/>
+        <location filename="FileBrowserPrefsWidget.cpp" line="308"/>
         <source>Add bookmark:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -774,6 +769,24 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="FloatEditSlider.cpp" line="70"/>
         <source>Reset to the default value</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::HelpPrefsWidget</name>
+    <message>
+        <location filename="HelpPrefsWidget.cpp" line="57"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="HelpPrefsWidget.cpp" line="62"/>
+        <source>Enable tool tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="HelpPrefsWidget.cpp" line="68"/>
+        <source>Tool Tips</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -875,79 +888,6 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="MessagesDialog.cpp" line="96"/>
         <source>Messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djv::UI::MiscPrefsWidget</name>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="67"/>
-        <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="92"/>
-        <source>Enable tool tips</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="98"/>
-        <source>Time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="101"/>
-        <source>Time units:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="106"/>
-        <source>(frames per second)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="108"/>
-        <source>Default speed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="112"/>
-        <source>Max Frames</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="113"/>
-        <source>Set the maximum number of frames allowed in a file sequence. This is used as a safety feature to prevent file sequences from becoming too large.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="119"/>
-        <source>Frames:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="124"/>
-        <source>Scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="125"/>
-        <source>Set the image scaling quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are slower.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="132"/>
-        <source>Scale down:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="135"/>
-        <source>Scale up:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MiscPrefsWidget.cpp" line="140"/>
-        <source>Tool Tips</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1057,6 +997,34 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="OpenEXRWidget.cpp" line="158"/>
         <source>DWA compression level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::OpenGLPrefsWidget</name>
+    <message>
+        <location filename="OpenGLPrefsWidget.cpp" line="63"/>
+        <source>OpenGL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenGLPrefsWidget.cpp" line="79"/>
+        <source>Scaling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenGLPrefsWidget.cpp" line="80"/>
+        <source>Set the image scaling quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are slower.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenGLPrefsWidget.cpp" line="87"/>
+        <source>Scale down:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="OpenGLPrefsWidget.cpp" line="90"/>
+        <source>Scale up:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1185,27 +1153,27 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::PrefsDialog</name>
     <message>
-        <location filename="PrefsDialog.cpp" line="108"/>
+        <location filename="PrefsDialog.cpp" line="111"/>
         <source>Reset Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="112"/>
+        <location filename="PrefsDialog.cpp" line="115"/>
         <source>Reset All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="125"/>
+        <location filename="PrefsDialog.cpp" line="128"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="195"/>
+        <location filename="PrefsDialog.cpp" line="201"/>
         <source>Are you sure you want to reset all of the preferences?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="207"/>
+        <location filename="PrefsDialog.cpp" line="213"/>
         <source>Are you sure you want to reset the preferences for the current page?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1259,6 +1227,44 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="SearchBox.cpp" line="62"/>
         <source>Enter text to search for</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::UI::SequencePrefsWidget</name>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="62"/>
+        <source>File Sequences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="71"/>
+        <source>Enable auto file sequencing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="81"/>
+        <source>Compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="82"/>
+        <source>Set how file sequences are compressed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="89"/>
+        <source>Auto Sequencing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="96"/>
+        <source>Maximum Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="97"/>
+        <source>Set the maximum size allowed for file sequences.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1414,20 +1420,43 @@ Keyboard shortcut: %1</source>
     </message>
 </context>
 <context>
+    <name>djv::UI::TimePrefsWidget</name>
+    <message>
+        <location filename="TimePrefsWidget.cpp" line="61"/>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TimePrefsWidget.cpp" line="77"/>
+        <source>Time Units</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TimePrefsWidget.cpp" line="83"/>
+        <source>Default Speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="TimePrefsWidget.cpp" line="88"/>
+        <source>(frames per second)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>djv::UI::UIContext</name>
     <message>
-        <location filename="UIContext.cpp" line="148"/>
-        <location filename="UIContext.cpp" line="377"/>
+        <location filename="UIContext.cpp" line="154"/>
+        <location filename="UIContext.cpp" line="401"/>
         <source>-reset_prefs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="224"/>
+        <location filename="UIContext.cpp" line="233"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="346"/>
+        <location filename="UIContext.cpp" line="370"/>
         <source>%1
 Image I/O Widgets
 
@@ -1441,7 +1470,7 @@ Preferences
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="397"/>
+        <location filename="UIContext.cpp" line="421"/>
         <source>
 User Interface Options
 

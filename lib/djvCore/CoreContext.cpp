@@ -159,12 +159,16 @@ namespace djv
 
         QString CoreContext::info() const
         {
+            QStringList seqCompressLabel;
+            seqCompressLabel << Sequence::compress();
+            QStringList seqAutoEnabledLabel;
+            seqAutoEnabledLabel << Sequence::isAutoEnabled();
+            QStringList seqMaxSizeLabel;
+            seqMaxSizeLabel << Sequence::maxSize();
             QStringList timeLabel;
             timeLabel << Time::units();
             QStringList speedLabel;
             speedLabel << Speed::speed();
-            QStringList maxFramesLabel;
-            maxFramesLabel << Sequence::maxFrames();
             QStringList endianLabel;
             endianLabel << Memory::endian();
             static const QString label = qApp->translate(
@@ -172,23 +176,33 @@ namespace djv
                 "General\n"
                 "\n"
                 "    Version: %1\n"
-                "    Time units: %2\n"
-                "    Default speed: %3\n"
-                "    Maximum sequence size: %4\n"
+                "\n"
+                "File Sequences\n"
+                "\n"
+                "    Compression: %2\n"
+                "    Auto sequencing: %3\n"
+                "    Maximum size: %4\n"
+                "\n"
+                "Time\n"
+                "\n"
+                "    Units: %5\n"
+                "    Default speed: %6\n"
                 "\n"
                 "System\n"
                 "\n"
-                "    %5\n"
-                "    Endian: %6\n"
-                "    Locale: %7\n"
-                "    Search path: %8\n"
-                "    Qt version: %9\n");
+                "    %7\n"
+                "    Endian: %8\n"
+                "    Locale: %9\n"
+                "    Search path: %10\n"
+                "    Qt version: %11\n");
             return QString(label).
                 arg(DJV_VERSION).
+                arg(System::info()).
+                arg(seqCompressLabel.join(", ")).
+                arg(seqAutoEnabledLabel.join(", ")).
+                arg(seqMaxSizeLabel.join(", ")).
                 arg(timeLabel.join(", ")).
                 arg(speedLabel.join(", ")).
-                arg(maxFramesLabel.join(", ")).
-                arg(System::info()).
                 arg(endianLabel.join(", ")).
                 arg(QLocale::system().name()).
                 arg(StringUtil::addQuotes(System::searchPath()).join(", ")).
@@ -345,74 +359,71 @@ namespace djv
                     in >> arg;
 
                     // General options.
-                    if (
-                        qApp->translate("djv::Core::CoreContext", "-time_units") == arg)
+                    if (qApp->translate("djv::Core::CoreContext", "-seq_compress") == arg)
+                    {
+                        Sequence::COMPRESS value = static_cast<Sequence::COMPRESS>(0);
+                        in >> value;
+                        Sequence::setCompress(value);
+                    }
+                    else if (qApp->translate("djv::Core::CoreContext", "-seq_auto_enabled") == arg)
+                    {
+                        bool value = false;
+                        in >> value;
+                        Sequence::setAutoEnabled(value);
+                    }
+                    else if (qApp->translate("djv::Core::CoreContext", "-seq_max_size") == arg)
+                    {
+                        qint64 value = static_cast<qint64>(0);
+                        in >> value;
+                        Sequence::setMaxSize(value);
+                    }
+                    else if (qApp->translate("djv::Core::CoreContext", "-time_units") == arg)
                     {
                         Time::UNITS value = static_cast<Time::UNITS>(0);
                         in >> value;
                         Time::setUnits(value);
                     }
-                    else if (
-                        qApp->translate("djv::Core::CoreContext", "-default_speed") == arg)
+                    else if (qApp->translate("djv::Core::CoreContext", "-default_speed") == arg)
                     {
                         Speed::FPS value = static_cast<Speed::FPS>(0);
                         in >> value;
                         Speed::setSpeed(value);
                     }
-                    else if (
-                        qApp->translate("djv::Core::CoreContext", "-max_sequence_frames") == arg)
-                    {
-                        qint64 value = static_cast<qint64>(0);
-                        in >> value;
-                        Sequence::setMaxFrames(value);
-                    }
-
-                    else if (
-                        qApp->translate("djv::Core::CoreContext", "-debug_log") == arg)
+                    else if (qApp->translate("djv::Core::CoreContext", "-debug_log") == arg)
                     {
                         Q_FOREACH(const QString & message, debugLog()->messages())
                         {
                             printMessage(message);
                         }
-
                         connect(
                             debugLog(),
                             SIGNAL(message(const QString &)),
                             SLOT(debugLogCallback(const QString &)));
                     }
-
                     else if (
                         qApp->translate("djv::Core::CoreContext", "-help") == arg ||
                         qApp->translate("djv::Core::CoreContext", "-h") == arg)
                     {
                         print("\n" + commandLineHelp());
-
                         return false;
                     }
-                    else if (
-                        qApp->translate("djv::Core::CoreContext", "-info") == arg)
+                    else if (qApp->translate("djv::Core::CoreContext", "-info") == arg)
                     {
                         print("\n" + info());
-
                         return false;
                     }
-                    else if (
-                        qApp->translate("djv::Core::CoreContext", "-about") == arg)
+                    else if (qApp->translate("djv::Core::CoreContext", "-about") == arg)
                     {
                         print("\n" + about());
-
                         return false;
                     }
-
 #if defined(DJV_OSX)
-                    else if (
-                        qApp->translate("djv::Core::CoreContext", "-psn_") == arg.mid(0, 5))
+                    else if (qApp->translate("djv::Core::CoreContext", "-psn_") == arg.mid(0, 5))
                     {
                         //! \todo Ignore the Mac OS process id command line argument.
                         //! Is this still necessary?
                     }
 #endif
-
                     // Leftovers.
                     else
                     {
@@ -431,23 +442,31 @@ namespace djv
 
         QString djv::Core::CoreContext::commandLineHelp() const
         {
-            QStringList timeLabel;
-            timeLabel << Time::units();
+            QStringList seqCompressLabel;
+            seqCompressLabel << Sequence::compress();
+            QStringList seqAutoEnabledLabel;
+            seqAutoEnabledLabel << Sequence::isAutoEnabled();
+            QStringList seqMaxSizeLabel;
+            seqMaxSizeLabel << Sequence::maxSize();
+            QStringList timeUnitsLabel;
+            timeUnitsLabel << Time::units();
             QStringList speedLabel;
             speedLabel << Speed::speed();
-            QStringList maxFramesLabel;
-            maxFramesLabel << Sequence::maxFrames();
             static const QString label = qApp->translate(
                 "djv::Core::CoreContext",
                 "\n"
                 "General Options\n"
                 "\n"
+                "    -seq_compress (value)\n"
+                "        Set the file sequence compression. Options = %1. Default = %2.\n"
+                "    -seq_auto_enabled (value)\n"
+                "        Set whether auto file sequencing is enabled. Options = %3. Default = %4.\n"
+                "    -seq_max_size (value)\n"
+                "        Set the maximum allowed size of file sequences. Default = %5.\n"
                 "    -time_units (value)\n"
-                "        Set the time units. Options = %1. Default = %2.\n"
+                "        Set the time units. Options = %6. Default = %7.\n"
                 "    -default_speed (value)\n"
-                "        Set the default speed. Options = %3. Default = %4.\n"
-                "    -max_sequence_frames (value)\n"
-                "        Set the maximum number of frames a sequence can hold. Default = %5.\n"
+                "        Set the default speed. Options = %8. Default = %9.\n"
                 "    -debug_log\n"
                 "        Print debug log messages.\n"
                 "    -help, -h\n"
@@ -457,11 +476,15 @@ namespace djv
                 "    -about\n"
                 "        Show the about message.\n");
             return QString(label).
+                arg(Sequence::compressLabels().join(", ")).
+                arg(seqCompressLabel.join(", ")).
+                arg(StringUtil::boolLabels().join(", ")).
+                arg(seqAutoEnabledLabel.join(", ")).
+                arg(seqMaxSizeLabel.join(", ")).
                 arg(Time::unitsLabels().join(", ")).
-                arg(timeLabel.join(", ")).
+                arg(timeUnitsLabel.join(", ")).
                 arg(Speed::fpsLabels().join(", ")).
-                arg(speedLabel.join(", ")).
-                arg(maxFramesLabel.join(", "));
+                arg(speedLabel.join(", "));
         }
 
         void CoreContext::consolePrint(const QString & string, bool newline, int indent)

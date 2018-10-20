@@ -45,13 +45,6 @@ namespace djv
         {
             Q_OBJECT
 
-            //! This property holds the file sequencing.    
-            Q_PROPERTY(
-                djv::Core::Sequence::COMPRESS sequence
-                READ                          sequence
-                WRITE                         setSequence
-                NOTIFY                        sequenceChanged)
-
             //! This property holds whether hidden files are shown.
             Q_PROPERTY(
                 bool   showHidden
@@ -127,12 +120,6 @@ namespace djv
 
             //! Get the file system path default.
             static const QString & pathDefault();
-
-            //! Get the file sequencing default.
-            static Core::Sequence::COMPRESS sequenceDefault();
-
-            //! Get the file sequencing.
-            Core::Sequence::COMPRESS sequence() const;
 
             //! Get the hidden files shown default.
             static bool showHiddenDefault();
@@ -236,9 +223,6 @@ namespace djv
             //! Set the file system path default.
             static void setPathDefault(const QString &);
 
-            //! Set the file sequencing.
-            void setSequence(djv::Core::Sequence::COMPRESS);
-
             //! Set whether hidden files are shown.
             void setShowHidden(bool);
 
@@ -279,9 +263,6 @@ namespace djv
             void setShortcuts(const QVector<Shortcut> &);
 
         Q_SIGNALS:
-            //! This signal is emitted when the file sequencing is changed.
-            void sequenceChanged(djv::Core::Sequence::COMPRESS);
-
             //! This signal is emitted when the hidden files are changed.
             void showHiddenChanged(bool);
 

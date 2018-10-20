@@ -29,51 +29,59 @@
 
 #pragma once
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvUI/Core.h>
+
+#include <djvCore/Util.h>
+
+#include <QObject>
+
+#include <memory>
 
 namespace djv
 {
-    namespace info
+    namespace UI
     {
-        //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        //! This class provides help preferences.
+        class HelpPrefs : public QObject
         {
             Q_OBJECT
 
+            //! This property holds whether tool tips are enabled.    
+            Q_PROPERTY(
+                bool   toolTips
+                READ   hasToolTips
+                WRITE  setToolTips
+                NOTIFY toolTipsChanged);
+
         public:
-            explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
+            explicit HelpPrefs(QObject * parent = nullptr);
+            ~HelpPrefs();
+            
+            //! The default for whether tool tips are enabled.    
+            static bool toolTipsDefault();
 
-            //! Get the list of inputs.    
-            const QStringList & input() const;
+            //! Get whether tool tips are enabled.
+            bool hasToolTips() const;
 
-            //! Get whether to show image information.
-            bool hasInfo() const;
+        public Q_SLOTS:            
+            //! Set whether tool tips are enabled.
+            void setToolTips(bool);
 
-            //! Get whether to show verbose information.
-            bool hasVerbose() const;
+        Q_SIGNALS:
+            //! This signal is emitted when the tool tips are changed.
+            void toolTipsChanged(bool);
 
-            //! Get whether to show file paths.
-            bool hasFilePath() const;
-
-            // Get whether to descend into sub-directories.
-            bool hasRecurse() const;
-
-            //! Get the number of columns for formatting the output.
-            int columns() const;
-
-        protected:
-            bool commandLineParse(QStringList &) override;
-            QString commandLineHelp() const override;
+            //! This signal is emitted when a preference is changed.
+            void prefChanged();
 
         private:
-            QStringList _input;
-            bool        _info     = true;
-            bool        _verbose  = false;
-            bool        _filePath = false;
-            bool        _recurse  = false;
-            int         _columns  = 0;
+            DJV_PRIVATE_COPY(HelpPrefs);
+
+            void toolTipsUpdate();
+
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
-    } // namespace info
+    } // namespace UI
 } // namespace djv

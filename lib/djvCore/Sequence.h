@@ -81,14 +81,32 @@ namespace djv
             //! Sort the frame numbers in a sequence.
             void sort();
 
-            //! Get the maximum number of frames default.
-            static qint64 maxFramesDefault();
+            //! Get the default sequence compression.
+            static COMPRESS compressDefault();
 
-            //! Get the maximum number of frames a sequence can hold.
-            static qint64 maxFrames();
+            //! Get the sequence compression.
+            static COMPRESS compress();
 
-            //! Set the maximum number of frames a sequence can hold.
-            static void setMaxFrames(qint64);
+            //! Set the sequence compression.
+            static void setCompress(COMPRESS);
+
+            //! Get the auto sequence default.
+            static bool autoEnabledDefault();
+
+            //! Get whether auto sequencing is enabled.
+            static bool isAutoEnabled();
+
+            //! Set whether auto sequencing is enabled.
+            static void setAutoEnabled(bool);
+
+            //! Get the default maximum sequence size.
+            static qint64 maxSizeDefault();
+
+            //! Get the maximum sequence size.
+            static qint64 maxSize();
+
+            //! Set the maximum sequence size.
+            static void setMaxSize(qint64);
         };
 
     } // namespace Core

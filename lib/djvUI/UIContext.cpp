@@ -37,22 +37,25 @@
 #include <djvUI/FileBrowserCache.h>
 #include <djvUI/FileBrowserPrefs.h>
 #include <djvUI/FileBrowserThumbnailSystem.h>
+#include <djvUI/HelpPrefs.h>
 #include <djvUI/IFFWidget.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/ImageIOPrefs.h>
 #include <djvUI/ImageIOWidget.h>
 #include <djvUI/InfoDialog.h>
 #include <djvUI/LUTWidget.h>
-#include <djvUI/MiscPrefs.h>
 #include <djvUI/MessagesDialog.h>
+#include <djvUI/OpenGLPrefs.h>
 #include <djvUI/PPMWidget.h>
 #include <djvUI/PlaybackUtil.h>
 #include <djvUI/Prefs.h>
 #include <djvUI/PrefsDialog.h>
 #include <djvUI/ProxyStyle.h>
 #include <djvUI/SGIWidget.h>
+#include <djvUI/SequencePrefs.h>
 #include <djvUI/StylePrefs.h>
 #include <djvUI/TargaWidget.h>
+#include <djvUI/TimePrefs.h>
 #if defined(JPEG_FOUND)
 #include <djvUI/JPEGWidget.h>
 #endif // JPEG_FOUND
@@ -99,7 +102,10 @@ namespace djv
             
             struct Prefs
             {
-                QScopedPointer<MiscPrefs>        misc;
+                QScopedPointer<HelpPrefs>        help;
+                QScopedPointer<TimePrefs>        time;
+                QScopedPointer<SequencePrefs>    sequence;
+                QScopedPointer<OpenGLPrefs>      openGL;
                 QScopedPointer<StylePrefs>       style;
                 QScopedPointer<ImageIOPrefs>     imageIO;
                 QScopedPointer<FileBrowserPrefs> fileBrowser;
@@ -154,7 +160,10 @@ namespace djv
 
             // Load preferences.
             DJV_LOG(debugLog(), "djv::UI::UIContext", "Load the preferences...");
-            _p->prefs->misc.reset(new MiscPrefs);
+            _p->prefs->help.reset(new HelpPrefs);
+            _p->prefs->time.reset(new TimePrefs);
+            _p->prefs->sequence.reset(new SequencePrefs);
+            _p->prefs->openGL.reset(new OpenGLPrefs);
             _p->prefs->style.reset(new StylePrefs);
             _p->prefs->imageIO.reset(new ImageIOPrefs(this));
             _p->prefs->fileBrowser.reset(new FileBrowserPrefs(this));
@@ -321,9 +330,24 @@ namespace djv
             return _p->prefs->style.data();
         }
 
-        QPointer<MiscPrefs> UIContext::miscPrefs() const
+        QPointer<OpenGLPrefs> UIContext::openGLPrefs() const
         {
-            return _p->prefs->misc.data();
+            return _p->prefs->openGL.data();
+        }
+
+        QPointer<SequencePrefs> UIContext::sequencePrefs() const
+        {
+            return _p->prefs->sequence.data();
+        }
+
+        QPointer<TimePrefs> UIContext::timePrefs() const
+        {
+            return _p->prefs->time.data();
+        }
+
+        QPointer<HelpPrefs> UIContext::helpPrefs() const
+        {
+            return _p->prefs->help.data();
         }
 
         QPointer<IconLibrary> UIContext::iconLibrary() const
