@@ -48,7 +48,7 @@ namespace djv
 
         FFmpegSave::~FFmpegSave()
         {}
-
+        
         void FFmpegSave::open(const Core::FileInfo & fileInfo, const ImageIOInfo & info)
         {
             //DJV_DEBUG("FFmpegSave::open");
@@ -337,7 +337,7 @@ namespace djv
 
             AVCodecContext * avCodecContext = _avStream->codec;
             FFmpeg::Packet packet;
-            packet().data = 0;
+            packet().data = nullptr;
             packet().size = 0;
             _avFrame->pts = _frame++;
             _avFrame->quality = avCodecContext->global_quality;
@@ -412,32 +412,32 @@ namespace djv
             if (_swsContext)
             {
                 sws_freeContext(_swsContext);
-                _swsContext = 0;
+                _swsContext = nullptr;
             }
             if (_avFrameRgb)
             {
                 av_frame_free(&_avFrameRgb);
-                _avFrameRgb = 0;
+                _avFrameRgb = nullptr;
             }
             if (_avFrameBuf)
             {
                 av_free(_avFrameBuf);
-                _avFrameBuf = 0;
+                _avFrameBuf = nullptr;
             }
             if (_avFrame)
             {
                 av_frame_free(&_avFrame);
-                _avFrame = 0;
+                _avFrame = nullptr;
             }
             if (_avIoContext)
             {
                 avio_close(_avIoContext);
-                _avIoContext = 0;
+                _avIoContext = nullptr;
             }
             if (_avFormatContext)
             {
                 avformat_free_context(_avFormatContext);
-                _avFormatContext = 0;
+                _avFormatContext = nullptr;
             }
             if (error.count())
             {

@@ -38,6 +38,12 @@
 
 #include <QCoreApplication>
 
+extern "C"
+{
+#include <libavutil/imgutils.h>
+
+} // extern "C"
+
 namespace djv
 {
     namespace Graphics
@@ -82,7 +88,7 @@ namespace djv
             // Find the first video stream.
             for (unsigned int i = 0; i < _avFormatContext->nb_streams; ++i)
             {
-                if (_avFormatContext->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
+                if (_avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
                 {
                     _avVideoStream = i;
 
@@ -99,16 +105,24 @@ namespace djv
 
             // Find the codec for the video stream.
             AVStream * avStream = _avFormatContext->streams[_avVideoStream];
-            AVCodecContext * avCodecContext = avStream->codec;
-            AVCodec * avCodec = avcodec_find_decoder(avCodecContext->codec_id);
+            AVCodecParameters * avCodecParameters = avStream->codecpar;
+            AVCodec * avCodec = avcodec_find_decoder(avCodecParameters->codec_id);
             if (!avCodec)
             {
                 throw Core::Error(
                     FFmpeg::staticName,
                     qApp->translate("djv::Graphics::FFmpegLoad", "Cannot find codec"));
             }
+            _avCodecParameters = avcodec_parameters_alloc();
+            r = avcodec_parameters_copy(_avCodecParameters, avCodecParameters);
+            if (r < 0)
+            {
+                throw Core::Error(
+                    FFmpeg::staticName,
+                    FFmpeg::toString(r));
+            }
             _avCodecContext = avcodec_alloc_context3(avCodec);
-            r = avcodec_copy_context(_avCodecContext, avCodecContext);
+            r = avcodec_parameters_to_context(_avCodecContext, _avCodecParameters);
             if (r < 0)
             {
                 throw Core::Error(
@@ -129,11 +143,11 @@ namespace djv
 
             // Initialize the software scaler.
             _swsContext = sws_getContext(
-                _avCodecContext->width,
-                _avCodecContext->height,
-                _avCodecContext->pix_fmt,
-                _avCodecContext->width,
-                _avCodecContext->height,
+                _avCodecParameters->width,
+                _avCodecParameters->height,
+                static_cast<AVPixelFormat>(_avCodecParameters->format),
+                _avCodecParameters->width,
+                _avCodecParameters->height,
                 AV_PIX_FMT_RGBA,
                 SWS_BILINEAR,
                 0,
@@ -142,7 +156,7 @@ namespace djv
 
             // Get file information.
             _info.fileName = in;
-            _info.size = glm::ivec2(_avCodecContext->width, _avCodecContext->height);
+            _info.size = glm::ivec2(_avCodecParameters->width, _avCodecParameters->height);
             _info.pixel = Pixel::RGBA_U8;
             _info.mirror.y = true;
             int64_t duration = 0;
@@ -204,12 +218,14 @@ namespace djv
             image.tags = ImageTags();
             PixelData * data = frame.proxy ? &_tmp : &image;
             data->set(_info);
-            avpicture_fill(
-                (AVPicture *)_avFrameRgb,
+            av_image_fill_arrays(
+                _avFrameRgb->data,
+                _avFrameRgb->linesize,
                 data->data(),
                 AV_PIX_FMT_RGBA,
                 data->w(),
-                data->h());
+                data->h(),
+                1);
 
             int f = frame.frame;
             if (-1 == f)
@@ -248,7 +264,7 @@ namespace djv
                 (uint8_t const * const *)_avFrame->data,
                 _avFrame->linesize,
                 0,
-                _avCodecContext->height,
+                _avCodecParameters->height,
                 _avFrameRgb->data,
                 _avFrameRgb->linesize);
 
@@ -268,28 +284,33 @@ namespace djv
             if (_swsContext)
             {
                 sws_freeContext(_swsContext);
-                _swsContext = 0;
+                _swsContext = nullptr;
             }
             if (_avFrameRgb)
             {
                 av_frame_free(&_avFrameRgb);
-                _avFrameRgb = 0;
+                _avFrameRgb = nullptr;
             }
             if (_avFrame)
             {
                 av_frame_free(&_avFrame);
-                _avFrame = 0;
+                _avFrame = nullptr;
             }
             if (_avCodecContext)
             {
                 avcodec_free_context(&_avCodecContext);
-                _avCodecContext = 0;
+                _avCodecContext = nullptr;
+            }
+            if (_avCodecParameters)
+            {
+                avcodec_parameters_free(&_avCodecParameters);
+                _avCodecParameters = nullptr;
             }
             _avVideoStream = -1;
             if (_avFormatContext)
             {
                 avformat_close_input(&_avFormatContext);
-                _avFormatContext = 0;
+                _avFormatContext = nullptr;
             }
         }
 
@@ -312,22 +333,27 @@ namespace djv
                 //DJV_DEBUG_PRINT("  r = " << FFmpeg::toString(r));
                 if (r < 0)
                 {
-                    packet().data = 0;
+                    packet().data = nullptr;
                     packet().size = 0;
                 }
                 if (_avVideoStream == packet().stream_index)
                 {
-                    if (avcodec_decode_video2(
-                        _avCodecContext,
-                        _avFrame,
-                        &finished,
-                        &packet()) <= 0)
+                    if (&packet())
                     {
-                        break;
+                        r = avcodec_send_packet(_avCodecContext, &packet());
+                        if (r < 0)
+                        {
+                            break;
+                        }
                     }
+                    r = avcodec_receive_frame(_avCodecContext, _avFrame);
+                    if (r < 0 && r != AVERROR(EAGAIN) && r != AVERROR_EOF)
+                        return r;
+                    if (r >= 0)
+                        finished = 1;
                 }
             }
-            pts = _avFrame->pkt_pts;
+            pts = _avFrame->pts;
             //DJV_DEBUG_PRINT("pts = " << static_cast<qint64>(pts));
             pts = av_rescale_q(
                 pts,

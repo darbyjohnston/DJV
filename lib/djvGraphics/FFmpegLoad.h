@@ -59,6 +59,7 @@ namespace djv
             AVFormatContext * _avFormatContext = nullptr;
             int _avVideoStream = -1;
             AVCodecContext * _avCodecContext = nullptr;
+            AVCodecParameters * _avCodecParameters = nullptr;
             AVFrame * _avFrame = nullptr;
             AVFrame * _avFrameRgb = nullptr;
             SwsContext * _swsContext = nullptr;

@@ -481,12 +481,12 @@ DPX Options
 <context>
     <name>djv::Graphics::FFmpegLoad</name>
     <message>
-        <location filename="FFmpegLoad.cpp" line="97"/>
+        <location filename="FFmpegLoad.cpp" line="103"/>
         <source>Cannot find video stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegLoad.cpp" line="108"/>
+        <location filename="FFmpegLoad.cpp" line="114"/>
         <source>Cannot find codec</source>
         <translation type="unfinished"></translation>
     </message>
@@ -494,17 +494,17 @@ DPX Options
 <context>
     <name>djv::Graphics::FFmpegPlugin</name>
     <message>
-        <location filename="FFmpegPlugin.cpp" line="197"/>
+        <location filename="FFmpegPlugin.cpp" line="195"/>
         <source>-ffmpeg_format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegPlugin.cpp" line="201"/>
+        <location filename="FFmpegPlugin.cpp" line="199"/>
         <source>-ffmpeg_quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegPlugin.cpp" line="224"/>
+        <location filename="FFmpegPlugin.cpp" line="222"/>
         <source>
 FFmpeg Options
 

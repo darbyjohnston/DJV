@@ -73,12 +73,10 @@ namespace djv
 
             av_log_set_level(AV_LOG_ERROR);
             av_log_set_callback(avLogCallback);
-            av_register_all();
             /*const AVOutputFormat * avFormat = 0;
             while ((avFormat = av_oformat_next(avFormat)))
             {
-                DJV_DEBUG_PRINT("av format = " << avFormat->name << ", " <<
-                    avFormat->long_name);
+                DJV_DEBUG_PRINT("av format = " << avFormat->name << ", " << avFormat->long_name);
             }*/
             /*const AVCodecDescriptor * avCodec = 0;
             while ((avCodec = avcodec_descriptor_next(avCodec)))

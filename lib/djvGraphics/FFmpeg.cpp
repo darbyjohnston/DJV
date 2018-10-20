@@ -79,7 +79,7 @@ namespace djv
 
         FFmpeg::Packet::~Packet()
         {
-            av_free_packet(&_p);
+            av_packet_unref(&_p);
         }
 
         AVPacket & FFmpeg::Packet::operator () ()
