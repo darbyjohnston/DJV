@@ -146,10 +146,9 @@ elseif (APPLE)
     set(CPACK_BUNDLE_STARTUP_COMMAND ${PROJECT_BINARY_DIR}/startup.sh)
 
 elseif (UNIX)
-
-    set(CPACK_GENERATOR RPM DEB)
         
     set(CPACK_RPM_PACKAGE_NAME djv)
+    set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
     set(CPACK_RPM_PACKAGE_RELOCATABLE true)
     if(djvThirdPartyPackage)
         set(CPACK_RPM_PACKAGE_AUTOREQPROV false)
@@ -181,7 +180,6 @@ elseif (UNIX)
         ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh)
         
     set(CPACK_DEBIAN_PACKAGE_NAME djv)
-    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
     set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
     configure_file(
         ${PROJECT_SOURCE_DIR}/etc/Linux/postinst.in
@@ -204,5 +202,4 @@ set(CPACK_PACKAGE_CONTACT http://djv.sourceforge.net)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Media review software for VFX artists and filmmakers")
 set(CPACK_PACKAGE_EXECUTABLES djv_view djv_view)
 set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE.txt)
-set(CPACK_PACKAGE_FILE_NAME ${djvPackageName})
 
