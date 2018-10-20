@@ -39,6 +39,8 @@ elseif(UNIX)
         add_definitions(-DDJV_LINUX)
         set(CMAKE_C_FLAGS -fPIC)
         set(CMAKE_CXX_FLAGS -fPIC)
+        set(CMAKE_SKIP_BUILD_RPATH FALSE)
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
         # \bug This is hard-coded for CentOS.
         set(CMAKE_INSTALL_RPATH "/usr/lib")
     endif()
