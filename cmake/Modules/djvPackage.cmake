@@ -180,6 +180,7 @@ elseif (UNIX)
         ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh)
         
     set(CPACK_DEBIAN_PACKAGE_NAME djv)
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libgcc1, libgl1")
     set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
     configure_file(
         ${PROJECT_SOURCE_DIR}/etc/Linux/postinst.in
