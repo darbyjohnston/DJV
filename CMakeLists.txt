@@ -60,11 +60,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${djvBuildDir}/bin)
 set(djvBuildArch x64)
 add_definitions(-DDJV_MMAP)
 add_definitions(-DDJV_ASSERT)
-if(WIN32 OR APPLE)
-    set(BUILD_SHARED_LIBS OFF)
-else()
-    set(BUILD_SHARED_LIBS ON)
-endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Set the configuration file.
