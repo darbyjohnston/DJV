@@ -70,13 +70,18 @@
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
-> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DBUILD_SHARED_LIBS=ON
 > make
 </pre>
 <p>On some systems you may need to add a flag to CMake so it can find the
 correct Qt 5 programs:</p>
 <pre>
-> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PROGRAM_PATH=/usr/lib64/qt5/bin
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PROGRAM_PATH=/usr/lib64/qt5/bin \
+    -DBUILD_SHARED_LIBS=ON
 </pre>
 <p>If everything completes OK try running the confidence tests:</p>
 <pre>
@@ -128,7 +133,11 @@ the CMake binary directory to your "$PATH":</p>
 <pre>
 > mkdir djv-git-third-party-Debug
 > cd djv-git-third-party-Debug
-> cmake ../djv-git-third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
+> cmake ../djv-git-third-party \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_FIND_FRAMEWORK="LAST"
 > make
 </pre>
 <p>The build should take around 10 or 20 minutes on a decent workstation. Hopefully
@@ -144,13 +153,17 @@ clone the DJV source code repository:</p>
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
-> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug -DCMAKE_FIND_FRAMEWORK="LAST"
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_FIND_FRAMEWORK="LAST"
 > make
 </pre>
 <p>If everything completes OK add the install path to your "$LD_LIBRARY_PATH"
 and try running the confidence tests:</p>
 <pre>
-> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/install-Debug/lib
+> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/djv-install-Debug/lib
 > make test
 </pre>
 <p>You can also try starting the djv_view application:</p>
@@ -195,7 +208,10 @@ refer to the path of this directory as "$BUILD_DIR".</p>
 <pre>
 > mkdir djv-git-third-party-Debug
 > cd djv-git-third-party-Debug
-> cmake ../djv-git-third-party -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+> cmake ../djv-git-third-party \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
 </pre>
 <p>Open "djv-third-party.sln" in Visual Studio and build the solution. The build should
 take around 10 or 20 minutes on a decent workstation. Hopefully everything completes
@@ -232,7 +248,7 @@ Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
       --cross-prefix=x86_64-w64-mingw32- \
       --target-os=mingw32 \
       --enable-cross-compile \
-      --prefix=$BUILD_DIR/install-Debug/ \
+      --prefix=$BUILD_DIR/djv-install-Debug/ \
       --enable-shared
 > make
 > make install
@@ -246,9 +262,12 @@ clone the DJV source code repository:</p>
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
-> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/install-Debug
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
 </pre>
-<p>Add the install path "$BUILD_DIR/install-Debug/bin" to your path environment variable
+<p>Add the install path "$BUILD_DIR/djv-install-Debug/bin" to your path environment variable
 in the Windows control panel.</p>
 <p>Open "djv.sln" in Visual Studio and build the solution. If everything completes OK try
 running the confidence tests by building the "RUN_TESTS" target. You can also create
@@ -261,4 +280,3 @@ packages for installation by building the "PACKAGE" target.</p>
 
 </body>
 </html>
-
