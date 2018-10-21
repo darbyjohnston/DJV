@@ -303,32 +303,32 @@ General Options
 <context>
     <name>djv::Core::FileInfoUtil</name>
     <message>
-        <location filename="FileInfoUtil.cpp" line="627"/>
+        <location filename="FileInfoUtil.cpp" line="626"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="628"/>
+        <location filename="FileInfoUtil.cpp" line="627"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="629"/>
+        <location filename="FileInfoUtil.cpp" line="628"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="630"/>
+        <location filename="FileInfoUtil.cpp" line="629"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="631"/>
+        <location filename="FileInfoUtil.cpp" line="630"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="632"/>
+        <location filename="FileInfoUtil.cpp" line="631"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>

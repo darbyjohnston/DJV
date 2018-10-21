@@ -197,7 +197,7 @@ namespace djv
 #ifdef _MSC_VER
             return std::wstring((const wchar_t*)value.utf16());
 #else
-            return str.toStdWString();
+            return value.toStdWString();
 #endif
         }
 
@@ -206,7 +206,7 @@ namespace djv
 #ifdef _MSC_VER
             return QString::fromUtf16((const ushort*)value.c_str());
 #else
-            return QString::fromStdWString(str);
+            return QString::fromStdWString(value);
 #endif
         }
 

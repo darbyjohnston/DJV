@@ -106,7 +106,7 @@ namespace djv
 #if defined(DJV_WINDOWS)
                     _p = ::LoadLibraryW(StringUtil::qToStdWString(in).data());
 #else // DJV_WINDOWS
-                    _p = ::dlopen(in.toLatin1().data(), RTLD_LAZY);
+                    _p = ::dlopen(in.toUtf8().data(), RTLD_LAZY);
 #endif // DJV_WINDOWS
                     if (!_p)
                     {
@@ -125,7 +125,7 @@ namespace djv
 #if defined(DJV_WINDOWS)
                     return (void *)::GetProcAddress(_p, in.toLatin1().data());
 #else // DJV_WINDOWS
-                    return ::dlsym(_p, in.toLatin1().data());
+                    return ::dlsym(_p, in.toUtf8().data());
 #endif // DJV_WINDOWS
                 }
 

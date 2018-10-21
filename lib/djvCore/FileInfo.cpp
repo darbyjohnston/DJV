@@ -234,18 +234,6 @@ namespace djv
             _time = in;
         }
 
-#if defined(DJV_WINDOWS)
-#define _STAT struct ::_stati64
-#define _STAT_FNC    ::_wstati64
-#elif (defined(DJV_FREEBSD) || defined(DJV_OSX))
-        //! \todo OS X doesn't have stat64?
-#define _STAT struct ::stat
-#define _STAT_FNC    ::stat
-#else
-#define _STAT struct ::stat64
-#define _STAT_FNC    ::stat64
-#endif // DJV_WINDOWS
-
         bool FileInfo::stat(const QString & path)
         {
             //DJV_DEBUG("FileInfo::stat");
@@ -262,19 +250,34 @@ namespace djv
                 FileInfoUtil::fixPath(path.length() ? path : _path) +
                 this->fileName(-1, false);
             //DJV_DEBUG_PRINT("fileName = " << fileName);
-            _STAT info;
-            Memory::fill<quint8>(0, &info, sizeof(_STAT));
-            if (_STAT_FNC(StringUtil::qToStdWString(fileName).data(), &info) != 0)
+#if defined(DJV_WINDOWS)
+            struct ::_stati64 info;
+            Memory::fill<quint8>(0, &info, sizeof(struct ::_stati64));
+            if (::_wstati64(StringUtil::qToStdWString(fileName).data(), &info) != 0)
             {
                 QString err;
-#if defined(DJV_WINDOWS)
                 char tmp[StringUtil::cStringLength] = "";
                 ::strerror_s(tmp, StringUtil::cStringLength, errno);
                 err = tmp;
-#endif // DJV_WINDOWS
-                //DJV_DEBUG_PRINT("errno = " << err);
+                //DJV_DEBUG_PRINT("error = " << err);
                 return false;
             }
+#elif (defined(DJV_FREEBSD) || defined(DJV_OSX))
+            //! \todo OS X doesn't have stat64?
+            struct ::stat info;
+            Memory::fill<quint8>(0, &info, sizeof(struct ::stat));
+            if (::stat(fileName.toUtf8().data(), &info) != 0)
+            {
+                return false;
+            }
+#else
+            struct ::stat64 info;
+            Memory::fill<quint8>(0, &info, sizeof(struct ::stat64));
+            if (::stat64(fileName.toUtf8().data(), &info) != 0)
+            {
+                return false;
+            }
+#endif // DJV_WINDOWS
 
             _exists = true;
             _size = info.st_size;

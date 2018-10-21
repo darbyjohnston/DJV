@@ -303,7 +303,7 @@ namespace djv
                    unsigned char  d_type;
                    char           d_name[];
                 };
-                int fd = open(path.toLatin1().data(), O_RDONLY | O_DIRECTORY);
+                int fd = ::open(path.toUtf8().data(), O_RDONLY | O_DIRECTORY);
                 if (fd != -1)
                 {
                     std::vector<quint8> buf(Memory::megabyte);
@@ -364,23 +364,22 @@ namespace djv
             */
 #else // DJV_WINDOWS
 
-            DIR * dir = opendir(path.toLatin1().data());
+            DIR * dir = ::opendir(path.toUtf8().data());
             if (dir)
             {
                 struct dirent * de = 0;
-                while ((de = readdir(dir)) != 0)
+                while ((de = ::readdir(dir)) != 0)
                 {
-                    const char * p = de->d_name;
-                    const int l = strlen(p);
-                    if (!isDotDir(p, l))
+                    QString fileName = QString::fromUtf8(de->d_name);
+                    if (!isDotDir(fileName))
                     {
                         if (!out.count())
                         {
-                            out.append(FileInfo(fixedPath + QString(p)));
+                            out.append(FileInfo(fixedPath + fileName));
                         }
                         else
                         {
-                            const FileInfo tmp(fixedPath + QString(p));
+                            const FileInfo tmp(fixedPath + fileName);
                             int i = 0;
                             if (compress && cache)
                             {

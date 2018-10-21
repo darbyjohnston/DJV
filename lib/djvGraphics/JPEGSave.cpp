@@ -236,7 +236,7 @@ namespace djv
 #if defined(DJV_WINDOWS)
             ::_wfopen_s(&_f, Core::StringUtil::qToStdWString(in).data(), L"wb");
 #else // DJV_WINDOWS
-            _f = ::fopen(in.toLatin1().data(), "wb");
+            _f = ::fopen(in.toUtf8().data(), "wb");
 #endif // DJV_WINDOWS
             if (!_f)
             {

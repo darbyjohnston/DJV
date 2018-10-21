@@ -229,7 +229,7 @@ namespace djv
 #if defined(DJV_WINDOWS)
             ::_wfopen_s(&_f, Core::StringUtil::qToStdWString(in).data(), L"wb");
 #else
-            _f = ::fopen(in.toLatin1().data(), "wb");
+            _f = ::fopen(in.toUtf8().data(), "wb");
 #endif
             if (!_f)
             {

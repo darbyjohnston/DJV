@@ -127,7 +127,11 @@ namespace djv
             close();
 
             // Open the file.
+#if defined(DJV_WINDOWS)
             _f = TIFFOpenW(Core::StringUtil::qToStdWString(in).data(), "r");
+#else
+            _f = TIFFOpen(in.toUtf8().data(), "r");
+#endif // DJV_WINDOWS
             if (!_f)
             {
                 throw Core::Error(

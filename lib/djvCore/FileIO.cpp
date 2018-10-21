@@ -137,7 +137,7 @@ namespace djv
             //readFlag = O_DIRECT;
 #endif // DJV_LINUX
             _p->f = ::open(
-                fileName.toLatin1().data(),
+                fileName.toUtf8().data(),
                 (WRITE == mode) ?
                 (O_WRONLY | O_CREAT | O_TRUNC) : (O_RDONLY | readFlag),
                 (WRITE == mode) ?
