@@ -33,6 +33,7 @@
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
+#include <djvCore/StringUtil.h>
 
 namespace djv
 {
@@ -205,7 +206,7 @@ namespace djv
                     jpeg_write_marker(
                         jpeg,
                         JPEG_COM,
-                        (JOCTET *)tag.toLatin1().data(),
+                        (JOCTET *)Core::StringUtil::qToStdWString(tag).data(),
                         static_cast<uint>(tag.length()));
                 }
                 return true;
@@ -233,7 +234,7 @@ namespace djv
 
             // Open the file.
 #if defined(DJV_WINDOWS)
-            ::fopen_s(&_f, in.toLatin1().data(), "wb");
+            ::_wfopen_s(&_f, Core::StringUtil::qToStdWString(in).data(), L"wb");
 #else // DJV_WINDOWS
             _f = ::fopen(in.toLatin1().data(), "wb");
 #endif // DJV_WINDOWS

@@ -141,7 +141,7 @@ namespace djv
                         const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
                         //DJV_DEBUG_PRINT("sampling = " << sampling);
                         frameBuffer.insert(
-                            channel.toLatin1().data(),
+                            channel.toUtf8().data(),
                             Imf::Slice(
                                 OpenEXR::pixelTypeToImf(Pixel::type(data->pixel())),
                                 (char *)data->data() + (c * byteCount),
@@ -167,7 +167,7 @@ namespace djv
                         const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
                         //DJV_DEBUG_PRINT("sampling = " << sampling);
                         frameBuffer.insert(
-                            channel.toLatin1().data(),
+                            channel.toUtf8().data(),
                             Imf::Slice(
                                 OpenEXR::pixelTypeToImf(Pixel::type(data->pixel())),
                                 buf.data() - (_dataWindow.x * cb) + (c * byteCount),
@@ -239,7 +239,7 @@ namespace djv
             try
             {
                 // Open the file.
-                _f = new Imf::InputFile(in.toLatin1().data());
+                _f = new Imf::InputFile(in.toUtf8().data());
 
                 // Get the display and data windows.
                 _displayWindow = OpenEXR::imfToBox(_f->header().displayWindow());

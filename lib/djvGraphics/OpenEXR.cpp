@@ -530,17 +530,17 @@ namespace djv
             QString tmp = in.tags[tags[ImageTags::CREATOR]];
             if (tmp.length())
             {
-                addOwner(out, tmp.toLatin1().data());
+                addOwner(out, tmp.toUtf8().data());
             }
             tmp = in.tags[tags[ImageTags::DESCRIPTION]];
             if (tmp.length())
             {
-                addComments(out, tmp.toLatin1().data());
+                addComments(out, tmp.toUtf8().data());
             }
             tmp = in.tags[tags[ImageTags::TIME]];
             if (tmp.length())
             {
-                addCapDate(out, tmp.toLatin1().data());
+                addCapDate(out, tmp.toUtf8().data());
             }
             tmp = in.tags[tags[ImageTags::UTC_OFFSET]];
             if (tmp.length())

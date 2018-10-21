@@ -127,7 +127,7 @@ namespace djv
             close();
 
             // Open the file.
-            _f = TIFFOpen(in.toLatin1().data(), "r");
+            _f = TIFFOpenW(Core::StringUtil::qToStdWString(in).data(), "r");
             if (!_f)
             {
                 throw Core::Error(

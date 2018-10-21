@@ -147,7 +147,7 @@ namespace djv
     {
         QString tmp;
         in >> tmp;
-        out = Core::StringUtil::stringToInt<int>(tmp.toLatin1().data());
+        out = tmp.toInt();
         return in;
     }
 
@@ -155,7 +155,7 @@ namespace djv
     {
         QString tmp;
         in >> tmp;
-        out = Core::StringUtil::stringToUInt<unsigned int>(tmp.toLatin1().data());
+        out = tmp.toUInt();
         return in;
     }
 
@@ -163,7 +163,7 @@ namespace djv
     {
         QString tmp;
         in >> tmp;
-        out = Core::StringUtil::stringToInt<qint64>(tmp.toLatin1().data());
+        out = tmp.toLongLong();
         return in;
     }
 
@@ -171,7 +171,7 @@ namespace djv
     {
         QString tmp;
         in >> tmp;
-        out = Core::StringUtil::stringToUInt<quint64>(tmp.toLatin1().data());
+        out = tmp.toULongLong();
         return in;
     }
 

@@ -220,9 +220,9 @@ namespace djv
 
             // Open the file.
 #if defined(DJV_WINDOWS)
-            ::fopen_s(&_f, in.toLatin1().data(), "rb");
+            ::_wfopen_s(&_f, Core::StringUtil::qToStdWString(in).data(), L"rb");
 #else
-            _f = ::fopen(in.toLatin1().data(), "rb");
+            _f = ::fopen(in.toUtf8().data(), "rb");
 #endif
             if (!_f)
             {

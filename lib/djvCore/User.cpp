@@ -49,10 +49,10 @@ namespace djv
         {
             QString out;
 #if defined(DJV_WINDOWS)
-            TCHAR tmp[StringUtil::cStringLength] = { 0 };
+            WCHAR tmp[StringUtil::cStringLength] = { 0 };
             DWORD size = StringUtil::cStringLength;
-            ::GetUserName(tmp, &size);
-            out = QString(tmp);
+            ::GetUserNameW(tmp, &size);
+            out = QString::fromWCharArray(tmp, size);
 #else // DJV_WINDOWS
             out = uidToString(::getuid());
 #endif // DJV_WINDOWS

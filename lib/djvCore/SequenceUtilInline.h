@@ -54,7 +54,7 @@ namespace djv
                     }
                 }
             }
-            return StringUtil::stringToInt<qint64>(string.toLatin1().data());
+            return string.toLongLong();
         }
 
     } // namespace Core

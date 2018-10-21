@@ -32,8 +32,7 @@
 #include <djvCore/StringUtil.h>
 #include <djvCore/Timer.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
 
 namespace djv
 {
@@ -120,8 +119,7 @@ namespace djv
 
         void Debug::lineEnd()
         {
-            ::printf("%s\n", _p->tmp.toLatin1().data());
-            ::fflush(stdout);
+            std::cout << _p->tmp.toUtf8().data() << std::endl;
         }
 
     } // namespace Core

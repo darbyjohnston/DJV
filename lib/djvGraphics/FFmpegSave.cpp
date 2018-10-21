@@ -86,7 +86,7 @@ namespace djv
                     av_dict_set(
                         dictionary(),
                         "preset",
-                        value.toLatin1().data(),
+                        value.toUtf8().data(),
                         0);
                     break;*/
             case FFmpeg::MPEG4:
@@ -121,7 +121,7 @@ namespace djv
                 av_dict_set(
                     dictionary(),
                     "profile",
-                    value.toLatin1().data(),
+                    value.toUtf8().data(),
                     0);
                 break;
             case FFmpeg::MJPEG:
@@ -149,8 +149,8 @@ namespace djv
             //DJV_DEBUG_PRINT("av qscale = " << avQScale);
 
             AVOutputFormat * avFormat = av_guess_format(
-                avFormatName.toLatin1().data(),
-                0, //fileInfo.fileName().toLatin1().data(),
+                avFormatName.toUtf8().data(),
+                0, //fileInfo.fileName().toUtf8().data(),
                 0);
             if (!avFormat)
             {
@@ -215,7 +215,7 @@ namespace djv
 
             r = avio_open2(
                 &_avIoContext,
-                fileInfo.fileName().toLatin1().data(),
+                fileInfo.fileName().toUtf8().data(),
                 AVIO_FLAG_READ_WRITE,
                 0,
                 0);

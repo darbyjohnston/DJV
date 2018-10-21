@@ -47,6 +47,7 @@ elseif(UNIX)
 elseif(WIN32)
     set(djvSystemName Windows)
     add_definitions(-DDJV_WINDOWS)
+    #add_definitions(-DUNICODE)
 endif()
 
 # Update the CMake module path.

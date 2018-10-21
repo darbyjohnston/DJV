@@ -236,7 +236,7 @@ namespace djv
 
 #if defined(DJV_WINDOWS)
 #define _STAT struct ::_stati64
-#define _STAT_FNC    ::_stati64
+#define _STAT_FNC    ::_wstati64
 #elif (defined(DJV_FREEBSD) || defined(DJV_OSX))
         //! \todo OS X doesn't have stat64?
 #define _STAT struct ::stat
@@ -258,39 +258,13 @@ namespace djv
             _permissions = 0;
             _time = time_t();
 
-            _STAT info;
-
-            Memory::fill<quint8>(0, &info, sizeof(_STAT));
-
             const QString fileName =
                 FileInfoUtil::fixPath(path.length() ? path : _path) +
                 this->fileName(-1, false);
-
             //DJV_DEBUG_PRINT("fileName = " << fileName);
-
-            //! \todo Try to stat multiple variations of the path name to find the
-            //! correct one. Is this still necessary?
-            const QString fileName2 = fileName + '/';
-            const QString fileName3 = fileName.mid(0, fileName.length() - 1);
-
-            //DJV_DEBUG_PRINT("fileName2 = " << fileName2);
-            //DJV_DEBUG_PRINT("fileName3 = " << fileName3);
-
-            if (0 == _STAT_FNC(fileName.toLatin1().data(), &info))
-            {
-                //DJV_DEBUG_PRINT("fileName");
-            }
-            else if (
-                0 == _STAT_FNC(fileName2.toLatin1().data(), &info))
-            {
-                //DJV_DEBUG_PRINT("fileName2");
-            }
-            else if (
-                0 == _STAT_FNC(fileName3.toLatin1().data(), &info))
-            {
-                //DJV_DEBUG_PRINT("fileName3");
-            }
-            else
+            _STAT info;
+            Memory::fill<quint8>(0, &info, sizeof(_STAT));
+            if (_STAT_FNC(StringUtil::qToStdWString(fileName).data(), &info) != 0)
             {
                 QString err;
 #if defined(DJV_WINDOWS)

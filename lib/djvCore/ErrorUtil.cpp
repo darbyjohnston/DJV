@@ -30,6 +30,7 @@
 #include <djvCore/ErrorUtil.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/StringUtil.h>
 #include <djvCore/System.h>
 
 #include <QCoreApplication>
@@ -67,31 +68,25 @@ namespace djv
 #if defined(DJV_WINDOWS)
             struct Buffer
             {
-                Buffer() :
-                    p(0)
-                {}
-
                 ~Buffer()
                 {
                     LocalFree(p);
                 }
 
-                LPTSTR * p;
+                LPWSTR p = nullptr;
 
             } buffer;
-
-            ::FormatMessage(
+            ::FormatMessageW(
                 FORMAT_MESSAGE_ALLOCATE_BUFFER |
                 FORMAT_MESSAGE_FROM_SYSTEM |
                 FORMAT_MESSAGE_IGNORE_INSERTS,
                 0,
                 GetLastError(),
                 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                (LPTSTR)&buffer.p,
+                buffer.p,
                 0,
                 0);
-
-            out = QString((LPCTSTR)buffer.p);
+            out = QString::fromWCharArray(buffer.p);
 #endif // DJV_WINDOWS
             return out;
         }

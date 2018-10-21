@@ -115,7 +115,7 @@ namespace djv
             // Open the file.
 #if defined(DJV_WINDOWS)
             _p->f = ::CreateFile(
-                fileName.toLatin1().data(),
+                StringUtil::qToStdWString(fileName).data(),
                 (WRITE == mode) ? GENERIC_WRITE : GENERIC_READ,
                 (WRITE == mode) ? 0 : FILE_SHARE_READ,
                 0,

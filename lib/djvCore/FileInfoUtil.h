@@ -140,7 +140,7 @@ namespace djv
             static QString fixPath(const QString &);
 
             //! Path list separators.
-            static QList<QChar> listSeparators;
+            static const QList<QChar> listSeparators;
 
             //! Path list separator.
 #if defined(DJV_WINDOWS)

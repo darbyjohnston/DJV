@@ -104,7 +104,7 @@ namespace djv
                 void open(const QString & in)
                 {
 #if defined(DJV_WINDOWS)
-                    _p = ::LoadLibrary(in.toLatin1().data());
+                    _p = ::LoadLibraryW(StringUtil::qToStdWString(in).data());
 #else // DJV_WINDOWS
                     _p = ::dlopen(in.toLatin1().data(), RTLD_LAZY);
 #endif // DJV_WINDOWS

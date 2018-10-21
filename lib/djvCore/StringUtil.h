@@ -90,6 +90,18 @@ namespace djv
                 T      value,
                 char * string,
                 int    maxLen = cStringLength);
+
+            //! Convert a Qt string to a std wstring.
+            //!
+            //! References:
+            //! https://wiki.qt.io/ToStdWStringAndBuiltInWchar
+            static inline std::wstring qToStdWString(const QString &str);
+
+            //! Convert a std wstring to a Qt string.
+            //!
+            //! References:
+            //! https://wiki.qt.io/ToStdWStringAndBuiltInWchar
+            static inline QString stdWToQString(const std::wstring &str);
         };
 
 #if defined(DJV_WINDOWS)

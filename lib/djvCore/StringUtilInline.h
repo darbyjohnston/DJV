@@ -192,5 +192,23 @@ namespace djv
             return count;
         }
 
+        inline std::wstring StringUtil::qToStdWString(const QString & value)
+        {
+#ifdef _MSC_VER
+            return std::wstring((const wchar_t*)value.utf16());
+#else
+            return str.toStdWString();
+#endif
+        }
+
+        inline QString StringUtil::stdWToQString(const std::wstring & value)
+        {
+#ifdef _MSC_VER
+            return QString::fromUtf16((const ushort*)value.c_str());
+#else
+            return QString::fromStdWString(str);
+#endif
+        }
+
     } // namespace Core
 } // namspace djv

@@ -196,12 +196,12 @@ General Options
 <context>
     <name>djv::Core::ErrorUtil</name>
     <message>
-        <location filename="ErrorUtil.cpp" line="53"/>
+        <location filename="ErrorUtil.cpp" line="54"/>
         <source>[ERROR] %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ErrorUtil.cpp" line="54"/>
+        <location filename="ErrorUtil.cpp" line="55"/>
         <source>[ERROR %1] %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -303,32 +303,32 @@ General Options
 <context>
     <name>djv::Core::FileInfoUtil</name>
     <message>
-        <location filename="FileInfoUtil.cpp" line="628"/>
+        <location filename="FileInfoUtil.cpp" line="627"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="629"/>
+        <location filename="FileInfoUtil.cpp" line="628"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="630"/>
+        <location filename="FileInfoUtil.cpp" line="629"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="631"/>
+        <location filename="FileInfoUtil.cpp" line="630"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="632"/>
+        <location filename="FileInfoUtil.cpp" line="631"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="633"/>
+        <location filename="FileInfoUtil.cpp" line="632"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
@@ -413,52 +413,52 @@ General Options
 <context>
     <name>djv::Core::System</name>
     <message>
-        <location filename="System.cpp" line="179"/>
+        <location filename="System.cpp" line="178"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="180"/>
+        <location filename="System.cpp" line="179"/>
         <source>Windows 2000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="181"/>
+        <location filename="System.cpp" line="180"/>
         <source>Windows XP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="182"/>
+        <location filename="System.cpp" line="181"/>
         <source>Windows XPProfessional x64 Edition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="183"/>
+        <location filename="System.cpp" line="182"/>
         <source>Windows Server2003</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="184"/>
+        <location filename="System.cpp" line="183"/>
         <source>Windows Server 2003 R2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="185"/>
+        <location filename="System.cpp" line="184"/>
         <source>Windows Vista</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="186"/>
+        <location filename="System.cpp" line="185"/>
         <source>Windows Server 2008</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="187"/>
+        <location filename="System.cpp" line="186"/>
         <source>Windows 7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="System.cpp" line="188"/>
+        <location filename="System.cpp" line="187"/>
         <source>Windows Server 2008 R2</source>
         <translation type="unfinished"></translation>
     </message>

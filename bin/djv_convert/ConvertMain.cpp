@@ -48,8 +48,8 @@ int main(int argc, char ** argv)
         Q_FOREACH(const Core::Error::Message & message, error.messages())
         {
             std::cout << "ERROR " <<
-                message.prefix.toLatin1().data() << ": " <<
-                message.string.toLatin1().data() << std::endl;
+                message.prefix.toUtf8().data() << ": " <<
+                message.string.toUtf8().data() << std::endl;
         }
     }
     catch (const std::exception & error)

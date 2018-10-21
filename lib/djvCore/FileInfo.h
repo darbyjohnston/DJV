@@ -249,7 +249,6 @@ namespace djv
             static QSet<QString> sequenceExtensions;
 
             inline bool operator == (const FileInfo &) const;
-
             inline bool operator != (const FileInfo &) const;
 
             inline operator QString() const;

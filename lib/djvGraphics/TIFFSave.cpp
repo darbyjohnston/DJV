@@ -127,7 +127,7 @@ namespace djv
             close();
 
             // Open the file.
-            _f = TIFFOpen(in.toLatin1().data(), "w");
+            _f = TIFFOpenW(Core::StringUtil::qToStdWString(in).data(), "w");
             if (!_f)
             {
                 throw Core::Error(
@@ -211,22 +211,22 @@ namespace djv
             QString tmp = info.tags[tags[ImageTags::CREATOR]];
             if (tmp.length())
             {
-                TIFFSetField(_f, TIFFTAG_ARTIST, tmp.toLatin1().data());
+                TIFFSetField(_f, TIFFTAG_ARTIST, tmp.toUtf8().data());
             }
             tmp = info.tags[tags[ImageTags::COPYRIGHT]];
             if (tmp.length())
             {
-                TIFFSetField(_f, TIFFTAG_COPYRIGHT, tmp.toLatin1().data());
+                TIFFSetField(_f, TIFFTAG_COPYRIGHT, tmp.toUtf8().data());
             }
             tmp = info.tags[tags[ImageTags::TIME]];
             if (tmp.length())
             {
-                TIFFSetField(_f, TIFFTAG_DATETIME, tmp.toLatin1().data());
+                TIFFSetField(_f, TIFFTAG_DATETIME, tmp.toUtf8().data());
             }
             tmp = info.tags[tags[ImageTags::DESCRIPTION]];
             if (tmp.length())
             {
-                TIFFSetField(_f, TIFFTAG_IMAGEDESCRIPTION, tmp.toLatin1().data());
+                TIFFSetField(_f, TIFFTAG_IMAGEDESCRIPTION, tmp.toUtf8().data());
             }
         }
 

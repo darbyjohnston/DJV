@@ -50,8 +50,7 @@
 #include <unistd.h>
 #endif // DJV_WINDOWS
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <iostream>
 
 namespace djv
 {
@@ -364,41 +363,35 @@ namespace djv
                     chunks += line;
                 }
 
-                /*::printf("%s", chunks.join("\n").toLatin1().data());
-                if (i < lines.count() - 1)
-                {
-                    ::printf("\n");
-                }*/
-
                 for (int j = 0; j < chunks.count(); ++j)
                 {
-                    ::printf("%s", QString("%1%2").
+                    std::cout << QString("%1%2").
                         arg("", -indent).
-                        arg(chunks[j]).toLatin1().data());
+                        arg(chunks[j]).toUtf8().data();
                     if (j < chunks.count() - 1)
                     {
-                        ::printf("\n");
+                        std::cout << '\n';
                     }
                 }
                 if (i < lines.count() - 1)
                 {
-                    ::printf("\n");
+                    std::cout << '\n';
                 }
             }
 
             if (newline)
             {
-                ::printf("\n");
+                std::cout << '\n';
             }
             else
             {
-                ::fflush(stdout);
+                std::cout << std::flush;
             }
         }
 
         int System::exec(const QString & in)
         {
-            return ::system(in.toLatin1().data());
+            return ::_wsystem(StringUtil::qToStdWString(in).data());
         }
 
         QString System::env(const QString & in)
@@ -406,10 +399,13 @@ namespace djv
             QString out;
 #   if defined(DJV_WINDOWS)
             size_t size = 0;
-            char * p = 0;
-            if (0 == _dupenv_s(&p, &size, in.toLatin1().data()))
+            WCHAR * p = 0;
+            if (0 == ::_wdupenv_s(&p, &size, StringUtil::qToStdWString(in).data()))
             {
-                out = p;
+                if (p)
+                {
+                    out = StringUtil::stdWToQString(p);
+                }
             }
             if (p)
             {
@@ -427,7 +423,9 @@ namespace djv
         bool System::setEnv(const QString & var, const QString & value)
         {
 #if defined(DJV_WINDOWS)
-            return ::_putenv_s(var.toLatin1().data(), value.toLatin1().data()) == 0;
+            return ::_wputenv_s(
+                StringUtil::qToStdWString(var).data(),
+                StringUtil::qToStdWString(value).data()) == 0;
 #else // DJV_WINDOWS
             return ::setenv(var.toLatin1().data(), value.toLatin1().data(), 1) == 0;
 #endif // DJV_WINDOWS

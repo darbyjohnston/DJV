@@ -67,7 +67,7 @@ namespace djv
             // Open the file.
             int r = avformat_open_input(
                 &_avFormatContext,
-                in.fileName().toLatin1().data(),
+                in.fileName().toUtf8().data(),
                 0,
                 0);
             if (r < 0)
@@ -83,7 +83,7 @@ namespace djv
                     FFmpeg::staticName,
                     FFmpeg::toString(r));
             }
-            av_dump_format(_avFormatContext, 0, in.fileName().toLatin1().data(), 0);
+            av_dump_format(_avFormatContext, 0, in.fileName().toUtf8().data(), 0);
 
             // Find the first video stream.
             for (unsigned int i = 0; i < _avFormatContext->nb_streams; ++i)

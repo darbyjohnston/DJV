@@ -34,6 +34,7 @@
 #include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
 #include <djvCore/Memory.h>
+#include <djvCore/StringUtil.h>
 
 namespace djv
 {
@@ -226,7 +227,7 @@ namespace djv
 
             // Open the file.
 #if defined(DJV_WINDOWS)
-            ::fopen_s(&_f, in.toLatin1().data(), "wb");
+            ::_wfopen_s(&_f, Core::StringUtil::qToStdWString(in).data(), L"wb");
 #else
             _f = ::fopen(in.toLatin1().data(), "wb");
 #endif

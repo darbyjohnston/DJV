@@ -119,7 +119,7 @@ namespace djv
                     const QString & channel = _channels[c];
                     //DJV_DEBUG_PRINT("channel = " << channel);
                     frameBuffer.insert(
-                        channel.toLatin1().data(),
+                        channel.toUtf8().data(),
                         Imf::Slice(
                             OpenEXR::pixelTypeToImf(Pixel::type(p->pixel())),
                             (char *)p->data() + c * byteCount,
@@ -170,7 +170,7 @@ namespace djv
                 for (int i = 0; i < _channels.count(); ++i)
                 {
                     header.channels().insert(
-                        _channels[i].toLatin1().data(),
+                        _channels[i].toUtf8().data(),
                         OpenEXR::pixelTypeToImf(Pixel::type(info.pixel)));
                 }
                 Imf::CompressionAttribute compression;
@@ -219,7 +219,7 @@ namespace djv
                 OpenEXR::saveTags(info, header);
 
                 // Open the file.
-                _f = new Imf::OutputFile(in.toLatin1().data(), header);
+                _f = new Imf::OutputFile(in.toUtf8().data(), header);
 
             }
             catch (const std::exception & error)

@@ -214,11 +214,12 @@ namespace djv
 
         namespace
         {
-            bool isDotDir(const char * p, size_t l)
+            bool isDotDir(const QString & value)
             {
-                if (1 == l && '.' == p[0] && 0 == p[1])
+                const int l = value.length();
+                if (1 == l && '.' == value[0])
                     return true;
-                else if (2 == l && '.' == p[0] && '.' == p[1] && 0 == p[2])
+                else if (2 == l && '.' == value[0] && '.' == value[1])
                     return true;
                 return false;
             }
@@ -238,9 +239,9 @@ namespace djv
             QString fixedPath = fixPath(path);
 
 #if defined(DJV_WINDOWS)
-            WIN32_FIND_DATA data;
-            HANDLE h = FindFirstFileEx(
-                QString(fixedPath + "*").toLatin1().data(),
+            WIN32_FIND_DATAW data;
+            HANDLE h = FindFirstFileExW(
+                StringUtil::qToStdWString(QString(fixedPath + "*")).data(),
                 FindExInfoBasic,
                 &data,
                 FindExSearchNameMatch,
@@ -248,25 +249,23 @@ namespace djv
                 FIND_FIRST_EX_LARGE_FETCH);
             if (h != INVALID_HANDLE_VALUE)
             {
-                const char * p = data.cFileName;
-                size_t l = strlen(p);
-                if (!isDotDir(p, l))
+                QString fileName = QString::fromWCharArray(data.cFileName);
+                if (!isDotDir(fileName))
                 {
-                    out.append(FileInfo(fixedPath + QString(p)));
+                    out.append(FileInfo(fixedPath + fileName));
                 }
-                while (FindNextFile(h, &data))
+                while (FindNextFileW(h, &data))
                 {
-                    p = data.cFileName;
-                    l = strlen(p);
-                    if (!isDotDir(p, l))
+                    fileName = QString::fromWCharArray(data.cFileName);
+                    if (!isDotDir(fileName))
                     {
                         if (!out.count())
                         {
-                            out.append(FileInfo(fixedPath + QString(p)));
+                            out.append(FileInfo(fixedPath + fileName));
                         }
                         else
                         {
-                            const FileInfo tmp(fixedPath + QString(p));
+                            const FileInfo tmp(fixedPath + fileName);
                             int i = 0;
                             if (compress && cache)
                             {
@@ -833,10 +832,9 @@ namespace djv
             return out;
         }
 
-        QList<QChar> FileInfoUtil::listSeparators = QList<QChar>() << ':' << ';';
+        const QList<QChar> FileInfoUtil::listSeparators = QList<QChar>() << ':' << ';';
 
         const QString FileInfoUtil::dot(".");
-
         const QString FileInfoUtil::dotDot("..");
 
         FileInfo FileInfoUtil::parse(
