@@ -200,13 +200,13 @@ namespace djv
                 "    Qt version: %12\n");
             return QString(label).
                 arg(DJV_VERSION).
-                arg(System::info()).
                 arg(seqCompressLabel.join(", ")).
                 arg(seqAutoEnabledLabel.join(", ")).
                 arg(seqMaxSizeLabel.join(", ")).
                 arg(seqNegativeEnabledLabel.join(", ")).
                 arg(timeLabel.join(", ")).
                 arg(speedLabel.join(", ")).
+                arg(System::info()).
                 arg(endianLabel.join(", ")).
                 arg(QLocale::system().name()).
                 arg(StringUtil::addQuotes(System::searchPath()).join(", ")).
