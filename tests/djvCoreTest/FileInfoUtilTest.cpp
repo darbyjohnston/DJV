@@ -78,6 +78,7 @@ namespace djv
                 { "image001-100.ppm", "", "image", "001-100", ".ppm" },
                 { "image-001-100.ppm", "", "image-", "001-100", ".ppm" },
                 { "image_01-100.ppm", "", "image_", "01-100", ".ppm" },
+                { "image1_001-100.ppm", "", "image1_", "001-100", ".ppm" },
                 //{ "image.-100--1.ppm", "", "image.", "-100--1", ".ppm" },
                 //{ "image-100--1.ppm", "", "image", "-100--1", ".ppm" },
                 { "1-100.ppm", "", "", "1-100", ".ppm" },

@@ -42,7 +42,6 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QRegExp>
-#include <QRegularExpression>
 
 #include <algorithm>
 
@@ -72,12 +71,17 @@ namespace djv
                 return c == '/' || c == '\\';
             }
 
-            bool isSequenceValid(const QChar & c)
+            bool isSequenceChar(const QChar & c)
             {
-                return QChar(c).isDigit() || '-' == c || '#' == c;
+                bool out = QChar(c).isDigit() || '#' == c;
+                if (Sequence::isNegativeEnabled())
+                {
+                    out |= '-' == c;
+                }
+                return out;
             }
 
-            bool seqSeparator(const QChar & c)
+            bool isSequenceSeparatorChar(const QChar & c)
             {
                 return '-' == c || ',' == c;
             }
@@ -93,11 +97,6 @@ namespace djv
                     true;
             }
 
-            const QString extRegExp         = "(.+)(\\..+)";
-            const QString seqRegExp         = "(.*?)(\\d[\\d-,]*)";
-            const QString seqNegativeRegExp = "(.*?)(-\\d[\\d-,]*)";
-            const QString pathRegExp        = "(.*[/\\\\])(.*)";
-
         } // namespace
 
         void FileInfoUtil::split(
@@ -109,75 +108,50 @@ namespace djv
         {
             //DJV_DEBUG("FileInfoUtil::split");
             //DJV_DEBUG_PRINT("in = " << in);
-            //DJV_DEBUG_PRINT("length = " << in.length());
 
             path.clear();
             base.clear();
             number.clear();
             extension.clear();
-
-            QString tmp = in;
-            QRegularExpression re = QRegularExpression(extRegExp);
-            QRegularExpressionMatch match = re.match(tmp);
-            if (match.hasMatch())
+            
+            const int l = in.length();
+            int i = l - 1;
+            for (; i > 0 && in[i] != '.'; --i)
+                ;
+            if (i > 0 && ! isPathSeparator(in[i - 1]))
             {
-                tmp = match.captured(1);
-                extension = match.captured(2);
-                //DJV_DEBUG_PRINT("tmp = " << tmp);
+                extension = in.mid(i);
                 //DJV_DEBUG_PRINT("extension = " << extension);
-            }
-              
-            //! \bug This is the only place we are actually enforcing whether
-            //! negative numbers are enabled.          
-            if (Sequence::isNegativeEnabled())
-            {
-                re = QRegularExpression(seqNegativeRegExp);
-                match = re.match(tmp);
-                if (match.hasMatch())
-                {
-                    tmp = match.captured(1);
-                    number = match.captured(2);
-                    //DJV_DEBUG_PRINT("tmp = " << tmp);
-                    //DJV_DEBUG_PRINT("number = " << number);
-                }
-                else
-                {
-                    re = QRegularExpression(seqRegExp);
-                    match = re.match(tmp);
-                    if (match.hasMatch())
-                    {
-                        tmp = match.captured(1);
-                        number = match.captured(2);
-                        //DJV_DEBUG_PRINT("tmp = " << tmp);
-                        //DJV_DEBUG_PRINT("number = " << number);
-                    }
-                }
             }
             else
             {
-                re = QRegularExpression(seqRegExp);
-                match = re.match(tmp);
-                if (match.hasMatch())
-                {
-                    tmp = match.captured(1);
-                    number = match.captured(2);
-                    //DJV_DEBUG_PRINT("tmp = " << tmp);
-                    //DJV_DEBUG_PRINT("number = " << number);
-                }
+                i = l;
             }
             
-            re = QRegularExpression(pathRegExp);
-            match = re.match(tmp);
-            if (match.hasMatch())
+            int j = i;
+            for (; i > 0 && (isSequenceChar(in[i - 1]) || isSequenceSeparatorChar(in[i - 1])); --i)
+                ;
+            if (i != j)
             {
-                path = match.captured(1);
-                tmp = match.captured(2);
-                //DJV_DEBUG_PRINT("tmp = " << tmp);
+                for (; i < l && ! isSequenceChar(in[i]); ++i)
+                    ;
+                number = in.mid(i, j - i);
+                //DJV_DEBUG_PRINT("number = " << number);
+            }
+            
+            j = i;
+            for (; i > 0 && ! isPathSeparator(in[i - 1]); --i)
+                ;
+            if (i != j)
+            {
+                base = in.mid(i, j - i);
+                //DJV_DEBUG_PRINT("base = " << base);
+            }
+            if (i > 0)
+            {
+                path = in.mid(0, i);
                 //DJV_DEBUG_PRINT("path = " << path);
             }
-            
-            base = tmp;
-            //DJV_DEBUG_PRINT("base = " << base);            
         }
 
         bool FileInfoUtil::exists(const FileInfo & in)
