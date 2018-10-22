@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            Application(int, char **);
+            Application(int &, char **);
             ~Application() override;
 
         private Q_SLOTS:

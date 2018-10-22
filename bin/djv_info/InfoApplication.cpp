@@ -45,7 +45,7 @@ namespace djv
 {
     namespace info
     {
-        Application::Application(int argc, char ** argv) :
+        Application::Application(int & argc, char ** argv) :
             QGuiApplication(argc, argv),
             _context(0)
         {
