@@ -465,32 +465,32 @@ Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserModel.cpp" line="164"/>
+        <location filename="FileBrowserModel.cpp" line="168"/>
         <source>Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserModel.cpp" line="165"/>
+        <location filename="FileBrowserModel.cpp" line="169"/>
         <source>Low Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserModel.cpp" line="166"/>
+        <location filename="FileBrowserModel.cpp" line="170"/>
         <source>High Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserModel.cpp" line="179"/>
+        <location filename="FileBrowserModel.cpp" line="183"/>
         <source>Small</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserModel.cpp" line="180"/>
+        <location filename="FileBrowserModel.cpp" line="184"/>
         <source>Medium</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowserModel.cpp" line="181"/>
+        <location filename="FileBrowserModel.cpp" line="185"/>
         <source>Large</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1233,38 +1233,49 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::SequencePrefsWidget</name>
     <message>
-        <location filename="SequencePrefsWidget.cpp" line="62"/>
+        <location filename="SequencePrefsWidget.cpp" line="63"/>
         <source>File Sequences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SequencePrefsWidget.cpp" line="71"/>
+        <location filename="SequencePrefsWidget.cpp" line="72"/>
         <source>Enable auto file sequencing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SequencePrefsWidget.cpp" line="81"/>
+        <location filename="SequencePrefsWidget.cpp" line="79"/>
+        <source>Enable negative numbers in file sequences</source>
+        <oldsource>Enable negative numbers</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="85"/>
         <source>Compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SequencePrefsWidget.cpp" line="82"/>
+        <location filename="SequencePrefsWidget.cpp" line="86"/>
         <source>Set how file sequences are compressed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SequencePrefsWidget.cpp" line="89"/>
+        <location filename="SequencePrefsWidget.cpp" line="93"/>
         <source>Auto Sequencing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SequencePrefsWidget.cpp" line="96"/>
+        <location filename="SequencePrefsWidget.cpp" line="100"/>
         <source>Maximum Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SequencePrefsWidget.cpp" line="97"/>
+        <location filename="SequencePrefsWidget.cpp" line="101"/>
         <source>Set the maximum size allowed for file sequences.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SequencePrefsWidget.cpp" line="108"/>
+        <source>Negative Numbers</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -54,6 +54,7 @@ namespace djv
             QPointer<QComboBox> compressWidget;
             QPointer<QCheckBox> autoEnabledWidget;
             QPointer<IntEdit> maxSizeWidget;
+            QPointer<QCheckBox> negativeEnabledWidget;
             QPointer<QVBoxLayout> layout;
         };
 
@@ -73,6 +74,9 @@ namespace djv
             _p->maxSizeWidget = new IntEdit;
             _p->maxSizeWidget->setMax(10000000);
             _p->maxSizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+            _p->negativeEnabledWidget = new QCheckBox(
+                qApp->translate("djv::UI::SequencePrefsWidget", "Enable negative numbers in file sequences"));
 
             // Layout the widgets.
             _p->layout = new QVBoxLayout(this);
@@ -100,6 +104,13 @@ namespace djv
             formLayout->addRow(_p->maxSizeWidget);
             _p->layout->addWidget(prefsGroupBox);
 
+            prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::SequencePrefsWidget", "Negative Numbers"),
+                context);
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(_p->negativeEnabledWidget);
+            _p->layout->addWidget(prefsGroupBox);
+
             _p->layout->addStretch();
 
             // Initialize.
@@ -119,6 +130,10 @@ namespace djv
                 SIGNAL(valueChanged(int)),
                 SLOT(maxSizeCallback(int)));
             connect(
+                _p->negativeEnabledWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(negativeEnabledCallback(bool)));
+            connect(
                 context->sequencePrefs(),
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
@@ -132,6 +147,7 @@ namespace djv
             context()->sequencePrefs()->setCompress(Core::Sequence::compressDefault());
             context()->sequencePrefs()->setAutoEnabled(Core::Sequence::autoEnabledDefault());
             context()->sequencePrefs()->setMaxSize(Core::Sequence::maxSizeDefault());
+            context()->sequencePrefs()->setNegativeEnabled(Core::Sequence::negativeEnabledDefault());
         }
 
         void SequencePrefsWidget::compressCallback(int index)
@@ -149,15 +165,22 @@ namespace djv
             context()->sequencePrefs()->setMaxSize(size);
         }
 
+        void SequencePrefsWidget::negativeEnabledCallback(bool value)
+        {
+            context()->sequencePrefs()->setNegativeEnabled(value);
+        }
+
         void SequencePrefsWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->compressWidget <<
                 _p->autoEnabledWidget <<
-                _p->maxSizeWidget);
+                _p->maxSizeWidget <<
+                _p->negativeEnabledWidget);
             _p->compressWidget->setCurrentIndex(Core::Sequence::compress());
             _p->autoEnabledWidget->setChecked(Core::Sequence::isAutoEnabled());
             _p->maxSizeWidget->setValue(Core::Sequence::maxSize());
+            _p->negativeEnabledWidget->setChecked(Core::Sequence::isNegativeEnabled());
         }
 
     } // namespace UI

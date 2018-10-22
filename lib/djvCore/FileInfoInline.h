@@ -117,8 +117,7 @@ namespace djv
         {
             return
                 _type != DIRECTORY &&
-                _number.length() &&
-                '#' == _number[0];
+                (_number.length() && '#' == _number.at(0));
         }
 
         inline bool FileInfo::addSequence(const FileInfo & in)

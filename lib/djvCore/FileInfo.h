@@ -126,7 +126,6 @@ namespace djv
             inline const QString & path() const;
 
             //! Set the path.
-
             void setPath(const QString &);
 
             //! Get the base.
@@ -245,9 +244,9 @@ namespace djv
             //! compatible.
             inline bool addSequence(const FileInfo &);
 
-            //! This contains the set of file extensions that can be sequenced.
+            //! This set contains the file extensions that can be sequenced.
             static QSet<QString> sequenceExtensions;
-
+            
             inline bool operator == (const FileInfo &) const;
             inline bool operator != (const FileInfo &) const;
 

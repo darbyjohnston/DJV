@@ -165,6 +165,8 @@ namespace djv
             seqAutoEnabledLabel << Sequence::isAutoEnabled();
             QStringList seqMaxSizeLabel;
             seqMaxSizeLabel << Sequence::maxSize();
+            QStringList seqNegativeEnabledLabel;
+            seqNegativeEnabledLabel << Sequence::isNegativeEnabled();
             QStringList timeLabel;
             timeLabel << Time::units();
             QStringList speedLabel;
@@ -182,25 +184,27 @@ namespace djv
                 "    Compression: %2\n"
                 "    Auto sequencing: %3\n"
                 "    Maximum size: %4\n"
+                "    Negative numbers: %5\n"
                 "\n"
                 "Time\n"
                 "\n"
-                "    Units: %5\n"
-                "    Default speed: %6\n"
+                "    Units: %6\n"
+                "    Default speed: %7\n"
                 "\n"
                 "System\n"
                 "\n"
-                "    %7\n"
-                "    Endian: %8\n"
-                "    Locale: %9\n"
-                "    Search path: %10\n"
-                "    Qt version: %11\n");
+                "    %8\n"
+                "    Endian: %9\n"
+                "    Locale: %10\n"
+                "    Search path: %11\n"
+                "    Qt version: %12\n");
             return QString(label).
                 arg(DJV_VERSION).
                 arg(System::info()).
                 arg(seqCompressLabel.join(", ")).
                 arg(seqAutoEnabledLabel.join(", ")).
                 arg(seqMaxSizeLabel.join(", ")).
+                arg(seqNegativeEnabledLabel.join(", ")).
                 arg(timeLabel.join(", ")).
                 arg(speedLabel.join(", ")).
                 arg(endianLabel.join(", ")).
@@ -365,17 +369,23 @@ namespace djv
                         in >> value;
                         Sequence::setCompress(value);
                     }
-                    else if (qApp->translate("djv::Core::CoreContext", "-seq_auto_enabled") == arg)
+                    else if (qApp->translate("djv::Core::CoreContext", "-seq_auto") == arg)
                     {
                         bool value = false;
                         in >> value;
                         Sequence::setAutoEnabled(value);
                     }
-                    else if (qApp->translate("djv::Core::CoreContext", "-seq_max_size") == arg)
+                    else if (qApp->translate("djv::Core::CoreContext", "-seq_max") == arg)
                     {
                         qint64 value = static_cast<qint64>(0);
                         in >> value;
                         Sequence::setMaxSize(value);
+                    }
+                    else if (qApp->translate("djv::Core::CoreContext", "-seq_negative") == arg)
+                    {
+                        bool value = false;
+                        in >> value;
+                        Sequence::setNegativeEnabled(value);
                     }
                     else if (qApp->translate("djv::Core::CoreContext", "-time_units") == arg)
                     {
@@ -448,6 +458,8 @@ namespace djv
             seqAutoEnabledLabel << Sequence::isAutoEnabled();
             QStringList seqMaxSizeLabel;
             seqMaxSizeLabel << Sequence::maxSize();
+            QStringList seqNegativeEnabledLabel;
+            seqNegativeEnabledLabel << Sequence::isNegativeEnabled();
             QStringList timeUnitsLabel;
             timeUnitsLabel << Time::units();
             QStringList speedLabel;
@@ -459,14 +471,16 @@ namespace djv
                 "\n"
                 "    -seq_compress (value)\n"
                 "        Set the file sequence compression. Options = %1. Default = %2.\n"
-                "    -seq_auto_enabled (value)\n"
+                "    -seq_auto (value)\n"
                 "        Set whether auto file sequencing is enabled. Options = %3. Default = %4.\n"
-                "    -seq_max_size (value)\n"
+                "    -seq_max (value)\n"
                 "        Set the maximum allowed size of file sequences. Default = %5.\n"
+                "    -seq_negative (value)\n"
+                "        Set whether negative numbers are enabled. Options = %6. Default = %7.\n"
                 "    -time_units (value)\n"
-                "        Set the time units. Options = %6. Default = %7.\n"
+                "        Set the time units. Options = %8. Default = %9.\n"
                 "    -default_speed (value)\n"
-                "        Set the default speed. Options = %8. Default = %9.\n"
+                "        Set the default speed. Options = %10. Default = %11.\n"
                 "    -debug_log\n"
                 "        Print debug log messages.\n"
                 "    -help, -h\n"
@@ -481,6 +495,7 @@ namespace djv
                 arg(StringUtil::boolLabels().join(", ")).
                 arg(seqAutoEnabledLabel.join(", ")).
                 arg(seqMaxSizeLabel.join(", ")).
+                arg(seqNegativeEnabledLabel.join(", ")).
                 arg(Time::unitsLabels().join(", ")).
                 arg(timeUnitsLabel.join(", ")).
                 arg(Speed::fpsLabels().join(", ")).

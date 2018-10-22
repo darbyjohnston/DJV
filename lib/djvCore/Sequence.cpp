@@ -47,6 +47,7 @@ namespace djv
             Sequence::COMPRESS _compress = Sequence::COMPRESS_SPARSE;
             bool _autoEnabled = true;
             qint64 _maxSize = 50000;
+            bool _negativeEnabled = false;
 
         } // namespace
 
@@ -155,6 +156,21 @@ namespace djv
         void Sequence::setMaxSize(qint64 size)
         {
             _maxSize = size;
+        }
+
+        bool Sequence::negativeEnabledDefault()
+        {
+            return false;
+        }
+
+        bool Sequence::isNegativeEnabled()
+        {
+            return _negativeEnabled;
+        }
+
+        void Sequence::setNegativeEnabled(bool value)
+        {
+            _negativeEnabled = value;
         }
 
     } // namespace Core

@@ -54,6 +54,7 @@ namespace djv
             void compressCallback(int);
             void autoEnabledCallback(bool);
             void maxSizeCallback(int);
+            void negativeEnabledCallback(bool);
             
             void widgetUpdate();
 

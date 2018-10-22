@@ -65,6 +65,11 @@ namespace djv
             {
                 Core::Sequence::setMaxSize(maxSize);
             }
+            bool negativeEnabled = Core::Sequence::isNegativeEnabled();
+            if (prefs.get("negativeEnabled", negativeEnabled))
+            {
+                Core::Sequence::setNegativeEnabled(negativeEnabled);
+            }
         }
 
         SequencePrefs::~SequencePrefs()
@@ -74,6 +79,7 @@ namespace djv
             prefs.set("compress", Core::Sequence::compress());
             prefs.set("autoEnabled", Core::Sequence::isAutoEnabled());
             prefs.set("maxSize", Core::Sequence::maxSize());
+            prefs.set("negativeEnabled", Core::Sequence::isNegativeEnabled());
         }
 
         Core::Sequence::COMPRESS SequencePrefs::compress() const
@@ -89,6 +95,11 @@ namespace djv
         qint64 SequencePrefs::maxSize() const
         {
             return Core::Sequence::maxSize();
+        }
+
+        bool SequencePrefs::isNegativeEnabled() const
+        {
+            return Core::Sequence::isNegativeEnabled();
         }
 
         void SequencePrefs::setCompress(Core::Sequence::COMPRESS value)
@@ -115,6 +126,15 @@ namespace djv
                 return;
             Core::Sequence::setMaxSize(size);
             Q_EMIT maxSizeChanged(Core::Sequence::maxSize());
+            Q_EMIT prefChanged();
+        }
+
+        void SequencePrefs::setNegativeEnabled(bool value)
+        {
+            if (value == Core::Sequence::isNegativeEnabled())
+                return;
+            Core::Sequence::setNegativeEnabled(value);
+            Q_EMIT negativeEnabledChanged(Core::Sequence::isNegativeEnabled());
             Q_EMIT prefChanged();
         }
 

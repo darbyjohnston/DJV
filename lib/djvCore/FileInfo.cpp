@@ -121,7 +121,7 @@ namespace djv
                 ;
             else if (_base.length() > 0)
             {
-                _dotFile = _base[0] == '.';
+                _dotFile = _base.at(0) == '.';
             }
 
             // File sequencing.

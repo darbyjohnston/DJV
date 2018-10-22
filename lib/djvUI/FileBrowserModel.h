@@ -275,11 +275,12 @@ namespace djv
         private Q_SLOTS:
             void imageInfoCallback();
             void thumbnailCallback();
+            void sequencePrefsCallback();
 
-        private:
             void dirUpdate();
             void modelUpdate();
 
+        private:
             DJV_PRIVATE_COPY(FileBrowserModel);
 
             struct Private;

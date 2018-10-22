@@ -107,6 +107,15 @@ namespace djv
 
             //! Set the maximum sequence size.
             static void setMaxSize(qint64);
+
+            //! Get the negative numbers default.
+            static bool negativeEnabledDefault();
+
+            //! Get whether negative numbers are enabled.
+            static bool isNegativeEnabled();
+
+            //! Set whether negative numbers are enabled.
+            static void setNegativeEnabled(bool);
         };
 
     } // namespace Core

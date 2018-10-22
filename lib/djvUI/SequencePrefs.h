@@ -68,6 +68,13 @@ namespace djv
                 WRITE  setMaxSize
                 NOTIFY maxSizeChanged);
 
+            //! This property holds whether negative numbers are enabled.
+            Q_PROPERTY(
+                bool   negativeEnabled
+                READ   isNegativeEnabled
+                WRITE  setNegativeEnabled
+                NOTIFY negativeEnabledChanged);
+
         public:
             explicit SequencePrefs(QObject * parent = nullptr);
             ~SequencePrefs();
@@ -81,6 +88,9 @@ namespace djv
             //! Get the maximum file sequence size.
             qint64 maxSize() const;
 
+            //! Get whether negative numbers are enabled.
+            bool isNegativeEnabled() const;
+
         public Q_SLOTS:
             //! Set the file sequence compression.
             void setCompress(djv::Core::Sequence::COMPRESS);
@@ -90,6 +100,9 @@ namespace djv
 
             //! Set the maximum file sequence size.
             void setMaxSize(qint64);
+
+            //! Set whether negative numbers are enabled.
+            void setNegativeEnabled(bool);
             
         Q_SIGNALS:
             //! This signal is emitted when the file sequence compression is changed.
@@ -100,6 +113,9 @@ namespace djv
 
             //! This signal is emitted when the maximum file sequence size is changed.
             void maxSizeChanged(qint64);
+
+            //! This signal is emitted when negative numbers are changed.
+            void negativeEnabledChanged(bool);
 
             //! This signal is emitted when a preference is changed.
             void prefChanged();

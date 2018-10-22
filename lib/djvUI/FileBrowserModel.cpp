@@ -29,10 +29,10 @@
 
 #include <djvUI/FileBrowserModel.h>
 
+#include <djvUI/UIContext.h>
 #include <djvUI/FileBrowserModelPrivate.h>
 #include <djvUI/FileBrowserThumbnailSystem.h>
-
-#include <djvUI/UIContext.h>
+#include <djvUI/SequencePrefs.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -94,8 +94,12 @@ namespace djv
             //DJV_DEBUG("FileBrowserModel::FileBrowserModel");
             //dirUpdate();
             //modelUpdate();
+            connect(
+                context->sequencePrefs(),
+                SIGNAL(prefChanged()),
+                SLOT(sequencePrefsCallback()));
         }
-
+        
         FileBrowserModel::~FileBrowserModel()
         {
             for (int i = 0; i < _p->items.count(); ++i)
@@ -224,28 +228,6 @@ namespace djv
             default: break;
             }
             return QVariant();
-        }
-
-        void FileBrowserModel::imageInfoCallback()
-        {
-            //DJV_DEBUG("FileBrowserModel::imageInfoCallback");
-            const int row = _p->items.indexOf(qobject_cast<FileBrowserItem *>(sender()));
-            if (row != -1)
-            {
-                const QModelIndex index = this->index(row, 0);
-                Q_EMIT dataChanged(index, index);
-            }
-        }
-
-        void FileBrowserModel::thumbnailCallback()
-        {
-            //DJV_DEBUG("FileBrowserModel::thumbnailCallback");
-            const int row = _p->items.indexOf(qobject_cast<FileBrowserItem *>(sender()));
-            if (row != -1)
-            {
-                const QModelIndex index = this->index(row, 0);
-                Q_EMIT dataChanged(index, index);
-            }
         }
 
         QVariant FileBrowserModel::data(
@@ -436,6 +418,34 @@ namespace djv
             modelUpdate();
             Q_EMIT thumbnailSizeChanged(_p->thumbnailSize);
             Q_EMIT optionChanged();
+        }
+
+        void FileBrowserModel::imageInfoCallback()
+        {
+            //DJV_DEBUG("FileBrowserModel::imageInfoCallback");
+            const int row = _p->items.indexOf(qobject_cast<FileBrowserItem *>(sender()));
+            if (row != -1)
+            {
+                const QModelIndex index = this->index(row, 0);
+                Q_EMIT dataChanged(index, index);
+            }
+        }
+
+        void FileBrowserModel::thumbnailCallback()
+        {
+            //DJV_DEBUG("FileBrowserModel::thumbnailCallback");
+            const int row = _p->items.indexOf(qobject_cast<FileBrowserItem *>(sender()));
+            if (row != -1)
+            {
+                const QModelIndex index = this->index(row, 0);
+                Q_EMIT dataChanged(index, index);
+            }
+        }
+
+        void FileBrowserModel::sequencePrefsCallback()
+        {
+            dirUpdate();
+            modelUpdate();
         }
 
         void FileBrowserModel::dirUpdate()

@@ -64,6 +64,7 @@ namespace djv
         {
             DJV_DEBUG("FileInfoUtilTest::split");
 
+            //! \todo Add tests for negative frame numbers.
             const struct Data
             {
                 QString in, path, base, number, extension;
@@ -75,13 +76,14 @@ namespace djv
                 { "image.001-100.ppm", "", "image.", "001-100", ".ppm" },
                 { "image1-100.ppm", "", "image", "1-100", ".ppm" },
                 { "image001-100.ppm", "", "image", "001-100", ".ppm" },
-                { "image_01-100.ppm", "", "image_01-", "100", ".ppm" },
-                { "image.-100--1.ppm", "", "image.", "-100--1", ".ppm" },
-                { "image-100--1.ppm", "", "image", "-100--1", ".ppm" },
+                { "image-001-100.ppm", "", "image-", "001-100", ".ppm" },
+                { "image_01-100.ppm", "", "image_", "01-100", ".ppm" },
+                //{ "image.-100--1.ppm", "", "image.", "-100--1", ".ppm" },
+                //{ "image-100--1.ppm", "", "image", "-100--1", ".ppm" },
                 { "1-100.ppm", "", "", "1-100", ".ppm" },
-                { "1--100.ppm", "", "", "1--100", ".ppm" },
-                { "-1--100.ppm", "", "", "-1--100", ".ppm" },
-                { "-1.ppm", "", "", "-1", ".ppm" },
+                //{ "1--100.ppm", "", "", "1--100", ".ppm" },
+                //{ "-1--100.ppm", "", "", "-1--100", ".ppm" },
+                //{ "-1.ppm", "", "", "-1", ".ppm" },
                 { "1-100", "", "", "1-100", "" },
                 { "1", "", "", "1", "" },
                 { ".hidden", "", ".hidden", "", "" },
