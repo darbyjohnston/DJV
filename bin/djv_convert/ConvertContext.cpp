@@ -106,114 +106,95 @@ namespace djv
                     in >> arg;
 
                     // Parse the options.
-                    if (
-                        qApp->translate("djv::convert::Context", "-mirror_h") == arg)
+                    if (qApp->translate("djv::convert::Context", "-mirror_h") == arg)
                     {
                         _options.mirror.x = true;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-mirror_v") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-mirror_v") == arg)
                     {
                         _options.mirror.y = true;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-scale") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-scale") == arg)
                     {
                         in >> _options.scale.x;
                         _options.scale.y = _options.scale.x;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-scale_separate") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-scale_separate") == arg)
                     {
                         in >> _options.scale;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-resize") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-resize") == arg)
                     {
                         in >> _options.size;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-width") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-width") == arg)
                     {
                         in >> _options.size.x;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-height") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-height") == arg)
                     {
                         in >> _options.size.y;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-crop") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-crop") == arg)
                     {
                         in >> _options.crop;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-crop_percent") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-crop_percent") == arg)
                     {
                         in >> _options.cropPercent;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-channel") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-channel") == arg)
                     {
                         in >> _options.channel;
                     }
 
                     // Parse the input options.
-                    else if (
-                        qApp->translate("djv::convert::Context", "-layer") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-layer") == arg)
                     {
                         in >> _input.layer;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-proxy") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-proxy") == arg)
                     {
                         in >> _input.proxy;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-time") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-time") == arg)
                     {
                         in >> _input.start;
                         in >> _input.end;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-slate") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-slate") == arg)
                     {
                         QString tmp;
                         in >> tmp;
                         _input.slate = tmp;
                         in >> _input.slateFrames;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-timeout") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-timeout") == arg)
                     {
                         in >> _input.timeout;
                     }
 
                     // Parse the output options.
-                    else if (
-                        qApp->translate("djv::convert::Context", "-pixel") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-pixel") == arg)
                     {
                         Graphics::Pixel::PIXEL value = static_cast<Graphics::Pixel::PIXEL>(0);
                         in >> value;
                         _output.pixel.reset(new Graphics::Pixel::PIXEL(value));
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-speed") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-speed") == arg)
                     {
                         Core::Speed::FPS value = static_cast<Core::Speed::FPS>(0);
                         in >> value;
                         _output.speed.reset(new Core::Speed::FPS(value));
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-tag") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-tag") == arg)
                     {
                         QString name, value;
                         in >> name;
                         in >> value;
                         _output.tags[name] = value;
                     }
-                    else if (
-                        qApp->translate("djv::convert::Context", "-tags_auto") == arg)
+                    else if (qApp->translate("djv::convert::Context", "-tags_auto") == arg)
                     {
                         in >> _output.tagsAuto;
                     }
@@ -265,18 +246,15 @@ namespace djv
             static const QString label = qApp->translate("djv::convert::Context",
                 "djv_convert\n"
                 "\n"
-                "    A command line tool for batch processing images and movies."
-                "Common uses include resizing images and converting sequences of images to a movie.\n"
+                "    Command-line batch processing of images and movies. Common "
+                "uses include resizing images and converting sequences of images "
+                "to a movie.\n"
                 "\n"
-                "    Here is an example of how to resize a sequence of images:\n"
+                "    Example of converting an image sequence to a movie:\n"
+                "    > djv_convert input.1-100.tga output.mp4\n"
+                "    See below for more examples.\n"
                 "\n"
-                "    > djv_convert input.1-100.tga output.1.tga -resize 2048 1556\n"
-                "\n"
-                "    Note that only the first frame of the output sequence needs to be "
-                "specified, the remaining frames will be added automatically. See below for "
-                "more examples.\n"
-                "\n"
-                "    Note also that djv_convert uses OpenGL for image processing and needs "
+                "    Note that djv_convert uses OpenGL for image processing and needs "
                 "to be run on a machine with graphics resources.\n"
                 "\n"
                 "Usage\n"
@@ -297,8 +275,8 @@ namespace djv
                 "        Scale the image width and height using a floating point value "
                 "        (1.0 = 100%).\n"
                 "    -scale_separate (width) (height)\n"
-                "        Scale the image width and height separately using a floating point "
-                "value (1.0 = 100%).\n"
+                "        Scale the image width and height separately using floating point "
+                "values (1.0 = 100%).\n"
                 "    -resize (width) (height)\n"
                 "        Resize the image width and height to the given resolution.\n"
                 "    -width (value)\n"
@@ -310,16 +288,16 @@ namespace djv
                 "    -crop (x) (y) (width) (height)\n"
                 "        Crop the image.\n"
                 "    -crop_percent (x) (y) (width) (height)\n"
-                "        Crop the image using percentages.\n"
+                "        Crop the image using floating point values (1.0 = 100%).\n"
                 "    -channel (value)\n"
-                "        Show only specific image channels. Options = %1. Default = %2.\n"
+                "        Show only specific image channels: %1. Default = %2.\n"
                 "\n"
                 "Input Options\n"
                 "\n"
                 "    -layer (value)\n"
                 "        Set the input layer.\n"
                 "    -proxy (value)\n"
-                "        Set the proxy scale. Options = %3. Default = %4.\n"
+                "        Set the proxy scale: %3. Default = %4.\n"
                 "    -time (start) (end)\n"
                 "        Set the start and end time.\n"
                 "    -slate (input) (frames)\n"
@@ -331,60 +309,49 @@ namespace djv
                 "Output Options\n"
                 "\n"
                 "    -pixel (value)\n"
-                "        Convert the pixel type. Options = %6.\n"
+                "        Convert the pixel type: %6.\n"
                 "    -speed (value)\n"
-                "        Set the speed. Options = %7.\n"
+                "        Set the speed: %7.\n"
                 "    -tag (name) (value)\n"
                 "        Set an image tag.\n"
                 "    -tags_auto (value)\n"
-                "        Automatically generate image tags (e.g., timecode). Options = %8. "
+                "        Automatically generate image tags (e.g., timecode): %8. "
                 "Default = %9.\n"
                 "%10"
                 "\n"
                 "Examples\n"
                 "\n"
                 "    Convert an image:\n"
-                "\n"
                 "    > djv_convert input.sgi output.tga\n"
                 "\n"
-                "    Convert an image sequence. Note that only the first frame of the output "
-                "sequence needs to be specified, the remaining frames will be added "
-                "automatically:\n"
-                "\n"
+                "    Convert an image sequence:\n"
                 "    > djv_convert input.1-100.sgi output.1.tga\n"
+                "    Note that only the first frame of the output sequence needs to be specified.\n"
                 "\n"
                 "    Create an RLE compressed image sequence:\n"
-                "\n"
                 "    > djv_convert input.1-100.sgi output.1.tga -targa_compression RLE\n"
                 "\n"
                 "    Convert an image sequence to a movie:\n"
-                "\n"
                 "    > djv_convert input.0001-0100.dpx output.m4v\n"
                 "\n"
                 "    Convert a movie to an image sequence:\n"
-                "\n"
                 "    > djv_convert input.m4v output.1.tga\n"
                 "\n"
-                "    Convert the pixel type. Note the use of the quotes around the pixel type"
-                "option:\n"
-                "\n"
+                "    Convert the pixel type:\n"
                 "    > djv_convert input.sgi output.sgi -pixel \"RGB U16\"\n"
+                "    Note the use of the quotes around the pixel type option.\n"
                 "\n"
                 "    Scale an image by half:\n"
-                "\n"
                 "    > djv_convert input.tga output.tga -scale 0.5\n"
                 "\n"
                 "    Resize an image:\n"
-                "\n"
                 "    > djv_convert input.tga output.tga -resize 2048 1556\n"
                 "\n"
                 "    Convert a Cineon file to a linear format using the default settings:\n"
-                "\n"
                 "    > djv_convert input.cin output.tga\n"
                 "\n"
                 "    Convert a Cineon file to a linear format using custom film print settings "
                 "(black point, white point, gamma, and soft clip):\n"
-                "\n"
                 "    > djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2\n");
             QStringList channelLabel;
             channelLabel << _options.channel;

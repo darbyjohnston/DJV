@@ -467,34 +467,41 @@ namespace djv
             static const QString label = qApp->translate(
                 "djv::Core::CoreContext",
                 "\n"
-                "General Options\n"
+                "File Sequence Options\n"
                 "\n"
                 "    -seq_compress (value)\n"
-                "        Set the file sequence compression. Options = %1. Default = %2.\n"
+                "        Set the file sequence compression: %1. Default = %2.\n"
                 "    -seq_auto (value)\n"
-                "        Set whether auto file sequencing is enabled. Options = %3. Default = %4.\n"
+                "        Set whether auto file sequencing is enabled: %3. Default = %4.\n"
                 "    -seq_max (value)\n"
                 "        Set the maximum allowed size of file sequences. Default = %5.\n"
                 "    -seq_negative (value)\n"
-                "        Set whether negative numbers are enabled. Options = %6. Default = %7.\n"
+                "        Set whether negative numbers are enabled: %6. Default = %7.\n"
+                "\n"
+                "Time Options\n"
+                "\n"
                 "    -time_units (value)\n"
-                "        Set the time units. Options = %8. Default = %9.\n"
+                "        Set the time units: %8. Default = %9.\n"
                 "    -default_speed (value)\n"
-                "        Set the default speed. Options = %10. Default = %11.\n"
+                "        Set the default speed: %10. Default = %11.\n"
+                "\n"
+                "Miscellaneous Options\n"
+                "\n"
                 "    -debug_log\n"
                 "        Print debug log messages.\n"
                 "    -help, -h\n"
-                "        Show the help message.\n"
+                "        Show the command line documentation.\n"
                 "    -info\n"
-                "        Show the information message.\n"
+                "        Show information about the application.\n"
                 "    -about\n"
-                "        Show the about message.\n");
+                "        Show legal infomration.\n");
             return QString(label).
                 arg(Sequence::compressLabels().join(", ")).
                 arg(seqCompressLabel.join(", ")).
                 arg(StringUtil::boolLabels().join(", ")).
                 arg(seqAutoEnabledLabel.join(", ")).
                 arg(seqMaxSizeLabel.join(", ")).
+                arg(StringUtil::boolLabels().join(", ")).
                 arg(seqNegativeEnabledLabel.join(", ")).
                 arg(Time::unitsLabels().join(", ")).
                 arg(timeUnitsLabel.join(", ")).

@@ -131,7 +131,7 @@ namespace djv
                 "IFF Options\n"
                 "\n"
                 "    -iff_compression (value)\n"
-                "        Set the file compression used when saving IFF images. Options = %1. "
+                "        Set the file compression used when saving IFF images: %1. "
                 "Default = %2.\n").
                 arg(IFF::compressionLabels().join(", ")).
                 arg(compressionLabel.join(", "));

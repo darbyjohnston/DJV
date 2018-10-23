@@ -35,32 +35,33 @@
 <body>
 
 <div class="header">
-<a class="header" href="index.html">
-    <img src="images/logo-filmreel.png" style="vertical-align: middle;">
-    DJV Imaging</a>
-<p>Media review software for VFX artists and filmmakers</p>
+<h1 class="header"><a class="header" class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right"></h1>
 </div>
 
 <div class="content">
 
 <div class="block">
 <h1>Building the Source Code</h1>
-<li><b><a href="#Linux">Linux</a></b></li>
-<li><b><a href="#LinuxThirdPartyPackages">Linux with Third Party Packages</a></b></li>
-<li><b><a href="#OSX">OS X</a></b></li>
-<li><b><a href="#Windows">Windows</a></b></li>
+<li><a href="#Linux">Linux</a></li>
+<li><a href="#LinuxThirdPartyDependencies">Linux with Third Party Dependencies</a></li>
+<li><a href="#OSX">OS X</a></li>
+<li><a href="#Windows">Windows</a></li>
 </div>
 
 <div class="block">
 <h2><a name="Linux">Linux</a></h2>
+<p>This section describes how to build the DJV source code on Linux. If you
+would like to build the DJV source code and third party dependencies see the
+next <a href="#LinuxThirdPartyDependencies">section</a>.</p>
 <p>Requirements:</p>
 <ul>
     <li>OpenGL 3.3 or higher</li>
     <li>C++11 compiler</li>
     <li>CMake</li>
     <li>git</li>
-    <li>Development packages: GLM, Qt5, IlmBase</li>
-    <li>Optional development packages: JPEG, PNG, TIFF, OpenEXR, FFmpeg</li>
+    <li>Dependencies: GLM, Qt5, IlmBase</li>
+    <li>Optional dependencies: JPEG, PNG, TIFF, OpenEXR, FFmpeg</li>
 </ul>
 <p>Clone the DJV source code repository:</p>
 <pre>
@@ -75,19 +76,19 @@
     -DBUILD_SHARED_LIBS=ON
 > make
 </pre>
-<p>On some systems you may need to add a flag to CMake so it can find the
-correct Qt 5 programs:</p>
+<p>On some systems you may need to add a flag so CMake can find the necessary
+Qt 5 programs:</p>
 <pre>
 > cmake ../djv-git \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_PROGRAM_PATH=/usr/lib64/qt5/bin \
     -DBUILD_SHARED_LIBS=ON
 </pre>
-<p>If everything completes OK try running the confidence tests:</p>
+<p>If everything completes OK run the confidence tests:</p>
 <pre>
 > make test
 </pre>
-<p>You can also try starting the djv_view application:</p>
+<p>You can also start the djv_view application:</p>
 <pre>
 > ./build/bin/djv_view
 </pre>
@@ -98,7 +99,9 @@ correct Qt 5 programs:</p>
 </div>
 
 <div class="block">
-<h2><a name="LinuxThirdPartyPackages">Linux with Third Party Packages</a></h2>
+<h2><a name="LinuxThirdPartyDependencies">Linux with Third Party Dependencies</a></h2>
+<p>This section describes how to build the DJV source code and third party
+dependencies on Linux.</p>
 <p>Requirements:</p>
 <ul>
     <li>OpenGL 3.3 or higher</li>
@@ -114,7 +117,7 @@ refer to the path of this directory as "$BUILD_DIR".</p>
 > git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
 </pre>
 <p>DJV uses the CMake build system. You can either download and install it from
-the <b><a href="http://cmake.org">CMake</a></b> website, or build it from source.
+the <a href="http://cmake.org">CMake</a> website, or build it from source.
 The following is how to build CMake from source:</p>
 <pre>
 > tar xvf djv-git-third-party/cmake-3.12.1.tar.gz
@@ -140,9 +143,9 @@ the CMake binary directory to your "$PATH":</p>
     -DCMAKE_FIND_FRAMEWORK="LAST"
 > make
 </pre>
-<p>The build should take around 10 or 20 minutes on a decent workstation. Hopefully
-everything completes OK and you will have built over a dozen software packages including
-OpenEXR, Qt, FFmpeg, and others.</p>
+<p>The build should take around 10 or 20 minutes on a workstation. Hopefully
+everything completes OK and you will have built over a dozen software dependencies
+including OpenEXR, Qt, FFmpeg, and others.</p>
 <p>Next we will build the DJV source code. Go back to the working directory and
 clone the DJV source code repository:</p>
 <pre>
@@ -178,18 +181,20 @@ and try running the confidence tests:</p>
 
 <div class="block">
 <h2><a name="OSX">OS X</a></h2>
+<p>Building the DJV source code on OS X follows the same steps as Linux, open a terminal and follow the above
+directions for building <a href="#LinuxThirdPartyDependencies">Linux with Third Party Dependencies</a></p>
 <p>Requirements:</p>
 <ul>
     <li>OpenGL 3.3 or higher</li>
     <li>Xcode</li>
     <li>git</li>
 </ul>
-<p>Building DJV on OS X is the same as Linux, open a terminal and follow the above
-directions for building on <b><a href="#LinuxThirdPartyPackages">Linux with Third Party Packages</a></b></p>
 </div>
 
 <div class="block">
 <h2><a name="Windows">Windows</a></h2>
+<p>This section describes how to build the DJV source code and third party
+dependencies on Windows.</p>
 <p>Requirements:</p>
 <ul>
     <li>OpenGL 3.3 or higher</li>
@@ -215,7 +220,7 @@ refer to the path of this directory as "$BUILD_DIR".</p>
 </pre>
 <p>Open "djv-third-party.sln" in Visual Studio and build the solution. The build should
 take around 10 or 20 minutes on a decent workstation. Hopefully everything completes
-OK and you will have built over a dozen software packages including OpenEXR, Qt, and
+OK and you will have built over a dozen software dependencies including OpenEXR, Qt, and
 others.</p>
 <p>Building FFmpeg on Windows requires some additional steps, namely using the
 Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
@@ -275,7 +280,7 @@ packages for installation by building the "PACKAGE" target.</p>
 </div>
 
 <div class="footer">
-<p align=center>Copyright (c) 2004-2018 Darby Johnston</p>
+<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
 </body>

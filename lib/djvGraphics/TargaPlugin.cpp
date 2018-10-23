@@ -128,7 +128,7 @@ namespace djv
                 "Targa Options\n"
                 "\n"
                 "    -targa_compression (value)\n"
-                "        Set the file compression used when saving Targa images. Options = "
+                "        Set the file compression used when saving Targa images: "
                 "%1. Default = %2.\n").
                 arg(Targa::compressionLabels().join(", ")).
                 arg(compressionLabel.join(", "));

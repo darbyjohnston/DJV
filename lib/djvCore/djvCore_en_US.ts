@@ -139,20 +139,56 @@ This software is based in part on the works of (in alphabetical order):
     <message>
         <location filename="CoreContext.cpp" line="467"/>
         <source>
-General Options
+File Sequence Options
 
     -seq_compress (value)
-        Set the file sequence compression. Options = %1. Default = %2.
+        Set the file sequence compression: %1. Default = %2.
     -seq_auto (value)
-        Set whether auto file sequencing is enabled. Options = %3. Default = %4.
+        Set whether auto file sequencing is enabled: %3. Default = %4.
     -seq_max (value)
         Set the maximum allowed size of file sequences. Default = %5.
     -seq_negative (value)
-        Set whether negative numbers are enabled. Options = %6. Default = %7.
+        Set whether negative numbers are enabled: %6. Default = %7.
+
+Time Options
+
     -time_units (value)
-        Set the time units. Options = %8. Default = %9.
+        Set the time units: %8. Default = %9.
     -default_speed (value)
-        Set the default speed. Options = %10. Default = %11.
+        Set the default speed: %10. Default = %11.
+
+Miscellaneous Options
+
+    -debug_log
+        Print debug log messages.
+    -help, -h
+        Show the command line documentation.
+    -info
+        Show information about the application.
+    -about
+        Show legal infomration.
+</source>
+        <oldsource>
+File Sequence Options
+
+    -seq_compress (value)
+        Set the file sequence compression: %1. Default = %2.
+    -seq_auto (value)
+        Set whether auto file sequencing is enabled: %3. Default = %4.
+    -seq_max (value)
+        Set the maximum allowed size of file sequences. Default = %5.
+    -seq_negative (value)
+        Set whether negative numbers are enabled: %6. Default = %7.
+
+Time Options
+
+    -time_units (value)
+        Set the time units: %8. Default = %9.
+    -default_speed (value)
+        Set the default speed: %10. Default = %11.
+
+Miscellaneous Options
+
     -debug_log
         Print debug log messages.
     -help, -h
@@ -161,7 +197,7 @@ General Options
         Show the information message.
     -about
         Show the about message.
-</source>
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -310,32 +346,32 @@ General Options
 <context>
     <name>djv::Core::FileInfoUtil</name>
     <message>
-        <location filename="FileInfoUtil.cpp" line="626"/>
+        <location filename="FileInfoUtil.cpp" line="600"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="627"/>
+        <location filename="FileInfoUtil.cpp" line="601"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="628"/>
+        <location filename="FileInfoUtil.cpp" line="602"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="629"/>
+        <location filename="FileInfoUtil.cpp" line="603"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="630"/>
+        <location filename="FileInfoUtil.cpp" line="604"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="631"/>
+        <location filename="FileInfoUtil.cpp" line="605"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>

@@ -132,7 +132,7 @@ namespace djv
                 "SGI Options\n"
                 "\n"
                 "    -sgi_compression (value)\n"
-                "        Set the file compression used when saving SGI images. Options = %1. "
+                "        Set the file compression used when saving SGI images: %1. "
                 "Default = %2.\n").
                 arg(SGI::compressionLabels().join(", ")).
                 arg(compressionLabel.join(", "));

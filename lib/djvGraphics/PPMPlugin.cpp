@@ -154,10 +154,10 @@ namespace djv
                 "PPM Options\n"
                 "\n"
                 "    -ppm_type (value)\n"
-                "        Set the file type used when saving PPM images. Options = %1. "
+                "        Set the file type used when saving PPM images: %1. "
                 "Default = %2.\n"
                 "    -ppm_data (value)\n"
-                "        Set the data type used when saving PPM images. Options = %3. "
+                "        Set the data type used when saving PPM images: %3. "
                 "Default = %4.\n").
                 arg(PPM::typeLabels().join(", ")).
                 arg(typeLabel.join(", ")).

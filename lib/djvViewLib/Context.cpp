@@ -270,7 +270,7 @@ namespace djv
             static const QString label = qApp->translate("djv::ViewLib::Context",
                 "djv_view\n"
                 "\n"
-                "    An application for real-time image sequence and movie playback."
+                "    Real-time image sequence and movie playback."
                 "\n"
                 "Usage\n"
                 "\n"
@@ -289,9 +289,9 @@ namespace djv
                 "    -file_layer (value)\n"
                 "        Set the input layer.\n"
                 "    -file_proxy (value)\n"
-                "        Set the proxy scale. Options = %1.\n"
+                "        Set the proxy scale: %1.\n"
                 "    -file_cache (value)\n"
-                "        Set whether the file cache is enabled. Options = %2.\n"
+                "        Set whether the file cache is enabled: %2.\n"
                 "\n"
                 "Window Options\n"
                 "\n"
@@ -301,11 +301,11 @@ namespace djv
                 "Playback Options\n"
                 "\n"
                 "    -playback (value)\n"
-                "        Set the playback. Options = %3.\n"
+                "        Set the playback: %3.\n"
                 "    -playback_frame (value)\n"
                 "        Set the playback frame.\n"
                 "    -playback_speed (value)\n"
-                "        Set the playback speed. Options = %4.\n"
+                "        Set the playback speed: %4.\n"
                 "%5");
             return QString(label).
                 arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).

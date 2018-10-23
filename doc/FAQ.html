@@ -35,10 +35,8 @@
 <body>
 
 <div class="header">
-<a class="header" href="index.html">
-    <img src="images/logo-filmreel.png" style="vertical-align: middle;">
-    DJV Imaging</a>
-<p>Media review software for VFX artists and filmmakers</p>
+<h1 class="header"><a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right"></h1>
 </div>
 
 <div class="content">
@@ -46,7 +44,7 @@
 <div class="block">
 <h1>Frequently Asked Questions</h1>
 <li><a href="#1">Is DJV free?</a></li>
-<li><a href="#2">How do I setup the DJV command line tools?</a></li>
+<li><a href="#2">How do I setup the DJV command line tools on OS X?</a></li>
 <li><a href="#3">How do I use a LUT (lookup table) with the DJV viewer?</a></li>
 <li><a href="#4">Are 3D LUTs supported?</a></li>
 <li><a href="#5">How can I convert an image sequence to a movie (or vice versa)?</a></li>
@@ -55,37 +53,46 @@
 </div>
 
 <div class="block">
-<h3><a name="1">Is DJV free?</a></h3>
-<p>The DJV source code is covered by an open source BSD style license, which
+<h2><a name="1">Is DJV free?</a></h2>
+<p>The DJV source code is covered by an open source BSD style license which
 means that it is basically free to use, modify, and distribute, as long as the
-copyright notices and license are retained. See the <b><a href="Legal.html">legal
-</a></b> page for additional information.</p>
+copyright notices and license are retained. See the <a href="Legal.html">legal</a>
+page for additional information.</p>
 <p>Note that some of the third party software that DJV depends on may have
-different licensing requirements, see the <b><a href="Legal.html">legal</a></b> page
+different licensing requirements, see the <a href="Legal.html">legal</a> page
 for additional details.</p>
 </div>
 
 <div class="block">
-<h3><a name="2">How do I setup the DJV command line tools?</a></h3>
-<p>You can find information about setting up the command line tools on the
-<b><a href="Install.html">installation</a></b> page.</p>
+<h2><a name="2">How do I setup the DJV command line tools on OS X?</a></h2>
+<p>If you installed DJV to the Applications folder you can add the command line
+tools to your path:</p>
+<pre>
+> export PATH=$PATH:/Applications/djv-1.2.2-OSX-x64.app/Contents/Resources/bin
+</pre>
+<p>You will also need to setup the library path:</p>
+<pre>
+> export DYLD_FALLBACK_LIBRARY_PATH=/Applications/djv-1.2.2-OSX-x64.app/Contents/Resources/lib
+</pre>
+<p>Both of these commands can be added to your shell startup file ($HOME/.profile)
+so they are called automatically.</p>
 </div>
 
 <div class="block">
-<h3><a name="3">How do I use a LUT (lookup table) with the DJV viewer?</a></h3>
+<h2><a name="3">How do I use a LUT (lookup table) with the DJV viewer?</a></h2>
 <p>You can find information about using LUTs on the 
-<b><a href="djv_view.html#ColorAndDisplayProfiles">color and display profiles</a></b> page.</p>
+<a href="djv_view.html#ColorAndDisplayProfiles">color and display profiles</a> page.</p>
 </div>
 
 <div class="block">
-<h3><a name="4">Are 3D LUTs supported?</a></h3>
+<h2><a name="4">Are 3D LUTs supported?</a></h2>
 <p>3D LUTs are not currently supported.</p>
 </div>
 
 <div class="block">
-<h3><a name="5">How can I convert an image sequence to a movie (or vice versa)?</a></h3>
-<p>To convert an image sequence or movie you can use either the <b><a href="djv_view.html#SavingFiles">djv_view</a></b>
-application or the <b><a href="djv_convert.html">djv_convert</a></b> command line tool.</p>
+<h2><a name="5">How can I convert an image sequence to a movie (or vice versa)?</a></h2>
+<p>To convert an image sequence or movie you can use either the <a href="djv_view.html#SavingFiles">djv_view</a>
+application or the <a href="djv_convert.html">djv_convert</a> command line tool.</p>
 <p>Here is an example of using the djv_convert command line tool:</p>
 <pre>
 > djv_convert input.1-100.sgi output.mp4
@@ -93,12 +100,12 @@ application or the <b><a href="djv_convert.html">djv_convert</a></b> command lin
 </div>
 
 <div class="block">
-<h3><a name="6">What image and movie file formats are supported?</a></h3>
-<p>You can find information on the <b><a href="ImageFormtats.html">supported image formats</a></b> page.</p>
+<h2><a name="6">What image and movie file formats are supported?</a></h2>
+<p>You can find information on the <a href="ImageFormtats.html">supported image formats</a> page.</p>
 </div>
 
 <div class="block">
-<h3><a name="7">How can I enable timecode display?</a></h3>
+<h2><a name="7">How can I enable timecode display?</a></h2>
 <p>Open the preferences dialog from the "File" menu and click on "Miscellaneous".
 Set the time units to "Timecode":</p>
 <img src="images/Miscellaneous Preferences.png" align="middle">
@@ -107,7 +114,7 @@ Set the time units to "Timecode":</p>
 </div>
 
 <div class="footer">
-<p align=center>Copyright (c) 2004-2018 Darby Johnston</p>
+<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
 </body>

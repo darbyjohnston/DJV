@@ -35,566 +35,23 @@
 <body>
 
 <div class="header">
-<a class="header" href="index.html">
-    <img src="images/logo-filmreel.png" style="vertical-align: middle;">
-    DJV Imaging</a>
-<p>Media review software for VFX artists and filmmakers</p>
+<h1 class="header"><a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right"></h1>
 </div>
 
 <div class="content">
 
 <div class="block">
 <h1>djv_view</h1>
-<p>An application for real-time image sequence and movie playback.</p>
-<li><a href="#Files">Files</a></li>
-<li><a href="#Windows">Windows</a></li>
-<li><a href="#Views">Views</a></li>
-<li><a href="#Images">Images</a></li>
-<li><a href="#Playback">Playback</a></li>
-<li><a href="#Tools">Tools</a></li>
-<li><a href="#CommandLine">Command Line</a></li>
-<br>
-<img src="images/djv_view.png">
-</div>
-
-<div class="block">
-<h2><a name="Files">Files</a></h2>
-<a name="FileFormats"><h3>File Formats</h3></a>
-<p>For the list of supported file formats see the <b><a href="ImageFormats.html">supported image formats</a></b> page.</p>
-
-<a name="FileSequences"><h3>File Sequences</h3></a>
-<p><b>TODO</b></p>
-
-<a name="OpeningFiles"><h3>Opening Files</h3></a>
-<p><b>TODO</b></p>
-
-<a name="SavingFiles"><h3>Saving Files</h3></a>
-<p><b>TODO</b></p>
-
-<a name="FileLayers"><h3>File Layers</h3></a>
-<p><b>TODO</b></p>
-
-<a name="ProxyScaling"><h3>Proxy Scaling</h3></a>
-<p>Proxy scaling reduces the resolution when loading files to allow more images
-to be stored in the memory cache at the expense of image quality. Proxy scaling
-can also improve playback speed since the images are smaller.</p>
-<p>The proxy scale may be set from the file menu or file preferences.</p>
-
-<a name="8BitConversion"><h3>8-Bit Conversion</h3></a>
-<p>This option converts images to 8-bits when loading files to allow more
-images to be stored in the memory cache at the expense of image quality.</p>
-<p>8-bit conversion may be set from the file menu or file preferences.</p>
-
-<a name="MemoryCache"><h3>Memory Cache</h3></a>
-<p>The memory cache allows the application to store images in memory which can
-improve playback performance. When the memory cache is disabled the images are
-streamed directly from disk.</p>
-<p>The memory cache may be enabled or disabled from the file menu or file
-preferences. The size of the cache is set in the file preferences. The size
-should be set large enough to hold your image sequences and smaller than the
-amount of memory in your computer.</p>
-<p>The cached images are shown in the playback bar and the state of the
-memory cache is shown in the information bar.</p>
-
-<a name="FileMenu"><h3>File Menu</h3></a>
-<table>
-<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
-<tr>
-    <td>Open</td>
-    <td>Open a new file</td>
-    <td>Ctrl+O</td>
-</tr>
-<tr>
-    <td>Recent</td>
-    <td>List of recently opened files</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Reload</td>
-    <td>Reload the current file</td>
-    <td>Ctrl+R</td>
-</tr>
-<tr>
-    <td>Reload Frame</td>
-    <td>Reload the current frame</td>
-    <td>Ctrl+Shift+R</td>
-</tr>
-<tr>
-    <td>Close</td>
-    <td>Close the current file</td>
-    <td>Ctrl+W</td>
-</tr>
-<tr>
-    <td>Save</td>
-    <td>Save a copy of the current file</td>
-    <td>Ctrl+S</td>
-</tr>
-<tr>
-    <td>Save Frame</td>
-    <td>Save a copy of the current frame</td>
-    <td>Shift+Ctrl+S</td>
-</tr>
-<tr>
-    <td>Layer</td>
-    <td>A list of the layers in the current file</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Layer Previous</td>
-    <td>Go to the previous layer</td>
-    <td>Ctrl+-</td>
-</tr>
-<tr>
-    <td>Layer Next</td>
-    <td>Go to the next layer</td>
-    <td>Ctrl+=</td>
-</tr>
-<tr>
-    <td>Proxy Scale</td>
-    <td>Set the proxy scale</td>
-    <td></td>
-</tr>
-<tr>
-    <td>8-bit Conversion</td>
-    <td>Enable 8-bit conversion</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Memory Cache</td>
-    <td>Enable the memory cache</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Preload Cache</td>
-    <td>Enable the memory cache pre-load</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Clear Memory Cache</td>
-    <td>Clear the contents of the memory cache</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Messages</td>
-    <td>Show the message dialog</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Preferences</td>
-    <td>Show the preferences dialog</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Exit</td>
-    <td>Exit the application</td>
-    <td>Ctrl+Q</td>
-</tr>
-</table>
-</div>
-
-<div class="block">
-<h2><a name="Windows">Windows</a></h2>
-
-<a name="OpeningAndClosingWindows"><h3>Opening and Closing Windows</h3></a>
-<p><b>TODO</b></p>
-
-<a name="ResizingWindows"><h3>Resizing Windows</h3></a>
-<p><b>TODO</b></p>
-
-<a name="FullScreenMode"><h3>Full Screen Mode</h3></a>
-<p><b>TODO</b></p>
-
-<a name="WindowControls"><h3>Window Controls</h3></a>
-<p><b>TODO</b></p>
-
-<a name="WindowMenu"><h3>Window Menu</h3></a>
-<table>
-<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
-<tr>
-    <td>New</td>
-    <td>Create a new window</td>
-    <td>Ctrl+N</td>
-</tr>
-<tr>
-    <td>Copy</td>
-    <td>Copy the current window</td>
-    <td>Ctrl+C</td>
-</tr>
-<tr>
-    <td>Close</td>
-    <td>Close the current window</td>
-    <td>Ctrl+E</td>
-</tr>
-<tr>
-    <td>Fit</td>
-    <td>Resize the window to fit the image</td>
-    <td>F</td>
-</tr>
-<tr>
-    <td>Full Screen</td>
-    <td>Show the window full screen</td>
-    <td>U</td>
-</tr>
-<tr>
-    <td>Show Controls</td>
-    <td>Set whether the tool bars, playback bar, and information bar are
-    visible</td>
-    <td>C</td>
-</tr>
-<tr>
-    <td>Show Tool Bars</td>
-    <td>Set whether the tool bars are visible</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Show Playback Bar</td>
-    <td>Set whether the playback bar is visible</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Show Information Bar</td>
-    <td>Set whether the information bar is visible</td>
-    <td></td>
-</tr>
-</table>
-</div>
-
-<div class="block">
-<h2><a name="Views">Views</a></h2>
-
-<a name="ViewNavigation"><h3>View Navigation</h3></a>
-<p><b>TODO</b></p>
-
-<a name="Grid"><h3>Grid</h3></a>
-<p><b>TODO</b></p>
-
-<a name="HeadsUpDisplay"><h3>Heads Up Display (HUD)</h3></a>
-<p><b>TODO</b></p>
-
-<a name="ViewMenu"><h3>View Menu</h3></a>
-<table>
-<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
-<tr>
-    <td>Left</td>
-    <td>Pan the view left</td>
-    <td>Left Arrow</td>
-</tr>
-<tr>
-    <td>Right</td>
-    <td>Pan the view right</td>
-    <td>Right Arrow</td>
-</tr>
-<tr>
-    <td>Up</td>
-    <td>Pan the view up</td>
-    <td>Up Arrow</td>
-</tr>
-<tr>
-    <td></td>
-    <td>Down</td>
-    <td>Pan the view down</td>
-    <td>Down Arrow</td>
-</tr>
-<tr>
-    <td>Center</td>
-    <td>Center the view</td>
-    <td>Insert</td>
-</tr>
-<tr>
-    <td>Zoom In</td>
-    <td>Zoom into the view</td>
-    <td>=</td>
-</tr>
-<tr>
-    <td>Zoom Out</td>
-    <td>Zoom out of the view</td>
-    <td>-</td>
-</tr>
-<tr>
-    <td>Zoom Reset</td>
-    <td>Rest the zoom</td>
-    <td>0</td>
-</tr>
-<tr>
-    <td>Reset</td>
-    <td>Reset the position and zoom</td>
-    <td>Delete</td>
-</tr>
-<tr>
-    <td>Fit</td>
-    <td>Fit the image to the view</td>
-    <td>Backspace</td>
-</tr>
-<tr>
-    <td>Grid</td>
-    <td>Set the grid overlay</td>
-    <td></td>
-</tr>
-<tr>
-    <td>HUD</td>
-    <td>Toggle the HUD (Heads Up Display)</td>
-    <td>H</td>
-</tr>
-</table>
-</div>
-
-<div class="block">
-<h2><a name="Images">Images</a></h2>
-
-<a name="FrameStore"><h3>Frame Store</h3></a>
-<p><b>TODO</b></p>
-
-<a name="ImageTransforms"><h3>Image Transforms</h3></a>
-<p><b>TODO</b></p>
-
-<a name="ColorAndDisplayProfiles"><h3>Color and Display Profiles</h3></a>
-<p><b>TODO</b></p>
-
-<a name="ImageChannels"><h3>Image Channels</h3></a>
-<p><b>TODO</b></p>
-
-<a name="ImageMenu"><h3>Image Menu</h3></a>
-<table>
-<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
-<tr>
-    <td>Show Frame Store</td>
-    <td>Show the currently loaded frame store</td>
-    <td>E</td>
-</tr>
-<tr>
-    <td>Load Frame Store</td>
-    <td>Load the current image into the frame store</td>
-    <td>Shift+E</td>
-</tr>
-<tr>
-    <td>Mirror Horizontal</td>
-    <td>Mirror the image horizontally</td>
-    <td>F1</td>
-</tr>
-<tr>
-    <td>Mirror Vertical</td>
-    <td>Mirror the image vertically</td>
-    <td>F2</td>
-</tr>
-<tr>
-    <td>Scale</td>
-    <td>Set the image scale</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Rotate</td>
-    <td>Set the image rotation</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Color Profile</td>
-    <td>Set whether the image color profile is enabled</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Show Display Profile</td>
-    <td>Show the image display profile settings</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Display Profile</td>
-    <td>Set the current image display profile</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Channel</td>
-    <td>Set which image channels are visible</td>
-    <td></td>
-</tr>
-</table>
-</div>
-
-<div class="block">
-<h2><a name="Playback">Playback</a></h2>
-
-<a name="PlaybackControls"><h3>Playback Controls</h3></a>
-<p><b>TODO</b></p>
-
-<a name="FrameControls"><h3>Frame Controls</h3></a>
-<p><b>TODO</b></p>
-
-<a name="InAndOutPoints"><h3>In and Out Points</h3></a>
-<p><b>TODO</b></p>
-
-<a name="PlaybackSpeed"><h3>Playback Speed</h3></a>
-<p><b>TODO</b></p>
-
-<a name="PlaybackLayout"><h3>Playback Layout</h3></a>
-<p><b>TODO</b></p>
-
-<a name="FramesAndTimecode"><h3>Frames and Timecode</h3></a>
-<p><b>TODO</b></p>
-
-<a name="PlaybackMenu"><h3>Playback Menu</h3></a>
-<table>
-<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
-<tr>
-    <td>Reverse</td>
-    <td>Start reverse playback</td>
-    <td>J</td>
-</tr>
-<tr>
-    <td>Stop</td>
-    <td>Stop playback</td>
-    <td>K</td>
-</tr>
-<tr>
-    <td>Forward</td>
-    <td>Start forward playback</td>
-    <td>L</td>
-</tr>
-<tr>
-    <td>Toggle Playback</td>
-    <td>Toggle playback</td>
-    <td>Space</td>
-</tr>
-<tr>
-    <td>Loop</td>
-    <td>Set the playback loop mode</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Every Frame</td>
-    <td>Set whether every frame is played back</td>
-    <td></td>
-</tr>
-<tr>
-    <td>Start</td>
-    <td>Go to the start frame or in point</td>
-    <td>Home</td>
-</tr>
-<tr>
-    <td>Start Absolute</td>
-    <td>Go to the start frame</td>
-    <td>Shift+Home</td>
-</tr>
-<tr>
-    <td>Previous</td>
-    <td>Go to the previous frame</td>
-    <td>[</td>
-</tr>
-<tr>
-    <td>Previous X10</td>
-    <td>Go backwards 10 frames</td>
-    <td>{</td>
-</tr>
-<tr>
-    <td>Previous X100</td>
-    <td>Go backwards 100 frames</td>
-    <td>Ctrl+{</td>
-</tr>
-<tr>
-    <td>Next</td>
-    <td>Go to the next frame</td>
-    <td>]</td>
-</tr>
-<tr>
-    <td>Next X10</td>
-    <td>Go forward 10 frames</td>
-    <td>}</td>
-</tr>
-<tr>
-    <td>Next X100</td>
-    <td>Go forward 100 frames</td>
-    <td>Ctrl+}</td>
-</tr>
-<tr>
-    <td>End</td>
-    <td>Go to the end frame or out point</td>
-    <td>End</td>
-</tr>
-<tr>
-    <td>End Absolute</td>
-    <td>Go to the end frame</td>
-    <td>Shift+End</td>
-</tr>
-<tr>
-    <td>Enable In/Out Points</td>
-    <td>Set whether in/out points are enabled</td>
-    <td>P</td>
-</tr>
-<tr>
-    <td>Mark In Point</td>
-    <td>Set the current frame as the in point</td>
-    <td>I</td>
-</tr>
-<tr>
-    <td>Mark Out Point</td>
-    <td>Set the current frame as the out point</td>
-    <td>O</td>
-</tr>
-<tr>
-    <td>Reset In Point</td>
-    <td>Reset the in point</td>
-    <td>Shift+I</td>
-</tr>
-<tr>
-    <td>Reset Out Point</td>
-    <td>Reset the out point</td>
-    <td>Shift+O</td>
-</tr>
-<tr>
-    <td>Layout</td>
-    <td>Set the playback bar layout</td>
-    <td></td>
-</tr>
-</table>
-</div>
-
-<div class="block">
-<h2><a name="Tools">Tools</a></h2>
-
-<a name="Magnify"><h3>Magnify</h3></a>
-<p>This tool provides image magnification.</p>
-<img src="images/djv_view Magnify Tool.png"/>
-
-<a name="ColorPicker"><h3>Color Picker</h3></a>
-<p>This tool provides color picking.</p>
-<img src="images/djv_view Color Picker Tool.png"/>
-
-<a name="Histogram"><h3>Histogram</h3></a>
-<p>This tool provides an image histogram.</p>
-<img src="images/djv_view Histogram Tool.png"/>
-
-<a name="Information"><h3>Information</h3></a>
-<p>This tool provides image information.</p>
-<img src="images/djv_view Info Tool.png"/></td>
-
-<a name="ToolsMenu"><h3>Tools Menu</h3></a>
-<table>
-<tr><th>Menu&nbsp;Item</th><th>Description</th><th>Keyboard&nbsp;Shortcut</th></tr>
-<tr>
-    <td>Magnify</td>
-    <td>Toggle the magnify tool</td>
-    <td>1</td>
-</tr>
-<tr>
-    <td>Color Picker</td>
-    <td>Toggle the color picker tool</td>
-    <td>2</td>
-</tr>
-<tr>
-    <td>Histogram</td>
-    <td>Toggle the histogram tool</td>
-    <td>3</td>
-</tr>
-<tr>
-    <td>Information</td>
-    <td>Toggle the information tool</td>
-    <td>4</td>
-</tr>
-</table>
-
+<p>Real-time image sequence and movie playback.</p>
+<ul>
+    <li><a href="#CommandLine">Command Line</a></li>
+</ul>
 </div>
 
 <div class="block">
 <h2><a name="CommandLine">Command Line</a></h2>
-<h3>Usage:</h3>
+<h3>Usage</h3>
 <pre>
 djv_view [image]... [option]...
 </pre>
@@ -603,51 +60,43 @@ djv_view [image]... [option]...
 or movies</td></tr>
 <tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
 </table>
-
-<h3>Options:</h3>
+<h3>Options</h3>
 <table>
 <tr><td width="200"><i>-combine</i></td><td>Combine multiple command line
 arguments into a single sequence.</td></tr>
-<tr><td><i>-seq, -q (value)</i></td><td>Set command line file sequencing.
-Options = Off, Sparse, Range. Default = Range.</td></tr>
-<tr><td><i>-auto_seq (value)</i></td><td>Automatically detect sequences when
-opening files. Options = False, True. Default = True.</td></tr>
 </table>
-
-<h3>File options:</h3>
+<h3>File Options</h3>
 <table>
 <tr><td width="200"><i>-file_layer (value)</i></td><td>Set the input layer.
 Default = 0.</td></tr>
-<tr><td><i>-file_proxy (value)</i></td><td>Set the proxy scale. Options = None,
+<tr><td><i>-file_proxy (value)</i></td><td>Set the proxy scale: None,
 1/2, 1/4, 1/8.</td></tr>
-<tr><td><i>-file_cache (value)</i></td><td>Set whether the file cache is enabled.
-Options = False, True.</td></tr>
+<tr><td><i>-file_cache (value)</i></td><td>Set whether the file cache is
+enabled: False, True.</td></tr>
 </table>
-
-<h3>Window options:</h3>
+<h3>Window Options</h3>
 <table>
 <tr><td width="200"><i>-window_full_screen</i></td><td>Set the window full
 screen.</td></tr>
 </table>
-
-<h3>Playback options:</h3>
+<h3>Playback Options</h3>
 <table>
-<tr><td width="200"><i>-playback (value)</i></td><td>Set the playback. Options =
+<tr><td width="200"><i>-playback (value)</i></td><td>Set the playback:
 Reverse, Stop, Forward.</td></tr>
 <tr><td><i>-playback_frame (value)</i></td><td>Set the playback frame.</td></tr>
-<tr><td><i>-playback_speed (value)</i></td><td>Set the playback speed.
-Options = 1, 3, 6, 12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60,
-120.</td></tr>
+<tr><td><i>-playback_speed (value)</i></td><td>Set the playback speed: 1, 3, 6,
+12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60, 120.</td></tr>
 </table>
-
-<p>Image format command line options can be found on the
-<b><a href="ImageFormats.html">supported image formats</a></b> page.<p>
+<h3>Image Options</h3>
+<p>See this <a href="ImageFormats.html">page</a> for image format options.<p>
+<h3>General Options</h3>
+<p>See this <a href="CommandLine.html">page</a> for general options.<p>
 </div>
 
 </div>
 
 <div class="footer">
-<p align=center>Copyright (c) 2004-2018 Darby Johnston</p>
+<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
 </body>

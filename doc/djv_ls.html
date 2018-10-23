@@ -35,32 +35,29 @@
 <body>
 
 <div class="header">
-<a class="header" href="index.html">
-    <img src="images/logo-filmreel.png" style="vertical-align: middle;">
-    DJV Imaging</a>
-<p>Media review software for VFX artists and filmmakers</p>
+<h1 class="header"><a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right"></h1>
 </div>
 
 <div class="content">
 
 <div class="block">
 <h1>djv_ls</h1>
-<p>A command line tool for listing directories with file sequences.</p>
-<h3>Example output:</h3>
+<p>List directories with file sequences.</p>
+<p>Example:</p>
 <pre>
 el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006
 richmond_train.2k.tiff    File 8.86MB darby rw Mon Jun 12 21:21:58 2006
 fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 </pre>
-<h3>Key:</h3>
+<p>Key:</p>
 <pre>
 (name)                        (type) (size) (user) (permissions) (time)
 </pre>
 </div>
 
 <div class="block">
-<h2><a name="CommandLine">Command Line</a></h2>
-<h3>Usage:</h3>
+<h2>Usage</h2>
 <pre>
 djv_ls [file|directory]... [option]...
 </pre>
@@ -71,34 +68,43 @@ djv_ls [file|directory]... [option]...
 </table>
 <p>If no files or directories are given then the current directory will be
 used.</p>
-
-<h3>Options:</h3>
-<table>
-<tr><td width="200"><i>-x_info, -xi</i></td><td>Don't show information, only
-file names.</td></tr>
-<tr><td><i>-file_path, -fp</i></td><td>Show file path names.</td></tr>
-<tr><td><i>-seq, -q (value)</i></td><td>Set file sequencing. Options = Off,
-Sparse, Range. Default = Range.</td></tr>
-<tr><td><i>-recurse, -r</i></td><td>Descend into sub-directories.</td></tr>
-<tr><td><i>-hidden</i></td><td>Show hidden files.</td></tr>
-<tr><td><i>-columns, -c (value)</i></td><td>Set the number of columns for
-formatting output. A value of zero disables formatting.</td></tr>
-</table>
-
-<h3>Sorting options:</h3>
-<table>
-<tr><td width="200"><i>-sort, -s (value)</i></td><td>Set the sorting. Options =
-Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
-<tr><td><i>-reverse_sort, -rs</i></td><td>Reverse the sorting order.</td></tr>
-<tr><td><i>-x_sort_dirs, -xsd</i></td><td>Don't sort directories first.</td></tr>
-</table>
-
-<p>Image format command line options can be found on the
-<b><a href="ImageFormats.html">supported image formats</a></b> page.<p>
 </div>
 
 <div class="block">
-<h2><a name="Examples">Examples</a></h2>
+<h2>Options</h2>
+<table>
+<tr><td width="200"><i>-x_info, -xi</i></td><td>Don't show file information,
+only file names.</td></tr>
+<tr><td><i>-file_path, -fp</i></td><td>Show file path names.</td></tr>
+<tr><td><i>-recurse, -r</i></td><td>Recursively descend into sub-directories.</td></tr>
+<tr><td><i>-hidden</i></td><td>Show hidden files.</td></tr>
+<tr><td><i>-columns, -c (value)</i></td><td>Set the number of columns used to
+format the output. Setting this value to zero disables formatting.</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>Sorting Options</h2>
+<table>
+<tr><td width="200"><i>-sort, -s (value)</i></td><td>Set how the items are sorted:
+Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
+<tr><td><i>-reverse_sort, -rs</i></td><td>Reverse the sorting order.</td></tr>
+<tr><td><i>-x_sort_dirs, -xsd</i></td><td>Don't sort directories to the top of the list.</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h2>Image Format Options</h2>
+<p>See this <a href="ImageFormats.html">page</a> for image format options.<p>
+</div>
+
+<div class="block">
+<h2>General Options</h2>
+<p>See this <a href="CommandLine.html">page</a> for general options.<p>
+</div>
+
+<div class="block">
+<h2>Examples</h2>
 <p>List the current directory:</p>
 <pre>
 > djv_ls
@@ -107,7 +113,7 @@ Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 <pre>
 > djv_ls ~/movies ~/pictures
 </pre>
-<p>Sort by time with the most recent first:</p>
+<p>Sort the directory contents by time with the most recent items first:</p>
 <pre>
 > djv_ls -sort time -reverse_sort
 </pre>
@@ -116,7 +122,7 @@ Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 </div>
 
 <div class="footer">
-<p align=center>Copyright (c) 2004-2018 Darby Johnston</p>
+<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
 </body>

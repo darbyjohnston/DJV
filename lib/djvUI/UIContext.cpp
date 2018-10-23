@@ -423,7 +423,7 @@ namespace djv
                 "User Interface Options\n"
                 "\n"
                 "    -reset_prefs\n"
-                "        Do not load the preference at start up.\n"
+                "        Reset the preferences.\n"
                 "%2");
             return QString(label).
                 arg(Graphics::GraphicsContext::commandLineHelp());

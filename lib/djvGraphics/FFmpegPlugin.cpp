@@ -224,10 +224,10 @@ namespace djv
                 "FFmpeg Options\n"
                 "\n"
                 "    -ffmpeg_format (value)\n"
-                "        Set the format used when saving FFmpeg movies. Options = %1. "
+                "        Set the format used when saving FFmpeg movies: %1. "
                 "Default = %2.\n"
                 "    -ffmpeg_quality (value)\n"
-                "        Set the quality used when saving FFmpeg movies. Options = %3. "
+                "        Set the quality used when saving FFmpeg movies: %3. "
                 "Default = %4.\n"
             ).
                 arg(FFmpeg::formatLabels().join(", ")).

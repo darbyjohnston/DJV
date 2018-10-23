@@ -80,7 +80,7 @@ namespace djv
                 "LUT Options\n"
                 "\n"
                 "    -lut_type (value)\n"
-                "        Set the pixel type used when loading LUTs. Options = %1. Default = "
+                "        Set the pixel type used when loading LUTs: %1. Default = "
                 "%2.\n").
                 arg(LUT::typeLabels().join(", ")).
                 arg(typeLabel.join(", "));

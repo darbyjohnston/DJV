@@ -1,6 +1,5 @@
 set(html
     Build.html
-    ChangeList.html
     CommandLine.html
     Credits.html
     djv_convert.html
@@ -12,11 +11,9 @@ set(html
     FAQ.html
     ImageFormats.html
     index.html
-    Install.html
     Legal.html
     Screenshots.html
     Style.css
-    test.html
     Testimonials.html)
 set(images
     "images/Berkeley 2010-12-19.png"

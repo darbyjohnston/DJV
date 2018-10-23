@@ -136,7 +136,7 @@ namespace djv
                 "TIFF Options\n"
                 "\n"
                 "    -tiff_compression (value)\n"
-                "        Set the file compression used when saving TIFF images. Options = %1. "
+                "        Set the file compression used when saving TIFF images: %1. "
                 "Default = %2.\n").
                 arg(TIFF::compressionLabels().join(", ")).
                 arg(compressionLabel.join(", "));

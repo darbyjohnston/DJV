@@ -111,7 +111,7 @@ include_directories(
     ${CMAKE_BINARY_DIR})
 
 #-------------------------------------------------------------------------------
-# Third Party Packages
+# Third Party Dependencies
 #-------------------------------------------------------------------------------
 
 if(WIN32 OR APPLE)

@@ -581,10 +581,18 @@ Image I/O
 OpenGL Options
 
     -render_filter (zoom out) (zoom in)
-        Set the render filter. Options = %2. Default = %3, %4.
+        Set the render filter: %2. Default = %3, %4.
     -render_filter_high
         Set the render filter to high quality settings (%5, %6).
 %7</source>
+        <oldsource>%1
+OpenGL Options
+
+    -render_filter (zoom out) (zoom in)
+        Set the render filter. Options = %2. Default = %3, %4.
+    -render_filter_high
+        Set the render filter to high quality settings (%5, %6).
+%7</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

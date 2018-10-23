@@ -300,7 +300,7 @@ namespace djv
                 "OpenGL Options\n"
                 "\n"
                 "    -render_filter (zoom out) (zoom in)\n"
-                "        Set the render filter. Options = %2. Default = %3, %4.\n"
+                "        Set the render filter: %2. Default = %3, %4.\n"
                 "    -render_filter_high\n"
                 "        Set the render filter to high quality settings (%5, %6).\n"
                 "%7");
