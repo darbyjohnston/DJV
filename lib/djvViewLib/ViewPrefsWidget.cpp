@@ -29,7 +29,7 @@
 
 #include <djvViewLib/ViewPrefsWidget.h>
 
-#include <djvViewLib/Context.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvViewLib/ViewPrefs.h>
 
 #include <djvUI/ColorSwatch.h>
@@ -79,7 +79,7 @@ namespace djv
             QPointer<UI::ColorSwatch> hudBackgroundColorWidget;
         };
 
-        ViewPrefsWidget::ViewPrefsWidget(const QPointer<Context> & context) :
+        ViewPrefsWidget::ViewPrefsWidget(const QPointer<ViewContext> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::ViewPrefsWidget", "Views"), context),
             _p(new Private)
         {

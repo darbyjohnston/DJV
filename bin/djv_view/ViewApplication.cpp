@@ -29,8 +29,8 @@
 
 #include <djv_view/ViewApplication.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/SequencePrefs.h>
 
@@ -49,7 +49,7 @@ namespace djv
     {
         struct Application::Private
         {
-            QScopedPointer<ViewLib::Context> context;
+            QScopedPointer<ViewLib::ViewContext> context;
         };
 
         Application::Application(int & argc, char ** argv) :
@@ -62,7 +62,7 @@ namespace djv
             setApplicationName("djv_view");
 
             // Create the context.
-            _p->context.reset(new ViewLib::Context(argc, argv, this));
+            _p->context.reset(new ViewLib::ViewContext(argc, argv, this));
 
             // Parse the command line.
             if (!_p->context->commandLine(argc, argv))

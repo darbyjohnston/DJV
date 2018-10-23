@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ShortcutPrefsWidget(const QPointer<Context> &);
+            ShortcutPrefsWidget(const QPointer<ViewContext> &);
             ~ShortcutPrefsWidget() override;
 
             void resetPreferences() override;

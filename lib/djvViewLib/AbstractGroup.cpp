@@ -29,8 +29,8 @@
 
 #include <djvViewLib/AbstractGroup.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <QToolBar>
 
@@ -42,18 +42,18 @@ namespace djv
         {
             Private(
                 const QPointer<MainWindow> & mainWindow,
-                Context    * context) :
+                const QPointer<ViewContext> & context) :
                 mainWindow(mainWindow),
                 context(context)
             {}
 
             QPointer<MainWindow> mainWindow;
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
         AbstractGroup::AbstractGroup(
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             QObject(mainWindow),
             _p(new Private(mainWindow, context))
         {}
@@ -71,7 +71,7 @@ namespace djv
             return nullptr;
         }
 
-        const QPointer<Context> & AbstractGroup::context() const
+        const QPointer<ViewContext> & AbstractGroup::context() const
         {
             return _p->context;
         }

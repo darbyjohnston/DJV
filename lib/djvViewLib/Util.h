@@ -49,7 +49,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class Context;
+        class ViewContext;
 
         //! This class provides utilities.
         class Util
@@ -61,7 +61,7 @@ namespace djv
             //!
             //! Throws:
             //! - Core::Error
-            static void loadLut(const Core::FileInfo &, Graphics::PixelData &, const QPointer<Context> &);
+            static void loadLut(const Core::FileInfo &, Graphics::PixelData &, const QPointer<ViewContext> &);
         };
 
     } // namespace ViewLib

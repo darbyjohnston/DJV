@@ -71,7 +71,7 @@ namespace djv
             };
             Q_ENUM(GROUP);
 
-            explicit ViewActions(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit ViewActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~ViewActions() override;
 
         private Q_SLOTS:

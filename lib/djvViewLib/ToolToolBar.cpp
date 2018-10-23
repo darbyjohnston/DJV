@@ -29,9 +29,9 @@
 
 #include <djvViewLib/ToolToolBar.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ToolActions.h>
 #include <djvViewLib/Util.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/ToolButton.h>
 
@@ -48,7 +48,7 @@ namespace djv
 
         ToolToolBar::ToolToolBar(
             const QPointer<AbstractActions> & actions,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::ToolToolBar", "Tools"), actions, context, parent),
             _p(new Private)

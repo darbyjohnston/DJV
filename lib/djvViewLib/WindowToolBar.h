@@ -43,7 +43,7 @@ namespace djv
         public:
             explicit WindowToolBar(
                 const QPointer<AbstractActions> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~WindowToolBar() override;
 

@@ -42,7 +42,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit InputPrefs(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit InputPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~InputPrefs() override;
 
             //! Get the default mouse wheel action.

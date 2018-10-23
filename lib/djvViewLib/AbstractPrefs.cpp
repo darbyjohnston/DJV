@@ -37,11 +37,11 @@ namespace djv
     {
         struct AbstractPrefs::Private
         {
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
         AbstractPrefs::AbstractPrefs(
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QObject * parent) :
             QObject(parent),
             _p(new Private)
@@ -52,7 +52,7 @@ namespace djv
         AbstractPrefs::~AbstractPrefs()
         {}
 
-        const QPointer<Context> & AbstractPrefs::context() const
+        const QPointer<ViewContext> & AbstractPrefs::context() const
         {
             return _p->context;
         }

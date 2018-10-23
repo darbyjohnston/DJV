@@ -50,7 +50,7 @@ namespace djv
         public:
             explicit PlaybackToolBar(
                 const QPointer<AbstractActions> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~PlaybackToolBar() override;
 

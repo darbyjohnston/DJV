@@ -29,7 +29,7 @@
 
 #include <djvViewLib/WindowToolBar.h>
 
-#include <djvViewLib/Context.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvViewLib/WindowActions.h>
 
 #include <djvUI/ToolButton.h>
@@ -43,7 +43,7 @@ namespace djv
     {
         WindowToolBar::WindowToolBar(
             const QPointer<AbstractActions> & actions,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::WindowToolBar", "Window"), actions, context, parent)
         {

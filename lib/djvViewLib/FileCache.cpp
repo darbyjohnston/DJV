@@ -29,8 +29,8 @@
 
 #include <djvViewLib/FileCache.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/FilePrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvGraphics/Image.h>
 
@@ -62,7 +62,7 @@ namespace djv
 
         struct FileCache::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 maxBytes(static_cast<quint64>(context->filePrefs()->cacheSizeGB() * Core::Memory::gigabyte)),
                 context(context)
             {}
@@ -70,10 +70,10 @@ namespace djv
             std::map<FileCacheKey, std::shared_ptr<Graphics::Image> > items;
             quint64 maxBytes = 0;
             quint64 cacheBytes = 0;
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
-        FileCache::FileCache(const QPointer<Context> & context, QObject * parent) :
+        FileCache::FileCache(const QPointer<ViewContext> & context, QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {

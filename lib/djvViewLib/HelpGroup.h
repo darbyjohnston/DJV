@@ -49,7 +49,7 @@ namespace djv
             HelpGroup(
                 const HelpGroup * copy,
                 const QPointer<MainWindow> &,
-                const QPointer<Context> &);
+                const QPointer<ViewContext> &);
             ~HelpGroup() override;
 
         private Q_SLOTS:

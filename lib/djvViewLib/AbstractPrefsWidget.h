@@ -39,7 +39,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Context;
+        class ViewContext;
 
         //! This class provides the base functionality for group preferences widgets.
         class AbstractPrefsWidget : public UI::AbstractPrefsWidget
@@ -47,12 +47,12 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractPrefsWidget(const QString &, const QPointer<Context> &);
+            explicit AbstractPrefsWidget(const QString &, const QPointer<ViewContext> &);
 
             virtual ~AbstractPrefsWidget() = 0;
 
             //! Get the context.
-            const QPointer<Context> & context() const;
+            const QPointer<ViewContext> & context() const;
 
         private:
             DJV_PRIVATE_COPY(AbstractPrefsWidget);

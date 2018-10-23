@@ -30,7 +30,7 @@
 #include <djvViewLib/AbstractToolBar.h>
 
 #include <djvViewLib/AbstractActions.h>
-#include <djvViewLib/Context.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 
@@ -44,19 +44,19 @@ namespace djv
         {
             Private(
                 const QPointer<AbstractActions> & actions,
-                const QPointer<Context> & context) :
+                const QPointer<ViewContext> & context) :
                 context(context),
                 actions(actions)
             {}
 
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
             QPointer<AbstractActions> actions;
         };
 
         AbstractToolBar::AbstractToolBar(
             const QString &  title,
             const QPointer<AbstractActions> & actions,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             QToolBar(title, parent),
             _p(new Private(actions, context))
@@ -74,7 +74,7 @@ namespace djv
             return _p->actions;
         }
 
-        const QPointer<Context> & AbstractToolBar::context() const
+        const QPointer<ViewContext> & AbstractToolBar::context() const
         {
             return _p->context;
         }

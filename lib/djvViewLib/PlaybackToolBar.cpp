@@ -29,10 +29,10 @@
 
 #include <djvViewLib/PlaybackToolBar.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/MiscWidget.h>
 #include <djvViewLib/PlaybackActions.h>
 #include <djvViewLib/PlaybackWidgets.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvUI/IconLibrary.h>
@@ -48,7 +48,7 @@ namespace djv
     {
         struct PlaybackToolBar::Private
         {
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
             Enum::LAYOUT layout = static_cast<Enum::LAYOUT>(0);
             QPointer<QWidget> widget;
             QPointer<PlaybackButtons> playbackButtons;
@@ -76,7 +76,7 @@ namespace djv
 
         PlaybackToolBar::PlaybackToolBar(
             const QPointer<AbstractActions> & actions,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback"), actions, context, parent),
             _p(new Private)

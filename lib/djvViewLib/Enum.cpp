@@ -28,8 +28,6 @@
 
 #include <djvViewLib/Enum.h>
 
-#include <djvViewLib/Context.h>
-
 #include <djvCore/Assert.h>
 #include <djvCore/VectorUtil.h>
 

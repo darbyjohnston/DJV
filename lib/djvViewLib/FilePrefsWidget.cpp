@@ -29,9 +29,9 @@
 
 #include <djvViewLib/FilePrefsWidget.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/MiscWidget.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/Prefs.h>
 #include <djvUI/PrefsGroupBox.h>
@@ -60,7 +60,7 @@ namespace djv
             QPointer<QCheckBox>       displayCacheWidget;
         };
 
-        FilePrefsWidget::FilePrefsWidget(const QPointer<Context> & context) :
+        FilePrefsWidget::FilePrefsWidget(const QPointer<ViewContext> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::FilePrefsWidget", "Files"), context),
             _p(new Private)
         {

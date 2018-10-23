@@ -29,8 +29,8 @@
 
 #include <djvViewLib/ImagePrefs.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/Util.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/Prefs.h>
 
@@ -42,7 +42,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        ImagePrefs::ImagePrefs(const QPointer<Context> & context, QObject * parent) :
+        ImagePrefs::ImagePrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _frameStoreFileReload(frameStoreFileReloadDefault()),
             _mirror(mirrorDefault()),

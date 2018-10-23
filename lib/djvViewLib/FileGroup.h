@@ -55,7 +55,7 @@ namespace djv
             FileGroup(
                 const QPointer<FileGroup> & copy,
                 const QPointer<MainWindow> &,
-                const QPointer<Context> &);
+                const QPointer<ViewContext> &);
             ~FileGroup() override;
 
             //! Get the currently opened file.

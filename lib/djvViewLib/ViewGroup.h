@@ -53,7 +53,7 @@ namespace djv
             ViewGroup(
                 const QPointer<ViewGroup> & copy,
                 const QPointer<MainWindow> &,
-                const QPointer<Context> &);
+                const QPointer<ViewContext> &);
             ~ViewGroup() override;
 
             QPointer<QToolBar> toolBar() const override;

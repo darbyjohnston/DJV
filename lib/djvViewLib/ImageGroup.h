@@ -51,7 +51,7 @@ namespace djv
             ImageGroup(
                 const QPointer<ImageGroup> & copy,
                 const QPointer<MainWindow> &,
-                const QPointer<Context> &);
+                const QPointer<ViewContext> &);
             ~ImageGroup() override;
 
             //! Get whether the frame store is visible.

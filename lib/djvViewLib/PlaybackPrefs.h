@@ -42,7 +42,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit PlaybackPrefs(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit PlaybackPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~PlaybackPrefs() override;
 
             //! Get the default for whether playback is started automatically.

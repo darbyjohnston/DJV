@@ -29,10 +29,10 @@
 
 #include <djvViewLib/FileActions.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/ShortcutPrefs.h>
 #include <djvViewLib/Util.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/StylePrefs.h>
@@ -54,7 +54,7 @@ namespace djv
         };
 
         FileActions::FileActions(
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)

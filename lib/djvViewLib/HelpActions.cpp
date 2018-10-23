@@ -40,7 +40,7 @@ namespace djv
         {};
 
         HelpActions::HelpActions(
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)

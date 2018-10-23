@@ -39,15 +39,15 @@ namespace djv
     {
         struct AbstractActions::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 context(context)
             {}
 
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
         AbstractActions::AbstractActions(
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QObject * parent) :
             QObject(parent),
             _p(new Private(context))
@@ -76,7 +76,7 @@ namespace djv
             return _groups.contains(index) ? _groups[index] : 0;
         }
 
-        const QPointer<Context> & AbstractActions::context() const
+        const QPointer<ViewContext> & AbstractActions::context() const
         {
             return _p->context;
         }

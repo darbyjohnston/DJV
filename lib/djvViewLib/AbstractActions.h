@@ -45,7 +45,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Context;
+        class ViewContext;
 
         //! This class provides the base functionality for groups of actions.
         class AbstractActions : public QObject
@@ -53,7 +53,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractActions(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit AbstractActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             virtual ~AbstractActions() = 0;
 
             //! Get the list of actions.
@@ -69,7 +69,7 @@ namespace djv
             QActionGroup * group(int) const;
 
             //! Get the context.
-            const QPointer<Context> & context() const;
+            const QPointer<ViewContext> & context() const;
 
         Q_SIGNALS:
             //! This signal is emitted when actions or action groups are changed.

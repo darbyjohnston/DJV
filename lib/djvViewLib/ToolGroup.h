@@ -50,7 +50,7 @@ namespace djv
             ToolGroup(
                 const QPointer<ToolGroup> & copy,
                 const QPointer<MainWindow> &,
-                const QPointer<Context> & context);
+                const QPointer<ViewContext> &);
             ~ToolGroup();
 
             //! Get the tool visibility.

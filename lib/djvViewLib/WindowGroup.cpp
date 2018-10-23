@@ -29,9 +29,9 @@
 
 #include <djvViewLib/WindowGroup.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvViewLib/WindowActions.h>
 #include <djvViewLib/WindowMenu.h>
 #include <djvViewLib/WindowPrefs.h>
@@ -50,7 +50,7 @@ namespace djv
     {
         struct WindowGroup::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 uiComponentVisible(context->windowPrefs()->uiComponentVisible())
             {}
 
@@ -66,7 +66,7 @@ namespace djv
         WindowGroup::WindowGroup(
             const QPointer<WindowGroup> & copy,
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {

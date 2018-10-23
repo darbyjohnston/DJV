@@ -29,8 +29,8 @@
 
 #include <djvViewLib/ImageToolBar.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ImageActions.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/ToolButton.h>
 
@@ -46,7 +46,7 @@ namespace djv
 
         ImageToolBar::ImageToolBar(
             const QPointer<AbstractActions> & actions,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::ImageToolBar", "Image"), actions, context, parent),
             _p(new Private)

@@ -29,8 +29,8 @@
 
 #include <djvViewLib/FileSave.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/Util.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/ProgressDialog.h>
 
@@ -69,7 +69,7 @@ namespace djv
 
         struct FileSave::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 context(context)
             {}
 
@@ -79,10 +79,10 @@ namespace djv
             QScopedPointer<Graphics::ImageSave> save;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             QPointer<UI::ProgressDialog> dialog;
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
-        FileSave::FileSave(const QPointer<Context> & context, QObject * parent) :
+        FileSave::FileSave(const QPointer<ViewContext> & context, QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {

@@ -45,7 +45,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FilePrefsWidget(const QPointer<Context> &);
+            FilePrefsWidget(const QPointer<ViewContext> &);
             ~FilePrefsWidget() override;
 
             void resetPreferences() override;

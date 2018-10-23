@@ -29,8 +29,8 @@
 
 #include <djvViewLib/ShortcutPrefsWidget.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ShortcutPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/PrefsGroupBox.h>
 #include <djvUI/ShortcutsWidget.h>
@@ -54,7 +54,7 @@ namespace djv
             UI::ShortcutsWidget * shortcutsWidget;
         };
 
-        ShortcutPrefsWidget::ShortcutPrefsWidget(const QPointer<Context> & context) :
+        ShortcutPrefsWidget::ShortcutPrefsWidget(const QPointer<ViewContext> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Shortcuts"), context),
             _p(new Private)
         {

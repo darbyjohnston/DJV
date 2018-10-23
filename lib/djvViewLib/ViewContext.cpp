@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/Context.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FilePrefsWidget.h>
@@ -56,7 +56,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct Context::Private
+        struct ViewContext::Private
         {
             CommandLineOptions commandLineOptions;
             
@@ -72,17 +72,17 @@ namespace djv
             QPointer<FileSave>  fileSave;
         };
 
-        Context::Context(int & argc, char ** argv, QObject * parent) :
+        ViewContext::ViewContext(int & argc, char ** argv, QObject * parent) :
             UI::UIContext(argc, argv, parent),
             _p(new Private)
         {
-            //DJV_DEBUG("Context::Context");
+            //DJV_DEBUG("ViewContext::ViewContext");
 
             // Load translators.
             loadTranslator("djvViewLib");
 
             // Load preferences.
-            DJV_LOG(debugLog(), "Context", "Load the preferences...");
+            DJV_LOG(debugLog(), "ViewContext", "Load the preferences...");
             _p->filePrefs = new FilePrefs(this);
             _p->imagePrefs = new ImagePrefs(this);
             _p->inputPrefs = new InputPrefs(this);
@@ -92,14 +92,14 @@ namespace djv
             _p->windowPrefs = new WindowPrefs(this);
 
             // Initialize objects.
-            DJV_LOG(debugLog(), "Context", "Initialize objects...");
+            DJV_LOG(debugLog(), "ViewContext", "Initialize objects...");
             _p->fileCache = new FileCache(this);
             _p->fileSave = new FileSave(this);
         }
 
-        Context::~Context()
+        ViewContext::~ViewContext()
         {
-            //DJV_DEBUG("Context::Context");
+            //DJV_DEBUG("ViewContext::ViewContext");
 
             delete _p->windowPrefs;
             delete _p->viewPrefs;
@@ -113,57 +113,57 @@ namespace djv
             delete _p->fileCache;
         }
 
-        const Context::CommandLineOptions & Context::commandLineOptions() const
+        const ViewContext::CommandLineOptions & ViewContext::commandLineOptions() const
         {
             return _p->commandLineOptions;
         }
 
-        const QPointer<FilePrefs> & Context::filePrefs() const
+        const QPointer<FilePrefs> & ViewContext::filePrefs() const
         {
             return _p->filePrefs;
         }
 
-        const QPointer<ImagePrefs> & Context::imagePrefs() const
+        const QPointer<ImagePrefs> & ViewContext::imagePrefs() const
         {
             return _p->imagePrefs;
         }
 
-        const QPointer<InputPrefs> & Context::inputPrefs() const
+        const QPointer<InputPrefs> & ViewContext::inputPrefs() const
         {
             return _p->inputPrefs;
         }
 
-        const QPointer<PlaybackPrefs> & Context::playbackPrefs() const
+        const QPointer<PlaybackPrefs> & ViewContext::playbackPrefs() const
         {
             return _p->playbackPrefs;
         }
 
-        const QPointer<ShortcutPrefs> & Context::shortcutPrefs() const
+        const QPointer<ShortcutPrefs> & ViewContext::shortcutPrefs() const
         {
             return _p->shortcutPrefs;
         }
 
-        const QPointer<ViewPrefs> & Context::viewPrefs() const
+        const QPointer<ViewPrefs> & ViewContext::viewPrefs() const
         {
             return _p->viewPrefs;
         }
 
-        const QPointer<WindowPrefs> & Context::windowPrefs() const
+        const QPointer<WindowPrefs> & ViewContext::windowPrefs() const
         {
             return _p->windowPrefs;
         }
 
-        const QPointer<FileCache> & Context::fileCache() const
+        const QPointer<FileCache> & ViewContext::fileCache() const
         {
             return _p->fileCache;
         }
 
-        const QPointer<FileSave> & Context::fileSave() const
+        const QPointer<FileSave> & ViewContext::fileSave() const
         {
             return _p->fileSave;
         }
 
-        void Context::setValid(bool valid)
+        void ViewContext::setValid(bool valid)
         {
             UI::UIContext::setValid(true);
             if (isValid())
@@ -178,9 +178,9 @@ namespace djv
             }
         }
 
-        bool Context::commandLineParse(QStringList & in)
+        bool ViewContext::commandLineParse(QStringList & in)
         {
-            //DJV_DEBUG("Context::commandLineParse");
+            //DJV_DEBUG("ViewContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
 
             if (!UI::UIContext::commandLineParse(in))
@@ -193,28 +193,28 @@ namespace djv
                     in >> arg;
 
                     // Parse the options.
-                    if (qApp->translate("djv::ViewLib::Context", "-combine") == arg)
+                    if (qApp->translate("djv::ViewLib::ViewContext", "-combine") == arg)
                     {
                         _p->commandLineOptions.combine = true;
                     }
 
                     // Parse the file options.
                     else if (
-                        qApp->translate("djv::ViewLib::Context", "-file_layer") == arg)
+                        qApp->translate("djv::ViewLib::ViewContext", "-file_layer") == arg)
                     {
                         int value = 0;
                         in >> value;
                         _p->commandLineOptions.fileLayer.reset(new int(value));
                     }
                     else if (
-                        qApp->translate("djv::ViewLib::Context", "-file_proxy") == arg)
+                        qApp->translate("djv::ViewLib::ViewContext", "-file_proxy") == arg)
                     {
                         Graphics::PixelDataInfo::PROXY value = static_cast<Graphics::PixelDataInfo::PROXY>(0);
                         in >> value;
                         _p->commandLineOptions.fileProxy.reset(new Graphics::PixelDataInfo::PROXY(value));
                     }
                     else if (
-                        qApp->translate("djv::ViewLib::Context", "-file_cache") == arg)
+                        qApp->translate("djv::ViewLib::ViewContext", "-file_cache") == arg)
                     {
                         bool value = false;
                         in >> value;
@@ -223,28 +223,28 @@ namespace djv
 
                     // Parse the window options.
                     else if (
-                        qApp->translate("djv::ViewLib::Context", "-window_full_screen") == arg)
+                        qApp->translate("djv::ViewLib::ViewContext", "-window_full_screen") == arg)
                     {
                         _p->commandLineOptions.windowFullScreen.reset(new bool(true));
                     }
 
                     // Parse the playback options.
                     else if (
-                        qApp->translate("djv::ViewLib::Context", "-playback") == arg)
+                        qApp->translate("djv::ViewLib::ViewContext", "-playback") == arg)
                     {
                         Enum::PLAYBACK value = static_cast<Enum::PLAYBACK>(0);
                         in >> value;
                         _p->commandLineOptions.playback.reset(new Enum::PLAYBACK(value));
                     }
                     else if (
-                        qApp->translate("djv::ViewLib::Context", "-playback_frame") == arg)
+                        qApp->translate("djv::ViewLib::ViewContext", "-playback_frame") == arg)
                     {
                         int value = 0;
                         in >> value;
                         _p->commandLineOptions.playbackFrame.reset(new int(value));
                     }
                     else if (
-                        qApp->translate("djv::ViewLib::Context", "-playback_speed") == arg)
+                        qApp->translate("djv::ViewLib::ViewContext", "-playback_speed") == arg)
                     {
                         Core::Speed::FPS value = static_cast<Core::Speed::FPS>(0);
                         in >> value;
@@ -265,9 +265,9 @@ namespace djv
             return true;
         }
 
-        QString Context::commandLineHelp() const
+        QString ViewContext::commandLineHelp() const
         {
-            static const QString label = qApp->translate("djv::ViewLib::Context",
+            static const QString label = qApp->translate("djv::ViewLib::ViewContext",
                 "djv_view\n"
                 "\n"
                 "    Real-time image sequence and movie playback."

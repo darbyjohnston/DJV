@@ -40,7 +40,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        FilePrefs::FilePrefs(const QPointer<Context> & context, QObject * parent) :
+        FilePrefs::FilePrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _proxy(proxyDefault()),
             _u8Conversion(u8ConversionDefault()),

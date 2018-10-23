@@ -45,7 +45,7 @@ namespace djv
         public:
             explicit ImageToolBar(
                 const QPointer<AbstractActions> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~ImageToolBar() override;
 

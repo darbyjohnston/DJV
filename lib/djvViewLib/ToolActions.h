@@ -53,7 +53,7 @@ namespace djv
             };
             Q_ENUM(GROUP);
 
-            explicit ToolActions(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit ToolActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~ToolActions() override;
 
         private Q_SLOTS:

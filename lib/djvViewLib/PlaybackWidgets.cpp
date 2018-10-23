@@ -29,8 +29,8 @@
 
 #include <djvViewLib/PlaybackWidgets.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ShortcutPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/ChoiceButton.h>
 #include <djvUI/IconLibrary.h>
@@ -117,18 +117,18 @@ namespace djv
 
         struct LoopWidget::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 context(context)
             {}
 
             QString text;
             QPointer<UI::ChoiceButton> button;
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
         LoopWidget::LoopWidget(
             const QPointer<QActionGroup> & actionGroup,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             QWidget(parent),
             _p(new Private(context))

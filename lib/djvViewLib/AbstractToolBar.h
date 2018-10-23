@@ -42,7 +42,7 @@ namespace djv
     namespace ViewLib
     {
         class AbstractActions;
-        class Context;
+        class ViewContext;
 
         //! This class provides the base functionality for group tool bars.
         class AbstractToolBar : public QToolBar
@@ -53,7 +53,7 @@ namespace djv
             explicit AbstractToolBar(
                 const QString & title,
                 const QPointer<AbstractActions> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
 
             virtual ~AbstractToolBar() = 0;
@@ -62,7 +62,7 @@ namespace djv
             const QPointer<AbstractActions> & actions() const;
 
             //! Get the context.
-            const QPointer<Context> & context() const;
+            const QPointer<ViewContext> & context() const;
 
         private:
             DJV_PRIVATE_COPY(AbstractToolBar);

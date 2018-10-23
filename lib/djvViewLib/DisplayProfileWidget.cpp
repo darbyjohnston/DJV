@@ -29,9 +29,9 @@
 
 #include <djvViewLib/DisplayProfileWidget.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ImagePrefs.h>
 #include <djvViewLib/Util.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/FileEdit.h>
 #include <djvUI/FloatEditSlider.h>
@@ -60,12 +60,12 @@ namespace djv
         {
             Private(
                 const QPointer<ImageView> & viewWidget,
-                const QPointer<Context> & context) :
+                const QPointer<ViewContext> & context) :
                 context(context),
                 viewWidget(viewWidget)
             {}
 
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
             QPointer<ImageView> viewWidget;
             DisplayProfile displayProfile;
             QPointer<UI::FileEdit> lutWidget;
@@ -82,7 +82,7 @@ namespace djv
 
         DisplayProfileWidget::DisplayProfileWidget(
             const QPointer<ImageView> & viewWidget,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             QWidget(parent),
             _p(new Private(viewWidget, context))

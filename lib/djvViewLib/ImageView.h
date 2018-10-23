@@ -41,7 +41,8 @@ namespace djv
 {
     namespace ViewLib
     {
-        class  Context;
+        class ViewContext;
+        
         struct HudInfo;
 
         //! This class provides an image view widget.
@@ -50,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
+            explicit ImageView(const QPointer<ViewContext> &, QWidget * parent = nullptr);
             ~ImageView() override;
 
             //! Get whether the mouse is inside the view.

@@ -29,8 +29,8 @@
 
 #include <djvViewLib/ViewToolBar.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ViewActions.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatObject.h>
@@ -50,7 +50,7 @@ namespace djv
 
         ViewToolBar::ViewToolBar(
             const QPointer<AbstractActions> & actions,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractToolBar(qApp->translate("djv::ViewLib::ViewToolBar", "View"), actions, context, parent),
             _p(new Private)

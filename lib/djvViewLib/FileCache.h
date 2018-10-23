@@ -49,7 +49,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class Context;
+        class ViewContext;
 
         struct FileCacheKey
         {
@@ -68,7 +68,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit FileCache(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit FileCache(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~FileCache() override;
 
             //! Get whether the cache contains an item.

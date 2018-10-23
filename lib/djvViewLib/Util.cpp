@@ -28,8 +28,8 @@
 
 #include <djvViewLib/Util.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/Enum.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvGraphics/Image.h>
 #include <djvGraphics/ImageIO.h>
@@ -49,7 +49,7 @@ namespace djv
         void Util::loadLut(
             const Core::FileInfo & fileInfo,
             Graphics::PixelData & lut,
-            const QPointer<Context> & context)
+            const QPointer<ViewContext> & context)
         {
             //DJV_DEBUG("Util::loadLut");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);

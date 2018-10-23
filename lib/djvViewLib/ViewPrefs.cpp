@@ -35,7 +35,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        ViewPrefs::ViewPrefs(const QPointer<Context> & context, QObject * parent) :
+        ViewPrefs::ViewPrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _zoomFactor(zoomFactorDefault()),
             _background(backgroundDefault()),

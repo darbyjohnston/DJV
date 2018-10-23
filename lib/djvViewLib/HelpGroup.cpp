@@ -29,10 +29,10 @@
 
 #include <djvViewLib/HelpGroup.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/HelpActions.h>
 #include <djvViewLib/HelpMenu.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/AboutDialog.h>
 #include <djvUI/InfoDialog.h>
@@ -57,7 +57,7 @@ namespace djv
         HelpGroup::HelpGroup(
             const HelpGroup * copy,
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private)
         {

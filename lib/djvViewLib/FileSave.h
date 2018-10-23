@@ -45,7 +45,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Context;
+        class ViewContext;
 
         //! This struct provides file saving information.
         struct FileSaveInfo
@@ -79,7 +79,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit FileSave(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit FileSave(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~FileSave() override;
 
         public Q_SLOTS:

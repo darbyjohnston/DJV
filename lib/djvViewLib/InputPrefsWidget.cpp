@@ -29,8 +29,8 @@
 
 #include <djvViewLib/InputPrefsWidget.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/InputPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/PrefsGroupBox.h>
 
@@ -53,7 +53,7 @@ namespace djv
             QPointer<QComboBox> mouseWheelCtrlWidget;
         };
 
-        InputPrefsWidget::InputPrefsWidget(const QPointer<Context> & context) :
+        InputPrefsWidget::InputPrefsWidget(const QPointer<ViewContext> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::InputPrefsWidget", "Input"), context),
             _p(new Private)
         {

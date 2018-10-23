@@ -69,7 +69,7 @@ namespace djv
             };
             Q_ENUM(GROUP);
 
-            explicit ImageActions(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit ImageActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~ImageActions() override;
 
         private Q_SLOTS:

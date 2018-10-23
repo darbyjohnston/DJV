@@ -29,8 +29,8 @@
 
 #include <djvViewLib/PlaybackActions.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ShortcutPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/StylePrefs.h>
@@ -48,7 +48,7 @@ namespace djv
         };
 
         PlaybackActions::PlaybackActions(
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)

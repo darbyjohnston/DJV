@@ -7,7 +7,6 @@ set(header
     AbstractTool.h
     AbstractToolBar.h
     ColorPickerTool.h
-    Context.h
     DisplayProfile.h
     DisplayProfileWidget.h
     Enum.h
@@ -52,6 +51,7 @@ set(header
     ToolToolBar.h
     Util.h
     ViewActions.h
+    ViewContext.h
     ViewGroup.h
     ViewLib.h
     ViewMenu.h
@@ -73,7 +73,6 @@ set(mocHeader
     AbstractToolBar.h
     AbstractTool.h
     ColorPickerTool.h
-    Context.h
     DisplayProfileWidget.h
     Enum.h
     FileActions.h
@@ -115,6 +114,7 @@ set(mocHeader
     ToolMenu.h
     ToolToolBar.h
     ViewActions.h
+    ViewContext.h
     ViewGroup.h
     ViewMenu.h
     ViewPrefs.h
@@ -135,7 +135,6 @@ set(source
     AbstractTool.cpp
     AbstractToolBar.cpp
     ColorPickerTool.cpp
-    Context.cpp
     DisplayProfile.cpp
     DisplayProfileWidget.cpp
     Enum.cpp
@@ -180,6 +179,7 @@ set(source
     ToolToolBar.cpp
     Util.cpp
     ViewActions.cpp
+    ViewContext.cpp
     ViewGroup.cpp
     ViewMenu.cpp
     ViewPrefs.cpp

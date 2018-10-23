@@ -55,8 +55,8 @@ namespace djv
 
     namespace ViewLib
     {
-        class Context;
         class ImageView;
+        class ViewContext;
 
         //! This class provides a main window.
         //!
@@ -68,7 +68,7 @@ namespace djv
         public:
             explicit MainWindow(
                 const QPointer<MainWindow> & copy,
-                const QPointer<Context> &);
+                const QPointer<ViewContext> &);
             ~MainWindow() override;
 
             //! Get the image I/O information.
@@ -81,7 +81,7 @@ namespace djv
             static QVector<QPointer<MainWindow> > mainWindowList();
 
             //! Create a new main window.
-            static QPointer<MainWindow> createWindow(const QPointer<Context> &);
+            static QPointer<MainWindow> createWindow(const QPointer<ViewContext> &);
 
         public Q_SLOTS:
             //! Open a file.

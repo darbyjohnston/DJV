@@ -47,7 +47,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class Context;
+        class ViewContext;
 
         //! This class provides a widget with playback control buttons.
         class PlaybackButtons : public QWidget
@@ -89,7 +89,7 @@ namespace djv
         public:
             explicit LoopWidget(
                 const QPointer<QActionGroup> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~LoopWidget() override;
                         

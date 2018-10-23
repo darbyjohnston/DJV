@@ -29,8 +29,8 @@
 
 #include <djvViewLib/PlaybackPrefsWidget.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/PlaybackPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/PrefsGroupBox.h>
 
@@ -55,7 +55,7 @@ namespace djv
             QPointer<QComboBox> layoutWidget;
         };
 
-        PlaybackPrefsWidget::PlaybackPrefsWidget(const QPointer<Context> & context) :
+        PlaybackPrefsWidget::PlaybackPrefsWidget(const QPointer<ViewContext> & context) :
             AbstractPrefsWidget(
                 qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback"), context),
             _p(new Private)

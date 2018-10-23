@@ -29,7 +29,6 @@
 
 #include <djvViewLib/MainWindow.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileGroup.h>
 #include <djvViewLib/FilePrefs.h>
@@ -42,6 +41,7 @@
 #include <djvViewLib/PlaybackGroup.h>
 #include <djvViewLib/PlaybackPrefs.h>
 #include <djvViewLib/ToolGroup.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvViewLib/ViewGroup.h>
 #include <djvViewLib/ViewPrefs.h>
 #include <djvViewLib/ViewPrefsWidget.h>
@@ -77,7 +77,7 @@ namespace djv
     {
         struct MainWindow::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 context(context)
             {}
 
@@ -103,7 +103,7 @@ namespace djv
             QPointer<QLabel> infoImageLabel;
             QPointer<QLabel> infoCacheLabel;
             int menuBarHeight = 0;
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
         namespace
@@ -114,7 +114,7 @@ namespace djv
 
         MainWindow::MainWindow(
             const QPointer<MainWindow> & copy,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             _p(new Private(context))
         {
             //DJV_DEBUG("MainWindow::MainWindow");
@@ -317,7 +317,7 @@ namespace djv
             return _mainWindowList;
         }
 
-        QPointer<MainWindow> MainWindow::createWindow(const QPointer<Context> & context)
+        QPointer<MainWindow> MainWindow::createWindow(const QPointer<ViewContext> & context)
         {
             auto out = QPointer<MainWindow>(new MainWindow(0, context));
 

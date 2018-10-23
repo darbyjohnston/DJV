@@ -56,13 +56,13 @@ namespace djv
         class WindowPrefs;
 
         //! This class provides global functionality for the library.
-        class Context : public UI::UIContext
+        class ViewContext : public UI::UIContext
         {
             Q_OBJECT
 
         public:
-            explicit Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
+            explicit ViewContext(int & argc, char ** argv, QObject * parent = nullptr);
+            ~ViewContext() override;
 
             //! This struct povides the command-line options.
             struct CommandLineOptions
@@ -115,7 +115,7 @@ namespace djv
             QString commandLineHelp() const override;
 
         private:
-            DJV_PRIVATE_COPY(Context);
+            DJV_PRIVATE_COPY(ViewContext);
 
             struct Private;
             std::unique_ptr<Private> _p;

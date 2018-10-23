@@ -35,7 +35,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        InputPrefs::InputPrefs(const QPointer<Context> & context, QObject * parent) :
+        InputPrefs::InputPrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _mouseWheel(mouseWheelDefault()),
             _mouseWheelShift(mouseWheelShiftDefault()),

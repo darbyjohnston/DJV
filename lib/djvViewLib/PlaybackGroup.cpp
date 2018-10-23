@@ -29,7 +29,6 @@
 
 #include <djvViewLib/PlaybackGroup.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/PlaybackActions.h>
@@ -37,6 +36,7 @@
 #include <djvViewLib/PlaybackPrefs.h>
 #include <djvViewLib/PlaybackToolBar.h>
 #include <djvViewLib/ShortcutPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/ToolButton.h>
 
@@ -66,7 +66,7 @@ namespace djv
 
         struct PlaybackGroup::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 everyFrame(context->playbackPrefs()->hasEveryFrame()),
                 layout(context->playbackPrefs()->layout())
             {}
@@ -104,7 +104,7 @@ namespace djv
         PlaybackGroup::PlaybackGroup(
             const QPointer<PlaybackGroup> & copy,
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {

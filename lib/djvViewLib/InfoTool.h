@@ -45,7 +45,7 @@ namespace djv
         public:
             explicit InfoTool(
                 const QPointer<MainWindow> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~InfoTool() override;
 

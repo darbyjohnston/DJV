@@ -29,10 +29,10 @@
 
 #include <djvViewLib/ColorPickerTool.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/ColorSwatch.h>
 #include <djvUI/ColorWidget.h>
@@ -83,7 +83,7 @@ namespace djv
 
         ColorPickerTool::ColorPickerTool(
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)

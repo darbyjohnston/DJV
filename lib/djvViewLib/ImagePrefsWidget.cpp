@@ -29,8 +29,8 @@
 
 #include <djvViewLib/ImagePrefsWidget.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ImagePrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/InputDialog.h>
@@ -85,7 +85,7 @@ namespace djv
             QPointer<QComboBox> channelWidget;
         };
 
-        ImagePrefsWidget::ImagePrefsWidget(const QPointer<Context> & context) :
+        ImagePrefsWidget::ImagePrefsWidget(const QPointer<ViewContext> & context) :
             AbstractPrefsWidget(qApp->translate("djv::ViewLib::ImagePrefsWidget", "Images"), context),
             _p(new Private)
         {

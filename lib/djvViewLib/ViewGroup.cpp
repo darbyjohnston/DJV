@@ -29,11 +29,11 @@
 
 #include <djvViewLib/ViewGroup.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/ShortcutPrefs.h>
 #include <djvViewLib/ViewActions.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvViewLib/ViewMenu.h>
 #include <djvViewLib/ViewPrefs.h>
 #include <djvViewLib/ViewToolBar.h>
@@ -54,7 +54,7 @@ namespace djv
     {
         struct ViewGroup::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 grid(context->viewPrefs()->grid()),
                 hudEnabled(context->viewPrefs()->isHudEnabled())
             {}
@@ -70,7 +70,7 @@ namespace djv
         ViewGroup::ViewGroup(
             const QPointer<ViewGroup> & copy,
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {

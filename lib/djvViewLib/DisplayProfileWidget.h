@@ -41,8 +41,8 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Context;
         class ImageView;
+        class ViewContext;
 
         //! This class provides a display profile widget.
         class DisplayProfileWidget : public QWidget
@@ -52,7 +52,7 @@ namespace djv
         public:
             explicit DisplayProfileWidget(
                 const QPointer<ImageView> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~DisplayProfileWidget() override;
 

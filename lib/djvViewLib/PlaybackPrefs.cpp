@@ -35,7 +35,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        PlaybackPrefs::PlaybackPrefs(const QPointer<Context> & context, QObject * parent) :
+        PlaybackPrefs::PlaybackPrefs(const QPointer<ViewContext> & context, QObject * parent) :
             AbstractPrefs(context, parent),
             _autoStart(autoStartDefault()),
             _loop(loopDefault()),

@@ -132,6 +132,18 @@
 Cineon Options
 
     -cineon_input_color_profile (value)
+        Set the color profile used when loading Cineon images: %1. Default = %2.
+    -cineon_input_film_print (black) (white) (gamma) (soft clip)
+        Set the film print values used when loading Cineon images. Default = %3.
+    -cineon_output_color_profile (value)
+        Set the color profile used when saving Cineon images: %4. Default = %5.
+    -cineon_output_film_print (black) (white) (gamma) (soft clip)
+        Set the film print values used when saving Cineon images. Default = %6.
+</source>
+        <oldsource>
+Cineon Options
+
+    -cineon_input_color_profile (value)
         Set the color profile used when loading Cineon images. Options = %1. Default = %2.
     -cineon_input_film_print (black) (white) (gamma) (soft clip)
         Set the film print values used when loading Cineon images. Default = %3.
@@ -139,7 +151,7 @@ Cineon Options
         Set the color profile used when saving Cineon images. Options = %4. Default = %5.
     -cineon_output_film_print (black) (white) (gamma) (soft clip)
         Set the film print values used when saving Cineon images. Default = %6.
-</source>
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -418,6 +430,24 @@ Cineon Options
 DPX Options
 
     -dpx_input_color_profile (value)
+        Set the color profile used when loading DPX images: %1. Default = %2.
+    -dpx_input_film_print (black) (white) (gamma) (soft clip)
+        Set the film print values used when loading DPX images. Default = %3.
+    -dpx_output_color_profile (value)
+        Set the color profile used when saving DPX images: %4. Default = %5.
+    -dpx_output_film_print (black) (white) (gamma) (soft clip)
+        Set the film print values used when saving DPX images. Default = %6.
+    -dpx_version (value)
+        Set the file version used when saving DPX images: %7. Default = %8.
+    -dpx_type (value)
+        Set the pixel type used when saving DPX images: %9. Default = %10.
+    -dpx_endian (value)
+        Set the endian used when saving DPX images: %11. Default = %12.
+</source>
+        <oldsource>
+DPX Options
+
+    -dpx_input_color_profile (value)
         Set the color profile used when loading DPX images. Options = %1. Default = %2.
     -dpx_input_film_print (black) (white) (gamma) (soft clip)
         Set the film print values used when loading DPX images. Default = %3.
@@ -431,7 +461,7 @@ DPX Options
         Set the pixel type used when saving DPX images. Options = %9. Default = %10.
     -dpx_endian (value)
         Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware. Options = %11. Default = %12.
-</source>
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -509,10 +539,18 @@ DPX Options
 FFmpeg Options
 
     -ffmpeg_format (value)
+        Set the format used when saving FFmpeg movies: %1. Default = %2.
+    -ffmpeg_quality (value)
+        Set the quality used when saving FFmpeg movies: %3. Default = %4.
+</source>
+        <oldsource>
+FFmpeg Options
+
+    -ffmpeg_format (value)
         Set the format used when saving FFmpeg movies. Options = %1. Default = %2.
     -ffmpeg_quality (value)
         Set the quality used when saving FFmpeg movies. Options = %3. Default = %4.
-</source>
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -617,8 +655,14 @@ OpenGL Options
 IFF Options
 
     -iff_compression (value)
-        Set the file compression used when saving IFF images. Options = %1. Default = %2.
+        Set the file compression used when saving IFF images: %1. Default = %2.
 </source>
+        <oldsource>
+IFF Options
+
+    -iff_compression (value)
+        Set the file compression used when saving IFF images. Options = %1. Default = %2.
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -779,8 +823,14 @@ JPEG Options
 LUT Options
 
     -lut_type (value)
-        Set the pixel type used when loading LUTs. Options = %1. Default = %2.
+        Set the pixel type used when loading LUTs: %1. Default = %2.
 </source>
+        <oldsource>
+LUT Options
+
+    -lut_type (value)
+        Set the pixel type used when loading LUTs. Options = %1. Default = %2.
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -997,6 +1047,26 @@ OpenEXR Options
     -exr_thread_count (value)
         Set the maximum number of threads to use. Default = %2.
     -exr_input_color_profile (value)
+        Set the color profile used when loading OpenEXR images: %3. Default = %4.
+    -exr_input_gamma (value)
+        Set the gamma values used when loading OpenEXR images. Default = %5.
+    -exr_input_exposure (value) (defog) (knee low) (knee high)
+        Set the exposure values used when loading OpenEXR images. Default = %6.
+    -exr_channels (value)
+        Set how channels are grouped when loading OpenEXR images: %7. Default = %8.
+    -exr_compression (value)
+        Set the file compression used when saving OpenEXR images: %9. Default = %10.
+    -exr_dwa_compression_level (value)
+        Set the DWA compression level used when saving OpenEXR images. Default = %11.
+</source>
+        <oldsource>
+OpenEXR Options
+
+    -exr_threads_enable (value)
+        Set whether threading is enabled. Default = %1.
+    -exr_thread_count (value)
+        Set the maximum number of threads to use. Default = %2.
+    -exr_input_color_profile (value)
         Set the color profile used when loading OpenEXR images. Options = %3. Default = %4.
     -exr_input_gamma (value)
         Set the gamma values used when loading OpenEXR images. Default = %5.
@@ -1008,7 +1078,7 @@ OpenEXR Options
         Set the file compression used when saving OpenEXR images. Options = %9. Default = %10.
     -exr_dwa_compression_level (value)
         Set the DWA compression level used when saving OpenEXR images. Default = %11.
-</source>
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1211,10 +1281,18 @@ OpenEXR Options
 PPM Options
 
     -ppm_type (value)
+        Set the file type used when saving PPM images: %1. Default = %2.
+    -ppm_data (value)
+        Set the data type used when saving PPM images: %3. Default = %4.
+</source>
+        <oldsource>
+PPM Options
+
+    -ppm_type (value)
         Set the file type used when saving PPM images. Options = %1. Default = %2.
     -ppm_data (value)
         Set the data type used when saving PPM images. Options = %3. Default = %4.
-</source>
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1415,8 +1493,14 @@ PPM Options
 SGI Options
 
     -sgi_compression (value)
-        Set the file compression used when saving SGI images. Options = %1. Default = %2.
+        Set the file compression used when saving SGI images: %1. Default = %2.
 </source>
+        <oldsource>
+SGI Options
+
+    -sgi_compression (value)
+        Set the file compression used when saving SGI images. Options = %1. Default = %2.
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1456,8 +1540,14 @@ SGI Options
 TIFF Options
 
     -tiff_compression (value)
-        Set the file compression used when saving TIFF images. Options = %1. Default = %2.
+        Set the file compression used when saving TIFF images: %1. Default = %2.
 </source>
+        <oldsource>
+TIFF Options
+
+    -tiff_compression (value)
+        Set the file compression used when saving TIFF images. Options = %1. Default = %2.
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1492,8 +1582,14 @@ TIFF Options
 Targa Options
 
     -targa_compression (value)
-        Set the file compression used when saving Targa images. Options = %1. Default = %2.
+        Set the file compression used when saving Targa images: %1. Default = %2.
 </source>
+        <oldsource>
+Targa Options
+
+    -targa_compression (value)
+        Set the file compression used when saving Targa images. Options = %1. Default = %2.
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -29,10 +29,10 @@
 
 #include <djvViewLib/ImageView.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/HudInfo.h>
 #include <djvViewLib/InputPrefs.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvViewLib/ViewPrefs.h>
 #include <djvViewLib/WindowPrefs.h>
 
@@ -66,7 +66,7 @@ namespace djv
     {
         struct ImageView::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 grid(context->viewPrefs()->grid()),
                 gridColor(context->viewPrefs()->gridColor()),
                 hudEnabled(context->viewPrefs()->isHudEnabled()),
@@ -95,10 +95,10 @@ namespace djv
             bool                                   mouseWheel = false;
             int                                    mouseWheelTmp = 0;
             int                                    timer = -1;
-            QPointer<Context>                      context;
+            QPointer<ViewContext>                  context;
         };
 
-        ImageView::ImageView(const QPointer<Context> & context, QWidget * parent) :
+        ImageView::ImageView(const QPointer<ViewContext> & context, QWidget * parent) :
             UI::ImageView(context.data(), parent),
             _p(new Private(context))
         {

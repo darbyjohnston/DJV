@@ -73,7 +73,7 @@ namespace djv
         ToolGroup::ToolGroup(
             const QPointer<ToolGroup> & copy,
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private)
         {

@@ -1486,8 +1486,14 @@ Preferences
 User Interface Options
 
     -reset_prefs
-        Do not load the preference at start up.
+        Reset the preferences.
 %2</source>
+        <oldsource>
+User Interface Options
+
+    -reset_prefs
+        Do not load the preference at start up.
+%2</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

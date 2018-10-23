@@ -44,7 +44,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit ViewPrefs(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit ViewPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~ViewPrefs() override;
 
             //! Get the default mouse wheel zoom factor.

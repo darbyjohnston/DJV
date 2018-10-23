@@ -29,7 +29,7 @@
 
 #include <djvViewLib/WindowPrefsWidget.h>
 
-#include <djvViewLib/Context.h>
+#include <djvViewLib/ViewContext.h>
 #include <djvViewLib/WindowPrefs.h>
 
 #include <djvUI/PrefsGroupBox.h>
@@ -58,7 +58,7 @@ namespace djv
             QPointer<QButtonGroup> uiComponentVisibleButtonGroup;
         };
 
-        WindowPrefsWidget::WindowPrefsWidget(const QPointer<Context> & context) :
+        WindowPrefsWidget::WindowPrefsWidget(const QPointer<ViewContext> & context) :
             AbstractPrefsWidget(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Windows"), context),
             _p(new Private)

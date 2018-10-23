@@ -41,7 +41,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Context;
+        class ViewContext;
 
         //! This class provides the base functionality for group preferences.
         class AbstractPrefs : public QObject
@@ -49,11 +49,11 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractPrefs(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit AbstractPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~AbstractPrefs() override = 0;
 
             //! Get the context.
-            const QPointer<Context> & context() const;
+            const QPointer<ViewContext> & context() const;
 
         Q_SIGNALS:
             //! This signal is emitted when a preference is changed.

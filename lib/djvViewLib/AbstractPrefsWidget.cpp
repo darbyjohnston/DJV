@@ -29,7 +29,7 @@
 
 #include <djvViewLib/AbstractPrefsWidget.h>
 
-#include <djvViewLib/Context.h>
+#include <djvViewLib/ViewContext.h>
 
 namespace djv
 {
@@ -37,12 +37,12 @@ namespace djv
     {
         struct AbstractPrefsWidget::Private
         {
-            QPointer<Context> context;
+            QPointer<ViewContext> context;
         };
 
         AbstractPrefsWidget::AbstractPrefsWidget(
             const QString &  name,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             UI::AbstractPrefsWidget(name, context.data()),
             _p(new Private)
         {
@@ -52,7 +52,7 @@ namespace djv
         AbstractPrefsWidget::~AbstractPrefsWidget()
         {}
 
-        const QPointer<Context> & AbstractPrefsWidget::context() const
+        const QPointer<ViewContext> & AbstractPrefsWidget::context() const
         {
             return _p->context;
         }

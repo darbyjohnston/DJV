@@ -176,7 +176,7 @@
         <location filename="ConvertContext.cpp" line="246"/>
         <source>djv_convert
 
-    A command line tool for batch processing images and movies. Common uses include resizing images and converting sequences of images to a movie.
+    Command-line batch processing of images and movies. Common uses include resizing images and converting sequences of images to a movie.
 
     Example of converting an image sequence to a movie:
     &gt; djv_convert input.1-100.tga output.mp4
@@ -201,7 +201,7 @@ Conversion Options
     -scale (value)
         Scale the image width and height using a floating point value         (1.0 = 100%).
     -scale_separate (width) (height)
-        Scale the image width and height separately using a floating point value (1.0 = 100%).
+        Scale the image width and height separately using floating point values (1.0 = 100%).
     -resize (width) (height)
         Resize the image width and height to the given resolution.
     -width (value)
@@ -211,16 +211,16 @@ Conversion Options
     -crop (x) (y) (width) (height)
         Crop the image.
     -crop_percent (x) (y) (width) (height)
-        Crop the image using percentages.
+        Crop the image using floating point values (1.0 = 100%).
     -channel (value)
-        Show only specific image channels. Options = %1. Default = %2.
+        Show only specific image channels: %1. Default = %2.
 
 Input Options
 
     -layer (value)
         Set the input layer.
     -proxy (value)
-        Set the proxy scale. Options = %3. Default = %4.
+        Set the proxy scale: %3. Default = %4.
     -time (start) (end)
         Set the start and end time.
     -slate (input) (frames)
@@ -231,13 +231,13 @@ Input Options
 Output Options
 
     -pixel (value)
-        Convert the pixel type. Options = %6.
+        Convert the pixel type: %6.
     -speed (value)
-        Set the speed. Options = %7.
+        Set the speed: %7.
     -tag (name) (value)
         Set an image tag.
     -tags_auto (value)
-        Automatically generate image tags (e.g., timecode). Options = %8. Default = %9.
+        Automatically generate image tags (e.g., timecode): %8. Default = %9.
 %10
 Examples
 
@@ -275,7 +275,7 @@ Examples
 </source>
         <oldsource>djv_convert
 
-    A command line tool for batch processing images and movies.Common uses include resizing images and converting sequences of images to a movie.
+    A command line tool for batch processing images and movies. Common uses include resizing images and converting sequences of images to a movie.
 
     Example of converting an image sequence to a movie:
     &gt; djv_convert input.1-100.tga output.mp4

@@ -29,9 +29,9 @@
 
 #include <djvViewLib/ToolActions.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/ShortcutPrefs.h>
 #include <djvViewLib/Util.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/Shortcut.h>
@@ -51,7 +51,7 @@ namespace djv
         };
 
         ToolActions::ToolActions(
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QObject * parent) :
             AbstractActions(context, parent),
             _p(new Private)

@@ -47,7 +47,7 @@ namespace djv
         public:
             explicit MagnifyTool(
                 const QPointer<MainWindow> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~MagnifyTool() override;
 

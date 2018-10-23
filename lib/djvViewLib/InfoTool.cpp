@@ -62,7 +62,7 @@ namespace djv
 
         InfoTool::InfoTool(
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)

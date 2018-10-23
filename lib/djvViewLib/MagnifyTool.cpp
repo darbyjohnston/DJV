@@ -29,11 +29,11 @@
 
 #include <djvViewLib/MagnifyTool.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/ToolActions.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/IntEditSlider.h>
@@ -116,7 +116,7 @@ namespace djv
 
         MagnifyTool::MagnifyTool(
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context,
+            const QPointer<ViewContext> & context,
             QWidget * parent) :
             AbstractTool(mainWindow, context, parent),
             _p(new Private)

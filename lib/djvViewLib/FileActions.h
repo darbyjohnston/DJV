@@ -78,7 +78,7 @@ namespace djv
             };
             Q_ENUM(GROUP);
 
-            explicit FileActions(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit FileActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~FileActions() override;
 
         public Q_SLOTS:

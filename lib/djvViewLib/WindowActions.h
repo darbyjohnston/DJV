@@ -69,7 +69,7 @@ namespace djv
             };
             Q_ENUM(GROUP);
 
-            explicit WindowActions(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit WindowActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~WindowActions() override;
             
             //! Get the UI component visibility labels.

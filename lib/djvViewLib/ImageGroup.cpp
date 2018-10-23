@@ -29,7 +29,6 @@
 
 #include <djvViewLib/ImageGroup.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/DisplayProfileWidget.h>
 #include <djvViewLib/ImageActions.h>
@@ -38,6 +37,7 @@
 #include <djvViewLib/ImageToolBar.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/ShortcutPrefs.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/InputDialog.h>
@@ -62,7 +62,7 @@ namespace djv
     {
         struct ImageGroup::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 mirror(context->imagePrefs()->mirror()),
                 scale(context->imagePrefs()->scale()),
                 rotate(context->imagePrefs()->rotate()),
@@ -89,7 +89,7 @@ namespace djv
         ImageGroup::ImageGroup(
             const QPointer<ImageGroup>& copy,
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {

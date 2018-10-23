@@ -54,7 +54,7 @@ namespace djv
             };
             Q_ENUM(ACTION);
 
-            explicit HelpActions(const QPointer<Context> &, QObject * parent = nullptr);
+            explicit HelpActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~HelpActions() override;
 
         private:

@@ -29,7 +29,6 @@
 
 #include <djvViewLib/FileGroup.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/FileActions.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileMenu.h>
@@ -38,6 +37,7 @@
 #include <djvViewLib/ImagePrefs.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/ViewContext.h>
 
 #include <djvUI/DebugLogDialog.h>
 #include <djvUI/FileBrowser.h>
@@ -67,7 +67,7 @@ namespace djv
     {
         struct FileGroup::Private
         {
-            Private(const QPointer<Context> & context) :
+            Private(const QPointer<ViewContext> & context) :
                 proxy(context->filePrefs()->proxy()),
                 u8Conversion(context->filePrefs()->hasU8Conversion()),
                 cacheEnabled(context->filePrefs()->isCacheEnabled()),
@@ -96,7 +96,7 @@ namespace djv
         FileGroup::FileGroup(
             const QPointer<FileGroup> & copy,
             const QPointer<MainWindow> & mainWindow,
-            const QPointer<Context> & context) :
+            const QPointer<ViewContext> & context) :
             AbstractGroup(mainWindow, context),
             _p(new Private(context))
         {

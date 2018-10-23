@@ -41,9 +41,9 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Context;
         class ImageView;
         class MainWindow;
+        class ViewContext;
 
         //! This class provides the base functionality for tools.
         class AbstractTool : public QWidget
@@ -53,7 +53,7 @@ namespace djv
         public:
             explicit AbstractTool(
                 const QPointer<MainWindow> &,
-                const QPointer<Context> &,
+                const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
 
             virtual ~AbstractTool() = 0;
@@ -65,7 +65,7 @@ namespace djv
             const QPointer<ImageView> & viewWidget() const;
 
             //! Get the context.
-            const QPointer<Context> & context() const;
+            const QPointer<ViewContext> & context() const;
 
         private:
             DJV_PRIVATE_COPY(AbstractTool);
