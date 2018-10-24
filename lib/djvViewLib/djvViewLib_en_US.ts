@@ -2251,47 +2251,47 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::ViewLib::ViewContext</name>
     <message>
-        <location filename="ViewContext.cpp" line="196"/>
+        <location filename="ViewContext.cpp" line="202"/>
         <source>-combine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="203"/>
+        <location filename="ViewContext.cpp" line="209"/>
         <source>-file_layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="210"/>
+        <location filename="ViewContext.cpp" line="216"/>
         <source>-file_proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="217"/>
+        <location filename="ViewContext.cpp" line="223"/>
         <source>-file_cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="226"/>
+        <location filename="ViewContext.cpp" line="232"/>
         <source>-window_full_screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="233"/>
+        <location filename="ViewContext.cpp" line="239"/>
         <source>-playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="240"/>
+        <location filename="ViewContext.cpp" line="246"/>
         <source>-playback_frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="247"/>
+        <location filename="ViewContext.cpp" line="253"/>
         <source>-playback_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="270"/>
+        <location filename="ViewContext.cpp" line="276"/>
         <source>djv_view
 
     Real-time image sequence and movie playback.

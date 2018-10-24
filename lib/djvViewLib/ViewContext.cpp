@@ -49,6 +49,7 @@
 #include <djvUI/PrefsDialog.h>
 
 #include <djvCore/DebugLog.h>
+#include <djvCore/FileInfoUtil.h>
 
 #include <QApplication>
 
@@ -178,6 +179,11 @@ namespace djv
             }
         }
 
+        QString ViewContext::doc() const
+        {
+            return Core::FileInfoUtil::fixPath(qApp->applicationDirPath() + "/../doc/djv_view.html");
+        }
+        
         bool ViewContext::commandLineParse(QStringList & in)
         {
             //DJV_DEBUG("ViewContext::commandLineParse");
