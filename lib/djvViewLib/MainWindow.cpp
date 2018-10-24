@@ -192,7 +192,7 @@ namespace djv
             connect(
                 _p->fileGroup,
                 SIGNAL(exportSequence(const djv::Core::FileInfo &)),
-                SLOT(exportvSequenceCallback(const djv::Core::FileInfo &)));
+                SLOT(exportSequenceCallback(const djv::Core::FileInfo &)));
             connect(
                 _p->fileGroup,
                 SIGNAL(exportFrame(const djv::Core::FileInfo &)),
