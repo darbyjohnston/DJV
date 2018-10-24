@@ -67,8 +67,8 @@ namespace djv
             _actions[RELOAD]->setText(qApp->translate("djv::ViewLib::FileActions", "Re&load"));
             _actions[RELOAD_FRAME]->setText(qApp->translate("djv::ViewLib::FileActions", "Reload Frame"));
             _actions[CLOSE]->setText(qApp->translate("djv::ViewLib::FileActions", "Clos&e"));
-            _actions[SAVE]->setText(qApp->translate("djv::ViewLib::FileActions", "&Save"));
-            _actions[SAVE_FRAME]->setText(qApp->translate("djv::ViewLib::FileActions", "Save &Frame"));
+            _actions[EXPORT_SEQUENCE]->setText(qApp->translate("djv::ViewLib::FileActions", "E&xport Sequence"));
+            _actions[EXPORT_FRAME]->setText(qApp->translate("djv::ViewLib::FileActions", "Export &Frame"));
             _actions[LAYER_PREV]->setText(qApp->translate("djv::ViewLib::FileActions", "Layer Previous"));
             _actions[LAYER_NEXT]->setText(qApp->translate("djv::ViewLib::FileActions", "Layer Next"));
             _actions[U8_CONVERSION]->setText(qApp->translate("djv::ViewLib::FileActions", "&8-bit Conversion"));
@@ -140,7 +140,7 @@ namespace djv
             _actions[OPEN]->setIcon(context()->iconLibrary()->icon("djv/UI/FileOpenIcon"));
             _actions[OPEN]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_OPEN].value);
             _actions[OPEN]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Open a new file\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::FileActions", "Show the file browser\n\nKeyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_FILE_OPEN].value.toString()));
 
             _actions[RELOAD]->setIcon(context()->iconLibrary()->icon("djv/UI/FileReloadIcon"));
@@ -160,8 +160,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileActions", "Close the current file\n\nKeyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_FILE_CLOSE].value.toString()));
             
-            _actions[SAVE]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_SAVE].value);
-            _actions[SAVE_FRAME]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_SAVE_FRAME].value);
+            _actions[EXPORT_SEQUENCE]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_EXPORT_SEQUENCE].value);
+            _actions[EXPORT_FRAME]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_EXPORT_FRAME].value);
             _actions[LAYER_PREV]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_LAYER_PREV].value);
             _actions[LAYER_NEXT]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_LAYER_NEXT].value);
             _actions[EXIT]->setShortcut(shortcuts[Enum::SHORTCUT_EXIT].value);

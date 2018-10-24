@@ -1,0 +1,161 @@
+<!-- ---------------------------------------------------------------------------
+  Copyright (c) 2004-2018 Darby Johnston
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  * Neither the names of the copyright holders nor the names of any
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+---------------------------------------------------------------------------- -->
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="Style.css">
+<title>DJV Imaging</title>
+</head>
+<body>
+
+<div class="header">
+<h1 class="header"><a class="header" class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right"></h1>
+</div>
+
+<div class="content">
+
+<div class="nav">
+<a href="index.html">Home</a> /
+<a href="Documentation.html">Documentation</a> /
+<a href="Build.html">Building the Source Code</a> /
+Linux and OS X
+</div>
+
+<div class="block">
+<h1><a name="Requirements">Requirements</a></h1>
+<p>Build tools:</p>
+<ul>
+    <li>C++11 compiler</li>
+    <li><a href="https://cmake.org">CMake</a></li>
+    <li><a href="https://git-scm.com">git</a></li>
+</ul>
+<p>Libraries:</p>
+<ul>
+    <li><a href="https://www.opengl.org">OpenGL 3.3</a></li>
+    <li><a href="https://glm.g-truc.net/0.9.9/index.html">GLM 0.9.9</a></li>
+    <li><a href="http://www.openexr.com/downloads.html">IlmBase 2.3</a></li>
+    <li><a href="https://download.qt.io/archive/qt/5.6/5.6.3/single">Qt 5.6.3</a></li>
+</ul>
+<p>Optional libraries:</p>
+<ul>
+    <li><a href="https://www.ijg.org">libjpeg v9b</a></li>
+    <li><a href="http://www.libpng.org/pub/png/libpng.html">libpng 1.6</a></li>
+    <li><a href="http://download.osgeo.org/libtiff">libtiff 4.0</a></li>
+    <li><a href="http://www.openexr.com/downloads.html">OpenEXR 2.3</a></li>
+    <li><a href="https://www.ffmpeg.org">FFmpeg 4.0</a></li>
+</ul>
+</div>
+
+<div class="block">
+<h1><a name="ThirdParty">Third Party Libraries</a></h1>
+<p>DJV relies on a number of third party libraries that can either be
+installed with your Linux distribution package manager or built from
+source code. The following steps describe how to build the third party
+libraries from source code.</p>
+<p>First choose a working directory for building the source code. In the
+following steps we will refer to this directory as $BUILD_DIR.</p>
+<p>Clone the DJV third party source code repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+</pre>
+<p>This source code repository contains the third party libraries as well as
+minor modifications necessary for building on the various platforms that DJV
+supports.</p>
+<p>Create a sub-directory for building the third party libraries and start the
+build:</p>
+<pre>
+> mkdir djv-git-third-party-Debug
+> cd djv-git-third-party-Debug
+> cmake ../djv-git-third-party \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_FIND_FRAMEWORK="LAST"
+> make
+> cd ..
+</pre>
+<p>After the build completes add the install path to your LD_LIBRARY_PATH:</p>
+<pre>
+> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/djv-install-Debug/lib
+</pre>
+</div>
+
+<div class="block">
+<h1><a name="Build">Building the Source Code</a></h1>
+<p>First choose a working directory for building the source code. In the
+following steps we will refer to this directory as $BUILD_DIR.</p>
+<p>Clone the DJV source code repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git djv-git
+</pre>
+<p>Create a sub-directory for building the DJV software and start the build:</p>
+<pre>
+> mkdir djv-git-Debug
+> cd djv-git-Debug
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_FIND_FRAMEWORK="LAST"
+> make
+</pre>
+<p>After the build completes try running the confidence tests:</p>
+<pre>
+> make test
+</pre>
+<p>You can also try starting the djv_view application:</p>
+<pre>
+> ./build/bin/djv_view
+</pre>
+</div>
+
+<div class="block">
+<h1><a name="Package">Packaging Releases</a></h1>
+<p>Set the new version in the top-level "CMakeLists.txt" and "Doxyfile" files.</p>
+<p>Update the download links in "doc/Download.html".</p>
+<p>Tag the git repository:</p>
+<pre>
+> git tag -a 1.2.2 -m "Version 1.2.2"
+> git push origin 1.2.2
+</pre>
+<p>Build the package:</p>
+<pre>
+> cmake ../djv-git \
+    -DCPACK_GENERATOR=RPM
+> make package
+</pre>
+</div>
+
+<div class="footer">
+<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
+</div>
+
+</body>
+</html>

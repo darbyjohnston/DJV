@@ -46,8 +46,8 @@ namespace djv
     namespace ViewLib
     {
         class FileCache;
+        class FileExport;
         class FilePrefs;
-        class FileSave;
         class ImagePrefs;
         class InputPrefs;
         class PlaybackPrefs;
@@ -105,8 +105,8 @@ namespace djv
             //! Get the file cache.
             const QPointer<FileCache> & fileCache() const;
 
-            //! Get the file save.
-            const QPointer<FileSave> & fileSave() const;
+            //! Get the file exporter.
+            const QPointer<FileExport> & fileExport() const;
 
             void setValid(bool) override;
 

@@ -30,9 +30,9 @@
 #include <djvViewLib/MainWindow.h>
 
 #include <djvViewLib/FileCache.h>
+#include <djvViewLib/FileExport.h>
 #include <djvViewLib/FileGroup.h>
 #include <djvViewLib/FilePrefs.h>
-#include <djvViewLib/FileSave.h>
 #include <djvViewLib/HelpGroup.h>
 #include <djvViewLib/HudInfo.h>
 #include <djvViewLib/ImageGroup.h>
@@ -191,12 +191,12 @@ namespace djv
                 SLOT(reloadFrameCallback()));
             connect(
                 _p->fileGroup,
-                SIGNAL(save(const djv::Core::FileInfo &)),
-                SLOT(saveCallback(const djv::Core::FileInfo &)));
+                SIGNAL(exportSequence(const djv::Core::FileInfo &)),
+                SLOT(exportvSequenceCallback(const djv::Core::FileInfo &)));
             connect(
                 _p->fileGroup,
-                SIGNAL(saveFrame(const djv::Core::FileInfo &)),
-                SLOT(saveFrameCallback(const djv::Core::FileInfo &)));
+                SIGNAL(exportFrame(const djv::Core::FileInfo &)),
+                SLOT(exportFrameCallback(const djv::Core::FileInfo &)));
 
             // Setup the image group callbacks.
             connect(
@@ -562,9 +562,9 @@ namespace djv
             _p->context->fileCache()->removeItem(FileCacheKey(this, frame));
         }
 
-        void MainWindow::saveCallback(const Core::FileInfo & in)
+        void MainWindow::exportSequenceCallback(const Core::FileInfo & in)
         {
-            //DJV_DEBUG("MainWindow::saveCallback");
+            //DJV_DEBUG("MainWindow::exportSequenceCallback");
             //DJV_DEBUG_PRINT("in = " << in);
             Core::Sequence sequence;
             const Core::FrameList & frames = _p->playbackGroup->sequence().frames;
@@ -575,7 +575,7 @@ namespace djv
                     _p->playbackGroup->outPoint() - _p->playbackGroup->inPoint() + 1);
             }
             sequence.speed = _p->playbackGroup->speed();
-            const FileSaveInfo info(
+            const FileExportInfo info(
                 _p->fileGroup->fileInfo(),
                 in,
                 _p->fileGroup->imageIOInfo()[_p->fileGroup->layer()],
@@ -585,12 +585,12 @@ namespace djv
                 _p->fileGroup->hasU8Conversion(),
                 _p->imageGroup->hasColorProfile(),
                 imageOptions());
-            _p->context->fileSave()->save(info);
+            _p->context->fileExport()->start(info);
         }
 
-        void MainWindow::saveFrameCallback(const Core::FileInfo & in)
+        void MainWindow::exportFrameCallback(const Core::FileInfo & in)
         {
-            //DJV_DEBUG("MainWindow::saveFrameCallback");
+            //DJV_DEBUG("MainWindow::exportFrameCallback");
             //DJV_DEBUG_PRINT("in = " << in);
             Core::Sequence sequence;
             const Core::FrameList & frames = _p->playbackGroup->sequence().frames;
@@ -600,7 +600,7 @@ namespace djv
             }
             sequence.speed = _p->playbackGroup->speed();
             //DJV_DEBUG_PRINT("sequence = " << sequence);
-            const FileSaveInfo info(
+            const FileExportInfo info(
                 _p->fileGroup->fileInfo(),
                 in,
                 _p->fileGroup->imageIOInfo()[_p->fileGroup->layer()],
@@ -610,7 +610,7 @@ namespace djv
                 _p->fileGroup->hasU8Conversion(),
                 _p->imageGroup->hasColorProfile(),
                 imageOptions());
-            _p->context->fileSave()->save(info);
+            _p->context->fileExport()->start(info);
         }
 
         void MainWindow::setFrameStoreCallback()
@@ -750,15 +750,15 @@ namespace djv
             }
 
             const QVector<bool> & componentVisible = _p->windowGroup->uiComponentVisible();
-            _p->fileGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
-            _p->windowGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
-            _p->viewGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
-            _p->imageGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
-            _p->toolGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_TOOL_BARS]);
+            _p->fileGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
+            _p->windowGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
+            _p->viewGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
+            _p->imageGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
+            _p->toolGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
 
-            _p->playbackGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_PLAYBACK]);
+            _p->playbackGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_PLAYBACK_CONTROLS]);
 
-            statusBar()->setVisible(visible && componentVisible[Enum::UI_COMPONENT_INFO]);
+            statusBar()->setVisible(visible && componentVisible[Enum::UI_STATUS_BAR]);
 
             QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
         }
@@ -808,7 +808,7 @@ namespace djv
             Graphics::OpenGLImageOptions options = imageOptions();
             _p->imageSample = options.background;
             auto image = this->image();
-            if (image && _p->windowGroup->uiComponentVisible()[Enum::UI_COMPONENT_INFO])
+            if (image && _p->windowGroup->uiComponentVisible()[Enum::UI_STATUS_BAR])
             {
                 //DJV_DEBUG_PRINT("sample");
                 try

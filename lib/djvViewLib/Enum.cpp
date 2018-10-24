@@ -56,8 +56,8 @@ namespace djv
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::ViewLib::Enum", "Tool Bars") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback") <<
-                qApp->translate("djv::ViewLib::Enum", "Information");
+                qApp->translate("djv::ViewLib::Enum", "Playback Controls") <<
+                qApp->translate("djv::ViewLib::Enum", "Status Bar");
             DJV_ASSERT(data.count() == UI_COMPONENT_COUNT);
             return data;
         }
@@ -274,8 +274,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "File Open") <<
                 qApp->translate("djv::ViewLib::Enum", "File Reload") <<
                 qApp->translate("djv::ViewLib::Enum", "File Reload Frame") <<
-                qApp->translate("djv::ViewLib::Enum", "File Save") <<
-                qApp->translate("djv::ViewLib::Enum", "File Save Frame") <<
+                qApp->translate("djv::ViewLib::Enum", "File Export Sequence") <<
+                qApp->translate("djv::ViewLib::Enum", "File Export Frame") <<
                 qApp->translate("djv::ViewLib::Enum", "File Close") <<
                 qApp->translate("djv::ViewLib::Enum", "File Layer Default") <<
                 qApp->translate("djv::ViewLib::Enum", "File Layer 1") <<

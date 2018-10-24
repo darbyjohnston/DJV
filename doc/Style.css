@@ -27,9 +27,14 @@ div.content
 {
 }
 
-div.block
+div.nav
 {
     margin: 40;
+}
+
+div.block
+{
+    margin: 40 40 80 40;
 }
 
 a:link
@@ -89,10 +94,11 @@ pre
 th
 {
     text-align: left;
+    padding: 5;
 }
 
 td
 {
     vertical-align: top;
-    padding: 0 10 0 0;
+    padding: 5;
 }

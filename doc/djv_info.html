@@ -41,9 +41,15 @@
 
 <div class="content">
 
+<div class="nav">
+<a href="index.html">Home</a> /
+<a href="Documentation.html">Documentation</a> /
+djv_info
+</div>
+
 <div class="block">
 <h1>djv_info</h1>
-<p>Display information about images and movies.</p>
+<p>Command-line tool for printing file metadata.</p>
 <p>Example:</p>
 <pre>
 yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
@@ -64,7 +70,7 @@ render0001-1000.exr                                      00:00:41:16@24
 </div>
 
 <div class="block">
-<h2>Usage</h2>
+<h1><a name="Usage">Usage</a></h1>
 <pre>
 djv_info (image|directory)... [option]...
 </pre>
@@ -72,14 +78,13 @@ djv_info (image|directory)... [option]...
 <tr><td width="200"><i>image</i></td><td>One or more images, image sequences,
 or movies</td></tr>
 <tr><td><i>directory</i></td><td>One or more directories</td></tr>
-<tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
 </table>
 <p>If no images or directories are given then the current directory will be
 used.</p>
 </div>
 
 <div class="block">
-<h2>Options</h2>
+<h1><a name="Options">Options</a></h1>
 <table>
 <tr><td width="200"><i>-x_info, -xi</i></td><td>Don't show image information,
 only file names.</td></tr>
@@ -89,20 +94,12 @@ only file names.</td></tr>
 <tr><td><i>-columns, -c (value)</i></td><td>Set the number of columns used to
 format the output. Setting this value to zero disables formatting.</td></tr>
 </table>
-</div>
-
-<div class="block">
-<h2>Image Format Options</h2>
 <p>See this <a href="ImageFormats.html">page</a> for image format options.<p>
-</div>
-
-<div class="block">
-<h2>General Options</h2>
 <p>See this <a href="CommandLine.html">page</a> for general options.<p>
 </div>
 
 <div class="block">
-<h2>Examples</h2>
+<h1><a name="Examples">Examples</a></h1>
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi

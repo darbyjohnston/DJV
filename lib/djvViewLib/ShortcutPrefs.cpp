@@ -77,9 +77,9 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_FILE_RELOAD_FRAME], QKeySequence("Ctrl+Shift+R")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_FILE_SAVE], QKeySequence("Ctrl+S")) <<
+                    Enum::SHORTCUT_FILE_EXPORT_SEQUENCE], QKeySequence("Ctrl+S")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_FILE_SAVE_FRAME], QKeySequence("Ctrl+Shift+S")) <<
+                    Enum::SHORTCUT_FILE_EXPORT_FRAME], QKeySequence("Ctrl+Shift+S")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_FILE_CLOSE], QKeySequence("Ctrl+W")) <<
                 UI::Shortcut(Enum::shortcutLabels()[

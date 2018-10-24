@@ -56,8 +56,9 @@ namespace djv
             addAction(actions->action(FileActions::RELOAD));
             addAction(actions->action(FileActions::RELOAD_FRAME));
             addAction(actions->action(FileActions::CLOSE));
-            addAction(actions->action(FileActions::SAVE));
-            addAction(actions->action(FileActions::SAVE_FRAME));
+            addSeparator();
+            addAction(actions->action(FileActions::EXPORT_SEQUENCE));
+            addAction(actions->action(FileActions::EXPORT_FRAME));
             addSeparator();
             _p->layer = addMenu(qApp->translate("djv::ViewLib::FileMenu", "La&yer"));
             addAction(actions->action(FileActions::LAYER_PREV));

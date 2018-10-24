@@ -3,30 +3,10 @@ cmake_minimum_required(VERSION 3.0)
 set(djvProjectName djv)
 project(${djvProjectName})
 
-#-------------------------------------------------------------------------------
-# Version Number
-#
-# When changing version numbers the following files need to be updated:
-#
-# * Set the new version in the top-level CMakeLists.txt file
-# * Set the new version in the top-level Doxyfile
-# * Update the download links in doc/Download.html
-# * Tag the git repository
-#
-# Git example for tagging a version:
-#
-# > git tag -a 1.2.2 -m "Version 1.2.2"
-# > git push origin 1.2.2
-#-------------------------------------------------------------------------------
-
 set(djvVersionMajor "1")
 set(djvVersionMinor "2")
 set(djvVersionPatch "2")
 set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
-
-#-------------------------------------------------------------------------------
-# Configuration
-#-------------------------------------------------------------------------------
 
 # Set the platform we are building for.
 if(APPLE)
@@ -110,10 +90,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/tests
     ${CMAKE_BINARY_DIR})
 
-#-------------------------------------------------------------------------------
-# Third Party Dependencies
-#-------------------------------------------------------------------------------
-
+# Third party libraries.
 if(WIN32 OR APPLE)
     set(djvThirdPartyBuild true)
     set(djvThirdPartyPackage true)
@@ -121,7 +98,6 @@ elseif(UNIX)
     set(djvThirdPartyBuild false)
     set(djvThirdPartyPackage false)
 endif()
-
 if(djvThirdPartyBuild)
     set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(GLM_SHARED_LIBS ${BUILD_SHARED_LIBS})
@@ -134,12 +110,7 @@ if(djvThirdPartyBuild)
     set(FFMPEG_SHARED_LIBS ON)
     set(QT_SHARED_LIBS ON)
 endif()
-
 find_package(Qt5 REQUIRED)
-
-#-------------------------------------------------------------------------------
-# Sub-Directories
-#-------------------------------------------------------------------------------
 
 include(djvPackage)
 

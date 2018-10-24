@@ -41,28 +41,31 @@
 
 <div class="content">
 
-<div class="block">
-<h1>Image Formats</h1>
-<li><a href="#Cineon">Cineon</a></li>
-<li><a href="#DPX">DPX</a></li>
-<li><a href="#FFmpeg">FFmpeg</a></li>
-<li><a href="#IFF">IFF</a></li>
-<li><a href="#IFL">IFL</a></li>
-<li><a href="#JPEG">JPEG</a></li>
-<li><a href="#LUT">LUT</a></li>
-<li><a href="#OpenEXR">OpenEXR</a></li>
-<li><a href="#PIC">PIC</a></li>
-<li><a href="#PNG">PNG</a></li>
-<li><a href="#PPM">PPM</a></li>
-<li><a href="#RLA">RLA</a></li><li><a href="#Sgi">SGI</a></li>
-<li><a href="#Targa">Targa</a></li>
-<li><a href="#TIFF">TIFF</a></li>
+<div class="nav">
+<a href="index.html">Home</a> /
+<a href="Documentation.html">Documentation</a> /
+Image Formats
+<ul>
+    <li><a href="#Cineon">Kodak Cineon</a></li>
+    <li><a href="#DPX">SMPTE Digital Picture Exchange (DPX)</a></li>
+    <li><a href="#FFmpeg">FFmpeg</a></li>
+    <li><a href="#IFF">Generic Interchange File Format (IFF)</a></li>
+    <li><a href="#IFL">Autodesk Image File List (IFL)</a></li>
+    <li><a href="#JPEG">Joint Photographic Experts Group (JPEG)</a></li>
+    <li><a href="#LUT">2D Lookup Tables</a></li>
+    <li><a href="#OpenEXR">Industrial Light and Magic OpenEXR</a></li>
+    <li><a href="#PIC">Softimage PIC</a></li>
+    <li><a href="#PNG">Portable Network Graphics</a></li>
+    <li><a href="#PPM">NetPBM</a></li>
+    <li><a href="#RLA">Wavefront RLA</a></li>
+    <li><a href="#SGI">Silicon Graphics</a></li>
+    <li><a href="#Targa">Targa</a></li>
+    <li><a href="#TIFF">Tagged Image File Format (TIFF)</a></li>
+</ul>
 </div>
 
 <div class="block">
-<h2><a name="Cineon">Cineon</a></h2>
-<p>This plugin provides support for the Kodak Cineon image file format. Cineon
-is a specialized image file format for working with motion picture film.</p>
+<h1><a name="Cineon">Kodak Cineon</a></h1>
 <p>File extensions: .cin</p>
 <p>Supported features:</p>
 <ul>
@@ -90,11 +93,7 @@ Film Print.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="DPX">DPX</a></h2>
-<p>This plugin provides support for the SMPTE Digital Picture Exchange (DPX)
-image file format. DPX is a specialized image file format for working with
-motion picture film. DPX is the successor to the Cineon file format with
-support for additional image and meta data.</p>
+<h1><a name="DPX">SMPTE Digital Picture Exchange (DPX)</a></h1>
 <p>File extensions: .dpx</p>
 <p>Supported features:</p>
 <ul>
@@ -129,8 +128,23 @@ images: Auto, MSB, LSB. Default = MSB.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="IFF">IFF</a></h2>
-<p>This plugin provides support for the Generic Interchange File Format (IFF).</p>
+<h1><a name="FFmpeg">FFmpeg</a></h1>
+<p>File extensions: .avi, .dv, .gif, .flv, .mkv, .mov, .mpg, .mpeg, .mp4, .m4v, .mxf</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit RGBA</li>
+</ul>
+<h3>Command Line Options</h3>
+<table>
+<tr><td width="200"><i>-ffmpeg_format (value)</i></td><td>Set the format used when
+saving FFmpeg movies: MPEG4, ProRes, MJPEG. Default = MPEG4.</td></tr>
+<tr><td><i>-ffmpeg_quality (value)</i></td><td>Set the quality used when
+saving FFmpeg movies: Low, Medium, High. Default = High.</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h1><a name="IFF">Generic Interchange File Format (IFF)</a></h1>
 <p>File extensions: .iff, .z</p>
 <p>Supported features:</p>
 <ul>
@@ -156,17 +170,14 @@ compression used when saving IFF images: None, RLE. Default = RLE.
 </div>
 
 <div class="block">
-<h2><a name="IFL">IFL</a></h2>
-<p>This plugin provides support for the Autodesk Image File List (IFL) format.
-IFL is a file format for creating sequences or playlists of other image files.
-An IFL file simply consists of a list of image file names, one per line.</p>
+<h1><a name="IFL">Autodesk Image File List (IFL)</a></h1>
+<p>IFL is a file format for creating sequences or playlists of other image
+files. An IFL file simply consists of a list of image file names one per line.</p>
 <p>File extensions: .ifl</p>
 </div>
 
 <div class="block">
-<h2><a name="JPEG">JPEG</a></h2>
-<p>This plugin provides support for the Joint Photographic Experts Group (JPEG)
-image file format.</p>
+<h1><a name="JPEG">Joint Photographic Experts Group (JPEG)</a></h1>
 <p>File extensions: .jpeg, .jpg, .jfif</p>
 <p>Supported features:</p>
 <ul>
@@ -180,8 +191,7 @@ when saving JPEG images. Default = 90.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="LUT">LUT</a></h2>
-<p>This plugin provides support for two-dimensional lookup table file formats.</p>
+<h1><a name="LUT">2D Lookup Tables</a></h1>
 <p>File extensions: .lut, .1dl</p>
 <p>Supported features:</p>
 <ul>
@@ -196,9 +206,7 @@ loading LUTs: Auto, U8, U10, U16. Default = Auto.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="OpenEXR">OpenEXR</a></h2>
-<p>This plugin provides support for the Industrial Light and Magic OpenEXR
-image file format.</p>
+<h1><a name="OpenEXR">Industrial Light and Magic OpenEXR</a></h1>
 <p>File extensions: .exr</p>
 <p>Supported features:</p>
 <ul>
@@ -232,8 +240,7 @@ compression level used when saving OpenEXR images. Default = 45.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="PIC">PIC</a></h2>
-<p>This plugin provides support for the Softimage image file format.</p>
+<h1><a name="PIC">Softimage PIC</a></h1>
 <p>File extensions: .pic</p>
 <p>Supported features:</p>
 <ul>
@@ -250,9 +257,7 @@ compression level used when saving OpenEXR images. Default = 45.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="PNG">PNG</a></h2>
-<p>This plugin provides support for the Portable Network Graphics (PNG) image
-file format.</p>
+<h1><a name="PNG">Portable Network Graphics (PNG)</a></h1>
 <p>File extensions: .png</p>
 <p>Supported features:</p>
 <ul>
@@ -261,8 +266,7 @@ file format.</p>
 </div>
 
 <div class="block">
-<h2><a name="PPM">PPM</a></h2>
-<p>This plugin provides support for the NetPBM image file format.</p>
+<h1><a name="PPM">NetPBM</a></h1>
 <p>File extensions: .ppm, pnm, .pgm, .pbm</p>
 <p>Supported features:</p>
 <ul>
@@ -279,25 +283,7 @@ images: ASCII, Binary. Default = Binary.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="FFmpeg">FFmpeg</a></h2>
-<p>This plugin provides support for the FFmmpeg library.</p>
-<p>File extensions: .avi, .dv, .gif, .flv, .mkv, .mov, .mpg, .mpeg, .mp4, .m4v, .mxf</p>
-<p>Supported features:</p>
-<ul>
-    <li>8-bit RGBA</li>
-</ul>
-<h3>Command Line Options</h3>
-<table>
-<tr><td width="200"><i>-ffmpeg_format (value)</i></td><td>Set the format used when
-saving FFmpeg movies: MPEG4, ProRes, MJPEG. Default = MPEG4.</td></tr>
-<tr><td><i>-ffmpeg_quality (value)</i></td><td>Set the quality used when
-saving FFmpeg movies: Low, Medium, High. Default = High.</td></tr>
-</table>
-</div>
-
-<div class="block">
-<h2><a name="RLA">RLA</a></h2>
-<p>This plugin provides support for the Wavefront RLA image file format.</p>
+<h1><a name="RLA">Wavefront RLA</a></h1>
 <p>File extensions: .rla, .rpf</p>
 <p>Supported features:</p>
 <ul>
@@ -308,8 +294,7 @@ saving FFmpeg movies: Low, Medium, High. Default = High.</td></tr>
 </div>
 
 <div class="block">
-<h2><a name="SGI">SGI</a></h2>
-<p>This plugin provides support for the Silicon Graphics image file format.</p>
+<h1><a name="SGI">Silicon Graphics</a></h1>
 <p>File extensions: .sgi, .rgba, .rgb, .bw</p>
 <p>Supported features:</p>
 <ul>
@@ -329,8 +314,7 @@ compression used when saving SGI images: None, RLE. Default = None.
 </div>
 
 <div class="block">
-<h2><a name="Targa">Targa</a></h2>
-<p>This plugin provides support for the Targa image file format.</p>
+<h1><a name="Targa">Targa</a></h1>
 <p>File extensions: .tga</p>
 <p>Supported features:</p>
 <ul>
@@ -351,8 +335,7 @@ ompression used when saving Targa images: None, RLE. Default = None.
 </div>
 
 <div class="block">
-<h2><a name="TIFF">TIFF</a></h2>
-<p>This plugin provides support for the Tagged Image File Format (TIFF).</p>
+<h1><a name="TIFF">Tagged Image File Format (TIFF)</a></h1>
 <p>File extensions: .tiff, .tif</p>
 <p>Supported features:</p>
 <ul>

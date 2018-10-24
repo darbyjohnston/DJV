@@ -149,7 +149,7 @@ namespace djv
             static const QString label = qApp->translate("djv::info::Context",
                 "djv_info\n"
                 "\n"
-                "    Display information about images and movies.\n"
+                "    Command-line tool for printing file metadata.\n"
                 "\n"
                 "    Example:\n"
                 "    yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12\n"
@@ -172,7 +172,6 @@ namespace djv
                 "\n"
                 "    image     - One or more images, image sequences, or movies\n"
                 "    directory - One or more directories\n"
-                "    option    - Additional options (see below)\n"
                 "\n"
                 "    If no images or directories are given then the current directory will be "
                 "used.\n"

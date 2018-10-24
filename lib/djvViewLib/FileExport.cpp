@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/FileSave.h>
+#include <djvViewLib/FileExport.h>
 
 #include <djvViewLib/Util.h>
 #include <djvViewLib/ViewContext.h>
@@ -46,7 +46,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        FileSaveInfo::FileSaveInfo(
+        FileExportInfo::FileExportInfo(
             const Core::FileInfo &               inputFile,
             const Core::FileInfo &               outputFile,
             const Graphics::PixelDataInfo &      info,
@@ -67,13 +67,13 @@ namespace djv
             options(options)
         {}
 
-        struct FileSave::Private
+        struct FileExport::Private
         {
             Private(const QPointer<ViewContext> & context) :
                 context(context)
             {}
 
-            FileSaveInfo info;
+            FileExportInfo info;
             Core::Sequence saveSequence;
             QScopedPointer<Graphics::ImageLoad> load;
             QScopedPointer<Graphics::ImageSave> save;
@@ -82,7 +82,7 @@ namespace djv
             QPointer<ViewContext> context;
         };
 
-        FileSave::FileSave(const QPointer<ViewContext> & context, QObject * parent) :
+        FileExport::FileExport(const QPointer<ViewContext> & context, QObject * parent) :
             QObject(parent),
             _p(new Private(context))
         {
@@ -98,18 +98,18 @@ namespace djv
                 SLOT(finishedCallback()));
         }
 
-        FileSave::~FileSave()
+        FileExport::~FileExport()
         {
-            //DJV_DEBUG("FileSave::~FileSave");
+            //DJV_DEBUG("FileExport::~FileExport");
             delete _p->dialog;
 
             _p->context->makeGLContextCurrent();
             _p->openGLImage.reset();
         }
 
-        void FileSave::save(const FileSaveInfo & info)
+        void FileExport::start(const FileExportInfo & info)
         {
-            //DJV_DEBUG("FileSave::save");
+            //DJV_DEBUG("FileExport::start");
             //DJV_DEBUG_PRINT("input = " << info.inputFile);
             //DJV_DEBUG_PRINT("output = " << info.outputFile);
             //DJV_DEBUG_PRINT("sequence = " << info.sequence);
@@ -174,15 +174,15 @@ namespace djv
             }
 
             // Start...
-            _p->dialog->setLabel(qApp->translate("djv::ViewLib::FileSave", "Saving \"%1\":").
+            _p->dialog->setLabel(qApp->translate("djv::ViewLib::FileExport", "Exporting \"%1\":").
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
             _p->dialog->start(_p->info.sequence.frames.count() ? _p->info.sequence.frames.count() : 1);
             _p->dialog->show();
         }
 
-        void FileSave::cancel()
+        void FileExport::cancel()
         {
-            //DJV_DEBUG("FileSave::cancel");
+            //DJV_DEBUG("FileExport::cancel");
             if (_p->dialog->isVisible())
             {
                 _p->dialog->reject();
@@ -203,14 +203,14 @@ namespace djv
                     _p->context->printError(error);
                 }
             }
-            _p->info = FileSaveInfo();
+            _p->info = FileExportInfo();
             _p->load.reset();
             _p->save.reset();
         }
 
-        void FileSave::callback(int in)
+        void FileExport::callback(int in)
         {
-            //DJV_DEBUG("FileSave::callback");
+            //DJV_DEBUG("FileExport::callback");
             //DJV_DEBUG_PRINT("in = " << in);
 
             _p->context->makeGLContextCurrent();
@@ -306,9 +306,9 @@ namespace djv
             }
         }
 
-        void FileSave::finishedCallback()
+        void FileExport::finishedCallback()
         {
-            //DJV_DEBUG("FileSave::finishedCallback");
+            //DJV_DEBUG("FileExport::finishedCallback");
             try
             {
                 //DJV_DEBUG_PRINT("close");

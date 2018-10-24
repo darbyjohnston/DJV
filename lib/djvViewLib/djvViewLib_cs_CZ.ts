@@ -131,13 +131,12 @@
     </message>
     <message>
         <location filename="Enum.cpp" line="59"/>
-        <source>Playback</source>
+        <source>Playback Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="60"/>
-        <location filename="Enum.cpp" line="241"/>
-        <source>Information</source>
+        <source>Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -449,6 +448,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="Enum.cpp" line="241"/>
+        <source>Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="Enum.cpp" line="249"/>
         <source>256</source>
         <translation type="unfinished"></translation>
@@ -490,12 +494,13 @@
     </message>
     <message>
         <location filename="Enum.cpp" line="277"/>
-        <source>File Save</source>
+        <source>File Export Sequence</source>
+        <oldsource>File Export</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="278"/>
-        <source>File Save Frame</source>
+        <source>File Export Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1103,12 +1108,13 @@
     </message>
     <message>
         <location filename="FileActions.cpp" line="70"/>
-        <source>&amp;Save</source>
+        <source>E&amp;xport Sequence</source>
+        <oldsource>E&amp;xport</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileActions.cpp" line="71"/>
-        <source>Save &amp;Frame</source>
+        <source>Export &amp;Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1163,7 +1169,7 @@
     </message>
     <message>
         <location filename="FileActions.cpp" line="143"/>
-        <source>Open a new file
+        <source>Show the file browser
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
@@ -1191,6 +1197,14 @@ Keyboard shortcut: %1</source>
     </message>
 </context>
 <context>
+    <name>djv::ViewLib::FileExport</name>
+    <message>
+        <location filename="FileExport.cpp" line="177"/>
+        <source>Exporting &quot;%1&quot;:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>djv::ViewLib::FileGroup</name>
     <message>
         <location filename="FileGroup.cpp" line="605"/>
@@ -1199,7 +1213,8 @@ Keyboard shortcut: %1</source>
     </message>
     <message>
         <location filename="FileGroup.cpp" line="695"/>
-        <source>Save</source>
+        <source>Export Sequence</source>
+        <oldsource>Export</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1210,7 +1225,7 @@ Keyboard shortcut: %1</source>
     </message>
     <message>
         <location filename="FileGroup.cpp" line="721"/>
-        <source>Save Frame</source>
+        <source>Export Frame</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1222,17 +1237,17 @@ Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileMenu.cpp" line="62"/>
+        <location filename="FileMenu.cpp" line="63"/>
         <source>La&amp;yer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileMenu.cpp" line="65"/>
+        <location filename="FileMenu.cpp" line="66"/>
         <source>Pro&amp;xy Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileMenu.cpp" line="80"/>
+        <location filename="FileMenu.cpp" line="81"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1302,14 +1317,6 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="FilePrefsWidget.cpp" line="125"/>
         <source>Cache size (gigabytes):</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djv::ViewLib::FileSave</name>
-    <message>
-        <location filename="FileSave.cpp" line="177"/>
-        <source>Saving &quot;%1&quot;:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2293,7 +2300,6 @@ Usage
     djv_view [image]... [option]...
 
     image  - One or more images, image sequences, or movies
-    option - Additional options (see below)
 
 Options
 
@@ -2431,54 +2437,39 @@ Playback Options
     </message>
     <message>
         <location filename="WindowActions.cpp" line="65"/>
-        <source>Show User &amp;Interface</source>
+        <source>User &amp;Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="103"/>
-        <source>Show Tool Bars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowActions.cpp" line="104"/>
-        <source>Show Playback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowActions.cpp" line="105"/>
-        <source>Show Information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowActions.cpp" line="117"/>
+        <location filename="WindowActions.cpp" line="107"/>
         <source>Create a new window
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="WindowActions.cpp" line="112"/>
+        <source>Duplicate the window
+
+Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="WindowActions.cpp" line="117"/>
+        <source>Close the window
+
+Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="WindowActions.cpp" line="122"/>
-        <source>Duplicate this window
-
-Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowActions.cpp" line="127"/>
-        <source>Close this window
-
-Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowActions.cpp" line="132"/>
         <source>Resize the window to fit the image
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="137"/>
+        <location filename="WindowActions.cpp" line="127"/>
         <source>Show the window full screen
 
 Keyboard shortcut: %1</source>
@@ -2488,7 +2479,7 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::ViewLib::WindowMenu</name>
     <message>
-        <location filename="WindowMenu.cpp" line="57"/>
+        <location filename="WindowMenu.cpp" line="56"/>
         <source>&amp;Window</source>
         <translation type="unfinished"></translation>
     </message>

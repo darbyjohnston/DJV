@@ -41,21 +41,26 @@
 
 <div class="content">
 
+<div class="nav">
+<a href="index.html">Home</a> /
+<a href="Documentation.html">Documentation</a> /
+djv_convert
+</div>
+
 <div class="block">
 <h1>djv_convert</h1>
-<p>Command-line batch processing of images and movies. Common uses
-include resizing images and converting sequences of images to a movie.<p>
+<p>Command-line tool for image and movie processing. Common uses include
+resizing images and converting sequences of images to a movie.<p>
 <p>Example of converting an image sequence to a movie:</p>
 <pre>
 > djv_convert input.1-100.tga output.mp4
 </pre>
 <p>See below for more examples.</p>
-<p>Note that djv_convert uses OpenGL for image processing and needs to be run
-on a machine with graphics resources.</p>
+<p>Note that djv_convert requires OpenGL in order to run.</p>
 </div>
 
 <div class="block">
-<h2>Usage</h2>
+<h1><a name="Usage">Usage</a></h1>
 <pre>
 djv_convert (input) (output) [option]...
 </pre>
@@ -63,12 +68,11 @@ djv_convert (input) (output) [option]...
 <tr><td width="200"><i>input</i></td><td>Input image, image sequence, or
 movie</td></tr>
 <tr><td><i>output</i></td><td>Output image, image sequence, or movie</td></tr>
-<tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
 </table>
 </div>
 
 <div class="block">
-<h2>Conversion Options</h2>
+<h1><a name="Options">Options</a></h1>
 <table>
 <tr><td width="200"><i>-mirror_h</i></td><td>Mirror the image horizontally.</td></tr>
 <tr><td><i>-mirror_v</i></td><td>Mirror the image vertically.</td></tr>
@@ -88,10 +92,7 @@ using floating point values (1.0 = 100%).</td></tr>
 <tr><td><i>-channel (value)</i></td><td>Show only specific image channels:
 Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 </table>
-</div>
-
-<div class="block">
-<h2>Input Options</h2>
+<h2>Input</h2>
 <table>
 <tr><td width="200"><i>-layer (value)</i></td><td>Set the input layer.</td></tr>
 <tr><td><i>-proxy (value)</i></td><td>Set the proxy scale: None, 1/2,
@@ -101,10 +102,7 @@ Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 <tr><td><i>-timeout (value)</i></td><td>Set the maximum number of seconds to
 wait for each input frame. Default = 0.</td></tr>
 </table>
-</div>
-
-<div class="block">
-<h2>Output Options</h2>
+<h2>Output</h2>
 <table>
 <tr><td width="200"><i>-pixel (value)</i></td><td>Convert the pixel type: L U8,
 L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8, RGB U10, RGB U16,
@@ -115,20 +113,12 @@ RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
 <tr><td><i>-tag_auto (value)</i></td><td>Automatically generate image tags
 (e.g., timecode): False, True. Default = True.</td></tr>
 </table>
-</div>
-
-<div class="block">
-<h2>Image Format Options</h2>
 <p>See this <a href="ImageFormats.html">page</a> for image format options.<p>
-</div>
-
-<div class="block">
-<h2>General Options</h2>
 <p>See this <a href="CommandLine.html">page</a> for general options.<p>
 </div>
 
 <div class="block">
-<h2>Examples</h2>
+<h1><a name="Examples">Examples</a></h1>
 <p>Convert an image:</p>
 <pre>
 > djv_convert input.sgi output.tga

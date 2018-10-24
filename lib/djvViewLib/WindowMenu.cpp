@@ -46,7 +46,6 @@ namespace djv
             addAction(actions->action(WindowActions::NEW));
             addAction(actions->action(WindowActions::DUPLICATE));
             addAction(actions->action(WindowActions::CLOSE));
-            addSeparator();
             addAction(actions->action(WindowActions::FIT));
             addAction(actions->action(WindowActions::FULL_SCREEN));
             addSeparator();

@@ -125,11 +125,11 @@ namespace djv
             //! This signal is emitted to reload the frame.
             void reloadFrame();
 
-            //! This signal is emitted to save a sequence.
-            void save(const djv::Core::FileInfo &);
+            //! This signal is emitted to export a sequence.
+            void exportSequence(const djv::Core::FileInfo &);
 
-            //! This signal is emitted to save a frame.
-            void saveFrame(const djv::Core::FileInfo &);
+            //! This signal is emitted to export a frame.
+            void exportFrame(const djv::Core::FileInfo &);
 
         protected:
             void timerEvent(QTimerEvent *) override;
@@ -141,8 +141,8 @@ namespace djv
             void reloadCallback();
             void reloadFrameCallback();
             void closeCallback();
-            void saveCallback();
-            void saveFrameCallback();
+            void exportSequenceCallback();
+            void exportFrameCallback();
             void layerCallback(QAction *);
             void layerPrevCallback();
             void layerNextCallback();

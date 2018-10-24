@@ -47,10 +47,10 @@ namespace djv
     {
         class ViewContext;
 
-        //! This struct provides file saving information.
-        struct FileSaveInfo
+        //! This struct provides file export information.
+        struct FileExportInfo
         {
-            FileSaveInfo(
+            FileExportInfo(
                 const Core::FileInfo &               inputFile = Core::FileInfo(),
                 const Core::FileInfo &               outputFile = Core::FileInfo(),
                 const Graphics::PixelDataInfo &      info = Graphics::PixelDataInfo(),
@@ -73,24 +73,24 @@ namespace djv
             Graphics::OpenGLImageOptions   options;
         };
 
-        //! This class provides file saving.
-        class FileSave : public QObject
+        //! This class provides file exporting.
+        class FileExport : public QObject
         {
             Q_OBJECT
 
         public:
-            explicit FileSave(const QPointer<ViewContext> &, QObject * parent = nullptr);
-            ~FileSave() override;
+            explicit FileExport(const QPointer<ViewContext> &, QObject * parent = nullptr);
+            ~FileExport() override;
 
         public Q_SLOTS:
-            //! Save a file.
-            void save(const djv::ViewLib::FileSaveInfo &);
+            //! Start an export.
+            void start(const djv::ViewLib::FileExportInfo &);
 
-            //! Cancel an in progress save.
+            //! Cancel an in progress export.
             void cancel();
 
         Q_SIGNALS:
-            //! This signal is emitted when the save is finished.
+            //! This signal is emitted when the export is finished.
             void finished();
 
         private Q_SLOTS:
@@ -98,7 +98,7 @@ namespace djv
             void finishedCallback();
 
         private:
-            DJV_PRIVATE_COPY(FileSave);
+            DJV_PRIVATE_COPY(FileExport);
 
             struct Private;
             std::unique_ptr<Private> _p;

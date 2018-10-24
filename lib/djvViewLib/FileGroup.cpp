@@ -151,13 +151,13 @@ namespace djv
                 SIGNAL(triggered()),
                 SLOT(closeCallback()));
             connect(
-                _p->actions->action(FileActions::SAVE),
+                _p->actions->action(FileActions::EXPORT_SEQUENCE),
                 SIGNAL(triggered()),
-                SLOT(saveCallback()));
+                SLOT(exportSequenceCallback()));
             connect(
-                _p->actions->action(FileActions::SAVE_FRAME),
+                _p->actions->action(FileActions::EXPORT_FRAME),
                 SIGNAL(triggered()),
-                SLOT(saveFrameCallback()));
+                SLOT(exportFrameCallback()));
             connect(
                 _p->actions->action(FileActions::LAYER_PREV),
                 SIGNAL(triggered()),
@@ -688,11 +688,11 @@ namespace djv
             mainWindow()->fileOpen(Core::FileInfo());
         }
 
-        void FileGroup::saveCallback()
+        void FileGroup::exportSequenceCallback()
         {
-            //DJV_DEBUG("FileGroup::saveCallback");
+            //DJV_DEBUG("FileGroup::exportSequenceCallback");
             UI::FileBrowser * fileBrowser = context()->fileBrowser(
-                qApp->translate("djv::ViewLib::FileGroup", "Save"));
+                qApp->translate("djv::ViewLib::FileGroup", "Export Sequence"));
             if (fileBrowser->exec() == QDialog::Accepted)
             {
                 const Core::FileInfo & fileInfo = fileBrowser->fileInfo();
@@ -705,20 +705,20 @@ namespace djv
                         arg(QDir::toNativeSeparators(fileInfo)));
                     if (QDialog::Accepted == dialog.exec())
                     {
-                        Q_EMIT save(fileInfo);
+                        Q_EMIT exportSequence(fileInfo);
                     }
                 }
                 else
                 {
-                    Q_EMIT save(fileInfo);
+                    Q_EMIT exportSequence(fileInfo);
                 }
             }
         }
 
-        void FileGroup::saveFrameCallback()
+        void FileGroup::exportFrameCallback()
         {
             UI::FileBrowser * fileBrowser = context()->fileBrowser(
-                qApp->translate("djv::ViewLib::FileGroup", "Save Frame"));
+                qApp->translate("djv::ViewLib::FileGroup", "Export Frame"));
             if (fileBrowser->exec() == QDialog::Accepted)
             {
                 const Core::FileInfo & fileInfo = fileBrowser->fileInfo();
@@ -729,12 +729,12 @@ namespace djv
                         arg(QDir::toNativeSeparators(fileInfo)));
                     if (QDialog::Accepted == dialog.exec())
                     {
-                        Q_EMIT saveFrame(fileInfo);
+                        Q_EMIT exportFrame(fileInfo);
                     }
                 }
                 else
                 {
-                    Q_EMIT saveFrame(fileInfo);
+                    Q_EMIT exportFrame(fileInfo);
                 }
             }
         }
@@ -806,8 +806,8 @@ namespace djv
         void FileGroup::update()
         {
             // Update actions.
-            _p->actions->action(FileActions::SAVE)->setEnabled(_p->imageLoad.data());
-            _p->actions->action(FileActions::SAVE_FRAME)->setEnabled(_p->imageLoad.data());
+            _p->actions->action(FileActions::EXPORT_SEQUENCE)->setEnabled(_p->imageLoad.data());
+            _p->actions->action(FileActions::EXPORT_FRAME)->setEnabled(_p->imageLoad.data());
             _p->actions->setLayers(_p->layers);
             _p->actions->setLayer(_p->layer);
             _p->actions->action(FileActions::U8_CONVERSION)->setChecked(_p->u8Conversion);

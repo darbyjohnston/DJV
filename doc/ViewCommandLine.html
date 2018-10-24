@@ -44,19 +44,51 @@
 <div class="nav">
 <a href="index.html">Home</a> /
 <a href="Documentation.html">Documentation</a> /
-djv_view
+<a href="djv_view.html">djv_view</a> /
+Command Line
 </div>
 
 <div class="block">
-<h1>djv_view</h1>
-<p>Real-time image sequence and movie playback.</p>
-<h2><a href="ViewFiles.html">Files</a></h2>
-<h2><a href="ViewWindows.html">Windows</a></h2>
-<h2><a href="ViewImageView.html">Image View</a></h2>
-<h2><a href="ViewImages.html">Images</a></h2>
-<h2><a href="ViewPlayback.html">Playback</a></h2>
-<h2><a href="ViewTools.html">Tools</a></h2>
-<h2><a href="ViewCommandLine.html">Command Line</a></h2>
+<h1><a name="Usage">Usage</a></h1>
+<pre>
+djv_view [image]... [option]...
+</pre>
+<table>
+<tr><td width="200"><i>image</i></td><td>One or more images, image sequences,
+or movies</td></tr>
+</table>
+</div>
+
+<div class="block">
+<h1><a name="Options">Options</a></h1>
+<table>
+<tr><td width="200"><i>-combine</i></td><td>Combine multiple command line
+arguments into a single sequence.</td></tr>
+</table>
+<h2>Files</h2>
+<table>
+<tr><td width="200"><i>-file_layer (value)</i></td><td>Set the input layer.
+Default = 0.</td></tr>
+<tr><td><i>-file_proxy (value)</i></td><td>Set the proxy scale: None,
+1/2, 1/4, 1/8.</td></tr>
+<tr><td><i>-file_cache (value)</i></td><td>Set whether the file cache is
+enabled: False, True.</td></tr>
+</table>
+<h2>Windows</h2>
+<table>
+<tr><td width="200"><i>-window_full_screen</i></td><td>Set the window full
+screen.</td></tr>
+</table>
+<h2>Playback</h2>
+<table>
+<tr><td width="200"><i>-playback (value)</i></td><td>Set the playback:
+Reverse, Stop, Forward.</td></tr>
+<tr><td><i>-playback_frame (value)</i></td><td>Set the playback frame.</td></tr>
+<tr><td><i>-playback_speed (value)</i></td><td>Set the playback speed: 1, 3, 6,
+12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60, 120.</td></tr>
+</table>
+<p>See this <a href="ImageFormats.html">page</a> for image format options.<p>
+<p>See this <a href="CommandLine.html">page</a> for general options.<p>
 </div>
 
 </div>

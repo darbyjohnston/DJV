@@ -12,11 +12,11 @@ set(header
     Enum.h
     FileActions.h
     FileCache.h
+    FileExport.h
     FileGroup.h
     FileMenu.h
     FilePrefs.h
     FilePrefsWidget.h
-    FileSave.h
     FileToolBar.h
     HelpActions.h
     HelpGroup.h
@@ -77,11 +77,11 @@ set(mocHeader
     Enum.h
     FileActions.h
     FileCache.h
+    FileExport.h
     FileGroup.h
     FileMenu.h
     FilePrefs.h
     FilePrefsWidget.h
-    FileSave.h
     FileToolBar.h
     HelpActions.h
     HelpGroup.h
@@ -140,11 +140,11 @@ set(source
     Enum.cpp
     FileActions.cpp
     FileCache.cpp
+    FileExport.cpp
     FileGroup.cpp
     FileMenu.cpp
     FilePrefs.cpp
     FilePrefsWidget.cpp
-    FileSave.cpp
     FileToolBar.cpp
     HelpActions.cpp
     HelpGroup.cpp

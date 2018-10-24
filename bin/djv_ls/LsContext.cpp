@@ -189,7 +189,7 @@ namespace djv
             static const QString label = qApp->translate("djv::ls::Context",
                 "djv_ls\n"
                 "\n"
-                "    List directories with file sequences.\n"
+                "    Command-line tool for printing file sequences.\n"
                 "\n"
                 "    Example:\n"
                 "    el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006\n"
@@ -205,7 +205,6 @@ namespace djv
                 "\n"
                 "    file      - One or more files or image sequences\n"
                 "    directory - One or more directories\n"
-                "    option    - Additional options (see below)\n"
                 "\n"
                 "    If no files or directories are given then the current directory will be "
                 "used.\n"

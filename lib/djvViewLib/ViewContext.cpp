@@ -30,8 +30,8 @@
 #include <djvViewLib/ViewContext.h>
 
 #include <djvViewLib/FileCache.h>
+#include <djvViewLib/FileExport.h>
 #include <djvViewLib/FilePrefsWidget.h>
-#include <djvViewLib/FileSave.h>
 #include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/ImagePrefs.h>
 #include <djvViewLib/ImagePrefsWidget.h>
@@ -68,8 +68,8 @@ namespace djv
             QPointer<ViewPrefs>     viewPrefs;
             QPointer<WindowPrefs>   windowPrefs;
 
-            QPointer<FileCache> fileCache;
-            QPointer<FileSave>  fileSave;
+            QPointer<FileCache>  fileCache;
+            QPointer<FileExport> fileExport;
         };
 
         ViewContext::ViewContext(int & argc, char ** argv, QObject * parent) :
@@ -94,7 +94,7 @@ namespace djv
             // Initialize objects.
             DJV_LOG(debugLog(), "ViewContext", "Initialize objects...");
             _p->fileCache = new FileCache(this);
-            _p->fileSave = new FileSave(this);
+            _p->fileExport = new FileExport(this);
         }
 
         ViewContext::~ViewContext()
@@ -109,7 +109,7 @@ namespace djv
             delete _p->imagePrefs;
             delete _p->filePrefs;
 
-            delete _p->fileSave;
+            delete _p->fileExport;
             delete _p->fileCache;
         }
 
@@ -158,9 +158,9 @@ namespace djv
             return _p->fileCache;
         }
 
-        const QPointer<FileSave> & ViewContext::fileSave() const
+        const QPointer<FileExport> & ViewContext::fileExport() const
         {
-            return _p->fileSave;
+            return _p->fileExport;
         }
 
         void ViewContext::setValid(bool valid)
@@ -277,7 +277,6 @@ namespace djv
                 "    djv_view [image]... [option]...\n"
                 "\n"
                 "    image  - One or more images, image sequences, or movies\n"
-                "    option - Additional options (see below)\n"
                 "\n"
                 "Options\n"
                 "\n"

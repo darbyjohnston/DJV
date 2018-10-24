@@ -72,9 +72,6 @@ namespace djv
             explicit WindowActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~WindowActions() override;
             
-            //! Get the UI component visibility labels.
-            static const QStringList & uiComponentVisibilityLabels();
-
         private Q_SLOTS:
             void update();
 

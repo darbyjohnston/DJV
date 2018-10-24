@@ -121,8 +121,8 @@ namespace djv
             void windowResizeCallback();
             void enableUpdatesCallback();
             void reloadFrameCallback();
-            void saveCallback(const djv::Core::FileInfo &);
-            void saveFrameCallback(const djv::Core::FileInfo &);
+            void exportSequenceCallback(const djv::Core::FileInfo &);
+            void exportFrameCallback(const djv::Core::FileInfo &);
             void setFrameStoreCallback();
             void pickCallback(const glm::ivec2 &);
             void mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL);

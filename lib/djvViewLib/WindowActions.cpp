@@ -62,7 +62,7 @@ namespace djv
             _actions[FIT]->setText(qApp->translate("djv::ViewLib::WindowActions", "&Fit"));
             _actions[FULL_SCREEN]->setText(qApp->translate("djv::ViewLib::WindowActions", "F&ull Screen"));
             _actions[FULL_SCREEN]->setCheckable(true);
-            _actions[UI_VISIBLE]->setText(qApp->translate("djv::ViewLib::WindowActions", "Show User &Interface"));
+            _actions[UI_VISIBLE]->setText(qApp->translate("djv::ViewLib::WindowActions", "User &Interface"));
             _actions[UI_VISIBLE]->setCheckable(true);
 
             // Create the action groups.
@@ -74,7 +74,7 @@ namespace djv
             for (int i = 0; i < Enum::uiComponentLabels().count(); ++i)
             {
                 auto action = new QAction(this);
-                action->setText(uiComponentVisibilityLabels()[i]);
+                action->setText(Enum::uiComponentLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
                 _groups[UI_COMPONENT_VISIBLE_GROUP]->addAction(action);
@@ -96,16 +96,6 @@ namespace djv
 
         WindowActions::~WindowActions()
         {}
-            
-        const QStringList & WindowActions::uiComponentVisibilityLabels()
-        {
-            static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::WindowActions", "Show Tool Bars") <<
-                qApp->translate("djv::ViewLib::WindowActions", "Show Playback") <<
-                qApp->translate("djv::ViewLib::WindowActions", "Show Information");
-            DJV_ASSERT(data.count() == Enum::UI_COMPONENT_COUNT);
-            return data;
-        }
 
         void WindowActions::update()
         {
@@ -119,12 +109,12 @@ namespace djv
             _actions[DUPLICATE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowDuplicateIcon"));
             _actions[DUPLICATE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value);
             _actions[DUPLICATE]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Duplicate this window\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::WindowActions", "Duplicate the window\n\nKeyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value.toString()));
             _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowCloseIcon"));
             _actions[CLOSE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value);
             _actions[CLOSE]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Close this window\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::WindowActions", "Close the window\n\nKeyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value.toString()));
             _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFitIcon"));
             _actions[FIT]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_FIT].value);
