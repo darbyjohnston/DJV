@@ -4,63 +4,63 @@
 <context>
     <name>djv::convert::Application</name>
     <message>
-        <location filename="ConvertApplication.cpp" line="78"/>
+        <location filename="ConvertApplication.cpp" line="77"/>
         <source>Cannot open input: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="79"/>
+        <location filename="ConvertApplication.cpp" line="78"/>
         <source>Cannot open output: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="80"/>
+        <location filename="ConvertApplication.cpp" line="79"/>
         <source>Cannot open slate: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="81"/>
+        <location filename="ConvertApplication.cpp" line="80"/>
         <source>Cannot read input: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="82"/>
+        <location filename="ConvertApplication.cpp" line="81"/>
         <source>Cannot write output: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="129"/>
+        <location filename="ConvertApplication.cpp" line="128"/>
         <source>Timeout...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="171"/>
-        <location filename="ConvertApplication.cpp" line="254"/>
+        <location filename="ConvertApplication.cpp" line="170"/>
+        <location filename="ConvertApplication.cpp" line="253"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="264"/>
+        <location filename="ConvertApplication.cpp" line="263"/>
         <source>Slating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="429"/>
+        <location filename="ConvertApplication.cpp" line="428"/>
         <source>[%1%] Estimated = %2 (%3 Frames/Second)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="441"/>
+        <location filename="ConvertApplication.cpp" line="440"/>
         <source>[100%] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="458"/>
+        <location filename="ConvertApplication.cpp" line="457"/>
         <source>Elapsed = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="470"/>
+        <location filename="ConvertApplication.cpp" line="469"/>
         <source>%1x%2:%3 %4 %5@%6</source>
         <translation type="unfinished"></translation>
     </message>
@@ -176,7 +176,7 @@
         <location filename="ConvertContext.cpp" line="246"/>
         <source>djv_convert
 
-    Command-line tool for image and movie processing. Common uses include resizing images and converting sequences of images to a movie.
+    Batch process images and movies. Common uses include resizing images and converting sequences of images to a movie.
 
     Example of converting an image sequence to a movie:
     &gt; djv_convert input.1-100.tga output.mp4
@@ -274,13 +274,13 @@ Examples
 </source>
         <oldsource>djv_convert
 
-    Command-line batch processing of images and movies. Common uses include resizing images and converting sequences of images to a movie.
+    Command-line tool for image and movie processing. Common uses include resizing images and converting sequences of images to a movie.
 
     Example of converting an image sequence to a movie:
     &gt; djv_convert input.1-100.tga output.mp4
     See below for more examples.
 
-    Note that djv_convert uses OpenGL for image processing and needs to be run on a machine with graphics resources.
+    Note that djv_convert requires OpenGL in order to run.
 
 Usage
 
@@ -288,7 +288,6 @@ Usage
 
     input  - Input image, image sequence, or movie
     output - Output image, image sequence, or movie
-    option - Additional options (see below)
 
 Conversion Options
 

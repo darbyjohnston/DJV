@@ -50,10 +50,10 @@ namespace djv
         {
             //DJV_DEBUG("SequencePrefs::SequencePrefs");
             Prefs prefs("djv::UI::SequencePrefs", Prefs::SYSTEM);
-            Core::Sequence::COMPRESS compress = Core::Sequence::compress();
-            if (prefs.get("compress", compress))
+            Core::Sequence::FORMAT format = Core::Sequence::format();
+            if (prefs.get("format", format))
             {
-                Core::Sequence::setCompress(compress);
+                Core::Sequence::setFormat(format);
             }
             bool autoEnabled = Core::Sequence::isAutoEnabled();
             if (prefs.get("autoEnabled", autoEnabled))
@@ -76,15 +76,15 @@ namespace djv
         {
             //DJV_DEBUG("SequencePrefs::~SequencePrefs");
             Prefs prefs("djv::UI::SequencePrefs", Prefs::SYSTEM);
-            prefs.set("compress", Core::Sequence::compress());
+            prefs.set("format", Core::Sequence::format());
             prefs.set("autoEnabled", Core::Sequence::isAutoEnabled());
             prefs.set("maxSize", Core::Sequence::maxSize());
             prefs.set("negativeEnabled", Core::Sequence::isNegativeEnabled());
         }
 
-        Core::Sequence::COMPRESS SequencePrefs::compress() const
+        Core::Sequence::FORMAT SequencePrefs::format() const
         {
-            return Core::Sequence::compress();
+            return Core::Sequence::format();
         }
 
         bool SequencePrefs::isAutoEnabled() const
@@ -102,12 +102,12 @@ namespace djv
             return Core::Sequence::isNegativeEnabled();
         }
 
-        void SequencePrefs::setCompress(Core::Sequence::COMPRESS value)
+        void SequencePrefs::setFormat(Core::Sequence::FORMAT value)
         {
-            if (value == Core::Sequence::compress())
+            if (value == Core::Sequence::format())
                 return;
-            Core::Sequence::setCompress(value);
-            Q_EMIT compressChanged(Core::Sequence::compress());
+            Core::Sequence::setFormat(value);
+            Q_EMIT formatChanged(Core::Sequence::format());
             Q_EMIT prefChanged();
         }
 

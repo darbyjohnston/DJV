@@ -35,16 +35,16 @@
 <body>
 
 <div class="header">
-<h1 class="header"><a class="header" href="index.html">DJV Imaging</a>
-<img src="images/logo-filmreel.png" align="right"></h1>
+<a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right">
 </div>
-
+<div class="border"></div>
 <div class="content">
 
 <div class="nav">
-<a href="index.html">Home</a> /
-<a href="Documentation.html">Documentation</a> /
-Image Formats
+<a href="index.html">Home</a> |
+<a href="Documentation.html">Documentation</a> |
+Image File Formats
 <ul>
     <li><a href="#Cineon">Kodak Cineon</a></li>
     <li><a href="#DPX">SMPTE Digital Picture Exchange (DPX)</a></li>
@@ -64,8 +64,8 @@ Image Formats
 </ul>
 </div>
 
+<h1 class="header"><a name="Cineon">Kodak Cineon</a></h1>
 <div class="block">
-<h1><a name="Cineon">Kodak Cineon</a></h1>
 <p>File extensions: .cin</p>
 <p>Supported features:</p>
 <ul>
@@ -76,24 +76,24 @@ Image Formats
 <ul>
     <li>Kodak, "4.5 DRAFT - Image File Format Proposal for Digital Pictures"</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-cineon_input_color_profile (value)</i></td><td>Set the
+<tr><td width="200">-cineon_input_color_profile (value)</td><td>Set the
 color profile used when loading Cineon images: Auto, None, Film Print.
 Default = Auto.</td></tr>
-<tr><td><i>-cineon_input_film_print (black) (white) (gamma) (soft clip)</i></td><td>
+<tr><td>-cineon_input_film_print (black) (white) (gamma) (soft clip)</td><td>
 Set the film print values used when loading Cineon images. Default = 95, 685,
 1.7, 0.</td></tr>
-<tr><td><i>-cineon_output_color_profile (value)</i></td><td>Set the color profile
+<tr><td>-cineon_output_color_profile (value)</td><td>Set the color profile
 used when saving Cineon images: False, True. Default = False.</td></tr>
-<tr><td><i>-cineon_output_film_print (black) (white) (gamma) (soft clip)</i></td><td>
+<tr><td>-cineon_output_film_print (black) (white) (gamma) (soft clip)</td><td>
 Set the film print values used when saving Cineon images. Default = Auto, None,
 Film Print.</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="DPX">SMPTE Digital Picture Exchange (DPX)</a></h1>
 <div class="block">
-<h1><a name="DPX">SMPTE Digital Picture Exchange (DPX)</a></h1>
 <p>File extensions: .dpx</p>
 <p>Supported features:</p>
 <ul>
@@ -106,45 +106,45 @@ Film Print.</td></tr>
     <li>Cinesite, "Conversion of 10-bit Log Film Data To 8-bit Linear or Video
     Data"</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-dpx_input_color_profile (value)</i></td><td>Set the color
+<tr><td width="200">-dpx_input_color_profile (value)</td><td>Set the color
 profile used when loading DPX images: Auto, None, Film Print. Default = Auto.</td></tr>
-<tr><td><i>-dpx_input_film_print (black) (white) (gamma) (soft clip)</i></td><td>
+<tr><td>-dpx_input_film_print (black) (white) (gamma) (soft clip)</td><td>
 Set the film print values used when loading DPX images. Default = 95, 685, 1.7,
 0.</td></tr>
-<tr><td><i>-dpx_output_color_profile (value)</i></td><td>Set the color profile
+<tr><td>-dpx_output_color_profile (value)</td><td>Set the color profile
 used when saving DPX images: Auto, None, Film Print. Default = Film Print.</td></tr>
-<tr><td><i>-dpx_output_film_print (black) (white) (gamma) (soft clip)</i></td><td>
+<tr><td>-dpx_output_film_print (black) (white) (gamma) (soft clip)</td><td>
 Set the film print values used when saving DPX images. Default = Film Print.
 </td></tr>
-<tr><td><i>-dpx_version (value)</i></td><td>Set the file format version used
+<tr><td>-dpx_version (value)</td><td>Set the file format version used
 when saving DPX images: 1.0, 2.0. Default = 2.0.</td></tr>
-<tr><td><i>-dpx_type (value)</i></td><td>Set the pixel type used when saving DPX
+<tr><td>-dpx_type (value)</td><td>Set the pixel type used when saving DPX
 images: Auto, U10. Default = U10.</td></tr>
-<tr><td><i>-dpx_endian (value)</i></td><td>Set the endian used when saving DPX
+<tr><td>-dpx_endian (value)</td><td>Set the endian used when saving DPX
 images: Auto, MSB, LSB. Default = MSB.</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="FFmpeg">FFmpeg</a></h1>
 <div class="block">
-<h1><a name="FFmpeg">FFmpeg</a></h1>
 <p>File extensions: .avi, .dv, .gif, .flv, .mkv, .mov, .mpg, .mpeg, .mp4, .m4v, .mxf</p>
 <p>Supported features:</p>
 <ul>
     <li>8-bit RGBA</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-ffmpeg_format (value)</i></td><td>Set the format used when
+<tr><td width="200">-ffmpeg_format (value)</td><td>Set the format used when
 saving FFmpeg movies: MPEG4, ProRes, MJPEG. Default = MPEG4.</td></tr>
-<tr><td><i>-ffmpeg_quality (value)</i></td><td>Set the quality used when
+<tr><td>-ffmpeg_quality (value)</td><td>Set the quality used when
 saving FFmpeg movies: Low, Medium, High. Default = High.</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="IFF">Generic Interchange File Format (IFF)</a></h1>
 <div class="block">
-<h1><a name="IFF">Generic Interchange File Format (IFF)</a></h1>
 <p>File extensions: .iff, .z</p>
 <p>Supported features:</p>
 <ul>
@@ -161,52 +161,52 @@ saving FFmpeg movies: Low, Medium, High. Default = High.</td></tr>
 <ul>
     <li>Mikael Sundell, mikael.sundell@gmail.com</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-iff_compression (value)</i></td><td>Set the file
+<tr><td width="200">-iff_compression (value)</td><td>Set the file
 compression used when saving IFF images: None, RLE. Default = RLE.
 </td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="IFL">Autodesk Image File List (IFL)</a></h1>
 <div class="block">
-<h1><a name="IFL">Autodesk Image File List (IFL)</a></h1>
 <p>IFL is a file format for creating sequences or playlists of other image
 files. An IFL file simply consists of a list of image file names one per line.</p>
 <p>File extensions: .ifl</p>
 </div>
 
+<h1 class="header"><a name="JPEG">Joint Photographic Experts Group (JPEG)</a></h1>
 <div class="block">
-<h1><a name="JPEG">Joint Photographic Experts Group (JPEG)</a></h1>
 <p>File extensions: .jpeg, .jpg, .jfif</p>
 <p>Supported features:</p>
 <ul>
     <li>8-bit, Luminance, RGBA</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-jpeg_quality (value)</i></td><td>Set the quality used
+<tr><td width="200">-jpeg_quality (value)</td><td>Set the quality used
 when saving JPEG images. Default = 90.</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="LUT">2D Lookup Tables</a></h1>
 <div class="block">
-<h1><a name="LUT">2D Lookup Tables</a></h1>
 <p>File extensions: .lut, .1dl</p>
 <p>Supported features:</p>
 <ul>
     <li>Inferno and Kodak formats</li>
     <li>8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA, 10-bit RGB</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-lut_type (value)</i></td><td>Set the pixel type used when
+<tr><td width="200">-lut_type (value)</td><td>Set the pixel type used when
 loading LUTs: Auto, U8, U10, U16. Default = Auto.</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="OpenEXR">Industrial Light and Magic OpenEXR</a></h1>
 <div class="block">
-<h1><a name="OpenEXR">Industrial Light and Magic OpenEXR</a></h1>
 <p>File extensions: .exr</p>
 <p>Supported features:</p>
 <ul>
@@ -215,32 +215,32 @@ loading LUTs: Auto, U8, U10, U16. Default = Auto.</td></tr>
     <li>Display and data windows</li>
     <li>File compression</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-exr_threads_enable (value)</i></td><td>Set whether
+<tr><td width="200">-exr_threads_enable (value)</td><td>Set whether
 threading is enabled. Default = True.</td><tr>
-<tr><td><i>-exr_thread_count (value)</i></td><td>Set the maximum number of
+<tr><td>-exr_thread_count (value)</td><td>Set the maximum number of
 threads to use. Default = 4.</td></td>
-<tr><td><i>-exr_input_color_profile (value)</i></td><td>Set the color profile used
+<tr><td>-exr_input_color_profile (value)</td><td>Set the color profile used
 when loading OpenEXR images: None, Gamma, Exposure. Default = Gamma.
 </td></tr>
-<tr><td><i>-exr_input_gamma (value)</i></td><td>Set the gamma values used when
+<tr><td>-exr_input_gamma (value)</td><td>Set the gamma values used when
 loading OpenEXR images. Default = 2.2.</td></tr>
-<tr><td><i>-exr_input_exposure (value) (defog) (knee low) (knee high)</i></td>
+<tr><td>-exr_input_exposure (value) (defog) (knee low) (knee high)</td>
 <td>Set the exposure values used when loading OpenEXR images. Default = 0, 0,
 0, 5.</td></tr>
-<tr><td><i>-exr_channels (value)</i></td><td>Set how channels are grouped when
+<tr><td>-exr_channels (value)</td><td>Set how channels are grouped when
 loading OpenEXR images: None, Known, All. Default = Known.</td></tr>
-<tr><td><i>-exr_compression (value)</i></td><td>Set the file compression used
+<tr><td>-exr_compression (value)</td><td>Set the file compression used
 when saving OpenEXR images: None, RLE, ZIPS, ZIP, PIZ, PXR24, B44,
 B44A, DWAA, DWAB. Default = None.</td></tr>
-<tr><td><i>-exr_dwa_compression_level (value)</i></td><td>Set the DWA
+<tr><td>-exr_dwa_compression_level (value)</td><td>Set the DWA
 compression level used when saving OpenEXR images. Default = 45.</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="PIC">Softimage PIC</a></h1>
 <div class="block">
-<h1><a name="PIC">Softimage PIC</a></h1>
 <p>File extensions: .pic</p>
 <p>Supported features:</p>
 <ul>
@@ -256,8 +256,8 @@ compression level used when saving OpenEXR images. Default = 45.</td></tr>
 </ul>
 </div>
 
+<h1 class="header"><a name="PNG">Portable Network Graphics (PNG)</a></h1>
 <div class="block">
-<h1><a name="PNG">Portable Network Graphics (PNG)</a></h1>
 <p>File extensions: .png</p>
 <p>Supported features:</p>
 <ul>
@@ -265,25 +265,25 @@ compression level used when saving OpenEXR images. Default = 45.</td></tr>
 </ul>
 </div>
 
+<h1 class="header"><a name="PPM">NetPBM</a></h1>
 <div class="block">
-<h1><a name="PPM">NetPBM</a></h1>
 <p>File extensions: .ppm, pnm, .pgm, .pbm</p>
 <p>Supported features:</p>
 <ul>
     <li>1-bit, 8-bit, 16-bit, Luminance, RGB</li>
     <li>Binary and ASCII data</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-ppm_type (value)</i></td><td>Set the file type used when
+<tr><td width="200">-ppm_type (value)</td><td>Set the file type used when
 saving PPM images: Auto, U1. Default = Auto.</td><tr>
-<tr><td><i>-ppm_data (value)</i></td><td>Set the data type used when saving PPM
+<tr><td>-ppm_data (value)</td><td>Set the data type used when saving PPM
 images: ASCII, Binary. Default = Binary.</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="RLA">Wavefront RLA</a></h1>
 <div class="block">
-<h1><a name="RLA">Wavefront RLA</a></h1>
 <p>File extensions: .rla, .rpf</p>
 <p>Supported features:</p>
 <ul>
@@ -293,8 +293,8 @@ images: ASCII, Binary. Default = Binary.</td></tr>
 </ul>
 </div>
 
+<h1 class="header"><a name="SGI">Silicon Graphics</a></h1>
 <div class="block">
-<h1><a name="SGI">Silicon Graphics</a></h1>
 <p>File extensions: .sgi, .rgba, .rgb, .bw</p>
 <p>Supported features:</p>
 <ul>
@@ -305,16 +305,16 @@ images: ASCII, Binary. Default = Binary.</td></tr>
 <ul>
     <li>Paul Haeberli, "The SGI Image File Format, Version 1.00"</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-sgi_compression (value)</i></td><td>Set the file
+<tr><td width="200">-sgi_compression (value)</td><td>Set the file
 compression used when saving SGI images: None, RLE. Default = None.
 </td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="Targa">Targa</a></h1>
 <div class="block">
-<h1><a name="Targa">Targa</a></h1>
 <p>File extensions: .tga</p>
 <p>Supported features:</p>
 <ul>
@@ -326,16 +326,16 @@ compression used when saving SGI images: None, RLE. Default = None.
     <li>James D. Murray, William vanRyper, "Encyclopedia of Graphics File
     Formats, Second Edition"</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-targa_compression (value)</td><td>Set the file
+<tr><td width="200">-targa_compression (value)</td><td>Set the file
 ompression used when saving Targa images: None, RLE. Default = None.
 </td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="TIFF">Tagged Image File Format (TIFF)</a></h1>
 <div class="block">
-<h1><a name="TIFF">Tagged Image File Format (TIFF)</a></h1>
 <p>File extensions: .tiff, .tif</p>
 <p>Supported features:</p>
 <ul>
@@ -343,20 +343,19 @@ ompression used when saving Targa images: None, RLE. Default = None.
     <li>Interleaved channels only</li>
     <li>File compression</li>
 </ul>
-<h3>Command Line Options</h3>
+<h2>Command Line Options</h2>
 <table>
-<tr><td width="200"><i>-tiff_compression (value)</i></td><td>Set the file
+<tr><td width="200">-tiff_compression (value)</td><td>Set the file
 compression used when saving TIFF images: None, RLE, LZW.
 Default = None.</td></tr>
 </table>
-</div>
-
 </div>
 
 <div class="footer">
 <p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
+</div>
 </body>
 </html>
 

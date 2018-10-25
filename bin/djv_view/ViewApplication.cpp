@@ -140,7 +140,7 @@ namespace djv
                     // Parse the input.
                     const Core::FileInfo fileInfo = Core::FileInfoUtil::parse(
                         input[i],
-                        _p->context->sequencePrefs()->compress(),
+                        _p->context->sequencePrefs()->format(),
                         _p->context->sequencePrefs()->isAutoEnabled());
                     DJV_LOG(_p->context->debugLog(), "djv::view::Application", QString("Input = \"%1\"").arg(fileInfo));
 

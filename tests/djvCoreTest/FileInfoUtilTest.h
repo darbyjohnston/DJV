@@ -45,7 +45,7 @@ namespace djv
             void exists();
             void list();
             void match();
-            void compress();
+            void sequence();
             void expand();
             void filter();
             void sort();

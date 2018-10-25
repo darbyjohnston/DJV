@@ -36,8 +36,6 @@ set(header
     RangeUtilInline.h
     Sequence.h
     SequenceInline.h
-    SequenceUtil.h
-    SequenceUtilInline.h
     SignalBlocker.h
     Speed.h
     StringUtil.h
@@ -77,7 +75,6 @@ set(source
     Memory.cpp
     Plugin.cpp
     Sequence.cpp
-    SequenceUtil.cpp
     SignalBlocker.cpp
     Speed.cpp
     StringUtil.cpp

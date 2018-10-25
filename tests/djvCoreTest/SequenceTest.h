@@ -43,6 +43,10 @@ namespace djv
         private:
             void ctors();
             void members();
+            void frameToString();
+            void stringToFrame();
+            void sequenceToString();
+            void stringToSequence();
             void operators();
         };
 

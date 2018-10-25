@@ -59,23 +59,23 @@ namespace djv
 
             //! Get a file list from a directory.
             static FileInfoList list(
-                const QString &    path,
-                Sequence::COMPRESS sequence = Sequence::COMPRESS_RANGE);
+                const QString &  path,
+                Sequence::FORMAT format = Sequence::FORMAT_SPARSE);
 
-            //! Find a match for a sequence wildcard. If nothing is found the input is
-            //! returned.
+            //! Find a match for a sequence wildcard. If nothing is found the
+            //! input is returned.
             //!
             //! Example wildcard: render.#.exr
             static const FileInfo & sequenceWildcardMatch(
                 const FileInfo &,
                 const FileInfoList &);
 
-            //! Compress a list of files into a sequence.
-            static void compressSequence(
+            //! Group files into sequences.
+            static void sequence(
                 FileInfoList &,
-                Sequence::COMPRESS = Sequence::COMPRESS_RANGE);
+                Sequence::FORMAT = Sequence::FORMAT_SPARSE);
 
-            //! Expand a sequence into a list of file names.
+            //! Expand a sequence into individual file names.
             static QStringList expandSequence(const FileInfo &);
 
             //! This enumeration provides file filters.
@@ -157,9 +157,9 @@ namespace djv
 
             //! Parse a file name.
             static FileInfo parse(
-                const QString &    fileName,
-                Sequence::COMPRESS sequence,
-                bool               autoSequence = false);
+                const QString &  fileName,
+                Sequence::FORMAT format,
+                bool             autoSequence = false);
         };
 
     } // namespace Core

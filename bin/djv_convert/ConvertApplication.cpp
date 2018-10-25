@@ -33,7 +33,6 @@
 
 #include <djvGraphics/ImageIO.h>
 #include <djvCore/Sequence.h>
-#include <djvCore/SequenceUtil.h>
 #include <djvCore/Time.h>
 #include <djvCore/Timer.h>
 #include <djvCore/VectorUtil.h>
@@ -153,13 +152,13 @@ namespace djv
                 0;
             if (!input.start.isEmpty())
             {
-                start = Core::SequenceUtil::findClosest(
+                start = Core::Sequence::findClosest(
                     Core::Time::stringToFrame(input.start, loadInfo.sequence.speed),
                     loadInfo.sequence.frames);
             }
             if (!input.end.isEmpty())
             {
-                end = Core::SequenceUtil::findClosest(
+                end = Core::Sequence::findClosest(
                     Core::Time::stringToFrame(input.end, loadInfo.sequence.speed),
                     loadInfo.sequence.frames);
             }

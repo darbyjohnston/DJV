@@ -35,21 +35,27 @@
 <body>
 
 <div class="header">
-<h1 class="header"><a class="header" class="header" href="index.html">DJV Imaging</a>
-<img src="images/logo-filmreel.png" align="right"></h1>
+<a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right">
 </div>
-
+<div class="border"></div>
 <div class="content">
 
 <div class="nav">
-<a href="index.html">Home</a> /
-<a href="Documentation.html">Documentation</a> /
-<a href="Build.html">Building the Source Code</a> /
+<a href="index.html">Home</a> |
+<a href="Documentation.html">Documentation</a> |
+<a href="Build.html">Building the Source Code</a> |
 Linux and OS X
+<ul>
+    <li><a href="#Requirements">Requirements</a></li>
+    <li><a href="#ThirdParty">Third Party Libraries</a></li>
+    <li><a href="#Build">Building the Source Code</a></li>
+    <li><a href="#Package">Packaging Releases</a></li>
+</ul>
 </div>
 
+<h1 class="header"><a name="Requirements">Requirements</a></h1>
 <div class="block">
-<h1><a name="Requirements">Requirements</a></h1>
 <p>Build tools:</p>
 <ul>
     <li>C++11 compiler</li>
@@ -73,8 +79,8 @@ Linux and OS X
 </ul>
 </div>
 
+<h1 class="header"><a name="ThirdParty">Third Party Libraries</a></h1>
 <div class="block">
-<h1><a name="ThirdParty">Third Party Libraries</a></h1>
 <p>DJV relies on a number of third party libraries that can either be
 installed with your Linux distribution package manager or built from
 source code. The following steps describe how to build the third party
@@ -107,8 +113,8 @@ build:</p>
 </pre>
 </div>
 
+<h1 class="header"><a name="Build">Building the Source Code</a></h1>
 <div class="block">
-<h1><a name="Build">Building the Source Code</a></h1>
 <p>First choose a working directory for building the source code. In the
 following steps we will refer to this directory as $BUILD_DIR.</p>
 <p>Clone the DJV source code repository:</p>
@@ -136,8 +142,8 @@ following steps we will refer to this directory as $BUILD_DIR.</p>
 </pre>
 </div>
 
+<h1 class="header"><a name="Package">Packaging Releases</a></h1>
 <div class="block">
-<h1><a name="Package">Packaging Releases</a></h1>
 <p>Set the new version in the top-level "CMakeLists.txt" and "Doxyfile" files.</p>
 <p>Update the download links in "doc/Download.html".</p>
 <p>Tag the git repository:</p>
@@ -157,5 +163,6 @@ following steps we will refer to this directory as $BUILD_DIR.</p>
 <p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
+</div>
 </body>
 </html>

@@ -35,22 +35,28 @@
 <body>
 
 <div class="header">
-<h1 class="header"><a class="header" href="index.html">DJV Imaging</a>
-<img src="images/logo-filmreel.png" align="right"></h1>
+<a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right">
 </div>
-
+<div class="border"></div>
 <div class="content">
 
 <div class="nav">
-<a href="index.html">Home</a> /
-<a href="Documentation.html">Documentation</a> /
+<a href="index.html">Home</a> |
+<a href="Documentation.html">Documentation</a> |
 djv_info
+<ul>
+    <li><a href="#Description">Description</a></li>
+    <li><a href="#Usage">Usage</a></li>
+    <li><a href="#Options">Options</a></li>
+    <li><a href="#Examples">Examples</a></li>
+</ul>
 </div>
 
+<h1 class="header"><a name="Description">Description</a></h1>
 <div class="block">
-<h1>djv_info</h1>
-<p>Command-line tool for printing file metadata.</p>
-<p>Example:</p>
+<p>Print file metadata.</p>
+<p>Example output:</p>
 <pre>
 yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
 dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24
@@ -63,43 +69,43 @@ render0001-1000.exr                                      00:00:41:16@24
 </pre>
 <p>Key:</p>
 <pre>
-(name)       (width)x(height):(aspect ratio) (pixel) (duration)@(speed)
-(name)                                               (duration)@(speed)
+(file name)  (width)x(height):(aspect ratio) (pixel) (duration)@(speed)
+(file name)                                          (duration)@(speed)
     (layer): (name)             (width)x(height):(aspect ratio) (pixel)
 </pre>
 </div>
 
+<h1 class="header"><a name="Usage">Usage</a></h1>
 <div class="block">
-<h1><a name="Usage">Usage</a></h1>
 <pre>
 djv_info (image|directory)... [option]...
 </pre>
 <table>
-<tr><td width="200"><i>image</i></td><td>One or more images, image sequences,
+<tr><td width="200">image</td><td>One or more images, image sequences,
 or movies</td></tr>
-<tr><td><i>directory</i></td><td>One or more directories</td></tr>
+<tr><td>directory</td><td>One or more directories</td></tr>
 </table>
 <p>If no images or directories are given then the current directory will be
 used.</p>
 </div>
 
+<h1 class="header"><a name="Options">Options</a></h1>
 <div class="block">
-<h1><a name="Options">Options</a></h1>
 <table>
-<tr><td width="200"><i>-x_info, -xi</i></td><td>Don't show image information,
+<tr><td width="200">-x_info, -xi</td><td>Don't show image information,
 only file names.</td></tr>
-<tr><td><i>-verbose, -v</i></td><td>Show verbose image information.</td></tr>
-<tr><td><i>-file_path, -fp</i></td><td>Show file path names.</td></tr>
-<tr><td><i>-recurse, -r<i></td><td>Recursively descend into sub-directories.</td></tr>
-<tr><td><i>-columns, -c (value)</i></td><td>Set the number of columns used to
+<tr><td>-verbose, -v</td><td>Show verbose image information.</td></tr>
+<tr><td>-file_path, -fp</td><td>Show file path names.</td></tr>
+<tr><td>-recurse, -r</td><td>Recursively descend into sub-directories.</td></tr>
+<tr><td>-columns, -c (value)</td><td>Set the number of columns used to
 format the output. Setting this value to zero disables formatting.</td></tr>
 </table>
-<p>See this <a href="ImageFormats.html">page</a> for image format options.<p>
+<p>See this <a href="ImageFormats.html">page</a> for image file format options.<p>
 <p>See this <a href="CommandLine.html">page</a> for general options.<p>
 </div>
 
+<h1 class="header"><a name="Examples">Examples</a></h1>
 <div class="block">
-<h1><a name="Examples">Examples</a></h1>
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi
@@ -114,12 +120,11 @@ format the output. Setting this value to zero disables formatting.</td></tr>
 </pre>
 </div>
 
-</div>
-
 <div class="footer">
 <p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
+</div>
 </body>
 </html>
 

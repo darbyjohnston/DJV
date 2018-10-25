@@ -221,7 +221,7 @@ namespace djv
             {
                 throw QString(qApp->translate("djv::convert::Context", "input"));
             }
-            _input.file = Core::FileInfoUtil::parse(args.first(), Core::Sequence::compress());
+            _input.file = Core::FileInfoUtil::parse(args.first(), Core::Sequence::format());
             DJV_LOG(debugLog(), "djv_convert", QString("Input = \"%1\"").arg(_input.file));
             args.pop_front();
 
@@ -230,7 +230,7 @@ namespace djv
             {
                 throw QString(qApp->translate("djv::convert::Context", "output"));
             }
-            _output.file = Core::FileInfoUtil::parse(args.first(), Core::Sequence::compress());
+            _output.file = Core::FileInfoUtil::parse(args.first(), Core::Sequence::format());
             DJV_LOG(debugLog(), "djv_convert", QString("Output = \"%1\"").arg(_output.file));
             args.pop_front();
             if (!args.isEmpty())
@@ -246,9 +246,8 @@ namespace djv
             static const QString label = qApp->translate("djv::convert::Context",
                 "djv_convert\n"
                 "\n"
-                "    Command-line tool for image and movie processing. Common "
-                "uses include resizing images and converting sequences of images "
-                "to a movie.\n"
+                "    Batch process images and movies. Common uses include resizing "
+                "images and converting sequences of images to a movie.\n"
                 "\n"
                 "    Example of converting an image sequence to a movie:\n"
                 "    > djv_convert input.1-100.tga output.mp4\n"

@@ -59,7 +59,7 @@ namespace djv
             {}
 
             QString path;
-            Core::Sequence::COMPRESS sequence = Core::Sequence::COMPRESS_RANGE;
+            Core::Sequence::FORMAT sequence = Core::Sequence::FORMAT_RANGE;
             QString filterText;
             bool showHidden = false;
             FileBrowserModel::COLUMNS columnsSort = FileBrowserModel::NAME;
@@ -132,7 +132,7 @@ namespace djv
             return fileInfo ? *fileInfo : Core::FileInfo();
         }
 
-        Core::Sequence::COMPRESS FileBrowserModel::sequence() const
+        Core::Sequence::FORMAT FileBrowserModel::sequence() const
         {
             return _p->sequence;
         }
@@ -339,7 +339,7 @@ namespace djv
             modelUpdate();
         }
 
-        void FileBrowserModel::setSequence(Core::Sequence::COMPRESS in)
+        void FileBrowserModel::setSequence(Core::Sequence::FORMAT in)
         {
             if (in == _p->sequence)
                 return;
@@ -479,7 +479,7 @@ namespace djv
             _p->listTmp = _p->list;
 
             // File sequence directory contents.
-            //Core::FileInfoUtil::compressSequence(_p->listTmp, _p->seq);
+            //Core::FileInfoUtil::sequence(_p->listTmp, _p->seq);
 
             // Filter directory contents.
             if (_p->filterText.length() > 0 || !_p->showHidden)

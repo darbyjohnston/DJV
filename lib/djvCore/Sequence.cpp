@@ -34,7 +34,6 @@
 #include <djvCore/Debug.h>
 #include <djvCore/ListUtil.h>
 #include <djvCore/Math.h>
-#include <djvCore/SequenceUtil.h>
 
 #include <QCoreApplication>
 
@@ -44,22 +43,12 @@ namespace djv
     {
         namespace
         {
-            Sequence::COMPRESS _compress = Sequence::COMPRESS_SPARSE;
+            Sequence::FORMAT _format = Sequence::FORMAT_SPARSE;
             bool _autoEnabled = true;
             qint64 _maxSize = 50000;
             bool _negativeEnabled = false;
 
         } // namespace
-
-        const QStringList & Sequence::compressLabels()
-        {
-            static const QStringList data = QStringList() <<
-                qApp->translate("djv::Core::Sequence", "Off") <<
-                qApp->translate("djv::Core::Sequence", "Sparse") <<
-                qApp->translate("djv::Core::Sequence", "Range");
-            DJV_ASSERT(data.count() == COMPRESS_COUNT);
-            return data;
-        }
 
         Sequence::Sequence()
         {}
@@ -113,19 +102,204 @@ namespace djv
             qSort(frames.begin(), frames.end(), compare);
         }
 
-        Sequence::COMPRESS Sequence::compressDefault()
+        qint64 Sequence::findClosest(qint64 frame, const FrameList & frames)
         {
-            return COMPRESS_SPARSE;
+            const int count = frames.count();
+            if (!count)
+                return -1;
+            qint64 out = 0;
+            qint64 min = 0;
+            for (int i = 0; i < count; ++i)
+            {
+                const qint64 tmp = Math::abs(frame - frames[i]);
+                if (tmp < min || 0 == i)
+                {
+                    out = static_cast<qint64>(i);
+                    min = tmp;
+                }
+            }
+            return out;
         }
 
-        Sequence::COMPRESS Sequence::compress()
+        const QStringList & Sequence::formatLabels()
         {
-            return _compress;
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Core::Sequence", "Off") <<
+                qApp->translate("djv::Core::Sequence", "Sparse") <<
+                qApp->translate("djv::Core::Sequence", "Range");
+            DJV_ASSERT(data.count() == FORMAT_COUNT);
+            return data;
         }
 
-        void Sequence::setCompress(COMPRESS value)
+        Sequence::FORMAT Sequence::formatDefault()
         {
-            _compress = value;
+            return FORMAT_SPARSE;
+        }
+
+        Sequence::FORMAT Sequence::format()
+        {
+            return _format;
+        }
+
+        void Sequence::setFormat(FORMAT value)
+        {
+            _format = value;
+        }
+
+        QString Sequence::frameToString(qint64 frame, int pad)
+        {
+            const bool negative = frame < 0;
+            const quint64 abs = negative ? -frame : frame;
+            char c[StringUtil::cStringLength] = "";
+            const int length = StringUtil::intToString<qint64>(abs, c);
+            QString p;
+            if (negative)
+            {
+                p.append('-');
+            }
+            for (int i = 0; i < pad - length; ++i)
+            {
+                p.append('0');
+            }
+            for (int i = 0; i < length; ++i)
+            {
+                p.append(c[i]);
+            }
+            return p;
+        }
+
+        namespace
+        {
+            enum INC
+            {
+                BREAK,
+                ASCEND,
+                DESCEND
+            };
+
+            INC inc(qint64 a, qint64 b)
+            {
+                if (a + 1 == b)
+                {
+                    return ASCEND;
+                }
+                else if (a - 1 == b)
+                {
+                    return DESCEND;
+                }
+                return BREAK;
+            }
+
+        } // namespace
+
+        QString Sequence::sequenceToString(const Sequence & seq)
+        {
+            //DJV_DEBUG("Sequence::sequenceToString");
+            //DJV_DEBUG_PRINT("frames = " << in.frames);
+
+            QStringList out;
+            FrameList frames = seq.frames;
+            const int    count = frames.count();
+            const int    pad = seq.pad;
+
+            // Add the list end marker.
+            static const qint64 marker = std::numeric_limits<qint64>::min();
+            frames += marker;
+
+            // Sequence.
+            qint64 tmp = frames[0];
+            INC _inc = BREAK;
+            for (int i = 0; i < count; ++i)
+            {
+                const INC inc_ = inc(frames[i], frames[i + 1]);
+                //DJV_DEBUG_PRINT(frames[i] << " = " << inc_);
+                if ((inc_ != _inc && _inc != BREAK) || BREAK == inc_)
+                {
+                    if (tmp != frames[i])
+                    {
+                        out += frameToString(tmp, pad) +
+                            "-" +
+                            frameToString(frames[i], pad);
+                    }
+                    else
+                    {
+                        out += frameToString(frames[i], pad);
+                    }
+                    tmp = frames[i + 1];
+                    _inc = inc_;
+                }
+            }
+            //DJV_DEBUG_PRINT("out = " << out);
+            return out.join(",");
+        }
+
+        Sequence Sequence::stringToSequence(const QString & seq)
+        {
+            //DJV_DEBUG("Sequence::stringToSequence");
+            //DJV_DEBUG_PRINT("seq = " << seq);
+
+            Sequence out;
+            int pad = 0;
+            Q_FOREACH(const QString & s, seq.split(',', QString::SkipEmptyParts))
+            {
+                const int count = s.count();
+                if (count)
+                {
+                    QString a, b;
+                    int j = 0;
+                    if ('-' == s[j])
+                    {
+                        a.append(s[j]);
+                        ++j;
+                    }
+                    while (j < count && s[j].isNumber())
+                    {
+                        a.append(s[j]);
+                        ++j;
+                    }
+                    if (j < count - 1 && '-' == s[j] && '-' == s[j + 1])
+                    {
+                        ++j;
+                    }
+                    else if (j < count && '-' == s[j])
+                    {
+                        ++j;
+                    }
+                    while (j < count)
+                    {
+                        b.append(s[j]);
+                        ++j;
+                    }
+                    //DJV_DEBUG_PRINT("a = " << a);
+                    //DJV_DEBUG_PRINT("b = " << b);
+
+                    int          _pad = 0;
+                    const qint64 start = stringToFrame(a, &_pad);
+                    const qint64 end = b.count() ? stringToFrame(b) : start;
+                    if (start < end)
+                    {
+                        const qint64 size = end - start + 1;
+
+                        for (qint64 j = start, k = 0; j <= end && k < size; ++j, ++k)
+                        {
+                            out.frames += j;
+                        }
+                    }
+                    else
+                    {
+                        const qint64 size = start - end + 1;
+                        for (qint64 j = start, k = 0; j >= end && k < size; --j, ++k)
+                        {
+                            out.frames += j;
+                        }
+                    }
+                    pad = Math::max(_pad, pad);
+                }
+            }
+            out.pad = pad;
+            //DJV_DEBUG_PRINT("out = " << out);
+            //DJV_DEBUG_PRINT("pad = " << out.pad);
+            return out;
         }
 
         bool Sequence::autoEnabledDefault()
@@ -174,34 +348,20 @@ namespace djv
         }
 
     } // namespace Core
-
-    _DJV_STRING_OPERATOR_LABEL(Core::Sequence::COMPRESS, Core::Sequence::compressLabels());
+    
+    _DJV_STRING_OPERATOR_LABEL(Core::Sequence::FORMAT, Core::Sequence::formatLabels());
 
     QStringList & operator << (QStringList & out, const Core::Sequence & in)
     {
-        return out << Core::SequenceUtil::sequenceToString(in);
+        return out << Core::Sequence::sequenceToString(in);
     }
 
     QStringList & operator >> (QStringList & in, Core::Sequence & out)
     {
         QString tmp;
         in >> tmp;
-        out = Core::SequenceUtil::stringToSequence(tmp);
+        out = Core::Sequence::stringToSequence(tmp);
         return in;
-    }
-
-    Core::Debug & operator << (Core::Debug & debug, const Core::Sequence & in)
-    {
-        QStringList tmp;
-        tmp << in;
-        return debug << tmp << "@" << Core::Speed::speedToFloat(in.speed);
-    }
-
-    Core::Debug & operator << (Core::Debug & debug, const Core::Sequence::COMPRESS & in)
-    {
-        QStringList tmp;
-        tmp << in;
-        return debug << tmp;
     }
 
     Core::Debug & operator << (Core::Debug & debug, const Core::FrameList & in)
@@ -211,6 +371,20 @@ namespace djv
             debug << i;
         }
         return debug;
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Core::Sequence & in)
+    {
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp << "@" << Core::Speed::speedToFloat(in.speed);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Core::Sequence::FORMAT & in)
+    {
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
     }
 
 } // namespace djv

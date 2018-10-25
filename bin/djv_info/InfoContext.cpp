@@ -149,9 +149,9 @@ namespace djv
             static const QString label = qApp->translate("djv::info::Context",
                 "djv_info\n"
                 "\n"
-                "    Command-line tool for printing file metadata.\n"
+                "    Print file metadata.\n"
                 "\n"
-                "    Example:\n"
+                "    Example output:\n"
                 "    yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12\n"
                 "    dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24\n"
                 "    render0001-1000.exr                                      00:00:41:16@24\n"

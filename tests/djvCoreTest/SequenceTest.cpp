@@ -32,7 +32,6 @@
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
 #include <djvCore/Sequence.h>
-#include <djvCore/SequenceUtil.h>
 
 using namespace djv::Core;
 
@@ -45,6 +44,10 @@ namespace djv
             DJV_DEBUG("SequenceTest::run");
             ctors();
             members();
+            frameToString();
+            stringToFrame();
+            sequenceToString();
+            stringToSequence();
             operators();
         }
 
@@ -135,19 +138,173 @@ namespace djv
             }
             {
                 const Sequence seq(FrameList() << 1 << 5 << 15);
-                DJV_ASSERT(0 == SequenceUtil::findClosest(1, seq.frames));
-                DJV_ASSERT(1 == SequenceUtil::findClosest(4, seq.frames));
-                DJV_ASSERT(1 == SequenceUtil::findClosest(6, seq.frames));
-                DJV_ASSERT(2 == SequenceUtil::findClosest(12, seq.frames));
-                DJV_ASSERT(2 == SequenceUtil::findClosest(15, seq.frames));
+                DJV_ASSERT(0 == Sequence::findClosest(1, seq.frames));
+                DJV_ASSERT(1 == Sequence::findClosest(4, seq.frames));
+                DJV_ASSERT(1 == Sequence::findClosest(6, seq.frames));
+                DJV_ASSERT(2 == Sequence::findClosest(12, seq.frames));
+                DJV_ASSERT(2 == Sequence::findClosest(15, seq.frames));
             }
             {
                 const Sequence seq(FrameList() << -15 << -5 << -1);
-                DJV_ASSERT(2 == SequenceUtil::findClosest(-1, seq.frames));
-                DJV_ASSERT(1 == SequenceUtil::findClosest(-4, seq.frames));
-                DJV_ASSERT(1 == SequenceUtil::findClosest(-6, seq.frames));
-                DJV_ASSERT(0 == SequenceUtil::findClosest(-12, seq.frames));
-                DJV_ASSERT(0 == SequenceUtil::findClosest(-15, seq.frames));
+                DJV_ASSERT(2 == Sequence::findClosest(-1, seq.frames));
+                DJV_ASSERT(1 == Sequence::findClosest(-4, seq.frames));
+                DJV_ASSERT(1 == Sequence::findClosest(-6, seq.frames));
+                DJV_ASSERT(0 == Sequence::findClosest(-12, seq.frames));
+                DJV_ASSERT(0 == Sequence::findClosest(-15, seq.frames));
+            }
+        }
+
+        void SequenceTest::frameToString()
+        {
+            DJV_DEBUG("SequenceTest::frameToString");
+            const struct Data
+            {
+                qint64  a;
+                QString b;
+                int     pad;
+            }
+            data[] =
+            {
+                {      0,       "0", 0 },
+                {      0,    "0000", 4 },
+                {    100,    "0100", 4 },
+                {   1000,    "1000", 4 },
+                {  10000,   "10000", 4 },
+                {     -1,      "-1", 0 },
+                {     -1,   "-0001", 4 },
+                {   -100,   "-0100", 4 },
+                {  -1000,   "-1000", 4 },
+                { -10000,  "-10000", 4 },
+
+                {  1370468628437,  "1370468628437", 0 },
+                { -1370468628437, "-1370468628437", 0 }
+            };
+            const int dataCount = sizeof(data) / sizeof(Data);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                const QString tmp = Sequence::frameToString(data[i].a, data[i].pad);
+                DJV_DEBUG_PRINT(data[i].a << "(" << data[i].pad << ") = " << tmp);
+                DJV_ASSERT(tmp == data[i].b);
+            }
+        }
+
+        void SequenceTest::stringToFrame()
+        {
+            DJV_DEBUG("SequenceTest::stringToFrame");
+            const struct Data
+            {
+                QString a;
+                qint64  b;
+                int     pad;
+            }
+            data[] =
+            {
+                {     "0",     0, 0 },
+                {  "0000",     0, 4 },
+                {  "0100",   100, 4 },
+                {  "1000",  1000, 0 },
+                {    "-1",    -1, 0 },
+                { "-0001",    -1, 4 },
+                { "-0100",  -100, 4 },
+                { "-1000", -1000, 0 },
+
+                {  "1370468628437",  1370468628437, 0 },
+                { "-1370468628437", -1370468628437, 0 },
+
+                { "#", -1, 0 }
+            };
+            const int dataCount = sizeof(data) / sizeof(Data);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                int pad = 0;
+                const qint64 tmp = Sequence::stringToFrame(data[i].a, &pad);
+                DJV_DEBUG_PRINT(data[i].a << " = " << tmp << "(" << pad << ")");
+                DJV_ASSERT(tmp == data[i].b);
+                DJV_ASSERT(pad == data[i].pad);
+            }
+        }
+
+        void SequenceTest::sequenceToString()
+        {
+            DJV_DEBUG("SequenceTest::sequenceToString");
+            const struct Data
+            {
+                Sequence a;
+                QString  b;
+            }
+            data[] =
+            {
+                { Sequence(FrameList()), "" },
+                { Sequence(FrameList() << 1), "1" },
+                { Sequence(FrameList() << 1 << 2), "1-2" },
+                { Sequence(FrameList() << 1 << 2 << 3), "1-3" },
+                { Sequence(FrameList() << 1 << 2 << 3, 4), "0001-0003" },
+                { Sequence(FrameList() << 3 << 2 << 1), "3-1" },
+                { Sequence(FrameList() << 1 << 2 << 3 << 5), "1-3,5" },
+                { Sequence(FrameList() << 1 << 2 << 3 << 5 << 6), "1-3,5-6" },
+                { Sequence(FrameList() << 1 << 2 << 3 << 5 << 6 << 7), "1-3,5-7" },
+                { Sequence(FrameList() << 1 << 2 << 3 << 3 << 2 << 1), "1-3,3-1" },
+                { Sequence(FrameList() << -1), "-1" },
+                { Sequence(FrameList() << -1 << -2), "-1--2" },
+                { Sequence(FrameList() << -1 << -2 << -3), "-1--3" },
+                { Sequence(FrameList() << -1 << -2 << -3, 4), "-0001--0003" },
+                { Sequence(FrameList() << -3 << -2 << -1), "-3--1" },
+                { Sequence(FrameList() << -1 << -2 << -3 << -5), "-1--3,-5" },
+                { Sequence(FrameList() << -1 << -2 << -3 << -5 << -6), "-1--3,-5--6" },
+                { Sequence(FrameList() << -1 << -2 << -3 << -5 << -6 << -7), "-1--3,-5--7" },
+                { Sequence(FrameList() << -1 << -2 << -3 << -3 << -2 << -1), "-1--3,-3--1" },
+                { Sequence(FrameList() << -3 << -2 << -1 << 0 << 1 << 2 << 3), "-3-3" },
+                { Sequence(FrameList() << 3 << 2 << 1 << 0 << -1 << -2 << -3), "3--3" }
+            };
+            const int dataCount = sizeof(data) / sizeof(Data);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                const QString tmp = Sequence::sequenceToString(data[i].a);
+                DJV_DEBUG_PRINT(data[i].a.frames << " = " << tmp);
+                DJV_ASSERT(tmp == data[i].b);
+            }
+        }
+
+        void SequenceTest::stringToSequence()
+        {
+            DJV_DEBUG("SequenceTest::stringToSequence");
+            const struct Data
+            {
+                QString  a;
+                Sequence b;
+            }
+            data[] =
+            {
+                { "", Sequence(FrameList()) },
+                { "1", Sequence(FrameList() << 1) },
+                { "1-2", Sequence(FrameList() << 1 << 2) },
+                { "1-3", Sequence(FrameList() << 1 << 2 << 3) },
+                { "0001-0003", Sequence(FrameList() << 1 << 2 << 3, 4) },
+                { "3-1", Sequence(FrameList() << 3 << 2 << 1) },
+                { "1,2,3", Sequence(FrameList() << 1 << 2 << 3) },
+                { "1-3,5", Sequence(FrameList() << 1 << 2 << 3 << 5) },
+                { "1-3,5-6", Sequence(FrameList() << 1 << 2 << 3 << 5 << 6) },
+                { "1-3,5-7", Sequence(FrameList() << 1 << 2 << 3 << 5 << 6 << 7) },
+                { "1-3,3-1", Sequence(FrameList() << 1 << 2 << 3 << 3 << 2 << 1) },
+                { "-1", Sequence(FrameList() << -1) },
+                { "-1--2", Sequence(FrameList() << -1 << -2) },
+                { "-1--3", Sequence(FrameList() << -1 << -2 << -3) },
+                { "-0001--0003", Sequence(FrameList() << -1 << -2 << -3, 4) },
+                { "-3--1", Sequence(FrameList() << -3 << -2 << -1) },
+                { "-1,-2,-3", Sequence(FrameList() << -1 << -2 << -3) },
+                { "-1--3,-5", Sequence(FrameList() << -1 << -2 << -3 << -5) },
+                { "-1--3,-5--6", Sequence(FrameList() << -1 << -2 << -3 << -5 << -6) },
+                { "-1--3,-5--7", Sequence(FrameList() << -1 << -2 << -3 << -5 << -6 << -7) },
+                { "-1--3,-3--1", Sequence(FrameList() << -1 << -2 << -3 << -3 << -2 << -1) },
+                { "-3-3", Sequence(FrameList() << -3 << -2 << -1 << 0 << 1 << 2 << 3) },
+                { "3--3", Sequence(FrameList() << 3 << 2 << 1 << 0 << -1 << -2 << -3) }
+            };
+            const int dataCount = sizeof(data) / sizeof(Data);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                const Sequence tmp = Sequence::stringToSequence(data[i].a);
+                DJV_DEBUG_PRINT(data[i].a << " = " << tmp);
+                DJV_ASSERT(tmp == data[i].b);
             }
         }
 
@@ -184,7 +341,7 @@ namespace djv
                 DJV_ASSERT((QStringList() << "0001-0003") == s);
             }
             {
-                DJV_DEBUG_PRINT(Sequence::COMPRESS_RANGE);
+                DJV_DEBUG_PRINT(Sequence::FORMAT_RANGE);
             }
         }
 

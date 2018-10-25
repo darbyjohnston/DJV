@@ -51,7 +51,7 @@ namespace djv
             exists();
             list();
             match();
-            compress();
+            sequence();
             expand();
             filter();
             sort();
@@ -153,11 +153,11 @@ namespace djv
                 io.open(fileName.arg(3), FileIO::WRITE);
                 io.close();
             }
-            FileInfoList list = FileInfoUtil::list(".", Sequence::COMPRESS_OFF);
+            FileInfoList list = FileInfoUtil::list(".", Sequence::FORMAT_OFF);
             DJV_ASSERT(list.indexOf(FileInfo(fileName.arg(1))));
-            list = FileInfoUtil::list(".", Sequence::COMPRESS_SPARSE);
+            list = FileInfoUtil::list(".", Sequence::FORMAT_SPARSE);
             DJV_ASSERT(list.indexOf(FileInfo(fileName.arg("1,3"))));
-            list = FileInfoUtil::list(".", Sequence::COMPRESS_RANGE);
+            list = FileInfoUtil::list(".", Sequence::FORMAT_RANGE);
             DJV_ASSERT(list.indexOf(FileInfo(fileName.arg("1-3"))));
         }
 
@@ -174,22 +174,22 @@ namespace djv
             DJV_ASSERT(tmp == FileInfoUtil::sequenceWildcardMatch(tmp, list));
         }
 
-        void FileInfoUtilTest::compress()
+        void FileInfoUtilTest::sequence()
         {
-            DJV_DEBUG("FileInfoUtilTest::compress");
+            DJV_DEBUG("FileInfoUtilTest::sequence");
             const QString fileName("image.%1.ppm");
             const FileInfoList list = FileInfoList() <<
                 FileInfo(fileName.arg(1)) <<
                 FileInfo(fileName.arg(3)) <<
                 FileInfo(fileName.arg(4));
             FileInfoList tmp = list;
-            FileInfoUtil::compressSequence(tmp, Sequence::COMPRESS_OFF);
+            FileInfoUtil::sequence(tmp, Sequence::FORMAT_OFF);
             DJV_ASSERT(tmp[0] == list[0]);
             tmp = list;
-            FileInfoUtil::compressSequence(tmp, Sequence::COMPRESS_SPARSE);
+            FileInfoUtil::sequence(tmp, Sequence::FORMAT_SPARSE);
             DJV_ASSERT(tmp[0].number() == "1,3-4");
             tmp = list;
-            FileInfoUtil::compressSequence(tmp, Sequence::COMPRESS_RANGE);
+            FileInfoUtil::sequence(tmp, Sequence::FORMAT_RANGE);
             DJV_ASSERT(tmp[0].number() == "1-4");
         }
 

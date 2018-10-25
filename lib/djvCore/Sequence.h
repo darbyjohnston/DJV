@@ -47,20 +47,6 @@ namespace djv
             Q_GADGET
 
         public:
-            //! This enumeration provides the sequence compression.
-            enum COMPRESS
-            {
-                COMPRESS_OFF,     //!< No sequence compression
-                COMPRESS_SPARSE,  //!< Sparse sequence compression, for example: 1-3,5
-                COMPRESS_RANGE,   //!< Range sequence compression, for example: 1-5
-
-                COMPRESS_COUNT
-            };
-            Q_ENUM(COMPRESS);
-
-            //! Get the compression labels.
-            static const QStringList & compressLabels();
-
             Sequence();
             explicit Sequence(const FrameList &, int pad = 0, const Speed & = Speed());
             Sequence(qint64 start, qint64 end, int pad = 0, const Speed & = Speed());
@@ -81,16 +67,46 @@ namespace djv
             //! Sort the frame numbers in a sequence.
             void sort();
 
-            //! Get the default sequence compression.
-            static COMPRESS compressDefault();
+            //! Find the closest frame in a sequence.
+            static qint64 findClosest(qint64, const FrameList &);
 
-            //! Get the sequence compression.
-            static COMPRESS compress();
+            //! This enumeration provides options for how a sequence is
+            //! formatted as a string.
+            enum FORMAT
+            {
+                FORMAT_OFF,     //!< No formatting
+                FORMAT_SPARSE,  //!< Sparse formatting, for example: 1-3,5
+                FORMAT_RANGE,   //!< Range formatting, for example: 1-5
 
-            //! Set the sequence compression.
-            static void setCompress(COMPRESS);
+                FORMAT_COUNT
+            };
+            Q_ENUM(FORMAT);
 
-            //! Get the auto sequence default.
+            //! Get the formatting labels.
+            static const QStringList & formatLabels();
+
+            //! Get the default sequence formatting.
+            static FORMAT formatDefault();
+
+            //! Get the sequence formatting.
+            static FORMAT format();
+
+            //! Set the sequence formatting.
+            static void setFormat(FORMAT);
+
+            //! Convert a frame to a string.
+            static QString frameToString(qint64, int pad = 0);
+
+            //! Convert a string to a frame.
+            static inline qint64 stringToFrame(const QString &, int * pad = 0);
+
+            //! Convert a sequence to a string.
+            static QString sequenceToString(const Sequence &);
+
+            //! Convert a string to a sequence.
+            static Sequence stringToSequence(const QString &);
+
+            //! Get the auto sequencing default.
             static bool autoEnabledDefault();
 
             //! Get whether auto sequencing is enabled.
@@ -123,16 +139,16 @@ namespace djv
     inline bool operator == (const Core::Sequence &, const Core::Sequence &);
     inline bool operator != (const Core::Sequence &, const Core::Sequence &);
 
-    DJV_STRING_OPERATOR(Core::Sequence::COMPRESS);
     DJV_STRING_OPERATOR(Core::Sequence);
+    DJV_STRING_OPERATOR(Core::Sequence::FORMAT);
     DJV_DEBUG_OPERATOR(Core::FrameList);
     DJV_DEBUG_OPERATOR(Core::Sequence);
-    DJV_DEBUG_OPERATOR(Core::Sequence::COMPRESS);
+    DJV_DEBUG_OPERATOR(Core::Sequence::FORMAT);
 
 } // namespace djv
 
 Q_DECLARE_METATYPE(djv::Core::Sequence)
-Q_DECLARE_METATYPE(djv::Core::Sequence::COMPRESS)
+Q_DECLARE_METATYPE(djv::Core::Sequence::FORMAT)
 
 #include <djvCore/SequenceInline.h>
 

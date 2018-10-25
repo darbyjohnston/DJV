@@ -495,7 +495,6 @@
     <message>
         <location filename="Enum.cpp" line="277"/>
         <source>File Export Sequence</source>
-        <oldsource>File Export</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1109,7 +1108,6 @@
     <message>
         <location filename="FileActions.cpp" line="70"/>
         <source>E&amp;xport Sequence</source>
-        <oldsource>E&amp;xport</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1214,7 +1212,6 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="FileGroup.cpp" line="695"/>
         <source>Export Sequence</source>
-        <oldsource>Export</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2041,7 +2038,7 @@ Keyboard shortcut: %2</source>
 <context>
     <name>djv::ViewLib::SpeedButton</name>
     <message>
-        <location filename="MiscWidget.cpp" line="990"/>
+        <location filename="MiscWidget.cpp" line="989"/>
         <source>Default: %1</source>
         <translation type="unfinished"></translation>
     </message>

@@ -47,12 +47,12 @@ namespace djv
         {
             Q_OBJECT
 
-            //! This property holds the file sequence compression.
+            //! This property holds the file sequence formatting.
             Q_PROPERTY(
-                Core::Sequence::COMPRESS compress
-                READ   compress
-                WRITE  setCompress
-                NOTIFY compressChanged);
+                Core::Sequence::FORMAT format
+                READ                   format
+                WRITE                  setFormat
+                NOTIFY                 formatChanged);
 
             //! This property holds whether auto file sequencing is enabled.
             Q_PROPERTY(
@@ -79,8 +79,8 @@ namespace djv
             explicit SequencePrefs(QObject * parent = nullptr);
             ~SequencePrefs();
 
-            //! Get the file sequence compression.
-            Core::Sequence::COMPRESS compress() const;
+            //! Get the file sequence formatting.
+            Core::Sequence::FORMAT format() const;
 
             //! Get whether auto file sequencing is enabled.
             bool isAutoEnabled() const;
@@ -92,8 +92,8 @@ namespace djv
             bool isNegativeEnabled() const;
 
         public Q_SLOTS:
-            //! Set the file sequence compression.
-            void setCompress(djv::Core::Sequence::COMPRESS);
+            //! Set the file sequence formatting.
+            void setFormat(djv::Core::Sequence::FORMAT);
 
             //! Set whether auto file sequencing is enabled.
             void setAutoEnabled(bool);
@@ -105,8 +105,8 @@ namespace djv
             void setNegativeEnabled(bool);
             
         Q_SIGNALS:
-            //! This signal is emitted when the file sequence compression is changed.
-            void compressChanged(djv::Core::Sequence::COMPRESS);
+            //! This signal is emitted when the file sequence formatting is changed.
+            void formatChanged(djv::Core::Sequence::FORMAT);
 
             //! This signal is emitted when auto file sequencing is changed.
             void autoEnabledChanged(bool);

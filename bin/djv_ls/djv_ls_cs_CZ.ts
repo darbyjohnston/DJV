@@ -111,7 +111,7 @@
         <location filename="LsContext.cpp" line="189"/>
         <source>djv_ls
 
-    Command-line tool for printing file sequences.
+    List directories with file sequences.
 
     Example:
     el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006
@@ -165,7 +165,7 @@ Examples
 </source>
         <oldsource>djv_ls
 
-    List directories with file sequences.
+    Command-line tool for printing file sequences.
 
     Example:
     el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006
@@ -181,7 +181,6 @@ Usage
 
     file      - One or more files or image sequences
     directory - One or more directories
-    option    - Additional options (see below)
 
     If no files or directories are given then the current directory will be used.
 

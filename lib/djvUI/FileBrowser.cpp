@@ -258,7 +258,7 @@ namespace djv
             _p->widgets.reload->setDefaultAction(_p->actions.actions[Actions::RELOAD]);
 
             _p->widgets.seq = new QComboBox;
-            _p->widgets.seq->addItems(Core::Sequence::compressLabels());
+            _p->widgets.seq->addItems(Core::Sequence::formatLabels());
             QLabel * seqLabel = new QLabel(
                 qApp->translate("djv::UI::FileBrowser", "File sequences:"));
 
@@ -328,7 +328,7 @@ namespace djv
 
             // Load the preferences.
             _p->model = new FileBrowserModel(context, this);
-            _p->model->setSequence(context->sequencePrefs()->compress());
+            _p->model->setSequence(context->sequencePrefs()->format());
             _p->model->setShowHidden(context->fileBrowserPrefs()->hasShowHidden());
             _p->model->setColumnsSort(context->fileBrowserPrefs()->columnsSort());
             _p->model->setReverseSort(context->fileBrowserPrefs()->hasReverseSort());
@@ -469,7 +469,7 @@ namespace djv
                 SLOT(toolTipUpdate()));
             connect(
                 context->sequencePrefs(),
-                SIGNAL(compressChanged(djv::Core::Sequence::COMPRESS)),
+                SIGNAL(formatChanged(djv::Core::Sequence::FORMAT)),
                 SLOT(modelUpdate()));
         }
 
@@ -661,12 +661,12 @@ namespace djv
 
         void FileBrowser::seqCallback(QAction * action)
         {
-            _p->context->sequencePrefs()->setCompress(static_cast<Core::Sequence::COMPRESS>(action->data().toInt()));
+            _p->context->sequencePrefs()->setFormat(static_cast<Core::Sequence::FORMAT>(action->data().toInt()));
         }
 
         void FileBrowser::seqCallback(int in)
         {
-            _p->context->sequencePrefs()->setCompress(static_cast<Core::Sequence::COMPRESS>(in));
+            _p->context->sequencePrefs()->setFormat(static_cast<Core::Sequence::FORMAT>(in));
         }
 
         void FileBrowser::searchCallback(const QString & text)
@@ -824,7 +824,7 @@ namespace djv
             const QString fileName = Core::FileInfoUtil::fixPath(_p->widgets.file->text());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             Core::FileInfo fileInfo(fileName);
-            if (_p->model->sequence() != Core::Sequence::COMPRESS_OFF &&
+            if (_p->model->sequence() != Core::Sequence::FORMAT_OFF &&
                 fileInfo.isSequenceValid())
             {
                 fileInfo.setType(Core::FileInfo::SEQUENCE);
@@ -854,7 +854,7 @@ namespace djv
             //DJV_DEBUG("FileBrowser::modelUpdate");
             //DJV_DEBUG_PRINT("path = " << _p->fileInfo.path());
             setCursor(Qt::WaitCursor);
-            _p->model->setSequence(_p->context->sequencePrefs()->compress());
+            _p->model->setSequence(_p->context->sequencePrefs()->format());
             _p->model->setThumbnailMode(_p->context->fileBrowserPrefs()->thumbnailMode());
             _p->model->setThumbnailSize(_p->context->fileBrowserPrefs()->thumbnailSize());
             _p->model->setPath(_p->fileInfo.path());
@@ -939,7 +939,7 @@ namespace djv
             }
 
             _p->menus.menus[Menus::SEQ]->clear();
-            const QStringList & seq = Core::Sequence::compressLabels();
+            const QStringList & seq = Core::Sequence::formatLabels();
             for (int i = 0; i < seq.count(); ++i)
             {
                 QAction * action = _p->menus.menus[Menus::SEQ]->addAction(seq[i]);
@@ -1040,9 +1040,9 @@ namespace djv
                 "%1 - Show every file\n"
                 "%2 - Show sequences of files including gaps between ranges; for example: 1-3,5,7-10\n"
                 "%3 - Show sequences of files as a continuous range; for example: 1-10\n")).
-                arg(Core::Sequence::compressLabels()[0]).
-                arg(Core::Sequence::compressLabels()[1]).
-                arg(Core::Sequence::compressLabels()[2]));
+                arg(Core::Sequence::formatLabels()[0]).
+                arg(Core::Sequence::formatLabels()[1]).
+                arg(Core::Sequence::formatLabels()[2]));
         }
 
         QVector<int> FileBrowser::columnSizes() const

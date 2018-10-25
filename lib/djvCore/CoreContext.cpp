@@ -73,7 +73,7 @@ namespace djv
             qRegisterMetaType<FileInfo>("djv::Core::FileInfo");
             qRegisterMetaType<FileInfoList>("djv::Core::FileInfoList");
             qRegisterMetaType<Sequence>("djv::Core::Sequence");
-            qRegisterMetaType<Sequence::COMPRESS>("djv::Core::Sequence::COMPRESS");
+            qRegisterMetaType<Sequence::FORMAT>("djv::Core::Sequence::FORMAT");
 
             // Load translators.
             DJV_LOG(debugLog(), "djv::Core::CoreContext",
@@ -159,8 +159,8 @@ namespace djv
 
         QString CoreContext::info() const
         {
-            QStringList seqCompressLabel;
-            seqCompressLabel << Sequence::compress();
+            QStringList seqFormatLabel;
+            seqFormatLabel << Sequence::format();
             QStringList seqAutoEnabledLabel;
             seqAutoEnabledLabel << Sequence::isAutoEnabled();
             QStringList seqMaxSizeLabel;
@@ -181,7 +181,7 @@ namespace djv
                 "\n"
                 "File Sequences\n"
                 "\n"
-                "    Compression: %2\n"
+                "    Formatting: %2\n"
                 "    Auto sequencing: %3\n"
                 "    Maximum size: %4\n"
                 "    Negative numbers: %5\n"
@@ -200,7 +200,7 @@ namespace djv
                 "    Qt version: %12\n");
             return QString(label).
                 arg(DJV_VERSION).
-                arg(seqCompressLabel.join(", ")).
+                arg(seqFormatLabel.join(", ")).
                 arg(seqAutoEnabledLabel.join(", ")).
                 arg(seqMaxSizeLabel.join(", ")).
                 arg(seqNegativeEnabledLabel.join(", ")).
@@ -363,11 +363,11 @@ namespace djv
                     in >> arg;
 
                     // General options.
-                    if (qApp->translate("djv::Core::CoreContext", "-seq_compress") == arg)
+                    if (qApp->translate("djv::Core::CoreContext", "-seq_format") == arg)
                     {
-                        Sequence::COMPRESS value = static_cast<Sequence::COMPRESS>(0);
+                        Sequence::FORMAT value = static_cast<Sequence::FORMAT>(0);
                         in >> value;
-                        Sequence::setCompress(value);
+                        Sequence::setFormat(value);
                     }
                     else if (qApp->translate("djv::Core::CoreContext", "-seq_auto") == arg)
                     {
@@ -452,8 +452,8 @@ namespace djv
 
         QString djv::Core::CoreContext::commandLineHelp() const
         {
-            QStringList seqCompressLabel;
-            seqCompressLabel << Sequence::compress();
+            QStringList seqFormatLabel;
+            seqFormatLabel << Sequence::format();
             QStringList seqAutoEnabledLabel;
             seqAutoEnabledLabel << Sequence::isAutoEnabled();
             QStringList seqMaxSizeLabel;
@@ -469,8 +469,8 @@ namespace djv
                 "\n"
                 "File Sequence Options\n"
                 "\n"
-                "    -seq_compress (value)\n"
-                "        Set the file sequence compression: %1. Default = %2.\n"
+                "    -seq_format (value)\n"
+                "        Set the file sequence formatting: %1. Default = %2.\n"
                 "    -seq_auto (value)\n"
                 "        Set whether auto file sequencing is enabled: %3. Default = %4.\n"
                 "    -seq_max (value)\n"
@@ -496,8 +496,8 @@ namespace djv
                 "    -about\n"
                 "        Show legal infomration.\n");
             return QString(label).
-                arg(Sequence::compressLabels().join(", ")).
-                arg(seqCompressLabel.join(", ")).
+                arg(Sequence::formatLabels().join(", ")).
+                arg(seqFormatLabel.join(", ")).
                 arg(StringUtil::boolLabels().join(", ")).
                 arg(seqAutoEnabledLabel.join(", ")).
                 arg(seqMaxSizeLabel.join(", ")).

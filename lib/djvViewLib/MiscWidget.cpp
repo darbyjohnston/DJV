@@ -48,7 +48,6 @@
 #include <djvCore/Range.h>
 #include <djvCore/RangeUtil.h>
 #include <djvCore/Sequence.h>
-#include <djvCore/SequenceUtil.h>
 #include <djvCore/SignalBlocker.h>
 #include <djvCore/Time.h>
 
@@ -390,7 +389,7 @@ namespace djv
             //DJV_DEBUG("FrameWidget::editingFinishedCallback");
             const QString text = lineEdit()->text();
             //DJV_DEBUG_PRINT("text = " << text);
-            setFrame(Core::SequenceUtil::findClosest(
+            setFrame(Core::Sequence::findClosest(
                 Core::Time::stringToFrame(text, _p->speed), _p->frameList));
             lineEdit()->setText(_p->text);
         }

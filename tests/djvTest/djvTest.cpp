@@ -55,7 +55,6 @@
 #include <djvCoreTest/MemoryTest.h>
 #include <djvCoreTest/RangeTest.h>
 #include <djvCoreTest/SequenceTest.h>
-#include <djvCoreTest/SequenceUtilTest.h>
 #include <djvCoreTest/SignalBlockerTest.h>
 #include <djvCoreTest/SpeedTest.h>
 #include <djvCoreTest/StringUtilTest.h>
@@ -95,7 +94,6 @@ int main(int argc, char ** argv)
             new CoreTest::MemoryTest <<
             new CoreTest::RangeTest <<
             new CoreTest::SequenceTest <<
-            new CoreTest::SequenceUtilTest <<
             new CoreTest::SignalBlockerTest <<
             new CoreTest::SpeedTest <<
             new CoreTest::StringUtilTest <<

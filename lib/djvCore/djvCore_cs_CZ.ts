@@ -16,7 +16,7 @@
 
 File Sequences
 
-    Compression: %2
+    Formatting: %2
     Auto sequencing: %3
     Maximum size: %4
     Negative numbers: %5
@@ -112,6 +112,11 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="CoreContext.cpp" line="366"/>
+        <source>-seq_format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="CoreContext.cpp" line="372"/>
         <source>-seq_auto</source>
         <translation type="unfinished"></translation>
@@ -134,75 +139,6 @@ This software is based in part on the works of (in alphabetical order):
     <message>
         <location filename="CoreContext.cpp" line="396"/>
         <source>-default_speed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="CoreContext.cpp" line="467"/>
-        <source>
-File Sequence Options
-
-    -seq_compress (value)
-        Set the file sequence compression: %1. Default = %2.
-    -seq_auto (value)
-        Set whether auto file sequencing is enabled: %3. Default = %4.
-    -seq_max (value)
-        Set the maximum allowed size of file sequences. Default = %5.
-    -seq_negative (value)
-        Set whether negative numbers are enabled: %6. Default = %7.
-
-Time Options
-
-    -time_units (value)
-        Set the time units: %8. Default = %9.
-    -default_speed (value)
-        Set the default speed: %10. Default = %11.
-
-Miscellaneous Options
-
-    -debug_log
-        Print debug log messages.
-    -help, -h
-        Show the command line documentation.
-    -info
-        Show information about the application.
-    -about
-        Show legal infomration.
-</source>
-        <oldsource>
-File Sequence Options
-
-    -seq_compress (value)
-        Set the file sequence compression: %1. Default = %2.
-    -seq_auto (value)
-        Set whether auto file sequencing is enabled: %3. Default = %4.
-    -seq_max (value)
-        Set the maximum allowed size of file sequences. Default = %5.
-    -seq_negative (value)
-        Set whether negative numbers are enabled: %6. Default = %7.
-
-Time Options
-
-    -time_units (value)
-        Set the time units: %8. Default = %9.
-    -default_speed (value)
-        Set the default speed: %10. Default = %11.
-
-Miscellaneous Options
-
-    -debug_log
-        Print debug log messages.
-    -help, -h
-        Show the help message.
-    -info
-        Show the information message.
-    -about
-        Show the about message.
-</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="CoreContext.cpp" line="366"/>
-        <source>-seq_compress</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -233,6 +169,40 @@ Miscellaneous Options
     <message>
         <location filename="CoreContext.cpp" line="431"/>
         <source>-psn_</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CoreContext.cpp" line="467"/>
+        <source>
+File Sequence Options
+
+    -seq_format (value)
+        Set the file sequence formatting: %1. Default = %2.
+    -seq_auto (value)
+        Set whether auto file sequencing is enabled: %3. Default = %4.
+    -seq_max (value)
+        Set the maximum allowed size of file sequences. Default = %5.
+    -seq_negative (value)
+        Set whether negative numbers are enabled: %6. Default = %7.
+
+Time Options
+
+    -time_units (value)
+        Set the time units: %8. Default = %9.
+    -default_speed (value)
+        Set the default speed: %10. Default = %11.
+
+Miscellaneous Options
+
+    -debug_log
+        Print debug log messages.
+    -help, -h
+        Show the command line documentation.
+    -info
+        Show information about the application.
+    -about
+        Show legal infomration.
+</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -346,32 +316,32 @@ Miscellaneous Options
 <context>
     <name>djv::Core::FileInfoUtil</name>
     <message>
-        <location filename="FileInfoUtil.cpp" line="600"/>
+        <location filename="FileInfoUtil.cpp" line="532"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="601"/>
+        <location filename="FileInfoUtil.cpp" line="533"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="602"/>
+        <location filename="FileInfoUtil.cpp" line="534"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="603"/>
+        <location filename="FileInfoUtil.cpp" line="535"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="604"/>
+        <location filename="FileInfoUtil.cpp" line="536"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="605"/>
+        <location filename="FileInfoUtil.cpp" line="537"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
@@ -425,17 +395,17 @@ Miscellaneous Options
 <context>
     <name>djv::Core::Sequence</name>
     <message>
-        <location filename="Sequence.cpp" line="57"/>
+        <location filename="Sequence.cpp" line="127"/>
         <source>Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Sequence.cpp" line="58"/>
+        <location filename="Sequence.cpp" line="128"/>
         <source>Sparse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Sequence.cpp" line="59"/>
+        <location filename="Sequence.cpp" line="129"/>
         <source>Range</source>
         <translation type="unfinished"></translation>
     </message>

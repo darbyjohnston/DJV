@@ -35,21 +35,26 @@
 <body>
 
 <div class="header">
-<h1 class="header"><a class="header" class="header" href="index.html">DJV Imaging</a>
-<img src="images/logo-filmreel.png" align="right"></h1>
+<a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right">
 </div>
-
+<div class="border"></div>
 <div class="content">
 
 <div class="nav">
-<a href="index.html">Home</a> /
-<a href="Documentation.html">Documentation</a> /
-<a href="Build.html">Building the Source Code</a> /
+<a href="index.html">Home</a> |
+<a href="Documentation.html">Documentation</a> |
+<a href="Build.html">Building the Source Code</a> |
 Windows
+<ul>
+    <li><a href="#Requirements">Requirements</a></li>
+    <li><a href="#ThirdParty">Third Party Libraries</a></li>
+    <li><a href="#Build">Building the Source Code</a></li>
+</ul>
 </div>
 
+<h1 class="header"><a name="Requirements">Requirements</a></h1>
 <div class="block">
-<h1><a name="Requirements">Requirements</a></h1>
 <p>Build tools:</p>
 <ul>
     <li>Visual Studio</li>
@@ -73,8 +78,8 @@ Windows
 </ul>
 </div>
 
+<h1 class="header"><a name="ThirdParty">Third Party Libraries</a></h1>
 <div class="block">
-<h1><a name="ThirdParty">Third Party Libraries</a></h1>
 <p>First choose a working directory for building the source code. In the
 following steps we will refer to this directory as $BUILD_DIR.</p>
 <p>Open a command prompt and clone the DJV third party source code repository:</p>
@@ -128,8 +133,8 @@ Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
 </pre>
 </div>
 
+<h1 class="header"><a name="Build">Building the Source Code</a></h1>
 <div class="block">
-<h1><a name="Build">Building the Source Code</a></h1>
 <p>Open a command prompt and clone the DJV source code repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
@@ -156,5 +161,6 @@ target.</p>
 <p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
+</div>
 </body>
 </html>

@@ -1245,17 +1245,17 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="SequencePrefsWidget.cpp" line="79"/>
         <source>Enable negative numbers in file sequences</source>
-        <oldsource>Enable negative numbers</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="SequencePrefsWidget.cpp" line="85"/>
-        <source>Compression</source>
+        <source>Formatting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="SequencePrefsWidget.cpp" line="86"/>
-        <source>Set how file sequences are compressed.</source>
+        <source>Set how file sequences are formatted.</source>
+        <oldsource>Set how file sequences are compressed.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1488,12 +1488,6 @@ User Interface Options
     -reset_prefs
         Reset the preferences.
 %2</source>
-        <oldsource>
-User Interface Options
-
-    -reset_prefs
-        Do not load the preference at start up.
-%2</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

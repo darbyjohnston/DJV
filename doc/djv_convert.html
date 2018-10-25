@@ -35,22 +35,28 @@
 <body>
 
 <div class="header">
-<h1 class="header"><a class="header" href="index.html">DJV Imaging</a>
-<img src="images/logo-filmreel.png" align="right"></h1>
+<a class="header" href="index.html">DJV Imaging</a>
+<img src="images/logo-filmreel.png" align="right">
 </div>
-
+<div class="border"></div>
 <div class="content">
 
 <div class="nav">
-<a href="index.html">Home</a> /
-<a href="Documentation.html">Documentation</a> /
+<a href="index.html">Home</a> |
+<a href="Documentation.html">Documentation</a> |
 djv_convert
+<ul>
+    <li><a href="#Description">Description</a></li>
+    <li><a href="#Usage">Usage</a></li>
+    <li><a href="#Options">Options</a></li>
+    <li><a href="#Examples">Examples</a></li>
+</ul>
 </div>
 
+<h1 class="header"><a name="Description">Description</a></h1>
 <div class="block">
-<h1>djv_convert</h1>
-<p>Command-line tool for image and movie processing. Common uses include
-resizing images and converting sequences of images to a movie.<p>
+<p>Batch process images and movies. Common uses include resizing images and
+converting sequences of images to a movie.<p>
 <p>Example of converting an image sequence to a movie:</p>
 <pre>
 > djv_convert input.1-100.tga output.mp4
@@ -59,113 +65,104 @@ resizing images and converting sequences of images to a movie.<p>
 <p>Note that djv_convert requires OpenGL in order to run.</p>
 </div>
 
+<h1 class="header"><a name="Usage">Usage</a></h1>
 <div class="block">
-<h1><a name="Usage">Usage</a></h1>
 <pre>
 djv_convert (input) (output) [option]...
 </pre>
 <table>
-<tr><td width="200"><i>input</i></td><td>Input image, image sequence, or
+<tr><td width="200">input</td><td>Input image, image sequence, or
 movie</td></tr>
-<tr><td><i>output</i></td><td>Output image, image sequence, or movie</td></tr>
+<tr><td>output</td><td>Output image, image sequence, or movie</td></tr>
 </table>
 </div>
 
+<h1 class="header"><a name="Options">Options</a></h1>
 <div class="block">
-<h1><a name="Options">Options</a></h1>
 <table>
-<tr><td width="200"><i>-mirror_h</i></td><td>Mirror the image horizontally.</td></tr>
-<tr><td><i>-mirror_v</i></td><td>Mirror the image vertically.</td></tr>
-<tr><td><i>-scale (value)</i></td><td>Scale the image width and height using a
+<tr><td width="200">-mirror_h</td><td>Mirror the image horizontally.</td></tr>
+<tr><td>-mirror_v</td><td>Mirror the image vertically.</td></tr>
+<tr><td>-scale (value)</td><td>Scale the image width and height using a
 floating point value (1.0 = 100%).</td></tr>
-<tr><td><i>-scale_separate (width) (height)</i></td><td>Scale the image width
+<tr><td>-scale_separate (width) (height)</td><td>Scale the image width
 and height separately using floating point values (1.0 = 100%).</td></tr>
-<tr><td><i>-resize (width) (height)</i></td><td>Resize the image width and
+<tr><td>-resize (width) (height)</td><td>Resize the image width and
 height to the given resolution.</td></tr>
-<tr><td><i>-width (value)</i></td><td>Resize the image width to the given
+<tr><td>-width (value)</td><td>Resize the image width to the given
 resolution maintaining the aspect ratio.</td></tr>
-<tr><td><i>-height (value)</i></td><td>Resize the image height to the given
+<tr><td>-height (value)</td><td>Resize the image height to the given
 resolution maintaining the aspect ratio.</td></tr>
-<tr><td><i>-crop (x) (y) (width) (height)</i></td><td>Crop the image.</td></tr>
-<tr><td><i>-crop_percent (x) (y) (width) (height)</i></td><td>Crop the image
+<tr><td>-crop (x) (y) (width) (height)</td><td>Crop the image.</td></tr>
+<tr><td>-crop_percent (x) (y) (width) (height)</td><td>Crop the image
 using floating point values (1.0 = 100%).</td></tr>
-<tr><td><i>-channel (value)</i></td><td>Show only specific image channels:
+<tr><td>-channel (value)</td><td>Show only specific image channels:
 Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 </table>
 <h2>Input</h2>
 <table>
-<tr><td width="200"><i>-layer (value)</i></td><td>Set the input layer.</td></tr>
-<tr><td><i>-proxy (value)</i></td><td>Set the proxy scale: None, 1/2,
+<tr><td width="200">-layer (value)</td><td>Set the input layer.</td></tr>
+<tr><td>-proxy (value)</td><td>Set the proxy scale: None, 1/2,
 1/4, 1/8. Default = None.</td></tr>
-<tr><td><i>-time (start) (end)</i></td><td>Set the start and end time.</td></tr>
-<tr><td><i>-slate (input) (frames)</i></td><td>Set the slate.</td></tr>
-<tr><td><i>-timeout (value)</i></td><td>Set the maximum number of seconds to
+<tr><td>-time (start) (end)</td><td>Set the start and end time.</td></tr>
+<tr><td>-slate (input) (frames)</td><td>Set the slate.</td></tr>
+<tr><td>-timeout (value)</td><td>Set the maximum number of seconds to
 wait for each input frame. Default = 0.</td></tr>
 </table>
 <h2>Output</h2>
 <table>
-<tr><td width="200"><i>-pixel (value)</i></td><td>Convert the pixel type: L U8,
+<tr><td width="200">-pixel (value)</td><td>Convert the pixel type: L U8,
 L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8, RGB U10, RGB U16,
 RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
-<tr><td><i>-speed (value)</i></td><td>Set the speed: 1, 3, 6, 12, 15,
+<tr><td>-speed (value)</td><td>Set the speed: 1, 3, 6, 12, 15,
 16, 18, 23.98, 24, 25, 29.97, 30, 50, 59.94, 60, 120.</td></tr>
-<tr><td><i>-tag (name) (value)</i></td><td>Set an image tag.</td></tr>
-<tr><td><i>-tag_auto (value)</i></td><td>Automatically generate image tags
+<tr><td>-tag (name) (value)</td><td>Set an image tag.</td></tr>
+<tr><td>-tag_auto (value)</td><td>Automatically generate image tags
 (e.g., timecode): False, True. Default = True.</td></tr>
 </table>
-<p>See this <a href="ImageFormats.html">page</a> for image format options.<p>
+<p>See this <a href="ImageFormats.html">page</a> for image file format options.<p>
 <p>See this <a href="CommandLine.html">page</a> for general options.<p>
 </div>
 
+<h1 class="header"><a name="Examples">Examples</a></h1>
 <div class="block">
-<h1><a name="Examples">Examples</a></h1>
 <p>Convert an image:</p>
 <pre>
 > djv_convert input.sgi output.tga
 </pre>
-
 <p>Convert an image sequence:</p>
 <pre>
 > djv_convert input.1-100.sgi output.1.tga
 </pre>
 <p>Note that only the first frame of the output sequence needs to be specified.</p>
-
 <p>Create an RLE compressed image sequence:</p>
 <pre>
 > djv_convert input.1-100.sgi output.1.tga -targa_compression RLE
 </pre>
-
 <p>Convert an image sequence to a movie:</p>
 <pre>
 > djv_convert input.0001-0100.dpx output.m4v
 </pre>
-
 <p>Convert a movie to an image sequence:</p>
 <pre>
 > djv_convert input.m4v output.1.tga
 </pre>
-
 <p>Convert the pixel type:</p>
 <pre>
 > djv_convert input.sgi output.sgi -pixel "RGB U16"
 </pre>
 <p>Note the use of quotes around the pixel type option.</p>
-
 <p>Scale an image by half:</p>
 <pre>
 > djv_convert input.tga output.tga -scale 0.5
 </pre>
-
 <p>Resize an image:</p>
 <pre>
 > djv_convert input.tga output.tga -resize 2048 1556
 </pre>
-
 <p>Convert a Cineon file to a linear format using the default settings:</p>
 <pre>
 > djv_convert input.cin output.tga
 </pre>
-
 <p>Convert a Cineon file to a linear format using custom print settings (black
 point, white point, gamma, and soft clip):</p>
 <pre>
@@ -173,12 +170,11 @@ point, white point, gamma, and soft clip):</p>
 </pre>
 </div>
 
-</div>
-
 <div class="footer">
 <p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
 </div>
 
+</div>
 </body>
 </html>
 

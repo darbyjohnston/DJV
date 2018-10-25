@@ -14,7 +14,6 @@ set(header
     MemoryTest.h
     RangeTest.h
     SequenceTest.h
-    SequenceUtilTest.h
     SignalBlockerTest.h
     SpeedTest.h
     StringUtilTest.h
@@ -40,7 +39,6 @@ set(source
     MemoryTest.cpp
     RangeTest.cpp
     SequenceTest.cpp
-    SequenceUtilTest.cpp
     SignalBlockerTest.cpp
     SpeedTest.cpp
     StringUtilTest.cpp

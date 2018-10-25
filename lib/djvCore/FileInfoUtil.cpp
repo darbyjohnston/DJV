@@ -36,7 +36,7 @@
 #include <djvCore/ListUtil.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
-#include <djvCore/SequenceUtil.h>
+#include <djvCore/Sequence.h>
 
 #include <QCoreApplication>
 #include <QDir>
@@ -202,12 +202,12 @@ namespace djv
         } // namespace
 
         FileInfoList FileInfoUtil::list(
-            const QString &    path,
-            Sequence::COMPRESS compress)
+            const QString &  path,
+            Sequence::FORMAT format)
         {
             //DJV_DEBUG("FileInfoUtil::list");
             //DJV_DEBUG_PRINT("path = " << path);
-            //DJV_DEBUG_PRINT("compress = " << compress);
+            //DJV_DEBUG_PRINT("format = " << format);
 
             FileInfoList out;
             FileInfo * cache = 0;
@@ -242,14 +242,14 @@ namespace djv
                         {
                             const FileInfo tmp(fixedPath + fileName);
                             int i = 0;
-                            if (compress && cache)
+                            if (format && cache)
                             {
                                 if (!cache->addSequence(tmp))
                                 {
                                     cache = 0;
                                 }
                             }
-                            if (compress && !cache)
+                            if (format && !cache)
                             {
                                 for (; i < out.count(); ++i)
                                 {
@@ -260,7 +260,7 @@ namespace djv
                                     }
                                 }
                             }
-                            if (!compress || i == out.count())
+                            if (!format || i == out.count())
                             {
                                 out.append(tmp);
                             }
@@ -269,74 +269,6 @@ namespace djv
                 }
                 FindClose(h);
             }
-            /*#elif defined(DJV_LINUX)
-                struct linux_dirent64
-                {
-                   ino64_t        d_ino;
-                   off64_t        d_off;
-                   unsigned short d_reclen;
-                   unsigned char  d_type;
-                   char           d_name[];
-                };
-                int fd = ::open(path.toUtf8().data(), O_RDONLY | O_DIRECTORY);
-                if (fd != -1)
-                {
-                    std::vector<quint8> buf(Memory::megabyte);
-                    quint8 * p = buf.data();
-                    while (1)
-                    {
-                        int readCount = syscall(SYS_getdents64, fd, p, buf.size());
-                        if (-1 == readCount)
-                            break;
-                        if (0 == readCount)
-                            break;
-                        for (int i = 0; i < readCount;)
-                        {
-                            struct linux_dirent64 * de = (struct linux_dirent64 *)(p + i);
-                            if (de->d_ino != DT_UNKNOWN)
-                            {
-                                size_t l = strlen(de->d_name);
-                                if (! isDotDir(de->d_name, l))
-                                {
-                                    if (! out.count())
-                                    {
-                                        out.append(FileInfo(fixedPath + de->d_name));
-                                    }
-                                    else
-                                    {
-                                        const FileInfo tmp(fixedPath + de->d_name);
-                                        int i = 0;
-                                        if (compress && cache)
-                                        {
-                                            if (! cache->addSequence(tmp))
-                                            {
-                                                cache = 0;
-                                            }
-                                        }
-                                        if (compress && ! cache)
-                                        {
-                                            for (; i < out.count(); ++i)
-                                            {
-                                                if (out[i].addSequence(tmp))
-                                                {
-                                                    cache = &out[i];
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        if (! compress || i == out.count())
-                                        {
-                                            out.append(tmp);
-                                        }
-                                    }
-                                }
-                            }
-                            i += de->d_reclen;
-                        }
-                    }
-                    close (fd);
-                }
-            */
 #else // DJV_WINDOWS
             DIR * dir = ::opendir(path.toUtf8().data());
             if (dir)
@@ -355,14 +287,14 @@ namespace djv
                         {
                             const FileInfo tmp(fixedPath + fileName);
                             int i = 0;
-                            if (compress && cache)
+                            if (format && cache)
                             {
                                 if (!cache->addSequence(tmp))
                                 {
                                     cache = 0;
                                 }
                             }
-                            if (compress && !cache)
+                            if (format && !cache)
                             {
                                 for (; i < out.count(); ++i)
                                 {
@@ -373,7 +305,7 @@ namespace djv
                                     }
                                 }
                             }
-                            if (!compress || i == out.count())
+                            if (!format || i == out.count())
                             {
                                 out.append(tmp);
                             }
@@ -387,7 +319,7 @@ namespace djv
             {
                 out[i]._sequence.sort();
             }
-            if (Sequence::COMPRESS_RANGE == compress)
+            if (Sequence::FORMAT_RANGE == format)
             {
                 for (int i = 0; i < out.count(); ++i)
                 {
@@ -403,7 +335,7 @@ namespace djv
             {
                 if (FileInfo::SEQUENCE == out[i].type())
                 {
-                    out[i]._number = SequenceUtil::sequenceToString(out[i]._sequence);
+                    out[i]._number = Sequence::sequenceToString(out[i]._sequence);
                 }
             }
             return out;
@@ -426,14 +358,14 @@ namespace djv
             return in;
         }
 
-        void FileInfoUtil::compressSequence(
-            FileInfoList &     items,
-            Sequence::COMPRESS compress)
+        void FileInfoUtil::sequence(
+            FileInfoList &   items,
+            Sequence::FORMAT format)
         {
-            if (Sequence::COMPRESS_OFF == compress)
+            if (Sequence::FORMAT_OFF == format)
                 return;
 
-            //DJV_DEBUG("FileInfoUtil::compressSequence");
+            //DJV_DEBUG("FileInfoUtil::sequence");
             //DJV_DEBUG_PRINT("count = " << items.count());
 
             int  cache = 0;
@@ -487,7 +419,7 @@ namespace djv
                 items[i]._sequence.sort();
             }
 
-            if (Sequence::COMPRESS_RANGE == compress)
+            if (Sequence::FORMAT_RANGE == format)
             {
                 for (int i = 0; i < items.count(); ++i)
                 {
@@ -504,7 +436,7 @@ namespace djv
             {
                 if (FileInfo::SEQUENCE == items[i].type())
                 {
-                    items[i]._number = SequenceUtil::sequenceToString(items[i]._sequence);
+                    items[i]._number = Sequence::sequenceToString(items[i]._sequence);
                 }
             }
         }
@@ -811,38 +743,38 @@ namespace djv
         const QString FileInfoUtil::dotDot("..");
 
         FileInfo FileInfoUtil::parse(
-            const QString &    fileName,
-            Sequence::COMPRESS sequence,
-            bool               autoSequence)
+            const QString &  fileName,
+            Sequence::FORMAT format,
+            bool             autoSequence)
         {
             //DJV_DEBUG("FileInfoUtil::parse");
             //DJV_DEBUG_PRINT("fileName = " << fileName);
-            //DJV_DEBUG_PRINT("sequence = " << sequence);
+            //DJV_DEBUG_PRINT("format = " << format);
             //DJV_DEBUG_PRINT("autoSequence = " << autoSequence);
 
             FileInfo fileInfo(fileName, false);
 
             // Match wildcards.
-            if (sequence && fileInfo.isSequenceWildcard())
+            if (format && fileInfo.isSequenceWildcard())
             {
                 fileInfo = FileInfoUtil::sequenceWildcardMatch(
                     fileInfo,
-                    FileInfoUtil::list(fileInfo.path(), sequence));
+                    FileInfoUtil::list(fileInfo.path(), format));
                 //DJV_DEBUG_PRINT("  wildcard match = " << fileInfo);
             }
 
             // Is this is a sequence?
-            if (sequence && fileInfo.isSequenceValid())
+            if (format && fileInfo.isSequenceValid())
             {
                 //DJV_DEBUG_PRINT("sequence");
                 fileInfo.setType(FileInfo::SEQUENCE);
             }
 
             // Find other files in the directory that match this sequence.
-            if (sequence && autoSequence)
+            if (format && autoSequence)
             {
                 //DJV_DEBUG_PRINT("auto sequence");
-                const FileInfoList items = FileInfoUtil::list(fileInfo.path(), sequence);
+                const FileInfoList items = FileInfoUtil::list(fileInfo.path(), format);
                 for (int i = 0; i < items.count(); ++i)
                 {
                     if (items[i].isSequenceValid() &&

@@ -458,7 +458,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");         
                 fileInfo = Core::FileInfoUtil::parse(
                     fileName,
-                    _p->context->sequencePrefs()->compress(),
+                    _p->context->sequencePrefs()->format(),
                     _p->context->sequencePrefs()->isAutoEnabled());
             }
             else if (event->mimeData()->hasFormat("text/plain"))
@@ -466,7 +466,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("text/plain");
                 fileInfo = Core::FileInfoUtil::parse(
                     event->mimeData()->text(),
-                    _p->context->sequencePrefs()->compress(),
+                    _p->context->sequencePrefs()->format(),
                     _p->context->sequencePrefs()->isAutoEnabled());
             }
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);

@@ -51,7 +51,7 @@ namespace djv
             void resetPreferences() override;
 
         private Q_SLOTS:
-            void compressCallback(int);
+            void formatCallback(int);
             void autoEnabledCallback(bool);
             void maxSizeCallback(int);
             void negativeEnabledCallback(bool);

@@ -51,7 +51,7 @@ namespace djv
     {
         struct SequencePrefsWidget::Private
         {
-            QPointer<QComboBox> compressWidget;
+            QPointer<QComboBox> formatWidget;
             QPointer<QCheckBox> autoEnabledWidget;
             QPointer<IntEdit> maxSizeWidget;
             QPointer<QCheckBox> negativeEnabledWidget;
@@ -64,9 +64,9 @@ namespace djv
             _p(new Private)
         {
             // Create the widgets.
-            _p->compressWidget = new QComboBox;
-            _p->compressWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->compressWidget->addItems(Core::Sequence::compressLabels());
+            _p->formatWidget = new QComboBox;
+            _p->formatWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->formatWidget->addItems(Core::Sequence::formatLabels());
 
             _p->autoEnabledWidget = new QCheckBox(
                 qApp->translate("djv::UI::SequencePrefsWidget", "Enable auto file sequencing"));
@@ -82,11 +82,11 @@ namespace djv
             _p->layout = new QVBoxLayout(this);
 
             auto prefsGroupBox = new PrefsGroupBox(
-                qApp->translate("djv::UI::SequencePrefsWidget", "Compression"),
-                qApp->translate("djv::UI::SequencePrefsWidget", "Set how file sequences are compressed."),
+                qApp->translate("djv::UI::SequencePrefsWidget", "Formatting"),
+                qApp->translate("djv::UI::SequencePrefsWidget", "Set how file sequences are formatted."),
                 context);
             auto formLayout = prefsGroupBox->createLayout();
-            formLayout->addRow(_p->compressWidget);
+            formLayout->addRow(_p->formatWidget);
             _p->layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new PrefsGroupBox(
@@ -118,9 +118,9 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                _p->compressWidget,
+                _p->formatWidget,
                 SIGNAL(activated(int)),
-                SLOT(compressCallback(int)));
+                SLOT(formatCallback(int)));
             connect(
                 _p->autoEnabledWidget,
                 SIGNAL(toggled(bool)),
@@ -144,15 +144,15 @@ namespace djv
         
         void SequencePrefsWidget::resetPreferences()
         {
-            context()->sequencePrefs()->setCompress(Core::Sequence::compressDefault());
+            context()->sequencePrefs()->setFormat(Core::Sequence::formatDefault());
             context()->sequencePrefs()->setAutoEnabled(Core::Sequence::autoEnabledDefault());
             context()->sequencePrefs()->setMaxSize(Core::Sequence::maxSizeDefault());
             context()->sequencePrefs()->setNegativeEnabled(Core::Sequence::negativeEnabledDefault());
         }
 
-        void SequencePrefsWidget::compressCallback(int index)
+        void SequencePrefsWidget::formatCallback(int index)
         {
-            context()->sequencePrefs()->setCompress(static_cast<Core::Sequence::COMPRESS>(index));
+            context()->sequencePrefs()->setFormat(static_cast<Core::Sequence::FORMAT>(index));
         }
 
         void SequencePrefsWidget::autoEnabledCallback(bool value)
@@ -173,11 +173,11 @@ namespace djv
         void SequencePrefsWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
-                _p->compressWidget <<
+                _p->formatWidget <<
                 _p->autoEnabledWidget <<
                 _p->maxSizeWidget <<
                 _p->negativeEnabledWidget);
-            _p->compressWidget->setCurrentIndex(Core::Sequence::compress());
+            _p->formatWidget->setCurrentIndex(Core::Sequence::format());
             _p->autoEnabledWidget->setChecked(Core::Sequence::isAutoEnabled());
             _p->maxSizeWidget->setValue(Core::Sequence::maxSize());
             _p->negativeEnabledWidget->setChecked(Core::Sequence::isNegativeEnabled());

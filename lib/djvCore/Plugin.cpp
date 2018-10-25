@@ -189,7 +189,7 @@ namespace djv
                     QString("Checking search path: \"%1\"").arg(path));
                 FileInfoList tmp = FileInfoUtil::list(
                     path,
-                    Sequence::COMPRESS_OFF);
+                    Sequence::FORMAT_OFF);
                 FileInfoUtil::filter(
                     tmp,
                     FileInfoUtil::FILTER_NONE,

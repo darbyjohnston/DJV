@@ -57,12 +57,12 @@ namespace djv
                 WRITE   setPath
                 NOTIFY  pathChanged)
 
-            //! This property holds the file sequencing.
+            //! This property holds the file sequence formatting.
             Q_PROPERTY(
-                djv::Core::Sequence::COMPRESS sequence
-                READ                          sequence
-                WRITE                         setSequence
-                NOTIFY                        sequenceChanged)
+                djv::Core::Sequence::FORMAT sequence
+                READ                        sequence
+                WRITE                       setSequence
+                NOTIFY                      sequenceChanged)
 
             //! This property holds the filter text.
             Q_PROPERTY(
@@ -145,8 +145,8 @@ namespace djv
             //! Convert a model index to file information.
             Core::FileInfo fileInfo(const QModelIndex &) const;
 
-            //! Get the file sequencing.
-            Core::Sequence::COMPRESS sequence() const;
+            //! Get the file sequence formatting.
+            Core::Sequence::FORMAT sequence() const;
 
             //! Get the filter text.
             const QString & filterText() const;
@@ -217,8 +217,8 @@ namespace djv
             //! Reload the files.
             void reload();
 
-            //! Set the file sequencing.
-            void setSequence(djv::Core::Sequence::COMPRESS);
+            //! Set the file sequence formatting.
+            void setSequence(djv::Core::Sequence::FORMAT);
 
             //! Set the filter text.
             void setFilterText(const QString &);
@@ -245,8 +245,8 @@ namespace djv
             //! This signal is emitted when the path is changed.
             void pathChanged(const QString &);
 
-            //! This signal is emitted when the file sequencing is changed.
-            void sequenceChanged(djv::Core::Sequence::COMPRESS);
+            //! This signal is emitted when the file sequence formatting is changed.
+            void sequenceChanged(djv::Core::Sequence::FORMAT);
 
             //! This signal is emitted when the filter text is changed.
             void filterTextChanged(const QString &);

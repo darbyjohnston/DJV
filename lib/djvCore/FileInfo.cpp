@@ -34,7 +34,7 @@
 #include <djvCore/FileInfoUtil.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
-#include <djvCore/SequenceUtil.h>
+#include <djvCore/Sequence.h>
 
 #include <QCoreApplication>
 
@@ -67,11 +67,11 @@ namespace djv
             out += _base;
             if (SEQUENCE == _type && frame != -1)
             {
-                out += SequenceUtil::frameToString(frame, _sequence.pad);
+                out += Sequence::frameToString(frame, _sequence.pad);
             }
             else if (SEQUENCE == _type && _sequence.frames.count())
             {
-                out += SequenceUtil::sequenceToString(_sequence);
+                out += Sequence::sequenceToString(_sequence);
             }
             else
             {
@@ -127,7 +127,7 @@ namespace djv
             // File sequencing.
             if (sequenceExtensions.contains(_extension))
             {
-                _sequence = SequenceUtil::stringToSequence(_number);
+                _sequence = Sequence::stringToSequence(_number);
             }
 
             //DJV_DEBUG_PRINT("sequence = " << _sequence);
@@ -314,14 +314,14 @@ namespace djv
         void FileInfo::setSequence(const Sequence & in)
         {
             _sequence = in;
-            _number = SequenceUtil::sequenceToString(_sequence);
+            _number = Sequence::sequenceToString(_sequence);
         }
 
 
         void FileInfo::sortSequence()
         {
             _sequence.sort();
-            _number = SequenceUtil::sequenceToString(_sequence);
+            _number = Sequence::sequenceToString(_sequence);
         }
 
     } // namespace Core
