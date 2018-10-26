@@ -180,7 +180,6 @@
 
     Example of converting an image sequence to a movie:
     &gt; djv_convert input.1-100.tga output.mp4
-    See below for more examples.
 
     Note that djv_convert requires OpenGL in order to run.
 
@@ -274,7 +273,7 @@ Examples
 </source>
         <oldsource>djv_convert
 
-    Command-line tool for image and movie processing. Common uses include resizing images and converting sequences of images to a movie.
+    Batch process images and movies. Common uses include resizing images and converting sequences of images to a movie.
 
     Example of converting an image sequence to a movie:
     &gt; djv_convert input.1-100.tga output.mp4

@@ -72,10 +72,10 @@ namespace djv
 
             addAction(actions->action(ImageActions::COLOR_PROFILE));
 
-            addAction(actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE));
+            addAction(actions->action(ImageActions::DISPLAY_PROFILE_EDITOR));
 
             _p->displayProfileMenu = addMenu(
-                qApp->translate("djv::ViewLib::ImageMenu", "&Display Profile"));
+                qApp->translate("djv::ViewLib::ImageMenu", "&Display Profiles"));
 
             addSeparator();
 

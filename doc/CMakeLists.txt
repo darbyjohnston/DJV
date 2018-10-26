@@ -1,5 +1,4 @@
 set(html
-    Build.html
     BuildLinux.html
     BuildWindows.html
     CommandLine.html
@@ -30,12 +29,14 @@ set(images
     "images/Berkeley 2010-12-19 Tinted.jpg"
     "images/Bodega Bay 2013-01-02 Tinted.jpg"
     "images/ColorPickerIcon96DPI.png"
+    "images/DocumentationIcon.png"
     "images/DownloadIcon.png"
     "images/FileBrowser.png"
     "images/FileCloseIcon96DPI.png"
     "images/FileIcon96DPI.png"
     "images/FileOpenIcon96DPI.png"
     "images/FileReloadIcon96DPI.png"
+    "images/ForumsIcon.png"
     "images/FrameEndIcon96DPI.png"
     "images/FrameNextIcon96DPI.png"
     "images/FramePrevIcon96DPI.png"
@@ -54,6 +55,7 @@ set(images
     "images/PlayLoopRepeatIcon96DPI.png"
     "images/PlayReverseIcon96DPI.png"
     "images/PlayStopIcon96DPI.png"
+    "images/ScreenshotsIcon.png"
     "images/Screenshot 1.png"
     "images/Screenshot 2.png"
     "images/Screenshot 3.png"

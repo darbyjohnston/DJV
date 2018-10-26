@@ -8,81 +8,103 @@ body
     margin: 0;
     padding: 0;
     color: rgba(255, 255, 255, 1.0);
+    background-color: rgba(98, 100, 94, 1.0);
+}
+
+body.index
+{
+    margin: 0;
+    padding: 0;
+    color: rgba(255, 255, 255, 1.0);
     background-image: url("images/Bodega\ Bay\ 2013-01-02 Tinted.jpg");
-    background-color: rgba(90, 90, 90, 1.0);
+    background-color: rgba(90, 90, 100, 1.0);
 }
 
 div.header
 {
+    padding: .4em;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
+    font-size: 48;
+    border-style: solid;
+    border-width: 0 0 .1em 0;
+    border-color: rgba(255, 255, 255, .4);
 }
 
-div.border
+img.header
 {
-    background-color: rgba(255, 255, 255, 0.1);
-    height: 3px;
-    width: 100%;
+    margin: 0 .4em 0 0;
+    vertical-align: text-bottom;
 }
 
 div.content
 {
-    margin: 40px;
+    margin: 1em;
 }
 
 div.footer
 {
+    text-align: center;
 }
 
 div.nav
 {
-    margin: 0px 0px 40px 0px;
+    margin: 0 0 2em 0;
 }
 
 div.block
 {
-    margin: 20px 20px 60px 20px;
+    margin: 1em 1em 2em 1em;
+}
+
+div.blockSmall
+{
+    margin: 0em 0em 2em 0em;
 }
 
 a:link
 {
-    color: rgba(255, 255, 255, 1.0);
+    color: rgba(230, 225, 180, 1.0);
+    text-decoration: none;
 }
 
 a:visited
 {
-    color: rgba(255, 255, 255, 1.0);
-}
-
-a.header
-{
+    color: rgba(230, 225, 180, 1.0);
     text-decoration: none;
-    font-size: 48px;
-    font-weight: lighter;
-    margin: 0px 0px 0px 10px;
 }
 
 a.button
 {
-    padding: 10px;
-    font-size: 24px;
+    padding: .2em;
 }
 
 img.button
 {
     vertical-align: middle;
-    margin: 0 10px 0 0;
+    margin: 0 .4em 0 0;
 }
 
 h1
 {
-    font-weight: lighter;
+    font-weight: normal;
 }
 
 h1.header
 {
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    padding: .4em;
+    margin: 0 0 0 0;
+    border-style: solid;
+    border-width: 0 0 .1em 0;
+    border-color: rgba(255, 255, 255, .3);
+}
+
+h2.header
+{
+    padding: .4em;
+    margin: 0 0 0 0;
+    border-style: solid;
+    border-width: 0 0 .1em 0;
+    border-color: rgba(255, 255, 255, .3);
 }
 
 h2
@@ -98,18 +120,26 @@ h3
 pre
 {
     font-family: monospace;
+    background-color: rgba(255, 255, 255, .1);
+    padding: 1em;
+}
+
+tr
+{
+    background-color: rgba(255, 255, 255, .1);
 }
 
 th
 {
     text-align: left;
     font-weight: normal;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    background-color: rgba(220, 255, 200, 0.1);
+    padding: .4em;
 }
 
 td
 {
     vertical-align: top;
-    padding: 10px;
+    padding: .4em;
 }
+

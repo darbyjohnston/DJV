@@ -52,7 +52,7 @@ namespace djv
             _p(new Private)
         {
             auto button = new UI::ToolButton(context.data());
-            button->setDefaultAction(actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE));
+            button->setDefaultAction(actions->action(ImageActions::DISPLAY_PROFILE_EDITOR));
             addWidget(button);
         }
 

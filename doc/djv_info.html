@@ -35,10 +35,8 @@
 <body>
 
 <div class="header">
-<img src="images/logo-filmreel.png" align="top">
-<a class="header" href="index.html">DJV Imaging</a>
+<img class="header" src="images/logo-filmreel.png">DJV Imaging
 </div>
-<div class="border"></div>
 <div class="content">
 
 <div class="nav">
@@ -52,7 +50,7 @@ djv_info
 </ul>
 </div>
 
-<h1 class="header">djv_info</h1>
+<h2 class="header">djv_info</h2>
 <div class="block">
 <p>Print file metadata.</p>
 <p>Example output:</p>
@@ -74,13 +72,11 @@ render0001-1000.exr                                      00:00:41:16@24
 </pre>
 </div>
 
-<h1 class="header"><a name="Usage">Usage</a></h1>
+<h2 class="header"><a name="Usage">Usage</a></h2>
 <div class="block">
-<pre>
-djv_info (image|directory)... [option]...
-</pre>
-<table>
-<tr><td>image</td><td>One or more images, image sequences,
+<p>djv_info (image|directory)... [option]...</p>
+<table width="100%">
+<tr><td width="300em">image</td><td>One or more images, image sequences,
 or movies</td></tr>
 <tr><td>directory</td><td>One or more directories</td></tr>
 </table>
@@ -88,10 +84,10 @@ or movies</td></tr>
 used.</p>
 </div>
 
-<h1 class="header"><a name="Options">Options</a></h1>
+<h2 class="header"><a name="Options">Options</a></h2>
 <div class="block">
-<table>
-<tr><td>-x_info, -xi</td><td>Don't show image information,
+<table width="100%">
+<tr><td width="300em">-x_info, -xi</td><td>Don't show image information,
 only file names.</td></tr>
 <tr><td>-verbose, -v</td><td>Show verbose image information.</td></tr>
 <tr><td>-file_path, -fp</td><td>Show file path names.</td></tr>
@@ -106,24 +102,30 @@ format the output. Setting this value to zero disables formatting.</td></tr>
 </ul>
 </div>
 
-<h1 class="header"><a name="Examples">Examples</a></h1>
+<h2 class="header"><a name="Examples">Examples</a></h2>
 <div class="block">
+<div class="blockSmall">
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi
 </pre>
+</div>
+<div class="blockSmall">
 <p>Display image sequence information:</p>
 <pre>
 > djv_info image.1-100.sgi
 </pre>
+</div>
+<div class="blockSmall">
 <p>Display information about all images within a directory:</p>
 <pre>
 > djv_info ~/pics
 </pre>
 </div>
+</div>
 
 <div class="footer">
-<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
+Copyright (c) 2004-2018 Darby Johnston
 </div>
 
 </div>

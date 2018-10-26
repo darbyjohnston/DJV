@@ -51,7 +51,7 @@ namespace djv
                 MIRROR_H,
                 MIRROR_V,
                 COLOR_PROFILE,
-                DISPLAY_PROFILE_VISIBLE,
+                DISPLAY_PROFILE_EDITOR,
 
                 ACTION_COUNT
             };

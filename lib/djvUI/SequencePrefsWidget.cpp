@@ -69,7 +69,7 @@ namespace djv
             _p->formatWidget->addItems(Core::Sequence::formatLabels());
 
             _p->autoEnabledWidget = new QCheckBox(
-                qApp->translate("djv::UI::SequencePrefsWidget", "Enable auto file sequencing"));
+                qApp->translate("djv::UI::SequencePrefsWidget", "Enable auto sequencing"));
 
             _p->maxSizeWidget = new IntEdit;
             _p->maxSizeWidget->setMax(10000000);

@@ -251,7 +251,6 @@ namespace djv
                 "\n"
                 "    Example of converting an image sequence to a movie:\n"
                 "    > djv_convert input.1-100.tga output.mp4\n"
-                "    See below for more examples.\n"
                 "\n"
                 "    Note that djv_convert requires OpenGL in order to run.\n"
                 "\n"

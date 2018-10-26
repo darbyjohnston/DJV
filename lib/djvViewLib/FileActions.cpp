@@ -148,7 +148,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileActions",
                 "Open a new file<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
+                "<a href=\"ViewFiles.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_FILE_OPEN].value.toString()));
             
             _actions[RELOAD]->setIcon(context()->iconLibrary()->icon("djv/UI/FileReloadIcon"));
@@ -162,7 +162,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileActions",
                 "Reload the current file<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
+                "<a href=\"ViewFiles.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD].value.toString()));
 
             _actions[RELOAD_FRAME]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_RELOAD_FRAME].value);
@@ -175,7 +175,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileActions",
                 "Reload the current frame<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
+                "<a href=\"ViewFiles.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
             
             _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/FileCloseIcon"));
@@ -189,7 +189,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileActions",
                 "Close the current file<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
+                "<a href=\"ViewFiles.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_FILE_CLOSE].value.toString()));
             
             _actions[EXPORT_SEQUENCE]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_EXPORT_SEQUENCE].value);

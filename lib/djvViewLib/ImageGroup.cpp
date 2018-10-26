@@ -153,7 +153,7 @@ namespace djv
                 SIGNAL(toggled(bool)),
                 SLOT(colorProfileCallback(bool)));
             connect(
-                _p->actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE),
+                _p->actions->action(ImageActions::DISPLAY_PROFILE_EDITOR),
                 SIGNAL(toggled(bool)),
                 SLOT(update()));
 
@@ -176,7 +176,7 @@ namespace djv
                 SLOT(channelCallback(QAction *)));
 
             // Setup widget callbacks.
-            _p->actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE)->connect(
+            _p->actions->action(ImageActions::DISPLAY_PROFILE_EDITOR)->connect(
                 _p->displayProfileDockWidget,
                 SIGNAL(visibilityChanged(bool)),
                 SLOT(setChecked(bool)));
@@ -357,42 +357,27 @@ namespace djv
 
         void ImageGroup::update()
         {
-            // Update actions.
-            _p->actions->action(ImageActions::SHOW_FRAME_STORE)->
-                setChecked(_p->frameStoreVisible);
-            _p->actions->action(ImageActions::MIRROR_H)->
-                setChecked(_p->mirror.x);
-            _p->actions->action(ImageActions::MIRROR_V)->
-                setChecked(_p->mirror.y);
-            _p->actions->action(ImageActions::COLOR_PROFILE)->
-                setChecked(_p->colorProfile);
+            _p->actions->action(ImageActions::SHOW_FRAME_STORE)->setChecked(_p->frameStoreVisible);
+            _p->actions->action(ImageActions::MIRROR_H)->setChecked(_p->mirror.x);
+            _p->actions->action(ImageActions::MIRROR_V)->setChecked(_p->mirror.y);
+            _p->actions->action(ImageActions::COLOR_PROFILE)->setChecked(_p->colorProfile);
 
-            // Update action groups.
-            if (!_p->actions->group(ImageActions::SCALE_GROUP)->
-                actions()[_p->scale]->isChecked())
+            if (!_p->actions->group(ImageActions::SCALE_GROUP)->actions()[_p->scale]->isChecked())
             {
-                _p->actions->group(ImageActions::SCALE_GROUP)->
-                    actions()[_p->scale]->trigger();
+                _p->actions->group(ImageActions::SCALE_GROUP)->actions()[_p->scale]->trigger();
             }
-            if (!_p->actions->group(ImageActions::ROTATE_GROUP)->
-                actions()[_p->rotate]->isChecked())
+            if (!_p->actions->group(ImageActions::ROTATE_GROUP)->actions()[_p->rotate]->isChecked())
             {
-                _p->actions->group(ImageActions::ROTATE_GROUP)->
-                    actions()[_p->rotate]->trigger();
+                _p->actions->group(ImageActions::ROTATE_GROUP)->actions()[_p->rotate]->trigger();
             }
-            if (!_p->actions->group(ImageActions::CHANNEL_GROUP)->
-                actions()[_p->channel]->isChecked())
+            if (!_p->actions->group(ImageActions::CHANNEL_GROUP)->actions()[_p->channel]->isChecked())
             {
-                _p->actions->group(ImageActions::CHANNEL_GROUP)->
-                    actions()[_p->channel]->trigger();
+                _p->actions->group(ImageActions::CHANNEL_GROUP)->actions()[_p->channel]->trigger();
             }
 
-            // Update widgets.
             _p->displayProfileDockWidget->setVisible(
-                _p->actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE)->
-                isChecked());
-            _p->displayProfileWidget->setDisplayProfile(
-                _p->displayProfile);
+                _p->actions->action(ImageActions::DISPLAY_PROFILE_EDITOR)->isChecked());
+            _p->displayProfileWidget->setDisplayProfile(_p->displayProfile);
         }
 
     } // namespace ViewLib

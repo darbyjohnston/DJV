@@ -308,8 +308,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="180"/>
-        <source>Reverse</source>
+        <location filename="Enum.cpp" line="178"/>
+        <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -318,23 +318,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="178"/>
-        <source>Forward</source>
+        <location filename="Enum.cpp" line="180"/>
+        <source>Reverse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="193"/>
-        <source>Previous Frame</source>
+        <location filename="Enum.cpp" line="188"/>
+        <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="194"/>
-        <source>Previous Frame X10</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="195"/>
-        <source>Previous Frame X100</source>
+        <location filename="Enum.cpp" line="189"/>
+        <source>End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -353,6 +348,21 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="Enum.cpp" line="193"/>
+        <source>Previous Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="194"/>
+        <source>Previous Frame X10</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="195"/>
+        <source>Previous Frame X100</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="Enum.cpp" line="203"/>
         <source>Once</source>
         <translation type="unfinished"></translation>
@@ -365,25 +375,21 @@
     <message>
         <location filename="Enum.cpp" line="205"/>
         <source>Ping Pong</source>
-        <oldsource>PingPong</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="213"/>
         <source>&amp;In/Out Points</source>
-        <oldsource>In/Out Points</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="214"/>
         <source>&amp;Mark In Point</source>
-        <oldsource>Mark In Point</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="215"/>
         <source>Mar&amp;k Out Point</source>
-        <oldsource>Mark Out Point</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -464,653 +470,536 @@
     <message>
         <location filename="Enum.cpp" line="272"/>
         <source>File/Open</source>
-        <oldsource>File Open</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="273"/>
         <source>File/Reload</source>
-        <oldsource>File Reload</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="274"/>
         <source>File/Reload Frame</source>
-        <oldsource>File Reload Frame</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="275"/>
         <source>File/Export Sequence</source>
-        <oldsource>File Export Sequence</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="276"/>
         <source>File/Export Frame</source>
-        <oldsource>File Export Frame</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="277"/>
         <source>File/Close</source>
-        <oldsource>File Close</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="278"/>
         <source>File/Layer Default</source>
-        <oldsource>File Layer Default</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="279"/>
         <source>File/Layer 1</source>
-        <oldsource>File Layer 1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="280"/>
         <source>File/Layer 2</source>
-        <oldsource>File Layer 2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="281"/>
         <source>File/Layer 3</source>
-        <oldsource>File Layer 3</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="282"/>
         <source>File/Layer 4</source>
-        <oldsource>File Layer 4</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="283"/>
         <source>File/Layer 5</source>
-        <oldsource>File Layer 5</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="284"/>
         <source>File/Layer 6</source>
-        <oldsource>File Layer 6</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="285"/>
         <source>File/Layer 7</source>
-        <oldsource>File Layer 7</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="286"/>
         <source>File/Layer 8</source>
-        <oldsource>File Layer 8</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="287"/>
         <source>File/Layer 9</source>
-        <oldsource>File Layer 9</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="288"/>
         <source>File/Layer 10</source>
-        <oldsource>File Layer 10</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="289"/>
         <source>File/Layer Previous</source>
-        <oldsource>File Layer Previous</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="290"/>
         <source>File/Layer Next</source>
-        <oldsource>File Layer Next</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="291"/>
         <source>File/Proxy None</source>
-        <oldsource>File Proxy None</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="292"/>
         <source>File/Proxy 1/2</source>
-        <oldsource>File Proxy 1/2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="293"/>
         <source>File/Proxy 1/4</source>
-        <oldsource>File Proxy 1/4</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="294"/>
         <source>File/Proxy 1/8</source>
-        <oldsource>File Proxy 1/8</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="296"/>
         <source>Window/New</source>
-        <oldsource>Window New</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="297"/>
         <source>Window/Duplicate</source>
-        <oldsource>Window Duplicate</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="298"/>
         <source>Window/Close</source>
-        <oldsource>Window Close</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="299"/>
         <source>Window/Fit</source>
-        <oldsource>Window Fit</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="300"/>
         <source>Window/Full Screen</source>
-        <oldsource>Window Full Screen</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="301"/>
         <source>Window/Show UI</source>
-        <oldsource>Window Show UI</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="302"/>
         <source>Window/Show Tool Bars</source>
-        <oldsource>Window Show Tool Bars</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="303"/>
         <source>Window/Show Playback</source>
-        <oldsource>Window Show Playback</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="304"/>
         <source>Window/Show Information</source>
-        <oldsource>Window Show Information</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="306"/>
         <source>View/Left</source>
-        <oldsource>View Left</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="307"/>
         <source>View/Right</source>
-        <oldsource>View Right</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="308"/>
         <source>View/Up</source>
-        <oldsource>View Up</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="309"/>
         <source>View/Down</source>
-        <oldsource>View Down</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="310"/>
         <source>View/Center</source>
-        <oldsource>View Center</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="311"/>
         <source>View/Zoom In</source>
-        <oldsource>View Zoom In</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="312"/>
         <source>View/Zoom Out</source>
-        <oldsource>View Zoom Out</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="313"/>
         <source>View/Zoom Reset</source>
-        <oldsource>View Zoom Reset</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="314"/>
         <source>View/Reset</source>
-        <oldsource>View Reset</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="315"/>
         <source>View/Fit</source>
-        <oldsource>View Fit</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="316"/>
         <source>View/HUD</source>
-        <oldsource>View HUD</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="318"/>
         <source>Image/Show Frame Store</source>
-        <oldsource>Image Show Frame Store</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="319"/>
         <source>Image/Set Frame Store</source>
-        <oldsource>Image Set Frame Store</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="320"/>
         <source>Image/Mirror Horizontal</source>
-        <oldsource>Image Mirror Horizontal</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="321"/>
         <source>Image/Mirror Vertical</source>
-        <oldsource>Image Mirror Vertical</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="322"/>
         <source>Image/Scale None</source>
-        <oldsource>Image Scale None</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="323"/>
         <source>Image/Scale 16:9</source>
-        <oldsource>Image Scale 16:9</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="324"/>
         <source>Image/Scale 1.0</source>
-        <oldsource>Image Scale 1.0</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="325"/>
         <source>Image/Scale 1.33</source>
-        <oldsource>Image Scale 1.33</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="326"/>
         <source>Image/Scale 1.78</source>
-        <oldsource>Image Scale 1.78</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="327"/>
         <source>Image/Scale 1.85</source>
-        <oldsource>Image Scale 1.85</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="328"/>
         <source>Image/Scale 2.0</source>
-        <oldsource>Image Scale 2.0</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="329"/>
         <source>Image/Scale 2.35</source>
-        <oldsource>Image Scale 2.35</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="330"/>
         <source>Image/Scale 2.39</source>
-        <oldsource>Image Scale 2.39</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="331"/>
         <source>Image/Scale 2.40</source>
-        <oldsource>Image Scale 2.40</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="332"/>
         <source>Image/Scale 1:1</source>
-        <oldsource>Image Scale 1:1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="333"/>
         <source>Image/Scale 2:1</source>
-        <oldsource>Image Scale 2:1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="334"/>
         <source>Image/Scale 3:2</source>
-        <oldsource>Image Scale 3:2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="335"/>
         <source>Image/Scale 4:3</source>
-        <oldsource>Image Scale 4:3</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="336"/>
         <source>Image/Scale 5:3</source>
-        <oldsource>Image Scale 5:3</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="337"/>
         <source>Image/Scale 5:4</source>
-        <oldsource>Image Scale 5:4</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="338"/>
         <source>Image/Rotate 0</source>
-        <oldsource>Image Rotate 0</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="339"/>
         <source>Image/Rotate 90</source>
-        <oldsource>Image Rotate 90</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="340"/>
         <source>Image/Rotate 180</source>
-        <oldsource>Image Rotate 180</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="341"/>
         <source>Image/Rotate 270</source>
-        <oldsource>Image Rotate 270</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="342"/>
         <source>Image/Color Profile</source>
-        <oldsource>Image Color Profile</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="343"/>
         <source>Image/Channel Default</source>
-        <oldsource>Image Channel Default</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="344"/>
         <source>Image/Channel Red</source>
-        <oldsource>Image Channel Red</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="345"/>
         <source>Image/Channel Green</source>
-        <oldsource>Image Channel Green</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="346"/>
         <source>Image/Channel Blue</source>
-        <oldsource>Image Channel Blue</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="347"/>
         <source>Image/Channel Alpha</source>
-        <oldsource>Image Channel Alpha</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="348"/>
-        <source>Image/Display Profile</source>
-        <oldsource>Image Display Profile</oldsource>
+        <source>Image/Display Profile Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="349"/>
         <source>Image/Display Profile Reset</source>
-        <oldsource>Image Display Profile Reset</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="350"/>
         <source>Image/Display Profile 1</source>
-        <oldsource>Image Display Profile 1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="351"/>
         <source>Image/Display Profile 2</source>
-        <oldsource>Image Display Profile 2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="352"/>
         <source>Image/Display Profile 3</source>
-        <oldsource>Image Display Profile 3</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="353"/>
         <source>Image/Display Profile 4</source>
-        <oldsource>Image Display Profile 4</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="354"/>
         <source>Image/Display Profile 5</source>
-        <oldsource>Image Display Profile 5</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="355"/>
         <source>Image/Display Profile 6</source>
-        <oldsource>Image Display Profile 6</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="356"/>
         <source>Image/Display Profile 7</source>
-        <oldsource>Image Display Profile 7</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="357"/>
         <source>Image/Display Profile 8</source>
-        <oldsource>Image Display Profile 8</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="358"/>
         <source>Image/Display Profile 9</source>
-        <oldsource>Image Display Profile 9</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="359"/>
         <source>Image/Display Profile 10</source>
-        <oldsource>Image Display Profile 10</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="363"/>
-        <source>Playback/Reverse</source>
-        <oldsource>Playback Reverse</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="362"/>
-        <source>Playback/Stop</source>
-        <oldsource>Playback Stop</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="361"/>
         <source>Playback/Forward</source>
-        <oldsource>Playback Forward</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="362"/>
+        <source>Playback/Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="363"/>
+        <source>Playback/Reverse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="364"/>
         <source>Playback/Toggle</source>
-        <oldsource>Playback Toggle</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="365"/>
         <source>Playback/Loop</source>
-        <oldsource>Playback Loop</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="366"/>
         <source>Playback/Start</source>
-        <oldsource>Playback Start</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="367"/>
         <source>Playback/End</source>
-        <oldsource>Playback/Start Absolute</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="371"/>
-        <source>Playback/Previous</source>
-        <oldsource>Playback Previous</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="372"/>
-        <source>Playback/Previous 10</source>
-        <oldsource>Playback Previous 10</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="373"/>
-        <source>Playback/Previous 100</source>
-        <oldsource>Playback Previous 100</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="368"/>
         <source>Playback/Next</source>
-        <oldsource>Playback Next</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="369"/>
         <source>Playback/Next 10</source>
-        <oldsource>Playback Next 10</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="370"/>
         <source>Playback/Next 100</source>
-        <oldsource>Playback Next 100</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="375"/>
-        <source>Playback/In Point Mark</source>
-        <oldsource>Playback/End Absolute</oldsource>
+        <location filename="Enum.cpp" line="371"/>
+        <source>Playback/Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="372"/>
+        <source>Playback/Previous 10</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="373"/>
+        <source>Playback/Previous 100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="374"/>
         <source>Playback/In/Out Points</source>
-        <oldsource>Playback In/Out Points</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="188"/>
-        <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="189"/>
-        <source>End</source>
+        <location filename="Enum.cpp" line="375"/>
+        <source>Playback/In Point Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="376"/>
         <source>Playback/In Point Reset</source>
-        <oldsource>Playback In Point Reset</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="377"/>
         <source>Playback/Out Point Mark</source>
-        <oldsource>Playback Out Point Mark</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="378"/>
         <source>Playback/Out Point Reset</source>
-        <oldsource>Playback Out Point Reset</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="380"/>
         <source>Tool/Magnify</source>
-        <oldsource>Tool Magnify</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="381"/>
         <source>Tool/Color Picker</source>
-        <oldsource>Tool Color Picker</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="382"/>
         <source>Tool/Histogram</source>
-        <oldsource>Tool Histogram</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="383"/>
         <source>Tool/Information</source>
-        <oldsource>Tool Information</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1214,13 +1103,11 @@
     <message>
         <location filename="FileActions.cpp" line="72"/>
         <source>Previous Layer</source>
-        <oldsource>Layer Previous</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileActions.cpp" line="73"/>
         <source>Next Layer</source>
-        <oldsource>Layer Next</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1241,7 +1128,6 @@
     <message>
         <location filename="FileActions.cpp" line="80"/>
         <source>Clear Cac&amp;he</source>
-        <oldsource>Clear Memory Cac&amp;he</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1267,29 +1153,23 @@
     <message>
         <location filename="FileActions.cpp" line="143"/>
         <source>Open a new file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Open a new file
-
-Keyboard shortcut: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileActions.cpp" line="148"/>
-        <source>Open a new file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Open a new file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <source>Open a new file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Open a new file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileActions.cpp" line="157"/>
         <source>Reload the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Reload the current file
-
-Keyboard shortcut: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FileActions.cpp" line="162"/>
-        <source>Reload the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reload the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <source>Reload the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Reload the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1299,8 +1179,8 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="FileActions.cpp" line="175"/>
-        <source>Reload the current frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reload the current frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <source>Reload the current frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Reload the current frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1310,8 +1190,8 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="FileActions.cpp" line="189"/>
-        <source>Close the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Close the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <source>Close the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Close the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1390,7 +1270,6 @@ Keyboard shortcut: %1</oldsource>
     <message>
         <location filename="FilePrefsWidget.cpp" line="83"/>
         <source>Preload cache</source>
-        <oldsource>Pre-load cache frames</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1405,8 +1284,7 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="FilePrefsWidget.cpp" line="93"/>
-        <source>Proxy scaling reduces the resolution of images as they are loaded. This can allow more images to fit in the memory cache at the expense of image quality.</source>
-        <oldsource>Use proxy scaling to reduce the resolution when loading images. This allows more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</oldsource>
+        <source>Proxy scaling reduces the resolution of images as they are loaded. This allow more images to fit in the memory cache at the expense of image quality.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1421,17 +1299,17 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="FilePrefsWidget.cpp" line="105"/>
-        <source>Convert images to 8-bits as the are loaded. This can allow more images to fit in the memory cache at the expense of image quality.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="FilePrefsWidget.cpp" line="115"/>
-        <source>The memory cache stores images for faster playback performance.</source>
+        <source>Convert images to 8-bits as they are loaded. This allow more images to fit in the memory cache at the expense of image quality.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="FilePrefsWidget.cpp" line="114"/>
         <source>Memory Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FilePrefsWidget.cpp" line="115"/>
+        <source>The memory cache stores images for faster playback performance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1541,7 +1419,7 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="ImageActions.cpp" line="82"/>
-        <source>Show Display Profile</source>
+        <source>Display Profile Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1551,7 +1429,8 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="ImageActions.cpp" line="153"/>
-        <source>Toggle whether the display profile editor is visible&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImages.html#ColorProfiles&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Toggle whether the display profile editor is visible&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImages.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Toggle whether the display profile editor is visible&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImages.html#ColorProfiles&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1582,7 +1461,7 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="ImageMenu.cpp" line="78"/>
-        <source>&amp;Display Profile</source>
+        <source>&amp;Display Profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1941,25 +1820,23 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackActions.cpp" line="69"/>
         <source>Playback every frame even if the playback speed cannot be maintained</source>
-        <oldsource>Play every frame (dont skip frames to maintain frame rate)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="72"/>
-        <source>Playback every frame even if the playback speed cannot be maintained&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Playback every frame even if the playback speed cannot be maintained&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Playback every frame even if the playback speed cannot be maintained&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="155"/>
         <source>Start or stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Start or stop playback
-
-Keyboard shortcut: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="160"/>
-        <source>Start or stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Start or stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Start or stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1979,17 +1856,20 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="188"/>
-        <source>Forward playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Forward playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Forward playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="192"/>
-        <source>Stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="196"/>
-        <source>Reverse playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Reverse playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Reverse playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2003,28 +1883,37 @@ Keyboard shortcut: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="PlaybackActions.cpp" line="253"/>
+        <source>Go to the next frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="PlaybackActions.cpp" line="258"/>
         <source>Go to the previous frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="264"/>
-        <source>Go to the start frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Go to the start frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Go to the start frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="268"/>
-        <source>Go to the end frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Go to the end frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Go to the end frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="272"/>
-        <source>Go to the next frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Go to the next frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Go to the next frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="278"/>
-        <source>Go to the previous frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Go to the previous frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Go to the previous frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2054,35 +1943,32 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="327"/>
-        <source>Enable in/out points&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Enable in/out points&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Enable in/out points&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="331"/>
-        <source>Set the current frame as the in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Set the current frame as the in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Set the current frame as the in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="335"/>
-        <source>Set the current frame as the out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Set the current frame as the out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Set the current frame as the out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="339"/>
-        <source>Reset the current in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Reset the current in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Reset the current in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="343"/>
-        <source>Reset the current out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="PlaybackActions.cpp" line="253"/>
-        <source>Go to the next frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Enable in/out points
-
-Keyboard shortcut: %1</oldsource>
+        <source>Reset the current out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Reset the current out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2095,8 +1981,8 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="PlaybackWidgets.cpp" line="89"/>
-        <source>Click and drag to start playback; the playback speed is determined by how far you drag&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Playback Shuttle&lt;br&gt;&lt;br&gt;Click and drag to start playback; the playback speed is determined by how far you drag&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <source>Click and drag to start playback; the playback speed is determined by how far you drag&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Click and drag to start playback; the playback speed is determined by how far you drag&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2106,18 +1992,19 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="PlaybackWidgets.cpp" line="185"/>
-        <source>Loop mode: %1&lt;br&gt;&lt;br&gt;Keyboard shortcut: %2&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="PlaybackWidgets.cpp" line="231"/>
-        <source>Click and drag to change the current frame&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Loop mode: %1&lt;br&gt;&lt;br&gt;Keyboard shortcut: %2&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Loop mode: %1&lt;br&gt;&lt;br&gt;Keyboard shortcut: %2&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackWidgets.cpp" line="228"/>
         <source>Click and drag to change the current frame</source>
-        <oldsource>Click and drag to change the current frame.</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="PlaybackWidgets.cpp" line="231"/>
+        <source>Click and drag to change the current frame&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Click and drag to change the current frame&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2221,7 +2108,6 @@ Keyboard shortcut: %1</oldsource>
     <message>
         <location filename="ShortcutPrefsWidget.cpp" line="58"/>
         <source>Keyboard Shortcuts</source>
-        <oldsource>Shortcuts</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2258,9 +2144,11 @@ Keyboard shortcut: %1</oldsource>
     <message>
         <location filename="ToolActions.cpp" line="111"/>
         <source>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Show the magnify tool
-
-Keyboard shortcut: %1</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ToolActions.cpp" line="114"/>
+        <source>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2275,30 +2163,26 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="124"/>
-        <source>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Magnify&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Magnify&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="128"/>
-        <source>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#ColorPicker&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#ColorPicker&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="132"/>
-        <source>Show the histogram tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Histogram&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Show the histogram tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Show the histogram tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Histogram&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="136"/>
-        <source>Show the information tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Information&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ToolActions.cpp" line="114"/>
-        <source>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Show the information tool
-
-Keyboard shortcut: %1</oldsource>
+        <source>Show the information tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Show the information tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Information&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2358,107 +2242,11 @@ Keyboard shortcut: %1</oldsource>
     <message>
         <location filename="ViewActions.cpp" line="70"/>
         <source>Rese&amp;t Zoom</source>
-        <oldsource>Zoom Rese&amp;t</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ViewActions.cpp" line="71"/>
         <source>R&amp;eset Position and Zoom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="120"/>
-        <source>Move the image left&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="128"/>
-        <source>Move the image right&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="133"/>
-        <source>Move the image right&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="141"/>
-        <source>Move the image up&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="146"/>
-        <source>Move the image up&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="159"/>
-        <source>Move the image down&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="167"/>
-        <source>Center the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="172"/>
-        <source>Center the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="181"/>
-        <source>Zoom into the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="186"/>
-        <source>Zoom into the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="200"/>
-        <source>Zoom out of the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="209"/>
-        <source>Reset the image zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="214"/>
-        <source>Reset the image zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="222"/>
-        <source>Reset the image position and zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="227"/>
-        <source>Reset the image position and zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="236"/>
-        <source>Fit the image to the view&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="241"/>
-        <source>Fit the image to the view&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="249"/>
-        <source>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ViewActions.cpp" line="254"/>
-        <source>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#HUD&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2473,26 +2261,123 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="ViewActions.cpp" line="115"/>
-        <source>Move the image left&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Pan the view left
-
-Keyboard shortcut: %1</oldsource>
+        <source>Move the view left&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="120"/>
+        <source>Move the view left&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Move the view left&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="128"/>
+        <source>Move the view right&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="133"/>
+        <source>Move the view right&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Move the view right&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="141"/>
+        <source>Move the view up&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="146"/>
+        <source>Move the view up&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Move the view up&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ViewActions.cpp" line="154"/>
-        <source>Move the image down&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Zoom in
-
-Keyboard shortcut: %1</oldsource>
+        <source>Move the view down&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="159"/>
+        <source>Move the view down&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Move the view down&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="167"/>
+        <source>Center the view&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="172"/>
+        <source>Center the view&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Center the view&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="181"/>
+        <source>Zoom in&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="186"/>
+        <source>Zoom in&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Zoom in&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ViewActions.cpp" line="195"/>
-        <source>Zoom out of the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Toggle the HUD (Heads Up Display)
-
-Keyboard shortcut: %1</oldsource>
+        <source>Zoom out&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="200"/>
+        <source>Zoom out&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Zoom out&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="209"/>
+        <source>Reset the view zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="214"/>
+        <source>Reset the view zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Reset the view zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="222"/>
+        <source>Reset the view position and zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="227"/>
+        <source>Reset the view position and zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Reset the view position and zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="236"/>
+        <source>Fit the view to the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="241"/>
+        <source>Fit the view to the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Fit the view to the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="249"/>
+        <source>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ViewActions.cpp" line="254"/>
+        <source>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#HUD&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2691,24 +2576,34 @@ Playback Options
     <message>
         <location filename="WindowActions.cpp" line="107"/>
         <source>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Create a new window
-
-Keyboard shortcut: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="WindowActions.cpp" line="112"/>
-        <source>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="WindowActions.cpp" line="121"/>
+        <source>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="WindowActions.cpp" line="126"/>
-        <source>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="WindowActions.cpp" line="135"/>
+        <source>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="WindowActions.cpp" line="140"/>
-        <source>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2718,7 +2613,8 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="WindowActions.cpp" line="154"/>
-        <source>Resize the window to fit the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</source>
+        <source>Resize the window to fit the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Resize the window to fit the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2728,23 +2624,8 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="WindowActions.cpp" line="168"/>
-        <source>Show the window full screen&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowActions.cpp" line="121"/>
-        <source>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Close the window
-
-Keyboard shortcut: %1</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowActions.cpp" line="135"/>
-        <source>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
-        <oldsource>Show the window full screen
-
-Keyboard shortcut: %1</oldsource>
+        <source>Show the window full screen&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <oldsource>Show the window full screen&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -35,10 +35,8 @@
 <body>
 
 <div class="header">
-<img src="images/logo-filmreel.png" align="top">
-<a class="header" href="index.html">DJV Imaging</a>
+<img class="header" src="images/logo-filmreel.png">DJV Imaging
 </div>
-<div class="border"></div>
 <div class="content">
 
 <div class="nav">
@@ -50,13 +48,16 @@ Images
     <li><a href="#FrameStore">Frame Store</a></li>
     <li><a href="#Transforms">Transforms</a></li>
     <li><a href="#ColorProfiles">Color Profiles</a></li>
+    <li><a href="#DisplayProfiles">Display Profiles</a></li>
     <li><a href="#Channels">Channels</a></li>
 </ul>
 </div>
 
-<h1 class="header"><a name="FrameStore">Frame Store</a></h1>
+<h2 class="header"><a name="FrameStore">Frame Store</a></h2>
 <div class="block">
-<table>
+<p>The frame store keeps a copy of an image that you can use to
+compare with the current frame.</p>
+<table width="100%">
 <tr>
     <th>Menu Item</th>
     <th>Description</th>
@@ -64,20 +65,21 @@ Images
 </tr>
 <tr>
     <td>Show Frame Store</td>
-    <td>Toggle whether the image in the frame store is visible</td>
+    <td>Toggle whether the frame store is visible</td>
     <td>E</td>
 </tr>
 <tr>
     <td>Set Frame Store</td>
-    <td>Set the current image in the frame store</td>
+    <td>Copy the current image to the frame store</td>
     <td>Shift E</td>
 </tr>
 </table>
 </div>
 
-<h1 class="header"><a name="Transforms">Transforms</a></h1>
+<h2 class="header"><a name="Transforms">Transforms</a></h2>
 <div class="block">
-<table>
+<p>Transforms can mirror, scale, and rotate the image.</p>
+<table width="100%">
 <tr>
     <th>Menu Item</th>
     <th>Description</th>
@@ -101,9 +103,11 @@ Images
 </table>
 </div>
 
-<h1 class="header"><a name="ColorProfiles">Color Profiles</a></h1>
+<h2 class="header"><a name="ColorProfiles">Color Profiles</a></h2>
 <div class="block">
-<table>
+<p>Color profiles apply a color transformation to the image to
+allow it to be displayed properly.</p>
+<table width="100%">
 <tr>
     <th>Menu Item</th>
     <th>Description</th>
@@ -113,52 +117,66 @@ Images
     <td>Color Profile</td>
     <td>Toggle whether the color profile is enabled</td>
 </tr>
-<tr>
-    <td>Show Display Profile</td>
-    <td>Toggle whether the display profile editor is visibile</td>
-</tr>
-<tr>
-    <td>Display Profile</td>
-    <td>Set the current display profile</td>
-</tr>
-<tr>
-    <td>Display Profile/Reset</td>
-    <td>Reset the display profile</td>
-    <td>Shift `</td>
-</tr>
 </table>
 </div>
 
-<h1 class="header"><a name="Channels">Channels</a></h1>
+<h2 class="header"><a name="DisplayProfiles">Display Profiles</a></h2>
 <div class="block">
-<table>
+<p>Display profiles apply a color transformation to the image to
+calibrate it for individual displays.</p>
+<table width="100%">
 <tr>
     <th>Menu Item</th>
     <th>Description</th>
     <th>Keyboard Shortcut</th>
 </tr>
 <tr>
-    <td>Channel/Default</td>
+    <td>Display Profile Editor</td>
+    <td>Toggle whether the display profile editor is visible</td>
+</tr>
+<tr>
+    <td>Display Profile</td>
+    <td>List of display profiles.</td>
+</tr>
+<tr>
+    <td>Display Profile / Reset</td>
+    <td>Reset the display profile</td>
+    <td>Shift `</td>
+</tr>
+</table>
+</div>
+
+<h2 class="header"><a name="Channels">Channels</a></h2>
+<div class="block">
+<p>Show individual image channels.</p>
+<table width="100%">
+<tr>
+    <th>Menu Item</th>
+    <th>Description</th>
+    <th>Keyboard Shortcut</th>
+</tr>
+<tr>
+    <td>Channel / Default</td>
     <td>Show the default channels</td>
     <td>`</td>
 </tr>
 <tr>
-    <td>Channel/Red</td>
+    <td>Channel / Red</td>
     <td>Show the red channel</td>
     <td>R</td>
 </tr>
 <tr>
-    <td>Channel/Green</td>
+    <td>Channel / Green</td>
     <td>Show the green channel</td>
     <td>G</td>
 </tr>
 <tr>
-    <td>Channel/Blue</td>
+    <td>Channel / Blue</td>
     <td>Show the blue channel</td>
     <td>B</td>
 </tr>
 <tr>
-    <td>Channel/Alpha</td>
+    <td>Channel / Alpha</td>
     <td>Show the alpha channel</td>
     <td>A</td>
 </tr>
@@ -166,7 +184,7 @@ Images
 </div>
 
 <div class="footer">
-<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
+Copyright (c) 2004-2018 Darby Johnston
 </div>
 
 </div>

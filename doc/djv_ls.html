@@ -35,10 +35,8 @@
 <body>
 
 <div class="header">
-<img src="images/logo-filmreel.png" align="top">
-<a class="header" href="index.html">DJV Imaging</a>
+<img class="header" src="images/logo-filmreel.png">DJV Imaging
 </div>
-<div class="border"></div>
 <div class="content">
 
 <div class="nav">
@@ -52,7 +50,7 @@ djv_ls
 </ul>
 </div>
 
-<h1 class="header">djv_ls</h1>
+<h2 class="header">djv_ls</h2>
 <div class="block">
 <p>List directories with file sequences.</p>
 <p>Example output:</p>
@@ -67,23 +65,20 @@ fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 </pre>
 </div>
 
-<h1 class="header"><a name="Usage">Usage</a></h1>
+<h2 class="header"><a name="Usage">Usage</a></h2>
 <div class="block">
-<pre>
-djv_ls [file|directory]... [option]...
-</pre>
-<table>
-<tr><td>image</td><td>One or more files or image sequences</td></tr>
+<p>djv_ls [file|directory]... [option]...</p>
+<table width="100%">
+<tr><td width="300em">image</td><td>One or more files or image sequences</td></tr>
 <tr><td>directory</td><td>One or more directories</td></tr>
 </table>
-<p>If no files or directories are given then the current directory will be
-used.</p>
+<p>If no files or directories are given the current directory is used.</p>
 </div>
 
-<h1 class="header"><a name="Options">Options</a></h1>
+<h2 class="header"><a name="Options">Options</a></h2>
 <div class="block">
-<table>
-<tr><td>-x_info, -xi</td><td>Don't show file information,
+<table width="100%">
+<tr><td width="300em">-x_info, -xi</td><td>Don't show file information,
 only file names.</td></tr>
 <tr><td>-file_path, -fp</td><td>Show file path names.</td></tr>
 <tr><td>-recurse, -r</td><td>Recursively descend into sub-directories.</td></tr>
@@ -92,7 +87,7 @@ only file names.</td></tr>
 format the output. Setting this value to zero disables formatting.</td></tr>
 </table>
 <h2>Sorting</h2>
-<table>
+<table width="100%">
 <tr><td>-sort, -s (value)</td><td>Set how the items are sorted:
 Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 <tr><td>-reverse_sort, -rs</td><td>Reverse the sorting order.</td></tr>
@@ -105,24 +100,30 @@ Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 </ul>
 </div>
 
-<h1 class="header"><a name="Examples">Examples</a></h1>
+<h2 class="header"><a name="Examples">Examples</a></h2>
 <div class="block">
+<div class="blockSmall">
 <p>List the current directory:</p>
 <pre>
 > djv_ls
 </pre>
+</div>
+<div class="blockSmall">
 <p>List multiple directories:</p>
 <pre>
 > djv_ls ~/movies ~/pictures
 </pre>
+</div>
+<div class="blockSmall">
 <p>Sort the directory contents by time with the most recent items first:</p>
 <pre>
 > djv_ls -sort time -reverse_sort
 </pre>
 </div>
+</div>
 
 <div class="footer">
-<p align="center">Copyright (c) 2004-2018 Darby Johnston</p>
+Copyright (c) 2004-2018 Darby Johnston
 </div>
 
 </div>

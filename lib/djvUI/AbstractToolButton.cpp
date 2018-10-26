@@ -103,7 +103,8 @@ namespace djv
             case QEvent::WhatsThisClicked:
             {
                 auto whatsThisEvent = static_cast<QWhatsThisClickedEvent *>(event);
-                const QString path = "file:/" + _p->context->documentationPath() + whatsThisEvent->href();
+                const QString path = _p->context->documentationPath() + whatsThisEvent->href();
+                std::cout << path.toLatin1().data() << std::endl;
                 QDesktopServices::openUrl(path);
             }
             break;

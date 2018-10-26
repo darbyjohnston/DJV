@@ -92,7 +92,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Proxy Scale"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
                     "Proxy scaling reduces the resolution of images as they are loaded. "
-                    "This can allow more images to fit in the memory cache at the expense of image quality."),
+                    "This allow more images to fit in the memory cache at the expense of image quality."),
                 context.data());
             auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
@@ -103,8 +103,8 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "8-bit Conversion"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
-                    "Convert images to 8-bits as the are loaded. "
-                    "This can allow more images to fit in the memory cache at the expense of image quality."),
+                    "Convert images to 8-bits as they are loaded. "
+                    "This allow more images to fit in the memory cache at the expense of image quality."),
                 context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->u8ConversionWidget);

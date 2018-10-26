@@ -77,9 +77,9 @@ namespace djv
             _actions[COLOR_PROFILE]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "&Color Profile"));
             _actions[COLOR_PROFILE]->setCheckable(true);
-            _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
-            _actions[DISPLAY_PROFILE_VISIBLE]->setText(
-                qApp->translate("djv::ViewLib::ImageActions", "Show Display Profile"));
+            _actions[DISPLAY_PROFILE_EDITOR]->setCheckable(true);
+            _actions[DISPLAY_PROFILE_EDITOR]->setText(
+                qApp->translate("djv::ViewLib::ImageActions", "Display Profile Editor"));
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
@@ -145,14 +145,14 @@ namespace djv
             _actions[MIRROR_V]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
             _actions[COLOR_PROFILE]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_COLOR_PROFILE].value);
 
-            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
-            _actions[DISPLAY_PROFILE_VISIBLE]->setToolTip(
+            _actions[DISPLAY_PROFILE_EDITOR]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
+            _actions[DISPLAY_PROFILE_EDITOR]->setToolTip(
                 qApp->translate("djv::ViewLib::ImageActions",
                 "Toggle whether the display profile editor is visible"));
-            _actions[DISPLAY_PROFILE_VISIBLE]->setWhatsThis(
+            _actions[DISPLAY_PROFILE_EDITOR]->setWhatsThis(
                 qApp->translate("djv::ViewLib::ImageActions",
                 "Toggle whether the display profile editor is visible<br><br>"
-                "<a href=\"ViewImages.html#ColorProfiles\">Documentation</a>"));
+                "<a href=\"ViewImages.html\">Documentation</a>"));
             
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Enum::SHORTCUT_IMAGE_SCALE_NONE].value <<

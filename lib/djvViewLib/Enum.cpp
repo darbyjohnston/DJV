@@ -345,7 +345,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Image/Channel Green") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Channel Blue") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Channel Alpha") <<
-                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile Editor") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Display Profile Reset") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 1") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 2") <<

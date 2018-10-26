@@ -112,7 +112,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::WindowActions",
                 "Create a new window<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                "<a href=\"ViewWindows.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_NEW].value.toString()));
             
             _actions[DUPLICATE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowDuplicateIcon"));
@@ -126,7 +126,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::WindowActions",
                 "Duplicate the window<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                "<a href=\"ViewWindows.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value.toString()));
             
             _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowCloseIcon"));
@@ -140,7 +140,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::WindowActions",
                 "Close the window<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                "<a href=\"ViewWindows.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value.toString()));
             
             _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFitIcon"));
@@ -154,7 +154,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::WindowActions",
                 "Resize the window to fit the image<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                "<a href=\"ViewWindows.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_FIT].value.toString()));
             
             _actions[FULL_SCREEN]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFullScreenIcon"));
@@ -168,7 +168,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::WindowActions",
                 "Show the window full screen<br><br>"
                 "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                "<a href=\"ViewWindows.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
             
             _actions[UI_VISIBLE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_UI_VISIBLE].value);
