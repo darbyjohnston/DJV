@@ -2257,30 +2257,48 @@ Keyboard shortcut: %1</oldsource>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="111"/>
-        <source>Show the magnify tool
+        <source>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <oldsource>Show the magnify tool
 
-Keyboard shortcut: %1</source>
+Keyboard shortcut: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ToolActions.cpp" line="112"/>
-        <source>Show the color picker tool
-
-Keyboard shortcut: %1</source>
+        <location filename="ToolActions.cpp" line="117"/>
+        <source>Show the histogram tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ToolActions.cpp" line="113"/>
-        <source>Show the histogram tool
-
-Keyboard shortcut: %1</source>
+        <location filename="ToolActions.cpp" line="120"/>
+        <source>Show the information tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ToolActions.cpp" line="124"/>
+        <source>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Magnify&quot;&gt;Documentation&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ToolActions.cpp" line="128"/>
+        <source>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#ColorPicker&quot;&gt;Documentation&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ToolActions.cpp" line="132"/>
+        <source>Show the histogram tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Histogram&quot;&gt;Documentation&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ToolActions.cpp" line="136"/>
+        <source>Show the information tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Information&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="114"/>
-        <source>Show the information tool
+        <source>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <oldsource>Show the information tool
 
-Keyboard shortcut: %1</source>
+Keyboard shortcut: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
