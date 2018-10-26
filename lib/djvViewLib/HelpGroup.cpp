@@ -41,8 +41,11 @@
 #include <djvCore/FileInfoUtil.h>
 
 #include <QAction>
+#include <QDesktopServices>
 #include <QMenuBar>
 #include <QPointer>
+#include <QUrl>
+#include <QWhatsThis>
 
 namespace djv
 {
@@ -61,21 +64,19 @@ namespace djv
             AbstractGroup(mainWindow, context),
             _p(new Private)
         {
-            //DJV_DEBUG("HelpGroup::HelpGroup");
-
-            // Create the actions.
             _p->actions = new HelpActions(context, this);
 
-            // Create the menus.
             _p->menu = new HelpMenu(_p->actions.data(), mainWindow->menuBar());
-
             mainWindow->menuBar()->addMenu(_p->menu);
 
-            // Setup the action callbacks.
             connect(
-                _p->actions->action(HelpActions::HELP),
+                _p->actions->action(HelpActions::DOCUMENTATION),
                 SIGNAL(triggered()),
-                SLOT(helpCallback()));
+                SLOT(documentationCallback()));
+            connect(
+                _p->actions->action(HelpActions::WHATS_THIS),
+                SIGNAL(triggered()),
+                SLOT(whatsThisCallback()));
             connect(
                 _p->actions->action(HelpActions::INFO),
                 SIGNAL(triggered()),
@@ -87,14 +88,16 @@ namespace djv
         }
 
         HelpGroup::~HelpGroup()
+        {}
+
+        void HelpGroup::documentationCallback()
         {
-            //DJV_DEBUG("HelpGroup::~HelpGroup");
+            QDesktopServices::openUrl(QUrl::fromLocalFile(context()->documentationPath() + "djv_view.html"));
         }
 
-        void HelpGroup::helpCallback()
+        void HelpGroup::whatsThisCallback()
         {
-            //DJV_DEBUG("HelpGroup::helpCallback");
-            context()->help();
+            QWhatsThis::enterWhatsThisMode();
         }
 
         void HelpGroup::infoCallback()

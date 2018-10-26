@@ -104,8 +104,6 @@ namespace djv
             _p->everyFrameButton = new UI::ToolButton(context.data());
             _p->everyFrameButton->setDefaultAction(
                 actions->action(PlaybackActions::EVERY_FRAME));
-            _p->everyFrameButton->setToolTip(
-                qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback every frame"));
 
             // Create the frame widgets.
             _p->frameWidget = new FrameWidget(context.data());

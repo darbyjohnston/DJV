@@ -89,6 +89,10 @@
     <file alias="djv/UI/InfoIcon192DPI.png">images/InfoIcon192DPI.png</file>
     <file alias="djv/UI/InfoIcon48DPI.png">images/InfoIcon48DPI.png</file>
     <file alias="djv/UI/InfoIcon96DPI.png">images/InfoIcon96DPI.png</file>
+    <file alias="djv/UI/InOutPointsIcon144DPI.png">images/InOutPointsIcon144DPI.png</file>
+    <file alias="djv/UI/InOutPointsIcon192DPI.png">images/InOutPointsIcon192DPI.png</file>
+    <file alias="djv/UI/InOutPointsIcon48DPI.png">images/InOutPointsIcon48DPI.png</file>
+    <file alias="djv/UI/InOutPointsIcon96DPI.png">images/InOutPointsIcon96DPI.png</file>
     <file alias="djv/UI/InPointMarkIcon144DPI.png">images/InPointMarkIcon144DPI.png</file>
     <file alias="djv/UI/InPointMarkIcon192DPI.png">images/InPointMarkIcon192DPI.png</file>
     <file alias="djv/UI/InPointMarkIcon48DPI.png">images/InPointMarkIcon48DPI.png</file>
@@ -125,10 +129,6 @@
     <file alias="djv/UI/PlayForwardIcon192DPI.png">images/PlayForwardIcon192DPI.png</file>
     <file alias="djv/UI/PlayForwardIcon48DPI.png">images/PlayForwardIcon48DPI.png</file>
     <file alias="djv/UI/PlayForwardIcon96DPI.png">images/PlayForwardIcon96DPI.png</file>
-    <file alias="djv/UI/PlayInOutIcon144DPI.png">images/PlayInOutIcon144DPI.png</file>
-    <file alias="djv/UI/PlayInOutIcon192DPI.png">images/PlayInOutIcon192DPI.png</file>
-    <file alias="djv/UI/PlayInOutIcon48DPI.png">images/PlayInOutIcon48DPI.png</file>
-    <file alias="djv/UI/PlayInOutIcon96DPI.png">images/PlayInOutIcon96DPI.png</file>
     <file alias="djv/UI/PlayLoopOnceIcon144DPI.png">images/PlayLoopOnceIcon144DPI.png</file>
     <file alias="djv/UI/PlayLoopOnceIcon192DPI.png">images/PlayLoopOnceIcon192DPI.png</file>
     <file alias="djv/UI/PlayLoopOnceIcon48DPI.png">images/PlayLoopOnceIcon48DPI.png</file>

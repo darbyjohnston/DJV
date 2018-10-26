@@ -80,8 +80,6 @@ namespace djv
             _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
             _actions[DISPLAY_PROFILE_VISIBLE]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "Show Display Profile"));
-            _actions[DISPLAY_PROFILE_VISIBLE]->setToolTip(
-                qApp->translate("djv::ViewLib::ImageActions", "Show the display profile controls"));
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
@@ -146,8 +144,16 @@ namespace djv
             _actions[MIRROR_H]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
             _actions[MIRROR_V]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
             _actions[COLOR_PROFILE]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_COLOR_PROFILE].value);
-            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
 
+            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
+            _actions[DISPLAY_PROFILE_VISIBLE]->setToolTip(
+                qApp->translate("djv::ViewLib::ImageActions",
+                "Toggle whether the display profile editor is visible"));
+            _actions[DISPLAY_PROFILE_VISIBLE]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ImageActions",
+                "Toggle whether the display profile editor is visible<br><br>"
+                "<a href=\"ViewImages.html#ColorProfiles\">Documentation</a>"));
+            
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Enum::SHORTCUT_IMAGE_SCALE_NONE].value <<
                 shortcuts[Enum::SHORTCUT_IMAGE_SCALE_16_9].value <<
@@ -179,13 +185,12 @@ namespace djv
             {
                 _groups[ROTATE_GROUP]->actions()[i]->setShortcut(rotateShortcuts[i]);
             }
+            
             Q_FOREACH(QAction * action, _groups[DISPLAY_PROFILE_GROUP]->actions())
                 delete action;
-
             QStringList displayProfileNames;
             displayProfileNames += qApp->translate("djv::ViewLib::ImageActions", "Reset");
             displayProfileNames += context()->imagePrefs()->displayProfileNames();
-
             const QVector<QKeySequence> displayProfileShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET].value <<
                 shortcuts[Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_1].value <<

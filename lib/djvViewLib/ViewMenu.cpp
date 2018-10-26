@@ -43,33 +43,22 @@ namespace djv
             QWidget * parent) :
             AbstractMenu(actions, parent)
         {
-            // Create the menus.
             addAction(actions->action(ViewActions::LEFT));
             addAction(actions->action(ViewActions::RIGHT));
             addAction(actions->action(ViewActions::UP));
             addAction(actions->action(ViewActions::DOWN));
             addAction(actions->action(ViewActions::CENTER));
-
-            addSeparator();
-
             addAction(actions->action(ViewActions::ZOOM_IN));
             addAction(actions->action(ViewActions::ZOOM_OUT));
             addAction(actions->action(ViewActions::ZOOM_RESET));
-
-            addSeparator();
-
             addAction(actions->action(ViewActions::RESET));
             addAction(actions->action(ViewActions::FIT));
-
             addSeparator();
-
             auto gridMenu = addMenu(qApp->translate("djv::ViewLib::ViewMenu", "&Grid"));
             Q_FOREACH(QAction * action, actions->group(ViewActions::GRID_GROUP)->actions())
                 gridMenu->addAction(action);
-
             addAction(actions->action(ViewActions::HUD));
 
-            // Initialize.
             setTitle(qApp->translate("djv::ViewLib::ViewMenu", "&View"));
         }
 

@@ -109,8 +109,6 @@ namespace djv
             const QPointer<FileExport> & fileExport() const;
 
             void setValid(bool) override;
-            
-            QString doc() const override;
 
         protected:
             bool commandLineParse(QStringList &) override;

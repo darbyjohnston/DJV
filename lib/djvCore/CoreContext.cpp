@@ -68,14 +68,12 @@ namespace djv
             _p(new Private)
         {
             //DJV_DEBUG("CoreContext::CoreContext");
-
-            // Register meta types.
+            
             qRegisterMetaType<FileInfo>("djv::Core::FileInfo");
             qRegisterMetaType<FileInfoList>("djv::Core::FileInfoList");
             qRegisterMetaType<Sequence>("djv::Core::Sequence");
             qRegisterMetaType<Sequence::FORMAT>("djv::Core::Sequence::FORMAT");
 
-            // Load translators.
             DJV_LOG(debugLog(), "djv::Core::CoreContext",
                 QString("Search paths: %1").arg(StringUtil::addQuotes(System::searchPath()).join(", ")));                
             QTranslator * qtTranslator = new QTranslator(this);
@@ -152,9 +150,9 @@ namespace djv
             return true;
         }
 
-        QString CoreContext::doc() const
+        QString CoreContext::documentationPath() const
         {
-            return FileInfoUtil::fixPath(qApp->applicationDirPath() + "/../doc/Documentation.html");
+            return FileInfoUtil::fixPath(qApp->applicationDirPath() + "/../doc/");
         }
 
         QString CoreContext::info() const
@@ -197,7 +195,8 @@ namespace djv
                 "    Endian: %9\n"
                 "    Locale: %10\n"
                 "    Search path: %11\n"
-                "    Qt version: %12\n");
+                "    Documentation path: %12\n"
+                "    Qt version: %13\n");
             return QString(label).
                 arg(DJV_VERSION).
                 arg(seqFormatLabel.join(", ")).
@@ -210,6 +209,7 @@ namespace djv
                 arg(endianLabel.join(", ")).
                 arg(QLocale::system().name()).
                 arg(StringUtil::addQuotes(System::searchPath()).join(", ")).
+                arg(documentationPath()).
                 arg(qVersion());
         }
 
@@ -317,7 +317,7 @@ namespace djv
             const_cast<CoreContext *>(this)->_p->separator = true;
         }
 
-        DebugLog * CoreContext::debugLog() const
+        QPointer<DebugLog> CoreContext::debugLog() const
         {
             return _p->debugLog.data();
         }

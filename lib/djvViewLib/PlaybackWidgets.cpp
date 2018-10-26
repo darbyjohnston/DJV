@@ -68,17 +68,27 @@ namespace djv
             _p->buttonGroup = new QButtonGroup(this);
             _p->buttonGroup->setExclusive(true);
 
-            Q_FOREACH(QAction * action, actionGroup->actions())
+            const auto actions =
+            {
+                actionGroup->actions()[Enum::REVERSE],
+                actionGroup->actions()[Enum::STOP],
+                actionGroup->actions()[Enum::FORWARD]
+            };
+            for (const auto i : actions)
             {
                 UI::ToolButton* button = new UI::ToolButton(context);
-                button->setDefaultAction(action);
+                button->setDefaultAction(i);
                 _p->buttonGroup->addButton(button);
             }
 
             _p->shuttle = new UI::ShuttleButton(context);
             _p->shuttle->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackButtons",
-                "Click and drag to start playback; the speed is determined by how far you drag"));
+                "Click and drag to start playback; the playback speed is determined by how far you drag"));
+            _p->shuttle->setWhatsThis(
+                qApp->translate("djv::ViewLib::PlaybackButtons",
+                "Click and drag to start playback; the playback speed is determined by how far you drag<br><br>"
+                "<a href=\"ViewPlayback.html#PlaybackControls\">Documentation</a>"));
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);
@@ -167,7 +177,15 @@ namespace djv
 
             _p->button->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackButtons",
-                "Loop mode: %1\n\nKeyboard shortcut: %2").
+                "Loop mode: %1<br><br>"
+                "Keyboard shortcut: %2").
+                arg(_p->text).
+                arg(shortcuts[Enum::SHORTCUT_PLAYBACK_LOOP].value.toString()));
+            _p->button->setWhatsThis(
+                qApp->translate("djv::ViewLib::PlaybackButtons",
+                "Loop mode: %1<br><br>"
+                "Keyboard shortcut: %2<br><br>"
+                "<a href=\"ViewPlayback.html#PlaybackControls\">Documentation</a>").
                 arg(_p->text).
                 arg(shortcuts[Enum::SHORTCUT_PLAYBACK_LOOP].value.toString()));
         }
@@ -191,21 +209,28 @@ namespace djv
 
             _p->buttonGroup = new QButtonGroup(this);
             _p->buttonGroup->setExclusive(false);
-
-            Q_FOREACH(QAction * action, actionGroup->actions())
+            const auto actions =
             {
-                if (!action->icon().isNull())
-                {
-                    UI::ToolButton* button = new UI::ToolButton(context);
-                    button->setDefaultAction(action);
-                    _p->buttonGroup->addButton(button);
-                }
+                actionGroup->actions()[Enum::FRAME_START],
+                actionGroup->actions()[Enum::FRAME_PREV],
+                actionGroup->actions()[Enum::FRAME_NEXT],
+                actionGroup->actions()[Enum::FRAME_END]
+            };
+            for (const auto i : actions)
+            {
+                UI::ToolButton* button = new UI::ToolButton(context);
+                button->setDefaultAction(i);
+                _p->buttonGroup->addButton(button);
             }
 
             _p->shuttle = new UI::ShuttleButton(context);
             _p->shuttle->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackButtons",
-                "Click and drag to change the current frame."));
+                "Click and drag to change the current frame"));
+            _p->shuttle->setWhatsThis(
+                qApp->translate("djv::ViewLib::PlaybackButtons",
+                "Click and drag to change the current frame<br><br>"
+                "<a href=\"ViewPlayback.html#FrameControls\">Documentation</a>"));
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);

@@ -104,28 +104,73 @@ namespace djv
             _actions[NEW]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowNewIcon"));
             _actions[NEW]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_NEW].value);
             _actions[NEW]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Create a new window\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Create a new window<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_NEW].value.toString()));
+            _actions[NEW]->setWhatsThis(
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Create a new window<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_NEW].value.toString()));
+            
             _actions[DUPLICATE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowDuplicateIcon"));
             _actions[DUPLICATE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value);
             _actions[DUPLICATE]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Duplicate the window\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Duplicate the window<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value.toString()));
+            _actions[DUPLICATE]->setWhatsThis(
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Duplicate the window<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_DUPLICATE].value.toString()));
+            
             _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowCloseIcon"));
             _actions[CLOSE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value);
             _actions[CLOSE]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Close the window\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Close the window<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value.toString()));
+            _actions[CLOSE]->setWhatsThis(
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Close the window<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_CLOSE].value.toString()));
+            
             _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFitIcon"));
             _actions[FIT]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_FIT].value);
             _actions[FIT]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Resize the window to fit the image\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Resize the window to fit the image<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_FIT].value.toString()));
+            _actions[FIT]->setWhatsThis(
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Resize the window to fit the image<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_FIT].value.toString()));
+            
             _actions[FULL_SCREEN]->setIcon(context()->iconLibrary()->icon("djv/UI/WindowFullScreenIcon"));
             _actions[FULL_SCREEN]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_FULL_SCREEN].value);
             _actions[FULL_SCREEN]->setToolTip(
-                qApp->translate("djv::ViewLib::WindowActions", "Show the window full screen\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Show the window full screen<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
+            _actions[FULL_SCREEN]->setWhatsThis(
+                qApp->translate("djv::ViewLib::WindowActions",
+                "Show the window full screen<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewWindows.html#Windows\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
+            
             _actions[UI_VISIBLE]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_UI_VISIBLE].value);
 
             const Enum::SHORTCUT uiComponentVisibilityShortcuts[] =

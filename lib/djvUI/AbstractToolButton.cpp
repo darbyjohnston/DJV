@@ -35,11 +35,15 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QEvent>
 #include <QPainter>
 #include <QPointer>
 #include <QStyle>
 #include <QStyleOption>
+#include <QWhatsThisClickedEvent>
+
+#include <iostream>
 
 namespace djv
 {
@@ -96,6 +100,13 @@ namespace djv
             case QEvent::MouseButtonDblClick:
                 update();
                 break;
+            case QEvent::WhatsThisClicked:
+            {
+                auto whatsThisEvent = static_cast<QWhatsThisClickedEvent *>(event);
+                const QString path = "file:/" + _p->context->documentationPath() + whatsThisEvent->href();
+                QDesktopServices::openUrl(path);
+            }
+            break;
             default: break;
             }
             return QAbstractButton::event(event);

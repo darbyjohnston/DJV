@@ -67,8 +67,8 @@ namespace djv
             _actions[CENTER]->setText(qApp->translate("djv::ViewLib::ViewActions", "&Center"));
             _actions[ZOOM_IN]->setText(qApp->translate("djv::ViewLib::ViewActions", "Zoom &In"));
             _actions[ZOOM_OUT]->setText(qApp->translate("djv::ViewLib::ViewActions", "Zoom &Out"));
-            _actions[ZOOM_RESET]->setText(qApp->translate("djv::ViewLib::ViewActions", "Zoom Rese&t"));
-            _actions[RESET]->setText(qApp->translate("djv::ViewLib::ViewActions", "R&eset"));
+            _actions[ZOOM_RESET]->setText(qApp->translate("djv::ViewLib::ViewActions", "Rese&t Zoom"));
+            _actions[RESET]->setText(qApp->translate("djv::ViewLib::ViewActions", "R&eset Position and Zoom"));
             _actions[FIT]->setText(qApp->translate("djv::ViewLib::ViewActions", "&Fit"));
             _actions[HUD]->setText(qApp->translate("djv::ViewLib::ViewActions", "&HUD"));
             _actions[HUD]->setCheckable(true);
@@ -112,51 +112,149 @@ namespace djv
 
             _actions[LEFT]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_LEFT].value);
             _actions[LEFT]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Pan the view left\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image left<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_LEFT].value.toString()));
+            _actions[LEFT]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image left<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_LEFT].value.toString()));
+
             _actions[RIGHT]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_RIGHT].value);
             _actions[RIGHT]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Pan the view right\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image right<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_RIGHT].value.toString()));
+            _actions[RIGHT]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image right<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_RIGHT].value.toString()));
+
             _actions[UP]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_UP].value);
             _actions[UP]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Pan the view up\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image up<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_UP].value.toString()));
+            _actions[UP]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image up<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_UP].value.toString()));
+
             _actions[DOWN]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_DOWN].value);
             _actions[DOWN]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Pan the view down\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image down<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_DOWN].value.toString()));
+            _actions[DOWN]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Move the image down<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_DOWN].value.toString()));
+
             _actions[CENTER]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_CENTER].value);
             _actions[CENTER]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Center the view\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Center the image<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_CENTER].value.toString()));
+            _actions[CENTER]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Center the image<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_CENTER].value.toString()));
+
             _actions[ZOOM_IN]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomInIcon"));
             _actions[ZOOM_IN]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_IN].value);
             _actions[ZOOM_IN]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Zoom in\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Zoom into the image<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_IN].value.toString()));
+            _actions[ZOOM_IN]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Zoom into the image<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_IN].value.toString()));
+
             _actions[ZOOM_OUT]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomOutIcon"));
             _actions[ZOOM_OUT]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_OUT].value);
             _actions[ZOOM_OUT]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Zoom out\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Zoom out of the image<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_OUT].value.toString()));
+            _actions[ZOOM_OUT]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Zoom out of the image<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_OUT].value.toString()));
+
             _actions[ZOOM_RESET]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewZoomResetIcon"));
             _actions[ZOOM_RESET]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_RESET].value);
             _actions[ZOOM_RESET]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Reset the zoom\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Reset the image zoom<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_RESET].value.toString()));
+            _actions[ZOOM_RESET]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Reset the image zoom<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_ZOOM_RESET].value.toString()));
+
             _actions[RESET]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_RESET].value);
             _actions[RESET]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Reset both the position and zoom\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Reset the image position and zoom<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_RESET].value.toString()));
+            _actions[RESET]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Reset the image position and zoom<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_RESET].value.toString()));
+
             _actions[FIT]->setIcon(context()->iconLibrary()->icon("djv/UI/ViewFitIcon"));
             _actions[FIT]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_FIT].value);
             _actions[FIT]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Fit the image to the view\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Fit the image to the view<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_FIT].value.toString()));
+            _actions[FIT]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Fit the image to the view<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#View\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_FIT].value.toString()));
+
             _actions[HUD]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_HUD].value);
             _actions[HUD]->setToolTip(
-                qApp->translate("djv::ViewLib::ViewActions", "Toggle the HUD (Heads Up Display)\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Toggle the HUD (Heads Up Display)<br><br>"
+                "Keyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_VIEW_HUD].value.toString()));
+            _actions[HUD]->setWhatsThis(
+                qApp->translate("djv::ViewLib::ViewActions",
+                "Toggle the HUD (Heads Up Display)<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewImageView.html#HUD\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_HUD].value.toString()));
 
             Q_EMIT changed();

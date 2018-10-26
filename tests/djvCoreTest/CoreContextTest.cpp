@@ -48,7 +48,7 @@ namespace djv
             DJV_DEBUG("CoreContextTest::run");
             {
                 CoreContext context(argc, argv);
-                DJV_DEBUG_PRINT("doc = " << context.doc());
+                DJV_DEBUG_PRINT("documentation path = " << context.documentationPath());
                 context.printError(Error("prefix", "string"));
                 context.printSeparator();
                 context.print("message 2");

@@ -13,9 +13,9 @@
    sodipodi:docname="logo-filmreel.svg"
    width="512"
    height="512"
-   inkscape:export-filename="/Users/darby/Projects/djv-git/etc/OSX/djv_view.iconset/icon_512x512@2x.png"
-   inkscape:export-xdpi="180"
-   inkscape:export-ydpi="180"
+   inkscape:export-filename="/Users/darby/Projects/djv-git/doc/images/logo-filmreel.png"
+   inkscape:export-xdpi="10.55"
+   inkscape:export-ydpi="10.55"
    inkscape:version="0.91 r13725">
   <metadata
      id="metadata18">
@@ -43,8 +43,8 @@
      id="namedview16"
      showgrid="false"
      inkscape:zoom="1.2851562"
-     inkscape:cx="256"
-     inkscape:cy="256"
+     inkscape:cx="262.22492"
+     inkscape:cy="263.00304"
      inkscape:window-x="27"
      inkscape:window-y="23"
      inkscape:window-maximized="0"
@@ -56,57 +56,8 @@
   </defs>
   <title
      id="title6">logo-filmreel</title>
-  <circle
+  <path
      style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#f0f0f0;fill-opacity:1;fill-rule:nonzero;stroke:#1e1e1e;stroke-width:12;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     id="path830"
-     cx="256"
-     cy="256"
-     r="220" />
-  <circle
-     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     id="path831"
-     cx="256"
-     cy="120.99696"
-     r="55.453522" />
-  <circle
-     r="55.453522"
-     cy="390.27191"
-     cx="256"
-     id="circle833"
-     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-  <circle
-     r="55.453522"
-     cy="214.88225"
-     cx="-93.385918"
-     id="circle835"
-     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     transform="rotate(-60)" />
-  <circle
-     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     id="circle837"
-     cx="-93.385918"
-     cy="484.1572"
-     r="55.453522"
-     transform="rotate(-60)" />
-  <circle
-     transform="rotate(-120)"
-     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     id="circle839"
-     cx="-349.38593"
-     cy="-40.75219"
-     r="55.453522" />
-  <circle
-     transform="rotate(-120)"
-     r="55.453522"
-     cy="228.52275"
-     cx="-349.38593"
-     id="circle841"
-     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-  <circle
-     r="35.358231"
-     cy="93.702606"
-     cx="-349.70233"
-     id="circle843"
-     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-     transform="rotate(-120)" />
+     d="M 256 36 A 220.00021 220.00021 0 0 0 36 256 A 220.00021 220.00021 0 0 0 256 476 A 220.00021 220.00021 0 0 0 476 256 A 220.00021 220.00021 0 0 0 256 36 z M 254.92188 75.283203 A 45.727103 45.727103 0 0 1 295.60156 98.132812 A 45.727103 45.727103 0 0 1 278.86328 160.59766 A 45.727103 45.727103 0 0 1 216.39844 143.86133 A 45.727103 45.727103 0 0 1 233.13672 81.396484 A 45.727103 45.727103 0 0 1 254.92188 75.283203 z M 138.32227 142.60156 A 45.727098 45.727098 0 0 1 179.00195 165.45312 A 45.727098 45.727098 0 0 1 162.26367 227.91602 A 45.727098 45.727098 0 0 1 99.798828 211.17969 A 45.727098 45.727098 0 0 1 116.53711 148.71484 A 45.727098 45.727098 0 0 1 138.32227 142.60156 z M 371.52148 142.60156 A 45.727108 45.727108 0 0 1 412.20117 165.45312 A 45.727108 45.727108 0 0 1 395.46289 227.91602 A 45.727108 45.727108 0 0 1 332.99805 211.17969 A 45.727108 45.727108 0 0 1 349.73633 148.71484 A 45.727108 45.727108 0 0 1 371.52148 142.60156 z M 255.33008 227.65234 A 28.355214 28.355214 0 0 1 280.55664 241.82227 A 28.355214 28.355214 0 0 1 270.17773 280.55664 A 28.355214 28.355214 0 0 1 231.44336 270.17773 A 28.355214 28.355214 0 0 1 241.82227 231.44336 A 28.355214 28.355214 0 0 1 255.33008 227.65234 z M 138.32227 277.23828 A 45.727093 45.727093 0 0 1 179.00195 300.08984 A 45.727093 45.727093 0 0 1 162.26367 362.55469 A 45.727093 45.727093 0 0 1 99.798828 345.81641 A 45.727093 45.727093 0 0 1 116.53711 283.35156 A 45.727093 45.727093 0 0 1 138.32227 277.23828 z M 371.52148 277.23828 A 45.727083 45.727083 0 0 1 412.20117 300.08984 A 45.727083 45.727083 0 0 1 395.46289 362.55469 A 45.727083 45.727083 0 0 1 332.99805 345.81641 A 45.727083 45.727083 0 0 1 349.73633 283.35156 A 45.727083 45.727083 0 0 1 371.52148 277.23828 z M 254.91992 344.55664 A 45.727088 45.727088 0 0 1 254.92188 344.55664 A 45.727088 45.727088 0 0 1 295.60156 367.4082 A 45.727088 45.727088 0 0 1 278.86328 429.87305 A 45.727088 45.727088 0 0 1 216.39844 413.13477 A 45.727088 45.727088 0 0 1 233.13672 350.67188 A 45.727088 45.727088 0 0 1 254.91992 344.55664 z "
+     id="path830" />
 </svg>

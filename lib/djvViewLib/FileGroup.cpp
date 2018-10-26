@@ -159,13 +159,13 @@ namespace djv
                 SIGNAL(triggered()),
                 SLOT(exportFrameCallback()));
             connect(
-                _p->actions->action(FileActions::LAYER_PREV),
-                SIGNAL(triggered()),
-                SLOT(layerPrevCallback()));
-            connect(
                 _p->actions->action(FileActions::LAYER_NEXT),
                 SIGNAL(triggered()),
                 SLOT(layerNextCallback()));
+            connect(
+                _p->actions->action(FileActions::LAYER_PREV),
+                SIGNAL(triggered()),
+                SLOT(layerPrevCallback()));
             connect(
                 _p->actions->action(FileActions::U8_CONVERSION),
                 SIGNAL(toggled(bool)),

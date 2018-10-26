@@ -74,9 +74,6 @@ namespace djv
             //! Set whether the user-interface has started.
             virtual void setValid(bool);
 
-            //! Open the documentation.
-            void help();
-
             //! Get the file browser.
             QPointer<FileBrowser> fileBrowser(const QString & title = QString()) const;
 

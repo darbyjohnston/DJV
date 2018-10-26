@@ -267,168 +267,168 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="170"/>
+        <location filename="FileBrowser.cpp" line="169"/>
         <source>&amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="173"/>
+        <location filename="FileBrowser.cpp" line="171"/>
         <source>&amp;Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="176"/>
+        <location filename="FileBrowser.cpp" line="173"/>
         <source>&amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="182"/>
+        <location filename="FileBrowser.cpp" line="179"/>
         <source>&amp;Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="185"/>
+        <location filename="FileBrowser.cpp" line="181"/>
         <source>&amp;Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="188"/>
+        <location filename="FileBrowser.cpp" line="183"/>
         <source>&amp;Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="191"/>
+        <location filename="FileBrowser.cpp" line="185"/>
         <source>&amp;Drives</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="197"/>
+        <location filename="FileBrowser.cpp" line="191"/>
         <source>Re&amp;load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="200"/>
+        <location filename="FileBrowser.cpp" line="193"/>
         <source>&amp;Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="203"/>
+        <location filename="FileBrowser.cpp" line="195"/>
         <source>Thu&amp;mbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="208"/>
+        <location filename="FileBrowser.cpp" line="199"/>
         <source>Thumbnail Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="213"/>
+        <location filename="FileBrowser.cpp" line="203"/>
         <source>File Se&amp;quences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="218"/>
+        <location filename="FileBrowser.cpp" line="207"/>
         <source>Show &amp;Hidden Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="226"/>
+        <location filename="FileBrowser.cpp" line="215"/>
         <source>&amp;Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="231"/>
+        <location filename="FileBrowser.cpp" line="219"/>
         <source>&amp;Reverse Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="238"/>
+        <location filename="FileBrowser.cpp" line="225"/>
         <source>Sort &amp;Directories First</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="244"/>
+        <location filename="FileBrowser.cpp" line="231"/>
         <source>&amp;Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="263"/>
+        <location filename="FileBrowser.cpp" line="249"/>
         <source>File sequences:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="280"/>
+        <location filename="FileBrowser.cpp" line="266"/>
         <source>Pin dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="283"/>
+        <location filename="FileBrowser.cpp" line="269"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="286"/>
+        <location filename="FileBrowser.cpp" line="272"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="341"/>
+        <location filename="FileBrowser.cpp" line="327"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="750"/>
+        <location filename="FileBrowser.cpp" line="736"/>
         <source>Choose which bookmarks to delete:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="774"/>
+        <location filename="FileBrowser.cpp" line="760"/>
         <source>Delete all bookmarks?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="983"/>
+        <location filename="FileBrowser.cpp" line="969"/>
         <source>&amp;Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="988"/>
+        <location filename="FileBrowser.cpp" line="974"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="994"/>
+        <location filename="FileBrowser.cpp" line="980"/>
         <source>D&amp;elete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1027"/>
+        <location filename="FileBrowser.cpp" line="1013"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1029"/>
+        <location filename="FileBrowser.cpp" line="1015"/>
         <source>Go up a directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1032"/>
+        <location filename="FileBrowser.cpp" line="1018"/>
         <source>Go to the previous directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1035"/>
+        <location filename="FileBrowser.cpp" line="1021"/>
         <source>Reload the current directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1038"/>
+        <location filename="FileBrowser.cpp" line="1024"/>
         <source>File sequence options:
 %1 - Show every file
 %2 - Show sequences of files including gaps between ranges; for example: 1-3,5,7-10
@@ -1255,7 +1255,6 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="SequencePrefsWidget.cpp" line="86"/>
         <source>Set how file sequences are formatted.</source>
-        <oldsource>Set how file sequences are compressed.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1456,18 +1455,18 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::UIContext</name>
     <message>
-        <location filename="UIContext.cpp" line="154"/>
-        <location filename="UIContext.cpp" line="401"/>
+        <location filename="UIContext.cpp" line="152"/>
+        <location filename="UIContext.cpp" line="392"/>
         <source>-reset_prefs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="233"/>
+        <location filename="UIContext.cpp" line="224"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="370"/>
+        <location filename="UIContext.cpp" line="361"/>
         <source>%1
 Image I/O Widgets
 
@@ -1481,7 +1480,7 @@ Preferences
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="421"/>
+        <location filename="UIContext.cpp" line="412"/>
         <source>
 User Interface Options
 

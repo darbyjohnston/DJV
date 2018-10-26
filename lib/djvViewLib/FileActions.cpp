@@ -69,15 +69,15 @@ namespace djv
             _actions[CLOSE]->setText(qApp->translate("djv::ViewLib::FileActions", "Clos&e"));
             _actions[EXPORT_SEQUENCE]->setText(qApp->translate("djv::ViewLib::FileActions", "E&xport Sequence"));
             _actions[EXPORT_FRAME]->setText(qApp->translate("djv::ViewLib::FileActions", "Export &Frame"));
-            _actions[LAYER_PREV]->setText(qApp->translate("djv::ViewLib::FileActions", "Layer Previous"));
-            _actions[LAYER_NEXT]->setText(qApp->translate("djv::ViewLib::FileActions", "Layer Next"));
+            _actions[LAYER_PREV]->setText(qApp->translate("djv::ViewLib::FileActions", "Previous Layer"));
+            _actions[LAYER_NEXT]->setText(qApp->translate("djv::ViewLib::FileActions", "Next Layer"));
             _actions[U8_CONVERSION]->setText(qApp->translate("djv::ViewLib::FileActions", "&8-bit Conversion"));
             _actions[U8_CONVERSION]->setCheckable(true);
             _actions[CACHE]->setText(qApp->translate("djv::ViewLib::FileActions", "&Memory Cache"));
             _actions[CACHE]->setCheckable(true);
             _actions[PRELOAD]->setText(qApp->translate("djv::ViewLib::FileActions", "Preloa&d Cache"));
             _actions[PRELOAD]->setCheckable(true);
-            _actions[CLEAR_CACHE]->setText(qApp->translate("djv::ViewLib::FileActions", "Clear Memory Cac&he"));
+            _actions[CLEAR_CACHE]->setText(qApp->translate("djv::ViewLib::FileActions", "Clear Cac&he"));
             _actions[MESSAGES]->setText(qApp->translate("djv::ViewLib::FileActions", "Messa&ges"));
             _actions[PREFS]->setText(qApp->translate("djv::ViewLib::FileActions", "&Preferences"));
             _actions[DEBUG_LOG]->setText(qApp->translate("djv::ViewLib::FileActions", "Debugging Log"));
@@ -140,30 +140,62 @@ namespace djv
             _actions[OPEN]->setIcon(context()->iconLibrary()->icon("djv/UI/FileOpenIcon"));
             _actions[OPEN]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_OPEN].value);
             _actions[OPEN]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Show the file browser\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::FileActions",
+                "Open a new file<br><br>"
+                "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_FILE_OPEN].value.toString()));
-
+            _actions[OPEN]->setWhatsThis(
+                qApp->translate("djv::ViewLib::FileActions",
+                "Open a new file<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
+                arg(shortcuts[Enum::SHORTCUT_FILE_OPEN].value.toString()));
+            
             _actions[RELOAD]->setIcon(context()->iconLibrary()->icon("djv/UI/FileReloadIcon"));
             _actions[RELOAD]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_RELOAD].value);
             _actions[RELOAD]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Reload the current file\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::FileActions",
+                "Reload the current file<br><br>"
+                "Keyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD].value.toString()));
+            _actions[RELOAD]->setWhatsThis(
+                qApp->translate("djv::ViewLib::FileActions",
+                "Reload the current file<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD].value.toString()));
 
             _actions[RELOAD_FRAME]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_RELOAD_FRAME].value);
             _actions[RELOAD_FRAME]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Reload the current frame\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::FileActions",
+                "Reload the current frame<br><br>"
+                "Keyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
+            _actions[RELOAD_FRAME]->setWhatsThis(
+                qApp->translate("djv::ViewLib::FileActions",
+                "Reload the current frame<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
             
             _actions[CLOSE]->setIcon(context()->iconLibrary()->icon("djv/UI/FileCloseIcon"));
             _actions[CLOSE]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_CLOSE].value);
             _actions[CLOSE]->setToolTip(
-                qApp->translate("djv::ViewLib::FileActions", "Close the current file\n\nKeyboard shortcut: %1").
+                qApp->translate("djv::ViewLib::FileActions",
+                "Close the current file<br><br>"
+                "Keyboard shortcut: %1").
+                arg(shortcuts[Enum::SHORTCUT_FILE_CLOSE].value.toString()));
+            _actions[CLOSE]->setWhatsThis(
+                qApp->translate("djv::ViewLib::FileActions",
+                "Close the current file<br><br>"
+                "Keyboard shortcut: %1<br><br>"
+                "<a href=\"ViewFiles.html#Open\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_FILE_CLOSE].value.toString()));
             
             _actions[EXPORT_SEQUENCE]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_EXPORT_SEQUENCE].value);
             _actions[EXPORT_FRAME]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_EXPORT_FRAME].value);
-            _actions[LAYER_PREV]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_LAYER_PREV].value);
             _actions[LAYER_NEXT]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_LAYER_NEXT].value);
+            _actions[LAYER_PREV]->setShortcut(shortcuts[Enum::SHORTCUT_FILE_LAYER_PREV].value);
             _actions[EXIT]->setShortcut(shortcuts[Enum::SHORTCUT_EXIT].value);
 
             Q_FOREACH(QAction * action, _groups[RECENT_GROUP]->actions())

@@ -29,6 +29,9 @@
 
 #include <djvViewLib/HelpActions.h>
 
+#include <djvViewLib/ShortcutPrefs.h>
+#include <djvViewLib/ViewContext.h>
+
 #include <QAction>
 #include <QApplication>
 
@@ -49,13 +52,30 @@ namespace djv
             {
                 _actions[i] = new QAction(this);
             }
-            _actions[HELP]->setText(qApp->translate("djv::ViewLib::HelpActions", "&Help"));
+            _actions[DOCUMENTATION]->setText(qApp->translate("djv::ViewLib::HelpActions", "&Documentation"));
+            _actions[WHATS_THIS]->setText(qApp->translate("djv::ViewLib::HelpActions", "&What's This?"));
             _actions[INFO]->setText(qApp->translate("djv::ViewLib::HelpActions", "&Information"));
             _actions[ABOUT]->setText(qApp->translate("djv::ViewLib::HelpActions", "&About"));
+
+            update();
+
+            connect(
+                context->shortcutPrefs(),
+                SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
+                SLOT(update()));
         }
 
         HelpActions::~HelpActions()
         {}
 
+        void HelpActions::update()
+        {
+            const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
+
+            _actions[WHATS_THIS]->setShortcut(shortcuts[Enum::SHORTCUT_HELP_WHATS_THIS].value);
+
+            Q_EMIT changed();
+        }
+        
     } // namespace ViewLib
 } // namespace djv

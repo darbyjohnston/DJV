@@ -35,8 +35,8 @@
 <body>
 
 <div class="header">
+<img src="images/logo-filmreel.png" align="top">
 <a class="header" href="index.html">DJV Imaging</a>
-<img src="images/logo-filmreel.png" align="right">
 </div>
 <div class="border"></div>
 <div class="content">
@@ -47,161 +47,181 @@
 <a href="djv_view.html">djv_view</a> |
 Files
 <ul>
-    <li><a href="#Sequences">File Sequences</a></li>
-    <li><a href="#Formats">Image File Formats</a></li>
     <li><a href="#Open">Opening Files</a></li>
     <li><a href="#Export">Exporting Files</a></li>
     <li><a href="#Layers">Layers</a></li>
+    <li><a href="#8BitConversion">8-bit Conversion</a></li>
     <li><a href="#Proxy">Proxy Scale</a></li>
     <li><a href="#Cache">Memory Cache</a></li>
 </ul>
 </div>
 
-<h1 class="header"><a name="Sequences">File Sequences</a></h1>
-<div class="block">
-<p>A file sequence is a group of files that represent individual frames of
-a film or animation sequence. DJV will recognize these groups of files and
-display them in the user interface as a sequence:</p>
-<table>
-<tr><th>Individual Files</th><th>File Sequence</th></tr>
-    <tr>
-    <td>
-    render.1.exr<br>
-    render.2.exr<br>
-    render.3.exr
-    </td>
-    <td>
-    render.1-3.exr
-    </td>
-    </tr>
-</table>
-<p>For a file to be recognized as part of a sequence it must have a frame
-number at the end of it's name and the same file extension. Here are some
-examples of different naming conventions for file sequences:</p>
-<table>
-    <tr><th>File Name</th><th>Base Name</th><th>Frame Number</th><th>Extension</th></tr>
-    <tr><td>render.1.exr</td><td>render.</td><td>1</td><td>.exr</td></tr>
-    <tr><td>render.0001.exr</td><td>render.</td><td>0001</td><td>.exr</td></tr>
-    <tr><td>render1.exr</td><td>render</td><td>1</td><td>.exr</td></tr>
-    <tr><td>render0001.exr</td><td>render</td><td>0001</td><td>.exr</td></tr>
-    <tr><td>0001.exr</td><td></td><td>0001</td><td>.exr</td></tr>
-</table>
-<h2>Formatting</h2>
-<p>File sequences can be formatted in different ways:</p>
-<table>
-    <tr><th>Off</th><th>Sparse</th><th>Range</th></tr>
-    <tr>
-    <td>
-    render.1.exr<br>
-    render.2.exr<br>
-    render.3.exr<br>
-    render.5.exr
-    </td>
-    <td>
-    render.1-3,5.exr
-    </td>
-    <td>
-    render.1-5.exr
-    </td>
-    </tr>
-</table>
-<p>The "sparse" setting will show the exact frames in the sequence including any
-gaps where there may be missing frames. The "range" setting will show a continous
-sequence even if there are missing frames. The formatting can be set either in
-the file browser or the preferences.</p>
-<h2>Auto Sequencing</h2>
-
-<h2>Maximum Size</h2>
-<h2>Negative Numbers</h2>
-</div>
-
-<h1 class="header"><a name="Formats">Image File Formats</a></h1>
-<div class="block">
-<p>Image file formats: Cineon, DPX, IFF, JPEG, OpenEXR, PIC, PNG, PPM, RLA, SGI, Targa, TIFF</p>
-<p>Movie file formats: MP4, ProRes, MJPEG, IFL</p>
-<p>For more details see this <a href="ImageFormats.html">page</a>.<p>
-</div>
-
 <h1 class="header"><a name="Open">Opening Files</a></h1>
 <div class="block">
-<p>There are multiple ways to open files:</p>
-<ul>
-    <li>Using the <a href="FileBrowser.html">file browser</a></li>
-    <li>Choosing a file from the recent files list</li>
-    <li>Dragging and dropping a file onto the <a href="ViewImageView.html">image view</a></li>
-    <li>Specifying arguments on the <a href="ViewCommandLine.html">command line</a></li>
-</ul>
-<h2>File Browser</h2>
-<h2>Recent Files</h2>
-<h2>Drag and Drop</h2>
-<h2>Command Line<h2>
-<h2>Actions</h2>
 <table>
 <tr>
     <th>Icon</th>
-    <th>Name</th>
+    <th>Menu Item</th>
     <th>Description</th>
     <th>Keyboard Shortcut</th>
 </tr>
 <tr>
     <td><img src="images/FileOpenIcon96DPI.png" align="middle"></td>
     <td>Open</td>
-    <td>Show the file browser</td>
-    <td>Ctrl + O</td>
+    <td>Open a new file</td>
+    <td>Ctrl O</td>
+</tr>
+<tr>
+    <td></td>
+    <td>Recent</td>
+    <td>List of recently opened files</td>
 </tr>
 <tr>
     <td><img src="images/FileReloadIcon96DPI.png" align="middle"></td>
     <td>Reload</td>
     <td>Reload the current file</td>
-    <td>Ctrl + R</td>
+    <td>Ctrl R</td>
 </tr>
 <tr>
     <td></td>
     <td>Reload Frame</td>
     <td>Reload the current frame</td>
-    <td>Shift + Ctrl + R</td>
+    <td>Shift Ctrl R</td>
 </tr>
 <tr>
     <td><img src="images/FileCloseIcon96DPI.png" align="middle"></td>
     <td>Close</td>
     <td>Close the current file</td>
-    <td>Ctrl + W</td>
+    <td>Ctrl W</td>
 </tr>
 </table>
+<p>Files may also be opened by either dragging and dropping them onto the
+<a href="ViewImageView.html">image view</a>, or by specifying them on the
+<a href="ViewCommandLine">command-line</a>.</p>
+<p>See also:</p>
+<ul>
+    <li><a href="FileBrowser.html">File Browser</a></li>
+    <li><a href="FileSequences.html">File Sequences</a></li>
+    <li><a href="ImageFileFormats.html">Image File Formats</a></li>
+</ul>
 </div>
 
 <h1 class="header"><a name="Export">Exporting Files</a></h1>
 <div class="block">
 <table>
-<h2>Actions</h2>
 <tr>
-    <th>Name</th>
+    <th>Menu Item</th>
     <th>Description</th>
     <th>Keyboard Shortcut</th>
 </tr>
 <tr>
     <td>Export Sequence</td>
     <td>Export the current sequence</td>
-    <td>Ctrl + S</td>
+    <td>Ctrl S</td>
 </tr>
 <tr>
     <td>Export Frame</td>
     <td>Export the current frame</td>
-    <td>Shift + Ctrl + S</td>
+    <td>Shift Ctrl S</td>
 </tr>
 </table>
+<p>See also:</p>
+<ul>
+    <li><a href="ImageFileFormats.html">Image File Formats</a></li>
+</ul>
 </div>
 
 <h1 class="header"><a name="Layers">Layers</a></h1>
 <div class="block">
+<table>
+<tr>
+    <th>Menu Item</th>
+    <th>Description</th>
+    <th>Keyboard Shortcut</th>
+</tr>
+<tr>
+    <td>Layer</td>
+    <td>Set the current layer</td>
+    <td></td>
+</tr>
+<tr>
+    <td>Next Layer</td>
+    <td>Go to the next layer</td>
+    <td>Ctrl =</td>
+</tr>
+<tr>
+    <td>Previous Layer</td>
+    <td>Go to the previous layer</td>
+    <td>Ctrl -</td>
+</tr>
+</table>
 </div>
 
 <h1 class="header"><a name="Proxy">Proxy Scale</a></h1>
 <div class="block">
+<p>Proxy scaling reduces the resolution of images as they are loaded. This can
+allow more images to fit in the memory cache at the expense of image quality.</p>
+<table>
+<tr>
+    <th>Menu Item</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>Proxy Scale/None</td>
+    <td>Disable proxy scaling</td>
+</tr>
+<tr>
+    <td>Proxy Scale/1/2</td>
+    <td>Reduce the resolution of loaded images by 1/2</td>
+</tr>
+<tr>
+    <td>Proxy Scale/1/4</td>
+    <td>Reduce the resolution of loaded images by 1/4</td>
+</tr>
+<tr>
+    <td>Proxy Scale/1/8</td>
+    <td>Reduce the resolution of loaded images by 1/8</td>
+</tr>
+</table>
+</div>
+
+<h1 class="header"><a name="8BitConversion">8-bit Conversion</a></h1>
+<div class="block">
+<p>Convert images to 8-bits as the are loaded. This can allow more images to
+fit in the memory cache at the expense of image quality.</p>
+<table>
+<tr>
+    <th>Menu Item</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>8-bit Conversion</td>
+    <td>Toggle whether 8-bit conversion is enabled</td>
+</tr>
+</table>
 </div>
 
 <h1 class="header"><a name="Cache">Memory Cache</a></h1>
 <div class="block">
+<p>The memory cache stores images for faster playback performance.</p>
+<table>
+<tr>
+    <th>Menu Item</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>Memory Cache</td>
+    <td>Toggle whether the memory cache is enabled</td>
+</tr>
+<tr>
+    <td>Preload Cache</td>
+    <td>Load frames automatically when playback is stopped</td>
+</tr>
+<tr>
+    <td>Clear Cache</td>
+    <td>Toggle whether the memory cache is enabled</td>
+</tr>
+</table>
 </div>
 
 <div class="footer">

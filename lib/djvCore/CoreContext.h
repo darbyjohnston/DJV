@@ -33,6 +33,7 @@
 #include <djvCore/StringUtil.h>
 
 #include <QObject>
+#include <QPointer>
 #include <QStringList>
 
 #include <memory>
@@ -63,8 +64,8 @@ namespace djv
             //! Parse the command line.
             virtual bool commandLine(int & argc, char ** argv);
 
-            //! Get the documentation URL.
-            virtual QString doc() const;
+            //! Get the documentation path.
+            QString documentationPath() const;
 
             //! Get the application information.
             virtual QString info() const;
@@ -79,7 +80,7 @@ namespace djv
             virtual void printSeparator();
 
             //! Get the debugging log.
-            DebugLog * debugLog() const;
+            QPointer<DebugLog> debugLog() const;
 
         public Q_SLOTS:
             //! Print a message.

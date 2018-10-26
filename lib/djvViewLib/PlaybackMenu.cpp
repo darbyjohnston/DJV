@@ -47,7 +47,6 @@ namespace djv
             AbstractMenu(actions, parent),
             _p(new Private)
         {
-            // Create the menus.
             Q_FOREACH(QAction * action,
                 actions->group(PlaybackActions::PLAYBACK_GROUP)->actions())
                 addAction(action);
@@ -71,7 +70,6 @@ namespace djv
                 actions->group(PlaybackActions::LAYOUT_GROUP)->actions())
                 layoutMenu->addAction(action);
 
-            // Initialize.
             setTitle(qApp->translate("djv::ViewLib::PlaybackMenu", "&Playback"));
         }
 

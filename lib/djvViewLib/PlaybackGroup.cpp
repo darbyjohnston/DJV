@@ -588,15 +588,13 @@ namespace djv
             switch (static_cast<Enum::FRAME>(action->data().toInt()))
             {
             case Enum::FRAME_START:     frameCallback(_p->inPoint);     break;
-            case Enum::FRAME_START_ABS: frameSliderCallback(0);         break;
-            case Enum::FRAME_PREV:      frameCallback(_p->frame - 1);   break;
-            case Enum::FRAME_PREV_10:   frameCallback(_p->frame - 10);  break;
-            case Enum::FRAME_PREV_100:  frameCallback(_p->frame - 100); break;
+            case Enum::FRAME_END:       frameCallback(_p->outPoint);    break;
             case Enum::FRAME_NEXT:      frameCallback(_p->frame + 1);   break;
             case Enum::FRAME_NEXT_10:   frameCallback(_p->frame + 10);  break;
             case Enum::FRAME_NEXT_100:  frameCallback(_p->frame + 100); break;
-            case Enum::FRAME_END:       frameCallback(_p->outPoint);    break;
-            case Enum::FRAME_END_ABS:   frameSliderCallback(sequenceEnd(_p->sequence)); break;
+            case Enum::FRAME_PREV:      frameCallback(_p->frame - 1);   break;
+            case Enum::FRAME_PREV_10:   frameCallback(_p->frame - 10);  break;
+            case Enum::FRAME_PREV_100:  frameCallback(_p->frame - 100); break;
             default: break;
             }
         }
@@ -705,16 +703,16 @@ namespace djv
                     {
                         switch (_p->playback)
                         {
-                        case Enum::REVERSE:
-                            if (_p->frame == frameStart())
-                            {
-                                _p->frame = frameEnd();
-                            }
-                            break;
                         case Enum::FORWARD:
                             if (_p->frame == frameEnd())
                             {
                                 _p->frame = frameStart();
+                            }
+                            break;
+                        case Enum::REVERSE:
+                            if (_p->frame == frameStart())
+                            {
+                                _p->frame = frameEnd();
                             }
                             break;
                         default: break;
@@ -729,8 +727,8 @@ namespace djv
 
                     switch (_p->playback)
                     {
-                    case Enum::REVERSE:
                     case Enum::FORWARD:
+                    case Enum::REVERSE:
                         _p->timer = startTimer(0);
                         _p->idleInit = true;
                         break;

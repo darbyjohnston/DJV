@@ -82,7 +82,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::DebugLogDialog", "Debugging Log"));
-            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+            setWindowFlags(windowFlags() | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             resize(800, 600);
 
             Q_FOREACH(const QString & message, context->debugLog()->messages())

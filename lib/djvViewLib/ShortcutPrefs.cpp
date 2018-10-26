@@ -105,9 +105,9 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_FILE_LAYER_10], QKeySequence("Ctrl+0")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_FILE_LAYER_PREV], QKeySequence("Ctrl+-")) <<
-                UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_FILE_LAYER_NEXT], QKeySequence("Ctrl+=")) <<
+                UI::Shortcut(Enum::shortcutLabels()[
+                    Enum::SHORTCUT_FILE_LAYER_PREV], QKeySequence("Ctrl+-")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_FILE_PROXY_NONE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
@@ -161,13 +161,13 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_SET_FRAME_STORE], QKeySequence("Shift+E")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_MIRROR_HORIZONTAL], QKeySequence(Qt::Key_F1)) <<
+                    Enum::SHORTCUT_IMAGE_MIRROR_HORIZONTAL], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_MIRROR_VERTICAL], QKeySequence(Qt::Key_F2)) <<
+                    Enum::SHORTCUT_IMAGE_MIRROR_VERTICAL], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_SCALE_NONE], QKeySequence(Qt::Key_F5)) <<
+                    Enum::SHORTCUT_IMAGE_SCALE_NONE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_SCALE_16_9], QKeySequence(Qt::Key_F6)) <<
+                    Enum::SHORTCUT_IMAGE_SCALE_16_9], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_SCALE_1_0], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
@@ -175,11 +175,11 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_SCALE_1_78], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_SCALE_1_85], QKeySequence(Qt::Key_F7)) <<
+                    Enum::SHORTCUT_IMAGE_SCALE_1_85], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_SCALE_2_0], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_SCALE_2_35], QKeySequence(Qt::Key_F8)) <<
+                    Enum::SHORTCUT_IMAGE_SCALE_2_35], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_SCALE_2_39], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
@@ -197,13 +197,13 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_SCALE_5_4], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_ROTATE_0], QKeySequence(Qt::Key_F9)) <<
+                    Enum::SHORTCUT_IMAGE_ROTATE_0], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_ROTATE_90], QKeySequence(Qt::Key_F10)) <<
+                    Enum::SHORTCUT_IMAGE_ROTATE_90], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_ROTATE_180], QKeySequence(Qt::Key_F11)) <<
+                    Enum::SHORTCUT_IMAGE_ROTATE_180], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_IMAGE_ROTATE_270], QKeySequence(Qt::Key_F12)) <<
+                    Enum::SHORTCUT_IMAGE_ROTATE_270], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_COLOR_PROFILE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[
@@ -241,11 +241,11 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_IMAGE_DISPLAY_PROFILE_10], QKeySequence("Shift+0")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_REVERSE], QKeySequence("J")) <<
+                    Enum::SHORTCUT_PLAYBACK_FORWARD], QKeySequence("L")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_PLAYBACK_STOP], QKeySequence("K")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_FORWARD], QKeySequence("L")) <<
+                    Enum::SHORTCUT_PLAYBACK_REVERSE], QKeySequence("J")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_PLAYBACK_TOGGLE], QKeySequence("Space")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
@@ -253,13 +253,7 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_PLAYBACK_START], QKeySequence(Qt::Key_Home)) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_START_ABS], QKeySequence(Qt::SHIFT + Qt::Key_Home)) <<
-                UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_PREV], QKeySequence('[')) <<
-                UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_PREV_10], QKeySequence('{')) <<
-                UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_PREV_100], QKeySequence(Qt::CTRL + '[')) <<
+                    Enum::SHORTCUT_PLAYBACK_END], QKeySequence(Qt::Key_End)) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_PLAYBACK_NEXT], QKeySequence(']')) <<
                 UI::Shortcut(Enum::shortcutLabels()[
@@ -267,11 +261,13 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_PLAYBACK_NEXT_100], QKeySequence(Qt::CTRL + ']')) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_END], QKeySequence(Qt::Key_End)) <<
+                    Enum::SHORTCUT_PLAYBACK_PREV], QKeySequence('[')) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_END_ABS], QKeySequence(Qt::SHIFT + Qt::Key_End)) <<
+                    Enum::SHORTCUT_PLAYBACK_PREV_10], QKeySequence('{')) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_PLAYBACK_IN_OUT], QKeySequence("P")) <<
+                    Enum::SHORTCUT_PLAYBACK_PREV_100], QKeySequence(Qt::CTRL + '[')) <<
+                UI::Shortcut(Enum::shortcutLabels()[
+                    Enum::SHORTCUT_PLAYBACK_IN_OUT_POINTS], QKeySequence("P")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_PLAYBACK_MARK_IN], QKeySequence("I")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
@@ -287,7 +283,9 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[
                     Enum::SHORTCUT_TOOL_HISTOGRAM], QKeySequence("3")) <<
                 UI::Shortcut(Enum::shortcutLabels()[
-                    Enum::SHORTCUT_TOOL_INFO], QKeySequence("4"));
+                    Enum::SHORTCUT_TOOL_INFO], QKeySequence("4")) <<
+                UI::Shortcut(Enum::shortcutLabels()[
+                    Enum::SHORTCUT_HELP_WHATS_THIS], QKeySequence("F1"));
             DJV_ASSERT(data.count() == Enum::SHORTCUT_COUNT);
             return data;
         }

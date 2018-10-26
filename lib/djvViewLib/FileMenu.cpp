@@ -61,8 +61,8 @@ namespace djv
             addAction(actions->action(FileActions::EXPORT_FRAME));
             addSeparator();
             _p->layer = addMenu(qApp->translate("djv::ViewLib::FileMenu", "La&yer"));
-            addAction(actions->action(FileActions::LAYER_PREV));
             addAction(actions->action(FileActions::LAYER_NEXT));
+            addAction(actions->action(FileActions::LAYER_PREV));
             auto proxyMenu = addMenu(qApp->translate("djv::ViewLib::FileMenu", "Pro&xy Scale"));
             Q_FOREACH(QAction * action, actions->group(FileActions::PROXY_GROUP)->actions())
                 proxyMenu->addAction(action);

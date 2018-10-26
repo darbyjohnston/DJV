@@ -73,11 +73,9 @@
 #include <djvCore/DebugLog.h>
 
 #include <QApplication>
-#include <QDesktopServices>
 #include <QPointer>
 #include <QScopedPointer>
 #include <QThreadPool>
-#include <QUrl>
 
 static void initResources()
 {
@@ -210,13 +208,6 @@ namespace djv
             //DJV_DEBUG("UIContext::setValid");
             //DJV_DEBUG_PRINT("in = " << in);
             _p->valid = in;
-        }
-
-        void UIContext::help()
-        {
-            //DJV_DEBUG("UIContext::help");
-            //DJV_DEBUG_PRINT("url = " << doc());
-            QDesktopServices::openUrl(QUrl::fromLocalFile(doc()));
         }
 
         QPointer<FileBrowser> UIContext::fileBrowser(const QString & title) const

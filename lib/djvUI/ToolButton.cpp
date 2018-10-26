@@ -184,6 +184,7 @@ namespace djv
                 setText(_p->defaultAction->text());
                 setIcon(_p->defaultAction->icon());
                 setToolTip(_p->defaultAction->toolTip());
+                setWhatsThis(_p->defaultAction->whatsThis());
                 setCheckable(_p->defaultAction->isCheckable());
                 setChecked(_p->defaultAction->isChecked());
                 setAutoRepeat(_p->defaultAction->autoRepeat());

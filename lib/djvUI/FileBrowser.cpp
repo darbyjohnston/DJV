@@ -165,13 +165,10 @@ namespace djv
 
             auto directoryMenu = _p->menus.menuBar->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Directory"));
-
             _p->actions.actions[Actions::UP] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Up"), this, SLOT(upCallback()));
-
             _p->actions.actions[Actions::PREV] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Previous"), this, SLOT(prevCallback()));
-
             _p->menus.menus[Menus::RECENT] = directoryMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Recent"));
             _p->actions.groups[Actions::RECENT_GROUP] = new QActionGroup(this);
@@ -180,13 +177,10 @@ namespace djv
 
             _p->actions.actions[Actions::CURRENT] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Current"), this, SLOT(currentCallback()));
-
             _p->actions.actions[Actions::HOME] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Home"), this, SLOT(homeCallback()));
-
             _p->actions.actions[Actions::DESKTOP] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Desktop"), this, SLOT(desktopCallback()));
-
             _p->menus.menus[Menus::DRIVES] = directoryMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Drives"));
             _p->actions.groups[Actions::DRIVES_GROUP] = new QActionGroup(this);
@@ -195,24 +189,19 @@ namespace djv
 
             _p->actions.actions[Actions::RELOAD] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "Re&load"), this, SLOT(reloadCallback()));
-
             auto optionsMenu = _p->menus.menuBar->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Options"));
-
             _p->menus.menus[Menus::THUMBNAIL_MODE] = optionsMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "Thu&mbnails"));
             _p->actions.groups[Actions::THUMBNAIL_MODE_GROUP] = new QActionGroup(this);
             _p->actions.groups[Actions::THUMBNAIL_MODE_GROUP]->setExclusive(true);
-
             _p->menus.menus[Menus::THUMBNAIL_SIZE] = optionsMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "Thumbnail Size"));
             _p->actions.groups[Actions::THUMBNAIL_SIZE_GROUP] = new QActionGroup(this);
             _p->actions.groups[Actions::THUMBNAIL_SIZE_GROUP]->setExclusive(true);
-
             _p->menus.menus[Menus::SEQ] = optionsMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "File Se&quences"));
             _p->actions.groups[Actions::SEQ_GROUP] = new QActionGroup(this);
-
             _p->actions.actions[Actions::SHOW_HIDDEN] =
                 optionsMenu->addAction(
                     qApp->translate("djv::UI::FileBrowser", "Show &Hidden Files"),
@@ -225,14 +214,12 @@ namespace djv
             _p->menus.menus[Menus::SORT] = optionsMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Sort"));
             _p->actions.groups[Actions::SORT_GROUP] = new QActionGroup(this);
-
             _p->actions.actions[Actions::REVERSE_SORT] =
                 optionsMenu->addAction(
                     qApp->translate("djv::UI::FileBrowser", "&Reverse Sort"),
                     this,
                     SLOT(reverseSortCallback(bool)));
             _p->actions.actions[Actions::REVERSE_SORT]->setCheckable(true);
-
             _p->actions.actions[Actions::SORT_DIRS_FIRST] =
                 optionsMenu->addAction(
                     qApp->translate("djv::UI::FileBrowser", "Sort &Directories First"),
@@ -242,7 +229,6 @@ namespace djv
 
             _p->menus.menus[Menus::BOOKMARKS] = _p->menus.menuBar->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Bookmarks"));
-
             _p->actions.groups[Actions::BOOKMARKS_GROUP] = new QActionGroup(this);
 
             // Create the widgets.
@@ -339,7 +325,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::FileBrowser", "File Browser"));
-            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+            setWindowFlags(windowFlags() | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             _p->widgets.browser->setModel(_p->model);
             const QVector<int> sizes = columnSizes();
             for (int i = 0; i < sizes.count(); ++i)

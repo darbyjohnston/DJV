@@ -39,8 +39,6 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! This class provides the help group. The tool group encapsulates all of the
-        //! functionality relating to help.
         class HelpGroup : public AbstractGroup
         {
             Q_OBJECT
@@ -53,7 +51,8 @@ namespace djv
             ~HelpGroup() override;
 
         private Q_SLOTS:
-            void helpCallback();
+            void documentationCallback();
+            void whatsThisCallback();
             void infoCallback();
             void aboutCallback();
 

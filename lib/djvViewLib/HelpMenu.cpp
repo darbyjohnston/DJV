@@ -47,12 +47,11 @@ namespace djv
             AbstractMenu(actions, parent),
             _p(new Private)
         {
-            // Create the actions.
-            addAction(actions->action(HelpActions::HELP));
+            addAction(actions->action(HelpActions::DOCUMENTATION));
+            addAction(actions->action(HelpActions::WHATS_THIS));
             addAction(actions->action(HelpActions::INFO));
             addAction(actions->action(HelpActions::ABOUT));
 
-            // Initialize.
             setTitle(qApp->translate("djv::ViewLib::HelpMenu", "&Help"));
         }
 

@@ -4,12 +4,12 @@
 <context>
     <name>djv::Core::CoreContext</name>
     <message>
-        <location filename="CoreContext.cpp" line="143"/>
+        <location filename="CoreContext.cpp" line="141"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="176"/>
+        <location filename="CoreContext.cpp" line="174"/>
         <source>General
 
     Version: %1
@@ -32,7 +32,8 @@ System
     Endian: %9
     Locale: %10
     Search path: %11
-    Qt version: %12
+    Documentation path: %12
+    Qt version: %13
 </source>
         <translation type="unfinished"></translation>
     </message>

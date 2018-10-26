@@ -46,7 +46,8 @@ namespace djv
             //! This enumeration provides the actions.
             enum ACTION
             {
-                HELP,
+                DOCUMENTATION,
+                WHATS_THIS,
                 INFO,
                 ABOUT,
 
@@ -56,6 +57,9 @@ namespace djv
 
             explicit HelpActions(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~HelpActions() override;
+
+        private Q_SLOTS:
+            void update();
 
         private:
             DJV_PRIVATE_COPY(HelpActions);

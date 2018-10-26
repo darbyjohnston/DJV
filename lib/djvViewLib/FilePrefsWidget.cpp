@@ -80,7 +80,7 @@ namespace djv
             _p->cacheSizeWidget = new CacheSizeWidget(context.data());
 
             _p->preloadWidget = new QCheckBox(
-                qApp->translate("djv::ViewLib::FilePrefsWidget", "Pre-load cache frames"));
+                qApp->translate("djv::ViewLib::FilePrefsWidget", "Preload cache"));
 
             _p->displayCacheWidget = new QCheckBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Display cached frames in the timeline"));
@@ -91,10 +91,8 @@ namespace djv
             auto prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Proxy Scale"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
-                    "Use proxy scaling to reduce the resolution when loading images. This "
-                    "allows more images to be stored in the memory cache at the expense of "
-                    "image quality. Proxy scaling can also improve playback speed since the "
-                    "images are smaller."),
+                    "Proxy scaling reduces the resolution of images as they are loaded. "
+                    "This can allow more images to fit in the memory cache at the expense of image quality."),
                 context.data());
             auto formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
@@ -105,8 +103,8 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "8-bit Conversion"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
-                    "Use 8-bit conversion to allow more images to be stored in the memory "
-                    "cache at the expense of image quality."),
+                    "Convert images to 8-bits as the are loaded. "
+                    "This can allow more images to fit in the memory cache at the expense of image quality."),
                 context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->u8ConversionWidget);
@@ -115,9 +113,7 @@ namespace djv
             prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Memory Cache"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
-                    "The memory cache allows the application to store images in memory "
-                    "which can improve playback performance. When the memory cache is "
-                    "disabled the images are streamed directly from disk."),
+                    "The memory cache stores images for faster playback performance."),
                 context.data());
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->cacheWidget);

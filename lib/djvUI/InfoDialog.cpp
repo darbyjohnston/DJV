@@ -73,7 +73,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::InfoDialog", "Information"));
-            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+            setWindowFlags(windowFlags() | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             _p->widget->setText(text);
             resize(800, 600);
 

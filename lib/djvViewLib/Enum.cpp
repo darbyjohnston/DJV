@@ -175,9 +175,9 @@ namespace djv
         const QStringList & Enum::playbackLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Reverse") <<
+                qApp->translate("djv::ViewLib::Enum", "Forward") <<
                 qApp->translate("djv::ViewLib::Enum", "Stop") <<
-                qApp->translate("djv::ViewLib::Enum", "Forward");
+                qApp->translate("djv::ViewLib::Enum", "Reverse");
             DJV_ASSERT(data.count() == PLAYBACK_COUNT);
             return data;
         }
@@ -185,16 +185,14 @@ namespace djv
         const QStringList & Enum::frameLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "In Point") <<
-                qApp->translate("djv::ViewLib::Enum", "Start Frame") <<
-                qApp->translate("djv::ViewLib::Enum", "Previous Frame") <<
-                qApp->translate("djv::ViewLib::Enum", "Previous Frame X10") <<
-                qApp->translate("djv::ViewLib::Enum", "Previous Frame X100") <<
+                qApp->translate("djv::ViewLib::Enum", "Start") <<
+                qApp->translate("djv::ViewLib::Enum", "End") <<
                 qApp->translate("djv::ViewLib::Enum", "Next Frame") <<
                 qApp->translate("djv::ViewLib::Enum", "Next Frame X10") <<
                 qApp->translate("djv::ViewLib::Enum", "Next Frame X100") <<
-                qApp->translate("djv::ViewLib::Enum", "Out Point") <<
-                qApp->translate("djv::ViewLib::Enum", "End Frame");
+                qApp->translate("djv::ViewLib::Enum", "Previous Frame") <<
+                qApp->translate("djv::ViewLib::Enum", "Previous Frame X10") <<
+                qApp->translate("djv::ViewLib::Enum", "Previous Frame X100");
             DJV_ASSERT(data.count() == FRAME_COUNT);
             return data;
         }
@@ -204,7 +202,7 @@ namespace djv
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::ViewLib::Enum", "Once") <<
                 qApp->translate("djv::ViewLib::Enum", "Repeat") <<
-                qApp->translate("djv::ViewLib::Enum", "PingPong");
+                qApp->translate("djv::ViewLib::Enum", "Ping Pong");
             DJV_ASSERT(data.count() == LOOP_COUNT);
             return data;
         }
@@ -212,7 +210,7 @@ namespace djv
         const QStringList & Enum::inOutLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Enable &In/Out Points") <<
+                qApp->translate("djv::ViewLib::Enum", "&In/Out Points") <<
                 qApp->translate("djv::ViewLib::Enum", "&Mark In Point") <<
                 qApp->translate("djv::ViewLib::Enum", "Mar&k Out Point") <<
                 qApp->translate("djv::ViewLib::Enum", "Reset In Point") <<
@@ -271,120 +269,120 @@ namespace djv
 
                 qApp->translate("djv::ViewLib::Enum", "Exit") <<
 
-                qApp->translate("djv::ViewLib::Enum", "File Open") <<
-                qApp->translate("djv::ViewLib::Enum", "File Reload") <<
-                qApp->translate("djv::ViewLib::Enum", "File Reload Frame") <<
-                qApp->translate("djv::ViewLib::Enum", "File Export Sequence") <<
-                qApp->translate("djv::ViewLib::Enum", "File Export Frame") <<
-                qApp->translate("djv::ViewLib::Enum", "File Close") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer Default") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 1") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 2") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 3") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 4") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 5") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 6") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 7") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 8") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 9") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer 10") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer Previous") <<
-                qApp->translate("djv::ViewLib::Enum", "File Layer Next") <<
-                qApp->translate("djv::ViewLib::Enum", "File Proxy None") <<
-                qApp->translate("djv::ViewLib::Enum", "File Proxy 1/2") <<
-                qApp->translate("djv::ViewLib::Enum", "File Proxy 1/4") <<
-                qApp->translate("djv::ViewLib::Enum", "File Proxy 1/8") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Open") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Reload") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Reload Frame") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Export Sequence") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Export Frame") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Close") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer Default") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 1") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 2") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 3") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 4") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 5") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 6") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 7") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 8") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 9") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer 10") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer Previous") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Layer Next") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Proxy None") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Proxy 1/2") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Proxy 1/4") <<
+                qApp->translate("djv::ViewLib::Enum", "File/Proxy 1/8") <<
 
-                qApp->translate("djv::ViewLib::Enum", "Window New") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Duplicate") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Close") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Fit") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Full Screen") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Show UI") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Show Tool Bars") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Show Playback") <<
-                qApp->translate("djv::ViewLib::Enum", "Window Show Information") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/New") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Duplicate") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Close") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Fit") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Full Screen") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show UI") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Tool Bars") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Playback") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Information") <<
 
-                qApp->translate("djv::ViewLib::Enum", "View Left") <<
-                qApp->translate("djv::ViewLib::Enum", "View Right") <<
-                qApp->translate("djv::ViewLib::Enum", "View Up") <<
-                qApp->translate("djv::ViewLib::Enum", "View Down") <<
-                qApp->translate("djv::ViewLib::Enum", "View Center") <<
-                qApp->translate("djv::ViewLib::Enum", "View Zoom In") <<
-                qApp->translate("djv::ViewLib::Enum", "View Zoom Out") <<
-                qApp->translate("djv::ViewLib::Enum", "View Zoom Reset") <<
-                qApp->translate("djv::ViewLib::Enum", "View Reset") <<
-                qApp->translate("djv::ViewLib::Enum", "View Fit") <<
-                qApp->translate("djv::ViewLib::Enum", "View HUD") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Left") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Right") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Up") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Down") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Center") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Zoom In") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Zoom Out") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Zoom Reset") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Reset") <<
+                qApp->translate("djv::ViewLib::Enum", "View/Fit") <<
+                qApp->translate("djv::ViewLib::Enum", "View/HUD") <<
 
-                qApp->translate("djv::ViewLib::Enum", "Image Show Frame Store") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Set Frame Store") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Mirror Horizontal") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Mirror Vertical") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale None") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 16:9") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 1.0") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 1.33") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 1.78") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 1.85") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 2.0") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 2.35") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 2.39") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 2.40") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 1:1") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 2:1") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 3:2") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 4:3") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 5:3") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Scale 5:4") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Rotate 0") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Rotate 90") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Rotate 180") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Rotate 270") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Color Profile") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Channel Default") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Channel Red") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Channel Green") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Channel Blue") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Channel Alpha") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile Reset") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 1") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 2") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 3") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 4") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 5") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 6") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 7") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 8") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 9") <<
-                qApp->translate("djv::ViewLib::Enum", "Image Display Profile 10") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Show Frame Store") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Set Frame Store") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Mirror Horizontal") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Mirror Vertical") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale None") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 16:9") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 1.0") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 1.33") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 1.78") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 1.85") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 2.0") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 2.35") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 2.39") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 2.40") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 1:1") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 2:1") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 3:2") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 4:3") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 5:3") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Scale 5:4") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Rotate 0") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Rotate 90") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Rotate 180") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Rotate 270") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Color Profile") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Channel Default") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Channel Red") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Channel Green") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Channel Blue") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Channel Alpha") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile Reset") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 1") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 2") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 3") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 4") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 5") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 6") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 7") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 8") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 9") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Display Profile 10") <<
 
-                qApp->translate("djv::ViewLib::Enum", "Playback Reverse") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Stop") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Forward") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Toggle") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Loop") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Start") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Start Absolute") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Previous") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Previous 10") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Previous 100") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Next") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Next 10") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Next 100") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback End") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback End Absolute") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback In/Out Points") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback In Point Mark") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback In Point Reset") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Out Point Mark") <<
-                qApp->translate("djv::ViewLib::Enum", "Playback Out Point Reset") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Forward") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Stop") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Reverse") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Toggle") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Loop") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Start") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/End") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Next") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Next 10") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Next 100") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Previous") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Previous 10") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Previous 100") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/In/Out Points") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/In Point Mark") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/In Point Reset") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Out Point Mark") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback/Out Point Reset") <<
 
-                qApp->translate("djv::ViewLib::Enum", "Tool Magnify") <<
-                qApp->translate("djv::ViewLib::Enum", "Tool Color Picker") <<
-                qApp->translate("djv::ViewLib::Enum", "Tool Histogram") <<
-                qApp->translate("djv::ViewLib::Enum", "Tool Information");
+                qApp->translate("djv::ViewLib::Enum", "Tool/Magnify") <<
+                qApp->translate("djv::ViewLib::Enum", "Tool/Color Picker") <<
+                qApp->translate("djv::ViewLib::Enum", "Tool/Histogram") <<
+                qApp->translate("djv::ViewLib::Enum", "Tool/Information") <<
+            
+                qApp->translate("djv::ViewLib::Enum", "Help/What's This?");
             DJV_ASSERT(data.count() == SHORTCUT_COUNT);
             return data;
         }

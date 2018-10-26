@@ -8,19 +8,19 @@ body
     margin: 0;
     padding: 0;
     color: rgba(255, 255, 255, 1.0);
-    background-image: url("images/Berkeley 2010-12-19 Tinted.jpg");
+    background-image: url("images/Bodega\ Bay\ 2013-01-02 Tinted.jpg");
     background-color: rgba(0.0, 0.0, 0.0, 1.0);
 }
 
 div.header
 {
-    background-color: rgba(20, 20, 20, 1.0);
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 20px;
 }
 
 div.border
 {
-    background-color: rgba(60, 60, 60, 1.0);
+    background-color: rgba(255, 255, 255, 0.1);
     height: 3px;
     width: 100%;
 }
@@ -59,11 +59,7 @@ a.header
     text-decoration: none;
     font-size: 48px;
     font-weight: lighter;
-}
-
-a.large
-{
-    font-size: 20px;
+    margin: 0px 0px 0px 10px;
 }
 
 a.button
@@ -85,7 +81,7 @@ h1
 
 h1.header
 {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 10px;
 }
 

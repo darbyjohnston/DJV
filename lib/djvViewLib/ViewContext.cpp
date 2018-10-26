@@ -178,11 +178,6 @@ namespace djv
                 prefsDialog()->addWidget(new FilePrefsWidget(this));
             }
         }
-
-        QString ViewContext::doc() const
-        {
-            return Core::FileInfoUtil::fixPath(qApp->applicationDirPath() + "/../doc/djv_view.html");
-        }
         
         bool ViewContext::commandLineParse(QStringList & in)
         {

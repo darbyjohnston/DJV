@@ -183,9 +183,9 @@ namespace djv
             //! This enumeration provides the playback modes.
             enum PLAYBACK
             {
-                REVERSE,
-                STOP,
                 FORWARD,
+                STOP,
+                REVERSE,
 
                 PLAYBACK_COUNT
             };
@@ -198,15 +198,13 @@ namespace djv
             enum FRAME
             {
                 FRAME_START,
-                FRAME_START_ABS,
-                FRAME_PREV,
-                FRAME_PREV_10,
-                FRAME_PREV_100,
+                FRAME_END,
                 FRAME_NEXT,
                 FRAME_NEXT_10,
                 FRAME_NEXT_100,
-                FRAME_END,
-                FRAME_END_ABS,
+                FRAME_PREV,
+                FRAME_PREV_10,
+                FRAME_PREV_100,
 
                 FRAME_COUNT
             };
@@ -314,8 +312,8 @@ namespace djv
                 SHORTCUT_FILE_LAYER_8,
                 SHORTCUT_FILE_LAYER_9,
                 SHORTCUT_FILE_LAYER_10,
-                SHORTCUT_FILE_LAYER_PREV,
                 SHORTCUT_FILE_LAYER_NEXT,
+                SHORTCUT_FILE_LAYER_PREV,
                 SHORTCUT_FILE_PROXY_NONE,
                 SHORTCUT_FILE_PROXY_1_2,
                 SHORTCUT_FILE_PROXY_1_4,
@@ -386,22 +384,20 @@ namespace djv
                 SHORTCUT_IMAGE_DISPLAY_PROFILE_9,
                 SHORTCUT_IMAGE_DISPLAY_PROFILE_10,
 
-                SHORTCUT_PLAYBACK_REVERSE,
-                SHORTCUT_PLAYBACK_STOP,
                 SHORTCUT_PLAYBACK_FORWARD,
+                SHORTCUT_PLAYBACK_STOP,
+                SHORTCUT_PLAYBACK_REVERSE,
                 SHORTCUT_PLAYBACK_TOGGLE,
                 SHORTCUT_PLAYBACK_LOOP,
                 SHORTCUT_PLAYBACK_START,
-                SHORTCUT_PLAYBACK_START_ABS,
-                SHORTCUT_PLAYBACK_PREV,
-                SHORTCUT_PLAYBACK_PREV_10,
-                SHORTCUT_PLAYBACK_PREV_100,
+                SHORTCUT_PLAYBACK_END,
                 SHORTCUT_PLAYBACK_NEXT,
                 SHORTCUT_PLAYBACK_NEXT_10,
                 SHORTCUT_PLAYBACK_NEXT_100,
-                SHORTCUT_PLAYBACK_END,
-                SHORTCUT_PLAYBACK_END_ABS,
-                SHORTCUT_PLAYBACK_IN_OUT,
+                SHORTCUT_PLAYBACK_PREV,
+                SHORTCUT_PLAYBACK_PREV_10,
+                SHORTCUT_PLAYBACK_PREV_100,
+                SHORTCUT_PLAYBACK_IN_OUT_POINTS,
                 SHORTCUT_PLAYBACK_MARK_IN,
                 SHORTCUT_PLAYBACK_RESET_IN,
                 SHORTCUT_PLAYBACK_MARK_OUT,
@@ -411,6 +407,8 @@ namespace djv
                 SHORTCUT_TOOL_COLOR_PICKER,
                 SHORTCUT_TOOL_HISTOGRAM,
                 SHORTCUT_TOOL_INFO,
+                
+                SHORTCUT_HELP_WHATS_THIS,
 
                 SHORTCUT_COUNT
             };
