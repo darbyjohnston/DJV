@@ -1240,7 +1240,6 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="SequencePrefsWidget.cpp" line="72"/>
         <source>Enable auto sequencing</source>
-        <oldsource>Enable auto file sequencing</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
