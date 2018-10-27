@@ -53,7 +53,9 @@ namespace djv
             ~AboutDialog() override;
             
         protected:
+            void timerEvent(QTimerEvent *) override;
             void showEvent(QShowEvent *) override;
+            void hideEvent(QHideEvent *) override;
             void paintEvent(QPaintEvent *) override;
 
         private Q_SLOTS:

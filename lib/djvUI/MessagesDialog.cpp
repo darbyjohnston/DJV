@@ -94,7 +94,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::MessagesDialog", "Messages"));
-            setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+            setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
 
             resize(400, 200);
 

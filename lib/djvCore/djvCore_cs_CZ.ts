@@ -41,7 +41,6 @@ System
         <location filename="CoreContext.cpp" line="218"/>
         <source>DJV Imaging, Version: %1
 http://djv.sourceforge.net
-Made in Berkeley, CA, USA
 
 Copyright (c) 2004-2018 Darby Johnston
 All rights reserved.
@@ -109,71 +108,145 @@ This software is based in part on the works of (in alphabetical order):
     zlib
     http://www.zlib.net/
     Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler
+
+DJV Imaging is made in Berkeley, CA, USA
 </source>
+        <oldsource>DJV Imaging, Version: %1
+http://djv.sourceforge.net
+
+Copyright (c) 2004-2018 Darby Johnston
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Portions of this software are copyright (in alphabetical order):
+
+    Copyright (c) 2004-2018 Darby Johnston
+    All rights reserved.
+
+    Copyright (c) 2008 Alan Jones
+    All rights reserved.
+
+    Copyright (c) 2008-2009 Mikael Sundell
+    All rights reserved.
+
+This software is based in part on the works of (in alphabetical order):
+
+    CMake
+    http://www.cmake.org
+    Copyright 2000-2011 Kitware, Inc., Insight Software Consortium
+    All rights reserved.
+
+    FFmpeg
+    http://www.ffmpeg.org
+    Licensed under the LGPLv2.1
+    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+    GLM
+    https://glm.g-truc.net/0.9.9/index.html
+    Copyright (c) 2005-2017 G-Truc Creation
+
+    libjpeg
+    http://www.ijg.org
+    Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding
+
+    libpng
+    http://www.libpng.org
+    Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson
+
+    libtiff
+    http://www.libtiff.org
+    Copyright (c) 1988-1997 Sam Leffler
+    Copyright (c) 1991-1997 Silicon Graphics, Inc.
+
+    OpenAL
+    https://www.openal.org
+    Copyright (C) 1999-2000 by Loki Software
+
+    OpenEXR
+    http://www.openexr.com
+    Copyright (c) 2006, Industrial Light &amp; Magic, a division of Lucasfilm Entertainment Company Ltd.
+
+    Qt
+    http://qt-project.org
+    Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies)
+
+    zlib
+    http://www.zlib.net/
+    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler
+
+This software is made in Berkeley, CA, USA
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="366"/>
+        <location filename="CoreContext.cpp" line="367"/>
         <source>-seq_format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="372"/>
+        <location filename="CoreContext.cpp" line="373"/>
         <source>-seq_auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="378"/>
+        <location filename="CoreContext.cpp" line="379"/>
         <source>-seq_max</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="384"/>
+        <location filename="CoreContext.cpp" line="385"/>
         <source>-seq_negative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="390"/>
+        <location filename="CoreContext.cpp" line="391"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="396"/>
+        <location filename="CoreContext.cpp" line="397"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="402"/>
+        <location filename="CoreContext.cpp" line="403"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="414"/>
+        <location filename="CoreContext.cpp" line="415"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="415"/>
+        <location filename="CoreContext.cpp" line="416"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="420"/>
+        <location filename="CoreContext.cpp" line="421"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="425"/>
+        <location filename="CoreContext.cpp" line="426"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="431"/>
+        <location filename="CoreContext.cpp" line="432"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="467"/>
+        <location filename="CoreContext.cpp" line="468"/>
         <source>
 File Sequence Options
 

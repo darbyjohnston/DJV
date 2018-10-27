@@ -325,7 +325,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::FileBrowser", "File Browser"));
-            setWindowFlags(windowFlags() | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             _p->widgets.browser->setModel(_p->model);
             const QVector<int> sizes = columnSizes();
             for (int i = 0; i < sizes.count(); ++i)

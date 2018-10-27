@@ -31,16 +31,16 @@
 
 #include <djvUI/UIContext.h>
 
+#include <djvCore/Math.h>
+
 #include <QApplication>
 #include <QClipboard>
 #include <QDialogButtonBox>
 #include <QGridLayout>
-#include <QLabel>
 #include <QPainter>
 #include <QPixmap>
 #include <QPointer>
 #include <QPushButton>
-#include <QScrollArea>
 #include <QVBoxLayout>
 
 namespace djv
@@ -54,23 +54,21 @@ namespace djv
             {}
 
             QPointer<UIContext> context;
+            QString text;
+            int textHeight = 0;
             QPixmap pixmap;
-            QPointer<QLabel> label;
             QPointer<QDialogButtonBox> buttonBox;
+            int scrollTimer = 0;
+            int scrollPos = 0;
         };
 
         AboutDialog::AboutDialog(const QString & text, const QPointer<UIContext> & context) :
             _p(new Private(context))
         {
+            _p->text = text;
             _p->pixmap = QPixmap(":/djv/UI/Durant.jpg");
             
             // Create the widgets.
-            _p->label = new QLabel;
-            _p->label->setWordWrap(true);
-            auto scrollArea = new QScrollArea;
-            scrollArea->setWidgetResizable(true);
-            scrollArea->setWidget(_p->label);
-            scrollArea->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             auto copyButton = new QPushButton(qApp->translate("djv::UI::AboutDialog", "Copy"));
             _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
             _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
@@ -78,18 +76,11 @@ namespace djv
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
             layout->addStretch(1);
-            auto hLayout = new QHBoxLayout;
-            hLayout->addStretch(1);
-            hLayout->addWidget(scrollArea);
-            hLayout->addStretch(1);
-            layout->addLayout(hLayout);
-            layout->addStretch(1);
             layout->addWidget(_p->buttonBox);
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::AboutDialog", "About"));
-            setWindowFlags(windowFlags() | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
-            _p->label->setText(text);
+            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
             resize(800, 600);
 
             // Setup callbacks.
@@ -100,9 +91,28 @@ namespace djv
         AboutDialog::~AboutDialog()
         {}
         
+        void AboutDialog::timerEvent(QTimerEvent *)
+        {
+            _p->scrollPos += 1;
+            if (_p->scrollPos > _p->textHeight)
+            {
+                _p->scrollPos = -40;
+            }
+            update();
+        }
+        
         void AboutDialog::showEvent(QShowEvent *)
         {
             _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(Qt::PopupFocusReason);
+
+            _p->scrollPos = -40;
+            _p->scrollTimer = startTimer(50);
+        }
+        
+        void AboutDialog::hideEvent(QHideEvent *)
+        {
+            killTimer(_p->scrollTimer);
+            _p->scrollTimer = 0;
         }
 
         void AboutDialog::paintEvent(QPaintEvent * event)
@@ -110,11 +120,23 @@ namespace djv
             QDialog::paintEvent(event);
             QPainter painter(this);
             painter.drawPixmap(width() / 2 - _p->pixmap.width() / 2, height() / 2 - _p->pixmap.height() / 2, _p->pixmap);
+            QFont font = painter.font();
+            int pixelSize = font.pixelSize() * 1;
+            font.setPixelSize(pixelSize);
+            painter.setFont(font);
+            QRect rect = this->rect();
+            painter.fillRect(rect, QColor(0, 0, 0, 127));
+            painter.setPen(palette().color(QPalette::Foreground));
+            rect = rect.adjusted(pixelSize * 2, pixelSize * 2, pixelSize * -2, pixelSize * -2);
+            painter.setClipRect(rect);
+            rect = rect.adjusted(0, -Core::Math::max(0, _p->scrollPos), 0, 0);
+            painter.drawText(rect, Qt::TextWordWrap, _p->text);
+            _p->textHeight = painter.boundingRect(rect, Qt::TextWordWrap, _p->text).height();
         }
 
         void AboutDialog::copyCallback()
         {
-            QApplication::clipboard()->setText(_p->label->text());
+            QApplication::clipboard()->setText(_p->text);
         }
 
     } // namespace UI
