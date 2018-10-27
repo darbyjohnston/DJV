@@ -64,13 +64,11 @@ div.blockSmall
 a:link
 {
     color: rgba(230, 225, 180, 1.0);
-    text-decoration: none;
 }
 
 a:visited
 {
     color: rgba(230, 225, 180, 1.0);
-    text-decoration: none;
 }
 
 a.button
