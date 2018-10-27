@@ -76,6 +76,12 @@ a.button
     padding: .2em;
 }
 
+a.GitHubButton
+{
+    padding: .4em;
+    background-color: rgba(240, 240, 240, 1);
+}
+
 img.button
 {
     vertical-align: middle;
