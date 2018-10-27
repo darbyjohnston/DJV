@@ -58,7 +58,6 @@ set(images
     "images/ScreenshotsIcon.png"
     "images/Screenshot 1.png"
     "images/Screenshot 2.png"
-    "images/Screenshot 3.png"
     "images/ViewColorPickerTool.png"
     "images/ViewFitIcon96DPI.png"
     "images/ViewHistogramTool.png"
