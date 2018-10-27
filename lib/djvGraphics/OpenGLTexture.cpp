@@ -106,6 +106,7 @@ namespace djv
             glFuncs->glGenBuffers(1, &_p->pbo);
             glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _p->pbo);
             glFuncs->glBufferData(GL_PIXEL_UNPACK_BUFFER, PixelDataUtil::dataByteCount(info), 0, GL_STREAM_DRAW);
+            glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
         }
 
         void OpenGLTexture::init(
