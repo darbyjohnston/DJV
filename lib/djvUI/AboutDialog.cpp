@@ -127,7 +127,7 @@ namespace djv
             QRect rect = this->rect();
             painter.fillRect(rect, QColor(0, 0, 0, 127));
             painter.setPen(palette().color(QPalette::Foreground));
-            rect = rect.adjusted(pixelSize * 2, pixelSize * 2, pixelSize * -2, pixelSize * -2);
+            rect = rect.adjusted(pixelSize * 5, pixelSize * 5, pixelSize * -5, pixelSize * -5);
             painter.setClipRect(rect);
             rect = rect.adjusted(0, -Core::Math::max(0, _p->scrollPos), 0, 0);
             painter.drawText(rect, Qt::TextWordWrap, _p->text);
