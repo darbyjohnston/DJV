@@ -79,9 +79,8 @@ Building on Linux and OS X
 <h2 class="header"><a name="ThirdParty">Third Party Libraries</a></h2>
 <div class="block">
 <p>DJV relies on a number of third party libraries that can either be
-installed with your Linux distribution package manager or built from
-source code. The following steps describe how to build the third party
-libraries from source code.</p>
+installed with your system or built from source code. The following steps
+describe how to build the third party libraries from source code.</p>
 <p>First choose a working directory for building the source code. In the
 following steps we will refer to this directory as $BUILD_DIR.</p>
 <p>Clone the DJV third party source code repository:</p>
@@ -118,7 +117,27 @@ following steps we will refer to this directory as $BUILD_DIR.</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
 </pre>
-<p>Create a sub-directory for building the DJV software and start the build:</p>
+<p>Create a sub-directory for building the DJV software and start the build.</p>
+<p>Building with system libraries:</p>
+<pre>
+> mkdir djv-git-Debug
+> cd djv-git-Debug
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug
+> make
+</pre>
+<p>Building with local libraries:</p>
+<pre>
+> mkdir djv-git-Debug
+> cd djv-git-Debug
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
+> make
+</pre>
+<p>If you are compiling for OS X you should also set the CMAKE_FIND_FRAMEWORK
+variable:</p>
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
@@ -142,7 +161,7 @@ following steps we will refer to this directory as $BUILD_DIR.</p>
 <h2 class="header"><a name="Package">Packaging Releases</a></h2>
 <div class="block">
 <p>Set the new version in the top-level "CMakeLists.txt" and "Doxyfile" files.</p>
-<p>Update the download links in "doc/Download.html".</p>
+<p>Update the download information in "doc/Download.html".</p>
 <p>Tag the git repository:</p>
 <pre>
 > git tag -a 1.2.2 -m "Version 1.2.2"
