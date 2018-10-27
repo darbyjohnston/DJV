@@ -627,33 +627,6 @@ namespace djv
                 box.h,
                 palette.color(QPalette::Base));
 
-            // Draw the in/out points.
-            if (_p->inPoint != 0 || _p->outPoint != end())
-            {
-                const QRectF r(
-                    frameToPosF(_p->inPoint),
-                    0,
-                    frameToPosF(_p->outPoint - _p->inPoint + 1),
-                    2);
-                painter.fillRect(r, palette.color(QPalette::Highlight));
-            }
-
-            // Draw the cached frames.
-            if (_p->cachedFrames.count())
-            {
-                //DJV_DEBUG_PRINT("cached frames = " << _p->cachedFrames.count());
-                const Core::FrameRangeList list = Core::RangeUtil::range(_p->cachedFrames);
-                for (int i = 0; i < list.count(); ++i)
-                {
-                    const QRectF r(
-                        frameToPosF(list[i].min),
-                        box.h - 2,
-                        frameToPosF(list[i].max - list[i].min + 1),
-                        2);
-                    painter.fillRect(r, QColor(90, 90, 255));
-                }
-            }
-
             // Draw the frame ticks.
             QVector<Tick> ticks;
             const float   speed = Core::Speed::speedToFloat(_p->speed);
@@ -719,6 +692,33 @@ namespace djv
             for (int i = 0; i < ticks.count(); ++i)
             {
                 ticks[i].draw(&painter, palette, box.h);
+            }
+
+            // Draw the in/out points.
+            if (_p->inPoint != 0 || _p->outPoint != end())
+            {
+                const QRectF r(
+                    frameToPosF(_p->inPoint),
+                    0,
+                    frameToPosF(_p->outPoint - _p->inPoint + 1),
+                    2);
+                painter.fillRect(r, palette.color(QPalette::Highlight));
+            }
+
+            // Draw the cached frames.
+            if (_p->cachedFrames.count())
+            {
+                //DJV_DEBUG_PRINT("cached frames = " << _p->cachedFrames.count());
+                const Core::FrameRangeList list = Core::RangeUtil::range(_p->cachedFrames);
+                for (int i = 0; i < list.count(); ++i)
+                {
+                    const QRectF r(
+                        frameToPosF(list[i].min),
+                        box.h - 2,
+                        frameToPosF(list[i].max - list[i].min + 1),
+                        2);
+                    painter.fillRect(r, QColor(90, 90, 255));
+                }
             }
 
             // Draw the current frame.    
