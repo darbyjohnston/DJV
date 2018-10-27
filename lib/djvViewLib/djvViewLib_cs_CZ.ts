@@ -1158,7 +1158,6 @@
     <message>
         <location filename="FileActions.cpp" line="148"/>
         <source>Open a new file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Open a new file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1169,7 +1168,6 @@
     <message>
         <location filename="FileActions.cpp" line="162"/>
         <source>Reload the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reload the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1180,7 +1178,6 @@
     <message>
         <location filename="FileActions.cpp" line="175"/>
         <source>Reload the current frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reload the current frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1191,7 +1188,6 @@
     <message>
         <location filename="FileActions.cpp" line="189"/>
         <source>Close the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Close the current file&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewFiles.html#Open&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1206,23 +1202,23 @@
 <context>
     <name>djv::ViewLib::FileGroup</name>
     <message>
-        <location filename="FileGroup.cpp" line="605"/>
+        <location filename="FileGroup.cpp" line="604"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="695"/>
+        <location filename="FileGroup.cpp" line="694"/>
         <source>Export Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="704"/>
-        <location filename="FileGroup.cpp" line="728"/>
+        <location filename="FileGroup.cpp" line="703"/>
+        <location filename="FileGroup.cpp" line="727"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="721"/>
+        <location filename="FileGroup.cpp" line="720"/>
         <source>Export Frame</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1430,7 +1426,6 @@
     <message>
         <location filename="ImageActions.cpp" line="153"/>
         <source>Toggle whether the display profile editor is visible&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImages.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Toggle whether the display profile editor is visible&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImages.html#ColorProfiles&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1825,7 +1820,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackActions.cpp" line="72"/>
         <source>Playback every frame even if the playback speed cannot be maintained&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Playback every frame even if the playback speed cannot be maintained&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1836,7 +1830,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackActions.cpp" line="160"/>
         <source>Start or stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Start or stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1857,19 +1850,16 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackActions.cpp" line="188"/>
         <source>Forward playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Forward playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="192"/>
         <source>Stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Stop playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="196"/>
         <source>Reverse playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reverse playback&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1895,25 +1885,21 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackActions.cpp" line="264"/>
         <source>Go to the start frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Go to the start frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="268"/>
         <source>Go to the end frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Go to the end frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="272"/>
         <source>Go to the next frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Go to the next frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="278"/>
         <source>Go to the previous frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Go to the previous frame&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1944,31 +1930,26 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackActions.cpp" line="327"/>
         <source>Enable in/out points&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Enable in/out points&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="331"/>
         <source>Set the current frame as the in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Set the current frame as the in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="335"/>
         <source>Set the current frame as the out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Set the current frame as the out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="339"/>
         <source>Reset the current in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reset the current in point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="PlaybackActions.cpp" line="343"/>
         <source>Reset the current out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reset the current out point&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#InOutPoints&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1982,7 +1963,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackWidgets.cpp" line="89"/>
         <source>Click and drag to start playback; the playback speed is determined by how far you drag&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Click and drag to start playback; the playback speed is determined by how far you drag&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1993,7 +1973,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackWidgets.cpp" line="185"/>
         <source>Loop mode: %1&lt;br&gt;&lt;br&gt;Keyboard shortcut: %2&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Loop mode: %1&lt;br&gt;&lt;br&gt;Keyboard shortcut: %2&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#PlaybackControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2004,7 +1983,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="PlaybackWidgets.cpp" line="231"/>
         <source>Click and drag to change the current frame&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Click and drag to change the current frame&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewPlayback.html#FrameControls&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2164,25 +2142,21 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ToolActions.cpp" line="124"/>
         <source>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Show the magnify tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Magnify&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="128"/>
         <source>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Show the color picker tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#ColorPicker&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="132"/>
         <source>Show the histogram tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Show the histogram tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Histogram&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="ToolActions.cpp" line="136"/>
         <source>Show the information tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Show the information tool&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewTools.html#Information&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2267,7 +2241,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="120"/>
         <source>Move the view left&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Move the view left&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2278,7 +2251,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="133"/>
         <source>Move the view right&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Move the view right&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2289,7 +2261,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="146"/>
         <source>Move the view up&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Move the view up&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2300,7 +2271,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="159"/>
         <source>Move the view down&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Move the view down&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2311,7 +2281,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="172"/>
         <source>Center the view&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Center the view&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2322,7 +2291,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="186"/>
         <source>Zoom in&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Zoom in&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2333,7 +2301,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="200"/>
         <source>Zoom out&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Zoom out&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2344,7 +2311,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="214"/>
         <source>Reset the view zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reset the view zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2355,7 +2321,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="227"/>
         <source>Reset the view position and zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Reset the view position and zoom&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2366,7 +2331,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="241"/>
         <source>Fit the view to the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Fit the view to the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#View&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2377,7 +2341,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="ViewActions.cpp" line="254"/>
         <source>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html#HUD&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2581,7 +2544,6 @@ Playback Options
     <message>
         <location filename="WindowActions.cpp" line="112"/>
         <source>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2592,7 +2554,6 @@ Playback Options
     <message>
         <location filename="WindowActions.cpp" line="126"/>
         <source>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2603,7 +2564,6 @@ Playback Options
     <message>
         <location filename="WindowActions.cpp" line="140"/>
         <source>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2614,7 +2574,6 @@ Playback Options
     <message>
         <location filename="WindowActions.cpp" line="154"/>
         <source>Resize the window to fit the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Resize the window to fit the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2625,7 +2584,6 @@ Playback Options
     <message>
         <location filename="WindowActions.cpp" line="168"/>
         <source>Show the window full screen&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
-        <oldsource>Show the window full screen&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html#Windows&quot;&gt;Documentation&lt;/a&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

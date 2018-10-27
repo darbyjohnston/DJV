@@ -514,13 +514,12 @@ namespace djv
             //DJV_DEBUG_PRINT("preload frame        = " << _p->preloadFrame);
 
             FileCache * cache = context()->fileCache();
-            //DJV_DEBUG_PRINT("cache byte count     = " << cache->byteCount());
-            //DJV_DEBUG_PRINT("cache max byte count = " << cache->maxByteCount());
+            //DJV_DEBUG_PRINT("cache byte count     = " << cache->currentSizeBytes());
+            //DJV_DEBUG_PRINT("cache max byte count = " << cache->maxSizeBytes());
 
             const auto items = cache->items(mainWindow());
 
-            // Search for the next frame that isn't in the cache. We then load the
-            // frame if it won't exceed the cache size.
+            // Search for the next frame that isn't in the cache.
             bool      preload = false;
             quint64   byteCount = 0;
             qint64    frame = _p->preloadFrame;

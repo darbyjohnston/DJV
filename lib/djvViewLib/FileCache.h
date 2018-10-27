@@ -32,6 +32,7 @@
 #include <djvViewLib/ViewLib.h>
 
 #include <djvCore/Sequence.h>
+#include <djvCore/Time.h>
 #include <djvCore/Util.h>
 
 #include <QObject>
@@ -58,6 +59,7 @@ namespace djv
 
             void * window = nullptr;
             qint64 frame = 0;
+            ::time_t timestamp = 0;
 
             bool operator < (const FileCacheKey &) const;
         };

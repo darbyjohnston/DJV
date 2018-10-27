@@ -37,6 +37,7 @@
 #include <djvCore/Assert.h>
 #include <djvCore/ListUtil.h>
 #include <djvCore/Memory.h>
+#include <djvCore/Time.h>
 
 #include <QPointer>
 
@@ -47,17 +48,23 @@ namespace djv
 {
     namespace ViewLib
     {
-        FileCacheKey::FileCacheKey()
+        FileCacheKey::FileCacheKey() :
+            timestamp(Core::Time::current())
         {}
 
         FileCacheKey::FileCacheKey(void * window, qint64 frame) :
             window(window),
-            frame(frame)
+            frame(frame),
+            timestamp(Core::Time::current())
         {}
 
         bool FileCacheKey::operator < (const FileCacheKey & other) const
         {
-            return window < other.window || (!(other.window < window) && frame < other.frame);
+            if (window != other.window)
+            {
+                return window < other.window;
+            }
+            return frame < other.frame;
         }
 
         struct FileCache::Private
@@ -275,11 +282,21 @@ namespace djv
             debug();
 
             // Delete as many items as possible to bring the cache size below the maximum size.
-            auto i = _p->items.begin();
-            while (_p->cacheBytes > _p->maxBytes && i != _p->items.end())
+            std::map<::time_t, FileCacheKey> sortedByTime;
+            for (auto i : _p->items)
             {
-                _p->cacheBytes -= i->second->dataByteCount();
-                i = _p->items.erase(i);
+                sortedByTime[i.first.timestamp] = i.first;
+            }
+            auto j = sortedByTime.begin();
+            while (_p->cacheBytes > _p->maxBytes && j != sortedByTime.end())
+            {
+                auto k = _p->items.find(j->second);
+                if (k != _p->items.end())
+                {
+                    _p->cacheBytes -= k->second->dataByteCount();
+                    _p->items.erase(k);
+                    j = sortedByTime.erase(j);
+                }
             }
 
             Q_EMIT cacheChanged();
