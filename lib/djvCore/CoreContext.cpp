@@ -219,7 +219,6 @@ namespace djv
                 "djv::Core::CoreContext",
                 "DJV Imaging, Version: %1\n"
                 "http://djv.sourceforge.net\n"
-                "Made in Berkeley, CA, USA\n"
                 "\n"
                 "Copyright (c) 2004-2018 Darby Johnston\n"
                 "All rights reserved.\n"
@@ -303,7 +302,9 @@ namespace djv
                 "\n"
                 "    zlib\n"
                 "    http://www.zlib.net/\n"
-                "    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler\n");
+                "    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler\n"
+                "\n"
+                "DJV Imaging is made in Berkeley, CA, USA\n");
             return QString(label).arg(DJV_VERSION);
         }
 
