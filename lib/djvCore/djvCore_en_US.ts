@@ -41,6 +41,7 @@ System
         <location filename="CoreContext.cpp" line="218"/>
         <source>DJV Imaging, Version: %1
 http://djv.sourceforge.net
+https://github.com/darbyjohnston/DJV
 
 Copyright (c) 2004-2018 Darby Johnston
 All rights reserved.
@@ -181,72 +182,72 @@ This software is based in part on the works of (in alphabetical order):
     http://www.zlib.net/
     Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler
 
-This software is made in Berkeley, CA, USA
+DJV Imaging is made in Berkeley, CA, USA
 </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="367"/>
+        <location filename="CoreContext.cpp" line="368"/>
         <source>-seq_format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="373"/>
+        <location filename="CoreContext.cpp" line="374"/>
         <source>-seq_auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="379"/>
+        <location filename="CoreContext.cpp" line="380"/>
         <source>-seq_max</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="385"/>
+        <location filename="CoreContext.cpp" line="386"/>
         <source>-seq_negative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="391"/>
+        <location filename="CoreContext.cpp" line="392"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="397"/>
+        <location filename="CoreContext.cpp" line="398"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="403"/>
+        <location filename="CoreContext.cpp" line="404"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="415"/>
+        <location filename="CoreContext.cpp" line="416"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="416"/>
+        <location filename="CoreContext.cpp" line="417"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="421"/>
+        <location filename="CoreContext.cpp" line="422"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="426"/>
+        <location filename="CoreContext.cpp" line="427"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="432"/>
+        <location filename="CoreContext.cpp" line="433"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="468"/>
+        <location filename="CoreContext.cpp" line="469"/>
         <source>
 File Sequence Options
 

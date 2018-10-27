@@ -219,6 +219,7 @@ namespace djv
                 "djv::Core::CoreContext",
                 "DJV Imaging, Version: %1\n"
                 "http://djv.sourceforge.net\n"
+                "https://github.com/darbyjohnston/DJV\n"
                 "\n"
                 "Copyright (c) 2004-2018 Darby Johnston\n"
                 "All rights reserved.\n"
