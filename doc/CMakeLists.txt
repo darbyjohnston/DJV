@@ -106,3 +106,4 @@ install(
     FILES
     ${legal}
     DESTINATION doc)
+
