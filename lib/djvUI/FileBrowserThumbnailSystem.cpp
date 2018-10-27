@@ -224,8 +224,14 @@ namespace djv
                     _p->infoRequests = std::move(_p->infoQueue);
                     _p->pixmapRequests = std::move(_p->pixmapQueue);
                 }
-                _handleInfoRequests();
-                _handlePixmapRequests();
+                if (_p->infoRequests.size())
+                {
+                    _handleInfoRequests();
+                }
+                if (_p->pixmapRequests.size())
+                {
+                    _handlePixmapRequests();
+                }
             }
             _p->openGLImage.reset();
             _p->openGLDebugLogger->stopLogging();
@@ -257,15 +263,19 @@ namespace djv
 
         void FileBrowserThumbnailSystem::_handlePixmapRequests()
         {
+            //DJV_DEBUG("FileBrowserThumbnailSystem::_handlePixmapRequests");
             for (auto& request : _p->pixmapRequests)
             {
                 QPixmap pixmap;
                 try
                 {
+                    //DJV_DEBUG_PRINT("file = " << request.fileInfo);
+                    
                     Graphics::ImageIOInfo info;
                     auto load = std::unique_ptr<Graphics::ImageLoad>(_p->imageIO->load(request.fileInfo, info));
                     Graphics::Image image;
                     load->read(image);
+                    //DJV_DEBUG_PRINT("image = " << image);
 
                     Graphics::Image tmp(Graphics::PixelDataInfo(request.resolution, image.pixel()));
                     Graphics::OpenGLImageOptions options;
