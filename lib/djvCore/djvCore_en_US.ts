@@ -202,8 +202,38 @@ Miscellaneous Options
     -info
         Show information about the application.
     -about
-        Show legal infomration.
+        Show legal information.
 </source>
+        <oldsource>
+File Sequence Options
+
+    -seq_format (value)
+        Set the file sequence formatting: %1. Default = %2.
+    -seq_auto (value)
+        Set whether auto file sequencing is enabled: %3. Default = %4.
+    -seq_max (value)
+        Set the maximum allowed size of file sequences. Default = %5.
+    -seq_negative (value)
+        Set whether negative numbers are enabled: %6. Default = %7.
+
+Time Options
+
+    -time_units (value)
+        Set the time units: %8. Default = %9.
+    -default_speed (value)
+        Set the default speed: %10. Default = %11.
+
+Miscellaneous Options
+
+    -debug_log
+        Print debug log messages.
+    -help, -h
+        Show the command line documentation.
+    -info
+        Show information about the application.
+    -about
+        Show legal infomration.
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

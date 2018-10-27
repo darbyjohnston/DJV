@@ -1306,7 +1306,7 @@ Keyboard shortcut: %1</source>
     </message>
     <message>
         <location filename="StylePrefs.cpp" line="190"/>
-        <location filename="StylePrefs.cpp" line="309"/>
+        <location filename="StylePrefs.cpp" line="310"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1321,7 +1321,7 @@ Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="StylePrefs.cpp" line="310"/>
+        <location filename="StylePrefs.cpp" line="311"/>
         <source>Large</source>
         <translation type="unfinished"></translation>
     </message>
