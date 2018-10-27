@@ -296,6 +296,7 @@ namespace djv
             if (in == _p->colorSwatchTransparency)
                 return;
             _p->colorSwatchTransparency = in;
+            //! \todo Can we use QWidget::changeEvent() for this instead?
             Q_FOREACH(QWidget * widget, qApp->allWidgets())
             {
                 qApp->postEvent(widget, new QEvent(QEvent::StyleChange));
@@ -437,6 +438,7 @@ namespace djv
                 Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].select));
             qApp->setPalette(palette);            
             Q_EMIT prefChanged();
+            //! \todo Can we use QWidget::changeEvent() for this instead?
             Q_FOREACH(QWidget * widget, qApp->allWidgets())
             {
                 qApp->postEvent(widget, new QEvent(QEvent::StyleChange));
@@ -450,6 +452,7 @@ namespace djv
             font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
             qApp->setFont(font);
             Q_EMIT prefChanged();
+            //! \todo Can we use QWidget::changeEvent() for this instead?
             Q_FOREACH(QWidget * widget, qApp->allWidgets())
             {
                 qApp->postEvent(widget, new QEvent(QEvent::StyleChange));
@@ -463,6 +466,7 @@ namespace djv
             font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
             qApp->setFont(font);
             Q_EMIT prefChanged();
+            //! \todo Can we use QWidget::changeEvent() for this instead?
             Q_FOREACH(QWidget * widget, qApp->allWidgets())
             {
                 qApp->postEvent(widget, new QEvent(QEvent::StyleChange));
