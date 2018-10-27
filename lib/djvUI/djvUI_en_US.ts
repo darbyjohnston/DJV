@@ -377,58 +377,58 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="736"/>
+        <location filename="FileBrowser.cpp" line="741"/>
         <source>Choose which bookmarks to delete:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="760"/>
+        <location filename="FileBrowser.cpp" line="765"/>
         <source>Delete all bookmarks?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="969"/>
+        <location filename="FileBrowser.cpp" line="974"/>
         <source>&amp;Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="974"/>
+        <location filename="FileBrowser.cpp" line="979"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="980"/>
+        <location filename="FileBrowser.cpp" line="985"/>
         <source>D&amp;elete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1013"/>
+        <location filename="FileBrowser.cpp" line="1018"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1015"/>
+        <location filename="FileBrowser.cpp" line="1020"/>
         <source>Go up a directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1018"/>
+        <location filename="FileBrowser.cpp" line="1023"/>
         <source>Go to the previous directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1021"/>
+        <location filename="FileBrowser.cpp" line="1026"/>
         <source>Reload the current directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1024"/>
+        <location filename="FileBrowser.cpp" line="1029"/>
         <source>File sequence options:
 %1 - Show every file
 %2 - Show sequences of files including gaps between ranges; for example: 1-3,5,7-10
@@ -1168,12 +1168,12 @@ Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="201"/>
+        <location filename="PrefsDialog.cpp" line="206"/>
         <source>Are you sure you want to reset all of the preferences?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="213"/>
+        <location filename="PrefsDialog.cpp" line="218"/>
         <source>Are you sure you want to reset the preferences for the current page?</source>
         <translation type="unfinished"></translation>
     </message>

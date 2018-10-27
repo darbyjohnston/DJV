@@ -153,6 +153,7 @@ namespace djv
             void toolTipUpdate();
 
         protected:
+            void keyPressEvent(QKeyEvent *) override;
             bool event(QEvent *) override;
             
         private:

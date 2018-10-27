@@ -110,6 +110,11 @@ namespace djv
             _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
                 Qt::PopupFocusReason);
         }
+        
+        void DebugLogDialog::keyPressEvent(QKeyEvent *)
+        {
+            reject();
+        }
 
         bool DebugLogDialog::event(QEvent * event)
         {

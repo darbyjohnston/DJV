@@ -59,6 +59,9 @@ namespace djv
             //! Add a preferences widget.
             void addWidget(AbstractPrefsWidget *);
 
+        protected:
+            void keyPressEvent(QKeyEvent *) override;
+            
         private Q_SLOTS:
             void browserCallback(QListWidgetItem *, QListWidgetItem *);
             void buttonCallback(QAbstractButton *);

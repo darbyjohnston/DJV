@@ -69,6 +69,7 @@ namespace djv
 
         protected:
             void showEvent(QShowEvent *) override;
+            void keyPressEvent(QKeyEvent *) override;
             bool event(QEvent *) override;
 
         private Q_SLOTS:

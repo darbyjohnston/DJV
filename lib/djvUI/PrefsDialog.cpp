@@ -175,6 +175,11 @@ namespace djv
 
             _p->browser->insertItem(0, new ListWidgetItem(widget));
         }
+        
+        void PrefsDialog::keyPressEvent(QKeyEvent *)
+        {
+            reject();
+        }
 
         void PrefsDialog::browserCallback(QListWidgetItem * current, QListWidgetItem *)
         {

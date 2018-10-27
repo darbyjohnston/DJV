@@ -57,6 +57,7 @@ namespace djv
             void showEvent(QShowEvent *) override;
             void hideEvent(QHideEvent *) override;
             void paintEvent(QPaintEvent *) override;
+            void keyPressEvent(QKeyEvent *) override;
 
         private Q_SLOTS:
             void copyCallback();

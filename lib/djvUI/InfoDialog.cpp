@@ -90,6 +90,11 @@ namespace djv
             _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
                 Qt::PopupFocusReason);
         }
+        
+        void InfoDialog::keyPressEvent(QKeyEvent *)
+        {
+            reject();
+        }
 
         void InfoDialog::copyCallback()
         {

@@ -546,6 +546,11 @@ namespace djv
             }
             _p->widgets.file->setFocus(Qt::OtherFocusReason);
         }
+        
+        void FileBrowser::keyPressEvent(QKeyEvent *)
+        {
+            reject();
+        }
 
         void FileBrowser::fileCallback()
         {

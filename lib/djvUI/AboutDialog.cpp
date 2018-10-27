@@ -133,6 +133,11 @@ namespace djv
             painter.drawText(rect, Qt::TextWordWrap, _p->text);
             _p->textHeight = painter.boundingRect(rect, Qt::TextWordWrap, _p->text).height();
         }
+        
+        void AboutDialog::keyPressEvent(QKeyEvent *)
+        {
+            reject();
+        }
 
         void AboutDialog::copyCallback()
         {
