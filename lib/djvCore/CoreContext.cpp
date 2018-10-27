@@ -494,7 +494,7 @@ namespace djv
                 "    -info\n"
                 "        Show information about the application.\n"
                 "    -about\n"
-                "        Show legal infomration.\n");
+                "        Show legal information.\n");
             return QString(label).
                 arg(Sequence::formatLabels().join(", ")).
                 arg(seqFormatLabel.join(", ")).
