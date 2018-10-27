@@ -134,7 +134,7 @@ namespace djv
             {
                 throw Core::Error(
                     "djv::Graphics::GraphicsContext",
-                    qApp->translate("djv::Graphics::GraphicsContext", "Cannot find OpenGL 4.1 functions, found version %1.%2").
+                    qApp->translate("djv::Graphics::GraphicsContext", "Cannot find OpenGL 3.3 functions, found version %1.%2").
                     arg(_p->openGLContext->format().majorVersion()).arg(_p->openGLContext->format().minorVersion()));
             }
 
