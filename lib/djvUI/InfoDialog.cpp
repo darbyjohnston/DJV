@@ -34,6 +34,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDialogButtonBox>
+#include <QKeyEvent>
 #include <QPointer>
 #include <QPushButton>
 #include <QTextEdit>
@@ -91,9 +92,12 @@ namespace djv
                 Qt::PopupFocusReason);
         }
         
-        void InfoDialog::keyPressEvent(QKeyEvent *)
+        void InfoDialog::keyPressEvent(QKeyEvent * event)
         {
-            reject();
+            if (Qt::Key_Escape == event->key())
+            {
+                reject();
+            }
         }
 
         void InfoDialog::copyCallback()

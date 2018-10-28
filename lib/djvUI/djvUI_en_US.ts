@@ -4,12 +4,12 @@
 <context>
     <name>djv::UI::AboutDialog</name>
     <message>
-        <location filename="AboutDialog.cpp" line="72"/>
+        <location filename="AboutDialog.cpp" line="73"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AboutDialog.cpp" line="82"/>
+        <location filename="AboutDialog.cpp" line="83"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -221,17 +221,17 @@
 <context>
     <name>djv::UI::DebugLogDialog</name>
     <message>
-        <location filename="DebugLogDialog.cpp" line="70"/>
+        <location filename="DebugLogDialog.cpp" line="71"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DebugLogDialog.cpp" line="72"/>
+        <location filename="DebugLogDialog.cpp" line="73"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="DebugLogDialog.cpp" line="84"/>
+        <location filename="DebugLogDialog.cpp" line="85"/>
         <source>Debugging Log</source>
         <translation type="unfinished"></translation>
     </message>
@@ -377,58 +377,58 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="741"/>
+        <location filename="FileBrowser.cpp" line="744"/>
         <source>Choose which bookmarks to delete:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="765"/>
+        <location filename="FileBrowser.cpp" line="768"/>
         <source>Delete all bookmarks?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="974"/>
+        <location filename="FileBrowser.cpp" line="977"/>
         <source>&amp;Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="979"/>
+        <location filename="FileBrowser.cpp" line="982"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="985"/>
+        <location filename="FileBrowser.cpp" line="988"/>
         <source>D&amp;elete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1018"/>
+        <location filename="FileBrowser.cpp" line="1021"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1020"/>
+        <location filename="FileBrowser.cpp" line="1023"/>
         <source>Go up a directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1023"/>
+        <location filename="FileBrowser.cpp" line="1026"/>
         <source>Go to the previous directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1026"/>
+        <location filename="FileBrowser.cpp" line="1029"/>
         <source>Reload the current directory
 
 Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileBrowser.cpp" line="1029"/>
+        <location filename="FileBrowser.cpp" line="1032"/>
         <source>File sequence options:
 %1 - Show every file
 %2 - Show sequences of files including gaps between ranges; for example: 1-3,5,7-10
@@ -811,12 +811,12 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::InfoDialog</name>
     <message>
-        <location filename="InfoDialog.cpp" line="65"/>
+        <location filename="InfoDialog.cpp" line="66"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoDialog.cpp" line="75"/>
+        <location filename="InfoDialog.cpp" line="76"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -876,17 +876,17 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::MessagesDialog</name>
     <message>
-        <location filename="MessagesDialog.cpp" line="77"/>
+        <location filename="MessagesDialog.cpp" line="78"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MessagesDialog.cpp" line="80"/>
+        <location filename="MessagesDialog.cpp" line="81"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MessagesDialog.cpp" line="96"/>
+        <location filename="MessagesDialog.cpp" line="97"/>
         <source>Messages</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1153,27 +1153,27 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::PrefsDialog</name>
     <message>
-        <location filename="PrefsDialog.cpp" line="111"/>
+        <location filename="PrefsDialog.cpp" line="112"/>
         <source>Reset Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="115"/>
+        <location filename="PrefsDialog.cpp" line="116"/>
         <source>Reset All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="128"/>
+        <location filename="PrefsDialog.cpp" line="129"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="206"/>
+        <location filename="PrefsDialog.cpp" line="210"/>
         <source>Are you sure you want to reset all of the preferences?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PrefsDialog.cpp" line="218"/>
+        <location filename="PrefsDialog.cpp" line="222"/>
         <source>Are you sure you want to reset the preferences for the current page?</source>
         <translation type="unfinished"></translation>
     </message>

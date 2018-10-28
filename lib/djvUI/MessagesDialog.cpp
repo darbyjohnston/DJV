@@ -40,6 +40,7 @@
 #include <QApplication>
 #include <QCheckBox>
 #include <QDialogButtonBox>
+#include <QKeyEvent>
 #include <QPointer>
 #include <QPushButton>
 #include <QTextEdit>
@@ -139,9 +140,12 @@ namespace djv
                 Qt::PopupFocusReason);
         }
         
-        void MessagesDialog::keyPressEvent(QKeyEvent *)
+        void MessagesDialog::keyPressEvent(QKeyEvent * event)
         {
-            reject();
+            if (Qt::Key_Escape == event->key())
+            {
+                reject();
+            }
         }
 
         bool MessagesDialog::event(QEvent * event)

@@ -37,6 +37,7 @@
 #include <QClipboard>
 #include <QDialogButtonBox>
 #include <QGridLayout>
+#include <QKeyEvent>
 #include <QPainter>
 #include <QPixmap>
 #include <QPointer>
@@ -134,9 +135,12 @@ namespace djv
             _p->textHeight = painter.boundingRect(rect, Qt::TextWordWrap, _p->text).height();
         }
         
-        void AboutDialog::keyPressEvent(QKeyEvent *)
+        void AboutDialog::keyPressEvent(QKeyEvent * event)
         {
-            reject();
+            if (Qt::Key_Escape == event->key())
+            {
+                reject();
+            }
         }
 
         void AboutDialog::copyCallback()

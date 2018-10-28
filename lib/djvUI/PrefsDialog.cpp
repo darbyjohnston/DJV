@@ -44,6 +44,7 @@
 #include <QApplication>
 #include <QDialogButtonBox>
 #include <QHeaderView>
+#include <QKeyEvent>
 #include <QListWidget>
 #include <QPointer>
 #include <QPushButton>
@@ -176,9 +177,12 @@ namespace djv
             _p->browser->insertItem(0, new ListWidgetItem(widget));
         }
         
-        void PrefsDialog::keyPressEvent(QKeyEvent *)
+        void PrefsDialog::keyPressEvent(QKeyEvent * event)
         {
-            reject();
+            if (Qt::Key_Escape == event->key())
+            {
+                reject();
+            }
         }
 
         void PrefsDialog::browserCallback(QListWidgetItem * current, QListWidgetItem *)
