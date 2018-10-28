@@ -104,8 +104,7 @@ namespace djv
             {
                 auto whatsThisEvent = static_cast<QWhatsThisClickedEvent *>(event);
                 const QString path = _p->context->documentationPath() + whatsThisEvent->href();
-                std::cout << path.toLatin1().data() << std::endl;
-                QDesktopServices::openUrl(path);
+                QDesktopServices::openUrl(QUrl::fromLocalFile(path));
             }
             break;
             default: break;
