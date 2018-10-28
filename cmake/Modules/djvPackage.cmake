@@ -145,7 +145,7 @@ elseif (APPLE)
 
 elseif (UNIX)
         
-    set(CPACK_RPM_PACKAGE_NAME djv)
+    set(CPACK_RPM_PACKAGE_NAME ${PROJECT_NAME})
     set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
     set(CPACK_RPM_PACKAGE_RELOCATABLE true)
     if(DJV_THIRD_PARTY)
@@ -177,7 +177,7 @@ elseif (UNIX)
     SET(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE
         ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh)
         
-    set(CPACK_DEBIAN_PACKAGE_NAME djv)
+    set(CPACK_DEBIAN_PACKAGE_NAME ${PROJECT_NAME})
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libgcc1, libgl1")
     set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
     configure_file(
@@ -198,7 +198,7 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${DJV_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${DJV_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${DJV_VERSION_PATCH})
 set(CPACK_PACKAGE_CONTACT http://djv.sourceforge.net)
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Media review software for VFX artists and filmmakers")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Professional media review software for VFX, animation, and film production")
 set(CPACK_PACKAGE_EXECUTABLES djv_view djv_view)
 set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE.txt)
 
