@@ -1,5 +1,3 @@
-set(djvPackageName ${djvProjectName}-${djvVersion}-${djvSystemName}-${djvBuildArch})
-
 if (WIN32)
 
     set(CPACK_GENERATOR ZIP NSIS)
@@ -126,7 +124,7 @@ if (WIN32)
         DeleteRegKey HKCR 'djv_view'
 	    ")
     
-    set(CPACK_PACKAGE_INSTALL_DIRECTORY ${djvPackageName})
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PROJECT_NAME})
 	
 elseif (APPLE)
 
@@ -140,7 +138,7 @@ elseif (APPLE)
         ${PROJECT_BINARY_DIR}/Info.plist)
         
     set(CPACK_PACKAGE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv_view.icns)
-    set(CPACK_BUNDLE_NAME ${djvPackageName})
+    set(CPACK_BUNDLE_NAME ${PROJECT_NAME})
     set(CPACK_BUNDLE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv_view.icns)
     set(CPACK_BUNDLE_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
     set(CPACK_BUNDLE_STARTUP_COMMAND ${PROJECT_BINARY_DIR}/startup.sh)
@@ -150,7 +148,7 @@ elseif (UNIX)
     set(CPACK_RPM_PACKAGE_NAME djv)
     set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
     set(CPACK_RPM_PACKAGE_RELOCATABLE true)
-    if(djvThirdPartyPackage)
+    if(DJV_THIRD_PARTY)
         set(CPACK_RPM_PACKAGE_AUTOREQPROV false)
     endif()
     set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST
@@ -196,9 +194,9 @@ elseif (UNIX)
 
 endif (WIN32)
 
-set(CPACK_PACKAGE_VERSION_MAJOR ${djvVersionMajor})
-set(CPACK_PACKAGE_VERSION_MINOR ${djvVersionMinor})
-set(CPACK_PACKAGE_VERSION_PATCH ${djvVersionPatch})
+set(CPACK_PACKAGE_VERSION_MAJOR ${DJV_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${DJV_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${DJV_VERSION_PATCH})
 set(CPACK_PACKAGE_CONTACT http://djv.sourceforge.net)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Media review software for VFX artists and filmmakers")
 set(CPACK_PACKAGE_EXECUTABLES djv_view djv_view)

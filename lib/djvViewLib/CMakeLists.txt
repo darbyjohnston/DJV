@@ -208,11 +208,12 @@ set_target_properties(djvViewLib PROPERTIES FOLDER lib CXX_STANDARD 11)
 #    DESTINATION include)
 install(
     FILES ${qmSource}
-    DESTINATION translations)
+    DESTINATION ${DJV_INSTALL_TRANSLATIONS})
 if(BUILD_SHARED_LIBS)
     install(
         TARGETS djvViewLib
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+        RUNTIME DESTINATION ${DJV_INSTALL_BIN}
+        LIBRARY DESTINATION ${DJV_INSTALL_LIB}
+        ARCHIVE DESTINATION ${DJV_INSTALL_LIB})
 endif()
+

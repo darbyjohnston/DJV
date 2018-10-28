@@ -1,21 +1,19 @@
 cmake_minimum_required(VERSION 3.0)
+cmake_policy(SET CMP0074 NEW)
 
-set(djvProjectName djv)
-project(${djvProjectName})
+project(djv)
 
-set(djvVersionMajor "1")
-set(djvVersionMinor "2")
-set(djvVersionPatch "2")
-set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
+set(DJV_VERSION_MAJOR "1")
+set(DJV_VERSION_MINOR "2")
+set(DJV_VERSION_PATCH "2")
+set(DJV_VERSION ${DJV_VERSION_MAJOR}.${DJV_VERSION_MINOR}.${DJV_VERSION_PATCH})
 
 # Set the platform we are building for.
 if(APPLE)
-    set(djvSystemName OSX)
     add_definitions(-DDJV_OSX)
 elseif(UNIX)
     string(COMPARE EQUAL ${CMAKE_SYSTEM_NAME} Linux _TMP)
     if(_TMP)
-        set(djvSystemName Linux)
         add_definitions(-DDJV_LINUX)
         set(CMAKE_C_FLAGS -fPIC)
         set(CMAKE_CXX_FLAGS -fPIC)
@@ -25,7 +23,6 @@ elseif(UNIX)
         set(CMAKE_INSTALL_RPATH "/usr/lib")
     endif()
 elseif(WIN32)
-    set(djvSystemName Windows)
     add_definitions(-DDJV_WINDOWS)
 endif()
 
@@ -33,13 +30,19 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 # Set the output directories for the build.
-set(djvBuildDir ${PROJECT_BINARY_DIR}/build)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${djvBuildDir}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${djvBuildDir}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${djvBuildDir}/bin)
+set(DJV_BUILD_DIR ${PROJECT_BINARY_DIR}/build)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DJV_BUILD_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${DJV_BUILD_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DJV_BUILD_DIR}/bin)
+
+# Set the installation directories.
+set(DJV_INSTALL_BIN bin)
+set(DJV_INSTALL_LIB lib)
+set(DJV_INSTALL_PLUGINS plugins)
+set(DJV_INSTALL_DOC doc)
+set(DJV_INSTALL_TRANSLATIONS translations)
 
 # Set miscellaneous options.
-set(djvBuildArch x64)
 add_definitions(-DDJV_MMAP)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -54,12 +57,11 @@ configure_file(
 enable_testing()
 
 # Enable gcov code coverage targets.
-set(djvGcov false)
+set(DJV_GCOV false)
 
 # Set compiler specific options.
 if(UNIX)
     if(CMAKE_COMPILER_IS_GNUCXX)
-    
         # Disable warnings from XPM files.
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-write-strings")
         
@@ -71,7 +73,7 @@ if(UNIX)
         #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
 
         # Set gcov options.
-        if(djvGcov)
+        if(DJV_GCOV)
             include(CodeCoverage)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage")
@@ -91,14 +93,18 @@ include_directories(
     ${CMAKE_BINARY_DIR})
 
 # Third party libraries.
-if(WIN32 OR APPLE)
-    set(djvThirdPartyBuild true)
-    set(djvThirdPartyPackage true)
-elseif(UNIX)
-    set(djvThirdPartyBuild false)
-    set(djvThirdPartyPackage false)
-endif()
-if(djvThirdPartyBuild)
+if(DJV_THIRD_PARTY)
+    set(ZLIB_ROOT ${DJV_THIRD_PARTY})
+    set(GLM_ROOT ${DJV_THIRD_PARTY})
+    set(OpenAL_ROOT ${DJV_THIRD_PARTY})
+    set(JPEG_ROOT ${DJV_THIRD_PARTY})
+    set(TIFF_ROOT ${DJV_THIRD_PARTY})
+    set(PNG_ROOT ${DJV_THIRD_PARTY})
+    set(IlmBase_ROOT ${DJV_THIRD_PARTY})
+    set(OpenEXR_ROOT ${DJV_THIRD_PARTY})
+    set(FFmpeg_ROOT ${DJV_THIRD_PARTY})    
+    set(Qt5_ROOT ${DJV_THIRD_PARTY})
+    
     set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(GLM_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(OPENAL_SHARED_LIBS ON)
@@ -110,6 +116,7 @@ if(djvThirdPartyBuild)
     set(FFMPEG_SHARED_LIBS ON)
     set(QT_SHARED_LIBS ON)
 endif()
+
 find_package(Qt5 REQUIRED)
 
 include(djvPackage)

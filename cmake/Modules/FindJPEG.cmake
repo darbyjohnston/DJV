@@ -18,37 +18,7 @@ find_path(JPEG_INCLUDE_DIR
     NAMES jpeglib.h)
 set(JPEG_INCLUDE_DIRS ${JPEG_INCLUDE_DIR})
 
-if(NOT djvThirdPartyBuild)
-    find_library(JPEG_LIBRARY NAMES jpeg)
-else()
-    if(WIN32)
-        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/jpeg.lib)
-    elseif(APPLE)
-        if(JPEG_SHARED_LIBS)
-            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.dylib)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${JPEG_LIBRARY}
-                    DESTINATION lib)
-            endif()
-        else()
-            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
-        endif()
-    else()
-        if(JPEG_SHARED_LIBS)
-            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.so)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${JPEG_LIBRARY}
-                    DESTINATION lib)
-            endif()
-        else()
-            set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg.a)
-        endif()
-    endif()
-endif()
+find_library(JPEG_LIBRARY NAMES jpeg)
 set(JPEG_LIBRARIES ${JPEG_LIBRARY})
 
 if(NOT JPEG_SHARED_LIBS)
@@ -71,5 +41,19 @@ endif()
 if(JPEG_FOUND AND NOT TARGET JPEG)
     add_library(JPEG INTERFACE)
     target_link_libraries(JPEG INTERFACE JPEG::JPEG)
+endif()
+
+if(DJV_THIRD_PARTY AND JPEG_SHARED_LIBS)
+    if(WIN32)
+        install(
+            FILES
+            ${JPEG_LIBRARY}
+            DESTINATION ${DJV_INSTALL_BIN})
+    else()
+        install(
+            FILES
+            ${JPEG_LIBRARY}
+            DESTINATION ${DJV_INSTALL_LIB})
+    endif()
 endif()
 

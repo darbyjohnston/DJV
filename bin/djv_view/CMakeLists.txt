@@ -22,7 +22,7 @@ set_target_properties(djv_view PROPERTIES FOLDER bin CXX_STANDARD 11)
 
 install(
     TARGETS djv_view
-    RUNTIME DESTINATION bin)
+    RUNTIME DESTINATION ${DJV_INSTALL_BIN})
 if (APPLE)
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/djv_view_osx.sh.in
@@ -30,22 +30,31 @@ if (APPLE)
         @ONLY)
     install(
         PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
-        DESTINATION bin)
+        DESTINATION ${DJV_INSTALL_BIN})
 elseif (UNIX)
     configure_file(
-        ${PROJECT_SOURCE_DIR}/etc/Linux/djv_view.desktop.in
-        ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
+        ${CMAKE_CURRENT_SOURCE_DIR}/djv_view_linux.sh.in
+        ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
         @ONLY)
     install(
-        FILES ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
-        DESTINATION /usr/share/applications)
-    install(
-        FILES ../../etc/Linux/djv_view.mime.xml
-        DESTINATION /usr/share/mime/packages)
-    install(
-        FILES ../../doc/images/logo-filmreel.svg
-        DESTINATION /usr/share/icons/hicolor/scalable/apps
-        RENAME djv_view.svg)
+        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
+        DESTINATION ${DJV_INSTALL_BIN})
+    if(CPACK_GENERATOR MATCHES "^RPM$" OR CPACK_GENERATOR MATCHES "^DEB$")
+        configure_file(
+            ${PROJECT_SOURCE_DIR}/etc/Linux/djv_view.desktop.in
+            ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
+            @ONLY)
+        install(
+            FILES ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
+            DESTINATION /usr/share/applications)
+        install(
+            FILES ../../etc/Linux/djv_view.mime.xml
+            DESTINATION /usr/share/mime/packages)
+        install(
+            FILES ../../doc/images/logo-filmreel.svg
+            DESTINATION /usr/share/icons/hicolor/scalable/apps
+            RENAME djv_view.svg)
+    endif()
 endif (APPLE)
 
 # \todo Build a second binary for a Windows command line version (.com).
@@ -58,6 +67,6 @@ if (WIN32)
         FOLDER bin)
     install(
         TARGETS djv_view.
-        RUNTIME DESTINATION bin)
+        RUNTIME DESTINATION ${DJV_INSTALL_BIN})
 endif (WIN32)
 

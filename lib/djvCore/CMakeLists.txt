@@ -96,17 +96,14 @@ target_link_libraries(djvCore
     ${CMAKE_DL_LIBS})
 set_target_properties(djvCore PROPERTIES FOLDER lib CXX_STANDARD 11)
 
-#install(
-#    FILES ${header}
-#    DESTINATION include)
 install(
     FILES ${qmSource}
-    DESTINATION translations)
+    DESTINATION ${DJV_INSTALL_TRANSLATIONS})
 if(BUILD_SHARED_LIBS)
     install(
         TARGETS djvCore
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+        RUNTIME DESTINATION ${DJV_INSTALL_BIN}
+        LIBRARY DESTINATION ${DJV_INSTALL_LIB}
+        ARCHIVE DESTINATION ${DJV_INSTALL_LIB})
 endif()
 

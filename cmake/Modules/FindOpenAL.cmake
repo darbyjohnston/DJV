@@ -21,54 +21,18 @@ find_path(OPENAL_INCLUDE_DIR
 set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
 set(OPENAL_DEFINES)
 
-if(NOT djvThirdPartyBuild)
-    find_library(OPENAL_LIBRARY NAMES openal)
+find_library(OPENAL_LIBRARY NAMES openal OpenAL32)
+if(WIN32)
+    set(OPENAL_LIBRARIES ${OPENAL_LIBRARY} Winmm)
+elseif(APPLE)
+    find_library(AUDIO_TOOLBOX AudioToolbox)
+    find_library(CORE_AUDIO CoreAudio)
+    set(OPENAL_LIBRARIES
+        ${OPENAL_LIBRARY}
+        ${AUDIO_TOOLBOX}
+        ${CORE_AUDIO})
 else()
-    if(WIN32)
-        set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/OpenAL32.lib)
-        set(OPENAL_LIBRARIES ${OPENAL_LIBRARY} Winmm)
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${CMAKE_INSTALL_PREFIX}/bin/OpenAL32.dll
-                DESTINATION bin)
-        endif()
-    elseif(APPLE)
-        find_library(AUDIO_TOOLBOX AudioToolbox)
-        find_library(CORE_AUDIO CoreAudio)
-        if(OPENAL_SHARED_LIBS)
-            set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.dylib)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${OPENAL_LIBRARY}
-                    ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.18.2.dylib
-                    DESTINATION lib)
-            endif()
-        else()
-            set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.a)
-        endif()
-        set(OPENAL_LIBRARIES
-            ${OPENAL_LIBRARY}
-            ${AUDIO_TOOLBOX}
-            ${CORE_AUDIO})
-    else()
-        if(OPENAL_SHARED_LIBS)
-            set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.so)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${OPENAL_LIBRARY}
-                    ${OPENAL_LIBRARY}.1
-                    ${OPENAL_LIBRARY}.1.18.2
-                    DESTINATION lib)
-            endif()
-        else()
-            set(OPENAL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libopenal.a)
-        endif()
-        set(OPENAL_LIBRARIES ${OPENAL_LIBRARY})
-    endif()
+    set(OPENAL_LIBRARIES ${OPENAL_LIBRARY})
 endif()
 
 if(NOT OPENAL_SHARED_LIBS)
@@ -93,4 +57,26 @@ if(OPENAL_FOUND AND NOT TARGET OpenAL)
     target_link_libraries(OpenAL INTERFACE OpenAL::OpenAL)
 endif()
 
+if(DJV_THIRD_PARTY)
+    if(WIN32)
+        install(
+            FILES
+            ${DJV_THIRD_PARTY}/bin/OpenAL32.dll
+            DESTINATION ${DJV_INSTALL_BIN})
+    elseif(APPLE)
+        install(
+            FILES
+            ${OPENAL_LIBRARY}
+            ${DJV_THIRD_PARTY}/lib/libopenal.1.dylib
+            ${DJV_THIRD_PARTY}/lib/libopenal.1.18.2.dylib
+            DESTINATION ${DJV_INSTALL_LIB})
+    else()
+        install(
+            FILES
+            ${OPENAL_LIBRARY}
+            ${OPENAL_LIBRARY}.1
+            ${OPENAL_LIBRARY}.1.18.2
+            DESTINATION ${DJV_INSTALL_LIB})
+    endif()
+endif()
 

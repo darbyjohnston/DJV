@@ -88,7 +88,18 @@ set(QT_INCLUDE_DIRS
     ${JPEG_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS})
 
-if(NOT djvThirdPartyBuild)
+if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+    find_library(QT_CORE_LIBRARY NAMES Qt5Cored Qt5Core_debug Qt5Core)
+    find_library(QT_DBUS_LIBRARY NAMES Qt5DBusd Qt5DBus_debug Qt5DBus)
+    find_library(QT_GUI_LIBRARY NAMES Qt5Guid Qt5Gui_debug Qt5Gui)
+    find_library(QT_NETWORK_LIBRARY NAMES Qt5Networkd Qt5Network_debug Qt5Network)
+    find_library(QT_OPENGL_LIBRARY NAMES Qt5OpenGLd Qt5OpenGL_debug Qt5OpenGL)
+    find_library(QT_PRINT_SUPPORT_LIBRARY NAMES Qt5PrintSupportd Qt5PrintSupport_debug Qt5PrintSupport)
+    find_library(QT_SQL_LIBRARY NAMES Qt5Sqld Qt5Sql_debug Qt5Sql)
+    find_library(QT_SVG_LIBRARY NAMES Qt5Svgd Qt5Svg_debug  Qt5Svg)
+    find_library(QT_WIDGETS_LIBRARY NAMES Qt5Widgetsd  Qt5Widgets_debug  Qt5Widgets)
+    find_library(QT_XML_LIBRARY NAMES Qt5Xmld Qt5Xml_debug Qt5Xml)
+else()
     find_library(QT_CORE_LIBRARY NAMES Qt5Core)
     find_library(QT_DBUS_LIBRARY NAMES Qt5DBus)
     find_library(QT_GUI_LIBRARY NAMES Qt5Gui)
@@ -99,220 +110,6 @@ if(NOT djvThirdPartyBuild)
     find_library(QT_SVG_LIBRARY NAMES Qt5Svg)
     find_library(QT_WIDGETS_LIBRARY NAMES Qt5Widgets)
     find_library(QT_XML_LIBRARY NAMES Qt5Xml)
-else()
-    if(WIN32)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(QT_CORE_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Cored.lib)
-            set(QT_DBUS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5DBusd.lib)
-            set(QT_GUI_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Guid.lib)
-            set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Networkd.lib)
-            set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5OpenGLd.lib)
-            set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5PrintSupportd.lib)
-            set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Sqld.lib)
-            set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Svgd.lib)
-            set(QT_WIDGETS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Widgetsd.lib)
-            set(QT_XML_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Xmld.lib)
-        else()
-            set(QT_CORE_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Core.lib)
-            set(QT_DBUS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5DBus.lib)
-            set(QT_GUI_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Gui.lib)
-            set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Network.lib)
-            set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5OpenGL.lib)
-            set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5PrintSupport.lib)
-            set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Sql.lib)
-            set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Svg.lib)
-            set(QT_WIDGETS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Widgets.lib)
-            set(QT_XML_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/Qt5Xml.lib)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5Core.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5DBus.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5Gui.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5Network.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5OpenGL.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5PrintSupport.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5Sql.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5Svg.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5Widgets.dll
-                    ${CMAKE_INSTALL_PREFIX}/bin/Qt5Xml.dll
-                    DESTINATION bin)
-                install(
-                    DIRECTORY
-                    ${CMAKE_INSTALL_PREFIX}/plugins/bearer
-                    ${CMAKE_INSTALL_PREFIX}/plugins/generic
-                    ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
-                    ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
-                    ${CMAKE_INSTALL_PREFIX}/plugins/platforms
-                    ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
-                    DESTINATION plugins)
-            endif()
-        endif()
-    elseif(APPLE)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(QT_CORE_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core_debug.dylib)
-            set(QT_DBUS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus_debug.dylib)
-            set(QT_GUI_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui_debug.dylib)
-            set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network_debug.dylib)
-            set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL_debug.dylib)
-            set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport_debug.dylib)
-            set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql_debug.dylib)
-            set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg_debug.dylib)
-            set(QT_WIDGETS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets_debug.dylib)
-            set(QT_XML_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml_debug.dylib)
-        else()
-            set(QT_CORE_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.dylib)
-            set(QT_DBUS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.dylib)
-            set(QT_GUI_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.dylib)
-            set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.dylib)
-            set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.dylib)
-            set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.dylib)
-            set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.dylib)
-            set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.dylib)
-            set(QT_WIDGETS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.dylib)
-            set(QT_XML_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.dylib)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.5.6.3.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.5.6.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.5.6.3.dylib
-                    DESTINATION lib)
-                install(
-                    DIRECTORY
-                    ${CMAKE_INSTALL_PREFIX}/plugins/bearer
-                    ${CMAKE_INSTALL_PREFIX}/plugins/generic
-                    ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
-                    ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
-                    ${CMAKE_INSTALL_PREFIX}/plugins/platforms
-                    ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
-                    DESTINATION plugins)
-            endif()
-        endif()
-    else()
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(QT_CORE_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.so)
-            set(QT_DBUS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.so)
-            set(QT_GUI_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.so)
-            set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.so)
-            set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.so)
-            set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.so)
-            set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.so)
-            set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.so)
-            set(QT_WIDGETS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.so)
-            set(QT_XML_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.so)
-        else()
-            set(QT_CORE_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Core.so)
-            set(QT_DBUS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5DBus.so)
-            set(QT_GUI_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Gui.so)
-            set(QT_NETWORK_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Network.so)
-            set(QT_OPENGL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5OpenGL.so)
-            set(QT_PRINT_SUPPORT_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5PrintSupport.so)
-            set(QT_SQL_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Sql.so)
-            set(QT_SVG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Svg.so)
-            set(QT_WIDGETS_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Widgets.so)
-            set(QT_XML_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libQt5Xml.so)
-        endif()
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${QT_CORE_LIBRARY}
-                ${QT_CORE_LIBRARY}.5
-                ${QT_CORE_LIBRARY}.5.6
-                ${QT_CORE_LIBRARY}.5.6.3
-                ${QT_DBUS_LIBRARY}
-                ${QT_DBUS_LIBRARY}.5
-                ${QT_DBUS_LIBRARY}.5.6
-                ${QT_DBUS_LIBRARY}.5.6.3
-                ${QT_GUI_LIBRARY}
-                ${QT_GUI_LIBRARY}.5
-                ${QT_GUI_LIBRARY}.5.6
-                ${QT_GUI_LIBRARY}.5.6.3
-                ${QT_NETWORK_LIBRARY}
-                ${QT_NETWORK_LIBRARY}.5
-                ${QT_NETWORK_LIBRARY}.5.6
-                ${QT_NETWORK_LIBRARY}.5.6.3
-                ${QT_OPENGL_LIBRARY}
-                ${QT_OPENGL_LIBRARY}.5
-                ${QT_OPENGL_LIBRARY}.5.6
-                ${QT_OPENGL_LIBRARY}.5.6.3
-                ${QT_PRINT_SUPPORT_LIBRARY}
-                ${QT_PRINT_SUPPORT_LIBRARY}.5
-                ${QT_PRINT_SUPPORT_LIBRARY}.5.6
-                ${QT_PRINT_SUPPORT_LIBRARY}.5.6.3
-                ${QT_SQL_LIBRARY}
-                ${QT_SQL_LIBRARY}.5
-                ${QT_SQL_LIBRARY}.5.6
-                ${QT_SQL_LIBRARY}.5.6.3
-                ${QT_SVG_LIBRARY}
-                ${QT_SVG_LIBRARY}.5
-                ${QT_SVG_LIBRARY}.5.6
-                ${QT_SVG_LIBRARY}.5.6.3
-                ${QT_WIDGETS_LIBRARY}
-                ${QT_WIDGETS_LIBRARY}.5
-                ${QT_WIDGETS_LIBRARY}.5.6
-                ${QT_WIDGETS_LIBRARY}.5.6.3
-                ${QT_XML_LIBRARY}
-                ${QT_XML_LIBRARY}.5
-                ${QT_XML_LIBRARY}.5.6
-                ${QT_XML_LIBRARY}.5.6.3
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so.5
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so.5.6
-                ${CMAKE_INSTALL_PREFIX}/lib/libQt5XcbQpa.so.5.6.3
-                DESTINATION lib)
-            install(
-                DIRECTORY
-                ${CMAKE_INSTALL_PREFIX}/plugins/bearer
-                ${CMAKE_INSTALL_PREFIX}/plugins/generic
-                ${CMAKE_INSTALL_PREFIX}/plugins/iconengines
-                ${CMAKE_INSTALL_PREFIX}/plugins/imageformats
-                ${CMAKE_INSTALL_PREFIX}/plugins/platforminputcontexts
-                ${CMAKE_INSTALL_PREFIX}/plugins/platforms
-                ${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers
-                ${CMAKE_INSTALL_PREFIX}/plugins/wayland-decoration-client
-                ${CMAKE_INSTALL_PREFIX}/plugins/wayland-graphics-integration-client
-                ${CMAKE_INSTALL_PREFIX}/plugins/xcbglintegrations
-                DESTINATION plugins)
-        endif()
-    endif()
 endif()
 set(QT_LIBRARIES
     ${QT_CORE_LIBRARY}
@@ -508,5 +305,146 @@ if(QT_FOUND AND NOT TARGET Qt5)
     target_link_libraries(Qt5 INTERFACE Qt5::QtSvg)
     target_link_libraries(Qt5 INTERFACE Qt5::QtWidgets)
     target_link_libraries(Qt5 INTERFACE Qt5::QtXml)
+endif()
+
+if(DJV_THIRD_PARTY)
+    if(WIN32)
+        install(
+            FILES
+            ${DJV_THIRD_PARTY}/bin/Qt5Core.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5DBus.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5Gui.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5Network.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5OpenGL.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5PrintSupport.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5Sql.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5Svg.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5Widgets.dll
+            ${DJV_THIRD_PARTY}/bin/Qt5Xml.dll
+            DESTINATION ${DJV_INSTALL_BIN})
+        install(
+            DIRECTORY
+            ${DJV_THIRD_PARTY}/plugins/bearer
+            ${DJV_THIRD_PARTY}/plugins/generic
+            ${DJV_THIRD_PARTY}/plugins/iconengines
+            ${DJV_THIRD_PARTY}/plugins/imageformats
+            ${DJV_THIRD_PARTY}/plugins/platforms
+            ${DJV_THIRD_PARTY}/plugins/sqldrivers
+            DESTINATION ${DJV_INSTALL_PLUGINS})
+    elseif(APPLE)
+        install(
+            FILES
+            ${DJV_THIRD_PARTY}/lib/libQt5Core.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Core.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Core.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Core.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5DBus.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5DBus.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Gui.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Gui.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Network.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Network.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Network.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Network.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5OpenGL.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5PrintSupport.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Sql.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Sql.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Svg.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Svg.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Svg.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Svg.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Widgets.5.6.3.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Xml.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.6.dylib
+            ${DJV_THIRD_PARTY}/lib/libQt5Xml.5.6.3.dylib
+            DESTINATION ${DJV_INSTALL_LIB})
+        install(
+            DIRECTORY
+            ${DJV_THIRD_PARTY}/plugins/bearer
+            ${DJV_THIRD_PARTY}/plugins/generic
+            ${DJV_THIRD_PARTY}/plugins/iconengines
+            ${DJV_THIRD_PARTY}/plugins/imageformats
+            ${DJV_THIRD_PARTY}/plugins/platforms
+            ${DJV_THIRD_PARTY}/plugins/sqldrivers
+            DESTINATION ${DJV_INSTALL_PLUGINS})
+    else()
+        install(
+            FILES
+            ${QT_CORE_LIBRARY}
+            ${QT_CORE_LIBRARY}.5
+            ${QT_CORE_LIBRARY}.5.6
+            ${QT_CORE_LIBRARY}.5.6.3
+            ${QT_DBUS_LIBRARY}
+            ${QT_DBUS_LIBRARY}.5
+            ${QT_DBUS_LIBRARY}.5.6
+            ${QT_DBUS_LIBRARY}.5.6.3
+            ${QT_GUI_LIBRARY}
+            ${QT_GUI_LIBRARY}.5
+            ${QT_GUI_LIBRARY}.5.6
+            ${QT_GUI_LIBRARY}.5.6.3
+            ${QT_NETWORK_LIBRARY}
+            ${QT_NETWORK_LIBRARY}.5
+            ${QT_NETWORK_LIBRARY}.5.6
+            ${QT_NETWORK_LIBRARY}.5.6.3
+            ${QT_OPENGL_LIBRARY}
+            ${QT_OPENGL_LIBRARY}.5
+            ${QT_OPENGL_LIBRARY}.5.6
+            ${QT_OPENGL_LIBRARY}.5.6.3
+            ${QT_PRINT_SUPPORT_LIBRARY}
+            ${QT_PRINT_SUPPORT_LIBRARY}.5
+            ${QT_PRINT_SUPPORT_LIBRARY}.5.6
+            ${QT_PRINT_SUPPORT_LIBRARY}.5.6.3
+            ${QT_SQL_LIBRARY}
+            ${QT_SQL_LIBRARY}.5
+            ${QT_SQL_LIBRARY}.5.6
+            ${QT_SQL_LIBRARY}.5.6.3
+            ${QT_SVG_LIBRARY}
+            ${QT_SVG_LIBRARY}.5
+            ${QT_SVG_LIBRARY}.5.6
+            ${QT_SVG_LIBRARY}.5.6.3
+            ${QT_WIDGETS_LIBRARY}
+            ${QT_WIDGETS_LIBRARY}.5
+            ${QT_WIDGETS_LIBRARY}.5.6
+            ${QT_WIDGETS_LIBRARY}.5.6.3
+            ${QT_XML_LIBRARY}
+            ${QT_XML_LIBRARY}.5
+            ${QT_XML_LIBRARY}.5.6
+            ${QT_XML_LIBRARY}.5.6.3
+            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so
+            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5
+            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5.6
+            ${DJV_THIRD_PARTY}/lib/libQt5XcbQpa.so.5.6.3
+            DESTINATION ${DJV_INSTALL_LIB})
+        install(
+            DIRECTORY
+            ${DJV_THIRD_PARTY}/plugins/bearer
+            ${DJV_THIRD_PARTY}/plugins/generic
+            ${DJV_THIRD_PARTY}/plugins/iconengines
+            ${DJV_THIRD_PARTY}/plugins/imageformats
+            ${DJV_THIRD_PARTY}/plugins/platforminputcontexts
+            ${DJV_THIRD_PARTY}/plugins/platforms
+            ${DJV_THIRD_PARTY}/plugins/sqldrivers
+            ${DJV_THIRD_PARTY}/plugins/wayland-decoration-client
+            ${DJV_THIRD_PARTY}/plugins/wayland-graphics-integration-client
+            ${DJV_THIRD_PARTY}/plugins/xcbglintegrations
+            DESTINATION ${DJV_INSTALL_PLUGINS})
+    endif()
 endif()
 

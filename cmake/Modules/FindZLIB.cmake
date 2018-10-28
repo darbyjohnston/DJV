@@ -18,63 +18,10 @@ find_path(ZLIB_INCLUDE_DIR
     NAMES zlib.h)
 set(ZLIB_INCLUDE_DIRS ${ZLIB_INCLUDE_DIR})
 
-if(NOT djvThirdPartyBuild)
-    find_library(ZLIB_LIBRARY NAMES z)
+if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+    find_library(ZLIB_LIBRARY NAMES z zlibd zlibstaticd)
 else()
-    if(WIN32)
-        if(ZLIB_SHARED_LIBS)
-            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibd.lib)
-                if(djvThirdPartyPackage)
-                    install(
-                        FILES ${CMAKE_INSTALL_PREFIX}/bin/zlibd.dll
-                        DESTINATION bin)
-                endif()
-            else()
-                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlib.lib)
-            endif()
-            if(djvThirdPartyPackage)
-                install(
-                    FILES ${CMAKE_INSTALL_PREFIX}/bin/zlib.dll
-                    DESTINATION bin)
-            endif()
-        else()
-            if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibstaticd.lib)
-            else()
-                set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/zlibstatic.lib)
-            endif()
-        endif()
-    elseif(APPLE)
-        if(ZLIB_SHARED_LIBS)
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.dylib)
-        else()
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
-        endif()
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${CMAKE_INSTALL_PREFIX}/lib/libz.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libz.1.dylib
-                ${CMAKE_INSTALL_PREFIX}/lib/libz.1.2.11.dylib
-                DESTINATION lib)
-        endif()
-    else()
-        if(ZLIB_SHARED_LIBS)
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.so)
-            set(ZLIB_LIBRARIES_INSTALL)
-        else()
-            set(ZLIB_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libz.a)
-        endif()
-        if(djvThirdPartyPackage)
-            install(
-                FILES
-                ${CMAKE_INSTALL_PREFIX}/lib/libz.so
-                ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1
-                ${CMAKE_INSTALL_PREFIX}/lib/libz.so.1.2.11
-                DESTINATION lib)
-        endif()
-    endif()
+    find_library(ZLIB_LIBRARY NAMES z zlib zlibstatic)
 endif()
 set(ZLIB_LIBRARIES ${ZLIB_LIBRARY})
 
@@ -93,5 +40,27 @@ endif()
 if(ZLIB_FOUND AND NOT TARGET ZLIB)
     add_library(ZLIB INTERFACE)
     target_link_libraries(ZLIB INTERFACE ZLIB::ZLIB)
+endif()
+
+if(DJV_THIRD_PARTY)
+    if(WIN32)
+        install(
+            FILES ${DJV_THIRD_PARTY}/bin/zlib.dll
+            DESTINATION ${DJV_INSTALL_BIN})
+    elseif(APPLE)
+        install(
+            FILES
+            ${DJV_THIRD_PARTY}/lib/libz.dylib
+            ${DJV_THIRD_PARTY}/lib/libz.1.dylib
+            ${DJV_THIRD_PARTY}/lib/libz.1.2.11.dylib
+            DESTINATION ${DJV_INSTALL_LIB})
+    else()
+        install(
+            FILES
+            ${DJV_THIRD_PARTY}/lib/libz.so
+            ${DJV_THIRD_PARTY}/lib/libz.so.1
+            ${DJV_THIRD_PARTY}/lib/libz.so.1.2.11
+            DESTINATION ${DJV_INSTALL_LIB})
+    endif()
 endif()
 

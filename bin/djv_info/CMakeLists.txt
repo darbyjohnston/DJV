@@ -21,8 +21,8 @@ set_target_properties(djv_info PROPERTIES FOLDER bin CXX_STANDARD 11)
 
 install(
     FILES ${qmSource}
-    DESTINATION translations)
+    DESTINATION ${DJV_INSTALL_TRANSLATIONS})
 install(
     TARGETS djv_info
-    RUNTIME DESTINATION bin)
+    RUNTIME DESTINATION ${DJV_INSTALL_BIN})
 

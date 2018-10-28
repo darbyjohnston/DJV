@@ -13,11 +13,8 @@ target_link_libraries(djvTestLib djvCore)
 set_target_properties(djvTestLib PROPERTIES FOLDER tests CXX_STANDARD 11)
 
 install(
-    FILES ${header}
-    DESTINATION include)
-install(
     TARGETS djvTestLib
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
+    RUNTIME DESTINATION ${DJV_INSTALL_BIN}
+    LIBRARY DESTINATION ${DJV_INSTALL_LIB}
+    ARCHIVE DESTINATION ${DJV_INSTALL_LIB})
 

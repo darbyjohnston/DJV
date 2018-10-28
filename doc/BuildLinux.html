@@ -133,7 +133,7 @@ following steps we will refer to this directory as $BUILD_DIR.</p>
 > cmake ../djv-git \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
-    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
+    -DDJV_THIRD_PARTY=$BUILD_DIR/djv-install-Debug
 > make
 </pre>
 <p>If you are compiling for OS X you should also set the CMAKE_FIND_FRAMEWORK
@@ -144,7 +144,7 @@ variable:</p>
 > cmake ../djv-git \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
-    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
+    -DDJV_THIRD_PARTY=$BUILD_DIR/djv-install-Debug \
     -DCMAKE_FIND_FRAMEWORK="LAST"
 > make
 </pre>
@@ -167,10 +167,25 @@ variable:</p>
 > git tag -a 1.2.2 -m "Version 1.2.2"
 > git push origin 1.2.2
 </pre>
-<p>Build the package:</p>
+<p>Building an RPM package:</p>
 <pre>
 > cmake ../djv-git \
-    -DCPACK_GENERATOR=RPM
+    -DCPACK_GENERATOR=RPM \
+    -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/djv
+> make package
+</pre>
+<p>Building a Debian package:</p>
+<pre>
+> cmake ../djv-git \
+    -DCPACK_GENERATOR=DEB \
+    -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/djv
+> make package
+</pre>
+<p>Building a TGZ package:</p>
+<pre>
+> cmake ../djv-git \
+    -DCPACK_GENERATOR=TGZ \
+    -DCPACK_PACKAGING_INSTALL_PREFIX=
 > make package
 </pre>
 </div>

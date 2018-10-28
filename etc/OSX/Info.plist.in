@@ -3,22 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleExecutable</key>
-	<string>@djvPackageName@</string>
+	<string>@PROJECT_NAME@</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.djv.djv</string>
 	<key>CFBundleName</key>
-	<string>@djvPackageName@</string>
+	<string>@PROJECT_NAME@</string>
 	<key>CFBundleIconFile</key>
-	<string>@djvPackageName@</string>
+	<string>@PROJECT_NAME@</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>@djvVersionMajor@.@djvVersionMinor@.@djvVersionPatch@</string>
+	<string>@DJV_VERSION_MAJOR@.@DJV_VERSION_MINOR@.@DJV_VERSION_PATCH@</string>
 	<key>CFBundleVersion</key>
-	<string>@djvVersionMajor@.@djvVersionMinor@.@djvVersionPatch@</string>
+	<string>@DJV_VERSION_MAJOR@.@DJV_VERSION_MINOR@.@DJV_VERSION_PATCH@</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright (c) 2004-2018 Darby Johnston</string>
-
     <key>CFBundleDocumentTypes</key>
     <array>
         <dict>
@@ -134,6 +133,5 @@
             </array>
         </dict>
     </array>
-    
 </dict>
 </plist>

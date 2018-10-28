@@ -2,9 +2,9 @@
 Encoding=UTF-8
 Type=Application
 Icon=djv_view
-Exec=djv_view %U
+Exec=@CPACK_PACKAGING_INSTALL_PREFIX@/bin/djv_view.sh %U
 Name=djv_view
-Comment=Media review software for VFX artists and filmmakers
+Comment=Professional media review software for VFX, animation, and film production
 Categories=Graphics
 Terminal=false
 MimeType=image/jpeg;image/png;image/tiff;image/x-cin;image/x-dpx;image/x-iff;image/x-ifl;image/x-jpeg;image/x-lut;image/x-1dl;image/x-exr;image/x-pic;image/x-png;image/x-pbm;image/x-rla;image/x-sgi;image/x-tga;image/x-tiff;video/quicktime;video/mp4;

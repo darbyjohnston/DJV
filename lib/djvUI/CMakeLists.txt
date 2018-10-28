@@ -284,22 +284,19 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvUI_en_US.ts
     djvUI_cs_CZ.ts)
 
-include_directories(
-    ${OPENGL_INCLUDE_DIRS})
+include_directories(${OPENGL_INCLUDE_DIRS})
 add_library(djvUI ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 target_link_libraries(djvUI djvGraphics)
 set_target_properties(djvUI PROPERTIES FOLDER lib CXX_STANDARD 11)
 
-#install(
-#    FILES ${header}
-#    DESTINATION include)
 install(
     FILES ${qmSource}
-    DESTINATION translations)
+    DESTINATION ${DJV_INSTALL_TRANSLATIONS})
 if(BUILD_SHARED_LIBS)
     install(
         TARGETS djvUI
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+        RUNTIME DESTINATION ${DJV_INSTALL_BIN}
+        LIBRARY DESTINATION ${DJV_INSTALL_LIB}
+        ARCHIVE DESTINATION ${DJV_INSTALL_LIB})
 endif()
+

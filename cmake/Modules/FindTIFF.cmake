@@ -24,44 +24,10 @@ set(TIFF_INCLUDE_DIRS
     ${JPEG_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS})
 
-if(NOT djvThirdPartyBuild)
-    find_library(TIFF_LIBRARY NAMES tiff)
+if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+    find_library(TIFF_LIBRARY NAMES tiffd)
 else()
-    if(WIN32)
-        if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiffd.lib)
-        else()
-            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiff.lib)
-        endif()
-    elseif(APPLE)
-        if(TIFF_SHARED_LIBS)
-            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.dylib)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${TIFF_LIBRARY}
-                    ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.dylib
-                    ${CMAKE_INSTALL_PREFIX}/lib/libtiff.5.3.0.dylib
-                    DESTINATION lib)
-            endif()
-        else()
-            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
-        endif()
-    else()
-        if(TIFF_SHARED_LIBS)
-            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.so)
-            if(djvThirdPartyPackage)
-                install(
-                    FILES
-                    ${TIFF_LIBRARY}
-                    ${TIFF_LIBRARY}.5
-                    ${TIFF_LIBRARY}.5.3.0
-                    DESTINATION lib)
-            endif()
-        else()
-            set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.a)
-        endif()
-    endif()
+    find_library(TIFF_LIBRARY NAMES tiff)
 endif()
 set(TIFF_LIBRARIES
     ${TIFF_LIBRARY}
@@ -86,5 +52,25 @@ endif()
 if(TIFF_FOUND AND NOT TARGET TIFF)
     add_library(TIFF INTERFACE)
     target_link_libraries(TIFF INTERFACE TIFF::TIFF)
+endif()
+
+if(DJV_THIRD_PARTY AND TIFF_SHARED_LIBS)
+    if(WIN32)
+        # \todo
+    elseif(APPLE)
+        install(
+            FILES
+            ${TIFF_LIBRARY}
+            ${DJV_THIRD_PARTY}/lib/libtiff.5.dylib
+            ${DJV_THIRD_PARTY}/lib/libtiff.5.3.0.dylib
+            DESTINATION ${DJV_INSTALL_LIB})
+    else()
+        install(
+            FILES
+            ${TIFF_LIBRARY}
+            ${TIFF_LIBRARY}.5
+            ${TIFF_LIBRARY}.5.3.0
+            DESTINATION ${DJV_INSTALL_LIB})
+    endif()
 endif()
 

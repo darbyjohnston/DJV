@@ -16,10 +16,10 @@ add_test(
     djvTest
     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/djvTest${CMAKE_EXECUTABLE_SUFFIX})
 
-if (djvGcov)
+if (DJV_GCOV)
     SETUP_TARGET_FOR_COVERAGE(
         djvTestCoverage
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/djvTest${CMAKE_EXECUTABLE_SUFFIX}
         ${CMAKE_CURRENT_BINARY_DIR}/coverage)
-endif (djvGcov)
+endif (DJV_GCOV)
 

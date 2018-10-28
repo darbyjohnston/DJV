@@ -86,23 +86,23 @@ set(legal
     ../LICENSE.txt
     ../LICENSE_zlib.txt)
 
-file(COPY ${html} DESTINATION ${djvBuildDir}/doc)
-file(COPY ${images} DESTINATION ${djvBuildDir}/doc/images)
+file(COPY ${html} DESTINATION ${DJV_BUILD_DIR}/doc)
+file(COPY ${images} DESTINATION ${DJV_BUILD_DIR}/doc/images)
 
 install(
     FILES
     ${html}
-    DESTINATION doc)
+    DESTINATION ${DJV_INSTALL_DOC})
 install(
     FILES
     ${images}
-    DESTINATION doc/images)
+    DESTINATION ${DJV_INSTALL_DOC}/images)
 #install(
 #    DIRECTORY
 #    doxygen/html
-#    DESTINATION doc/doxygen)
+#    DESTINATION ${DJV_INSTALL_DOC}/doxygen)
 install(
     FILES
     ${legal}
-    DESTINATION doc)
+    DESTINATION ${DJV_INSTALL_DOC})
 
