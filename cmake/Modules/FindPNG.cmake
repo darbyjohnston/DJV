@@ -23,7 +23,7 @@ set(PNG_INCLUDE_DIRS
     ${ZLIB_INCLUDE_DIRS})
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    find_library(PNG_LIBRARY NAMES pngd png16d png16_staticd)
+    find_library(PNG_LIBRARY NAMES pngd png16d libpng16_staticd)
 else()
     find_library(PNG_LIBRARY NAMES png png16 png16_static libpng16_static)
 endif()
