@@ -149,7 +149,8 @@ namespace djv
 
         Speed Speed::floatToSpeed(float value)
         {
-            //! \todo Implement a proper floating-point to rational number conversion.    
+            //! \todo Implement a proper floating-point to rational number conversion.
+            //! Check-out: OpenEXR\IlmImf\ImfRational.h
             for (int i = 0; i < FPS_COUNT; ++i)
             {
                 const FPS fps = static_cast<FPS>(i);
