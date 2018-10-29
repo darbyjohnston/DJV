@@ -549,7 +549,6 @@ FFmpeg Options
     <message>
         <location filename="GraphicsContext.cpp" line="137"/>
         <source>Cannot find OpenGL 3.3 functions, found version %1.%2</source>
-        <oldsource>Cannot find OpenGL 4.1 functions, found version %1.%2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

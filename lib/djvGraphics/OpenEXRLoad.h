@@ -32,6 +32,7 @@
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/OpenEXR.h>
 
+#include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
 
 #include <ImfInputFile.h>
@@ -40,6 +41,25 @@ namespace djv
 {
     namespace Graphics
     {
+        //! This class provides a memory-mapped input stream.
+        class MemoryMappedIStream : public Imf::IStream
+        {
+        public:
+            MemoryMappedIStream(const char fileName[]);
+            ~MemoryMappedIStream() override;
+
+            bool isMemoryMapped() const override;
+            char * readMemoryMapped(int n) override;
+            bool read(char c[], int n) override;
+            Imf::Int64 tellg() override;
+            void seekg(Imf::Int64 pos) override;
+
+        private:
+            Core::FileIO _f;
+            quint64      _size = 0;
+            quint64      _pos  = 0;
+            char *       _p    = nullptr;
+        };
         //! This class provides an OpenEXR loader.
         class OpenEXRLoad : public ImageLoad
         {
@@ -54,15 +74,16 @@ namespace djv
         private:
             void _open(const QString &, ImageIOInfo &);
 
-            OpenEXR::Options        _options;
-            Core::FileInfo          _file;
-            Imf::InputFile *        _f = nullptr;
-            Core::Box2i             _displayWindow;
-            Core::Box2i             _dataWindow;
-            Core::Box2i             _intersectedWindow;
-            QVector<OpenEXR::Layer> _layers;
-            PixelData               _tmp;
-            bool                    _fast = false;
+            OpenEXR::Options                     _options;
+            Core::FileInfo                       _file;
+            std::unique_ptr<MemoryMappedIStream> _s;
+            std::unique_ptr<Imf::InputFile>      _f;
+            Core::Box2i                          _displayWindow;
+            Core::Box2i                          _dataWindow;
+            Core::Box2i                          _intersectedWindow;
+            QVector<OpenEXR::Layer>              _layers;
+            PixelData                            _tmp;
+            bool                                 _fast = false;
         };
 
     } // namespace Graphics

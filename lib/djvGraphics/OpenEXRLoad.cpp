@@ -48,6 +48,62 @@ namespace djv
 {
     namespace Graphics
     {
+        MemoryMappedIStream::MemoryMappedIStream(const char fileName[]) :
+            IStream(fileName)
+        {
+            _f.open(fileName, Core::FileIO::READ);
+            _size = _f.size();
+            _p = (char *)(_f.mmapP());
+        }
+
+        MemoryMappedIStream::~MemoryMappedIStream()
+        {}
+
+        bool MemoryMappedIStream::isMemoryMapped() const
+        {
+            return true;
+        }
+
+        char * MemoryMappedIStream::readMemoryMapped(int n)
+        {
+            if (_pos >= _size)
+                throw Core::Error(
+                    OpenEXR::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+            if (_pos + n > _size)
+                throw Core::Error(
+                    OpenEXR::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+            char * out = _p + _pos;
+            _pos += n;
+            return out;
+        }
+
+        bool MemoryMappedIStream::read(char c[], int n)
+        {
+            if (_pos >= _size)
+                throw Core::Error(
+                    OpenEXR::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+            if (_pos + n > _size)
+                throw Core::Error(
+                    OpenEXR::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+            memcpy(c, _p + _pos, n);
+            _pos += n;
+            return _pos < _size;
+        }
+
+        Imf::Int64 MemoryMappedIStream::tellg()
+        {
+            return _pos;
+        }
+
+        void MemoryMappedIStream::seekg(Imf::Int64 pos)
+        {
+            _pos = pos;
+        }
+
         OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(context),
             _options(options)
@@ -224,9 +280,8 @@ namespace djv
 
         void OpenEXRLoad::close()
         {
-            delete _f;
-
-            _f = 0;
+            _f.reset(nullptr);
+            _s.reset(nullptr);
         }
 
         void OpenEXRLoad::_open(const QString & in, ImageIOInfo & info)
@@ -239,7 +294,9 @@ namespace djv
             try
             {
                 // Open the file.
-                _f = new Imf::InputFile(in.toUtf8().data());
+                //_f.reset(new Imf::InputFile(in.toUtf8().data()));
+                _s.reset(new MemoryMappedIStream(in.toUtf8().data()));
+                _f.reset(new Imf::InputFile(*_s.get()));
 
                 // Get the display and data windows.
                 _displayWindow = OpenEXR::imfToBox(_f->header().displayWindow());
