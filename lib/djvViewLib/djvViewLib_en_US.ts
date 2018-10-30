@@ -1202,23 +1202,23 @@
 <context>
     <name>djv::ViewLib::FileGroup</name>
     <message>
-        <location filename="FileGroup.cpp" line="604"/>
+        <location filename="FileGroup.cpp" line="599"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="694"/>
+        <location filename="FileGroup.cpp" line="689"/>
         <source>Export Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="703"/>
-        <location filename="FileGroup.cpp" line="727"/>
+        <location filename="FileGroup.cpp" line="698"/>
+        <location filename="FileGroup.cpp" line="722"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="720"/>
+        <location filename="FileGroup.cpp" line="715"/>
         <source>Export Frame</source>
         <translation type="unfinished"></translation>
     </message>
