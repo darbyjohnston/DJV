@@ -142,7 +142,7 @@ Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
 > cd djv-git-Debug
 > cmake ../djv-git \
     -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
     -DDJV_THIRD_PARTY=$BUILD_DIR/djv-install-Debug
 </pre>
 <p>Add the install path "$BUILD_DIR/djv-install-Debug/bin" to your PATH environment
