@@ -66,6 +66,9 @@ namespace djv
             //! Get the rotation.
             Enum::IMAGE_ROTATE rotate() const;
 
+            //! Get the pre-multiplied alpha.
+            bool hasPremultipliedAlpha() const;
+
             //! Get whether the color profile is enabled.
             bool hasColorProfile() const;
 
@@ -106,6 +109,7 @@ namespace djv
             void scaleCallback(QAction *);
             void rotateCallback(djv::ViewLib::Enum::IMAGE_ROTATE);
             void rotateCallback(QAction *);
+            void premultipliedAlphaCallback(bool);
             void colorProfileCallback(bool);
             void displayProfileCallback(QAction *);
             void channelCallback(djv::Graphics::OpenGLImageOptions::CHANNEL);

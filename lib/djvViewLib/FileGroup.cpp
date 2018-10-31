@@ -799,7 +799,6 @@ namespace djv
 
         void FileGroup::update()
         {
-            // Update actions.
             _p->actions->action(FileActions::EXPORT_SEQUENCE)->setEnabled(_p->imageLoad.data());
             _p->actions->action(FileActions::EXPORT_FRAME)->setEnabled(_p->imageLoad.data());
             _p->actions->setLayers(_p->layers);
@@ -808,12 +807,8 @@ namespace djv
             _p->actions->action(FileActions::CACHE)->setChecked(_p->cacheEnabled);
             _p->actions->action(FileActions::PRELOAD)->setChecked(_p->preload);
 
-            // Update action groups.
-            if (!_p->actions->group(FileActions::PROXY_GROUP)->actions()[_p->proxy]->isChecked())
-            {
-                _p->actions->group(FileActions::PROXY_GROUP)->actions()[_p->proxy]->trigger();
-            }
-        }
+            _p->actions->group(FileActions::PROXY_GROUP)->actions()[_p->proxy]->setChecked(true);
+       }
 
         void FileGroup::cacheDel()
         {

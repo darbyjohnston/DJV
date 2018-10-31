@@ -50,6 +50,7 @@ namespace djv
                 SET_FRAME_STORE,
                 MIRROR_H,
                 MIRROR_V,
+                PREMULTIPLIED_ALPHA,
                 COLOR_PROFILE,
                 DISPLAY_PROFILE_EDITOR,
 

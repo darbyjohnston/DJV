@@ -685,55 +685,44 @@ namespace djv
             //DJV_DEBUG_PRINT("playback = " << _p->playback);
             //DJV_DEBUG_PRINT("loop = " << _p->loop);
 
-            if (!_p->actions->group(PlaybackActions::PLAYBACK_GROUP)->actions()[
-                _p->playback]->isChecked())
+            _p->actions->group(PlaybackActions::PLAYBACK_GROUP)->actions()[_p->playback]->setChecked(true);
+            _p->actions->group(PlaybackActions::LOOP_GROUP)->actions()[_p->loop]->setChecked(true);
+
+            if (Enum::LOOP_ONCE == _p->loop)
             {
-                _p->actions->group(PlaybackActions::PLAYBACK_GROUP)->actions()[
-                    _p->playback]->trigger();
+                switch (_p->playback)
+                {
+                case Enum::FORWARD:
+                    if (_p->frame == frameEnd())
+                    {
+                        _p->frame = frameStart();
+                    }
+                    break;
+                case Enum::REVERSE:
+                    if (_p->frame == frameStart())
+                    {
+                        _p->frame = frameEnd();
+                    }
+                    break;
+                default: break;
+                }
             }
 
-                if (!_p->actions->group(PlaybackActions::LOOP_GROUP)->actions()[
-                    _p->loop]->isChecked())
-                {
-                    _p->actions->group(PlaybackActions::LOOP_GROUP)->actions()[
-                        _p->loop]->trigger();
-                }
+            if (_p->timer)
+            {
+                killTimer(_p->timer);
+                _p->timer = 0;
+            }
 
-                    if (Enum::LOOP_ONCE == _p->loop)
-                    {
-                        switch (_p->playback)
-                        {
-                        case Enum::FORWARD:
-                            if (_p->frame == frameEnd())
-                            {
-                                _p->frame = frameStart();
-                            }
-                            break;
-                        case Enum::REVERSE:
-                            if (_p->frame == frameStart())
-                            {
-                                _p->frame = frameEnd();
-                            }
-                            break;
-                        default: break;
-                        }
-                    }
-
-                    if (_p->timer)
-                    {
-                        killTimer(_p->timer);
-                        _p->timer = 0;
-                    }
-
-                    switch (_p->playback)
-                    {
-                    case Enum::FORWARD:
-                    case Enum::REVERSE:
-                        _p->timer = startTimer(0);
-                        _p->idleInit = true;
-                        break;
-                    default: break;
-                    }
+            switch (_p->playback)
+            {
+            case Enum::FORWARD:
+            case Enum::REVERSE:
+                _p->timer = startTimer(0);
+                _p->idleInit = true;
+                break;
+            default: break;
+            }
         }
 
         void PlaybackGroup::frameUpdate()
@@ -778,7 +767,7 @@ namespace djv
         void PlaybackGroup::layoutUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::layoutUpdate");
-            _p->actions->group(PlaybackActions::LAYOUT_GROUP)->actions()[_p->layout]->trigger();
+            _p->actions->group(PlaybackActions::LAYOUT_GROUP)->actions()[_p->layout]->setChecked(true);
             Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setLayout(_p->layout);
         }
