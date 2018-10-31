@@ -97,11 +97,17 @@ build:</p>
 > cd djv-git-third-party-Debug
 > cmake ../djv-git-third-party \
     -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
-    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
-    -DCMAKE_FIND_FRAMEWORK="LAST"
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
 > make
 > cd ..
+</pre>
+<p>If you are compiling for OS X you should also set the CMAKE_FIND_FRAMEWORK
+variable:</p>
+<pre>
+> cmake ../djv-git-third-party \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
+    -DCMAKE_FIND_FRAMEWORK="LAST"
 </pre>
 <p>After the build completes add the install path to your LD_LIBRARY_PATH:</p>
 <pre>
