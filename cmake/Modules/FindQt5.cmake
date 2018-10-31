@@ -444,6 +444,11 @@ if(DJV_THIRD_PARTY)
             DESTINATION ${DJV_INSTALL_LIB})
         install(
             DIRECTORY
+            ${DJV_THIRD_PARTY}/lib/fonts
+            DESTINATION ${DJV_INSTALL_LIB}/fonts
+            FILES_MATCHING PATTERN "*.ttf")
+        install(
+            DIRECTORY
             ${DJV_THIRD_PARTY}/plugins/bearer
             ${DJV_THIRD_PARTY}/plugins/generic
             ${DJV_THIRD_PARTY}/plugins/iconengines

@@ -25,7 +25,7 @@ set(TIFF_INCLUDE_DIRS
     ${ZLIB_INCLUDE_DIRS})
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    find_library(TIFF_LIBRARY NAMES tiffd)
+    find_library(TIFF_LIBRARY NAMES tiffd tiff)
 else()
     find_library(TIFF_LIBRARY NAMES tiff)
 endif()
