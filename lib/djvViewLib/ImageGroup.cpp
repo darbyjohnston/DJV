@@ -66,6 +66,7 @@ namespace djv
                 mirror(context->imagePrefs()->mirror()),
                 scale(context->imagePrefs()->scale()),
                 rotate(context->imagePrefs()->rotate()),
+                premultipliedAlpha(context->imagePrefs()->hasPremultipliedAlpha()),
                 colorProfile(context->imagePrefs()->hasColorProfile()),
                 displayProfile(context->imagePrefs()->displayProfile()),
                 channel(context->imagePrefs()->channel())
@@ -75,6 +76,7 @@ namespace djv
             Graphics::PixelDataInfo::Mirror       mirror;
             Enum::IMAGE_SCALE                     scale = static_cast<Enum::IMAGE_SCALE>(0);
             Enum::IMAGE_ROTATE                    rotate = static_cast<Enum::IMAGE_ROTATE>(0);
+            bool                                  premultipliedAlpha = true;
             bool                                  colorProfile = false;
             DisplayProfile                        displayProfile;
             Graphics::OpenGLImageOptions::CHANNEL channel = static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
@@ -101,6 +103,7 @@ namespace djv
                 _p->mirror = copy->_p->mirror;
                 _p->scale = copy->_p->scale;
                 _p->rotate = copy->_p->rotate;
+                _p->premultipliedAlpha = copy->_p->premultipliedAlpha;
                 _p->colorProfile = copy->_p->colorProfile;
                 _p->displayProfile = copy->_p->displayProfile;
                 _p->channel = copy->_p->channel;
@@ -148,6 +151,10 @@ namespace djv
                 _p->actions->action(ImageActions::MIRROR_V),
                 SIGNAL(toggled(bool)),
                 SLOT(mirrorVCallback(bool)));
+            connect(
+                _p->actions->action(ImageActions::PREMULTIPLIED_ALPHA),
+                SIGNAL(toggled(bool)),
+                SLOT(premultipliedAlphaCallback(bool)));
             connect(
                 _p->actions->action(ImageActions::COLOR_PROFILE),
                 SIGNAL(toggled(bool)),
@@ -204,6 +211,10 @@ namespace djv
                 SLOT(rotateCallback(djv::ViewLib::Enum::IMAGE_ROTATE)));
             connect(
                 context->imagePrefs(),
+                SIGNAL(premultipliedAlphaChanged(bool)),
+                SLOT(premultipliedAlphaCallback(bool)));
+            connect(
+                context->imagePrefs(),
                 SIGNAL(colorProfileChanged(bool)),
                 SLOT(colorProfileCallback(bool)));
             connect(
@@ -239,6 +250,11 @@ namespace djv
             return _p->rotate;
         }
 
+        bool ImageGroup::hasPremultipliedAlpha() const
+        {
+            return _p->premultipliedAlpha;
+        }
+
         bool ImageGroup::hasColorProfile() const
         {
             return _p->colorProfile;
@@ -254,6 +270,7 @@ namespace djv
             if (in == _p->displayProfile)
                 return;
             _p->displayProfile = in;
+            update();
             Q_EMIT displayProfileChanged(_p->displayProfile);
         }
 
@@ -278,6 +295,7 @@ namespace djv
         void ImageGroup::mirrorCallback(const Graphics::PixelDataInfo::Mirror & in)
         {
             _p->mirror = in;
+            update();
             Q_EMIT redrawNeeded();
         }
 
@@ -296,6 +314,7 @@ namespace djv
             //DJV_DEBUG("ImageGroup::scaleCallback");
             //DJV_DEBUG_PRINT("scale = " << scale);
             _p->scale = scale;
+            update();
             Q_EMIT redrawNeeded();
             Q_EMIT resizeNeeded();
         }
@@ -310,6 +329,7 @@ namespace djv
             //DJV_DEBUG("ImageGroup::rotateCallback");
             //DJV_DEBUG_PRINT("rotate = " << rotate);
             _p->rotate = rotate;
+            update();
             Q_EMIT redrawNeeded();
             Q_EMIT resizeNeeded();
         }
@@ -319,11 +339,19 @@ namespace djv
             rotateCallback(static_cast<Enum::IMAGE_ROTATE>(action->data().toInt()));
         }
 
+        void ImageGroup::premultipliedAlphaCallback(bool value)
+        {
+            _p->premultipliedAlpha = value;
+            update();
+            Q_EMIT redrawNeeded();
+        }
+
         void ImageGroup::colorProfileCallback(bool in)
         {
             //DJV_DEBUG("ImageGroup::colorProfileCallback");
             //DJV_DEBUG_PRINT("in = " << in);
             _p->colorProfile = in;
+            update();
             Q_EMIT redrawNeeded();
         }
 
@@ -346,7 +374,7 @@ namespace djv
             {
                 _p->channel = channel;
             }
-
+            update();
             Q_EMIT redrawNeeded();
         }
 
@@ -360,20 +388,13 @@ namespace djv
             _p->actions->action(ImageActions::SHOW_FRAME_STORE)->setChecked(_p->frameStoreVisible);
             _p->actions->action(ImageActions::MIRROR_H)->setChecked(_p->mirror.x);
             _p->actions->action(ImageActions::MIRROR_V)->setChecked(_p->mirror.y);
+            _p->actions->action(ImageActions::PREMULTIPLIED_ALPHA)->setChecked(_p->premultipliedAlpha);
             _p->actions->action(ImageActions::COLOR_PROFILE)->setChecked(_p->colorProfile);
 
-            if (!_p->actions->group(ImageActions::SCALE_GROUP)->actions()[_p->scale]->isChecked())
-            {
-                _p->actions->group(ImageActions::SCALE_GROUP)->actions()[_p->scale]->trigger();
-            }
-            if (!_p->actions->group(ImageActions::ROTATE_GROUP)->actions()[_p->rotate]->isChecked())
-            {
-                _p->actions->group(ImageActions::ROTATE_GROUP)->actions()[_p->rotate]->trigger();
-            }
-            if (!_p->actions->group(ImageActions::CHANNEL_GROUP)->actions()[_p->channel]->isChecked())
-            {
-                _p->actions->group(ImageActions::CHANNEL_GROUP)->actions()[_p->channel]->trigger();
-            }
+            _p->actions->group(ImageActions::SCALE_GROUP)->actions()[_p->scale]->setChecked(true);
+            _p->actions->group(ImageActions::ROTATE_GROUP)->actions()[_p->rotate]->setChecked(true);
+            _p->actions->group(ImageActions::CHANNEL_GROUP)->actions()[_p->channel]->setChecked(true);
+            _p->actions->group(ImageActions::CHANNEL_GROUP)->actions()[_p->channel]->setChecked(true);
 
             _p->displayProfileDockWidget->setVisible(
                 _p->actions->action(ImageActions::DISPLAY_PROFILE_EDITOR)->isChecked());

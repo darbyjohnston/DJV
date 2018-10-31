@@ -74,6 +74,9 @@ namespace djv
             _actions[MIRROR_V]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "Mirror &Vertical"));
             _actions[MIRROR_V]->setCheckable(true);
+            _actions[PREMULTIPLIED_ALPHA]->setText(
+                qApp->translate("djv::ViewLib::ImageActions", "Premultiplied &Alpha"));
+            _actions[PREMULTIPLIED_ALPHA]->setCheckable(true);
             _actions[COLOR_PROFILE]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "&Color Profile"));
             _actions[COLOR_PROFILE]->setCheckable(true);
@@ -143,6 +146,7 @@ namespace djv
             _actions[SET_FRAME_STORE]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_SET_FRAME_STORE].value);
             _actions[MIRROR_H]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
             _actions[MIRROR_V]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
+            _actions[PREMULTIPLIED_ALPHA]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_PREMULTIPLIED_ALPHA].value);
             _actions[COLOR_PROFILE]->setShortcut(shortcuts[Enum::SHORTCUT_IMAGE_COLOR_PROFILE].value);
 
             _actions[DISPLAY_PROFILE_EDITOR]->setIcon(context()->iconLibrary()->icon("djv/UI/DisplayProfileIcon"));
@@ -185,7 +189,7 @@ namespace djv
             {
                 _groups[ROTATE_GROUP]->actions()[i]->setShortcut(rotateShortcuts[i]);
             }
-            
+
             Q_FOREACH(QAction * action, _groups[DISPLAY_PROFILE_GROUP]->actions())
                 delete action;
             QStringList displayProfileNames;

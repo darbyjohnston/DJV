@@ -59,6 +59,7 @@ namespace djv
             void mirrorVCallback(bool);
             void scaleCallback(int);
             void rotateCallback(int);
+            void premultipliedAlphaCallback(bool);
             void colorProfileCallback(bool);
             void displayProfileCallback(int);
             void displayProfileCallback(QListWidgetItem *);

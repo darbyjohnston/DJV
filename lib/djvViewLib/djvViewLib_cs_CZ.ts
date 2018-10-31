@@ -198,7 +198,7 @@
     </message>
     <message>
         <location filename="Enum.cpp" line="86"/>
-        <location filename="Enum.cpp" line="395"/>
+        <location filename="Enum.cpp" line="396"/>
         <source>Playback Speed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -804,266 +804,274 @@
     </message>
     <message>
         <location filename="Enum.cpp" line="342"/>
-        <source>Image/Color Profile</source>
+        <source>Image/Premultiplied Alpha</source>
+        <oldsource>Image/Alpha Off</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="343"/>
-        <source>Image/Channel Default</source>
+        <source>Image/Color Profile</source>
+        <oldsource>Image/Alpha Multiply</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="344"/>
-        <source>Image/Channel Red</source>
+        <source>Image/Channel Default</source>
+        <oldsource>Image/Alpha Divide</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="345"/>
-        <source>Image/Channel Green</source>
+        <source>Image/Channel Red</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="346"/>
-        <source>Image/Channel Blue</source>
+        <source>Image/Channel Green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="347"/>
-        <source>Image/Channel Alpha</source>
+        <source>Image/Channel Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="348"/>
-        <source>Image/Display Profile Editor</source>
+        <source>Image/Channel Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="349"/>
-        <source>Image/Display Profile Reset</source>
+        <source>Image/Display Profile Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="350"/>
-        <source>Image/Display Profile 1</source>
+        <source>Image/Display Profile Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="351"/>
-        <source>Image/Display Profile 2</source>
+        <source>Image/Display Profile 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="352"/>
-        <source>Image/Display Profile 3</source>
+        <source>Image/Display Profile 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="353"/>
-        <source>Image/Display Profile 4</source>
+        <source>Image/Display Profile 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="354"/>
-        <source>Image/Display Profile 5</source>
+        <source>Image/Display Profile 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="355"/>
-        <source>Image/Display Profile 6</source>
+        <source>Image/Display Profile 5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="356"/>
-        <source>Image/Display Profile 7</source>
+        <source>Image/Display Profile 6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="357"/>
-        <source>Image/Display Profile 8</source>
+        <source>Image/Display Profile 7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="358"/>
-        <source>Image/Display Profile 9</source>
+        <source>Image/Display Profile 8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="359"/>
+        <source>Image/Display Profile 9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="360"/>
         <source>Image/Display Profile 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="361"/>
+        <location filename="Enum.cpp" line="362"/>
         <source>Playback/Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="362"/>
+        <location filename="Enum.cpp" line="363"/>
         <source>Playback/Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="363"/>
+        <location filename="Enum.cpp" line="364"/>
         <source>Playback/Reverse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="364"/>
+        <location filename="Enum.cpp" line="365"/>
         <source>Playback/Toggle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="365"/>
+        <location filename="Enum.cpp" line="366"/>
         <source>Playback/Loop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="366"/>
+        <location filename="Enum.cpp" line="367"/>
         <source>Playback/Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="367"/>
+        <location filename="Enum.cpp" line="368"/>
         <source>Playback/End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="368"/>
+        <location filename="Enum.cpp" line="369"/>
         <source>Playback/Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="369"/>
+        <location filename="Enum.cpp" line="370"/>
         <source>Playback/Next 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="370"/>
+        <location filename="Enum.cpp" line="371"/>
         <source>Playback/Next 100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="371"/>
+        <location filename="Enum.cpp" line="372"/>
         <source>Playback/Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="372"/>
+        <location filename="Enum.cpp" line="373"/>
         <source>Playback/Previous 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="373"/>
+        <location filename="Enum.cpp" line="374"/>
         <source>Playback/Previous 100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="374"/>
+        <location filename="Enum.cpp" line="375"/>
         <source>Playback/In/Out Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="375"/>
+        <location filename="Enum.cpp" line="376"/>
         <source>Playback/In Point Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="376"/>
+        <location filename="Enum.cpp" line="377"/>
         <source>Playback/In Point Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="377"/>
+        <location filename="Enum.cpp" line="378"/>
         <source>Playback/Out Point Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="378"/>
+        <location filename="Enum.cpp" line="379"/>
         <source>Playback/Out Point Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="380"/>
+        <location filename="Enum.cpp" line="381"/>
         <source>Tool/Magnify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="381"/>
+        <location filename="Enum.cpp" line="382"/>
         <source>Tool/Color Picker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="382"/>
+        <location filename="Enum.cpp" line="383"/>
         <source>Tool/Histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="383"/>
+        <location filename="Enum.cpp" line="384"/>
         <source>Tool/Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="385"/>
+        <location filename="Enum.cpp" line="386"/>
         <source>Help/What&apos;s This?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="393"/>
+        <location filename="Enum.cpp" line="394"/>
         <source>View Zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="394"/>
+        <location filename="Enum.cpp" line="395"/>
         <source>Playback Shuttle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="403"/>
+        <location filename="Enum.cpp" line="404"/>
         <source>10%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="404"/>
+        <location filename="Enum.cpp" line="405"/>
         <source>50%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="405"/>
+        <location filename="Enum.cpp" line="406"/>
         <source>100%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="426"/>
+        <location filename="Enum.cpp" line="427"/>
         <source>Cannot open image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="427"/>
+        <location filename="Enum.cpp" line="428"/>
         <source>Cannot read image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="428"/>
+        <location filename="Enum.cpp" line="429"/>
         <source>Cannot write image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="429"/>
+        <location filename="Enum.cpp" line="430"/>
         <source>Cannot open LUT: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="430"/>
+        <location filename="Enum.cpp" line="431"/>
         <source>Cannot pick color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="431"/>
+        <location filename="Enum.cpp" line="432"/>
         <source>Cannot compute histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="432"/>
+        <location filename="Enum.cpp" line="433"/>
         <source>Cannot magnify</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1410,26 +1418,31 @@
     </message>
     <message>
         <location filename="ImageActions.cpp" line="78"/>
+        <source>Premultiplied &amp;Alpha</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ImageActions.cpp" line="81"/>
         <source>&amp;Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageActions.cpp" line="82"/>
+        <location filename="ImageActions.cpp" line="85"/>
         <source>Display Profile Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageActions.cpp" line="150"/>
+        <location filename="ImageActions.cpp" line="154"/>
         <source>Toggle whether the display profile editor is visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageActions.cpp" line="153"/>
+        <location filename="ImageActions.cpp" line="157"/>
         <source>Toggle whether the display profile editor is visible&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImages.html&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageActions.cpp" line="192"/>
+        <location filename="ImageActions.cpp" line="196"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1437,7 +1450,7 @@
 <context>
     <name>djv::ViewLib::ImageGroup</name>
     <message>
-        <location filename="ImageGroup.cpp" line="124"/>
+        <location filename="ImageGroup.cpp" line="127"/>
         <source>Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1455,7 +1468,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageMenu.cpp" line="78"/>
+        <location filename="ImageMenu.cpp" line="80"/>
         <source>&amp;Display Profiles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1473,128 +1486,143 @@
 <context>
     <name>djv::ViewLib::ImagePrefsWidget</name>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="89"/>
-        <location filename="ImagePrefsWidget.cpp" line="146"/>
+        <location filename="ImagePrefsWidget.cpp" line="90"/>
+        <location filename="ImagePrefsWidget.cpp" line="150"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="94"/>
+        <location filename="ImagePrefsWidget.cpp" line="95"/>
         <source>Automatically set the frame store when files are reloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="98"/>
+        <location filename="ImagePrefsWidget.cpp" line="99"/>
         <source>Mirror horizontally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="101"/>
+        <location filename="ImagePrefsWidget.cpp" line="102"/>
         <source>Mirror vertically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="112"/>
+        <location filename="ImagePrefsWidget.cpp" line="113"/>
+        <source>Enable premultiplied alpha</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ImagePrefsWidget.cpp" line="116"/>
         <source>Enable color profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="121"/>
+        <location filename="ImagePrefsWidget.cpp" line="125"/>
         <source>Add a new display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="126"/>
+        <location filename="ImagePrefsWidget.cpp" line="130"/>
         <source>Remove the selected display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="131"/>
+        <location filename="ImagePrefsWidget.cpp" line="135"/>
         <source>Move the selected display profile up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="136"/>
+        <location filename="ImagePrefsWidget.cpp" line="140"/>
         <source>Move the selected display profile down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="152"/>
+        <location filename="ImagePrefsWidget.cpp" line="156"/>
         <source>Transforms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="153"/>
+        <location filename="ImagePrefsWidget.cpp" line="157"/>
         <source>Set how the image is transformed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="159"/>
+        <location filename="ImagePrefsWidget.cpp" line="163"/>
         <source>Scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="162"/>
+        <location filename="ImagePrefsWidget.cpp" line="166"/>
         <source>Rotation:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="167"/>
+        <location filename="ImagePrefsWidget.cpp" line="171"/>
+        <source>Premultiplied alpha</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ImagePrefsWidget.cpp" line="172"/>
+        <source>Set whether the color channels are multiplied by the alpha channel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ImagePrefsWidget.cpp" line="179"/>
         <source>Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="168"/>
+        <location filename="ImagePrefsWidget.cpp" line="180"/>
         <source>Set whether the image&apos;s color profile is enabled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="176"/>
+        <location filename="ImagePrefsWidget.cpp" line="188"/>
         <source>Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="177"/>
+        <location filename="ImagePrefsWidget.cpp" line="189"/>
         <source>Set a custom display profile.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="181"/>
+        <location filename="ImagePrefsWidget.cpp" line="193"/>
         <source>Current profile:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="183"/>
+        <location filename="ImagePrefsWidget.cpp" line="195"/>
         <source>Available profiles:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="195"/>
+        <location filename="ImagePrefsWidget.cpp" line="207"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="196"/>
+        <location filename="ImagePrefsWidget.cpp" line="208"/>
         <source>Set which image channels are displayed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="200"/>
+        <location filename="ImagePrefsWidget.cpp" line="212"/>
         <source>Channels:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="344"/>
+        <location filename="ImagePrefsWidget.cpp" line="366"/>
         <source>Add a new display profile:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="366"/>
+        <location filename="ImagePrefsWidget.cpp" line="388"/>
         <source>Are you sure you want to remove the display profile &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImagePrefsWidget.cpp" line="448"/>
+        <location filename="ImagePrefsWidget.cpp" line="472"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>

@@ -70,14 +70,14 @@ namespace djv
 
             addSeparator();
 
+            addAction(actions->action(ImageActions::PREMULTIPLIED_ALPHA));
+
             addAction(actions->action(ImageActions::COLOR_PROFILE));
 
             addAction(actions->action(ImageActions::DISPLAY_PROFILE_EDITOR));
 
             _p->displayProfileMenu = addMenu(
                 qApp->translate("djv::ViewLib::ImageMenu", "&Display Profiles"));
-
-            addSeparator();
 
             auto channelMenu = addMenu(
                 qApp->translate("djv::ViewLib::ImageMenu", "C&hannel"));

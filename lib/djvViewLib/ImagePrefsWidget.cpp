@@ -75,6 +75,7 @@ namespace djv
             QPointer<QCheckBox> mirrorVWidget;
             QPointer<QComboBox> scaleWidget;
             QPointer<QComboBox> rotateWidget;
+            QPointer<QCheckBox> premultipliedAlphaWidget;
             QPointer<QCheckBox> colorProfileWidget;
             QPointer<QComboBox> displayProfileWidget;
             QPointer<QListWidget> displayProfileListWidget;
@@ -107,6 +108,9 @@ namespace djv
             _p->rotateWidget = new QComboBox;
             _p->rotateWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->rotateWidget->addItems(Enum::imageRotateLabels());
+
+            _p->premultipliedAlphaWidget = new QCheckBox(
+                qApp->translate("djv::ViewLib::ImagePrefsWidget", "Enable premultiplied alpha"));
 
             _p->colorProfileWidget = new QCheckBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Enable color profile"));
@@ -161,6 +165,14 @@ namespace djv
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Rotation:"),
                 _p->rotateWidget);
+            layout->addWidget(prefsGroupBox);
+
+            prefsGroupBox = new UI::PrefsGroupBox(
+                qApp->translate("djv::ViewLib::ImagePrefsWidget", "Premultiplied alpha"),
+                qApp->translate("djv::ViewLib::ImagePrefsWidget", "Set whether the color channels are multiplied by the alpha channel."),
+                context.data());
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(_p->premultipliedAlphaWidget);
             layout->addWidget(prefsGroupBox);
 
             prefsGroupBox = new UI::PrefsGroupBox(
@@ -229,6 +241,10 @@ namespace djv
                 SIGNAL(activated(int)),
                 SLOT(rotateCallback(int)));
             connect(
+                _p->premultipliedAlphaWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(premultipliedAlphaCallback(bool)));
+            connect(
                 _p->colorProfileWidget,
                 SIGNAL(toggled(bool)),
                 SLOT(colorProfileCallback(bool)));
@@ -275,6 +291,7 @@ namespace djv
             context()->imagePrefs()->setMirror(ImagePrefs::mirrorDefault());
             context()->imagePrefs()->setScale(ImagePrefs::scaleDefault());
             context()->imagePrefs()->setRotate(ImagePrefs::rotateDefault());
+            context()->imagePrefs()->setPremultipliedAlpha(ImagePrefs::premultipliedAlphaDefault());
             context()->imagePrefs()->setColorProfile(ImagePrefs::colorProfileDefault());
             context()->imagePrefs()->setDisplayProfileIndex(ImagePrefs::displayProfileIndexDefault());
             context()->imagePrefs()->setChannel(ImagePrefs::channelDefault());
@@ -316,6 +333,11 @@ namespace djv
         void ImagePrefsWidget::rotateCallback(int in)
         {
             context()->imagePrefs()->setRotate(static_cast<Enum::IMAGE_ROTATE>(in));
+        }
+
+        void ImagePrefsWidget::premultipliedAlphaCallback(bool in)
+        {
+            context()->imagePrefs()->setPremultipliedAlpha(in);
         }
 
         void ImagePrefsWidget::colorProfileCallback(bool in)
@@ -432,6 +454,7 @@ namespace djv
                 _p->mirrorVWidget <<
                 _p->scaleWidget <<
                 _p->rotateWidget <<
+                _p->premultipliedAlphaWidget <<
                 _p->colorProfileWidget <<
                 _p->displayProfileWidget <<
                 _p->displayProfileListWidget <<
@@ -441,6 +464,7 @@ namespace djv
             _p->mirrorVWidget->setChecked(context()->imagePrefs()->mirror().y);
             _p->scaleWidget->setCurrentIndex(context()->imagePrefs()->scale());
             _p->rotateWidget->setCurrentIndex(context()->imagePrefs()->rotate());
+            _p->premultipliedAlphaWidget->setChecked(context()->imagePrefs()->hasPremultipliedAlpha());
             _p->colorProfileWidget->setChecked(context()->imagePrefs()->hasColorProfile());
             _p->displayProfileWidget->setCurrentIndex(context()->imagePrefs()->displayProfileIndex() + 1);
             _p->displayProfileWidget->clear();

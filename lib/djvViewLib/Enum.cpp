@@ -339,6 +339,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Image/Rotate 90") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Rotate 180") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Rotate 270") <<
+                qApp->translate("djv::ViewLib::Enum", "Image/Premultiplied Alpha") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Color Profile") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Channel Default") <<
                 qApp->translate("djv::ViewLib::Enum", "Image/Channel Red") <<

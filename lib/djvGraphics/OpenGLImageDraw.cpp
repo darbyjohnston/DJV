@@ -458,6 +458,12 @@ namespace djv
                 "    float v, d, k, f, g;\n"
                 "};\n"
                 "\n"
+                "vec4 premultiplyAlpha(vec4 value)\n"
+                "{\n"
+                "    value.rgb = value.rgb * value.a;\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
                 "float knee(float value, float f)\n"
                 "{\n"
                 "    return log(value * f + 1.0) / f;\n"
@@ -609,6 +615,7 @@ namespace djv
             QString sourceFragment(
                 Pixel::FORMAT                     inFormat,
                 Pixel::FORMAT                     outFormat,
+                bool                              premultiplyAlpha,
                 ColorProfile                      colorProfile,
                 const OpenGLImageDisplayProfile & displayProfile,
                 OpenGLImageOptions::CHANNEL       channel,
@@ -619,6 +626,7 @@ namespace djv
                 //DJV_DEBUG("sourceFragment");
                 //DJV_DEBUG_PRINT("in format = " << inFormat);
                 //DJV_DEBUG_PRINT("out format = " << outFormat);
+                //DJV_DEBUG_PRINT("premultiply alpha = " << premultiplyAlpha);
                 //DJV_DEBUG_PRINT("colorProfile = " << colorProfile);
                 //DJV_DEBUG_PRINT("displayProfile = " << displayProfile);
                 //DJV_DEBUG_PRINT("channel = " << channel);
@@ -645,32 +653,36 @@ namespace djv
                 case Pixel::FORMAT::RGBA:
                 default: break;
                 }
+                QString sample = QString("texture(inTexture, TextureCoord)%1").arg(inSwizzle);
+
+                // Pre-multiply alpha.
+                if (premultiplyAlpha)
+                {
+                    sample = QString("premultiplyAlpha(%1)").arg(sample);
+                }
 
                 // Color profile.
-                QString sample;
                 switch (colorProfile.type)
                 {
                 case ColorProfile::LUT:
                     header += "uniform sampler2D inColorProfileLut;\n";
                     switch (colorProfile.lut.channels())
                     {
-                    case 1: sample = QString("lut1(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
-                    case 2: sample = QString("lut2(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
-                    case 3: sample = QString("lut3(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
-                    case 4: sample = QString("lut4(texture(inTexture, TextureCoord)%1, inColorProfileLut)").arg(inSwizzle); break;
+                    case 1: sample = QString("lut1(%1, inColorProfileLut)").arg(sample); break;
+                    case 2: sample = QString("lut2(%1, inColorProfileLut)").arg(sample); break;
+                    case 3: sample = QString("lut3(%1, inColorProfileLut)").arg(sample); break;
+                    case 4: sample = QString("lut4(%1, inColorProfileLut)").arg(sample); break;
                     }
                     break;
                 case ColorProfile::GAMMA:
                     header += "uniform float inColorProfileGamma;\n";
-                    sample = QString("gamma(texture(inTexture, TextureCoord)%1, inColorProfileGamma)").arg(inSwizzle);
+                    sample = QString("gamma(%1, inColorProfileGamma)").arg(sample);
                     break;
                 case ColorProfile::EXPOSURE:
                     header += "uniform Exposure inColorProfileExposure;\n";
-                    sample = QString("exposure(texture(inTexture, TextureCoord)%1, inColorProfileExposure)").arg(inSwizzle);
+                    sample = QString("exposure(%1, inColorProfileExposure)").arg(sample);
                     break;
-                default:
-                    sample = QString("texture(inTexture, TextureCoord)%1").arg(inSwizzle);
-                    break;
+                default: break;
                 }
 
                 // Image filter.
@@ -957,6 +969,7 @@ namespace djv
                         sourceFragment(
                             Pixel::format(info.pixel),
                             outputFormat,
+                            options.premultipliedAlpha,
                             options.colorProfile,
                             options.displayProfile,
                             options.channel,
@@ -985,9 +998,10 @@ namespace djv
                         sourceFragment(
                             Pixel::format(info.pixel),
                             outputFormat,
+                            false,
                             options.colorProfile,
                             OpenGLImageDisplayProfile(),
-                            static_cast<OpenGLImageOptions::CHANNEL>(0),
+                            OpenGLImageOptions::CHANNEL_DEFAULT,
                             true,
                             contrib.h(),
                             true));
@@ -1000,6 +1014,7 @@ namespace djv
                         sourceFragment(
                             Pixel::format(info.pixel),
                             outputFormat,
+                            options.premultipliedAlpha,
                             ColorProfile(),
                             options.displayProfile,
                             options.channel,

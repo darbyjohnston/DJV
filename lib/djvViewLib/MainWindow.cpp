@@ -871,6 +871,7 @@ namespace djv
                 out.xform.scale = Enum::imageScale(_p->imageGroup->scale(), image->size());
             }
             out.xform.rotate = Enum::imageRotate(_p->imageGroup->rotate());
+            out.premultipliedAlpha = _p->imageGroup->hasPremultipliedAlpha();
             if (image && _p->imageGroup->hasColorProfile())
             {
                 out.colorProfile = image->colorProfile;

@@ -48,6 +48,7 @@ namespace djv
             _mirror(mirrorDefault()),
             _scale(scaleDefault()),
             _rotate(rotateDefault()),
+            _premultipliedAlpha(premultipliedAlphaDefault()),
             _colorProfile(colorProfileDefault()),
             _displayProfileIndex(displayProfileIndexDefault()),
             _channel(channelDefault())
@@ -57,6 +58,7 @@ namespace djv
             prefs.get("mirror", _mirror);
             prefs.get("scale", _scale);
             prefs.get("rotate", _rotate);
+            prefs.get("premultipliedAlpha", _premultipliedAlpha);
             prefs.get("colorProfile", _colorProfile);
             UI::Prefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
             displayProfilePrefs.get("index", _displayProfileIndex);
@@ -86,6 +88,7 @@ namespace djv
             prefs.set("mirror", _mirror);
             prefs.set("scale", _scale);
             prefs.set("rotate", _rotate);
+            prefs.set("premultipliedAlpha", _premultipliedAlpha);
             prefs.set("colorProfile", _colorProfile);
             UI::Prefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
             displayProfilePrefs.set("index", _displayProfileIndex);
@@ -135,6 +138,16 @@ namespace djv
         Enum::IMAGE_ROTATE ImagePrefs::rotate() const
         {
             return _rotate;
+        }
+
+        bool ImagePrefs::premultipliedAlphaDefault()
+        {
+            return true;
+        }
+
+        bool ImagePrefs::hasPremultipliedAlpha() const
+        {
+            return _premultipliedAlpha;
         }
 
         bool ImagePrefs::colorProfileDefault()
@@ -220,6 +233,15 @@ namespace djv
                 return;
             _rotate = in;
             Q_EMIT rotateChanged(_rotate);
+            Q_EMIT prefChanged();
+        }
+
+        void ImagePrefs::setPremultipliedAlpha(bool in)
+        {
+            if (in == _premultipliedAlpha)
+                return;
+            _premultipliedAlpha = in;
+            Q_EMIT premultipliedAlphaChanged(_premultipliedAlpha);
             Q_EMIT prefChanged();
         }
 

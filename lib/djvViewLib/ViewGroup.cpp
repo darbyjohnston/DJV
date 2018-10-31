@@ -254,16 +254,10 @@ namespace djv
 
         void ViewGroup::update()
         {
-            // Update the actions.
             _p->actions->action(ViewActions::HUD)->setChecked(_p->hudEnabled);
 
-            // Update the action groups.
-            if (!_p->actions->group(ViewActions::GRID_GROUP)->actions()[_p->grid]->isChecked())
-            {
-                _p->actions->group(ViewActions::GRID_GROUP)->actions()[_p->grid]->trigger();
-            }
+            _p->actions->group(ViewActions::GRID_GROUP)->actions()[_p->grid]->setChecked(true);
 
-            // Update the widgets.
             mainWindow()->viewWidget()->setGrid(_p->grid);
             mainWindow()->viewWidget()->setHudEnabled(_p->hudEnabled);
             _p->toolBar->zoomEdit()->setValue(mainWindow()->viewWidget()->viewZoom());

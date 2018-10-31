@@ -774,6 +774,7 @@ namespace djv
     {
         return
             a.xform == b.xform &&
+            a.premultipliedAlpha == b.premultipliedAlpha &&
             a.colorProfile == b.colorProfile &&
             a.displayProfile == b.displayProfile &&
             a.channel == b.channel &&
@@ -904,8 +905,8 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageOptions & in)
     {
-        return debug << "xform = [" << in.xform << "], color profile = [" <<
-            in.colorProfile << "], display profile = [" << in.displayProfile <<
+        return debug << "xform = [" << in.xform << "], premultiplied alpha = " << in.premultipliedAlpha <<
+            ", color profile = [" << in.colorProfile << "], display profile = [" << in.displayProfile <<
             "], channel = " << in.channel << ", filter = " << in.filter <<
             ", background = " << in.background << ", proxy scale = " <<
             in.proxyScale;

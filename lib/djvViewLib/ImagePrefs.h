@@ -70,6 +70,12 @@ namespace djv
             //! Get the rotation.
             Enum::IMAGE_ROTATE rotate() const;
 
+            //! Get the default premultiplied alpha.
+            static bool premultipliedAlphaDefault();
+
+            //! Get the premultiplied alpha.
+            bool hasPremultipliedAlpha() const;
+
             //! Get the default for whether the color profile is enabled.
             static bool colorProfileDefault();
 
@@ -110,6 +116,9 @@ namespace djv
             //! Set the rotation.
             void setRotate(djv::ViewLib::Enum::IMAGE_ROTATE);
 
+            //! Set the premultiplied alpha.
+            void setPremultipliedAlpha(bool);
+
             //! Set whether the color profile is enabled.
             void setColorProfile(bool);
 
@@ -132,6 +141,9 @@ namespace djv
             //! This signal is emitted when the rotation is changed.
             void rotateChanged(djv::ViewLib::Enum::IMAGE_ROTATE);
 
+            //! This signal is emitted when the premultiplied alpha is changed.
+            void premultipliedAlphaChanged(bool);
+
             //! This signal is emitted when the color profile is changed.
             void colorProfileChanged(bool);
 
@@ -150,6 +162,7 @@ namespace djv
             Graphics::PixelDataInfo::Mirror       _mirror;
             Enum::IMAGE_SCALE                     _scale;
             Enum::IMAGE_ROTATE                    _rotate;
+            bool                                  _premultipliedAlpha;
             bool                                  _colorProfile;
             int                                   _displayProfileIndex;
             QVector<DisplayProfile>               _displayProfiles;

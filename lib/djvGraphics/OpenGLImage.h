@@ -180,6 +180,7 @@ namespace djv
             static const QStringList & channelLabels();
 
             OpenGLImageXform          xform;
+            bool                      premultipliedAlpha = true;
             ColorProfile              colorProfile;
             OpenGLImageDisplayProfile displayProfile;
             CHANNEL                   channel = CHANNEL_DEFAULT;
