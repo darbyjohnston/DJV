@@ -48,6 +48,11 @@
 #include <QScopedPointer>
 #include <QTranslator>
 
+static void initResources()
+{
+    Q_INIT_RESOURCE(djvCore);
+}
+
 namespace djv
 {
     namespace Core
@@ -63,11 +68,44 @@ namespace djv
             QScopedPointer<DebugLog> debugLog;
         };
         
+        namespace
+        {
+            QPointer<CoreContext> context;
+            
+            void qtMessageOutput(QtMsgType type, const QMessageLogContext & msgContext, const QString & msg)
+            {
+                if (context)
+                {
+                    QString typeString;
+                    switch (type)
+                    {
+                    case QtDebugMsg:    typeString = "Debug";       break;
+                    case QtInfoMsg:     typeString = "Information"; break;
+                    case QtWarningMsg:  typeString = "Warning";     break;
+                    case QtCriticalMsg: typeString = "Critical";    break;
+                    case QtFatalMsg:    typeString = "Fatal";       break;
+                    default: break;
+                    }
+                    DJV_LOG(context->debugLog(), "djv::Core::CoreContext", QString("%1: %2 (%3:%4, %5)").
+                        arg(typeString).
+                        arg(msg.toLocal8Bit().constData()).
+                        arg(msgContext.file).
+                        arg(msgContext.line).
+                        arg(msgContext.function));
+                }
+            }
+        
+        } // namespace
+        
         CoreContext::CoreContext(int & argc, char ** argv, QObject * parent) :
             QObject(parent),
             _p(new Private)
         {
             //DJV_DEBUG("CoreContext::CoreContext");
+            
+            context = this;
+            qInstallMessageHandler(qtMessageOutput);
+            initResources();
             
             qRegisterMetaType<FileInfo>("djv::Core::FileInfo");
             qRegisterMetaType<FileInfoList>("djv::Core::FileInfoList");
@@ -196,7 +234,8 @@ namespace djv
                 "    Locale: %10\n"
                 "    Search path: %11\n"
                 "    Documentation path: %12\n"
-                "    Qt version: %13\n");
+                "    Application path: %13\n"
+                "    Qt version: %14\n");
             return QString(label).
                 arg(DJV_VERSION).
                 arg(seqFormatLabel.join(", ")).
@@ -208,8 +247,9 @@ namespace djv
                 arg(System::info()).
                 arg(endianLabel.join(", ")).
                 arg(QLocale::system().name()).
-                arg(StringUtil::addQuotes(System::searchPath()).join(", ")).
+                arg(System::searchPath().join(", ")).
                 arg(documentationPath()).
+                arg(QCoreApplication::applicationDirPath()).
                 arg(qVersion());
         }
 

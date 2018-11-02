@@ -65,8 +65,8 @@ namespace djv
         {}
 
         StylePrefs::Fonts::Fonts() :
-            normal(qApp->font()),
-            fixed("Monospace")
+            normal("Noto Sans"),
+            fixed("Noto Mono")
         {
             fixed.setStyleHint(QFont::Monospace);
         }
@@ -463,6 +463,7 @@ namespace djv
         {
             //DJV_DEBUG("StylePrefs::fontsUpdate");
             QFont font = _p->fonts.normal;
+            //DJV_DEBUG_PRINT("font = " << font.family());
             font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
             qApp->setFont(font);
             Q_EMIT prefChanged();

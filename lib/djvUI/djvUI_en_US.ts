@@ -1455,18 +1455,18 @@ Keyboard shortcut: %1</source>
 <context>
     <name>djv::UI::UIContext</name>
     <message>
-        <location filename="UIContext.cpp" line="152"/>
-        <location filename="UIContext.cpp" line="392"/>
+        <location filename="UIContext.cpp" line="157"/>
+        <location filename="UIContext.cpp" line="397"/>
         <source>-reset_prefs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="224"/>
+        <location filename="UIContext.cpp" line="229"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="361"/>
+        <location filename="UIContext.cpp" line="366"/>
         <source>%1
 Image I/O Widgets
 
@@ -1480,7 +1480,7 @@ Preferences
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="UIContext.cpp" line="412"/>
+        <location filename="UIContext.cpp" line="417"/>
         <source>
 User Interface Options
 

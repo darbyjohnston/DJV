@@ -73,6 +73,7 @@
 #include <djvCore/DebugLog.h>
 
 #include <QApplication>
+#include <QFontDatabase>
 #include <QPointer>
 #include <QScopedPointer>
 #include <QThreadPool>
@@ -145,6 +146,10 @@ namespace djv
 
             // Load translators.
             loadTranslator("djvUI");
+            
+            // Load fonts.
+            QFontDatabase::addApplicationFont(":NotoSans-Regular.ttf");
+            QFontDatabase::addApplicationFont(":NotoMono-Regular.ttf");
 
             //! \todo Check the command line for whether to reset the preferences.
             Q_FOREACH(const QString & arg, qApp->arguments())

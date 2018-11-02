@@ -94,9 +94,6 @@ namespace djv
                     mainWindowList[0]->raise();
                 }
             } return true;
-            case QEvent::WhatsThisClicked:
-                std::cout << "!!!!!" << std::endl;
-                break;
             default: break;
             }
             return QApplication::event(event);

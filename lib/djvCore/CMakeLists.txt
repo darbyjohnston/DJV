@@ -106,4 +106,10 @@ if(BUILD_SHARED_LIBS)
         LIBRARY DESTINATION ${DJV_INSTALL_LIB}
         ARCHIVE DESTINATION ${DJV_INSTALL_LIB})
 endif()
+if (DJV_THIRD_PARTY)
+    # \todo qmake seems to be hard-coding paths?
+    install(
+        FILES ../../etc/Misc/qt.conf
+        DESTINATION ${DJV_INSTALL_BIN})
+endif()
 

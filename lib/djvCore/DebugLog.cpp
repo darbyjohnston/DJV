@@ -31,7 +31,6 @@
 
 #include <djvCore/Debug.h>
 
-#include <QCoreApplication>
 #include <QPointer>
 #include <QRegExp>
 #include <QStringList>

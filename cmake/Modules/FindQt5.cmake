@@ -334,9 +334,7 @@ if(DJV_THIRD_PARTY)
             DESTINATION ${DJV_INSTALL_BIN})
         install(
             DIRECTORY
-            ${DJV_THIRD_PARTY}/lib/fonts
-            DESTINATION ${DJV_INSTALL_LIB}/fonts
-            FILES_MATCHING PATTERN "*.ttf")
+            DESTINATION ${DJV_INSTALL_LIB}/fonts)
         install(
             DIRECTORY
             ${DJV_THIRD_PARTY}/plugins/bearer
@@ -392,9 +390,7 @@ if(DJV_THIRD_PARTY)
             DESTINATION ${DJV_INSTALL_LIB})
         install(
             DIRECTORY
-            ${DJV_THIRD_PARTY}/lib/fonts
-            DESTINATION ${DJV_INSTALL_LIB}/fonts
-            FILES_MATCHING PATTERN "*.ttf")
+            DESTINATION ${DJV_INSTALL_LIB}/fonts)
         install(
             DIRECTORY
             ${DJV_THIRD_PARTY}/plugins/bearer
@@ -454,9 +450,7 @@ if(DJV_THIRD_PARTY)
             DESTINATION ${DJV_INSTALL_LIB})
         install(
             DIRECTORY
-            ${DJV_THIRD_PARTY}/lib/fonts
-            DESTINATION ${DJV_INSTALL_LIB}/fonts
-            FILES_MATCHING PATTERN "*.ttf")
+            DESTINATION ${DJV_INSTALL_LIB}/fonts)
         install(
             DIRECTORY
             ${DJV_THIRD_PARTY}/plugins/bearer
