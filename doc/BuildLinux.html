@@ -42,11 +42,11 @@
 <div class="nav">
 <a href="index.html">Home</a> |
 <a href="Documentation.html">Documentation</a> |
-Building on Linux and OS X
+Building on Linux
 <ul>
     <li><a href="#Requirements">Requirements</a></li>
-    <li><a href="#ThirdParty">Third Party Libraries</a></li>
     <li><a href="#Build">Building the Source Code</a></li>
+    <li><a href="#ThirdParty">Building Third Party Libraries</a></li>
     <li><a href="#Package">Packaging Releases</a></li>
 </ul>
 </div>
@@ -76,11 +76,34 @@ Building on Linux and OS X
 </ul>
 </div>
 
+<h2 class="header"><a name="Build">Building the Source Code</a></h2>
+<div class="block">
+<p>Clone the DJV source code repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git djv-git
+</pre>
+<p>Create a sub-directory and start the build:</p>
+<pre>
+> mkdir djv-git-Debug
+> cd djv-git-Debug
+> cmake ../djv-git \
+    -DCMAKE_BUILD_TYPE=Debug
+> make
+</pre>
+<p>After the build completes try running the confidence tests:</p>
+<pre>
+> make test
+</pre>
+<p>You can also try starting the djv_view application:</p>
+<pre>
+> ./build/bin/djv_view
+</pre>
+</div>
+
 <h2 class="header"><a name="ThirdParty">Third Party Libraries</a></h2>
 <div class="block">
-<p>DJV relies on a number of third party libraries that can either be
-installed with your system or built from source code. The following steps
-describe how to build the third party libraries from source code.</p>
+<p>The following steps describe how to compile both the DJV source code
+and the third party libraries that it depends on.</p>
 <p>First choose a working directory for building the source code. In the
 following steps we will refer to this directory as $BUILD_DIR.</p>
 <p>Clone the DJV third party source code repository:</p>
@@ -90,13 +113,13 @@ following steps we will refer to this directory as $BUILD_DIR.</p>
 <p>This source code repository contains the third party libraries as well as
 minor modifications necessary for building on the various platforms that DJV
 supports.</p>
-<p>Create a sub-directory for building the third party libraries and start the
-build:</p>
+<p>Create a sub-directory and start the build:</p>
 <pre>
 > mkdir djv-git-third-party-Debug
 > cd djv-git-third-party-Debug
 > cmake ../djv-git-third-party \
     -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
     -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
 > make
 > cd ..
@@ -113,26 +136,11 @@ variable:</p>
 <pre>
 > export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/djv-install-Debug/lib
 </pre>
-</div>
-
-<h2 class="header"><a name="Build">Building the Source Code</a></h2>
-<div class="block">
-<p>First choose a working directory for building the source code. In the
-following steps we will refer to this directory as $BUILD_DIR.</p>
 <p>Clone the DJV source code repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
 </pre>
-<p>Create a sub-directory for building the DJV software and start the build.</p>
-<p>Building with system libraries:</p>
-<pre>
-> mkdir djv-git-Debug
-> cd djv-git-Debug
-> cmake ../djv-git \
-    -DCMAKE_BUILD_TYPE=Debug
-> make
-</pre>
-<p>Building with local libraries:</p>
+<p>Create a sub-directory and start the build:</p>
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
@@ -141,26 +149,6 @@ following steps we will refer to this directory as $BUILD_DIR.</p>
     -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
     -DDJV_THIRD_PARTY=$BUILD_DIR/djv-install-Debug
 > make
-</pre>
-<p>If you are compiling for OS X you should also set the CMAKE_FIND_FRAMEWORK
-variable:</p>
-<pre>
-> mkdir djv-git-Debug
-> cd djv-git-Debug
-> cmake ../djv-git \
-    -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
-    -DDJV_THIRD_PARTY=$BUILD_DIR/djv-install-Debug \
-    -DCMAKE_FIND_FRAMEWORK="LAST"
-> make
-</pre>
-<p>After the build completes try running the confidence tests:</p>
-<pre>
-> make test
-</pre>
-<p>You can also try starting the djv_view application:</p>
-<pre>
-> ./build/bin/djv_view
 </pre>
 </div>
 
