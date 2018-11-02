@@ -4,8 +4,8 @@ cmake_policy(SET CMP0074 NEW)
 project(DJV)
 
 set(DJV_VERSION_MAJOR "1")
-set(DJV_VERSION_MINOR "2")
-set(DJV_VERSION_PATCH "3")
+set(DJV_VERSION_MINOR "3")
+set(DJV_VERSION_PATCH "0")
 set(DJV_VERSION ${DJV_VERSION_MAJOR}.${DJV_VERSION_MINOR}.${DJV_VERSION_PATCH})
 
 # Set the platform we are building for.
