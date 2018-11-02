@@ -53,6 +53,11 @@
 
 #include <QApplication>
 
+static void initResources()
+{
+    Q_INIT_RESOURCE(djvViewLib);
+}
+
 namespace djv
 {
     namespace ViewLib
@@ -78,6 +83,8 @@ namespace djv
             _p(new Private)
         {
             //DJV_DEBUG("ViewContext::ViewContext");
+            
+            initResources();
 
             // Load translators.
             loadTranslator("djvViewLib");

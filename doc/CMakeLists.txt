@@ -80,6 +80,7 @@ set(legal
     ../LICENSE_libjpeg.txt
     ../LICENSE_libpng.txt
     ../LICENSE_libtiff.txt
+    ../LICENSE_OFL.txt
     ../LICENSE_OpenAL.txt
     ../LICENSE_OpenEXR.txt
     ../LICENSE_Qt.txt

@@ -253,5 +253,8 @@
     <file alias="djv/UI/WindowNewIcon192DPI.png">images/WindowNewIcon192DPI.png</file>
     <file alias="djv/UI/WindowNewIcon48DPI.png">images/WindowNewIcon48DPI.png</file>
     <file alias="djv/UI/WindowNewIcon96DPI.png">images/WindowNewIcon96DPI.png</file>
+    <file alias="NotoSans-Regular.ttf">../../etc/Fonts/NotoSans/NotoSans-Regular.ttf</file>
+    <file alias="NotoMono-Regular.ttf">../../etc/Fonts/NotoSans/NotoMono-Regular.ttf</file>
 </qresource>
 </RCC>
+

@@ -4,12 +4,12 @@
 <context>
     <name>djv::Core::CoreContext</name>
     <message>
-        <location filename="CoreContext.cpp" line="141"/>
+        <location filename="CoreContext.cpp" line="179"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="174"/>
+        <location filename="CoreContext.cpp" line="212"/>
         <source>General
 
     Version: %1
@@ -33,12 +33,13 @@ System
     Locale: %10
     Search path: %11
     Documentation path: %12
-    Qt version: %13
+    Application path: %13
+    Qt version: %14
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="218"/>
+        <location filename="CoreContext.cpp" line="258"/>
         <source>DJV Imaging, Version: %1
 http://djv.sourceforge.net
 https://github.com/darbyjohnston/DJV
@@ -115,67 +116,67 @@ DJV Imaging is made in Berkeley, CA, USA
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="368"/>
+        <location filename="CoreContext.cpp" line="408"/>
         <source>-seq_format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="374"/>
+        <location filename="CoreContext.cpp" line="414"/>
         <source>-seq_auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="380"/>
+        <location filename="CoreContext.cpp" line="420"/>
         <source>-seq_max</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="386"/>
+        <location filename="CoreContext.cpp" line="426"/>
         <source>-seq_negative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="392"/>
+        <location filename="CoreContext.cpp" line="432"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="398"/>
+        <location filename="CoreContext.cpp" line="438"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="404"/>
+        <location filename="CoreContext.cpp" line="444"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="416"/>
+        <location filename="CoreContext.cpp" line="456"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="417"/>
+        <location filename="CoreContext.cpp" line="457"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="422"/>
+        <location filename="CoreContext.cpp" line="462"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="427"/>
+        <location filename="CoreContext.cpp" line="467"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="433"/>
+        <location filename="CoreContext.cpp" line="473"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="CoreContext.cpp" line="469"/>
+        <location filename="CoreContext.cpp" line="509"/>
         <source>
 File Sequence Options
 
