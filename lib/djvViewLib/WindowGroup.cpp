@@ -239,8 +239,10 @@ namespace djv
                     switch (context()->windowPrefs()->fullScreenUI())
                     {
                     case Enum::FULL_SCREEN_UI_HIDE:
-                    case Enum::FULL_SCREEN_UI_SHOW:
                         setUIVisible(false);
+                        break;
+                    case Enum::FULL_SCREEN_UI_SHOW:
+                        setUIVisible(true);
                         break;
                     case Enum::FULL_SCREEN_UI_DETACH:
                         setUIVisible(false);

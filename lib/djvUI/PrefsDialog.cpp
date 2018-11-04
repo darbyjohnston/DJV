@@ -127,7 +127,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::PrefsDialog", "Preferences"));
-            setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+            setWindowFlags(Qt::Dialog | Qt::Tool | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
 
             addWidget(new HelpPrefsWidget(context));
             addWidget(new TimePrefsWidget(context));

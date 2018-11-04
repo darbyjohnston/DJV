@@ -57,6 +57,7 @@ namespace djv
             QMainWindow(parent),
             _p(new Private)
         {
+            setWindowFlags(Qt::Dialog | Qt::Tool);
             menuBar()->setNativeMenuBar(false);
             menuBar()->addMenu(mainWindow->fileGroup()->createMenu());
             menuBar()->addMenu(mainWindow->windowGroup()->createMenu());

@@ -103,7 +103,7 @@ namespace djv
 
         Enum::FULL_SCREEN_UI WindowPrefs::fullScreenUIDefault()
         {
-            return Enum::FULL_SCREEN_UI_DETACH;
+            return Enum::FULL_SCREEN_UI_HIDE;
         }
 
         Enum::FULL_SCREEN_UI WindowPrefs::fullScreenUI() const
