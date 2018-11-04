@@ -54,7 +54,6 @@ namespace djv
         struct HelpGroup::Private
         {
             QPointer<HelpActions> actions;
-            QPointer<HelpMenu>    menu;
         };
 
         HelpGroup::HelpGroup(
@@ -65,9 +64,6 @@ namespace djv
             _p(new Private)
         {
             _p->actions = new HelpActions(context, this);
-
-            _p->menu = new HelpMenu(_p->actions.data(), mainWindow->menuBar());
-            mainWindow->menuBar()->addMenu(_p->menu);
 
             connect(
                 _p->actions->action(HelpActions::DOCUMENTATION),
@@ -89,6 +85,11 @@ namespace djv
 
         HelpGroup::~HelpGroup()
         {}
+
+        QPointer<QMenu> HelpGroup::createMenu() const
+        {
+            return new HelpMenu(_p->actions.data());
+        }
 
         void HelpGroup::documentationCallback()
         {

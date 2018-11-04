@@ -45,8 +45,7 @@ namespace djv
             explicit WindowPrefs(const QPointer<ViewContext> &, QObject * parent = nullptr);
             ~WindowPrefs() override;
 
-            //! Get the default for whether to automatically fit the window to the
-            //! image.
+            //! Get the default for whether to automatically fit the window to the image.
             static bool autoFitDefault();
 
             //! Get whether to automatically fit the window to the image.
@@ -64,11 +63,11 @@ namespace djv
             //! Get the user specified maximum view size.
             const glm::ivec2 & viewMaxUser() const;
 
-            //! Get the default for whether the UI is visible when going full screen.
-            static bool fullScreenUIDefault();
+            //! Get the default full screen UI option.
+            static Enum::FULL_SCREEN_UI fullScreenUIDefault();
 
-            //! Get whether the UI is visible when going full screen.
-            bool hasFullScreenUI() const;
+            //! Get the full screen UI option.
+            Enum::FULL_SCREEN_UI fullScreenUI() const;
 
             //! Get the default UI component visiblity.
             static QVector<bool> uiComponentVisibleDefault();
@@ -86,8 +85,8 @@ namespace djv
             //! Set the user specified maximum view size.
             void setViewMaxUser(const glm::ivec2 &);
 
-            //! Set whether the UI is visible when going full screen.
-            void setFullScreenUI(bool);
+            //! Set the full screen UI option.
+            void setFullScreenUI(djv::ViewLib::Enum::FULL_SCREEN_UI);
 
             //! Set the UI component visibility.
             void setUIComponentVisible(const QVector<bool> &);
@@ -104,17 +103,17 @@ namespace djv
             void viewMaxUserChanged(const glm::ivec2 &);
 
             //! This signal is emitted when the full screen UI option is changed.
-            void fullScreenUIChanged(bool);
+            void fullScreenUIChanged(djv::ViewLib::Enum::FULL_SCREEN_UI);
 
             //! This signal is emitted when the tool bar visibility is changed.
             void uiComponentVisibleChanged(const QVector<bool> &);
 
         private:
-            bool           _autoFit;
-            Enum::VIEW_MAX _viewMax;
-            glm::ivec2     _viewMaxUser = glm::ivec2(0, 0);
-            bool           _fullScreenUI;
-            QVector<bool>  _uiComponentVisible;
+            bool                 _autoFit;
+            Enum::VIEW_MAX       _viewMax;
+            glm::ivec2           _viewMaxUser = glm::ivec2(0, 0);
+            Enum::FULL_SCREEN_UI _fullScreenUI;
+            QVector<bool>        _uiComponentVisible;
         };
 
     } // namespace ViewLib

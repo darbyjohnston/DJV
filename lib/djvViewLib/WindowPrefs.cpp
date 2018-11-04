@@ -101,12 +101,12 @@ namespace djv
             return _viewMaxUser;
         }
 
-        bool WindowPrefs::fullScreenUIDefault()
+        Enum::FULL_SCREEN_UI WindowPrefs::fullScreenUIDefault()
         {
-            return false;
+            return Enum::FULL_SCREEN_UI_DETACH;
         }
 
-        bool WindowPrefs::hasFullScreenUI() const
+        Enum::FULL_SCREEN_UI WindowPrefs::fullScreenUI() const
         {
             return _fullScreenUI;
         }
@@ -148,7 +148,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void WindowPrefs::setFullScreenUI(bool in)
+        void WindowPrefs::setFullScreenUI(Enum::FULL_SCREEN_UI in)
         {
             if (in == _fullScreenUI)
                 return;

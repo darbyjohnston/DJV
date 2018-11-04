@@ -38,16 +38,9 @@
 #include <djvViewLib/ToolMenu.h>
 #include <djvViewLib/ToolToolBar.h>
 
-#include <QAbstractButton>
-#include <QAction>
 #include <QDockWidget>
 #include <QEvent>
 #include <QLabel>
-#include <QMenu>
-#include <QMenuBar>
-#include <QPointer>
-#include <QToolBar>
-#include <QToolButton>
 
 namespace djv
 {
@@ -61,8 +54,6 @@ namespace djv
 
             QVector<bool>             toolsVisible;
             QPointer<ToolActions>     actions;
-            QPointer<ToolMenu>        menu;
-            QPointer<ToolToolBar>     toolBar;
             QPointer<MagnifyTool>     magnifyTool;
             QPointer<ColorPickerTool> colorPickerTool;
             QPointer<HistogramTool>   histogramTool;
@@ -81,14 +72,6 @@ namespace djv
 
             // Create the actions.
             _p->actions = new ToolActions(context, this);
-
-            // Create the menus.
-            _p->menu = new ToolMenu(_p->actions.data(), mainWindow->menuBar());
-            mainWindow->menuBar()->addMenu(_p->menu);
-
-            // Create the widgets.
-            _p->toolBar = new ToolToolBar(_p->actions.data(), context);
-            mainWindow->addToolBar(_p->toolBar);
 
             _p->magnifyTool = new MagnifyTool(mainWindow, context);
             _p->colorPickerTool = new ColorPickerTool(mainWindow, context);
@@ -153,9 +136,14 @@ namespace djv
             return _p->toolsVisible;
         }
 
-        QPointer<QToolBar> ToolGroup::toolBar() const
+        QPointer<QMenu> ToolGroup::createMenu() const
         {
-            return _p->toolBar.data();
+            return new ToolMenu(_p->actions.data());
+        }
+
+        QPointer<QToolBar> ToolGroup::createToolBar() const
+        {
+            return new ToolToolBar(_p->actions.data(), context());
         }
 
         void ToolGroup::setToolsVisible(const QVector<bool> & value)

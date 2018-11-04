@@ -55,6 +55,7 @@ namespace djv
                 FIT,
                 FULL_SCREEN,
                 UI_VISIBLE,
+                DETACH_UI,
 
                 ACTION_COUNT
             };

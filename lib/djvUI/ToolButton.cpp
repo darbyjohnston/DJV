@@ -136,7 +136,14 @@ namespace djv
             }
             else
             {
-                _p->defaultAction->trigger();
+                if (_p->defaultAction->isCheckable())
+                {
+                    _p->defaultAction->setChecked(!isChecked());
+                }
+                else
+                {
+                    _p->defaultAction->trigger();
+                }
             }
         }
 

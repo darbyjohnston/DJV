@@ -70,9 +70,24 @@ namespace djv
             //! Get the maximum view size labels.
             static const QStringList & viewMaxLabels();
 
+            //! This enumeration provides the full screen user interface options.
+            enum FULL_SCREEN_UI
+            {
+                FULL_SCREEN_UI_HIDE,
+                FULL_SCREEN_UI_SHOW,
+                FULL_SCREEN_UI_DETACH,
+
+                FULL_SCREEN_UI_COUNT
+            };
+            Q_ENUM(FULL_SCREEN_UI);
+
+            //! Get the full screen user interface option labels.
+            static const QStringList & fullScreenUILabels();
+
             //! This enumeration provides the user interface components.
             enum UI_COMPONENT
             {
+                UI_MENU_BAR,
                 UI_TOOL_BARS,
                 UI_PLAYBACK_CONTROLS,
                 UI_STATUS_BAR,
@@ -243,7 +258,7 @@ namespace djv
             //! Get the in/out labels.
             static const QStringList & inOutLabels();
 
-            //! This enumeration provides the playback bar layouts.
+            //! This enumeration provides the playback controls layouts.
             enum LAYOUT
             {
                 LAYOUT_DEFAULT,
@@ -325,9 +340,11 @@ namespace djv
                 SHORTCUT_WINDOW_FIT,
                 SHORTCUT_WINDOW_FULL_SCREEN,
                 SHORTCUT_WINDOW_UI_VISIBLE,
+                SHORTCUT_WINDOW_MENU_BAR_VISIBLE,
                 SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
                 SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
                 SHORTCUT_WINDOW_INFO_VISIBLE,
+                SHORTCUT_WINDOW_DETACH_UI,
 
                 SHORTCUT_VIEW_LEFT,
                 SHORTCUT_VIEW_RIGHT,
@@ -471,6 +488,7 @@ namespace djv
     } // namespace ViewLib
 
     DJV_STRING_OPERATOR(ViewLib::Enum::VIEW_MAX);
+    DJV_STRING_OPERATOR(ViewLib::Enum::FULL_SCREEN_UI);
     DJV_STRING_OPERATOR(ViewLib::Enum::UI_COMPONENT);
     DJV_STRING_OPERATOR(ViewLib::Enum::GRID);
     DJV_STRING_OPERATOR(ViewLib::Enum::HUD_BACKGROUND);

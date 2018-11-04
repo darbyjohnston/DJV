@@ -54,12 +54,8 @@
 #include <djvCore/FileInfoUtil.h>
 #include <djvCore/ListUtil.h>
 
-#include <QAction>
-#include <QActionGroup>
 #include <QApplication>
 #include <QDir>
-#include <QMenuBar>
-#include <QToolBar>
 
 namespace djv
 {
@@ -88,8 +84,6 @@ namespace djv
             int preloadTimer = 0;
             qint64 preloadFrame = 0;
             QPointer<FileActions> actions;
-            QPointer<FileMenu> menu;
-            QPointer<FileToolBar> toolBar;
         };
 
         FileGroup::FileGroup(
@@ -113,14 +107,6 @@ namespace djv
 
             // Create the actions.
             _p->actions = new FileActions(context, this);
-
-            // Create the menus.
-            _p->menu = new FileMenu(_p->actions.data(), mainWindow->menuBar());
-            mainWindow->menuBar()->addMenu(_p->menu);
-
-            // Create the widgets.
-            _p->toolBar = new FileToolBar(_p->actions.data(), context);
-            mainWindow->addToolBar(_p->toolBar);
 
             // Initialize.
             if (copy)
@@ -369,9 +355,14 @@ namespace djv
             return _p->imageIOInfo;
         }
 
-        QPointer<QToolBar> FileGroup::toolBar() const
+        QPointer<QMenu> FileGroup::createMenu() const
         {
-            return _p->toolBar.data();
+            return new FileMenu(_p->actions.data());
+        }
+
+        QPointer<QToolBar> FileGroup::createToolBar() const
+        {
+            return new FileToolBar(_p->actions.data(), context());
         }
 
         void FileGroup::open(const Core::FileInfo & fileInfo)

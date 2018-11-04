@@ -29,6 +29,7 @@
 
 #include <djvViewLib/WindowGroup.h>
 
+#include <djvViewLib/DetachWindow.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/ViewContext.h>
@@ -36,13 +37,6 @@
 #include <djvViewLib/WindowMenu.h>
 #include <djvViewLib/WindowPrefs.h>
 #include <djvViewLib/WindowToolBar.h>
-
-#include <QAction>
-#include <QMenu>
-#include <QMenuBar>
-#include <QPointer>
-#include <QToolBar>
-#include <QToolButton>
 
 namespace djv
 {
@@ -56,11 +50,12 @@ namespace djv
 
             bool          fullScreen = false;
             bool          uiVisible = true;
+            bool          uiVisiblePrev = true;
             QVector<bool> uiComponentVisible;
+            bool          detachWindow = false;
+            bool          detachWindowPrev = false;
 
             QPointer<WindowActions> actions;
-            QPointer<WindowMenu>    menu;
-            QPointer<WindowToolBar> toolBar;
         };
 
         WindowGroup::WindowGroup(
@@ -80,14 +75,6 @@ namespace djv
 
             // Create the actions.
             _p->actions = new WindowActions(context, this);
-
-            // Create the menus.
-            _p->menu = new WindowMenu(_p->actions.data(), mainWindow->menuBar());
-            mainWindow->menuBar()->addMenu(_p->menu);
-
-            // Create the widgets.
-            _p->toolBar = new WindowToolBar(_p->actions.data(), context);
-            mainWindow->addToolBar(_p->toolBar);
 
             // Initialize.
             update();
@@ -121,6 +108,10 @@ namespace djv
                 _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP),
                 SIGNAL(triggered(QAction *)),
                 SLOT(uiComponentVisibleCallback(QAction *)));
+            connect(
+                _p->actions->action(WindowActions::DETACH_UI),
+                SIGNAL(toggled(bool)),
+                SLOT(setDetachWindow(bool)));
 
             // Setup the preferences callbacks.
             connect(
@@ -149,9 +140,19 @@ namespace djv
             return _p->uiComponentVisible;
         }
 
-        QPointer<QToolBar> WindowGroup::toolBar() const
+        bool WindowGroup::hasDetachWindow() const
         {
-            return _p->toolBar.data();
+            return _p->detachWindow;
+        }
+
+        QPointer<QMenu> WindowGroup::createMenu() const
+        {
+            return new WindowMenu(_p->actions.data());
+        }
+
+        QPointer<QToolBar> WindowGroup::createToolBar() const
+        {
+            return new WindowToolBar(_p->actions.data(), context());
         }
 
         void WindowGroup::setFullScreen(bool fullScreen)
@@ -159,25 +160,17 @@ namespace djv
             if (fullScreen == _p->fullScreen)
                 return;
             _p->fullScreen = fullScreen;
-            if (_p->fullScreen)
-            {
-                mainWindow()->showFullScreen();
-                if (!context()->windowPrefs()->hasFullScreenUI())
-                {
-                    setUIVisible(false);
-                }
-            }
-            else
-            {
-                mainWindow()->showNormal();
-
-                if (!context()->windowPrefs()->hasFullScreenUI())
-                {
-                    setUIVisible(true);
-                }
-            }
             update();
             Q_EMIT fullScreenChanged(_p->fullScreen);
+        }
+
+        void WindowGroup::setDetachWindow(bool value)
+        {
+            if (value == _p->detachWindow)
+                return;
+            _p->detachWindow = value;
+            update();
+            Q_EMIT detachWindowChanged(_p->detachWindow);
         }
 
         void WindowGroup::setUIVisible(bool visible)
@@ -232,8 +225,49 @@ namespace djv
             _p->actions->action(WindowActions::UI_VISIBLE)->setChecked(_p->uiVisible);
             for (int i = 0; i < Enum::UI_COMPONENT_COUNT; ++i)
             {
-                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->
-                    actions()[i]->setChecked(_p->uiComponentVisible[i]);
+                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions()[i]->setChecked(_p->uiComponentVisible[i]);
+            }
+            _p->actions->action(WindowActions::DETACH_UI)->setChecked(_p->detachWindow);
+            auto mainWindow = this->mainWindow();
+            if (_p->fullScreen)
+            {
+                if (!mainWindow->isFullScreen())
+                {
+                    mainWindow->showFullScreen();
+                    _p->uiVisiblePrev = _p->uiVisible;
+                    _p->detachWindowPrev = _p->detachWindow;
+                    switch (context()->windowPrefs()->fullScreenUI())
+                    {
+                    case Enum::FULL_SCREEN_UI_HIDE:
+                    case Enum::FULL_SCREEN_UI_SHOW:
+                        setUIVisible(false);
+                        break;
+                    case Enum::FULL_SCREEN_UI_DETACH:
+                        setUIVisible(false);
+                        setDetachWindow(true);
+                        break;
+                    default: break;
+                    }
+                }
+            }
+            else
+            {
+                if (mainWindow->isFullScreen())
+                {
+                    mainWindow->showNormal();
+                    switch (context()->windowPrefs()->fullScreenUI())
+                    {
+                    case Enum::FULL_SCREEN_UI_HIDE:
+                    case Enum::FULL_SCREEN_UI_SHOW:
+                        setUIVisible(_p->uiVisiblePrev);
+                        break;
+                    case Enum::FULL_SCREEN_UI_DETACH:
+                        setUIVisible(_p->uiVisiblePrev);
+                        setDetachWindow(_p->detachWindowPrev);
+                        break;
+                    default: break;
+                    }
+                }
             }
         }
 

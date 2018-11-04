@@ -62,7 +62,11 @@ namespace djv
             //! Get the UI component visibility.
             const QVector<bool> & uiComponentVisible() const;
 
-            QPointer<QToolBar> toolBar() const override;
+            //! Get whether the detach window is visible.
+            bool hasDetachWindow() const;
+
+            QPointer<QMenu> createMenu() const override;
+            QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
             //! Set whether full screen is enabled.
@@ -74,6 +78,9 @@ namespace djv
             //! Set the UI component visibility.
             void setUIComponentVisible(const QVector<bool> &);
 
+            //! Set whether the detach window is visible.
+            void setDetachWindow(bool);
+
         Q_SIGNALS:
             //! This signal is emitted when full screen is changed.
             void fullScreenChanged(bool);
@@ -83,6 +90,9 @@ namespace djv
 
             //! This signal is emitted when the UI component visibility is changed.
             void uiComponentVisibleChanged(const QVector<bool> &);
+
+            //! This signal is emitted when the detach window visibility is changed.
+            void detachWindowChanged(bool);
 
         private Q_SLOTS:
             void newCallback();

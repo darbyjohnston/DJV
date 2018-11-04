@@ -156,9 +156,6 @@ namespace djv
             addWidget(_p->widget);
 
             // Initialize.
-            setAllowedAreas(Qt::BottomToolBarArea);
-            setFloatable(false);
-            setMovable(false);
             layoutUpdate();
             styleUpdate();
 

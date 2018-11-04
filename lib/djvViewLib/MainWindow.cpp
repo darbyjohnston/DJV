@@ -29,6 +29,7 @@
 
 #include <djvViewLib/MainWindow.h>
 
+#include <djvViewLib/DetachWindow.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
 #include <djvViewLib/FileGroup.h>
@@ -66,6 +67,7 @@
 #include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
+#include <QPointer>
 #include <QScopedPointer>
 #include <QStatusBar>
 #include <QTimer>
@@ -82,15 +84,17 @@ namespace djv
             {}
 
             Enum::MOUSE_WHEEL mouseWheel = static_cast<Enum::MOUSE_WHEEL>(0);
-            QPointer<FileGroup> fileGroup;
-            QPointer<WindowGroup> windowGroup;
-            QPointer<ViewGroup> viewGroup;
-            QPointer<ImageGroup> imageGroup;
-            QPointer<PlaybackGroup> playbackGroup;
+            QScopedPointer<FileGroup> fileGroup;
+            QScopedPointer<WindowGroup> windowGroup;
+            QScopedPointer<ViewGroup> viewGroup;
+            QScopedPointer<ImageGroup> imageGroup;
+            QScopedPointer<PlaybackGroup> playbackGroup;
+            QVector<QPointer<QToolBar> > toolBars;
+            QPointer<QToolBar> playbackControls;
             qint64 playbackFrameTmp = 0;
             float playbackSpeedTmp = 0.f;
-            QPointer<ToolGroup> toolGroup;
-            QPointer<HelpGroup> helpGroup;
+            QScopedPointer<ToolGroup> toolGroup;
+            QScopedPointer<HelpGroup> helpGroup;
             std::shared_ptr<Graphics::Image> image;
             std::shared_ptr<Graphics::Image> imageTmp;
             glm::ivec2 imagePick = glm::ivec2(0, 0);
@@ -103,6 +107,7 @@ namespace djv
             QPointer<QLabel> infoImageLabel;
             QPointer<QLabel> infoCacheLabel;
             int menuBarHeight = 0;
+            QScopedPointer<DetachWindow> detachWindow;
             QPointer<ViewContext> context;
         };
 
@@ -142,13 +147,35 @@ namespace djv
                 qApp->translate("djv::ViewLib::MainWindow", "File cache information."));
 
             // Create the groups.
-            _p->fileGroup = new FileGroup(copy ? copy->_p->fileGroup : 0, this, context);
-            _p->windowGroup = new WindowGroup(copy ? copy->_p->windowGroup : 0, this, context);
-            _p->viewGroup = new ViewGroup(copy ? copy->_p->viewGroup : 0, this, context);
-            _p->imageGroup = new ImageGroup(copy ? copy->_p->imageGroup : 0, this, context);
-            _p->playbackGroup = new PlaybackGroup(copy ? copy->_p->playbackGroup : 0, this, context);
-            _p->toolGroup = new ToolGroup(copy ? copy->_p->toolGroup : 0, this, context);
-            _p->helpGroup = new HelpGroup(copy ? copy->_p->helpGroup : 0, this, context);
+            _p->fileGroup.reset(new FileGroup(copy ? copy->_p->fileGroup.data() : nullptr, this, context));
+            _p->windowGroup.reset(new WindowGroup(copy ? copy->_p->windowGroup.data() : nullptr, this, context));
+            _p->viewGroup.reset(new ViewGroup(copy ? copy->_p->viewGroup.data() : nullptr, this, context));
+            _p->imageGroup.reset(new ImageGroup(copy ? copy->_p->imageGroup.data() : nullptr, this, context));
+            _p->playbackGroup.reset(new PlaybackGroup(copy ? copy->_p->playbackGroup.data() : nullptr, this, context));
+            _p->toolGroup.reset(new ToolGroup(copy ? copy->_p->toolGroup.data() : nullptr, this, context));
+            _p->helpGroup.reset(new HelpGroup(copy ? copy->_p->helpGroup.data() : nullptr, this, context));
+
+            // Create the menus.
+            menuBar()->addMenu(_p->fileGroup->createMenu());
+            menuBar()->addMenu(_p->windowGroup->createMenu());
+            menuBar()->addMenu(_p->viewGroup->createMenu());
+            menuBar()->addMenu(_p->imageGroup->createMenu());
+            menuBar()->addMenu(_p->playbackGroup->createMenu());
+            menuBar()->addMenu(_p->toolGroup->createMenu());
+            menuBar()->addMenu(_p->helpGroup->createMenu());
+
+            // Create the tool bars.
+            _p->toolBars.append(_p->fileGroup->createToolBar());
+            _p->toolBars.append(_p->windowGroup->createToolBar());
+            _p->toolBars.append(_p->viewGroup->createToolBar());
+            _p->toolBars.append(_p->imageGroup->createToolBar());
+            _p->toolBars.append(_p->toolGroup->createToolBar());
+            Q_FOREACH(auto toolBar, _p->toolBars)
+            {
+                addToolBar(toolBar);
+            }
+            _p->playbackControls = _p->playbackGroup->createToolBar();
+            addToolBar(Qt::ToolBarArea::BottomToolBarArea, _p->playbackControls);
 
             // Layout the widgets.
             setCentralWidget(_p->viewWidget);
@@ -178,89 +205,93 @@ namespace djv
 
             // Setup the file group callbacks.
             connect(
-                _p->fileGroup,
+                _p->fileGroup.data(),
                 SIGNAL(imageChanged()),
                 SLOT(imageUpdate()));
             connect(
-                _p->fileGroup,
+                _p->fileGroup.data(),
                 SIGNAL(setFrameStore()),
                 SLOT(setFrameStoreCallback()));
             connect(
-                _p->fileGroup,
+                _p->fileGroup.data(),
                 SIGNAL(reloadFrame()),
                 SLOT(reloadFrameCallback()));
             connect(
-                _p->fileGroup,
+                _p->fileGroup.data(),
                 SIGNAL(exportSequence(const djv::Core::FileInfo &)),
                 SLOT(exportSequenceCallback(const djv::Core::FileInfo &)));
             connect(
-                _p->fileGroup,
+                _p->fileGroup.data(),
                 SIGNAL(exportFrame(const djv::Core::FileInfo &)),
                 SLOT(exportFrameCallback(const djv::Core::FileInfo &)));
 
             // Setup the image group callbacks.
             connect(
-                _p->imageGroup,
+                _p->imageGroup.data(),
                 SIGNAL(showFrameStoreChanged(bool)),
                 SLOT(imageUpdate()));
             connect(
-                _p->imageGroup,
+                _p->imageGroup.data(),
                 SIGNAL(setFrameStore()),
                 SLOT(setFrameStoreCallback()));
             connect(
-                _p->imageGroup,
+                _p->imageGroup.data(),
                 SIGNAL(displayProfileChanged(const djv::ViewLib::DisplayProfile &)),
                 SLOT(imageUpdate()));
             connect(
-                _p->imageGroup,
+                _p->imageGroup.data(),
                 SIGNAL(redrawNeeded()),
                 SLOT(imageUpdate()));
             connect(
-                _p->imageGroup,
+                _p->imageGroup.data(),
                 SIGNAL(resizeNeeded()),
                 SLOT(windowResizeCallback()));
 
             // Setup the window group callbacks.
             connect(
-                _p->windowGroup,
+                _p->windowGroup.data(),
                 SIGNAL(uiVisibleChanged(bool)),
                 SLOT(windowUpdate()));
             connect(
-                _p->windowGroup,
+                _p->windowGroup.data(),
                 SIGNAL(uiComponentVisibleChanged(const QVector<bool> &)),
+                SLOT(windowUpdate()));
+            connect(
+                _p->windowGroup.data(),
+                SIGNAL(detachWindowChanged(bool)),
                 SLOT(windowUpdate()));
 
             // Setup the playback group callbacks.
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(playbackChanged(djv::ViewLib::Enum::PLAYBACK)),
                 SLOT(playbackUpdate()));
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(frameChanged(qint64)),
                 SLOT(imageUpdate()));
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(sequenceChanged(const djv::Core::Sequence &)),
                 SLOT(viewOverlayUpdate()));
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(frameChanged(qint64)),
                 SLOT(viewOverlayUpdate()));
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(speedChanged(const djv::Core::Speed &)),
                 SLOT(viewOverlayUpdate()));
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(actualSpeedChanged(float)),
                 SLOT(viewOverlayUpdate()));
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(droppedFramesChanged(bool)),
                 SLOT(viewOverlayUpdate()));
             connect(
-                _p->playbackGroup,
+                _p->playbackGroup.data(),
                 SIGNAL(layoutChanged(djv::ViewLib::Enum::LAYOUT)),
                 SLOT(windowResizeCallback()));
 
@@ -300,6 +331,41 @@ namespace djv
         MainWindow::~MainWindow()
         {
             //DJV_DEBUG("MainWindow::~MainWindow");
+        }
+
+        QPointer<FileGroup> MainWindow::fileGroup() const
+        {
+            return _p->fileGroup.data();
+        }
+
+        QPointer<WindowGroup> MainWindow::windowGroup() const
+        {
+            return _p->windowGroup.data();
+        }
+
+        QPointer<ViewGroup> MainWindow::viewGroup() const
+        {
+            return _p->viewGroup.data();
+        }
+
+        QPointer<ImageGroup> MainWindow::imageGroup() const
+        {
+            return _p->imageGroup.data();
+        }
+
+        QPointer<PlaybackGroup> MainWindow::playbackGroup() const
+        {
+            return _p->playbackGroup.data();
+        }
+
+        QPointer<ToolGroup> MainWindow::toolGroup() const
+        {
+            return _p->toolGroup.data();
+        }
+
+        QPointer<HelpGroup> MainWindow::helpGroup() const
+        {
+            return _p->helpGroup.data();
         }
 
         const Graphics::ImageIOInfo & MainWindow::imageIOInfo() const
@@ -355,6 +421,19 @@ namespace djv
                 out->setPlaybackSpeed(*context->commandLineOptions().playbackSpeed);
             }
 
+            return out;
+        }
+
+        QMenu * MainWindow::createPopupMenu()
+        {
+            auto out = new QMenu;
+            out->addMenu(_p->fileGroup->createMenu());
+            out->addMenu(_p->windowGroup->createMenu());
+            out->addMenu(_p->viewGroup->createMenu());
+            out->addMenu(_p->imageGroup->createMenu());
+            out->addMenu(_p->playbackGroup->createMenu());
+            out->addMenu(_p->toolGroup->createMenu());
+            out->addMenu(_p->helpGroup->createMenu());
             return out;
         }
 
@@ -661,6 +740,11 @@ namespace djv
             default: break;
             }
         }
+        
+        void MainWindow::detachWindowClosedCallback()
+        {
+            _p->windowGroup->setDetachWindow(false);
+        }
 
         void MainWindow::fileUpdate()
         {
@@ -734,31 +818,49 @@ namespace djv
             setUpdatesEnabled(false);
 
             const bool visible = _p->windowGroup->isUIVisible();
-
-            if (visible)
+            const QVector<bool> & componentVisible = _p->windowGroup->uiComponentVisible();
+            if (visible && componentVisible[Enum::UI_MENU_BAR])
             {
-                if (_p->menuBarHeight != 0)
+                if (_p->menuBarHeight)
                 {
                     menuBar()->setFixedHeight(_p->menuBarHeight);
                 }
             }
             else
             {
-                _p->menuBarHeight = menuBar()->height();
-                //DJV_DEBUG_PRINT("menu bar height = " << _p->menuBarHeight);
-                menuBar()->setFixedHeight(0);
+                const int height = menuBar()->height();
+                if (height)
+                {
+                    _p->menuBarHeight = height;
+                    //DJV_DEBUG_PRINT("menu bar height = " << _p->menuBarHeight);
+                    menuBar()->setFixedHeight(0);
+                }
             }
-
-            const QVector<bool> & componentVisible = _p->windowGroup->uiComponentVisible();
-            _p->fileGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
-            _p->windowGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
-            _p->viewGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
-            _p->imageGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
-            _p->toolGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
-
-            _p->playbackGroup->toolBar()->setVisible(visible && componentVisible[Enum::UI_PLAYBACK_CONTROLS]);
-
+            Q_FOREACH(auto toolBar, _p->toolBars)
+            {
+                toolBar->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
+            }
+            _p->playbackControls->setVisible(visible && componentVisible[Enum::UI_PLAYBACK_CONTROLS]);
             statusBar()->setVisible(visible && componentVisible[Enum::UI_STATUS_BAR]);
+
+            if (_p->windowGroup->hasDetachWindow())
+            {
+                if (!_p->detachWindow)
+                {
+                    auto detachWindow = new DetachWindow(this, _p->context, this);
+                    connect(
+                        detachWindow,
+                        SIGNAL(closed()),
+                        SLOT(detachWindowClosedCallback()));
+                    _p->detachWindow.reset(detachWindow);
+                }
+                _p->detachWindow->show();
+                _p->detachWindow->raise();
+            }
+            else if (_p->detachWindow)
+            {
+                _p->detachWindow->hide();
+            }
 
             QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
         }

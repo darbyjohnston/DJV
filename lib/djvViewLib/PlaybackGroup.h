@@ -97,7 +97,8 @@ namespace djv
             //! Get the layout.
             Enum::LAYOUT layout() const;
 
-            QPointer<QToolBar> toolBar() const override;
+            QPointer<QMenu> createMenu() const override;
+            QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
             //! Set the sequence.
@@ -166,6 +167,18 @@ namespace djv
 
             //! This signal is emitted when the out point is changed.
             void outPointChanged(qint64);
+
+            //! Mark the in point.
+            void markInPoint();
+            
+            //! Mark the out point.
+            void markOutPoint();
+
+            //! Reset the in point.
+            void resetInPoint();
+            
+            //! Reset the out point.
+            void resetOutPoint();
 
             //! This signal is emitted when the layout is changed.
             void layoutChanged(djv::ViewLib::Enum::LAYOUT);

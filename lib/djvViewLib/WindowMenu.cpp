@@ -52,6 +52,7 @@ namespace djv
             addAction(actions->action(WindowActions::UI_VISIBLE));
             Q_FOREACH(QAction * action, actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions())
                 addAction(action);
+            addAction(actions->action(WindowActions::DETACH_UI));
 
             setTitle(qApp->translate("djv::ViewLib::WindowMenu", "&Window"));
         }

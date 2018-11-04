@@ -38,6 +38,7 @@
 
 #include <memory>
 
+class QMenu;
 class QToolBar;
 
 namespace djv
@@ -56,11 +57,14 @@ namespace djv
             explicit AbstractGroup(const QPointer<MainWindow> &, const QPointer<ViewContext> &);
             virtual ~AbstractGroup() = 0;
 
+            //! Create a new menu.
+            virtual QPointer<QMenu> createMenu() const;
+
+            //! Create a new tool bar.
+            virtual QPointer<QToolBar> createToolBar() const;
+
             //! Get the main window.
             const QPointer<MainWindow> & mainWindow() const;
-
-            //! Get the tool bar.
-            virtual QPointer<QToolBar> toolBar() const;
 
             //! Get the context.
             const QPointer<ViewContext> & context() const;

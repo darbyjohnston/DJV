@@ -30,6 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractPrefsWidget.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvCore/Vector.h>
 
@@ -54,7 +55,7 @@ namespace djv
             void autoFitCallback(bool);
             void viewMaxCallback(int);
             void viewMaxUserCallback(const glm::ivec2 &);
-            void fullScreenUICallback(bool);
+            void fullScreenUICallback(int);
             void uiComponentVisibleCallback(int);
 
             void widgetUpdate();

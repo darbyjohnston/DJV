@@ -50,6 +50,8 @@ namespace djv
                 const QPointer<ViewContext> &);
             ~HelpGroup() override;
 
+            QPointer<QMenu> createMenu() const override;
+
         private Q_SLOTS:
             void documentationCallback();
             void whatsThisCallback();

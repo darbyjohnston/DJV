@@ -56,7 +56,15 @@ namespace djv
                 const QPointer<ViewContext> &);
             ~ViewGroup() override;
 
-            QPointer<QToolBar> toolBar() const override;
+            djv::ViewLib::Enum::GRID grid() const;
+            bool isHudEnabled() const;
+
+            QPointer<QMenu> createMenu() const override;
+            QPointer<QToolBar> createToolBar() const override;
+
+        Q_SIGNALS:
+            void gridChanged(djv::ViewLib::Enum::GRID);
+            void hudEnabledChanged(bool);
 
         private Q_SLOTS:
             void leftCallback();
@@ -65,6 +73,7 @@ namespace djv
             void downCallback();
             void centerCallback();
             void resetCallback();
+            void zoomCallback(float);
             void zoomInCallback();
             void zoomOutCallback();
             void zoomResetCallback();
@@ -78,10 +87,10 @@ namespace djv
             void update();
 
         private:
+            DJV_PRIVATE_COPY(ViewGroup);
+
             void viewMove(const glm::ivec2 &);
             void viewZoom(float);
-
-            DJV_PRIVATE_COPY(ViewGroup);
 
             struct Private;
             std::unique_ptr<Private> _p;

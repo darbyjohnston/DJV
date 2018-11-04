@@ -126,952 +126,983 @@
     </message>
     <message>
         <location filename="Enum.cpp" line="58"/>
-        <source>Tool Bars</source>
+        <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="59"/>
-        <source>Playback Controls</source>
+        <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="60"/>
-        <source>Status Bar</source>
+        <source>Detach</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="68"/>
-        <location filename="Enum.cpp" line="94"/>
-        <location filename="Enum.cpp" line="104"/>
-        <source>None</source>
+        <source>Menu Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="69"/>
-        <source>1x1</source>
+        <source>Tool Bars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="70"/>
-        <source>10x10</source>
+        <source>Playback Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="71"/>
-        <source>100x100</source>
+        <source>Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="79"/>
-        <source>File Name</source>
+        <location filename="Enum.cpp" line="105"/>
+        <location filename="Enum.cpp" line="115"/>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="80"/>
-        <source>Layer</source>
+        <source>1x1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="81"/>
-        <source>Size</source>
+        <source>10x10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="82"/>
+        <source>100x100</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="90"/>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="91"/>
+        <source>Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="92"/>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="93"/>
         <source>Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="83"/>
+        <location filename="Enum.cpp" line="94"/>
         <source>Pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="84"/>
+        <location filename="Enum.cpp" line="95"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="85"/>
+        <location filename="Enum.cpp" line="96"/>
         <source>Playback Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="86"/>
-        <location filename="Enum.cpp" line="396"/>
+        <location filename="Enum.cpp" line="97"/>
+        <location filename="Enum.cpp" line="409"/>
         <source>Playback Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="95"/>
+        <location filename="Enum.cpp" line="106"/>
         <source>Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="96"/>
+        <location filename="Enum.cpp" line="107"/>
         <source>Shadow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="105"/>
+        <location filename="Enum.cpp" line="116"/>
         <source>16.9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="106"/>
+        <location filename="Enum.cpp" line="117"/>
         <source>1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="107"/>
+        <location filename="Enum.cpp" line="118"/>
         <source>1.33</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="108"/>
+        <location filename="Enum.cpp" line="119"/>
         <source>1.78</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="109"/>
+        <location filename="Enum.cpp" line="120"/>
         <source>1.85</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="110"/>
+        <location filename="Enum.cpp" line="121"/>
         <source>2.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="111"/>
+        <location filename="Enum.cpp" line="122"/>
         <source>2.35</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="112"/>
+        <location filename="Enum.cpp" line="123"/>
         <source>2.39</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="113"/>
+        <location filename="Enum.cpp" line="124"/>
         <source>2.40</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="114"/>
+        <location filename="Enum.cpp" line="125"/>
         <source>1:1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="115"/>
+        <location filename="Enum.cpp" line="126"/>
         <source>2:1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="116"/>
+        <location filename="Enum.cpp" line="127"/>
         <source>3:2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="117"/>
+        <location filename="Enum.cpp" line="128"/>
         <source>4:3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="118"/>
+        <location filename="Enum.cpp" line="129"/>
         <source>5:3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="119"/>
+        <location filename="Enum.cpp" line="130"/>
         <source>5:4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="161"/>
+        <location filename="Enum.cpp" line="172"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="162"/>
+        <location filename="Enum.cpp" line="173"/>
         <source>90</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="163"/>
+        <location filename="Enum.cpp" line="174"/>
         <source>180</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="164"/>
+        <location filename="Enum.cpp" line="175"/>
         <source>270</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="178"/>
+        <location filename="Enum.cpp" line="189"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="179"/>
+        <location filename="Enum.cpp" line="190"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="180"/>
+        <location filename="Enum.cpp" line="191"/>
         <source>Reverse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="188"/>
+        <location filename="Enum.cpp" line="199"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="189"/>
+        <location filename="Enum.cpp" line="200"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="190"/>
+        <location filename="Enum.cpp" line="201"/>
         <source>Next Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="191"/>
+        <location filename="Enum.cpp" line="202"/>
         <source>Next Frame X10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="192"/>
+        <location filename="Enum.cpp" line="203"/>
         <source>Next Frame X100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="193"/>
+        <location filename="Enum.cpp" line="204"/>
         <source>Previous Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="194"/>
+        <location filename="Enum.cpp" line="205"/>
         <source>Previous Frame X10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="195"/>
+        <location filename="Enum.cpp" line="206"/>
         <source>Previous Frame X100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="203"/>
+        <location filename="Enum.cpp" line="214"/>
         <source>Once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="204"/>
+        <location filename="Enum.cpp" line="215"/>
         <source>Repeat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="205"/>
+        <location filename="Enum.cpp" line="216"/>
         <source>Ping Pong</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="213"/>
+        <location filename="Enum.cpp" line="224"/>
         <source>&amp;In/Out Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="214"/>
+        <location filename="Enum.cpp" line="225"/>
         <source>&amp;Mark In Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="215"/>
+        <location filename="Enum.cpp" line="226"/>
         <source>Mar&amp;k Out Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="216"/>
+        <location filename="Enum.cpp" line="227"/>
         <source>Reset In Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="217"/>
+        <location filename="Enum.cpp" line="228"/>
         <source>Reset Out Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="225"/>
+        <location filename="Enum.cpp" line="236"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="226"/>
+        <location filename="Enum.cpp" line="237"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="227"/>
+        <location filename="Enum.cpp" line="238"/>
         <source>Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="228"/>
+        <location filename="Enum.cpp" line="239"/>
         <source>Minimal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="236"/>
+        <location filename="Enum.cpp" line="247"/>
         <source>Magnify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="237"/>
+        <location filename="Enum.cpp" line="248"/>
         <source>Color Picker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="238"/>
+        <location filename="Enum.cpp" line="249"/>
         <source>Histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="239"/>
+        <location filename="Enum.cpp" line="250"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="247"/>
+        <location filename="Enum.cpp" line="258"/>
         <source>256</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="248"/>
+        <location filename="Enum.cpp" line="259"/>
         <source>1024</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="249"/>
+        <location filename="Enum.cpp" line="260"/>
         <source>2048</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="250"/>
+        <location filename="Enum.cpp" line="261"/>
         <source>4096</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="270"/>
+        <location filename="Enum.cpp" line="281"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="272"/>
+        <location filename="Enum.cpp" line="283"/>
         <source>File/Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="273"/>
+        <location filename="Enum.cpp" line="284"/>
         <source>File/Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="274"/>
+        <location filename="Enum.cpp" line="285"/>
         <source>File/Reload Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="275"/>
+        <location filename="Enum.cpp" line="286"/>
         <source>File/Export Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="276"/>
+        <location filename="Enum.cpp" line="287"/>
         <source>File/Export Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="277"/>
+        <location filename="Enum.cpp" line="288"/>
         <source>File/Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="278"/>
+        <location filename="Enum.cpp" line="289"/>
         <source>File/Layer Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="279"/>
+        <location filename="Enum.cpp" line="290"/>
         <source>File/Layer 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="280"/>
+        <location filename="Enum.cpp" line="291"/>
         <source>File/Layer 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="281"/>
+        <location filename="Enum.cpp" line="292"/>
         <source>File/Layer 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="282"/>
+        <location filename="Enum.cpp" line="293"/>
         <source>File/Layer 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="283"/>
+        <location filename="Enum.cpp" line="294"/>
         <source>File/Layer 5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="284"/>
+        <location filename="Enum.cpp" line="295"/>
         <source>File/Layer 6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="285"/>
+        <location filename="Enum.cpp" line="296"/>
         <source>File/Layer 7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="286"/>
+        <location filename="Enum.cpp" line="297"/>
         <source>File/Layer 8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="287"/>
+        <location filename="Enum.cpp" line="298"/>
         <source>File/Layer 9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="288"/>
+        <location filename="Enum.cpp" line="299"/>
         <source>File/Layer 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="289"/>
+        <location filename="Enum.cpp" line="300"/>
         <source>File/Layer Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="290"/>
+        <location filename="Enum.cpp" line="301"/>
         <source>File/Layer Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="291"/>
+        <location filename="Enum.cpp" line="302"/>
         <source>File/Proxy None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="292"/>
+        <location filename="Enum.cpp" line="303"/>
         <source>File/Proxy 1/2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="293"/>
+        <location filename="Enum.cpp" line="304"/>
         <source>File/Proxy 1/4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="294"/>
+        <location filename="Enum.cpp" line="305"/>
         <source>File/Proxy 1/8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="296"/>
+        <location filename="Enum.cpp" line="307"/>
         <source>Window/New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="297"/>
+        <location filename="Enum.cpp" line="308"/>
         <source>Window/Duplicate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="298"/>
+        <location filename="Enum.cpp" line="309"/>
         <source>Window/Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="299"/>
+        <location filename="Enum.cpp" line="310"/>
         <source>Window/Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="300"/>
+        <location filename="Enum.cpp" line="311"/>
         <source>Window/Full Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="301"/>
-        <source>Window/Show UI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="302"/>
-        <source>Window/Show Tool Bars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="303"/>
-        <source>Window/Show Playback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="304"/>
-        <source>Window/Show Information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="306"/>
-        <source>View/Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="307"/>
-        <source>View/Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="308"/>
-        <source>View/Up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="309"/>
-        <source>View/Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="310"/>
-        <source>View/Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="311"/>
-        <source>View/Zoom In</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="Enum.cpp" line="312"/>
-        <source>View/Zoom Out</source>
+        <source>Window/Show UI</source>
+        <oldsource>Window/Detach View</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="313"/>
-        <source>View/Zoom Reset</source>
+        <source>Window/Show Menu Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="314"/>
-        <source>View/Reset</source>
+        <source>Window/Show Tool Bars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="315"/>
-        <source>View/Fit</source>
+        <source>Window/Show Playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="316"/>
-        <source>View/HUD</source>
+        <source>Window/Show Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="318"/>
-        <source>Image/Show Frame Store</source>
+        <location filename="Enum.cpp" line="317"/>
+        <source>Window/Detach UI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="319"/>
-        <source>Image/Set Frame Store</source>
+        <source>View/Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="320"/>
-        <source>Image/Mirror Horizontal</source>
+        <source>View/Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="321"/>
-        <source>Image/Mirror Vertical</source>
+        <source>View/Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="322"/>
-        <source>Image/Scale None</source>
+        <source>View/Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="323"/>
-        <source>Image/Scale 16:9</source>
+        <source>View/Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="324"/>
-        <source>Image/Scale 1.0</source>
+        <source>View/Zoom In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="325"/>
-        <source>Image/Scale 1.33</source>
+        <source>View/Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="326"/>
-        <source>Image/Scale 1.78</source>
+        <source>View/Zoom Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="327"/>
-        <source>Image/Scale 1.85</source>
+        <source>View/Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="328"/>
-        <source>Image/Scale 2.0</source>
+        <source>View/Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="329"/>
-        <source>Image/Scale 2.35</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="330"/>
-        <source>Image/Scale 2.39</source>
+        <source>View/HUD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="331"/>
-        <source>Image/Scale 2.40</source>
+        <source>Image/Show Frame Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="332"/>
-        <source>Image/Scale 1:1</source>
+        <source>Image/Set Frame Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="333"/>
-        <source>Image/Scale 2:1</source>
+        <source>Image/Mirror Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="334"/>
-        <source>Image/Scale 3:2</source>
+        <source>Image/Mirror Vertical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="335"/>
-        <source>Image/Scale 4:3</source>
+        <source>Image/Scale None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="336"/>
-        <source>Image/Scale 5:3</source>
+        <source>Image/Scale 16:9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="337"/>
-        <source>Image/Scale 5:4</source>
+        <source>Image/Scale 1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="338"/>
-        <source>Image/Rotate 0</source>
+        <source>Image/Scale 1.33</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="339"/>
-        <source>Image/Rotate 90</source>
+        <source>Image/Scale 1.78</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="340"/>
-        <source>Image/Rotate 180</source>
+        <source>Image/Scale 1.85</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="341"/>
-        <source>Image/Rotate 270</source>
+        <source>Image/Scale 2.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="342"/>
+        <source>Image/Scale 2.35</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="343"/>
+        <source>Image/Scale 2.39</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="344"/>
+        <source>Image/Scale 2.40</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="345"/>
+        <source>Image/Scale 1:1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="346"/>
+        <source>Image/Scale 2:1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="347"/>
+        <source>Image/Scale 3:2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="348"/>
+        <source>Image/Scale 4:3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="349"/>
+        <source>Image/Scale 5:3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="350"/>
+        <source>Image/Scale 5:4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="351"/>
+        <source>Image/Rotate 0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="352"/>
+        <source>Image/Rotate 90</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="353"/>
+        <source>Image/Rotate 180</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="354"/>
+        <source>Image/Rotate 270</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Enum.cpp" line="355"/>
         <source>Image/Premultiplied Alpha</source>
         <oldsource>Image/Alpha Off</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="343"/>
+        <location filename="Enum.cpp" line="356"/>
         <source>Image/Color Profile</source>
         <oldsource>Image/Alpha Multiply</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="344"/>
+        <location filename="Enum.cpp" line="357"/>
         <source>Image/Channel Default</source>
         <oldsource>Image/Alpha Divide</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="345"/>
+        <location filename="Enum.cpp" line="358"/>
         <source>Image/Channel Red</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="346"/>
+        <location filename="Enum.cpp" line="359"/>
         <source>Image/Channel Green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="347"/>
+        <location filename="Enum.cpp" line="360"/>
         <source>Image/Channel Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="348"/>
+        <location filename="Enum.cpp" line="361"/>
         <source>Image/Channel Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="349"/>
+        <location filename="Enum.cpp" line="362"/>
         <source>Image/Display Profile Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="350"/>
+        <location filename="Enum.cpp" line="363"/>
         <source>Image/Display Profile Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="351"/>
+        <location filename="Enum.cpp" line="364"/>
         <source>Image/Display Profile 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="352"/>
+        <location filename="Enum.cpp" line="365"/>
         <source>Image/Display Profile 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="353"/>
+        <location filename="Enum.cpp" line="366"/>
         <source>Image/Display Profile 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="354"/>
+        <location filename="Enum.cpp" line="367"/>
         <source>Image/Display Profile 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="355"/>
+        <location filename="Enum.cpp" line="368"/>
         <source>Image/Display Profile 5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="356"/>
+        <location filename="Enum.cpp" line="369"/>
         <source>Image/Display Profile 6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="357"/>
+        <location filename="Enum.cpp" line="370"/>
         <source>Image/Display Profile 7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="358"/>
+        <location filename="Enum.cpp" line="371"/>
         <source>Image/Display Profile 8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="359"/>
+        <location filename="Enum.cpp" line="372"/>
         <source>Image/Display Profile 9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="360"/>
+        <location filename="Enum.cpp" line="373"/>
         <source>Image/Display Profile 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="362"/>
+        <location filename="Enum.cpp" line="375"/>
         <source>Playback/Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="363"/>
+        <location filename="Enum.cpp" line="376"/>
         <source>Playback/Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="364"/>
+        <location filename="Enum.cpp" line="377"/>
         <source>Playback/Reverse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="365"/>
+        <location filename="Enum.cpp" line="378"/>
         <source>Playback/Toggle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="366"/>
+        <location filename="Enum.cpp" line="379"/>
         <source>Playback/Loop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="367"/>
+        <location filename="Enum.cpp" line="380"/>
         <source>Playback/Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="368"/>
+        <location filename="Enum.cpp" line="381"/>
         <source>Playback/End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="369"/>
+        <location filename="Enum.cpp" line="382"/>
         <source>Playback/Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="370"/>
+        <location filename="Enum.cpp" line="383"/>
         <source>Playback/Next 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="371"/>
+        <location filename="Enum.cpp" line="384"/>
         <source>Playback/Next 100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="372"/>
+        <location filename="Enum.cpp" line="385"/>
         <source>Playback/Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="373"/>
+        <location filename="Enum.cpp" line="386"/>
         <source>Playback/Previous 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="374"/>
+        <location filename="Enum.cpp" line="387"/>
         <source>Playback/Previous 100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="375"/>
+        <location filename="Enum.cpp" line="388"/>
         <source>Playback/In/Out Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="376"/>
+        <location filename="Enum.cpp" line="389"/>
         <source>Playback/In Point Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="377"/>
+        <location filename="Enum.cpp" line="390"/>
         <source>Playback/In Point Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="378"/>
+        <location filename="Enum.cpp" line="391"/>
         <source>Playback/Out Point Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="379"/>
+        <location filename="Enum.cpp" line="392"/>
         <source>Playback/Out Point Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="381"/>
+        <location filename="Enum.cpp" line="394"/>
         <source>Tool/Magnify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="382"/>
+        <location filename="Enum.cpp" line="395"/>
         <source>Tool/Color Picker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="383"/>
+        <location filename="Enum.cpp" line="396"/>
         <source>Tool/Histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="384"/>
+        <location filename="Enum.cpp" line="397"/>
         <source>Tool/Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="386"/>
+        <location filename="Enum.cpp" line="399"/>
         <source>Help/What&apos;s This?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="394"/>
+        <location filename="Enum.cpp" line="407"/>
         <source>View Zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="395"/>
+        <location filename="Enum.cpp" line="408"/>
         <source>Playback Shuttle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="404"/>
+        <location filename="Enum.cpp" line="417"/>
         <source>10%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="405"/>
+        <location filename="Enum.cpp" line="418"/>
         <source>50%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="406"/>
+        <location filename="Enum.cpp" line="419"/>
         <source>100%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="427"/>
+        <location filename="Enum.cpp" line="440"/>
         <source>Cannot open image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="428"/>
+        <location filename="Enum.cpp" line="441"/>
         <source>Cannot read image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="429"/>
+        <location filename="Enum.cpp" line="442"/>
         <source>Cannot write image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="430"/>
+        <location filename="Enum.cpp" line="443"/>
         <source>Cannot open LUT: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="431"/>
+        <location filename="Enum.cpp" line="444"/>
         <source>Cannot pick color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="432"/>
+        <location filename="Enum.cpp" line="445"/>
         <source>Cannot compute histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Enum.cpp" line="433"/>
+        <location filename="Enum.cpp" line="446"/>
         <source>Cannot magnify</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1210,23 +1241,23 @@
 <context>
     <name>djv::ViewLib::FileGroup</name>
     <message>
-        <location filename="FileGroup.cpp" line="599"/>
+        <location filename="FileGroup.cpp" line="590"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="689"/>
+        <location filename="FileGroup.cpp" line="680"/>
         <source>Export Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="698"/>
-        <location filename="FileGroup.cpp" line="722"/>
+        <location filename="FileGroup.cpp" line="689"/>
+        <location filename="FileGroup.cpp" line="713"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="715"/>
+        <location filename="FileGroup.cpp" line="706"/>
         <source>Export Frame</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1450,7 +1481,7 @@
 <context>
     <name>djv::ViewLib::ImageGroup</name>
     <message>
-        <location filename="ImageGroup.cpp" line="127"/>
+        <location filename="ImageGroup.cpp" line="111"/>
         <source>Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1786,39 +1817,39 @@
 <context>
     <name>djv::ViewLib::MainWindow</name>
     <message>
-        <location filename="MainWindow.cpp" line="134"/>
+        <location filename="MainWindow.cpp" line="139"/>
         <source>Pixel information
 
 Click and drag inside the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="138"/>
+        <location filename="MainWindow.cpp" line="143"/>
         <source>Image information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="142"/>
+        <location filename="MainWindow.cpp" line="147"/>
         <source>File cache information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="670"/>
+        <location filename="MainWindow.cpp" line="754"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="683"/>
+        <location filename="MainWindow.cpp" line="767"/>
         <source>Cache: %1% %2/%3GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="711"/>
+        <location filename="MainWindow.cpp" line="795"/>
         <source>Image: %1x%2:%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="836"/>
+        <location filename="MainWindow.cpp" line="938"/>
         <source>Pixel: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2371,6 +2402,21 @@ Click and drag inside the image.</source>
         <source>Toggle the HUD (Heads Up Display)&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="WindowActions.cpp" line="67"/>
+        <source>De&amp;tach User Interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="WindowActions.cpp" line="195"/>
+        <source>Toggle whether the user interface is shown in a separate window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="WindowActions.cpp" line="200"/>
+        <source>Toggle whether the user interface is shown in a separate window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewImageView.html&quot;&gt;Documentation&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>djv::ViewLib::ViewContext</name>
@@ -2565,52 +2611,52 @@ Playback Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="107"/>
+        <location filename="WindowActions.cpp" line="109"/>
         <source>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="112"/>
+        <location filename="WindowActions.cpp" line="114"/>
         <source>Create a new window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="121"/>
+        <location filename="WindowActions.cpp" line="123"/>
         <source>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="126"/>
+        <location filename="WindowActions.cpp" line="128"/>
         <source>Duplicate the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="135"/>
+        <location filename="WindowActions.cpp" line="137"/>
         <source>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="140"/>
+        <location filename="WindowActions.cpp" line="142"/>
         <source>Close the window&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="149"/>
+        <location filename="WindowActions.cpp" line="151"/>
         <source>Resize the window to fit the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="154"/>
+        <location filename="WindowActions.cpp" line="156"/>
         <source>Resize the window to fit the image&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="163"/>
+        <location filename="WindowActions.cpp" line="165"/>
         <source>Show the window full screen&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowActions.cpp" line="168"/>
+        <location filename="WindowActions.cpp" line="170"/>
         <source>Show the window full screen&lt;br&gt;&lt;br&gt;Keyboard shortcut: %1&lt;br&gt;&lt;br&gt;&lt;a href=&quot;ViewWindows.html&quot;&gt;Documentation&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2618,7 +2664,7 @@ Playback Options
 <context>
     <name>djv::ViewLib::WindowMenu</name>
     <message>
-        <location filename="WindowMenu.cpp" line="56"/>
+        <location filename="WindowMenu.cpp" line="57"/>
         <source>&amp;Window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2626,18 +2672,13 @@ Playback Options
 <context>
     <name>djv::ViewLib::WindowPrefsWidget</name>
     <message>
-        <location filename="WindowPrefsWidget.cpp" line="63"/>
+        <location filename="WindowPrefsWidget.cpp" line="64"/>
         <source>Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="WindowPrefsWidget.cpp" line="68"/>
+        <location filename="WindowPrefsWidget.cpp" line="69"/>
         <source>Automatically fit the window to the image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowPrefsWidget.cpp" line="81"/>
-        <source>Set whether the user interface is visible in full screen mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2652,17 +2693,12 @@ Playback Options
     </message>
     <message>
         <location filename="WindowPrefsWidget.cpp" line="108"/>
-        <source>Full Screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="WindowPrefsWidget.cpp" line="114"/>
-        <source>User Interface Components</source>
+        <source>User Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="WindowPrefsWidget.cpp" line="115"/>
-        <source>Set which user interface components are visible.</source>
+        <source>What happens to the user interface in full screen mode:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -27,67 +27,59 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ViewToolBar.h>
+#include <djvViewLib/DetachWindow.h>
 
-#include <djvViewLib/ViewActions.h>
-#include <djvViewLib/ViewContext.h>
+#include <djvViewLib/FileGroup.h>
+#include <djvViewLib/HelpGroup.h>
+#include <djvViewLib/ImageGroup.h>
+#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/PlaybackGroup.h>
+#include <djvViewLib/ToolGroup.h>
+#include <djvViewLib/ViewGroup.h>
+#include <djvViewLib/WindowGroup.h>
 
-#include <djvUI/FloatEdit.h>
-#include <djvUI/FloatObject.h>
-#include <djvUI/ToolButton.h>
-
-#include <QCoreApplication>
-#include <QPointer>
+#include <QCloseEvent>
+#include <QMenuBar>
+#include <QToolBar>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct ViewToolBar::Private
+        struct DetachWindow::Private
         {
-            QPointer<UI::FloatEdit> zoomEdit;
         };
 
-        ViewToolBar::ViewToolBar(
-            const QPointer<AbstractActions> & actions,
+        DetachWindow::DetachWindow(
+            const QPointer<MainWindow> & mainWindow,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
-            AbstractToolBar(qApp->translate("djv::ViewLib::ViewToolBar", "View"), actions, context, parent),
+            QMainWindow(parent),
             _p(new Private)
         {
-            auto button = new UI::ToolButton(context.data());
-            button->setDefaultAction(actions->action(ViewActions::ZOOM_IN));
-            addWidget(button);
-
-            button = new UI::ToolButton(context.data());
-            button->setDefaultAction(actions->action(ViewActions::ZOOM_OUT));
-            addWidget(button);
-
-            button = new UI::ToolButton(context.data());
-            button->setDefaultAction(actions->action(ViewActions::ZOOM_RESET));
-            addWidget(button);
-
-            button = new UI::ToolButton(context.data());
-            button->setDefaultAction(actions->action(ViewActions::FIT));
-            addWidget(button);
-
-            _p->zoomEdit = new UI::FloatEdit;
-            _p->zoomEdit->setRange(.1f, 1000.f);
-            _p->zoomEdit->object()->setInc(.1f, .1f);
-            addWidget(_p->zoomEdit);
-            
-            connect(
-                _p->zoomEdit,
-                SIGNAL(valueChanged(float)),
-                SIGNAL(zoomChanged(float)));
+            menuBar()->setNativeMenuBar(false);
+            menuBar()->addMenu(mainWindow->fileGroup()->createMenu());
+            menuBar()->addMenu(mainWindow->windowGroup()->createMenu());
+            menuBar()->addMenu(mainWindow->viewGroup()->createMenu());
+            menuBar()->addMenu(mainWindow->imageGroup()->createMenu());
+            menuBar()->addMenu(mainWindow->playbackGroup()->createMenu());
+            menuBar()->addMenu(mainWindow->toolGroup()->createMenu());
+            menuBar()->addMenu(mainWindow->helpGroup()->createMenu());
+            addToolBar(mainWindow->fileGroup()->createToolBar());
+            addToolBar(mainWindow->windowGroup()->createToolBar());
+            addToolBar(mainWindow->viewGroup()->createToolBar());
+            addToolBar(mainWindow->imageGroup()->createToolBar());
+            addToolBar(Qt::ToolBarArea::BottomToolBarArea, mainWindow->playbackGroup()->createToolBar());
+            addToolBar(mainWindow->toolGroup()->createToolBar());
         }
 
-        ViewToolBar::~ViewToolBar()
+        DetachWindow::~DetachWindow()
         {}
 
-        void ViewToolBar::setZoom(float value)
+        void DetachWindow::closeEvent(QCloseEvent * event)
         {
-            _p->zoomEdit->setValue(value);
+            event->ignore();
+            Q_EMIT closed();
         }
 
     } // namespace ViewLib

@@ -43,7 +43,7 @@ namespace djv
     {
         class AbstractActions;
 
-        //! This class provides the base functionality for group menus.
+        //! This class provides the base functionality for menus.
         class AbstractMenu : public QMenu
         {
             Q_OBJECT
@@ -55,7 +55,6 @@ namespace djv
 
             virtual ~AbstractMenu() = 0;
 
-            //! Get the actions.
             const QPointer<AbstractActions> & actions() const;
 
         protected Q_SLOTS:

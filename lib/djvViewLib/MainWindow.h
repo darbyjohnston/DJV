@@ -55,8 +55,15 @@ namespace djv
 
     namespace ViewLib
     {
+        class FileGroup;
+        class HelpGroup;
+        class ImageGroup;
         class ImageView;
+        class PlaybackGroup;
+        class ToolGroup;
         class ViewContext;
+        class ViewGroup;
+        class WindowGroup;
 
         //! This class provides a main window.
         //!
@@ -71,6 +78,14 @@ namespace djv
                 const QPointer<ViewContext> &);
             ~MainWindow() override;
 
+            QPointer<FileGroup> fileGroup() const;
+            QPointer<WindowGroup> windowGroup() const;
+            QPointer<ViewGroup> viewGroup() const;
+            QPointer<ImageGroup> imageGroup() const;
+            QPointer<PlaybackGroup> playbackGroup() const;
+            QPointer<ToolGroup> toolGroup() const;
+            QPointer<HelpGroup> helpGroup() const;
+
             //! Get the image I/O information.
             const Graphics::ImageIOInfo & imageIOInfo() const;
 
@@ -82,6 +97,8 @@ namespace djv
 
             //! Create a new main window.
             static QPointer<MainWindow> createWindow(const QPointer<ViewContext> &);
+
+            QMenu * createPopupMenu() override;
 
         public Q_SLOTS:
             //! Open a file.
@@ -127,6 +144,7 @@ namespace djv
             void pickCallback(const glm::ivec2 &);
             void mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL);
             void mouseWheelValueCallback(int);
+            void detachWindowClosedCallback();
 
             void fileUpdate();
             void fileCacheUpdate();

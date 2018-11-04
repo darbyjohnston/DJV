@@ -52,9 +52,20 @@ namespace djv
             return data;
         }
 
+        const QStringList & Enum::fullScreenUILabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "Hide") <<
+                qApp->translate("djv::ViewLib::Enum", "Show") <<
+                qApp->translate("djv::ViewLib::Enum", "Detach");
+            DJV_ASSERT(data.count() == FULL_SCREEN_UI_COUNT);
+            return data;
+        }
+
         const QStringList & Enum::uiComponentLabels()
         {
             static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "Menu Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool Bars") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Controls") <<
                 qApp->translate("djv::ViewLib::Enum", "Status Bar");
@@ -299,9 +310,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Window/Fit") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Full Screen") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show UI") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Menu Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Tool Bars") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Playback") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Information") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Detach UI") <<
 
                 qApp->translate("djv::ViewLib::Enum", "View/Left") <<
                 qApp->translate("djv::ViewLib::Enum", "View/Right") <<
@@ -438,6 +451,7 @@ namespace djv
     } // namespace ViewLib
 
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::VIEW_MAX, ViewLib::Enum::viewMaxLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::FULL_SCREEN_UI, ViewLib::Enum::fullScreenUILabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::UI_COMPONENT, ViewLib::Enum::uiComponentLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::GRID, ViewLib::Enum::gridLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HUD_BACKGROUND, ViewLib::Enum::hudBackgroundLabels());

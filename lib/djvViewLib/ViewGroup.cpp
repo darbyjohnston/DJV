@@ -42,12 +42,6 @@
 
 #include <djvCore/ListUtil.h>
 
-#include <QAction>
-#include <QActionGroup>
-#include <QMenuBar>
-#include <QPointer>
-#include <QToolBar>
-
 namespace djv
 {
     namespace ViewLib
@@ -59,12 +53,10 @@ namespace djv
                 hudEnabled(context->viewPrefs()->isHudEnabled())
             {}
 
-            Enum::GRID    grid;
-            bool          hudEnabled;
+            Enum::GRID grid;
+            bool       hudEnabled;
 
             QPointer<ViewActions> actions;
-            QPointer<ViewMenu>    menu;
-            QPointer<ViewToolBar> toolBar;
         };
 
         ViewGroup::ViewGroup(
@@ -82,14 +74,6 @@ namespace djv
 
             // Create the actions.
             _p->actions = new ViewActions(context, this);
-
-            // Create the menus.
-            _p->menu = new ViewMenu(_p->actions.data(), mainWindow->menuBar());
-            mainWindow->menuBar()->addMenu(_p->menu);
-
-            // Create the widgets.
-            _p->toolBar = new ViewToolBar(_p->actions.data(), context);
-            mainWindow->addToolBar(_p->toolBar);
 
             // Initialize.
             update();
@@ -146,16 +130,6 @@ namespace djv
                 SIGNAL(triggered(QAction *)),
                 SLOT(gridCallback(QAction *)));
 
-            // Setup the widget callbacks.
-            mainWindow->viewWidget()->connect(
-                _p->toolBar->zoomEdit(),
-                SIGNAL(valueChanged(float)),
-                SLOT(setZoomFocus(float)));
-            _p->toolBar->zoomEdit()->connect(
-                mainWindow->viewWidget(),
-                SIGNAL(viewZoomChanged(float)),
-                SLOT(setValue(float)));
-
             // Setup the preferences callbacks.
             connect(
                 context->viewPrefs(),
@@ -170,9 +144,35 @@ namespace djv
         ViewGroup::~ViewGroup()
         {}
 
-        QPointer<QToolBar> ViewGroup::toolBar() const
+        djv::ViewLib::Enum::GRID ViewGroup::grid() const
         {
-            return _p->toolBar.data();
+            return _p->grid;
+        }
+
+        bool ViewGroup::isHudEnabled() const
+        {
+            return _p->hudEnabled;
+        }
+
+        QPointer<QMenu> ViewGroup::createMenu() const
+        {
+            return new ViewMenu(_p->actions.data());
+        }
+
+        QPointer<QToolBar> ViewGroup::createToolBar() const
+        {
+            auto toolBar = new ViewToolBar(_p->actions.data(), context());
+            toolBar->setZoom(mainWindow()->viewWidget()->viewZoom());
+            connect(
+                toolBar,
+                SIGNAL(zoomChanged(float)),
+                SLOT(zoomCallback(float)));
+            connect(
+                mainWindow()->viewWidget(),
+                SIGNAL(viewZoomChanged(float)),
+                toolBar,
+                SLOT(setZoom(float)));
+            return toolBar;
         }
 
         void ViewGroup::leftCallback()
@@ -203,6 +203,11 @@ namespace djv
         void ViewGroup::resetCallback()
         {
             mainWindow()->viewWidget()->setViewPosZoom(glm::ivec2(0, 0), 1.f);
+        }
+
+        void ViewGroup::zoomCallback(float value)
+        {
+            mainWindow()->viewWidget()->setZoomFocus(value);
         }
 
         void ViewGroup::zoomInCallback()
@@ -255,12 +260,10 @@ namespace djv
         void ViewGroup::update()
         {
             _p->actions->action(ViewActions::HUD)->setChecked(_p->hudEnabled);
-
             _p->actions->group(ViewActions::GRID_GROUP)->actions()[_p->grid]->setChecked(true);
-
-            mainWindow()->viewWidget()->setGrid(_p->grid);
-            mainWindow()->viewWidget()->setHudEnabled(_p->hudEnabled);
-            _p->toolBar->zoomEdit()->setValue(mainWindow()->viewWidget()->viewZoom());
+            auto viewWidget = mainWindow()->viewWidget();
+            viewWidget->setHudEnabled(_p->hudEnabled);
+            viewWidget->setGrid(_p->grid);
         }
 
         void ViewGroup::viewMove(const glm::ivec2 & offset)

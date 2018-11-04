@@ -247,14 +247,14 @@ namespace djv
             _actions[HUD]->setShortcut(shortcuts[Enum::SHORTCUT_VIEW_HUD].value);
             _actions[HUD]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions",
-                "Toggle the HUD (Heads Up Display)<br><br>"
-                "Keyboard shortcut: %1").
+                    "Toggle the HUD (Heads Up Display)<br><br>"
+                    "Keyboard shortcut: %1").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_HUD].value.toString()));
             _actions[HUD]->setWhatsThis(
                 qApp->translate("djv::ViewLib::ViewActions",
-                "Toggle the HUD (Heads Up Display)<br><br>"
-                "Keyboard shortcut: %1<br><br>"
-                "<a href=\"ViewImageView.html\">Documentation</a>").
+                    "Toggle the HUD (Heads Up Display)<br><br>"
+                    "Keyboard shortcut: %1<br><br>"
+                    "<a href=\"ViewImageView.html\">Documentation</a>").
                 arg(shortcuts[Enum::SHORTCUT_VIEW_HUD].value.toString()));
 
             Q_EMIT changed();

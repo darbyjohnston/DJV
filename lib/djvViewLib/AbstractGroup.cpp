@@ -32,6 +32,7 @@
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/ViewContext.h>
 
+#include <QMenu>
 #include <QToolBar>
 
 namespace djv
@@ -61,14 +62,19 @@ namespace djv
         AbstractGroup::~AbstractGroup()
         {}
 
+        QPointer<QMenu> AbstractGroup::createMenu() const
+        {
+            return nullptr;
+        }
+
+        QPointer<QToolBar> AbstractGroup::createToolBar() const
+        {
+            return nullptr;
+        }
+
         const QPointer<MainWindow> & AbstractGroup::mainWindow() const
         {
             return _p->mainWindow;
-        }
-
-        QPointer<QToolBar> AbstractGroup::toolBar() const
-        {
-            return nullptr;
         }
 
         const QPointer<ViewContext> & AbstractGroup::context() const

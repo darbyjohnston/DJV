@@ -59,7 +59,7 @@ namespace djv
             //! Get the list of actions.
             const QList<QAction *> actions() const;
 
-            //! Get an action by name.
+            //! Get an action by index.
             QAction * action(int) const;
 
             //! Get the list of action groups.

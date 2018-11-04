@@ -29,40 +29,41 @@
 
 #pragma once
 
-#include <djvViewLib/AbstractToolBar.h>
+#include <djvViewLib/ViewLib.h>
+
+#include <djvCore/Util.h>
+
+#include <QMainWindow>
 
 #include <memory>
 
 namespace djv
 {
-    namespace UI
-    {
-        class FloatEdit;
-    
-    } // namespace UI
-
     namespace ViewLib
     {
-        //! This class provides the view group tool bar.
-        class ViewToolBar : public AbstractToolBar
+        class MainWindow;
+        class ViewContext;
+
+        //! This class provides the detached user-interface window.
+        class DetachWindow : public QMainWindow
         {
             Q_OBJECT
 
         public:
-            explicit ViewToolBar(
-                const QPointer<AbstractActions> &,
+            explicit DetachWindow(
+                const QPointer<MainWindow> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
-            ~ViewToolBar() override;
-
-        public Q_SLOTS:
-            void setZoom(float);
+            ~DetachWindow() override;
 
         Q_SIGNALS:
-            void zoomChanged(float);
+            void closed();
+
+        protected:
+            void closeEvent(QCloseEvent *) override;
 
         private:
-            DJV_PRIVATE_COPY(ViewToolBar);
+            DJV_PRIVATE_COPY(DetachWindow);
 
             struct Private;
             std::unique_ptr<Private> _p;

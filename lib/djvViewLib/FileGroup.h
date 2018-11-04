@@ -88,7 +88,8 @@ namespace djv
             //! Get image I/O information.
             const Graphics::ImageIOInfo & imageIOInfo() const;
 
-            QPointer<QToolBar> toolBar() const override;
+            QPointer<QMenu> createMenu() const override;
+            QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
             //! Open a file.

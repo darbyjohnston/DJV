@@ -7,6 +7,7 @@ set(header
     AbstractTool.h
     AbstractToolBar.h
     ColorPickerTool.h
+    DetachWindow.h
     DisplayProfile.h
     DisplayProfileWidget.h
     Enum.h
@@ -73,6 +74,7 @@ set(mocHeader
     AbstractToolBar.h
     AbstractTool.h
     ColorPickerTool.h
+    DetachWindow.h
     DisplayProfileWidget.h
     Enum.h
     FileActions.h
@@ -135,6 +137,7 @@ set(source
     AbstractTool.cpp
     AbstractToolBar.cpp
     ColorPickerTool.cpp
+    DetachWindow.cpp
     DisplayProfile.cpp
     DisplayProfileWidget.cpp
     Enum.cpp

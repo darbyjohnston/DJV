@@ -44,13 +44,6 @@
 #include <djvCore/SignalBlocker.h>
 #include <djvCore/Timer.h>
 
-#include <QAction>
-#include <QActionGroup>
-#include <QHBoxLayout>
-#include <QMenuBar>
-#include <QPointer>
-#include <QToolBar>
-
 namespace djv
 {
     namespace ViewLib
@@ -97,8 +90,6 @@ namespace djv
             Enum::LAYOUT      layout = static_cast<Enum::LAYOUT>(0);
 
             QPointer<PlaybackActions> actions;
-            QPointer<PlaybackMenu>    menu;
-            QPointer<PlaybackToolBar> toolBar;
         };
 
         PlaybackGroup::PlaybackGroup(
@@ -110,14 +101,6 @@ namespace djv
         {
             // Create the actions.
             _p->actions = new PlaybackActions(context, this);
-
-            // Create the menus.
-            _p->menu = new PlaybackMenu(_p->actions.data(), mainWindow->menuBar());
-            mainWindow->menuBar()->addMenu(_p->menu);
-
-            // Create the widgets.
-            _p->toolBar = new PlaybackToolBar(_p->actions.data(), context);
-            mainWindow->addToolBar(Qt::BottomToolBarArea, _p->toolBar);
 
             // Initialize.
             if (copy)
@@ -171,56 +154,6 @@ namespace djv
                 _p->actions->group(PlaybackActions::LAYOUT_GROUP),
                 SIGNAL(triggered(QAction *)),
                 SLOT(layoutCallback(QAction *)));
-
-            // Setup the tool bar callbacks.
-            connect(
-                _p->toolBar,
-                SIGNAL(playbackShuttlePressed(bool)),
-                SLOT(playbackShuttleCallback(bool)));
-            connect(
-                _p->toolBar,
-                SIGNAL(playbackShuttleValue(int)),
-                SLOT(playbackShuttleValueCallback(int)));
-            connect(
-                _p->toolBar,
-                SIGNAL(speedChanged(const djv::Core::Speed &)),
-                SLOT(setSpeed(const djv::Core::Speed &)));
-            connect(
-                _p->toolBar,
-                SIGNAL(frameChanged(qint64)),
-                SLOT(frameStopCallback(qint64)));
-            connect(
-                _p->toolBar,
-                SIGNAL(frameShuttlePressed(bool)),
-                SLOT(frameShuttleCallback(bool)));
-            connect(
-                _p->toolBar,
-                SIGNAL(frameShuttleValue(int)),
-                SLOT(frameShuttleValueCallback(int)));
-            connect(
-                _p->toolBar,
-                SIGNAL(frameSliderPressed(bool)),
-                SLOT(framePressedCallback(bool)));
-            connect(
-                _p->toolBar,
-                SIGNAL(frameSliderChanged(qint64)),
-                SLOT(frameSliderCallback(qint64)));
-            connect(
-                _p->toolBar,
-                SIGNAL(frameButtonsPressed()),
-                SLOT(framePressedCallback()));
-            connect(
-                _p->toolBar,
-                SIGNAL(frameButtonsReleased()),
-                SLOT(frameReleasedCallback()));
-            connect(
-                _p->toolBar,
-                SIGNAL(inPointChanged(qint64)),
-                SLOT(setInPoint(qint64)));
-            connect(
-                _p->toolBar,
-                SIGNAL(outPointChanged(qint64)),
-                SLOT(setOutPoint(qint64)));
 
             // Setup the preferences callbacks.
             connect(
@@ -302,9 +235,91 @@ namespace djv
             return _p->layout;
         }
 
-        QPointer<QToolBar> PlaybackGroup::toolBar() const
+        QPointer<QMenu> PlaybackGroup::createMenu() const
         {
-            return _p->toolBar.data();
+            return new PlaybackMenu(_p->actions.data());
+        }
+
+        QPointer<QToolBar> PlaybackGroup::createToolBar() const
+        {
+            auto toolBar = new PlaybackToolBar(_p->actions.data(), context());
+            connect(
+                toolBar,
+                SIGNAL(playbackShuttlePressed(bool)),
+                SLOT(playbackShuttleCallback(bool)));
+            connect(
+                toolBar,
+                SIGNAL(playbackShuttleValue(int)),
+                SLOT(playbackShuttleValueCallback(int)));
+            connect(
+                toolBar,
+                SIGNAL(speedChanged(const djv::Core::Speed &)),
+                SLOT(setSpeed(const djv::Core::Speed &)));
+            connect(
+                toolBar,
+                SIGNAL(frameChanged(qint64)),
+                SLOT(frameStopCallback(qint64)));
+            connect(
+                toolBar,
+                SIGNAL(frameShuttlePressed(bool)),
+                SLOT(frameShuttleCallback(bool)));
+            connect(
+                toolBar,
+                SIGNAL(frameShuttleValue(int)),
+                SLOT(frameShuttleValueCallback(int)));
+            connect(
+                toolBar,
+                SIGNAL(frameSliderPressed(bool)),
+                SLOT(framePressedCallback(bool)));
+            connect(
+                toolBar,
+                SIGNAL(frameSliderChanged(qint64)),
+                SLOT(frameSliderCallback(qint64)));
+            connect(
+                toolBar,
+                SIGNAL(frameButtonsPressed()),
+                SLOT(framePressedCallback()));
+            connect(
+                toolBar,
+                SIGNAL(frameButtonsReleased()),
+                SLOT(frameReleasedCallback()));
+            connect(
+                toolBar,
+                SIGNAL(inPointChanged(qint64)),
+                SLOT(setInPoint(qint64)));
+            connect(
+                toolBar,
+                SIGNAL(outPointChanged(qint64)),
+                SLOT(setOutPoint(qint64)));
+            toolBar->connect(
+                this,
+                SIGNAL(speedChanged(const djv::Core::Speed &)),
+                SLOT(setSpeed(const djv::Core::Speed &)));
+            toolBar->connect(
+                this,
+                SIGNAL(actualSpeedChanged(float)),
+                SLOT(setActualSpeed(float)));
+            toolBar->connect(
+                this,
+                SIGNAL(droppedFramesChanged(float)),
+                SLOT(setDroppedFrames(float)));
+            toolBar->connect(
+                this,
+                SIGNAL(markInPoint()),
+                SLOT(markInPoint()));
+            toolBar->connect(
+                this,
+                SIGNAL(markOutPoint()),
+                SLOT(markOutPoint()));
+            toolBar->connect(
+                this,
+                SIGNAL(resetInPoint()),
+                SLOT(resetInPoint()));
+            toolBar->connect(
+                this,
+                SIGNAL(resetOutPoint()),
+                SLOT(resetOutPoint()));
+            return toolBar;
         }
 
         void PlaybackGroup::setSequence(const Core::Sequence & sequence)
@@ -524,10 +539,8 @@ namespace djv
                 _p->droppedFrames = _p->droppedFramesTmp;
                 _p->droppedFramesTmp = false;
                 _p->speedCounter = 0;
-                _p->toolBar->setActualSpeed(_p->actualSpeed);
-                _p->toolBar->setDroppedFrames(everyFrame ? false : _p->droppedFrames);
                 Q_EMIT actualSpeedChanged(_p->actualSpeed);
-                Q_EMIT droppedFramesChanged(_p->droppedFrames);
+                Q_EMIT droppedFramesChanged(everyFrame ? false : _p->droppedFrames);
             }
 
             setFrame(_p->frame + inc, _p->inOutEnabled);
@@ -564,7 +577,7 @@ namespace djv
                     killTimer(_p->timer);
                     _p->timer = 0;
                 }
-                _p->toolBar->setSpeed(_p->speed);
+                Q_EMIT speedChanged(_p->speed);
             }
         }
 
@@ -649,10 +662,10 @@ namespace djv
             case Enum::IN_OUT_ENABLE:
                 setInOutEnabled(action->isChecked());
                 break;
-            case Enum::MARK_IN:   _p->toolBar->markInPoint();   break;
-            case Enum::MARK_OUT:  _p->toolBar->markOutPoint();  break;
-            case Enum::RESET_IN:  _p->toolBar->resetInPoint();  break;
-            case Enum::RESET_OUT: _p->toolBar->resetOutPoint(); break;
+            case Enum::MARK_IN:   Q_EMIT markInPoint();   break;
+            case Enum::MARK_OUT:  Q_EMIT markOutPoint();  break;
+            case Enum::RESET_IN:  Q_EMIT resetInPoint();  break;
+            case Enum::RESET_OUT: Q_EMIT resetOutPoint(); break;
             default: break;
             }
             timeUpdate();
@@ -728,16 +741,16 @@ namespace djv
         void PlaybackGroup::frameUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::frameUpdate");
-            Core::SignalBlocker signalBlocker(_p->toolBar);
+            /*Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setFrame(_p->frame);
-            _p->toolBar->setCachedFrames(context()->fileCache()->frames(mainWindow()));
+            _p->toolBar->setCachedFrames(context()->fileCache()->frames(mainWindow()));*/
         }
 
         void PlaybackGroup::timeUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::timeUpdate");
             _p->actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
-            const qint64 end = sequenceEnd(_p->sequence);
+            /*const qint64 end = sequenceEnd(_p->sequence);
             Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setFrameList(_p->sequence.frames);
             _p->toolBar->setFrame(_p->frame);
@@ -750,26 +763,26 @@ namespace djv
                 _p->inOutEnabled && (_p->inPoint != 0 || _p->outPoint != end));
             _p->toolBar->setInOutEnabled(_p->inOutEnabled);
             _p->toolBar->setInPoint(_p->inPoint);
-            _p->toolBar->setOutPoint(_p->outPoint);
+            _p->toolBar->setOutPoint(_p->outPoint);*/
         }
 
         void PlaybackGroup::speedUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::speedUpdate");
-            _p->actions->action(PlaybackActions::EVERY_FRAME)->setChecked(_p->everyFrame);
+            /*_p->actions->action(PlaybackActions::EVERY_FRAME)->setChecked(_p->everyFrame);
             Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setSpeed(_p->speed);
             _p->toolBar->setDefaultSpeed(_p->sequence.speed);
             _p->toolBar->setActualSpeed(_p->actualSpeed);
-            _p->toolBar->setDroppedFrames(_p->droppedFrames);
+            _p->toolBar->setDroppedFrames(_p->droppedFrames);*/
         }
 
         void PlaybackGroup::layoutUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::layoutUpdate");
             _p->actions->group(PlaybackActions::LAYOUT_GROUP)->actions()[_p->layout]->setChecked(true);
-            Core::SignalBlocker signalBlocker(_p->toolBar);
-            _p->toolBar->setLayout(_p->layout);
+            /*Core::SignalBlocker signalBlocker(_p->toolBar);
+            _p->toolBar->setLayout(_p->layout);*/
         }
 
     } // namespace ViewLib

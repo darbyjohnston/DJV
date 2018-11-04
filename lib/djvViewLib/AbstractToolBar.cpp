@@ -61,8 +61,8 @@ namespace djv
             QToolBar(title, parent),
             _p(new Private(actions, context))
         {
-            setAllowedAreas(Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
-            setFloatable(false);
+            //setAllowedAreas(Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
+            //setFloatable(false);
             //setMovable(false);
         }
 

@@ -46,15 +46,9 @@
 
 #include <djvCore/ListUtil.h>
 
-#include <QAction>
-#include <QActionGroup>
 #include <QApplication>
 #include <QDockWidget>
 #include <QHBoxLayout>
-#include <QMenu>
-#include <QMenuBar>
-#include <QPointer>
-#include <QToolBar>
 
 namespace djv
 {
@@ -81,11 +75,9 @@ namespace djv
             DisplayProfile                        displayProfile;
             Graphics::OpenGLImageOptions::CHANNEL channel = static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
 
-            QPointer<ImageActions>          actions;
-            QPointer<ImageMenu>             menu;
-            QPointer<ImageToolBar>          toolBar;
-            QPointer<DisplayProfileWidget>  displayProfileWidget;
-            QPointer<QDockWidget>           displayProfileDockWidget;
+            QPointer<ImageActions>         actions;
+            QPointer<DisplayProfileWidget> displayProfileWidget;
+            QPointer<QDockWidget>          displayProfileDockWidget;
         };
 
         ImageGroup::ImageGroup(
@@ -112,24 +104,13 @@ namespace djv
             // Create the actions.
             _p->actions = new ImageActions(context, this);
 
-            // Create the menus.
-            _p->menu = new ImageMenu(_p->actions.data(), mainWindow->menuBar());
-            mainWindow->menuBar()->addMenu(_p->menu);
-
             // Create the widgets.
-            _p->toolBar = new ImageToolBar(_p->actions.data(), context);
-
-            mainWindow->addToolBar(_p->toolBar);
-
             _p->displayProfileWidget =
                 new DisplayProfileWidget(mainWindow->viewWidget(), context);
             _p->displayProfileDockWidget = new QDockWidget(
                 qApp->translate("djv::ViewLib::ImageGroup", "Display Profile"));
             _p->displayProfileDockWidget->setWidget(_p->displayProfileWidget);
-
-            mainWindow->addDockWidget(
-                Qt::RightDockWidgetArea,
-                _p->displayProfileDockWidget);
+            mainWindow->addDockWidget(Qt::RightDockWidgetArea, _p->displayProfileDockWidget);
 
             // Initialize.
             update();
@@ -279,9 +260,14 @@ namespace djv
             return _p->channel;
         }
 
-        QPointer<QToolBar> ImageGroup::toolBar() const
+        QPointer<QMenu> ImageGroup::createMenu() const
         {
-            return _p->toolBar.data();
+            return new ImageMenu(_p->actions.data());
+        }
+
+        QPointer<QToolBar> ImageGroup::createToolBar() const
+        {
+            return new ImageToolBar(_p->actions.data(), context());
         }
 
         void ImageGroup::showFrameStoreCallback(bool in)
