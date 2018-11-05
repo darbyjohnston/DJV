@@ -770,6 +770,7 @@ namespace djv
                 }
                 _p->controlsWindow->show();
                 _p->controlsWindow->raise();
+                _p->controlsWindow->activateWindow();
             }
             else if (_p->controlsWindow)
             {

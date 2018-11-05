@@ -597,6 +597,7 @@ namespace djv
                 SLOT(openCallback(const djv::Core::FileInfo &)));
             fileBrowser->show();
             fileBrowser->raise();
+            fileBrowser->activateWindow();
         }
 
         void FileGroup::openCallback(const Core::FileInfo & fileInfo)
@@ -754,20 +755,26 @@ namespace djv
 
         void FileGroup::messagesCallback()
         {
-            context()->messagesDialog()->show();
-            context()->messagesDialog()->raise();
+            auto dialog = context()->messagesDialog();
+            dialog->show();
+            dialog->raise();
+            dialog->activateWindow();
         }
 
         void FileGroup::prefsCallback()
         {
-            context()->prefsDialog()->show();
-            context()->prefsDialog()->raise();
+            auto dialog = context()->prefsDialog();
+            dialog->show();
+            dialog->raise();
+            dialog->activateWindow();
         }
 
         void FileGroup::debugLogCallback()
         {
-            context()->debugLogDialog()->show();
-            context()->debugLogDialog()->raise();
+            auto dialog = context()->debugLogDialog();
+            dialog->show();
+            dialog->raise();
+            dialog->activateWindow();
         }
 
         void FileGroup::preloadUpdate()

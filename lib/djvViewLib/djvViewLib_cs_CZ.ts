@@ -1279,18 +1279,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="681"/>
+        <location filename="FileGroup.cpp" line="682"/>
         <source>Export Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="690"/>
-        <location filename="FileGroup.cpp" line="714"/>
+        <location filename="FileGroup.cpp" line="691"/>
+        <location filename="FileGroup.cpp" line="715"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="707"/>
+        <location filename="FileGroup.cpp" line="708"/>
         <source>Export Frame</source>
         <translation type="unfinished"></translation>
     </message>

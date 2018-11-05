@@ -178,6 +178,7 @@ namespace djv
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
             _p->dialog->start(_p->info.sequence.frames.count() ? _p->info.sequence.frames.count() : 1);
             _p->dialog->show();
+            _p->dialog->activateWindow();
         }
 
         void FileExport::cancel()
