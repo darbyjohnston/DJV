@@ -64,6 +64,9 @@ namespace djv
         protected:
             void closeEvent(QCloseEvent *) override;
 
+        private Q_SLOTS:
+            void widgetUpdate();
+
         private:
             DJV_PRIVATE_COPY(ControlsWindow);
 

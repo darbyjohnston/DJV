@@ -49,6 +49,8 @@ namespace djv
     {
         struct ControlsWindow::Private
         {
+            QMap<Enum::UI_COMPONENT, QPointer<QToolBar> > toolBars;
+            QPointer<QToolBar> playbackControls;
             QPointer<MainWindow> mainWindow;
         };
 
@@ -72,14 +74,26 @@ namespace djv
             menuBar()->addMenu(mainWindow->toolGroup()->createMenu());
             menuBar()->addMenu(mainWindow->helpGroup()->createMenu());
 
-            addToolBar(mainWindow->fileGroup()->createToolBar());
-            addToolBar(mainWindow->windowGroup()->createToolBar());
-            addToolBar(mainWindow->viewGroup()->createToolBar());
-            addToolBar(mainWindow->imageGroup()->createToolBar());
-            addToolBar(Qt::ToolBarArea::BottomToolBarArea, mainWindow->playbackGroup()->createToolBar());
-            addToolBar(mainWindow->toolGroup()->createToolBar());
+            _p->toolBars[Enum::UI_FILE_TOOL_BAR] = mainWindow->fileGroup()->createToolBar();
+            _p->toolBars[Enum::UI_WINDOW_TOOL_BAR] = mainWindow->windowGroup()->createToolBar();
+            _p->toolBars[Enum::UI_VIEW_TOOL_BAR] = mainWindow->viewGroup()->createToolBar();
+            _p->toolBars[Enum::UI_IMAGE_TOOL_BAR] = mainWindow->imageGroup()->createToolBar();
+            _p->toolBars[Enum::UI_TOOLS_TOOL_BAR] = mainWindow->toolGroup()->createToolBar();
+            Q_FOREACH(auto toolBar, _p->toolBars)
+            {
+                addToolBar(toolBar);
+            }
+            _p->playbackControls = mainWindow->playbackGroup()->createToolBar();
+            addToolBar(Qt::ToolBarArea::BottomToolBarArea, _p->playbackControls);
 
             setStatusBar(new StatusBar(mainWindow, context));
+
+            widgetUpdate();
+
+            connect(
+                mainWindow->windowGroup(),
+                SIGNAL(uiComponentVisibleChanged(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &)),
+                SLOT(widgetUpdate()));
         }
 
         ControlsWindow::~ControlsWindow()
@@ -102,6 +116,17 @@ namespace djv
         {
             event->ignore();
             Q_EMIT closed();
+        }
+
+        void ControlsWindow::widgetUpdate()
+        {
+            const auto & visible = _p->mainWindow->windowGroup()->uiComponentVisible();
+            Q_FOREACH(auto key, _p->toolBars.keys())
+            {
+                _p->toolBars[key]->setVisible(visible[key]);
+            }
+            _p->playbackControls->setVisible(visible[Enum::UI_PLAYBACK_CONTROLS]);
+            statusBar()->setVisible(visible[Enum::UI_STATUS_BAR]);
         }
 
     } // namespace ViewLib
