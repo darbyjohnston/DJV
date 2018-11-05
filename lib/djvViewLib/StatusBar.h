@@ -32,38 +32,44 @@
 #include <djvViewLib/ViewLib.h>
 
 #include <djvCore/Util.h>
+#include <djvCore/Vector.h>
 
-#include <QMainWindow>
+#include <QStatusBar>
 
 #include <memory>
 
 namespace djv
 {
+    namespace Graphics
+    {
+        class PixelDataInfo;
+
+    } // namespace Graphics
+
     namespace ViewLib
     {
         class MainWindow;
         class ViewContext;
 
-        //! This class provides the detached user-interface window.
-        class DetachWindow : public QMainWindow
+        //! This class provides a status bar for a main window.
+        class StatusBar : public QStatusBar
         {
             Q_OBJECT
 
         public:
-            explicit DetachWindow(
+            explicit StatusBar(
                 const QPointer<MainWindow> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
-            ~DetachWindow() override;
+            ~StatusBar() override;
 
-        Q_SIGNALS:
-            void closed();
+        private Q_SLOTS:
+            void pickCallback(const glm::ivec2 &);
 
-        protected:
-            void closeEvent(QCloseEvent *) override;
+            void widgetUpdate();
 
         private:
-            DJV_PRIVATE_COPY(DetachWindow);
+            DJV_PRIVATE_COPY(StatusBar);
 
             struct Private;
             std::unique_ptr<Private> _p;

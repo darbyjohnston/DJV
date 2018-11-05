@@ -41,7 +41,6 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/ListUtil.h>
-#include <djvCore/SignalBlocker.h>
 #include <djvCore/Timer.h>
 
 namespace djv
@@ -120,7 +119,6 @@ namespace djv
             playbackUpdate();
             timeUpdate();
             speedUpdate();
-            frameUpdate();
             layoutUpdate();
 
             // Setup the action callbacks.
@@ -243,6 +241,24 @@ namespace djv
         QPointer<QToolBar> PlaybackGroup::createToolBar() const
         {
             auto toolBar = new PlaybackToolBar(_p->actions.data(), context());
+
+            toolBar->setSpeed(_p->speed);
+            toolBar->setDefaultSpeed(_p->sequence.speed);
+            toolBar->setActualSpeed(_p->actualSpeed);
+            toolBar->setDroppedFrames(_p->droppedFrames);
+
+            toolBar->setFrameList(_p->sequence.frames);
+            toolBar->setFrame(_p->frame);
+            toolBar->setCachedFrames(context()->fileCache()->frames(mainWindow()));
+            toolBar->setStartFrame(startFrame(_p->inOutEnabled));
+            toolBar->setEndFrame(endFrame(_p->inOutEnabled));
+            toolBar->setDuration(duration(), durationInOutEnabled());
+            toolBar->setInOutEnabled(_p->inOutEnabled);
+            toolBar->setInPoint(_p->inPoint);
+            toolBar->setOutPoint(_p->outPoint);
+
+            toolBar->setLayout(_p->layout);
+
             connect(
                 toolBar,
                 SIGNAL(playbackShuttlePressed(bool)),
@@ -301,8 +317,44 @@ namespace djv
                 SLOT(setActualSpeed(float)));
             toolBar->connect(
                 this,
-                SIGNAL(droppedFramesChanged(float)),
-                SLOT(setDroppedFrames(float)));
+                SIGNAL(droppedFramesChanged(bool)),
+                SLOT(setDroppedFrames(bool)));
+            toolBar->connect(
+                this,
+                SIGNAL(frameListChanged(const djv::Core::FrameList &)),
+                SLOT(setFrameList(const djv::Core::FrameList &)));
+            toolBar->connect(
+                this,
+                SIGNAL(frameChanged(qint64)),
+                SLOT(setFrame(qint64)));
+            toolBar->connect(
+                this,
+                SIGNAL(cachedFramesChanged(const djv::Core::FrameList &)),
+                SLOT(setCachedFrames(const djv::Core::FrameList &)));
+            toolBar->connect(
+                this,
+                SIGNAL(startFrameChanged(qint64)),
+                SLOT(setStartFrame(qint64)));
+            toolBar->connect(
+                this,
+                SIGNAL(endFrameChanged(qint64)),
+                SLOT(setEndFrame(qint64)));
+            toolBar->connect(
+                this,
+                SIGNAL(durationChanged(qint64, bool)),
+                SLOT(setDuration(qint64, bool)));
+            toolBar->connect(
+                this,
+                SIGNAL(inOutEnabledChanged(bool)),
+                SLOT(setInOutEnabled(bool)));
+            toolBar->connect(
+                this,
+                SIGNAL(inPointChanged(qint64)),
+                SLOT(setInPoint(qint64)));
+            toolBar->connect(
+                this,
+                SIGNAL(outPointChanged(qint64)),
+                SLOT(setOutPoint(qint64)));
             toolBar->connect(
                 this,
                 SIGNAL(markInPoint()),
@@ -319,6 +371,10 @@ namespace djv
                 this,
                 SIGNAL(resetOutPoint()),
                 SLOT(resetOutPoint()));
+            toolBar->connect(
+                this,
+                SIGNAL(layoutChanged(djv::ViewLib::Enum::LAYOUT)),
+                SLOT(setLayout(djv::ViewLib::Enum::LAYOUT)));
             return toolBar;
         }
 
@@ -340,6 +396,10 @@ namespace djv
             Q_EMIT speedChanged(_p->speed);
             Q_EMIT actualSpeedChanged(_p->actualSpeed);
             Q_EMIT droppedFramesChanged(_p->droppedFrames);
+            Q_EMIT frameListChanged(_p->sequence.frames);
+            Q_EMIT startFrameChanged(startFrame(_p->inOutEnabled));
+            Q_EMIT endFrameChanged(endFrame(_p->inOutEnabled));
+            Q_EMIT durationChanged(duration(), durationInOutEnabled());
         }
 
         void PlaybackGroup::setPlayback(Enum::PLAYBACK playback)
@@ -402,42 +462,52 @@ namespace djv
 
         void PlaybackGroup::setFrame(qint64 in, bool inOutEnabled)
         {
-            const qint64 frameStart = inOutEnabled ? this->frameStart() : 0;
-            const qint64 frameEnd = inOutEnabled ? this->frameEnd() : sequenceEnd(_p->sequence);
+            const qint64 startFrame = this->startFrame(inOutEnabled);
+            const qint64 endFrame = this->endFrame(inOutEnabled);
+            qint64 tmp = in;
             switch (_p->loop)
             {
             case Enum::LOOP_ONCE:
-                if (in <= frameStart || in >= frameEnd)
+                tmp = Core::Math::clamp(in, startFrame, endFrame);
+                break;
+            case Enum::LOOP_REPEAT:
+                tmp = Core::Math::wrap(in, startFrame, endFrame);
+                break;
+            case Enum::LOOP_PING_PONG:
+                tmp = Core::Math::clamp(in, startFrame, endFrame);
+                break;
+            default: break;
+            }
+            if (tmp == _p->frame)
+                return;
+            //DJV_DEBUG("PlaybackGroup::setFrame");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _p->frame = tmp;
+            switch (_p->loop)
+            {
+            case Enum::LOOP_ONCE:
+                if (in <= startFrame || in >= endFrame)
                 {
                     setPlayback(Enum::STOP);
                 }
-                in = Core::Math::clamp(in, frameStart, frameEnd);
                 break;
             case Enum::LOOP_REPEAT:
-                in = Core::Math::wrap(in, frameStart, frameEnd);
                 break;
             case Enum::LOOP_PING_PONG:
                 if (_p->playback != Enum::STOP)
                 {
-                    if (in <= frameStart)
+                    if (in <= startFrame)
                     {
                         setPlayback(Enum::FORWARD);
                     }
-                    else if (in >= frameEnd)
+                    else if (in >= endFrame)
                     {
                         setPlayback(Enum::REVERSE);
                     }
                 }
-                in = Core::Math::clamp(in, frameStart, frameEnd);
                 break;
             default: break;
             }
-            if (in == _p->frame)
-                return;
-            //DJV_DEBUG("PlaybackGroup::setFrame");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _p->frame = in;
-            frameUpdate();
             Q_EMIT frameChanged(_p->frame);
         }
 
@@ -448,6 +518,9 @@ namespace djv
             _p->inOutEnabled = in;
             timeUpdate();
             layoutUpdate();
+            Q_EMIT startFrameChanged(startFrame(_p->inOutEnabled));
+            Q_EMIT endFrameChanged(endFrame(_p->inOutEnabled));
+            Q_EMIT durationChanged(duration(), durationInOutEnabled());
             Q_EMIT inOutEnabledChanged(_p->inOutEnabled);
         }
 
@@ -457,6 +530,8 @@ namespace djv
                 return;
             _p->inPoint = in;
             timeUpdate();
+            Q_EMIT startFrameChanged(startFrame(_p->inOutEnabled));
+            Q_EMIT durationChanged(duration(), durationInOutEnabled());
             Q_EMIT inPointChanged(_p->inPoint);
         }
 
@@ -466,6 +541,8 @@ namespace djv
                 return;
             _p->outPoint = in;
             timeUpdate();
+            Q_EMIT endFrameChanged(endFrame(_p->inOutEnabled));
+            Q_EMIT durationChanged(duration(), durationInOutEnabled());
             Q_EMIT outPointChanged(_p->outPoint);
         }
 
@@ -679,17 +756,29 @@ namespace djv
 
         void PlaybackGroup::cacheCallback()
         {
-            frameUpdate();
+            Q_EMIT cachedFramesChanged(context()->fileCache()->frames(mainWindow()));
         }
 
-        qint64 PlaybackGroup::frameStart() const
+        qint64 PlaybackGroup::startFrame(bool inOutEnabled) const
         {
-            return Core::Math::max(static_cast<qint64>(0), _p->inPoint);
+            return inOutEnabled ? _p->inPoint : 0;
         }
 
-        qint64 PlaybackGroup::frameEnd() const
+        qint64 PlaybackGroup::endFrame(bool inOutEnabled) const
         {
-            return Core::Math::min(sequenceEnd(_p->sequence), _p->outPoint);
+            return inOutEnabled ? _p->outPoint : sequenceEnd(_p->sequence);
+        }
+
+        qint64 PlaybackGroup::duration() const
+        {
+            return _p->inOutEnabled ?
+                (_p->outPoint - _p->inPoint + 1) :
+                (sequenceEnd(_p->sequence) + 1);
+        }
+
+        bool PlaybackGroup::durationInOutEnabled() const
+        {
+            return _p->inOutEnabled && (_p->inPoint != 0 || _p->outPoint != sequenceEnd(_p->sequence));
         }
 
         void PlaybackGroup::playbackUpdate()
@@ -706,15 +795,15 @@ namespace djv
                 switch (_p->playback)
                 {
                 case Enum::FORWARD:
-                    if (_p->frame == frameEnd())
+                    if (_p->frame == endFrame(_p->inOutEnabled))
                     {
-                        _p->frame = frameStart();
+                        _p->frame = startFrame(_p->inOutEnabled);
                     }
                     break;
                 case Enum::REVERSE:
-                    if (_p->frame == frameStart())
+                    if (_p->frame == startFrame(_p->inOutEnabled))
                     {
-                        _p->frame = frameEnd();
+                        _p->frame = endFrame(_p->inOutEnabled);
                     }
                     break;
                 default: break;
@@ -738,51 +827,19 @@ namespace djv
             }
         }
 
-        void PlaybackGroup::frameUpdate()
-        {
-            //DJV_DEBUG("PlaybackGroup::frameUpdate");
-            /*Core::SignalBlocker signalBlocker(_p->toolBar);
-            _p->toolBar->setFrame(_p->frame);
-            _p->toolBar->setCachedFrames(context()->fileCache()->frames(mainWindow()));*/
-        }
-
         void PlaybackGroup::timeUpdate()
         {
-            //DJV_DEBUG("PlaybackGroup::timeUpdate");
             _p->actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[Enum::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
-            /*const qint64 end = sequenceEnd(_p->sequence);
-            Core::SignalBlocker signalBlocker(_p->toolBar);
-            _p->toolBar->setFrameList(_p->sequence.frames);
-            _p->toolBar->setFrame(_p->frame);
-            _p->toolBar->setStart(_p->inOutEnabled ? _p->inPoint : 0);
-            _p->toolBar->setEnd(_p->inOutEnabled ? _p->outPoint : end);
-            _p->toolBar->setDuration(
-                _p->inOutEnabled ?
-                (_p->outPoint - _p->inPoint + 1) :
-                (end + 1),
-                _p->inOutEnabled && (_p->inPoint != 0 || _p->outPoint != end));
-            _p->toolBar->setInOutEnabled(_p->inOutEnabled);
-            _p->toolBar->setInPoint(_p->inPoint);
-            _p->toolBar->setOutPoint(_p->outPoint);*/
         }
 
         void PlaybackGroup::speedUpdate()
         {
-            //DJV_DEBUG("PlaybackGroup::speedUpdate");
-            /*_p->actions->action(PlaybackActions::EVERY_FRAME)->setChecked(_p->everyFrame);
-            Core::SignalBlocker signalBlocker(_p->toolBar);
-            _p->toolBar->setSpeed(_p->speed);
-            _p->toolBar->setDefaultSpeed(_p->sequence.speed);
-            _p->toolBar->setActualSpeed(_p->actualSpeed);
-            _p->toolBar->setDroppedFrames(_p->droppedFrames);*/
+            _p->actions->action(PlaybackActions::EVERY_FRAME)->setChecked(_p->everyFrame);
         }
 
         void PlaybackGroup::layoutUpdate()
         {
-            //DJV_DEBUG("PlaybackGroup::layoutUpdate");
             _p->actions->group(PlaybackActions::LAYOUT_GROUP)->actions()[_p->layout]->setChecked(true);
-            /*Core::SignalBlocker signalBlocker(_p->toolBar);
-            _p->toolBar->setLayout(_p->layout);*/
         }
 
     } // namespace ViewLib

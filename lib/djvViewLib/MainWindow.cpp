@@ -29,7 +29,7 @@
 
 #include <djvViewLib/MainWindow.h>
 
-#include <djvViewLib/DetachWindow.h>
+#include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/FileExport.h>
 #include <djvViewLib/FileGroup.h>
@@ -41,6 +41,7 @@
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/PlaybackGroup.h>
 #include <djvViewLib/PlaybackPrefs.h>
+#include <djvViewLib/StatusBar.h>
 #include <djvViewLib/ToolGroup.h>
 #include <djvViewLib/ViewContext.h>
 #include <djvViewLib/ViewGroup.h>
@@ -49,11 +50,7 @@
 #include <djvViewLib/WindowGroup.h>
 #include <djvViewLib/WindowPrefs.h>
 
-#include <djvUI/ColorSwatch.h>
 #include <djvUI/OpenGLPrefs.h>
-
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/DebugLog.h>
@@ -64,12 +61,10 @@
 #include <QDir>
 #include <QHBoxLayout>
 #include <QKeyEvent>
-#include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
 #include <QPointer>
 #include <QScopedPointer>
-#include <QStatusBar>
 #include <QTimer>
 #include <QToolBar>
 
@@ -96,18 +91,10 @@ namespace djv
             QScopedPointer<ToolGroup> toolGroup;
             QScopedPointer<HelpGroup> helpGroup;
             std::shared_ptr<Graphics::Image> image;
-            std::shared_ptr<Graphics::Image> imageTmp;
-            glm::ivec2 imagePick = glm::ivec2(0, 0);
-            Graphics::Color imageSample;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            bool sampleInit = false;
+            std::shared_ptr<Graphics::Image> frameStoreImage;
             QPointer<ImageView> viewWidget;
-            QPointer<UI::ColorSwatch> infoSwatch;
-            QPointer<QLabel> infoPixelLabel;
-            QPointer<QLabel> infoImageLabel;
-            QPointer<QLabel> infoCacheLabel;
             int menuBarHeight = 0;
-            QScopedPointer<DetachWindow> detachWindow;
+            QScopedPointer<ControlsWindow> controlsWindow;
             QPointer<ViewContext> context;
         };
 
@@ -128,23 +115,8 @@ namespace djv
 
             menuBar()->setNativeMenuBar(false);
 
-            // Create the widgets.
+            // Create the view widget.
             _p->viewWidget = new ImageView(context);
-
-            _p->infoSwatch = new UI::ColorSwatch(context.data());
-            _p->infoSwatch->setFixedSize(20, 20);
-
-            _p->infoPixelLabel = new QLabel;
-            _p->infoPixelLabel->setToolTip(
-                qApp->translate("djv::ViewLib::MainWindow", "Pixel information\n\nClick and drag inside the image."));
-
-            _p->infoImageLabel = new QLabel;
-            _p->infoImageLabel->setToolTip(
-                qApp->translate("djv::ViewLib::MainWindow", "Image information."));
-
-            _p->infoCacheLabel = new QLabel;
-            _p->infoCacheLabel->setToolTip(
-                qApp->translate("djv::ViewLib::MainWindow", "File cache information."));
 
             // Create the groups.
             _p->fileGroup.reset(new FileGroup(copy ? copy->_p->fileGroup.data() : nullptr, this, context));
@@ -177,28 +149,23 @@ namespace djv
             _p->playbackControls = _p->playbackGroup->createToolBar();
             addToolBar(Qt::ToolBarArea::BottomToolBarArea, _p->playbackControls);
 
+            // Create the status bar.
+            setStatusBar(new StatusBar(this, context));
+
             // Layout the widgets.
             setCentralWidget(_p->viewWidget);
-
-            statusBar()->addWidget(_p->infoSwatch);
-            statusBar()->addWidget(_p->infoPixelLabel);
-            statusBar()->addWidget(new QWidget, 1);
-            statusBar()->addWidget(_p->infoImageLabel);
-            statusBar()->addWidget(_p->infoCacheLabel);
 
             // Initialize.
             setWindowTitle(qApp->applicationName());
             setAttribute(Qt::WA_DeleteOnClose);
             if (copy)
             {
-                _p->imageTmp = copy->_p->imageTmp;
-                _p->imagePick = copy->_p->imagePick;
+                _p->frameStoreImage = copy->_p->frameStoreImage;
                 _p->viewWidget->setViewPos(copy->_p->viewWidget->viewPos());
                 _p->viewWidget->setViewZoom(copy->_p->viewWidget->viewZoom());
                 resize(copy->size());
             }
             fileUpdate();
-            fileCacheUpdate();
             imageUpdate();
             windowUpdate();
             playbackUpdate();
@@ -258,7 +225,7 @@ namespace djv
                 SLOT(windowUpdate()));
             connect(
                 _p->windowGroup.data(),
-                SIGNAL(detachWindowChanged(bool)),
+                SIGNAL(controlsWindowChanged(bool)),
                 SLOT(windowUpdate()));
 
             // Setup the playback group callbacks.
@@ -298,10 +265,6 @@ namespace djv
             // Setup the view callbacks.
             connect(
                 _p->viewWidget,
-                SIGNAL(pickChanged(const glm::ivec2 &)),
-                SLOT(pickCallback(const glm::ivec2 &)));
-            connect(
-                _p->viewWidget,
                 SIGNAL(mouseWheelChanged(djv::ViewLib::Enum::MOUSE_WHEEL)),
                 SLOT(mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL)));
             connect(
@@ -314,10 +277,6 @@ namespace djv
                 SLOT(fileOpen(const djv::Core::FileInfo &)));
 
             // Setup the preferences callbacks.
-            connect(
-                context->fileCache(),
-                SIGNAL(cacheChanged()),
-                SLOT(fileCacheUpdate()));
             connect(
                 context->UIContext::openGLPrefs(),
                 SIGNAL(filterChanged(const djv::Graphics::OpenGLImageFilter &)),
@@ -366,11 +325,6 @@ namespace djv
         QPointer<HelpGroup> MainWindow::helpGroup() const
         {
             return _p->helpGroup.data();
-        }
-
-        const Graphics::ImageIOInfo & MainWindow::imageIOInfo() const
-        {
-            return _p->fileGroup->imageIOInfo();
         }
 
         const QPointer<ImageView> & MainWindow::viewWidget() const
@@ -697,17 +651,7 @@ namespace djv
             //DJV_DEBUG("MainWindow::setFrameStoreCallback");
             if (_p->image)
             {
-                _p->imageTmp = _p->image;
-            }
-        }
-
-        void MainWindow::pickCallback(const glm::ivec2 & pick)
-        {
-            _p->imagePick = pick;
-            if (!_p->sampleInit)
-            {
-                _p->sampleInit = true;
-                QTimer::singleShot(0, this, SLOT(viewPickUpdate()));
+                _p->frameStoreImage = _p->image;
             }
         }
 
@@ -741,9 +685,9 @@ namespace djv
             }
         }
         
-        void MainWindow::detachWindowClosedCallback()
+        void MainWindow::controlsWindowClosedCallback()
         {
-            _p->windowGroup->setDetachWindow(false);
+            _p->windowGroup->setControlsWindow(false);
         }
 
         void MainWindow::fileUpdate()
@@ -758,18 +702,6 @@ namespace djv
             setWindowTitle(title);
         }
 
-        void MainWindow::fileCacheUpdate()
-        {
-            //DJV_DEBUG("MainWindow::cacheUpdate");
-            const float sizeGB = _p->context->fileCache()->currentSizeGB();
-            const float maxSizeGB = _p->context->fileCache()->maxSizeGB();
-            _p->infoCacheLabel->setText(
-                qApp->translate("djv::ViewLib::MainWindow", "Cache: %1% %2/%3GB").
-                arg(static_cast<int>(sizeGB / maxSizeGB * 100)).
-                arg(sizeGB, 0, 'f', 2).
-                arg(maxSizeGB, 0, 'f', 2));
-        }
-
         void MainWindow::imageUpdate()
         {
             //DJV_DEBUG("MainWindow::imageUpdate");
@@ -782,23 +714,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("image = " << *_p->image);
             }
 
-            // Update the information tool bar.
-            Graphics::PixelDataInfo info;
-            if (_p->image)
-            {
-                info = _p->image->info();
-            }
-            //DJV_DEBUG_PRINT("info = " << info);
-            QStringList pixelLabel;
-            pixelLabel << info.pixel;
-            _p->infoImageLabel->setText(
-                qApp->translate("djv::ViewLib::MainWindow", "Image: %1x%2:%3 %4").
-                arg(info.size.x).
-                arg(info.size.y).
-                arg(Core::VectorUtil::aspect(info.size), 0, 'f', 2).
-                arg(pixelLabel.join(" ")));
-
-            //! Update the view.
+            // Update the view.
             _p->viewWidget->setOptions(imageOptions());
             _p->viewWidget->setData(_p->image ? &*_p->image : nullptr);
             viewOverlayUpdate();
@@ -807,7 +723,8 @@ namespace djv
             //! Update the file group.
             _p->fileGroup->setPreloadFrame(frame);
 
-            Q_EMIT imageChanged();
+            Q_EMIT imageChanged(image());
+            Q_EMIT imageOptionsChanged(imageOptions());
         }
 
         void MainWindow::windowUpdate()
@@ -817,9 +734,9 @@ namespace djv
             // Temporarily disable updates to try and minimize flickering.
             setUpdatesEnabled(false);
 
-            const bool visible = _p->windowGroup->isUIVisible();
-            const QVector<bool> & componentVisible = _p->windowGroup->uiComponentVisible();
-            if (visible && componentVisible[Enum::UI_MENU_BAR])
+            const bool detach = _p->windowGroup->hasControlsWindow();
+            const bool visible = _p->windowGroup->isUIVisible() && !detach;
+            if (visible)
             {
                 if (_p->menuBarHeight)
                 {
@@ -836,6 +753,7 @@ namespace djv
                     menuBar()->setFixedHeight(0);
                 }
             }
+            const QVector<bool> & componentVisible = _p->windowGroup->uiComponentVisible();
             Q_FOREACH(auto toolBar, _p->toolBars)
             {
                 toolBar->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
@@ -843,23 +761,23 @@ namespace djv
             _p->playbackControls->setVisible(visible && componentVisible[Enum::UI_PLAYBACK_CONTROLS]);
             statusBar()->setVisible(visible && componentVisible[Enum::UI_STATUS_BAR]);
 
-            if (_p->windowGroup->hasDetachWindow())
+            if (detach)
             {
-                if (!_p->detachWindow)
+                if (!_p->controlsWindow)
                 {
-                    auto detachWindow = new DetachWindow(this, _p->context, this);
+                    auto controlsWindow = new ControlsWindow(this, _p->context, this);
                     connect(
-                        detachWindow,
+                        controlsWindow,
                         SIGNAL(closed()),
-                        SLOT(detachWindowClosedCallback()));
-                    _p->detachWindow.reset(detachWindow);
+                        SLOT(controlsWindowClosedCallback()));
+                    _p->controlsWindow.reset(controlsWindow);
                 }
-                _p->detachWindow->show();
-                _p->detachWindow->raise();
+                _p->controlsWindow->show();
+                _p->controlsWindow->raise();
             }
-            else if (_p->detachWindow)
+            else if (_p->controlsWindow)
             {
-                _p->detachWindow->hide();
+                _p->controlsWindow->hide();
             }
 
             QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
@@ -892,57 +810,6 @@ namespace djv
             _p->viewWidget->setHudInfo(hudInfo);
         }
 
-        void MainWindow::viewPickUpdate()
-        {
-            //DJV_DEBUG("MainWindow::viewPickUpdate");
-
-            _p->context->makeGLContextCurrent();
-            if (!_p->openGLImage)
-            {
-                _p->openGLImage.reset(new Graphics::OpenGLImage);
-            }
-
-            // Update the info bar with pixel information.
-            const glm::ivec2 pick = Core::VectorUtil::floor(
-                glm::vec2(_p->imagePick - _p->viewWidget->viewPos()) /
-                _p->viewWidget->viewZoom());
-            //DJV_DEBUG_PRINT("pick = " << pick);
-            Graphics::OpenGLImageOptions options = imageOptions();
-            _p->imageSample = options.background;
-            auto image = this->image();
-            if (image && _p->windowGroup->uiComponentVisible()[Enum::UI_STATUS_BAR])
-            {
-                //DJV_DEBUG_PRINT("sample");
-                try
-                {
-                    _p->context->makeGLContextCurrent();
-                    Graphics::PixelData tmp(Graphics::PixelDataInfo(glm::ivec2(1, 1), image->pixel()));
-                    Graphics::OpenGLImageOptions _options = options;
-                    _options.xform.position -= pick;
-                    _p->openGLImage->copy(*image, tmp, _options);
-                    _p->openGLImage->average(tmp, _p->imageSample);
-                }
-                catch (Core::Error error)
-                {
-                    error.add(Enum::errorLabels()[Enum::ERROR_PICK_COLOR]);
-                    _p->context->printError(error);
-                }
-            }
-            //DJV_DEBUG_PRINT("sample = " << _p->imageSample);
-
-            _p->infoSwatch->setColor(_p->imageSample);
-
-            QStringList imageSampleLabel;
-            imageSampleLabel << _p->imageSample;
-            _p->infoPixelLabel->setText(
-                qApp->translate("djv::ViewLib::MainWindow", "Pixel: %1, %2, %3").
-                arg(pick.x).
-                arg(pick.y).
-                arg(imageSampleLabel.join(" ")));
-
-            _p->sampleInit = false;
-        }
-
         void MainWindow::playbackUpdate()
         {
             switch (_p->playbackGroup->playback())
@@ -960,7 +827,7 @@ namespace djv
 
         const std::shared_ptr<Graphics::Image> & MainWindow::image() const
         {
-            return _p->imageGroup->isFrameStoreVisible() ? _p->imageTmp : _p->image;
+            return _p->imageGroup->isFrameStoreVisible() ? _p->frameStoreImage : _p->image;
         }
 
         Graphics::OpenGLImageOptions MainWindow::imageOptions() const

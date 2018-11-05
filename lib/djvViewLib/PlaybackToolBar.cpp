@@ -37,6 +37,8 @@
 
 #include <djvUI/IconLibrary.h>
 
+#include <djvCore/SignalBlocker.h>
+
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QPointer>
@@ -258,6 +260,7 @@ namespace djv
 
         void PlaybackToolBar::setFrame(qint64 in)
         {
+            Core::SignalBlocker signalBlocker(QObjectList() << _p->frameWidget << _p->frameSlider);
             _p->frameWidget->setFrame(in);
             _p->frameSlider->setFrame(in);
         }
@@ -267,12 +270,12 @@ namespace djv
             _p->frameSlider->setCachedFrames(in);
         }
 
-        void PlaybackToolBar::setStart(qint64 in)
+        void PlaybackToolBar::setStartFrame(qint64 in)
         {
             _p->startWidget->setFrame(in);
         }
 
-        void PlaybackToolBar::setEnd(qint64 in)
+        void PlaybackToolBar::setEndFrame(qint64 in)
         {
             _p->endWidget->setFrame(in);
         }

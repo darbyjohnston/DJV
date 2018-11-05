@@ -77,10 +77,10 @@ namespace djv
             void setCachedFrames(const djv::Core::FrameList &);
 
             //! Set the start frame.
-            void setStart(qint64);
+            void setStartFrame(qint64);
 
             //! Set the end frame.
-            void setEnd(qint64);
+            void setEndFrame(qint64);
 
             //! Set the duration.
             void setDuration(qint64, bool inOutEnabled);

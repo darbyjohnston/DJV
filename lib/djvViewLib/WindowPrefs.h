@@ -75,6 +75,12 @@ namespace djv
             //! Get the UI component visibility.
             const QVector<bool> & uiComponentVisible() const;
 
+            //! Get the default controls window enabled state.
+            static bool controlsWindowDefault();
+
+            //! Get whether the controls window is enabled.
+            bool hasControlsWindow() const;
+
         public Q_SLOTS:
             //! Set whether to automatically fit the window to the image.
             void setAutoFit(bool);
@@ -90,6 +96,9 @@ namespace djv
 
             //! Set the UI component visibility.
             void setUIComponentVisible(const QVector<bool> &);
+
+            //! Set whether the controls window is enabled.
+            void setControlsWindow(bool);
 
         Q_SIGNALS:
             //! This signal is emitted when automatically fitting the window to the
@@ -108,12 +117,16 @@ namespace djv
             //! This signal is emitted when the tool bar visibility is changed.
             void uiComponentVisibleChanged(const QVector<bool> &);
 
+            //! This signal is emitted when the controls window state is changed.
+            void controlsWindowChanged(bool);
+
         private:
             bool                 _autoFit;
             Enum::VIEW_MAX       _viewMax;
             glm::ivec2           _viewMaxUser = glm::ivec2(0, 0);
             Enum::FULL_SCREEN_UI _fullScreenUI;
             QVector<bool>        _uiComponentVisible;
+            bool                 _controlsWindow;
         };
 
     } // namespace ViewLib

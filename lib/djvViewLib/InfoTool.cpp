@@ -29,7 +29,7 @@
 
 #include <djvViewLib/InfoTool.h>
 
-#include <djvViewLib/ImageView.h>
+#include <djvViewLib/FileGroup.h>
 #include <djvViewLib/MainWindow.h>
 
 #include <djvUI/Prefs.h>
@@ -52,6 +52,8 @@ namespace djv
     {
         struct InfoTool::Private
         {
+            Graphics::ImageIOInfo info;
+
             QPointer<QLineEdit>      fileNameWidget;
             QPointer<QLineEdit>      layerNameWidget;
             QPointer<QLineEdit>      sizeWidget;
@@ -120,9 +122,13 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                mainWindow,
-                SIGNAL(imageChanged()),
-                SLOT(widgetUpdate()));
+                mainWindow->fileGroup(),
+                &FileGroup::imageIOInfoChanged,
+                [this](const Graphics::ImageIOInfo & value)
+            {
+                _p->info = value;
+                widgetUpdate();
+            });
         }
 
         InfoTool::~InfoTool()
@@ -142,41 +148,35 @@ namespace djv
                 _p->pixelWidget <<
                 _p->timeWidget <<
                 _p->tagsWidget);
-            const Graphics::ImageIOInfo & imageIOInfo = mainWindow()->imageIOInfo();
-            if (isVisible())
+            _p->fileNameWidget->setText(
+                QDir::toNativeSeparators(_p->info.fileName));
+            _p->layerNameWidget->setText(_p->info.layerName);
+            _p->sizeWidget->setText(
+                qApp->translate("djv::ViewLib::InfoTool", "%1x%2:%3").
+                arg(_p->info.size.x).
+                arg(_p->info.size.y).
+                arg(Core::VectorUtil::aspect(_p->info.size)));
+            QStringList pixelLabel;
+            pixelLabel << _p->info.pixel;
+            _p->pixelWidget->setText(pixelLabel.join(", "));
+            _p->timeWidget->setText(
+                qApp->translate("djv::ViewLib::InfoTool", "%1@%2").
+                arg(Core::Time::frameToString(_p->info.sequence.frames.count(), _p->info.sequence.speed)).
+                arg(Core::Speed::speedToFloat(_p->info.sequence.speed), 0, 'f', 2));
+            QString tmp;
+            const QStringList keys = _p->info.tags.keys();
+            for (int i = 0; i < keys.count(); ++i)
             {
-                _p->fileNameWidget->setText(
-                    QDir::toNativeSeparators(imageIOInfo.fileName));
-                _p->layerNameWidget->setText(imageIOInfo.layerName);
-                _p->sizeWidget->setText(
-                    qApp->translate("djv::ViewLib::InfoTool", "%1x%2:%3").
-                    arg(imageIOInfo.size.x).
-                    arg(imageIOInfo.size.y).
-                    arg(Core::VectorUtil::aspect(imageIOInfo.size)));
-                QStringList pixelLabel;
-                pixelLabel << imageIOInfo.pixel;
-                _p->pixelWidget->setText(pixelLabel.join(", "));
-                _p->timeWidget->setText(
-                    qApp->translate("djv::ViewLib::InfoTool", "%1@%2").
-                    arg(Core::Time::frameToString(
-                        imageIOInfo.sequence.frames.count(),
-                        imageIOInfo.sequence.speed)).
-                    arg(Core::Speed::speedToFloat(imageIOInfo.sequence.speed), 0, 'f', 2));
-                QString tmp;
-                const QStringList keys = imageIOInfo.tags.keys();
-                for (int i = 0; i < keys.count(); ++i)
-                {
-                    tmp += qApp->translate("djv::ViewLib::InfoTool", "%1 = %2\n").
-                        arg(keys[i]).arg(imageIOInfo.tags[keys[i]]);
-                }
-                if (!tmp.isEmpty())
-                {
-                    _p->tagsWidget->setPlainText(tmp);
-                }
-                else
-                {
-                    _p->tagsWidget->clear();
-                }
+                tmp += qApp->translate("djv::ViewLib::InfoTool", "%1 = %2\n").
+                    arg(keys[i]).arg(_p->info.tags[keys[i]]);
+            }
+            if (!tmp.isEmpty())
+            {
+                _p->tagsWidget->setPlainText(tmp);
+            }
+            else
+            {
+                _p->tagsWidget->clear();
             }
         }
 

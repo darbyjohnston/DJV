@@ -348,7 +348,11 @@ namespace djv
 
         void ImageView::mouseMoveEvent(QMouseEvent * event)
         {
+            //DJV_DEBUG("ImageView::mouseMoveEvent");
+
             _p->mousePos = glm::ivec2(event->pos().x(), height() - event->pos().y() - 1);
+            //DJV_DEBUG_PRINT("pos = " << _p->mousePos);
+
             if (event->buttons() & Qt::LeftButton)
             {
                 setCursor(Qt::CrossCursor);

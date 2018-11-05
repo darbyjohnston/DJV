@@ -32,6 +32,8 @@
 #include <djvViewLib/AbstractGroup.h>
 #include <djvViewLib/Enum.h>
 
+#include <djvCore/Sequence.h>
+
 #include <memory>
 
 class QAction;
@@ -156,8 +158,23 @@ namespace djv
             //! This signal is emitted when every frame playback is changed.
             void everyFrameChanged(bool);
 
+            //! This signal is emitted when the frame list is changed.
+            void frameListChanged(const djv::Core::FrameList &);
+
             //! This signal is emitted when the frame is changed.
             void frameChanged(qint64);
+
+            //! This signal is emitted when the cached frames are changed.
+            void cachedFramesChanged(const djv::Core::FrameList &);
+
+            //! This signal is emitted when the start frame is changed.
+            void startFrameChanged(qint64);
+
+            //! This signal is emitted when the end frame is changed.
+            void endFrameChanged(qint64);
+
+            //! This signal is emitted when the duration is changed.
+            void durationChanged(qint64, bool inOutEnabled);
 
             //! This signal is emitted when the in/out points are enabled or disabled.
             void inOutEnabledChanged(bool);
@@ -205,12 +222,13 @@ namespace djv
             void cacheCallback();
 
         private:
-            qint64 frameStart() const;
-            qint64 frameEnd() const;
+            qint64 startFrame(bool inOutEnabled) const;
+            qint64 endFrame(bool inOutEnabled) const;
+            qint64 duration() const;
+            bool durationInOutEnabled() const;
 
             void playbackUpdate();
             void timeUpdate();
-            void frameUpdate();
             void speedUpdate();
             void layoutUpdate();
 

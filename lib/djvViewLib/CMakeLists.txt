@@ -7,7 +7,7 @@ set(header
     AbstractTool.h
     AbstractToolBar.h
     ColorPickerTool.h
-    DetachWindow.h
+    ControlsWindow.h
     DisplayProfile.h
     DisplayProfileWidget.h
     Enum.h
@@ -46,6 +46,7 @@ set(header
     PlaybackWidgets.h
     ShortcutPrefs.h
     ShortcutPrefsWidget.h
+    StatusBar.h
     ToolActions.h
     ToolGroup.h
     ToolMenu.h
@@ -74,7 +75,7 @@ set(mocHeader
     AbstractToolBar.h
     AbstractTool.h
     ColorPickerTool.h
-    DetachWindow.h
+    ControlsWindow.h
     DisplayProfileWidget.h
     Enum.h
     FileActions.h
@@ -111,6 +112,7 @@ set(mocHeader
     PlaybackWidgets.h
     ShortcutPrefs.h
     ShortcutPrefsWidget.h
+    StatusBar.h
     ToolActions.h
     ToolGroup.h
     ToolMenu.h
@@ -137,7 +139,7 @@ set(source
     AbstractTool.cpp
     AbstractToolBar.cpp
     ColorPickerTool.cpp
-    DetachWindow.cpp
+    ControlsWindow.cpp
     DisplayProfile.cpp
     DisplayProfileWidget.cpp
     Enum.cpp
@@ -176,6 +178,7 @@ set(source
     PlaybackWidgets.cpp
     ShortcutPrefs.cpp
     ShortcutPrefsWidget.cpp
+    StatusBar.cpp
     ToolActions.cpp
     ToolGroup.cpp
     ToolMenu.cpp

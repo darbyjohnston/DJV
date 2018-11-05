@@ -41,7 +41,8 @@ namespace djv
             _viewMax(viewMaxDefault()),
             _viewMaxUser(viewMaxUserDefault()),
             _fullScreenUI(fullScreenUIDefault()),
-            _uiComponentVisible(uiComponentVisibleDefault())
+            _uiComponentVisible(uiComponentVisibleDefault()),
+            _controlsWindow(controlsWindowDefault())
         {
             //DJV_DEBUG("WindowPrefs::WindowPrefs");
             //DJV_DEBUG_PRINT("ui components visible = " << _uiComponentVisible);
@@ -56,6 +57,7 @@ namespace djv
                 prefs.get("uiComponentVisible", _uiComponentVisible);
                 _uiComponentVisible.resize(Enum::UI_COMPONENT_COUNT);
             }
+            prefs.get("controlsWindow", _controlsWindow);
         }
 
         WindowPrefs::~WindowPrefs()
@@ -68,6 +70,7 @@ namespace djv
             prefs.set("viewMaxUser", _viewMaxUser);
             prefs.set("fullScreenUI", _fullScreenUI);
             prefs.set("uiComponentVisible", _uiComponentVisible);
+            prefs.set("controlsWindow", _controlsWindow);
         }
 
         bool WindowPrefs::autoFitDefault()
@@ -121,6 +124,16 @@ namespace djv
             return _uiComponentVisible;
         }
 
+        bool WindowPrefs::controlsWindowDefault()
+        {
+            return false;
+        }
+
+        bool WindowPrefs::hasControlsWindow() const
+        {
+            return _controlsWindow;
+        }
+
         void WindowPrefs::setAutoFit(bool in)
         {
             if (in == _autoFit)
@@ -163,6 +176,15 @@ namespace djv
                 return;
             _uiComponentVisible = in;
             Q_EMIT uiComponentVisibleChanged(_uiComponentVisible);
+            Q_EMIT prefChanged();
+        }
+
+        void WindowPrefs::setControlsWindow(bool in)
+        {
+            if (in == _controlsWindow)
+                return;
+            _controlsWindow = in;
+            Q_EMIT controlsWindowChanged(_controlsWindow);
             Q_EMIT prefChanged();
         }
 

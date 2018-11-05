@@ -61,9 +61,6 @@ namespace djv
             //! Get the main window.
             const QPointer<MainWindow> & mainWindow() const;
 
-            //! Get the view widget.
-            const QPointer<ImageView> & viewWidget() const;
-
             //! Get the context.
             const QPointer<ViewContext> & context() const;
 

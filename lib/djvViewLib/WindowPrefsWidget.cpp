@@ -55,8 +55,9 @@ namespace djv
             QPointer<QCheckBox> autoFitWidget;
             QPointer<QComboBox> viewMaxWidget;
             QPointer<UI::Vector2iEditWidget> viewMaxUserWidget;
-            QPointer<QButtonGroup> uiComponentVisibleButtonGroup;
             QPointer<QComboBox> fullScreenUIWidget;
+            QPointer<QButtonGroup> uiComponentVisibleButtonGroup;
+            QPointer<QCheckBox> controlsWindowWidget;
         };
 
         WindowPrefsWidget::WindowPrefsWidget(const QPointer<ViewContext> & context) :
@@ -78,18 +79,22 @@ namespace djv
             _p->viewMaxUserWidget->setRange(glm::ivec2(100, 100), glm::ivec2(8192, 8192));
             _p->viewMaxUserWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+            _p->fullScreenUIWidget = new QComboBox;
+            _p->fullScreenUIWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->fullScreenUIWidget->addItems(Enum::fullScreenUILabels());
+
             _p->uiComponentVisibleButtonGroup = new QButtonGroup(this);
             _p->uiComponentVisibleButtonGroup->setExclusive(false);
-
             for (int i = 0; i < Enum::uiComponentLabels().count(); ++i)
             {
                 auto checkBox = new QCheckBox(Enum::uiComponentLabels()[i]);
                 _p->uiComponentVisibleButtonGroup->addButton(checkBox, i);
             }
 
-            _p->fullScreenUIWidget = new QComboBox;
-            _p->fullScreenUIWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->fullScreenUIWidget->addItems(Enum::fullScreenUILabels());
+            _p->controlsWindowWidget = new QCheckBox(
+                qApp->translate(
+                    "djv::ViewLib::WindowPrefsWidget",
+                    "Detach the controls into a separate window"));
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
@@ -108,12 +113,13 @@ namespace djv
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "User Interface"),
                 context.data());
             formLayout = prefsGroupBox->createLayout();
-            formLayout->addRow(new QLabel("Set which user interface components are visible:"));
-            for (int i = 0; i < _p->uiComponentVisibleButtonGroup->buttons().count(); ++i)
-                formLayout->addRow(_p->uiComponentVisibleButtonGroup->button(i));
             formLayout->addRow(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "What happens to the user interface in full screen mode:"),
                 _p->fullScreenUIWidget);
+            formLayout->addRow(new QLabel("Set which user interface components are visible:"));
+            for (int i = 0; i < _p->uiComponentVisibleButtonGroup->buttons().count(); ++i)
+                formLayout->addRow(_p->uiComponentVisibleButtonGroup->button(i));
+            formLayout->addRow(_p->controlsWindowWidget);
             layout->addWidget(prefsGroupBox);
 
             layout->addStretch();
@@ -146,6 +152,10 @@ namespace djv
                 context->windowPrefs(),
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
+            connect(
+                _p->controlsWindowWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(controlsWindowCallback(bool)));
         }
 
         WindowPrefsWidget::~WindowPrefsWidget()
@@ -158,6 +168,7 @@ namespace djv
             context()->windowPrefs()->setViewMaxUser(WindowPrefs::viewMaxUserDefault());
             context()->windowPrefs()->setFullScreenUI(WindowPrefs::fullScreenUIDefault());
             context()->windowPrefs()->setUIComponentVisible(WindowPrefs::uiComponentVisibleDefault());
+            context()->windowPrefs()->setControlsWindow(WindowPrefs::controlsWindowDefault());
         }
 
         void WindowPrefsWidget::autoFitCallback(bool in)
@@ -189,6 +200,11 @@ namespace djv
             context()->windowPrefs()->setUIComponentVisible(visible);
         }
 
+        void WindowPrefsWidget::controlsWindowCallback(bool in)
+        {
+            context()->windowPrefs()->setControlsWindow(in);
+        }
+
         void WindowPrefsWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
@@ -196,7 +212,8 @@ namespace djv
                 _p->viewMaxWidget <<
                 _p->viewMaxUserWidget <<
                 _p->fullScreenUIWidget <<
-                _p->uiComponentVisibleButtonGroup);
+                _p->uiComponentVisibleButtonGroup <<
+                _p->controlsWindowWidget);
             _p->autoFitWidget->setChecked(context()->windowPrefs()->hasAutoFit());
             _p->viewMaxWidget->setCurrentIndex(context()->windowPrefs()->viewMax());
             _p->viewMaxUserWidget->setValue(context()->windowPrefs()->viewMaxUser());
@@ -207,6 +224,7 @@ namespace djv
             {
                 _p->uiComponentVisibleButtonGroup->button(i)->setChecked(visible[i]);
             }
+            _p->controlsWindowWidget->setChecked(context()->windowPrefs()->hasControlsWindow());
         }
 
     } // namespace ViewLib

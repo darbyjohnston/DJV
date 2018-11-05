@@ -101,12 +101,17 @@ namespace djv
     {
         struct MagnifyTool::Private
         {
+            std::shared_ptr<Graphics::Image> image;
             glm::ivec2 pick = glm::ivec2(0, 0);
+            glm::ivec2 viewPos = glm::ivec2(0, 0);
+            float viewZoom = 0.f;
             int zoom = 2;
             bool colorProfile = true;
             bool displayProfile = true;
             bool pixelDataInit = false;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
+            Graphics::OpenGLImageOptions openGLImageOptions;
+
             QPointer<Widget> widget;
             QPointer<UI::IntEditSlider> slider;
             QPointer<UI::ToolButton> colorProfileButton;
@@ -169,8 +174,36 @@ namespace djv
             // Setup the callbacks.
             connect(
                 mainWindow,
-                SIGNAL(imageChanged()),
-                SLOT(widgetUpdate()));
+                &MainWindow::imageChanged,
+                [this](const std::shared_ptr<Graphics::Image> & value)
+            {
+                _p->image = value;
+                widgetUpdate();
+            });
+            connect(
+                mainWindow,
+                &MainWindow::imageOptionsChanged,
+                [this](const Graphics::OpenGLImageOptions & value)
+            {
+                _p->openGLImageOptions = value;
+                widgetUpdate();
+            });
+            connect(
+                mainWindow->viewWidget(),
+                &ImageView::viewPosChanged,
+                [this](const glm::ivec2 & value)
+            {
+                _p->viewPos = value;
+                widgetUpdate();
+            });
+            connect(
+                mainWindow->viewWidget(),
+                &ImageView::viewZoomChanged,
+                [this](float value)
+            {
+                _p->viewZoom = value;
+                widgetUpdate();
+            });
             connect(
                 mainWindow->viewWidget(),
                 SIGNAL(pickChanged(const glm::ivec2 &)),
@@ -270,46 +303,43 @@ namespace djv
                 _p->widget);
             QPixmap pixmap;
             const glm::ivec2 size(_p->widget->width(), _p->widget->height());
-            if (Core::VectorUtil::isSizeValid(size))
+            if (isVisible() && Core::VectorUtil::isSizeValid(size) && _p->image)
             {
-                Graphics::PixelData tmp(Graphics::PixelDataInfo(
-                    size,
-                    Graphics::Pixel::RGB_U8));
-                if (const Graphics::PixelData * data = viewWidget()->data())
+                try
                 {
-                    //DJV_DEBUG_PRINT("data = " << *data);
                     const float zoom = Core::Math::pow(2, _p->zoom);
                     glm::ivec2 pick = Core::VectorUtil::floor(
-                        glm::vec2(_p->pick - viewWidget()->viewPos()) * zoom -
-                        glm::vec2(tmp.info().size) / 2.f);
+                        glm::vec2(_p->pick - _p->viewPos) * zoom -
+                        glm::vec2(size) / 2.f);
                     //DJV_DEBUG_PRINT("zoom = " << zoom);
                     //DJV_DEBUG_PRINT("pick = " << pick);
-                    try
+
+                    context()->makeGLContextCurrent();
+                    if (!_p->openGLImage)
                     {
-                        context()->makeGLContextCurrent();
-                        if (!_p->openGLImage)
-                        {
-                            _p->openGLImage.reset(new Graphics::OpenGLImage);
-                        }
-                        Graphics::OpenGLImageOptions options = viewWidget()->options();
-                        options.xform.position -= pick;
-                        options.xform.scale *= zoom * viewWidget()->viewZoom();
-                        if (!_p->colorProfile)
-                        {
-                            options.colorProfile = Graphics::ColorProfile();
-                        }
-                        if (!_p->displayProfile)
-                        {
-                            options.displayProfile = DisplayProfile();
-                        }
-                        _p->openGLImage->copy(*data, tmp, options);
-                        pixmap = _p->openGLImage->toQt(tmp);
+                        _p->openGLImage.reset(new Graphics::OpenGLImage);
                     }
-                    catch (Core::Error error)
+
+                    Graphics::OpenGLImageOptions options = _p->openGLImageOptions;
+                    options.xform.position -= pick;
+                    options.xform.scale *= zoom * _p->viewZoom;
+                    if (!_p->colorProfile)
                     {
-                        error.add(Enum::errorLabels()[Enum::ERROR_MAGNIFY]);
-                        context()->printError(error);
+                        options.colorProfile = Graphics::ColorProfile();
                     }
+                    if (!_p->displayProfile)
+                    {
+                        options.displayProfile = DisplayProfile();
+                    }
+
+                    Graphics::PixelData tmp(Graphics::PixelDataInfo(size, Graphics::Pixel::RGB_U8));
+                    _p->openGLImage->copy(*_p->image, tmp, options);
+                    pixmap = _p->openGLImage->toQt(tmp);
+                }
+                catch (Core::Error error)
+                {
+                    error.add(Enum::errorLabels()[Enum::ERROR_MAGNIFY]);
+                    context()->printError(error);
                 }
             }
             _p->widget->setPixmap(pixmap);

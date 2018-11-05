@@ -70,11 +70,6 @@ namespace djv
             return _p->mainWindow;
         }
 
-        const QPointer<ImageView> & AbstractTool::viewWidget() const
-        {
-            return _p->viewWidget;
-        }
-
         const QPointer<ViewContext> & AbstractTool::context() const
         {
             return _p->context;

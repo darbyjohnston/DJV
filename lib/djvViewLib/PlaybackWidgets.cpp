@@ -39,7 +39,6 @@
 
 #include <QActionGroup>
 #include <QApplication>
-#include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QPointer>
 #include <QStyle>
@@ -51,7 +50,6 @@ namespace djv
         struct PlaybackButtons::Private
         {
             QPointer<UI::UIContext> context;
-            QPointer<QButtonGroup> buttonGroup;
             QPointer<UI::ShuttleButton> shuttle;
             QPointer<QHBoxLayout> layout;
         };
@@ -65,9 +63,7 @@ namespace djv
         {
             _p->context = context;
 
-            _p->buttonGroup = new QButtonGroup(this);
-            _p->buttonGroup->setExclusive(true);
-
+            QVector<UI::ToolButton *> buttons;
             const auto actions =
             {
                 actionGroup->actions()[Enum::REVERSE],
@@ -76,9 +72,9 @@ namespace djv
             };
             for (const auto i : actions)
             {
-                UI::ToolButton* button = new UI::ToolButton(context);
+                auto button = new UI::ToolButton(context);
                 button->setDefaultAction(i);
-                _p->buttonGroup->addButton(button);
+                buttons.push_back(button);
             }
 
             _p->shuttle = new UI::ShuttleButton(context);
@@ -92,7 +88,7 @@ namespace djv
 
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);
-            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
+            Q_FOREACH(auto button, buttons)
                 _p->layout->addWidget(button);
             _p->layout->addWidget(_p->shuttle);
 
@@ -193,7 +189,6 @@ namespace djv
         struct FrameButtons::Private
         {
             QPointer<UI::UIContext> context;
-            QPointer<QButtonGroup> buttonGroup;
             QPointer<UI::ShuttleButton> shuttle;
             QPointer<QHBoxLayout> layout;
         };
@@ -207,8 +202,6 @@ namespace djv
         {
             _p->context = context;
 
-            _p->buttonGroup = new QButtonGroup(this);
-            _p->buttonGroup->setExclusive(false);
             const auto actions =
             {
                 actionGroup->actions()[Enum::FRAME_START],
@@ -216,11 +209,12 @@ namespace djv
                 actionGroup->actions()[Enum::FRAME_NEXT],
                 actionGroup->actions()[Enum::FRAME_END]
             };
+            QVector<UI::ToolButton *> buttons;
             for (const auto i : actions)
             {
-                UI::ToolButton* button = new UI::ToolButton(context);
+                auto button = new UI::ToolButton(context);
                 button->setDefaultAction(i);
-                _p->buttonGroup->addButton(button);
+                buttons.append(button);
             }
 
             _p->shuttle = new UI::ShuttleButton(context);
@@ -235,13 +229,13 @@ namespace djv
             _p->layout = new QHBoxLayout(this);
             _p->layout->setMargin(0);
             _p->layout->setSpacing(0);
-            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
+            Q_FOREACH(auto button, buttons)
                 _p->layout->addWidget(button);
             _p->layout->addWidget(_p->shuttle);
 
             styleUpdate();
 
-            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
+            Q_FOREACH(auto button, buttons)
             {
                 connect(button, SIGNAL(pressed()), SIGNAL(pressed()));
                 connect(button, SIGNAL(released()), SIGNAL(released()));

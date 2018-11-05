@@ -29,7 +29,7 @@
 
 #include <djvViewLib/WindowGroup.h>
 
-#include <djvViewLib/DetachWindow.h>
+#include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/ViewContext.h>
@@ -45,15 +45,16 @@ namespace djv
         struct WindowGroup::Private
         {
             Private(const QPointer<ViewContext> & context) :
-                uiComponentVisible(context->windowPrefs()->uiComponentVisible())
+                uiComponentVisible(context->windowPrefs()->uiComponentVisible()),
+                controlsWindow(context->windowPrefs()->hasControlsWindow())
             {}
 
             bool          fullScreen = false;
             bool          uiVisible = true;
             bool          uiVisiblePrev = true;
             QVector<bool> uiComponentVisible;
-            bool          detachWindow = false;
-            bool          detachWindowPrev = false;
+            bool          controlsWindow = false;
+            bool          controlsWindowPrev = false;
 
             QPointer<WindowActions> actions;
         };
@@ -109,15 +110,19 @@ namespace djv
                 SIGNAL(triggered(QAction *)),
                 SLOT(uiComponentVisibleCallback(QAction *)));
             connect(
-                _p->actions->action(WindowActions::DETACH_UI),
+                _p->actions->action(WindowActions::DETACH_CONTROLS),
                 SIGNAL(toggled(bool)),
-                SLOT(setDetachWindow(bool)));
+                SLOT(setControlsWindow(bool)));
 
             // Setup the preferences callbacks.
             connect(
                 context->windowPrefs(),
                 SIGNAL(uiComponentVisibleChanged(const QVector<bool> &)),
                 SLOT(setUIComponentVisible(const QVector<bool> &)));
+            connect(
+                context->windowPrefs(),
+                SIGNAL(controlsWindowChanged(bool)),
+                SLOT(setControlsWindow(bool)));
         }
 
         WindowGroup::~WindowGroup()
@@ -140,9 +145,9 @@ namespace djv
             return _p->uiComponentVisible;
         }
 
-        bool WindowGroup::hasDetachWindow() const
+        bool WindowGroup::hasControlsWindow() const
         {
-            return _p->detachWindow;
+            return _p->controlsWindow;
         }
 
         QPointer<QMenu> WindowGroup::createMenu() const
@@ -164,13 +169,13 @@ namespace djv
             Q_EMIT fullScreenChanged(_p->fullScreen);
         }
 
-        void WindowGroup::setDetachWindow(bool value)
+        void WindowGroup::setControlsWindow(bool value)
         {
-            if (value == _p->detachWindow)
+            if (value == _p->controlsWindow)
                 return;
-            _p->detachWindow = value;
+            _p->controlsWindow = value;
             update();
-            Q_EMIT detachWindowChanged(_p->detachWindow);
+            Q_EMIT controlsWindowChanged(_p->controlsWindow);
         }
 
         void WindowGroup::setUIVisible(bool visible)
@@ -227,7 +232,7 @@ namespace djv
             {
                 _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions()[i]->setChecked(_p->uiComponentVisible[i]);
             }
-            _p->actions->action(WindowActions::DETACH_UI)->setChecked(_p->detachWindow);
+            _p->actions->action(WindowActions::DETACH_CONTROLS)->setChecked(_p->controlsWindow);
             auto mainWindow = this->mainWindow();
             if (_p->fullScreen)
             {
@@ -235,7 +240,7 @@ namespace djv
                 {
                     mainWindow->showFullScreen();
                     _p->uiVisiblePrev = _p->uiVisible;
-                    _p->detachWindowPrev = _p->detachWindow;
+                    _p->controlsWindowPrev = _p->controlsWindow;
                     switch (context()->windowPrefs()->fullScreenUI())
                     {
                     case Enum::FULL_SCREEN_UI_HIDE:
@@ -246,7 +251,7 @@ namespace djv
                         break;
                     case Enum::FULL_SCREEN_UI_DETACH:
                         setUIVisible(false);
-                        setDetachWindow(true);
+                        setControlsWindow(true);
                         break;
                     default: break;
                     }
@@ -265,7 +270,7 @@ namespace djv
                         break;
                     case Enum::FULL_SCREEN_UI_DETACH:
                         setUIVisible(_p->uiVisiblePrev);
-                        setDetachWindow(_p->detachWindowPrev);
+                        setControlsWindow(_p->controlsWindowPrev);
                         break;
                     default: break;
                     }

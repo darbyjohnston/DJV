@@ -408,6 +408,8 @@ namespace djv
 
             preloadUpdate();
             update();
+
+            Q_EMIT(imageIOInfoChanged(_p->imageIOInfo));
         }
 
         void FileGroup::setLayer(int layer)
@@ -660,7 +662,6 @@ namespace djv
                     error.add(
                         Enum::errorLabels()[Enum::ERROR_OPEN_IMAGE].
                         arg(QDir::toNativeSeparators(_p->fileInfo)));
-
                     context()->printError(error);
                 }
             }

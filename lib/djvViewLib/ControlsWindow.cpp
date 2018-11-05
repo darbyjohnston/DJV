@@ -27,13 +27,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/DetachWindow.h>
+#include <djvViewLib/ControlsWindow.h>
 
 #include <djvViewLib/FileGroup.h>
 #include <djvViewLib/HelpGroup.h>
 #include <djvViewLib/ImageGroup.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/PlaybackGroup.h>
+#include <djvViewLib/StatusBar.h>
 #include <djvViewLib/ToolGroup.h>
 #include <djvViewLib/ViewGroup.h>
 #include <djvViewLib/WindowGroup.h>
@@ -46,18 +47,22 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct DetachWindow::Private
+        struct ControlsWindow::Private
         {
+            QPointer<MainWindow> mainWindow;
         };
 
-        DetachWindow::DetachWindow(
+        ControlsWindow::ControlsWindow(
             const QPointer<MainWindow> & mainWindow,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
             QMainWindow(parent),
             _p(new Private)
         {
+            _p->mainWindow = mainWindow;
+
             setWindowFlags(Qt::Dialog | Qt::Tool);
+
             menuBar()->setNativeMenuBar(false);
             menuBar()->addMenu(mainWindow->fileGroup()->createMenu());
             menuBar()->addMenu(mainWindow->windowGroup()->createMenu());
@@ -66,18 +71,34 @@ namespace djv
             menuBar()->addMenu(mainWindow->playbackGroup()->createMenu());
             menuBar()->addMenu(mainWindow->toolGroup()->createMenu());
             menuBar()->addMenu(mainWindow->helpGroup()->createMenu());
+
             addToolBar(mainWindow->fileGroup()->createToolBar());
             addToolBar(mainWindow->windowGroup()->createToolBar());
             addToolBar(mainWindow->viewGroup()->createToolBar());
             addToolBar(mainWindow->imageGroup()->createToolBar());
             addToolBar(Qt::ToolBarArea::BottomToolBarArea, mainWindow->playbackGroup()->createToolBar());
             addToolBar(mainWindow->toolGroup()->createToolBar());
+
+            setStatusBar(new StatusBar(mainWindow, context));
         }
 
-        DetachWindow::~DetachWindow()
+        ControlsWindow::~ControlsWindow()
         {}
 
-        void DetachWindow::closeEvent(QCloseEvent * event)
+        QMenu * ControlsWindow::createPopupMenu()
+        {
+            auto out = new QMenu;
+            out->addMenu(_p->mainWindow->fileGroup()->createMenu());
+            out->addMenu(_p->mainWindow->windowGroup()->createMenu());
+            out->addMenu(_p->mainWindow->viewGroup()->createMenu());
+            out->addMenu(_p->mainWindow->imageGroup()->createMenu());
+            out->addMenu(_p->mainWindow->playbackGroup()->createMenu());
+            out->addMenu(_p->mainWindow->toolGroup()->createMenu());
+            out->addMenu(_p->mainWindow->helpGroup()->createMenu());
+            return out;
+        }
+
+        void ControlsWindow::closeEvent(QCloseEvent * event)
         {
             event->ignore();
             Q_EMIT closed();

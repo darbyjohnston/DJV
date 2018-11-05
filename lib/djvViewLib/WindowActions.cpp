@@ -64,8 +64,8 @@ namespace djv
             _actions[FULL_SCREEN]->setCheckable(true);
             _actions[UI_VISIBLE]->setText(qApp->translate("djv::ViewLib::WindowActions", "User &Interface"));
             _actions[UI_VISIBLE]->setCheckable(true);
-            _actions[DETACH_UI]->setText(qApp->translate("djv::ViewLib::ViewActions", "De&tach User Interface"));
-            _actions[DETACH_UI]->setCheckable(true);
+            _actions[DETACH_CONTROLS]->setText(qApp->translate("djv::ViewLib::ViewActions", "De&tach Controls"));
+            _actions[DETACH_CONTROLS]->setCheckable(true);
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
@@ -177,7 +177,6 @@ namespace djv
 
             const Enum::SHORTCUT uiComponentVisibilityShortcuts[] =
             {
-                Enum::SHORTCUT_WINDOW_MENU_BAR_VISIBLE,
                 Enum::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
                 Enum::SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
                 Enum::SHORTCUT_WINDOW_INFO_VISIBLE
@@ -190,18 +189,18 @@ namespace djv
                     shortcuts[uiComponentVisibilityShortcuts[i]].value);
             }
 
-            _actions[DETACH_UI]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_DETACH_UI].value);
-            _actions[DETACH_UI]->setToolTip(
+            _actions[DETACH_CONTROLS]->setShortcut(shortcuts[Enum::SHORTCUT_WINDOW_DETACH_CONTROLS].value);
+            _actions[DETACH_CONTROLS]->setToolTip(
                 qApp->translate("djv::ViewLib::ViewActions",
                     "Toggle whether the user interface is shown in a separate window<br><br>"
                     "Keyboard shortcut: %1").
-                arg(shortcuts[Enum::SHORTCUT_WINDOW_DETACH_UI].value.toString()));
-            _actions[DETACH_UI]->setWhatsThis(
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_DETACH_CONTROLS].value.toString()));
+            _actions[DETACH_CONTROLS]->setWhatsThis(
                 qApp->translate("djv::ViewLib::ViewActions",
                     "Toggle whether the user interface is shown in a separate window<br><br>"
                     "Keyboard shortcut: %1<br><br>"
                     "<a href=\"ViewImageView.html\">Documentation</a>").
-                arg(shortcuts[Enum::SHORTCUT_WINDOW_DETACH_UI].value.toString()));
+                arg(shortcuts[Enum::SHORTCUT_WINDOW_DETACH_CONTROLS].value.toString()));
 
             Q_EMIT changed();
         }

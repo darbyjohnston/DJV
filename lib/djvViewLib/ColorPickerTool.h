@@ -71,7 +71,6 @@ namespace djv
 
             void styleUpdate();
             void widgetUpdate();
-            void swatchUpdate();
 
         private:
             DJV_PRIVATE_COPY(ColorPickerTool);

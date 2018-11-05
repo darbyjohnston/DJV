@@ -207,6 +207,7 @@ namespace djv
 
         struct HistogramTool::Private
         {
+            std::shared_ptr<Graphics::Image> image;
             Enum::HISTOGRAM size = static_cast<Enum::HISTOGRAM>(0);
             bool colorProfile = true;
             bool displayProfile = true;
@@ -215,6 +216,7 @@ namespace djv
             Graphics::Color max;
             Graphics::Pixel::Mask mask;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
+            Graphics::OpenGLImageOptions openGLImageOptions;
 
             QPointer<HistogramWidget> widget;
             QPointer<QLineEdit> minWidget;
@@ -295,8 +297,20 @@ namespace djv
             // Setup the callbacks.
             connect(
                 mainWindow,
-                SIGNAL(imageChanged()),
-                SLOT(widgetUpdate()));
+                &MainWindow::imageChanged,
+                [this](const std::shared_ptr<Graphics::Image> & value)
+            {
+                _p->image = value;
+                widgetUpdate();
+            });
+            connect(
+                mainWindow,
+                &MainWindow::imageOptionsChanged,
+                [this](const Graphics::OpenGLImageOptions & value)
+            {
+                _p->openGLImageOptions = value;
+                widgetUpdate();
+            });
             connect(
                 _p->sizeWidget,
                 SIGNAL(activated(int)),
@@ -388,55 +402,54 @@ namespace djv
                 _p->maskWidget <<
                 _p->colorProfileButton <<
                 _p->displayProfileButton);
-            if (isVisible())
+            if (isVisible() && _p->image)
             {
-                if (const Graphics::PixelData * data = viewWidget()->data())
+                try
                 {
-                    try
+                    context()->makeGLContextCurrent();
+                    if (!_p->openGLImage)
                     {
-                        context()->makeGLContextCurrent();
-                        if (!_p->openGLImage)
-                        {
-                            _p->openGLImage.reset(new Graphics::OpenGLImage);
-                        }
-                        Graphics::OpenGLImageOptions options = viewWidget()->options();
-                        //! \todo Why do we need to reverse the rotation here?
-                        options.xform.rotate = options.xform.rotate;
-                        const Core::Box2f bbox =
-                            glm::mat3x3(Graphics::OpenGLImageXform::xformMatrix(options.xform)) *
-                            Core::Box2f(data->size());
-                        //DJV_DEBUG_PRINT("bbox = " << bbox);
-                        options.xform.position = -bbox.position;
-                        if (!_p->colorProfile)
-                        {
-                            options.colorProfile = Graphics::ColorProfile();
-                        }
-                        if (!_p->displayProfile)
-                        {
-                            options.displayProfile = DisplayProfile();
-                        }
-                        Graphics::PixelData tmp(Graphics::PixelDataInfo(bbox.size, data->pixel()));
-                        _p->openGLImage->copy(*data, tmp, options);
-                        _p->openGLImage->histogram(
-                            tmp,
-                            _p->histogram,
-                            Enum::histogramSize(_p->size),
-                            _p->min,
-                            _p->max,
-                            _p->mask);
+                        _p->openGLImage.reset(new Graphics::OpenGLImage);
                     }
-                    catch (Core::Error error)
+
+                    Graphics::OpenGLImageOptions options = _p->openGLImageOptions;
+                    //! \todo Why do we need to reverse the rotation here?
+                    options.xform.rotate = options.xform.rotate;
+                    const Core::Box2f bbox =
+                        glm::mat3x3(Graphics::OpenGLImageXform::xformMatrix(options.xform)) *
+                        Core::Box2f(_p->image->size());
+                    //DJV_DEBUG_PRINT("bbox = " << bbox);
+                    options.xform.position = -bbox.position;
+                    if (!_p->colorProfile)
                     {
-                        error.add(Enum::errorLabels()[Enum::ERROR_HISTOGRAM]);
-                        context()->printError(error);
+                        options.colorProfile = Graphics::ColorProfile();
                     }
+                    if (!_p->displayProfile)
+                    {
+                        options.displayProfile = DisplayProfile();
+                    }
+
+                    Graphics::PixelData tmp(Graphics::PixelDataInfo(bbox.size, _p->image->pixel()));
+                    _p->openGLImage->copy(*_p->image, tmp, options);
+                    _p->openGLImage->histogram(
+                        tmp,
+                        _p->histogram,
+                        Enum::histogramSize(_p->size),
+                        _p->min,
+                        _p->max,
+                        _p->mask);
                 }
-                else
+                catch (Core::Error error)
                 {
-                    _p->histogram.zero();
-                    _p->min.zero();
-                    _p->max.zero();
+                    error.add(Enum::errorLabels()[Enum::ERROR_HISTOGRAM]);
+                    context()->printError(error);
                 }
+            }
+            else
+            {
+                _p->histogram.zero();
+                _p->min.zero();
+                _p->max.zero();
             }
             _p->widget->set(&_p->histogram, _p->min, _p->max);
             QStringList minLabel;

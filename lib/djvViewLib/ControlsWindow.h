@@ -29,10 +29,11 @@
 
 #pragma once
 
-#include <djvViewLib/AbstractPrefsWidget.h>
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/ViewLib.h>
 
-#include <djvCore/Vector.h>
+#include <djvCore/Util.h>
+
+#include <QMainWindow>
 
 #include <memory>
 
@@ -40,29 +41,31 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! This class provides the window group preferences widget.
-        class WindowPrefsWidget : public AbstractPrefsWidget
+        class MainWindow;
+        class ViewContext;
+
+        //! This class provides a window with controls only (no image view).
+        class ControlsWindow : public QMainWindow
         {
             Q_OBJECT
 
         public:
-            WindowPrefsWidget(const QPointer<ViewContext> &);
-            ~WindowPrefsWidget() override;
+            explicit ControlsWindow(
+                const QPointer<MainWindow> &,
+                const QPointer<ViewContext> &,
+                QWidget * parent = nullptr);
+            ~ControlsWindow() override;
 
-            void resetPreferences() override;
+            QMenu * createPopupMenu() override;
 
-        private Q_SLOTS:
-            void autoFitCallback(bool);
-            void viewMaxCallback(int);
-            void viewMaxUserCallback(const glm::ivec2 &);
-            void fullScreenUICallback(int);
-            void uiComponentVisibleCallback(int);
-            void controlsWindowCallback(bool);
+        Q_SIGNALS:
+            void closed();
 
-            void widgetUpdate();
+        protected:
+            void closeEvent(QCloseEvent *) override;
 
         private:
-            DJV_PRIVATE_COPY(WindowPrefsWidget);
+            DJV_PRIVATE_COPY(ControlsWindow);
 
             struct Private;
             std::unique_ptr<Private> _p;
@@ -70,4 +73,3 @@ namespace djv
 
     } // namespace ViewLib
 } // namespace djv
-

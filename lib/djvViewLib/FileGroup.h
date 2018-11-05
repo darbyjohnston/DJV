@@ -117,6 +117,9 @@ namespace djv
             void setPreloadFrame(qint64);
 
         Q_SIGNALS:
+            //! This signal is emitted when the image I/O information is changed.
+            void imageIOInfoChanged(const djv::Graphics::ImageIOInfo &);
+
             //! This signal is emitted when the current image is changed.
             void imageChanged();
 

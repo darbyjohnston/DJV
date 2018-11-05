@@ -87,7 +87,6 @@ namespace djv
             //! This enumeration provides the user interface components.
             enum UI_COMPONENT
             {
-                UI_MENU_BAR,
                 UI_TOOL_BARS,
                 UI_PLAYBACK_CONTROLS,
                 UI_STATUS_BAR,
@@ -340,11 +339,10 @@ namespace djv
                 SHORTCUT_WINDOW_FIT,
                 SHORTCUT_WINDOW_FULL_SCREEN,
                 SHORTCUT_WINDOW_UI_VISIBLE,
-                SHORTCUT_WINDOW_MENU_BAR_VISIBLE,
                 SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
                 SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
                 SHORTCUT_WINDOW_INFO_VISIBLE,
-                SHORTCUT_WINDOW_DETACH_UI,
+                SHORTCUT_WINDOW_DETACH_CONTROLS,
 
                 SHORTCUT_VIEW_LEFT,
                 SHORTCUT_VIEW_RIGHT,

@@ -62,15 +62,17 @@ namespace djv
     {
         struct ColorPickerTool::Private
         {
+            std::shared_ptr<Graphics::Image> image;
             glm::ivec2 pick = glm::ivec2(0, 0);
-            Graphics::Color value = Graphics::Pixel::RGBA_F32;
+            glm::ivec2 viewPos = glm::ivec2(0, 0);
+            float viewZoom = 0.f;
+            Graphics::Color sample = Graphics::Pixel::RGBA_F32;
             int size = 4;
             bool colorProfile = true;
             bool displayProfile = true;
             bool lock = false;
-
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            bool swatchInit = false;
+            Graphics::OpenGLImageOptions openGLImageOptions;
 
             QPointer<UI::ColorWidget> widget;
             QPointer<UI::ColorSwatch> swatch;
@@ -143,9 +145,9 @@ namespace djv
             // Preferences.
             UI::Prefs prefs("djv::ViewLib::ColorPickerTool");
             prefs.get("size", _p->size);
-            Graphics::Pixel::PIXEL pixel = _p->value.pixel();
+            Graphics::Pixel::PIXEL pixel = _p->sample.pixel();
             prefs.get("pixel", pixel);
-            _p->value.setPixel(pixel);
+            _p->sample.setPixel(pixel);
             prefs.get("colorProfile", _p->colorProfile);
             prefs.get("displayProfile", _p->displayProfile);
             prefs.get("lock", _p->lock);
@@ -159,8 +161,36 @@ namespace djv
             // Setup the callbacks.
             connect(
                 mainWindow,
-                SIGNAL(imageChanged()),
-                SLOT(widgetUpdate()));
+                &MainWindow::imageChanged,
+                [this](const std::shared_ptr<Graphics::Image> & value)
+            {
+                _p->image = value;
+                widgetUpdate();
+            });
+            connect(
+                mainWindow,
+                &MainWindow::imageOptionsChanged,
+                [this](const Graphics::OpenGLImageOptions & value)
+            {
+                _p->openGLImageOptions = value;
+                widgetUpdate();
+            });
+            connect(
+                mainWindow->viewWidget(),
+                &ImageView::viewPosChanged,
+                [this](const glm::ivec2 & value)
+            {
+                _p->viewPos = value;
+                widgetUpdate();
+            });
+            connect(
+                mainWindow->viewWidget(),
+                &ImageView::viewZoomChanged,
+                [this](float value)
+            {
+                _p->viewZoom = value;
+                widgetUpdate();
+            });
             connect(
                 mainWindow->viewWidget(),
                 SIGNAL(pickChanged(const glm::ivec2 &)),
@@ -193,7 +223,7 @@ namespace djv
 
             UI::Prefs prefs("djv::ViewLib::ColorPickerTool");
             prefs.set("size", _p->size);
-            prefs.set("pixel", _p->value.pixel());
+            prefs.set("pixel", _p->sample.pixel());
             prefs.set("colorProfile", _p->colorProfile);
             prefs.set("displayProfile", _p->displayProfile);
             prefs.set("lock", _p->lock);
@@ -224,7 +254,7 @@ namespace djv
 
         void ColorPickerTool::widgetCallback(const Graphics::Color & color)
         {
-            _p->value = color;
+            _p->sample = color;
             _p->swatch->setColor(color);
         }
 
@@ -262,7 +292,14 @@ namespace djv
 
         void ColorPickerTool::widgetUpdate()
         {
+            //DJV_DEBUG("ColorPickerTool::swatchUpdate");
+            //DJV_DEBUG_PRINT("color profile = " << _p->colorProfile);
+            //DJV_DEBUG_PRINT("display profile = " << _p->displayProfile);
+            //DJV_DEBUG_PRINT("lock = " << _p->lock);
+
             Core::SignalBlocker signalBlocker(QObjectList() <<
+                _p->widget <<
+                _p->swatch <<
                 _p->sizeSlider <<
                 _p->colorProfileButton <<
                 _p->displayProfileButton <<
@@ -271,53 +308,33 @@ namespace djv
             _p->colorProfileButton->setChecked(_p->colorProfile);
             _p->displayProfileButton->setChecked(_p->displayProfile);
             _p->lockWidget->setChecked(_p->lock);
-            if (!_p->swatchInit && isVisible())
+
+            if (!_p->lock && _p->image)
             {
-                _p->swatchInit = true;
-                QTimer::singleShot(0, this, SLOT(swatchUpdate()));
+                _p->sample.setPixel(_p->image->pixel());
             }
-        }
-
-        void ColorPickerTool::swatchUpdate()
-        {
-            //DJV_DEBUG("ColorPickerTool::swatchUpdate");
-            //DJV_DEBUG_PRINT("color profile = " << _p->colorProfile);
-            //DJV_DEBUG_PRINT("display profile = " << _p->displayProfile);
-            //DJV_DEBUG_PRINT("lock = " << _p->lock);
-
-            Core::SignalBlocker signalBlocker(QObjectList() <<
-                _p->widget <<
-                _p->swatch);
-            if (const Graphics::PixelData * data = viewWidget()->data())
+            else
             {
-                //DJV_DEBUG_PRINT("data = " << *data);
-                if (!_p->lock && data)
-                {
-                    _p->value.setPixel(data->pixel());
-                }
-                else
-                {
-                    _p->value.setPixel(_p->widget->color().pixel());
-                }
+                _p->sample.setPixel(_p->widget->color().pixel());
+            }
 
-                // Pick.
-                const glm::ivec2 pick = Core::VectorUtil::floor(
-                    glm::vec2(_p->pick - viewWidget()->viewPos()) / viewWidget()->viewZoom());
-                //DJV_DEBUG_PRINT("pick = " << _p->pick);
-
-                // Render color sample.
-                //DJV_DEBUG_PRINT("pick size = " << _p->size);
-                Graphics::PixelData tmp(Graphics::PixelDataInfo(glm::ivec2(_p->size, _p->size), _p->value.pixel()));
-                //DJV_DEBUG_PRINT("tmp = " << tmp);
+            if (isVisible() && _p->image)
+            {
                 try
                 {
+                    //DJV_DEBUG_PRINT("image = " << *_p->image);
+
+                    const glm::ivec2 pick = Core::VectorUtil::floor(glm::vec2(_p->pick - _p->viewPos) / _p->viewZoom);
+                    //DJV_DEBUG_PRINT("pick = " << _p->pick);
+                    //DJV_DEBUG_PRINT("pick size = " << _p->size);
+
                     context()->makeGLContextCurrent();
                     if (!_p->openGLImage)
                     {
                         _p->openGLImage.reset(new Graphics::OpenGLImage);
                     }
 
-                    Graphics::OpenGLImageOptions options = viewWidget()->options();
+                    Graphics::OpenGLImageOptions options = _p->openGLImageOptions;
                     options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
                     if (!_p->colorProfile)
                     {
@@ -328,27 +345,21 @@ namespace djv
                         options.displayProfile = DisplayProfile();
                     }
                     //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
-                    Graphics::PixelData empty;
-                    if (!data)
-                    {
-                        data = &empty;
-                    }
-                    _p->openGLImage->copy(*data, tmp, options);
-                    _p->openGLImage->average(tmp, _p->value);
+
+                    Graphics::PixelData tmp(Graphics::PixelDataInfo(glm::ivec2(_p->size, _p->size), _p->sample.pixel()));
+                    _p->openGLImage->copy(*_p->image, tmp, options);
+                    _p->openGLImage->average(tmp, _p->sample);
                 }
                 catch (Core::Error error)
                 {
                     error.add(Enum::errorLabels()[Enum::ERROR_PICK_COLOR]);
                     context()->printError(error);
                 }
-
-                //DJV_DEBUG_PRINT("value = " << _p->value);
+                //DJV_DEBUG_PRINT("sample = " << _p->sample);
             }
 
-            _p->widget->setColor(_p->value);
-            _p->swatch->setColor(_p->value);
-
-            _p->swatchInit = false;
+            _p->widget->setColor(_p->sample);
+            _p->swatch->setColor(_p->sample);
         }
 
     } // namespace ViewLib

@@ -65,7 +65,6 @@ namespace djv
         const QStringList & Enum::uiComponentLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Menu Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Tool Bars") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Controls") <<
                 qApp->translate("djv::ViewLib::Enum", "Status Bar");
@@ -310,11 +309,10 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Window/Fit") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Full Screen") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show UI") <<
-                qApp->translate("djv::ViewLib::Enum", "Window/Show Menu Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Tool Bars") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Playback") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Information") <<
-                qApp->translate("djv::ViewLib::Enum", "Window/Detach UI") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Detach Controls") <<
 
                 qApp->translate("djv::ViewLib::Enum", "View/Left") <<
                 qApp->translate("djv::ViewLib::Enum", "View/Right") <<

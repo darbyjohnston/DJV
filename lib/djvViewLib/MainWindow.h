@@ -48,6 +48,7 @@ namespace djv
 
     namespace Graphics
     {
+        class Image;
         class ImageIOInfo;
         class OpenGLImageOptions;
 
@@ -85,9 +86,6 @@ namespace djv
             QPointer<PlaybackGroup> playbackGroup() const;
             QPointer<ToolGroup> toolGroup() const;
             QPointer<HelpGroup> helpGroup() const;
-
-            //! Get the image I/O information.
-            const Graphics::ImageIOInfo & imageIOInfo() const;
 
             //! Get the view widget.
             const QPointer<ImageView> & viewWidget() const;
@@ -127,7 +125,10 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the image is changed.
-            void imageChanged();
+            void imageChanged(const std::shared_ptr<djv::Graphics::Image> &);
+
+            //! This signal is emitted when the image options are changed.
+            void imageOptionsChanged(const djv::Graphics::OpenGLImageOptions &);
 
         protected:
             void showEvent(QShowEvent *) override;
@@ -141,24 +142,18 @@ namespace djv
             void exportSequenceCallback(const djv::Core::FileInfo &);
             void exportFrameCallback(const djv::Core::FileInfo &);
             void setFrameStoreCallback();
-            void pickCallback(const glm::ivec2 &);
             void mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL);
             void mouseWheelValueCallback(int);
-            void detachWindowClosedCallback();
+            void controlsWindowClosedCallback();
 
             void fileUpdate();
-            void fileCacheUpdate();
             void imageUpdate();
             void windowUpdate();
             void viewOverlayUpdate();
-            void viewPickUpdate();
             void playbackUpdate();
 
         private:
-            //! Get the current image.
             const std::shared_ptr<Graphics::Image> & image() const;
-
-            //! Get the image drawing options.
             Graphics::OpenGLImageOptions imageOptions() const;
 
             DJV_PRIVATE_COPY(MainWindow);
