@@ -537,21 +537,17 @@ namespace djv
 
         void MainWindow::keyPressEvent(QKeyEvent * event)
         {
-            //DJV_DEBUG("MainWindow::keyPressEvent");
             QMainWindow::keyPressEvent(event);
             switch (event->key())
             {
             case Qt::Key_Escape:
-                if (!_p->windowGroup->isUIVisible())
+                if (!_p->windowGroup->isUIVisible() && !_p->windowGroup->hasControlsWindow())
                 {
                     _p->windowGroup->setUIVisible(true);
                 }
                 else if (isFullScreen())
                 {
-                    //DJV_DEBUG_PRINT("show normal");
-
-                    showNormal();
-
+                    _p->windowGroup->setFullScreen(false);
                     _p->viewWidget->viewFit();
                 }
                 break;

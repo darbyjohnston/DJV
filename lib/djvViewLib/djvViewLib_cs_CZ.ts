@@ -1867,7 +1867,7 @@ Click and drag inside the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="698"/>
+        <location filename="MainWindow.cpp" line="694"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
