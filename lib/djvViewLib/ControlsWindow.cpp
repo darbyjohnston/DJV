@@ -32,6 +32,7 @@
 #include <djvViewLib/FileGroup.h>
 #include <djvViewLib/HelpGroup.h>
 #include <djvViewLib/ImageGroup.h>
+#include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
 #include <djvViewLib/PlaybackGroup.h>
 #include <djvViewLib/StatusBar.h>
@@ -116,6 +117,21 @@ namespace djv
         {
             event->ignore();
             Q_EMIT closed();
+        }
+
+        void ControlsWindow::keyPressEvent(QKeyEvent * event)
+        {
+            QMainWindow::keyPressEvent(event);
+            switch (event->key())
+            {
+            case Qt::Key_Escape:
+                if (_p->mainWindow->windowGroup()->hasFullScreen())
+                {
+                    _p->mainWindow->windowGroup()->setFullScreen(false);
+                    _p->mainWindow->viewWidget()->viewFit();
+                }
+                break;
+            }
         }
 
         void ControlsWindow::widgetUpdate()

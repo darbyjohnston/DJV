@@ -63,6 +63,7 @@ namespace djv
 
         protected:
             void closeEvent(QCloseEvent *) override;
+            void keyPressEvent(QKeyEvent *) override;
 
         private Q_SLOTS:
             void widgetUpdate();

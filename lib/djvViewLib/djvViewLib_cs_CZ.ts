@@ -142,7 +142,6 @@
     <message>
         <location filename="Enum.cpp" line="68"/>
         <source>File Tool Bar</source>
-        <oldsource>Tool Bars</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -646,7 +645,6 @@
     <message>
         <location filename="Enum.cpp" line="315"/>
         <source>Window/Show UI</source>
-        <oldsource>Window/Detach View</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -677,7 +675,6 @@
     <message>
         <location filename="Enum.cpp" line="321"/>
         <source>Window/Show Playback</source>
-        <oldsource>Window/Show Menu Bar</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -688,7 +685,6 @@
     <message>
         <location filename="Enum.cpp" line="323"/>
         <source>Window/Detach Controls</source>
-        <oldsource>Window/Detach UI</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -869,19 +865,16 @@
     <message>
         <location filename="Enum.cpp" line="361"/>
         <source>Image/Premultiplied Alpha</source>
-        <oldsource>Image/Alpha Off</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="362"/>
         <source>Image/Color Profile</source>
-        <oldsource>Image/Alpha Multiply</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Enum.cpp" line="363"/>
         <source>Image/Channel Default</source>
-        <oldsource>Image/Alpha Divide</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1850,6 +1843,11 @@
 <context>
     <name>djv::ViewLib::MainWindow</name>
     <message>
+        <location filename="MainWindow.cpp" line="694"/>
+        <source>%1 - %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="StatusBar.cpp" line="81"/>
         <source>Pixel information
 
@@ -1864,11 +1862,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="StatusBar.cpp" line="89"/>
         <source>File cache information.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MainWindow.cpp" line="694"/>
-        <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2438,7 +2431,6 @@ Click and drag inside the image.</source>
     <message>
         <location filename="WindowActions.cpp" line="67"/>
         <source>De&amp;tach Controls</source>
-        <oldsource>De&amp;tach User Interface</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

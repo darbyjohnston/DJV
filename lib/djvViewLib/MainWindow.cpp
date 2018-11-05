@@ -545,7 +545,7 @@ namespace djv
                 {
                     _p->windowGroup->setUIVisible(true);
                 }
-                else if (isFullScreen())
+                else if (_p->windowGroup->hasFullScreen())
                 {
                     _p->windowGroup->setFullScreen(false);
                     _p->viewWidget->viewFit();
