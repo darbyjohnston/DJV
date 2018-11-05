@@ -116,7 +116,7 @@ namespace djv
             void paintGL() override;
 
         private Q_SLOTS:
-            void hudInfoCallback(const QVector<bool> &);
+            void hudInfoCallback(const QMap<djv::ViewLib::Enum::HUD, bool> &);
 
         private:
             void drawGrid();

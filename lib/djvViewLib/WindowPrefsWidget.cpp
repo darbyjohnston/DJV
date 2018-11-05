@@ -195,8 +195,8 @@ namespace djv
 
         void WindowPrefsWidget::uiComponentVisibleCallback(int id)
         {
-            QVector<bool> visible = context()->windowPrefs()->uiComponentVisible();
-            visible[id] = _p->uiComponentVisibleButtonGroup->button(id)->isChecked();
+            auto visible = context()->windowPrefs()->uiComponentVisible();
+            visible[static_cast<Enum::UI_COMPONENT>(id)] = _p->uiComponentVisibleButtonGroup->button(id)->isChecked();
             context()->windowPrefs()->setUIComponentVisible(visible);
         }
 
@@ -219,10 +219,10 @@ namespace djv
             _p->viewMaxUserWidget->setValue(context()->windowPrefs()->viewMaxUser());
             _p->viewMaxUserWidget->setVisible(Enum::VIEW_MAX_USER == context()->windowPrefs()->viewMax());
             _p->fullScreenUIWidget->setCurrentIndex(context()->windowPrefs()->fullScreenUI());
-            const QVector<bool> & visible = context()->windowPrefs()->uiComponentVisible();
-            for (int i = 0; i < visible.count(); ++i)
+            const auto & visible = context()->windowPrefs()->uiComponentVisible();
+            Q_FOREACH(auto key, visible.keys())
             {
-                _p->uiComponentVisibleButtonGroup->button(i)->setChecked(visible[i]);
+                _p->uiComponentVisibleButtonGroup->button(key)->setChecked(visible[key]);
             }
             _p->controlsWindowWidget->setChecked(context()->windowPrefs()->hasControlsWindow());
         }

@@ -84,7 +84,7 @@ namespace djv
             QScopedPointer<ViewGroup> viewGroup;
             QScopedPointer<ImageGroup> imageGroup;
             QScopedPointer<PlaybackGroup> playbackGroup;
-            QVector<QPointer<QToolBar> > toolBars;
+            QMap<Enum::UI_COMPONENT, QPointer<QToolBar> > toolBars;
             QPointer<QToolBar> playbackControls;
             qint64 playbackFrameTmp = 0;
             float playbackSpeedTmp = 0.f;
@@ -137,11 +137,11 @@ namespace djv
             menuBar()->addMenu(_p->helpGroup->createMenu());
 
             // Create the tool bars.
-            _p->toolBars.append(_p->fileGroup->createToolBar());
-            _p->toolBars.append(_p->windowGroup->createToolBar());
-            _p->toolBars.append(_p->viewGroup->createToolBar());
-            _p->toolBars.append(_p->imageGroup->createToolBar());
-            _p->toolBars.append(_p->toolGroup->createToolBar());
+            _p->toolBars[Enum::UI_FILE_TOOL_BAR] = _p->fileGroup->createToolBar();
+            _p->toolBars[Enum::UI_WINDOW_TOOL_BAR] = _p->windowGroup->createToolBar();
+            _p->toolBars[Enum::UI_VIEW_TOOL_BAR] = _p->viewGroup->createToolBar();
+            _p->toolBars[Enum::UI_IMAGE_TOOL_BAR] = _p->imageGroup->createToolBar();
+            _p->toolBars[Enum::UI_TOOLS_TOOL_BAR] = _p->toolGroup->createToolBar();
             Q_FOREACH(auto toolBar, _p->toolBars)
             {
                 addToolBar(toolBar);
@@ -221,7 +221,7 @@ namespace djv
                 SLOT(windowUpdate()));
             connect(
                 _p->windowGroup.data(),
-                SIGNAL(uiComponentVisibleChanged(const QVector<bool> &)),
+                SIGNAL(uiComponentVisibleChanged(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &)),
                 SLOT(windowUpdate()));
             connect(
                 _p->windowGroup.data(),
@@ -753,10 +753,10 @@ namespace djv
                     menuBar()->setFixedHeight(0);
                 }
             }
-            const QVector<bool> & componentVisible = _p->windowGroup->uiComponentVisible();
-            Q_FOREACH(auto toolBar, _p->toolBars)
+            const auto & componentVisible = _p->windowGroup->uiComponentVisible();
+            Q_FOREACH(auto key, _p->toolBars.keys())
             {
-                toolBar->setVisible(visible && componentVisible[Enum::UI_TOOL_BARS]);
+                _p->toolBars[key]->setVisible(visible && componentVisible[key]);
             }
             _p->playbackControls->setVisible(visible && componentVisible[Enum::UI_PLAYBACK_CONTROLS]);
             statusBar()->setVisible(visible && componentVisible[Enum::UI_STATUS_BAR]);

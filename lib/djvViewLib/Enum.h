@@ -87,7 +87,11 @@ namespace djv
             //! This enumeration provides the user interface components.
             enum UI_COMPONENT
             {
-                UI_TOOL_BARS,
+                UI_FILE_TOOL_BAR,
+                UI_WINDOW_TOOL_BAR,
+                UI_VIEW_TOOL_BAR,
+                UI_IMAGE_TOOL_BAR,
+                UI_TOOLS_TOOL_BAR,
                 UI_PLAYBACK_CONTROLS,
                 UI_STATUS_BAR,
 
@@ -339,7 +343,11 @@ namespace djv
                 SHORTCUT_WINDOW_FIT,
                 SHORTCUT_WINDOW_FULL_SCREEN,
                 SHORTCUT_WINDOW_UI_VISIBLE,
-                SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
+                SHORTCUT_WINDOW_FILE_TOOL_BAR_VISIBLE,
+                SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE,
+                SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE,
+                SHORTCUT_WINDOW_IMAGE_TOOL_BAR_VISIBLE,
+                SHORTCUT_WINDOW_TOOLS_TOOL_BAR_VISIBLE,
                 SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
                 SHORTCUT_WINDOW_INFO_VISIBLE,
                 SHORTCUT_WINDOW_DETACH_CONTROLS,
@@ -489,6 +497,7 @@ namespace djv
     DJV_STRING_OPERATOR(ViewLib::Enum::FULL_SCREEN_UI);
     DJV_STRING_OPERATOR(ViewLib::Enum::UI_COMPONENT);
     DJV_STRING_OPERATOR(ViewLib::Enum::GRID);
+    DJV_STRING_OPERATOR(ViewLib::Enum::HUD);
     DJV_STRING_OPERATOR(ViewLib::Enum::HUD_BACKGROUND);
     DJV_STRING_OPERATOR(ViewLib::Enum::IMAGE_SCALE);
     DJV_STRING_OPERATOR(ViewLib::Enum::IMAGE_ROTATE);
@@ -501,6 +510,12 @@ namespace djv
     DJV_STRING_OPERATOR(ViewLib::Enum::SHORTCUT);
     DJV_STRING_OPERATOR(ViewLib::Enum::MOUSE_WHEEL);
     DJV_STRING_OPERATOR(ViewLib::Enum::ZOOM_FACTOR);
+    QStringList & operator >> (QStringList &, QMap<ViewLib::Enum::UI_COMPONENT, bool> &);
+    QStringList & operator >> (QStringList &, QMap<ViewLib::Enum::HUD, bool> &);
+    QStringList & operator >> (QStringList &, QMap<ViewLib::Enum::TOOL, bool> &);
+    QStringList & operator << (QStringList &, const QMap<ViewLib::Enum::UI_COMPONENT, bool> &);
+    QStringList & operator << (QStringList &, const QMap<ViewLib::Enum::HUD, bool> &);
+    QStringList & operator << (QStringList &, const QMap<ViewLib::Enum::TOOL, bool> &);
 
 } // namespace djv
 

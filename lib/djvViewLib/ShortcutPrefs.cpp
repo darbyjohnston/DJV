@@ -98,7 +98,11 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FIT], QKeySequence("F")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FULL_SCREEN], QKeySequence("U")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_UI_VISIBLE], QKeySequence("C")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FILE_TOOL_BAR_VISIBLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_IMAGE_TOOL_BAR_VISIBLE], QKeySequence()) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_TOOLS_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_PLAYBACK_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_INFO_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_DETACH_CONTROLS], QKeySequence("Ctrl+t")) <<

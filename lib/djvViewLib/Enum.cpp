@@ -65,7 +65,11 @@ namespace djv
         const QStringList & Enum::uiComponentLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::ViewLib::Enum", "Tool Bars") <<
+                qApp->translate("djv::ViewLib::Enum", "File Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Window Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "View Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Image Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Tools Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Controls") <<
                 qApp->translate("djv::ViewLib::Enum", "Status Bar");
             DJV_ASSERT(data.count() == UI_COMPONENT_COUNT);
@@ -309,7 +313,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::Enum", "Window/Fit") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Full Screen") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show UI") <<
-                qApp->translate("djv::ViewLib::Enum", "Window/Show Tool Bars") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show File Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Window Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show View Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Image Tool Bar") <<
+                qApp->translate("djv::ViewLib::Enum", "Window/Show Tools Tool Bar") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Playback") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Show Information") <<
                 qApp->translate("djv::ViewLib::Enum", "Window/Detach Controls") <<
@@ -452,6 +460,7 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::FULL_SCREEN_UI, ViewLib::Enum::fullScreenUILabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::UI_COMPONENT, ViewLib::Enum::uiComponentLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::GRID, ViewLib::Enum::gridLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HUD, ViewLib::Enum::hudInfoLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HUD_BACKGROUND, ViewLib::Enum::hudBackgroundLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::IMAGE_SCALE, ViewLib::Enum::imageScaleLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::IMAGE_ROTATE, ViewLib::Enum::imageRotateLabels());
@@ -463,5 +472,80 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HISTOGRAM, ViewLib::Enum::histogramLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_WHEEL, ViewLib::Enum::mouseWheelLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ZOOM_FACTOR, ViewLib::Enum::zoomFactorLabels());
+
+    QStringList & operator >> (QStringList & in, QMap<ViewLib::Enum::UI_COMPONENT, bool> & out)
+    {
+        while (in.count())
+        {
+            auto key = static_cast<ViewLib::Enum::UI_COMPONENT>(0);
+            in >> key;
+            if (in.count())
+            {
+                bool value = false;
+                in >> value;
+                out[key] = value;
+            }
+        }
+        return in;
+    }
+
+    QStringList & operator >> (QStringList & in, QMap<ViewLib::Enum::HUD, bool> & out)
+    {
+        while (in.count())
+        {
+            auto key = static_cast<ViewLib::Enum::HUD>(0);
+            in >> key;
+            if (in.count())
+            {
+                bool value = false;
+                in >> value;
+                out[key] = value;
+            }
+        }
+        return in;
+    }
+
+    QStringList & operator >> (QStringList & in, QMap<ViewLib::Enum::TOOL, bool> & out)
+    {
+        while (in.count())
+        {
+            auto key = static_cast<ViewLib::Enum::TOOL>(0);
+            in >> key;
+            if (in.count())
+            {
+                bool value = false;
+                in >> value;
+                out[key] = value;
+            }
+        }
+        return in;
+    }
+
+    QStringList & operator << (QStringList & out, const QMap<ViewLib::Enum::UI_COMPONENT, bool> & in)
+    {
+        Q_FOREACH(auto key, in.keys())
+        {
+            out << key << in[key];
+        }
+        return out;
+    }
+
+    QStringList & operator << (QStringList & out, const QMap<ViewLib::Enum::HUD, bool> & in)
+    {
+        Q_FOREACH(auto key, in.keys())
+        {
+            out << key << in[key];
+        }
+        return out;
+    }
+
+    QStringList & operator << (QStringList & out, const QMap<ViewLib::Enum::TOOL, bool> & in)
+    {
+        Q_FOREACH(auto key, in.keys())
+        {
+            out << key << in[key];
+        }
+        return out;
+    }
 
 } // namespace djv

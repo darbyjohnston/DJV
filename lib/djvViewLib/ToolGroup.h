@@ -30,6 +30,9 @@
 #pragma once
 
 #include <djvViewLib/AbstractGroup.h>
+#include <djvViewLib/Enum.h>
+
+#include <QMap>
 
 #include <memory>
 
@@ -54,18 +57,18 @@ namespace djv
             ~ToolGroup();
 
             //! Get the tool visibility.
-            const QVector<bool> & toolsVisible() const;
+            const QMap<Enum::TOOL, bool> & toolsVisible() const;
 
             QPointer<QMenu> createMenu() const override;
             QPointer<QToolBar> createToolBar() const override;
 
         public Q_SLOTS:
             //! Set the tool visibility.
-            void setToolsVisible(const QVector<bool> &);
+            void setToolsVisible(const QMap<djv::ViewLib::Enum::TOOL, bool> &);
 
         Q_SIGNALS:
             //! This signal is emitted when the tool visibility is changed.
-            void toolsVisibleChanged(const QVector<bool> &);
+            void toolsVisibleChanged(const QMap<djv::ViewLib::Enum::TOOL, bool> &);
 
         private Q_SLOTS:
             void toolsVisibleCallback();

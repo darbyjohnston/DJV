@@ -58,7 +58,6 @@ namespace djv
             {
                 _hudInfo.clear();
                 prefs.get("hudInfo", _hudInfo);
-                _hudInfo.resize(Enum::HUD_COUNT);
             }
             prefs.get("hudColor", _hudColor);
             prefs.get("hudBackground", _hudBackground);
@@ -130,12 +129,24 @@ namespace djv
             return _hudEnabled;
         }
 
-        QVector<bool> ViewPrefs::hudInfoDefault()
+        QMap<Enum::HUD, bool> ViewPrefs::hudInfoDefault()
         {
-            return QVector<bool>(Enum::HUD_COUNT, true);
+            static const QMap<Enum::HUD, bool> data =
+            {
+                { Enum::HUD_FILE_NAME, true },
+                { Enum::HUD_LAYER, true },
+                { Enum::HUD_SIZE, true },
+                { Enum::HUD_PROXY, true },
+                { Enum::HUD_PIXEL, true },
+                { Enum::HUD_TAG, true },
+                { Enum::HUD_FRAME, true },
+                { Enum::HUD_SPEED, true }
+            };
+            DJV_ASSERT(Enum::HUD_COUNT == data.size());
+            return data;
         }
 
-        QVector<bool> ViewPrefs::hudInfo() const
+        QMap<Enum::HUD, bool> ViewPrefs::hudInfo() const
         {
             return _hudInfo;
         }
@@ -221,7 +232,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ViewPrefs::setHudInfo(const QVector<bool> & info)
+        void ViewPrefs::setHudInfo(const QMap<Enum::HUD, bool> & info)
         {
             if (info == _hudInfo)
                 return;

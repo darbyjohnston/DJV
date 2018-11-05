@@ -48,17 +48,13 @@ namespace djv
     {
         struct ToolGroup::Private
         {
-            Private() :
-                toolsVisible(Enum::TOOL_COUNT, false)
-            {}
-
-            QVector<bool>             toolsVisible;
-            QPointer<ToolActions>     actions;
-            QPointer<MagnifyTool>     magnifyTool;
-            QPointer<ColorPickerTool> colorPickerTool;
-            QPointer<HistogramTool>   histogramTool;
-            QPointer<InfoTool>        infoTool;
-            QPointer<QDockWidget>     dockWidgets[Enum::TOOL_COUNT];
+            QMap<djv::ViewLib::Enum::TOOL, bool> toolsVisible;
+            QPointer<ToolActions>                actions;
+            QPointer<MagnifyTool>                magnifyTool;
+            QPointer<ColorPickerTool>            colorPickerTool;
+            QPointer<HistogramTool>              histogramTool;
+            QPointer<InfoTool>                   infoTool;
+            QPointer<QDockWidget>                dockWidgets[Enum::TOOL_COUNT];
         };
 
         ToolGroup::ToolGroup(
@@ -131,7 +127,7 @@ namespace djv
             //DJV_DEBUG("ToolGroup::~ToolGroup");
         }
 
-        const QVector<bool> & ToolGroup::toolsVisible() const
+        const QMap<Enum::TOOL, bool> & ToolGroup::toolsVisible() const
         {
             return _p->toolsVisible;
         }
@@ -146,7 +142,7 @@ namespace djv
             return new ToolToolBar(_p->actions.data(), context());
         }
 
-        void ToolGroup::setToolsVisible(const QVector<bool> & value)
+        void ToolGroup::setToolsVisible(const QMap<Enum::TOOL, bool> & value)
         {
             if (value == _p->toolsVisible)
                 return;
@@ -157,10 +153,10 @@ namespace djv
 
         void ToolGroup::toolsVisibleCallback()
         {
-            QVector<bool> visible;
+            QMap<Enum::TOOL, bool> visible;
             for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
-                visible += _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->isChecked();
+                visible[static_cast<Enum::TOOL>(i)] = _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->isChecked();
             }
             setToolsVisible(visible);
         }
@@ -169,11 +165,9 @@ namespace djv
         {
             for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
-                _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->setChecked(_p->toolsVisible[i]);
-            }
-            for (int i = 0; i < Enum::TOOL_COUNT; ++i)
-            {
-                _p->dockWidgets[i]->setVisible(_p->toolsVisible[i]);
+                const auto tool = static_cast<Enum::TOOL>(i);
+                _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->setChecked(_p->toolsVisible[tool]);
+                _p->dockWidgets[i]->setVisible(_p->toolsVisible[tool]);
             }
         }
 

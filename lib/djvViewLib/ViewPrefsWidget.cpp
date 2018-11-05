@@ -263,9 +263,9 @@ namespace djv
 
         void ViewPrefsWidget::hudInfoCallback(QListWidgetItem * item)
         {
-            const int row = _p->hudInfoWidget->row(item);
-            QVector<bool> info = context()->viewPrefs()->hudInfo();
-            info[row] = !info[row];
+            const auto key = static_cast<Enum::HUD>(_p->hudInfoWidget->row(item));
+            auto info = context()->viewPrefs()->hudInfo();
+            info[key] = !info[key];
             context()->viewPrefs()->setHudInfo(info);
         }
 
@@ -303,11 +303,11 @@ namespace djv
             _p->gridWidget->setCurrentIndex(context()->viewPrefs()->grid());
             _p->gridColorWidget->setColor(context()->viewPrefs()->gridColor());
             _p->hudEnabledWidget->setChecked(context()->viewPrefs()->isHudEnabled());
-            QVector<bool> hudInfo = context()->viewPrefs()->hudInfo();
+            const auto & hudInfo = context()->viewPrefs()->hudInfo();
             for (int i = 0; i < Enum::HUD_COUNT; ++i)
             {
-                QListWidgetItem * item = _p->hudInfoWidget->item(i);
-                item->setCheckState(hudInfo[i] ? Qt::Checked : Qt::Unchecked);
+                auto item = _p->hudInfoWidget->item(i);
+                item->setCheckState(hudInfo[static_cast<Enum::HUD>(i)] ? Qt::Checked : Qt::Unchecked);
             }
             _p->hudColorWidget->setColor(context()->viewPrefs()->hudColor());
             _p->hudBackgroundWidget->setCurrentIndex(context()->viewPrefs()->hudBackground());

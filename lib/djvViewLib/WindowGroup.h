@@ -30,6 +30,9 @@
 #pragma once
 
 #include <djvViewLib/AbstractGroup.h>
+#include <djvViewLib/Enum.h>
+
+#include <QMap>
 
 #include <memory>
 
@@ -60,7 +63,7 @@ namespace djv
             bool isUIVisible() const;
 
             //! Get the UI component visibility.
-            const QVector<bool> & uiComponentVisible() const;
+            const QMap<Enum::UI_COMPONENT, bool> & uiComponentVisible() const;
 
             //! Get whether the controls window is enabled.
             bool hasControlsWindow() const;
@@ -76,7 +79,7 @@ namespace djv
             void setUIVisible(bool);
 
             //! Set the UI component visibility.
-            void setUIComponentVisible(const QVector<bool> &);
+            void setUIComponentVisible(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &);
 
             //! Set whether the controls window is enabled.
             void setControlsWindow(bool);
@@ -89,7 +92,7 @@ namespace djv
             void uiVisibleChanged(bool);
 
             //! This signal is emitted when the UI component visibility is changed.
-            void uiComponentVisibleChanged(const QVector<bool> &);
+            void uiComponentVisibleChanged(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &);
 
             //! This signal is emitted when the controls window state is changed.
             void controlsWindowChanged(bool);

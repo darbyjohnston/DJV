@@ -31,6 +31,8 @@
 
 #include <djvUI/Prefs.h>
 
+#include <djvCore/Assert.h>
+
 namespace djv
 {
     namespace ViewLib
@@ -55,7 +57,6 @@ namespace djv
             {
                 _uiComponentVisible.clear();
                 prefs.get("uiComponentVisible", _uiComponentVisible);
-                _uiComponentVisible.resize(Enum::UI_COMPONENT_COUNT);
             }
             prefs.get("controlsWindow", _controlsWindow);
         }
@@ -114,12 +115,23 @@ namespace djv
             return _fullScreenUI;
         }
 
-        QVector<bool> WindowPrefs::uiComponentVisibleDefault()
+        QMap<Enum::UI_COMPONENT, bool> WindowPrefs::uiComponentVisibleDefault()
         {
-            return QVector<bool>(Enum::UI_COMPONENT_COUNT, true);
+            static const QMap< Enum::UI_COMPONENT, bool> data =
+            {
+                { Enum::UI_FILE_TOOL_BAR, true },
+                { Enum::UI_WINDOW_TOOL_BAR, true },
+                { Enum::UI_VIEW_TOOL_BAR, true },
+                { Enum::UI_IMAGE_TOOL_BAR, true },
+                { Enum::UI_TOOLS_TOOL_BAR, true },
+                { Enum::UI_PLAYBACK_CONTROLS, true },
+                { Enum::UI_STATUS_BAR, true }
+            };
+            DJV_ASSERT(data.size() == Enum::UI_COMPONENT_COUNT);
+            return data;
         }
 
-        const QVector<bool> & WindowPrefs::uiComponentVisible() const
+        const QMap<Enum::UI_COMPONENT, bool> & WindowPrefs::uiComponentVisible() const
         {
             return _uiComponentVisible;
         }
@@ -170,7 +182,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void WindowPrefs::setUIComponentVisible(const QVector<bool> & in)
+        void WindowPrefs::setUIComponentVisible(const QMap<Enum::UI_COMPONENT, bool> & in)
         {
             if (in == _uiComponentVisible)
                 return;

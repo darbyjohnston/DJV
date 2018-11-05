@@ -29,12 +29,14 @@
 
 #pragma once
 
-#include <djvViewLib/ViewLib.h>
+#include <djvViewLib/Enum.h>
 
 #include <djvGraphics/ImageTags.h>
 #include <djvGraphics/PixelData.h>
 
 #include <djvCore/Speed.h>
+
+#include <QMap>
 
 namespace djv
 {
@@ -49,7 +51,7 @@ namespace djv
             Core::Speed             speed;
             float                   actualSpeed = 0.f;
             bool                    droppedFrames = false;
-            QVector<bool>           visible;
+            QMap<Enum::HUD, bool>   visible;
         };
 
     } // namespace ViewLib

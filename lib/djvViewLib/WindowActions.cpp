@@ -177,7 +177,11 @@ namespace djv
 
             const Enum::SHORTCUT uiComponentVisibilityShortcuts[] =
             {
-                Enum::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
+                Enum::SHORTCUT_WINDOW_FILE_TOOL_BAR_VISIBLE,
+                Enum::SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE,
+                Enum::SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE,
+                Enum::SHORTCUT_WINDOW_IMAGE_TOOL_BAR_VISIBLE,
+                Enum::SHORTCUT_WINDOW_TOOLS_TOOL_BAR_VISIBLE,
                 Enum::SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
                 Enum::SHORTCUT_WINDOW_INFO_VISIBLE
             };

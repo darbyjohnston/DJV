@@ -113,8 +113,8 @@ namespace djv
                 SLOT(setGridColor(const djv::Graphics::Color &)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudInfoChanged(const QVector<bool> &)),
-                SLOT(hudInfoCallback(const QVector<bool> &)));
+                SIGNAL(hudInfoChanged(const QMap<djv::ViewLib::Enum::HUD, bool> &)),
+                SLOT(hudInfoCallback(const QMap<djv::ViewLib::Enum::HUD, bool> &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudColorChanged(const djv::Graphics::Color &)),
@@ -499,7 +499,7 @@ namespace djv
             }
         }
 
-        void ImageView::hudInfoCallback(const QVector<bool> & info)
+        void ImageView::hudInfoCallback(const QMap<Enum::HUD, bool> & info)
         {
             _p->hudInfo.visible = info;
             update();

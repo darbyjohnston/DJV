@@ -32,6 +32,8 @@
 #include <djvViewLib/AbstractPrefs.h>
 #include <djvViewLib/Enum.h>
 
+#include <QMap>
+
 namespace djv
 {
     namespace ViewLib
@@ -70,10 +72,10 @@ namespace djv
             Enum::FULL_SCREEN_UI fullScreenUI() const;
 
             //! Get the default UI component visiblity.
-            static QVector<bool> uiComponentVisibleDefault();
+            static QMap<Enum::UI_COMPONENT, bool> uiComponentVisibleDefault();
 
             //! Get the UI component visibility.
-            const QVector<bool> & uiComponentVisible() const;
+            const QMap<Enum::UI_COMPONENT, bool> & uiComponentVisible() const;
 
             //! Get the default controls window enabled state.
             static bool controlsWindowDefault();
@@ -95,7 +97,7 @@ namespace djv
             void setFullScreenUI(djv::ViewLib::Enum::FULL_SCREEN_UI);
 
             //! Set the UI component visibility.
-            void setUIComponentVisible(const QVector<bool> &);
+            void setUIComponentVisible(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &);
 
             //! Set whether the controls window is enabled.
             void setControlsWindow(bool);
@@ -115,18 +117,18 @@ namespace djv
             void fullScreenUIChanged(djv::ViewLib::Enum::FULL_SCREEN_UI);
 
             //! This signal is emitted when the tool bar visibility is changed.
-            void uiComponentVisibleChanged(const QVector<bool> &);
+            void uiComponentVisibleChanged(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &);
 
             //! This signal is emitted when the controls window state is changed.
             void controlsWindowChanged(bool);
 
         private:
-            bool                 _autoFit;
-            Enum::VIEW_MAX       _viewMax;
-            glm::ivec2           _viewMaxUser = glm::ivec2(0, 0);
-            Enum::FULL_SCREEN_UI _fullScreenUI;
-            QVector<bool>        _uiComponentVisible;
-            bool                 _controlsWindow;
+            bool                           _autoFit;
+            Enum::VIEW_MAX                 _viewMax;
+            glm::ivec2                     _viewMaxUser = glm::ivec2(0, 0);
+            Enum::FULL_SCREEN_UI           _fullScreenUI;
+            QMap<Enum::UI_COMPONENT, bool> _uiComponentVisible;
+            bool                           _controlsWindow;
         };
 
     } // namespace ViewLib

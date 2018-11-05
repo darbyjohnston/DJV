@@ -49,12 +49,12 @@ namespace djv
                 controlsWindow(context->windowPrefs()->hasControlsWindow())
             {}
 
-            bool          fullScreen = false;
-            bool          uiVisible = true;
-            bool          uiVisiblePrev = true;
-            QVector<bool> uiComponentVisible;
-            bool          controlsWindow = false;
-            bool          controlsWindowPrev = false;
+            bool                           fullScreen = false;
+            bool                           uiVisible = true;
+            bool                           uiVisiblePrev = true;
+            QMap<Enum::UI_COMPONENT, bool> uiComponentVisible;
+            bool                           controlsWindow = false;
+            bool                           controlsWindowPrev = false;
 
             QPointer<WindowActions> actions;
         };
@@ -117,8 +117,8 @@ namespace djv
             // Setup the preferences callbacks.
             connect(
                 context->windowPrefs(),
-                SIGNAL(uiComponentVisibleChanged(const QVector<bool> &)),
-                SLOT(setUIComponentVisible(const QVector<bool> &)));
+                SIGNAL(uiComponentVisibleChanged(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &)),
+                SLOT(setUIComponentVisible(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &)));
             connect(
                 context->windowPrefs(),
                 SIGNAL(controlsWindowChanged(bool)),
@@ -140,7 +140,7 @@ namespace djv
             return _p->uiVisible;
         }
 
-        const QVector<bool> & WindowGroup::uiComponentVisible() const
+        const QMap<Enum::UI_COMPONENT, bool> & WindowGroup::uiComponentVisible() const
         {
             return _p->uiComponentVisible;
         }
@@ -187,7 +187,7 @@ namespace djv
             Q_EMIT uiVisibleChanged(_p->uiVisible);
         }
 
-        void WindowGroup::setUIComponentVisible(const QVector<bool> & visible)
+        void WindowGroup::setUIComponentVisible(const QMap<Enum::UI_COMPONENT, bool> & visible)
         {
             if (visible == _p->uiComponentVisible)
                 return;
@@ -218,9 +218,10 @@ namespace djv
 
         void WindowGroup::uiComponentVisibleCallback(QAction * action)
         {
-            QVector<bool> tmp = _p->uiComponentVisible;
-            const int index = _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions().indexOf(action);
-            tmp[index] = !tmp[index];
+            auto tmp = _p->uiComponentVisible;
+            const Enum::UI_COMPONENT i = static_cast<Enum::UI_COMPONENT>(
+                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions().indexOf(action));
+            tmp[i] = !tmp[i];
             setUIComponentVisible(tmp);
         }
 
@@ -230,7 +231,8 @@ namespace djv
             _p->actions->action(WindowActions::UI_VISIBLE)->setChecked(_p->uiVisible);
             for (int i = 0; i < Enum::UI_COMPONENT_COUNT; ++i)
             {
-                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions()[i]->setChecked(_p->uiComponentVisible[i]);
+                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions()[i]->setChecked(
+                    _p->uiComponentVisible[static_cast<Enum::UI_COMPONENT>(i)]);
             }
             _p->actions->action(WindowActions::DETACH_CONTROLS)->setChecked(_p->controlsWindow);
             auto mainWindow = this->mainWindow();

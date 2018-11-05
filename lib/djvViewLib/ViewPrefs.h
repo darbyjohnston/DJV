@@ -78,10 +78,10 @@ namespace djv
             bool isHudEnabled() const;
 
             //! Get the default HUD information.
-            static QVector<bool> hudInfoDefault();
+            static QMap<Enum::HUD, bool> hudInfoDefault();
 
             //! Get the HUD information.
-            QVector<bool> hudInfo() const;
+            QMap<djv::ViewLib::Enum::HUD, bool> hudInfo() const;
 
             //! Get the HUD information.
             bool isHudInfo(Enum::HUD in) const;
@@ -120,8 +120,8 @@ namespace djv
             //! Set whether the HUD is enabled.
             void setHudEnabled(bool);
 
-            //! Set the HUD informati0on.
-            void setHudInfo(const QVector<bool> &);
+            //! Set the HUD information.
+            void setHudInfo(const QMap<djv::ViewLib::Enum::HUD, bool> &);
 
             //! Set the HUD information.
             void setHudInfo(djv::ViewLib::Enum::HUD, bool);
@@ -152,7 +152,7 @@ namespace djv
             void hudEnabledChanged(bool);
 
             //! This signal is emitted when the HUD information is changed.
-            void hudInfoChanged(const QVector<bool> &);
+            void hudInfoChanged(const QMap<djv::ViewLib::Enum::HUD, bool> &);
 
             //! This signal is emitted when the HUD color is changed.
             void hudColorChanged(const djv::Graphics::Color &);
@@ -164,15 +164,15 @@ namespace djv
             void hudBackgroundColorChanged(const djv::Graphics::Color &);
 
         private:
-            Enum::ZOOM_FACTOR    _zoomFactor;
-            Graphics::Color      _background;
-            Enum::GRID           _grid;
-            Graphics::Color      _gridColor;
-            bool                 _hudEnabled;
-            QVector<bool>        _hudInfo;
-            Graphics::Color      _hudColor;
-            Enum::HUD_BACKGROUND _hudBackground;
-            Graphics::Color      _hudBackgroundColor;
+            Enum::ZOOM_FACTOR                   _zoomFactor;
+            Graphics::Color                     _background;
+            Enum::GRID                          _grid;
+            Graphics::Color                     _gridColor;
+            bool                                _hudEnabled;
+            QMap<djv::ViewLib::Enum::HUD, bool> _hudInfo;
+            Graphics::Color                     _hudColor;
+            Enum::HUD_BACKGROUND                _hudBackground;
+            Graphics::Color                     _hudBackgroundColor;
         };
 
     } // namespace ViewLib
