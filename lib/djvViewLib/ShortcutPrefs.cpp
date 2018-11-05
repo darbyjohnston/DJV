@@ -97,7 +97,7 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_CLOSE], QKeySequence("Ctrl+e")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FIT], QKeySequence("F")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FULL_SCREEN], QKeySequence("U")) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_UI_VISIBLE], QKeySequence("C")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_UI_VISIBLE], QKeySequence("`")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_FILE_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_WINDOW_TOOL_BAR_VISIBLE], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_WINDOW_VIEW_TOOL_BAR_VISIBLE], QKeySequence()) <<
@@ -143,7 +143,7 @@ namespace djv
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_ROTATE_270], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_PREMULTIPLIED_ALPHA], QKeySequence()) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_COLOR_PROFILE], QKeySequence()) <<
-                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_CHANNEL_DEFAULT], QKeySequence("`")) <<
+                UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_CHANNEL_DEFAULT], QKeySequence("C")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_CHANNEL_RED], QKeySequence("R")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_CHANNEL_GREEN], QKeySequence("G")) <<
                 UI::Shortcut(Enum::shortcutLabels()[Enum::SHORTCUT_IMAGE_CHANNEL_BLUE], QKeySequence("B")) <<
