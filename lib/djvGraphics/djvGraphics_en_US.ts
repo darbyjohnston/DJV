@@ -1007,47 +1007,47 @@ OpenEXR Options
 <context>
     <name>djv::Graphics::OpenGLImageFilter</name>
     <message>
-        <location filename="OpenGLImage.cpp" line="144"/>
+        <location filename="OpenGLImage.cpp" line="145"/>
         <source>Nearest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="145"/>
+        <location filename="OpenGLImage.cpp" line="146"/>
         <source>Linear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="146"/>
+        <location filename="OpenGLImage.cpp" line="147"/>
         <source>Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="147"/>
+        <location filename="OpenGLImage.cpp" line="148"/>
         <source>Triangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="148"/>
+        <location filename="OpenGLImage.cpp" line="149"/>
         <source>Bell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="149"/>
+        <location filename="OpenGLImage.cpp" line="150"/>
         <source>B-Spline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="150"/>
+        <location filename="OpenGLImage.cpp" line="151"/>
         <source>Lanczos3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="151"/>
+        <location filename="OpenGLImage.cpp" line="152"/>
         <source>Cubic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="152"/>
+        <location filename="OpenGLImage.cpp" line="153"/>
         <source>Mitchell</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1055,27 +1055,27 @@ OpenEXR Options
 <context>
     <name>djv::Graphics::OpenGLImageOptions</name>
     <message>
-        <location filename="OpenGLImage.cpp" line="212"/>
+        <location filename="OpenGLImage.cpp" line="213"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="213"/>
+        <location filename="OpenGLImage.cpp" line="214"/>
         <source>Red</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="214"/>
+        <location filename="OpenGLImage.cpp" line="215"/>
         <source>Green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="215"/>
+        <location filename="OpenGLImage.cpp" line="216"/>
         <source>Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenGLImage.cpp" line="216"/>
+        <location filename="OpenGLImage.cpp" line="217"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
