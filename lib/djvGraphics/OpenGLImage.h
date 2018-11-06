@@ -61,7 +61,7 @@ namespace djv
             PixelDataInfo::Mirror mirror;
             glm::vec2             position = glm::vec2(0.f, 0.f);
             glm::vec2             scale    = glm::vec2(1.f, 1.f);
-            float                 rotate   = 0.f;
+            float                 rotate   = 0.f; //! Rotation is measured in degrees.
 
             //! Create a transform matrix.
             static glm::mat4x4 xformMatrix(const OpenGLImageXform &);
