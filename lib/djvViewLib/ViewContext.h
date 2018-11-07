@@ -82,31 +82,31 @@ namespace djv
             const CommandLineOptions & commandLineOptions() const;
 
             //! Get the file preferences.
-            const QPointer<FilePrefs> & filePrefs() const;
+            QPointer<FilePrefs> filePrefs() const;
 
             //! Get the image preferences.
-            const QPointer<ImagePrefs> & imagePrefs() const;
+            QPointer<ImagePrefs> imagePrefs() const;
 
             //! Get the mouse preferences.
-            const QPointer<MousePrefs> & mousePrefs() const;
+            QPointer<MousePrefs> mousePrefs() const;
 
             //! Get the playback preferences.
-            const QPointer<PlaybackPrefs> & playbackPrefs() const;
+            QPointer<PlaybackPrefs> playbackPrefs() const;
 
             //! Get the shortcut preferences.
-            const QPointer<ShortcutPrefs> & shortcutPrefs() const;
+            QPointer<ShortcutPrefs> shortcutPrefs() const;
 
             //! Get the view preferences.
-            const QPointer<ViewPrefs> & viewPrefs() const;
+            QPointer<ViewPrefs> viewPrefs() const;
 
             //! Get the window preferences.
-            const QPointer<WindowPrefs> & windowPrefs() const;
+            QPointer<WindowPrefs> windowPrefs() const;
 
             //! Get the file cache.
-            const QPointer<FileCache> & fileCache() const;
+            QPointer<FileCache> fileCache() const;
 
             //! Get the file exporter.
-            const QPointer<FileExport> & fileExport() const;
+            QPointer<FileExport> fileExport() const;
 
             void setValid(bool) override;
 

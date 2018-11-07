@@ -66,16 +66,16 @@ namespace djv
         {
             CommandLineOptions commandLineOptions;
             
-            QPointer<FilePrefs>     filePrefs;
-            QPointer<ImagePrefs>    imagePrefs;
-            QPointer<MousePrefs>    mousePrefs;
-            QPointer<PlaybackPrefs> playbackPrefs;
-            QPointer<ShortcutPrefs> shortcutPrefs;
-            QPointer<ViewPrefs>     viewPrefs;
-            QPointer<WindowPrefs>   windowPrefs;
+            QScopedPointer<FilePrefs>     filePrefs;
+            QScopedPointer<ImagePrefs>    imagePrefs;
+            QScopedPointer<MousePrefs>    mousePrefs;
+            QScopedPointer<PlaybackPrefs> playbackPrefs;
+            QScopedPointer<ShortcutPrefs> shortcutPrefs;
+            QScopedPointer<ViewPrefs>     viewPrefs;
+            QScopedPointer<WindowPrefs>   windowPrefs;
 
-            QPointer<FileCache>  fileCache;
-            QPointer<FileExport> fileExport;
+            QScopedPointer<FileCache>  fileCache;
+            QScopedPointer<FileExport> fileExport;
         };
 
         ViewContext::ViewContext(int & argc, char ** argv, QObject * parent) :
@@ -95,34 +95,23 @@ namespace djv
 
             // Load preferences.
             DJV_LOG(debugLog(), "ViewContext", "Load the preferences...");
-            _p->filePrefs = new FilePrefs(this);
-            _p->imagePrefs = new ImagePrefs(this);
-            _p->mousePrefs = new MousePrefs(this);
-            _p->playbackPrefs = new PlaybackPrefs(this);
-            _p->shortcutPrefs = new ShortcutPrefs(this);
-            _p->viewPrefs = new ViewPrefs(this);
-            _p->windowPrefs = new WindowPrefs(this);
+            _p->filePrefs.reset(new FilePrefs(this));
+            _p->imagePrefs.reset(new ImagePrefs(this));
+            _p->mousePrefs.reset(new MousePrefs(this));
+            _p->playbackPrefs.reset(new PlaybackPrefs(this));
+            _p->shortcutPrefs.reset(new ShortcutPrefs(this));
+            _p->viewPrefs.reset(new ViewPrefs(this));
+            _p->windowPrefs.reset(new WindowPrefs(this));
 
             // Initialize objects.
             DJV_LOG(debugLog(), "ViewContext", "Initialize objects...");
-            _p->fileCache = new FileCache(this);
-            _p->fileExport = new FileExport(this);
+            _p->fileCache.reset(new FileCache(this));
+            _p->fileExport.reset(new FileExport(this));
         }
 
         ViewContext::~ViewContext()
         {
             //DJV_DEBUG("ViewContext::ViewContext");
-
-            delete _p->windowPrefs;
-            delete _p->viewPrefs;
-            delete _p->shortcutPrefs;
-            delete _p->playbackPrefs;
-            delete _p->mousePrefs;
-            delete _p->imagePrefs;
-            delete _p->filePrefs;
-
-            delete _p->fileExport;
-            delete _p->fileCache;
         }
 
         const ViewContext::CommandLineOptions & ViewContext::commandLineOptions() const
@@ -130,49 +119,49 @@ namespace djv
             return _p->commandLineOptions;
         }
 
-        const QPointer<FilePrefs> & ViewContext::filePrefs() const
+        QPointer<FilePrefs> ViewContext::filePrefs() const
         {
-            return _p->filePrefs;
+            return _p->filePrefs.data();
         }
 
-        const QPointer<ImagePrefs> & ViewContext::imagePrefs() const
+        QPointer<ImagePrefs> ViewContext::imagePrefs() const
         {
-            return _p->imagePrefs;
+            return _p->imagePrefs.data();
         }
 
-        const QPointer<MousePrefs> & ViewContext::mousePrefs() const
+        QPointer<MousePrefs> ViewContext::mousePrefs() const
         {
-            return _p->mousePrefs;
+            return _p->mousePrefs.data();
         }
 
-        const QPointer<PlaybackPrefs> & ViewContext::playbackPrefs() const
+        QPointer<PlaybackPrefs> ViewContext::playbackPrefs() const
         {
-            return _p->playbackPrefs;
+            return _p->playbackPrefs.data();
         }
 
-        const QPointer<ShortcutPrefs> & ViewContext::shortcutPrefs() const
+        QPointer<ShortcutPrefs> ViewContext::shortcutPrefs() const
         {
-            return _p->shortcutPrefs;
+            return _p->shortcutPrefs.data();
         }
 
-        const QPointer<ViewPrefs> & ViewContext::viewPrefs() const
+        QPointer<ViewPrefs> ViewContext::viewPrefs() const
         {
-            return _p->viewPrefs;
+            return _p->viewPrefs.data();
         }
 
-        const QPointer<WindowPrefs> & ViewContext::windowPrefs() const
+        QPointer<WindowPrefs> ViewContext::windowPrefs() const
         {
-            return _p->windowPrefs;
+            return _p->windowPrefs.data();
         }
 
-        const QPointer<FileCache> & ViewContext::fileCache() const
+        QPointer<FileCache> ViewContext::fileCache() const
         {
-            return _p->fileCache;
+            return _p->fileCache.data();
         }
 
-        const QPointer<FileExport> & ViewContext::fileExport() const
+        QPointer<FileExport> ViewContext::fileExport() const
         {
-            return _p->fileExport;
+            return _p->fileExport.data();
         }
 
         void ViewContext::setValid(bool valid)
