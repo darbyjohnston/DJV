@@ -142,7 +142,7 @@ namespace djv
             void exportSequenceCallback(const djv::Core::FileInfo &);
             void exportFrameCallback(const djv::Core::FileInfo &);
             void setFrameStoreCallback();
-            void mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL);
+            void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
             void mouseWheelValueCallback(int);
             void controlsWindowClosedCallback();
 

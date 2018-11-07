@@ -49,7 +49,7 @@ namespace djv
         class FileExport;
         class FilePrefs;
         class ImagePrefs;
-        class InputPrefs;
+        class MousePrefs;
         class PlaybackPrefs;
         class ShortcutPrefs;
         class ViewPrefs;
@@ -87,8 +87,8 @@ namespace djv
             //! Get the image preferences.
             const QPointer<ImagePrefs> & imagePrefs() const;
 
-            //! Get the input preferences.
-            const QPointer<InputPrefs> & inputPrefs() const;
+            //! Get the mouse preferences.
+            const QPointer<MousePrefs> & mousePrefs() const;
 
             //! Get the playback preferences.
             const QPointer<PlaybackPrefs> & playbackPrefs() const;

@@ -92,11 +92,14 @@ namespace djv
             //! This signal is emitted when the view is picked.
             void pickChanged(const glm::ivec2 &);
 
-            //! This signal is emitted when the mouse wheel is changed.
-            void mouseWheelChanged(djv::ViewLib::Enum::MOUSE_WHEEL);
+            //! This signal is emitted when the mouse wheel action is changed.
+            void mouseWheelActionChanged(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
 
             //! This signal is emitted when the mouse wheel value is changed.
             void mouseWheelValueChanged(int);
+
+            //! This signal is emitted when a context menu is requested.
+            void contextMenuRequested(const QPoint &);
 
             //! This signal is emitted when a file is dropped on the view.
             void fileDropped(const djv::Core::FileInfo &);

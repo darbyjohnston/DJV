@@ -30,6 +30,7 @@
 #pragma once
 
 #include <djvViewLib/AbstractPrefsWidget.h>
+#include <djvViewLib/MousePrefs.h>
 
 #include <memory>
 
@@ -37,26 +38,34 @@ namespace djv
 {
     namespace ViewLib
     {
-        //! This class provides the input preferences widget.
-        class InputPrefsWidget : public AbstractPrefsWidget
+        //! This class provides the mouse preferences widget.
+        class MousePrefsWidget : public AbstractPrefsWidget
         {
             Q_OBJECT
 
         public:
-            InputPrefsWidget(const QPointer<ViewContext> &);
-            ~InputPrefsWidget() override;
+            MousePrefsWidget(const QPointer<ViewContext> &);
+            ~MousePrefsWidget() override;
 
             void resetPreferences() override;
 
-        private Q_SLOTS:
-            void mouseWheelCallback(int);
-            void mouseWheelShiftCallback(int);
-            void mouseWheelCtrlCallback(int);
+        protected:
+            bool event(QEvent *) override;
 
+        private Q_SLOTS:
+            void mouseButtonActionsCallback(const QVector<djv::ViewLib::MouseButtonAction> &);
+            void addMouseButtonActionCallback();
+            void removeMouseButtonActionCallback();
+            void mouseWheelActionsCallback(const QVector<djv::ViewLib::MouseWheelAction> &);
+            void addMouseWheelActionCallback();
+            void removeMouseWheelActionCallback();
+
+            void modelUpdate();
+            void styleUpdate();
             void widgetUpdate();
 
         private:
-            DJV_PRIVATE_COPY(InputPrefsWidget);
+            DJV_PRIVATE_COPY(MousePrefsWidget);
 
             struct Private;
             std::unique_ptr<Private> _p;

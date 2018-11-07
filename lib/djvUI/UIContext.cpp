@@ -346,11 +346,6 @@ namespace djv
             return _p->prefs->help.data();
         }
 
-        QPointer<IconLibrary> UIContext::iconLibrary() const
-        {
-            return _p->iconLibrary.data();
-        }
-
         FileBrowserCache * UIContext::fileBrowserCache() const
         {
             return _p->fileBrowser->cache.data();
@@ -359,6 +354,11 @@ namespace djv
         QPointer<FileBrowserThumbnailSystem> UIContext::fileBrowserThumbnailSystem() const
         {
             return _p->fileBrowser->thumbnailSystem.data();
+        }
+
+        QPointer<IconLibrary> UIContext::iconLibrary() const
+        {
+            return _p->iconLibrary.data();
         }
 
         QString UIContext::info() const

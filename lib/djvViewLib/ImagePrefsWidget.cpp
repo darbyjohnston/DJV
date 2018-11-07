@@ -125,7 +125,6 @@ namespace djv
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Add a new display profile"));
 
             _p->removeDisplayProfileButton = new UI::ToolButton(context.data());
-            _p->removeDisplayProfileButton->setAutoRepeat(true);
             _p->removeDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Remove the selected display profile"));
 

@@ -158,9 +158,9 @@ namespace djv
 
         void ImageView::setViewPosZoom(const glm::ivec2 & pos, float zoom)
         {
-            const bool posSame = pos == _p->viewPos;
-            const bool zoomSame = Core::Math::fuzzyCompare(zoom, _p->viewZoom);
-            if (posSame && zoomSame)
+            const bool posEqual = pos == _p->viewPos;
+            const bool zoomEqual = Core::Math::fuzzyCompare(zoom, _p->viewZoom);
+            if (posEqual && zoomEqual)
                 return;
             //DJV_DEBUG("ImageView::setViewPosZoom");
             //DJV_DEBUG_PRINT("pos = " << pos);
@@ -169,9 +169,9 @@ namespace djv
             _p->viewZoom = zoom;
             _p->viewFit = false;
             update();
-            if (!posSame)
+            if (!posEqual)
                 Q_EMIT viewPosChanged(_p->viewPos);
-            if (!zoomSame)
+            if (!zoomEqual)
                 Q_EMIT viewZoomChanged(_p->viewZoom);
             Q_EMIT viewChanged();
         }

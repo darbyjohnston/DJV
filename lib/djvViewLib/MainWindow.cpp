@@ -78,7 +78,7 @@ namespace djv
                 context(context)
             {}
 
-            Enum::MOUSE_WHEEL mouseWheel = static_cast<Enum::MOUSE_WHEEL>(0);
+            Enum::MOUSE_WHEEL_ACTION mouseWheelAction = static_cast<Enum::MOUSE_WHEEL_ACTION>(0);
             QScopedPointer<FileGroup> fileGroup;
             QScopedPointer<WindowGroup> windowGroup;
             QScopedPointer<ViewGroup> viewGroup;
@@ -265,8 +265,16 @@ namespace djv
             // Setup the view callbacks.
             connect(
                 _p->viewWidget,
-                SIGNAL(mouseWheelChanged(djv::ViewLib::Enum::MOUSE_WHEEL)),
-                SLOT(mouseWheelCallback(djv::ViewLib::Enum::MOUSE_WHEEL)));
+                &ImageView::contextMenuRequested,
+                [this](const QPoint & value)
+            {
+                auto menu = createPopupMenu();
+                menu->popup(value);
+            });
+            connect(
+                _p->viewWidget,
+                SIGNAL(mouseWheelActionChanged(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION)),
+                SLOT(mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION)));
             connect(
                 _p->viewWidget,
                 SIGNAL(mouseWheelValueChanged(int)),
@@ -651,16 +659,16 @@ namespace djv
             }
         }
 
-        void MainWindow::mouseWheelCallback(Enum::MOUSE_WHEEL in)
+        void MainWindow::mouseWheelActionCallback(Enum::MOUSE_WHEEL_ACTION in)
         {
-            _p->mouseWheel = in;
-            switch (_p->mouseWheel)
+            _p->mouseWheelAction = in;
+            switch (_p->mouseWheelAction)
             {
-            case Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+            case Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SHUTTLE:
                 _p->playbackGroup->setPlayback(Enum::STOP);
                 _p->playbackFrameTmp = _p->playbackGroup->frame();
                 break;
-            case Enum::MOUSE_WHEEL_PLAYBACK_SPEED:
+            case Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SPEED:
                 _p->playbackSpeedTmp = Core::Speed::speedToFloat(_p->playbackGroup->speed());
                 break;
             default: break;
@@ -669,12 +677,12 @@ namespace djv
 
         void MainWindow::mouseWheelValueCallback(int in)
         {
-            switch (_p->mouseWheel)
+            switch (_p->mouseWheelAction)
             {
-            case Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+            case Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SHUTTLE:
                 _p->playbackGroup->setFrame(_p->playbackFrameTmp + in);
                 break;
-            case Enum::MOUSE_WHEEL_PLAYBACK_SPEED:
+            case Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SPEED:
                 _p->playbackGroup->setSpeed(Core::Speed::floatToSpeed(_p->playbackSpeedTmp + static_cast<float>(in)));
                 break;
             default: break;

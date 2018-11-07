@@ -35,8 +35,8 @@
 #include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/ImagePrefs.h>
 #include <djvViewLib/ImagePrefsWidget.h>
-#include <djvViewLib/InputPrefs.h>
-#include <djvViewLib/InputPrefsWidget.h>
+#include <djvViewLib/MousePrefs.h>
+#include <djvViewLib/MousePrefsWidget.h>
 #include <djvViewLib/PlaybackPrefs.h>
 #include <djvViewLib/PlaybackPrefsWidget.h>
 #include <djvViewLib/ShortcutPrefs.h>
@@ -68,7 +68,7 @@ namespace djv
             
             QPointer<FilePrefs>     filePrefs;
             QPointer<ImagePrefs>    imagePrefs;
-            QPointer<InputPrefs>    inputPrefs;
+            QPointer<MousePrefs>    mousePrefs;
             QPointer<PlaybackPrefs> playbackPrefs;
             QPointer<ShortcutPrefs> shortcutPrefs;
             QPointer<ViewPrefs>     viewPrefs;
@@ -86,6 +86,10 @@ namespace djv
             
             initResources();
 
+            qRegisterMetaType<Enum::KEYBOARD_MODIFIER>("djv::ViewLib::Enum::KEYBOARD_MODIFIER");
+            qRegisterMetaType<Enum::MOUSE_BUTTON>("djv::ViewLib::Enum::MOUSE_BUTTON");
+            qRegisterMetaType<Enum::MOUSE_BUTTON_ACTION>("djv::ViewLib::Enum::MOUSE_BUTTON_ACTION");
+
             // Load translators.
             loadTranslator("djvViewLib");
 
@@ -93,7 +97,7 @@ namespace djv
             DJV_LOG(debugLog(), "ViewContext", "Load the preferences...");
             _p->filePrefs = new FilePrefs(this);
             _p->imagePrefs = new ImagePrefs(this);
-            _p->inputPrefs = new InputPrefs(this);
+            _p->mousePrefs = new MousePrefs(this);
             _p->playbackPrefs = new PlaybackPrefs(this);
             _p->shortcutPrefs = new ShortcutPrefs(this);
             _p->viewPrefs = new ViewPrefs(this);
@@ -113,7 +117,7 @@ namespace djv
             delete _p->viewPrefs;
             delete _p->shortcutPrefs;
             delete _p->playbackPrefs;
-            delete _p->inputPrefs;
+            delete _p->mousePrefs;
             delete _p->imagePrefs;
             delete _p->filePrefs;
 
@@ -136,9 +140,9 @@ namespace djv
             return _p->imagePrefs;
         }
 
-        const QPointer<InputPrefs> & ViewContext::inputPrefs() const
+        const QPointer<MousePrefs> & ViewContext::mousePrefs() const
         {
-            return _p->inputPrefs;
+            return _p->mousePrefs;
         }
 
         const QPointer<PlaybackPrefs> & ViewContext::playbackPrefs() const
@@ -177,7 +181,7 @@ namespace djv
             if (isValid())
             {
                 prefsDialog()->addWidget(new ShortcutPrefsWidget(this));
-                prefsDialog()->addWidget(new InputPrefsWidget(this));
+                prefsDialog()->addWidget(new MousePrefsWidget(this));
                 prefsDialog()->addWidget(new PlaybackPrefsWidget(this));
                 prefsDialog()->addWidget(new ImagePrefsWidget(this));
                 prefsDialog()->addWidget(new ViewPrefsWidget(this));

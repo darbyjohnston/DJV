@@ -1,3 +1,4 @@
+//------------------------------------------------------------------------------
 // Copyright (c) 2004-2018 Darby Johnston
 // All rights reserved.
 //
@@ -407,13 +408,72 @@ namespace djv
             return data;
         }
 
-        const QStringList & Enum::mouseWheelLabels()
+        const QStringList & Enum::keyboardModifierLabels()
         {
             static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "None") <<
+                qApp->translate("djv::ViewLib::Enum", "Shift") <<
+                qApp->translate("djv::ViewLib::Enum", "Ctrl") <<
+                qApp->translate("djv::ViewLib::Enum", "Alt");
+            DJV_ASSERT(data.count() == KEYBOARD_MODIFIER_COUNT);
+            return data;
+        }
+
+        const QVector<Qt::KeyboardModifier> & Enum::qtKeyboardModifiers()
+        {
+            static const auto data = QVector<Qt::KeyboardModifier>() <<
+                Qt::NoModifier <<
+                Qt::ShiftModifier <<
+                Qt::ControlModifier <<
+                Qt::AltModifier;
+            DJV_ASSERT(data.count() == KEYBOARD_MODIFIER_COUNT);
+            return data;
+        }
+
+        const QStringList & Enum::mouseButtonLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "None") <<
+                qApp->translate("djv::ViewLib::Enum", "Left") <<
+                qApp->translate("djv::ViewLib::Enum", "Middle") <<
+                qApp->translate("djv::ViewLib::Enum", "Right");
+            DJV_ASSERT(data.count() == MOUSE_BUTTON_COUNT);
+            return data;
+        }
+
+        const QVector<Qt::MouseButton> & Enum::qtMouseButtons()
+        {
+            static const auto data = QVector<Qt::MouseButton>() <<
+                Qt::NoButton <<
+                Qt::LeftButton <<
+                Qt::MiddleButton <<
+                Qt::RightButton;
+                DJV_ASSERT(data.count() == MOUSE_BUTTON_COUNT);
+            return data;
+        }
+
+        const QStringList & Enum::mouseButtonActionLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "None") <<
+                qApp->translate("djv::ViewLib::Enum", "Color Pick") <<
+                qApp->translate("djv::ViewLib::Enum", "View Move") <<
+                qApp->translate("djv::ViewLib::Enum", "View Zoom In") <<
+                qApp->translate("djv::ViewLib::Enum", "View Zoom Out") <<
+                qApp->translate("djv::ViewLib::Enum", "Playback Shuttle") <<
+                qApp->translate("djv::ViewLib::Enum", "Context Menu");
+            DJV_ASSERT(data.count() == MOUSE_BUTTON_ACTION_COUNT);
+            return data;
+        }
+
+        const QStringList & Enum::mouseWheelActionLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::ViewLib::Enum", "None") <<
                 qApp->translate("djv::ViewLib::Enum", "View Zoom") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Shuttle") <<
                 qApp->translate("djv::ViewLib::Enum", "Playback Speed");
-            DJV_ASSERT(data.count() == MOUSE_WHEEL_COUNT);
+            DJV_ASSERT(data.count() == MOUSE_WHEEL_ACTION_COUNT);
             return data;
         }
 
@@ -470,7 +530,10 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::LAYOUT, ViewLib::Enum::layoutLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::TOOL, ViewLib::Enum::toolLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::HISTOGRAM, ViewLib::Enum::histogramLabels());
-    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_WHEEL, ViewLib::Enum::mouseWheelLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::KEYBOARD_MODIFIER, ViewLib::Enum::keyboardModifierLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_BUTTON, ViewLib::Enum::mouseButtonLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_BUTTON_ACTION, ViewLib::Enum::mouseButtonActionLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::MOUSE_WHEEL_ACTION, ViewLib::Enum::mouseWheelActionLabels());
     _DJV_STRING_OPERATOR_LABEL(ViewLib::Enum::ZOOM_FACTOR, ViewLib::Enum::zoomFactorLabels());
 
     QStringList & operator >> (QStringList & in, QMap<ViewLib::Enum::UI_COMPONENT, bool> & out)

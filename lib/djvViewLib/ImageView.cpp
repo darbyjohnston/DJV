@@ -31,7 +31,7 @@
 
 #include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/HudInfo.h>
-#include <djvViewLib/InputPrefs.h>
+#include <djvViewLib/MousePrefs.h>
 #include <djvViewLib/ViewContext.h>
 #include <djvViewLib/ViewPrefs.h>
 #include <djvViewLib/WindowPrefs.h>
@@ -89,12 +89,13 @@ namespace djv
             Graphics::Color                        hudBackgroundColor;
             Graphics::PixelData                    hudPixelData;
             std::unique_ptr<Graphics::OpenGLImage> hudOpenGLImage;
-            bool                                   inside = false;
+            bool                                   mouseInside = false;
             glm::ivec2                             mousePos = glm::ivec2(0, 0);
             glm::ivec2                             mouseStartPos = glm::ivec2(0, 0);
+            MouseButtonAction                      mouseButtonAction;
             bool                                   mouseWheel = false;
             int                                    mouseWheelTmp = 0;
-            int                                    timer = -1;
+            int                                    mouseWheelTimer = -1;
             QPointer<ViewContext>                  context;
         };
 
@@ -143,7 +144,7 @@ namespace djv
 
         bool ImageView::isMouseInside() const
         {
-            return _p->inside;
+            return _p->mouseInside;
         }
 
         const glm::ivec2 & ImageView::mousePos() const
@@ -208,9 +209,7 @@ namespace djv
         {
             //DJV_DEBUG("ImageView::setZoomFocus");
             //DJV_DEBUG_PRINT("in = " << in);    
-            setViewZoom(
-                in,
-                _p->inside ? _p->mousePos : (glm::ivec2(width(), height()) / 2));
+            setViewZoom(in, _p->mouseInside ? _p->mousePos : (glm::ivec2(width(), height()) / 2));
         }
 
         void ImageView::setGrid(Enum::GRID grid)
@@ -271,30 +270,26 @@ namespace djv
 
         void ImageView::timerEvent(QTimerEvent *)
         {
-            // Reset cursor.
             setCursor(QCursor());
-
-            // Reset mouse wheel.
             if (_p->mouseWheel)
             {
                 _p->mouseWheelTmp = 0;
                 _p->mouseWheel = false;
             }
-
-            killTimer(_p->timer);
-            _p->timer = -1;
+            killTimer(_p->mouseWheelTimer);
+            _p->mouseWheelTimer = -1;
         }
 
         void ImageView::enterEvent(QEvent * event)
         {
             UI::ImageView::enterEvent(event);
-            _p->inside = true;
+            _p->mouseInside = true;
         }
 
         void ImageView::leaveEvent(QEvent * event)
         {
             UI::ImageView::leaveEvent(event);
-            _p->inside = false;
+            _p->mouseInside = false;
         }
 
         void ImageView::resizeEvent(QResizeEvent * event)
@@ -315,94 +310,118 @@ namespace djv
             _p->viewZoomTmp = viewZoom();
             _p->mousePos = glm::ivec2(event->pos().x(), height() - event->pos().y() - 1);
             _p->mouseStartPos = _p->mousePos;
-            if (Qt::LeftButton == event->button())
+            _p->mouseButtonAction.action = Enum::MOUSE_BUTTON_ACTION_NONE;
+            Q_FOREACH(auto action, _p->context->mousePrefs()->mouseButtonActions())
             {
+                if (event->button() == Enum::qtMouseButtons()[action.button])
+                {
+                    if (event->modifiers())
+                    {
+                        if (event->modifiers() & Enum::qtKeyboardModifiers()[action.modifier])
+                        {
+                            _p->mouseButtonAction = action;
+                            break;
+                        }
+                    }
+                    else if (Enum::KEYBOARD_MODIFIER_NONE == action.modifier)
+                    {
+                        _p->mouseButtonAction = action;
+                        break;
+                    }
+                }
+            }
+            switch (_p->mouseButtonAction.action)
+            {
+            case Enum::MOUSE_BUTTON_ACTION_COLOR_PICK:
                 setCursor(Qt::CrossCursor);
                 Q_EMIT pickChanged(_p->mousePos);
-            }
-            else if (Qt::MidButton == event->button() &&
-                event->modifiers() & Qt::ControlModifier)
-            {
+                break;
+            case Enum::MOUSE_BUTTON_ACTION_VIEW_ZOOM_IN:
                 setViewZoom(viewZoom() * 2.f, _p->mousePos);
-            }
-            if (Qt::RightButton == event->button() &&
-                event->modifiers() & Qt::ControlModifier)
-            {
+                break;
+            case Enum::MOUSE_BUTTON_ACTION_VIEW_ZOOM_OUT:
                 setViewZoom(viewZoom() * 0.5, _p->mousePos);
-            }
-            else if (Qt::MidButton == event->button())
-            {
-                //setCursor(Qt::ClosedHandCursor);
-            }
-            else if (Qt::RightButton == event->button())
-            {
+                break;
+            case Enum::MOUSE_BUTTON_ACTION_PLAYBACK_SHUTTLE:
                 setCursor(Qt::SizeHorCursor);
-                Q_EMIT mouseWheelChanged(Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE);
+                Q_EMIT mouseWheelActionChanged(Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SHUTTLE);
+                break;
+            case Enum::MOUSE_BUTTON_ACTION_CONTEXT_MENU:
+                Q_EMIT contextMenuRequested(event->globalPos());
+                break;
+            default: break;
             }
         }
 
         void ImageView::mouseReleaseEvent(QMouseEvent *)
         {
             setCursor(QCursor());
+            _p->mouseButtonAction.action = Enum::MOUSE_BUTTON_ACTION_NONE;
         }
 
         void ImageView::mouseMoveEvent(QMouseEvent * event)
         {
             //DJV_DEBUG("ImageView::mouseMoveEvent");
-
             _p->mousePos = glm::ivec2(event->pos().x(), height() - event->pos().y() - 1);
             //DJV_DEBUG_PRINT("pos = " << _p->mousePos);
-
-            if (event->buttons() & Qt::LeftButton)
+            switch (_p->mouseButtonAction.action)
             {
+            case Enum::MOUSE_BUTTON_ACTION_COLOR_PICK:
                 setCursor(Qt::CrossCursor);
                 Q_EMIT pickChanged(_p->mousePos);
-            }
-            if (event->buttons() & Qt::MidButton)
-            {
-                setViewPos(_p->viewPosTmp + (_p->mousePos - _p->mouseStartPos));
+                break;
+            case Enum::MOUSE_BUTTON_ACTION_VIEW_MOVE:
                 setCursor(Qt::ClosedHandCursor);
-            }
-            else if (event->buttons() & Qt::RightButton)
-            {
+                setViewPos(_p->viewPosTmp + (_p->mousePos - _p->mouseStartPos));
+                break;
+            case Enum::MOUSE_BUTTON_ACTION_PLAYBACK_SHUTTLE:
                 setCursor(Qt::SizeHorCursor);
                 Q_EMIT mouseWheelValueChanged((_p->mousePos.x - _p->mouseStartPos.x) / 5);
+                break;
+            default: break;
             }
         }
 
         void ImageView::wheelEvent(QWheelEvent * event)
         {
-            Enum::MOUSE_WHEEL mouseWheel = _p->context->inputPrefs()->mouseWheel();
-            if (event->modifiers() & Qt::ShiftModifier)
-            {
-                mouseWheel = _p->context->inputPrefs()->mouseWheelShift();
-            }
-            if (event->modifiers() & Qt::ControlModifier)
-            {
-                mouseWheel = _p->context->inputPrefs()->mouseWheelCtrl();
-            }
             const float speed = Enum::zoomFactor(_p->context->viewPrefs()->zoomFactor());
             const int delta = event->angleDelta().y();
-            switch (mouseWheel)
+            MouseWheelAction mouseWheelAction;
+            Q_FOREACH(auto action, _p->context->mousePrefs()->mouseWheelActions())
             {
-            case Enum::MOUSE_WHEEL_VIEW_ZOOM:
+                if (event->modifiers())
+                {
+                    if (event->modifiers() & Enum::qtKeyboardModifiers()[action.modifier])
+                    {
+                        mouseWheelAction = action;
+                        break;
+                    }
+                }
+                else if (Enum::KEYBOARD_MODIFIER_NONE == action.modifier)
+                {
+                    mouseWheelAction = action;
+                    break;
+                }
+            }
+            switch (mouseWheelAction.action)
+            {
+            case Enum::MOUSE_WHEEL_ACTION_VIEW_ZOOM:
                 setZoomFocus(viewZoom() * (delta / 120.f > 0 ? speed : (1.f / speed)));
                 break;
-            case Enum::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
-
+            case Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SHUTTLE:
                 if (!_p->mouseWheel)
                 {
                     setCursor(Qt::SizeHorCursor);
-                    Q_EMIT mouseWheelChanged(mouseWheel);
+                    Q_EMIT mouseWheelActionChanged(mouseWheelAction.action);
                     _p->mouseWheel = true;
                 }
                 _p->mouseWheelTmp += delta / 120.f;
                 Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
                 break;
-            case Enum::MOUSE_WHEEL_PLAYBACK_SPEED:
+            case Enum::MOUSE_WHEEL_ACTION_PLAYBACK_SPEED:
                 if (!_p->mouseWheel)
                 {
-                    Q_EMIT mouseWheelChanged(mouseWheel);
+                    Q_EMIT mouseWheelActionChanged(mouseWheelAction.action);
                     _p->mouseWheel = true;
                 }
                 _p->mouseWheelTmp += delta / 120.f;
@@ -410,9 +429,9 @@ namespace djv
                 break;
             default: break;
             }
-            if (_p->timer == -1)
+            if (-1 == _p->mouseWheelTimer)
             {
-                _p->timer = startTimer(0);
+                _p->mouseWheelTimer = startTimer(0);
             }
         }
 

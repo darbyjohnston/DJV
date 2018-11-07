@@ -32,11 +32,12 @@ set(header
     ImageToolBar.h
     ImageView.h
     InfoTool.h
-    InputPrefs.h
-    InputPrefsWidget.h
     MagnifyTool.h
     MainWindow.h
     MiscWidget.h
+    MousePrefs.h
+    MousePrefsModel.h
+    MousePrefsWidget.h
     PlaybackActions.h
     PlaybackGroup.h
     PlaybackMenu.h
@@ -98,11 +99,12 @@ set(mocHeader
     ImageToolBar.h
     ImageView.h
     InfoTool.h
-    InputPrefs.h
-    InputPrefsWidget.h
     MagnifyTool.h
     MainWindow.h
     MiscWidget.h
+    MousePrefs.h
+    MousePrefsModel.h
+    MousePrefsWidget.h
     PlaybackActions.h
     PlaybackGroup.h
     PlaybackMenu.h
@@ -164,11 +166,12 @@ set(source
     ImageToolBar.cpp
     ImageView.cpp
     InfoTool.cpp
-    InputPrefs.cpp
-    InputPrefsWidget.cpp
     MagnifyTool.cpp
     MainWindow.cpp
     MiscWidget.cpp
+    MousePrefs.cpp
+    MousePrefsModel.cpp
+    MousePrefsWidget.cpp
     PlaybackActions.cpp
     PlaybackGroup.cpp
     PlaybackMenu.cpp

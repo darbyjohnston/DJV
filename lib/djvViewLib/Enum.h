@@ -441,19 +441,74 @@ namespace djv
             //! Get the shortcut labels.
             static const QStringList & shortcutLabels();
 
-            //! This enumeration provides the mouse wheel actions.
-            enum MOUSE_WHEEL
+            //! This enumeration provides the keyboard modifiers.
+            enum KEYBOARD_MODIFIER
             {
-                MOUSE_WHEEL_VIEW_ZOOM,
-                MOUSE_WHEEL_PLAYBACK_SHUTTLE,
-                MOUSE_WHEEL_PLAYBACK_SPEED,
+                KEYBOARD_MODIFIER_NONE,
+                KEYBOARD_MODIFIER_SHIFT,
+                KEYBOARD_MODIFIER_CTRL,
+                KEYBOARD_MODIFIER_ALT,
 
-                MOUSE_WHEEL_COUNT
+                KEYBOARD_MODIFIER_COUNT
             };
-            Q_ENUM(MOUSE_WHEEL);
+            Q_ENUM(KEYBOARD_MODIFIER);
+
+            //! Get the keyboard modifier labels.
+            static const QStringList & keyboardModifierLabels();
+
+            //! Get the Qt keyboard modifiers.
+            static const QVector<Qt::KeyboardModifier> & qtKeyboardModifiers();
+
+            //! This enumeration provides the mouse buttons.
+            enum MOUSE_BUTTON
+            {
+                MOUSE_BUTTON_NONE,
+                MOUSE_BUTTON_LEFT,
+                MOUSE_BUTTON_MIDDLE,
+                MOUSE_BUTTON_RIGHT,
+
+                MOUSE_BUTTON_COUNT
+            };
+            Q_ENUM(MOUSE_BUTTON);
+
+            //! Get the mouse button labels.
+            static const QStringList & mouseButtonLabels();
+
+            //! Get the Qt moouse buttons.
+            static const QVector<Qt::MouseButton> & qtMouseButtons();
+
+            //! This enumeration provides the mouse button actions.
+            enum MOUSE_BUTTON_ACTION
+            {
+                MOUSE_BUTTON_ACTION_NONE,
+                MOUSE_BUTTON_ACTION_COLOR_PICK,
+                MOUSE_BUTTON_ACTION_VIEW_MOVE,
+                MOUSE_BUTTON_ACTION_VIEW_ZOOM_IN,
+                MOUSE_BUTTON_ACTION_VIEW_ZOOM_OUT,
+                MOUSE_BUTTON_ACTION_PLAYBACK_SHUTTLE,
+                MOUSE_BUTTON_ACTION_CONTEXT_MENU,
+
+                MOUSE_BUTTON_ACTION_COUNT
+            };
+            Q_ENUM(MOUSE_BUTTON_ACTION);
+
+            //! Get the mouse button action labels.
+            static const QStringList & mouseButtonActionLabels();
+
+            //! This enumeration provides the mouse wheel actions.
+            enum MOUSE_WHEEL_ACTION
+            {
+                MOUSE_WHEEL_ACTION_NONE,
+                MOUSE_WHEEL_ACTION_VIEW_ZOOM,
+                MOUSE_WHEEL_ACTION_PLAYBACK_SHUTTLE,
+                MOUSE_WHEEL_ACTION_PLAYBACK_SPEED,
+
+                MOUSE_WHEEL_ACTION_COUNT
+            };
+            Q_ENUM(MOUSE_WHEEL_ACTION);
 
             //! Get the mouse wheel action labels.
-            static const QStringList & mouseWheelLabels();
+            static const QStringList & mouseWheelActionLabels();
 
             //! This enumeration provides the mouse wheel zoom factors.
             enum ZOOM_FACTOR
@@ -508,7 +563,10 @@ namespace djv
     DJV_STRING_OPERATOR(ViewLib::Enum::TOOL);
     DJV_STRING_OPERATOR(ViewLib::Enum::HISTOGRAM);
     DJV_STRING_OPERATOR(ViewLib::Enum::SHORTCUT);
-    DJV_STRING_OPERATOR(ViewLib::Enum::MOUSE_WHEEL);
+    DJV_STRING_OPERATOR(ViewLib::Enum::KEYBOARD_MODIFIER);
+    DJV_STRING_OPERATOR(ViewLib::Enum::MOUSE_BUTTON);
+    DJV_STRING_OPERATOR(ViewLib::Enum::MOUSE_BUTTON_ACTION);
+    DJV_STRING_OPERATOR(ViewLib::Enum::MOUSE_WHEEL_ACTION);
     DJV_STRING_OPERATOR(ViewLib::Enum::ZOOM_FACTOR);
     QStringList & operator >> (QStringList &, QMap<ViewLib::Enum::UI_COMPONENT, bool> &);
     QStringList & operator >> (QStringList &, QMap<ViewLib::Enum::HUD, bool> &);
