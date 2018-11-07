@@ -38,6 +38,7 @@
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
+#include <djvCore/Math.h>
 
 #include <QCoreApplication>
 #include <QPixmap>
@@ -56,7 +57,7 @@ namespace djv
             //DJV_DEBUG_PRINT("position = " << in.position);
             glm::mat4x4 out =
                 glm::translate(glm::mat4x4(1.f), glm::vec3(in.position.x, in.position.y, 0.f)) *
-                glm::rotate(glm::mat4x4(1.f), in.rotate, glm::vec3(0.f, 0.f, 1.f)) *
+                glm::rotate(glm::mat4x4(1.f), Core::Math::degreesToRadians(in.rotate), glm::vec3(0.f, 0.f, -1.f)) *
                 glm::scale(glm::mat4x4(1.f), glm::vec3(in.scale.x, in.scale.y, 1.f));
             return out;
         }
