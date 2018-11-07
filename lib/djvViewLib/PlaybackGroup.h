@@ -59,7 +59,7 @@ namespace djv
         public:
             PlaybackGroup(
                 const QPointer<PlaybackGroup> & copy,
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &);
             ~PlaybackGroup() override;
 

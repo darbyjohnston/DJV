@@ -46,7 +46,7 @@ namespace djv
         public:
             HelpGroup(
                 const HelpGroup * copy,
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &);
             ~HelpGroup() override;
 

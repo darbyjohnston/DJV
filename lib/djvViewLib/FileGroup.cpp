@@ -36,7 +36,7 @@
 #include <djvViewLib/FileToolBar.h>
 #include <djvViewLib/ImagePrefs.h>
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 
 #include <djvUI/DebugLogDialog.h>
@@ -47,6 +47,7 @@
 #include <djvUI/PrefsDialog.h>
 #include <djvUI/QuestionDialog.h>
 
+#include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
 #include <djvCore/DebugLog.h>
@@ -88,9 +89,9 @@ namespace djv
 
         FileGroup::FileGroup(
             const QPointer<FileGroup> & copy,
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            AbstractGroup(mainWindow, context),
+            AbstractGroup(session, context),
             _p(new Private(context))
         {
             //DJV_DEBUG("FileGroup::FileGroup");
@@ -287,7 +288,7 @@ namespace djv
             std::shared_ptr<Graphics::Image> out;
             context()->makeGLContextCurrent();
             auto cache = context()->fileCache();
-            const auto key = FileCacheKey(mainWindow(), frame);
+            const auto key = FileCacheKey(session(), frame);
             if (cache->hasItem(key))
             {
                 out = cache->item(key);
@@ -505,7 +506,7 @@ namespace djv
             //DJV_DEBUG_PRINT("cache byte count     = " << cache->currentSizeBytes());
             //DJV_DEBUG_PRINT("cache max byte count = " << cache->maxSizeBytes());
 
-            const auto items = cache->items(mainWindow());
+            const auto items = cache->items(session());
 
             // Search for the next frame that isn't in the cache.
             bool      preload = false;
@@ -518,7 +519,7 @@ namespace djv
                 frameCount < totalFrames;
                 frame = Core::Math::wrap<qint64>(frame + 1, 0, totalFrames - 1), ++frameCount)
             {
-                const auto key = FileCacheKey(mainWindow(), frame);
+                const auto key = FileCacheKey(session(), frame);
                 if (cache->hasItem(key))
                 {
                     byteCount += cache->item(key)->dataByteCount();
@@ -576,7 +577,7 @@ namespace djv
                 if (image->isValid())
                 {
                     //DJV_DEBUG_PRINT("image = " << *image);
-                    cache->addItem(FileCacheKey(mainWindow(), frame), image);
+                    cache->addItem(FileCacheKey(session(), frame), image);
                 }
             }
             else
@@ -602,16 +603,20 @@ namespace djv
 
         void FileGroup::openCallback(const Core::FileInfo & fileInfo)
         {
-            mainWindow()->fileOpen(fileInfo);
+            session()->fileOpen(fileInfo);
         }
 
         void FileGroup::recentCallback(QAction * action)
         {
             //DJV_DEBUG("FileGroup::recentCallback");
+            const auto & recentFiles = context()->filePrefs()->recentFiles();
             const int index = action->data().toInt();
-            Core::FileInfo fileInfo = context()->filePrefs()->recentFiles()[index];
-            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
-            mainWindow()->fileOpen(fileInfo);
+            if (index >= 0 && index < recentFiles.size())
+            {
+                auto fileInfo = recentFiles[index];
+                //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
+                session()->fileOpen(fileInfo);
+            }
         }
 
         void FileGroup::reloadCallback()
@@ -672,7 +677,7 @@ namespace djv
         void FileGroup::closeCallback()
         {
             //DJV_DEBUG("FileGroup::closeCallback");
-            mainWindow()->fileOpen(Core::FileInfo());
+            session()->fileOpen(Core::FileInfo());
         }
 
         void FileGroup::exportSequenceCallback()
@@ -812,7 +817,7 @@ namespace djv
         void FileGroup::cacheDel()
         {
             //DJV_DEBUG("FileGroup::cacheDel");
-            context()->fileCache()->clearItems(mainWindow());
+            context()->fileCache()->clearItems(session());
         }
 
     } // namespace ViewLib

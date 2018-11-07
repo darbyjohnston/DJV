@@ -36,6 +36,7 @@
 #include <djvViewLib/ImagePrefs.h>
 #include <djvViewLib/ImageToolBar.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ShortcutPrefs.h>
 #include <djvViewLib/ViewContext.h>
 
@@ -82,9 +83,9 @@ namespace djv
 
         ImageGroup::ImageGroup(
             const QPointer<ImageGroup>& copy,
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            AbstractGroup(mainWindow, context),
+            AbstractGroup(session, context),
             _p(new Private(context))
         {
             //DJV_DEBUG("ImageGroup::ImageGroup");
@@ -105,12 +106,10 @@ namespace djv
             _p->actions = new ImageActions(context, this);
 
             // Create the widgets.
-            _p->displayProfileWidget =
-                new DisplayProfileWidget(mainWindow->viewWidget(), context);
+            _p->displayProfileWidget = new DisplayProfileWidget(session->viewWidget(), context);
             _p->displayProfileDockWidget = new QDockWidget(
                 qApp->translate("djv::ViewLib::ImageGroup", "Display Profile"));
             _p->displayProfileDockWidget->setWidget(_p->displayProfileWidget);
-            mainWindow->addDockWidget(Qt::RightDockWidgetArea, _p->displayProfileDockWidget);
 
             // Initialize.
             update();
@@ -258,6 +257,11 @@ namespace djv
         Graphics::OpenGLImageOptions::CHANNEL ImageGroup::channel() const
         {
             return _p->channel;
+        }
+
+        QPointer<QDockWidget> ImageGroup::displayProfileDockWidget() const
+        {
+            return _p->displayProfileDockWidget;
         }
 
         QPointer<QMenu> ImageGroup::createMenu() const

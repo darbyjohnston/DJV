@@ -31,7 +31,7 @@
 
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ToolActions.h>
 #include <djvViewLib/ViewContext.h>
 
@@ -120,10 +120,10 @@ namespace djv
         };
 
         MagnifyTool::MagnifyTool(
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
-            AbstractTool(mainWindow, context, parent),
+            AbstractTool(session, context, parent),
             _p(new Private)
         {
             // Create the widgets.
@@ -173,23 +173,24 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                mainWindow,
-                &MainWindow::imageChanged,
+                session,
+                &Session::imageChanged,
                 [this](const std::shared_ptr<Graphics::Image> & value)
             {
                 _p->image = value;
                 widgetUpdate();
             });
             connect(
-                mainWindow,
-                &MainWindow::imageOptionsChanged,
+                session,
+                &Session::imageOptionsChanged,
                 [this](const Graphics::OpenGLImageOptions & value)
             {
                 _p->openGLImageOptions = value;
                 widgetUpdate();
             });
+            auto viewWidget = session->viewWidget();
             connect(
-                mainWindow->viewWidget(),
+                viewWidget,
                 &ImageView::viewPosChanged,
                 [this](const glm::ivec2 & value)
             {
@@ -197,7 +198,7 @@ namespace djv
                 widgetUpdate();
             });
             connect(
-                mainWindow->viewWidget(),
+                viewWidget,
                 &ImageView::viewZoomChanged,
                 [this](float value)
             {
@@ -205,7 +206,7 @@ namespace djv
                 widgetUpdate();
             });
             connect(
-                mainWindow->viewWidget(),
+                viewWidget,
                 SIGNAL(pickChanged(const glm::ivec2 &)),
                 SLOT(pickCallback(const glm::ivec2 &)));
             connect(

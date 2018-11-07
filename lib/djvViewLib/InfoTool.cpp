@@ -30,7 +30,7 @@
 #include <djvViewLib/InfoTool.h>
 
 #include <djvViewLib/FileGroup.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 
 #include <djvUI/Prefs.h>
 
@@ -63,10 +63,10 @@ namespace djv
         };
 
         InfoTool::InfoTool(
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
-            AbstractTool(mainWindow, context, parent),
+            AbstractTool(session, context, parent),
             _p(new Private)
         {
             // Create the widgets.
@@ -122,7 +122,7 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                mainWindow->fileGroup(),
+                session->fileGroup(),
                 &FileGroup::imageIOInfoChanged,
                 [this](const Graphics::ImageIOInfo & value)
             {

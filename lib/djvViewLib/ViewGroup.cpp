@@ -30,7 +30,7 @@
 #include <djvViewLib/ViewGroup.h>
 
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ShortcutPrefs.h>
 #include <djvViewLib/ViewActions.h>
 #include <djvViewLib/ViewContext.h>
@@ -61,9 +61,9 @@ namespace djv
 
         ViewGroup::ViewGroup(
             const QPointer<ViewGroup> & copy,
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            AbstractGroup(mainWindow, context),
+            AbstractGroup(session, context),
             _p(new Private(context))
         {
             if (copy)
@@ -162,13 +162,14 @@ namespace djv
         QPointer<QToolBar> ViewGroup::createToolBar() const
         {
             auto toolBar = new ViewToolBar(_p->actions.data(), context());
-            toolBar->setZoom(mainWindow()->viewWidget()->viewZoom());
+            auto viewWidget = session()->viewWidget();
+            toolBar->setZoom(viewWidget->viewZoom());
             connect(
                 toolBar,
                 SIGNAL(zoomChanged(float)),
                 SLOT(zoomCallback(float)));
             connect(
-                mainWindow()->viewWidget(),
+                viewWidget,
                 SIGNAL(viewZoomChanged(float)),
                 toolBar,
                 SLOT(setZoom(float)));
@@ -197,17 +198,17 @@ namespace djv
 
         void ViewGroup::centerCallback()
         {
-            mainWindow()->viewWidget()->viewCenter();
+            session()->viewWidget()->viewCenter();
         }
 
         void ViewGroup::resetCallback()
         {
-            mainWindow()->viewWidget()->setViewPosZoom(glm::ivec2(0, 0), 1.f);
+            session()->viewWidget()->setViewPosZoom(glm::ivec2(0, 0), 1.f);
         }
 
         void ViewGroup::zoomCallback(float value)
         {
-            mainWindow()->viewWidget()->setZoomFocus(value);
+            session()->viewWidget()->setZoomFocus(value);
         }
 
         void ViewGroup::zoomInCallback()
@@ -232,12 +233,12 @@ namespace djv
 
         void ViewGroup::zoomResetCallback()
         {
-            mainWindow()->viewWidget()->setZoomFocus(1.f);
+            session()->viewWidget()->setZoomFocus(1.f);
         }
 
         void ViewGroup::fitCallback()
         {
-            mainWindow()->viewWidget()->viewFit();
+            session()->viewWidget()->viewFit();
         }
 
         void ViewGroup::gridCallback(Enum::GRID grid)
@@ -261,21 +262,23 @@ namespace djv
         {
             _p->actions->action(ViewActions::HUD)->setChecked(_p->hudEnabled);
             _p->actions->group(ViewActions::GRID_GROUP)->actions()[_p->grid]->setChecked(true);
-            auto viewWidget = mainWindow()->viewWidget();
+            auto viewWidget = session()->viewWidget();
             viewWidget->setHudEnabled(_p->hudEnabled);
             viewWidget->setGrid(_p->grid);
         }
 
         void ViewGroup::viewMove(const glm::ivec2 & offset)
         {
-            mainWindow()->viewWidget()->setViewPos(mainWindow()->viewWidget()->viewPos() + offset);
+            auto viewWidget = session()->viewWidget();
+            viewWidget->setViewPos(viewWidget->viewPos() + offset);
         }
 
         void ViewGroup::viewZoom(float zoom)
         {
             //DJV_DEBUG("ViewGroup::viewZoom");
             //DJV_DEBUG_PRINT("zoom = " << zoom);
-            mainWindow()->viewWidget()->setZoomFocus(mainWindow()->viewWidget()->viewZoom() * zoom);
+            auto viewWidget = session()->viewWidget();
+            viewWidget->setZoomFocus(viewWidget->viewZoom() * zoom);
         }
 
     } // namespace ViewLib

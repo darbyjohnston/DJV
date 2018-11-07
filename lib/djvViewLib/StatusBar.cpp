@@ -31,7 +31,7 @@
 
 #include <djvViewLib/FileCache.h>
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 
 #include <djvUI/ColorSwatch.h>
@@ -65,7 +65,7 @@ namespace djv
         };
 
         StatusBar::StatusBar(
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
             QStatusBar(parent),
@@ -78,15 +78,15 @@ namespace djv
 
             _p->pixelLabel = new QLabel;
             _p->pixelLabel->setToolTip(
-                qApp->translate("djv::ViewLib::MainWindow", "Pixel information\n\nClick and drag inside the image."));
+                qApp->translate("djv::ViewLib::StatusBar", "Pixel information\n\nClick and drag inside the image."));
 
             _p->imageLabel = new QLabel;
             _p->imageLabel->setToolTip(
-                qApp->translate("djv::ViewLib::MainWindow", "Image information."));
+                qApp->translate("djv::ViewLib::StatusBar", "Image information."));
 
             _p->cacheLabel = new QLabel;
             _p->cacheLabel->setToolTip(
-                qApp->translate("djv::ViewLib::MainWindow", "File cache information."));
+                qApp->translate("djv::ViewLib::StatusBar", "File cache information."));
 
             addWidget(_p->swatch);
             addWidget(_p->pixelLabel);
@@ -94,31 +94,32 @@ namespace djv
             addWidget(_p->imageLabel);
             addWidget(_p->cacheLabel);
 
-            _p->viewPos = mainWindow->viewWidget()->viewPos();
-            _p->viewZoom = mainWindow->viewWidget()->viewZoom();
+            auto viewWidget = session->viewWidget();
+            _p->viewPos = viewWidget->viewPos();
+            _p->viewZoom = viewWidget->viewZoom();
 
             connect(
                 context->fileCache(),
                 SIGNAL(cacheChanged()),
                 SLOT(widgetUpdate()));
             connect(
-                mainWindow,
-                &MainWindow::imageChanged,
+                session,
+                &Session::imageChanged,
                 [this](const std::shared_ptr<djv::Graphics::Image> & value)
             {
                 _p->image = value;
                 widgetUpdate();
             });
             connect(
-                mainWindow,
-                &MainWindow::imageOptionsChanged,
+                session,
+                &Session::imageOptionsChanged,
                 [this](const Graphics::OpenGLImageOptions & value)
             {
                 _p->openGLImageOptions = value;
                 widgetUpdate();
             });
             connect(
-                mainWindow->viewWidget(),
+                viewWidget,
                 &ImageView::viewPosChanged,
                 [this](const glm::ivec2 & value)
             {
@@ -126,7 +127,7 @@ namespace djv
                 widgetUpdate();
             });
             connect(
-                mainWindow->viewWidget(),
+                viewWidget,
                 &ImageView::viewZoomChanged,
                 [this](float value)
             {
@@ -134,7 +135,7 @@ namespace djv
                 widgetUpdate();
             });
             connect(
-                mainWindow->viewWidget(),
+                viewWidget,
                 SIGNAL(pickChanged(const glm::ivec2 &)),
                 SLOT(pickCallback(const glm::ivec2 &)));
         }
@@ -184,7 +185,7 @@ namespace djv
             const float sizeGB = _p->context->fileCache()->currentSizeGB();
             const float maxSizeGB = _p->context->fileCache()->maxSizeGB();
             _p->cacheLabel->setText(
-                qApp->translate("djv::ViewLib::MainWindow", "Cache: %1% %2/%3GB").
+                qApp->translate("djv::ViewLib::StatusBar", "Cache: %1% %2/%3GB").
                 arg(static_cast<int>(sizeGB / maxSizeGB * 100)).
                 arg(sizeGB, 0, 'f', 2).
                 arg(maxSizeGB, 0, 'f', 2));
@@ -197,7 +198,7 @@ namespace djv
             QStringList pixelLabel;
             pixelLabel << info.pixel;
             _p->imageLabel->setText(
-                qApp->translate("djv::ViewLib::MainWindow", "Image: %1x%2:%3 %4").
+                qApp->translate("djv::ViewLib::StatusBar", "Image: %1x%2:%3 %4").
                 arg(info.size.x).
                 arg(info.size.y).
                 arg(Core::VectorUtil::aspect(info.size), 0, 'f', 2).
@@ -208,7 +209,7 @@ namespace djv
             QStringList sampleLabel;
             sampleLabel << _p->sample;
             _p->pixelLabel->setText(
-                qApp->translate("djv::ViewLib::MainWindow", "Pixel: %1, %2, %3").
+                qApp->translate("djv::ViewLib::StatusBar", "Pixel: %1, %2, %3").
                 arg(_p->pick.x).
                 arg(_p->pick.y).
                 arg(sampleLabel.join(" ")));

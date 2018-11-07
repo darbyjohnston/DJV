@@ -54,7 +54,7 @@ namespace djv
         public:
             FileGroup(
                 const QPointer<FileGroup> & copy,
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &);
             ~FileGroup() override;
 

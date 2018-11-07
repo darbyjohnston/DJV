@@ -52,7 +52,7 @@ namespace djv
         public:
             WindowGroup(
                 const QPointer<WindowGroup> & copy,
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &);
             ~WindowGroup() override;
 

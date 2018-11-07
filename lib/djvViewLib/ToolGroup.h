@@ -37,6 +37,7 @@
 #include <memory>
 
 class QAction;
+class QDockWidget;
 
 namespace djv
 {
@@ -52,12 +53,15 @@ namespace djv
         public:
             ToolGroup(
                 const QPointer<ToolGroup> & copy,
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &);
             ~ToolGroup();
 
             //! Get the tool visibility.
             const QMap<Enum::TOOL, bool> & toolsVisible() const;
+
+            //! Get the dock widgets.
+            QVector<QPointer<QDockWidget> > dockWidgets() const;
 
             QPointer<QMenu> createMenu() const override;
             QPointer<QToolBar> createToolBar() const override;

@@ -45,6 +45,7 @@ set(header
     PlaybackPrefsWidget.h
     PlaybackToolBar.h
     PlaybackWidgets.h
+    Session.h
     ShortcutPrefs.h
     ShortcutPrefsWidget.h
     StatusBar.h
@@ -112,6 +113,7 @@ set(mocHeader
     PlaybackPrefsWidget.h
     PlaybackToolBar.h
     PlaybackWidgets.h
+    Session.h
     ShortcutPrefs.h
     ShortcutPrefsWidget.h
     StatusBar.h
@@ -179,6 +181,7 @@ set(source
     PlaybackPrefsWidget.cpp
     PlaybackToolBar.cpp
     PlaybackWidgets.cpp
+    Session.cpp
     ShortcutPrefs.cpp
     ShortcutPrefsWidget.cpp
     StatusBar.cpp

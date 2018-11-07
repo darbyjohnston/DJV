@@ -30,7 +30,7 @@
 #include <djvViewLib/PlaybackGroup.h>
 
 #include <djvViewLib/FileCache.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/PlaybackActions.h>
 #include <djvViewLib/PlaybackMenu.h>
 #include <djvViewLib/PlaybackPrefs.h>
@@ -93,9 +93,9 @@ namespace djv
 
         PlaybackGroup::PlaybackGroup(
             const QPointer<PlaybackGroup> & copy,
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            AbstractGroup(mainWindow, context),
+            AbstractGroup(session, context),
             _p(new Private(context))
         {
             // Create the actions.
@@ -249,7 +249,7 @@ namespace djv
 
             toolBar->setFrameList(_p->sequence.frames);
             toolBar->setFrame(_p->frame);
-            toolBar->setCachedFrames(context()->fileCache()->frames(mainWindow()));
+            toolBar->setCachedFrames(context()->fileCache()->frames(session()));
             toolBar->setStartFrame(startFrame(_p->inOutEnabled));
             toolBar->setEndFrame(endFrame(_p->inOutEnabled));
             toolBar->setDuration(duration(), durationInOutEnabled());
@@ -756,7 +756,7 @@ namespace djv
 
         void PlaybackGroup::cacheCallback()
         {
-            Q_EMIT cachedFramesChanged(context()->fileCache()->frames(mainWindow()));
+            Q_EMIT cachedFramesChanged(context()->fileCache()->frames(session()));
         }
 
         qint64 PlaybackGroup::startFrame(bool inOutEnabled) const

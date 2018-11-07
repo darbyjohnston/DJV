@@ -29,7 +29,7 @@
 
 #include <djvViewLib/AbstractGroup.h>
 
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 
 #include <QMenu>
@@ -42,21 +42,21 @@ namespace djv
         struct AbstractGroup::Private
         {
             Private(
-                const QPointer<MainWindow> & mainWindow,
+                const QPointer<Session> & session,
                 const QPointer<ViewContext> & context) :
-                mainWindow(mainWindow),
+                session(session),
                 context(context)
             {}
 
-            QPointer<MainWindow> mainWindow;
+            QPointer<Session> session;
             QPointer<ViewContext> context;
         };
 
         AbstractGroup::AbstractGroup(
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            QObject(mainWindow),
-            _p(new Private(mainWindow, context))
+            QObject(session),
+            _p(new Private(session, context))
         {}
 
         AbstractGroup::~AbstractGroup()
@@ -72,9 +72,9 @@ namespace djv
             return nullptr;
         }
 
-        const QPointer<MainWindow> & AbstractGroup::mainWindow() const
+        const QPointer<Session> & AbstractGroup::session() const
         {
-            return _p->mainWindow;
+            return _p->session;
         }
 
         const QPointer<ViewContext> & AbstractGroup::context() const

@@ -33,13 +33,15 @@
 
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/PixelMaskWidget.h>
 #include <djvUI/Prefs.h>
 #include <djvUI/ToolButton.h>
+
+#include <djvGraphics/Image.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
@@ -229,10 +231,10 @@ namespace djv
         };
 
         HistogramTool::HistogramTool(
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
-            AbstractTool(mainWindow, context, parent),
+            AbstractTool(session, context, parent),
             _p(new Private)
         {
             // Create the widgets.
@@ -296,16 +298,16 @@ namespace djv
 
             // Setup the callbacks.
             connect(
-                mainWindow,
-                &MainWindow::imageChanged,
+                session,
+                &Session::imageChanged,
                 [this](const std::shared_ptr<Graphics::Image> & value)
             {
                 _p->image = value;
                 widgetUpdate();
             });
             connect(
-                mainWindow,
-                &MainWindow::imageOptionsChanged,
+                session,
+                &Session::imageOptionsChanged,
                 [this](const Graphics::OpenGLImageOptions & value)
             {
                 _p->openGLImageOptions = value;

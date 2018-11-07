@@ -33,7 +33,7 @@
 #include <djvViewLib/HistogramTool.h>
 #include <djvViewLib/InfoTool.h>
 #include <djvViewLib/MagnifyTool.h>
-#include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ToolActions.h>
 #include <djvViewLib/ToolMenu.h>
 #include <djvViewLib/ToolToolBar.h>
@@ -54,14 +54,14 @@ namespace djv
             QPointer<ColorPickerTool>            colorPickerTool;
             QPointer<HistogramTool>              histogramTool;
             QPointer<InfoTool>                   infoTool;
-            QPointer<QDockWidget>                dockWidgets[Enum::TOOL_COUNT];
+            QVector<QPointer<QDockWidget> >      dockWidgets;
         };
 
         ToolGroup::ToolGroup(
             const QPointer<ToolGroup> & copy,
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            AbstractGroup(mainWindow, context),
+            AbstractGroup(session, context),
             _p(new Private)
         {
             //DJV_DEBUG("ToolGroup::ToolGroup");
@@ -69,26 +69,21 @@ namespace djv
             // Create the actions.
             _p->actions = new ToolActions(context, this);
 
-            _p->magnifyTool = new MagnifyTool(mainWindow, context);
-            _p->colorPickerTool = new ColorPickerTool(mainWindow, context);
-            _p->histogramTool = new HistogramTool(mainWindow, context);
-            _p->infoTool = new InfoTool(mainWindow, context);
+            _p->magnifyTool = new MagnifyTool(session, context);
+            _p->colorPickerTool = new ColorPickerTool(session, context);
+            _p->histogramTool = new HistogramTool(session, context);
+            _p->infoTool = new InfoTool(session, context);
 
             QList<QWidget *> widgets = QList<QWidget *>() <<
                 _p->magnifyTool <<
                 _p->colorPickerTool <<
                 _p->histogramTool <<
                 _p->infoTool;
-            QList<Qt::DockWidgetArea> areas = QList<Qt::DockWidgetArea>() <<
-                Qt::LeftDockWidgetArea <<
-                Qt::LeftDockWidgetArea <<
-                Qt::RightDockWidgetArea <<
-                Qt::RightDockWidgetArea;
             for (int i = 0; i < Enum::TOOL_COUNT; ++i)
             {
-                _p->dockWidgets[i] = new QDockWidget(Enum::toolLabels()[i]);
-                _p->dockWidgets[i]->setWidget(widgets[i]);
-                mainWindow->addDockWidget(areas[i], _p->dockWidgets[i]);
+                auto dockWidget = new QDockWidget(Enum::toolLabels()[i]);
+                dockWidget->setWidget(widgets[i]);
+                _p->dockWidgets.append(dockWidget);
             }
 
             // Initialize.
@@ -130,6 +125,11 @@ namespace djv
         const QMap<Enum::TOOL, bool> & ToolGroup::toolsVisible() const
         {
             return _p->toolsVisible;
+        }
+
+        QVector<QPointer<QDockWidget> > ToolGroup::dockWidgets() const
+        {
+            return _p->dockWidgets;
         }
 
         QPointer<QMenu> ToolGroup::createMenu() const

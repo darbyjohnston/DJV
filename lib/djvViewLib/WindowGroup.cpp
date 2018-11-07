@@ -32,6 +32,7 @@
 #include <djvViewLib/ControlsWindow.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 #include <djvViewLib/WindowActions.h>
 #include <djvViewLib/WindowMenu.h>
@@ -61,9 +62,9 @@ namespace djv
 
         WindowGroup::WindowGroup(
             const QPointer<WindowGroup> & copy,
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            AbstractGroup(mainWindow, context),
+            AbstractGroup(session, context),
             _p(new Private(context))
         {
             //DJV_DEBUG("WindowGroup::WindowGroup");
@@ -165,77 +166,7 @@ namespace djv
             if (fullScreen == _p->fullScreen)
                 return;
             _p->fullScreen = fullScreen;
-            update();
-            Q_EMIT fullScreenChanged(_p->fullScreen);
-        }
-
-        void WindowGroup::setControlsWindow(bool value)
-        {
-            if (value == _p->controlsWindow)
-                return;
-            _p->controlsWindow = value;
-            update();
-            Q_EMIT controlsWindowChanged(_p->controlsWindow);
-        }
-
-        void WindowGroup::setUIVisible(bool visible)
-        {
-            if (visible == _p->uiVisible)
-                return;
-            _p->uiVisible = visible;
-            update();
-            Q_EMIT uiVisibleChanged(_p->uiVisible);
-        }
-
-        void WindowGroup::setUIComponentVisible(const QMap<Enum::UI_COMPONENT, bool> & visible)
-        {
-            if (visible == _p->uiComponentVisible)
-                return;
-            _p->uiComponentVisible = visible;
-            update();
-            Q_EMIT uiComponentVisibleChanged(_p->uiComponentVisible);
-        }
-
-        void WindowGroup::newCallback()
-        {
-            (new MainWindow(0, context()))->show();
-        }
-
-        void WindowGroup::duplicateCallback()
-        {
-            (new MainWindow(mainWindow(), context()))->show();
-        }
-
-        void WindowGroup::closeCallback()
-        {
-            mainWindow()->close();
-        }
-
-        void WindowGroup::fitCallback()
-        {
-            mainWindow()->fitWindow();
-        }
-
-        void WindowGroup::uiComponentVisibleCallback(QAction * action)
-        {
-            auto tmp = _p->uiComponentVisible;
-            const Enum::UI_COMPONENT i = static_cast<Enum::UI_COMPONENT>(
-                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions().indexOf(action));
-            tmp[i] = !tmp[i];
-            setUIComponentVisible(tmp);
-        }
-
-        void WindowGroup::update()
-        {
-            _p->actions->action(WindowActions::FULL_SCREEN)->setChecked(_p->fullScreen);
-            _p->actions->action(WindowActions::UI_VISIBLE)->setChecked(_p->uiVisible);
-            for (int i = 0; i < Enum::UI_COMPONENT_COUNT; ++i)
-            {
-                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions()[i]->setChecked(
-                    _p->uiComponentVisible[static_cast<Enum::UI_COMPONENT>(i)]);
-            }
-            _p->actions->action(WindowActions::DETACH_CONTROLS)->setChecked(_p->controlsWindow);
-            auto mainWindow = this->mainWindow();
+            auto mainWindow = session()->mainWindow();
             if (_p->fullScreen)
             {
                 if (!mainWindow->isFullScreen())
@@ -278,6 +209,78 @@ namespace djv
                     }
                 }
             }
+            update();
+            Q_EMIT fullScreenChanged(_p->fullScreen);
+        }
+
+        void WindowGroup::setControlsWindow(bool value)
+        {
+            if (value == _p->controlsWindow)
+                return;
+            _p->controlsWindow = value;
+            update();
+            Q_EMIT controlsWindowChanged(_p->controlsWindow);
+        }
+
+        void WindowGroup::setUIVisible(bool visible)
+        {
+            if (visible == _p->uiVisible)
+                return;
+            _p->uiVisible = visible;
+            update();
+            Q_EMIT uiVisibleChanged(_p->uiVisible);
+        }
+
+        void WindowGroup::setUIComponentVisible(const QMap<Enum::UI_COMPONENT, bool> & visible)
+        {
+            if (visible == _p->uiComponentVisible)
+                return;
+            _p->uiComponentVisible = visible;
+            update();
+            Q_EMIT uiComponentVisibleChanged(_p->uiComponentVisible);
+        }
+
+        void WindowGroup::newCallback()
+        {
+            auto session = new Session(nullptr, context());
+            session->mainWindow()->show();
+        }
+
+        void WindowGroup::duplicateCallback()
+        {
+            auto session = new Session(this->session(), context());
+            session->mainWindow()->show();
+        }
+
+        void WindowGroup::closeCallback()
+        {
+            session()->mainWindow()->close();
+        }
+
+        void WindowGroup::fitCallback()
+        {
+            session()->mainWindow()->fitWindow();
+        }
+
+        void WindowGroup::uiComponentVisibleCallback(QAction * action)
+        {
+            auto tmp = _p->uiComponentVisible;
+            const Enum::UI_COMPONENT i = static_cast<Enum::UI_COMPONENT>(
+                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions().indexOf(action));
+            tmp[i] = !tmp[i];
+            setUIComponentVisible(tmp);
+        }
+
+        void WindowGroup::update()
+        {
+            _p->actions->action(WindowActions::FULL_SCREEN)->setChecked(_p->fullScreen);
+            _p->actions->action(WindowActions::UI_VISIBLE)->setChecked(_p->uiVisible);
+            for (int i = 0; i < Enum::UI_COMPONENT_COUNT; ++i)
+            {
+                _p->actions->group(WindowActions::UI_COMPONENT_VISIBLE_GROUP)->actions()[i]->setChecked(
+                    _p->uiComponentVisible[static_cast<Enum::UI_COMPONENT>(i)]);
+            }
+            _p->actions->action(WindowActions::DETACH_CONTROLS)->setChecked(_p->controlsWindow);
         }
 
     } // namespace ViewLib

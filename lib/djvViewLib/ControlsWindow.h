@@ -41,7 +41,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        class MainWindow;
+        class Session;
         class ViewContext;
 
         //! This class provides a window with controls only (no image view).
@@ -51,7 +51,7 @@ namespace djv
 
         public:
             explicit ControlsWindow(
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~ControlsWindow() override;

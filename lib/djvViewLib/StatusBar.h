@@ -48,7 +48,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class MainWindow;
+        class Session;
         class ViewContext;
 
         //! This class provides a status bar for a main window.
@@ -58,7 +58,7 @@ namespace djv
 
         public:
             explicit StatusBar(
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~StatusBar() override;

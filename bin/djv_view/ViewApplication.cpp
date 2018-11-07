@@ -30,6 +30,7 @@
 #include <djv_view/ViewApplication.h>
 
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/ViewContext.h>
 
 #include <djvUI/SequencePrefs.h>
@@ -87,11 +88,11 @@ namespace djv
             case QEvent::FileOpen:
             {
                 QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
-                QVector<QPointer<ViewLib::MainWindow> > mainWindowList = ViewLib::MainWindow::mainWindowList();
-                if (mainWindowList.count())
+                QVector<QPointer<ViewLib::Session> > sessionList = ViewLib::Session::sessionList();
+                if (sessionList.count())
                 {
-                    mainWindowList[0]->fileOpen(e->file());
-                    mainWindowList[0]->raise();
+                    sessionList[0]->fileOpen(e->file());
+                    sessionList[0]->mainWindow()->raise();
                 }
             } return true;
             default: break;
@@ -104,6 +105,46 @@ namespace djv
             exit(1);
         }
 
+        namespace
+        {
+            QPointer<ViewLib::Session> createSession(const Core::FileInfo & fileInfo, const QPointer<ViewLib::ViewContext> & context)
+            {
+                auto out = QPointer<ViewLib::Session>(new ViewLib::Session(nullptr, context));
+                out->fileOpen(fileInfo);
+                if (context->commandLineOptions().fileLayer.data())
+                {
+                    out->setFileLayer(*context->commandLineOptions().fileLayer);
+                }
+                if (context->commandLineOptions().fileProxy.data())
+                {
+                    out->setFileProxy(*context->commandLineOptions().fileProxy);
+                }
+                if (context->commandLineOptions().fileCacheEnable.data())
+                {
+                    out->setFileCacheEnabled(*context->commandLineOptions().fileCacheEnable);
+                }
+                if (context->commandLineOptions().windowFullScreen.data() && *context->commandLineOptions().windowFullScreen)
+                {
+                    out->showFullScreen();
+                }
+                if (context->commandLineOptions().playback.data())
+                {
+                    out->setPlayback(*context->commandLineOptions().playback);
+                }
+                if (context->commandLineOptions().playbackFrame.data())
+                {
+                    out->setPlaybackFrame(*context->commandLineOptions().playbackFrame);
+                }
+                if (context->commandLineOptions().playbackSpeed.data())
+                {
+                    out->setPlaybackSpeed(*context->commandLineOptions().playbackSpeed);
+                }
+                out->mainWindow()->show();
+                return out;
+            }
+
+        } // namespace
+
         void Application::work()
         {
             //DJV_DEBUG("Application::work");
@@ -113,7 +154,6 @@ namespace djv
             _p->context->setValid(true);
             setWindowIcon(QPixmap(":djv_view_256x256.png"));
 
-            // Show main window(s).
             QStringList input = _p->context->commandLineOptions().input;
             if (input.count())
             {
@@ -134,7 +174,7 @@ namespace djv
                     input += fileInfo;
                 }
 
-                // Create and show a window for each input.
+                // Create and show a session for each input.
                 for (int i = 0; i < input.count(); ++i)
                 {
                     // Parse the input.
@@ -144,35 +184,16 @@ namespace djv
                         _p->context->sequencePrefs()->isAutoEnabled());
                     DJV_LOG(_p->context->debugLog(), "djv::view::Application", QString("Input = \"%1\"").arg(fileInfo));
 
-                    // Initialize the window.
-                    ViewLib::MainWindow * window =
-                        ViewLib::MainWindow::createWindow(_p->context.data());
-                    window->fileOpen(fileInfo);
-                    if (_p->context->commandLineOptions().fileLayer.data())
-                    {
-                        window->setFileLayer(*_p->context->commandLineOptions().fileLayer);
-                    }
-                    if (_p->context->commandLineOptions().playback.data())
-                    {
-                        window->setPlayback(*_p->context->commandLineOptions().playback);
-                    }
-                    if (_p->context->commandLineOptions().playbackFrame.data())
-                    {
-                        window->setPlaybackFrame(*_p->context->commandLineOptions().playbackFrame);
-                    }
-                    if (_p->context->commandLineOptions().playbackSpeed.data())
-                    {
-                        window->setPlaybackSpeed(*_p->context->commandLineOptions().playbackSpeed);
-                    }
+                    // Create a session.
                     DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Show window...");
-                    window->show();
+                    createSession(fileInfo, _p->context.data());
                 }
             }
             else
             {
-                // Create and show an empty window.
+                // Create a session.
                 DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Show window...");
-                ViewLib::MainWindow::createWindow(_p->context.data())->show();
+                createSession(Core::FileInfo(), _p->context.data());
             }
         }
 

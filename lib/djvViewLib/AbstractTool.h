@@ -41,8 +41,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        class ImageView;
-        class MainWindow;
+        class Session;
         class ViewContext;
 
         //! This class provides the base functionality for tools.
@@ -52,14 +51,14 @@ namespace djv
 
         public:
             explicit AbstractTool(
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
 
             virtual ~AbstractTool() = 0;
 
-            //! Get the main window.
-            const QPointer<MainWindow> & mainWindow() const;
+            //! Get the session.
+            const QPointer<Session> & session() const;
 
             //! Get the context.
             const QPointer<ViewContext> & context() const;

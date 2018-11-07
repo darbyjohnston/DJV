@@ -31,104 +31,34 @@
 
 #include <djvViewLib/Enum.h>
 
-#include <djvGraphics/Image.h>
-
 #include <QMainWindow>
 
 #include <memory>
 
 namespace djv
 {
-    namespace Core
-    {
-        class FileInfo;
-        class Speed;
-
-    } // namespace Core
-
-    namespace Graphics
-    {
-        class Image;
-        class ImageIOInfo;
-        class OpenGLImageOptions;
-
-    } // Graphics
-
     namespace ViewLib
     {
-        class FileGroup;
-        class HelpGroup;
-        class ImageGroup;
-        class ImageView;
-        class PlaybackGroup;
-        class ToolGroup;
+        class Session;
         class ViewContext;
-        class ViewGroup;
-        class WindowGroup;
 
         //! This class provides a main window.
-        //!
-        //! \todo Move groups to the context.
         class MainWindow : public QMainWindow
         {
             Q_OBJECT
 
         public:
             explicit MainWindow(
-                const QPointer<MainWindow> & copy,
+                const QPointer<Session> & copy,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &);
             ~MainWindow() override;
-
-            QPointer<FileGroup> fileGroup() const;
-            QPointer<WindowGroup> windowGroup() const;
-            QPointer<ViewGroup> viewGroup() const;
-            QPointer<ImageGroup> imageGroup() const;
-            QPointer<PlaybackGroup> playbackGroup() const;
-            QPointer<ToolGroup> toolGroup() const;
-            QPointer<HelpGroup> helpGroup() const;
-
-            //! Get the view widget.
-            const QPointer<ImageView> & viewWidget() const;
-
-            //! Get the list of main windows.
-            static QVector<QPointer<MainWindow> > mainWindowList();
-
-            //! Create a new main window.
-            static QPointer<MainWindow> createWindow(const QPointer<ViewContext> &);
 
             QMenu * createPopupMenu() override;
 
         public Q_SLOTS:
-            //! Open a file.
-            void fileOpen(const djv::Core::FileInfo &, bool init = true);
-
-            //! Set the file layer to open.
-            void setFileLayer(int);
-
-            //! Set the file proxy scale.
-            void setFileProxy(djv::Graphics::PixelDataInfo::PROXY);
-
-            //! Set whether the file cache is enabled.
-            void setFileCacheEnabled(bool);
-
             //! Fit the window to the image.
             void fitWindow(bool move = true);
-
-            //! Set the playback.
-            void setPlayback(djv::ViewLib::Enum::PLAYBACK);
-
-            //! Set the playback frame.
-            void setPlaybackFrame(qint64);
-
-            //! Set the playback speed.
-            void setPlaybackSpeed(const djv::Core::Speed &);
-
-        Q_SIGNALS:
-            //! This signal is emitted when the image is changed.
-            void imageChanged(const std::shared_ptr<djv::Graphics::Image> &);
-
-            //! This signal is emitted when the image options are changed.
-            void imageOptionsChanged(const djv::Graphics::OpenGLImageOptions &);
 
         protected:
             void showEvent(QShowEvent *) override;
@@ -136,12 +66,9 @@ namespace djv
             void keyPressEvent(QKeyEvent *) override;
 
         private Q_SLOTS:
+            void fileCallback(bool);
             void windowResizeCallback();
             void enableUpdatesCallback();
-            void reloadFrameCallback();
-            void exportSequenceCallback(const djv::Core::FileInfo &);
-            void exportFrameCallback(const djv::Core::FileInfo &);
-            void setFrameStoreCallback();
             void mouseWheelActionCallback(djv::ViewLib::Enum::MOUSE_WHEEL_ACTION);
             void mouseWheelValueCallback(int);
             void controlsWindowClosedCallback();
@@ -150,12 +77,8 @@ namespace djv
             void imageUpdate();
             void windowUpdate();
             void viewOverlayUpdate();
-            void playbackUpdate();
 
         private:
-            const std::shared_ptr<Graphics::Image> & image() const;
-            Graphics::OpenGLImageOptions imageOptions() const;
-
             DJV_PRIVATE_COPY(MainWindow);
 
             struct Private;

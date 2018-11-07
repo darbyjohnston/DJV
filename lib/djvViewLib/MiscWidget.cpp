@@ -42,6 +42,7 @@
 #include <djvGraphics/ColorUtil.h>
 #include <djvGraphics/Pixel.h>
 
+#include <djvCore/Assert.h>
 #include <djvCore/Box.h>
 #include <djvCore/BoxUtil.h>
 #include <djvCore/Debug.h>
@@ -334,9 +335,10 @@ namespace djv
 
         void FrameWidget::setFrame(qint64 frame)
         {
-            const int tmp = Core::Math::min(
+            const int tmp = Core::Math::clamp(
                 frame,
-                static_cast<qint64>(_p->frameList.count() - 1));
+                qint64(0),
+                qint64(_p->frameList.count() ? _p->frameList.count() - 1 : 0));
             if (tmp == _p->frame)
                 return;
             //DJV_DEBUG("FrameWidget::setFrame");
@@ -543,6 +545,7 @@ namespace djv
 
         void FrameSlider::setInPoint(qint64 frame)
         {
+            DJV_ASSERT(frame >= 0);
             setInOutPoints(frame, _p->outPoint);
         }
 

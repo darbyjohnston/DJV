@@ -1323,23 +1323,23 @@
 <context>
     <name>djv::ViewLib::FileGroup</name>
     <message>
-        <location filename="FileGroup.cpp" line="592"/>
+        <location filename="FileGroup.cpp" line="593"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="682"/>
+        <location filename="FileGroup.cpp" line="687"/>
         <source>Export Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="691"/>
-        <location filename="FileGroup.cpp" line="715"/>
+        <location filename="FileGroup.cpp" line="696"/>
+        <location filename="FileGroup.cpp" line="720"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileGroup.cpp" line="708"/>
+        <location filename="FileGroup.cpp" line="713"/>
         <source>Export Frame</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1477,32 +1477,32 @@
 <context>
     <name>djv::ViewLib::HistogramTool</name>
     <message>
-        <location filename="HistogramTool.cpp" line="250"/>
+        <location filename="HistogramTool.cpp" line="252"/>
         <source>Histogram size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="HistogramTool.cpp" line="257"/>
+        <location filename="HistogramTool.cpp" line="259"/>
         <source>Enable the color profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="HistogramTool.cpp" line="262"/>
+        <location filename="HistogramTool.cpp" line="264"/>
         <source>Enable the display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="HistogramTool.cpp" line="271"/>
+        <location filename="HistogramTool.cpp" line="273"/>
         <source>Min:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="HistogramTool.cpp" line="274"/>
+        <location filename="HistogramTool.cpp" line="276"/>
         <source>Max:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="HistogramTool.cpp" line="293"/>
+        <location filename="HistogramTool.cpp" line="295"/>
         <source>Histogram</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1871,40 +1871,8 @@
 <context>
     <name>djv::ViewLib::MainWindow</name>
     <message>
-        <location filename="MainWindow.cpp" line="702"/>
+        <location filename="MainWindow.cpp" line="403"/>
         <source>%1 - %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatusBar.cpp" line="81"/>
-        <source>Pixel information
-
-Click and drag inside the image.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatusBar.cpp" line="85"/>
-        <source>Image information.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatusBar.cpp" line="89"/>
-        <source>File cache information.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatusBar.cpp" line="187"/>
-        <source>Cache: %1% %2/%3GB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatusBar.cpp" line="200"/>
-        <source>Image: %1x%2:%3 %4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatusBar.cpp" line="211"/>
-        <source>Pixel: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2284,8 +2252,43 @@ Click and drag inside the image.</source>
 <context>
     <name>djv::ViewLib::SpeedButton</name>
     <message>
-        <location filename="MiscWidget.cpp" line="989"/>
+        <location filename="MiscWidget.cpp" line="992"/>
         <source>Default: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::ViewLib::StatusBar</name>
+    <message>
+        <location filename="StatusBar.cpp" line="81"/>
+        <source>Pixel information
+
+Click and drag inside the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StatusBar.cpp" line="85"/>
+        <source>Image information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StatusBar.cpp" line="89"/>
+        <source>File cache information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StatusBar.cpp" line="188"/>
+        <source>Cache: %1% %2/%3GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StatusBar.cpp" line="201"/>
+        <source>Image: %1x%2:%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="StatusBar.cpp" line="212"/>
+        <source>Pixel: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2554,47 +2557,47 @@ Click and drag inside the image.</source>
 <context>
     <name>djv::ViewLib::ViewContext</name>
     <message>
-        <location filename="ViewContext.cpp" line="208"/>
+        <location filename="ViewContext.cpp" line="197"/>
         <source>-combine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="215"/>
+        <location filename="ViewContext.cpp" line="204"/>
         <source>-file_layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="222"/>
+        <location filename="ViewContext.cpp" line="211"/>
         <source>-file_proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="229"/>
+        <location filename="ViewContext.cpp" line="218"/>
         <source>-file_cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="238"/>
+        <location filename="ViewContext.cpp" line="227"/>
         <source>-window_full_screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="245"/>
+        <location filename="ViewContext.cpp" line="234"/>
         <source>-playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="252"/>
+        <location filename="ViewContext.cpp" line="241"/>
         <source>-playback_frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="259"/>
+        <location filename="ViewContext.cpp" line="248"/>
         <source>-playback_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ViewContext.cpp" line="282"/>
+        <location filename="ViewContext.cpp" line="271"/>
         <source>djv_view
 
     Real-time image sequence and movie playback.

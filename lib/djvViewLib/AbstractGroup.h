@@ -45,7 +45,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        class MainWindow;
+        class Session;
         class ViewContext;
 
         //! This class provides the base functionality for groups.
@@ -54,7 +54,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit AbstractGroup(const QPointer<MainWindow> &, const QPointer<ViewContext> &);
+            explicit AbstractGroup(const QPointer<Session> &, const QPointer<ViewContext> &);
             virtual ~AbstractGroup() = 0;
 
             //! Create a new menu.
@@ -63,8 +63,8 @@ namespace djv
             //! Create a new tool bar.
             virtual QPointer<QToolBar> createToolBar() const;
 
-            //! Get the main window.
-            const QPointer<MainWindow> & mainWindow() const;
+            //! Get the session.
+            const QPointer<Session> & session() const;
 
             //! Get the context.
             const QPointer<ViewContext> & context() const;

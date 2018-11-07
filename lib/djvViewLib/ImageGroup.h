@@ -36,6 +36,7 @@
 #include <memory>
 
 class QAction;
+class QDockWidget;
 
 namespace djv
 {
@@ -50,7 +51,7 @@ namespace djv
         public:
             ImageGroup(
                 const QPointer<ImageGroup> & copy,
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &);
             ~ImageGroup() override;
 
@@ -77,6 +78,9 @@ namespace djv
 
             //! Get the image channel.
             Graphics::OpenGLImageOptions::CHANNEL channel() const;
+
+            //! Get the display profile dock widget.
+            QPointer<QDockWidget> displayProfileDockWidget() const;
 
             QPointer<QMenu> createMenu() const override;
             QPointer<QToolBar> createToolBar() const override;

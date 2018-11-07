@@ -52,7 +52,7 @@ namespace djv
 
         public:
             explicit ColorPickerTool(
-                const QPointer<MainWindow> &,
+                const QPointer<Session> &,
                 const QPointer<ViewContext> &,
                 QWidget * parent = nullptr);
             ~ColorPickerTool() override;

@@ -31,7 +31,6 @@
 
 #include <djvViewLib/HelpActions.h>
 #include <djvViewLib/HelpMenu.h>
-#include <djvViewLib/MainWindow.h>
 #include <djvViewLib/ViewContext.h>
 
 #include <djvUI/AboutDialog.h>
@@ -58,9 +57,9 @@ namespace djv
 
         HelpGroup::HelpGroup(
             const HelpGroup * copy,
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context) :
-            AbstractGroup(mainWindow, context),
+            AbstractGroup(session, context),
             _p(new Private)
         {
             _p->actions = new HelpActions(context, this);

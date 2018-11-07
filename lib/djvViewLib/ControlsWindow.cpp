@@ -33,8 +33,8 @@
 #include <djvViewLib/HelpGroup.h>
 #include <djvViewLib/ImageGroup.h>
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/MainWindow.h>
 #include <djvViewLib/PlaybackGroup.h>
+#include <djvViewLib/Session.h>
 #include <djvViewLib/StatusBar.h>
 #include <djvViewLib/ToolGroup.h>
 #include <djvViewLib/ViewGroup.h>
@@ -52,47 +52,47 @@ namespace djv
         {
             QMap<Enum::UI_COMPONENT, QPointer<QToolBar> > toolBars;
             QPointer<QToolBar> playbackControls;
-            QPointer<MainWindow> mainWindow;
+            QPointer<Session> session;
         };
 
         ControlsWindow::ControlsWindow(
-            const QPointer<MainWindow> & mainWindow,
+            const QPointer<Session> & session,
             const QPointer<ViewContext> & context,
             QWidget * parent) :
             QMainWindow(parent),
             _p(new Private)
         {
-            _p->mainWindow = mainWindow;
+            _p->session = session;
 
             setWindowFlags(Qt::Dialog | Qt::Tool);
 
             menuBar()->setNativeMenuBar(false);
-            menuBar()->addMenu(mainWindow->fileGroup()->createMenu());
-            menuBar()->addMenu(mainWindow->windowGroup()->createMenu());
-            menuBar()->addMenu(mainWindow->viewGroup()->createMenu());
-            menuBar()->addMenu(mainWindow->imageGroup()->createMenu());
-            menuBar()->addMenu(mainWindow->playbackGroup()->createMenu());
-            menuBar()->addMenu(mainWindow->toolGroup()->createMenu());
-            menuBar()->addMenu(mainWindow->helpGroup()->createMenu());
+            menuBar()->addMenu(session->fileGroup()->createMenu());
+            menuBar()->addMenu(session->windowGroup()->createMenu());
+            menuBar()->addMenu(session->viewGroup()->createMenu());
+            menuBar()->addMenu(session->imageGroup()->createMenu());
+            menuBar()->addMenu(session->playbackGroup()->createMenu());
+            menuBar()->addMenu(session->toolGroup()->createMenu());
+            menuBar()->addMenu(session->helpGroup()->createMenu());
 
-            _p->toolBars[Enum::UI_FILE_TOOL_BAR] = mainWindow->fileGroup()->createToolBar();
-            _p->toolBars[Enum::UI_WINDOW_TOOL_BAR] = mainWindow->windowGroup()->createToolBar();
-            _p->toolBars[Enum::UI_VIEW_TOOL_BAR] = mainWindow->viewGroup()->createToolBar();
-            _p->toolBars[Enum::UI_IMAGE_TOOL_BAR] = mainWindow->imageGroup()->createToolBar();
-            _p->toolBars[Enum::UI_TOOLS_TOOL_BAR] = mainWindow->toolGroup()->createToolBar();
+            _p->toolBars[Enum::UI_FILE_TOOL_BAR] = session->fileGroup()->createToolBar();
+            _p->toolBars[Enum::UI_WINDOW_TOOL_BAR] = session->windowGroup()->createToolBar();
+            _p->toolBars[Enum::UI_VIEW_TOOL_BAR] = session->viewGroup()->createToolBar();
+            _p->toolBars[Enum::UI_IMAGE_TOOL_BAR] = session->imageGroup()->createToolBar();
+            _p->toolBars[Enum::UI_TOOLS_TOOL_BAR] = session->toolGroup()->createToolBar();
             Q_FOREACH(auto toolBar, _p->toolBars)
             {
                 addToolBar(toolBar);
             }
-            _p->playbackControls = mainWindow->playbackGroup()->createToolBar();
+            _p->playbackControls = session->playbackGroup()->createToolBar();
             addToolBar(Qt::ToolBarArea::BottomToolBarArea, _p->playbackControls);
 
-            setStatusBar(new StatusBar(mainWindow, context));
+            setStatusBar(new StatusBar(session, context));
 
             widgetUpdate();
 
             connect(
-                mainWindow->windowGroup(),
+                session->windowGroup(),
                 SIGNAL(uiComponentVisibleChanged(const QMap<djv::ViewLib::Enum::UI_COMPONENT, bool> &)),
                 SLOT(widgetUpdate()));
         }
@@ -103,13 +103,13 @@ namespace djv
         QMenu * ControlsWindow::createPopupMenu()
         {
             auto out = new QMenu;
-            out->addMenu(_p->mainWindow->fileGroup()->createMenu());
-            out->addMenu(_p->mainWindow->windowGroup()->createMenu());
-            out->addMenu(_p->mainWindow->viewGroup()->createMenu());
-            out->addMenu(_p->mainWindow->imageGroup()->createMenu());
-            out->addMenu(_p->mainWindow->playbackGroup()->createMenu());
-            out->addMenu(_p->mainWindow->toolGroup()->createMenu());
-            out->addMenu(_p->mainWindow->helpGroup()->createMenu());
+            out->addMenu(_p->session->fileGroup()->createMenu());
+            out->addMenu(_p->session->windowGroup()->createMenu());
+            out->addMenu(_p->session->viewGroup()->createMenu());
+            out->addMenu(_p->session->imageGroup()->createMenu());
+            out->addMenu(_p->session->playbackGroup()->createMenu());
+            out->addMenu(_p->session->toolGroup()->createMenu());
+            out->addMenu(_p->session->helpGroup()->createMenu());
             return out;
         }
 
@@ -125,10 +125,10 @@ namespace djv
             switch (event->key())
             {
             case Qt::Key_Escape:
-                if (_p->mainWindow->windowGroup()->hasFullScreen())
+                if (_p->session->windowGroup()->hasFullScreen())
                 {
-                    _p->mainWindow->windowGroup()->setFullScreen(false);
-                    _p->mainWindow->viewWidget()->viewFit();
+                    _p->session->windowGroup()->setFullScreen(false);
+                    _p->session->viewWidget()->viewFit();
                 }
                 break;
             }
@@ -136,7 +136,7 @@ namespace djv
 
         void ControlsWindow::widgetUpdate()
         {
-            const auto & visible = _p->mainWindow->windowGroup()->uiComponentVisible();
+            const auto & visible = _p->session->windowGroup()->uiComponentVisible();
             Q_FOREACH(auto key, _p->toolBars.keys())
             {
                 _p->toolBars[key]->setVisible(visible[key]);
