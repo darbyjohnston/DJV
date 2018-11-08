@@ -1123,6 +1123,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="Enum.cpp" line="463"/>
+        <location filename="Enum.cpp" line="474"/>
+        <source>Playback Shuttle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="Enum.cpp" line="464"/>
         <source>Context Menu</source>
         <translation type="unfinished"></translation>
@@ -1130,12 +1136,6 @@
     <message>
         <location filename="Enum.cpp" line="473"/>
         <source>View Zoom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Enum.cpp" line="463"/>
-        <location filename="Enum.cpp" line="474"/>
-        <source>Playback Shuttle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1879,18 +1879,18 @@
 <context>
     <name>djv::ViewLib::MouseButtonAction</name>
     <message>
-        <location filename="MousePrefs.cpp" line="46"/>
-        <source>Action</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="MousePrefs.cpp" line="44"/>
+        <location filename="MousePrefs.cpp" line="56"/>
         <source>Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MousePrefs.cpp" line="45"/>
+        <location filename="MousePrefs.cpp" line="57"/>
         <source>Keyboard Modifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MousePrefs.cpp" line="58"/>
+        <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1945,13 +1945,13 @@
 <context>
     <name>djv::ViewLib::MouseWheelAction</name>
     <message>
-        <location filename="MousePrefs.cpp" line="63"/>
-        <source>Action</source>
+        <location filename="MousePrefs.cpp" line="84"/>
+        <source>Keyboard Modifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MousePrefs.cpp" line="62"/>
-        <source>Keyboard Modifier</source>
+        <location filename="MousePrefs.cpp" line="85"/>
+        <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

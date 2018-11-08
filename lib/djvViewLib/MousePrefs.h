@@ -41,6 +41,12 @@ namespace djv
         //! This struct provdes a mouse button action.
         struct MouseButtonAction
         {
+            MouseButtonAction();
+            MouseButtonAction(
+                Enum::MOUSE_BUTTON,
+                Enum::KEYBOARD_MODIFIER,
+                Enum::MOUSE_BUTTON_ACTION);
+            
             Enum::MOUSE_BUTTON button = Enum::MOUSE_BUTTON_NONE;
             Enum::KEYBOARD_MODIFIER modifier = Enum::KEYBOARD_MODIFIER_NONE;
             Enum::MOUSE_BUTTON_ACTION action = Enum::MOUSE_BUTTON_ACTION_NONE;
@@ -53,6 +59,11 @@ namespace djv
         //! This struct provdes a mouse wheel action.
         struct MouseWheelAction
         {
+            MouseWheelAction();
+            MouseWheelAction(
+                Enum::KEYBOARD_MODIFIER,
+                Enum::MOUSE_WHEEL_ACTION);
+
             Enum::KEYBOARD_MODIFIER modifier = Enum::KEYBOARD_MODIFIER_NONE;
             Enum::MOUSE_WHEEL_ACTION action = Enum::MOUSE_WHEEL_ACTION_NONE;
 

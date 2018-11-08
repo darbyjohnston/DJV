@@ -37,6 +37,18 @@ namespace djv
 {
     namespace ViewLib
     {
+        MouseButtonAction::MouseButtonAction()
+        {}
+        
+        MouseButtonAction::MouseButtonAction(
+            Enum::MOUSE_BUTTON button,
+            Enum::KEYBOARD_MODIFIER modeifier,
+            Enum::MOUSE_BUTTON_ACTION action) :
+            button(button),
+            modifier(modifier),
+            action(action)
+        {}
+        
         const QStringList & MouseButtonAction::labels()
         {
             static const QStringList data =
@@ -54,6 +66,16 @@ namespace djv
                 modifier == other.modifier &&
                 action == other.action;
         }
+        
+        MouseWheelAction::MouseWheelAction()
+        {}
+        
+        MouseWheelAction::MouseWheelAction(
+            Enum::KEYBOARD_MODIFIER modeifier,
+            Enum::MOUSE_WHEEL_ACTION action) :
+            modifier(modifier),
+            action(action)
+        {}
 
         const QStringList & MouseWheelAction::labels()
         {
