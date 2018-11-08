@@ -65,10 +65,7 @@ You can also start the djv_view application:
 
     > ./build/bin/djv_view
 
-
-Building on OSX and Windows
----------------------------
-
-Directions for building DJV on OSX and Windows is available here:
+Additional information on building DJV can be found here:
+* [Building on Linux](http://djv.sourceforge.net/BuildLinux.html)
 * [Building on OS X](http://djv.sourceforge.net/BuildOSX.html)
-* [Building on Windows]http://djv.sourceforge.net/BuildWindows.html)
+* [Building on Windows](http://djv.sourceforge.net/BuildWindows.html)
