@@ -46,22 +46,22 @@ Optional libraries:
 
 #### Building the Source Code
 
-Clone the DJV source code repository:
+Clone the repository:
 
     > git clone https://github.com/darbyjohnston/DJV.git djv-git
 
-Create a sub-directory and start the build:
+Create a new sub-directory and start the build:
 
     > mkdir djv-git-Debug
     > cd djv-git-Debug
     > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
     > make
 
-After the build completes try running the confidence tests:
+After the build completes run the confidence tests:
 
     > make test
 
-You can also try starting the djv_view application:
+You can also start the djv_view application:
 
     > ./build/bin/djv_view
 
@@ -70,5 +70,5 @@ Building on OSX and Windows
 ---------------------------
 
 Directions for building DJV on OSX and Windows is available here:
-[Building on OS X](http://djv.sourceforge.net/BuildOSX.html)
-[Building on Windows]http://djv.sourceforge.net/BuildWindows.html)
+* [Building on OS X](http://djv.sourceforge.net/BuildOSX.html)
+* [Building on Windows]http://djv.sourceforge.net/BuildWindows.html)
