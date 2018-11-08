@@ -9,13 +9,11 @@ Features include:
 * Available for Linux, OS X, and Windows
 * Open source
 
-[Download](http://djv.sourceforge.net/Download.html)
-
-[Screenshots](http://djv.sourceforge.net/Screenshots.html)
-
-[Documentation](http://djv.sourceforge.net/Documentation.html)
-
-[Forums](https://sourceforge.net/p/djv/discussion)
+Links:
+* [Download](http://djv.sourceforge.net/Download.html)
+* [Screenshots](http://djv.sourceforge.net/Screenshots.html)
+* [Documentation](http://djv.sourceforge.net/Documentation.html)
+* [Forums](https://sourceforge.net/p/djv/discussion)
 
 
 License
