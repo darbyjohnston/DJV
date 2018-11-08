@@ -1,0 +1,69 @@
+DJV Imaging
+===========
+Professional media review software for VFX, animation, and film.
+
+Features include:
+* Real-time image sequence and movie playback
+* Command line tools for batch processing
+* Support for industry standard file formats including OpenEXR, DPX, and Cineon
+* Available for Linux, OS X, and Windows
+* Open source
+
+[Download](http://djv.sourceforge.net/Download.html)
+[Screenshots](http://djv.sourceforge.net/Screenshots.html)
+[Documentation](http://djv.sourceforge.net/Documentation.html)
+[Forums](https://sourceforge.net/p/djv/discussion)
+
+
+License
+-------
+DJV is released under a BSD style open source license, see this
+(page)[http://djv.sourceforge.net/Legal.html] for details.
+
+
+Building on Linux
+-----------------
+
+#### Requirements
+
+Build tools:
+* C++11 compiler
+* [CMake 3.12](https://cmake.org)
+* [git](https://git-scm.com)
+Libraries:
+* [OpenGL 3.3](https://www.opengl.org)
+* [GLM 0.9.9](https://glm.g-truc.net/0.9.9/index.html)
+* [IlmBase 2.3](http://www.openexr.com/downloads.html)
+* [Qt 5.6.3](https://download.qt.io/archive/qt/5.6/5.6.3/single)
+Optional libraries:
+* [libjpeg v9b](https://www.ijg.org)
+* [libpng 1.6](http://www.libpng.org/pub/png/libpng.html)
+* [libtiff 4.0](http://download.osgeo.org/libtiff)
+* [OpenEXR 2.3](http://www.openexr.com/downloads.html)
+* [FFmpeg 4.0](https://www.ffmpeg.org)
+
+#### Building the Source Code
+
+Clone the DJV source code repository:
+    > git clone https://github.com/darbyjohnston/DJV.git djv-git
+
+Create a sub-directory and start the build:
+    > mkdir djv-git-Debug
+    > cd djv-git-Debug
+    > cmake ../djv-git \
+        -DCMAKE_BUILD_TYPE=Debug
+    > make
+
+After the build completes try running the confidence tests:
+    > make test
+
+You can also try starting the djv_view application:
+    > ./build/bin/djv_view
+
+
+Building on OSX and Windows
+---------------------------
+
+Directions for building DJV on OSX and Windows is available here:
+[Building on OS X](http://djv.sourceforge.net/BuildOSX.html)
+[Building on Windows]http://djv.sourceforge.net/BuildWindows.html)
