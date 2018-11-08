@@ -114,7 +114,7 @@ namespace djv
             }
             DJV_DEBUG_PRINT("channels = " << _drWavChannels);
             DJV_DEBUG_PRINT("sample rate = " << _drWavSampleRate);
-            DJV_DEBUG_PRINT("sample count = " << _drWavTotalSampleCount);
+            DJV_DEBUG_PRINT("sample count = " << static_cast<qint64>(_drWavTotalSampleCount));
 
             alBufferData(_alBuffer, AL_FORMAT_STEREO16, _drWavSampleData, _drWavTotalSampleCount * sizeof(drwav_int16), _drWavSampleRate);
             if ((error = alGetError()) != AL_NO_ERROR)
