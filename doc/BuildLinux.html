@@ -78,11 +78,11 @@ Building on Linux
 
 <h2 class="header"><a name="Build">Building the Source Code</a></h2>
 <div class="block">
-<p>Clone the DJV source code repository:</p>
+<p>Clone the repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
 </pre>
-<p>Create a sub-directory and start the build:</p>
+<p>Create a new sub-directory and start the build:</p>
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
@@ -90,11 +90,11 @@ Building on Linux
     -DCMAKE_BUILD_TYPE=Debug
 > make
 </pre>
-<p>After the build completes try running the confidence tests:</p>
+<p>After the build completes run the confidence tests:</p>
 <pre>
 > make test
 </pre>
-<p>You can also try starting the djv_view application:</p>
+<p>You can also start the djv_view application:</p>
 <pre>
 > ./build/bin/djv_view
 </pre>
@@ -106,14 +106,14 @@ Building on Linux
 and the third party libraries that it depends on.</p>
 <p>First choose a working directory for building the source code. In the
 following steps we will refer to this directory as $BUILD_DIR.</p>
-<p>Clone the DJV third party source code repository:</p>
+<p>Clone the third party repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
 </pre>
-<p>This source code repository contains the third party libraries as well as
-minor modifications necessary for building on the various platforms that DJV
+<p>This repository contains the third party libraries DJV depends on, as well
+as minor modifications necessary for building on the various platforms that DJV
 supports.</p>
-<p>Create a sub-directory and start the build:</p>
+<p>Create a new sub-directory and start the build:</p>
 <pre>
 > mkdir djv-git-third-party-Debug
 > cd djv-git-third-party-Debug
@@ -124,23 +124,15 @@ supports.</p>
 > make
 > cd ..
 </pre>
-<p>If you are compiling for OS X you should also set the CMAKE_FIND_FRAMEWORK
-variable:</p>
-<pre>
-> cmake ../djv-git-third-party \
-    -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
-    -DCMAKE_FIND_FRAMEWORK="LAST"
-</pre>
 <p>After the build completes add the install path to your LD_LIBRARY_PATH:</p>
 <pre>
 > export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/djv-install-Debug/lib
 </pre>
-<p>Clone the DJV source code repository:</p>
+<p>Clone the DJV repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
 </pre>
-<p>Create a sub-directory and start the build:</p>
+<p>Create a new sub-directory and start the build:</p>
 <pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
