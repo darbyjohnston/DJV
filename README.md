@@ -30,11 +30,13 @@ Build tools:
 * C++11 compiler
 * [CMake 3.12](https://cmake.org)
 * [git](https://git-scm.com)
+
 Libraries:
 * [OpenGL 3.3](https://www.opengl.org)
 * [GLM 0.9.9](https://glm.g-truc.net/0.9.9/index.html)
 * [IlmBase 2.3](http://www.openexr.com/downloads.html)
 * [Qt 5.6.3](https://download.qt.io/archive/qt/5.6/5.6.3/single)
+
 Optional libraries:
 * [libjpeg v9b](https://www.ijg.org)
 * [libpng 1.6](http://www.libpng.org/pub/png/libpng.html)
@@ -45,19 +47,22 @@ Optional libraries:
 #### Building the Source Code
 
 Clone the DJV source code repository:
+
     > git clone https://github.com/darbyjohnston/DJV.git djv-git
 
 Create a sub-directory and start the build:
+
     > mkdir djv-git-Debug
     > cd djv-git-Debug
-    > cmake ../djv-git \
-        -DCMAKE_BUILD_TYPE=Debug
+    > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
     > make
 
 After the build completes try running the confidence tests:
+
     > make test
 
 You can also try starting the djv_view application:
+
     > ./build/bin/djv_view
 
 
