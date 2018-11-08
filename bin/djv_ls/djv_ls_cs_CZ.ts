@@ -4,28 +4,28 @@
 <context>
     <name>djv::ls::Application</name>
     <message>
-        <location filename="LsApplication.cpp" line="106"/>
-        <location filename="LsApplication.cpp" line="145"/>
+        <location filename="LsApplication.cpp" line="104"/>
+        <location filename="LsApplication.cpp" line="143"/>
         <source>Cannot open: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsApplication.cpp" line="200"/>
+        <location filename="LsApplication.cpp" line="198"/>
         <source>%1 %2 %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsApplication.cpp" line="202"/>
+        <location filename="LsApplication.cpp" line="200"/>
         <source>%1 %2 %3 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsApplication.cpp" line="232"/>
+        <location filename="LsApplication.cpp" line="230"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="LsApplication.cpp" line="258"/>
+        <location filename="LsApplication.cpp" line="256"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>

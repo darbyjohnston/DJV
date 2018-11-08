@@ -4,89 +4,89 @@
 <context>
     <name>djv::info::Application</name>
     <message>
-        <location filename="InfoApplication.cpp" line="170"/>
+        <location filename="InfoApplication.cpp" line="168"/>
         <source>Cannot open image: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="186"/>
+        <location filename="InfoApplication.cpp" line="184"/>
         <source>%1x%2:%3 %4 %5@%6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="196"/>
-        <location filename="InfoApplication.cpp" line="208"/>
-        <location filename="InfoApplication.cpp" line="227"/>
+        <location filename="InfoApplication.cpp" line="194"/>
+        <location filename="InfoApplication.cpp" line="206"/>
+        <location filename="InfoApplication.cpp" line="225"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="203"/>
+        <location filename="InfoApplication.cpp" line="201"/>
         <source>%1@%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="215"/>
+        <location filename="InfoApplication.cpp" line="213"/>
         <source>    %1. %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="221"/>
+        <location filename="InfoApplication.cpp" line="219"/>
         <source>%1x%2:%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="239"/>
+        <location filename="InfoApplication.cpp" line="237"/>
         <source>Layer = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="241"/>
+        <location filename="InfoApplication.cpp" line="239"/>
         <source>  Width = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="243"/>
+        <location filename="InfoApplication.cpp" line="241"/>
         <source>  Height = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="245"/>
+        <location filename="InfoApplication.cpp" line="243"/>
         <source>  Aspect = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="249"/>
+        <location filename="InfoApplication.cpp" line="247"/>
         <source>  Pixel = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="252"/>
+        <location filename="InfoApplication.cpp" line="250"/>
         <source>Start = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="256"/>
+        <location filename="InfoApplication.cpp" line="254"/>
         <source>End = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="260"/>
+        <location filename="InfoApplication.cpp" line="258"/>
         <source>Duration = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="264"/>
+        <location filename="InfoApplication.cpp" line="262"/>
         <source>Speed = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="269"/>
+        <location filename="InfoApplication.cpp" line="267"/>
         <source>Tag %1 = %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="296"/>
+        <location filename="InfoApplication.cpp" line="294"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>

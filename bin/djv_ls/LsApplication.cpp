@@ -44,8 +44,7 @@ namespace djv
     namespace ls
     {
         Application::Application(int & argc, char ** argv) :
-            QGuiApplication(argc, argv),
-            _context(0)
+            QGuiApplication(argc, argv)
         {
             //DJV_DEBUG("Application::Application");
 
@@ -53,7 +52,7 @@ namespace djv
             setApplicationName("djv_ls");
 
             // Create the context.
-            _context = new Context(argc, argv);
+            _context.reset(new Context(argc, argv));
 
             // Parse the command line.
             if (!_context->commandLine(argc, argv))
@@ -69,7 +68,6 @@ namespace djv
         Application::~Application()
         {
             //DJV_DEBUG("Application::~Application");
-            delete _context;
         }
 
         void Application::commandLineExit()

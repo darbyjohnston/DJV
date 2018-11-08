@@ -33,6 +33,7 @@
 #include <djvCore/FileInfo.h>
 
 #include <QGuiApplication>
+#include <QScopedPointer>
 
 namespace djv
 {
@@ -58,7 +59,7 @@ namespace djv
             void printItem(const Core::FileInfo &, bool path = false, bool info = true);
             void printDirectory(const Core::FileInfo &, bool label);
 
-            Context * _context = nullptr;
+            QScopedPointer<Context> _context;
         };
 
     } // namespace info

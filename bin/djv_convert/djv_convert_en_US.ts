@@ -4,63 +4,63 @@
 <context>
     <name>djv::convert::Application</name>
     <message>
-        <location filename="ConvertApplication.cpp" line="77"/>
+        <location filename="ConvertApplication.cpp" line="75"/>
         <source>Cannot open input: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="78"/>
+        <location filename="ConvertApplication.cpp" line="76"/>
         <source>Cannot open output: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="79"/>
+        <location filename="ConvertApplication.cpp" line="77"/>
         <source>Cannot open slate: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="80"/>
+        <location filename="ConvertApplication.cpp" line="78"/>
         <source>Cannot read input: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="81"/>
+        <location filename="ConvertApplication.cpp" line="79"/>
         <source>Cannot write output: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="128"/>
+        <location filename="ConvertApplication.cpp" line="126"/>
         <source>Timeout...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="170"/>
-        <location filename="ConvertApplication.cpp" line="253"/>
+        <location filename="ConvertApplication.cpp" line="168"/>
+        <location filename="ConvertApplication.cpp" line="251"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="263"/>
+        <location filename="ConvertApplication.cpp" line="261"/>
         <source>Slating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="428"/>
+        <location filename="ConvertApplication.cpp" line="426"/>
         <source>[%1%] Estimated = %2 (%3 Frames/Second)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="440"/>
+        <location filename="ConvertApplication.cpp" line="438"/>
         <source>[100%] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="457"/>
+        <location filename="ConvertApplication.cpp" line="455"/>
         <source>Elapsed = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertApplication.cpp" line="469"/>
+        <location filename="ConvertApplication.cpp" line="467"/>
         <source>%1x%2:%3 %4 %5@%6</source>
         <translation type="unfinished"></translation>
     </message>

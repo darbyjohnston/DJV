@@ -33,6 +33,7 @@
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
 
 #include <QGuiApplication>
+#include <QScopedPointer>
 
 namespace djv
 {
@@ -77,7 +78,7 @@ namespace djv
         private:
             QString labelImage(const Graphics::PixelDataInfo &, const Core::Sequence &) const;
 
-            Context * _context = nullptr;
+            QScopedPointer<Context> _context;
         };
 
     } // namespace convert
