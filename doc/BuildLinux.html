@@ -161,6 +161,11 @@ variable:</p>
 > git tag -a 1.2.2 -m "Version 1.2.2"
 > git push origin 1.2.2
 </pre>
+<p>Update the web site:</p>
+<pre>
+> ssh -t USERNAME@shell.sourceforge.net create
+> scp file USERNAME@web.sourceforge.net:/home/project-web/djv/htdocs
+</pre>
 <p>Building an RPM package:</p>
 <pre>
 > cmake ../djv-git \
