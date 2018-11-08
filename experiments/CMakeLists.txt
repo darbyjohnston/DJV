@@ -1,4 +1,5 @@
 #add_subdirectory(djvAudioExperiment)
+add_subdirectory(djvAudioExperiment2)
 if(DJV_LINUX)
     add_subdirectory(djvFileBrowserExperiment)
 endif()
