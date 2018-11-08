@@ -19,7 +19,7 @@ Links:
 License
 -------
 DJV is released under a BSD style open source license, see this
-(page)[http://djv.sourceforge.net/Legal.html] for details.
+[page](http://djv.sourceforge.net/Legal.html) for details.
 
 
 Building on Linux
