@@ -112,11 +112,22 @@ namespace djv
             {
                 throw Core::Error("djv::AudioExperiment2::Application", "Cannot open WAV file");
             }
+            DJV_DEBUG_PRINT("channels = " << _drWavChannels);
+            DJV_DEBUG_PRINT("sample rate = " << _drWavSampleRate);
+            DJV_DEBUG_PRINT("sample count = " << _drWavTotalSampleCount);
 
-            alBufferData(_alBuffer, AL_FORMAT_STEREO16, _drWavSampleData, _drWavTotalSampleCount / sizeof(drwav_int16), _drWavSampleRate);
+            alBufferData(_alBuffer, AL_FORMAT_STEREO16, _drWavSampleData, _drWavTotalSampleCount * sizeof(drwav_int16), _drWavSampleRate);
             if ((error = alGetError()) != AL_NO_ERROR)
             {
-                throw Core::Error("djv::AudioExperiment2::Application", "Cannot set OpenAL buffer data");
+                QString reason = "unknown";
+                switch (error)
+                {
+                    case AL_OUT_OF_MEMORY: reason = "out of memory"; break;
+                    case AL_INVALID_VALUE: reason = "invalid value"; break;
+                    case AL_INVALID_ENUM: reason = "invalid enum"; break;
+                    default: break;
+                }
+                throw Core::Error("djv::AudioExperiment2::Application", QString("Cannot set OpenAL buffer data: %1").arg(reason));
             }
 
             alGenSources(1, &_alSource);
