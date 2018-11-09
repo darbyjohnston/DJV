@@ -481,12 +481,12 @@ DPX Options
 <context>
     <name>djv::Graphics::FFmpegLoad</name>
     <message>
-        <location filename="FFmpegLoad.cpp" line="103"/>
+        <location filename="FFmpegLoad.cpp" line="90"/>
         <source>Cannot find video stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegLoad.cpp" line="114"/>
+        <location filename="FFmpegLoad.cpp" line="101"/>
         <source>Cannot find codec</source>
         <translation type="unfinished"></translation>
     </message>
@@ -519,22 +519,22 @@ FFmpeg Options
 <context>
     <name>djv::Graphics::FFmpegSave</name>
     <message>
-        <location filename="FFmpegSave.cpp" line="159"/>
+        <location filename="FFmpegSave.cpp" line="151"/>
         <source>Cannot find format: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegSave.cpp" line="172"/>
+        <location filename="FFmpegSave.cpp" line="164"/>
         <source>Cannot find encoder: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegSave.cpp" line="209"/>
+        <location filename="FFmpegSave.cpp" line="201"/>
         <source>Cannot create stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegSave.cpp" line="283"/>
+        <location filename="FFmpegSave.cpp" line="275"/>
         <source>Cannot create software scaler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -645,13 +645,13 @@ IFF Options
 <context>
     <name>djv::Graphics::ImageIOFactory</name>
     <message>
-        <location filename="ImageIO.cpp" line="301"/>
-        <location filename="ImageIO.cpp" line="333"/>
+        <location filename="ImageIO.cpp" line="299"/>
+        <location filename="ImageIO.cpp" line="328"/>
         <source>Unrecognized image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageIO.cpp" line="341"/>
+        <location filename="ImageIO.cpp" line="336"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>

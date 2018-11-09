@@ -45,18 +45,16 @@ namespace djv
         class OpenEXRSave : public ImageSave
         {
         public:
-            OpenEXRSave(const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
+            OpenEXRSave(const Core::FileInfo &, const ImageIOInfo &, const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
             ~OpenEXRSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
-            void close() override;
 
         private:
             void _open(const QString &, const ImageIOInfo &);
+            void _close();
 
             OpenEXR::Options  _options;
-            Core::FileInfo    _file;
             Imf::OutputFile * _f = nullptr;
             PixelDataInfo     _info;
             QStringList       _channels;

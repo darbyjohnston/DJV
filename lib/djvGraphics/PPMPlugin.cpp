@@ -165,14 +165,14 @@ namespace djv
                 arg(dataLabel.join(", "));
         }
 
-        ImageLoad * PPMPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> PPMPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new PPMLoad(context());
+            return std::unique_ptr<ImageLoad>(new PPMLoad(fileInfo, context()));
         }
 
-        ImageSave * PPMPlugin::createSave() const
+        std::unique_ptr<ImageSave> PPMPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new PPMSave(_options, context());
+            return std::unique_ptr<ImageSave>(new PPMSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

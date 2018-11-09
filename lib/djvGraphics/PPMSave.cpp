@@ -39,42 +39,35 @@ namespace djv
 {
     namespace Graphics
     {
-        PPMSave::PPMSave(const PPM::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        PPMSave::PPMSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const PPM::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options),
             _bitDepth(0)
-        {}
-
-        PPMSave::~PPMSave()
-        {}
-
-        void PPMSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
         {
-            //DJV_DEBUG("PPMSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG("PPMSave::PPMSave");
+            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
-            _file = in;
-            if (info.sequence.frames.count() > 1)
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
-            _info.size = info.size;
+            _info.size = _imageIOInfo.size;
             _info.mirror.y = true;
 
             switch (_options.type)
             {
             case PPM::TYPE_AUTO:
             {
-                Pixel::FORMAT format = Pixel::format(info.pixel);
+                Pixel::FORMAT format = Pixel::format(_imageIOInfo.pixel);
                 switch (format)
                 {
                 case Pixel::LA:   format = Pixel::L;   break;
                 case Pixel::RGBA: format = Pixel::RGB; break;
                 default: break;
                 }
-                Pixel::TYPE type = Pixel::type(info.pixel);
+                Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
                 switch (type)
                 {
                 case Pixel::U10:
@@ -99,6 +92,9 @@ namespace djv
             _image.set(_info);
         }
 
+        PPMSave::~PPMSave()
+        {}
+
         void PPMSave::write(const Image & in, const ImageIOFrameInfo & frame)
         {
             //DJV_DEBUG("PPMSave::write");
@@ -108,7 +104,7 @@ namespace djv
 
             // Open the file.
             Core::FileIO io;
-            _open(_file.fileName(frame.frame), io);
+            _open(_fileInfo.fileName(frame.frame), io);
 
             // Convert the image.
             const PixelData * p = &in;

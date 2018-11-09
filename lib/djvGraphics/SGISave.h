@@ -42,17 +42,15 @@ namespace djv
         class SGISave : public ImageSave
         {
         public:
-            SGISave(const SGI::Options &, const QPointer<Core::CoreContext> &);
+            SGISave(const Core::FileInfo &, const ImageIOInfo &, const SGI::Options &, const QPointer<Core::CoreContext> &);
             ~SGISave() override;
             
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &);
 
             SGI::Options         _options;
-            Core::FileInfo       _file;
             std::vector<quint32> _rleOffset;
             std::vector<quint32> _rleSize;
             PixelDataInfo        _info;

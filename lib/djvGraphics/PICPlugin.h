@@ -57,7 +57,7 @@ namespace djv
             QString pluginName() const;
             QStringList extensions() const;
 
-            ImageLoad * createLoad() const;
+            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const;
         };
 
     } // namespace Graphics

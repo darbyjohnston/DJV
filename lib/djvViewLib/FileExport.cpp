@@ -75,8 +75,8 @@ namespace djv
 
             FileExportInfo info;
             Core::Sequence saveSequence;
-            QScopedPointer<Graphics::ImageLoad> load;
-            QScopedPointer<Graphics::ImageSave> save;
+            std::unique_ptr<Graphics::ImageLoad> load;
+            std::unique_ptr<Graphics::ImageSave> save;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             QPointer<UI::ProgressDialog> dialog;
             QPointer<ViewContext> context;
@@ -145,7 +145,7 @@ namespace djv
             Graphics::ImageIOInfo loadInfo;
             try
             {
-                _p->load.reset(_p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo));
+                _p->load = _p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo);
             }
             catch (Core::Error error)
             {
@@ -162,7 +162,7 @@ namespace djv
             saveInfo.sequence = _p->saveSequence;
             try
             {
-                _p->save.reset(_p->context->imageIOFactory()->save(_p->info.outputFile, saveInfo));
+                _p->save = _p->context->imageIOFactory()->save(_p->info.outputFile, saveInfo);
             }
             catch (Core::Error error)
             {
@@ -188,12 +188,11 @@ namespace djv
             {
                 _p->dialog->reject();
             }
-            if (_p->save.data())
+            if (_p->save)
             {
                 try
                 {
                     //DJV_DEBUG_PRINT("close");
-
                     _p->save->close();
                 }
                 catch (Core::Error error)

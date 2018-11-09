@@ -39,31 +39,24 @@ namespace djv
 {
     namespace Graphics
     {
-        JPEGLoad::JPEGLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context)
-        {}
+        JPEGLoad::JPEGLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
+            ImageLoad(fileInfo, context)
+        {
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _close();
+            if (Core::FileInfo::SEQUENCE == _fileInfo.type())
+            {
+                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+            }
+        }
 
         JPEGLoad::~JPEGLoad()
         {
-            close();
-        }
-
-        void JPEGLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-        {
-            //DJV_DEBUG("JPEGLoad::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            _open(_file.fileName(_file.sequence().start()), info);
-            if (Core::FileInfo::SEQUENCE == _file.type())
-            {
-                info.sequence.frames = _file.sequence().frames;
-            }
-            close();
+            _close();
         }
 
         namespace
         {
-
             bool jpegScanline(
                 jpeg_decompress_struct * jpeg,
                 quint8 *                 out,
@@ -104,8 +97,7 @@ namespace djv
             image.tags = ImageTags();
 
             // Open the file.
-            const QString fileName =
-                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
             _open(fileName, info);
@@ -138,26 +130,11 @@ namespace djv
             }
 
             //DJV_DEBUG_PRINT("image = " << image);
-            close();
-        }
-
-        void JPEGLoad::close()
-        {
-            if (_jpegInit)
-            {
-                jpeg_destroy_decompress(&_jpeg);
-                _jpegInit = false;
-            }
-            if (_f)
-            {
-                ::fclose(_f);
-                _f = 0;
-            }
+            _close();
         }
 
         namespace
         {
-
             bool jpegInit(
                 jpeg_decompress_struct * jpeg,
                 JPEGErrorStruct *        error)
@@ -198,8 +175,6 @@ namespace djv
         {
             //DJV_DEBUG("JPEGLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-
-            close();
 
             // Initialize libjpeg.
             _jpeg.err = jpeg_std_error(&_jpegError.pub);
@@ -246,6 +221,20 @@ namespace djv
                 QString((const char *)marker->data).mid(0, marker->data_length);
 
             //DJV_DEBUG_PRINT("info = " << info);
+        }
+
+        void JPEGLoad::_close()
+        {
+            if (_jpegInit)
+            {
+                jpeg_destroy_decompress(&_jpeg);
+                _jpegInit = false;
+            }
+            if (_f)
+            {
+                ::fclose(_f);
+                _f = nullptr;
+            }
         }
 
     } // namespace Graphics

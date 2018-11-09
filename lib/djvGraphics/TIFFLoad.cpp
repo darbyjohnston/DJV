@@ -38,25 +38,20 @@ namespace djv
 {
     namespace Graphics
     {
-        TIFFLoad::TIFFLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context)
-        {}
+        TIFFLoad::TIFFLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
+            ImageLoad(fileInfo, context)
+        {
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _close();
+            if (Core::FileInfo::SEQUENCE == _fileInfo.type())
+            {
+                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+            }
+        }
 
         TIFFLoad::~TIFFLoad()
         {
-            close();
-        }
-
-        void TIFFLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-        {
-            //DJV_DEBUG("TIFFLoad::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            _open(_file.fileName(_file.sequence().start()), info);
-            if (Core::FileInfo::SEQUENCE == _file.type())
-            {
-                info.sequence.frames = _file.sequence().frames;
-            }
+            _close();
         }
 
         void TIFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
@@ -68,15 +63,14 @@ namespace djv
             image.tags = ImageTags();
 
             // Open the file.
-            const QString fileName = _file.fileName(
-                frame.frame != -1 ? frame.frame : _file.sequence().start());
+            const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
             _open(fileName, info);
             image.tags = info.tags;
 
             // Read the file.
-            PixelData * data = frame.proxy ? &_tmp : &image;
+            auto data = frame.proxy ? &_tmp : &image;
             data->set(info);
             for (int y = 0; y < info.size.y; ++y)
             {
@@ -107,24 +101,13 @@ namespace djv
 
             // Close the file.
             //DJV_DEBUG_PRINT("image = " << image);
-            close();
-        }
-
-        void TIFFLoad::close()
-        {
-            if (_f)
-            {
-                TIFFClose(_f);
-                _f = 0;
-            }
+            _close();
         }
 
         void TIFFLoad::_open(const QString & in, ImageIOInfo & info)
         {
             //DJV_DEBUG("TIFFLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-
-            close();
 
             // Open the file.
 #if defined(DJV_WINDOWS)
@@ -146,7 +129,7 @@ namespace djv
             uint16   samples = 0;
             uint16   sampleDepth = 0;
             uint16   sampleFormat = 0;
-            uint16 * extraSamples = 0;
+            uint16 * extraSamples = nullptr;
             uint16   extraSamplesSize = 0;
             uint16   orient = 0;
             uint16   compression = 0;
@@ -239,6 +222,15 @@ namespace djv
             if (TIFFGetField(_f, TIFFTAG_DATETIME, &tag))
             {
                 info.tags[tags[ImageTags::TIME]] = tag;
+            }
+        }
+
+        void TIFFLoad::_close()
+        {
+            if (_f)
+            {
+                TIFFClose(_f);
+                _f = nullptr;
             }
         }
 

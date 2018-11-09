@@ -43,21 +43,19 @@ namespace djv
         class TIFFSave : public ImageSave
         {
         public:
-            TIFFSave(const TIFF::Options &, const QPointer<Core::CoreContext> &);
+            TIFFSave(const Core::FileInfo &, const ImageIOInfo &, const TIFF::Options &, const QPointer<Core::CoreContext> &);
             ~TIFFSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
-            void close() override;
 
         private:
             void _open(const QString &, const ImageIOInfo &);
+            void _close();
 
-            TIFF::Options  _options;
-            Core::FileInfo _file;
-            ::TIFF *       _f = nullptr;
-            PixelDataInfo  _info;
-            Image          _image;
+            TIFF::Options _options;
+            ::TIFF *      _f = nullptr;
+            PixelDataInfo _info;
+            Image         _image;
         };
 
     } // namespace Graphics

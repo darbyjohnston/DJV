@@ -41,18 +41,16 @@ namespace djv
         class TargaLoad : public ImageLoad
         {
         public:
-            explicit TargaLoad(const QPointer<Core::CoreContext> &);
+            explicit TargaLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~TargaLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
-            Core::FileInfo _file;
-            bool           _compression = false;
-            PixelData      _tmp;
+            bool      _compression = false;
+            PixelData _tmp;
         };
 
     } // namespace Graphics

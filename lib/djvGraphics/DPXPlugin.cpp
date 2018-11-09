@@ -293,14 +293,14 @@ namespace djv
                 arg(endianLabel.join(", "));
         }
 
-        ImageLoad * DPXPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> DPXPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new DPXLoad(_options, context());
+            return std::unique_ptr<ImageLoad>(new DPXLoad(fileInfo, _options, context()));
         }
 
-        ImageSave * DPXPlugin::createSave() const
+        std::unique_ptr<ImageSave> DPXPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new DPXSave(_options, context());
+            return std::unique_ptr<ImageSave>(new DPXSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

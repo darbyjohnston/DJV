@@ -108,20 +108,20 @@ namespace djv
             imageOptions.channel = options.channel;
 
             // Open the input file.
-            QScopedPointer<Graphics::ImageLoad> load;
-            Graphics::ImageIOInfo               loadInfo;
+            std::unique_ptr<Graphics::ImageLoad> load;
+            Graphics::ImageIOInfo loadInfo;
             Core::Error error;
-            while (!load.data())
+            while (!load)
             {
                 try
                 {
-                    load.reset(_context->imageIOFactory()->load(input.file, loadInfo));
+                    load = _context->imageIOFactory()->load(input.file, loadInfo);
                 }
                 catch (const Core::Error & in)
                 {
                     error = in;
                 }
-                if (!load.data() && input.timeout)
+                if (!load && input.timeout)
                 {
                     _context->print(qApp->translate("djv::convert::Application", "Timeout..."));
 
@@ -132,7 +132,7 @@ namespace djv
                     break;
                 }
             }
-            if (!load.data())
+            if (!load)
             {
                 error.add(
                     errorLabels()[ERROR_OPEN_INPUT].
@@ -170,7 +170,7 @@ namespace djv
                 arg(labelImage(loadInfo, loadInfo.sequence)));
 
             // Open the output file.
-            QScopedPointer<Graphics::ImageSave> save;
+            std::unique_ptr<Graphics::ImageSave> save;
             Graphics::ImageIOInfo saveInfo(loadInfo[layer]);
             glm::ivec2 scaleSize = loadInfo.size;
             glm::ivec2 size = options.size;
@@ -237,7 +237,7 @@ namespace djv
             //DJV_DEBUG_PRINT("save sequence = " << saveInfo.sequence);
             try
             {
-                save.reset(_context->imageIOFactory()->save(output.file, saveInfo));
+                save = _context->imageIOFactory()->save(output.file, saveInfo);
             }
             catch (Core::Error error)
             {
@@ -260,7 +260,7 @@ namespace djv
                 {
                     _context->print(qApp->translate("djv::convert::Application", "Slating..."));
                     Graphics::ImageIOInfo info;
-                    QScopedPointer<Graphics::ImageLoad> load(_context->imageIOFactory()->load(input.slate, info));
+                    auto load = _context->imageIOFactory()->load(input.slate, info);
                     Graphics::Image image;
                     load->read(image);
                     slate.set(saveInfo);

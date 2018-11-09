@@ -213,20 +213,17 @@ namespace djv
 
             try
             {
-                QScopedPointer<Graphics::ImageLoad> load(plugin->createLoad());
-                QScopedPointer<Graphics::ImageSave> save(plugin->createSave());
-                if (!load.data() || !save.data())
+                auto load = plugin->createLoad(fileName);
+                auto save = plugin->createSave(fileName, image.info());
+                if (!load || !save)
                     return;
 
-                save->open(fileName, image.info());
                 save->write(image);
                 save->close();
 
-                Graphics::ImageIOInfo info;
-                load->open(fileName, info);
                 Graphics::Image tmp;
                 load->read(tmp);
-                load->close();
+                auto info = load->imageIOInfo();
                 if (info.pixel != image.pixel() ||
                     info.size != image.size())
                     return;
@@ -267,15 +264,12 @@ namespace djv
                 io.set(buf.data(), buf.size());
                 io.close();
 
-                QScopedPointer<Graphics::ImageLoad> load(plugin->createLoad());
-                if (!load.data())
+                auto load = plugin->createLoad(fileNamePartial);
+                if (!load)
                     return;
 
-                Graphics::ImageIOInfo info;
-                load->open(fileNamePartial, info);
                 Graphics::Image tmp;
                 load->read(tmp);
-                load->close();
                 DJV_ASSERT(0);
             }
             catch (const Error & error)

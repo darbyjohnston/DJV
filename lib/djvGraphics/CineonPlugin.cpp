@@ -220,14 +220,14 @@ namespace djv
                 arg(outputFilmPrintLabel.join(", "));
         }
 
-        ImageLoad * CineonPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> CineonPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new CineonLoad(_options, context());
+            return std::unique_ptr<ImageLoad>(new CineonLoad(fileInfo, _options, context()));
         }
 
-        ImageSave * CineonPlugin::createSave() const
+        std::unique_ptr<ImageSave> CineonPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new CineonSave(_options, context());
+            return std::unique_ptr<ImageSave>(new CineonSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

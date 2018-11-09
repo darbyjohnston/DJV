@@ -53,9 +53,9 @@ namespace djv
                 ".rpf";
         }
 
-        ImageLoad * RLAPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> RLAPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new RLALoad(context());
+            return std::unique_ptr<ImageLoad>(new RLALoad(fileInfo, context()));
         }
 
     } // namespace Graphics

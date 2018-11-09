@@ -39,28 +39,19 @@ namespace djv
 {
     namespace Graphics
     {
-        JPEGSave::JPEGSave(const JPEG::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        JPEGSave::JPEGSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const JPEG::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        JPEGSave::~JPEGSave()
         {
-            close();
-        }
-
-        void JPEGSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-        {
-            //DJV_DEBUG("JPEGSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            if (info.sequence.frames.count() > 1)
+            //DJV_DEBUG("JPEGSave::JPEGSave");
+            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = ImageIOInfo();
-            _info.size = info.size;
-            Pixel::FORMAT format = Pixel::format(info.pixel);
+            _info.size = _imageIOInfo.size;
+            Pixel::FORMAT format = Pixel::format(_imageIOInfo.pixel);
             switch (format)
             {
             case Pixel::LA:
@@ -76,9 +67,13 @@ namespace djv
             _image.set(_info);
         }
 
+        JPEGSave::~JPEGSave()
+        {
+            _close();
+        }
+
         namespace
         {
-
             bool jpegScanline(
                 jpeg_compress_struct * jpeg,
                 const quint8 *         in,
@@ -114,7 +109,7 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            const QString fileName = _file.fileName(frame.frame);
+            const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info(_info);
             info.tags = in.tags;
@@ -143,26 +138,11 @@ namespace djv
             {
                 throw Core::Error(JPEG::staticName, _jpegError.msg);
             }
-            close();
-        }
-
-        void JPEGSave::close()
-        {
-            if (_jpegInit)
-            {
-                jpeg_destroy_compress(&_jpeg);
-                _jpegInit = false;
-            }
-            if (_f)
-            {
-                ::fclose(_f);
-                _f = 0;
-            }
+            _close();
         }
 
         namespace
         {
-
             bool jpegInit(jpeg_compress_struct * jpeg, JPEGErrorStruct * error)
             {
                 if (setjmp(error->jump))
@@ -219,8 +199,6 @@ namespace djv
             //DJV_DEBUG("JPEGSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            close();
-
             // Initialize libjpeg.
             _jpeg.err = jpeg_std_error(&_jpegError.pub);
             _jpegError.pub.error_exit = djvJPEGError;
@@ -247,6 +225,20 @@ namespace djv
             if (!jpegOpen(_f, &_jpeg, info, _options.quality, &_jpegError))
             {
                 throw Core::Error(JPEG::staticName, _jpegError.msg);
+            }
+        }
+
+        void JPEGSave::_close()
+        {
+            if (_jpegInit)
+            {
+                jpeg_destroy_compress(&_jpeg);
+                _jpegInit = false;
+            }
+            if (_f)
+            {
+                ::fclose(_f);
+                _f = nullptr;
             }
         }
 

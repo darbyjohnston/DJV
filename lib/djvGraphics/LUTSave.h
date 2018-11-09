@@ -43,20 +43,18 @@ namespace djv
         class LUTSave : public ImageSave
         {
         public:
-            LUTSave(const LUT::Options &, const QPointer<Core::CoreContext> &);
+            LUTSave(const Core::FileInfo &, const ImageIOInfo &, const LUT::Options &, const QPointer<Core::CoreContext> &);
             ~LUTSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const Core::FileInfo &);
 
-            LUT::Options   _options;
-            Core::FileInfo _file;
-            LUT::FORMAT    _format = static_cast<LUT::FORMAT>(0);
-            PixelDataInfo  _info;
-            Image          _image;
+            LUT::Options  _options;
+            LUT::FORMAT   _format = static_cast<LUT::FORMAT>(0);
+            PixelDataInfo _info;
+            Image         _image;
         };
 
     } // namespace Graphics

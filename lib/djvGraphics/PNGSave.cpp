@@ -40,29 +40,19 @@ namespace djv
 {
     namespace Graphics
     {
-        PNGSave::PNGSave(const QPointer<Core::CoreContext> & context) :
-            ImageSave(context)
+        PNGSave::PNGSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context)
         {
+            //DJV_DEBUG("PNGSave::PNGSave");
+            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
             _pngError.context = context;
-        }
-
-        PNGSave::~PNGSave()
-        {
-            close();
-        }
-
-        void PNGSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-        {
-            //DJV_DEBUG("PNGSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            if (info.sequence.frames.count() > 1)
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
-            _info.size = info.size;
-            Pixel::TYPE type = Pixel::type(info.pixel);
+            _info.size = _imageIOInfo.size;
+            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
             switch (type)
             {
             case Pixel::U10:
@@ -70,9 +60,14 @@ namespace djv
             case Pixel::F32: type = Pixel::U16; break;
             default: break;
             }
-            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
+        }
+
+        PNGSave::~PNGSave()
+        {
+            _close();
         }
 
         namespace
@@ -101,7 +96,7 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            const QString fileName = _file.fileName(frame.frame);
+            const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info(_info);
             info.tags = in.tags;
@@ -130,24 +125,7 @@ namespace djv
                 throw Core::Error(PNG::staticName, _pngError.msg);
             }
 
-            close();
-        }
-
-        void PNGSave::close()
-        {
-            if (_png || _pngInfo)
-            {
-                png_destroy_write_struct(
-                    _png ? &_png : 0,
-                    _pngInfo ? &_pngInfo : 0);
-                _png = nullptr;
-                _pngInfo = nullptr;
-            }
-            if (_f)
-            {
-                ::fclose(_f);
-                _f = nullptr;
-            }
+            _close();
         }
 
         namespace
@@ -210,8 +188,6 @@ namespace djv
             //DJV_DEBUG("PNGSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            close();
-
             // Initialize libpng.
             _png = png_create_write_struct(
                 PNG_LIBPNG_VER_STRING,
@@ -247,6 +223,23 @@ namespace djv
                 Core::Memory::LSB == Core::Memory::endian())
             {
                 png_set_swap(_png);
+            }
+        }
+
+        void PNGSave::_close()
+        {
+            if (_png || _pngInfo)
+            {
+                png_destroy_write_struct(
+                    _png ? &_png : nullptr,
+                    _pngInfo ? &_pngInfo : nullptr);
+                _png = nullptr;
+                _pngInfo = nullptr;
+            }
+            if (_f)
+            {
+                ::fclose(_f);
+                _f = nullptr;
             }
         }
 

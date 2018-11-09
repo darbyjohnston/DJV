@@ -37,28 +37,18 @@ namespace djv
 {
     namespace Graphics
     {
-        TIFFSave::TIFFSave(const TIFF::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        TIFFSave::TIFFSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const TIFF::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        TIFFSave::~TIFFSave()
         {
-            close();
-        }
-
-        void TIFFSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-        {
-            //DJV_DEBUG("TIFFSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-
-            _file = in;
+            //DJV_DEBUG("TIFFSave::TIFFSave");
+            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
             _info = PixelDataInfo();
-            _info.size = info.size;
+            _info.size = _imageIOInfo.size;
             _info.mirror.y = true;
 
-            Pixel::TYPE type = Pixel::type(info.pixel);
+            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
             switch (type)
             {
             case Pixel::U10: type = Pixel::U16; break;
@@ -67,10 +57,15 @@ namespace djv
             default: break;
             }
 
-            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
             //DJV_DEBUG_PRINT("info = " << _info);
 
             _image.set(_info);
+        }
+
+        TIFFSave::~TIFFSave()
+        {
+            _close();
         }
 
         void TIFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
@@ -79,7 +74,7 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            const QString fileName = _file.fileName(frame.frame);
+            const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info(_info);
             info.tags = in.tags;
@@ -107,24 +102,13 @@ namespace djv
                 }
             }
 
-            close();
-        }
-
-        void TIFFSave::close()
-        {
-            if (_f)
-            {
-                TIFFClose(_f);
-                _f = 0;
-            }
+            _close();
         }
 
         void TIFFSave::_open(const QString & in, const ImageIOInfo & info)
         {
             //DJV_DEBUG("TIFFSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-
-            close();
 
             // Open the file.
 #if defined(DJV_WINDOWS)
@@ -231,6 +215,15 @@ namespace djv
             if (tmp.length())
             {
                 TIFFSetField(_f, TIFFTAG_IMAGEDESCRIPTION, tmp.toUtf8().data());
+            }
+        }
+
+        void TIFFSave::_close()
+        {
+            if (_f)
+            {
+                TIFFClose(_f);
+                _f = nullptr;
             }
         }
 

@@ -358,14 +358,14 @@ namespace djv
                 ;
         }
 
-        ImageLoad * OpenEXRPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> OpenEXRPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new OpenEXRLoad(_options, context());
+            return std::unique_ptr<ImageLoad>(new OpenEXRLoad(fileInfo, _options, context()));
         }
 
-        ImageSave * OpenEXRPlugin::createSave() const
+        std::unique_ptr<ImageSave> OpenEXRPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new OpenEXRSave(_options, context());
+            return std::unique_ptr<ImageSave>(new OpenEXRSave(fileInfo, imageIOInfo, _options, context()));
         }
 
         void OpenEXRPlugin::threadsUpdate()

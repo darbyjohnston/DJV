@@ -236,14 +236,14 @@ namespace djv
                 arg(qualityLabel.join(", "));
         }
 
-        ImageLoad * FFmpegPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> FFmpegPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new FFmpegLoad(context());
+            return std::unique_ptr<ImageLoad>(new FFmpegLoad(fileInfo, context()));
         }
 
-        ImageSave * FFmpegPlugin::createSave() const
+        std::unique_ptr<ImageSave> FFmpegPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new FFmpegSave(_options, context());
+            return std::unique_ptr<ImageSave>(new FFmpegSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

@@ -64,7 +64,7 @@ namespace djv
                 try
                 {
                     Graphics::ImageIOInfo info;
-                    QScopedPointer<Graphics::ImageLoad> load(context->imageIOFactory()->load(fileInfoTmp, info));
+                    auto load = context->imageIOFactory()->load(fileInfoTmp, info);
                     Graphics::Image image;
                     load->read(image);
                     lut = image;

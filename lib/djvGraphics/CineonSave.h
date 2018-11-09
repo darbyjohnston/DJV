@@ -40,21 +40,18 @@ namespace djv
 {
     namespace Graphics
     {
-        //! This class provides a Cineon saver.
         class CineonSave : public ImageSave
         {
         public:
-            CineonSave(const Cineon::Options &, const QPointer<Core::CoreContext> &);
+            CineonSave(const Core::FileInfo &, const ImageIOInfo &, const Cineon::Options &, const QPointer<Core::CoreContext> &);
             ~CineonSave();
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, const ImageIOInfo &);
 
             Cineon::Options _options;
-            Core::FileInfo  _file;
             CineonHeader    _header;
             PixelDataInfo   _info;
             Image           _image;

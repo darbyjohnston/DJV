@@ -69,8 +69,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            ImageLoad * createLoad() const override;
-            ImageSave * createSave() const override;
+            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
 
         private:
             DPX::Options _options;

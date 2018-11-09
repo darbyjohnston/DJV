@@ -64,18 +64,16 @@ namespace djv
         class OpenEXRLoad : public ImageLoad
         {
         public:
-            OpenEXRLoad(const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
+            OpenEXRLoad(const Core::FileInfo &, const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
             ~OpenEXRLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
-            void close() override;
 
         private:
             void _open(const QString &, ImageIOInfo &);
+            void _close();
 
             OpenEXR::Options                     _options;
-            Core::FileInfo                       _file;
             std::unique_ptr<MemoryMappedIStream> _s;
             std::unique_ptr<Imf::InputFile>      _f;
             Core::Box2i                          _displayWindow;

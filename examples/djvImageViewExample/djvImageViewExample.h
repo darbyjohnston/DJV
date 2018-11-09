@@ -73,7 +73,7 @@ namespace djv
     private:
         QScopedPointer<UI::UIContext> _context;
         Core::FileInfo _fileInfo;
-        QScopedPointer<Graphics::ImageLoad> _load;
+        std::unique_ptr<Graphics::ImageLoad> _load;
         Graphics::Image _image;
         QScopedPointer<ImageViewExampleWidget> _widget;
     };

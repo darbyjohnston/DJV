@@ -43,20 +43,18 @@ namespace djv
         class PPMSave : public ImageSave
         {
         public:
-            PPMSave(const PPM::Options &, const QPointer<Core::CoreContext> &);
+            PPMSave(const Core::FileInfo &, const ImageIOInfo &, const PPM::Options &, const QPointer<Core::CoreContext> &);
             ~PPMSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, Core::FileIO &);
 
-            PPM::Options   _options;
-            Core::FileInfo _file;
-            int            _bitDepth = 0;
-            PixelDataInfo  _info;
-            Image          _image;
+            PPM::Options  _options;
+            int           _bitDepth = 0;
+            PixelDataInfo _info;
+            Image         _image;
         };
 
     } // namespace Graphics

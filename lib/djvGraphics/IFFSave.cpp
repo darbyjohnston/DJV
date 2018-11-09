@@ -38,30 +38,23 @@ namespace djv
 {
     namespace Graphics
     {
-        IFFSave::IFFSave(const IFF::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        IFFSave::IFFSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const IFF::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        IFFSave::~IFFSave()
-        {}
-
-        void IFFSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
         {
-            //DJV_DEBUG("IFFSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG("IFFSave::IFFSave");
+            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
-            _file = in;
-            if (info.sequence.frames.count() > 1)
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
-            _info.size = info.size;
+            _info.size = _imageIOInfo.size;
             _info.endian = Core::Memory::MSB;
 
-            Pixel::FORMAT format = Pixel::format(info.pixel);
+            Pixel::FORMAT format = Pixel::format(_imageIOInfo.pixel);
             switch (format)
             {
             case Pixel::L:  format = Pixel::RGB;  break;
@@ -69,7 +62,7 @@ namespace djv
             default: break;
             }
 
-            Pixel::TYPE type = Pixel::type(info.pixel);
+            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
             switch (type)
             {
             case Pixel::U10:
@@ -85,6 +78,9 @@ namespace djv
             _image.set(_info);
         }
 
+        IFFSave::~IFFSave()
+        {}
+
         void IFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
         {
             //DJV_DEBUG("djvIFFSave::write");
@@ -93,7 +89,7 @@ namespace djv
             // Open the file.
             Core::FileIO io;
             io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
-            io.open(_file.fileName(frame.frame), Core::FileIO::WRITE);
+            io.open(_fileInfo.fileName(frame.frame), Core::FileIO::WRITE);
             IFF::saveInfo(
                 io,
                 _info,

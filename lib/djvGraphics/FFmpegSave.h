@@ -43,10 +43,9 @@ namespace djv
         class FFmpegSave : public ImageSave
         {
         public:
-            FFmpegSave(const FFmpeg::Options &, const QPointer<Core::CoreContext> &);
+            FFmpegSave(const Core::FileInfo &, const ImageIOInfo &, const FFmpeg::Options &, const QPointer<Core::CoreContext> &);
             virtual ~FFmpegSave();
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
             void close() override;
 

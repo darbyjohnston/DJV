@@ -115,7 +115,7 @@ namespace djv
         }
         try
         {
-            _load.reset(_context->imageIOFactory()->load(_fileInfo, _info));
+            _load = _context->imageIOFactory()->load(_fileInfo, _info);
         }
         catch (const Core::Error & error)
         {

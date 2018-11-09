@@ -43,17 +43,15 @@ namespace djv
         class IFFSave : public ImageSave
         {
         public:
-            IFFSave(const IFF::Options &, const QPointer<Core::CoreContext> &);
+            IFFSave(const Core::FileInfo &, const ImageIOInfo &, const IFF::Options &, const QPointer<Core::CoreContext> &);
             ~IFFSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
-            IFF::Options   _options;
-            Core::FileInfo _file;
-            PixelDataInfo  _info;
-            Image          _image;
+            IFF::Options  _options;
+            PixelDataInfo _info;
+            Image         _image;
         };
 
     } // namespace Graphics

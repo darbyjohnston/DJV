@@ -56,9 +56,9 @@ namespace djv
             return false;
         }
 
-        ImageLoad * IFLPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> IFLPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new IFLLoad(context());
+            return std::unique_ptr<ImageLoad>(new IFLLoad(fileInfo, context()));
         }
 
     } // namespace Graphics

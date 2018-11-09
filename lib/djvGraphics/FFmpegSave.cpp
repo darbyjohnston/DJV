@@ -41,21 +41,13 @@ namespace djv
 {
     namespace Graphics
     {
-        FFmpegSave::FFmpegSave(const FFmpeg::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        FFmpegSave::FFmpegSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const FFmpeg::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        FFmpegSave::~FFmpegSave()
-        {}
-        
-        void FFmpegSave::open(const Core::FileInfo & fileInfo, const ImageIOInfo & info)
         {
-            //DJV_DEBUG("FFmpegSave::open");
+            //DJV_DEBUG("FFmpegSave::FFmpegSave");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-            //DJV_DEBUG_PRINT("info = " << info);
-
-            close();
+            //DJV_DEBUG_PRINT("imageIOInfo = " << imageIOInfo);
 
             _frame = 0;
 
@@ -91,7 +83,7 @@ namespace djv
                     break;*/
             case FFmpeg::MPEG4:
                 pixel = Pixel::RGBA_U8;
-                bgr = info.bgr;
+                bgr = imageIOInfo.bgr;
                 avFormatName = "mp4";
                 avCodecId = AV_CODEC_ID_MPEG4;
                 avPixel = AV_PIX_FMT_YUV420P;
@@ -106,7 +98,7 @@ namespace djv
                 break;
             case FFmpeg::PRO_RES:
                 pixel = Pixel::RGB_U16;
-                bgr = info.bgr;
+                bgr = imageIOInfo.bgr;
                 avFormatName = "mov";
                 avCodecId = AV_CODEC_ID_PRORES;
                 avPixel = AV_PIX_FMT_YUV422P10;
@@ -126,7 +118,7 @@ namespace djv
                 break;
             case FFmpeg::MJPEG:
                 pixel = Pixel::RGBA_U8;
-                bgr = info.bgr;
+                bgr = imageIOInfo.bgr;
                 avFormatName = "mov";
                 avCodecId = AV_CODEC_ID_MJPEG;
                 avPixel = AV_PIX_FMT_YUVJ422P;
@@ -179,10 +171,10 @@ namespace djv
             //DJV_DEBUG_PRINT("default gop = " << avCodecContext->gop_size);
 
             avCodecContext->pix_fmt = avPixel;
-            avCodecContext->width = info.size.x;
-            avCodecContext->height = info.size.y;
-            avCodecContext->time_base.den = info.sequence.speed.scale();
-            avCodecContext->time_base.num = info.sequence.speed.duration();
+            avCodecContext->width = imageIOInfo.size.x;
+            avCodecContext->height = imageIOInfo.size.y;
+            avCodecContext->time_base.den = imageIOInfo.sequence.speed.scale();
+            avCodecContext->time_base.num = imageIOInfo.sequence.speed.duration();
 
             if (avFormat->flags & AVFMT_GLOBALHEADER)
                 avCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
@@ -210,8 +202,8 @@ namespace djv
             }
 
             _avStream->codec = avCodecContext;
-            _avStream->time_base.den = info.sequence.speed.scale();
-            _avStream->time_base.num = info.sequence.speed.duration();
+            _avStream->time_base.den = imageIOInfo.sequence.speed.scale();
+            _avStream->time_base.num = imageIOInfo.sequence.speed.duration();
 
             r = avio_open2(
                 &_avIoContext,
@@ -237,16 +229,16 @@ namespace djv
 
             _info = PixelDataInfo();
             _info.fileName = fileInfo;
-            _info.size = info.size;
+            _info.size = imageIOInfo.size;
             _info.pixel = pixel;
-            _info.bgr = info.bgr;
+            _info.bgr = imageIOInfo.bgr;
 
             // Initialize the buffers.
             _image.set(_info);
 
             _avFrame = av_frame_alloc();
-            _avFrame->width = info.size.x;
-            _avFrame->height = info.size.y;
+            _avFrame->width = imageIOInfo.size.x;
+            _avFrame->height = imageIOInfo.size.y;
             _avFrame->format = avCodecContext->pix_fmt;
 
             _avFrameBuf = (uint8_t *)av_malloc(
@@ -266,8 +258,8 @@ namespace djv
 
             // Initialize the software scaler.
             _swsContext = sws_getContext(
-                info.size.x,
-                info.size.y,
+                imageIOInfo.size.x,
+                imageIOInfo.size.y,
                 _avFrameRgbPixel,
                 avCodecContext->width,
                 avCodecContext->height,
@@ -283,6 +275,9 @@ namespace djv
                     qApp->translate("djv::Graphics::FFmpegSave", "Cannot create software scaler"));
             }
         }
+
+        FFmpegSave::~FFmpegSave()
+        {}
 
         void FFmpegSave::write(const Image & in, const ImageIOFrameInfo & frame)
         {
@@ -387,7 +382,6 @@ namespace djv
         void FFmpegSave::close()
         {
             //DJV_DEBUG("FFmpegSave::close");
-
             Core::Error error;
             int r = 0;
             if (_avFormatContext)

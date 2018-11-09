@@ -42,17 +42,15 @@ namespace djv
         class PNGLoad : public ImageLoad
         {
         public:
-            explicit PNGLoad(const QPointer<Core::CoreContext> &);
+            explicit PNGLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~PNGLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
-            void close() override;
 
         private:
             void _open(const QString &, ImageIOInfo &);
+            void _close();
 
-            Core::FileInfo _file;
             FILE *         _f = nullptr;
             png_structp    _png = nullptr;
             png_infop      _pngInfo = nullptr;

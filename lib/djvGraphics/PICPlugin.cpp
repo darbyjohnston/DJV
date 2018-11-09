@@ -56,9 +56,9 @@ namespace djv
             return QStringList() << ".pic";
         }
 
-        ImageLoad * PICPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> PICPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new PICLoad(context());
+            return std::unique_ptr<ImageLoad>(new PICLoad(fileInfo, context()));
         }
 
     } // namespace Graphics

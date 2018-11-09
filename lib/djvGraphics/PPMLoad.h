@@ -42,19 +42,17 @@ namespace djv
         class PPMLoad : public ImageLoad
         {
         public:
-            explicit PPMLoad(const QPointer<Core::CoreContext> &);
+            explicit PPMLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~PPMLoad();
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
-            Core::FileInfo _file;
-            int            _bitDepth = 0;
-            PPM::DATA      _data     = static_cast<PPM::DATA>(0);
-            PixelData      _tmp;
+            int       _bitDepth = 0;
+            PPM::DATA _data     = static_cast<PPM::DATA>(0);
+            PixelData _tmp;
         };
 
     } // namespace Graphics

@@ -44,45 +44,41 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenEXRSave::OpenEXRSave(const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        OpenEXRSave::OpenEXRSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        OpenEXRSave::~OpenEXRSave()
         {
-            close();
-        }
-
-        void OpenEXRSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
-        {
-            //DJV_DEBUG("OpenEXRSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG("OpenEXRSave::OpenEXRSave");
+            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
             // File information.
-            _file = in;
-            if (info.sequence.frames.count() > 1)
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
 
             // Image information.
             _info = PixelDataInfo();
-            _info.size = info.size;
+            _info.size = _imageIOInfo.size;
             _info.mirror.y = true;
-            Pixel::FORMAT format = Pixel::format(info.pixel);
+            Pixel::FORMAT format = Pixel::format(_imageIOInfo.pixel);
             Pixel::TYPE type = Pixel::TYPE(0);
-            switch (Pixel::type(info.pixel))
+            switch (Pixel::type(_imageIOInfo.pixel))
             {
             case Pixel::F32: type = Pixel::F32; break;
             default: type = Pixel::F16; break;
             }
             _info.pixel = Pixel::pixel(format, type);
             //DJV_DEBUG_PRINT("info = " << _info);
-            _speed = info.sequence.speed;
+            _speed = _imageIOInfo.sequence.speed;
 
             // Initialize temporary image buffer.
             _tmp.set(_info);
+        }
+
+        OpenEXRSave::~OpenEXRSave()
+        {
+            _close();
         }
 
         void OpenEXRSave::write(const Image & in, const ImageIOFrameInfo & frame)
@@ -96,7 +92,7 @@ namespace djv
                 ImageIOInfo info(_info);
                 info.tags = in.tags;
                 info.sequence.speed = _speed;
-                _open(_file.fileName(frame.frame), info);
+                _open(_fileInfo.fileName(frame.frame), info);
 
                 // Convert the image.
                 const PixelData * p = &in;
@@ -140,13 +136,7 @@ namespace djv
                     error.what());
             }
 
-            close();
-        }
-
-        void OpenEXRSave::close()
-        {
-            delete _f;
-            _f = 0;
+            _close();
         }
 
         void OpenEXRSave::_open(const QString & in, const ImageIOInfo & info)
@@ -156,8 +146,6 @@ namespace djv
 
             try
             {
-                close();
-
                 // Set the header.
                 Imf::Header header(info.size.x, info.size.y);
                 switch (Pixel::channels(info.pixel))
@@ -228,6 +216,12 @@ namespace djv
                     OpenEXR::staticName,
                     error.what());
             }
+        }
+
+        void OpenEXRSave::_close()
+        {
+            delete _f;
+            _f = nullptr;
         }
 
     } // namespace Graphics

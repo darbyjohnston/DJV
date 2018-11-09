@@ -39,36 +39,32 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTSave::LUTSave(const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        LUTSave::LUTSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        LUTSave::~LUTSave()
-        {}
-
-        void LUTSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
         {
-            //DJV_DEBUG("LUTSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            if (info.sequence.frames.count() > 1)
+            //DJV_DEBUG("LUTSave::LUTSave");
+            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
-            _info.size = glm::ivec2(info.size.x, 1);
-            Pixel::TYPE type = Pixel::type(info.pixel);
+            _info.size = glm::ivec2(_imageIOInfo.size.x, 1);
+            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
             switch (type)
             {
             case Pixel::F16:
             case Pixel::F32: type = Pixel::U16; break;
             default: break;
             }
-            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
         }
+
+        LUTSave::~LUTSave()
+        {}
 
         void LUTSave::write(const Image & in, const ImageIOFrameInfo & frame)
         {
@@ -77,10 +73,10 @@ namespace djv
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             // Open the file.
-            const QString fileName = _file.fileName(frame.frame);
+            const QString fileName = _fileInfo.fileName(frame.frame);
             Core::FileIO io;
             io.open(fileName, Core::FileIO::WRITE);
-            const int index = LUT::staticExtensions.indexOf(_file.extension());
+            const int index = LUT::staticExtensions.indexOf(_fileInfo.extension());
             if (-1 == index)
             {
                 throw Core::Error(

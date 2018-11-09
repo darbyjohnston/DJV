@@ -37,26 +37,17 @@ namespace djv
 {
     namespace Graphics
     {
-        TargaSave::TargaSave(const Targa::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        TargaSave::TargaSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const Targa::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        TargaSave::~TargaSave()
-        {}
-
-        void TargaSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
         {
-            //DJV_DEBUG("TargaSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            if (info.sequence.frames.count() > 1)
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
-            _info.size = info.size;
-            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), Pixel::U8);
+            _info.size = _imageIOInfo.size;
+            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), Pixel::U8);
             switch (Pixel::format(_info.pixel))
             {
             case Pixel::RGB:
@@ -68,13 +59,16 @@ namespace djv
             _image.set(_info);
         }
 
+        TargaSave::~TargaSave()
+        {}
+
         void TargaSave::write(const Image & in, const ImageIOFrameInfo & frame)
         {
             //DJV_DEBUG("TargaSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            const QString fileName = _file.fileName(frame.frame);
+            const QString fileName = _fileInfo.fileName(frame.frame);
             Core::FileIO io;
             io.setEndian(Core::Memory::endian() != Core::Memory::LSB);
             io.open(fileName, Core::FileIO::WRITE);

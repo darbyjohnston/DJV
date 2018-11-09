@@ -142,14 +142,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        ImageLoad * TIFFPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> TIFFPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new TIFFLoad(context());
+            return std::unique_ptr<ImageLoad>(new TIFFLoad(fileInfo, context()));
         }
 
-        ImageSave * TIFFPlugin::createSave() const
+        std::unique_ptr<ImageSave> TIFFPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new TIFFSave(_options, context());
+            return std::unique_ptr<ImageSave>(new TIFFSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

@@ -38,14 +38,12 @@ namespace djv
 {
     namespace Graphics
     {
-        //! This class provides a Cineon loader.
         class CineonLoad : public ImageLoad
         {
         public:
-            CineonLoad(const Cineon::Options &, const QPointer<Core::CoreContext> &);
+            CineonLoad(const Core::FileInfo &, const Cineon::Options &, const QPointer<Core::CoreContext> &);
             ~CineonLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
@@ -54,7 +52,6 @@ namespace djv
             Cineon::Options _options;
             bool            _filmPrint = false;
             PixelData       _filmPrintLut;
-            Core::FileInfo  _file;
             PixelData       _tmp;
         };
 

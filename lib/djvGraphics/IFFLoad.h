@@ -45,19 +45,17 @@ namespace djv
         class IFFLoad : public ImageLoad
         {
         public:
-            explicit IFFLoad(const QPointer<Core::CoreContext> &);
+            explicit IFFLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~IFFLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &);
 
-            Core::FileInfo _file;
-            int            _tiles       = 0;
-            bool           _compression = false;
-            PixelData      _tmp;
+            int       _tiles       = 0;
+            bool      _compression = false;
+            PixelData _tmp;
         };
 
     } // namespace Graphics

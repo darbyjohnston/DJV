@@ -43,18 +43,16 @@ namespace djv
         class JPEGSave : public ImageSave
         {
         public:
-            JPEGSave(const JPEG::Options &, const QPointer<Core::CoreContext> &);
+            JPEGSave(const Core::FileInfo &, const ImageIOInfo &, const JPEG::Options &, const QPointer<Core::CoreContext> &);
             ~JPEGSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
-            void close() override;
 
         private:
             void _open(const QString &, const ImageIOInfo &);
+            void _close();
 
             JPEG::Options        _options;
-            Core::FileInfo       _file;
             FILE *               _f = nullptr;
             jpeg_compress_struct _jpeg;
             bool                 _jpegInit = false;

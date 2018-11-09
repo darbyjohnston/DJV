@@ -42,17 +42,15 @@ namespace djv
         class TargaSave : public ImageSave
         {
         public:
-            TargaSave(const Targa::Options &, const QPointer<Core::CoreContext> &);
+            TargaSave(const Core::FileInfo &, const ImageIOInfo &, const Targa::Options &, const QPointer<Core::CoreContext> &);
             ~TargaSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &);
 
             Targa::Options _options;
-            Core::FileInfo _file;
             PixelDataInfo  _info;
             Image          _image;
         };

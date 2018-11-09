@@ -32,6 +32,7 @@
 #include <djvGraphics/ImageTags.h>
 #include <djvGraphics/PixelData.h>
 
+#include <djvCore/FileInfo.h>
 #include <djvCore/Plugin.h>
 #include <djvCore/Sequence.h>
 #include <djvCore/System.h>
@@ -51,7 +52,6 @@ namespace djv
     namespace Core
     {
         class CoreContext;
-        class FileInfo;
 
     } // namespace Core
 
@@ -117,14 +117,16 @@ namespace djv
         class ImageLoad
         {
         public:
-            explicit ImageLoad(const QPointer<Core::CoreContext> &);
-            virtual ~ImageLoad() = 0;
-
-            //! Open an image.
-            //!
             //! Throws:
             //! - Core::Error
-            virtual void open(const Core::FileInfo &, ImageIOInfo &) = 0;
+            explicit ImageLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
+            virtual ~ImageLoad() = 0;
+
+            //! Get the file information.
+            const Core::FileInfo & fileInfo() const { _fileInfo; }
+
+            //! Get the image I/O information.
+            const ImageIOInfo & imageIOInfo() const { return _imageIOInfo; }
 
             //! Load an image.
             //!
@@ -132,14 +134,12 @@ namespace djv
             //! - Core::Error
             virtual void read(Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) = 0;
 
-            //! Close the image.
-            //!
-            //! Throws:
-            //! - Core::Error
-            virtual void close();
-
             //! Get the context.
             const QPointer<Core::CoreContext> & context() const;
+
+        protected:
+            Core::FileInfo _fileInfo;
+            ImageIOInfo _imageIOInfo;
 
         private:
             struct Private;
@@ -150,14 +150,16 @@ namespace djv
         class ImageSave
         {
         public:
-            explicit ImageSave(const QPointer<Core::CoreContext> &);
-            virtual ~ImageSave() = 0;
-
-            //! Open an image.
-            //!
             //! Throws:
             //! - Core::Error
-            virtual void open(const Core::FileInfo &, const ImageIOInfo &) = 0;
+            explicit ImageSave(const Core::FileInfo &, const ImageIOInfo &, const QPointer<Core::CoreContext> &);
+            virtual ~ImageSave() = 0;
+
+            //! Get the file information.
+            const Core::FileInfo & fileInfo() const { _fileInfo; }
+
+            //! Get the image I/O information.
+            const ImageIOInfo & imageIOInfo() const { return _imageIOInfo; }
 
             //! Save an image.
             //!
@@ -165,7 +167,7 @@ namespace djv
             //! - Core::Error
             virtual void write(const Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) = 0;
 
-            //! Close the image.
+            //! Close the file.
             //!
             //! Throws:
             //! - Core::Error
@@ -173,6 +175,10 @@ namespace djv
 
             //! Get the context.
             const QPointer<Core::CoreContext> & context() const;
+
+        protected:
+            Core::FileInfo _fileInfo;
+            ImageIOInfo _imageIOInfo;
 
         private:
             struct Private;
@@ -213,10 +219,10 @@ namespace djv
             virtual QString commandLineHelp() const;
 
             //! Get an image loader.
-            virtual ImageLoad * createLoad() const;
+            virtual std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const;
 
             //! Get an image saver.
-            virtual ImageSave * createSave() const;
+            virtual std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const;
 
             //! This enumeration provides error codes.
             enum ERROR
@@ -260,13 +266,13 @@ namespace djv
             //!
             //! Throws:
             //! - Core::Error
-            ImageLoad * load(const Core::FileInfo &, ImageIOInfo &) const;
+            std::unique_ptr<ImageLoad> load(const Core::FileInfo &, ImageIOInfo &) const;
 
             //! Open an image for saving.
             //!
             //! Throws:
             //! - Core::Error
-            ImageSave * save(const Core::FileInfo &, const ImageIOInfo &) const;
+            std::unique_ptr<ImageSave> save(const Core::FileInfo &, const ImageIOInfo &) const;
 
             //! This enumeration provides error codes.
             enum ERROR

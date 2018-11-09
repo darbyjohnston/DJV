@@ -52,14 +52,14 @@ namespace djv
             return QStringList() << ".png";
         }
 
-        ImageLoad * PNGPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> PNGPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new PNGLoad(context());
+            return std::unique_ptr<ImageLoad>(new PNGLoad(fileInfo, context()));
         }
 
-        ImageSave * PNGPlugin::createSave() const
+        std::unique_ptr<ImageSave> PNGPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new PNGSave(context());
+            return std::unique_ptr<ImageSave>(new PNGSave(fileInfo, imageIOInfo, context()));
         }
 
     } // namespace Graphics

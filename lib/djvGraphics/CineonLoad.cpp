@@ -41,27 +41,20 @@ namespace djv
 {
     namespace Graphics
     {
-        CineonLoad::CineonLoad(const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context),
+        CineonLoad::CineonLoad(const Core::FileInfo & fileInfo, const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageLoad(fileInfo, context),
             _options(options)
-        {}
+        {
+            Core::FileIO io;
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            if (Core::FileInfo::SEQUENCE == _fileInfo.type())
+            {
+                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+            }
+        }
 
         CineonLoad::~CineonLoad()
         {}
-
-        void CineonLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-        {
-            //DJV_DEBUG("CineonLoad::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-
-            _file = in;
-            Core::FileIO io;
-            _open(_file.fileName(_file.sequence().start()), info, io);
-            if (Core::FileInfo::SEQUENCE == _file.type())
-            {
-                info.sequence.frames = _file.sequence().frames;
-            }
-        }
 
         void CineonLoad::read(Image & image, const ImageIOFrameInfo & frame)
         {
@@ -69,8 +62,7 @@ namespace djv
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             // Open the file.
-            const QString fileName =
-                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
             QScopedPointer<Core::FileIO> io(new Core::FileIO);

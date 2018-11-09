@@ -137,14 +137,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        ImageLoad * IFFPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> IFFPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new IFFLoad(context());
+            return std::unique_ptr<ImageLoad>(new IFFLoad(fileInfo, context()));
         }
 
-        ImageSave * IFFPlugin::createSave() const
+        std::unique_ptr<ImageSave> IFFPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new IFFSave(_options, context());
+            return std::unique_ptr<ImageSave>(new IFFSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

@@ -44,20 +44,18 @@ namespace djv
         class DPXSave : public ImageSave
         {
         public:
-            DPXSave(const DPX::Options &, const QPointer<Core::CoreContext> &);
+            DPXSave(const Core::FileInfo &, const ImageIOInfo &, const DPX::Options &, const QPointer<Core::CoreContext> &);
             ~DPXSave() override;
 
-            void open(const Core::FileInfo &, const ImageIOInfo &) override;
             void write(const Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, const ImageIOInfo &);
 
-            DPX::Options   _options;
-            Core::FileInfo _file;
-            DPXHeader      _header;
-            PixelDataInfo  _info;
-            Image          _image;
+            DPX::Options  _options;
+            DPXHeader     _header;
+            PixelDataInfo _info;
+            Image         _image;
         };
 
     } // namespace Graphics

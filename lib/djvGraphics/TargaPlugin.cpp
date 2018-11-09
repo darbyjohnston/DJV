@@ -134,14 +134,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        ImageLoad * TargaPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> TargaPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new TargaLoad(context());
+            return std::unique_ptr<ImageLoad>(new TargaLoad(fileInfo, context()));
         }
 
-        ImageSave * TargaPlugin::createSave() const
+        std::unique_ptr<ImageSave> TargaPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new TargaSave(_options, context());
+            return std::unique_ptr<ImageSave>(new TargaSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

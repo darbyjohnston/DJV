@@ -42,16 +42,14 @@ namespace djv
         class RLALoad : public ImageLoad
         {
         public:
-            explicit RLALoad(const QPointer<Core::CoreContext> &);
+            explicit RLALoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~RLALoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
-            Core::FileInfo      _file;
             std::vector<qint32> _rleOffset;
             PixelData           _tmp;
         };

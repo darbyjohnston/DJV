@@ -104,16 +104,14 @@ namespace djv
             QPointer<Core::CoreContext> context;
         };
 
-        ImageLoad::ImageLoad(const QPointer<Core::CoreContext> & context) :
+        ImageLoad::ImageLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
+            _fileInfo(fileInfo),
             _p(new Private)
         {
             _p->context = context;
         }
 
         ImageLoad::~ImageLoad()
-        {}
-
-        void ImageLoad::close()
         {}
 
         const QPointer<Core::CoreContext> & ImageLoad::context() const
@@ -126,7 +124,9 @@ namespace djv
             QPointer<Core::CoreContext> context;
         };
 
-        ImageSave::ImageSave(const QPointer<Core::CoreContext> & context) :
+        ImageSave::ImageSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const QPointer<Core::CoreContext> & context) :
+            _fileInfo(fileInfo),
+            _imageIOInfo(imageIOInfo),
             _p(new Private)
         {
             _p->context = context;
@@ -183,14 +183,14 @@ namespace djv
             return QString();
         }
 
-        ImageLoad * ImageIO::createLoad() const
+        std::unique_ptr<ImageLoad> ImageIO::createLoad(const Core::FileInfo &) const
         {
-            return 0;
+            return nullptr;
         }
 
-        ImageSave * ImageIO::createSave() const
+        std::unique_ptr<ImageSave> ImageIO::createSave(const Core::FileInfo &, const ImageIOInfo &) const
         {
-            return 0;
+            return nullptr;
         }
 
         const QStringList & ImageIO::errorLabels()
@@ -272,9 +272,7 @@ namespace djv
             return false;
         }
 
-        ImageLoad * ImageIOFactory::load(
-            const Core::FileInfo & fileInfo,
-            ImageIOInfo &          imageIOInfo) const
+        std::unique_ptr<ImageLoad> ImageIOFactory::load(const Core::FileInfo & fileInfo, ImageIOInfo & imageIOInfo) const
         {
             //DJV_DEBUG("ImageIOFactory::load");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -282,11 +280,11 @@ namespace djv
             const QString extensionLower = fileInfo.extension().toLower();
             if (_p->extensionMap.contains(extensionLower))
             {
-                ImageIO * imageIO = _p->extensionMap[extensionLower];
+                auto imageIO = _p->extensionMap[extensionLower];
                 //DJV_LOG("ImageIOFactory", QString("Using plugin: \"%1\"").arg(imageIO->pluginName()));
-                if (ImageLoad * imageLoad = imageIO->createLoad())
+                if (auto imageLoad = imageIO->createLoad(fileInfo))
                 {
-                    imageLoad->open(fileInfo, imageIOInfo);
+                    imageIOInfo = imageLoad->imageIOInfo();
                     //QStringList tmp;
                     //tmp << imageIOInfo.size;
                     //DJV_LOG("ImageIOFactory", QString("Size: %1").arg(tmp.join(", ")));
@@ -300,12 +298,10 @@ namespace djv
                 "ImageIOFactory",
                 qApp->translate("djv::Graphics::ImageIOFactory", "Unrecognized image: %1").
                 arg(QDir::toNativeSeparators(fileInfo)));
-            return 0;
+            return nullptr;
         }
 
-        ImageSave * ImageIOFactory::save(
-            const Core::FileInfo & fileInfo,
-            const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<ImageSave> ImageIOFactory::save(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
             //DJV_DEBUG("ImageIOFactory::save");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -320,11 +316,10 @@ namespace djv
             const QString extensionLower = fileInfo.extension().toLower();
             if (_p->extensionMap.contains(extensionLower))
             {
-                ImageIO * imageIO = _p->extensionMap[extensionLower];
+                auto imageIO = _p->extensionMap[extensionLower];
                 //DJV_LOG("ImageIOFactory", QString("Using plugin: \"%1\"").arg(imageIO->pluginName()));
-                if (ImageSave * imageSave = imageIO->createSave())
+                if (auto imageSave = imageIO->createSave(fileInfo, imageIOInfo))
                 {
-                    imageSave->open(fileInfo, imageIOInfo);
                     return imageSave;
                 }
             }
@@ -332,7 +327,7 @@ namespace djv
                 "djv::Graphics::ImageIOFactory",
                 qApp->translate("djv::Graphics::ImageIOFactory", "Unrecognized image: %1").
                 arg(QDir::toNativeSeparators(fileInfo)));
-            return 0;
+            return nullptr;
         }
 
         const QStringList & ImageIOFactory::errorLabels()

@@ -42,17 +42,15 @@ namespace djv
         class JPEGLoad : public ImageLoad
         {
         public:
-            explicit JPEGLoad(const QPointer<Core::CoreContext> &);
+            explicit JPEGLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~JPEGLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
-            void close()  override;
 
         private:
             void _open(const QString &, ImageIOInfo &);
+            void _close();
 
-            Core::FileInfo         _file;
             FILE *                 _f = nullptr;
             jpeg_decompress_struct _jpeg;
             bool                   _jpegInit = false;

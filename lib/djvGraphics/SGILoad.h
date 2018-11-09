@@ -41,16 +41,14 @@ namespace djv
         class SGILoad : public ImageLoad
         {
         public:
-            explicit SGILoad(const QPointer<Core::CoreContext> &);
+            explicit SGILoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~SGILoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
-            Core::FileInfo       _file;
             bool                 _compression = false;
             std::vector<quint32> _rleOffset;
             std::vector<quint32> _rleSize;

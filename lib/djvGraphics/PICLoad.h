@@ -42,19 +42,17 @@ namespace djv
         class PICLoad : public ImageLoad
         {
         public:
-            explicit PICLoad(const QPointer<Core::CoreContext> &);
+            explicit PICLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~PICLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
-            Core::FileInfo _file;
-            PIC::TYPE      _type           = static_cast<PIC::TYPE>(0);
-            bool           _compression[2] = { false, false };
-            PixelData      _tmp;
+            PIC::TYPE _type           = static_cast<PIC::TYPE>(0);
+            bool      _compression[2] = { false, false };
+            PixelData _tmp;
         };
 
     } // namespace Graphics

@@ -40,27 +40,21 @@ namespace djv
 {
     namespace Graphics
     {
-        PNGLoad::PNGLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context)
+        PNGLoad::PNGLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
+            ImageLoad(fileInfo, context)
         {
             _pngError.context = context;
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _close();
+            if (Core::FileInfo::SEQUENCE == _fileInfo.type())
+            {
+                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+            }
         }
 
         PNGLoad::~PNGLoad()
         {
-            close();
-        }
-
-        void PNGLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-        {
-            //DJV_DEBUG("PNGLoad::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            _open(_file.fileName(_file.sequence().start()), info);
-            if (Core::FileInfo::SEQUENCE == _file.type())
-            {
-                info.sequence.frames = _file.sequence().frames;
-            }
+            _close();
         }
 
         namespace
@@ -96,8 +90,7 @@ namespace djv
             image.tags = ImageTags();
 
             // Open the file.
-            const QString fileName =
-                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
             _open(fileName, info);
@@ -128,27 +121,7 @@ namespace djv
 
             //DJV_DEBUG_PRINT("image = " << image);
 
-            close();
-        }
-
-        void PNGLoad::close()
-        {
-            if (_png || _pngInfo || _pngInfoEnd)
-            {
-                png_destroy_read_struct(
-                    _png ? &_png : 0,
-                    _pngInfo ? &_pngInfo : 0,
-                    _pngInfoEnd ? &_pngInfoEnd : 0);
-                _png = nullptr;
-                _pngInfo = nullptr;
-                _pngInfoEnd = nullptr;
-            }
-
-            if (_f)
-            {
-                ::fclose(_f);
-                _f = nullptr;
-            }
+            _close();
         }
 
         namespace
@@ -202,8 +175,6 @@ namespace djv
         {
             //DJV_DEBUG("PNGLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-
-            close();
 
             // Initialize libpng.
             _png = png_create_read_struct(
@@ -269,6 +240,25 @@ namespace djv
             if (bitDepth >= 16 && Core::Memory::LSB == Core::Memory::endian())
             {
                 png_set_swap(_png);
+            }
+        }
+
+        void PNGLoad::_close()
+        {
+            if (_png || _pngInfo || _pngInfoEnd)
+            {
+                png_destroy_read_struct(
+                    _png ? &_png : nullptr,
+                    _pngInfo ? &_pngInfo : nullptr,
+                    _pngInfoEnd ? &_pngInfoEnd : nullptr);
+                _png = nullptr;
+                _pngInfo = nullptr;
+                _pngInfoEnd = nullptr;
+            }
+            if (_f)
+            {
+                ::fclose(_f);
+                _f = nullptr;
             }
         }
 

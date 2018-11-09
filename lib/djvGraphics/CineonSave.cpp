@@ -38,29 +38,17 @@ namespace djv
 {
     namespace Graphics
     {
-        CineonSave::CineonSave(const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        CineonSave::CineonSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        CineonSave::~CineonSave()
-        {}
-
-        void CineonSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
         {
-            //DJV_DEBUG("CineonSave::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            //DJV_DEBUG_PRINT("info = " << info);
-
-            _file = in;
-
-            if (info.sequence.frames.count() > 1)
+            if (imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
-            _info.size = info.size;
+            _info.size = imageIOInfo.size;
             _info.pixel = Pixel::RGB_U10;
             _info.mirror.y = true;
             _info.endian = Core::Memory::MSB;
@@ -70,6 +58,9 @@ namespace djv
 
             _image.set(_info);
         }
+
+        CineonSave::~CineonSave()
+        {}
 
         void CineonSave::write(const Image & in, const ImageIOFrameInfo & frame)
         {
@@ -88,7 +79,7 @@ namespace djv
             }
 
             // Open the file.
-            const QString fileName = _file.fileName(frame.frame);
+            const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info(_info);
             info.fileName = fileName;

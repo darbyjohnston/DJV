@@ -104,27 +104,22 @@ namespace djv
             _pos = pos;
         }
 
-        OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context),
+        OpenEXRLoad::OpenEXRLoad(const Core::FileInfo & fileInfo, const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageLoad(fileInfo, context),
             _options(options)
-        {}
+        {
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _close();
+            //DJV_DEBUG_PRINT("info = " << info);
+            if (Core::FileInfo::SEQUENCE == _fileInfo.type())
+            {
+                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+            }
+        }
 
         OpenEXRLoad::~OpenEXRLoad()
         {
-            close();
-        }
-
-        void OpenEXRLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-        {
-            //DJV_DEBUG("OpenEXRLoad::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            _open(_file.fileName(_file.sequence().start()), info);
-            //DJV_DEBUG_PRINT("info = " << info);
-            if (Core::FileInfo::SEQUENCE == _file.type())
-            {
-                info.sequence.frames = _file.sequence().frames;
-            }
+            _close();
         }
 
         void OpenEXRLoad::read(Image & image, const ImageIOFrameInfo & frame)
@@ -134,8 +129,7 @@ namespace djv
             try
             {
                 // Open the file.
-                const QString fileName = _file.fileName(
-                    frame.frame != -1 ? frame.frame : _file.sequence().start());
+                const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
                 //DJV_DEBUG_PRINT("file name = " << fileName);
                 ImageIOInfo info;
                 _open(fileName, info);
@@ -275,21 +269,13 @@ namespace djv
             }
             //DJV_DEBUG_PRINT("image = " << image);
 
-            close();
-        }
-
-        void OpenEXRLoad::close()
-        {
-            _f.reset(nullptr);
-            _s.reset(nullptr);
+            _close();
         }
 
         void OpenEXRLoad::_open(const QString & in, ImageIOInfo & info)
         {
             //DJV_DEBUG("OpenEXRLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-
-            close();
 
             try
             {
@@ -355,6 +341,12 @@ namespace djv
                     OpenEXR::staticName,
                     error.what());
             }
+        }
+
+        void OpenEXRLoad::_close()
+        {
+            _f.reset(nullptr);
+            _s.reset(nullptr);
         }
 
     } // namespace Graphics

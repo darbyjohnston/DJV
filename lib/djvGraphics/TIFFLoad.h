@@ -42,22 +42,20 @@ namespace djv
         class TIFFLoad : public ImageLoad
         {
         public:
-            explicit TIFFLoad(const QPointer<Core::CoreContext> &);
+            explicit TIFFLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~TIFFLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &)  override;
-            void close() override;
 
         private:
             void _open(const QString &, ImageIOInfo &);
+            void _close();
 
-            Core::FileInfo _file;
-            ::TIFF *       _f           = nullptr;
-            bool           _compression = false;
-            bool           _palette     = false;
-            uint16 *       _colormap[3] = { nullptr, nullptr, nullptr };
-            PixelData      _tmp;
+            ::TIFF *  _f           = nullptr;
+            bool      _compression = false;
+            bool      _palette     = false;
+            uint16 *  _colormap[3] = { nullptr, nullptr, nullptr };
+            PixelData _tmp;
         };
 
     } // namespace Graphics

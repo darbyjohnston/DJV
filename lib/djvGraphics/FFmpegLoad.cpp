@@ -48,26 +48,13 @@ namespace djv
 {
     namespace Graphics
     {
-        FFmpegLoad::FFmpegLoad(const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context)
-        {}
-
-        FFmpegLoad::~FFmpegLoad()
+        FFmpegLoad::FFmpegLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
+            ImageLoad(fileInfo, context)
         {
-            close();
-        }
-
-        void FFmpegLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-        {
-            //DJV_DEBUG("FFmpegLoad::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-
-            close();
-
             // Open the file.
             int r = avformat_open_input(
                 &_avFormatContext,
-                in.fileName().toUtf8().data(),
+                _fileInfo.fileName().toUtf8().data(),
                 0,
                 0);
             if (r < 0)
@@ -83,7 +70,7 @@ namespace djv
                     FFmpeg::staticName,
                     FFmpeg::toString(r));
             }
-            av_dump_format(_avFormatContext, 0, in.fileName().toUtf8().data(), 0);
+            av_dump_format(_avFormatContext, 0, _fileInfo.fileName().toUtf8().data(), 0);
 
             // Find the first video stream.
             for (unsigned int i = 0; i < _avFormatContext->nb_streams; ++i)
@@ -155,10 +142,10 @@ namespace djv
                 0);
 
             // Get file information.
-            _info.fileName = in;
-            _info.size = glm::ivec2(_avCodecParameters->width, _avCodecParameters->height);
-            _info.pixel = Pixel::RGBA_U8;
-            _info.mirror.y = true;
+            _imageIOInfo.fileName = _fileInfo;
+            _imageIOInfo.size = glm::ivec2(_avCodecParameters->width, _avCodecParameters->height);
+            _imageIOInfo.pixel = Pixel::RGBA_U8;
+            _imageIOInfo.mirror.y = true;
             int64_t duration = 0;
             if (avStream->duration != AV_NOPTS_VALUE)
             {
@@ -205,82 +192,11 @@ namespace djv
             }
             //DJV_DEBUG_PRINT("nbFrames = " << static_cast<qint64>(nbFrames));
 
-            _info.sequence = Core::Sequence(0, nbFrames - 1, 0, speed);
-            info = _info;
+            _imageIOInfo.sequence = Core::Sequence(0, nbFrames - 1, 0, speed);
         }
 
-        void FFmpegLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        FFmpegLoad::~FFmpegLoad()
         {
-            //DJV_DEBUG("FFmpegLoad::read");
-            //DJV_DEBUG_PRINT("frame = " << frame);
-
-            image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
-            PixelData * data = frame.proxy ? &_tmp : &image;
-            data->set(_info);
-            av_image_fill_arrays(
-                _avFrameRgb->data,
-                _avFrameRgb->linesize,
-                data->data(),
-                AV_PIX_FMT_RGBA,
-                data->w(),
-                data->h(),
-                1);
-
-            int f = frame.frame;
-            if (-1 == f)
-            {
-                f = 0;
-            }
-            //DJV_DEBUG_PRINT("frame = " << f);
-
-            AVStream * avStream = _avFormatContext->streams[_avVideoStream];
-            int64_t pts = 0;
-            if (f != _frame + 1)
-            {
-                const int64_t seek =
-                    (f * _info.sequence.speed.duration()) /
-                    static_cast<float>(_info.sequence.speed.scale()) *
-                    AV_TIME_BASE;
-                //DJV_DEBUG_PRINT("seek = " << static_cast<qint64>(seek));
-                int r = av_seek_frame(
-                    _avFormatContext,
-                    _avVideoStream,
-                    av_rescale_q(seek, FFmpeg::timeBaseQ(), avStream->time_base),
-                    AVSEEK_FLAG_BACKWARD);
-                //DJV_DEBUG_PRINT("r = " << FFmpeg::toString(r));
-                avcodec_flush_buffers(_avCodecContext);
-                while (readFrame(pts) && pts < seek)
-                    ;
-            }
-            else
-            {
-                readFrame(pts);
-            }
-            _frame = f;
-
-            sws_scale(
-                _swsContext,
-                (uint8_t const * const *)_avFrame->data,
-                _avFrame->linesize,
-                0,
-                _avCodecParameters->height,
-                _avFrameRgb->data,
-                _avFrameRgb->linesize);
-
-            if (frame.proxy)
-            {
-                PixelDataInfo info = _info;
-                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                info.proxy = frame.proxy;
-                image.set(info);
-                PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-            }
-        }
-
-        void FFmpegLoad::close()
-        {
-            //DJV_DEBUG("FFmpegLoad::close");    
             if (_swsContext)
             {
                 sws_freeContext(_swsContext);
@@ -311,6 +227,75 @@ namespace djv
             {
                 avformat_close_input(&_avFormatContext);
                 _avFormatContext = nullptr;
+            }
+        }
+
+        void FFmpegLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        {
+            //DJV_DEBUG("FFmpegLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
+
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
+            PixelData * data = frame.proxy ? &_tmp : &image;
+            data->set(_imageIOInfo);
+            av_image_fill_arrays(
+                _avFrameRgb->data,
+                _avFrameRgb->linesize,
+                data->data(),
+                AV_PIX_FMT_RGBA,
+                data->w(),
+                data->h(),
+                1);
+
+            int f = frame.frame;
+            if (-1 == f)
+            {
+                f = 0;
+            }
+            //DJV_DEBUG_PRINT("frame = " << f);
+
+            AVStream * avStream = _avFormatContext->streams[_avVideoStream];
+            int64_t pts = 0;
+            if (f != _frame + 1)
+            {
+                const int64_t seek =
+                    (f * _imageIOInfo.sequence.speed.duration()) /
+                    static_cast<float>(_imageIOInfo.sequence.speed.scale()) *
+                    AV_TIME_BASE;
+                //DJV_DEBUG_PRINT("seek = " << static_cast<qint64>(seek));
+                int r = av_seek_frame(
+                    _avFormatContext,
+                    _avVideoStream,
+                    av_rescale_q(seek, FFmpeg::timeBaseQ(), avStream->time_base),
+                    AVSEEK_FLAG_BACKWARD);
+                //DJV_DEBUG_PRINT("r = " << FFmpeg::toString(r));
+                avcodec_flush_buffers(_avCodecContext);
+                while (readFrame(pts) && pts < seek)
+                    ;
+            }
+            else
+            {
+                readFrame(pts);
+            }
+            _frame = f;
+
+            sws_scale(
+                _swsContext,
+                (uint8_t const * const *)_avFrame->data,
+                _avFrame->linesize,
+                0,
+                _avCodecParameters->height,
+                _avFrameRgb->data,
+                _avFrameRgb->linesize);
+
+            if (frame.proxy)
+            {
+                PixelDataInfo info = _imageIOInfo;
+                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                info.proxy = frame.proxy;
+                image.set(info);
+                PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
             }
         }
 

@@ -135,14 +135,14 @@ namespace djv
                 arg(qualityLabel.join(", "));
         }
 
-        ImageLoad * JPEGPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> JPEGPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new JPEGLoad(context());
+            return std::unique_ptr<ImageLoad>(new JPEGLoad(fileInfo, context()));
         }
 
-        ImageSave * JPEGPlugin::createSave() const
+        std::unique_ptr<ImageSave> JPEGPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new JPEGSave(_options, context());
+            return std::unique_ptr<ImageSave>(new JPEGSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

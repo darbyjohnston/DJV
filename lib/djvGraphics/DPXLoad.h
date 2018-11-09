@@ -42,20 +42,18 @@ namespace djv
         class DPXLoad : public ImageLoad
         {
         public:
-            DPXLoad(const DPX::Options &, const QPointer<Core::CoreContext> &);
+            DPXLoad(const Core::FileInfo &, const DPX::Options &, const QPointer<Core::CoreContext> &);
             ~DPXLoad() override;
 
-            void open(const Core::FileInfo &, ImageIOInfo &) override;
             void read(Image &, const ImageIOFrameInfo &) override;
 
         private:
             void _open(const QString &, ImageIOInfo &, Core::FileIO &);
 
-            DPX::Options   _options;
-            bool           _filmPrint = false;
-            PixelData      _filmPrintLut;
-            Core::FileInfo _file;
-            PixelData      _tmp;
+            DPX::Options _options;
+            bool         _filmPrint = false;
+            PixelData    _filmPrintLut;
+            PixelData    _tmp;
         };
 
     } // namespace Graphics

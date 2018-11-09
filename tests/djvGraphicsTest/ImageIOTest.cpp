@@ -166,17 +166,16 @@ namespace djv
             {
                 const FileInfo fileInfo("ImageIOTest.ppm");
                 const Graphics::PixelDataInfo pixelDataInfo(1, 1, Graphics::Pixel::L_U8);
-                save.reset(context.imageIOFactory()->save(fileInfo, pixelDataInfo));
+                auto save = context.imageIOFactory()->save(fileInfo, pixelDataInfo);
                 DJV_ASSERT(save);
                 save->write(Graphics::Image(pixelDataInfo));
                 save->close();
                 Graphics::ImageIOInfo info;
-                load.reset(context.imageIOFactory()->load(fileInfo, info));
+                auto load = context.imageIOFactory()->load(fileInfo, info);
                 DJV_ASSERT(load);
                 Graphics::Image image;
                 load->read(image);
                 DJV_ASSERT(image.info().pixel == pixelDataInfo.pixel);
-                load->close();
             }
             catch (const Error & error)
             {

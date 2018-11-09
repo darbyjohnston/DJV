@@ -157,10 +157,10 @@ namespace djv
 
             // Open the file.
             Graphics::ImageIOInfo _info;
-            QScopedPointer<Graphics::ImageLoad> load;
+            std::unique_ptr<Graphics::ImageLoad> load;
             try
             {
-                load.reset(_context->imageIOFactory()->load(in, _info));
+                load = _context->imageIOFactory()->load(in, _info);
             }
             catch (Core::Error error)
             {

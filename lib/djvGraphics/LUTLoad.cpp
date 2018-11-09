@@ -40,26 +40,20 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTLoad::LUTLoad(const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(context),
+        LUTLoad::LUTLoad(const Core::FileInfo & fileInfo, const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageLoad(fileInfo, context),
             _options(options)
-        {}
+        {
+            Core::FileIO io;
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            if (Core::FileInfo::SEQUENCE == _fileInfo.type())
+            {
+                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+            }
+        }
 
         LUTLoad::~LUTLoad()
         {}
-
-        void LUTLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
-        {
-            //DJV_DEBUG("LUTLoad::open");
-            //DJV_DEBUG_PRINT("in = " << in);
-            _file = in;
-            Core::FileIO io;
-            _open(_file.fileName(_file.sequence().start()), info, io);
-            if (Core::FileInfo::SEQUENCE == _file.type())
-            {
-                info.sequence.frames = _file.sequence().frames;
-            }
-        }
 
         void LUTLoad::read(Image & image, const ImageIOFrameInfo & frame)
         {
@@ -70,8 +64,7 @@ namespace djv
             image.tags = ImageTags();
 
             // Open the file.
-            const QString fileName =
-                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             ImageIOInfo info;
             Core::FileIO io;
             _open(fileName, info, io);

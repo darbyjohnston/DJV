@@ -38,26 +38,17 @@ namespace djv
 {
     namespace Graphics
     {
-        SGISave::SGISave(const SGI::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(context),
+        SGISave::SGISave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const SGI::Options & options, const QPointer<Core::CoreContext> & context) :
+            ImageSave(fileInfo, imageIOInfo, context),
             _options(options)
-        {}
-
-        SGISave::~SGISave()
-        {}
-
-        void SGISave::open(const Core::FileInfo & file, const ImageIOInfo & info)
         {
-            //DJV_DEBUG("SGISave::open");
-            //DJV_DEBUG_PRINT("file = " << file);
-            _file = file;
-            if (info.sequence.frames.count() > 1)
+            if (_imageIOInfo.sequence.frames.count() > 1)
             {
-                _file.setType(Core::FileInfo::SEQUENCE);
+                _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
-            _info.size = info.size;
-            Pixel::TYPE type = Pixel::type(info.pixel);
+            _info.size = _imageIOInfo.size;
+            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
             switch (type)
             {
             case Pixel::U10:
@@ -65,11 +56,14 @@ namespace djv
             case Pixel::F32: type = Pixel::U16; break;
             default: break;
             }
-            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
             _info.endian = Core::Memory::MSB;
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
         }
+
+        SGISave::~SGISave()
+        {}
 
         void SGISave::write(const Image & in, const ImageIOFrameInfo & frame)
         {
@@ -78,7 +72,7 @@ namespace djv
             //DJV_DEBUG_PRINT("compression = " << _options.compression);
 
             // Open the file.
-            const QString fileName = _file.fileName(frame.frame);
+            const QString fileName = _fileInfo.fileName(frame.frame);
             Core::FileIO io;
             io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
             io.open(fileName, Core::FileIO::WRITE);

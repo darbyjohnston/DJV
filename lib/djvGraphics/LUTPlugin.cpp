@@ -133,14 +133,14 @@ namespace djv
             return LUT::optionsLabels();
         }
 
-        ImageLoad * LUTPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> LUTPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new LUTLoad(_options, context());
+            return std::unique_ptr<ImageLoad>(new LUTLoad(fileInfo, _options, context()));
         }
 
-        ImageSave * LUTPlugin::createSave() const
+        std::unique_ptr<ImageSave> LUTPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new LUTSave(_options, context());
+            return std::unique_ptr<ImageSave>(new LUTSave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics

@@ -138,14 +138,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        ImageLoad * SGIPlugin::createLoad() const
+        std::unique_ptr<ImageLoad> SGIPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return new SGILoad(context());
+            return std::unique_ptr<ImageLoad>(new SGILoad(fileInfo, context()));
         }
 
-        ImageSave * SGIPlugin::createSave() const
+        std::unique_ptr<ImageSave> SGIPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
         {
-            return new SGISave(_options, context());
+            return std::unique_ptr<ImageSave>(new SGISave(fileInfo, imageIOInfo, _options, context()));
         }
 
     } // namespace Graphics
