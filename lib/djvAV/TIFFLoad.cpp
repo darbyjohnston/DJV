@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/TIFFLoad.h>
+#include <djvAV/TIFFLoad.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         TIFFLoad::TIFFLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
             ImageLoad(fileInfo, context)
@@ -234,5 +234,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

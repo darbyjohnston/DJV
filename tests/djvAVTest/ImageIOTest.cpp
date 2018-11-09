@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/ImageIOTest.h>
+#include <djvAVTest/ImageIOTest.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/Image.h>
+#include <djvAV/AVContext.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -39,11 +39,11 @@
 #include <djvCore/FileInfo.h>
 
 using namespace djv::Core;
-using namespace djv::Graphics;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
         void ImageIOTest::run(int & argc, char ** argv)
         {
@@ -57,76 +57,76 @@ namespace djv
         {
             DJV_DEBUG("ImageIOTest::info");
             {
-                const Graphics::ImageIOInfo info;
+                const AV::ImageIOInfo info;
                 DJV_ASSERT(info.layerCount() == 1);
             }
             {
-                const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
-                const Graphics::ImageIOInfo info(tmp);
+                const AV::PixelDataInfo tmp(1, 1, AV::Pixel::L_U8);
+                const AV::ImageIOInfo info(tmp);
                 DJV_ASSERT(info.layerCount() == 1);
-                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info) == tmp);
+                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info) == tmp);
             }
             {
-                const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
-                Graphics::ImageIOInfo info;
+                const AV::PixelDataInfo tmp(1, 1, AV::Pixel::L_U8);
+                AV::ImageIOInfo info;
                 info.addLayer(tmp);
                 DJV_ASSERT(info.layerCount() == 2);
-                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info) == Graphics::PixelDataInfo());
-                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info[1]) == tmp);
+                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info) == AV::PixelDataInfo());
+                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info[1]) == tmp);
                 info[0] = tmp;
-                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info[0]) == tmp);
+                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info[0]) == tmp);
             }
             {
-                Graphics::ImageIOInfo info;
+                AV::ImageIOInfo info;
                 info.setLayerCount(10);
                 DJV_ASSERT(info.layerCount() == 10);
                 info.clearLayers();
                 DJV_ASSERT(info.layerCount() == 1);
             }
             {
-                const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
-                Graphics::ImageIOInfo a(tmp), b(tmp);
+                const AV::PixelDataInfo tmp(1, 1, AV::Pixel::L_U8);
+                AV::ImageIOInfo a(tmp), b(tmp);
                 a.addLayer(tmp);
                 b.addLayer(tmp);
                 DJV_ASSERT(a == b);
-                DJV_ASSERT(a != Graphics::ImageIOInfo());
-                Graphics::ImageIOInfo c;
+                DJV_ASSERT(a != AV::ImageIOInfo());
+                AV::ImageIOInfo c;
                 c.addLayer(tmp);
                 DJV_ASSERT(a != c);
             }
             {
-                Graphics::ImageIOFrameInfo info;
+                AV::ImageIOFrameInfo info;
                 DJV_ASSERT(-1 == info.frame);
                 DJV_ASSERT(0 == info.layer);
-                DJV_ASSERT(Graphics::PixelDataInfo::PROXY_NONE == info.proxy);
+                DJV_ASSERT(AV::PixelDataInfo::PROXY_NONE == info.proxy);
             }
             {
-                Graphics::ImageIOFrameInfo info(1, 2, Graphics::PixelDataInfo::PROXY_1_2);
+                AV::ImageIOFrameInfo info(1, 2, AV::PixelDataInfo::PROXY_1_2);
                 DJV_ASSERT(1 == info.frame);
                 DJV_ASSERT(2 == info.layer);
-                DJV_ASSERT(Graphics::PixelDataInfo::PROXY_1_2 == info.proxy);
+                DJV_ASSERT(AV::PixelDataInfo::PROXY_1_2 == info.proxy);
             }
             {
-                Graphics::ImageIOFrameInfo
-                    a(1, 2, Graphics::PixelDataInfo::PROXY_1_2),
-                    b(1, 2, Graphics::PixelDataInfo::PROXY_1_2);
+                AV::ImageIOFrameInfo
+                    a(1, 2, AV::PixelDataInfo::PROXY_1_2),
+                    b(1, 2, AV::PixelDataInfo::PROXY_1_2);
                 DJV_ASSERT(a == b);
-                DJV_ASSERT(a != Graphics::ImageIOFrameInfo());
+                DJV_ASSERT(a != AV::ImageIOFrameInfo());
             }
             {
-                DJV_DEBUG_PRINT(Graphics::ImageIOInfo());
-                DJV_DEBUG_PRINT(Graphics::ImageIOFrameInfo());
+                DJV_DEBUG_PRINT(AV::ImageIOInfo());
+                DJV_DEBUG_PRINT(AV::ImageIOFrameInfo());
             }
         }
 
         void ImageIOTest::plugin(int & argc, char ** argv)
         {
             DJV_DEBUG("ImageIOTest::plugin");
-            Graphics::GraphicsContext context(argc, argv);
-            Graphics::ImageIOFactory * factory = context.imageIOFactory();
+            AV::AVContext context(argc, argv);
+            AV::ImageIOFactory * factory = context.imageIOFactory();
             Q_FOREACH(QString plugin, QStringList() << "PPM")
             {
-                if (Graphics::ImageIO * io = static_cast<Graphics::ImageIO *>(factory->plugin(plugin)))
+                if (AV::ImageIO * io = static_cast<AV::ImageIO *>(factory->plugin(plugin)))
                 {
                     DJV_ASSERT(io->extensions().count());
                     DJV_ASSERT(io->isSequence());
@@ -134,7 +134,7 @@ namespace djv
                     DJV_ASSERT(factory->option("", "") == QStringList());
                     QStringList tmp;
                     DJV_ASSERT(!factory->setOption("", "", tmp));
-                    Graphics::ImageIOInfo info;
+                    AV::ImageIOInfo info;
                     try
                     {
                         factory->load(FileInfo(), info);
@@ -159,21 +159,21 @@ namespace djv
         void ImageIOTest::io(int & argc, char ** argv)
         {
             DJV_DEBUG("ImageIOTest::io");
-            Graphics::GraphicsContext context(argc, argv);
-            QScopedPointer<Graphics::ImageLoad> load;
-            QScopedPointer<Graphics::ImageSave> save;
+            AV::AVContext context(argc, argv);
+            QScopedPointer<AV::ImageLoad> load;
+            QScopedPointer<AV::ImageSave> save;
             try
             {
                 const FileInfo fileInfo("ImageIOTest.ppm");
-                const Graphics::PixelDataInfo pixelDataInfo(1, 1, Graphics::Pixel::L_U8);
+                const AV::PixelDataInfo pixelDataInfo(1, 1, AV::Pixel::L_U8);
                 auto save = context.imageIOFactory()->save(fileInfo, pixelDataInfo);
                 DJV_ASSERT(save);
-                save->write(Graphics::Image(pixelDataInfo));
+                save->write(AV::Image(pixelDataInfo));
                 save->close();
-                Graphics::ImageIOInfo info;
+                AV::ImageIOInfo info;
                 auto load = context.imageIOFactory()->load(fileInfo, info);
                 DJV_ASSERT(load);
-                Graphics::Image image;
+                AV::Image image;
                 load->read(image);
                 DJV_ASSERT(image.info().pixel == pixelDataInfo.pixel);
             }
@@ -183,5 +183,5 @@ namespace djv
             }
         }
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

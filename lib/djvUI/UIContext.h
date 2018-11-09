@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvAV/AVContext.h>
 
 #include <djvCore/Util.h>
 
@@ -60,7 +60,7 @@ namespace djv
         class TimePrefs;
 
         //! This class provides global functionality for the library.
-        class UIContext : public Graphics::GraphicsContext
+        class UIContext : public AV::AVContext
         {
             Q_OBJECT
 

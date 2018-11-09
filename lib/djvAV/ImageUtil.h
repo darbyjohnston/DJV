@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides image utilities.
         class ImageUtil
@@ -42,5 +42,5 @@ namespace djv
             virtual ~ImageUtil() = 0;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

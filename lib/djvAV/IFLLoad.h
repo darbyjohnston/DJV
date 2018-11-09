@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/IFL.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/IFL.h>
+#include <djvAV/ImageIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides an IFL loader.
         class IFLLoad : public ImageLoad
@@ -49,5 +49,5 @@ namespace djv
             QStringList _list;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

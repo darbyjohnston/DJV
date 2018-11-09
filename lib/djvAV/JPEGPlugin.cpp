@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/JPEGPlugin.h>
+#include <djvAV/JPEGPlugin.h>
 
-#include <djvGraphics/JPEGLoad.h>
-#include <djvGraphics/JPEGSave.h>
+#include <djvAV/JPEGLoad.h>
+#include <djvAV/JPEGSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         JPEGPlugin::JPEGPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -105,7 +105,7 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics::JPEGPlugin", "-jpeg_quality") == arg)
+                    if (qApp->translate("djv::AV::JPEGPlugin", "-jpeg_quality") == arg)
                     {
                         in >> _options.quality;
                     }
@@ -126,7 +126,7 @@ namespace djv
         {
             QStringList qualityLabel;
             qualityLabel << _options.quality;
-            return qApp->translate("djv::Graphics::JPEGPlugin",
+            return qApp->translate("djv::AV::JPEGPlugin",
                 "\n"
                 "JPEG Options\n"
                 "\n"
@@ -145,5 +145,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new JPEGSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/PNG.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/PNG.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
-        //! This plugin provides support for the Portable Network Graphics (PNG) image
+        //! This plugin provides support for the Portable Network AV (PNG) image
         //! file format.
         //!
         //! Requires:
@@ -60,5 +60,5 @@ namespace djv
             std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

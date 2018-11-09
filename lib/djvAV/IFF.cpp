@@ -28,7 +28,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/IFF.h>
+#include <djvAV/IFF.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -37,15 +37,15 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString IFF::staticName = "IFF";
 
         const QStringList & IFF::compressionLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::IFF", "None") <<
-                qApp->translate("djv::Graphics::IFF", "RLE");
+                qApp->translate("djv::AV::IFF", "None") <<
+                qApp->translate("djv::AV::IFF", "RLE");
             DJV_ASSERT(data.count() == COMPRESSION_COUNT);
             return data;
         }
@@ -623,8 +623,8 @@ namespace djv
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::IFF::COMPRESSION, Graphics::IFF::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(AV::IFF::COMPRESSION, AV::IFF::compressionLabels())
 
 } // namespace djv

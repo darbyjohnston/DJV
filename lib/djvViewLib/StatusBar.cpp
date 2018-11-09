@@ -36,8 +36,8 @@
 
 #include <djvUI/ColorSwatch.h>
 
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/OpenGLOffscreenBuffer.h>
 
 #include <QCoreApplication>
 #include <QLabel>
@@ -48,13 +48,13 @@ namespace djv
     {
         struct StatusBar::Private
         {
-            std::shared_ptr<Graphics::Image> image;
+            std::shared_ptr<AV::Image> image;
             glm::ivec2 viewPos = glm::ivec2(0, 0);
             float viewZoom = 0.f;
             glm::ivec2 pick = glm::ivec2(0, 0);
-            Graphics::Color sample;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            Graphics::OpenGLImageOptions openGLImageOptions;
+            AV::Color sample;
+            std::unique_ptr<AV::OpenGLImage> openGLImage;
+            AV::OpenGLImageOptions openGLImageOptions;
 
             QPointer<UI::ColorSwatch> swatch;
             QPointer<QLabel> pixelLabel;
@@ -105,7 +105,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageChanged,
-                [this](const std::shared_ptr<djv::Graphics::Image> & value)
+                [this](const std::shared_ptr<djv::AV::Image> & value)
             {
                 _p->image = value;
                 widgetUpdate();
@@ -113,7 +113,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageOptionsChanged,
-                [this](const Graphics::OpenGLImageOptions & value)
+                [this](const AV::OpenGLImageOptions & value)
             {
                 _p->openGLImageOptions = value;
                 widgetUpdate();
@@ -152,7 +152,7 @@ namespace djv
             _p->context->makeGLContextCurrent();
             if (!_p->openGLImage)
             {
-                _p->openGLImage.reset(new Graphics::OpenGLImage);
+                _p->openGLImage.reset(new AV::OpenGLImage);
             }
 
             const glm::ivec2 pick = Core::VectorUtil::floor(glm::vec2(_p->pick - _p->viewPos) / _p->viewZoom);
@@ -163,8 +163,8 @@ namespace djv
             {
                 try
                 {
-                    Graphics::PixelData tmp(Graphics::PixelDataInfo(glm::ivec2(1, 1), _p->image->pixel()));
-                    Graphics::OpenGLImageOptions _options = _p->openGLImageOptions;
+                    AV::PixelData tmp(AV::PixelDataInfo(glm::ivec2(1, 1), _p->image->pixel()));
+                    AV::OpenGLImageOptions _options = _p->openGLImageOptions;
                     _options.xform.position -= pick;
                     _p->openGLImage->copy(*_p->image, tmp, _options);
                     _p->openGLImage->average(tmp, _p->sample);
@@ -190,7 +190,7 @@ namespace djv
                 arg(sizeGB, 0, 'f', 2).
                 arg(maxSizeGB, 0, 'f', 2));
 
-            Graphics::PixelDataInfo info;
+            AV::PixelDataInfo info;
             if (_p->image)
             {
                 info = _p->image->info();

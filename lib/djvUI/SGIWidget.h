@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/SGISave.h>
+#include <djvAV/SGISave.h>
 
 class QComboBox;
 class QVBoxLayout;
@@ -46,7 +46,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            SGIWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            SGIWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -58,7 +58,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::SGI::Options _options;
+            AV::SGI::Options _options;
             QComboBox * _compressionWidget = nullptr;
             QVBoxLayout * _layout = nullptr;
         };
@@ -69,7 +69,7 @@ namespace djv
         public:
             SGIWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

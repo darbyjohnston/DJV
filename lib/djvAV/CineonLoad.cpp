@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/CineonLoad.h>
+#include <djvAV/CineonLoad.h>
 
-#include <djvGraphics/CineonHeader.h>
-#include <djvGraphics/Image.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/CineonHeader.h>
+#include <djvAV/Image.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -39,7 +39,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         CineonLoad::CineonLoad(const Core::FileInfo & fileInfo, const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(fileInfo, context),
@@ -160,5 +160,5 @@ namespace djv
             //DJV_DEBUG_PRINT("film print = " << _filmPrint);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

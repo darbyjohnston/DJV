@@ -33,7 +33,7 @@
 #include <djvUI/StylePrefs.h>
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/ColorUtil.h>
 
 #include <QEvent>
 #include <QPainter>
@@ -45,7 +45,7 @@ namespace djv
     {
         struct ColorSwatch::Private
         {
-            Graphics::Color color;
+            AV::Color color;
             SWATCH_SIZE swatchSize = SWATCH_MEDIUM;
             bool colorDialogEnabled = false;
             QPointer<UIContext> context;
@@ -64,7 +64,7 @@ namespace djv
         ColorSwatch::~ColorSwatch()
         {}
 
-        const Graphics::Color & ColorSwatch::color() const
+        const AV::Color & ColorSwatch::color() const
         {
             return _p->color;
         }
@@ -105,7 +105,7 @@ namespace djv
             return QSize(size, size);
         }
 
-        void ColorSwatch::setColor(const Graphics::Color & color)
+        void ColorSwatch::setColor(const AV::Color & color)
         {
             if (color == _p->color)
                 return;
@@ -121,8 +121,8 @@ namespace djv
                 ColorDialog dialog(color(), _p->context);
                 connect(
                     &dialog,
-                    SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                    SLOT(setColor(const djv::Graphics::Color &)));
+                    SIGNAL(colorChanged(const djv::AV::Color &)),
+                    SLOT(setColor(const djv::AV::Color &)));
                 dialog.exec();
             }
             Q_EMIT clicked();
@@ -134,8 +134,8 @@ namespace djv
             QRect rect(this->rect());
             if (_p->context->stylePrefs()->hasColorSwatchTransparency())
             {
-                Graphics::Color tmp(Graphics::Pixel::RGBA_U8);
-                Graphics::ColorUtil::convert(_p->color, tmp);
+                AV::Color tmp(AV::Pixel::RGBA_U8);
+                AV::ColorUtil::convert(_p->color, tmp);
                 int vCount = 0;
                 for (int y = rect.top(); y < rect.bottom(); y = y + 10, ++vCount)
                 {
@@ -155,8 +155,8 @@ namespace djv
             }
             else
             {
-                Graphics::Color tmp(Graphics::Pixel::RGB_U8);
-                Graphics::ColorUtil::convert(_p->color, tmp);
+                AV::Color tmp(AV::Pixel::RGB_U8);
+                AV::ColorUtil::convert(_p->color, tmp);
                 rect = rect.adjusted(0, 0, -1, -1);
                 painter.setPen(palette().color(QPalette::Shadow));
                 painter.drawRect(rect);

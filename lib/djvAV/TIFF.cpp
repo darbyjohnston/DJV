@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/TIFF.h>
+#include <djvAV/TIFF.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -36,16 +36,16 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString TIFF::staticName = "TIFF";
 
         const QStringList & TIFF::compressionLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::TIFF", "None") <<
-                qApp->translate("djv::Graphics::TIFF", "RLE") <<
-                qApp->translate("djv::Graphics::TIFF", "LZW");
+                qApp->translate("djv::AV::TIFF", "None") <<
+                qApp->translate("djv::AV::TIFF", "RLE") <<
+                qApp->translate("djv::AV::TIFF", "LZW");
             DJV_ASSERT(data.count() == COMPRESSION_COUNT);
             return data;
         }
@@ -94,13 +94,13 @@ namespace djv
         const QStringList & TIFF::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::TIFF", "Compression");
+                qApp->translate("djv::AV::TIFF", "Compression");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::TIFF::COMPRESSION, Graphics::TIFF::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(AV::TIFF::COMPRESSION, AV::TIFF::compressionLabels())
 
 } // namespace djv

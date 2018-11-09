@@ -32,7 +32,7 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -45,18 +45,18 @@ namespace djv
 {
     namespace UI
     {
-        FFmpegWidget::FFmpegWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
+        FFmpegWidget::FFmpegWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context),
             _formatWidget(0),
             _qualityWidget(0)
         {
             // Create the widgets.
             _formatWidget = new QComboBox;
-            _formatWidget->addItems(Graphics::FFmpeg::formatLabels());
+            _formatWidget->addItems(AV::FFmpeg::formatLabels());
             _formatWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             _qualityWidget = new QComboBox;
-            _qualityWidget->addItems(Graphics::FFmpeg::qualityLabels());
+            _qualityWidget->addItems(AV::FFmpeg::qualityLabels());
             _qualityWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
@@ -100,7 +100,7 @@ namespace djv
 
         void FFmpegWidget::resetPreferences()
         {
-            _options = Graphics::FFmpeg::Options();
+            _options = AV::FFmpeg::Options();
 
             pluginUpdate();
             widgetUpdate();
@@ -113,10 +113,10 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    Graphics::FFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
+                    AV::FFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
                     tmp >> _options.format;
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::FFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
+                    AV::FFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
                     tmp >> _options.quality;
             }
             catch (const QString &)
@@ -127,13 +127,13 @@ namespace djv
 
         void FFmpegWidget::formatCallback(int in)
         {
-            _options.format = static_cast<Graphics::FFmpeg::FORMAT>(in);
+            _options.format = static_cast<AV::FFmpeg::FORMAT>(in);
             pluginUpdate();
         }
 
         void FFmpegWidget::qualityCallback(int in)
         {
-            _options.quality = static_cast<Graphics::FFmpeg::QUALITY>(in);
+            _options.quality = static_cast<AV::FFmpeg::QUALITY>(in);
             pluginUpdate();
         }
 
@@ -141,9 +141,9 @@ namespace djv
         {
             QStringList tmp;
             tmp << _options.format;
-            plugin()->setOption(plugin()->options()[Graphics::FFmpeg::OPTIONS_FORMAT], tmp);
+            plugin()->setOption(plugin()->options()[AV::FFmpeg::OPTIONS_FORMAT], tmp);
             tmp << _options.quality;
-            plugin()->setOption(plugin()->options()[Graphics::FFmpeg::OPTIONS_QUALITY], tmp);
+            plugin()->setOption(plugin()->options()[AV::FFmpeg::OPTIONS_QUALITY], tmp);
         }
 
         void FFmpegWidget::widgetUpdate()
@@ -154,9 +154,9 @@ namespace djv
             try
             {
                 QStringList tmp;
-                tmp = plugin()->option(plugin()->options()[Graphics::FFmpeg::OPTIONS_FORMAT]);
+                tmp = plugin()->option(plugin()->options()[AV::FFmpeg::OPTIONS_FORMAT]);
                 tmp >> _options.format;
-                tmp = plugin()->option(plugin()->options()[Graphics::FFmpeg::OPTIONS_QUALITY]);
+                tmp = plugin()->option(plugin()->options()[AV::FFmpeg::OPTIONS_QUALITY]);
                 tmp >> _options.quality;
             }
             catch (QString)
@@ -170,14 +170,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * FFmpegWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
+        ImageIOWidget * FFmpegWidgetPlugin::createWidget(AV::ImageIO * plugin) const
         {
             return new FFmpegWidget(plugin, uiContext());
         }
 
         QString FFmpegWidgetPlugin::pluginName() const
         {
-            return Graphics::FFmpeg::staticName;
+            return AV::FFmpeg::staticName;
         }
 
     } // namespace UI

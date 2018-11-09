@@ -87,12 +87,12 @@ namespace djv
             return _recent;
         }
 
-        Graphics::PixelDataInfo::PROXY FilePrefs::proxyDefault()
+        AV::PixelDataInfo::PROXY FilePrefs::proxyDefault()
         {
-            return static_cast<Graphics::PixelDataInfo::PROXY>(0);
+            return static_cast<AV::PixelDataInfo::PROXY>(0);
         }
 
-        Graphics::PixelDataInfo::PROXY FilePrefs::proxy() const
+        AV::PixelDataInfo::PROXY FilePrefs::proxy() const
         {
             return _proxy;
         }
@@ -147,7 +147,7 @@ namespace djv
             return _displayCache;
         }
 
-        void FilePrefs::setProxy(Graphics::PixelDataInfo::PROXY proxy)
+        void FilePrefs::setProxy(AV::PixelDataInfo::PROXY proxy)
         {
             if (proxy == _proxy)
                 return;

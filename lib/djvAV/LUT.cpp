@@ -27,12 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/LUT.h>
+#include <djvAV/LUT.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/Assert.h>
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileIOUtil.h>
 
@@ -43,7 +43,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString LUT::staticName = "LUT";
 
@@ -54,8 +54,8 @@ namespace djv
         const QStringList & LUT::formatLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::LUT", "Inferno") <<
-                qApp->translate("djv::Graphics::LUT", "Kodak");
+                qApp->translate("djv::AV::LUT", "Inferno") <<
+                qApp->translate("djv::AV::LUT", "Kodak");
             DJV_ASSERT(data.count() == FORMAT_COUNT);
             return data;
         }
@@ -63,10 +63,10 @@ namespace djv
         const QStringList & LUT::typeLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::LUT", "Auto") <<
-                qApp->translate("djv::Graphics::LUT", "U8") <<
-                qApp->translate("djv::Graphics::LUT", "U10") <<
-                qApp->translate("djv::Graphics::LUT", "U16");
+                qApp->translate("djv::AV::LUT", "Auto") <<
+                qApp->translate("djv::AV::LUT", "U8") <<
+                qApp->translate("djv::AV::LUT", "U10") <<
+                qApp->translate("djv::AV::LUT", "U16");
             DJV_ASSERT(data.count() == TYPE_COUNT);
             return data;
         }
@@ -372,9 +372,9 @@ namespace djv
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::LUT::FORMAT, Graphics::LUT::formatLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::LUT::TYPE, Graphics::LUT::typeLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::LUT::FORMAT, AV::LUT::formatLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::LUT::TYPE, AV::LUT::typeLabels());
 
 } // namespace djv

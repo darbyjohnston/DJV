@@ -30,11 +30,11 @@
 
 #pragma once
 
-#include <djvGraphics/IFF.h>
+#include <djvAV/IFF.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Generic Interchange File Format (IFF).
         //!
@@ -76,5 +76,5 @@ namespace djv
             IFF::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

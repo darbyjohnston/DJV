@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/TargaPlugin.h>
+#include <djvAV/TargaPlugin.h>
 
-#include <djvGraphics/TargaLoad.h>
-#include <djvGraphics/TargaSave.h>
+#include <djvAV/TargaLoad.h>
+#include <djvAV/TargaSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         TargaPlugin::TargaPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -102,7 +102,7 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics::TargaPlugin", "-targa_compression") == arg)
+                    if (qApp->translate("djv::AV::TargaPlugin", "-targa_compression") == arg)
                     {
                         in >> _options.compression;
                     }
@@ -123,7 +123,7 @@ namespace djv
         {
             QStringList compressionLabel;
             compressionLabel << _options.compression;
-            return qApp->translate("djv::Graphics::TargaPlugin",
+            return qApp->translate("djv::AV::TargaPlugin",
                 "\n"
                 "Targa Options\n"
                 "\n"
@@ -144,5 +144,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new TargaSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/SGISave.h>
+#include <djvAV/SGISave.h>
 
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         SGISave::SGISave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const SGI::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -138,5 +138,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

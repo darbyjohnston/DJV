@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/CineonSave.h>
+#include <djvAV/CineonSave.h>
 
-#include <djvGraphics/CineonHeader.h>
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/CineonHeader.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         CineonSave::CineonSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const Cineon::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -108,5 +108,5 @@ namespace djv
             _header.saveEnd(io);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

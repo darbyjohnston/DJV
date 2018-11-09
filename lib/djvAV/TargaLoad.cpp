@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/TargaLoad.h>
+#include <djvAV/TargaLoad.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         TargaLoad::TargaLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
             ImageLoad(fileInfo, context)
@@ -127,5 +127,5 @@ namespace djv
             Targa::loadInfo(io, info, &_compression);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

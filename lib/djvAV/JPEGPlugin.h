@@ -28,12 +28,12 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/JPEG.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/JPEG.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Joint Photographic Experts Group
         //! (JPEG) image file format.
@@ -69,5 +69,5 @@ namespace djv
             JPEG::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

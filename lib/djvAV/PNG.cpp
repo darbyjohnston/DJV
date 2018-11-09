@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PNG.h>
+#include <djvAV/PNG.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/DebugLog.h>
@@ -36,27 +36,27 @@ using namespace djv;
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString PNG::staticName = "PNG";
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv
 
 extern "C"
 {
     void djvPNGError(png_structp in, png_const_charp msg)
     {
-        auto error = reinterpret_cast<Graphics::PNGErrorStruct *>(png_get_error_ptr(in));
+        auto error = reinterpret_cast<AV::PNGErrorStruct *>(png_get_error_ptr(in));
         SNPRINTF(error->msg, Core::StringUtil::cStringLength, "%s", msg);
         longjmp(png_jmpbuf(in), 1);
     }
 
     void djvPNGWarning(png_structp in, png_const_charp msg)
     {
-        auto error = reinterpret_cast<Graphics::PNGErrorStruct *>(png_get_error_ptr(in));
+        auto error = reinterpret_cast<AV::PNGErrorStruct *>(png_get_error_ptr(in));
         //! \todo How can we do a better job of handling warnings?
-        DJV_LOG(error->context->debugLog(), "djv::Graphics::PNG", msg);
+        DJV_LOG(error->context->debugLog(), "djv::AV::PNG", msg);
     }
 
 } // extern "C"

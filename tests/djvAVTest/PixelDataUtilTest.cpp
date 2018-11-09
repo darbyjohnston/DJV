@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/PixelDataUtilTest.h>
+#include <djvAVTest/PixelDataUtilTest.h>
 
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/PixelData.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/AVContext.h>
+#include <djvAV/PixelData.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -40,11 +40,11 @@
 #include <QString>
 
 using namespace djv::Core;
-using namespace djv::Graphics;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
         void PixelDataUtilTest::run(int & argc, char ** argv)
         {
@@ -59,82 +59,82 @@ namespace djv
         {
             DJV_DEBUG("PixelDataUtilTest::byteCount");
             {
-                const Graphics::PixelDataInfo info(1, 2, Graphics::Pixel::L_U8);
-                DJV_ASSERT(1 == Graphics::PixelDataUtil::scanlineByteCount(info));
-                DJV_ASSERT(2 == Graphics::PixelDataUtil::dataByteCount(info));
+                const AV::PixelDataInfo info(1, 2, AV::Pixel::L_U8);
+                DJV_ASSERT(1 == AV::PixelDataUtil::scanlineByteCount(info));
+                DJV_ASSERT(2 == AV::PixelDataUtil::dataByteCount(info));
             }
         }
 
         void PixelDataUtilTest::proxy()
         {
             DJV_DEBUG("PixelDataUtilTest::proxy");
-            QList<Graphics::PixelDataInfo::PROXY> proxies;
+            QList<AV::PixelDataInfo::PROXY> proxies;
             QList<Memory::ENDIAN>                 endians;
-            QList<Graphics::Pixel::PIXEL>         pixels;
-            for (int i = 0; i < Graphics::PixelDataInfo::PROXY_COUNT; ++i)
+            QList<AV::Pixel::PIXEL>         pixels;
+            for (int i = 0; i < AV::PixelDataInfo::PROXY_COUNT; ++i)
             {
-                proxies += static_cast<Graphics::PixelDataInfo::PROXY>(i);
+                proxies += static_cast<AV::PixelDataInfo::PROXY>(i);
             }
             for (int i = 0; i < Memory::ENDIAN_COUNT; ++i)
             {
                 endians += static_cast<Memory::ENDIAN>(i);
             }
-            for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
+            for (int i = 0; i < AV::Pixel::PIXEL_COUNT; ++i)
             {
-                pixels += static_cast<Graphics::Pixel::PIXEL>(i);
+                pixels += static_cast<AV::Pixel::PIXEL>(i);
             }
-            Q_FOREACH(Graphics::Pixel::PIXEL pixel, pixels)
+            Q_FOREACH(AV::Pixel::PIXEL pixel, pixels)
             {
-                Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, pixel));
+                AV::PixelData data(AV::PixelDataInfo(32, 32, pixel));
                 data.zero();
-                Q_FOREACH(Graphics::Pixel::PIXEL proxyPixel, pixels)
+                Q_FOREACH(AV::Pixel::PIXEL proxyPixel, pixels)
                 {
                     Q_FOREACH(Memory::ENDIAN proxyEndian, endians)
                     {
-                        Q_FOREACH(Graphics::PixelDataInfo::PROXY proxy, proxies)
+                        Q_FOREACH(AV::PixelDataInfo::PROXY proxy, proxies)
                         {
-                            Graphics::PixelDataInfo proxyInfo(
-                                Graphics::PixelDataUtil::proxyScale(data.size(), proxy),
+                            AV::PixelDataInfo proxyInfo(
+                                AV::PixelDataUtil::proxyScale(data.size(), proxy),
                                 proxyPixel);
                             proxyInfo.endian = proxyEndian;
                             DJV_DEBUG_PRINT("proxy = " << proxy);
                             DJV_DEBUG_PRINT("info = " << proxyInfo);
-                            Graphics::PixelData proxyData(proxyInfo);
-                            Graphics::PixelDataUtil::proxyScale(data, proxyData, proxy);
+                            AV::PixelData proxyData(proxyInfo);
+                            AV::PixelDataUtil::proxyScale(data, proxyData, proxy);
                         }
                     }
                 }
             }
             const Box2i box(16, 32, 64, 128);
             DJV_DEBUG_PRINT("box = " << box);
-            Q_FOREACH(Graphics::PixelDataInfo::PROXY proxy, proxies)
+            Q_FOREACH(AV::PixelDataInfo::PROXY proxy, proxies)
             {
                 DJV_DEBUG_PRINT("proxy = " << proxy);
-                DJV_DEBUG_PRINT("box = " << Graphics::PixelDataUtil::proxyScale(box, proxy));
+                DJV_DEBUG_PRINT("box = " << AV::PixelDataUtil::proxyScale(box, proxy));
             }
         }
 
         void PixelDataUtilTest::interleave()
         {
             DJV_DEBUG("PixelDataUtilTest::interleave");
-            QList<Graphics::Pixel::PIXEL> pixels;
-            for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
+            QList<AV::Pixel::PIXEL> pixels;
+            for (int i = 0; i < AV::Pixel::PIXEL_COUNT; ++i)
             {
-                const Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(i);
-                if (pixel != Graphics::Pixel::RGB_U10)
+                const AV::Pixel::PIXEL pixel = static_cast<AV::Pixel::PIXEL>(i);
+                if (pixel != AV::Pixel::RGB_U10)
                 {
                     pixels += pixel;
                 }
             }
-            Q_FOREACH(Graphics::Pixel::PIXEL pixel, pixels)
+            Q_FOREACH(AV::Pixel::PIXEL pixel, pixels)
             {
-                Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, pixel));
+                AV::PixelData data(AV::PixelDataInfo(32, 32, pixel));
                 data.zero();
                 DJV_DEBUG_PRINT("info = " << data.info());
-                Graphics::PixelData interleaveData(data.info());
-                Graphics::PixelDataUtil::planarInterleave(data, interleaveData);
-                Graphics::PixelData deinterleaveData(data.info());
-                Graphics::PixelDataUtil::planarDeinterleave(interleaveData, deinterleaveData);
+                AV::PixelData interleaveData(data.info());
+                AV::PixelDataUtil::planarInterleave(data, interleaveData);
+                AV::PixelData deinterleaveData(data.info());
+                AV::PixelDataUtil::planarDeinterleave(interleaveData, deinterleaveData);
                 DJV_ASSERT(0 == memcmp(
                     data.data(),
                     deinterleaveData.data(),
@@ -145,9 +145,9 @@ namespace djv
         void PixelDataUtilTest::gradient()
         {
             DJV_DEBUG("PixelDataUtilTest::gradient");
-            Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::L_F32));
-            Graphics::PixelDataUtil::gradient(data);
+            AV::PixelData data(AV::PixelDataInfo(32, 32, AV::Pixel::L_F32));
+            AV::PixelDataUtil::gradient(data);
         }
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

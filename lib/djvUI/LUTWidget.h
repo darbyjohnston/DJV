@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/LUT.h>
+#include <djvAV/LUT.h>
 
 class QComboBox;
 class QVBoxLayout;
@@ -46,7 +46,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            LUTWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            LUTWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -58,7 +58,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::LUT::Options _options;
+            AV::LUT::Options _options;
             QComboBox * _typeWidget = nullptr;
             QVBoxLayout * _layout = nullptr;
         };
@@ -69,7 +69,7 @@ namespace djv
         public:
             LUTWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

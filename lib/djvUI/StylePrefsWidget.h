@@ -37,11 +37,11 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class Color;
     
-    } // namespace Graphics
+    } // namespace AV
 
     namespace UI
     {
@@ -58,11 +58,11 @@ namespace djv
 
         private Q_SLOTS:
             void colorCallback(int);
-            void colorForegroundCallback(const djv::Graphics::Color &);
-            void colorBackgroundCallback(const djv::Graphics::Color &);
-            void colorBackground2Callback(const djv::Graphics::Color &);
-            void colorButtonCallback(const djv::Graphics::Color &);
-            void colorSelectCallback(const djv::Graphics::Color &);
+            void colorForegroundCallback(const djv::AV::Color &);
+            void colorBackgroundCallback(const djv::AV::Color &);
+            void colorBackground2Callback(const djv::AV::Color &);
+            void colorButtonCallback(const djv::AV::Color &);
+            void colorSelectCallback(const djv::AV::Color &);
             void colorSwatchTransparencyCallback(bool);
             void fontNormalCallback(const QFont &);
             void fontFixedCallback(const QFont &);

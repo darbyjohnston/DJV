@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Box.h>
 #include <djvCore/Vector.h>
@@ -38,7 +38,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         namespace OpenGL
         {
@@ -52,5 +52,5 @@ namespace djv
             GLenum type(Pixel::PIXEL);
 
         } // namespace OpenGL
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

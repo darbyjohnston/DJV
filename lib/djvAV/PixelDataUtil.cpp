@@ -27,13 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Assert.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         PixelDataUtil::~PixelDataUtil()
         {}
@@ -256,5 +256,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

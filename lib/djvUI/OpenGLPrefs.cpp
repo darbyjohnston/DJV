@@ -49,10 +49,10 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLPrefs::OpenGLPrefs");
             Prefs prefs("djv::UI::OpenGLPrefs", Prefs::SYSTEM);
-            Graphics::OpenGLImageFilter filter;
+            AV::OpenGLImageFilter filter;
             if (prefs.get("filter", filter))
             {
-                Graphics::OpenGLImageFilter::setFilter(filter);
+                AV::OpenGLImageFilter::setFilter(filter);
             }
         }
 
@@ -60,19 +60,19 @@ namespace djv
         {
             //DJV_DEBUG("OpenGLPrefs::~OpenGLPrefs");
             Prefs prefs("djv::UI::OpenGLPrefs", Prefs::SYSTEM);
-            prefs.set("filter", Graphics::OpenGLImageFilter::filter());
+            prefs.set("filter", AV::OpenGLImageFilter::filter());
         }
 
-        const Graphics::OpenGLImageFilter & OpenGLPrefs::filter() const
+        const AV::OpenGLImageFilter & OpenGLPrefs::filter() const
         {
-            return Graphics::OpenGLImageFilter::filter();
+            return AV::OpenGLImageFilter::filter();
         }
 
-        void OpenGLPrefs::setFilter(const Graphics::OpenGLImageFilter & filter)
+        void OpenGLPrefs::setFilter(const AV::OpenGLImageFilter & filter)
         {
             if (filter == this->filter())
                 return;
-            Graphics::OpenGLImageFilter::setFilter(filter);
+            AV::OpenGLImageFilter::setFilter(filter);
             Q_EMIT filterChanged(filter);
             Q_EMIT prefChanged();
         }

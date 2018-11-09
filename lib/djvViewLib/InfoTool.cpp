@@ -37,7 +37,7 @@
 #include <djvCore/SignalBlocker.h>
 #include <djvCore/Time.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <QApplication>
 #include <QDir>
@@ -52,7 +52,7 @@ namespace djv
     {
         struct InfoTool::Private
         {
-            Graphics::ImageIOInfo info;
+            AV::ImageIOInfo info;
 
             QPointer<QLineEdit>      fileNameWidget;
             QPointer<QLineEdit>      layerNameWidget;
@@ -124,7 +124,7 @@ namespace djv
             connect(
                 session->fileGroup(),
                 &FileGroup::imageIOInfoChanged,
-                [this](const Graphics::ImageIOInfo & value)
+                [this](const AV::ImageIOInfo & value)
             {
                 _p->info = value;
                 widgetUpdate();

@@ -67,7 +67,7 @@ namespace djv
             // Create the proxy scale widgets.
             _p->proxyWidget = new QComboBox;
             _p->proxyWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->proxyWidget->addItems(Graphics::PixelDataInfo::proxyLabels());
+            _p->proxyWidget->addItems(AV::PixelDataInfo::proxyLabels());
 
             // Create the convert to 8-bits widgets.
             _p->u8ConversionWidget = new QCheckBox(
@@ -175,7 +175,7 @@ namespace djv
 
         void FilePrefsWidget::proxyCallback(int in)
         {
-            context()->filePrefs()->setProxy(static_cast<Graphics::PixelDataInfo::PROXY>(in));
+            context()->filePrefs()->setProxy(static_cast<AV::PixelDataInfo::PROXY>(in));
         }
 
         void FilePrefsWidget::u8ConversionCallback(bool in)

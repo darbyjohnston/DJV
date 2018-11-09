@@ -41,7 +41,7 @@
 #include <djvUI/Prefs.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
@@ -65,9 +65,9 @@ namespace djv
             HistogramWidget();
 
             void set(
-                const Graphics::PixelData * data,
-                const Graphics::Color &     min,
-                const Graphics::Color &     max);
+                const AV::PixelData * data,
+                const AV::Color &     min,
+                const AV::Color &     max);
 
             QSize sizeHint() const override;
 
@@ -78,9 +78,9 @@ namespace djv
         private:
             void updatePixmap();
 
-            const Graphics::PixelData * _data = nullptr;
-            Graphics::Color             _min;
-            Graphics::Color             _max;
+            const AV::PixelData * _data = nullptr;
+            AV::Color             _min;
+            AV::Color             _max;
             QPixmap                     _pixmap;
             bool                        _dirty = true;
         };
@@ -91,9 +91,9 @@ namespace djv
         }
 
         void HistogramWidget::set(
-            const Graphics::PixelData * data,
-            const Graphics::Color &     min,
-            const Graphics::Color &     max)
+            const AV::PixelData * data,
+            const AV::Color &     min,
+            const AV::Color &     max)
         {
             _data = data;
             _min = min;
@@ -164,7 +164,7 @@ namespace djv
             painter.setRenderHint(QPainter::Antialiasing);
             painter.fillRect(0, 0, width, height, palette().color(QPalette::Background));
 
-            const Graphics::Pixel::U16_T * p = reinterpret_cast<const Graphics::Pixel::U16_T *>(_data->data());
+            const AV::Pixel::U16_T * p = reinterpret_cast<const AV::Pixel::U16_T *>(_data->data());
             const int dataW = _data->w();
             const int dataC = _data->channels();
             //DJV_DEBUG_PRINT("dataW = " << dataW);
@@ -180,7 +180,7 @@ namespace djv
             }
             //DJV_DEBUG_PRINT("dataMax = " << dataMax);
 
-            p = reinterpret_cast<const Graphics::Pixel::U16_T *>(_data->data());
+            p = reinterpret_cast<const AV::Pixel::U16_T *>(_data->data());
             const QColor colors[] =
             {
                 QColor(255,   0,   0),
@@ -189,7 +189,7 @@ namespace djv
             };
             for (int i = 0; i < dataW; ++i, p += dataC)
             {
-                int yC[Graphics::Pixel::channelsMax] = { 0, 0, 0, 0 };
+                int yC[AV::Pixel::channelsMax] = { 0, 0, 0, 0 };
                 int yMax = 0;
                 for (int c = dataC - 1; c >= 0; --c)
                 {
@@ -209,16 +209,16 @@ namespace djv
 
         struct HistogramTool::Private
         {
-            std::shared_ptr<Graphics::Image> image;
+            std::shared_ptr<AV::Image> image;
             Enum::HISTOGRAM size = static_cast<Enum::HISTOGRAM>(0);
             bool colorProfile = true;
             bool displayProfile = true;
-            Graphics::PixelData histogram;
-            Graphics::Color min;
-            Graphics::Color max;
-            Graphics::Pixel::Mask mask;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            Graphics::OpenGLImageOptions openGLImageOptions;
+            AV::PixelData histogram;
+            AV::Color min;
+            AV::Color max;
+            AV::Pixel::Mask mask;
+            std::unique_ptr<AV::OpenGLImage> openGLImage;
+            AV::OpenGLImageOptions openGLImageOptions;
 
             QPointer<HistogramWidget> widget;
             QPointer<QLineEdit> minWidget;
@@ -300,7 +300,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageChanged,
-                [this](const std::shared_ptr<Graphics::Image> & value)
+                [this](const std::shared_ptr<AV::Image> & value)
             {
                 _p->image = value;
                 widgetUpdate();
@@ -308,7 +308,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageOptionsChanged,
-                [this](const Graphics::OpenGLImageOptions & value)
+                [this](const AV::OpenGLImageOptions & value)
             {
                 _p->openGLImageOptions = value;
                 widgetUpdate();
@@ -319,8 +319,8 @@ namespace djv
                 SLOT(sizeCallback(int)));
             connect(
                 _p->maskWidget,
-                SIGNAL(maskChanged(const djv::Graphics::Pixel::Mask &)),
-                SLOT(maskCallback(const djv::Graphics::Pixel::Mask &)));
+                SIGNAL(maskChanged(const djv::AV::Pixel::Mask &)),
+                SLOT(maskCallback(const djv::AV::Pixel::Mask &)));
             connect(
                 _p->colorProfileButton,
                 SIGNAL(toggled(bool)),
@@ -347,7 +347,7 @@ namespace djv
             widgetUpdate();
         }
 
-        void HistogramTool::maskCallback(const Graphics::Pixel::Mask & mask)
+        void HistogramTool::maskCallback(const AV::Pixel::Mask & mask)
         {
             _p->mask = mask;
             widgetUpdate();
@@ -411,27 +411,27 @@ namespace djv
                     context()->makeGLContextCurrent();
                     if (!_p->openGLImage)
                     {
-                        _p->openGLImage.reset(new Graphics::OpenGLImage);
+                        _p->openGLImage.reset(new AV::OpenGLImage);
                     }
 
-                    Graphics::OpenGLImageOptions options = _p->openGLImageOptions;
+                    AV::OpenGLImageOptions options = _p->openGLImageOptions;
                     //! \todo Why do we need to reverse the rotation here?
                     options.xform.rotate = options.xform.rotate;
                     const Core::Box2f bbox =
-                        glm::mat3x3(Graphics::OpenGLImageXform::xformMatrix(options.xform)) *
+                        glm::mat3x3(AV::OpenGLImageXform::xformMatrix(options.xform)) *
                         Core::Box2f(_p->image->size());
                     //DJV_DEBUG_PRINT("bbox = " << bbox);
                     options.xform.position = -bbox.position;
                     if (!_p->colorProfile)
                     {
-                        options.colorProfile = Graphics::ColorProfile();
+                        options.colorProfile = AV::ColorProfile();
                     }
                     if (!_p->displayProfile)
                     {
                         options.displayProfile = DisplayProfile();
                     }
 
-                    Graphics::PixelData tmp(Graphics::PixelDataInfo(bbox.size, _p->image->pixel()));
+                    AV::PixelData tmp(AV::PixelDataInfo(bbox.size, _p->image->pixel()));
                     _p->openGLImage->copy(*_p->image, tmp, options);
                     _p->openGLImage->histogram(
                         tmp,

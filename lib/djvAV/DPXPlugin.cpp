@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/DPXPlugin.h>
+#include <djvAV/DPXPlugin.h>
 
-#include <djvGraphics/DPXLoad.h>
-#include <djvGraphics/DPXSave.h>
+#include <djvAV/DPXLoad.h>
+#include <djvAV/DPXSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         DPXPlugin::DPXPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -191,37 +191,37 @@ namespace djv
                 {
                     in >> arg;
                     if (
-                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_input_color_profile") == arg)
+                        qApp->translate("djv::AV::DPXPlugin", "-dpx_input_color_profile") == arg)
                     {
                         in >> _options.inputColorProfile;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_input_film_print") == arg)
+                        qApp->translate("djv::AV::DPXPlugin", "-dpx_input_film_print") == arg)
                     {
                         in >> _options.inputFilmPrint;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_output_color_profile") == arg)
+                        qApp->translate("djv::AV::DPXPlugin", "-dpx_output_color_profile") == arg)
                     {
                         in >> _options.outputColorProfile;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_output_film_print") == arg)
+                        qApp->translate("djv::AV::DPXPlugin", "-dpx_output_film_print") == arg)
                     {
                         in >> _options.outputFilmPrint;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_version") == arg)
+                        qApp->translate("djv::AV::DPXPlugin", "-dpx_version") == arg)
                     {
                         in >> _options.version;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_type") == arg)
+                        qApp->translate("djv::AV::DPXPlugin", "-dpx_type") == arg)
                     {
                         in >> _options.type;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_endian") == arg)
+                        qApp->translate("djv::AV::DPXPlugin", "-dpx_endian") == arg)
                     {
                         in >> _options.endian;
                     }
@@ -254,7 +254,7 @@ namespace djv
             typeLabel << _options.type;
             QStringList endianLabel;
             endianLabel << _options.endian;
-            return qApp->translate("djv::Graphics::DPXPlugin",
+            return qApp->translate("djv::AV::DPXPlugin",
                 "\n"
                 "DPX Options\n"
                 "\n"
@@ -303,5 +303,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new DPXSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

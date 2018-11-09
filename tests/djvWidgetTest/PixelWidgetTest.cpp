@@ -59,13 +59,13 @@ namespace djv
 
             connect(
                 widget,
-                SIGNAL(pixelChanged(djv::Graphics::Pixel::PIXEL)),
-                SLOT(callback(djv::Graphics::Pixel::PIXEL)));
+                SIGNAL(pixelChanged(djv::AV::Pixel::PIXEL)),
+                SLOT(callback(djv::AV::Pixel::PIXEL)));
 
             window->show();
         }
 
-        void PixelWidgetTest::callback(Graphics::Pixel::PIXEL value)
+        void PixelWidgetTest::callback(AV::Pixel::PIXEL value)
         {
             QStringList tmp;
             tmp << value;

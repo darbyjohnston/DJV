@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PixelData.h>
+#include <djvAV/PixelData.h>
 
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         PixelDataInfo::Mirror::Mirror()
         {}
@@ -106,10 +106,10 @@ namespace djv
         const QStringList & PixelDataInfo::proxyLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::PixelDataInfo", "None") <<
-                qApp->translate("djv::Graphics::PixelDataInfo", "1/2") <<
-                qApp->translate("djv::Graphics::PixelDataInfo", "1/4") <<
-                qApp->translate("djv::Graphics::PixelDataInfo", "1/8");
+                qApp->translate("djv::AV::PixelDataInfo", "None") <<
+                qApp->translate("djv::AV::PixelDataInfo", "1/2") <<
+                qApp->translate("djv::AV::PixelDataInfo", "1/4") <<
+                qApp->translate("djv::AV::PixelDataInfo", "1/8");
             DJV_ASSERT(data.count() == PixelDataInfo::PROXY_COUNT);
             return data;
         }
@@ -233,16 +233,16 @@ namespace djv
             memcpy(_data.data(), in._p, _dataByteCount);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    bool operator == (const Graphics::PixelDataInfo::Mirror & a, const Graphics::PixelDataInfo::Mirror & b)
+    bool operator == (const AV::PixelDataInfo::Mirror & a, const AV::PixelDataInfo::Mirror & b)
     {
         return
             a.x == b.x &&
             a.y == b.y;
     }
 
-    bool operator == (const Graphics::PixelDataInfo & a, const Graphics::PixelDataInfo & b)
+    bool operator == (const AV::PixelDataInfo & a, const AV::PixelDataInfo & b)
     {
         return
             a.size == b.size   &&
@@ -254,7 +254,7 @@ namespace djv
             a.endian == b.endian;
     }
 
-    bool operator == (const Graphics::PixelData & a, const Graphics::PixelData & b)
+    bool operator == (const AV::PixelData & a, const AV::PixelData & b)
     {
         return
             a.info() == b.info() &&
@@ -262,52 +262,52 @@ namespace djv
             memcmp(a.data(), b.data(), a.dataByteCount()) == 0;
     }
 
-    bool operator != (const Graphics::PixelDataInfo::Mirror & a, const Graphics::PixelDataInfo::Mirror & b)
+    bool operator != (const AV::PixelDataInfo::Mirror & a, const AV::PixelDataInfo::Mirror & b)
     {
         return !(a == b);
     }
 
-    bool operator != (const Graphics::PixelDataInfo & a, const Graphics::PixelDataInfo & b)
+    bool operator != (const AV::PixelDataInfo & a, const AV::PixelDataInfo & b)
     {
         return !(a == b);
     }
 
-    bool operator != (const Graphics::PixelData & a, const Graphics::PixelData & b)
+    bool operator != (const AV::PixelData & a, const AV::PixelData & b)
     {
         return !(a == b);
     }
 
     _DJV_STRING_OPERATOR_LABEL(
-        Graphics::PixelDataInfo::PROXY,
-        Graphics::PixelDataInfo::proxyLabels());
+        AV::PixelDataInfo::PROXY,
+        AV::PixelDataInfo::proxyLabels());
 
-    QStringList & operator >> (QStringList & in, Graphics::PixelDataInfo::Mirror & out)
+    QStringList & operator >> (QStringList & in, AV::PixelDataInfo::Mirror & out)
     {
         in >> out.x;
         in >> out.y;
         return in;
     }
 
-    QStringList & operator << (QStringList & out, const Graphics::PixelDataInfo::Mirror & in)
+    QStringList & operator << (QStringList & out, const AV::PixelDataInfo::Mirror & in)
     {
         out << in.x;
         out << in.y;
         return out;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::PixelDataInfo::PROXY & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::PixelDataInfo::PROXY & in)
     {
         QStringList tmp;
         tmp << in;
         return debug << tmp;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::PixelDataInfo::Mirror & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::PixelDataInfo::Mirror & in)
     {
         return debug << in.x << " " << in.y;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::PixelDataInfo & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::PixelDataInfo & in)
     {
         return debug <<
             //"file name = " << in.fileName << ", " <<
@@ -321,7 +321,7 @@ namespace djv
             "endian = " << in.endian;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::PixelData & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::PixelData & in)
     {
         return debug << in.info();
     }

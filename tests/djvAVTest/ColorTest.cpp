@@ -27,20 +27,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/ColorTest.h>
+#include <djvAVTest/ColorTest.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 #include <djvCore/Debug.h>
 
 #include <QStringList>
 
 using namespace djv::Core;
-using namespace djv::Graphics;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
         void ColorTest::run(int &, char **)
         {
@@ -54,43 +54,43 @@ namespace djv
         {
             DJV_DEBUG("ColorTest::ctors");
             {
-                const Graphics::Color color;
-                DJV_ASSERT(static_cast<Graphics::Pixel::PIXEL>(0) == color.pixel());
+                const AV::Color color;
+                DJV_ASSERT(static_cast<AV::Pixel::PIXEL>(0) == color.pixel());
                 DJV_ASSERT(0 == color.u8(0));
             }
             {
-                const Graphics::Color color(Graphics::Color(1.f));
-                DJV_ASSERT(Graphics::Pixel::L_F32 == color.pixel());
+                const AV::Color color(AV::Color(1.f));
+                DJV_ASSERT(AV::Pixel::L_F32 == color.pixel());
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
             }
             {
-                const Graphics::Color color(Graphics::Pixel::RGB_U10);
-                DJV_ASSERT(Graphics::Pixel::RGB_U10 == color.pixel());
+                const AV::Color color(AV::Pixel::RGB_U10);
+                DJV_ASSERT(AV::Pixel::RGB_U10 == color.pixel());
                 DJV_ASSERT(0 == color.u10(0));
                 DJV_ASSERT(0 == color.u10(1));
                 DJV_ASSERT(0 == color.u10(2));
             }
             {
-                const Graphics::Color color(1.f);
-                DJV_ASSERT(Graphics::Pixel::L_F32 == color.pixel());
+                const AV::Color color(1.f);
+                DJV_ASSERT(AV::Pixel::L_F32 == color.pixel());
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
             }
             {
-                const Graphics::Color color(1.f, .9f);
-                DJV_ASSERT(Graphics::Pixel::LA_F32 == color.pixel());
+                const AV::Color color(1.f, .9f);
+                DJV_ASSERT(AV::Pixel::LA_F32 == color.pixel());
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(.9f, color.f32(1)));
             }
             {
-                const Graphics::Color color(1.f, .9f, .8f);
-                DJV_ASSERT(Graphics::Pixel::RGB_F32 == color.pixel());
+                const AV::Color color(1.f, .9f, .8f);
+                DJV_ASSERT(AV::Pixel::RGB_F32 == color.pixel());
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(.9f, color.f32(1)));
                 DJV_ASSERT(Math::fuzzyCompare(.8f, color.f32(2)));
             }
             {
-                const Graphics::Color color(1.f, .9f, .8f, .7f);
-                DJV_ASSERT(Graphics::Pixel::RGBA_F32 == color.pixel());
+                const AV::Color color(1.f, .9f, .8f, .7f);
+                DJV_ASSERT(AV::Pixel::RGBA_F32 == color.pixel());
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(.9f, color.f32(1)));
                 DJV_ASSERT(Math::fuzzyCompare(.8f, color.f32(2)));
@@ -98,8 +98,8 @@ namespace djv
             }
             {
                 const quint8 data[] = { 255, 127, 0 };
-                const Graphics::Color color(data, Graphics::Pixel::RGB_U8);
-                DJV_ASSERT(Graphics::Pixel::RGB_U8 == color.pixel());
+                const AV::Color color(data, AV::Pixel::RGB_U8);
+                DJV_ASSERT(AV::Pixel::RGB_U8 == color.pixel());
                 DJV_ASSERT(data[0] == color.u8(0));
                 DJV_ASSERT(data[1] == color.u8(1));
                 DJV_ASSERT(data[2] == color.u8(2));
@@ -110,45 +110,45 @@ namespace djv
         {
             DJV_DEBUG("ColorTest::members");
             {
-                Graphics::Color color(Graphics::Pixel::RGB_U10);
-                DJV_ASSERT(Graphics::Pixel::RGB_U10 == color.pixel());
+                AV::Color color(AV::Pixel::RGB_U10);
+                DJV_ASSERT(AV::Pixel::RGB_U10 == color.pixel());
                 DJV_ASSERT(3 == color.channels());
-                color.setPixel(Graphics::Pixel::RGBA_U8);
-                DJV_ASSERT(Graphics::Pixel::RGBA_U8 == color.pixel());
+                color.setPixel(AV::Pixel::RGBA_U8);
+                DJV_ASSERT(AV::Pixel::RGBA_U8 == color.pixel());
                 DJV_ASSERT(4 == color.channels());
             }
             {
-                const Graphics::Color color(1.f, 0.f, 1.f, 0.f);
-                DJV_ASSERT(Graphics::Pixel::u8Max == color.u8(0));
+                const AV::Color color(1.f, 0.f, 1.f, 0.f);
+                DJV_ASSERT(AV::Pixel::u8Max == color.u8(0));
                 DJV_ASSERT(0 == color.u8(1));
-                DJV_ASSERT(Graphics::Pixel::u8Max == color.u8(2));
+                DJV_ASSERT(AV::Pixel::u8Max == color.u8(2));
                 DJV_ASSERT(0 == color.u8(3));
             }
             {
-                const Graphics::Color color(1.f, 0.f, 1.f);
-                DJV_ASSERT(Graphics::Pixel::u10Max == color.u10(0));
+                const AV::Color color(1.f, 0.f, 1.f);
+                DJV_ASSERT(AV::Pixel::u10Max == color.u10(0));
                 DJV_ASSERT(0 == color.u10(1));
-                DJV_ASSERT(Graphics::Pixel::u10Max == color.u10(2));
+                DJV_ASSERT(AV::Pixel::u10Max == color.u10(2));
             }
             {
-                const Graphics::Color color(1.f, 0.f, 1.f, 0.f);
-                DJV_ASSERT(Graphics::Pixel::u16Max == color.u16(0));
+                const AV::Color color(1.f, 0.f, 1.f, 0.f);
+                DJV_ASSERT(AV::Pixel::u16Max == color.u16(0));
                 DJV_ASSERT(0 == color.u16(1));
-                DJV_ASSERT(Graphics::Pixel::u16Max == color.u16(2));
+                DJV_ASSERT(AV::Pixel::u16Max == color.u16(2));
                 DJV_ASSERT(0 == color.u16(3));
             }
             {
-                const Graphics::Color color(1.f, 0.f, 1.f, 0.f);
+                const AV::Color color(1.f, 0.f, 1.f, 0.f);
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(1)));
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(2)));
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(3)));
             }
             {
-                Graphics::Color color(Graphics::Pixel::RGBA_F32);
-                color.setU8(Graphics::Pixel::u8Max, 0);
+                AV::Color color(AV::Pixel::RGBA_F32);
+                color.setU8(AV::Pixel::u8Max, 0);
                 color.setU8(0, 1);
-                color.setU8(Graphics::Pixel::u8Max, 2);
+                color.setU8(AV::Pixel::u8Max, 2);
                 color.setU8(0, 3);
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(1)));
@@ -156,19 +156,19 @@ namespace djv
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(3)));
             }
             {
-                Graphics::Color color(Graphics::Pixel::RGB_F32);
-                color.setU10(Graphics::Pixel::u10Max, 0);
+                AV::Color color(AV::Pixel::RGB_F32);
+                color.setU10(AV::Pixel::u10Max, 0);
                 color.setU10(0, 1);
-                color.setU10(Graphics::Pixel::u10Max, 2);
+                color.setU10(AV::Pixel::u10Max, 2);
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(1)));
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(2)));
             }
             {
-                Graphics::Color color(Graphics::Pixel::RGBA_F32);
-                color.setU16(Graphics::Pixel::u16Max, 0);
+                AV::Color color(AV::Pixel::RGBA_F32);
+                color.setU16(AV::Pixel::u16Max, 0);
                 color.setU16(0, 1);
-                color.setU16(Graphics::Pixel::u16Max, 2);
+                color.setU16(AV::Pixel::u16Max, 2);
                 color.setU16(0, 3);
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(1)));
@@ -176,7 +176,7 @@ namespace djv
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(3)));
             }
             {
-                Graphics::Color color(Graphics::Pixel::RGBA_F32);
+                AV::Color color(AV::Pixel::RGBA_F32);
                 color.setF32(1.f, 0);
                 color.setF32(0.f, 1);
                 color.setF32(1.f, 2);
@@ -187,7 +187,7 @@ namespace djv
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(3)));
             }
             {
-                Graphics::Color color(1.f, 1.f, 1.f, 1.f);
+                AV::Color color(1.f, 1.f, 1.f, 1.f);
                 color.zero();
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(0)));
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(1)));
@@ -195,10 +195,10 @@ namespace djv
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(3)));
             }
             {
-                Graphics::Color color(Graphics::Pixel::L_U8);
-                color.setU8(Graphics::Pixel::u8Max, 0);
+                AV::Color color(AV::Pixel::L_U8);
+                color.setU8(AV::Pixel::u8Max, 0);
                 DJV_ASSERT(color.data());
-                DJV_ASSERT(Graphics::Pixel::u8Max == *color.data());
+                DJV_ASSERT(AV::Pixel::u8Max == *color.data());
                 *color.data() = 0;
                 DJV_ASSERT(0 == *color.data());
             }
@@ -208,46 +208,46 @@ namespace djv
         {
             DJV_DEBUG("ColorTest::operators");
             {
-                const Graphics::Color color = Graphics::Color(1.f);
+                const AV::Color color = AV::Color(1.f);
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
             }
             {
-                Graphics::Color a, b;
+                AV::Color a, b;
                 DJV_ASSERT(a == b);
-                a.setPixel(Graphics::Pixel::L_U8);
-                b.setPixel(Graphics::Pixel::RGB_U8);
+                a.setPixel(AV::Pixel::L_U8);
+                b.setPixel(AV::Pixel::RGB_U8);
                 DJV_ASSERT(a != b);
             }
             {
-                Graphics::Color a(Graphics::Pixel::RGB_U8), b(Graphics::Pixel::RGB_U8);
+                AV::Color a(AV::Pixel::RGB_U8), b(AV::Pixel::RGB_U8);
                 DJV_ASSERT(a == b);
-                a.setU8(Graphics::Pixel::u8Max, 0);
+                a.setU8(AV::Pixel::u8Max, 0);
                 DJV_ASSERT(a != b);
             }
             {
-                Graphics::Color a(Graphics::Pixel::RGB_U10), b(Graphics::Pixel::RGB_U10);
+                AV::Color a(AV::Pixel::RGB_U10), b(AV::Pixel::RGB_U10);
                 DJV_ASSERT(a == b);
-                a.setU10(Graphics::Pixel::u10Max, 0);
+                a.setU10(AV::Pixel::u10Max, 0);
                 DJV_ASSERT(a != b);
             }
             {
-                Graphics::Color a(Graphics::Pixel::RGB_U16), b(Graphics::Pixel::RGB_U16);
+                AV::Color a(AV::Pixel::RGB_U16), b(AV::Pixel::RGB_U16);
                 DJV_ASSERT(a == b);
-                a.setU16(Graphics::Pixel::u16Max, 0);
+                a.setU16(AV::Pixel::u16Max, 0);
                 DJV_ASSERT(a != b);
             }
             {
-                Graphics::Color a(Graphics::Pixel::RGB_F16), b(Graphics::Pixel::RGB_F16);
+                AV::Color a(AV::Pixel::RGB_F16), b(AV::Pixel::RGB_F16);
                 DJV_ASSERT(a == b);
                 a.setF16(1.f, 0);
                 DJV_ASSERT(a != b);
             }
             {
-                DJV_ASSERT(Graphics::Color(1.f) == Graphics::Color(1.f));
-                DJV_ASSERT(Graphics::Color(1.f) != Graphics::Color(0.f));
+                DJV_ASSERT(AV::Color(1.f) == AV::Color(1.f));
+                DJV_ASSERT(AV::Color(1.f) != AV::Color(0.f));
             }
             {
-                Graphics::Color color;
+                AV::Color color;
                 QStringList s = QStringList() << "RGB U8" << "255" << "127" << "0";
                 s >> color;
                 DJV_ASSERT(255 == color.u8(0));
@@ -255,7 +255,7 @@ namespace djv
                 DJV_ASSERT(0 == color.u8(2));
             }
             {
-                Graphics::Color color;
+                AV::Color color;
                 QStringList s = QStringList() << "RGB U10" << "1023" << "511" << "0";
                 s >> color;
                 DJV_ASSERT(1023 == color.u10(0));
@@ -263,7 +263,7 @@ namespace djv
                 DJV_ASSERT(0 == color.u10(2));
             }
             {
-                Graphics::Color color;
+                AV::Color color;
                 QStringList s = QStringList() << "RGB F16" << "1.0" << "0.5" << "0.0";
                 s >> color;
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f16(0)));
@@ -271,7 +271,7 @@ namespace djv
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f16(2)));
             }
             {
-                Graphics::Color color;
+                AV::Color color;
                 QStringList s = QStringList() << "RGB F32" << "1.0" << "0.5" << "0.0";
                 s >> color;
                 DJV_ASSERT(Math::fuzzyCompare(1.f, color.f32(0)));
@@ -279,15 +279,15 @@ namespace djv
                 DJV_ASSERT(Math::fuzzyCompare(0.f, color.f32(2)));
             }
             {
-                Graphics::Color color(1.f, 0.5f, 0.f);
+                AV::Color color(1.f, 0.5f, 0.f);
                 QStringList s;
                 s << color;
                 DJV_ASSERT((QStringList() << "RGB F32" << "1" << "0.5" << "0") == s);
             }
             {
-                DJV_DEBUG_PRINT(Graphics::Color());
+                DJV_DEBUG_PRINT(AV::Color());
             }
         }
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

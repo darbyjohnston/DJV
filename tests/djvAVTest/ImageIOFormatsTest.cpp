@@ -27,13 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/ImageIOFormatsTest.h>
+#include <djvAVTest/ImageIOFormatsTest.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/AVContext.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
@@ -47,44 +47,44 @@
 #include <algorithm>
 
 using namespace djv::Core;
-using namespace djv::Graphics;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
         void ImageIOFormatsTest::run(int & argc, char ** argv)
         {
             DJV_DEBUG("ImageIOFormatsTest::run");
 
-            Graphics::GraphicsContext context(argc, argv);
+            AV::AVContext context(argc, argv);
             initData();
             initImages();
             initPlugins(&context);
 
             //! \todo Fix these image I/O confidence tests.    
-            typedef QPair<QString, Graphics::Pixel::PIXEL> Disable;
+            typedef QPair<QString, AV::Pixel::PIXEL> Disable;
             QVector<Disable> disabled;
-            disabled += Disable("IFF", Graphics::Pixel::L_U16);
-            disabled += Disable("IFF", Graphics::Pixel::L_F16);
-            disabled += Disable("IFF", Graphics::Pixel::L_F32);
-            disabled += Disable("IFF", Graphics::Pixel::LA_U16);
-            disabled += Disable("IFF", Graphics::Pixel::LA_F16);
-            disabled += Disable("IFF", Graphics::Pixel::LA_F32);
-            disabled += Disable("IFF", Graphics::Pixel::RGB_U10);
-            disabled += Disable("IFF", Graphics::Pixel::RGB_U16);
-            disabled += Disable("IFF", Graphics::Pixel::RGB_F16);
-            disabled += Disable("IFF", Graphics::Pixel::RGB_F32);
-            disabled += Disable("IFF", Graphics::Pixel::RGBA_U16);
-            disabled += Disable("IFF", Graphics::Pixel::RGBA_F16);
-            disabled += Disable("IFF", Graphics::Pixel::RGBA_F32);
+            disabled += Disable("IFF", AV::Pixel::L_U16);
+            disabled += Disable("IFF", AV::Pixel::L_F16);
+            disabled += Disable("IFF", AV::Pixel::L_F32);
+            disabled += Disable("IFF", AV::Pixel::LA_U16);
+            disabled += Disable("IFF", AV::Pixel::LA_F16);
+            disabled += Disable("IFF", AV::Pixel::LA_F32);
+            disabled += Disable("IFF", AV::Pixel::RGB_U10);
+            disabled += Disable("IFF", AV::Pixel::RGB_U16);
+            disabled += Disable("IFF", AV::Pixel::RGB_F16);
+            disabled += Disable("IFF", AV::Pixel::RGB_F32);
+            disabled += Disable("IFF", AV::Pixel::RGBA_U16);
+            disabled += Disable("IFF", AV::Pixel::RGBA_F16);
+            disabled += Disable("IFF", AV::Pixel::RGBA_F32);
 
             for (int j = 0; j < _plugins.count(); ++j)
             {
-                Graphics::ImageIO * plugin = static_cast<Graphics::ImageIO *>(_plugins[j]);
+                AV::ImageIO * plugin = static_cast<AV::ImageIO *>(_plugins[j]);
                 for (int i = 0; i < _images.count(); ++i)
                 {
-                    const Graphics::Image & image = _images[i];
+                    const AV::Image & image = _images[i];
                     bool test = true;
                     for (int k = 0; k < disabled.count(); ++k)
                     {
@@ -103,7 +103,7 @@ namespace djv
             }
         }
 
-        void ImageIOFormatsTest::initPlugins(const QPointer<Graphics::GraphicsContext> & context)
+        void ImageIOFormatsTest::initPlugins(const QPointer<AV::AVContext> & context)
         {
             DJV_DEBUG("ImageIOFormatsTest::initPlugins");
 
@@ -149,17 +149,17 @@ namespace djv
                     //glm::ivec2( 1,  7) <<
                     glm::ivec2(11, 7) <<
                     glm::ivec2(7, 11);
-                for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
+                for (int i = 0; i < AV::Pixel::PIXEL_COUNT; ++i)
                 {
-                    const Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(i);
+                    const AV::Pixel::PIXEL pixel = static_cast<AV::Pixel::PIXEL>(i);
                     _pixels += pixel;
                 }
             }
             else
             {
                 _sizes += glm::ivec2(10, 1);
-                //_pixels += Graphics::Pixel::RGB_U10;
-                _pixels += Graphics::Pixel::RGB_F16;
+                //_pixels += AV::Pixel::RGB_U10;
+                _pixels += AV::Pixel::RGB_F16;
             }
             //DJV_DEBUG_PRINT("sizes = " << _sizes);
             //DJV_DEBUG_PRINT("pixels = " << _pixels);
@@ -172,22 +172,22 @@ namespace djv
             {
                 for (int j = 0; j < _pixels.count(); ++j)
                 {
-                    Graphics::Image gradient(Graphics::PixelDataInfo(_sizes[i], Graphics::Pixel::L_F32));
-                    Graphics::PixelDataUtil::gradient(gradient);
-                    Graphics::Image image(Graphics::PixelDataInfo(gradient.size(), _pixels[j]));
-                    Graphics::OpenGLImage().copy(gradient, image);
+                    AV::Image gradient(AV::PixelDataInfo(_sizes[i], AV::Pixel::L_F32));
+                    AV::PixelDataUtil::gradient(gradient);
+                    AV::Image image(AV::PixelDataInfo(gradient.size(), _pixels[j]));
+                    AV::OpenGLImage().copy(gradient, image);
                     DJV_DEBUG_PRINT("image = " << image);
 
-                    Graphics::PixelData p(Graphics::PixelDataInfo(1, 1, image.pixel()));
-                    Graphics::OpenGLImageOptions options;
+                    AV::PixelData p(AV::PixelDataInfo(1, 1, image.pixel()));
+                    AV::OpenGLImageOptions options;
                     options.xform.position = glm::vec2(0, 0);
-                    Graphics::OpenGLImage().copy(image, p, options);
-                    Graphics::Color c(p.data(), p.pixel());
+                    AV::OpenGLImage().copy(image, p, options);
+                    AV::Color c(p.data(), p.pixel());
                     DJV_DEBUG_PRINT("c0 = " << c);
 
                     options.xform.position = -glm::vec2(image.size().x - 1, image.size().y - 1);
-                    Graphics::OpenGLImage().copy(image, p, options);
-                    c = Graphics::Color(p.data(), p.pixel());
+                    AV::OpenGLImage().copy(image, p, options);
+                    c = AV::Color(p.data(), p.pixel());
                     DJV_DEBUG_PRINT("c1 = " << c);
 
                     _images += image;
@@ -195,7 +195,7 @@ namespace djv
             }
         }
 
-        void ImageIOFormatsTest::runTest(Graphics::ImageIO * plugin, const Graphics::Image & image)
+        void ImageIOFormatsTest::runTest(AV::ImageIO * plugin, const AV::Image & image)
         {
             DJV_DEBUG("ImageIOFormatsTest::runTest");
             DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -221,24 +221,24 @@ namespace djv
                 save->write(image);
                 save->close();
 
-                Graphics::Image tmp;
+                AV::Image tmp;
                 load->read(tmp);
                 auto info = load->imageIOInfo();
                 if (info.pixel != image.pixel() ||
                     info.size != image.size())
                     return;
 
-                Graphics::PixelData p(Graphics::PixelDataInfo(1, 1, image.pixel()));
-                Graphics::OpenGLImageOptions options;
+                AV::PixelData p(AV::PixelDataInfo(1, 1, image.pixel()));
+                AV::OpenGLImageOptions options;
                 for (int y = 0; y < info.size.y; ++y)
                 {
                     for (int x = 0; x < info.size.x; ++x)
                     {
                         options.xform.position = -glm::vec2(x, y);
-                        Graphics::OpenGLImage().copy(image, p, options);
-                        Graphics::Color a(p.data(), p.pixel());
-                        Graphics::OpenGLImage().copy(tmp, p, options);
-                        Graphics::Color b(p.data(), p.pixel());
+                        AV::OpenGLImage().copy(image, p, options);
+                        AV::Color a(p.data(), p.pixel());
+                        AV::OpenGLImage().copy(tmp, p, options);
+                        AV::Color b(p.data(), p.pixel());
                         DJV_DEBUG_PRINT(a << " == " << b << " (" << x << " " << y << ")");
                         DJV_ASSERT(a == b);
                     }
@@ -268,7 +268,7 @@ namespace djv
                 if (!load)
                     return;
 
-                Graphics::Image tmp;
+                AV::Image tmp;
                 load->read(tmp);
                 DJV_ASSERT(0);
             }
@@ -278,5 +278,5 @@ namespace djv
             }
         }
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

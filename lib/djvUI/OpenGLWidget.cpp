@@ -31,7 +31,7 @@
 
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvAV/AVContext.h>
 
 #include <djvCore/DebugLog.h>
 

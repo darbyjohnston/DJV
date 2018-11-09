@@ -39,7 +39,7 @@
 #include <djvUI/TimePrefsWidget.h>
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <QApplication>
 #include <QDialogButtonBox>
@@ -139,7 +139,7 @@ namespace djv
             const QList<Core::Plugin *> & imageIOPlugins = context->imageIOFactory()->plugins();
             for (int i = 0; i < imageIOPlugins.count(); ++i)
             {
-                if (Graphics::ImageIO * imageIOPlugin = dynamic_cast<Graphics::ImageIO *>(imageIOPlugins[i]))
+                if (AV::ImageIO * imageIOPlugin = dynamic_cast<AV::ImageIO *>(imageIOPlugins[i]))
                 {
                     if (AbstractPrefsWidget * widget = context->imageIOWidgetFactory()->createWidget(imageIOPlugin))
                     {

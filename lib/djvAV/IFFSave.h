@@ -30,14 +30,14 @@
 
 #pragma once
 
-#include <djvGraphics/IFF.h>
-#include <djvGraphics/Image.h>
+#include <djvAV/IFF.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides an IFF saver.
         class IFFSave : public ImageSave
@@ -54,5 +54,5 @@ namespace djv
             Image         _image;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

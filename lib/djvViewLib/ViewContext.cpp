@@ -210,9 +210,9 @@ namespace djv
                     else if (
                         qApp->translate("djv::ViewLib::ViewContext", "-file_proxy") == arg)
                     {
-                        Graphics::PixelDataInfo::PROXY value = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+                        AV::PixelDataInfo::PROXY value = static_cast<AV::PixelDataInfo::PROXY>(0);
                         in >> value;
-                        _p->commandLineOptions.fileProxy.reset(new Graphics::PixelDataInfo::PROXY(value));
+                        _p->commandLineOptions.fileProxy.reset(new AV::PixelDataInfo::PROXY(value));
                     }
                     else if (
                         qApp->translate("djv::ViewLib::ViewContext", "-file_cache") == arg)
@@ -308,7 +308,7 @@ namespace djv
                 "        Set the playback speed: %4.\n"
                 "%5");
             return QString(label).
-                arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
+                arg(AV::PixelDataInfo::proxyLabels().join(", ")).
                 arg(Core::StringUtil::boolLabels().join(", ")).
                 arg(Enum::playbackLabels().join(", ")).
                 arg(Core::Speed::fpsLabels().join(", ")).

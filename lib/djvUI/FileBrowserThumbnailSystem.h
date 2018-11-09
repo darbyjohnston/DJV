@@ -31,7 +31,7 @@
 
 #include <djvUI/FileBrowserModel.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <QThread>
 
@@ -53,12 +53,12 @@ namespace djv
             FileBrowserThumbnailSystem(const QPointer<UIContext> &, QObject * parent = nullptr);
             virtual ~FileBrowserThumbnailSystem();
 
-            std::future<Graphics::ImageIOInfo> getInfo(const Core::FileInfo&);
+            std::future<AV::ImageIOInfo> getInfo(const Core::FileInfo&);
             std::future<QPixmap> getPixmap(
                 const Core::FileInfo&,
                 FileBrowserModel::THUMBNAIL_MODE,
                 const glm::ivec2 &,
-                Graphics::PixelDataInfo::PROXY);
+                AV::PixelDataInfo::PROXY);
 
             void stop();
 

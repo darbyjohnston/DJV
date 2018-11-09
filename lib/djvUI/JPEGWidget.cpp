@@ -33,7 +33,7 @@
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -45,13 +45,13 @@ namespace djv
 {
     namespace UI
     {
-        JPEGWidget::JPEGWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
+        JPEGWidget::JPEGWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             // Create the widgets.
             _qualityWidget = new IntEditSlider(context);
             _qualityWidget->setRange(0, 100);
-            _qualityWidget->setDefaultValue(Graphics::JPEG::Options().quality);
+            _qualityWidget->setDefaultValue(AV::JPEG::Options().quality);
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
@@ -71,7 +71,7 @@ namespace djv
             // Initialize.
             QStringList tmp;
             tmp = plugin->option(
-                plugin->options()[Graphics::JPEG::QUALITY_OPTION]);
+                plugin->options()[AV::JPEG::QUALITY_OPTION]);
             tmp >> _options.quality;
 
             widgetUpdate();
@@ -89,7 +89,7 @@ namespace djv
 
         void JPEGWidget::resetPreferences()
         {
-            _options = Graphics::JPEG::Options();
+            _options = AV::JPEG::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -101,7 +101,7 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    Graphics::JPEG::QUALITY_OPTION], Qt::CaseInsensitive))
+                    AV::JPEG::QUALITY_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.quality;
             }
             catch (const QString &)
@@ -120,7 +120,7 @@ namespace djv
         {
             QStringList tmp;
             tmp << _options.quality;
-            plugin()->setOption(Graphics::JPEG::optionsLabels()[Graphics::JPEG::QUALITY_OPTION], tmp);
+            plugin()->setOption(AV::JPEG::optionsLabels()[AV::JPEG::QUALITY_OPTION], tmp);
         }
 
         void JPEGWidget::widgetUpdate()
@@ -133,14 +133,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * JPEGWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
+        ImageIOWidget * JPEGWidgetPlugin::createWidget(AV::ImageIO * plugin) const
         {
             return new JPEGWidget(plugin, uiContext());
         }
 
         QString JPEGWidgetPlugin::pluginName() const
         {
-            return Graphics::JPEG::staticName;
+            return AV::JPEG::staticName;
         }
 
     } // namespace UI

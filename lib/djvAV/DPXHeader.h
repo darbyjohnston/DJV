@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/DPX.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/DPX.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class proivdes DPX file header functionality.
         class DPXHeader
@@ -314,5 +314,5 @@ namespace djv
             void endian();
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

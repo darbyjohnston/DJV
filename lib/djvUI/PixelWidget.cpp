@@ -41,7 +41,7 @@ namespace djv
     {
         struct PixelWidget::Private
         {
-            Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
+            AV::Pixel::PIXEL pixel = static_cast<AV::Pixel::PIXEL>(0);
             QPointer<QComboBox> comboBox;
         };
 
@@ -50,7 +50,7 @@ namespace djv
             _p(new Private)
         {
             _p->comboBox = new QComboBox;
-            _p->comboBox->addItems(Graphics::Pixel::pixelLabels());
+            _p->comboBox->addItems(AV::Pixel::pixelLabels());
 
             QVBoxLayout * layout = new QVBoxLayout(this);
             layout->setMargin(0);
@@ -64,12 +64,12 @@ namespace djv
         PixelWidget::~PixelWidget()
         {}
 
-        Graphics::Pixel::PIXEL PixelWidget::pixel() const
+        AV::Pixel::PIXEL PixelWidget::pixel() const
         {
             return _p->pixel;
         }
 
-        void PixelWidget::setPixel(Graphics::Pixel::PIXEL pixel)
+        void PixelWidget::setPixel(AV::Pixel::PIXEL pixel)
         {
             if (pixel == _p->pixel)
                 return;
@@ -80,7 +80,7 @@ namespace djv
 
         void PixelWidget::widgetCallback(int in)
         {
-            setPixel(static_cast<Graphics::Pixel::PIXEL>(in));
+            setPixel(static_cast<AV::Pixel::PIXEL>(in));
         }
 
         void PixelWidget::widgetUpdate()

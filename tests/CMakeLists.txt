@@ -1,5 +1,5 @@
+add_subdirectory(djvAVTest)
 add_subdirectory(djvCoreTest)
-add_subdirectory(djvGraphicsTest)
 add_subdirectory(djvUITest)
 add_subdirectory(djvTest)
 add_subdirectory(djvTestLib)

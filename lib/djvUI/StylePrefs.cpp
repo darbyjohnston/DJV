@@ -31,7 +31,7 @@
 
 #include <djvUI/Prefs.h>
 
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/ColorUtil.h>
 
 #include <QApplication>
 #include <QColor>
@@ -46,11 +46,11 @@ namespace djv
     {
         StylePrefs::Palette::Palette(
             const QString &  name,
-            const Graphics::Color & foreground,
-            const Graphics::Color & background,
-            const Graphics::Color & background2,
-            const Graphics::Color & button,
-            const Graphics::Color & select) :
+            const AV::Color & foreground,
+            const AV::Color & background,
+            const AV::Color & background2,
+            const AV::Color & button,
+            const AV::Color & select) :
             name(name),
             foreground(foreground),
             background(background),
@@ -174,39 +174,39 @@ namespace djv
             {
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Dark"),
-                    Graphics::Color(.9f),
-                    Graphics::Color(.2f),
-                    Graphics::Color(.15f),
-                    Graphics::Color(.25f),
-                    Graphics::Color(.7f, .6f, .3f)),
+                    AV::Color(.9f),
+                    AV::Color(.2f),
+                    AV::Color(.15f),
+                    AV::Color(.25f),
+                    AV::Color(.7f, .6f, .3f)),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Light"),
-                    Graphics::Color(.1f),
-                    Graphics::Color(.9f),
-                    Graphics::Color(.85f),
-                    Graphics::Color(.8f),
-                    Graphics::Color(.7f, .6f, .3f)),
+                    AV::Color(.1f),
+                    AV::Color(.9f),
+                    AV::Color(.85f),
+                    AV::Color(.8f),
+                    AV::Color(.7f, .6f, .3f)),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Default"),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Vaporwave"),
-                    Graphics::Color(.05f, .96f, .93f),
-                    Graphics::Color(0.f, .06f, .27f),
-                    Graphics::Color(0.f, .02f, .1f),
-                    Graphics::Color(.44f, .01f, .62f),
-                    Graphics::Color(.05f, .22f, .36f)),
+                    AV::Color(.05f, .96f, .93f),
+                    AV::Color(0.f, .06f, .27f),
+                    AV::Color(0.f, .02f, .1f),
+                    AV::Color(.44f, .01f, .62f),
+                    AV::Color(.05f, .22f, .36f)),
                 Palette(
                     qApp->translate("djv::UI::StylePrefs", "Custom"),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
-                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight)))
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
+                    AV::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight)))
             };
             return data;
         }
@@ -414,28 +414,28 @@ namespace djv
             QPalette palette;
             palette.setColor(
                 QPalette::Window,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].background));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].background));
             palette.setColor(
                 QPalette::WindowText,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].foreground));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].foreground));
             palette.setColor(
                 QPalette::Base,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].background2));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].background2));
             palette.setColor(
                 QPalette::AlternateBase,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].background2).darker(120));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].background2).darker(120));
             palette.setColor(
                 QPalette::Text,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].foreground));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].foreground));
             palette.setColor(
                 QPalette::Button,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].button));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].button));
             palette.setColor(
                 QPalette::ButtonText,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].foreground));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].foreground));
             palette.setColor(
                 QPalette::Highlight,
-                Graphics::ColorUtil::toQt(_p->palettes[_p->palettesIndex].select));
+                AV::ColorUtil::toQt(_p->palettes[_p->palettesIndex].select));
             qApp->setPalette(palette);            
             Q_EMIT prefChanged();
             //! \todo Can we use QWidget::changeEvent() for this instead?

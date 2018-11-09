@@ -27,15 +27,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/ColorUtil.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 #include <QColor>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         ColorUtil::~ColorUtil()
         {}
@@ -130,5 +130,5 @@ namespace djv
             return out;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

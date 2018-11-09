@@ -31,7 +31,7 @@
 
 #include <djvViewLib/AbstractPrefs.h>
 
-#include <djvGraphics/PixelData.h>
+#include <djvAV/PixelData.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -57,10 +57,10 @@ namespace djv
             const Core::FileInfoList & recentFiles() const;
 
             //! Get the default proxy scale.
-            static Graphics::PixelDataInfo::PROXY proxyDefault();
+            static AV::PixelDataInfo::PROXY proxyDefault();
 
             //! Get the proxy scale.
-            Graphics::PixelDataInfo::PROXY proxy() const;
+            AV::PixelDataInfo::PROXY proxy() const;
 
             //! Get the default for whether images are converted to 8-bits.
             static bool u8ConversionDefault();
@@ -94,7 +94,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the proxy scale.
-            void setProxy(djv::Graphics::PixelDataInfo::PROXY);
+            void setProxy(djv::AV::PixelDataInfo::PROXY);
 
             //! Set whether images are converted to 8-bits.
             void setU8Conversion(bool);
@@ -116,7 +116,7 @@ namespace djv
             void recentChanged(const djv::Core::FileInfoList &);
 
             //! This signal is emitted when the proxy scale is changed.
-            void proxyChanged(djv::Graphics::PixelDataInfo::PROXY);
+            void proxyChanged(djv::AV::PixelDataInfo::PROXY);
 
             //! This signal is emitted when 8-bit conversion is changed.
             void u8ConversionChanged(bool);
@@ -135,7 +135,7 @@ namespace djv
 
         private:
             Core::FileInfoList             _recent;
-            Graphics::PixelDataInfo::PROXY _proxy;
+            AV::PixelDataInfo::PROXY _proxy;
             bool                           _u8Conversion;
             bool                           _cacheEnabled;
             float                          _cacheSizeGB;

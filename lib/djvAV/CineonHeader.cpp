@@ -27,14 +27,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/CineonHeader.h>
+#include <djvAV/CineonHeader.h>
 
 #include <djvCore/FileIO.h>
 #include <djvCore/Time.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const quint32 CineonHeader::magic[] =
         {
@@ -754,5 +754,5 @@ namespace djv
             return out;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

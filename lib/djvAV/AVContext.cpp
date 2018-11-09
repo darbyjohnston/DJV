@@ -27,35 +27,35 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvAV/AVContext.h>
 
-#include <djvGraphics/CineonPlugin.h>
-#include <djvGraphics/DPXPlugin.h>
-#include <djvGraphics/IFFPlugin.h>
-#include <djvGraphics/IFLPlugin.h>
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/LUTPlugin.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PICPlugin.h>
-#include <djvGraphics/PPMPlugin.h>
-#include <djvGraphics/TargaPlugin.h>
-#include <djvGraphics/RLAPlugin.h>
-#include <djvGraphics/SGIPlugin.h>
+#include <djvAV/CineonPlugin.h>
+#include <djvAV/DPXPlugin.h>
+#include <djvAV/IFFPlugin.h>
+#include <djvAV/IFLPlugin.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/LUTPlugin.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PICPlugin.h>
+#include <djvAV/PPMPlugin.h>
+#include <djvAV/TargaPlugin.h>
+#include <djvAV/RLAPlugin.h>
+#include <djvAV/SGIPlugin.h>
 #if defined(JPEG_FOUND)
-#include <djvGraphics/JPEGPlugin.h>
+#include <djvAV/JPEGPlugin.h>
 #endif // JPEG_FOUND
 #if defined(PNG_FOUND)
-#include <djvGraphics/PNGPlugin.h>
+#include <djvAV/PNGPlugin.h>
 #endif // PNG_FOUND
 #if defined(TIFF_FOUND)
-#include <djvGraphics/TIFFPlugin.h>
+#include <djvAV/TIFFPlugin.h>
 #endif // TIFF_FOUND
 #if defined(OPENEXR_FOUND)
-#include <djvGraphics/OpenEXRPlugin.h>
+#include <djvAV/OpenEXRPlugin.h>
 #endif // OPENEXR_FOUND
 #if defined(FFMPEG_FOUND)
-#include <djvGraphics/FFmpegPlugin.h>
+#include <djvAV/FFmpegPlugin.h>
 #endif // FFMPEG_FOUND
 
 #include <djvCore/DebugLog.h>
@@ -73,9 +73,9 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
-        struct GraphicsContext::Private
+        struct AVContext::Private
         {
             QScopedPointer<QOffscreenSurface> offscreenSurface;
             QScopedPointer<QOpenGLContext> openGLContext;
@@ -83,18 +83,18 @@ namespace djv
             QScopedPointer<ImageIOFactory> imageIOFactory;
         };
 
-        GraphicsContext::GraphicsContext(int & argc, char ** argv, QObject * parent) :
+        AVContext::AVContext(int & argc, char ** argv, QObject * parent) :
             Core::CoreContext(argc, argv, parent),
             _p(new Private)
         {
-            //DJV_DEBUG("GraphicsContext::GraphicsContext");
+            //DJV_DEBUG("AVContext::AVContext");
 
             // Register meta types.
-            qRegisterMetaType<Image>("djv::Graphics::Image");
-            qRegisterMetaType<ImageIOInfo>("djv::Graphics::ImageIOInfo");
+            qRegisterMetaType<Image>("djv::AV::Image");
+            qRegisterMetaType<ImageIOInfo>("djv::AV::ImageIOInfo");
 
             // Create the default OpenGL context.
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Creating the default OpenGL context...");
+            DJV_LOG(debugLog(), "djv::AV::AVContext", "Creating the default OpenGL context...");
 
             QSurfaceFormat defaultFormat;
             defaultFormat.setRenderableType(QSurfaceFormat::OpenGL);
@@ -119,22 +119,22 @@ namespace djv
             if (!_p->openGLContext->create())
             {
                 throw Core::Error(
-                    "djv::Graphics::GraphicsContext",
-                    qApp->translate("djv::Graphics::GraphicsContext", "Cannot create OpenGL context, found version %1.%2").
+                    "djv::AV::AVContext",
+                    qApp->translate("djv::AV::AVContext", "Cannot create OpenGL context, found version %1.%2").
                     arg(_p->openGLContext->format().majorVersion()).arg(_p->openGLContext->format().minorVersion()));
             }
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
+            DJV_LOG(debugLog(), "djv::AV::AVContext",
                 QString("OpenGL context valid = %1").arg(_p->openGLContext->isValid()));
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
+            DJV_LOG(debugLog(), "djv::AV::AVContext",
                 QString("OpenGL version = %1.%2").
                 arg(_p->openGLContext->format().majorVersion()).
                 arg(_p->openGLContext->format().minorVersion()));
             if (!_p->openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
             {
                 throw Core::Error(
-                    "djv::Graphics::GraphicsContext",
-                    qApp->translate("djv::Graphics::GraphicsContext", "Cannot find OpenGL 3.3 functions, found version %1.%2").
+                    "djv::AV::AVContext",
+                    qApp->translate("djv::AV::AVContext", "Cannot find OpenGL 3.3 functions, found version %1.%2").
                     arg(_p->openGLContext->format().majorVersion()).arg(_p->openGLContext->format().minorVersion()));
             }
 
@@ -143,7 +143,7 @@ namespace djv
                 _p->openGLDebugLogger.data(),
                 &QOpenGLDebugLogger::messageLogged,
                 this,
-                &GraphicsContext::debugLogMessage);
+                &AVContext::debugLogMessage);
             if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
             {
                 _p->openGLDebugLogger->initialize();
@@ -151,7 +151,7 @@ namespace djv
             }
 
             //! Create the image I/O plugins.
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Loading image I/O plugins...");
+            DJV_LOG(debugLog(), "djv::AV::AVContext", "Loading image I/O plugins...");
 
             _p->imageIOFactory.reset(new ImageIOFactory(this));
             _p->imageIOFactory->addPlugin(new CineonPlugin(this));
@@ -180,13 +180,13 @@ namespace djv
             _p->imageIOFactory->addPlugin(new FFmpegPlugin(this));
 #endif // FFMPEG_FOUND
 
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Information:");
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", info());
+            DJV_LOG(debugLog(), "djv::AV::AVContext", "Information:");
+            DJV_LOG(debugLog(), "djv::AV::AVContext", info());
         }
 
-        GraphicsContext::~GraphicsContext()
+        AVContext::~AVContext()
         {
-            //DJV_DEBUG("GraphicsContext::~GraphicsContext");
+            //DJV_DEBUG("AVContext::~AVContext");
 #if defined(DJV_WINDOWS)
     //! \todo On Windows deleting the image factory causes the application
     //! to hang on exit.
@@ -194,24 +194,24 @@ namespace djv
 #endif // DJV_WINDOWS
         }
 
-        ImageIOFactory * GraphicsContext::imageIOFactory() const
+        QPointer<ImageIOFactory> AVContext::imageIOFactory() const
         {
             return _p->imageIOFactory.data();
         }
 
-        QOpenGLContext * GraphicsContext::openGLContext() const
+        QPointer<QOpenGLContext> AVContext::openGLContext() const
         {
             return _p->openGLContext.data();
         }
 
-        void GraphicsContext::makeGLContextCurrent()
+        void AVContext::makeGLContextCurrent()
         {
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
         }
 
-        QString GraphicsContext::info() const
+        QString AVContext::info() const
         {
-            static const QString label = qApp->translate("djv::Graphics::GraphicsContext",
+            static const QString label = qApp->translate("djv::AV::AVContext",
                 "%1"
                 "\n"
                 "OpenGL\n"
@@ -235,9 +235,9 @@ namespace djv
                 arg(_p->imageIOFactory->names().join(", "));
         }
 
-        bool GraphicsContext::commandLineParse(QStringList & in)
+        bool AVContext::commandLineParse(QStringList & in)
         {
-            //DJV_DEBUG("GraphicsContext::commandLineParse");
+            //DJV_DEBUG("AVContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
 
             if (!Core::CoreContext::commandLineParse(in))
@@ -258,13 +258,13 @@ namespace djv
                     in >> arg;
 
                     // OpenGL options.
-                    if (qApp->translate("djv::Graphics::GraphicsContext", "-render_filter") == arg)
+                    if (qApp->translate("djv::AV::AVContext", "-render_filter") == arg)
                     {
                         OpenGLImageFilter value;
                         in >> value;
                         OpenGLImageFilter::setFilter(value);
                     }
-                    else if (qApp->translate("djv::Graphics::GraphicsContext", "-render_filter_high") == arg)
+                    else if (qApp->translate("djv::AV::AVContext", "-render_filter_high") == arg)
                     {
                         OpenGLImageFilter::setFilter(OpenGLImageFilter::filterHighQuality());
                     }
@@ -286,7 +286,7 @@ namespace djv
             return true;
         }
 
-        QString GraphicsContext::commandLineHelp() const
+        QString AVContext::commandLineHelp() const
         {
             QString imageIOHelp;
             Q_FOREACH(Core::Plugin * plugin, _p->imageIOFactory->plugins())
@@ -294,7 +294,7 @@ namespace djv
                 ImageIO * io = static_cast<ImageIO *>(plugin);
                 imageIOHelp += io->commandLineHelp();
             }
-            static const QString label = qApp->translate("djv::Graphics::GraphicsContext",
+            static const QString label = qApp->translate("djv::AV::AVContext",
                 "%1"
                 "\n"
                 "OpenGL Options\n"
@@ -322,10 +322,10 @@ namespace djv
                 arg(Core::CoreContext::commandLineHelp());
         }
 
-        void GraphicsContext::debugLogMessage(const QOpenGLDebugMessage & message)
+        void AVContext::debugLogMessage(const QOpenGLDebugMessage & message)
         {
-            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", message.message());
+            DJV_LOG(debugLog(), "djv::AV::AVContext", message.message());
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

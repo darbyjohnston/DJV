@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/SGI.h>
+#include <djvAV/SGI.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -36,15 +36,15 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString SGI::staticName = "SGI";
 
         const QStringList & SGI::compressionLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::SGI", "None") <<
-                qApp->translate("djv::Graphics::SGI", "RLE");
+                qApp->translate("djv::AV::SGI", "None") <<
+                qApp->translate("djv::AV::SGI", "RLE");
             DJV_ASSERT(data.count() == COMPRESSION_COUNT);
             return data;
         }
@@ -381,13 +381,13 @@ namespace djv
         const QStringList & SGI::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::SGI", "Compression");
+                qApp->translate("djv::AV::SGI", "Compression");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::SGI::COMPRESSION, Graphics::SGI::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(AV::SGI::COMPRESSION, AV::SGI::compressionLabels())
 
 } // namespace djv

@@ -40,12 +40,12 @@ namespace djv
     {
         Options::Options() :
             scale(1.0),
-            channel(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0))
+            channel(static_cast<AV::OpenGLImageOptions::CHANNEL>(0))
         {}
 
         Input::Input() :
             layer(0),
-            proxy(static_cast<Graphics::PixelDataInfo::PROXY>(0)),
+            proxy(static_cast<AV::PixelDataInfo::PROXY>(0)),
             slateFrames(0),
             timeout(0)
         {}
@@ -55,7 +55,7 @@ namespace djv
         {}
 
         Context::Context(int & argc, char ** argv, QObject * parent) :
-            Graphics::GraphicsContext(argc, argv, parent)
+            AV::AVContext(argc, argv, parent)
         {
             //DJV_DEBUG("Context::Context");
 
@@ -88,7 +88,7 @@ namespace djv
             //DJV_DEBUG("Context::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            if (!Graphics::GraphicsContext::commandLineParse(in))
+            if (!AV::AVContext::commandLineParse(in))
                 return false;
 
             if (in.isEmpty())
@@ -177,9 +177,9 @@ namespace djv
                     // Parse the output options.
                     else if (qApp->translate("djv::convert::Context", "-pixel") == arg)
                     {
-                        Graphics::Pixel::PIXEL value = static_cast<Graphics::Pixel::PIXEL>(0);
+                        AV::Pixel::PIXEL value = static_cast<AV::Pixel::PIXEL>(0);
                         in >> value;
-                        _output.pixel.reset(new Graphics::Pixel::PIXEL(value));
+                        _output.pixel.reset(new AV::Pixel::PIXEL(value));
                     }
                     else if (qApp->translate("djv::convert::Context", "-speed") == arg)
                     {
@@ -356,16 +356,16 @@ namespace djv
             QStringList tagsAutoLabel;
             tagsAutoLabel << _output.tagsAuto;
             return QString(label).
-                arg(Graphics::OpenGLImageOptions::channelLabels().join(", ")).
+                arg(AV::OpenGLImageOptions::channelLabels().join(", ")).
                 arg(channelLabel.join(", ")).
-                arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
+                arg(AV::PixelDataInfo::proxyLabels().join(", ")).
                 arg(proxyLabel.join(", ")).
                 arg(_input.timeout).
-                arg(Graphics::Pixel::pixelLabels().join(", ")).
+                arg(AV::Pixel::pixelLabels().join(", ")).
                 arg(Core::Speed::fpsLabels().join(", ")).
                 arg(Core::StringUtil::boolLabels().join(", ")).
                 arg(tagsAutoLabel.join(", ")).
-                arg(Graphics::GraphicsContext::commandLineHelp());
+                arg(AV::AVContext::commandLineHelp());
         }
 
     } // namespace convert

@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/DPXHeader.h>
+#include <djvAV/DPXHeader.h>
 
-#include <djvGraphics/CineonHeader.h>
+#include <djvAV/CineonHeader.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Time.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const char DPXHeader::magic[][5] =
         {
@@ -1140,5 +1140,5 @@ namespace djv
             return isValid(in, size) ? toString(in, size) : "[]";
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

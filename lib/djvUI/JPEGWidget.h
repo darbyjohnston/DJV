@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/JPEG.h>
+#include <djvAV/JPEG.h>
 
 class QVBoxLayout;
 
@@ -47,7 +47,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            JPEGWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            JPEGWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -59,7 +59,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::JPEG::Options _options;
+            AV::JPEG::Options _options;
             IntEditSlider * _qualityWidget = nullptr;
             QVBoxLayout * _layout = nullptr;
         };
@@ -70,7 +70,7 @@ namespace djv
         public:
             JPEGWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

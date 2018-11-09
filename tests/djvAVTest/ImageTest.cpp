@@ -27,24 +27,56 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAVTest/ImageTest.h>
 
-#include <djvGraphicsTest/GraphicsTest.h>
+#include <djvAV/Image.h>
+
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+
+using namespace djv::Core;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
-        class PixelDataTest : public TestLib::AbstractTest
+        void ImageTest::run(int &, char **)
         {
-        public:
-            void run(int &, char **) override;
+            DJV_DEBUG("ImageTest::run");
+            ctors();
+            operators();
+        }
 
-        private:
-            void ctors();
-            void members();
-            void operators();
-        };
+        void ImageTest::ctors()
+        {
+            DJV_DEBUG("ImageTest::ctors");
+            {
+                const AV::Image image;
+                DJV_ASSERT(image.data() == 0);
+            }
+            {
+                const AV::Image image(AV::PixelDataInfo(32, 32, AV::Pixel::RGBA_U8));
+                AV::Image other(image);
+                DJV_ASSERT(other.info() == image.info());
+            }
+        }
 
-    } // namespace GraphicsTest
+        void ImageTest::operators()
+        {
+            DJV_DEBUG("ImageTest::operators");
+            {
+                AV::Image
+                    a(AV::PixelDataInfo(1, 1, AV::Pixel::L_U8)),
+                    b(AV::PixelDataInfo(1, 1, AV::Pixel::L_U8));
+                a.data()[0] = b.data()[0] = 127;
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != AV::Image());
+            }
+            {
+                DJV_DEBUG_PRINT(AV::Image());
+            }
+        }
+
+    } // namespace AVTest
 } // namespace djv

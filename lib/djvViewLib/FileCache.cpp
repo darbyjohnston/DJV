@@ -32,7 +32,7 @@
 #include <djvViewLib/FilePrefs.h>
 #include <djvViewLib/ViewContext.h>
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/ListUtil.h>
@@ -74,7 +74,7 @@ namespace djv
                 context(context)
             {}
 
-            std::map<FileCacheKey, std::shared_ptr<Graphics::Image> > items;
+            std::map<FileCacheKey, std::shared_ptr<AV::Image> > items;
             quint64 maxBytes = 0;
             quint64 cacheBytes = 0;
             QPointer<ViewContext> context;
@@ -106,12 +106,12 @@ namespace djv
             return _p->items.find(key) != _p->items.end();
         }
 
-        std::shared_ptr<Graphics::Image> FileCache::item(const FileCacheKey & key) const
+        std::shared_ptr<AV::Image> FileCache::item(const FileCacheKey & key) const
         {
             return _p->items.find(key)->second;
         }
 
-        void FileCache::addItem(const FileCacheKey & key, const std::shared_ptr<Graphics::Image> & item)
+        void FileCache::addItem(const FileCacheKey & key, const std::shared_ptr<AV::Image> & item)
         {
             _p->items[key] = item;
             _p->cacheBytes += item->dataByteCount();
@@ -164,9 +164,9 @@ namespace djv
             }
         }
 
-        std::vector<std::shared_ptr<Graphics::Image> > FileCache::items(void * window)
+        std::vector<std::shared_ptr<AV::Image> > FileCache::items(void * window)
         {
-            std::vector<std::shared_ptr<Graphics::Image> > out;
+            std::vector<std::shared_ptr<AV::Image> > out;
             for (auto i = _p->items.begin(); i != _p->items.end(); ++i)
             {
                 if (window == i->first.window)

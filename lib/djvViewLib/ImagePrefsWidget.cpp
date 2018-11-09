@@ -38,7 +38,7 @@
 #include <djvUI/PrefsGroupBox.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 #include <djvCore/SignalBlocker.h>
 
 #include <QApplication>
@@ -140,7 +140,7 @@ namespace djv
 
             _p->channelWidget = new QComboBox;
             _p->channelWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->channelWidget->addItems(Graphics::OpenGLImageOptions::channelLabels());
+            _p->channelWidget->addItems(AV::OpenGLImageOptions::channelLabels());
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
@@ -312,14 +312,14 @@ namespace djv
 
         void ImagePrefsWidget::mirrorHCallback(bool in)
         {
-            Graphics::PixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
+            AV::PixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
             mirror.x = in;
             context()->imagePrefs()->setMirror(mirror);
         }
 
         void ImagePrefsWidget::mirrorVCallback(bool in)
         {
-            Graphics::PixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
+            AV::PixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
             mirror.y = in;
             context()->imagePrefs()->setMirror(mirror);
         }
@@ -433,7 +433,7 @@ namespace djv
 
         void ImagePrefsWidget::channelCallback(int in)
         {
-            context()->imagePrefs()->setChannel(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(in));
+            context()->imagePrefs()->setChannel(static_cast<AV::OpenGLImageOptions::CHANNEL>(in));
         }
         
         void ImagePrefsWidget::styleUpdate()

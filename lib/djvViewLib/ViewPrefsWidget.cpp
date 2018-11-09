@@ -182,16 +182,16 @@ namespace djv
                 SLOT(zoomFactorCallback(int)));
             connect(
                 _p->backgroundColorWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(backgroundCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(backgroundCallback(const djv::AV::Color &)));
             connect(
                 _p->gridWidget,
                 SIGNAL(currentIndexChanged(int)),
                 SLOT(gridCallback(int)));
             connect(
                 _p->gridColorWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(gridColorCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(gridColorCallback(const djv::AV::Color &)));
             connect(
                 _p->hudEnabledWidget,
                 SIGNAL(toggled(bool)),
@@ -202,16 +202,16 @@ namespace djv
                 SLOT(hudInfoCallback(QListWidgetItem *)));
             connect(
                 _p->hudColorWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(hudColorCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(hudColorCallback(const djv::AV::Color &)));
             connect(
                 _p->hudBackgroundWidget,
                 SIGNAL(currentIndexChanged(int)),
                 SLOT(hudBackgroundCallback(int)));
             connect(
                 _p->hudBackgroundColorWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(hudBackgroundColorCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(hudBackgroundColorCallback(const djv::AV::Color &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(prefChanged()),
@@ -239,7 +239,7 @@ namespace djv
             context()->viewPrefs()->setZoomFactor(static_cast<Enum::ZOOM_FACTOR>(in));
         }
 
-        void ViewPrefsWidget::backgroundCallback(const Graphics::Color & in)
+        void ViewPrefsWidget::backgroundCallback(const AV::Color & in)
         {
             _p->backgroundColorWidget->setColor(in);
             context()->viewPrefs()->setBackground(in);
@@ -250,7 +250,7 @@ namespace djv
             context()->viewPrefs()->setGrid(static_cast<Enum::GRID>(in));
         }
 
-        void ViewPrefsWidget::gridColorCallback(const Graphics::Color & in)
+        void ViewPrefsWidget::gridColorCallback(const AV::Color & in)
         {
             _p->gridColorWidget->setColor(in);
             context()->viewPrefs()->setGridColor(in);
@@ -269,7 +269,7 @@ namespace djv
             context()->viewPrefs()->setHudInfo(info);
         }
 
-        void ViewPrefsWidget::hudColorCallback(const Graphics::Color & in)
+        void ViewPrefsWidget::hudColorCallback(const AV::Color & in)
         {
             _p->hudColorWidget->setColor(in);
             context()->viewPrefs()->setHudColor(in);
@@ -280,7 +280,7 @@ namespace djv
             context()->viewPrefs()->setHudBackground(static_cast<Enum::HUD_BACKGROUND>(in));
         }
 
-        void ViewPrefsWidget::hudBackgroundColorCallback(const Graphics::Color & in)
+        void ViewPrefsWidget::hudBackgroundColorCallback(const AV::Color & in)
         {
             _p->hudBackgroundColorWidget->setColor(in);
             context()->viewPrefs()->setHudBackgroundColor(in);

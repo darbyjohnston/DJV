@@ -16,7 +16,7 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
 
 include_directories(${OPENGL_INCLUDE_DIRS})
 add_executable(djv_info ${header} ${source} ${mocSource} ${qmSource})
-target_link_libraries(djv_info djvGraphics)
+target_link_libraries(djv_info djvAV)
 set_target_properties(djv_info PROPERTIES FOLDER bin CXX_STANDARD 11)
 
 install(

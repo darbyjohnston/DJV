@@ -50,7 +50,7 @@ extern "C"
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides FFmpeg utilities.
         struct FFmpeg
@@ -145,9 +145,9 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::FFmpeg::FORMAT);
-    DJV_STRING_OPERATOR(Graphics::FFmpeg::QUALITY);
+    DJV_STRING_OPERATOR(AV::FFmpeg::FORMAT);
+    DJV_STRING_OPERATOR(AV::FFmpeg::QUALITY);
 
 } // namespace djv

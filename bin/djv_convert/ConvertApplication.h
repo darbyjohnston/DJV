@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/OpenGLOffscreenBuffer.h>
 
 #include <QGuiApplication>
 #include <QScopedPointer>
@@ -76,7 +76,7 @@ namespace djv
             void work();
 
         private:
-            QString labelImage(const Graphics::PixelDataInfo &, const Core::Sequence &) const;
+            QString labelImage(const AV::PixelDataInfo &, const Core::Sequence &) const;
 
             QScopedPointer<Context> _context;
         };

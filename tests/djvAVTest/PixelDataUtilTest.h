@@ -29,20 +29,24 @@
 
 #pragma once
 
-#include <djvGraphicsTest/GraphicsTest.h>
+#include <djvAVTest/AVTest.h>
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
-        class OpenGLTest : public TestLib::AbstractTest
+        class PixelDataUtilTest : public TestLib::AbstractTest
         {
         public:
             void run(int &, char **) override;
 
         private:
-            void members();
+            void byteCount();
+            void proxy();
+            void interleave();
+            void gradient();
+            void qt();
         };
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

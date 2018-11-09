@@ -31,7 +31,7 @@
 
 #include <djvWidgetTest/AbstractWidgetTest.h>
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 namespace djv
 {
@@ -48,7 +48,7 @@ namespace djv
             void run(const QStringList & args = QStringList()) override;
 
         private Q_SLOTS:
-            void callback(djv::Graphics::Pixel::PIXEL);
+            void callback(djv::AV::Pixel::PIXEL);
         };
 
     } // namespace WidgetTest

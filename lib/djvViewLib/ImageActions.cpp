@@ -38,7 +38,7 @@
 #include <djvUI/Shortcut.h>
 #include <djvUI/StylePrefs.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -108,10 +108,10 @@ namespace djv
                 _groups[ROTATE_GROUP]->addAction(action);
             }
             _groups[CHANNEL_GROUP]->setExclusive(true);
-            for (int i = 0; i < Graphics::OpenGLImageOptions::channelLabels().count(); ++i)
+            for (int i = 0; i < AV::OpenGLImageOptions::channelLabels().count(); ++i)
             {
                 QAction * action = new QAction(this);
-                action->setText(Graphics::OpenGLImageOptions::channelLabels()[i]);
+                action->setText(AV::OpenGLImageOptions::channelLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
                 _groups[CHANNEL_GROUP]->addAction(action);
@@ -223,7 +223,7 @@ namespace djv
                 shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
                 shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<
                 shortcuts[Enum::SHORTCUT_IMAGE_CHANNEL_ALPHA].value;
-            for (int i = 0; i < Graphics::OpenGLImageOptions::channelLabels().count(); ++i)
+            for (int i = 0; i < AV::OpenGLImageOptions::channelLabels().count(); ++i)
             {
                 _groups[CHANNEL_GROUP]->actions()[i]->setShortcut(channelShortcuts[i]);
             }

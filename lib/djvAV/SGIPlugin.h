@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/SGI.h>
+#include <djvAV/SGI.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
-        //! This plugin provides support for the Silicon Graphics image file format.
+        //! This plugin provides support for the Silicon AV image file format.
         //!
         //! File extensions: .sgi, .rgba, .rgb, .bw
         //!
@@ -69,5 +69,5 @@ namespace djv
             SGI::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

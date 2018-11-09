@@ -31,7 +31,7 @@
 
 #include <djvUI/OpenGLWidget.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <memory>
 
@@ -48,14 +48,14 @@ namespace djv
 
             //! This property holds the pixel data.
             Q_PROPERTY(
-                const djv::Graphics::PixelData * data
+                const djv::AV::PixelData * data
                 READ                             data
                 WRITE                            setData
                 NOTIFY                           dataChanged)
 
             //! This property holds the image options.
             Q_PROPERTY(
-                djv::Graphics::OpenGLImageOptions options
+                djv::AV::OpenGLImageOptions options
                 READ                              options
                 WRITE                             setOptions
                 NOTIFY                            optionsChanged)
@@ -82,10 +82,10 @@ namespace djv
             ~ImageView() override;
 
             //! Get the pixel data.
-            const Graphics::PixelData * data() const;
+            const AV::PixelData * data() const;
 
             //! Get the image options.
-            const Graphics::OpenGLImageOptions & options() const;
+            const AV::OpenGLImageOptions & options() const;
 
             //! Get the view position.
             const glm::ivec2 & viewPos() const;
@@ -103,10 +103,10 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the pixel data.
-            void setData(const djv::Graphics::PixelData *);
+            void setData(const djv::AV::PixelData *);
 
             //! Set the image options.
-            void setOptions(const djv::Graphics::OpenGLImageOptions &);
+            void setOptions(const djv::AV::OpenGLImageOptions &);
 
             //! Set the view position.
             void setViewPos(const glm::ivec2 &);
@@ -131,10 +131,10 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the pixel data is changed.
-            void dataChanged(const djv::Graphics::PixelData *);
+            void dataChanged(const djv::AV::PixelData *);
 
             //! This signal is emitted when the image options are changed.
-            void optionsChanged(const djv::Graphics::OpenGLImageOptions &);
+            void optionsChanged(const djv::AV::OpenGLImageOptions &);
 
             //! This signal is emitted when the view position is changed.
             void viewPosChanged(const glm::ivec2 &);

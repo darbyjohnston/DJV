@@ -38,7 +38,7 @@ namespace djv
     namespace info
     {
         Context::Context(int & argc, char ** argv, QObject * parent) :
-            Graphics::GraphicsContext(argc, argv, parent),
+            AV::AVContext(argc, argv, parent),
             _columns(Core::System::terminalWidth())
         {
             //DJV_DEBUG("Context::Context");
@@ -87,7 +87,7 @@ namespace djv
             //DJV_DEBUG("Context::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            if (!Graphics::GraphicsContext::commandLineParse(in))
+            if (!AV::AVContext::commandLineParse(in))
                 return false;
 
             QString arg;
@@ -202,7 +202,7 @@ namespace djv
                 "    Display information about all images within a directory:\n"
                 "    > djv_info ~/pics\n");
             return QString(label).
-                arg(Graphics::GraphicsContext::commandLineHelp());
+                arg(AV::AVContext::commandLineHelp());
         }
     
     } // namespace info

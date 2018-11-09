@@ -29,9 +29,9 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/OpenEXR.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/OpenEXR.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -39,7 +39,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides an OpenEXR saver.
         class OpenEXRSave : public ImageSave
@@ -62,5 +62,5 @@ namespace djv
             PixelData         _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

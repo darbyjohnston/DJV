@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 #include <djvCore/Util.h>
 
@@ -58,18 +58,18 @@ namespace djv
             {
                 explicit Palette(
                     const QString &  name = QString(),
-                    const Graphics::Color & foreground = Graphics::Color(),
-                    const Graphics::Color & background = Graphics::Color(),
-                    const Graphics::Color & background2 = Graphics::Color(),
-                    const Graphics::Color & button = Graphics::Color(),
-                    const Graphics::Color & select = Graphics::Color());
+                    const AV::Color & foreground = AV::Color(),
+                    const AV::Color & background = AV::Color(),
+                    const AV::Color & background2 = AV::Color(),
+                    const AV::Color & button = AV::Color(),
+                    const AV::Color & select = AV::Color());
 
                 QString  name;
-                Graphics::Color foreground;
-                Graphics::Color background;
-                Graphics::Color background2;
-                Graphics::Color button;
-                Graphics::Color select;
+                AV::Color foreground;
+                AV::Color background;
+                AV::Color background2;
+                AV::Color button;
+                AV::Color select;
             };
 
             //! Get the default color palettes.

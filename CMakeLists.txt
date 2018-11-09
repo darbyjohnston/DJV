@@ -1,12 +1,18 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.12)
+cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0074 NEW)
-
-project(DJV)
 
 set(DJV_VERSION_MAJOR "1")
 set(DJV_VERSION_MINOR "3")
 set(DJV_VERSION_PATCH "0")
 set(DJV_VERSION ${DJV_VERSION_MAJOR}.${DJV_VERSION_MINOR}.${DJV_VERSION_PATCH})
+
+project(
+    DJV
+    VERSION ${DJV_VERSION}
+    DESCRIPTION "Professional media review software for VFX, animation, and film production"
+    HOMEPAGE_URL "http://djv.sourceforge.net"
+    LANGUAGES CXX)
 
 # Set the platform we are building for.
 if(APPLE)

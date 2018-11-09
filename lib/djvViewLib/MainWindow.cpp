@@ -148,7 +148,7 @@ namespace djv
                 SLOT(fileCallback(bool)));
             connect(
                 session.data(),
-                SIGNAL(imageChanged(const std::shared_ptr<djv::Graphics::Image> &)),
+                SIGNAL(imageChanged(const std::shared_ptr<djv::AV::Image> &)),
                 SLOT(imageUpdate()));
 
             // Setup theimage group callbacks.

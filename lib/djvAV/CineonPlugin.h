@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/Cineon.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/Cineon.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Kodak Cineon image file format. Cineon
         //! is a specialized image file format for working with motion picture film.
@@ -74,5 +74,5 @@ namespace djv
             Cineon::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/FFmpeg.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/FFmpeg.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a FFmpeg loader.
         class FFmpegLoad : public ImageLoad
@@ -62,5 +62,5 @@ namespace djv
             SwsContext * _swsContext = nullptr;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

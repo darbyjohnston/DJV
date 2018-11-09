@@ -47,8 +47,8 @@
 #include <djvUI/PrefsDialog.h>
 #include <djvUI/QuestionDialog.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/DebugLog.h>
 #include <djvCore/Error.h>
@@ -72,12 +72,12 @@ namespace djv
             {}
 
             Core::FileInfo fileInfo;
-            Graphics::ImageIOInfo imageIOInfo;
-            std::unique_ptr<Graphics::ImageLoad> imageLoad;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
+            AV::ImageIOInfo imageIOInfo;
+            std::unique_ptr<AV::ImageLoad> imageLoad;
+            std::unique_ptr<AV::OpenGLImage> openGLImage;
             int layer = 0;
             QStringList layers;
-            Graphics::PixelDataInfo::PROXY proxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+            AV::PixelDataInfo::PROXY proxy = static_cast<AV::PixelDataInfo::PROXY>(0);
             bool u8Conversion = false;
             bool cacheEnabled = false;
             bool preload = false;
@@ -115,7 +115,7 @@ namespace djv
                 open(_p->fileInfo);
             }
             context->makeGLContextCurrent();
-            _p->openGLImage.reset(new Graphics::OpenGLImage);
+            _p->openGLImage.reset(new AV::OpenGLImage);
             preloadUpdate();
             update();
 
@@ -203,8 +203,8 @@ namespace djv
             // Setup the preferences callbacks.
             connect(
                 context->filePrefs(),
-                SIGNAL(proxyChanged(djv::Graphics::PixelDataInfo::PROXY)),
-                SLOT(setProxy(djv::Graphics::PixelDataInfo::PROXY)));
+                SIGNAL(proxyChanged(djv::AV::PixelDataInfo::PROXY)),
+                SLOT(setProxy(djv::AV::PixelDataInfo::PROXY)));
             connect(
                 context->filePrefs(),
                 SIGNAL(u8ConversionChanged(bool)),
@@ -251,7 +251,7 @@ namespace djv
             return _p->layer;
         }
 
-        Graphics::PixelDataInfo::PROXY FileGroup::proxy() const
+        AV::PixelDataInfo::PROXY FileGroup::proxy() const
         {
             return _p->proxy;
         }
@@ -281,11 +281,11 @@ namespace djv
             return _p->preloadFrame;
         }
 
-        std::shared_ptr<Graphics::Image> FileGroup::image(qint64 frame) const
+        std::shared_ptr<AV::Image> FileGroup::image(qint64 frame) const
         {
             //DJV_DEBUG("FileGroup::image");
             //DJV_DEBUG_PRINT("frame = " << frame);
-            std::shared_ptr<Graphics::Image> out;
+            std::shared_ptr<AV::Image> out;
             context()->makeGLContextCurrent();
             auto cache = context()->fileCache();
             const auto key = FileCacheKey(session(), frame);
@@ -298,12 +298,12 @@ namespace djv
                 if (_p->imageLoad)
                 {
                     //DJV_DEBUG_PRINT("loading image");
-                    out = std::shared_ptr<Graphics::Image>(new Graphics::Image);
+                    out = std::shared_ptr<AV::Image>(new AV::Image);
                     try
                     {
                         _p->imageLoad->read(
                             *out,
-                            Graphics::ImageIOFrameInfo(
+                            AV::ImageIOFrameInfo(
                                 _p->imageIOInfo.sequence.frames.count() ?
                                 _p->imageIOInfo.sequence.frames[frame] :
                                 -1,
@@ -322,12 +322,12 @@ namespace djv
                         if (_p->u8Conversion)
                         {
                             //DJV_DEBUG_PRINT("u8 conversion");
-                            Graphics::PixelDataInfo info(out->info());
-                            info.pixel = Graphics::Pixel::pixel(Graphics::Pixel::format(info.pixel), Graphics::Pixel::U8);
+                            AV::PixelDataInfo info(out->info());
+                            info.pixel = AV::Pixel::pixel(AV::Pixel::format(info.pixel), AV::Pixel::U8);
                             auto tmp = out;
-                            out = std::shared_ptr<Graphics::Image>(new Graphics::Image(info));
+                            out = std::shared_ptr<AV::Image>(new AV::Image(info));
                             out->tags = tmp->tags;
-                            Graphics::OpenGLImageOptions options;
+                            AV::OpenGLImageOptions options;
                             options.colorProfile = tmp->colorProfile;
                             options.proxyScale = false;
                             _p->openGLImage->copy(*tmp, *out, options);
@@ -351,7 +351,7 @@ namespace djv
             return out;
         }
 
-        const Graphics::ImageIOInfo & FileGroup::imageIOInfo() const
+        const AV::ImageIOInfo & FileGroup::imageIOInfo() const
         {
             return _p->imageIOInfo;
         }
@@ -378,7 +378,7 @@ namespace djv
             cacheDel();
             Core::FileInfo tmp = fileInfo;
             _p->fileInfo = Core::FileInfo();
-            _p->imageIOInfo = Graphics::ImageIOInfo();
+            _p->imageIOInfo = AV::ImageIOInfo();
             _p->imageLoad.reset();
 
             // Load the file.
@@ -429,7 +429,7 @@ namespace djv
             Q_EMIT imageChanged();
         }
 
-        void FileGroup::setProxy(Graphics::PixelDataInfo::PROXY proxy)
+        void FileGroup::setProxy(AV::PixelDataInfo::PROXY proxy)
         {
             if (proxy == _p->proxy)
                 return;
@@ -526,7 +526,7 @@ namespace djv
                 }
                 else
                 {
-                    byteCount += Graphics::PixelDataUtil::dataByteCount(_p->imageIOInfo);
+                    byteCount += AV::PixelDataUtil::dataByteCount(_p->imageIOInfo);
                     if (byteCount <= cache->maxSizeBytes())
                     {
                         preload = true;
@@ -541,7 +541,7 @@ namespace djv
             if (preload)
             {
                 context()->makeGLContextCurrent();
-                auto image = std::shared_ptr<Graphics::Image>(new Graphics::Image);
+                auto image = std::shared_ptr<AV::Image>(new AV::Image);
                 if (_p->imageLoad)
                 {
                     //DJV_DEBUG_PRINT("loading image");
@@ -549,7 +549,7 @@ namespace djv
                     {
                         _p->imageLoad->read(
                             *image,
-                            Graphics::ImageIOFrameInfo(
+                            AV::ImageIOFrameInfo(
                                 _p->imageIOInfo.sequence.frames.count() ?
                                 _p->imageIOInfo.sequence.frames[frame] :
                                 -1,
@@ -559,12 +559,12 @@ namespace djv
                         {
                             //DJV_DEBUG_PRINT("u8 conversion");
                             //DJV_DEBUG_PRINT("image = " << *image);
-                            Graphics::PixelDataInfo info(image->info());
-                            info.pixel = Graphics::Pixel::pixel(Graphics::Pixel::format(info.pixel), Graphics::Pixel::U8);
+                            AV::PixelDataInfo info(image->info());
+                            info.pixel = AV::Pixel::pixel(AV::Pixel::format(info.pixel), AV::Pixel::U8);
                             auto tmp = image;
-                            image = std::shared_ptr<Graphics::Image>(new Graphics::Image(info));
+                            image = std::shared_ptr<AV::Image>(new AV::Image(info));
                             image->tags = tmp->tags;
-                            Graphics::OpenGLImageOptions options;
+                            AV::OpenGLImageOptions options;
                             options.colorProfile = tmp->colorProfile;
                             options.proxyScale = false;
                             _p->openGLImage->copy(*tmp, *image, options);
@@ -748,7 +748,7 @@ namespace djv
         void FileGroup::proxyCallback(QAction * action)
         {
             const int index = action->data().toInt();
-            setProxy(static_cast<Graphics::PixelDataInfo::PROXY>(index));
+            setProxy(static_cast<AV::PixelDataInfo::PROXY>(index));
         }
 
         void FileGroup::cacheClearCallback()

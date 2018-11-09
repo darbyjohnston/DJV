@@ -27,15 +27,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/DPXSave.h>
+#include <djvAV/DPXSave.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         DPXSave::DPXSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const DPX::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -138,5 +138,5 @@ namespace djv
             _header.saveEnd(io);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

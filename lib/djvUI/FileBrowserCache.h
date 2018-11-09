@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -47,14 +47,14 @@ namespace djv
         {
             FileBrowserCacheItem();
             FileBrowserCacheItem(
-                const Graphics::ImageIOInfo &  imageInfo,
+                const AV::ImageIOInfo &  imageInfo,
                 const glm::ivec2 &             thumbnailResolution,
-                Graphics::PixelDataInfo::PROXY thumbnailProxy,
+                AV::PixelDataInfo::PROXY thumbnailProxy,
                 const QPixmap &                thumbnail);
 
-            Graphics::ImageIOInfo          imageInfo;
+            AV::ImageIOInfo          imageInfo;
             glm::ivec2                     thumbnailResolution = glm::ivec2(0, 0);
-            Graphics::PixelDataInfo::PROXY thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+            AV::PixelDataInfo::PROXY thumbnailProxy = static_cast<AV::PixelDataInfo::PROXY>(0);
             QPixmap                        thumbnail;
         };
 

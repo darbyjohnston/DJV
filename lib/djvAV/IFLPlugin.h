@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/IFL.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/IFL.h>
+#include <djvAV/ImageIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Autodesk Image File List (IFL) format.
         //! IFL is a file format for creating sequences or playlists of other image
@@ -54,5 +54,5 @@ namespace djv
             std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/Error.h>
 
@@ -41,7 +41,7 @@ namespace djv
 
     } // namespace Core
 
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides LUT utilities.
         struct LUT
@@ -144,9 +144,9 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::LUT::FORMAT);
-    DJV_STRING_OPERATOR(Graphics::LUT::TYPE);
+    DJV_STRING_OPERATOR(AV::LUT::FORMAT);
+    DJV_STRING_OPERATOR(AV::LUT::TYPE);
 
 } // namespace djv

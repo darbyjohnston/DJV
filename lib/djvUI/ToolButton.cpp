@@ -32,8 +32,8 @@
 #include <djvUI/IconLibrary.h>
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/Color.h>
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/Color.h>
+#include <djvAV/ColorUtil.h>
 
 #include <djvCore/SignalBlocker.h>
 

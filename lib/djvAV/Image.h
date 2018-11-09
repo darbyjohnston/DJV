@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/ColorProfile.h>
-#include <djvGraphics/ImageTags.h>
-#include <djvGraphics/PixelData.h>
+#include <djvAV/ColorProfile.h>
+#include <djvAV/ImageTags.h>
+#include <djvAV/PixelData.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides an image.
         class Image : public PixelData
@@ -49,12 +49,12 @@ namespace djv
             ColorProfile colorProfile;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(Graphics::Image);
+    DJV_COMPARISON_OPERATOR(AV::Image);
 
-    DJV_DEBUG_OPERATOR(Graphics::Image);
+    DJV_DEBUG_OPERATOR(AV::Image);
 
 } // namespace djv
 
-Q_DECLARE_METATYPE(djv::Graphics::Image)
+Q_DECLARE_METATYPE(djv::AV::Image)

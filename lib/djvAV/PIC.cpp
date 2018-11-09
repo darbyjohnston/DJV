@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PIC.h>
+#include <djvAV/PIC.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -37,15 +37,15 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString PIC::staticName = "PIC";
 
         const QStringList & PIC::compressionLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::PIC", "None") <<
-                qApp->translate("djv::Graphics::PIC", "RLE");
+                qApp->translate("djv::AV::PIC", "None") <<
+                qApp->translate("djv::AV::PIC", "RLE");
             DJV_ASSERT(data.count() == COMPRESSION_COUNT);
             return data;
         }
@@ -124,5 +124,5 @@ namespace djv
             return in > end ? 0 : in;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

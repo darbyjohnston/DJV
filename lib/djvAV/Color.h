@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 #include <QMetaType>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a color.
         class Color
@@ -108,15 +108,15 @@ namespace djv
             quint8       _data[Pixel::channelsMax * Pixel::bytesMax];
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(Graphics::Color);
-    DJV_STRING_OPERATOR(Graphics::Color);
-    DJV_DEBUG_OPERATOR(Graphics::Color);
+    DJV_COMPARISON_OPERATOR(AV::Color);
+    DJV_STRING_OPERATOR(AV::Color);
+    DJV_DEBUG_OPERATOR(AV::Color);
 
 } // namespace djv
 
-Q_DECLARE_METATYPE(djv::Graphics::Color)
+Q_DECLARE_METATYPE(djv::AV::Color)
 
-#include <djvGraphics/ColorInline.h>
+#include <djvAV/ColorInline.h>
 

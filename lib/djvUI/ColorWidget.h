@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 #include <djvCore/Util.h>
 
@@ -54,7 +54,7 @@ namespace djv
 
             //! This property holds the color.    
             Q_PROPERTY(
-                djv::Graphics::Color color
+                djv::AV::Color color
                 READ                 color
                 WRITE                setColor
                 NOTIFY               colorChanged)
@@ -64,7 +64,7 @@ namespace djv
             ~ColorWidget() override;
 
             //! Get the color.
-            const Graphics::Color & color() const;
+            const AV::Color & color() const;
 
             //! Get the minimum floating point value.
             float floatMin() const;
@@ -80,11 +80,11 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the color.
-            void setColor(const djv::Graphics::Color &);
+            void setColor(const djv::AV::Color &);
 
         Q_SIGNALS:
             //! This signal is emitted when the color is changed.
-            void colorChanged(const djv::Graphics::Color &);
+            void colorChanged(const djv::AV::Color &);
 
         protected:
             bool event(QEvent *) override;

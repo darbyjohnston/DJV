@@ -40,7 +40,7 @@
 #include <djvUI/InputDialog.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/SignalBlocker.h>
 

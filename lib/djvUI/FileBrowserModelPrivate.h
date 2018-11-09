@@ -31,7 +31,7 @@
 
 #include <djvUI/FileBrowserModel.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <QPixmap>
 #include <QVariant>
@@ -60,7 +60,7 @@ namespace djv
             const Core::FileInfo & fileInfo() const;
 
             //! Get the image information.
-            const Graphics::ImageIOInfo & imageInfo() const;
+            const AV::ImageIOInfo & imageInfo() const;
 
             //! Get the thumbnail.
             const QPixmap & thumbnail() const;
@@ -93,11 +93,11 @@ namespace djv
             FileBrowserModel::THUMBNAIL_MODE _thumbnailMode = static_cast<FileBrowserModel::THUMBNAIL_MODE>(0);
             FileBrowserModel::THUMBNAIL_SIZE _thumbnailSize = static_cast<FileBrowserModel::THUMBNAIL_SIZE>(0);
             glm::ivec2 _thumbnailResolution = glm::ivec2(0, 0);
-            Graphics::PixelDataInfo::PROXY _thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+            AV::PixelDataInfo::PROXY _thumbnailProxy = static_cast<AV::PixelDataInfo::PROXY>(0);
             bool _imageInfoInit = false;
-            std::future<Graphics::ImageIOInfo> _imageInfoRequest;
+            std::future<AV::ImageIOInfo> _imageInfoRequest;
             int _imageInfoRequestTimer = 0;
-            Graphics::ImageIOInfo _imageInfo;
+            AV::ImageIOInfo _imageInfo;
             bool _thumbnailInit = false;
             std::future<QPixmap> _thumbnailRequest;
             int _thumbnailRequestTimer = 0;

@@ -41,11 +41,11 @@ namespace djv
 
     } // namespace Core
 
-    namespace Graphics
+    namespace AV
     {
         class PixelData;
 
-    } // namespace Graphics
+    } // namespace AV
 
     namespace ViewLib
     {
@@ -61,7 +61,7 @@ namespace djv
             //!
             //! Throws:
             //! - Core::Error
-            static void loadLut(const Core::FileInfo &, Graphics::PixelData &, const QPointer<ViewContext> &);
+            static void loadLut(const Core::FileInfo &, AV::PixelData &, const QPointer<ViewContext> &);
         };
 
     } // namespace ViewLib

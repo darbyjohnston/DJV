@@ -59,7 +59,7 @@ namespace djv
             bool isFrameStoreVisible() const;
 
             //! Get the mirror.
-            const Graphics::PixelDataInfo::Mirror & mirror() const;
+            const AV::PixelDataInfo::Mirror & mirror() const;
 
             //! Get the scale.
             Enum::IMAGE_SCALE scale() const;
@@ -77,7 +77,7 @@ namespace djv
             const DisplayProfile & displayProfile() const;
 
             //! Get the image channel.
-            Graphics::OpenGLImageOptions::CHANNEL channel() const;
+            AV::OpenGLImageOptions::CHANNEL channel() const;
 
             //! Get the display profile dock widget.
             QPointer<QDockWidget> displayProfileDockWidget() const;
@@ -107,7 +107,7 @@ namespace djv
 
         private Q_SLOTS:
             void showFrameStoreCallback(bool);
-            void mirrorCallback(const djv::Graphics::PixelDataInfo::Mirror &);
+            void mirrorCallback(const djv::AV::PixelDataInfo::Mirror &);
             void mirrorHCallback(bool);
             void mirrorVCallback(bool);
             void scaleCallback(djv::ViewLib::Enum::IMAGE_SCALE);
@@ -117,7 +117,7 @@ namespace djv
             void premultipliedAlphaCallback(bool);
             void colorProfileCallback(bool);
             void displayProfileCallback(QAction *);
-            void channelCallback(djv::Graphics::OpenGLImageOptions::CHANNEL);
+            void channelCallback(djv::AV::OpenGLImageOptions::CHANNEL);
             void channelCallback(QAction *);
 
             void update();

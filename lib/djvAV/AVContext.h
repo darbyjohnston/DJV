@@ -36,22 +36,22 @@ class QOpenGLDebugMessage;
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class ImageIOFactory;
 
-        //! This class provides global functionality for the library.
-        class GraphicsContext : public Core::CoreContext
+        //! This class provides the context for the library.
+        class AVContext : public Core::CoreContext
         {
         public:
-            explicit GraphicsContext(int & argc, char ** argv, QObject * parent = nullptr);
-            ~GraphicsContext() override;
+            explicit AVContext(int & argc, char ** argv, QObject * parent = nullptr);
+            ~AVContext() override;
 
             //! Get the image I/O factory.    
-            ImageIOFactory * imageIOFactory() const;
+            QPointer<ImageIOFactory> imageIOFactory() const;
 
             //! Get the default OpenGL context.
-            QOpenGLContext * openGLContext() const;
+            QPointer<QOpenGLContext> openGLContext() const;
 
             //! Make the default OpenGL context current.
             void makeGLContextCurrent();
@@ -70,5 +70,5 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

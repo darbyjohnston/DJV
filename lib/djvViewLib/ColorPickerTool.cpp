@@ -41,8 +41,8 @@
 #include <djvUI/Prefs.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/OpenGLOffscreenBuffer.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
@@ -62,17 +62,17 @@ namespace djv
     {
         struct ColorPickerTool::Private
         {
-            std::shared_ptr<Graphics::Image> image;
+            std::shared_ptr<AV::Image> image;
             glm::ivec2 pick = glm::ivec2(0, 0);
             glm::ivec2 viewPos = glm::ivec2(0, 0);
             float viewZoom = 0.f;
-            Graphics::Color sample = Graphics::Pixel::RGBA_F32;
+            AV::Color sample = AV::Pixel::RGBA_F32;
             int size = 4;
             bool colorProfile = true;
             bool displayProfile = true;
             bool lock = false;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            Graphics::OpenGLImageOptions openGLImageOptions;
+            std::unique_ptr<AV::OpenGLImage> openGLImage;
+            AV::OpenGLImageOptions openGLImageOptions;
 
             QPointer<UI::ColorWidget> widget;
             QPointer<UI::ColorSwatch> swatch;
@@ -145,7 +145,7 @@ namespace djv
             // Preferences.
             UI::Prefs prefs("djv::ViewLib::ColorPickerTool");
             prefs.get("size", _p->size);
-            Graphics::Pixel::PIXEL pixel = _p->sample.pixel();
+            AV::Pixel::PIXEL pixel = _p->sample.pixel();
             prefs.get("pixel", pixel);
             _p->sample.setPixel(pixel);
             prefs.get("colorProfile", _p->colorProfile);
@@ -162,7 +162,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageChanged,
-                [this](const std::shared_ptr<Graphics::Image> & value)
+                [this](const std::shared_ptr<AV::Image> & value)
             {
                 _p->image = value;
                 widgetUpdate();
@@ -170,7 +170,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageOptionsChanged,
-                [this](const Graphics::OpenGLImageOptions & value)
+                [this](const AV::OpenGLImageOptions & value)
             {
                 _p->openGLImageOptions = value;
                 widgetUpdate();
@@ -198,8 +198,8 @@ namespace djv
                 SLOT(pickCallback(const glm::ivec2 &)));
             connect(
                 _p->widget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(widgetCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(widgetCallback(const djv::AV::Color &)));
             connect(
                 _p->sizeSlider,
                 SIGNAL(valueChanged(int)),
@@ -253,7 +253,7 @@ namespace djv
             widgetUpdate();
         }
 
-        void ColorPickerTool::widgetCallback(const Graphics::Color & color)
+        void ColorPickerTool::widgetCallback(const AV::Color & color)
         {
             _p->sample = color;
             _p->swatch->setColor(color);
@@ -332,14 +332,14 @@ namespace djv
                     context()->makeGLContextCurrent();
                     if (!_p->openGLImage)
                     {
-                        _p->openGLImage.reset(new Graphics::OpenGLImage);
+                        _p->openGLImage.reset(new AV::OpenGLImage);
                     }
 
-                    Graphics::OpenGLImageOptions options = _p->openGLImageOptions;
+                    AV::OpenGLImageOptions options = _p->openGLImageOptions;
                     options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
                     if (!_p->colorProfile)
                     {
-                        options.colorProfile = Graphics::ColorProfile();
+                        options.colorProfile = AV::ColorProfile();
                     }
                     if (!_p->displayProfile)
                     {
@@ -347,7 +347,7 @@ namespace djv
                     }
                     //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
 
-                    Graphics::PixelData tmp(Graphics::PixelDataInfo(glm::ivec2(_p->size, _p->size), _p->sample.pixel()));
+                    AV::PixelData tmp(AV::PixelDataInfo(glm::ivec2(_p->size, _p->size), _p->sample.pixel()));
                     _p->openGLImage->copy(*_p->image, tmp, options);
                     _p->openGLImage->average(tmp, _p->sample);
                 }

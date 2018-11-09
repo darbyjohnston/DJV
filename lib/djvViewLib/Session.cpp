@@ -76,8 +76,8 @@ namespace djv
                 context(context)
             {}
 
-            std::shared_ptr<Graphics::Image> image;
-            std::shared_ptr<Graphics::Image> frameStoreImage;
+            std::shared_ptr<AV::Image> image;
+            std::shared_ptr<AV::Image> frameStoreImage;
 
             QPointer<ImageView> viewWidget;
 
@@ -193,11 +193,11 @@ namespace djv
             // Setup the preferences callbacks.
             connect(
                 context->UIContext::openGLPrefs(),
-                SIGNAL(filterChanged(const djv::Graphics::OpenGLImageFilter &)),
+                SIGNAL(filterChanged(const djv::AV::OpenGLImageFilter &)),
                 SLOT(imageUpdate()));
             connect(
                 context->viewPrefs(),
-                SIGNAL(backgroundChanged(const djv::Graphics::Color &)),
+                SIGNAL(backgroundChanged(const djv::AV::Color &)),
                 SLOT(imageUpdate()));
         }
 
@@ -239,14 +239,14 @@ namespace djv
             return _p->helpGroup.data();
         }
 
-        const std::shared_ptr<Graphics::Image> & Session::image() const
+        const std::shared_ptr<AV::Image> & Session::image() const
         {
             return _p->imageGroup->isFrameStoreVisible() ? _p->frameStoreImage : _p->image;
         }
 
-        Graphics::OpenGLImageOptions Session::imageOptions() const
+        AV::OpenGLImageOptions Session::imageOptions() const
         {
-            Graphics::OpenGLImageOptions out;
+            AV::OpenGLImageOptions out;
             out.xform.mirror = _p->imageGroup->mirror();
             auto image = this->image();
             if (image)
@@ -328,7 +328,7 @@ namespace djv
             _p->fileGroup->setLayer(in);
         }
 
-        void Session::setFileProxy(Graphics::PixelDataInfo::PROXY in)
+        void Session::setFileProxy(AV::PixelDataInfo::PROXY in)
         {
             _p->fileGroup->setProxy(in);
         }

@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/OpenEXR.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/OpenEXR.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Industrial Light and Magic OpenEXR
         //! image file format.
@@ -81,5 +81,5 @@ namespace djv
             OpenEXR::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

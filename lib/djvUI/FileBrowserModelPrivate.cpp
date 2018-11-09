@@ -33,9 +33,9 @@
 #include <djvUI/FileBrowserThumbnailSystem.h>
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Time.h>
 #include <djvCore/VectorUtil.h>
@@ -98,7 +98,7 @@ namespace djv
             return _fileInfo;
         }
 
-        const Graphics::ImageIOInfo & FileBrowserItem::imageInfo() const
+        const AV::ImageIOInfo & FileBrowserItem::imageInfo() const
         {
             return _imageInfo;
         }
@@ -145,27 +145,27 @@ namespace djv
                 FileBrowserModel::THUMBNAIL_MODE thumbnailMode,
                 const glm::ivec2 & in,
                 int size,
-                Graphics::PixelDataInfo::PROXY * proxy = 0)
+                AV::PixelDataInfo::PROXY * proxy = 0)
             {
                 const int imageSize = Core::Math::max(in.x, in.y);
                 if (imageSize <= 0)
                     return glm::ivec2(0, 0);
                 int _proxy = 0;
                 float proxyScale = static_cast<float>(
-                    Graphics::PixelDataUtil::proxyScale(Graphics::PixelDataInfo::PROXY(_proxy)));
+                    AV::PixelDataUtil::proxyScale(AV::PixelDataInfo::PROXY(_proxy)));
                 if (FileBrowserModel::THUMBNAIL_MODE_LOW == thumbnailMode)
                 {
                     while (
                         (imageSize / proxyScale) > size * 2 &&
-                        _proxy < Graphics::PixelDataInfo::PROXY_COUNT)
+                        _proxy < AV::PixelDataInfo::PROXY_COUNT)
                     {
                         proxyScale = static_cast<float>(
-                            Graphics::PixelDataUtil::proxyScale(Graphics::PixelDataInfo::PROXY(++_proxy)));
+                            AV::PixelDataUtil::proxyScale(AV::PixelDataInfo::PROXY(++_proxy)));
                     }
                 }
                 if (proxy)
                 {
-                    *proxy = Graphics::PixelDataInfo::PROXY(_proxy);
+                    *proxy = AV::PixelDataInfo::PROXY(_proxy);
                 }
                 const float scale = size / static_cast<float>(imageSize / proxyScale);
                 return Core::VectorUtil::ceil(glm::vec2(in) / proxyScale * scale);
@@ -180,7 +180,7 @@ namespace djv
                 if (_imageInfoRequest.valid())
                 {
                     _imageInfo = _imageInfoRequest.get();
-                    Graphics::PixelDataInfo::PROXY thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+                    AV::PixelDataInfo::PROXY thumbnailProxy = static_cast<AV::PixelDataInfo::PROXY>(0);
                     _thumbnailResolution = thumbnailSize(
                         _thumbnailMode,
                         _imageInfo.size,

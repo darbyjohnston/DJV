@@ -27,13 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Memory.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
 // Luminance
 #define _L_L_(IN0, IN_T, OUT0, OUT_T) \
@@ -341,5 +341,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -27,14 +27,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
-#include <djvGraphics/OpenGLLUT.h>
-#include <djvGraphics/OpenGLImagePrivate.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
-#include <djvGraphics/OpenGLShader.h>
-#include <djvGraphics/OpenGLTexture.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/OpenGLLUT.h>
+#include <djvAV/OpenGLImagePrivate.h>
+#include <djvAV/OpenGLOffscreenBuffer.h>
+#include <djvAV/OpenGLShader.h>
+#include <djvAV/OpenGLTexture.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
@@ -46,7 +46,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         struct OpenGLImageMesh::Private
         {
@@ -1115,5 +1115,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

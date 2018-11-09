@@ -29,37 +29,17 @@
 
 #pragma once
 
-#include <djvGraphicsTest/GraphicsTest.h>
-
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAVTest/AVTest.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AVTest
     {
-        class GraphicsContext;
-
-    } // namespace Graphics
-
-    namespace GraphicsTest
-    {
-        class ImageIOFormatsTest : public TestLib::AbstractTest
+        class AVContextTest : public TestLib::AbstractTest
         {
         public:
             void run(int &, char **) override;
-
-        private:
-            void initPlugins(const QPointer<djv::Graphics::GraphicsContext> &);
-            void initData();
-            void initImages();
-            void runTest(Graphics::ImageIO *, const Graphics::Image &);
-
-            QVector<glm::ivec2>             _sizes;
-            QVector<Graphics::Pixel::PIXEL> _pixels;
-            QVector<Graphics::Image>        _images;
-            QVector<Core::Plugin *>         _plugins;
         };
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

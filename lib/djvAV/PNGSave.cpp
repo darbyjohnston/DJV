@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PNGSave.h>
+#include <djvAV/PNGSave.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
@@ -38,7 +38,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         PNGSave::PNGSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context)
@@ -243,5 +243,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

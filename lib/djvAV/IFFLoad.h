@@ -30,13 +30,13 @@
 
 #pragma once
 
-#include <djvGraphics/IFF.h>
+#include <djvAV/IFF.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides an IFF loader.
         //!
@@ -58,5 +58,5 @@ namespace djv
             PixelData _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -40,8 +40,8 @@
 #include <djvUI/Prefs.h>
 #include <djvUI/ToolButton.h>
 
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/OpenGLOffscreenBuffer.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/SignalBlocker.h>
@@ -101,7 +101,7 @@ namespace djv
     {
         struct MagnifyTool::Private
         {
-            std::shared_ptr<Graphics::Image> image;
+            std::shared_ptr<AV::Image> image;
             glm::ivec2 pick = glm::ivec2(0, 0);
             glm::ivec2 viewPos = glm::ivec2(0, 0);
             float viewZoom = 0.f;
@@ -109,8 +109,8 @@ namespace djv
             bool colorProfile = true;
             bool displayProfile = true;
             bool pixelDataInit = false;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
-            Graphics::OpenGLImageOptions openGLImageOptions;
+            std::unique_ptr<AV::OpenGLImage> openGLImage;
+            AV::OpenGLImageOptions openGLImageOptions;
 
             QPointer<Widget> widget;
             QPointer<UI::IntEditSlider> slider;
@@ -175,7 +175,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageChanged,
-                [this](const std::shared_ptr<Graphics::Image> & value)
+                [this](const std::shared_ptr<AV::Image> & value)
             {
                 _p->image = value;
                 widgetUpdate();
@@ -183,7 +183,7 @@ namespace djv
             connect(
                 session,
                 &Session::imageOptionsChanged,
-                [this](const Graphics::OpenGLImageOptions & value)
+                [this](const AV::OpenGLImageOptions & value)
             {
                 _p->openGLImageOptions = value;
                 widgetUpdate();
@@ -318,22 +318,22 @@ namespace djv
                     context()->makeGLContextCurrent();
                     if (!_p->openGLImage)
                     {
-                        _p->openGLImage.reset(new Graphics::OpenGLImage);
+                        _p->openGLImage.reset(new AV::OpenGLImage);
                     }
 
-                    Graphics::OpenGLImageOptions options = _p->openGLImageOptions;
+                    AV::OpenGLImageOptions options = _p->openGLImageOptions;
                     options.xform.position -= pick;
                     options.xform.scale *= zoom * _p->viewZoom;
                     if (!_p->colorProfile)
                     {
-                        options.colorProfile = Graphics::ColorProfile();
+                        options.colorProfile = AV::ColorProfile();
                     }
                     if (!_p->displayProfile)
                     {
                         options.displayProfile = DisplayProfile();
                     }
 
-                    Graphics::PixelData tmp(Graphics::PixelDataInfo(size, Graphics::Pixel::RGB_U8));
+                    AV::PixelData tmp(AV::PixelDataInfo(size, AV::Pixel::RGB_U8));
                     _p->openGLImage->copy(*_p->image, tmp, options);
                     pixmap = _p->openGLImage->toQt(tmp);
                 }

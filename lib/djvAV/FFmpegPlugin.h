@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/FFmpeg.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/FFmpeg.h>
+#include <djvAV/ImageIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the FFmpeg library.
         //!
@@ -75,5 +75,5 @@ namespace djv
             FFmpeg::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

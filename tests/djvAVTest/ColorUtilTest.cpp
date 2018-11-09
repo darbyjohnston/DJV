@@ -27,21 +27,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/ColorUtilTest.h>
+#include <djvAVTest/ColorUtilTest.h>
 
-#include <djvGraphics/Color.h>
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/Color.h>
+#include <djvAV/ColorUtil.h>
 
 #include <djvCore/Debug.h>
 
 #include <QColor>
 
 using namespace djv::Core;
-using namespace djv::Graphics;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
         void ColorUtilTest::run(int &, char **)
         {
@@ -56,12 +56,12 @@ namespace djv
         {
             DJV_DEBUG("ColorUtilTest::scale");
             {
-                Graphics::Color color(Graphics::Pixel::L_F32);
-                Graphics::ColorUtil::scale(.5f, Graphics::Color(1.f), color);
+                AV::Color color(AV::Pixel::L_F32);
+                AV::ColorUtil::scale(.5f, AV::Color(1.f), color);
                 DJV_ASSERT(Math::fuzzyCompare(.5f, color.f32(0)));
             }
             {
-                const Graphics::Color color = Graphics::ColorUtil::scale(.5f, Graphics::Color(1.f));
+                const AV::Color color = AV::ColorUtil::scale(.5f, AV::Color(1.f));
                 DJV_ASSERT(Math::fuzzyCompare(.5f, color.f32(0)));
             }
         }
@@ -70,12 +70,12 @@ namespace djv
         {
             DJV_DEBUG("ColorUtilTest::lerp");
             {
-                Graphics::Color color(Graphics::Pixel::L_F32);
-                Graphics::ColorUtil::lerp(.5f, Graphics::Color(0.f), Graphics::Color(1.f), color);
+                AV::Color color(AV::Pixel::L_F32);
+                AV::ColorUtil::lerp(.5f, AV::Color(0.f), AV::Color(1.f), color);
                 DJV_ASSERT(Math::fuzzyCompare(.5f, color.f32(0)));
             }
             {
-                const Graphics::Color color = Graphics::ColorUtil::lerp(.5f, Graphics::Color(0.f), Graphics::Color(1.f));
+                const AV::Color color = AV::ColorUtil::lerp(.5f, AV::Color(0.f), AV::Color(1.f));
                 DJV_ASSERT(Math::fuzzyCompare(.5f, color.f32(0)));
             }
         }
@@ -86,43 +86,43 @@ namespace djv
             const struct Data
             {
                 QStringList  in;
-                Graphics::Pixel::PIXEL pixel;
+                AV::Pixel::PIXEL pixel;
                 QStringList  out;
             }
             data[] =
             {
-                { QStringList() << "L U8" << "0",      Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
-                { QStringList() << "L U8" << "255",    Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
-                { QStringList() << "L U8" << "0",      Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
-                { QStringList() << "L U8" << "255",    Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
-                { QStringList() << "L U8" << "0",      Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
-                { QStringList() << "L U8" << "255",    Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
-                { QStringList() << "L U16" << "0",     Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
-                { QStringList() << "L U16" << "65535", Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
-                { QStringList() << "L U16" << "0",     Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
-                { QStringList() << "L U16" << "65535", Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
-                { QStringList() << "L U16" << "0",     Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
-                { QStringList() << "L U16" << "65535", Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
-                { QStringList() << "L F32" << "-1.0",  Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
-                { QStringList() << "L F32" << "0.0",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
-                { QStringList() << "L F32" << "0.5",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "128" },
-                { QStringList() << "L F32" << "1.0",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
-                { QStringList() << "L F32" << "2.0",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
-                { QStringList() << "L F32" << "-1.0",  Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
-                { QStringList() << "L F32" << "0.0",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
-                { QStringList() << "L F32" << "0.5",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "32768" },
-                { QStringList() << "L F32" << "1.0",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
-                { QStringList() << "L F32" << "2.0",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
-                { QStringList() << "L F32" << "1.0",   Graphics::Pixel::L_F16,   QStringList() << "L F16" << "1" }
+                { QStringList() << "L U8" << "0",      AV::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+                { QStringList() << "L U8" << "255",    AV::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+                { QStringList() << "L U8" << "0",      AV::Pixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
+                { QStringList() << "L U8" << "255",    AV::Pixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
+                { QStringList() << "L U8" << "0",      AV::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+                { QStringList() << "L U8" << "255",    AV::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+                { QStringList() << "L U16" << "0",     AV::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+                { QStringList() << "L U16" << "65535", AV::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+                { QStringList() << "L U16" << "0",     AV::Pixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
+                { QStringList() << "L U16" << "65535", AV::Pixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
+                { QStringList() << "L U16" << "0",     AV::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+                { QStringList() << "L U16" << "65535", AV::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+                { QStringList() << "L F32" << "-1.0",  AV::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+                { QStringList() << "L F32" << "0.0",   AV::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+                { QStringList() << "L F32" << "0.5",   AV::Pixel::L_U8,    QStringList() << "L U8" << "128" },
+                { QStringList() << "L F32" << "1.0",   AV::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+                { QStringList() << "L F32" << "2.0",   AV::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+                { QStringList() << "L F32" << "-1.0",  AV::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+                { QStringList() << "L F32" << "0.0",   AV::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+                { QStringList() << "L F32" << "0.5",   AV::Pixel::L_U16,   QStringList() << "L U16" << "32768" },
+                { QStringList() << "L F32" << "1.0",   AV::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+                { QStringList() << "L F32" << "2.0",   AV::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+                { QStringList() << "L F32" << "1.0",   AV::Pixel::L_F16,   QStringList() << "L F16" << "1" }
             };
             const int dataCount = sizeof(data) / sizeof(Data);
             for (int i = 0; i < dataCount; ++i)
             {
-                Graphics::Color in;
+                AV::Color in;
                 QStringList tmp = data[i].in;
                 tmp >> in;
-                Graphics::Color out(data[i].pixel);
-                Graphics::ColorUtil::convert(in, out);
+                AV::Color out(data[i].pixel);
+                AV::ColorUtil::convert(in, out);
                 QStringList label;
                 label << out;
                 DJV_ASSERT(label == data[i].out);
@@ -133,12 +133,12 @@ namespace djv
         {
             DJV_DEBUG("ColorUtilTest::qt");
             {
-                Graphics::Color color(Graphics::Pixel::RGBA_U8);
+                AV::Color color(AV::Pixel::RGBA_U8);
                 color.setU8(255, 0);
                 color.setU8(127, 1);
                 color.setU8(0, 2);
                 color.setU8(255, 3);
-                const QColor qColor = Graphics::ColorUtil::toQt(color);
+                const QColor qColor = AV::ColorUtil::toQt(color);
                 DJV_ASSERT(qColor.red() == color.u8(0));
                 DJV_ASSERT(qColor.green() == color.u8(1));
                 DJV_ASSERT(qColor.blue() == color.u8(2));
@@ -146,7 +146,7 @@ namespace djv
             }
             {
                 QColor qColor(255, 127, 0, 255);
-                const Graphics::Color color = Graphics::ColorUtil::fromQt(qColor);
+                const AV::Color color = AV::ColorUtil::fromQt(qColor);
                 DJV_ASSERT(color.u8(0) == qColor.red());
                 DJV_ASSERT(color.u8(1) == qColor.green());
                 DJV_ASSERT(color.u8(2) == qColor.blue());
@@ -154,5 +154,5 @@ namespace djv
             }
         }
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

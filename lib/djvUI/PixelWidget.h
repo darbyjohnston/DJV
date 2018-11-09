@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Util.h>
 
@@ -50,7 +50,7 @@ namespace djv
 
             //! This property holds the pixel.
             Q_PROPERTY(
-                djv::Graphics::Pixel::PIXEL pixel
+                djv::AV::Pixel::PIXEL pixel
                 READ                        pixel
                 WRITE                       setPixel
                 NOTIFY                      pixelChanged)
@@ -60,15 +60,15 @@ namespace djv
             ~PixelWidget() override;
 
             //! Get the pixel.
-            Graphics::Pixel::PIXEL pixel() const;
+            AV::Pixel::PIXEL pixel() const;
 
         public Q_SLOTS:
             //! Set the pixel.
-            void setPixel(djv::Graphics::Pixel::PIXEL);
+            void setPixel(djv::AV::Pixel::PIXEL);
 
         Q_SIGNALS:
             //! This signal is emitted when the pixel is changed.
-            void pixelChanged(djv::Graphics::Pixel::PIXEL);
+            void pixelChanged(djv::AV::Pixel::PIXEL);
 
         private Q_SLOTS:
             void widgetCallback(int);

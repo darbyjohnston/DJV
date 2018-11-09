@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/DPX.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/DPX.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a DPX loader.
         class DPXLoad : public ImageLoad
@@ -56,5 +56,5 @@ namespace djv
             PixelData    _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

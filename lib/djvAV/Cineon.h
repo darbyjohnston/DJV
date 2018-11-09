@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphics/PixelData.h>
+#include <djvAV/PixelData.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides Cineon utilities.
         struct Cineon
@@ -135,15 +135,15 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    bool operator == (const Graphics::Cineon::LinearToFilmPrint &, const Graphics::Cineon::LinearToFilmPrint &);
-    bool operator == (const Graphics::Cineon::FilmPrintToLinear &, const Graphics::Cineon::FilmPrintToLinear &);
-    bool operator != (const Graphics::Cineon::LinearToFilmPrint &, const Graphics::Cineon::LinearToFilmPrint &);
-    bool operator != (const Graphics::Cineon::FilmPrintToLinear &, const Graphics::Cineon::FilmPrintToLinear &);
+    bool operator == (const AV::Cineon::LinearToFilmPrint &, const AV::Cineon::LinearToFilmPrint &);
+    bool operator == (const AV::Cineon::FilmPrintToLinear &, const AV::Cineon::FilmPrintToLinear &);
+    bool operator != (const AV::Cineon::LinearToFilmPrint &, const AV::Cineon::LinearToFilmPrint &);
+    bool operator != (const AV::Cineon::FilmPrintToLinear &, const AV::Cineon::FilmPrintToLinear &);
 
-    DJV_STRING_OPERATOR(Graphics::Cineon::LinearToFilmPrint);
-    DJV_STRING_OPERATOR(Graphics::Cineon::FilmPrintToLinear);
-    DJV_STRING_OPERATOR(Graphics::Cineon::COLOR_PROFILE);
+    DJV_STRING_OPERATOR(AV::Cineon::LinearToFilmPrint);
+    DJV_STRING_OPERATOR(AV::Cineon::FilmPrintToLinear);
+    DJV_STRING_OPERATOR(AV::Cineon::COLOR_PROFILE);
 
 } // namespace djv

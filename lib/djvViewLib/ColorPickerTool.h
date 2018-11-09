@@ -37,11 +37,11 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class Color;
     
-    } // namespace Graphics
+    } // namespace AV
 
     namespace ViewLib
     {
@@ -63,7 +63,7 @@ namespace djv
 
         private Q_SLOTS:
             void pickCallback(const glm::ivec2 &);
-            void widgetCallback(const djv::Graphics::Color &);
+            void widgetCallback(const djv::AV::Color &);
             void sizeCallback(int);
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);

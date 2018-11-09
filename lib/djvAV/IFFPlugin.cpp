@@ -28,10 +28,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/IFFPlugin.h>
+#include <djvAV/IFFPlugin.h>
 
-#include <djvGraphics/IFFLoad.h>
-#include <djvGraphics/IFFSave.h>
+#include <djvAV/IFFLoad.h>
+#include <djvAV/IFFSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -41,7 +41,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         IFFPlugin::IFFPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -105,7 +105,7 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics:IFFPlugin", "-iff_compression") == arg)
+                    if (qApp->translate("djv::AV:IFFPlugin", "-iff_compression") == arg)
                     {
                         in >> _options.compression;
                     }
@@ -126,7 +126,7 @@ namespace djv
         {
             QStringList compressionLabel;
             compressionLabel << _options.compression;
-            return qApp->translate("djv::Graphics::IFFPlugin",
+            return qApp->translate("djv::AV::IFFPlugin",
                 "\n"
                 "IFF Options\n"
                 "\n"
@@ -147,5 +147,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new IFFSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

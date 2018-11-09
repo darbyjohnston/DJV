@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/Targa.h>
+#include <djvAV/Image.h>
+#include <djvAV/Targa.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a Targa saver.
         class TargaSave : public ImageSave
@@ -55,5 +55,5 @@ namespace djv
             Image          _image;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

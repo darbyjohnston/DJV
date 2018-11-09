@@ -31,8 +31,8 @@
 
 #include <djvViewLib/AbstractGroup.h>
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/Pixel.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/Pixel.h>
 
 #include <memory>
 
@@ -65,7 +65,7 @@ namespace djv
             int layer() const;
 
             //! Get the proxy scale.
-            Graphics::PixelDataInfo::PROXY proxy() const;
+            AV::PixelDataInfo::PROXY proxy() const;
 
             //! Get whther images are converted to 8-bits.
             bool hasU8Conversion() const;
@@ -83,10 +83,10 @@ namespace djv
             qint64 preloadFrame() const;
 
             //! Get an image.
-            std::shared_ptr<Graphics::Image> image(qint64 frame) const;
+            std::shared_ptr<AV::Image> image(qint64 frame) const;
 
             //! Get image I/O information.
-            const Graphics::ImageIOInfo & imageIOInfo() const;
+            const AV::ImageIOInfo & imageIOInfo() const;
 
             QPointer<QMenu> createMenu() const override;
             QPointer<QToolBar> createToolBar() const override;
@@ -99,7 +99,7 @@ namespace djv
             void setLayer(int);
 
             //! Set the proxy scale.
-            void setProxy(djv::Graphics::PixelDataInfo::PROXY);
+            void setProxy(djv::AV::PixelDataInfo::PROXY);
 
             //! Set whether images are converted to 8-bits.
             void setU8Conversion(bool);
@@ -118,7 +118,7 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the image I/O information is changed.
-            void imageIOInfoChanged(const djv::Graphics::ImageIOInfo &);
+            void imageIOInfoChanged(const djv::AV::ImageIOInfo &);
 
             //! This signal is emitted when the current image is changed.
             void imageChanged();

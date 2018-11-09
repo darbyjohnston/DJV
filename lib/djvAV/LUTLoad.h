@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/LUT.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/LUT.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a LUT loader.
         class LUTLoad : public ImageLoad
@@ -54,5 +54,5 @@ namespace djv
             LUT::FORMAT _format = static_cast<LUT::FORMAT>(0);
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

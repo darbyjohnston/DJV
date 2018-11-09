@@ -31,8 +31,8 @@
 
 namespace djv
 {
-    //! This namespace provides graphics functionality.
-    namespace Graphics
+    //! This namespace provides audio and visual functionality.
+    namespace AV
     {
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

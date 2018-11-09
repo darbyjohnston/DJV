@@ -39,8 +39,8 @@
 #include <djvUI/SequencePrefs.h>
 #include <djvUI/TimePrefs.h>
 
-#include <djvGraphics/OpenGL.h>
-#include <djvGraphics/Pixel.h>
+#include <djvAV/OpenGL.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/FileInfo.h>
@@ -79,16 +79,16 @@ namespace djv
             glm::ivec2                             viewPosTmp = glm::ivec2(0, 0);
             float                                  viewZoomTmp = 0.f;
             Enum::GRID                             grid = static_cast<Enum::GRID>(0);
-            Graphics::Color                        gridColor;
-            Graphics::PixelData                    gridPixelData;
-            std::unique_ptr<Graphics::OpenGLImage> gridOpenGLImage;
+            AV::Color                        gridColor;
+            AV::PixelData                    gridPixelData;
+            std::unique_ptr<AV::OpenGLImage> gridOpenGLImage;
             bool                                   hudEnabled = false;
             HudInfo                                hudInfo;
-            Graphics::Color                        hudColor;
+            AV::Color                        hudColor;
             Enum::HUD_BACKGROUND                   hudBackground = static_cast<Enum::HUD_BACKGROUND>(0);
-            Graphics::Color                        hudBackgroundColor;
-            Graphics::PixelData                    hudPixelData;
-            std::unique_ptr<Graphics::OpenGLImage> hudOpenGLImage;
+            AV::Color                        hudBackgroundColor;
+            AV::PixelData                    hudPixelData;
+            std::unique_ptr<AV::OpenGLImage> hudOpenGLImage;
             bool                                   mouseInside = false;
             glm::ivec2                             mousePos = glm::ivec2(0, 0);
             glm::ivec2                             mouseStartPos = glm::ivec2(0, 0);
@@ -110,24 +110,24 @@ namespace djv
 
             connect(
                 context->viewPrefs(),
-                SIGNAL(gridColorChanged(const djv::Graphics::Color &)),
-                SLOT(setGridColor(const djv::Graphics::Color &)));
+                SIGNAL(gridColorChanged(const djv::AV::Color &)),
+                SLOT(setGridColor(const djv::AV::Color &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudInfoChanged(const QMap<djv::ViewLib::Enum::HUD, bool> &)),
                 SLOT(hudInfoCallback(const QMap<djv::ViewLib::Enum::HUD, bool> &)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudColorChanged(const djv::Graphics::Color &)),
-                SLOT(setHudColor(const djv::Graphics::Color &)));
+                SIGNAL(hudColorChanged(const djv::AV::Color &)),
+                SLOT(setHudColor(const djv::AV::Color &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudBackgroundChanged(djv::ViewLib::Enum::HUD_BACKGROUND)),
                 SLOT(setHudBackground(djv::ViewLib::Enum::HUD_BACKGROUND)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudBackgroundColorChanged(const djv::Graphics::Color &)),
-                SLOT(setHudBackgroundColor(const djv::Graphics::Color &)));
+                SIGNAL(hudBackgroundColorChanged(const djv::AV::Color &)),
+                SLOT(setHudBackgroundColor(const djv::AV::Color &)));
             connect(
                 context->timePrefs(),
                 SIGNAL(unitsChanged(djv::Core::Time::UNITS)),
@@ -220,7 +220,7 @@ namespace djv
             update();
         }
 
-        void ImageView::setGridColor(const Graphics::Color & color)
+        void ImageView::setGridColor(const AV::Color & color)
         {
             if (color == _p->gridColor)
                 return;
@@ -244,7 +244,7 @@ namespace djv
             update();
         }
 
-        void ImageView::setHudColor(const Graphics::Color & color)
+        void ImageView::setHudColor(const AV::Color & color)
         {
             if (color == _p->hudColor)
                 return;
@@ -260,7 +260,7 @@ namespace djv
             update();
         }
 
-        void ImageView::setHudBackgroundColor(const Graphics::Color & color)
+        void ImageView::setHudBackgroundColor(const AV::Color & color)
         {
             if (color == _p->hudBackgroundColor)
                 return;
@@ -500,8 +500,8 @@ namespace djv
         {
             //DJV_DEBUG("ImageView::initializeGL");
             UI::ImageView::initializeGL();
-            _p->gridOpenGLImage.reset(new Graphics::OpenGLImage);
-            _p->hudOpenGLImage.reset(new Graphics::OpenGLImage);
+            _p->gridOpenGLImage.reset(new AV::OpenGLImage);
+            _p->hudOpenGLImage.reset(new AV::OpenGLImage);
         }
 
         void ImageView::paintGL()
@@ -536,7 +536,7 @@ namespace djv
             //DJV_DEBUG_PRINT("view pos = " << viewPos);
             //DJV_DEBUG_PRINT("view zoom = " << viewZoom);
 
-            _p->gridPixelData.set(Graphics::PixelDataInfo(size, Graphics::Pixel::RGBA_U8));
+            _p->gridPixelData.set(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
             _p->gridPixelData.zero();
             QImage image(_p->gridPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
             QPainter painter(&image);
@@ -560,7 +560,7 @@ namespace djv
             area *= inc;
             //DJV_DEBUG_PRINT("area = " << area);
 
-            painter.setPen(QPen(Graphics::ColorUtil::toQt(_p->gridColor), 1));
+            painter.setPen(QPen(AV::ColorUtil::toQt(_p->gridColor), 1));
             for (int y = 0; y <= area.h; y += inc)
             {
                 painter.drawLine(
@@ -662,7 +662,7 @@ namespace djv
             }
 
             const glm::ivec2 size(width(), height());
-            _p->hudPixelData.set(Graphics::PixelDataInfo(size, Graphics::Pixel::RGBA_U8));
+            _p->hudPixelData.set(AV::PixelDataInfo(size, AV::Pixel::RGBA_U8));
             _p->hudPixelData.zero();
             QImage image(_p->hudPixelData.data(), size.x, size.y, QImage::Format_RGBA8888_Premultiplied);
             QPainter painter(&image);
@@ -709,7 +709,7 @@ namespace djv
                     static_cast<float>(size.y),
                     -1.f,
                     1.f);
-                Graphics::OpenGLImageOptions options;
+                AV::OpenGLImageOptions options;
                 options.xform.mirror.y = true;
                 _p->hudOpenGLImage->draw(_p->hudPixelData, viewMatrix, options);
             }
@@ -726,15 +726,15 @@ namespace djv
             {
             case Enum::HUD_BACKGROUND_NONE: break;
             case Enum::HUD_BACKGROUND_SOLID:
-                painter.fillRect(box.x, box.y, box.w, box.h, Graphics::ColorUtil::toQt(_p->hudBackgroundColor));
+                painter.fillRect(box.x, box.y, box.w, box.h, AV::ColorUtil::toQt(_p->hudBackgroundColor));
                 break;
             case Enum::HUD_BACKGROUND_SHADOW:
-                painter.setPen(Graphics::ColorUtil::toQt(_p->hudBackgroundColor));
+                painter.setPen(AV::ColorUtil::toQt(_p->hudBackgroundColor));
                 painter.drawText(box.x + 1, box.y + 1, box.w, box.h, Qt::AlignCenter, in);
                 break;
             default: break;
             }
-            painter.setPen(Graphics::ColorUtil::toQt(_p->hudColor));
+            painter.setPen(AV::ColorUtil::toQt(_p->hudColor));
             painter.drawText(box.x, box.y, box.w, box.h, Qt::AlignCenter, in);
         }
 

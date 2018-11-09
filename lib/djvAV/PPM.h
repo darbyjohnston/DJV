@@ -33,7 +33,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides PPM utilities.
         struct PPM
@@ -104,9 +104,9 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::PPM::TYPE);
-    DJV_STRING_OPERATOR(Graphics::PPM::DATA);
+    DJV_STRING_OPERATOR(AV::PPM::TYPE);
+    DJV_STRING_OPERATOR(AV::PPM::DATA);
 
 } // namespace djv

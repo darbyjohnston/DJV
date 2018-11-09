@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <djvGraphics/OpenGL.h>
-#include <djvGraphics/PixelData.h>
+#include <djvAV/OpenGL.h>
+#include <djvAV/PixelData.h>
 
 #include <djvCore/Error.h>
 
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides an OpenGL offscreen buffer.
         class OpenGLOffscreenBuffer
@@ -101,5 +101,5 @@ namespace djv
             OpenGLOffscreenBuffer * _buffer = nullptr;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

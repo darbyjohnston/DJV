@@ -38,11 +38,11 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class ImageIO;
 
-    } // namespace Graphics
+    } // namespace AV
 
     namespace UI
     {
@@ -55,13 +55,13 @@ namespace djv
 
         public:
             explicit ImageIOWidget(
-                Graphics::ImageIO * plugin,
+                AV::ImageIO * plugin,
                 const QPointer<UIContext> & context,
                 QWidget * parent = nullptr);
             ~ImageIOWidget() override;
 
             //! Get the plugin.
-            Graphics::ImageIO * plugin() const;
+            AV::ImageIO * plugin() const;
 
             //! Get the context.
             const QPointer<UIContext> & context() const;
@@ -78,7 +78,7 @@ namespace djv
             ImageIOWidgetPlugin(const QPointer<Core::CoreContext> &);
 
             //! Create a widget.    
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO * plugin) const = 0;
+            virtual ImageIOWidget * createWidget(AV::ImageIO * plugin) const = 0;
 
             //! Get the context.
             QPointer<UIContext> uiContext() const;
@@ -99,7 +99,7 @@ namespace djv
             ~ImageIOWidgetFactory() override;
             
             //! Create a widget.    
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const;
+            ImageIOWidget * createWidget(AV::ImageIO *) const;
 
         private:
             DJV_PRIVATE_COPY(ImageIOWidgetFactory);

@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphics/CineonPlugin.h>
+#include <djvAV/CineonPlugin.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides Cineon file header functionality.
         class CineonHeader
@@ -221,5 +221,5 @@ namespace djv
             void endian();
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

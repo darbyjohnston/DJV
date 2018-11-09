@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/FFmpeg.h>
+#include <djvAV/FFmpeg.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/DebugLog.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         FFmpeg::Dictionary::Dictionary() :
             _p(0)
@@ -102,10 +102,10 @@ namespace djv
         const QStringList & FFmpeg::formatLabels()
         {
             static const QStringList data = QStringList() <<
-                //qApp->translate("djv::Graphics::FFmpeg", "H264") <<
-                qApp->translate("djv::Graphics::FFmpeg", "MPEG4") <<
-                qApp->translate("djv::Graphics::FFmpeg", "ProRes") <<
-                qApp->translate("djv::Graphics::FFmpeg", "MJPEG");
+                //qApp->translate("djv::AV::FFmpeg", "H264") <<
+                qApp->translate("djv::AV::FFmpeg", "MPEG4") <<
+                qApp->translate("djv::AV::FFmpeg", "ProRes") <<
+                qApp->translate("djv::AV::FFmpeg", "MJPEG");
             DJV_ASSERT(data.count() == FORMAT_COUNT);
             return data;
         }
@@ -113,9 +113,9 @@ namespace djv
         const QStringList & FFmpeg::qualityLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::FFmpeg", "Low") <<
-                qApp->translate("djv::Graphics::FFmpeg", "Medium") <<
-                qApp->translate("djv::Graphics::FFmpeg", "High");
+                qApp->translate("djv::AV::FFmpeg", "Low") <<
+                qApp->translate("djv::AV::FFmpeg", "Medium") <<
+                qApp->translate("djv::AV::FFmpeg", "High");
             DJV_ASSERT(data.count() == QUALITY_COUNT);
             return data;
         }
@@ -138,15 +138,15 @@ namespace djv
         const QStringList & FFmpeg::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::FFmpeg", "Format") <<
-                qApp->translate("djv::Graphics::FFmpeg", "Quality");
+                qApp->translate("djv::AV::FFmpeg", "Format") <<
+                qApp->translate("djv::AV::FFmpeg", "Quality");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::FFmpeg::FORMAT, Graphics::FFmpeg::formatLabels())
-    _DJV_STRING_OPERATOR_LABEL(Graphics::FFmpeg::QUALITY, Graphics::FFmpeg::qualityLabels())
+    _DJV_STRING_OPERATOR_LABEL(AV::FFmpeg::FORMAT, AV::FFmpeg::formatLabels())
+    _DJV_STRING_OPERATOR_LABEL(AV::FFmpeg::QUALITY, AV::FFmpeg::qualityLabels())
 
 } // namespace djv

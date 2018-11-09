@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/Cineon.h>
+#include <djvAV/Cineon.h>
 
 class QCheckBox;
 class QComboBox;
@@ -51,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            CineonWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            CineonWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -71,7 +71,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::Cineon::Options _options;
+            AV::Cineon::Options _options;
             QFormLayout * _inputColorProfileLayout = nullptr;
             QComboBox * _inputColorProfileWidget = nullptr;
             IntEditSlider * _inputBlackPointWidget = nullptr;
@@ -92,7 +92,7 @@ namespace djv
         public:
             CineonWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

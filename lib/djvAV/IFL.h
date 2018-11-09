@@ -33,7 +33,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides IFL utilities.
         struct IFL
@@ -41,5 +41,5 @@ namespace djv
             static const QString staticName;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

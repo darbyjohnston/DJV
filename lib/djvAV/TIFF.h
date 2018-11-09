@@ -35,7 +35,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides TIFF utilities.
         struct TIFF
@@ -84,8 +84,8 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::TIFF::COMPRESSION);
+    DJV_STRING_OPERATOR(AV::TIFF::COMPRESSION);
 
 } // namespace djv

@@ -42,11 +42,11 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class Image;
     
-    } // namespace Graphics
+    } // namespace AV
 
     namespace ViewLib
     {
@@ -77,10 +77,10 @@ namespace djv
             bool hasItem(const FileCacheKey &);
 
             //! Get an item from the cache.
-            std::shared_ptr<Graphics::Image> item(const FileCacheKey &) const;
+            std::shared_ptr<AV::Image> item(const FileCacheKey &) const;
 
             //! Add an item to the cache.
-            void addItem(const FileCacheKey &, const std::shared_ptr<Graphics::Image> &);
+            void addItem(const FileCacheKey &, const std::shared_ptr<AV::Image> &);
 
             //! Remove all items with a zero reference count that match the given window.
             void clearItems(void *);
@@ -92,7 +92,7 @@ namespace djv
             void removeItem(const FileCacheKey &);
 
             //! Get the list of items that match the given window.
-            std::vector<std::shared_ptr<Graphics::Image> > items(void *);
+            std::vector<std::shared_ptr<AV::Image> > items(void *);
 
             //! Get the list of frames that match the given window. The frames are sorted in
             //! ascending order.

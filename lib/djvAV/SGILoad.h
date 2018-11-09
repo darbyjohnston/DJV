@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/SGI.h>
+#include <djvAV/SGI.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a SGI loader.
         class SGILoad : public ImageLoad
@@ -55,5 +55,5 @@ namespace djv
             PixelData            _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

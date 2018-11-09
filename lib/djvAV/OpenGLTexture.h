@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/OpenGL.h>
-#include <djvGraphics/PixelData.h>
+#include <djvAV/OpenGL.h>
+#include <djvAV/PixelData.h>
 
 #include <djvCore/Error.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class proivides an OpenGL texture.
         class OpenGLTexture
@@ -99,5 +99,5 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

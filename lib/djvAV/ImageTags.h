@@ -37,7 +37,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a collection of image tags.
         class ImageTags
@@ -103,12 +103,12 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(Graphics::ImageTags);
+    DJV_COMPARISON_OPERATOR(AV::ImageTags);
 
-    DJV_DEBUG_OPERATOR(Graphics::ImageTags);
+    DJV_DEBUG_OPERATOR(AV::ImageTags);
 
 } // namespace djv
 
-Q_DECLARE_METATYPE(djv::Graphics::ImageTags)
+Q_DECLARE_METATYPE(djv::AV::ImageTags)

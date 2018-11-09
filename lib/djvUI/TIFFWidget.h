@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/TIFF.h>
+#include <djvAV/TIFF.h>
 
 class QComboBox;
 class QVBoxLayout;
@@ -46,7 +46,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            TIFFWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            TIFFWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -58,7 +58,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::TIFF::Options _options;
+            AV::TIFF::Options _options;
             QComboBox * _compressionWidget = nullptr;
             QVBoxLayout * _layout = nullptr;
         };
@@ -69,7 +69,7 @@ namespace djv
         public:
             TIFFWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

@@ -33,7 +33,7 @@
 #include <djvUI/FloatObject.h>
 #include <djvUI/IntEditSlider.h>
 
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/ColorUtil.h>
 #include <djvCore/ListUtil.h>
 #include <djvCore/SignalBlocker.h>
 
@@ -50,7 +50,7 @@ namespace djv
     {
         struct ColorWidget::Private
         {
-            Graphics::Color color = Graphics::Color(Graphics::Pixel::RGB_U8);
+            AV::Color color = AV::Color(AV::Pixel::RGB_U8);
             QVector<QPointer<IntEditSlider> > intWidgets;
             QVector<QPointer<FloatEditSlider> > floatWidgets;
             QPointer<QComboBox> formatWidget;
@@ -65,7 +65,7 @@ namespace djv
             //DJV_DEBUG("ColorWidget::ColorWidget");
 
             // Create the widgets.
-            for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+            for (int i = 0; i < AV::Pixel::channelsMax; ++i)
             {
                 auto intSlider = new IntEditSlider(context);
                 intSlider->setResetToDefault(false);
@@ -78,17 +78,17 @@ namespace djv
             }
 
             _p->formatWidget = new QComboBox;
-            _p->formatWidget->addItems(Graphics::Pixel::formatLabels());
+            _p->formatWidget->addItems(AV::Pixel::formatLabels());
             _p->formatWidget->setToolTip(qApp->translate("djv::UI::ColorWidget", "Pixel format"));
 
             _p->typeWidget = new QComboBox;
-            _p->typeWidget->addItems(Graphics::Pixel::typeLabels());
+            _p->typeWidget->addItems(AV::Pixel::typeLabels());
             _p->typeWidget->setToolTip(qApp->translate("djv::UI::ColorWidget", "Pixel type"));
 
             // Layout the widgets.
             auto layout = new QVBoxLayout(this);
             layout->setMargin(0);
-            for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+            for (int i = 0; i < AV::Pixel::channelsMax; ++i)
             {
                 layout->addWidget(_p->intWidgets[i]);
                 layout->addWidget(_p->floatWidgets[i]);
@@ -107,7 +107,7 @@ namespace djv
             valueUpdate();
 
             // Setup the callbacks.
-            for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+            for (int i = 0; i < AV::Pixel::channelsMax; ++i)
             {
                 connect(
                     _p->intWidgets[i],
@@ -131,18 +131,18 @@ namespace djv
         ColorWidget::~ColorWidget()
         {}
         
-        const Graphics::Color & ColorWidget::color() const
+        const AV::Color & ColorWidget::color() const
         {
             return _p->color;
         }
 
-        void ColorWidget::setColor(const Graphics::Color & color)
+        void ColorWidget::setColor(const AV::Color & color)
         {
             if (color == _p->color)
                 return;
             //DJV_DEBUG("ColorWidget::setColor");
             //DJV_DEBUG_PRINT("color = " << color);
-            const Graphics::Color prev = _p->color;
+            const AV::Color prev = _p->color;
             _p->color = color;
             if (_p->color.pixel() != prev.pixel())
             {
@@ -168,27 +168,27 @@ namespace djv
         
         void ColorWidget::intCallback(int)
         {
-            for (int i = 0; i < Graphics::Pixel::channels(_p->color.pixel()); ++i)
+            for (int i = 0; i < AV::Pixel::channels(_p->color.pixel()); ++i)
             {
-                switch (Graphics::Pixel::type(_p->color.pixel()))
+                switch (AV::Pixel::type(_p->color.pixel()))
                 {
-                case Graphics::Pixel::U8:
+                case AV::Pixel::U8:
                     _p->color.setU8(_p->intWidgets[i]->value(), i);
                     break;
-                case Graphics::Pixel::U10:
+                case AV::Pixel::U10:
                     _p->color.setU10(_p->intWidgets[i]->value(), i);
                     break;
-                case Graphics::Pixel::U16:
+                case AV::Pixel::U16:
                     _p->color.setU16(_p->intWidgets[i]->value(), i);
                     break;
-                case Graphics::Pixel::F16:
+                case AV::Pixel::F16:
                     _p->color.setF16(
-                        static_cast<Graphics::Pixel::F16_T>(_p->floatWidgets[i]->value()),
+                        static_cast<AV::Pixel::F16_T>(_p->floatWidgets[i]->value()),
                         i);
                     break;
-                case Graphics::Pixel::F32:
+                case AV::Pixel::F32:
                     _p->color.setF32(
-                        static_cast<Graphics::Pixel::F32_T>(_p->floatWidgets[i]->value()),
+                        static_cast<AV::Pixel::F32_T>(_p->floatWidgets[i]->value()),
                         i);
                     break;
                 default: break;
@@ -205,20 +205,20 @@ namespace djv
 
         void ColorWidget::formatCallback(int in)
         {
-            Graphics::Color tmp(Graphics::Pixel::pixel(
-                static_cast<Graphics::Pixel::FORMAT>(in),
-                Graphics::Pixel::type(_p->color.pixel())));
-            Graphics::ColorUtil::convert(_p->color, tmp);
+            AV::Color tmp(AV::Pixel::pixel(
+                static_cast<AV::Pixel::FORMAT>(in),
+                AV::Pixel::type(_p->color.pixel())));
+            AV::ColorUtil::convert(_p->color, tmp);
             setColor(tmp);
             widgetUpdate();
         }
 
         void ColorWidget::typeCallback(int in)
         {
-            Graphics::Color tmp(Graphics::Pixel::pixel(
-                Graphics::Pixel::format(_p->color.pixel()),
-                static_cast<Graphics::Pixel::TYPE>(in)));
-            Graphics::ColorUtil::convert(_p->color, tmp);
+            AV::Color tmp(AV::Pixel::pixel(
+                AV::Pixel::format(_p->color.pixel()),
+                static_cast<AV::Pixel::TYPE>(in)));
+            AV::ColorUtil::convert(_p->color, tmp);
             setColor(tmp);
             widgetUpdate();
         }
@@ -242,7 +242,7 @@ namespace djv
             widgets.append(_p->typeWidget);
             Core::SignalBlocker signalBlocker(widgets);
 
-            const int channels = Graphics::Pixel::channels(_p->color.pixel());
+            const int channels = AV::Pixel::channels(_p->color.pixel());
             static const QString toolTip0[] =
             {
                 qApp->translate("djv::UI::ColorWidget", "Luminance channel"),
@@ -257,14 +257,14 @@ namespace djv
             };
 
             const QString * toolTip = 0;
-            switch (Graphics::Pixel::format(_p->color.pixel()))
+            switch (AV::Pixel::format(_p->color.pixel()))
             {
-            case Graphics::Pixel::L:
-            case Graphics::Pixel::LA:
+            case AV::Pixel::L:
+            case AV::Pixel::LA:
                 toolTip = toolTip0;
                 break;
-            case Graphics::Pixel::RGB:
-            case Graphics::Pixel::RGBA:
+            case AV::Pixel::RGB:
+            case AV::Pixel::RGBA:
                 toolTip = toolTip1;
                 break;
             default: break;
@@ -272,18 +272,18 @@ namespace djv
 
             for (int i = 0; i < channels; ++i)
             {
-                _p->intWidgets[i]->setRange(0, Graphics::Pixel::max(_p->color.pixel()));
+                _p->intWidgets[i]->setRange(0, AV::Pixel::max(_p->color.pixel()));
                 _p->intWidgets[i]->setToolTip(toolTip[i]);
                 _p->floatWidgets[i]->setToolTip(toolTip[i]);
             }
 
-            for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+            for (int i = 0; i < AV::Pixel::channelsMax; ++i)
             {
-                switch (Graphics::Pixel::type(_p->color.pixel()))
+                switch (AV::Pixel::type(_p->color.pixel()))
                 {
-                case Graphics::Pixel::U8:
-                case Graphics::Pixel::U10:
-                case Graphics::Pixel::U16:
+                case AV::Pixel::U8:
+                case AV::Pixel::U10:
+                case AV::Pixel::U16:
                     if (i < channels)
                     {
                         _p->intWidgets[i]->show();
@@ -294,8 +294,8 @@ namespace djv
                     }
                     _p->floatWidgets[i]->hide();
                     break;
-                case Graphics::Pixel::F16:
-                case Graphics::Pixel::F32:
+                case AV::Pixel::F16:
+                case AV::Pixel::F32:
                     _p->intWidgets[i]->hide();
                     if (i < channels)
                     {
@@ -310,8 +310,8 @@ namespace djv
                 }
             }
 
-            _p->formatWidget->setCurrentIndex(Graphics::Pixel::format(_p->color.pixel()));
-            _p->typeWidget->setCurrentIndex(Graphics::Pixel::type(_p->color.pixel()));
+            _p->formatWidget->setCurrentIndex(AV::Pixel::format(_p->color.pixel()));
+            _p->typeWidget->setCurrentIndex(AV::Pixel::type(_p->color.pixel()));
 
             update();
         }
@@ -327,23 +327,23 @@ namespace djv
                 widgets.append(i);
             Core::SignalBlocker signalBlocker(widgets);
 
-            for (int i = 0; i < Graphics::Pixel::channels(_p->color.pixel()); ++i)
+            for (int i = 0; i < AV::Pixel::channels(_p->color.pixel()); ++i)
             {
-                switch (Graphics::Pixel::type(_p->color.pixel()))
+                switch (AV::Pixel::type(_p->color.pixel()))
                 {
-                case Graphics::Pixel::U8:
+                case AV::Pixel::U8:
                     _p->intWidgets[i]->setValue(_p->color.u8(i));
                     break;
-                case Graphics::Pixel::U10:
+                case AV::Pixel::U10:
                     _p->intWidgets[i]->setValue(_p->color.u10(i));
                     break;
-                case Graphics::Pixel::U16:
+                case AV::Pixel::U16:
                     _p->intWidgets[i]->setValue(_p->color.u16(i));
                     break;
-                case Graphics::Pixel::F16:
+                case AV::Pixel::F16:
                     _p->floatWidgets[i]->setValue(_p->color.f16(i));
                     break;
-                case Graphics::Pixel::F32:
+                case AV::Pixel::F32:
                     _p->floatWidgets[i]->setValue(_p->color.f32(i));
                     break;
                 default: break;

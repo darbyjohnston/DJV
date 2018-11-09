@@ -27,32 +27,32 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/GraphicsContextTest.h>
+#include <djvAVTest/AVContextTest.h>
 
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/AVContext.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
 #include <djvCore/ErrorUtil.h>
 
 using namespace djv::Core;
-using namespace djv::Graphics;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
-        void GraphicsContextTest::run(int & argc, char ** argv)
+        void AVContextTest::run(int & argc, char ** argv)
         {
-            DJV_DEBUG("GraphicsContextTest::run");
+            DJV_DEBUG("AVContextTest::run");
             {
-                Graphics::GraphicsContext context(argc, argv);
+                AV::AVContext context(argc, argv);
                 DJV_ASSERT(context.openGLContext());
             }
             try
             {
-                Graphics::GraphicsContext context(argc, argv);
+                AV::AVContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -68,7 +68,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context(argc, argv);
+                AV::AVContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -76,9 +76,9 @@ namespace djv
                 };
                 int argsCount = 4;
                 DJV_ASSERT(context.commandLine(argsCount, args));
-                DJV_ASSERT(Graphics::OpenGLImageFilter(
-                    Graphics::OpenGLImageFilter::BOX, Graphics::OpenGLImageFilter::TRIANGLE) ==
-                    Graphics::OpenGLImageFilter::filter());
+                DJV_ASSERT(AV::OpenGLImageFilter(
+                    AV::OpenGLImageFilter::BOX, AV::OpenGLImageFilter::TRIANGLE) ==
+                    AV::OpenGLImageFilter::filter());
             }
             catch (const Error & error)
             {
@@ -87,7 +87,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context(argc, argv);
+                AV::AVContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -95,7 +95,7 @@ namespace djv
                 };
                 int argsCount = 2;
                 DJV_ASSERT(context.commandLine(argsCount, args));
-                DJV_ASSERT(Graphics::OpenGLImageFilter::filterHighQuality() == Graphics::OpenGLImageFilter::filter());
+                DJV_ASSERT(AV::OpenGLImageFilter::filterHighQuality() == AV::OpenGLImageFilter::filter());
             }
             catch (const Error & error)
             {
@@ -104,7 +104,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context(argc, argv);
+                AV::AVContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -119,7 +119,7 @@ namespace djv
 
             try
             {
-                Graphics::GraphicsContext context(argc, argv);
+                AV::AVContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -135,7 +135,7 @@ namespace djv
             }
             try
             {
-                Graphics::GraphicsContext context(argc, argv);
+                AV::AVContext context(argc, argv);
                 char * args[256] =
                 {
                     "djvTest",
@@ -151,5 +151,5 @@ namespace djv
             }
         }
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

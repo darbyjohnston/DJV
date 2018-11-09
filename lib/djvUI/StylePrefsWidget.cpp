@@ -162,24 +162,24 @@ namespace djv
                 SLOT(colorCallback(int)));
             connect(
                 _p->colorForegroundWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(colorForegroundCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(colorForegroundCallback(const djv::AV::Color &)));
             connect(
                 _p->colorBackgroundWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(colorBackgroundCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(colorBackgroundCallback(const djv::AV::Color &)));
             connect(
                 _p->colorBackground2Widget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(colorBackground2Callback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(colorBackground2Callback(const djv::AV::Color &)));
             connect(
                 _p->colorButtonWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(colorButtonCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(colorButtonCallback(const djv::AV::Color &)));
             connect(
                 _p->colorSelectWidget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(colorSelectCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(colorSelectCallback(const djv::AV::Color &)));
             connect(
                 _p->colorSwatchTransparencyWidget,
                 SIGNAL(toggled(bool)),
@@ -218,35 +218,35 @@ namespace djv
             widgetUpdate();
         }
 
-        void StylePrefsWidget::colorForegroundCallback(const Graphics::Color & color)
+        void StylePrefsWidget::colorForegroundCallback(const AV::Color & color)
         {
             StylePrefs::Palette tmp = context()->stylePrefs()->palette();
             tmp.foreground = color;
             context()->stylePrefs()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorBackgroundCallback(const Graphics::Color & color)
+        void StylePrefsWidget::colorBackgroundCallback(const AV::Color & color)
         {
             StylePrefs::Palette tmp = context()->stylePrefs()->palette();
             tmp.background = color;
             context()->stylePrefs()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorBackground2Callback(const Graphics::Color & color)
+        void StylePrefsWidget::colorBackground2Callback(const AV::Color & color)
         {
             StylePrefs::Palette tmp = context()->stylePrefs()->palette();
             tmp.background2 = color;
             context()->stylePrefs()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorButtonCallback(const Graphics::Color & color)
+        void StylePrefsWidget::colorButtonCallback(const AV::Color & color)
         {
             StylePrefs::Palette tmp = context()->stylePrefs()->palette();
             tmp.button = color;
             context()->stylePrefs()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorSelectCallback(const Graphics::Color & color)
+        void StylePrefsWidget::colorSelectCallback(const AV::Color & color)
         {
             StylePrefs::Palette tmp = context()->stylePrefs()->palette();
             tmp.select = color;

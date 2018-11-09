@@ -27,17 +27,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PPMLoad.h>
+#include <djvAV/PPMLoad.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/FileIOUtil.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         PPMLoad::PPMLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
             ImageLoad(fileInfo, context)
@@ -221,5 +221,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

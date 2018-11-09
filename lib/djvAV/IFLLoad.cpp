@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/IFLLoad.h>
+#include <djvAV/IFLLoad.h>
 
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/Image.h>
-#include <djvGraphics/Pixel.h>
+#include <djvAV/AVContext.h>
+#include <djvAV/Image.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         IFLLoad::IFLLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
             ImageLoad(fileInfo, context)
@@ -83,7 +83,7 @@ namespace djv
                 }
             }
             //DJV_DEBUG_PRINT("list = " << _list);
-            dynamic_cast<GraphicsContext*>(context.data())->imageIOFactory()->load(_list.count() ? _list[0] : QString(), _imageIOInfo);
+            dynamic_cast<AVContext*>(context.data())->imageIOFactory()->load(_list.count() ? _list[0] : QString(), _imageIOInfo);
             _imageIOInfo.sequence.frames.resize(_list.count());
             for (int i = 0; i < _list.count(); ++i)
             {
@@ -116,9 +116,9 @@ namespace djv
             }
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            auto load = dynamic_cast<GraphicsContext*>(context().data())->imageIOFactory()->load(fileName, info);
+            auto load = dynamic_cast<AVContext*>(context().data())->imageIOFactory()->load(fileName, info);
             load->read(image, ImageIOFrameInfo(-1, frame.layer, frame.proxy));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

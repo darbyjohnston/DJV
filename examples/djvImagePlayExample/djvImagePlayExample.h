@@ -32,8 +32,8 @@
 #include <djvUI/ImageView.h>
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -77,11 +77,11 @@ namespace djv
     private:
         QScopedPointer<UI::UIContext> _context;
         Core::FileInfo _fileInfo;
-        std::unique_ptr<Graphics::ImageLoad> _load;
-        Graphics::ImageIOInfo _info;
-        Graphics::Image _image;
+        std::unique_ptr<AV::ImageLoad> _load;
+        AV::ImageIOInfo _info;
+        AV::Image _image;
         bool _cache;
-        QVector<Graphics::Image *> _cachedImages;
+        QVector<AV::Image *> _cachedImages;
         QScopedPointer<ImagePlayExampleWidget> _widget;
         int _frame;
     };

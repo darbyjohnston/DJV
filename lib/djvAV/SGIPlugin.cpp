@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/SGIPlugin.h>
+#include <djvAV/SGIPlugin.h>
 
-#include <djvGraphics/SGILoad.h>
-#include <djvGraphics/SGISave.h>
+#include <djvAV/SGILoad.h>
+#include <djvAV/SGISave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         SGIPlugin::SGIPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -106,7 +106,7 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics::SGIPlugin", "-sgi_compression") == arg)
+                    if (qApp->translate("djv::AV::SGIPlugin", "-sgi_compression") == arg)
                     {
                         in >> _options.compression;
                     }
@@ -127,7 +127,7 @@ namespace djv
         {
             QStringList compressionLabel;
             compressionLabel << _options.compression;
-            return qApp->translate("djv::Graphics::SGIPlugin",
+            return qApp->translate("djv::AV::SGIPlugin",
                 "\n"
                 "SGI Options\n"
                 "\n"
@@ -148,5 +148,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new SGISave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

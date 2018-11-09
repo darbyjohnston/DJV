@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvAV/AVContext.h>
 
 #include <djvCore/FileInfoUtil.h>
 
@@ -38,7 +38,7 @@ namespace djv
     namespace ls
     {
         //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        class Context : public AV::AVContext
         {
             Q_OBJECT
 

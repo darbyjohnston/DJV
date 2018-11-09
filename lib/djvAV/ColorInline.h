@@ -31,7 +31,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         inline Pixel::PIXEL Color::pixel() const
         {
@@ -145,5 +145,5 @@ namespace djv
         _COLOR_GET(f16, F16)
         _COLOR_GET(f32, F32)
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

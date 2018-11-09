@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphics/Cineon.h>
+#include <djvAV/Cineon.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides DPX utilities.
         struct DPX
@@ -148,10 +148,10 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::DPX::VERSION);
-    DJV_STRING_OPERATOR(Graphics::DPX::TYPE);
-    DJV_STRING_OPERATOR(Graphics::DPX::ENDIAN);
+    DJV_STRING_OPERATOR(AV::DPX::VERSION);
+    DJV_STRING_OPERATOR(AV::DPX::TYPE);
+    DJV_STRING_OPERATOR(AV::DPX::ENDIAN);
 
 } // namespace djv

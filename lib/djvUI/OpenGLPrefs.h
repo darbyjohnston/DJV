@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/Util.h>
 
@@ -50,7 +50,7 @@ namespace djv
 
             //! This property holds the image filter.
             Q_PROPERTY(
-                djv::Graphics::OpenGLImageFilter filter
+                djv::AV::OpenGLImageFilter filter
                 READ                             filter
                 WRITE                            setFilter
                 NOTIFY                           filterChanged);
@@ -60,15 +60,15 @@ namespace djv
             ~OpenGLPrefs();
 
             //! Get the image filter.
-            const Graphics::OpenGLImageFilter & filter() const;
+            const AV::OpenGLImageFilter & filter() const;
             
         public Q_SLOTS:
             //! Set the image filter.
-            void setFilter(const djv::Graphics::OpenGLImageFilter &);
+            void setFilter(const djv::AV::OpenGLImageFilter &);
             
         Q_SIGNALS:
             //! This signal is emitted when the image filter is changed.
-            void filterChanged(const djv::Graphics::OpenGLImageFilter &);
+            void filterChanged(const djv::AV::OpenGLImageFilter &);
 
             //! This signal is emitted when a preference is changed.
             void prefChanged();

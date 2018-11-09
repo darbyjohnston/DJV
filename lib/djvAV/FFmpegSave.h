@@ -29,15 +29,15 @@
 
 #pragma once
 
-#include <djvGraphics/FFmpeg.h>
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/FFmpeg.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a FFmpeg saver.
         class FFmpegSave : public ImageSave
@@ -65,5 +65,5 @@ namespace djv
             SwsContext * _swsContext = nullptr;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

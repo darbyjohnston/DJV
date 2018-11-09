@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/DPX.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/DPX.h>
+#include <djvAV/ImageIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the SMPTE Digital Picture Exchange (DPX)
         //! image file format. DPX is a specialized image file format for working with
@@ -76,5 +76,5 @@ namespace djv
             DPX::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

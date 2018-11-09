@@ -32,7 +32,7 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/Prefs.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <QApplication>
 
@@ -42,7 +42,7 @@ namespace djv
     {
         namespace
         {
-            void _load(Graphics::ImageIO * plugin)
+            void _load(AV::ImageIO * plugin)
             {
                 //DJV_DEBUG("_load");
                 //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -59,7 +59,7 @@ namespace djv
                 }
             }
 
-            void _save(const Graphics::ImageIO * plugin)
+            void _save(const AV::ImageIO * plugin)
             {
                 //DJV_DEBUG("_save");
                 //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -88,7 +88,7 @@ namespace djv
             const QList<Core::Plugin *> & plugins = context->imageIOFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
             {
-                if (Graphics::ImageIO * plugin = dynamic_cast<Graphics::ImageIO *>(plugins[i]))
+                if (AV::ImageIO * plugin = dynamic_cast<AV::ImageIO *>(plugins[i]))
                 {
                     _load(plugin);
                 }
@@ -101,7 +101,7 @@ namespace djv
             const QList<Core::Plugin *> & plugins = _p->context->imageIOFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
             {
-                if (Graphics::ImageIO * plugin = dynamic_cast<Graphics::ImageIO *>(plugins[i]))
+                if (AV::ImageIO * plugin = dynamic_cast<AV::ImageIO *>(plugins[i]))
                 {
                     _save(plugin);
                 }

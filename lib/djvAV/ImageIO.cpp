@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvAV/AVContext.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/Debug.h>
@@ -46,7 +46,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         ImageIOInfo::ImageIOInfo() :
             _info(1)
@@ -196,11 +196,11 @@ namespace djv
         const QStringList & ImageIO::errorLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::ImageIO", "Unrecognized file") <<
-                qApp->translate("djv::Graphics::ImageIO", "Unsupported file") <<
-                qApp->translate("djv::Graphics::ImageIO", "Cannot open file") <<
-                qApp->translate("djv::Graphics::ImageIO", "Error reading file") <<
-                qApp->translate("djv::Graphics::ImageIO", "Error writing file");
+                qApp->translate("djv::AV::ImageIO", "Unrecognized file") <<
+                qApp->translate("djv::AV::ImageIO", "Unsupported file") <<
+                qApp->translate("djv::AV::ImageIO", "Cannot open file") <<
+                qApp->translate("djv::AV::ImageIO", "Error reading file") <<
+                qApp->translate("djv::AV::ImageIO", "Error writing file");
             DJV_ASSERT(ERROR_COUNT == data.count());
             return data;
         }
@@ -296,7 +296,7 @@ namespace djv
             }
             throw Core::Error(
                 "ImageIOFactory",
-                qApp->translate("djv::Graphics::ImageIOFactory", "Unrecognized image: %1").
+                qApp->translate("djv::AV::ImageIOFactory", "Unrecognized image: %1").
                 arg(QDir::toNativeSeparators(fileInfo)));
             return nullptr;
         }
@@ -324,8 +324,8 @@ namespace djv
                 }
             }
             throw Core::Error(
-                "djv::Graphics::ImageIOFactory",
-                qApp->translate("djv::Graphics::ImageIOFactory", "Unrecognized image: %1").
+                "djv::AV::ImageIOFactory",
+                qApp->translate("djv::AV::ImageIOFactory", "Unrecognized image: %1").
                 arg(QDir::toNativeSeparators(fileInfo)));
             return nullptr;
         }
@@ -333,7 +333,7 @@ namespace djv
         const QStringList & ImageIOFactory::errorLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::ImageIOFactory", "Unrecognized file: \"%1\"");
+                qApp->translate("djv::AV::ImageIOFactory", "Unrecognized file: \"%1\"");
             DJV_ASSERT(ERROR_COUNT == data.count());
             return data;
         }
@@ -379,9 +379,9 @@ namespace djv
                 SLOT(pluginOptionCallback(const QString &)));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    bool operator == (const Graphics::ImageIOInfo & a, const Graphics::ImageIOInfo & b)
+    bool operator == (const AV::ImageIOInfo & a, const AV::ImageIOInfo & b)
     {
         if (a.layerCount() != b.layerCount())
             return false;
@@ -390,18 +390,18 @@ namespace djv
                 return false;
         return
             operator == (
-                static_cast<const Graphics::PixelDataInfo &>(a),
-                static_cast<const Graphics::PixelDataInfo &>(b)) &&
+                static_cast<const AV::PixelDataInfo &>(a),
+                static_cast<const AV::PixelDataInfo &>(b)) &&
             a.tags == b.tags &&
             a.sequence == b.sequence;
     }
 
-    bool operator != (const Graphics::ImageIOInfo & a, const Graphics::ImageIOInfo & b)
+    bool operator != (const AV::ImageIOInfo & a, const AV::ImageIOInfo & b)
     {
         return !(a == b);
     }
 
-    bool operator == (const Graphics::ImageIOFrameInfo & a, const Graphics::ImageIOFrameInfo & b)
+    bool operator == (const AV::ImageIOFrameInfo & a, const AV::ImageIOFrameInfo & b)
     {
         return
             a.frame == b.frame &&
@@ -409,17 +409,17 @@ namespace djv
             a.proxy == b.proxy;
     }
 
-    bool operator != (const Graphics::ImageIOFrameInfo & a, const Graphics::ImageIOFrameInfo & b)
+    bool operator != (const AV::ImageIOFrameInfo & a, const AV::ImageIOFrameInfo & b)
     {
         return !(a == b);
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::ImageIOInfo & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::ImageIOInfo & in)
     {
-        return operator << (debug, static_cast<const Graphics::PixelDataInfo &>(in));
+        return operator << (debug, static_cast<const AV::PixelDataInfo &>(in));
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::ImageIOFrameInfo & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::ImageIOFrameInfo & in)
     {
         return debug << in.frame;
     }

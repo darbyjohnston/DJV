@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/SGI.h>
+#include <djvAV/Image.h>
+#include <djvAV/SGI.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a SGI saver.
         class SGISave : public ImageSave
@@ -58,5 +58,5 @@ namespace djv
             PixelData            _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

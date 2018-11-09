@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/RLA.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/RLA.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Wavefront RLA image file format.
         //!
@@ -48,7 +48,7 @@ namespace djv
         //!
         //! References:
         //!
-        //! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
+        //! - James D. Murray, William vanRyper, "Encyclopedia of AV File Formats,
         //!   Second Edition"
         class RLAPlugin : public ImageIO
         {
@@ -61,5 +61,5 @@ namespace djv
             std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

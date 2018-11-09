@@ -38,7 +38,7 @@ namespace djv
         return
             a.name == b.name &&
             a.lutFile == b.lutFile &&
-            Graphics::OpenGLImageDisplayProfile(a) == Graphics::OpenGLImageDisplayProfile(b);
+            AV::OpenGLImageDisplayProfile(a) == AV::OpenGLImageDisplayProfile(b);
     }
 
     bool operator != (const ViewLib::DisplayProfile & a, const ViewLib::DisplayProfile & b)

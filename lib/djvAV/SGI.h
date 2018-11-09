@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides SGI utilities.
         struct SGI
@@ -91,8 +91,8 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::SGI::COMPRESSION);
+    DJV_STRING_OPERATOR(AV::SGI::COMPRESSION);
 
 } // namespace djv

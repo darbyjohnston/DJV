@@ -27,13 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/ColorUtil.h>
 
 #include <djvCore/VectorUtil.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         inline const PixelDataInfo & PixelData::info() const
         {
@@ -113,5 +113,5 @@ namespace djv
             return _dataByteCount;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

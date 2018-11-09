@@ -38,7 +38,7 @@ namespace djv
     namespace ls
     {
         Context::Context(int & argc, char ** argv, QObject * parent) :
-            Graphics::GraphicsContext(argc, argv, parent),
+            AV::AVContext(argc, argv, parent),
             _columns(Core::System::terminalWidth())
         {
             //DJV_DEBUG("Context::Context");
@@ -107,7 +107,7 @@ namespace djv
             //DJV_DEBUG("Context::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            if (!Graphics::GraphicsContext::commandLineParse(in))
+            if (!AV::AVContext::commandLineParse(in))
                 return false;
 
             QStringList args;
@@ -247,7 +247,7 @@ namespace djv
             return QString(label).
                 arg(Core::FileInfoUtil::sortLabels().join(", ")).
                 arg(sortLabel.join(", ")).
-                arg(Graphics::GraphicsContext::commandLineHelp());
+                arg(AV::AVContext::commandLineHelp());
         }
 
     } // namespace ls

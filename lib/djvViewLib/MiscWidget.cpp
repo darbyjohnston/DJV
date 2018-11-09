@@ -39,8 +39,8 @@
 #include <djvUI/ToolButton.h>
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/ColorUtil.h>
-#include <djvGraphics/Pixel.h>
+#include <djvAV/ColorUtil.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Box.h>
@@ -87,7 +87,7 @@ namespace
             switch (type)
             {
             case FRAME:
-                painter->setPen(Graphics::ColorUtil::lerp(
+                painter->setPen(AV::ColorUtil::lerp(
                     .2f,
                     palette.color(QPalette::Base),
                     palette.color(QPalette::Text)));
@@ -97,7 +97,7 @@ namespace
             case SECOND:
                 if (label.isEmpty())
                 {
-                    painter->setPen(Graphics::ColorUtil::lerp(
+                    painter->setPen(AV::ColorUtil::lerp(
                         .2f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
@@ -106,12 +106,12 @@ namespace
                 }
                 else
                 {
-                    painter->setPen(Graphics::ColorUtil::lerp(
+                    painter->setPen(AV::ColorUtil::lerp(
                         .2f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
                     painter->drawLine(x, 0, x, h - 1);
-                    painter->setPen(Graphics::ColorUtil::lerp(
+                    painter->setPen(AV::ColorUtil::lerp(
                         .4f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));

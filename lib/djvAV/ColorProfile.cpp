@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/ColorProfile.h>
+#include <djvAV/ColorProfile.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -36,7 +36,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         ColorProfile::Exposure::Exposure()
         {}
@@ -58,19 +58,19 @@ namespace djv
         const QStringList & ColorProfile::profileLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::ColorProfile", "Raw") <<
-                qApp->translate("djv::Graphics::ColorProfile", "Gamma") <<
-                qApp->translate("djv::Graphics::ColorProfile", "LUT") <<
-                qApp->translate("djv::Graphics::ColorProfile", "Exposure");
+                qApp->translate("djv::AV::ColorProfile", "Raw") <<
+                qApp->translate("djv::AV::ColorProfile", "Gamma") <<
+                qApp->translate("djv::AV::ColorProfile", "LUT") <<
+                qApp->translate("djv::AV::ColorProfile", "Exposure");
             DJV_ASSERT(data.count() == PROFILE_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
     bool operator == (
-        const Graphics::ColorProfile::Exposure & a,
-        const Graphics::ColorProfile::Exposure & b)
+        const AV::ColorProfile::Exposure & a,
+        const AV::ColorProfile::Exposure & b)
     {
         return
             Core::Math::fuzzyCompare(a.value, b.value) &&
@@ -80,13 +80,13 @@ namespace djv
     }
 
     bool operator != (
-        const Graphics::ColorProfile::Exposure & a,
-        const Graphics::ColorProfile::Exposure & b)
+        const AV::ColorProfile::Exposure & a,
+        const AV::ColorProfile::Exposure & b)
     {
         return !(a == b);
     }
 
-    bool operator == (const Graphics::ColorProfile & a, const Graphics::ColorProfile & b)
+    bool operator == (const AV::ColorProfile & a, const AV::ColorProfile & b)
     {
         return
             a.type == b.type &&
@@ -95,38 +95,38 @@ namespace djv
             a.exposure == b.exposure;
     }
 
-    bool operator != (const Graphics::ColorProfile & a, const Graphics::ColorProfile & b)
+    bool operator != (const AV::ColorProfile & a, const AV::ColorProfile & b)
     {
         return !(a == b);
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::ColorProfile::Exposure & out)
+    QStringList & operator >> (QStringList & in, AV::ColorProfile::Exposure & out)
     {
         return in >> out.value >> out.defog >> out.kneeLow >> out.kneeHigh;
     }
 
-    QStringList & operator << (QStringList & out, const Graphics::ColorProfile::Exposure & in)
+    QStringList & operator << (QStringList & out, const AV::ColorProfile::Exposure & in)
     {
         return out << in.value << in.defog << in.kneeLow << in.kneeHigh;
     }
 
     _DJV_STRING_OPERATOR_LABEL(
-        Graphics::ColorProfile::PROFILE,
-        Graphics::ColorProfile::profileLabels());
+        AV::ColorProfile::PROFILE,
+        AV::ColorProfile::profileLabels());
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile::Exposure & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::ColorProfile::Exposure & in)
     {
         return debug << in.value << " " << in.defog << " " << in.kneeLow << " " << in.kneeHigh;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile::PROFILE & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::ColorProfile::PROFILE & in)
     {
         QStringList tmp;
         tmp << in;
         return debug << tmp;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::ColorProfile & in)
     {
         return debug <<
             in.type << ", " <<

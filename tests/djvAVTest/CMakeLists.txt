@@ -1,9 +1,9 @@
 set(header
+    AVContextTest.h
+    AVTest.h
     ColorProfileTest.h
     ColorTest.h
     ColorUtilTest.h
-    GraphicsContextTest.h
-    GraphicsTest.h
     ImageIOFormatsTest.h
     ImageIOTest.h
     ImageTagsTest.h
@@ -15,10 +15,10 @@ set(header
     PixelTest.h)
 set(mocHeader)
 set(source
+    AVContextTest.cpp
     ColorProfileTest.cpp
     ColorTest.cpp
     ColorUtilTest.cpp
-    GraphicsContextTest.cpp
     ImageIOFormatsTest.cpp
     ImageIOTest.cpp
     ImageTagsTest.cpp
@@ -32,7 +32,7 @@ set(source
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
 include_directories(${OPENGL_INCLUDE_DIRS})
-add_library(djvGraphicsTest ${header} ${source} ${mocSource})
-target_link_libraries(djvGraphicsTest djvTestLib djvGraphics)
-set_target_properties(djvGraphicsTest PROPERTIES FOLDER tests CXX_STANDARD 11)
+add_library(djvAVTest ${header} ${source} ${mocSource})
+target_link_libraries(djvAVTest djvTestLib djvAV)
+set_target_properties(djvAVTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 

@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <djvGraphics/Color.h>
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Color.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Box.h>
 #include <djvCore/Memory.h>
@@ -49,7 +49,7 @@ namespace djv
 
     } // namespace Core
 
-    namespace Graphics
+    namespace AV
     {
         //! This class provides pixel data information.
         class PixelDataInfo
@@ -194,23 +194,23 @@ namespace djv
             Core::FileIO *      _fileIo = nullptr;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(Graphics::PixelDataInfo::Mirror);
-    DJV_COMPARISON_OPERATOR(Graphics::PixelDataInfo);
-    DJV_COMPARISON_OPERATOR(Graphics::PixelData);
+    DJV_COMPARISON_OPERATOR(AV::PixelDataInfo::Mirror);
+    DJV_COMPARISON_OPERATOR(AV::PixelDataInfo);
+    DJV_COMPARISON_OPERATOR(AV::PixelData);
 
-    DJV_STRING_OPERATOR(Graphics::PixelDataInfo::PROXY);
-    DJV_STRING_OPERATOR(Graphics::PixelDataInfo::Mirror);
+    DJV_STRING_OPERATOR(AV::PixelDataInfo::PROXY);
+    DJV_STRING_OPERATOR(AV::PixelDataInfo::Mirror);
 
-    DJV_DEBUG_OPERATOR(Graphics::PixelDataInfo::PROXY);
-    DJV_DEBUG_OPERATOR(Graphics::PixelDataInfo::Mirror);
-    DJV_DEBUG_OPERATOR(Graphics::PixelDataInfo);
-    DJV_DEBUG_OPERATOR(Graphics::PixelData);
+    DJV_DEBUG_OPERATOR(AV::PixelDataInfo::PROXY);
+    DJV_DEBUG_OPERATOR(AV::PixelDataInfo::Mirror);
+    DJV_DEBUG_OPERATOR(AV::PixelDataInfo);
+    DJV_DEBUG_OPERATOR(AV::PixelData);
 
 } // namespace djv
 
-Q_DECLARE_METATYPE(djv::Graphics::PixelDataInfo)
-Q_DECLARE_METATYPE(djv::Graphics::PixelData)
+Q_DECLARE_METATYPE(djv::AV::PixelDataInfo)
+Q_DECLARE_METATYPE(djv::AV::PixelData)
 
-#include <djvGraphics/PixelDataInline.h>
+#include <djvAV/PixelDataInline.h>

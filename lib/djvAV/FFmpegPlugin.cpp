@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/FFmpegPlugin.h>
+#include <djvAV/FFmpegPlugin.h>
 
-#include <djvGraphics/FFmpegLoad.h>
-#include <djvGraphics/FFmpegSave.h>
+#include <djvAV/FFmpegLoad.h>
+#include <djvAV/FFmpegSave.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/DebugLog.h>
@@ -39,7 +39,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         namespace
         {
@@ -51,7 +51,7 @@ namespace djv
                     return;
                 char s[Core::StringUtil::cStringLength] = "";
                 vsnprintf(s, Core::StringUtil::cStringLength, fmt, vl);
-                DJV_LOG(_context->debugLog(), "djv::Graphics::FFmpegPlugin", s);
+                DJV_LOG(_context->debugLog(), "djv::AV::FFmpegPlugin", s);
             }
 
         } // namespace
@@ -192,11 +192,11 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics::FFmpegPlugin", "-ffmpeg_format") == arg)
+                    if (qApp->translate("djv::AV::FFmpegPlugin", "-ffmpeg_format") == arg)
                     {
                         in >> _options.format;
                     }
-                    else if (qApp->translate("djv::Graphics::FFmpegPlugin", "-ffmpeg_quality") == arg)
+                    else if (qApp->translate("djv::AV::FFmpegPlugin", "-ffmpeg_quality") == arg)
                     {
                         in >> _options.quality;
                     }
@@ -219,7 +219,7 @@ namespace djv
             formatLabel << _options.format;
             QStringList qualityLabel;
             qualityLabel << _options.quality;
-            return qApp->translate("djv::Graphics::FFmpegPlugin",
+            return qApp->translate("djv::AV::FFmpegPlugin",
                 "\n"
                 "FFmpeg Options\n"
                 "\n"
@@ -246,5 +246,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new FFmpegSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

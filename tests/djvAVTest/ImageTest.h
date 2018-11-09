@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphicsTest/GraphicsTest.h>
+#include <djvAVTest/AVTest.h>
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
         class ImageTest : public TestLib::AbstractTest
         {
@@ -45,5 +45,5 @@ namespace djv
             void operators();
         };
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

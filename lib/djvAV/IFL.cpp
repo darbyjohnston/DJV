@@ -27,13 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/IFL.h>
+#include <djvAV/IFL.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString IFL::staticName = "IFL";
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

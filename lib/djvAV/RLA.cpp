@@ -27,14 +27,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/RLA.h>
+#include <djvAV/RLA.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Memory.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString RLA::staticName = "RLA";
 
@@ -133,5 +133,5 @@ namespace djv
             io.seek(size);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

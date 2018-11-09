@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/PPM.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/PPM.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the NetPBM image file format.
         //!
@@ -71,5 +71,5 @@ namespace djv
             PPM::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/OpenGL.h>
+#include <djvAV/OpenGL.h>
 
 #include <QOpenGLWidget>
 

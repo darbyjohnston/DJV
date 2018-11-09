@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/ImageTagsTest.h>
+#include <djvAVTest/ImageTagsTest.h>
 
-#include <djvGraphics/ImageTags.h>
+#include <djvAV/ImageTags.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -37,11 +37,11 @@
 #include <QStringList>
 
 using namespace djv::Core;
-using namespace djv::Graphics;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
         void ImageTagsTest::run(int &, char **)
         {
@@ -55,13 +55,13 @@ namespace djv
         {
             DJV_DEBUG("ImageTagsTest::ctors");
             {
-                const Graphics::ImageTags tags;
+                const AV::ImageTags tags;
                 DJV_ASSERT(0 == tags.count());
             }
             {
-                Graphics::ImageTags tmp;
+                AV::ImageTags tmp;
                 tmp.add("key", "value");
-                const Graphics::ImageTags tags(tmp);
+                const AV::ImageTags tags(tmp);
                 DJV_ASSERT(1 == tags.count());
                 DJV_ASSERT("key" == tags.keys()[0]);
                 DJV_ASSERT("value" == tags.values()[0]);
@@ -72,9 +72,9 @@ namespace djv
         {
             DJV_DEBUG("ImageTagsTest::members");
             {
-                Graphics::ImageTags tmp;
+                AV::ImageTags tmp;
                 tmp.add("key", "value");
-                Graphics::ImageTags tags;
+                AV::ImageTags tags;
                 tags.add(tmp);
                 DJV_ASSERT(1 == tags.count());
                 DJV_ASSERT("key" == tags.keys()[0]);
@@ -90,7 +90,7 @@ namespace djv
                 DJV_ASSERT(0 == tags.count());
             }
             {
-                DJV_DEBUG_PRINT(Graphics::ImageTags::tagLabels());
+                DJV_DEBUG_PRINT(AV::ImageTags::tagLabels());
             }
         }
 
@@ -98,30 +98,30 @@ namespace djv
         {
             DJV_DEBUG("ImageTagsTest::operators");
             {
-                Graphics::ImageTags tags;
+                AV::ImageTags tags;
                 tags["key"] = "value";
                 DJV_ASSERT("value" == tags["key"]);
-                const Graphics::ImageTags & tmp = tags;
+                const AV::ImageTags & tmp = tags;
                 DJV_ASSERT("value" == tmp["key"]);
                 tags["key 2"];
                 DJV_ASSERT(2 == tags.count());
             }
             {
-                Graphics::ImageTags a, b, c;
+                AV::ImageTags a, b, c;
                 a["key"] = "value";
                 b["key"] = "value";
                 c["key"] = "value 2";
                 DJV_ASSERT(a == b);
                 DJV_ASSERT(a != c);
-                DJV_ASSERT(a != Graphics::ImageTags());
+                DJV_ASSERT(a != AV::ImageTags());
             }
             {
-                Graphics::ImageTags tags;
+                AV::ImageTags tags;
                 tags["key"] = "value";
                 tags["key 2"] = "value 2";
                 DJV_DEBUG_PRINT(tags);
             }
         }
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

@@ -31,7 +31,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         inline Pixel::Mask::Mask()
         {
@@ -502,11 +502,11 @@ namespace djv
             return in;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    inline bool operator == (const Graphics::Pixel::Mask & a, const Graphics::Pixel::Mask & b)
+    inline bool operator == (const AV::Pixel::Mask & a, const AV::Pixel::Mask & b)
     {
-        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        for (int i = 0; i < AV::Pixel::channelsMax; ++i)
         {
             if (a.mask[i] != b.mask[i])
             {
@@ -516,7 +516,7 @@ namespace djv
         return true;
     }
 
-    inline bool operator != (const Graphics::Pixel::Mask & a, const Graphics::Pixel::Mask & b)
+    inline bool operator != (const AV::Pixel::Mask & a, const AV::Pixel::Mask & b)
     {
         return !(a == b);
     }

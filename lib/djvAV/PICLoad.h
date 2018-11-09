@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/PIC.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/PIC.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a PIC loader.
         class PICLoad : public ImageLoad
@@ -55,5 +55,5 @@ namespace djv
             PixelData _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PPMPlugin.h>
+#include <djvAV/PPMPlugin.h>
 
-#include <djvGraphics/PPMLoad.h>
-#include <djvGraphics/PPMSave.h>
+#include <djvAV/PPMLoad.h>
+#include <djvAV/PPMSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -42,7 +42,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         PPMPlugin::PPMPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -122,11 +122,11 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics::PPMPlugin", "-ppm_type") == arg)
+                    if (qApp->translate("djv::AV::PPMPlugin", "-ppm_type") == arg)
                     {
                         in >> _options.type;
                     }
-                    else if (qApp->translate("djv::Graphics::PPMPlugin", "-ppm_data") == arg)
+                    else if (qApp->translate("djv::AV::PPMPlugin", "-ppm_data") == arg)
                     {
                         in >> _options.data;
                     }
@@ -149,7 +149,7 @@ namespace djv
             typeLabel << _options.type;
             QStringList dataLabel;
             dataLabel << _options.type;
-            return qApp->translate("djv::Graphics::PPMPlugin",
+            return qApp->translate("djv::AV::PPMPlugin",
                 "\n"
                 "PPM Options\n"
                 "\n"
@@ -175,5 +175,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new PPMSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

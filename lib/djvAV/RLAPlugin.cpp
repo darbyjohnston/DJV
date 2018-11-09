@@ -27,15 +27,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/RLAPlugin.h>
+#include <djvAV/RLAPlugin.h>
 
-#include <djvGraphics/RLALoad.h>
+#include <djvAV/RLALoad.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         RLAPlugin::RLAPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -58,5 +58,5 @@ namespace djv
             return std::unique_ptr<ImageLoad>(new RLALoad(fileInfo, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

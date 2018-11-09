@@ -31,9 +31,9 @@
 
 #include <djvViewLib/ViewLib.h>
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/Pixel.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -53,24 +53,24 @@ namespace djv
             FileExportInfo(
                 const Core::FileInfo &               inputFile = Core::FileInfo(),
                 const Core::FileInfo &               outputFile = Core::FileInfo(),
-                const Graphics::PixelDataInfo &      info = Graphics::PixelDataInfo(),
+                const AV::PixelDataInfo &      info = AV::PixelDataInfo(),
                 const Core::Sequence &               sequence = Core::Sequence(),
                 int                                  layer = 0,
-                const Graphics::PixelDataInfo::PROXY proxy = Graphics::PixelDataInfo::PROXY_NONE,
+                const AV::PixelDataInfo::PROXY proxy = AV::PixelDataInfo::PROXY_NONE,
                 bool                                 u8Conversion = false,
                 bool                                 colorProfile = true,
-                const Graphics::OpenGLImageOptions & options = Graphics::OpenGLImageOptions());
+                const AV::OpenGLImageOptions & options = AV::OpenGLImageOptions());
 
             Core::FileInfo                 inputFile;
             Core::FileInfo                 outputFile;
-            Graphics::PixelDataInfo        info;
+            AV::PixelDataInfo        info;
             Core::Sequence                 sequence;
             int                            layer = 0;
-            Graphics::PixelDataInfo::PROXY proxy = Graphics::PixelDataInfo::PROXY_NONE;
+            AV::PixelDataInfo::PROXY proxy = AV::PixelDataInfo::PROXY_NONE;
             bool                           u8Conversion = false;
             bool                           colorProfile = true;
-            Graphics::ImageIOFrameInfo     frameInfo;
-            Graphics::OpenGLImageOptions   options;
+            AV::ImageIOFrameInfo     frameInfo;
+            AV::OpenGLImageOptions   options;
         };
 
         //! This class provides file exporting.

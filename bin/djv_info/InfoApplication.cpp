@@ -31,7 +31,7 @@
 
 #include <djv_info/InfoContext.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/DebugLog.h>
 #include <djvCore/FileInfoUtil.h>
@@ -156,8 +156,8 @@ namespace djv
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            Graphics::ImageIOInfo _info;
-            std::unique_ptr<Graphics::ImageLoad> load;
+            AV::ImageIOInfo _info;
+            std::unique_ptr<AV::ImageLoad> load;
             try
             {
                 load = _context->imageIOFactory()->load(in, _info);

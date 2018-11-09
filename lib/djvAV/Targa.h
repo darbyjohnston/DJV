@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides Targa utilities.
         struct Targa
@@ -91,8 +91,8 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::Targa::COMPRESSION);
+    DJV_STRING_OPERATOR(AV::Targa::COMPRESSION);
 
 } // namespace djv

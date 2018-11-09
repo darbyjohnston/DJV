@@ -38,7 +38,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides pixel functionality.
         class Pixel
@@ -287,10 +287,10 @@ namespace djv
                 bool         bgr = false);
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    inline bool operator == (const Graphics::Pixel::Mask &, const Graphics::Pixel::Mask &);
-    inline bool operator != (const Graphics::Pixel::Mask &, const Graphics::Pixel::Mask &);
+    inline bool operator == (const AV::Pixel::Mask &, const AV::Pixel::Mask &);
+    inline bool operator != (const AV::Pixel::Mask &, const AV::Pixel::Mask &);
 
 #define PIXEL_U8_ZERO  0
 #define PIXEL_U10_ZERO 0
@@ -298,55 +298,55 @@ namespace djv
 #define PIXEL_F16_ZERO 0.f
 #define PIXEL_F32_ZERO 0.f
 
-#define PIXEL_U8_ONE   djv::Graphics::Pixel::u8Max
-#define PIXEL_U10_ONE  djv::Graphics::Pixel::u10Max
-#define PIXEL_U16_ONE  djv::Graphics::Pixel::u16Max
+#define PIXEL_U8_ONE   djv::AV::Pixel::u8Max
+#define PIXEL_U10_ONE  djv::AV::Pixel::u10Max
+#define PIXEL_U16_ONE  djv::AV::Pixel::u16Max
 #define PIXEL_F16_ONE  1.f
 #define PIXEL_F32_ONE  1.f
 
 #define PIXEL_U8_TO_U8(IN)   (IN)
-#define PIXEL_U8_TO_U10(IN)  djv::Graphics::Pixel::u8ToU10(IN)
-#define PIXEL_U8_TO_U16(IN)  djv::Graphics::Pixel::u8ToU16(IN)
-#define PIXEL_U8_TO_F16(IN)  djv::Graphics::Pixel::u8ToF16(IN)
-#define PIXEL_U8_TO_F32(IN)  djv::Graphics::Pixel::u8ToF32(IN)
+#define PIXEL_U8_TO_U10(IN)  djv::AV::Pixel::u8ToU10(IN)
+#define PIXEL_U8_TO_U16(IN)  djv::AV::Pixel::u8ToU16(IN)
+#define PIXEL_U8_TO_F16(IN)  djv::AV::Pixel::u8ToF16(IN)
+#define PIXEL_U8_TO_F32(IN)  djv::AV::Pixel::u8ToF32(IN)
 
-#define PIXEL_U10_TO_U8(IN)  djv::Graphics::Pixel::u10ToU8(IN)
+#define PIXEL_U10_TO_U8(IN)  djv::AV::Pixel::u10ToU8(IN)
 #define PIXEL_U10_TO_U10(IN) (IN)
-#define PIXEL_U10_TO_U16(IN) djv::Graphics::Pixel::u10ToU16(IN)
-#define PIXEL_U10_TO_F16(IN) djv::Graphics::Pixel::u10ToF16(IN)
-#define PIXEL_U10_TO_F32(IN) djv::Graphics::Pixel::u10ToF32(IN)
+#define PIXEL_U10_TO_U16(IN) djv::AV::Pixel::u10ToU16(IN)
+#define PIXEL_U10_TO_F16(IN) djv::AV::Pixel::u10ToF16(IN)
+#define PIXEL_U10_TO_F32(IN) djv::AV::Pixel::u10ToF32(IN)
 
-#define PIXEL_U16_TO_U8(IN)  djv::Graphics::Pixel::u16ToU8(IN)
-#define PIXEL_U16_TO_U10(IN) djv::Graphics::Pixel::u16ToU10(IN)
+#define PIXEL_U16_TO_U8(IN)  djv::AV::Pixel::u16ToU8(IN)
+#define PIXEL_U16_TO_U10(IN) djv::AV::Pixel::u16ToU10(IN)
 #define PIXEL_U16_TO_U16(IN) (IN)
-#define PIXEL_U16_TO_F16(IN) djv::Graphics::Pixel::u16ToF16(IN)
-#define PIXEL_U16_TO_F32(IN) djv::Graphics::Pixel::u16ToF32(IN)
+#define PIXEL_U16_TO_F16(IN) djv::AV::Pixel::u16ToF16(IN)
+#define PIXEL_U16_TO_F32(IN) djv::AV::Pixel::u16ToF32(IN)
 
-#define PIXEL_F16_TO_U8(IN)  djv::Graphics::Pixel::f16ToU8(IN)
-#define PIXEL_F16_TO_U10(IN) djv::Graphics::Pixel::f16ToU10(IN)
-#define PIXEL_F16_TO_U16(IN) djv::Graphics::Pixel::f16ToU16(IN)
+#define PIXEL_F16_TO_U8(IN)  djv::AV::Pixel::f16ToU8(IN)
+#define PIXEL_F16_TO_U10(IN) djv::AV::Pixel::f16ToU10(IN)
+#define PIXEL_F16_TO_U16(IN) djv::AV::Pixel::f16ToU16(IN)
 #define PIXEL_F16_TO_F16(IN) (IN)
-#define PIXEL_F16_TO_F32(IN) djv::Graphics::Pixel::f16ToF32(IN)
+#define PIXEL_F16_TO_F32(IN) djv::AV::Pixel::f16ToF32(IN)
 
-#define PIXEL_F32_TO_U8(IN)  djv::Graphics::Pixel::f32ToU8(IN)
-#define PIXEL_F32_TO_U10(IN) djv::Graphics::Pixel::f32ToU10(IN)
-#define PIXEL_F32_TO_U16(IN) djv::Graphics::Pixel::f32ToU16(IN)
-#define PIXEL_F32_TO_F16(IN) djv::Graphics::Pixel::f32ToF16(IN)
+#define PIXEL_F32_TO_U8(IN)  djv::AV::Pixel::f32ToU8(IN)
+#define PIXEL_F32_TO_U10(IN) djv::AV::Pixel::f32ToU10(IN)
+#define PIXEL_F32_TO_U16(IN) djv::AV::Pixel::f32ToU16(IN)
+#define PIXEL_F32_TO_F16(IN) djv::AV::Pixel::f32ToF16(IN)
 #define PIXEL_F32_TO_F32(IN) (IN)
 
-    DJV_STRING_OPERATOR(Graphics::Pixel::FORMAT);
-    DJV_STRING_OPERATOR(Graphics::Pixel::TYPE);
-    DJV_STRING_OPERATOR(Graphics::Pixel::DATA);
-    DJV_STRING_OPERATOR(Graphics::Pixel::PIXEL);
-    DJV_STRING_OPERATOR(Graphics::Pixel::Mask);
+    DJV_STRING_OPERATOR(AV::Pixel::FORMAT);
+    DJV_STRING_OPERATOR(AV::Pixel::TYPE);
+    DJV_STRING_OPERATOR(AV::Pixel::DATA);
+    DJV_STRING_OPERATOR(AV::Pixel::PIXEL);
+    DJV_STRING_OPERATOR(AV::Pixel::Mask);
 
-    DJV_DEBUG_OPERATOR(Graphics::Pixel::FORMAT);
-    DJV_DEBUG_OPERATOR(Graphics::Pixel::TYPE);
-    DJV_DEBUG_OPERATOR(Graphics::Pixel::DATA);
-    DJV_DEBUG_OPERATOR(Graphics::Pixel::PIXEL);
-    DJV_DEBUG_OPERATOR(Graphics::Pixel::FORMAT);
-    DJV_DEBUG_OPERATOR(Graphics::Pixel::Mask);
+    DJV_DEBUG_OPERATOR(AV::Pixel::FORMAT);
+    DJV_DEBUG_OPERATOR(AV::Pixel::TYPE);
+    DJV_DEBUG_OPERATOR(AV::Pixel::DATA);
+    DJV_DEBUG_OPERATOR(AV::Pixel::PIXEL);
+    DJV_DEBUG_OPERATOR(AV::Pixel::FORMAT);
+    DJV_DEBUG_OPERATOR(AV::Pixel::Mask);
 
 } // namespace djv
 
-#include <djvGraphics/PixelInline.h>
+#include <djvAV/PixelInline.h>

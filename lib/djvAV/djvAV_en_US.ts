@@ -2,7 +2,56 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>djv::Graphics::Cineon</name>
+    <name>djv::AV::AVContext</name>
+    <message>
+        <location filename="AVContext.cpp" line="123"/>
+        <source>Cannot create OpenGL context, found version %1.%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AVContext.cpp" line="137"/>
+        <source>Cannot find OpenGL 3.3 functions, found version %1.%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AVContext.cpp" line="214"/>
+        <source>%1
+OpenGL
+
+    Version: %2.%3
+    Render filter: %4, %5
+
+Image I/O
+
+    Plugins: %6
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AVContext.cpp" line="261"/>
+        <source>-render_filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AVContext.cpp" line="267"/>
+        <source>-render_filter_high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="AVContext.cpp" line="297"/>
+        <source>%1
+OpenGL Options
+
+    -render_filter (zoom out) (zoom in)
+        Set the render filter: %2. Default = %3, %4.
+    -render_filter_high
+        Set the render filter to high quality settings (%5, %6).
+%7</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::AV::Cineon</name>
     <message>
         <location filename="Cineon.cpp" line="45"/>
         <source>Auto</source>
@@ -105,7 +154,7 @@
     </message>
 </context>
 <context>
-    <name>djv::Graphics::CineonPlugin</name>
+    <name>djv::AV::CineonPlugin</name>
     <message>
         <location filename="CineonPlugin.cpp" line="157"/>
         <source>-cineon_input_color_profile</source>
@@ -144,7 +193,7 @@ Cineon Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::ColorProfile</name>
+    <name>djv::AV::ColorProfile</name>
     <message>
         <location filename="ColorProfile.cpp" line="61"/>
         <source>Raw</source>
@@ -167,7 +216,7 @@ Cineon Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::DPX</name>
+    <name>djv::AV::DPX</name>
     <message>
         <location filename="DPX.cpp" line="47"/>
         <source>1.0</source>
@@ -376,7 +425,7 @@ Cineon Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::DPXPlugin</name>
+    <name>djv::AV::DPXPlugin</name>
     <message>
         <location filename="DPXPlugin.cpp" line="194"/>
         <source>-dpx_input_color_profile</source>
@@ -436,7 +485,7 @@ DPX Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::FFmpeg</name>
+    <name>djv::AV::FFmpeg</name>
     <message>
         <location filename="FFmpeg.cpp" line="106"/>
         <source>MPEG4</source>
@@ -479,7 +528,7 @@ DPX Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::FFmpegLoad</name>
+    <name>djv::AV::FFmpegLoad</name>
     <message>
         <location filename="FFmpegLoad.cpp" line="90"/>
         <source>Cannot find video stream</source>
@@ -492,7 +541,7 @@ DPX Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::FFmpegPlugin</name>
+    <name>djv::AV::FFmpegPlugin</name>
     <message>
         <location filename="FFmpegPlugin.cpp" line="195"/>
         <source>-ffmpeg_format</source>
@@ -517,7 +566,7 @@ FFmpeg Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::FFmpegSave</name>
+    <name>djv::AV::FFmpegSave</name>
     <message>
         <location filename="FFmpegSave.cpp" line="151"/>
         <source>Cannot find format: %1</source>
@@ -540,56 +589,7 @@ FFmpeg Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::GraphicsContext</name>
-    <message>
-        <location filename="GraphicsContext.cpp" line="123"/>
-        <source>Cannot create OpenGL context, found version %1.%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="GraphicsContext.cpp" line="137"/>
-        <source>Cannot find OpenGL 3.3 functions, found version %1.%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="GraphicsContext.cpp" line="214"/>
-        <source>%1
-OpenGL
-
-    Version: %2.%3
-    Render filter: %4, %5
-
-Image I/O
-
-    Plugins: %6
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="GraphicsContext.cpp" line="261"/>
-        <source>-render_filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="GraphicsContext.cpp" line="267"/>
-        <source>-render_filter_high</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="GraphicsContext.cpp" line="297"/>
-        <source>%1
-OpenGL Options
-
-    -render_filter (zoom out) (zoom in)
-        Set the render filter: %2. Default = %3, %4.
-    -render_filter_high
-        Set the render filter to high quality settings (%5, %6).
-%7</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djv::Graphics::IFF</name>
+    <name>djv::AV::IFF</name>
     <message>
         <location filename="IFF.cpp" line="47"/>
         <source>None</source>
@@ -602,7 +602,7 @@ OpenGL Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::IFFPlugin</name>
+    <name>djv::AV::IFFPlugin</name>
     <message>
         <location filename="IFFPlugin.cpp" line="129"/>
         <source>
@@ -615,7 +615,7 @@ IFF Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::ImageIO</name>
+    <name>djv::AV::ImageIO</name>
     <message>
         <location filename="ImageIO.cpp" line="199"/>
         <source>Unrecognized file</source>
@@ -643,7 +643,7 @@ IFF Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::ImageIOFactory</name>
+    <name>djv::AV::ImageIOFactory</name>
     <message>
         <location filename="ImageIO.cpp" line="299"/>
         <location filename="ImageIO.cpp" line="328"/>
@@ -657,7 +657,7 @@ IFF Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::ImageTags</name>
+    <name>djv::AV::ImageTags</name>
     <message>
         <location filename="ImageTags.cpp" line="142"/>
         <source>Project</source>
@@ -700,7 +700,7 @@ IFF Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::JPEG</name>
+    <name>djv::AV::JPEG</name>
     <message>
         <location filename="JPEG.cpp" line="48"/>
         <source>Quality</source>
@@ -708,7 +708,7 @@ IFF Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::JPEGPlugin</name>
+    <name>djv::AV::JPEGPlugin</name>
     <message>
         <location filename="JPEGPlugin.cpp" line="108"/>
         <source>-jpeg_quality</source>
@@ -726,7 +726,7 @@ JPEG Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::LUT</name>
+    <name>djv::AV::LUT</name>
     <message>
         <location filename="LUT.cpp" line="57"/>
         <source>Inferno</source>
@@ -759,7 +759,7 @@ JPEG Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::LUTPlugin</name>
+    <name>djv::AV::LUTPlugin</name>
     <message>
         <location filename="LUTPlugin.cpp" line="57"/>
         <source>-lut_type</source>
@@ -777,7 +777,7 @@ LUT Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenEXR</name>
+    <name>djv::AV::OpenEXR</name>
     <message>
         <location filename="OpenEXR.cpp" line="79"/>
         <location filename="OpenEXR.cpp" line="89"/>
@@ -938,7 +938,7 @@ LUT Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenEXRPlugin</name>
+    <name>djv::AV::OpenEXRPlugin</name>
     <message>
         <location filename="OpenEXRPlugin.cpp" line="245"/>
         <source>-exr_threads_enable</source>
@@ -1005,7 +1005,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenGLImageFilter</name>
+    <name>djv::AV::OpenGLImageFilter</name>
     <message>
         <location filename="OpenGLImage.cpp" line="145"/>
         <source>Nearest</source>
@@ -1053,7 +1053,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenGLImageOptions</name>
+    <name>djv::AV::OpenGLImageOptions</name>
     <message>
         <location filename="OpenGLImage.cpp" line="213"/>
         <source>Default</source>
@@ -1081,7 +1081,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenGLLUT</name>
+    <name>djv::AV::OpenGLLUT</name>
     <message>
         <location filename="OpenGLLUT.cpp" line="74"/>
         <source>Cannot create texture</source>
@@ -1089,7 +1089,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenGLOffscreenBuffer</name>
+    <name>djv::AV::OpenGLOffscreenBuffer</name>
     <message>
         <location filename="OpenGLOffscreenBuffer.cpp" line="180"/>
         <source>Cannot create texture</source>
@@ -1112,7 +1112,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenGLShader</name>
+    <name>djv::AV::OpenGLShader</name>
     <message>
         <location filename="OpenGLShader.cpp" line="81"/>
         <source>Cannot compile shader:
@@ -1132,7 +1132,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::OpenGLTexture</name>
+    <name>djv::AV::OpenGLTexture</name>
     <message>
         <location filename="OpenGLTexture.cpp" line="88"/>
         <source>Cannot create texture</source>
@@ -1140,7 +1140,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::PIC</name>
+    <name>djv::AV::PIC</name>
     <message>
         <location filename="PIC.cpp" line="47"/>
         <source>None</source>
@@ -1153,7 +1153,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::PPM</name>
+    <name>djv::AV::PPM</name>
     <message>
         <location filename="PPM.cpp" line="48"/>
         <source>Auto</source>
@@ -1186,7 +1186,7 @@ OpenEXR Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::PPMPlugin</name>
+    <name>djv::AV::PPMPlugin</name>
     <message>
         <location filename="PPMPlugin.cpp" line="125"/>
         <source>-ppm_type</source>
@@ -1211,7 +1211,7 @@ PPM Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::Pixel</name>
+    <name>djv::AV::Pixel</name>
     <message>
         <location filename="Pixel.cpp" line="47"/>
         <source>L</source>
@@ -1354,7 +1354,7 @@ PPM Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::PixelDataInfo</name>
+    <name>djv::AV::PixelDataInfo</name>
     <message>
         <location filename="PixelData.cpp" line="109"/>
         <source>None</source>
@@ -1377,7 +1377,7 @@ PPM Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::SGI</name>
+    <name>djv::AV::SGI</name>
     <message>
         <location filename="SGI.cpp" line="46"/>
         <source>None</source>
@@ -1395,7 +1395,7 @@ PPM Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::SGIPlugin</name>
+    <name>djv::AV::SGIPlugin</name>
     <message>
         <location filename="SGIPlugin.cpp" line="109"/>
         <source>-sgi_compression</source>
@@ -1413,7 +1413,7 @@ SGI Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::TIFF</name>
+    <name>djv::AV::TIFF</name>
     <message>
         <location filename="TIFF.cpp" line="46"/>
         <source>None</source>
@@ -1436,7 +1436,7 @@ SGI Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::TIFFPlugin</name>
+    <name>djv::AV::TIFFPlugin</name>
     <message>
         <location filename="TIFFPlugin.cpp" line="113"/>
         <source>-tiff_compression</source>
@@ -1454,7 +1454,7 @@ TIFF Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::Targa</name>
+    <name>djv::AV::Targa</name>
     <message>
         <location filename="Targa.cpp" line="46"/>
         <source>None</source>
@@ -1472,7 +1472,7 @@ TIFF Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics::TargaPlugin</name>
+    <name>djv::AV::TargaPlugin</name>
     <message>
         <location filename="TargaPlugin.cpp" line="105"/>
         <source>-targa_compression</source>
@@ -1490,7 +1490,7 @@ Targa Options
     </message>
 </context>
 <context>
-    <name>djv::Graphics:IFFPlugin</name>
+    <name>djv::AV:IFFPlugin</name>
     <message>
         <location filename="IFFPlugin.cpp" line="108"/>
         <source>-iff_compression</source>

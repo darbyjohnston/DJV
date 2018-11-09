@@ -27,15 +27,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/TargaSave.h>
+#include <djvAV/TargaSave.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         TargaSave::TargaSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const Targa::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -105,5 +105,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

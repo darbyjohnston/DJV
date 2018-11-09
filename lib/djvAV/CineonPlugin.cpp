@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/CineonPlugin.h>
+#include <djvAV/CineonPlugin.h>
 
-#include <djvGraphics/CineonLoad.h>
-#include <djvGraphics/CineonSave.h>
+#include <djvAV/CineonLoad.h>
+#include <djvAV/CineonSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         CineonPlugin::CineonPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -154,22 +154,22 @@ namespace djv
                 {
                     in >> arg;
                     if (
-                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_input_color_profile") == arg)
+                        qApp->translate("djv::AV::CineonPlugin", "-cineon_input_color_profile") == arg)
                     {
                         in >> _options.inputColorProfile;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_input_film_print") == arg)
+                        qApp->translate("djv::AV::CineonPlugin", "-cineon_input_film_print") == arg)
                     {
                         in >> _options.inputFilmPrint;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_output_color_profile") == arg)
+                        qApp->translate("djv::AV::CineonPlugin", "-cineon_output_color_profile") == arg)
                     {
                         in >> _options.outputColorProfile;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_output_film_print") == arg)
+                        qApp->translate("djv::AV::CineonPlugin", "-cineon_output_film_print") == arg)
                     {
                         in >> _options.outputFilmPrint;
                     }
@@ -196,7 +196,7 @@ namespace djv
             outputColorProfileLabel << _options.outputColorProfile;
             QStringList outputFilmPrintLabel;
             outputFilmPrintLabel << _options.outputFilmPrint;
-            return qApp->translate("djv::Graphics::CineonPlugin",
+            return qApp->translate("djv::AV::CineonPlugin",
                 "\n"
                 "Cineon Options\n"
                 "\n"
@@ -230,5 +230,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new CineonSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PPM.h>
+#include <djvAV/PPM.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -38,15 +38,15 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString PPM::staticName = "PPM";
 
         const QStringList & PPM::typeLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::PPM", "Auto") <<
-                qApp->translate("djv::Graphics::PPM", "U1");
+                qApp->translate("djv::AV::PPM", "Auto") <<
+                qApp->translate("djv::AV::PPM", "U1");
             DJV_ASSERT(data.count() == TYPE_COUNT);
             return data;
         }
@@ -54,8 +54,8 @@ namespace djv
         const QStringList & PPM::dataLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::PPM", "ASCII") <<
-                qApp->translate("djv::Graphics::PPM", "Binary");
+                qApp->translate("djv::AV::PPM", "ASCII") <<
+                qApp->translate("djv::AV::PPM", "Binary");
             DJV_ASSERT(data.count() == DATA_COUNT);
             return data;
         }
@@ -196,15 +196,15 @@ namespace djv
         const QStringList & PPM::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::PPM", "Type") <<
-                qApp->translate("djv::Graphics::PPM", "Data");
+                qApp->translate("djv::AV::PPM", "Type") <<
+                qApp->translate("djv::AV::PPM", "Data");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::PPM::TYPE, Graphics::PPM::typeLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::PPM::DATA, Graphics::PPM::dataLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::PPM::TYPE, AV::PPM::typeLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::PPM::DATA, AV::PPM::dataLabels());
 
 } // namespace djv

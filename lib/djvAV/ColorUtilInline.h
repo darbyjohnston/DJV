@@ -31,7 +31,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         inline void ColorUtil::rgbToHsv(const float in[3], float out[3])
         {
@@ -108,5 +108,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

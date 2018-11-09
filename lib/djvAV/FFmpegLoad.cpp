@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/FFmpegLoad.h>
+#include <djvAV/FFmpegLoad.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/Debug.h>
@@ -46,7 +46,7 @@ extern "C"
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         FFmpegLoad::FFmpegLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
             ImageLoad(fileInfo, context)
@@ -87,7 +87,7 @@ namespace djv
             {
                 throw Core::Error(
                     FFmpeg::staticName,
-                    qApp->translate("djv::Graphics::FFmpegLoad", "Cannot find video stream"));
+                    qApp->translate("djv::AV::FFmpegLoad", "Cannot find video stream"));
             }
 
             // Find the codec for the video stream.
@@ -98,7 +98,7 @@ namespace djv
             {
                 throw Core::Error(
                     FFmpeg::staticName,
-                    qApp->translate("djv::Graphics::FFmpegLoad", "Cannot find codec"));
+                    qApp->translate("djv::AV::FFmpegLoad", "Cannot find codec"));
             }
             _avCodecParameters = avcodec_parameters_alloc();
             r = avcodec_parameters_copy(_avCodecParameters, avCodecParameters);
@@ -348,5 +348,5 @@ namespace djv
             return finished;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

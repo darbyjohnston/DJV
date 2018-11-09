@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenGLShader.h>
+#include <djvAV/OpenGLShader.h>
 
 #include <djvCore/Debug.h>
 
@@ -35,7 +35,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         struct OpenGLShader::Private
         {
@@ -77,8 +77,8 @@ namespace djv
                 if (error != GL_TRUE)
                 {
                     throw Core::Error(
-                        "djv::Graphics::OpenGLShader",
-                        qApp->translate("djv::Graphics::OpenGLShader", "Cannot compile shader:\n%1").
+                        "djv::AV::OpenGLShader",
+                        qApp->translate("djv::AV::OpenGLShader", "Cannot compile shader:\n%1").
                         arg(log));
                 }
             }
@@ -111,8 +111,8 @@ namespace djv
             if (!_p->programId)
             {
                 throw Core::Error(
-                    "djv::Graphics::OpenGLShader",
-                    qApp->translate("djv::Graphics::OpenGLShader", "Cannot create shader program"));
+                    "djv::AV::OpenGLShader",
+                    qApp->translate("djv::AV::OpenGLShader", "Cannot create shader program"));
             }
             glFuncs->glAttachShader(_p->programId, _p->vertexId);
             glFuncs->glAttachShader(_p->programId, _p->fragmentId);
@@ -126,8 +126,8 @@ namespace djv
             if (error != GL_TRUE)
             {
                 throw Core::Error(
-                    "djv::Graphics::OpenGLShader",
-                    qApp->translate("djv::Graphics::OpenGLShader", "Cannot link shader:\n%1").
+                    "djv::AV::OpenGLShader",
+                    qApp->translate("djv::AV::OpenGLShader", "Cannot link shader:\n%1").
                     arg(log));
             }
         }
@@ -200,5 +200,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

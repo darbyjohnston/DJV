@@ -43,7 +43,7 @@ namespace djv
 {
     namespace UI
     {
-        TargaWidget::TargaWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
+        TargaWidget::TargaWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("TargaWidget::TargaWidget");
@@ -52,7 +52,7 @@ namespace djv
             _compressionWidget = new QComboBox;
             _compressionWidget->setSizePolicy(
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _compressionWidget->addItems(Graphics::Targa::compressionLabels());
+            _compressionWidget->addItems(AV::Targa::compressionLabels());
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
@@ -72,7 +72,7 @@ namespace djv
             // Initialize.
             QStringList tmp;
             tmp = plugin->option(
-                plugin->options()[Graphics::Targa::COMPRESSION_OPTION]);
+                plugin->options()[AV::Targa::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
             widgetUpdate();
@@ -90,7 +90,7 @@ namespace djv
 
         void TargaWidget::resetPreferences()
         {
-            _options = Graphics::Targa::Options();
+            _options = AV::Targa::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -102,7 +102,7 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    Graphics::Targa::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    AV::Targa::COMPRESSION_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.compression;
             }
             catch (const QString &)
@@ -113,7 +113,7 @@ namespace djv
 
         void TargaWidget::compressionCallback(int index)
         {
-            _options.compression = static_cast<Graphics::Targa::COMPRESSION>(index);
+            _options.compression = static_cast<AV::Targa::COMPRESSION>(index);
             pluginUpdate();
         }
 
@@ -122,7 +122,7 @@ namespace djv
             QStringList tmp;
             tmp << _options.compression;
             plugin()->setOption(
-                plugin()->options()[Graphics::Targa::COMPRESSION_OPTION], tmp);
+                plugin()->options()[AV::Targa::COMPRESSION_OPTION], tmp);
         }
 
         void TargaWidget::widgetUpdate()
@@ -135,14 +135,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * TargaWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
+        ImageIOWidget * TargaWidgetPlugin::createWidget(AV::ImageIO * plugin) const
         {
             return new TargaWidget(plugin, uiContext());
         }
 
         QString TargaWidgetPlugin::pluginName() const
         {
-            return Graphics::Targa::staticName;
+            return AV::Targa::staticName;
         }
 
     } // namespace UI

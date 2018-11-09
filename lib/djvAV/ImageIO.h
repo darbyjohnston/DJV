@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <djvGraphics/ImageTags.h>
-#include <djvGraphics/PixelData.h>
+#include <djvAV/ImageTags.h>
+#include <djvAV/PixelData.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/Plugin.h>
@@ -55,7 +55,7 @@ namespace djv
 
     } // namespace Core
 
-    namespace Graphics
+    namespace AV
     {
         class Image;
 
@@ -303,15 +303,15 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(Graphics::ImageIOInfo);
-    DJV_COMPARISON_OPERATOR(Graphics::ImageIOFrameInfo);
+    DJV_COMPARISON_OPERATOR(AV::ImageIOInfo);
+    DJV_COMPARISON_OPERATOR(AV::ImageIOFrameInfo);
 
-    DJV_DEBUG_OPERATOR(Graphics::ImageIOInfo);
-    DJV_DEBUG_OPERATOR(Graphics::ImageIOFrameInfo);
+    DJV_DEBUG_OPERATOR(AV::ImageIOInfo);
+    DJV_DEBUG_OPERATOR(AV::ImageIOFrameInfo);
 
 } // namespace djv
 
-Q_DECLARE_METATYPE(djv::Graphics::ImageIOInfo)
-Q_DECLARE_METATYPE(djv::Graphics::ImageIOFrameInfo)
+Q_DECLARE_METATYPE(djv::AV::ImageIOInfo)
+Q_DECLARE_METATYPE(djv::AV::ImageIOFrameInfo)

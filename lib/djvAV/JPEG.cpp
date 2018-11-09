@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/JPEG.h>
+#include <djvAV/JPEG.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -38,26 +38,26 @@ using namespace djv;
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString JPEG::staticName = "JPEG";
 
         const QStringList & JPEG::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::JPEG", "Quality");
+                qApp->translate("djv::AV::JPEG", "Quality");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv
 
 extern "C"
 {
     void djvJPEGError(j_common_ptr in)
     {
-        auto error = reinterpret_cast<Graphics::JPEGErrorStruct *>(in->err);
+        auto error = reinterpret_cast<AV::JPEGErrorStruct *>(in->err);
         in->err->format_message(in, error->msg);
         ::longjmp(error->jump, 1);
     }
@@ -69,7 +69,7 @@ extern "C"
             //! \todo Should we send "trace" messages to the debug log?
             return;
         }
-        auto error = reinterpret_cast<Graphics::JPEGErrorStruct *>(in->err);
+        auto error = reinterpret_cast<AV::JPEGErrorStruct *>(in->err);
         in->err->format_message(in, error->msg);
         ::longjmp(error->jump, 1);
     }

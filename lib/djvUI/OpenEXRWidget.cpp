@@ -35,7 +35,7 @@
 #include <djvUI/IntEdit.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -49,7 +49,7 @@ namespace djv
 {
     namespace UI
     {
-        OpenEXRWidget::OpenEXRWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
+        OpenEXRWidget::OpenEXRWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             //DJV_DEBUG("OpenEXRWidget::OpenEXRWidget");
@@ -64,7 +64,7 @@ namespace djv
 
             // Create the widgets.
             _inputColorProfileWidget = new QComboBox;
-            _inputColorProfileWidget->addItems(Graphics::OpenEXR::colorProfileLabels());
+            _inputColorProfileWidget->addItems(AV::OpenEXR::colorProfileLabels());
             _inputColorProfileWidget->setSizePolicy(
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -84,12 +84,12 @@ namespace djv
             _inputExposureKneeHighWidget->setRange(3.5f, 7.5f);
 
             _channelsWidget = new QComboBox;
-            _channelsWidget->addItems(Graphics::OpenEXR::channelsLabels());
+            _channelsWidget->addItems(AV::OpenEXR::channelsLabels());
             _channelsWidget->setSizePolicy(
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             _compressionWidget = new QComboBox;
-            _compressionWidget->addItems(Graphics::OpenEXR::compressionLabels());
+            _compressionWidget->addItems(AV::OpenEXR::compressionLabels());
             _compressionWidget->setSizePolicy(
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -169,41 +169,41 @@ namespace djv
             _inputExposureKneeHighWidget->setInc(.1f, 1.f);
 
             _inputGammaWidget->setDefaultValue(
-                Graphics::OpenEXR::Options().inputGamma);
+                AV::OpenEXR::Options().inputGamma);
             _inputExposureWidget->setDefaultValue(
-                Graphics::OpenEXR::Options().inputExposure.value);
+                AV::OpenEXR::Options().inputExposure.value);
             _inputExposureDefogWidget->setDefaultValue(
-                Graphics::OpenEXR::Options().inputExposure.defog);
+                AV::OpenEXR::Options().inputExposure.defog);
             _inputExposureKneeLowWidget->setDefaultValue(
-                Graphics::OpenEXR::Options().inputExposure.kneeLow);
+                AV::OpenEXR::Options().inputExposure.kneeLow);
             _inputExposureKneeHighWidget->setDefaultValue(
-                Graphics::OpenEXR::Options().inputExposure.kneeHigh);
+                AV::OpenEXR::Options().inputExposure.kneeHigh);
 
             QStringList tmp;
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::THREADS_ENABLE_OPTION]);
+                plugin->options()[AV::OpenEXR::THREADS_ENABLE_OPTION]);
             tmp >> _options.threadsEnable;
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::THREAD_COUNT_OPTION]);
+                plugin->options()[AV::OpenEXR::THREAD_COUNT_OPTION]);
             tmp >> _options.threadCount;
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::INPUT_COLOR_PROFILE_OPTION]);
+                plugin->options()[AV::OpenEXR::INPUT_COLOR_PROFILE_OPTION]);
             tmp >> _options.inputColorProfile;
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::INPUT_GAMMA_OPTION]);
+                plugin->options()[AV::OpenEXR::INPUT_GAMMA_OPTION]);
             tmp >> _options.inputGamma;
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::INPUT_EXPOSURE_OPTION]);
+                plugin->options()[AV::OpenEXR::INPUT_EXPOSURE_OPTION]);
             tmp >> _options.inputExposure;
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::CHANNELS_OPTION]);
+                plugin->options()[AV::OpenEXR::CHANNELS_OPTION]);
             tmp >> _options.channels;
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::COMPRESSION_OPTION]);
+                plugin->options()[AV::OpenEXR::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 #if OPENEXR_VERSION_HEX >= 0x02020000
             tmp = plugin->option(
-                plugin->options()[Graphics::OpenEXR::DWA_COMPRESSION_LEVEL_OPTION]);
+                plugin->options()[AV::OpenEXR::DWA_COMPRESSION_LEVEL_OPTION]);
             tmp >> _options.dwaCompressionLevel;
 #endif // OPENEXR_VERSION_HEX
 
@@ -264,7 +264,7 @@ namespace djv
 
         void OpenEXRWidget::resetPreferences()
         {
-            _options = Graphics::OpenEXR::Options();
+            _options = AV::OpenEXR::Options();
             pluginUpdate();
         }
 
@@ -275,29 +275,29 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.threadsEnable;
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::THREAD_COUNT_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::THREAD_COUNT_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.threadCount;
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.inputColorProfile;
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.inputGamma;
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::INPUT_EXPOSURE_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::INPUT_EXPOSURE_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.inputExposure;
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::CHANNELS_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::CHANNELS_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.channels;
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::COMPRESSION_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.compression;
 #if OPENEXR_VERSION_HEX >= 0x02020000
                 else if (0 == option.compare(plugin()->options()[
-                    Graphics::OpenEXR::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
+                    AV::OpenEXR::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.dwaCompressionLevel;
 #endif // OPENEXR_VERSION_HEX
             }
@@ -324,7 +324,7 @@ namespace djv
             //DJV_DEBUG("OpenEXRWidget::inputColorProfileCallback()");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            _options.inputColorProfile = static_cast<Graphics::OpenEXR::COLOR_PROFILE>(in);
+            _options.inputColorProfile = static_cast<AV::OpenEXR::COLOR_PROFILE>(in);
 
             pluginUpdate();
         }
@@ -361,13 +361,13 @@ namespace djv
 
         void OpenEXRWidget::channelsCallback(int in)
         {
-            _options.channels = static_cast<Graphics::OpenEXR::CHANNELS>(in);
+            _options.channels = static_cast<AV::OpenEXR::CHANNELS>(in);
             pluginUpdate();
         }
 
         void OpenEXRWidget::compressionCallback(int in)
         {
-            _options.compression = static_cast<Graphics::OpenEXR::COMPRESSION>(in);
+            _options.compression = static_cast<AV::OpenEXR::COMPRESSION>(in);
             pluginUpdate();
         }
 
@@ -384,29 +384,29 @@ namespace djv
             QStringList tmp;
             tmp << _options.threadsEnable;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::THREADS_ENABLE_OPTION], tmp);
+                AV::OpenEXR::THREADS_ENABLE_OPTION], tmp);
             tmp << _options.threadCount;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::THREAD_COUNT_OPTION], tmp);
+                AV::OpenEXR::THREAD_COUNT_OPTION], tmp);
             tmp << _options.inputColorProfile;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::INPUT_COLOR_PROFILE_OPTION], tmp);
+                AV::OpenEXR::INPUT_COLOR_PROFILE_OPTION], tmp);
             tmp << _options.inputGamma;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::INPUT_GAMMA_OPTION], tmp);
+                AV::OpenEXR::INPUT_GAMMA_OPTION], tmp);
             tmp << _options.inputExposure;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::INPUT_EXPOSURE_OPTION], tmp);
+                AV::OpenEXR::INPUT_EXPOSURE_OPTION], tmp);
             tmp << _options.channels;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::CHANNELS_OPTION], tmp);
+                AV::OpenEXR::CHANNELS_OPTION], tmp);
             tmp << _options.compression;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::COMPRESSION_OPTION], tmp);
+                AV::OpenEXR::COMPRESSION_OPTION], tmp);
 #if OPENEXR_VERSION_HEX >= 0x02020000
             tmp << _options.dwaCompressionLevel;
             plugin()->setOption(plugin()->options()[
-                Graphics::OpenEXR::DWA_COMPRESSION_LEVEL_OPTION], tmp);
+                AV::OpenEXR::DWA_COMPRESSION_LEVEL_OPTION], tmp);
 #endif // OPENEXR_VERSION_HEX
         }
 
@@ -430,25 +430,25 @@ namespace djv
 #endif // OPENEXR_VERSION_HEX
             );
             _inputGammaWidget->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_GAMMA == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_GAMMA == _options.inputColorProfile);
             _inputColorProfileLayout->labelForField(_inputGammaWidget)->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_GAMMA == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_GAMMA == _options.inputColorProfile);
             _inputExposureWidget->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _inputColorProfileLayout->labelForField(_inputExposureWidget)->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _inputExposureDefogWidget->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _inputColorProfileLayout->labelForField(_inputExposureDefogWidget)->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _inputExposureKneeLowWidget->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _inputColorProfileLayout->labelForField(_inputExposureKneeLowWidget)->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _inputExposureKneeHighWidget->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _inputColorProfileLayout->labelForField(_inputExposureKneeHighWidget)->setVisible(
-                Graphics::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
+                AV::OpenEXR::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
             _threadsEnableWidget->setChecked(_options.threadsEnable);
             _threadCountWidget->setValue(_options.threadCount);
             _inputColorProfileWidget->setCurrentIndex(_options.inputColorProfile);
@@ -468,14 +468,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * OpenEXRWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
+        ImageIOWidget * OpenEXRWidgetPlugin::createWidget(AV::ImageIO * plugin) const
         {
             return new OpenEXRWidget(plugin, uiContext());
         }
 
         QString OpenEXRWidgetPlugin::pluginName() const
         {
-            return Graphics::OpenEXR::staticName;
+            return AV::OpenEXR::staticName;
         }
 
     } // namespace UI

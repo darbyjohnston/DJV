@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/TIFF.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/TIFF.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Tagged Image File Format (TIFF).
         //!
@@ -72,5 +72,5 @@ namespace djv
             TIFF::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

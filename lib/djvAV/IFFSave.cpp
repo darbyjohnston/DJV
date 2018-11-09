@@ -28,15 +28,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/IFFSave.h>
+#include <djvAV/IFFSave.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         IFFSave::IFFSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const IFF::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -453,5 +453,5 @@ namespace djv
             io.setU32(p1);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

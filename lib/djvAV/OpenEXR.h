@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <djvGraphics/ColorProfile.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ColorProfile.h>
+#include <djvAV/ImageIO.h>
 
 #include <ImathBox.h>
 #include <ImfChannelList.h>
@@ -42,7 +42,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides OpenEXR utilities.
         struct OpenEXR
@@ -215,11 +215,11 @@ namespace djv
             };
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_STRING_OPERATOR(Graphics::OpenEXR::COLOR_PROFILE);
-    DJV_STRING_OPERATOR(Graphics::OpenEXR::COMPRESSION);
-    DJV_STRING_OPERATOR(Graphics::OpenEXR::CHANNELS);
+    DJV_STRING_OPERATOR(AV::OpenEXR::COLOR_PROFILE);
+    DJV_STRING_OPERATOR(AV::OpenEXR::COMPRESSION);
+    DJV_STRING_OPERATOR(AV::OpenEXR::CHANNELS);
 
     bool compare(const QVector<Imf::Channel> &);
 

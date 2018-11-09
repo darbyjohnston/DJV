@@ -134,7 +134,7 @@ namespace djv
         };
 
         UIContext::UIContext(int & argc, char ** argv, QObject * parent) :
-            Graphics::GraphicsContext(argc, argv, parent),
+            AV::AVContext(argc, argv, parent),
             _p(new Private)
         {
             //DJV_DEBUG("UIContext::UIContext");
@@ -375,7 +375,7 @@ namespace djv
                 "    User: %3\n"
                 "    System: %4\n");
             return QString(label).
-                arg(Graphics::GraphicsContext::info()).
+                arg(AV::AVContext::info()).
                 arg(imageIOWidgetFactory()->names().join(", ")).
                 arg(Prefs(QString(), Prefs::USER).fileName()).
                 arg(Prefs(QString(), Prefs::SYSTEM).fileName());
@@ -385,7 +385,7 @@ namespace djv
         {
             //DJV_DEBUG("UIContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
-            if (!Graphics::GraphicsContext::commandLineParse(in))
+            if (!AV::AVContext::commandLineParse(in))
                 return false;
             QStringList tmp;
             QString     arg;
@@ -422,7 +422,7 @@ namespace djv
                 "        Reset the preferences.\n"
                 "%2");
             return QString(label).
-                arg(Graphics::GraphicsContext::commandLineHelp());
+                arg(AV::AVContext::commandLineHelp());
         }
 
         void UIContext::print(const QString & string, bool newLine, int indent)
@@ -433,13 +433,13 @@ namespace djv
             }
             else
             {
-                Graphics::GraphicsContext::print(string, newLine, indent);
+                AV::AVContext::print(string, newLine, indent);
             }
         }
         
         void UIContext::styleUpdate()
         {
-            _p->iconLibrary->setColor(Graphics::ColorUtil::toQt(_p->prefs->style->palette().foreground));
+            _p->iconLibrary->setColor(AV::ColorUtil::toQt(_p->prefs->style->palette().foreground));
             _p->proxyStyle->setFontSize(_p->prefs->style->sizeMetric().fontSize);
         }
 

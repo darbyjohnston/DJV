@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         struct OpenGLImage::Private
         {
@@ -52,5 +52,5 @@ namespace djv
             std::unique_ptr<OpenGLOffscreenBuffer> buffer;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

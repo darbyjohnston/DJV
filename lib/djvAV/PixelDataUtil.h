@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PixelData.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PixelData.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides pixel data utilities.
         class PixelDataUtil
@@ -76,5 +76,5 @@ namespace djv
             static void gradient(PixelData &);
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

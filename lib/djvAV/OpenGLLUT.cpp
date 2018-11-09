@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenGLLUT.h>
+#include <djvAV/OpenGLLUT.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/Debug.h>
 
@@ -37,7 +37,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         struct OpenGLLUT::Private
         {
@@ -70,8 +70,8 @@ namespace djv
             if (!_p->id)
             {
                 throw Core::Error(
-                    "djv::Graphics::OpenGLLUT",
-                    qApp->translate("djv::Graphics::OpenGLLUT", "Cannot create texture"));
+                    "djv::AV::OpenGLLUT",
+                    qApp->translate("djv::AV::OpenGLLUT", "Cannot create texture"));
             }
 
             glBindTexture(GL_TEXTURE_2D, _p->id);
@@ -140,5 +140,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

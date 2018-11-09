@@ -29,16 +29,16 @@
 
 #pragma once
 
-#include <djvGraphics/DPX.h>
-#include <djvGraphics/DPXHeader.h>
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/DPX.h>
+#include <djvAV/DPXHeader.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a DPX saver.
         class DPXSave : public ImageSave
@@ -58,5 +58,5 @@ namespace djv
             Image         _image;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

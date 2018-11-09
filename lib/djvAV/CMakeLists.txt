@@ -8,6 +8,8 @@ find_package(OpenEXR)
 find_package(FFmpeg)
 
 set(header
+    AVContext.h
+    AV.h
     Cineon.h
     CineonHeader.h
     CineonLoad.h
@@ -23,8 +25,6 @@ set(header
     DPXLoad.h
     DPXPlugin.h
     DPXSave.h
-    GraphicsContext.h
-    Graphics.h
     IFF.h
     IFFLoad.h
     IFFPlugin.h
@@ -77,6 +77,7 @@ set(mocHeader
     PixelData.h
     Pixel.h)
 set(source
+    AVContext.cpp
     Cineon.cpp
     CineonHeader.cpp
     CineonLoad.cpp
@@ -90,7 +91,6 @@ set(source
     DPXLoad.cpp
     DPXPlugin.cpp
     DPXSave.cpp
-    GraphicsContext.cpp
     IFF.cpp
     IFFLoad.cpp
     IFFPlugin.cpp
@@ -207,41 +207,41 @@ if(FFMPEG_FOUND)
 endif()
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
-QT5_ADD_RESOURCES(rccSource djvGraphics.qrc)
+QT5_ADD_RESOURCES(rccSource djvAV.qrc)
 QT5_CREATE_TRANSLATION(qmSource ${source}
-    djvGraphics_en_US.ts
-    djvGraphics_cs_CZ.ts)
+    djvAV_en_US.ts
+    djvAV_cs_CZ.ts)
 
 include_directories(${OPENGL_INCLUDE_DIRS})
-add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-set(djvGraphicsLibs
+add_library(djvAV ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
+set(djvAVLibs
     djvCore
     IlmBase
     ${OPENGL_LIBRARIES})
 if(JPEG_FOUND)
-    set(djvGraphicsLibs ${djvGraphicsLibs} JPEG)
+    set(djvAVLibs ${djvAVLibs} JPEG)
 endif()
 if(PNG_FOUND)
-    set(djvGraphicsLibs ${djvGraphicsLibs} PNG)
+    set(djvAVLibs ${djvAVLibs} PNG)
 endif()
 if(TIFF_FOUND)
-    set(djvGraphicsLibs ${djvGraphicsLibs} TIFF)
+    set(djvAVLibs ${djvAVLibs} TIFF)
 endif()
 if(OPENEXR_FOUND)
-    set(djvGraphicsLibs ${djvGraphicsLibs} OpenEXR)
+    set(djvAVLibs ${djvAVLibs} OpenEXR)
 endif()
 if(FFMPEG_FOUND)
-    set(djvGraphicsLibs ${djvGraphicsLibs} FFMPEG)
+    set(djvAVLibs ${djvAVLibs} FFMPEG)
 endif()
-target_link_libraries(djvGraphics ${djvGraphicsLibs})
-set_target_properties(djvGraphics PROPERTIES FOLDER lib CXX_STANDARD 11)
+target_link_libraries(djvAV ${djvAVLibs})
+set_target_properties(djvAV PROPERTIES FOLDER lib CXX_STANDARD 11)
 
 install(
     FILES ${qmSource}
     DESTINATION ${DJV_INSTALL_TRANSLATIONS})
 if(BUILD_SHARED_LIBS)
     install(
-        TARGETS djvGraphics
+        TARGETS djvAV
         RUNTIME DESTINATION ${DJV_INSTALL_BIN}
         LIBRARY DESTINATION ${DJV_INSTALL_LIB}
         ARCHIVE DESTINATION ${DJV_INSTALL_LIB})

@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/FFmpeg.h>
+#include <djvAV/FFmpeg.h>
 
 class QComboBox;
 
@@ -45,7 +45,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FFmpegWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            FFmpegWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             virtual ~FFmpegWidget();
 
@@ -60,7 +60,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::FFmpeg::Options _options;
+            AV::FFmpeg::Options _options;
             QComboBox * _formatWidget = nullptr;
             QComboBox * _qualityWidget = nullptr;
         };
@@ -71,7 +71,7 @@ namespace djv
         public:
             FFmpegWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
+            virtual ImageIOWidget * createWidget(AV::ImageIO *) const;
 
             virtual QString pluginName() const;
         };

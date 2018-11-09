@@ -27,14 +27,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/ImageUtil.h>
+#include <djvAV/ImageUtil.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         ImageUtil::~ImageUtil()
         {}
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/TIFFPlugin.h>
+#include <djvAV/TIFFPlugin.h>
 
-#include <djvGraphics/TIFFLoad.h>
-#include <djvGraphics/TIFFSave.h>
+#include <djvAV/TIFFLoad.h>
+#include <djvAV/TIFFSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         TIFFPlugin::TIFFPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -110,7 +110,7 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics::TIFFPlugin", "-tiff_compression") == arg)
+                    if (qApp->translate("djv::AV::TIFFPlugin", "-tiff_compression") == arg)
                     {
                         in >> _options.compression;
                     }
@@ -131,7 +131,7 @@ namespace djv
         {
             QStringList compressionLabel;
             compressionLabel << _options.compression;
-            return qApp->translate("djv::Graphics::TIFFPlugin",
+            return qApp->translate("djv::AV::TIFFPlugin",
                 "\n"
                 "TIFF Options\n"
                 "\n"
@@ -152,5 +152,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new TIFFSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

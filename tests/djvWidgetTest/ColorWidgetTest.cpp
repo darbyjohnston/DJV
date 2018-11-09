@@ -64,18 +64,18 @@ namespace djv
 
             connect(
                 widget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SIGNAL(colorChanged(const djv::AV::Color &)),
                 swatch,
-                SLOT(setColor(const djv::Graphics::Color &)));
+                SLOT(setColor(const djv::AV::Color &)));
             connect(
                 widget,
-                SIGNAL(colorChanged(const djv::Graphics::Color &)),
-                SLOT(colorCallback(const djv::Graphics::Color &)));
+                SIGNAL(colorChanged(const djv::AV::Color &)),
+                SLOT(colorCallback(const djv::AV::Color &)));
 
             window->show();
         }
 
-        void ColorWidgetTest::colorCallback(const Graphics::Color & color)
+        void ColorWidgetTest::colorCallback(const AV::Color & color)
         {
             QStringList tmp;
             tmp << color;

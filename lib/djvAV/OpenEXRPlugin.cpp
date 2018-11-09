@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenEXRPlugin.h>
+#include <djvAV/OpenEXRPlugin.h>
 
-#include <djvGraphics/OpenEXRLoad.h>
-#include <djvGraphics/OpenEXRSave.h>
+#include <djvAV/OpenEXRLoad.h>
+#include <djvAV/OpenEXRSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         OpenEXRPlugin::OpenEXRPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -242,43 +242,43 @@ namespace djv
                 {
                     in >> arg;
                     if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_threads_enable") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_threads_enable") == arg)
                     {
                         in >> _options.threadsEnable;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_thread_count") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_thread_count") == arg)
                     {
                         in >> _options.threadCount;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_input_color_profile") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_input_color_profile") == arg)
                     {
                         in >> _options.inputColorProfile;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_input_gamma") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_input_gamma") == arg)
                     {
                         in >> _options.inputGamma;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_input_exposure") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_input_exposure") == arg)
                     {
                         in >> _options.inputExposure;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_channels") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_channels") == arg)
                     {
                         in >> _options.channels;
                     }
                     else if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_compression") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_compression") == arg)
                     {
                         in >> _options.compression;
                     }
 #if OPENEXR_VERSION_HEX >= 0x02020000
                     else if (
-                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_dwa_compression_level") == arg)
+                        qApp->translate("djv::AV::OpenEXRPlugin", "-exr_dwa_compression_level") == arg)
                     {
                         in >> _options.dwaCompressionLevel;
                     }
@@ -312,7 +312,7 @@ namespace djv
             channelsLabel << _options.channels;
             QStringList compressionLabel;
             compressionLabel << _options.compression;
-            return qApp->translate("djv::Graphics::OpenEXRPlugin",
+            return qApp->translate("djv::AV::OpenEXRPlugin",
                 "\n"
                 "OpenEXR Options\n"
                 "\n"
@@ -377,6 +377,6 @@ namespace djv
             Imf::setGlobalThreadCount(_options.threadsEnable ? _options.threadCount : 0);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv
 

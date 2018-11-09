@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenEXR.h>
+#include <djvAV/OpenEXR.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -43,7 +43,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         OpenEXR::Channel::Channel()
         {}
@@ -76,9 +76,9 @@ namespace djv
         const QStringList & OpenEXR::colorProfileLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::OpenEXR", "None") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Gamma") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Exposure");
+                qApp->translate("djv::AV::OpenEXR", "None") <<
+                qApp->translate("djv::AV::OpenEXR", "Gamma") <<
+                qApp->translate("djv::AV::OpenEXR", "Exposure");
             DJV_ASSERT(data.count() == COLOR_PROFILE_COUNT);
             return data;
         }
@@ -86,18 +86,18 @@ namespace djv
         const QStringList & OpenEXR::compressionLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::OpenEXR", "None") <<
-                qApp->translate("djv::Graphics::OpenEXR", "RLE") <<
-                qApp->translate("djv::Graphics::OpenEXR", "ZIPS") <<
-                qApp->translate("djv::Graphics::OpenEXR", "ZIP") <<
-                qApp->translate("djv::Graphics::OpenEXR", "PIZ") <<
-                qApp->translate("djv::Graphics::OpenEXR", "PXR24") <<
-                qApp->translate("djv::Graphics::OpenEXR", "B44") <<
-                qApp->translate("djv::Graphics::OpenEXR", "B44A")
+                qApp->translate("djv::AV::OpenEXR", "None") <<
+                qApp->translate("djv::AV::OpenEXR", "RLE") <<
+                qApp->translate("djv::AV::OpenEXR", "ZIPS") <<
+                qApp->translate("djv::AV::OpenEXR", "ZIP") <<
+                qApp->translate("djv::AV::OpenEXR", "PIZ") <<
+                qApp->translate("djv::AV::OpenEXR", "PXR24") <<
+                qApp->translate("djv::AV::OpenEXR", "B44") <<
+                qApp->translate("djv::AV::OpenEXR", "B44A")
 #if OPENEXR_VERSION_HEX >= 0x02020000
                 <<
-                qApp->translate("djv::Graphics::OpenEXR", "DWAA") <<
-                qApp->translate("djv::Graphics::OpenEXR", "DWAB")
+                qApp->translate("djv::AV::OpenEXR", "DWAA") <<
+                qApp->translate("djv::AV::OpenEXR", "DWAB")
 #endif // OPENEXR_VERSION_HEX
                 ;
             DJV_ASSERT(data.count() == COMPRESSION_COUNT);
@@ -107,9 +107,9 @@ namespace djv
         const QStringList & OpenEXR::channelsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::OpenEXR", "None") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Known") <<
-                qApp->translate("djv::Graphics::OpenEXR", "All");
+                qApp->translate("djv::AV::OpenEXR", "None") <<
+                qApp->translate("djv::AV::OpenEXR", "Known") <<
+                qApp->translate("djv::AV::OpenEXR", "All");
             DJV_ASSERT(data.count() == CHANNELS_COUNT);
             return data;
         }
@@ -117,16 +117,16 @@ namespace djv
         const QStringList & OpenEXR::tagLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::OpenEXR", "Longitude") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Latitude") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Altitude") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Focus") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Exposure") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Aperture") <<
-                qApp->translate("djv::Graphics::OpenEXR", "ISO Speed") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Chromaticities") <<
-                qApp->translate("djv::Graphics::OpenEXR", "White Luminance") <<
-                qApp->translate("djv::Graphics::OpenEXR", "XDensity");
+                qApp->translate("djv::AV::OpenEXR", "Longitude") <<
+                qApp->translate("djv::AV::OpenEXR", "Latitude") <<
+                qApp->translate("djv::AV::OpenEXR", "Altitude") <<
+                qApp->translate("djv::AV::OpenEXR", "Focus") <<
+                qApp->translate("djv::AV::OpenEXR", "Exposure") <<
+                qApp->translate("djv::AV::OpenEXR", "Aperture") <<
+                qApp->translate("djv::AV::OpenEXR", "ISO Speed") <<
+                qApp->translate("djv::AV::OpenEXR", "Chromaticities") <<
+                qApp->translate("djv::AV::OpenEXR", "White Luminance") <<
+                qApp->translate("djv::AV::OpenEXR", "XDensity");
             DJV_ASSERT(data.count() == TAG_COUNT);
             return data;
         }
@@ -665,26 +665,26 @@ namespace djv
         const QStringList & OpenEXR::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::OpenEXR", "Threads Enable") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Thread Count") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Input Color Profile") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Input Gamma") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Input Exposure") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Channels") <<
-                qApp->translate("djv::Graphics::OpenEXR", "Compression")
+                qApp->translate("djv::AV::OpenEXR", "Threads Enable") <<
+                qApp->translate("djv::AV::OpenEXR", "Thread Count") <<
+                qApp->translate("djv::AV::OpenEXR", "Input Color Profile") <<
+                qApp->translate("djv::AV::OpenEXR", "Input Gamma") <<
+                qApp->translate("djv::AV::OpenEXR", "Input Exposure") <<
+                qApp->translate("djv::AV::OpenEXR", "Channels") <<
+                qApp->translate("djv::AV::OpenEXR", "Compression")
 #if OPENEXR_VERSION_HEX >= 0x02020000
-                << qApp->translate("djv::Graphics::OpenEXR", "DWA Compression Level");
+                << qApp->translate("djv::AV::OpenEXR", "DWA Compression Level");
 #endif // OPENEXR_VERSION_HEX
             ;
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::COLOR_PROFILE, Graphics::OpenEXR::colorProfileLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::COMPRESSION, Graphics::OpenEXR::compressionLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::CHANNELS, Graphics::OpenEXR::channelsLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::OpenEXR::COLOR_PROFILE, AV::OpenEXR::colorProfileLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::OpenEXR::COMPRESSION, AV::OpenEXR::compressionLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::OpenEXR::CHANNELS, AV::OpenEXR::channelsLabels());
 
     bool compare(const QVector<Imf::Channel> & in)
     {

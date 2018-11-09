@@ -32,7 +32,7 @@
 #include <djvViewLib/AbstractPrefs.h>
 #include <djvViewLib/ImageView.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 namespace djv
 {
@@ -54,10 +54,10 @@ namespace djv
             Enum::ZOOM_FACTOR zoomFactor() const;
 
             //! Get the default background color.
-            static Graphics::Color backgroundDefault();
+            static AV::Color backgroundDefault();
 
             //! Get the background color.
-            const Graphics::Color & background() const;
+            const AV::Color & background() const;
 
             //! Get the default grid.
             static Enum::GRID gridDefault();
@@ -66,10 +66,10 @@ namespace djv
             Enum::GRID grid() const;
 
             //! Get the default view grid color.
-            static Graphics::Color gridColorDefault();
+            static AV::Color gridColorDefault();
 
             //! Get the view grid color.
-            const Graphics::Color & gridColor() const;
+            const AV::Color & gridColor() const;
 
             //! Get the default for whether the HUD is enabled.
             static bool hudEnabledDefault();
@@ -87,10 +87,10 @@ namespace djv
             bool isHudInfo(Enum::HUD in) const;
 
             //! Get the default HUD color.
-            static Graphics::Color hudColorDefault();
+            static AV::Color hudColorDefault();
 
             //! Get the HUD color.
-            const Graphics::Color & hudColor() const;
+            const AV::Color & hudColor() const;
 
             //! Get the default HUD background.
             static Enum::HUD_BACKGROUND hudBackgroundDefault();
@@ -99,23 +99,23 @@ namespace djv
             Enum::HUD_BACKGROUND hudBackground() const;
 
             //! Get the default HUD background color.
-            static Graphics::Color hudBackgroundColorDefault();
+            static AV::Color hudBackgroundColorDefault();
 
             //! Get the HUD background color.
-            const Graphics::Color & hudBackgroundColor() const;
+            const AV::Color & hudBackgroundColor() const;
 
         public Q_SLOTS:
             //! Set the mouse wheel zoom factor.
             void setZoomFactor(djv::ViewLib::Enum::ZOOM_FACTOR);
 
             //! Set the background color.
-            void setBackground(const djv::Graphics::Color &);
+            void setBackground(const djv::AV::Color &);
 
             //! Set the view grid.
             void setGrid(djv::ViewLib::Enum::GRID);
 
             //! Set the view grid color.
-            void setGridColor(const djv::Graphics::Color &);
+            void setGridColor(const djv::AV::Color &);
 
             //! Set whether the HUD is enabled.
             void setHudEnabled(bool);
@@ -127,26 +127,26 @@ namespace djv
             void setHudInfo(djv::ViewLib::Enum::HUD, bool);
 
             //! Set the HUD color.
-            void setHudColor(const djv::Graphics::Color &);
+            void setHudColor(const djv::AV::Color &);
 
             //! Set the HUD background.
             void setHudBackground(djv::ViewLib::Enum::HUD_BACKGROUND);
 
             //! Set the HUD background color.
-            void setHudBackgroundColor(const djv::Graphics::Color &);
+            void setHudBackgroundColor(const djv::AV::Color &);
 
         Q_SIGNALS:
             //! This signal is emitted when the mouse wheel zoom factor is changed.
             void zoomFactorChanged(djv::ViewLib::Enum::ZOOM_FACTOR);
 
             //! This signal is emitted when the background color is changed.
-            void backgroundChanged(const djv::Graphics::Color &);
+            void backgroundChanged(const djv::AV::Color &);
 
             //! This signal is emitted when the view grid is changed.
             void gridChanged(djv::ViewLib::Enum::GRID);
 
             //! This signal is emitted when the view grid color is changed.
-            void gridColorChanged(const djv::Graphics::Color &);
+            void gridColorChanged(const djv::AV::Color &);
 
             //! This signal is emitted when the HUD is enabled or disabled.
             void hudEnabledChanged(bool);
@@ -155,24 +155,24 @@ namespace djv
             void hudInfoChanged(const QMap<djv::ViewLib::Enum::HUD, bool> &);
 
             //! This signal is emitted when the HUD color is changed.
-            void hudColorChanged(const djv::Graphics::Color &);
+            void hudColorChanged(const djv::AV::Color &);
 
             //! This signal is emitted when the HUD background is changed.
             void hudBackgroundChanged(djv::ViewLib::Enum::HUD_BACKGROUND);
 
             //! This signal is emitted when the HUD background color is changed.
-            void hudBackgroundColorChanged(const djv::Graphics::Color &);
+            void hudBackgroundColorChanged(const djv::AV::Color &);
 
         private:
             Enum::ZOOM_FACTOR                   _zoomFactor;
-            Graphics::Color                     _background;
+            AV::Color                     _background;
             Enum::GRID                          _grid;
-            Graphics::Color                     _gridColor;
+            AV::Color                     _gridColor;
             bool                                _hudEnabled;
             QMap<djv::ViewLib::Enum::HUD, bool> _hudInfo;
-            Graphics::Color                     _hudColor;
+            AV::Color                     _hudColor;
             Enum::HUD_BACKGROUND                _hudBackground;
-            Graphics::Color                     _hudBackgroundColor;
+            AV::Color                     _hudBackgroundColor;
         };
 
     } // namespace ViewLib

@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Util.h>
 
@@ -52,7 +52,7 @@ namespace djv
 
             //! This property holds the pixel mask.    
             Q_PROPERTY(
-                djv::Graphics::Pixel::Mask mask
+                djv::AV::Pixel::Mask mask
                 READ                       mask
                 WRITE                      setMask
                 NOTIFY                     maskChanged)
@@ -62,15 +62,15 @@ namespace djv
             ~PixelMaskWidget() override;
 
             //! Get the pixel mask.
-            const Graphics::Pixel::Mask & mask() const;
+            const AV::Pixel::Mask & mask() const;
 
         public Q_SLOTS:
             //! Set the pixel mask.
-            void setMask(const djv::Graphics::Pixel::Mask &);
+            void setMask(const djv::AV::Pixel::Mask &);
 
         Q_SIGNALS:
             //! This signal is emitted when the pixel mask is changed.
-            void maskChanged(const djv::Graphics::Pixel::Mask &);
+            void maskChanged(const djv::AV::Pixel::Mask &);
 
         protected:
             bool event(QEvent*) override;

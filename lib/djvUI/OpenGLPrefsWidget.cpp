@@ -66,11 +66,11 @@ namespace djv
             // Create the widgets.
             _p->filterMinWidget = new QComboBox;
             _p->filterMinWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->filterMinWidget->addItems(Graphics::OpenGLImageFilter::filterLabels());
+            _p->filterMinWidget->addItems(AV::OpenGLImageFilter::filterLabels());
 
             _p->filterMagWidget = new QComboBox;
             _p->filterMagWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->filterMagWidget->addItems(Graphics::OpenGLImageFilter::filterLabels());
+            _p->filterMagWidget->addItems(AV::OpenGLImageFilter::filterLabels());
             
             // Layout the widgets.
             _p->layout = new QVBoxLayout(this);
@@ -116,23 +116,23 @@ namespace djv
         
         void OpenGLPrefsWidget::resetPreferences()
         {
-            context()->openGLPrefs()->setFilter(Graphics::OpenGLImageFilter::filterDefault());
+            context()->openGLPrefs()->setFilter(AV::OpenGLImageFilter::filterDefault());
         }
 
         void OpenGLPrefsWidget::filterMinCallback(int in)
         {
             context()->openGLPrefs()->setFilter(
-                Graphics::OpenGLImageFilter(
-                    static_cast<Graphics::OpenGLImageFilter::FILTER>(in),
+                AV::OpenGLImageFilter(
+                    static_cast<AV::OpenGLImageFilter::FILTER>(in),
                     context()->openGLPrefs()->filter().mag));
         }
 
         void OpenGLPrefsWidget::filterMagCallback(int in)
         {
             context()->openGLPrefs()->setFilter(
-                Graphics::OpenGLImageFilter(
+                AV::OpenGLImageFilter(
                     context()->openGLPrefs()->filter().min,
-                    static_cast<Graphics::OpenGLImageFilter::FILTER>(in)));
+                    static_cast<AV::OpenGLImageFilter::FILTER>(in)));
         }
 
         void OpenGLPrefsWidget::widgetUpdate()

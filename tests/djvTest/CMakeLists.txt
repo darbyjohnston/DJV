@@ -8,7 +8,7 @@ target_link_libraries(
     djvTest
     djvViewLibTest
     djvUITest
-    djvGraphicsTest
+    djvAVTest
     djvCoreTest)
 set_target_properties(djvTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 

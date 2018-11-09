@@ -27,19 +27,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphicsTest/ColorProfileTest.h>
-#include <djvGraphicsTest/ColorTest.h>
-#include <djvGraphicsTest/ColorUtilTest.h>
-#include <djvGraphicsTest/GraphicsContextTest.h>
-#include <djvGraphicsTest/ImageIOFormatsTest.h>
-#include <djvGraphicsTest/ImageIOTest.h>
-#include <djvGraphicsTest/ImageTagsTest.h>
-#include <djvGraphicsTest/ImageTest.h>
-#include <djvGraphicsTest/OpenGLImageTest.h>
-#include <djvGraphicsTest/OpenGLTest.h>
-#include <djvGraphicsTest/PixelDataTest.h>
-#include <djvGraphicsTest/PixelDataUtilTest.h>
-#include <djvGraphicsTest/PixelTest.h>
+#include <djvAVTest/AVContextTest.h>
+#include <djvAVTest/ColorProfileTest.h>
+#include <djvAVTest/ColorTest.h>
+#include <djvAVTest/ColorUtilTest.h>
+#include <djvAVTest/ImageIOFormatsTest.h>
+#include <djvAVTest/ImageIOTest.h>
+#include <djvAVTest/ImageTagsTest.h>
+#include <djvAVTest/ImageTest.h>
+#include <djvAVTest/OpenGLImageTest.h>
+#include <djvAVTest/OpenGLTest.h>
+#include <djvAVTest/PixelDataTest.h>
+#include <djvAVTest/PixelDataUtilTest.h>
+#include <djvAVTest/PixelTest.h>
 
 #include <djvCoreTest/BoxTest.h>
 #include <djvCoreTest/BoxUtilTest.h>
@@ -103,19 +103,19 @@ int main(int argc, char ** argv)
             new CoreTest::UserTest <<
             new CoreTest::VectorUtilTest <<
 
-            new GraphicsTest::ColorProfileTest <<
-            new GraphicsTest::ColorTest <<
-            new GraphicsTest::ColorUtilTest <<
-            new GraphicsTest::GraphicsContextTest <<
-            new GraphicsTest::ImageIOFormatsTest <<
-            new GraphicsTest::ImageIOTest <<
-            new GraphicsTest::ImageTagsTest <<
-            new GraphicsTest::ImageTest <<
-            new GraphicsTest::OpenGLImageTest <<
-            new GraphicsTest::OpenGLTest <<
-            new GraphicsTest::PixelDataTest <<
-            new GraphicsTest::PixelDataUtilTest <<
-            new GraphicsTest::PixelTest;
+            new AVTest::AVContextTest <<
+            new AVTest::ColorProfileTest <<
+            new AVTest::ColorTest <<
+            new AVTest::ColorUtilTest <<
+            new AVTest::ImageIOFormatsTest <<
+            new AVTest::ImageIOTest <<
+            new AVTest::ImageTagsTest <<
+            new AVTest::ImageTest <<
+            new AVTest::OpenGLImageTest <<
+            new AVTest::OpenGLTest <<
+            new AVTest::PixelDataTest <<
+            new AVTest::PixelDataUtilTest <<
+            new AVTest::PixelTest;
 
         for (int i = 0; i < tests.count(); ++i)
         {

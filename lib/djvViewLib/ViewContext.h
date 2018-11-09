@@ -33,7 +33,7 @@
 
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/PixelData.h>
+#include <djvAV/PixelData.h>
 
 #include <djvCore/Sequence.h>
 
@@ -70,7 +70,7 @@ namespace djv
                 QStringList                                    input;
                 bool                                           combine = false;
                 QScopedPointer<int>                            fileLayer;
-                QScopedPointer<Graphics::PixelDataInfo::PROXY> fileProxy;
+                QScopedPointer<AV::PixelDataInfo::PROXY> fileProxy;
                 QScopedPointer<bool>                           fileCacheEnable;
                 QScopedPointer<bool>                           windowFullScreen;
                 QScopedPointer<Enum::PLAYBACK>                 playback;

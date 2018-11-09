@@ -29,16 +29,16 @@
 
 #pragma once
 
-#include <djvGraphics/Cineon.h>
-#include <djvGraphics/CineonHeader.h>
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/Cineon.h>
+#include <djvAV/CineonHeader.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class CineonSave : public ImageSave
         {
@@ -57,5 +57,5 @@ namespace djv
             Image           _image;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

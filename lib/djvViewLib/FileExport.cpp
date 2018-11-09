@@ -34,8 +34,8 @@
 
 #include <djvUI/ProgressDialog.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Error.h>
 
@@ -49,13 +49,13 @@ namespace djv
         FileExportInfo::FileExportInfo(
             const Core::FileInfo &               inputFile,
             const Core::FileInfo &               outputFile,
-            const Graphics::PixelDataInfo &      info,
+            const AV::PixelDataInfo &      info,
             const Core::Sequence &               sequence,
             int                                  layer,
-            Graphics::PixelDataInfo::PROXY       proxy,
+            AV::PixelDataInfo::PROXY       proxy,
             bool                                 u8Conversion,
             bool                                 colorProfile,
-            const Graphics::OpenGLImageOptions & options) :
+            const AV::OpenGLImageOptions & options) :
             inputFile(inputFile),
             outputFile(outputFile),
             info(info),
@@ -75,9 +75,9 @@ namespace djv
 
             FileExportInfo info;
             Core::Sequence saveSequence;
-            std::unique_ptr<Graphics::ImageLoad> load;
-            std::unique_ptr<Graphics::ImageSave> save;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
+            std::unique_ptr<AV::ImageLoad> load;
+            std::unique_ptr<AV::ImageSave> save;
+            std::unique_ptr<AV::OpenGLImage> openGLImage;
             QPointer<UI::ProgressDialog> dialog;
             QPointer<ViewContext> context;
         };
@@ -135,14 +135,14 @@ namespace djv
             //! \todo Why do we need to reverse the rotation here?
             _p->info.options.xform.rotate = -_p->info.options.xform.rotate;
             const Core::Box2f bbox =
-                glm::mat3x3(Graphics::OpenGLImageXform::xformMatrix(_p->info.options.xform)) *
-                Core::Box2f(_p->info.info.size * Graphics::PixelDataUtil::proxyScale(_p->info.info.proxy));
+                glm::mat3x3(AV::OpenGLImageXform::xformMatrix(_p->info.options.xform)) *
+                Core::Box2f(_p->info.info.size * AV::PixelDataUtil::proxyScale(_p->info.info.proxy));
             //DJV_DEBUG_PRINT("bbox = " << bbox);
             _p->info.options.xform.position = -bbox.position;
             _p->info.info.size = bbox.size;
 
             // Open input.
-            Graphics::ImageIOInfo loadInfo;
+            AV::ImageIOInfo loadInfo;
             try
             {
                 _p->load = _p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo);
@@ -157,7 +157,7 @@ namespace djv
             }
 
             // Open output.
-            Graphics::ImageIOInfo saveInfo(_p->info.info);
+            AV::ImageIOInfo saveInfo(_p->info.info);
             saveInfo.tags = loadInfo.tags;
             saveInfo.sequence = _p->saveSequence;
             try
@@ -216,16 +216,16 @@ namespace djv
             _p->context->makeGLContextCurrent();
             if (!_p->openGLImage)
             {
-                _p->openGLImage.reset(new Graphics::OpenGLImage);
+                _p->openGLImage.reset(new AV::OpenGLImage);
             }
 
             // Load the frame.
-            Graphics::Image image;
+            AV::Image image;
             try
             {
                 const qint64 frame = in < _p->info.sequence.frames.count() ? _p->info.sequence.frames[in] : -1;
                 //DJV_DEBUG_PRINT("frame = " << frame);
-                _p->load->read(image, Graphics::ImageIOFrameInfo(frame, _p->info.layer, _p->info.proxy));
+                _p->load->read(image, AV::ImageIOFrameInfo(frame, _p->info.layer, _p->info.proxy));
                 //DJV_DEBUG_PRINT("image = " << image);
             }
             catch (Core::Error error)
@@ -239,18 +239,18 @@ namespace djv
             }
 
             // Process the frame.
-            Graphics::Image * p = &image;
-            Graphics::Image tmp;
-            Graphics::OpenGLImageOptions options(_p->info.options);
+            AV::Image * p = &image;
+            AV::Image tmp;
+            AV::OpenGLImageOptions options(_p->info.options);
             if (_p->info.u8Conversion || _p->info.colorProfile)
             {
                 options.colorProfile = image.colorProfile;
             }
             //DJV_DEBUG_PRINT("convert = " << (p->info() != _p->info.info));
-            //DJV_DEBUG_PRINT("options = " << (options != Graphics::OpenGLImageOptions()));
+            //DJV_DEBUG_PRINT("options = " << (options != AV::OpenGLImageOptions()));
             //DJV_DEBUG_PRINT("options = " << options);
-            //DJV_DEBUG_PRINT("def options = " << Graphics::OpenGLImageOptions());
-            if (p->info() != _p->info.info || options != Graphics::OpenGLImageOptions())
+            //DJV_DEBUG_PRINT("def options = " << AV::OpenGLImageOptions());
+            if (p->info() != _p->info.info || options != AV::OpenGLImageOptions())
             {
                 tmp.set(_p->info.info);
                 try
@@ -277,7 +277,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("save");
                 _p->save->write(
                     tmp,
-                    Graphics::ImageIOFrameInfo(
+                    AV::ImageIOFrameInfo(
                         in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
             }
             catch (Core::Error error)

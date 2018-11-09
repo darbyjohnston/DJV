@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Softimage image file format.
         //!
@@ -60,5 +60,5 @@ namespace djv
             std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

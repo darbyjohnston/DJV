@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenEXRSave.h>
+#include <djvAV/OpenEXRSave.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/Error.h>
@@ -42,7 +42,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         OpenEXRSave::OpenEXRSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -224,5 +224,5 @@ namespace djv
             _f = nullptr;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

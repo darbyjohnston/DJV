@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvGraphics/Targa.h>
+#include <djvAV/Targa.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for the Targa image file format.
         //!
@@ -46,7 +46,7 @@ namespace djv
         //!
         //! References:
         //!
-        //! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
+        //! - James D. Murray, William vanRyper, "Encyclopedia of AV File Formats,
         //!   Second Edition"
         class TargaPlugin : public ImageIO
         {
@@ -70,5 +70,5 @@ namespace djv
             Targa::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

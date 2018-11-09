@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/ImageTags.h>
+#include <djvAV/ImageTags.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         struct ImageTags::Private
         {
@@ -139,14 +139,14 @@ namespace djv
         const QStringList & ImageTags::tagLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::ImageTags", "Project") <<
-                qApp->translate("djv::Graphics::ImageTags", "Creator") <<
-                qApp->translate("djv::Graphics::ImageTags", "Description") <<
-                qApp->translate("djv::Graphics::ImageTags", "Copyright") <<
-                qApp->translate("djv::Graphics::ImageTags", "Time") <<
-                qApp->translate("djv::Graphics::ImageTags", "UTC Offset") <<
-                qApp->translate("djv::Graphics::ImageTags", "Keycode") <<
-                qApp->translate("djv::Graphics::ImageTags", "Timecode");
+                qApp->translate("djv::AV::ImageTags", "Project") <<
+                qApp->translate("djv::AV::ImageTags", "Creator") <<
+                qApp->translate("djv::AV::ImageTags", "Description") <<
+                qApp->translate("djv::AV::ImageTags", "Copyright") <<
+                qApp->translate("djv::AV::ImageTags", "Time") <<
+                qApp->translate("djv::AV::ImageTags", "UTC Offset") <<
+                qApp->translate("djv::AV::ImageTags", "Keycode") <<
+                qApp->translate("djv::AV::ImageTags", "Timecode");
             DJV_ASSERT(data.count() == TAGS_COUNT);
             return data;
         }
@@ -178,9 +178,9 @@ namespace djv
             return tag(key);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    bool operator == (const Graphics::ImageTags & a, const Graphics::ImageTags & b)
+    bool operator == (const AV::ImageTags & a, const AV::ImageTags & b)
     {
         if (a.keys() != b.keys())
         {
@@ -193,12 +193,12 @@ namespace djv
         return true;
     }
 
-    bool operator != (const Graphics::ImageTags & a, const Graphics::ImageTags & b)
+    bool operator != (const AV::ImageTags & a, const AV::ImageTags & b)
     {
         return !(a == b);
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::ImageTags & tags)
+    Core::Debug & operator << (Core::Debug & debug, const AV::ImageTags & tags)
     {
         QStringList tmp;
         Q_FOREACH(const QString & key, tags.keys())

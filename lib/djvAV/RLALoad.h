@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/RLA.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/RLA.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a RLA loader.
         class RLALoad : public ImageLoad
@@ -54,5 +54,5 @@ namespace djv
             PixelData           _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

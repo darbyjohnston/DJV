@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvAV/AVContext.h>
 
 namespace djv
 {
     namespace info
     {
         //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        class Context : public AV::AVContext
         {
             Q_OBJECT
 

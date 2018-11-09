@@ -29,10 +29,10 @@
 
 #pragma once
 
-#include <djvGraphics/Color.h>
-#include <djvGraphics/ColorProfile.h>
-#include <djvGraphics/OpenGL.h>
-#include <djvGraphics/PixelData.h>
+#include <djvAV/Color.h>
+#include <djvAV/ColorProfile.h>
+#include <djvAV/OpenGL.h>
+#include <djvAV/PixelData.h>
 
 #include <djvCore/Box.h>
 #include <djvCore/Error.h>
@@ -48,7 +48,7 @@ class QPixmap;
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class OpenGLLUT;
         class OpenGLOffscreenBuffer;
@@ -287,29 +287,29 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageXform);
-    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageColor);
-    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageLevels);
-    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageDisplayProfile);
-    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageFilter);
-    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageOptions);
+    DJV_COMPARISON_OPERATOR(AV::OpenGLImageXform);
+    DJV_COMPARISON_OPERATOR(AV::OpenGLImageColor);
+    DJV_COMPARISON_OPERATOR(AV::OpenGLImageLevels);
+    DJV_COMPARISON_OPERATOR(AV::OpenGLImageDisplayProfile);
+    DJV_COMPARISON_OPERATOR(AV::OpenGLImageFilter);
+    DJV_COMPARISON_OPERATOR(AV::OpenGLImageOptions);
 
-    DJV_STRING_OPERATOR(Graphics::OpenGLImageXform);
-    DJV_STRING_OPERATOR(Graphics::OpenGLImageColor);
-    DJV_STRING_OPERATOR(Graphics::OpenGLImageLevels);
-    DJV_STRING_OPERATOR(Graphics::OpenGLImageFilter);
-    DJV_STRING_OPERATOR(Graphics::OpenGLImageFilter::FILTER);
-    DJV_STRING_OPERATOR(Graphics::OpenGLImageOptions::CHANNEL);
+    DJV_STRING_OPERATOR(AV::OpenGLImageXform);
+    DJV_STRING_OPERATOR(AV::OpenGLImageColor);
+    DJV_STRING_OPERATOR(AV::OpenGLImageLevels);
+    DJV_STRING_OPERATOR(AV::OpenGLImageFilter);
+    DJV_STRING_OPERATOR(AV::OpenGLImageFilter::FILTER);
+    DJV_STRING_OPERATOR(AV::OpenGLImageOptions::CHANNEL);
 
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageXform);
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageColor);
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageLevels);
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageDisplayProfile);
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageFilter);
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageFilter::FILTER);
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageOptions);
-    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageOptions::CHANNEL);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageXform);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageColor);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageLevels);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageDisplayProfile);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageFilter);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageFilter::FILTER);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageOptions);
+    DJV_DEBUG_OPERATOR(AV::OpenGLImageOptions::CHANNEL);
 
 } // namespace djv

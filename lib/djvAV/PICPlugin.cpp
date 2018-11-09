@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PICPlugin.h>
+#include <djvAV/PICPlugin.h>
 
-#include <djvGraphics/PICLoad.h>
+#include <djvAV/PICLoad.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -40,7 +40,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         PICPlugin::PICPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -61,5 +61,5 @@ namespace djv
             return std::unique_ptr<ImageLoad>(new PICLoad(fileInfo, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

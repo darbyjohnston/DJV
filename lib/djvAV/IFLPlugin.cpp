@@ -27,15 +27,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/IFLPlugin.h>
+#include <djvAV/IFLPlugin.h>
 
-#include <djvGraphics/IFLLoad.h>
+#include <djvAV/IFLLoad.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         IFLPlugin::IFLPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -61,5 +61,5 @@ namespace djv
             return std::unique_ptr<ImageLoad>(new IFLLoad(fileInfo, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

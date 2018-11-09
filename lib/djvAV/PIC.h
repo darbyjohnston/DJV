@@ -33,7 +33,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides PIC utilities.
         class PIC
@@ -75,5 +75,5 @@ namespace djv
                 bool           endian);
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

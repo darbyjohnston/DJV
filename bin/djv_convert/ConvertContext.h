@@ -29,9 +29,9 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/AVContext.h>
+#include <djvAV/Image.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -44,9 +44,9 @@ namespace djv
         {
             Options();
 
-            Graphics::PixelDataInfo::Mirror mirror;
+            AV::PixelDataInfo::Mirror mirror;
             glm::vec2 scale = glm::vec2(1.f, 1.f);
-            Graphics::OpenGLImageOptions::CHANNEL channel;
+            AV::OpenGLImageOptions::CHANNEL channel;
             glm::ivec2 size = glm::ivec2(0, 0);
             Core::Box2i crop;
             Core::Box2f cropPercent;
@@ -59,7 +59,7 @@ namespace djv
 
             Core::FileInfo file;
             int layer;
-            Graphics::PixelDataInfo::PROXY proxy;
+            AV::PixelDataInfo::PROXY proxy;
             QString start;
             QString end;
             Core::FileInfo slate;
@@ -73,14 +73,14 @@ namespace djv
             Output();
 
             Core::FileInfo file;
-            QScopedPointer<Graphics::Pixel::PIXEL> pixel;
-            Graphics::ImageTags tags;
+            QScopedPointer<AV::Pixel::PIXEL> pixel;
+            AV::ImageTags tags;
             bool tagsAuto;
             QScopedPointer<Core::Speed::FPS> speed;
         };
 
         //! This class provides global functionality for the application.
-        class Context : public Graphics::GraphicsContext
+        class Context : public AV::AVContext
         {
             Q_OBJECT
 

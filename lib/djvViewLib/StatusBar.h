@@ -40,11 +40,11 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class PixelDataInfo;
 
-    } // namespace Graphics
+    } // namespace AV
 
     namespace ViewLib
     {

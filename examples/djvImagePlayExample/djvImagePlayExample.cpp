@@ -31,9 +31,10 @@
 
 #include <djvUI/WindowUtil.h>
 
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/Pixel.h>
+
 #include <djvCore/Error.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/Pixel.h>
 #include <djvCore/Timer.h>
 
 #include <QCursor>
@@ -154,14 +155,14 @@ namespace djv
             arg(fps).
             arg(accum ? (average / static_cast<float>(accum)) : 0.f));
 
-        Graphics::Image * imageP = 0;
+        AV::Image * imageP = 0;
         try
         {
             if (_cache)
             {
                 if (_cachedImages.count() < _info.sequence.frames.count())
                 {
-                    Graphics::Image * image = new Graphics::Image;
+                    AV::Image * image = new AV::Image;
                     _load->read(*image, _info.sequence.frames[_frame]);
                     _cachedImages += image;
                     imageP = image;
@@ -184,7 +185,7 @@ namespace djv
         if (imageP && imageP->isValid())
         {
             _widget->setData(imageP);
-            Graphics::OpenGLImageOptions options;
+            AV::OpenGLImageOptions options;
             options.colorProfile = imageP->colorProfile;
             _widget->setOptions(options);
             _widget->update();

@@ -34,7 +34,7 @@
 
 #include <djvUI/Prefs.h>
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 #include <QPointer>
 
@@ -110,12 +110,12 @@ namespace djv
             return _frameStoreFileReload;
         }
 
-        Graphics::PixelDataInfo::Mirror ImagePrefs::mirrorDefault()
+        AV::PixelDataInfo::Mirror ImagePrefs::mirrorDefault()
         {
-            return Graphics::PixelDataInfo::Mirror();
+            return AV::PixelDataInfo::Mirror();
         }
 
-        const Graphics::PixelDataInfo::Mirror & ImagePrefs::mirror() const
+        const AV::PixelDataInfo::Mirror & ImagePrefs::mirror() const
         {
             return _mirror;
         }
@@ -194,12 +194,12 @@ namespace djv
             return out;
         }
 
-        Graphics::OpenGLImageOptions::CHANNEL ImagePrefs::channelDefault()
+        AV::OpenGLImageOptions::CHANNEL ImagePrefs::channelDefault()
         {
-            return static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
+            return static_cast<AV::OpenGLImageOptions::CHANNEL>(0);
         }
 
-        Graphics::OpenGLImageOptions::CHANNEL ImagePrefs::channel() const
+        AV::OpenGLImageOptions::CHANNEL ImagePrefs::channel() const
         {
             return _channel;
         }
@@ -209,7 +209,7 @@ namespace djv
             _frameStoreFileReload = in;
         }
 
-        void ImagePrefs::setMirror(const Graphics::PixelDataInfo::Mirror & mirror)
+        void ImagePrefs::setMirror(const AV::PixelDataInfo::Mirror & mirror)
         {
             if (mirror == _mirror)
                 return;
@@ -293,7 +293,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ImagePrefs::setChannel(Graphics::OpenGLImageOptions::CHANNEL in)
+        void ImagePrefs::setChannel(AV::OpenGLImageOptions::CHANNEL in)
         {
             if (in == _channel)
                 return;

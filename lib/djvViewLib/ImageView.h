@@ -71,7 +71,7 @@ namespace djv
             void setGrid(djv::ViewLib::Enum::GRID);
 
             //! Set the grid color.
-            void setGridColor(const djv::Graphics::Color &);
+            void setGridColor(const djv::AV::Color &);
 
             //! Set whether the HUD is enabled.
             void setHudEnabled(bool);
@@ -80,13 +80,13 @@ namespace djv
             void setHudInfo(const djv::ViewLib::HudInfo &);
 
             //! Set the HUD color.
-            void setHudColor(const djv::Graphics::Color &);
+            void setHudColor(const djv::AV::Color &);
 
             //! Set the HUD background.
             void setHudBackground(djv::ViewLib::Enum::HUD_BACKGROUND);
 
             //! Set the HUD background color.
-            void setHudBackgroundColor(const djv::Graphics::Color &);
+            void setHudBackgroundColor(const djv::AV::Color &);
 
         Q_SIGNALS:
             //! This signal is emitted when the view is picked.

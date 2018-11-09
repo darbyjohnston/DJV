@@ -33,7 +33,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides RLA utilities.
         struct RLA
@@ -60,5 +60,5 @@ namespace djv
             static void skip(Core::FileIO &);
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

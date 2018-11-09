@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/Targa.h>
+#include <djvAV/Targa.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -36,15 +36,15 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString Targa::staticName = "Targa";
 
         const QStringList & Targa::compressionLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Targa", "None") <<
-                qApp->translate("djv::Graphics::Targa", "RLE");
+                qApp->translate("djv::AV::Targa", "None") <<
+                qApp->translate("djv::AV::Targa", "RLE");
             DJV_ASSERT(data.count() == COMPRESSION_COUNT);
             return data;
         }
@@ -375,13 +375,13 @@ namespace djv
         const QStringList & Targa::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Targa", "Compression");
+                qApp->translate("djv::AV::Targa", "Compression");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::Targa::COMPRESSION, Graphics::Targa::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(AV::Targa::COMPRESSION, AV::Targa::compressionLabels())
 
 } // namespace djv

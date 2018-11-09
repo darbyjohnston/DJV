@@ -29,15 +29,15 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/PPM.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/PPM.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a PPM saver.
         class PPMSave : public ImageSave
@@ -57,5 +57,5 @@ namespace djv
             Image         _image;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

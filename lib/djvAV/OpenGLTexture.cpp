@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenGLTexture.h>
+#include <djvAV/OpenGLTexture.h>
 
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/Debug.h>
 
@@ -38,7 +38,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         struct OpenGLTexture::Private
         {
@@ -84,8 +84,8 @@ namespace djv
             if (!_p->id)
             {
                 throw Core::Error(
-                    "djv::Graphics::OpenGLTexture",
-                    qApp->translate("djv::Graphics::OpenGLTexture", "Cannot create texture"));
+                    "djv::AV::OpenGLTexture",
+                    qApp->translate("djv::AV::OpenGLTexture", "Cannot create texture"));
             }
 
             glFuncs->glBindTexture(_p->target, _p->id);
@@ -244,5 +244,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

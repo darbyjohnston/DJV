@@ -27,10 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/LUTPlugin.h>
+#include <djvAV/LUTPlugin.h>
 
-#include <djvGraphics/LUTLoad.h>
-#include <djvGraphics/LUTSave.h>
+#include <djvAV/LUTLoad.h>
+#include <djvAV/LUTSave.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -39,7 +39,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         LUTPlugin::LUTPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -54,7 +54,7 @@ namespace djv
                 while (!in.isEmpty())
                 {
                     in >> arg;
-                    if (qApp->translate("djv::Graphics::LUTPlugin", "-lut_type") == arg)
+                    if (qApp->translate("djv::AV::LUTPlugin", "-lut_type") == arg)
                     {
                         in >> _options.type;
                     }
@@ -75,7 +75,7 @@ namespace djv
         {
             QStringList typeLabel;
             typeLabel << _options.type;
-            return qApp->translate("djv::Graphics::LUTPlugin",
+            return qApp->translate("djv::AV::LUTPlugin",
                 "\n"
                 "LUT Options\n"
                 "\n"
@@ -143,5 +143,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new LUTSave(fileInfo, imageIOInfo, _options, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

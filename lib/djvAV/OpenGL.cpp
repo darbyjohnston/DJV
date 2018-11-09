@@ -27,15 +27,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenGL.h>
+#include <djvAV/OpenGL.h>
 
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/ColorUtil.h>
 
 #include <djvCore/Math.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         namespace OpenGL
         {
@@ -118,5 +118,5 @@ namespace djv
             }
 
         } // namespace OpenGL
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

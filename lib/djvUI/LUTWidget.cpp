@@ -32,7 +32,7 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -45,12 +45,12 @@ namespace djv
 {
     namespace UI
     {
-        LUTWidget::LUTWidget(Graphics::ImageIO * plugin, const QPointer<UIContext> & context) :
+        LUTWidget::LUTWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
             ImageIOWidget(plugin, context)
         {
             // Create the widgets.
             _typeWidget = new QComboBox;
-            _typeWidget->addItems(Graphics::LUT::typeLabels());
+            _typeWidget->addItems(AV::LUT::typeLabels());
             _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
             // Layout the widgets.
@@ -70,7 +70,7 @@ namespace djv
 
             // Initialize.
             QStringList tmp;
-            tmp = plugin->option(plugin->options()[Graphics::LUT::TYPE_OPTION]);
+            tmp = plugin->option(plugin->options()[AV::LUT::TYPE_OPTION]);
             tmp >> _options.type;
             widgetUpdate();
 
@@ -87,7 +87,7 @@ namespace djv
 
         void LUTWidget::resetPreferences()
         {
-            _options = Graphics::LUT::Options();
+            _options = AV::LUT::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -99,7 +99,7 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(
-                    plugin()->options()[Graphics::LUT::TYPE_OPTION], Qt::CaseInsensitive))
+                    plugin()->options()[AV::LUT::TYPE_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.type;
             }
             catch (const QString &)
@@ -110,7 +110,7 @@ namespace djv
 
         void LUTWidget::typeCallback(int in)
         {
-            _options.type = static_cast<Graphics::LUT::TYPE>(in);
+            _options.type = static_cast<AV::LUT::TYPE>(in);
             pluginUpdate();
         }
 
@@ -118,7 +118,7 @@ namespace djv
         {
             QStringList tmp;
             tmp << _options.type;
-            plugin()->setOption(plugin()->options()[Graphics::LUT::TYPE_OPTION], tmp);
+            plugin()->setOption(plugin()->options()[AV::LUT::TYPE_OPTION], tmp);
         }
 
         void LUTWidget::widgetUpdate()
@@ -132,14 +132,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * LUTWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
+        ImageIOWidget * LUTWidgetPlugin::createWidget(AV::ImageIO * plugin) const
         {
             return new LUTWidget(plugin, uiContext());
         }
 
         QString LUTWidgetPlugin::pluginName() const
         {
-            return Graphics::LUT::staticName;
+            return AV::LUT::staticName;
         }
 
     } // namespace UI

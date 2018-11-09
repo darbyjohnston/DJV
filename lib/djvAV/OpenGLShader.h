@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/OpenGL.h>
+#include <djvAV/OpenGL.h>
 
 #include <djvCore/Error.h>
 #include <djvCore/Matrix.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class encapsulates an OpenGL shader.
         class OpenGLShader
@@ -81,5 +81,5 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

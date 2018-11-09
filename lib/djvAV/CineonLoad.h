@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvGraphics/Cineon.h>
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/Cineon.h>
+#include <djvAV/ImageIO.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class CineonLoad : public ImageLoad
         {
@@ -55,5 +55,5 @@ namespace djv
             PixelData       _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

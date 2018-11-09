@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
+#include <djvAV/OpenGLOffscreenBuffer.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
@@ -36,7 +36,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         namespace
         {
@@ -68,7 +68,7 @@ namespace djv
             if (!_p->texture)
             {
                 throw Core::Error(
-                    "djv::Graphics::OpenGLOffscreenBuffer",
+                    "djv::AV::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_CREATE_TEXTURE]);
             }
             glFuncs->glBindTexture(GL_TEXTURE_2D, _p->texture);
@@ -93,7 +93,7 @@ namespace djv
             if (!_p->id)
             {
                 throw Core::Error(
-                    "djv::Graphics::OpenGLOffscreenBuffer",
+                    "djv::AV::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_CREATE_FBO]);
             }
             OpenGLOffscreenBufferScope scope(this);
@@ -107,7 +107,7 @@ namespace djv
             if (error != GL_FRAMEBUFFER_COMPLETE)
             {
                 throw Core::Error(
-                    "djv::Graphics::OpenGLOffscreenBuffer",
+                    "djv::AV::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_INIT_FBO]);
             }
             //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
@@ -177,10 +177,10 @@ namespace djv
         const QStringList & OpenGLOffscreenBuffer::errorLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::OpenGLOffscreenBuffer", "Cannot create texture") <<
-                qApp->translate("djv::Graphics::OpenGLOffscreenBuffer", "Cannot initialize texture") <<
-                qApp->translate("djv::Graphics::OpenGLOffscreenBuffer", "Cannot create FBO") <<
-                qApp->translate("djv::Graphics::OpenGLOffscreenBuffer", "Cannot initialize FBO");
+                qApp->translate("djv::AV::OpenGLOffscreenBuffer", "Cannot create texture") <<
+                qApp->translate("djv::AV::OpenGLOffscreenBuffer", "Cannot initialize texture") <<
+                qApp->translate("djv::AV::OpenGLOffscreenBuffer", "Cannot create FBO") <<
+                qApp->translate("djv::AV::OpenGLOffscreenBuffer", "Cannot initialize FBO");
             DJV_ASSERT(ERROR_COUNT == data.count());
             return data;
         }
@@ -196,5 +196,5 @@ namespace djv
             _buffer->unbind();
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

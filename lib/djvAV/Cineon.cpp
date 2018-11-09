@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/Cineon.h>
+#include <djvAV/Cineon.h>
 
 #include <djvCore/Assert.h>
 
@@ -35,16 +35,16 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString Cineon::staticName = "Cineon";
 
         const QStringList & Cineon::colorProfileLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Cineon", "Auto") <<
-                qApp->translate("djv::Graphics::Cineon", "None") <<
-                qApp->translate("djv::Graphics::Cineon", "Film Print");
+                qApp->translate("djv::AV::Cineon", "Auto") <<
+                qApp->translate("djv::AV::Cineon", "None") <<
+                qApp->translate("djv::AV::Cineon", "Film Print");
             DJV_ASSERT(data.count() == COLOR_PROFILE_COUNT);
             return data;
         }
@@ -150,19 +150,19 @@ namespace djv
         const QStringList & Cineon::tagLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Cineon", "Source Offset") <<
-                qApp->translate("djv::Graphics::Cineon", "Source File") <<
-                qApp->translate("djv::Graphics::Cineon", "Source Time") <<
-                qApp->translate("djv::Graphics::Cineon", "Source Input Device") <<
-                qApp->translate("djv::Graphics::Cineon", "Source Input Model") <<
-                qApp->translate("djv::Graphics::Cineon", "Source Input Serial") <<
-                qApp->translate("djv::Graphics::Cineon", "Source Input Pitch") <<
-                qApp->translate("djv::Graphics::Cineon", "Source Gamma") <<
-                qApp->translate("djv::Graphics::Cineon", "Film Format") <<
-                qApp->translate("djv::Graphics::Cineon", "Film Frame") <<
-                qApp->translate("djv::Graphics::Cineon", "Film Frame Rate") <<
-                qApp->translate("djv::Graphics::Cineon", "Film Frame ID") <<
-                qApp->translate("djv::Graphics::Cineon", "Film Slate");
+                qApp->translate("djv::AV::Cineon", "Source Offset") <<
+                qApp->translate("djv::AV::Cineon", "Source File") <<
+                qApp->translate("djv::AV::Cineon", "Source Time") <<
+                qApp->translate("djv::AV::Cineon", "Source Input Device") <<
+                qApp->translate("djv::AV::Cineon", "Source Input Model") <<
+                qApp->translate("djv::AV::Cineon", "Source Input Serial") <<
+                qApp->translate("djv::AV::Cineon", "Source Input Pitch") <<
+                qApp->translate("djv::AV::Cineon", "Source Gamma") <<
+                qApp->translate("djv::AV::Cineon", "Film Format") <<
+                qApp->translate("djv::AV::Cineon", "Film Frame") <<
+                qApp->translate("djv::AV::Cineon", "Film Frame Rate") <<
+                qApp->translate("djv::AV::Cineon", "Film Frame ID") <<
+                qApp->translate("djv::AV::Cineon", "Film Slate");
             DJV_ASSERT(data.count() == TAG_COUNT);
             return data;
         }
@@ -170,19 +170,19 @@ namespace djv
         const QStringList & Cineon::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Cineon", "Input Color Profile") <<
-                qApp->translate("djv::Graphics::Cineon", "Input Film Print") <<
-                qApp->translate("djv::Graphics::Cineon", "Output Color Profile") <<
-                qApp->translate("djv::Graphics::Cineon", "Output Film Print");
+                qApp->translate("djv::AV::Cineon", "Input Color Profile") <<
+                qApp->translate("djv::AV::Cineon", "Input Film Print") <<
+                qApp->translate("djv::AV::Cineon", "Output Color Profile") <<
+                qApp->translate("djv::AV::Cineon", "Output Film Print");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
     bool operator == (
-        const Graphics::Cineon::LinearToFilmPrint & a,
-        const Graphics::Cineon::LinearToFilmPrint & b)
+        const AV::Cineon::LinearToFilmPrint & a,
+        const AV::Cineon::LinearToFilmPrint & b)
     {
         return
             a.black == b.black &&
@@ -191,8 +191,8 @@ namespace djv
     }
 
     bool operator == (
-        const Graphics::Cineon::FilmPrintToLinear & a,
-        const Graphics::Cineon::FilmPrintToLinear & b)
+        const AV::Cineon::FilmPrintToLinear & a,
+        const AV::Cineon::FilmPrintToLinear & b)
     {
         return
             a.black == b.black &&
@@ -202,20 +202,20 @@ namespace djv
     }
 
     bool operator != (
-        const Graphics::Cineon::LinearToFilmPrint & a,
-        const Graphics::Cineon::LinearToFilmPrint & b)
+        const AV::Cineon::LinearToFilmPrint & a,
+        const AV::Cineon::LinearToFilmPrint & b)
     {
         return !(a == b);
     }
 
     bool operator != (
-        const Graphics::Cineon::FilmPrintToLinear & a,
-        const Graphics::Cineon::FilmPrintToLinear & b)
+        const AV::Cineon::FilmPrintToLinear & a,
+        const AV::Cineon::FilmPrintToLinear & b)
     {
         return !(a == b);
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::Cineon::LinearToFilmPrint & out)
+    QStringList & operator >> (QStringList & in, AV::Cineon::LinearToFilmPrint & out)
     {
         return in >>
             out.black >>
@@ -223,7 +223,7 @@ namespace djv
             out.gamma;
     }
 
-    QStringList & operator << (QStringList & out, const Graphics::Cineon::LinearToFilmPrint & in)
+    QStringList & operator << (QStringList & out, const AV::Cineon::LinearToFilmPrint & in)
     {
         return out <<
             in.black <<
@@ -231,7 +231,7 @@ namespace djv
             in.gamma;
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::Cineon::FilmPrintToLinear & out)
+    QStringList & operator >> (QStringList & in, AV::Cineon::FilmPrintToLinear & out)
     {
         return in >>
             out.black >>
@@ -240,7 +240,7 @@ namespace djv
             out.softClip;
     }
 
-    QStringList & operator << (QStringList & out, const Graphics::Cineon::FilmPrintToLinear & in)
+    QStringList & operator << (QStringList & out, const AV::Cineon::FilmPrintToLinear & in)
     {
         return out <<
             in.black <<
@@ -249,6 +249,6 @@ namespace djv
             in.softClip;
     }
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::Cineon::COLOR_PROFILE, Graphics::Cineon::colorProfileLabels())
+    _DJV_STRING_OPERATOR_LABEL(AV::Cineon::COLOR_PROFILE, AV::Cineon::colorProfileLabels())
 
 } // namespace djv

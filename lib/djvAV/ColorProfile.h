@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/PixelData.h>
+#include <djvAV/PixelData.h>
 
 #include <QMetaType>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a color profile.
         class ColorProfile
@@ -82,18 +82,18 @@ namespace djv
             Exposure  exposure;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(Graphics::ColorProfile::Exposure);
-    DJV_COMPARISON_OPERATOR(Graphics::ColorProfile);
+    DJV_COMPARISON_OPERATOR(AV::ColorProfile::Exposure);
+    DJV_COMPARISON_OPERATOR(AV::ColorProfile);
 
-    DJV_STRING_OPERATOR(Graphics::ColorProfile::Exposure);
-    DJV_STRING_OPERATOR(Graphics::ColorProfile::PROFILE);
+    DJV_STRING_OPERATOR(AV::ColorProfile::Exposure);
+    DJV_STRING_OPERATOR(AV::ColorProfile::PROFILE);
 
-    DJV_DEBUG_OPERATOR(Graphics::ColorProfile::Exposure);
-    DJV_DEBUG_OPERATOR(Graphics::ColorProfile::PROFILE);
-    DJV_DEBUG_OPERATOR(Graphics::ColorProfile);
+    DJV_DEBUG_OPERATOR(AV::ColorProfile::Exposure);
+    DJV_DEBUG_OPERATOR(AV::ColorProfile::PROFILE);
+    DJV_DEBUG_OPERATOR(AV::ColorProfile);
 
 } // namespace djv
 
-Q_DECLARE_METATYPE(djv::Graphics::ColorProfile)
+Q_DECLARE_METATYPE(djv::AV::ColorProfile)

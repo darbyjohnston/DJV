@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
-#include <djvGraphics/ColorUtil.h>
+#include <djvAV/ColorUtil.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Memory.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         void Color::init()
         {
@@ -128,35 +128,35 @@ namespace djv
             return *this;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    bool operator == (const Graphics::Color & a, const Graphics::Color & b)
+    bool operator == (const AV::Color & a, const AV::Color & b)
     {
-        const Graphics::Pixel::PIXEL pixel = a.pixel();
+        const AV::Pixel::PIXEL pixel = a.pixel();
         if (pixel != b.pixel())
             return false;
-        const int channels = Graphics::Pixel::channels(pixel);
+        const int channels = AV::Pixel::channels(pixel);
         for (int c = 0; c < channels; ++c)
         {
-            switch (Graphics::Pixel::type(pixel))
+            switch (AV::Pixel::type(pixel))
             {
-            case Graphics::Pixel::U8:
+            case AV::Pixel::U8:
                 if (a.u8(c) != b.u8(c))
                     return false;
                 break;
-            case Graphics::Pixel::U10:
+            case AV::Pixel::U10:
                 if (a.u10(c) != b.u10(c))
                     return false;
                 break;
-            case Graphics::Pixel::U16:
+            case AV::Pixel::U16:
                 if (a.u16(c) != b.u16(c))
                     return false;
                 break;
-            case Graphics::Pixel::F16:
+            case AV::Pixel::F16:
                 if (a.f16(c) != b.f16(c))
                     return false;
                 break;
-            case Graphics::Pixel::F32:
+            case AV::Pixel::F32:
                 if (!Core::Math::fuzzyCompare(a.f32(c), b.f32(c)))
                     return false;
                 break;
@@ -166,54 +166,54 @@ namespace djv
         return true;
     }
 
-    bool operator != (const Graphics::Color & a, const Graphics::Color & b)
+    bool operator != (const AV::Color & a, const AV::Color & b)
     {
         return !(a == b);
     }
 
-    QStringList & operator >> (QStringList & in, Graphics::Color & out)
+    QStringList & operator >> (QStringList & in, AV::Color & out)
     {
-        Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
+        AV::Pixel::PIXEL pixel = static_cast<AV::Pixel::PIXEL>(0);
         in >> pixel;
         out.setPixel(pixel);
-        const int channels = Graphics::Pixel::channels(pixel);
+        const int channels = AV::Pixel::channels(pixel);
         for (int c = 0; c < channels; ++c)
         {
-            switch (Graphics::Pixel::type(pixel))
+            switch (AV::Pixel::type(pixel))
             {
-            case Graphics::Pixel::U8:
-            {
-                int value = 0;
-                in >> value;
-                out.setU8(Core::Math::clamp(value, 0, Graphics::Pixel::u8Max), c);
-            }
-            break;
-            case Graphics::Pixel::U10:
+            case AV::Pixel::U8:
             {
                 int value = 0;
                 in >> value;
-                out.setU10(Core::Math::clamp(value, 0, Graphics::Pixel::u10Max), c);
+                out.setU8(Core::Math::clamp(value, 0, AV::Pixel::u8Max), c);
             }
             break;
-            case Graphics::Pixel::U16:
+            case AV::Pixel::U10:
             {
                 int value = 0;
                 in >> value;
-                out.setU16(Core::Math::clamp(value, 0, Graphics::Pixel::u16Max), c);
+                out.setU10(Core::Math::clamp(value, 0, AV::Pixel::u10Max), c);
             }
             break;
-            case Graphics::Pixel::F16:
+            case AV::Pixel::U16:
+            {
+                int value = 0;
+                in >> value;
+                out.setU16(Core::Math::clamp(value, 0, AV::Pixel::u16Max), c);
+            }
+            break;
+            case AV::Pixel::F16:
             {
                 float value = 0.f;
                 in >> value;
-                out.setF16(static_cast<Graphics::Pixel::F16_T>(value), c);
+                out.setF16(static_cast<AV::Pixel::F16_T>(value), c);
             }
             break;
-            case Graphics::Pixel::F32:
+            case AV::Pixel::F32:
             {
                 float value = 0.f;
                 in >> value;
-                out.setF32(static_cast<Graphics::Pixel::F32_T>(value), c);
+                out.setF32(static_cast<AV::Pixel::F32_T>(value), c);
             }
             break;
             default: break;
@@ -222,26 +222,26 @@ namespace djv
         return in;
     }
 
-    QStringList & operator << (QStringList & out, const Graphics::Color & in)
+    QStringList & operator << (QStringList & out, const AV::Color & in)
     {
         out << in.pixel();
-        const int channels = Graphics::Pixel::channels(in.pixel());
+        const int channels = AV::Pixel::channels(in.pixel());
         for (int c = 0; c < channels; ++c)
         {
-            switch (Graphics::Pixel::type(in.pixel()))
+            switch (AV::Pixel::type(in.pixel()))
             {
-            case Graphics::Pixel::U8:  out << in.u8(c); break;
-            case Graphics::Pixel::U10: out << in.u10(c); break;
-            case Graphics::Pixel::U16: out << in.u16(c); break;
-            case Graphics::Pixel::F16: out << in.f16(c); break;
-            case Graphics::Pixel::F32: out << in.f32(c); break;
+            case AV::Pixel::U8:  out << in.u8(c); break;
+            case AV::Pixel::U10: out << in.u10(c); break;
+            case AV::Pixel::U16: out << in.u16(c); break;
+            case AV::Pixel::F16: out << in.f16(c); break;
+            case AV::Pixel::F32: out << in.f32(c); break;
             default: break;
             }
         }
         return out;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::Color & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Color & in)
     {
         QStringList tmp;
         tmp << in;

@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 #include <djvCore/Util.h>
 
@@ -52,7 +52,7 @@ namespace djv
 
             //! This property holds the color.    
             Q_PROPERTY(
-                djv::Graphics::Color color
+                djv::AV::Color color
                 READ                 color
                 WRITE                setColor
                 NOTIFY               colorChanged)
@@ -62,24 +62,24 @@ namespace djv
                 const QPointer<UIContext> &,
                 QWidget * parent = nullptr);
             explicit ColorDialog(
-                const Graphics::Color & color,
+                const AV::Color & color,
                 const QPointer<UIContext> &,
                 QWidget * parent = nullptr);
             ~ColorDialog() override;
 
             //! Get the color.
-            const Graphics::Color & color() const;
+            const AV::Color & color() const;
 
         public Q_SLOTS:
             //! Set the color.
-            void setColor(const djv::Graphics::Color &);
+            void setColor(const djv::AV::Color &);
 
         Q_SIGNALS:
             //! This signal is emitted when the color is changed.
-            void colorChanged(const djv::Graphics::Color &);
+            void colorChanged(const djv::AV::Color &);
 
         private Q_SLOTS:
-            void widgetCallback(const djv::Graphics::Color &);
+            void widgetCallback(const djv::AV::Color &);
 
         private:
             void init();

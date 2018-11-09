@@ -29,15 +29,15 @@
 
 #pragma once
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/LUT.h>
+#include <djvAV/Image.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/LUT.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a LUT saver.
         class LUTSave : public ImageSave
@@ -57,5 +57,5 @@ namespace djv
             Image         _image;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

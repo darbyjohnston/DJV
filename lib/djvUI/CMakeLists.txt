@@ -286,7 +286,7 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
 
 include_directories(${OPENGL_INCLUDE_DIRS})
 add_library(djvUI ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-target_link_libraries(djvUI djvGraphics)
+target_link_libraries(djvUI djvAV)
 set_target_properties(djvUI PROPERTIES FOLDER lib CXX_STANDARD 11)
 
 install(

@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/OpenEXR.h>
+#include <djvAV/OpenEXR.h>
 
 class QCheckBox;
 class QComboBox;
@@ -51,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            OpenEXRWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            OpenEXRWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -73,7 +73,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::OpenEXR::Options  _options;
+            AV::OpenEXR::Options  _options;
             QCheckBox * _threadsEnableWidget = nullptr;
             IntEdit * _threadCountWidget = nullptr;
             QComboBox * _inputColorProfileWidget = nullptr;
@@ -97,7 +97,7 @@ namespace djv
         public:
             OpenEXRWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

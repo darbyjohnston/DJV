@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/OpenEXRLoad.h>
+#include <djvAV/OpenEXRLoad.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/BoxUtil.h>
 #include <djvCore/CoreContext.h>
@@ -46,7 +46,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         MemoryMappedIStream::MemoryMappedIStream(const char fileName[]) :
             IStream(fileName)
@@ -349,5 +349,5 @@ namespace djv
             _s.reset(nullptr);
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

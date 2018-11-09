@@ -31,7 +31,7 @@
 
 #include <djvViewLib/AbstractPrefsWidget.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 #include <memory>
 
@@ -54,14 +54,14 @@ namespace djv
 
         private Q_SLOTS:
             void zoomFactorCallback(int);
-            void backgroundCallback(const djv::Graphics::Color &);
+            void backgroundCallback(const djv::AV::Color &);
             void gridCallback(int);
-            void gridColorCallback(const djv::Graphics::Color &);
+            void gridColorCallback(const djv::AV::Color &);
             void hudEnabledCallback(bool);
             void hudInfoCallback(QListWidgetItem *);
-            void hudColorCallback(const djv::Graphics::Color &);
+            void hudColorCallback(const djv::AV::Color &);
             void hudBackgroundCallback(int);
-            void hudBackgroundColorCallback(const djv::Graphics::Color &);
+            void hudBackgroundColorCallback(const djv::AV::Color &);
 
             void widgetUpdate();
 

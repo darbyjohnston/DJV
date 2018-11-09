@@ -68,13 +68,13 @@ namespace djv
             {}
 
             bool                                  frameStoreVisible = false;
-            Graphics::PixelDataInfo::Mirror       mirror;
+            AV::PixelDataInfo::Mirror       mirror;
             Enum::IMAGE_SCALE                     scale = static_cast<Enum::IMAGE_SCALE>(0);
             Enum::IMAGE_ROTATE                    rotate = static_cast<Enum::IMAGE_ROTATE>(0);
             bool                                  premultipliedAlpha = true;
             bool                                  colorProfile = false;
             DisplayProfile                        displayProfile;
-            Graphics::OpenGLImageOptions::CHANNEL channel = static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
+            AV::OpenGLImageOptions::CHANNEL channel = static_cast<AV::OpenGLImageOptions::CHANNEL>(0);
 
             QPointer<ImageActions>         actions;
             QPointer<DisplayProfileWidget> displayProfileWidget;
@@ -179,8 +179,8 @@ namespace djv
             // Setup preferences callbacks.
             connect(
                 context->imagePrefs(),
-                SIGNAL(mirrorChanged(djv::Graphics::PixelDataInfo::Mirror)),
-                SLOT(mirrorCallback(djv::Graphics::PixelDataInfo::Mirror)));
+                SIGNAL(mirrorChanged(djv::AV::PixelDataInfo::Mirror)),
+                SLOT(mirrorCallback(djv::AV::PixelDataInfo::Mirror)));
             connect(
                 context->imagePrefs(),
                 SIGNAL(scaleChanged(djv::ViewLib::Enum::IMAGE_SCALE)),
@@ -203,8 +203,8 @@ namespace djv
                 SLOT(setDisplayProfile(const djv::ViewLib::DisplayProfile &)));
             connect(
                 context->imagePrefs(),
-                SIGNAL(channelChanged(djv::Graphics::OpenGLImageOptions::CHANNEL)),
-                SLOT(channelCallback(djv::Graphics::OpenGLImageOptions::CHANNEL)));
+                SIGNAL(channelChanged(djv::AV::OpenGLImageOptions::CHANNEL)),
+                SLOT(channelCallback(djv::AV::OpenGLImageOptions::CHANNEL)));
         }
 
         ImageGroup::~ImageGroup()
@@ -215,7 +215,7 @@ namespace djv
             return _p->frameStoreVisible;
         }
 
-        const Graphics::PixelDataInfo::Mirror & ImageGroup::mirror() const
+        const AV::PixelDataInfo::Mirror & ImageGroup::mirror() const
         {
             return _p->mirror;
         }
@@ -254,7 +254,7 @@ namespace djv
             Q_EMIT displayProfileChanged(_p->displayProfile);
         }
 
-        Graphics::OpenGLImageOptions::CHANNEL ImageGroup::channel() const
+        AV::OpenGLImageOptions::CHANNEL ImageGroup::channel() const
         {
             return _p->channel;
         }
@@ -282,7 +282,7 @@ namespace djv
             Q_EMIT showFrameStoreChanged(_p->frameStoreVisible);
         }
 
-        void ImageGroup::mirrorCallback(const Graphics::PixelDataInfo::Mirror & in)
+        void ImageGroup::mirrorCallback(const AV::PixelDataInfo::Mirror & in)
         {
             _p->mirror = in;
             update();
@@ -291,12 +291,12 @@ namespace djv
 
         void ImageGroup::mirrorHCallback(bool in)
         {
-            mirrorCallback(Graphics::PixelDataInfo::Mirror(in, _p->mirror.y));
+            mirrorCallback(AV::PixelDataInfo::Mirror(in, _p->mirror.y));
         }
 
         void ImageGroup::mirrorVCallback(bool in)
         {
-            mirrorCallback(Graphics::PixelDataInfo::Mirror(_p->mirror.x, in));
+            mirrorCallback(AV::PixelDataInfo::Mirror(_p->mirror.x, in));
         }
 
         void ImageGroup::scaleCallback(Enum::IMAGE_SCALE scale)
@@ -354,11 +354,11 @@ namespace djv
                 DisplayProfile());
         }
 
-        void ImageGroup::channelCallback(Graphics::OpenGLImageOptions::CHANNEL channel)
+        void ImageGroup::channelCallback(AV::OpenGLImageOptions::CHANNEL channel)
         {
             if (channel == _p->channel)
             {
-                _p->channel = Graphics::OpenGLImageOptions::CHANNEL_DEFAULT;
+                _p->channel = AV::OpenGLImageOptions::CHANNEL_DEFAULT;
             }
             else
             {
@@ -370,7 +370,7 @@ namespace djv
 
         void ImageGroup::channelCallback(QAction * action)
         {
-            channelCallback(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(action->data().toInt()));
+            channelCallback(static_cast<AV::OpenGLImageOptions::CHANNEL>(action->data().toInt()));
         }
 
         void ImageGroup::update()

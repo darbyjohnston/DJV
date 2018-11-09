@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -36,7 +36,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         Pixel::~Pixel()
         {}
@@ -44,10 +44,10 @@ namespace djv
         const QStringList & Pixel::formatLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Pixel", "L") <<
-                qApp->translate("djv::Graphics::Pixel", "LA") <<
-                qApp->translate("djv::Graphics::Pixel", "RGB") <<
-                qApp->translate("djv::Graphics::Pixel", "RGBA");
+                qApp->translate("djv::AV::Pixel", "L") <<
+                qApp->translate("djv::AV::Pixel", "LA") <<
+                qApp->translate("djv::AV::Pixel", "RGB") <<
+                qApp->translate("djv::AV::Pixel", "RGBA");
             DJV_ASSERT(data.count() == FORMAT_COUNT);
             return data;
         }
@@ -55,11 +55,11 @@ namespace djv
         const QStringList & Pixel::typeLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Pixel", "U8") <<
-                qApp->translate("djv::Graphics::Pixel", "U10") <<
-                qApp->translate("djv::Graphics::Pixel", "U16") <<
-                qApp->translate("djv::Graphics::Pixel", "F16") <<
-                qApp->translate("djv::Graphics::Pixel", "F32");
+                qApp->translate("djv::AV::Pixel", "U8") <<
+                qApp->translate("djv::AV::Pixel", "U10") <<
+                qApp->translate("djv::AV::Pixel", "U16") <<
+                qApp->translate("djv::AV::Pixel", "F16") <<
+                qApp->translate("djv::AV::Pixel", "F32");
             DJV_ASSERT(data.count() == TYPE_COUNT);
             return data;
         }
@@ -67,8 +67,8 @@ namespace djv
         const QStringList & Pixel::dataLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Pixel", "Integer") <<
-                qApp->translate("djv::Graphics::Pixel", "Float");
+                qApp->translate("djv::AV::Pixel", "Integer") <<
+                qApp->translate("djv::AV::Pixel", "Float");
             DJV_ASSERT(data.count() == DATA_COUNT);
             return data;
         }
@@ -76,83 +76,83 @@ namespace djv
         const QStringList & Pixel::pixelLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::Pixel", "L U8") <<
-                qApp->translate("djv::Graphics::Pixel", "L U16") <<
-                qApp->translate("djv::Graphics::Pixel", "L F16") <<
-                qApp->translate("djv::Graphics::Pixel", "L F32") <<
-                qApp->translate("djv::Graphics::Pixel", "LA U8") <<
-                qApp->translate("djv::Graphics::Pixel", "LA U16") <<
-                qApp->translate("djv::Graphics::Pixel", "LA F16") <<
-                qApp->translate("djv::Graphics::Pixel", "LA F32") <<
-                qApp->translate("djv::Graphics::Pixel", "RGB U8") <<
-                qApp->translate("djv::Graphics::Pixel", "RGB U10") <<
-                qApp->translate("djv::Graphics::Pixel", "RGB U16") <<
-                qApp->translate("djv::Graphics::Pixel", "RGB F16") <<
-                qApp->translate("djv::Graphics::Pixel", "RGB F32") <<
-                qApp->translate("djv::Graphics::Pixel", "RGBA U8") <<
-                qApp->translate("djv::Graphics::Pixel", "RGBA U16") <<
-                qApp->translate("djv::Graphics::Pixel", "RGBA F16") <<
-                qApp->translate("djv::Graphics::Pixel", "RGBA F32");
+                qApp->translate("djv::AV::Pixel", "L U8") <<
+                qApp->translate("djv::AV::Pixel", "L U16") <<
+                qApp->translate("djv::AV::Pixel", "L F16") <<
+                qApp->translate("djv::AV::Pixel", "L F32") <<
+                qApp->translate("djv::AV::Pixel", "LA U8") <<
+                qApp->translate("djv::AV::Pixel", "LA U16") <<
+                qApp->translate("djv::AV::Pixel", "LA F16") <<
+                qApp->translate("djv::AV::Pixel", "LA F32") <<
+                qApp->translate("djv::AV::Pixel", "RGB U8") <<
+                qApp->translate("djv::AV::Pixel", "RGB U10") <<
+                qApp->translate("djv::AV::Pixel", "RGB U16") <<
+                qApp->translate("djv::AV::Pixel", "RGB F16") <<
+                qApp->translate("djv::AV::Pixel", "RGB F32") <<
+                qApp->translate("djv::AV::Pixel", "RGBA U8") <<
+                qApp->translate("djv::AV::Pixel", "RGBA U16") <<
+                qApp->translate("djv::AV::Pixel", "RGBA F16") <<
+                qApp->translate("djv::AV::Pixel", "RGBA F32");
             DJV_ASSERT(data.count() == PIXEL_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::FORMAT, Graphics::Pixel::formatLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::TYPE, Graphics::Pixel::typeLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::DATA, Graphics::Pixel::dataLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::PIXEL, Graphics::Pixel::pixelLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::Pixel::FORMAT, AV::Pixel::formatLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::Pixel::TYPE, AV::Pixel::typeLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::Pixel::DATA, AV::Pixel::dataLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::Pixel::PIXEL, AV::Pixel::pixelLabels());
 
-    QStringList & operator >> (QStringList & in, Graphics::Pixel::Mask & out)
+    QStringList & operator >> (QStringList & in, AV::Pixel::Mask & out)
     {
-        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        for (int i = 0; i < AV::Pixel::channelsMax; ++i)
         {
             in >> out[i];
         }
         return in;
     }
 
-    QStringList & operator << (QStringList & out, const Graphics::Pixel::Mask & in)
+    QStringList & operator << (QStringList & out, const AV::Pixel::Mask & in)
     {
-        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        for (int i = 0; i < AV::Pixel::channelsMax; ++i)
         {
             out << in[i];
         }
         return out;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::FORMAT & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Pixel::FORMAT & in)
     {
         QStringList tmp;
         tmp << in;
         return debug << tmp;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::TYPE & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Pixel::TYPE & in)
     {
         QStringList tmp;
         tmp << in;
         return debug << tmp;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::DATA & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Pixel::DATA & in)
     {
         QStringList tmp;
         tmp << in;
         return debug << tmp;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::PIXEL & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Pixel::PIXEL & in)
     {
         QStringList tmp;
         tmp << in;
         return debug << tmp;
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::Mask & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Pixel::Mask & in)
     {
-        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        for (int i = 0; i < AV::Pixel::channelsMax; ++i)
         {
             debug << static_cast<int>(in[i]);
         }

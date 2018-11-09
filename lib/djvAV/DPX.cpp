@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/DPX.h>
+#include <djvAV/DPX.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Error.h>
@@ -37,15 +37,15 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         const QString DPX::staticName = "DPX";
 
         const QStringList & DPX::versionLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::DPX", "1.0") <<
-                qApp->translate("djv::Graphics::DPX", "2.0");
+                qApp->translate("djv::AV::DPX", "1.0") <<
+                qApp->translate("djv::AV::DPX", "2.0");
             DJV_ASSERT(data.count() == VERSION_COUNT);
             return data;
         }
@@ -53,8 +53,8 @@ namespace djv
         const QStringList & DPX::typeLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::DPX", "Auto") <<
-                qApp->translate("djv::Graphics::DPX", "U10");
+                qApp->translate("djv::AV::DPX", "Auto") <<
+                qApp->translate("djv::AV::DPX", "U10");
             DJV_ASSERT(data.count() == TYPE_COUNT);
             return data;
         }
@@ -62,7 +62,7 @@ namespace djv
         const QStringList & DPX::endianLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::DPX", "Auto") <<
+                qApp->translate("djv::AV::DPX", "Auto") <<
                 Core::Memory::endianLabels();
             DJV_ASSERT(data.count() == ENDIAN_COUNT);
             return data;
@@ -71,36 +71,36 @@ namespace djv
         const QStringList & DPX::tagLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::DPX", "Source Offset") <<
-                qApp->translate("djv::Graphics::DPX", "Source Center") <<
-                qApp->translate("djv::Graphics::DPX", "Source Size") <<
-                qApp->translate("djv::Graphics::DPX", "Source File") <<
-                qApp->translate("djv::Graphics::DPX", "Source Time") <<
-                qApp->translate("djv::Graphics::DPX", "Source Input Device") <<
-                qApp->translate("djv::Graphics::DPX", "Source Input Serial") <<
-                qApp->translate("djv::Graphics::DPX", "Source Border") <<
-                qApp->translate("djv::Graphics::DPX", "Source Pixel Aspect") <<
-                qApp->translate("djv::Graphics::DPX", "Source ScanSize") <<
-                qApp->translate("djv::Graphics::DPX", "Film Format") <<
-                qApp->translate("djv::Graphics::DPX", "Film Frame") <<
-                qApp->translate("djv::Graphics::DPX", "Film Sequence") <<
-                qApp->translate("djv::Graphics::DPX", "Film Hold") <<
-                qApp->translate("djv::Graphics::DPX", "Film Frame Rate") <<
-                qApp->translate("djv::Graphics::DPX", "Film Shutter") <<
-                qApp->translate("djv::Graphics::DPX", "Film Frame ID") <<
-                qApp->translate("djv::Graphics::DPX", "Film Slate") <<
-                qApp->translate("djv::Graphics::DPX", "TV Interlace") <<
-                qApp->translate("djv::Graphics::DPX", "TV Field") <<
-                qApp->translate("djv::Graphics::DPX", "TV Video Signal") <<
-                qApp->translate("djv::Graphics::DPX", "TV Sample Rate") <<
-                qApp->translate("djv::Graphics::DPX", "TV Frame Rate") <<
-                qApp->translate("djv::Graphics::DPX", "TV Time Offset") <<
-                qApp->translate("djv::Graphics::DPX", "TV Gamma") <<
-                qApp->translate("djv::Graphics::DPX", "TV Black Level") <<
-                qApp->translate("djv::Graphics::DPX", "TV Black Gain") <<
-                qApp->translate("djv::Graphics::DPX", "TV Break Point") <<
-                qApp->translate("djv::Graphics::DPX", "TV White Level") <<
-                qApp->translate("djv::Graphics::DPX", "TV Integration Times");
+                qApp->translate("djv::AV::DPX", "Source Offset") <<
+                qApp->translate("djv::AV::DPX", "Source Center") <<
+                qApp->translate("djv::AV::DPX", "Source Size") <<
+                qApp->translate("djv::AV::DPX", "Source File") <<
+                qApp->translate("djv::AV::DPX", "Source Time") <<
+                qApp->translate("djv::AV::DPX", "Source Input Device") <<
+                qApp->translate("djv::AV::DPX", "Source Input Serial") <<
+                qApp->translate("djv::AV::DPX", "Source Border") <<
+                qApp->translate("djv::AV::DPX", "Source Pixel Aspect") <<
+                qApp->translate("djv::AV::DPX", "Source ScanSize") <<
+                qApp->translate("djv::AV::DPX", "Film Format") <<
+                qApp->translate("djv::AV::DPX", "Film Frame") <<
+                qApp->translate("djv::AV::DPX", "Film Sequence") <<
+                qApp->translate("djv::AV::DPX", "Film Hold") <<
+                qApp->translate("djv::AV::DPX", "Film Frame Rate") <<
+                qApp->translate("djv::AV::DPX", "Film Shutter") <<
+                qApp->translate("djv::AV::DPX", "Film Frame ID") <<
+                qApp->translate("djv::AV::DPX", "Film Slate") <<
+                qApp->translate("djv::AV::DPX", "TV Interlace") <<
+                qApp->translate("djv::AV::DPX", "TV Field") <<
+                qApp->translate("djv::AV::DPX", "TV Video Signal") <<
+                qApp->translate("djv::AV::DPX", "TV Sample Rate") <<
+                qApp->translate("djv::AV::DPX", "TV Frame Rate") <<
+                qApp->translate("djv::AV::DPX", "TV Time Offset") <<
+                qApp->translate("djv::AV::DPX", "TV Gamma") <<
+                qApp->translate("djv::AV::DPX", "TV Black Level") <<
+                qApp->translate("djv::AV::DPX", "TV Black Gain") <<
+                qApp->translate("djv::AV::DPX", "TV Break Point") <<
+                qApp->translate("djv::AV::DPX", "TV White Level") <<
+                qApp->translate("djv::AV::DPX", "TV Integration Times");
             DJV_ASSERT(data.count() == TAG_COUNT);
             return data;
         }
@@ -108,21 +108,21 @@ namespace djv
         const QStringList & DPX::optionsLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::Graphics::DPX", "Input Color Profile") <<
-                qApp->translate("djv::Graphics::DPX", "Input Film Print") <<
-                qApp->translate("djv::Graphics::DPX", "Output Color Profile") <<
-                qApp->translate("djv::Graphics::DPX", "Output Film Print") <<
-                qApp->translate("djv::Graphics::DPX", "Version") <<
-                qApp->translate("djv::Graphics::DPX", "Type") <<
-                qApp->translate("djv::Graphics::DPX", "Endian");
+                qApp->translate("djv::AV::DPX", "Input Color Profile") <<
+                qApp->translate("djv::AV::DPX", "Input Film Print") <<
+                qApp->translate("djv::AV::DPX", "Output Color Profile") <<
+                qApp->translate("djv::AV::DPX", "Output Film Print") <<
+                qApp->translate("djv::AV::DPX", "Version") <<
+                qApp->translate("djv::AV::DPX", "Type") <<
+                qApp->translate("djv::AV::DPX", "Endian");
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
             return data;
         }
 
-    } // namespace Graphics
+    } // namespace AV
 
-    _DJV_STRING_OPERATOR_LABEL(Graphics::DPX::VERSION, Graphics::DPX::versionLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::DPX::TYPE, Graphics::DPX::typeLabels());
-    _DJV_STRING_OPERATOR_LABEL(Graphics::DPX::ENDIAN, Graphics::DPX::endianLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::DPX::VERSION, AV::DPX::versionLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::DPX::TYPE, AV::DPX::typeLabels());
+    _DJV_STRING_OPERATOR_LABEL(AV::DPX::ENDIAN, AV::DPX::endianLabels());
 
 } // namespace djv

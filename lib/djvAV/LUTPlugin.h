@@ -29,12 +29,12 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/LUT.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/LUT.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This plugin provides support for two-dimensional lookup table file formats.
         //!
@@ -69,5 +69,5 @@ namespace djv
             LUT::Options _options;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

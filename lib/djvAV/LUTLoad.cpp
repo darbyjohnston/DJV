@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/LUTLoad.h>
+#include <djvAV/LUTLoad.h>
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/CoreContext.h>
@@ -38,7 +38,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         LUTLoad::LUTLoad(const Core::FileInfo & fileInfo, const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageLoad(fileInfo, context),
@@ -110,5 +110,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

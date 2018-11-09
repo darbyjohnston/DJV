@@ -31,7 +31,7 @@
 
 #include <djvWidgetTest/AbstractWidgetTest.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 namespace djv
 {
@@ -49,7 +49,7 @@ namespace djv
             virtual void run(const QStringList & args = QStringList());
 
         private Q_SLOTS:
-            void colorCallback(const djv::Graphics::Color &);
+            void colorCallback(const djv::AV::Color &);
         };
 
     } // namespace WidgetTest

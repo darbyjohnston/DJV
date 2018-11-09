@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvGraphics/Targa.h>
+#include <djvAV/Targa.h>
 
 #include <djvCore/FileInfo.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a Targa loader.
         class TargaLoad : public ImageLoad
@@ -53,5 +53,5 @@ namespace djv
             PixelData _tmp;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

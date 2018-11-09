@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/DPX.h>
+#include <djvAV/DPX.h>
 
 class QCheckBox;
 class QComboBox;
@@ -51,7 +51,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            DPXWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            DPXWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -74,7 +74,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::DPX::Options _options;
+            AV::DPX::Options _options;
             QFormLayout * _inputColorProfileLayout = nullptr;
             QComboBox * _inputColorProfileWidget = nullptr;
             IntEditSlider * _inputBlackPointWidget = nullptr;
@@ -98,7 +98,7 @@ namespace djv
         public:
             DPXWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

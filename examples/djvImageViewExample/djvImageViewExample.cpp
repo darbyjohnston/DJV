@@ -31,9 +31,10 @@
 
 #include <djvUI/WindowUtil.h>
 
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/Pixel.h>
+
 #include <djvCore/Error.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/Pixel.h>
 
 #include <QCursor>
 #include <QKeyEvent>
@@ -103,7 +104,7 @@ namespace djv
     {
         try
         {
-            Graphics::ImageIOInfo info;
+            AV::ImageIOInfo info;
             _load = _context->imageIOFactory()->load(_fileInfo, info);
             _load->read(_image);
         }
@@ -118,7 +119,7 @@ namespace djv
         _widget->setWindowTitle("djvImageViewExample");
         _widget->setData(&_image);
 
-        Graphics::OpenGLImageOptions options;
+        AV::OpenGLImageOptions options;
         options.colorProfile = _image.colorProfile;
         _widget->setOptions(options);
 

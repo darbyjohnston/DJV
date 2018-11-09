@@ -32,9 +32,9 @@
 #include <djvUI/FileBrowserModel.h>
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/Image.h>
-#include <djvGraphics/OpenGLImage.h>
-#include <djvGraphics/PixelDataUtil.h>
+#include <djvAV/Image.h>
+#include <djvAV/OpenGLImage.h>
+#include <djvAV/PixelDataUtil.h>
 
 #include <djvCore/DebugLog.h>
 #include <djvCore/FileInfo.h>
@@ -78,7 +78,7 @@ namespace djv
                 }
 
                 Core::FileInfo fileInfo;
-                std::promise<Graphics::ImageIOInfo> promise;
+                std::promise<AV::ImageIOInfo> promise;
             };
 
             struct PixmapRequest
@@ -110,7 +110,7 @@ namespace djv
                 Core::FileInfo fileInfo;
                 FileBrowserModel::THUMBNAIL_MODE thumbnailMode = static_cast<FileBrowserModel::THUMBNAIL_MODE>(0);
                 glm::ivec2 resolution;
-                Graphics::PixelDataInfo::PROXY proxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+                AV::PixelDataInfo::PROXY proxy = static_cast<AV::PixelDataInfo::PROXY>(0);
                 std::promise<QPixmap> promise;
             };
 
@@ -119,7 +119,7 @@ namespace djv
         struct FileBrowserThumbnailSystem::Private
         {
             Core::DebugLog * debugLog = nullptr;
-            Graphics::ImageIOFactory * imageIO = nullptr;
+            AV::ImageIOFactory * imageIO = nullptr;
             std::vector<InfoRequest> infoQueue;
             std::vector<PixmapRequest> pixmapQueue;
             std::condition_variable requestCV;
@@ -129,7 +129,7 @@ namespace djv
             QScopedPointer<QOffscreenSurface> offscreenSurface;
             QScopedPointer<QOpenGLContext> openGLContext;
             QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
-            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
+            std::unique_ptr<AV::OpenGLImage> openGLImage;
             std::atomic<bool> running;
         };
 
@@ -165,7 +165,7 @@ namespace djv
         FileBrowserThumbnailSystem::~FileBrowserThumbnailSystem()
         {}
 
-        std::future<Graphics::ImageIOInfo> FileBrowserThumbnailSystem::getInfo(const Core::FileInfo& fileInfo)
+        std::future<AV::ImageIOInfo> FileBrowserThumbnailSystem::getInfo(const Core::FileInfo& fileInfo)
         {
             InfoRequest request;
             request.fileInfo = fileInfo;
@@ -180,7 +180,7 @@ namespace djv
             const Core::FileInfo& fileInfo,
             FileBrowserModel::THUMBNAIL_MODE thumbnailMode,
             const glm::ivec2 & resolution,
-            Graphics::PixelDataInfo::PROXY proxy)
+            AV::PixelDataInfo::PROXY proxy)
         {
             PixmapRequest request;
             request.fileInfo = fileInfo;
@@ -212,7 +212,7 @@ namespace djv
                 _p->openGLDebugLogger->initialize();
                 _p->openGLDebugLogger->startLogging();
             }
-            _p->openGLImage.reset(new Graphics::OpenGLImage);
+            _p->openGLImage.reset(new AV::OpenGLImage);
             while (_p->running)
             {
                 {
@@ -248,10 +248,10 @@ namespace djv
         {
             for (auto& request : _p->infoRequests)
             {
-                Graphics::ImageIOInfo info;
+                AV::ImageIOInfo info;
                 try
                 {
-                    auto load = std::unique_ptr<Graphics::ImageLoad>(_p->imageIO->load(request.fileInfo, info));
+                    auto load = std::unique_ptr<AV::ImageLoad>(_p->imageIO->load(request.fileInfo, info));
                 }
                 catch (const Core::Error&)
                 {
@@ -271,19 +271,19 @@ namespace djv
                 {
                     //DJV_DEBUG_PRINT("file = " << request.fileInfo);
                     
-                    Graphics::ImageIOInfo info;
-                    auto load = std::unique_ptr<Graphics::ImageLoad>(_p->imageIO->load(request.fileInfo, info));
-                    Graphics::Image image;
+                    AV::ImageIOInfo info;
+                    auto load = std::unique_ptr<AV::ImageLoad>(_p->imageIO->load(request.fileInfo, info));
+                    AV::Image image;
                     load->read(image);
                     //DJV_DEBUG_PRINT("image = " << image);
 
-                    Graphics::Image tmp(Graphics::PixelDataInfo(request.resolution, image.pixel()));
-                    Graphics::OpenGLImageOptions options;
-                    options.xform.scale = glm::vec2(tmp.size()) / (glm::vec2(image.size() * Graphics::PixelDataUtil::proxyScale(image.info().proxy)));
+                    AV::Image tmp(AV::PixelDataInfo(request.resolution, image.pixel()));
+                    AV::OpenGLImageOptions options;
+                    options.xform.scale = glm::vec2(tmp.size()) / (glm::vec2(image.size() * AV::PixelDataUtil::proxyScale(image.info().proxy)));
                     options.colorProfile = image.colorProfile;
                     if (FileBrowserModel::THUMBNAIL_MODE_HIGH == request.thumbnailMode)
                     {
-                        options.filter = Graphics::OpenGLImageFilter::filterHighQuality();
+                        options.filter = AV::OpenGLImageFilter::filterHighQuality();
                     }
                     _p->openGLImage->copy(image, tmp, options);
                     pixmap = _p->openGLImage->toQt(tmp);

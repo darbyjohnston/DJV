@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         Image::Image()
         {}
@@ -43,23 +43,23 @@ namespace djv
         Image::~Image()
         {}
 
-    } // namespace Graphics
+    } // namespace AV
 
-    bool operator == (const Graphics::Image & a, const Graphics::Image & b)
+    bool operator == (const AV::Image & a, const AV::Image & b)
     {
         return
-            static_cast<const Graphics::PixelData &>(a) ==
-            static_cast<const Graphics::PixelData &>(b) &&
+            static_cast<const AV::PixelData &>(a) ==
+            static_cast<const AV::PixelData &>(b) &&
             a.tags == b.tags &&
             a.colorProfile == b.colorProfile;
     }
 
-    bool operator != (const Graphics::Image & a, const Graphics::Image & b)
+    bool operator != (const AV::Image & a, const AV::Image & b)
     {
         return !(a == b);
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const Graphics::Image & in)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Image & in)
     {
         return debug << in.info() << ", color profile: " << in.colorProfile.type;
     }

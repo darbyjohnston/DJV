@@ -32,7 +32,7 @@
 #include <djvViewLib/ViewLib.h>
 #include <djvViewLib/Enum.h>
 
-#include <djvGraphics/Image.h>
+#include <djvAV/Image.h>
 
 #include <djvCore/Util.h>
 
@@ -50,13 +50,13 @@ namespace djv
 
     } // namespace Core
 
-    namespace Graphics
+    namespace AV
     {
         class Image;
         class ImageIOInfo;
         class OpenGLImageOptions;
 
-    } // Graphics
+    } // AV
 
     namespace ViewLib
     {
@@ -90,8 +90,8 @@ namespace djv
             QPointer<ToolGroup> toolGroup() const;
             QPointer<HelpGroup> helpGroup() const;
 
-            const std::shared_ptr<Graphics::Image> & image() const;
-            Graphics::OpenGLImageOptions imageOptions() const;
+            const std::shared_ptr<AV::Image> & image() const;
+            AV::OpenGLImageOptions imageOptions() const;
 
             QPointer<MainWindow> mainWindow() const;
             const QPointer<ImageView> & viewWidget() const;
@@ -108,7 +108,7 @@ namespace djv
             void setFileLayer(int);
 
             //! Set the file proxy scale.
-            void setFileProxy(djv::Graphics::PixelDataInfo::PROXY);
+            void setFileProxy(djv::AV::PixelDataInfo::PROXY);
 
             //! Set whether the file cache is enabled.
             void setFileCacheEnabled(bool);
@@ -130,10 +130,10 @@ namespace djv
             void fileChanged(bool);
 
             //! This signal is emitted when the image is changed.
-            void imageChanged(const std::shared_ptr<djv::Graphics::Image> &);
+            void imageChanged(const std::shared_ptr<djv::AV::Image> &);
 
             //! This signal is emitted when the image options are changed.
-            void imageOptionsChanged(const djv::Graphics::OpenGLImageOptions &);
+            void imageOptionsChanged(const djv::AV::OpenGLImageOptions &);
 
         private Q_SLOTS:
             void reloadFrameCallback();

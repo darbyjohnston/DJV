@@ -35,7 +35,7 @@ class QColor;
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         class Color;
 
@@ -79,8 +79,8 @@ namespace djv
             static Color fromQt(const QColor &);
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv
 
-#include <djvGraphics/ColorUtilInline.h>
+#include <djvAV/ColorUtilInline.h>
 

@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/LUTSave.h>
+#include <djvAV/LUTSave.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 #include <djvCore/FileIO.h>
@@ -37,7 +37,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         LUTSave::LUTSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -118,5 +118,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

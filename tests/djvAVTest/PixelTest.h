@@ -29,22 +29,23 @@
 
 #pragma once
 
-#include <djvGraphicsTest/GraphicsTest.h>
+#include <djvAVTest/AVTest.h>
 
 namespace djv
 {
-    namespace GraphicsTest
+    namespace AVTest
     {
-        class ImageTagsTest : public TestLib::AbstractTest
+        class PixelTest : public TestLib::AbstractTest
         {
         public:
             void run(int &, char **) override;
 
         private:
-            void ctors();
+            void mask();
             void members();
+            void convert();
             void operators();
         };
 
-    } // namespace GraphicsTest
+    } // namespace AVTest
 } // namespace djv

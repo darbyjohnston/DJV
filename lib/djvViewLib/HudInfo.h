@@ -31,8 +31,8 @@
 
 #include <djvViewLib/Enum.h>
 
-#include <djvGraphics/ImageTags.h>
-#include <djvGraphics/PixelData.h>
+#include <djvAV/ImageTags.h>
+#include <djvAV/PixelData.h>
 
 #include <djvCore/Speed.h>
 
@@ -45,13 +45,13 @@ namespace djv
         //! This struct provides HUD information.
         struct HudInfo
         {
-            Graphics::PixelDataInfo info;
-            Graphics::ImageTags     tags;
-            qint64                  frame = 0;
-            Core::Speed             speed;
-            float                   actualSpeed = 0.f;
-            bool                    droppedFrames = false;
-            QMap<Enum::HUD, bool>   visible;
+            AV::PixelDataInfo     info;
+            AV::ImageTags         tags;
+            qint64                frame = 0;
+            Core::Speed           speed;
+            float                 actualSpeed = 0.f;
+            bool                  droppedFrames = false;
+            QMap<Enum::HUD, bool> visible;
         };
 
     } // namespace ViewLib

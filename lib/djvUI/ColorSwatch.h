@@ -31,7 +31,7 @@
 
 #include <djvUI/Core.h>
 
-#include <djvGraphics/Color.h>
+#include <djvAV/Color.h>
 
 #include <QPointer>
 #include <QWidget>
@@ -49,7 +49,7 @@ namespace djv
 
             //! This property holds the color.    
             Q_PROPERTY(
-                djv::Graphics::Color color
+                djv::AV::Color color
                 READ                 color
                 WRITE                setColor
                 NOTIFY               colorChanged)
@@ -59,7 +59,7 @@ namespace djv
             ~ColorSwatch() override;
 
             //! Get the color.
-            const Graphics::Color & color() const;
+            const AV::Color & color() const;
 
             //! This enumeration provides the swatch size.
             enum SWATCH_SIZE
@@ -86,11 +86,11 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the color.
-            void setColor(const djv::Graphics::Color &);
+            void setColor(const djv::AV::Color &);
 
         Q_SIGNALS:
             //! This signal is emitted when the color is changed.
-            void colorChanged(const djv::Graphics::Color &);
+            void colorChanged(const djv::AV::Color &);
 
             //! This signal is emitted when the swatch is clicked.
             void clicked();

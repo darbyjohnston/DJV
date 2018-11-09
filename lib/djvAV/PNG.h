@@ -43,7 +43,7 @@ namespace djv
 
     } // namespace Core
 
-    namespace Graphics
+    namespace AV
     {
         //! This struct provides PNG utilities.
         struct PNG
@@ -58,7 +58,7 @@ namespace djv
             QPointer<Core::CoreContext> context;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv
 
 extern "C"

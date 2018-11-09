@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/PNGPlugin.h>
+#include <djvAV/PNGPlugin.h>
 
-#include <djvGraphics/PNGLoad.h>
-#include <djvGraphics/PNGSave.h>
+#include <djvAV/PNGLoad.h>
+#include <djvAV/PNGSave.h>
 
 #include <djvCore/CoreContext.h>
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         PNGPlugin::PNGPlugin(const QPointer<Core::CoreContext> & context) :
             ImageIO(context)
@@ -62,5 +62,5 @@ namespace djv
             return std::unique_ptr<ImageSave>(new PNGSave(fileInfo, imageIOInfo, context()));
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

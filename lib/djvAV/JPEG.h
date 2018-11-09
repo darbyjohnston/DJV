@@ -38,7 +38,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides JPEG utilities.
         struct JPEG
@@ -72,7 +72,7 @@ namespace djv
             jmp_buf jump;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv
 
 extern "C"

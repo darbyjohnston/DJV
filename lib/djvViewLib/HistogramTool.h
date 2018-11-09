@@ -31,7 +31,7 @@
 
 #include <djvViewLib/AbstractTool.h>
 
-#include <djvGraphics/Pixel.h>
+#include <djvAV/Pixel.h>
 
 #include <memory>
 
@@ -58,7 +58,7 @@ namespace djv
 
         private Q_SLOTS:
             void sizeCallback(int);
-            void maskCallback(const djv::Graphics::Pixel::Mask &);
+            void maskCallback(const djv::AV::Pixel::Mask &);
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);
 

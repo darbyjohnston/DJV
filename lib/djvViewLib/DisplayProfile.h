@@ -31,7 +31,7 @@
 
 #include <djvViewLib/ViewLib.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -40,7 +40,7 @@ namespace djv
     namespace ViewLib
     {
         //! This struct provides a display profile.
-        struct DisplayProfile : public Graphics::OpenGLImageDisplayProfile
+        struct DisplayProfile : public AV::OpenGLImageDisplayProfile
         {
             QString        name;
             Core::FileInfo lutFile;

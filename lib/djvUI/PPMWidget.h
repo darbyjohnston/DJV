@@ -31,7 +31,7 @@
 
 #include <djvUI/ImageIOWidget.h>
 
-#include <djvGraphics/PPM.h>
+#include <djvAV/PPM.h>
 
 class QComboBox;
 class QVBoxLayout;
@@ -46,7 +46,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            PPMWidget(Graphics::ImageIO *, const QPointer<UIContext> &);
+            PPMWidget(AV::ImageIO *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -59,7 +59,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            Graphics::PPM::Options _options;
+            AV::PPM::Options _options;
             QComboBox * _typeWidget = nullptr;
             QComboBox * _dataWidget = nullptr;
             QVBoxLayout * _layout = nullptr;
@@ -71,7 +71,7 @@ namespace djv
         public:
             PPMWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(Graphics::ImageIO *) const override;
+            ImageIOWidget * createWidget(AV::ImageIO *) const override;
             QString pluginName() const override;
         };
 

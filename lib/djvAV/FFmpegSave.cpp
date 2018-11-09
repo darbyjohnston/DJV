@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvGraphics/FFmpegSave.h>
+#include <djvAV/FFmpegSave.h>
 
-#include <djvGraphics/OpenGLImage.h>
+#include <djvAV/OpenGLImage.h>
 
 #include <djvCore/CoreContext.h>
 
@@ -39,7 +39,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         FFmpegSave::FFmpegSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const FFmpeg::Options & options, const QPointer<Core::CoreContext> & context) :
             ImageSave(fileInfo, imageIOInfo, context),
@@ -148,7 +148,7 @@ namespace djv
             {
                 throw Core::Error(
                     FFmpeg::staticName,
-                    qApp->translate("djv::Graphics::FFmpegSave", "Cannot find format: %1").
+                    qApp->translate("djv::AV::FFmpegSave", "Cannot find format: %1").
                     arg(FFmpeg::formatLabels()[_options.format]));
             }
             //DJV_DEBUG_PRINT("av format extensions = " << avFormat->extensions);
@@ -161,7 +161,7 @@ namespace djv
             {
                 throw Core::Error(
                     FFmpeg::staticName,
-                    qApp->translate("djv::Graphics::FFmpegSave", "Cannot find encoder: %1").
+                    qApp->translate("djv::AV::FFmpegSave", "Cannot find encoder: %1").
                     arg(FFmpeg::formatLabels()[_options.format]));
             }
 
@@ -198,7 +198,7 @@ namespace djv
             {
                 throw Core::Error(
                     FFmpeg::staticName,
-                    qApp->translate("djv::Graphics::FFmpegSave", "Cannot create stream"));
+                    qApp->translate("djv::AV::FFmpegSave", "Cannot create stream"));
             }
 
             _avStream->codec = avCodecContext;
@@ -272,7 +272,7 @@ namespace djv
             {
                 throw Core::Error(
                     FFmpeg::staticName,
-                    qApp->translate("djv::Graphics::FFmpegSave", "Cannot create software scaler"));
+                    qApp->translate("djv::AV::FFmpegSave", "Cannot create software scaler"));
             }
         }
 
@@ -439,5 +439,5 @@ namespace djv
             }
         }
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv

@@ -31,7 +31,7 @@
 
 #include <djvUI/UIContext.h>
 
-#include <djvGraphics/ImageIO.h>
+#include <djvAV/ImageIO.h>
 
 namespace djv
 {
@@ -40,11 +40,11 @@ namespace djv
         struct ImageIOWidget::Private
         {
             QPointer<UIContext> context;
-            Graphics::ImageIO * plugin = nullptr;
+            AV::ImageIO * plugin = nullptr;
         };
 
         ImageIOWidget::ImageIOWidget(
-            Graphics::ImageIO * plugin,
+            AV::ImageIO * plugin,
             const QPointer<UIContext> & context,
             QWidget * parent) :
             AbstractPrefsWidget(plugin->pluginName(), context, parent),
@@ -57,7 +57,7 @@ namespace djv
         ImageIOWidget::~ImageIOWidget()
         {}
 
-        Graphics::ImageIO * ImageIOWidget::plugin() const
+        AV::ImageIO * ImageIOWidget::plugin() const
         {
             return _p->plugin;
         }
@@ -99,7 +99,7 @@ namespace djv
         ImageIOWidgetFactory::~ImageIOWidgetFactory()
         {}
 
-        ImageIOWidget * ImageIOWidgetFactory::createWidget(Graphics::ImageIO * imageIOPlugin) const
+        ImageIOWidget * ImageIOWidgetFactory::createWidget(AV::ImageIO * imageIOPlugin) const
         {
             Q_FOREACH(Core::Plugin * plugin, plugins())
             {

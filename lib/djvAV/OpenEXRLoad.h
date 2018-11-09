@@ -29,8 +29,8 @@
 
 #pragma once
 
-#include <djvGraphics/ImageIO.h>
-#include <djvGraphics/OpenEXR.h>
+#include <djvAV/ImageIO.h>
+#include <djvAV/OpenEXR.h>
 
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
@@ -39,7 +39,7 @@
 
 namespace djv
 {
-    namespace Graphics
+    namespace AV
     {
         //! This class provides a memory-mapped input stream.
         class MemoryMappedIStream : public Imf::IStream
@@ -59,7 +59,8 @@ namespace djv
             quint64      _size = 0;
             quint64      _pos  = 0;
             char *       _p    = nullptr;
-        };
+        };
+
         //! This class provides an OpenEXR loader.
         class OpenEXRLoad : public ImageLoad
         {
@@ -84,5 +85,5 @@ namespace djv
             bool                                 _fast = false;
         };
 
-    } // namespace Graphics
+    } // namespace AV
 } // namespace djv
