@@ -258,15 +258,15 @@ namespace djv
                 {
                     if (_info.layers[0].isValid())
                     {
-                        _context->print(qApp->translate("djv::info::Application", "    Width = %1").
+                        _context->print(qApp->translate("djv::info::Application", "    Image width = %1").
                             arg(_info.layers[0].size.x));
-                        _context->print(qApp->translate("djv::info::Application", "    Height = %1").
+                        _context->print(qApp->translate("djv::info::Application", "    Image height = %1").
                             arg(_info.layers[0].size.y));
-                        _context->print(qApp->translate("djv::info::Application", "    Aspect = %1").
+                        _context->print(qApp->translate("djv::info::Application", "    Image aspect ratio = %1").
                             arg(Core::VectorUtil::aspect(_info.layers[0].size), 0, 'f', 2));
                         QStringList pixelLabel;
                         pixelLabel << _info.layers[0].pixel;
-                        _context->print(qApp->translate("djv::info::Application", "    Pixel = %1").
+                        _context->print(qApp->translate("djv::info::Application", "    Image pixel = %1").
                             arg(pixelLabel.join(", ")));
                     }
                 }
@@ -278,15 +278,15 @@ namespace djv
                         {
                             _context->print(qApp->translate("djv::info::Application", "    %1").
                                 arg(_info.layers[i].layerName));
-                            _context->print(qApp->translate("djv::info::Application", "        Width = %1").
+                            _context->print(qApp->translate("djv::info::Application", "        Image width = %1").
                                 arg(_info.layers[i].size.x));
-                            _context->print(qApp->translate("djv::info::Application", "        Height = %1").
+                            _context->print(qApp->translate("djv::info::Application", "        Image height = %1").
                                 arg(_info.layers[i].size.y));
-                            _context->print(qApp->translate("djv::info::Application", "        Aspect = %1").
+                            _context->print(qApp->translate("djv::info::Application", "        Image aspect ratio = %1").
                                 arg(Core::VectorUtil::aspect(_info.layers[i].size), 0, 'f', 2));
                             QStringList pixelLabel;
                             pixelLabel << _info.layers[i].pixel;
-                            _context->print(qApp->translate("djv::info::Application", "        Pixel = %1").
+                            _context->print(qApp->translate("djv::info::Application", "        Image pixel = %1").
                                 arg(pixelLabel.join(", ")));
                         }
                     }

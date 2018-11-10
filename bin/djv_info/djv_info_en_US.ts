@@ -17,17 +17,20 @@
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="261"/>
-        <source>    Width = %1</source>
+        <source>    Image width = %1</source>
+        <oldsource>    Width = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="263"/>
-        <source>    Height = %1</source>
+        <source>    Image height = %1</source>
+        <oldsource>    Height = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="281"/>
-        <source>        Width = %1</source>
+        <source>        Image width = %1</source>
+        <oldsource>        Width = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -57,32 +60,32 @@
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="265"/>
-        <source>    Aspect = %1</source>
-        <oldsource>  Width = %1</oldsource>
+        <source>    Image aspect ratio = %1</source>
+        <oldsource>    Aspect = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="269"/>
-        <source>    Pixel = %1</source>
-        <oldsource>  Aspect = %1</oldsource>
+        <source>    Image pixel = %1</source>
+        <oldsource>    Pixel = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="285"/>
-        <source>        Aspect = %1</source>
-        <oldsource>  Bit depth = %1</oldsource>
+        <source>        Image aspect ratio = %1</source>
+        <oldsource>        Aspect = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="283"/>
-        <source>        Height = %1</source>
-        <oldsource>  Channels = %1</oldsource>
+        <source>        Image height = %1</source>
+        <oldsource>        Height = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="289"/>
-        <source>        Pixel = %1</source>
-        <oldsource>  Sample Count = %1</oldsource>
+        <source>        Image pixel = %1</source>
+        <oldsource>        Pixel = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -218,19 +221,19 @@
 
 Usage
 
-    djv_info [image|directory]... [option]...
+    djv_info [file|directory]... [option]...
 
-    image     - One or more images, image sequences, or movies
+    file      - One or more files or file sequences
     directory - One or more directories
 
-    If no images or directories are given then the current directory will be used.
+    If no files or directories are given then the current directory will be used.
 
 Options
 
     -x_info, -xi
-        Don&apos;t show image information, only file names.
+        Don&apos;t show information, only file names.
     -verbose, -v
-        Show verbose image information.
+        Show verbose information.
     -file_path, -fp
         Show file path names.
     -recurse, -r
@@ -240,13 +243,13 @@ Options
 %1
 Examples
 
-    Display image information:
+    Display information:
     &gt; djv_info image.sgi image2.sgi
 
-    Display image sequence information:
+    Display sequence information:
     &gt; djv_info image.1-100.sgi
 
-    Display information about all images within a directory:
+    Display information about all files within a directory:
     &gt; djv_info ~/pics
 </source>
         <oldsource>djv_info
@@ -254,20 +257,20 @@ Examples
     Print file metadata.
 
     Example output:
-    yesterdayview.mov           640x424:1.51/RGB/U8 2:8@44.1 00:02:00:01@12
-    dlad.dpx                                         2048x1556:1.32/RGB/U10
+    yesterdayview.mov          640x424:1.51 RGB U8 2:8@44100 00:02:00:01@12
+    dlad.dpx                                         2048x1556:1.32 RGB U10
     render0001-1000.exr                                      00:00:41:16@24
-        A,B,G,R                                        720x480:1.5/RGBA/F16
-        Ambient                                         720x480:1.5/RGB/F16
-        Diffuse                                         720x480:1.5/RGB/F16
-        Specular                                        720x480:1.5/RGB/F16
-        Z                                                 720x480:1.5/L/F32
+        A,B,G,R                                        720x480:1.5 RGBA F16
+        Ambient                                         720x480:1.5 RGB F16
+        Diffuse                                         720x480:1.5 RGB F16
+        Specular                                        720x480:1.5 RGB F16
+        Z                                                 720x480:1.5 L F32
 
     Key:
-    yesterdayview.mov           640x424:1.51/RGB/U8 2:8@44.1 00:02:00:01@12
-    file name                   image               audio    time
+    yesterdayview.mov          640x424:1.51 RGB U8 2:8@44100 00:02:00:01@12
+    file name                  image               audio     time
 
-    image - (width)x(height):(aspect)/(format)/(type)
+    image - (width)x(height):(aspect) (format) (type)
     audio - (channels):(bit depth)@(sample rate)
     time  - (time)@(speed)
 
