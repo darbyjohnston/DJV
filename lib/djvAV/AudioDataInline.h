@@ -33,7 +33,7 @@ namespace djv
     {
         inline bool AudioInfo::isValid() const
         {
-            return type != Audio::NONE;
+            return type != Audio::TYPE_NONE;
         }
 
         inline const AudioInfo & AudioData::info() const

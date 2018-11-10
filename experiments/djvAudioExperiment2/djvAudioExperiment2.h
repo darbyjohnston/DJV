@@ -39,15 +39,15 @@
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        class CoreContext;
+        class AVContext;
 
     } // namespace Core
 
     namespace AudioExperiment2
     {
-        class Application : public QCoreApplication
+        class Application : public QGuiApplication
         {
             Q_OBJECT
 
@@ -56,7 +56,7 @@ namespace djv
             ~Application() override;
 
         private:
-            QScopedPointer<Core::CoreContext> _context;
+            QScopedPointer<AV::AVContext> _context;
             ALCdevice * _alDevice = nullptr;
             ALCcontext * _alContext = nullptr;
             ALuint _alBuffer = 0;

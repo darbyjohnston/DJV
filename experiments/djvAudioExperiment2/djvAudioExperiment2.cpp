@@ -29,7 +29,9 @@
 
 #include <djvAudioExperiment2.h>
 
-#include <djvCore/CoreContext.h>
+#include <djvAV/AVContext.h>
+#include <djvAV/IO.h>
+
 #include <djvCore/Debug.h>
 #include <djvCore/DebugLog.h>
 
@@ -64,11 +66,11 @@ namespace djv
         } // namespace
 
         Application::Application(int & argc, char ** argv) :
-            QCoreApplication(argc, argv)
+            QGuiApplication(argc, argv)
         {
             DJV_DEBUG("Application::Application");
 
-            _context.reset(new Core::CoreContext(argc, argv));
+            _context.reset(new AV::AVContext(argc, argv));
 
             const ALCchar * devices = NULL;
             ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
@@ -104,39 +106,38 @@ namespace djv
                 throw Core::Error("djv::AudioExperiment2::Application", "Cannot create OpenAL buffer");
             }
 
-            _drWavSampleData = drwav_open_and_read_file_s16(argv[1], &_drWavChannels, &_drWavSampleRate, &_drWavTotalSampleCount);
-            if (!_drWavSampleData)
-            {
-                throw Core::Error("djv::AudioExperiment2::Application", "Cannot open WAV file");
-            }
-            DJV_DEBUG_PRINT("channels = " << _drWavChannels);
-            DJV_DEBUG_PRINT("sample rate = " << _drWavSampleRate);
-            DJV_DEBUG_PRINT("sample count = " << static_cast<qint64>(_drWavTotalSampleCount));
+            AV::IOInfo info;
+            AV::AudioData data;
+            auto load = _context->ioFactory()->load(QString(argv[1]), info);
+            DJV_DEBUG_PRINT("channels = " << info.audio.channels);
+            DJV_DEBUG_PRINT("sample rate = " << info.audio.sampleRate);
+            DJV_DEBUG_PRINT("sample count = " << static_cast<qint64>(info.audio.sampleCount));
+            load->read(data);
 
-            alBufferData(_alBuffer, AL_FORMAT_STEREO16, _drWavSampleData, _drWavTotalSampleCount * sizeof(drwav_int16), _drWavSampleRate);
+            alBufferData(
+                _alBuffer,
+                AV::Audio::toAL(info.audio.channels, info.audio.type),
+                data.data(),
+                data.dataByteCount(),
+                info.audio.sampleRate);
             if ((error = alGetError()) != AL_NO_ERROR)
             {
-                QString reason = "unknown";
-                switch (error)
-                {
-                    case AL_OUT_OF_MEMORY: reason = "out of memory"; break;
-                    case AL_INVALID_VALUE: reason = "invalid value"; break;
-                    case AL_INVALID_ENUM: reason = "invalid enum"; break;
-                    default: break;
-                }
-                throw Core::Error("djv::AudioExperiment2::Application", QString("Cannot set OpenAL buffer data: %1").arg(reason));
+                throw Core::Error("djv::AudioExperiment2::Application",
+                    QString("Cannot set OpenAL buffer data: %1").arg(AV::Audio::alErrorString(error)));
             }
 
             alGenSources(1, &_alSource);
             if ((error = alGetError()) != AL_NO_ERROR)
             {
-                throw Core::Error("djv::AudioExperiment2::Application", "Cannot create OpenAL source");
+                throw Core::Error("djv::AudioExperiment2::Application",
+                    QString("Cannot create OpenAL source").arg(AV::Audio::alErrorString(error)));
             }
 
             alSourcei(_alSource, AL_BUFFER, _alBuffer);
             if ((error = alGetError()) != AL_NO_ERROR)
             {
-                throw Core::Error("djv::AudioExperiment2::Application", "Cannot attach OpenAL buffer");
+                throw Core::Error("djv::AudioExperiment2::Application",
+                    QString("Cannot attach OpenAL buffer").arg(AV::Audio::alErrorString(error)));
             }
 
             alSourcePlay(_alSource);

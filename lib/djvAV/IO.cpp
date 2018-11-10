@@ -100,16 +100,16 @@ namespace djv
         AudioIOInfo::AudioIOInfo()
         {}
 
-        AudioIOInfo::AudioIOInfo(uint64_t offset, uint64_t size) :
-            offset(offset),
-            size(size)
+        AudioIOInfo::AudioIOInfo(uint64_t samplesOffset, uint64_t samplesSize) :
+            samplesOffset(samplesOffset),
+            samplesSize(samplesSize)
         {}
 
         bool AudioIOInfo::operator == (const AudioIOInfo & other) const
         {
             return
-                offset == other.offset &&
-                size == other.size;
+                samplesOffset == other.samplesOffset &&
+                samplesSize == other.samplesSize;
         }
 
         bool AudioIOInfo::operator != (const AudioIOInfo & other) const

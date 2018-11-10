@@ -68,6 +68,26 @@ OpenGL Options
         <oldsource>16-bit</oldsource>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="Audio.cpp" line="52"/>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="55"/>
+        <source>Out of memory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="56"/>
+        <source>Invalid value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="57"/>
+        <source>Invalid enum</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>djv::AV::Cineon</name>

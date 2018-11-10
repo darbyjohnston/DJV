@@ -44,6 +44,8 @@ namespace djv
             explicit WAVLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~WAVLoad() override;
 
+            void read(AudioData &, const AudioIOInfo & = AudioIOInfo()) override;
+
         private:
             drwav * _drwav = nullptr;
         };

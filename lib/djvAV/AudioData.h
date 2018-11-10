@@ -40,10 +40,10 @@ namespace djv
         //! This struct provides audio data information.
         struct AudioInfo
         {
-            unsigned int channels = 0;
-            Audio::TYPE type = static_cast<Audio::TYPE>(0);
-            unsigned int sampleRate = 0;
-            uint64_t sampleCount = 0;
+            unsigned int channels    = 0;
+            Audio::TYPE  type        = Audio::TYPE_NONE;
+            unsigned int sampleRate  = 0;
+            uint64_t     sampleCount = 0;
 
             inline bool isValid() const;
 

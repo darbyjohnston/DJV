@@ -33,14 +33,37 @@ namespace djv
     {
         inline int Audio::byteCount(TYPE value)
         {
-            static const int data[] = { 0, 2, 2, 4 };
+            static const int data[] = { 0, 2 };
             return data[value];
         }
 
         inline Audio::TYPE Audio::type(size_t value)
         {
-            static const TYPE data[] = { NONE, TYPE_8, TYPE_16 };
-            return value < TYPE_COUNT ? data[value] : NONE;
+            static const TYPE data[] = { TYPE_NONE, TYPE_NONE, TYPE_16 };
+            return value < sizeof(data) ? data[value] : TYPE_NONE;
+        }
+
+        inline ALenum Audio::toAL(size_t channels, TYPE type)
+        {
+            ALenum out = AL_NONE;
+            switch (channels)
+            {
+            case 1:
+                switch (type)
+                {
+                case TYPE_16: out = AL_FORMAT_MONO16; break;
+                default: break;
+                }
+                break;
+            case 2:
+                switch (type)
+                {
+                case TYPE_16: out = AL_FORMAT_STEREO16; break;
+                default: break;
+                }
+                break;
+            }
+            return out;
         }
 
     } // namespace AV

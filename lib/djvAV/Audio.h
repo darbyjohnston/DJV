@@ -33,6 +33,8 @@
 
 #include <QMetaType>
 
+#include <AL/al.h>
+
 namespace djv
 {
     namespace AV
@@ -47,9 +49,8 @@ namespace djv
             //! This enumeration provides the audio data types.
             enum TYPE
             {
-                NONE,
-                TYPE_8,   //!< 8-bit
-                TYPE_16,  //!< 16-bit
+                TYPE_NONE,
+                TYPE_16,    //!< 16-bit
 
                 TYPE_COUNT
             };
@@ -63,6 +64,12 @@ namespace djv
 
             //! Get the type from the given number of bytes.
             static inline TYPE type(size_t);
+
+            //! Get the OpenAL format from the given channels and type.
+            static inline ALenum toAL(size_t channels, TYPE);
+
+            //! Get an OpenAL error string.
+            static QString alErrorString(ALenum);
         };
 
     } // namespace AV

@@ -68,9 +68,9 @@ namespace djv
             IOInfo(const PixelDataInfo &);
 
             std::vector<PixelDataInfo> layers;
-            AudioInfo audio;
-            Tags tags;
-            Core::Sequence sequence;
+            AudioInfo                  audio;
+            Tags                       tags;
+            Core::Sequence             sequence;
 
             bool operator == (const IOInfo &) const;
             bool operator != (const IOInfo &) const;
@@ -97,10 +97,10 @@ namespace djv
         struct AudioIOInfo
         {
             AudioIOInfo();
-            AudioIOInfo(uint64_t offset, uint64_t size);
+            AudioIOInfo(uint64_t samplesOffset, uint64_t samplesSize);
 
-            uint64_t offset = 0;
-            uint64_t size = 0;
+            uint64_t samplesOffset = 0;
+            uint64_t samplesSize   = 0;
 
             bool operator == (const AudioIOInfo &) const;
             bool operator != (const AudioIOInfo &) const;
@@ -162,7 +162,7 @@ namespace djv
             //! Get the I/O information.
             const IOInfo & ioInfo() const { return _ioInfo; }
 
-            //! Save an image.
+            //! Write an image.
             //!
             //! Throws:
             //! - Core::Error

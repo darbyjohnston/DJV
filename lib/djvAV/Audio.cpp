@@ -47,6 +47,19 @@ namespace djv
             return data;
         }
 
+        QString Audio::alErrorString(ALenum value)
+        {
+            QString out = qApp->translate("djv::AV::Audio", "Unknown");
+            switch (value)
+            {
+            case AL_OUT_OF_MEMORY: out = qApp->translate("djv::AV::Audio", "Out of memory"); break;
+            case AL_INVALID_VALUE: out = qApp->translate("djv::AV::Audio", "Invalid value"); break;
+            case AL_INVALID_ENUM:  out = qApp->translate("djv::AV::Audio", "Invalid enum");  break;
+            default: break;
+            }
+            return out;
+        }
+
     } // namespace AV
 
     _DJV_STRING_OPERATOR_LABEL(
