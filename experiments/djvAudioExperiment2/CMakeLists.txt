@@ -1,5 +1,3 @@
-find_package(OpenAL REQUIRED)
-
 set(header
     djvAudioExperiment2.h)
 set(mocHeader
