@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/OpenEXR.h>
 
 #include <djvCore/FileInfo.h>
@@ -41,17 +41,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides an OpenEXR saver.
-        class OpenEXRSave : public ImageSave
+        class OpenEXRSave : public Save
         {
         public:
-            OpenEXRSave(const Core::FileInfo &, const ImageIOInfo &, const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
+            OpenEXRSave(const Core::FileInfo &, const IOInfo &, const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
             ~OpenEXRSave() override;
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, const ImageIOInfo &);
+            void _open(const QString &, const IOInfo &);
             void _close();
 
             OpenEXR::Options  _options;

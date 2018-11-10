@@ -29,7 +29,7 @@
 
 #include <djvAV/LUT.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/Assert.h>
 #include <djvAV/Color.h>
@@ -116,7 +116,7 @@ namespace djv
             {
                 throw Core::Error(
                     LUT::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNRECOGNIZED]);
             }
             Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
             const int channels = QString(tmp).toInt();
@@ -141,7 +141,7 @@ namespace djv
             {
                 throw Core::Error(
                     LUT::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
         }
 
@@ -241,7 +241,7 @@ namespace djv
             {
                 throw Core::Error(
                     LUT::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
         }
 

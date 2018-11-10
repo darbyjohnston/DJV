@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/JPEG.h>
 
@@ -42,12 +42,12 @@ namespace djv
         class IntEditSlider;
 
         //! This class provides a JPEG widget.
-        class JPEGWidget : public ImageIOWidget
+        class JPEGWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            JPEGWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            JPEGWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -65,12 +65,12 @@ namespace djv
         };
 
         //! This class provides a JPEG widget plugin.
-        class JPEGWidgetPlugin : public ImageIOWidgetPlugin
+        class JPEGWidgetPlugin : public IOWidgetPlugin
         {
         public:
             JPEGWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

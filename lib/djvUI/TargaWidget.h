@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/Targa.h>
 
@@ -41,12 +41,12 @@ namespace djv
     namespace UI
     {
         //! This class provides a Targa widget.
-        class TargaWidget : public ImageIOWidget
+        class TargaWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            TargaWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            TargaWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -64,12 +64,12 @@ namespace djv
         };
 
         //! This class provides a Targa widget plugin.
-        class TargaWidgetPlugin : public ImageIOWidgetPlugin
+        class TargaWidgetPlugin : public IOWidgetPlugin
         {
         public:
             TargaWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

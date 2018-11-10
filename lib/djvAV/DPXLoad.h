@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/DPX.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -38,17 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a DPX loader.
-        class DPXLoad : public ImageLoad
+        class DPXLoad : public Load
         {
         public:
             DPXLoad(const Core::FileInfo &, const DPX::Options &, const QPointer<Core::CoreContext> &);
             ~DPXLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO &);
+            void _open(const QString &, IOInfo &, Core::FileIO &);
 
             DPX::Options _options;
             bool         _filmPrint = false;

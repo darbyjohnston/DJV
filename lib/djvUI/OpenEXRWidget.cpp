@@ -35,7 +35,7 @@
 #include <djvUI/IntEdit.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -49,8 +49,8 @@ namespace djv
 {
     namespace UI
     {
-        OpenEXRWidget::OpenEXRWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        OpenEXRWidget::OpenEXRWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             //DJV_DEBUG("OpenEXRWidget::OpenEXRWidget");
 
@@ -465,10 +465,10 @@ namespace djv
         }
 
         OpenEXRWidgetPlugin::OpenEXRWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * OpenEXRWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * OpenEXRWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new OpenEXRWidget(plugin, uiContext());
         }

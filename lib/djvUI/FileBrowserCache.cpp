@@ -41,11 +41,11 @@ namespace djv
         {}
 
         FileBrowserCacheItem::FileBrowserCacheItem(
-            const AV::ImageIOInfo &  imageInfo,
-            const glm::ivec2 &             thumbnailResolution,
+            const AV::IOInfo &       ioInfo,
+            const glm::ivec2 &       thumbnailResolution,
             AV::PixelDataInfo::PROXY thumbnailProxy,
-            const QPixmap &                thumbnail) :
-            imageInfo(imageInfo),
+            const QPixmap &          thumbnail) :
+            ioInfo(ioInfo),
             thumbnailResolution(thumbnailResolution),
             thumbnailProxy(thumbnailProxy),
             thumbnail(thumbnail)

@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         DPXPlugin::DPXPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString DPXPlugin::pluginName() const
@@ -293,14 +293,14 @@ namespace djv
                 arg(endianLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> DPXPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> DPXPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new DPXLoad(fileInfo, _options, context()));
+            return std::unique_ptr<Load>(new DPXLoad(fileInfo, _options, context()));
         }
 
-        std::unique_ptr<ImageSave> DPXPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> DPXPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new DPXSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new DPXSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

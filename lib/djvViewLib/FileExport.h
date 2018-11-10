@@ -31,7 +31,7 @@
 
 #include <djvViewLib/ViewLib.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/OpenGLImage.h>
 #include <djvAV/Pixel.h>
 
@@ -61,15 +61,15 @@ namespace djv
                 bool                                 colorProfile = true,
                 const AV::OpenGLImageOptions & options = AV::OpenGLImageOptions());
 
-            Core::FileInfo                 inputFile;
-            Core::FileInfo                 outputFile;
+            Core::FileInfo           inputFile;
+            Core::FileInfo           outputFile;
             AV::PixelDataInfo        info;
-            Core::Sequence                 sequence;
-            int                            layer = 0;
+            Core::Sequence           sequence;
+            size_t                   layer = 0;
             AV::PixelDataInfo::PROXY proxy = AV::PixelDataInfo::PROXY_NONE;
-            bool                           u8Conversion = false;
-            bool                           colorProfile = true;
-            AV::ImageIOFrameInfo     frameInfo;
+            bool                     u8Conversion = false;
+            bool                     colorProfile = true;
+            AV::ImageIOInfo          frameInfo;
             AV::OpenGLImageOptions   options;
         };
 

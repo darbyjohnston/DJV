@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/OpenEXR.h>
 
@@ -46,12 +46,12 @@ namespace djv
         class IntEdit;
 
         //! This class provides an OpenEXR widget.
-        class OpenEXRWidget : public ImageIOWidget
+        class OpenEXRWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            OpenEXRWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            OpenEXRWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -92,12 +92,12 @@ namespace djv
         };
 
         //! This class provides a OpenEXR widget plugin.
-        class OpenEXRWidgetPlugin : public ImageIOWidgetPlugin
+        class OpenEXRWidgetPlugin : public IOWidgetPlugin
         {
         public:
             OpenEXRWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

@@ -72,8 +72,8 @@ namespace djv
             {}
 
             Core::FileInfo fileInfo;
-            AV::ImageIOInfo imageIOInfo;
-            std::unique_ptr<AV::ImageLoad> imageLoad;
+            AV::IOInfo ioInfo;
+            std::unique_ptr<AV::Load> load;
             std::unique_ptr<AV::OpenGLImage> openGLImage;
             int layer = 0;
             QStringList layers;
@@ -224,7 +224,7 @@ namespace djv
 
             // Setup other callbacks.
             connect(
-                context->imageIOFactory(),
+                context->ioFactory(),
                 SIGNAL(optionChanged()),
                 SLOT(reloadCallback()));
         }
@@ -295,17 +295,17 @@ namespace djv
             }
             else
             {
-                if (_p->imageLoad)
+                if (_p->load)
                 {
                     //DJV_DEBUG_PRINT("loading image");
                     out = std::shared_ptr<AV::Image>(new AV::Image);
                     try
                     {
-                        _p->imageLoad->read(
+                        _p->load->read(
                             *out,
-                            AV::ImageIOFrameInfo(
-                                _p->imageIOInfo.sequence.frames.count() ?
-                                _p->imageIOInfo.sequence.frames[frame] :
+                            AV::ImageIOInfo(
+                                _p->ioInfo.sequence.frames.count() ?
+                                _p->ioInfo.sequence.frames[frame] :
                                 -1,
                                 _p->layer,
                                 _p->proxy));
@@ -351,9 +351,9 @@ namespace djv
             return out;
         }
 
-        const AV::ImageIOInfo & FileGroup::imageIOInfo() const
+        const AV::IOInfo & FileGroup::ioInfo() const
         {
-            return _p->imageIOInfo;
+            return _p->ioInfo;
         }
 
         QPointer<QMenu> FileGroup::createMenu() const
@@ -378,8 +378,8 @@ namespace djv
             cacheDel();
             Core::FileInfo tmp = fileInfo;
             _p->fileInfo = Core::FileInfo();
-            _p->imageIOInfo = AV::ImageIOInfo();
-            _p->imageLoad.reset();
+            _p->ioInfo = AV::IOInfo();
+            _p->load.reset();
 
             // Load the file.
             if (!tmp.fileName().isEmpty())
@@ -387,7 +387,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("loading...");
                 try
                 {
-                    _p->imageLoad = context()->imageIOFactory()->load(tmp, _p->imageIOInfo);
+                    _p->load = context()->ioFactory()->load(tmp, _p->ioInfo);
                     _p->fileInfo = tmp;
                     context()->filePrefs()->addRecent(_p->fileInfo);
                 }
@@ -402,15 +402,15 @@ namespace djv
 
             _p->layer = 0;
             _p->layers.clear();
-            for (int i = 0; i < _p->imageIOInfo.layerCount(); ++i)
+            for (size_t i = 0; i < _p->ioInfo.layers.size(); ++i)
             {
-                _p->layers += _p->imageIOInfo[i].layerName;
+                _p->layers += _p->ioInfo.layers[i].layerName;
             }
 
             preloadUpdate();
             update();
 
-            Q_EMIT(imageIOInfoChanged(_p->imageIOInfo));
+            Q_EMIT(ioInfoChanged(_p->ioInfo));
         }
 
         void FileGroup::setLayer(int layer)
@@ -513,7 +513,7 @@ namespace djv
             quint64   byteCount = 0;
             qint64    frame = _p->preloadFrame;
             int       frameCount = 0;
-            const int totalFrames = _p->imageIOInfo.sequence.frames.count();
+            const int totalFrames = _p->ioInfo.sequence.frames.count();
             for (;
                 byteCount <= cache->maxSizeBytes() &&
                 frameCount < totalFrames;
@@ -526,7 +526,7 @@ namespace djv
                 }
                 else
                 {
-                    byteCount += AV::PixelDataUtil::dataByteCount(_p->imageIOInfo);
+                    byteCount += AV::PixelDataUtil::dataByteCount(_p->ioInfo.layers[0]);
                     if (byteCount <= cache->maxSizeBytes())
                     {
                         preload = true;
@@ -542,16 +542,16 @@ namespace djv
             {
                 context()->makeGLContextCurrent();
                 auto image = std::shared_ptr<AV::Image>(new AV::Image);
-                if (_p->imageLoad)
+                if (_p->load)
                 {
                     //DJV_DEBUG_PRINT("loading image");
                     try
                     {
-                        _p->imageLoad->read(
+                        _p->load->read(
                             *image,
-                            AV::ImageIOFrameInfo(
-                                _p->imageIOInfo.sequence.frames.count() ?
-                                _p->imageIOInfo.sequence.frames[frame] :
+                            AV::ImageIOInfo(
+                                _p->ioInfo.sequence.frames.count() ?
+                                _p->ioInfo.sequence.frames[frame] :
                                 -1,
                                 _p->layer,
                                 _p->proxy));
@@ -627,12 +627,12 @@ namespace djv
                 Q_EMIT setFrameStore();
             }
             cacheDel();
-            _p->imageLoad.reset();
+            _p->load.reset();
             if (!_p->fileInfo.fileName().isEmpty())
             {
                 try
                 {
-                    _p->imageLoad = context()->imageIOFactory()->load(_p->fileInfo, _p->imageIOInfo);
+                    _p->load = context()->ioFactory()->load(_p->fileInfo, _p->ioInfo);
                 }
                 catch (Core::Error error)
                 {
@@ -654,12 +654,12 @@ namespace djv
                 Q_EMIT setFrameStore();
             }
             Q_EMIT reloadFrame();
-            _p->imageLoad.reset();
+            _p->load.reset();
             if (!_p->fileInfo.fileName().isEmpty())
             {
                 try
                 {
-                    _p->imageLoad = context()->imageIOFactory()->load(_p->fileInfo, _p->imageIOInfo);
+                    _p->load = context()->ioFactory()->load(_p->fileInfo, _p->ioInfo);
                 }
                 catch (Core::Error error)
                 {
@@ -801,8 +801,8 @@ namespace djv
 
         void FileGroup::update()
         {
-            _p->actions->action(FileActions::EXPORT_SEQUENCE)->setEnabled(_p->imageLoad.get());
-            _p->actions->action(FileActions::EXPORT_FRAME)->setEnabled(_p->imageLoad.get());
+            _p->actions->action(FileActions::EXPORT_SEQUENCE)->setEnabled(_p->load.get());
+            _p->actions->action(FileActions::EXPORT_FRAME)->setEnabled(_p->load.get());
             _p->actions->setLayers(_p->layers);
             _p->actions->setLayer(_p->layer);
             _p->actions->action(FileActions::U8_CONVERSION)->setChecked(_p->u8Conversion);

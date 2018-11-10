@@ -58,7 +58,7 @@ namespace djv
             Input();
 
             Core::FileInfo file;
-            int layer;
+            size_t layer = 0;
             AV::PixelDataInfo::PROXY proxy;
             QString start;
             QString end;
@@ -74,7 +74,7 @@ namespace djv
 
             Core::FileInfo file;
             QScopedPointer<AV::Pixel::PIXEL> pixel;
-            AV::ImageTags tags;
+            AV::Tags tags;
             bool tagsAuto;
             QScopedPointer<Core::Speed::FPS> speed;
         };

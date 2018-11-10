@@ -30,7 +30,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileIO.h>
 
@@ -60,13 +60,13 @@ namespace djv
             //!
             //! Throws:
             //! - Core::Error
-            static void loadInfo(Core::FileIO & io, ImageIOInfo & info, int * tiles, bool * compression);
+            static void loadInfo(Core::FileIO & io, IOInfo & info, int * tiles, bool * compression);
 
             //! Save information.
             //!
             //! Throws:
             //! - Core::Error
-            static void saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression);
+            static void saveInfo(Core::FileIO & io, const IOInfo & info, bool compression);
 
             //! Load RLE compressed data.
             static int readRle(const quint8 * in, quint8 * end, int size);

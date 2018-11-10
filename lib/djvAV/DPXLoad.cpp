@@ -41,26 +41,26 @@ namespace djv
     namespace AV
     {
         DPXLoad::DPXLoad(const Core::FileInfo & fileInfo, const DPX::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context),
+            Load(fileInfo, context),
             _options(options)
         {
             Core::FileIO io;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo, io);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
         DPXLoad::~DPXLoad()
         {}
 
-        void DPXLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+        void DPXLoad::_open(const QString & in, IOInfo & info, Core::FileIO & io)
         {
             //DJV_DEBUG("DPXLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
             io.open(in, Core::FileIO::READ);
-            info.fileName = in;
+            info.layers[0].fileName = in;
             _filmPrint = false;
             DPXHeader header;
             header.load(io, info, _filmPrint);
@@ -68,7 +68,7 @@ namespace djv
             //DJV_DEBUG_PRINT("film print = " << _filmPrint);
         }
 
-        void DPXLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void DPXLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("DPXLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -76,7 +76,7 @@ namespace djv
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             QScopedPointer<Core::FileIO> io(new Core::FileIO);
             _open(fileName, info, *io);
             image.tags = info.tags;
@@ -101,7 +101,8 @@ namespace djv
             // Read the file.
             io->readAhead();
             bool mmap = true;
-            if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(info))
+            auto pixelDataInfo = info.layers[0];
+            if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(pixelDataInfo))
             {
                 mmap = false;
             }
@@ -110,31 +111,31 @@ namespace djv
             {
                 if (!frame.proxy)
                 {
-                    image.set(info, io->mmapP(), io.data());
+                    image.set(pixelDataInfo, io->mmapP(), io.data());
                     io.take();
                 }
                 else
                 {
-                    _tmp.set(info, io->mmapP());
-                    info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                    info.proxy = frame.proxy;
-                    image.set(info);
+                    _tmp.set(pixelDataInfo, io->mmapP());
+                    pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                    pixelDataInfo.proxy = frame.proxy;
+                    image.set(pixelDataInfo);
                     PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
                 }
             }
             else
             {
                 PixelData * data = frame.proxy ? &_tmp : &image;
-                data->set(info);
+                data->set(pixelDataInfo);
                 Core::Error error;
                 bool errorValid = false;
                 try
                 {
-                    for (int y = 0; y < info.size.y; ++y)
+                    for (int y = 0; y < pixelDataInfo.size.y; ++y)
                     {
                         io->get(
                             data->data(0, y),
-                            info.size.x * Pixel::byteCount(info.pixel));
+                            pixelDataInfo.size.x * Pixel::byteCount(pixelDataInfo.pixel));
                     }
                 }
                 catch (const Core::Error & otherError)
@@ -144,9 +145,9 @@ namespace djv
                 }
                 if (frame.proxy)
                 {
-                    info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                    info.proxy = frame.proxy;
-                    image.set(info);
+                    pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                    pixelDataInfo.proxy = frame.proxy;
+                    image.set(pixelDataInfo);
                     PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
                 }
                 if (errorValid)

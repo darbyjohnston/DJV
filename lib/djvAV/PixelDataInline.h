@@ -35,6 +35,46 @@ namespace djv
 {
     namespace AV
     {
+        inline PixelDataInfo::Mirror::Mirror()
+        {}
+
+        inline PixelDataInfo::Mirror::Mirror(bool x, bool y) :
+            x(x),
+            y(y)
+        {}
+
+        inline bool PixelDataInfo::Mirror::operator == (const Mirror & other) const
+        {
+            return x == other.x && y == other.y;
+        }
+
+        inline bool PixelDataInfo::Mirror::operator != (const Mirror & other) const
+        {
+            return !(*this == other);
+        }
+
+        inline bool PixelDataInfo::isValid() const
+        {
+            return Core::VectorUtil::isSizeValid(size);
+        }
+
+        inline bool PixelDataInfo::operator == (const PixelDataInfo & other) const
+        {
+            return
+                size == other.size &&
+                proxy == other.proxy &&
+                pixel == other.pixel &&
+                bgr == other.bgr &&
+                mirror == other.mirror &&
+                align == other.align &&
+                endian == other.endian;
+        }
+
+        inline bool PixelDataInfo::operator != (const PixelDataInfo & other) const
+        {
+            return !(*this == other);
+        }
+
         inline const PixelDataInfo & PixelData::info() const
         {
             return _info;

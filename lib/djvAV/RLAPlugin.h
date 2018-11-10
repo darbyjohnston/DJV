@@ -29,28 +29,26 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/RLA.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Wavefront RLA image file format.
+        //! Wavefront RLA
         //!
         //! File extensions: .rla, .rpf
         //!
         //! Supported features:
-        //!
         //! - 8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
         //! - File compression
         //! - Read only
         //!
         //! References:
-        //!
         //! - James D. Murray, William vanRyper, "Encyclopedia of AV File Formats,
         //!   Second Edition"
-        class RLAPlugin : public ImageIO
+        class RLAPlugin : public IOPlugin
         {
         public:
             explicit RLAPlugin(const QPointer<Core::CoreContext> &);
@@ -58,7 +56,7 @@ namespace djv
             QString pluginName() const override;
             QStringList extensions() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
         };
 
     } // namespace AV

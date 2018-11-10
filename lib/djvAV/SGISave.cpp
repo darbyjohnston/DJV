@@ -38,17 +38,17 @@ namespace djv
 {
     namespace AV
     {
-        SGISave::SGISave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const SGI::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        SGISave::SGISave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const SGI::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options)
         {
-            if (_imageIOInfo.sequence.frames.count() > 1)
+            if (_ioInfo.sequence.frames.count() > 1)
             {
                 _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
-            _info.size = _imageIOInfo.size;
-            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
+            _info.size = _ioInfo.layers[0].size;
+            Pixel::TYPE type = Pixel::type(_ioInfo.layers[0].pixel);
             switch (type)
             {
             case Pixel::U10:
@@ -56,7 +56,7 @@ namespace djv
             case Pixel::F32: type = Pixel::U16; break;
             default: break;
             }
-            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
+            _info.pixel = Pixel::pixel(Pixel::format(_ioInfo.layers[0].pixel), type);
             _info.endian = Core::Memory::MSB;
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
@@ -65,7 +65,7 @@ namespace djv
         SGISave::~SGISave()
         {}
 
-        void SGISave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void SGISave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("SGISave::write");
             //DJV_DEBUG_PRINT("in = " << in);

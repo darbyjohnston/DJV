@@ -32,7 +32,7 @@
 #include <djvAV/Cineon.h>
 #include <djvAV/CineonHeader.h>
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -40,16 +40,16 @@ namespace djv
 {
     namespace AV
     {
-        class CineonSave : public ImageSave
+        class CineonSave : public Save
         {
         public:
-            CineonSave(const Core::FileInfo &, const ImageIOInfo &, const Cineon::Options &, const QPointer<Core::CoreContext> &);
+            CineonSave(const Core::FileInfo &, const IOInfo &, const Cineon::Options &, const QPointer<Core::CoreContext> &);
             ~CineonSave();
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, const ImageIOInfo &);
+            void _open(const QString &, const IOInfo &);
 
             Cineon::Options _options;
             CineonHeader    _header;

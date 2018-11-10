@@ -34,7 +34,7 @@
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -48,8 +48,8 @@ namespace djv
 {
     namespace UI
     {
-        DPXWidget::DPXWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        DPXWidget::DPXWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             //DJV_DEBUG("DPXWidget::DPXWidget");
 
@@ -488,10 +488,10 @@ namespace djv
         }
 
         DPXWidgetPlugin::DPXWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * DPXWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * DPXWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new DPXWidget(plugin, uiContext());
         }

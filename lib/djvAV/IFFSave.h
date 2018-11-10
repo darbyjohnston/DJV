@@ -40,13 +40,13 @@ namespace djv
     namespace AV
     {
         //! This class provides an IFF saver.
-        class IFFSave : public ImageSave
+        class IFFSave : public Save
         {
         public:
-            IFFSave(const Core::FileInfo &, const ImageIOInfo &, const IFF::Options &, const QPointer<Core::CoreContext> &);
+            IFFSave(const Core::FileInfo &, const IOInfo &, const IFF::Options &, const QPointer<Core::CoreContext> &);
             ~IFFSave() override;
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
             IFF::Options  _options;

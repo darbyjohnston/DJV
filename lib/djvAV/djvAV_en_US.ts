@@ -4,41 +4,41 @@
 <context>
     <name>djv::AV::AVContext</name>
     <message>
-        <location filename="AVContext.cpp" line="123"/>
+        <location filename="AVContext.cpp" line="124"/>
         <source>Cannot create OpenGL context, found version %1.%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AVContext.cpp" line="137"/>
+        <location filename="AVContext.cpp" line="138"/>
         <source>Cannot find OpenGL 3.3 functions, found version %1.%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AVContext.cpp" line="214"/>
+        <location filename="AVContext.cpp" line="216"/>
         <source>%1
 OpenGL
 
     Version: %2.%3
     Render filter: %4, %5
 
-Image I/O
+I/O
 
     Plugins: %6
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AVContext.cpp" line="261"/>
+        <location filename="AVContext.cpp" line="263"/>
         <source>-render_filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AVContext.cpp" line="267"/>
+        <location filename="AVContext.cpp" line="269"/>
         <source>-render_filter_high</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="AVContext.cpp" line="297"/>
+        <location filename="AVContext.cpp" line="299"/>
         <source>%1
 OpenGL Options
 
@@ -47,6 +47,25 @@ OpenGL Options
     -render_filter_high
         Set the render filter to high quality settings (%5, %6).
 %7</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djv::AV::Audio</name>
+    <message>
+        <location filename="Audio.cpp" line="43"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="44"/>
+        <source>8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="45"/>
+        <source>16</source>
+        <oldsource>16-bit</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -615,87 +634,44 @@ IFF Options
     </message>
 </context>
 <context>
-    <name>djv::AV::ImageIO</name>
+    <name>djv::AV::IO</name>
     <message>
-        <location filename="ImageIO.cpp" line="199"/>
+        <location filename="IO.cpp" line="226"/>
         <source>Unrecognized file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageIO.cpp" line="200"/>
+        <location filename="IO.cpp" line="227"/>
         <source>Unsupported file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageIO.cpp" line="201"/>
+        <location filename="IO.cpp" line="228"/>
         <source>Cannot open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageIO.cpp" line="202"/>
+        <location filename="IO.cpp" line="229"/>
         <source>Error reading file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageIO.cpp" line="203"/>
+        <location filename="IO.cpp" line="230"/>
         <source>Error writing file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>djv::AV::ImageIOFactory</name>
+    <name>djv::AV::IOFactory</name>
     <message>
-        <location filename="ImageIO.cpp" line="299"/>
-        <location filename="ImageIO.cpp" line="328"/>
-        <source>Unrecognized image: %1</source>
+        <location filename="IO.cpp" line="315"/>
+        <location filename="IO.cpp" line="344"/>
+        <source>Unrecognized file: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ImageIO.cpp" line="336"/>
+        <location filename="IO.cpp" line="352"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djv::AV::ImageTags</name>
-    <message>
-        <location filename="ImageTags.cpp" line="142"/>
-        <source>Project</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ImageTags.cpp" line="143"/>
-        <source>Creator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ImageTags.cpp" line="144"/>
-        <source>Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ImageTags.cpp" line="145"/>
-        <source>Copyright</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ImageTags.cpp" line="146"/>
-        <source>Time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ImageTags.cpp" line="147"/>
-        <source>UTC Offset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ImageTags.cpp" line="148"/>
-        <source>Keycode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="ImageTags.cpp" line="149"/>
-        <source>Timecode</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -897,42 +873,42 @@ LUT Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="668"/>
+        <location filename="OpenEXR.cpp" line="669"/>
         <source>Threads Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="669"/>
+        <location filename="OpenEXR.cpp" line="670"/>
         <source>Thread Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="670"/>
+        <location filename="OpenEXR.cpp" line="671"/>
         <source>Input Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="671"/>
+        <location filename="OpenEXR.cpp" line="672"/>
         <source>Input Gamma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="672"/>
+        <location filename="OpenEXR.cpp" line="673"/>
         <source>Input Exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="673"/>
+        <location filename="OpenEXR.cpp" line="674"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="674"/>
+        <location filename="OpenEXR.cpp" line="675"/>
         <source>Compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="OpenEXR.cpp" line="676"/>
+        <location filename="OpenEXR.cpp" line="677"/>
         <source>DWA Compression Level</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1356,22 +1332,22 @@ PPM Options
 <context>
     <name>djv::AV::PixelDataInfo</name>
     <message>
-        <location filename="PixelData.cpp" line="109"/>
+        <location filename="PixelData.cpp" line="101"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PixelData.cpp" line="110"/>
+        <location filename="PixelData.cpp" line="102"/>
         <source>1/2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PixelData.cpp" line="111"/>
+        <location filename="PixelData.cpp" line="103"/>
         <source>1/4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="PixelData.cpp" line="112"/>
+        <location filename="PixelData.cpp" line="104"/>
         <source>1/8</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1454,6 +1430,49 @@ TIFF Options
     </message>
 </context>
 <context>
+    <name>djv::AV::Tags</name>
+    <message>
+        <location filename="Tags.cpp" line="142"/>
+        <source>Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tags.cpp" line="143"/>
+        <source>Creator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tags.cpp" line="144"/>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tags.cpp" line="145"/>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tags.cpp" line="146"/>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tags.cpp" line="147"/>
+        <source>UTC Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tags.cpp" line="148"/>
+        <source>Keycode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Tags.cpp" line="149"/>
+        <source>Timecode</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>djv::AV::Targa</name>
     <message>
         <location filename="Targa.cpp" line="46"/>
@@ -1500,7 +1519,7 @@ Targa Options
 <context>
     <name>djv::Graphisc::PixelDataInfo</name>
     <message>
-        <location filename="PixelData.cpp" line="55"/>
+        <location filename="PixelData.cpp" line="47"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>

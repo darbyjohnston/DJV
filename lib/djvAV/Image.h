@@ -30,8 +30,8 @@
 #pragma once
 
 #include <djvAV/ColorProfile.h>
-#include <djvAV/ImageTags.h>
 #include <djvAV/PixelData.h>
+#include <djvAV/Tags.h>
 
 namespace djv
 {
@@ -45,7 +45,7 @@ namespace djv
             Image(const PixelDataInfo & in, const quint8 * = 0, Core::FileIO * = 0);
             ~Image() override;
 
-            ImageTags    tags;
+            Tags tags;
             ColorProfile colorProfile;
         };
 

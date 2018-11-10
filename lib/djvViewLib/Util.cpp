@@ -32,7 +32,7 @@
 #include <djvViewLib/ViewContext.h>
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
@@ -63,8 +63,8 @@ namespace djv
                 }
                 try
                 {
-                    AV::ImageIOInfo info;
-                    auto load = context->imageIOFactory()->load(fileInfoTmp, info);
+                    AV::IOInfo info;
+                    auto load = context->ioFactory()->load(fileInfoTmp, info);
                     AV::Image image;
                     load->read(image);
                     lut = image;

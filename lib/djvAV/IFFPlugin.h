@@ -36,25 +36,22 @@ namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Generic Interchange File Format (IFF).
+        //! IFF - Generic Interchange File Format
         //!
         //! File extensions: .iff, .z
         //!
         //! Supported features:
-        //!
         //! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA
         //! - File compression
         //!
         //! References:
-        //!
         //! - Affine Toolkit (Thomas E. Burge), riff.h and riff.c
         //!   http://affine.org
         //! - Autodesk Maya documentation, "Overview of Maya IFF"
         //!
         //! Implementation:
-        //!
         //! - Mikael Sundell, mikael.sundell@gmail.com
-        class IFFPlugin : public ImageIO
+        class IFFPlugin : public IOPlugin
         {
         public:
             explicit IFFPlugin(const QPointer<Core::CoreContext> & context);
@@ -69,8 +66,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             IFF::Options _options;

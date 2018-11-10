@@ -164,13 +164,13 @@ namespace djv
             //!
             //! Throws:
             //! - Core::Error
-            void load(Core::FileIO &, ImageIOInfo &, bool & filmPrint);
+            void load(Core::FileIO &, IOInfo &, bool & filmPrint);
 
             //! Save the header.
             //!
             //! Throws:
             //! - Core::Error
-            void save(Core::FileIO &, const ImageIOInfo &, Cineon::COLOR_PROFILE);
+            void save(Core::FileIO &, const IOInfo &, Cineon::COLOR_PROFILE);
 
             //! Update the header when saving is finished.
             //!

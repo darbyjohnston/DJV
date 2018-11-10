@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/PPM.h>
 
 #include <djvCore/FileInfo.h>
@@ -39,14 +39,13 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a PPM saver.
-        class PPMSave : public ImageSave
+        class PPMSave : public Save
         {
         public:
-            PPMSave(const Core::FileInfo &, const ImageIOInfo &, const PPM::Options &, const QPointer<Core::CoreContext> &);
+            PPMSave(const Core::FileInfo &, const IOInfo &, const PPM::Options &, const QPointer<Core::CoreContext> &);
             ~PPMSave() override;
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
             void _open(const QString &, Core::FileIO &);

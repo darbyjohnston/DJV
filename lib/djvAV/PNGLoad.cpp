@@ -41,14 +41,14 @@ namespace djv
     namespace AV
     {
         PNGLoad::PNGLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             _pngError.context = context;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo);
             _close();
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
@@ -81,24 +81,25 @@ namespace djv
 
         } // namespace
 
-        void PNGLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void PNGLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("PNGLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             _open(fileName, info);
 
             // Read the file.
             PixelData * data = frame.proxy ? &_tmp : &image;
-            data->set(info);
-            for (int y = 0; y < info.size.y; ++y)
+            auto pixelDataInfo = info.layers[0];
+            data->set(pixelDataInfo);
+            for (int y = 0; y < pixelDataInfo.size.y; ++y)
             {
                 if (!pngScanline(_png, data->data(0, data->h() - 1 - y)))
                 {
@@ -113,9 +114,9 @@ namespace djv
             // Proxy scale the image.
             if (frame.proxy)
             {
-                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                info.proxy = frame.proxy;
-                image.set(info);
+                pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                pixelDataInfo.proxy = frame.proxy;
+                image.set(pixelDataInfo);
                 PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
             }
 
@@ -171,7 +172,7 @@ namespace djv
 
         } // namespace
 
-        void PNGLoad::_open(const QString & in, ImageIOInfo & info)
+        void PNGLoad::_open(const QString & in, IOInfo & info)
         {
             //DJV_DEBUG("PNGLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -186,7 +187,7 @@ namespace djv
             {
                 throw Core::Error(
                     PNG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
 
             // Open the file.
@@ -199,18 +200,18 @@ namespace djv
             {
                 throw Core::Error(
                     PNG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
             if (!pngOpen(_f, _png, &_pngInfo, &_pngInfoEnd))
             {
                 throw Core::Error(
                     PNG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
 
             // Get file information.
-            info.fileName = in;
-            info.size = glm::ivec2(
+            info.layers[0].fileName = in;
+            info.layers[0].size = glm::ivec2(
                 png_get_image_width(_png, _pngInfo),
                 png_get_image_height(_png, _pngInfo));
             int channels = png_get_channels(_png, _pngInfo);
@@ -229,11 +230,11 @@ namespace djv
                 bitDepth = 8;
             }
             //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
-            if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.pixel))
+            if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.layers[0].pixel))
             {
                 throw Core::Error(
                     PNG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             // Set the endian.

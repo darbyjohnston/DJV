@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/PNG.h>
 
 #include <djvCore/FileInfo.h>
@@ -39,17 +39,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a PNG saver.
-        class PNGSave : public ImageSave
+        class PNGSave : public Save
         {
         public:
-            explicit PNGSave(const Core::FileInfo &, const ImageIOInfo &, const QPointer<Core::CoreContext> &);
+            explicit PNGSave(const Core::FileInfo &, const IOInfo &, const QPointer<Core::CoreContext> &);
             ~PNGSave() override;
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, const ImageIOInfo &);
+            void _open(const QString &, const IOInfo &);
             void _close();
 
             FILE *         _f = nullptr;

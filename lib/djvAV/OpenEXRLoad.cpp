@@ -69,11 +69,11 @@ namespace djv
             if (_pos >= _size)
                 throw Core::Error(
                     OpenEXR::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
             if (_pos + n > _size)
                 throw Core::Error(
                     OpenEXR::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
             char * out = _p + _pos;
             _pos += n;
             return out;
@@ -84,11 +84,11 @@ namespace djv
             if (_pos >= _size)
                 throw Core::Error(
                     OpenEXR::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
             if (_pos + n > _size)
                 throw Core::Error(
                     OpenEXR::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
             memcpy(c, _p + _pos, n);
             _pos += n;
             return _pos < _size;
@@ -105,15 +105,15 @@ namespace djv
         }
 
         OpenEXRLoad::OpenEXRLoad(const Core::FileInfo & fileInfo, const OpenEXR::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context),
+            Load(fileInfo, context),
             _options(options)
         {
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo);
             _close();
             //DJV_DEBUG_PRINT("info = " << info);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
@@ -122,7 +122,7 @@ namespace djv
             _close();
         }
 
-        void OpenEXRLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void OpenEXRLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("OpenEXRLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -131,21 +131,21 @@ namespace djv
                 // Open the file.
                 const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
                 //DJV_DEBUG_PRINT("file name = " << fileName);
-                ImageIOInfo info;
+                IOInfo info;
                 _open(fileName, info);
-                if (frame.layer < 0 || frame.layer >= _layers.count())
+                if (frame.layer < 0 || frame.layer >= _layers.size())
                 {
                     throw Core::Error(
                         OpenEXR::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                 }
-                PixelDataInfo pixelDataInfo = info[frame.layer];
+                PixelDataInfo pixelDataInfo = info.layers[frame.layer];
                 const bool flip = Imf::DECREASING_Y == _f->header().lineOrder();
                 //DJV_DEBUG_PRINT("flip = " << flip);
                 pixelDataInfo.mirror.y = !flip;
                 //DJV_DEBUG_PRINT("pixel data info = " << pixelDataInfo);
 
-                //! Set the image tags.
+                //! Set the tags.
                 image.tags = info.tags;
 
                 //! Set the color profile.
@@ -272,7 +272,7 @@ namespace djv
             _close();
         }
 
-        void OpenEXRLoad::_open(const QString & in, ImageIOInfo & info)
+        void OpenEXRLoad::_open(const QString & in, IOInfo & info)
         {
             //DJV_DEBUG("OpenEXRLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -295,9 +295,9 @@ namespace djv
 
                 // Get the layers.
                 _layers = OpenEXR::layer(_f->header().channels(), _options.channels);
-                info.setLayerCount(_layers.count());
+                info.layers.resize(_layers.size());
                 //DJV_DEBUG_PRINT("layers = " << _layers.count());
-                for (int i = 0; i < _layers.count(); ++i)
+                for (size_t i = 0; i < _layers.size(); ++i)
                 {
                     //DJV_DEBUG_PRINT("layer = " << _layers[i].name);
                     const glm::ivec2 sampling(
@@ -311,11 +311,11 @@ namespace djv
                     pixelDataInfo.layerName = _layers[i].name;
                     pixelDataInfo.size = _displayWindow.size;
                     Pixel::FORMAT format = static_cast<Pixel::FORMAT>(0);
-                    if (!Pixel::format(_layers[i].channels.count(), format))
+                    if (!Pixel::format(static_cast<int>(_layers[i].channels.size()), format))
                     {
                         throw Core::Error(
                             OpenEXR::staticName,
-                            ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                            IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                     }
                     //DJV_DEBUG_PRINT("format = " << format);
                     if (!Pixel::pixel(
@@ -325,14 +325,14 @@ namespace djv
                     {
                         throw Core::Error(
                             OpenEXR::staticName,
-                            ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                            IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                     }
                     //DJV_DEBUG_PRINT("pixel = " << pixelDataInfo.pixel);
-                    info[i] = pixelDataInfo;
+                    info.layers[i] = pixelDataInfo;
                 }
                 //DJV_DEBUG_PRINT("fast = " << _fast);
 
-                // Get the image tags.
+                // Get the tags.
                 OpenEXR::loadTags(_f->header(), info);
             }
             catch (const std::exception & error)

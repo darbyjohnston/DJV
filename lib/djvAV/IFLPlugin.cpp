@@ -38,7 +38,7 @@ namespace djv
     namespace AV
     {
         IFLPlugin::IFLPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString IFLPlugin::pluginName() const
@@ -56,9 +56,9 @@ namespace djv
             return false;
         }
 
-        std::unique_ptr<ImageLoad> IFLPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> IFLPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new IFLLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new IFLLoad(fileInfo, context()));
         }
 
     } // namespace AV

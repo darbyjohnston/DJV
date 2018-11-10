@@ -39,19 +39,19 @@ namespace djv
 {
     namespace AV
     {
-        JPEGSave::JPEGSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const JPEG::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        JPEGSave::JPEGSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const JPEG::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options)
         {
             //DJV_DEBUG("JPEGSave::JPEGSave");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-            if (_imageIOInfo.sequence.frames.count() > 1)
+            if (_ioInfo.sequence.frames.count() > 1)
             {
                 _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
-            _info = ImageIOInfo();
-            _info.size = _imageIOInfo.size;
-            Pixel::FORMAT format = Pixel::format(_imageIOInfo.pixel);
+            _info = PixelDataInfo();
+            _info.size = _ioInfo.layers[0].size;
+            Pixel::FORMAT format = Pixel::format(_ioInfo.layers[0].pixel);
             switch (format)
             {
             case Pixel::LA:
@@ -103,7 +103,7 @@ namespace djv
 
         } // namespace
 
-        void JPEGSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void JPEGSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("JPEGSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -111,7 +111,7 @@ namespace djv
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info(_info);
+            IOInfo info(_info);
             info.tags = in.tags;
             _open(fileName, info);
 
@@ -156,7 +156,7 @@ namespace djv
             bool jpegOpen(
                 FILE *                 f,
                 jpeg_compress_struct * jpeg,
-                const ImageIOInfo &    info,
+                const IOInfo &         info,
                 int                    quality,
                 JPEGErrorStruct *      error)
             {
@@ -165,14 +165,14 @@ namespace djv
                     return false;
                 }
                 jpeg_stdio_dest(jpeg, f);
-                jpeg->image_width = info.size.x;
-                jpeg->image_height = info.size.y;
-                if (Pixel::L_U8 == info.pixel)
+                jpeg->image_width = info.layers[0].size.x;
+                jpeg->image_height = info.layers[0].size.y;
+                if (Pixel::L_U8 == info.layers[0].pixel)
                 {
                     jpeg->input_components = 1;
                     jpeg->in_color_space = JCS_GRAYSCALE;
                 }
-                else if (Pixel::RGB_U8 == info.pixel)
+                else if (Pixel::RGB_U8 == info.layers[0].pixel)
                 {
                     jpeg->input_components = 3;
                     jpeg->in_color_space = JCS_RGB;
@@ -180,7 +180,7 @@ namespace djv
                 jpeg_set_defaults(jpeg);
                 jpeg_set_quality(jpeg, quality, static_cast<boolean>(1));
                 jpeg_start_compress(jpeg, static_cast<boolean>(1));
-                QString tag = info.tags[ImageTags::tagLabels()[ImageTags::DESCRIPTION]];
+                QString tag = info.tags[Tags::tagLabels()[Tags::DESCRIPTION]];
                 if (tag.length())
                 {
                     jpeg_write_marker(
@@ -194,7 +194,7 @@ namespace djv
 
         } // namespace
 
-        void JPEGSave::_open(const QString & in, const ImageIOInfo & info)
+        void JPEGSave::_open(const QString & in, const IOInfo & info)
         {
             //DJV_DEBUG("JPEGSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -220,7 +220,7 @@ namespace djv
             {
                 throw Core::Error(
                     JPEG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
             if (!jpegOpen(_f, &_jpeg, info, _options.quality, &_jpegError))
             {

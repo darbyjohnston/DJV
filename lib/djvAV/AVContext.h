@@ -38,7 +38,7 @@ namespace djv
 {
     namespace AV
     {
-        class ImageIOFactory;
+        class IOFactory;
 
         //! This class provides the context for the library.
         class AVContext : public Core::CoreContext
@@ -47,8 +47,8 @@ namespace djv
             explicit AVContext(int & argc, char ** argv, QObject * parent = nullptr);
             ~AVContext() override;
 
-            //! Get the image I/O factory.    
-            QPointer<ImageIOFactory> imageIOFactory() const;
+            //! Get the I/O factory.    
+            QPointer<IOFactory> ioFactory() const;
 
             //! Get the default OpenGL context.
             QPointer<QOpenGLContext> openGLContext() const;

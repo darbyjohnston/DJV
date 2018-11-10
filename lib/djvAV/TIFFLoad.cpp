@@ -39,13 +39,13 @@ namespace djv
     namespace AV
     {
         TIFFLoad::TIFFLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo);
             _close();
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
@@ -54,38 +54,39 @@ namespace djv
             _close();
         }
 
-        void TIFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void TIFFLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("TIFFLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             _open(fileName, info);
             image.tags = info.tags;
 
             // Read the file.
             auto data = frame.proxy ? &_tmp : &image;
-            data->set(info);
-            for (int y = 0; y < info.size.y; ++y)
+            auto pixelDataInfo = info.layers[0];
+            data->set(pixelDataInfo);
+            for (int y = 0; y < pixelDataInfo.size.y; ++y)
             {
                 if (TIFFReadScanline(_f, (tdata_t *)data->data(0, y), y) == -1)
                 {
                     throw Core::Error(
                         TIFF::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                 }
                 if (_palette)
                 {
                     TIFF::paletteLoad(
                         data->data(0, y),
-                        info.size.x,
-                        Pixel::channelByteCount(info.pixel),
+                        pixelDataInfo.size.x,
+                        Pixel::channelByteCount(pixelDataInfo.pixel),
                         _colormap[0], _colormap[1], _colormap[2]);
                 }
             }
@@ -93,9 +94,9 @@ namespace djv
             // Proxy scaling.
             if (frame.proxy)
             {
-                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                info.proxy = frame.proxy;
-                image.set(info);
+                pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                pixelDataInfo.proxy = frame.proxy;
+                image.set(pixelDataInfo);
                 PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
             }
 
@@ -104,7 +105,7 @@ namespace djv
             _close();
         }
 
-        void TIFFLoad::_open(const QString & in, ImageIOInfo & info)
+        void TIFFLoad::_open(const QString & in, IOInfo & info)
         {
             //DJV_DEBUG("TIFFLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -119,7 +120,7 @@ namespace djv
             {
                 throw Core::Error(
                     TIFF::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
 
             // Read the Header.
@@ -155,13 +156,13 @@ namespace djv
             //DJV_DEBUG_PRINT("tiff channels = " << channels);
 
             // Get file information.
-            info.fileName = in;
-            info.size = glm::ivec2(width, height);
+            info.layers[0].fileName = in;
+            info.layers[0].size = glm::ivec2(width, height);
             if (samples > 1 && PLANARCONFIG_SEPARATE == channels)
             {
                 throw Core::Error(
                     TIFF::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             Pixel::PIXEL pixel = static_cast<Pixel::PIXEL>(0);
             bool found = false;
@@ -191,37 +192,37 @@ namespace djv
             {
                 throw Core::Error(
                     TIFF::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
-            info.pixel = pixel;
+            info.layers[0].pixel = pixel;
             _compression = compression != COMPRESSION_NONE;
             _palette = PHOTOMETRIC_PALETTE == photometric;
             switch (orient)
             {
-            case ORIENTATION_TOPLEFT:  info.mirror.y = true;                 break;
-            case ORIENTATION_TOPRIGHT: info.mirror.x = info.mirror.y = true; break;
-            case ORIENTATION_BOTRIGHT: info.mirror.x = true;                 break;
-            case ORIENTATION_BOTLEFT:                                        break;
+            case ORIENTATION_TOPLEFT:  info.layers[0].mirror.y = true; break;
+            case ORIENTATION_TOPRIGHT: info.layers[0].mirror.x = info.layers[0].mirror.y = true; break;
+            case ORIENTATION_BOTRIGHT: info.layers[0].mirror.x = true; break;
+            case ORIENTATION_BOTLEFT: break;
             }
 
-            // Get image tags.
-            const QStringList & tags = ImageTags::tagLabels();
+            // Get tags.
+            const QStringList & tags = Tags::tagLabels();
             char * tag = 0;
             if (TIFFGetField(_f, TIFFTAG_ARTIST, &tag))
             {
-                info.tags[tags[ImageTags::CREATOR]] = tag;
+                info.tags[tags[Tags::CREATOR]] = tag;
             }
             if (TIFFGetField(_f, TIFFTAG_IMAGEDESCRIPTION, &tag))
             {
-                info.tags[tags[ImageTags::DESCRIPTION]] = tag;
+                info.tags[tags[Tags::DESCRIPTION]] = tag;
             }
             if (TIFFGetField(_f, TIFFTAG_COPYRIGHT, &tag))
             {
-                info.tags[tags[ImageTags::COPYRIGHT]] = tag;
+                info.tags[tags[Tags::COPYRIGHT]] = tag;
             }
             if (TIFFGetField(_f, TIFFTAG_DATETIME, &tag))
             {
-                info.tags[tags[ImageTags::TIME]] = tag;
+                info.tags[tags[Tags::TIME]] = tag;
             }
         }
 

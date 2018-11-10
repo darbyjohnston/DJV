@@ -29,24 +29,21 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/OpenEXR.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Industrial Light and Magic OpenEXR
-        //! image file format.
+        //! Industrial Light and Magic OpenEXR
         //!
         //! Requires:
-        //!
         //! - OpenEXR - http://www.openexr.com
         //!
         //! File extensions: .exr
         //!
         //! Supported features:
-        //!
         //! - 16-bit float, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
         //! - Image layers
         //! - Display and data windows
@@ -55,7 +52,7 @@ namespace djv
         //! \todo Add support for writing luminance/chroma images.
         //! \todo Add support for OpenEXR aspect ratios.
         //! \todo Add better support for tiled images.
-        class OpenEXRPlugin : public ImageIO
+        class OpenEXRPlugin : public IOPlugin
         {
         public:
             explicit OpenEXRPlugin(const QPointer<Core::CoreContext> &);
@@ -72,8 +69,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             void threadsUpdate();

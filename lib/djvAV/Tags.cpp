@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/ImageTags.h>
+#include <djvAV/Tags.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -42,26 +42,26 @@ namespace djv
 {
     namespace AV
     {
-        struct ImageTags::Private
+        struct Tags::Private
         {
             typedef QPair<QString, QString> Pair;
             QVector<Pair> list;
         };
 
-        ImageTags::ImageTags() :
+        Tags::Tags() :
             _p(new Private)
         {}
 
-        ImageTags::ImageTags(const ImageTags & other) :
+        Tags::Tags(const Tags & other) :
             _p(new Private)
         {
             *_p = *(other._p);
         }
 
-        ImageTags::~ImageTags()
+        Tags::~Tags()
         {}
 
-        void ImageTags::add(const ImageTags & in)
+        void Tags::add(const Tags & in)
         {
             Q_FOREACH(const Private::Pair & pair, in._p->list)
             {
@@ -69,7 +69,7 @@ namespace djv
             }
         }
 
-        void ImageTags::add(const QString & key, const QString & value)
+        void Tags::add(const QString & key, const QString & value)
         {
             for (int i = 0; i < _p->list.count(); ++i)
             {
@@ -82,7 +82,7 @@ namespace djv
             _p->list += Private::Pair(key, value);
         }
 
-        QString ImageTags::tag(const QString & key) const
+        QString Tags::tag(const QString & key) const
         {
             Q_FOREACH(const Private::Pair & pair, _p->list)
             {
@@ -94,7 +94,7 @@ namespace djv
             return QString();
         }
 
-        QStringList ImageTags::keys() const
+        QStringList Tags::keys() const
         {
             QStringList out;
             Q_FOREACH(const Private::Pair & pair, _p->list)
@@ -104,7 +104,7 @@ namespace djv
             return out;
         }
 
-        QStringList ImageTags::values() const
+        QStringList Tags::values() const
         {
             QStringList out;
             Q_FOREACH(const Private::Pair & pair, _p->list)
@@ -114,12 +114,12 @@ namespace djv
             return out;
         }
 
-        int ImageTags::count() const
+        int Tags::count() const
         {
             return _p->list.count();
         }
 
-        bool ImageTags::isValid(const QString & key)
+        bool Tags::isValid(const QString & key)
         {
             Q_FOREACH(const Private::Pair & pair, _p->list)
             {
@@ -131,27 +131,27 @@ namespace djv
             return false;
         }
 
-        void ImageTags::clear()
+        void Tags::clear()
         {
             _p->list.clear();
         }
 
-        const QStringList & ImageTags::tagLabels()
+        const QStringList & Tags::tagLabels()
         {
             static const QStringList data = QStringList() <<
-                qApp->translate("djv::AV::ImageTags", "Project") <<
-                qApp->translate("djv::AV::ImageTags", "Creator") <<
-                qApp->translate("djv::AV::ImageTags", "Description") <<
-                qApp->translate("djv::AV::ImageTags", "Copyright") <<
-                qApp->translate("djv::AV::ImageTags", "Time") <<
-                qApp->translate("djv::AV::ImageTags", "UTC Offset") <<
-                qApp->translate("djv::AV::ImageTags", "Keycode") <<
-                qApp->translate("djv::AV::ImageTags", "Timecode");
+                qApp->translate("djv::AV::Tags", "Project") <<
+                qApp->translate("djv::AV::Tags", "Creator") <<
+                qApp->translate("djv::AV::Tags", "Description") <<
+                qApp->translate("djv::AV::Tags", "Copyright") <<
+                qApp->translate("djv::AV::Tags", "Time") <<
+                qApp->translate("djv::AV::Tags", "UTC Offset") <<
+                qApp->translate("djv::AV::Tags", "Keycode") <<
+                qApp->translate("djv::AV::Tags", "Timecode");
             DJV_ASSERT(data.count() == TAGS_COUNT);
             return data;
         }
 
-        ImageTags & ImageTags::operator = (const ImageTags & other)
+        Tags & Tags::operator = (const Tags & other)
         {
             if (&other != this)
             {
@@ -160,7 +160,7 @@ namespace djv
             return *this;
         }
 
-        QString & ImageTags::operator [] (const QString & key)
+        QString & Tags::operator [] (const QString & key)
         {
             for (int i = 0; i < _p->list.count(); ++i)
             {
@@ -173,14 +173,14 @@ namespace djv
             return _p->list[_p->list.count() - 1].second;
         }
 
-        QString ImageTags::operator [] (const QString & key) const
+        QString Tags::operator [] (const QString & key) const
         {
             return tag(key);
         }
 
     } // namespace AV
 
-    bool operator == (const AV::ImageTags & a, const AV::ImageTags & b)
+    bool operator == (const AV::Tags & a, const AV::Tags & b)
     {
         if (a.keys() != b.keys())
         {
@@ -193,12 +193,12 @@ namespace djv
         return true;
     }
 
-    bool operator != (const AV::ImageTags & a, const AV::ImageTags & b)
+    bool operator != (const AV::Tags & a, const AV::Tags & b)
     {
         return !(a == b);
     }
 
-    Core::Debug & operator << (Core::Debug & debug, const AV::ImageTags & tags)
+    Core::Debug & operator << (Core::Debug & debug, const AV::Tags & tags)
     {
         QStringList tmp;
         Q_FOREACH(const QString & key, tags.keys())

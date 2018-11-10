@@ -55,8 +55,8 @@ namespace djv
             {
                 Header();
 
-                void load(Core::FileIO &, ImageIOInfo &, bool * compression);
-                void save(Core::FileIO &, const ImageIOInfo &, bool compression);
+                void load(Core::FileIO &, IOInfo &, bool * compression);
+                void save(Core::FileIO &, const IOInfo &, bool compression);
 
                 void debug() const;
 
@@ -89,7 +89,7 @@ namespace djv
                 _data.pixelMax = 0;
             }
 
-            void Header::load(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+            void Header::load(Core::FileIO & io, IOInfo & info, bool * compression)
             {
                 //DJV_DEBUG("Header::load");
 
@@ -99,7 +99,7 @@ namespace djv
                 {
                     throw Core::Error(
                         SGI::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNRECOGNIZED]);
                 }
                 io.getU8(&_data.storage);
                 io.getU8(&_data.bytes);
@@ -113,35 +113,35 @@ namespace djv
                 //DJV_DEBUG_PRINT("bytes = " << _data.bytes);
 
                 // Information.
-                info.size = glm::ivec2(_data.width, _data.height);
+                info.layers[0].size = glm::ivec2(_data.width, _data.height);
                 if (!Pixel::pixel(
                     _data.channels,
                     1 == _data.bytes ? 8 : 16,
                     Pixel::INTEGER,
-                    info.pixel))
+                    info.layers[0].pixel))
                 {
                     throw Core::Error(
                         SGI::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                 }
                 //DJV_DEBUG_PRINT("pixel = " << info.pixel);
-                info.endian = Core::Memory::MSB;
+                info.layers[0].endian = Core::Memory::MSB;
 
                 *compression = _data.storage ? true : false;
             }
 
-            void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+            void Header::save(Core::FileIO & io, const IOInfo & info, bool compression)
             {
                 //DJV_DEBUG("Header::save");
 
                 // Information.
-                const int channels = Pixel::channels(info.pixel);
-                const int bytes = Pixel::channelByteCount(info.pixel);
-                _data.width = info.size.x;
-                _data.height = info.size.y;
+                const int channels = Pixel::channels(info.layers[0].pixel);
+                const int bytes = Pixel::channelByteCount(info.layers[0].pixel);
+                _data.width = info.layers[0].size.x;
+                _data.height = info.layers[0].size.y;
                 _data.channels = channels;
                 _data.bytes = bytes;
-                _data.dimension = 1 == channels ? (1 == info.size.y ? 1 : 2) : 3;
+                _data.dimension = 1 == channels ? (1 == info.layers[0].size.y ? 1 : 2) : 3;
                 _data.pixelMin = 0;
                 _data.pixelMax = 1 == bytes ? 255 : 65535;
                 _data.storage = compression;
@@ -175,13 +175,13 @@ namespace djv
 
         } // namespace
 
-        void SGI::loadInfo(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+        void SGI::loadInfo(Core::FileIO & io, IOInfo & info, bool * compression)
         {
             Header header;
             header.load(io, info, compression);
         }
 
-        void SGI::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+        void SGI::saveInfo(Core::FileIO & io, const IOInfo & info, bool compression)
         {
             Header header;
             header.save(io, info, compression);

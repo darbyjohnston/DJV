@@ -29,27 +29,25 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/TIFF.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Tagged Image File Format (TIFF).
+        //! TIFF - Tagged Image File Format
         //!
         //! Requires:
-        //!
         //! - libtiff - http://www.libtiff.org
         //!
         //! File extensions: .tiff, .tif
         //!
         //! Supported features:
-        //!
         //! - 8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
         //! - Interleaved channels only
         //! - File compression
-        class TIFFPlugin : public ImageIO
+        class TIFFPlugin : public IOPlugin
         {
         public:
             explicit TIFFPlugin(const QPointer<Core::CoreContext> &);
@@ -65,8 +63,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             TIFF::Options _options;

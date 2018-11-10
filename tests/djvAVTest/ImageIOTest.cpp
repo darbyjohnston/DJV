@@ -29,9 +29,9 @@
 
 #include <djvAVTest/ImageIOTest.h>
 
-#include <djvAV/Image.h>
 #include <djvAV/AVContext.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/Image.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -57,65 +57,37 @@ namespace djv
         {
             DJV_DEBUG("ImageIOTest::info");
             {
-                const AV::ImageIOInfo info;
-                DJV_ASSERT(info.layerCount() == 1);
+                const AV::IOInfo info;
+                DJV_ASSERT(info.layers.size() == 1);
             }
             {
                 const AV::PixelDataInfo tmp(1, 1, AV::Pixel::L_U8);
-                const AV::ImageIOInfo info(tmp);
-                DJV_ASSERT(info.layerCount() == 1);
-                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info) == tmp);
-            }
-            {
-                const AV::PixelDataInfo tmp(1, 1, AV::Pixel::L_U8);
-                AV::ImageIOInfo info;
-                info.addLayer(tmp);
-                DJV_ASSERT(info.layerCount() == 2);
-                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info) == AV::PixelDataInfo());
-                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info[1]) == tmp);
-                info[0] = tmp;
-                DJV_ASSERT(static_cast<AV::PixelDataInfo>(info[0]) == tmp);
+                const AV::IOInfo info(tmp);
+                DJV_ASSERT(info.layers.size() == 1);
+                DJV_ASSERT(info.layers[0] == tmp);
             }
             {
                 AV::ImageIOInfo info;
-                info.setLayerCount(10);
-                DJV_ASSERT(info.layerCount() == 10);
-                info.clearLayers();
-                DJV_ASSERT(info.layerCount() == 1);
-            }
-            {
-                const AV::PixelDataInfo tmp(1, 1, AV::Pixel::L_U8);
-                AV::ImageIOInfo a(tmp), b(tmp);
-                a.addLayer(tmp);
-                b.addLayer(tmp);
-                DJV_ASSERT(a == b);
-                DJV_ASSERT(a != AV::ImageIOInfo());
-                AV::ImageIOInfo c;
-                c.addLayer(tmp);
-                DJV_ASSERT(a != c);
-            }
-            {
-                AV::ImageIOFrameInfo info;
                 DJV_ASSERT(-1 == info.frame);
                 DJV_ASSERT(0 == info.layer);
                 DJV_ASSERT(AV::PixelDataInfo::PROXY_NONE == info.proxy);
             }
             {
-                AV::ImageIOFrameInfo info(1, 2, AV::PixelDataInfo::PROXY_1_2);
+                AV::ImageIOInfo info(1, 2, AV::PixelDataInfo::PROXY_1_2);
                 DJV_ASSERT(1 == info.frame);
                 DJV_ASSERT(2 == info.layer);
                 DJV_ASSERT(AV::PixelDataInfo::PROXY_1_2 == info.proxy);
             }
             {
-                AV::ImageIOFrameInfo
+                AV::ImageIOInfo
                     a(1, 2, AV::PixelDataInfo::PROXY_1_2),
                     b(1, 2, AV::PixelDataInfo::PROXY_1_2);
                 DJV_ASSERT(a == b);
-                DJV_ASSERT(a != AV::ImageIOFrameInfo());
+                DJV_ASSERT(a != AV::ImageIOInfo());
             }
             {
+                DJV_DEBUG_PRINT(AV::IOInfo());
                 DJV_DEBUG_PRINT(AV::ImageIOInfo());
-                DJV_DEBUG_PRINT(AV::ImageIOFrameInfo());
             }
         }
 
@@ -123,10 +95,10 @@ namespace djv
         {
             DJV_DEBUG("ImageIOTest::plugin");
             AV::AVContext context(argc, argv);
-            AV::ImageIOFactory * factory = context.imageIOFactory();
+            auto factory = context.ioFactory();
             Q_FOREACH(QString plugin, QStringList() << "PPM")
             {
-                if (AV::ImageIO * io = static_cast<AV::ImageIO *>(factory->plugin(plugin)))
+                if (auto io = static_cast<AV::IOPlugin *>(factory->plugin(plugin)))
                 {
                     DJV_ASSERT(io->extensions().count());
                     DJV_ASSERT(io->isSequence());
@@ -134,7 +106,7 @@ namespace djv
                     DJV_ASSERT(factory->option("", "") == QStringList());
                     QStringList tmp;
                     DJV_ASSERT(!factory->setOption("", "", tmp));
-                    AV::ImageIOInfo info;
+                    AV::IOInfo info;
                     try
                     {
                         factory->load(FileInfo(), info);
@@ -160,18 +132,18 @@ namespace djv
         {
             DJV_DEBUG("ImageIOTest::io");
             AV::AVContext context(argc, argv);
-            QScopedPointer<AV::ImageLoad> load;
-            QScopedPointer<AV::ImageSave> save;
+            QScopedPointer<AV::Load> load;
+            QScopedPointer<AV::Save> save;
             try
             {
                 const FileInfo fileInfo("ImageIOTest.ppm");
                 const AV::PixelDataInfo pixelDataInfo(1, 1, AV::Pixel::L_U8);
-                auto save = context.imageIOFactory()->save(fileInfo, pixelDataInfo);
+                auto save = context.ioFactory()->save(fileInfo, pixelDataInfo);
                 DJV_ASSERT(save);
                 save->write(AV::Image(pixelDataInfo));
                 save->close();
-                AV::ImageIOInfo info;
-                auto load = context.imageIOFactory()->load(fileInfo, info);
+                AV::IOInfo info;
+                auto load = context.ioFactory()->load(fileInfo, info);
                 DJV_ASSERT(load);
                 AV::Image image;
                 load->read(image);

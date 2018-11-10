@@ -1468,7 +1468,7 @@ Keyboard shortcut: %1</source>
     <message>
         <location filename="UIContext.cpp" line="366"/>
         <source>%1
-Image I/O Widgets
+I/O Widgets
 
     Plugins: %2
 

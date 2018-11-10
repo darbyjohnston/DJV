@@ -32,7 +32,7 @@
 #include <djvAVTest/AVTest.h>
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 namespace djv
 {
@@ -53,12 +53,12 @@ namespace djv
             void initPlugins(const QPointer<djv::AV::AVContext> &);
             void initData();
             void initImages();
-            void runTest(AV::ImageIO *, const AV::Image &);
+            void runTest(AV::IOPlugin *, const AV::Image &);
 
-            QVector<glm::ivec2>             _sizes;
+            QVector<glm::ivec2>       _sizes;
             QVector<AV::Pixel::PIXEL> _pixels;
             QVector<AV::Image>        _images;
-            QVector<Core::Plugin *>         _plugins;
+            QVector<Core::Plugin *>   _plugins;
         };
 
     } // namespace AVTest

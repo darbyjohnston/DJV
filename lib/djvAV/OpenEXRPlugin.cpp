@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         OpenEXRPlugin::OpenEXRPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         namespace
@@ -358,14 +358,14 @@ namespace djv
                 ;
         }
 
-        std::unique_ptr<ImageLoad> OpenEXRPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> OpenEXRPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new OpenEXRLoad(fileInfo, _options, context()));
+            return std::unique_ptr<Load>(new OpenEXRLoad(fileInfo, _options, context()));
         }
 
-        std::unique_ptr<ImageSave> OpenEXRPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> OpenEXRPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new OpenEXRSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new OpenEXRSave(fileInfo, ioInfo, _options, context()));
         }
 
         void OpenEXRPlugin::threadsUpdate()

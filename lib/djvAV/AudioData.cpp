@@ -27,33 +27,57 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvUI/Core.h>
-
-#include <djvCore/Time.h>
-
-#include <QObject>
+#include <djvAV/AudioData.h>
 
 namespace djv
 {
-    namespace UI
+    namespace AV
     {
-        class UIContext;
-
-        //! This class provides image I/O preferences.
-        class ImageIOPrefs : public QObject
+        bool AudioInfo::operator == (const AudioInfo & other) const
         {
-            Q_OBJECT
+            return
+                channels == other.channels &&
+                type == other.type &&
+                sampleRate == other.sampleRate &&
+                sampleCount == other.sampleCount;
+        }
 
-        public:
-            explicit ImageIOPrefs(const QPointer<UIContext> &, QObject * parent = nullptr);
-            ~ImageIOPrefs() override;
+        bool AudioInfo::operator != (const AudioInfo & other) const
+        {
+            return !(*this == other);
+        }
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+        AudioData::AudioData()
+        {}
 
-    } // namespace UI
+        AudioData::AudioData(const AudioInfo & info)
+        {
+            set(info);
+        }
+
+        AudioData::~AudioData()
+        {}
+
+        void AudioData::set(const AudioInfo & info)
+        {
+            if (info == _info)
+                return;
+            _info = info;
+            _data.resize(_info.sampleCount * Audio::byteCount(_info.type));
+        }
+
+        bool AudioData::operator == (const AudioData & other) const
+        {
+            return
+                _info == other._info &&
+                memcmp(data(), other.data(), dataByteCount()) == 0;
+        }
+
+        bool AudioData::operator != (const AudioData & other) const
+        {
+            return !(*this == other);
+        }
+
+    } // namespace AV
+
 } // namespace djv

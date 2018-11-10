@@ -34,7 +34,7 @@
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -49,8 +49,8 @@ namespace djv
 {
     namespace UI
     {
-        CineonWidget::CineonWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        CineonWidget::CineonWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             //DJV_DEBUG("CineonWidget::CineonWidget");
 
@@ -378,10 +378,10 @@ namespace djv
         }
 
         CineonWidgetPlugin::CineonWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * CineonWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * CineonWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new CineonWidget(plugin, uiContext());
         }

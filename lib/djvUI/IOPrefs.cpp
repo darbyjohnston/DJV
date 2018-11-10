@@ -27,12 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ImageIOPrefs.h>
+#include <djvUI/IOPrefs.h>
 
 #include <djvUI/UIContext.h>
 #include <djvUI/Prefs.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <QApplication>
 
@@ -42,7 +42,7 @@ namespace djv
     {
         namespace
         {
-            void _load(AV::ImageIO * plugin)
+            void _load(AV::IOPlugin * plugin)
             {
                 //DJV_DEBUG("_load");
                 //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -59,7 +59,7 @@ namespace djv
                 }
             }
 
-            void _save(const AV::ImageIO * plugin)
+            void _save(const AV::IOPlugin * plugin)
             {
                 //DJV_DEBUG("_save");
                 //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -73,35 +73,35 @@ namespace djv
 
         } // namespace
 
-        struct ImageIOPrefs::Private
+        struct IOPrefs::Private
         {
             QPointer<UIContext> context;
         };
 
-        ImageIOPrefs::ImageIOPrefs(const QPointer<UIContext> & context, QObject * parent) :
+        IOPrefs::IOPrefs(const QPointer<UIContext> & context, QObject * parent) :
             QObject(parent),
             _p(new Private)
         {
             _p->context = context;
 
-            //DJV_DEBUG("ImageIOPrefs::ImageIOPrefs");
-            const QList<Core::Plugin *> & plugins = context->imageIOFactory()->plugins();
+            //DJV_DEBUG("IOPrefs::IOPrefs");
+            const QList<Core::Plugin *> & plugins = context->ioFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
             {
-                if (AV::ImageIO * plugin = dynamic_cast<AV::ImageIO *>(plugins[i]))
+                if (auto plugin = dynamic_cast<AV::IOPlugin *>(plugins[i]))
                 {
                     _load(plugin);
                 }
             }
         }
 
-        ImageIOPrefs::~ImageIOPrefs()
+        IOPrefs::~IOPrefs()
         {
-            //DJV_DEBUG("ImageIOPrefs::~ImageIOPrefs");
-            const QList<Core::Plugin *> & plugins = _p->context->imageIOFactory()->plugins();
+            //DJV_DEBUG("IOPrefs::~IOPrefs");
+            const QList<Core::Plugin *> & plugins = _p->context->ioFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
             {
-                if (AV::ImageIO * plugin = dynamic_cast<AV::ImageIO *>(plugins[i]))
+                if (auto plugin = dynamic_cast<AV::IOPlugin *>(plugins[i]))
                 {
                     _save(plugin);
                 }

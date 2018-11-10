@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/FFmpeg.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -38,14 +38,13 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a FFmpeg loader.
-        class FFmpegLoad : public ImageLoad
+        class FFmpegLoad : public Load
         {
         public:
             explicit FFmpegLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             virtual ~FFmpegLoad();
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
             bool readFrame(int64_t & pts);

@@ -49,7 +49,7 @@ namespace djv
     namespace AV
     {
         FFmpegLoad::FFmpegLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             // Open the file.
             int r = avformat_open_input(
@@ -142,10 +142,10 @@ namespace djv
                 0);
 
             // Get file information.
-            _imageIOInfo.fileName = _fileInfo;
-            _imageIOInfo.size = glm::ivec2(_avCodecParameters->width, _avCodecParameters->height);
-            _imageIOInfo.pixel = Pixel::RGBA_U8;
-            _imageIOInfo.mirror.y = true;
+            _ioInfo.layers[0].fileName = _fileInfo;
+            _ioInfo.layers[0].size = glm::ivec2(_avCodecParameters->width, _avCodecParameters->height);
+            _ioInfo.layers[0].pixel = Pixel::RGBA_U8;
+            _ioInfo.layers[0].mirror.y = true;
             int64_t duration = 0;
             if (avStream->duration != AV_NOPTS_VALUE)
             {
@@ -192,7 +192,7 @@ namespace djv
             }
             //DJV_DEBUG_PRINT("nbFrames = " << static_cast<qint64>(nbFrames));
 
-            _imageIOInfo.sequence = Core::Sequence(0, nbFrames - 1, 0, speed);
+            _ioInfo.sequence = Core::Sequence(0, nbFrames - 1, 0, speed);
         }
 
         FFmpegLoad::~FFmpegLoad()
@@ -230,15 +230,15 @@ namespace djv
             }
         }
 
-        void FFmpegLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void FFmpegLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("FFmpegLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
             PixelData * data = frame.proxy ? &_tmp : &image;
-            data->set(_imageIOInfo);
+            data->set(_ioInfo.layers[0]);
             av_image_fill_arrays(
                 _avFrameRgb->data,
                 _avFrameRgb->linesize,
@@ -260,8 +260,8 @@ namespace djv
             if (f != _frame + 1)
             {
                 const int64_t seek =
-                    (f * _imageIOInfo.sequence.speed.duration()) /
-                    static_cast<float>(_imageIOInfo.sequence.speed.scale()) *
+                    (f * _ioInfo.sequence.speed.duration()) /
+                    static_cast<float>(_ioInfo.sequence.speed.scale()) *
                     AV_TIME_BASE;
                 //DJV_DEBUG_PRINT("seek = " << static_cast<qint64>(seek));
                 int r = av_seek_frame(
@@ -291,7 +291,7 @@ namespace djv
 
             if (frame.proxy)
             {
-                PixelDataInfo info = _imageIOInfo;
+                PixelDataInfo info = _ioInfo.layers[0];
                 info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
                 info.proxy = frame.proxy;
                 image.set(info);

@@ -32,7 +32,7 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -45,8 +45,8 @@ namespace djv
 {
     namespace UI
     {
-        FFmpegWidget::FFmpegWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context),
+        FFmpegWidget::FFmpegWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context),
             _formatWidget(0),
             _qualityWidget(0)
         {
@@ -167,10 +167,10 @@ namespace djv
         }
 
         FFmpegWidgetPlugin::FFmpegWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * FFmpegWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * FFmpegWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new FFmpegWidget(plugin, uiContext());
         }

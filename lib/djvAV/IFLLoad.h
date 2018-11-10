@@ -30,20 +30,19 @@
 #pragma once
 
 #include <djvAV/IFL.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This class provides an IFL loader.
-        class IFLLoad : public ImageLoad
+        class IFLLoad : public Load
         {
         public:
             explicit IFLLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~IFLLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
             QStringList _list;

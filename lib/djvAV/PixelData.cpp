@@ -42,14 +42,6 @@ namespace djv
 {
     namespace AV
     {
-        PixelDataInfo::Mirror::Mirror()
-        {}
-
-        PixelDataInfo::Mirror::Mirror(bool x, bool y) :
-            x(x),
-            y(y)
-        {}
-
         void PixelDataInfo::init()
         {
             static const QString defaultLayerName = qApp->translate("djv::Graphisc::PixelDataInfo", "Default");
@@ -233,49 +225,20 @@ namespace djv
             memcpy(_data.data(), in._p, _dataByteCount);
         }
 
+        bool PixelData::operator == (const AV::PixelData & other) const
+        {
+            return
+                info() == other.info() &&
+                dataByteCount() == other.dataByteCount() &&
+                memcmp(data(), other.data(), dataByteCount()) == 0;
+        }
+
+        bool PixelData::operator != (const AV::PixelData & other) const
+        {
+            return !(*this == other);
+        }
+
     } // namespace AV
-
-    bool operator == (const AV::PixelDataInfo::Mirror & a, const AV::PixelDataInfo::Mirror & b)
-    {
-        return
-            a.x == b.x &&
-            a.y == b.y;
-    }
-
-    bool operator == (const AV::PixelDataInfo & a, const AV::PixelDataInfo & b)
-    {
-        return
-            a.size == b.size   &&
-            a.proxy == b.proxy  &&
-            a.pixel == b.pixel  &&
-            a.bgr == b.bgr    &&
-            a.mirror == b.mirror &&
-            a.align == b.align  &&
-            a.endian == b.endian;
-    }
-
-    bool operator == (const AV::PixelData & a, const AV::PixelData & b)
-    {
-        return
-            a.info() == b.info() &&
-            a.dataByteCount() == b.dataByteCount() &&
-            memcmp(a.data(), b.data(), a.dataByteCount()) == 0;
-    }
-
-    bool operator != (const AV::PixelDataInfo::Mirror & a, const AV::PixelDataInfo::Mirror & b)
-    {
-        return !(a == b);
-    }
-
-    bool operator != (const AV::PixelDataInfo & a, const AV::PixelDataInfo & b)
-    {
-        return !(a == b);
-    }
-
-    bool operator != (const AV::PixelData & a, const AV::PixelData & b)
-    {
-        return !(a == b);
-    }
 
     _DJV_STRING_OPERATOR_LABEL(
         AV::PixelDataInfo::PROXY,

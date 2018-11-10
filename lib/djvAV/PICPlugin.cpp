@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         PICPlugin::PICPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString PICPlugin::pluginName() const
@@ -56,9 +56,9 @@ namespace djv
             return QStringList() << ".pic";
         }
 
-        std::unique_ptr<ImageLoad> PICPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> PICPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new PICLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new PICLoad(fileInfo, context()));
         }
 
     } // namespace AV

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/PNG.h>
 
 #include <djvCore/FileInfo.h>
@@ -38,17 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a PNG loader.
-        class PNGLoad : public ImageLoad
+        class PNGLoad : public Load
         {
         public:
             explicit PNGLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~PNGLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &);
+            void _open(const QString &, IOInfo &);
             void _close();
 
             FILE *         _f = nullptr;

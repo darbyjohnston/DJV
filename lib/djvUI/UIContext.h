@@ -49,9 +49,9 @@ namespace djv
         class FileBrowserThumbnailSystem;
         class HelpPrefs;
         class IconLibrary;
-        class ImageIOPrefs;
-        class ImageIOWidgetFactory;
         class InfoDialog;
+        class IOPrefs;
+        class IOWidgetFactory;
         class MessagesDialog;
         class OpenGLPrefs;
         class PrefsDialog;
@@ -77,8 +77,8 @@ namespace djv
             //! Get the file browser.
             QPointer<FileBrowser> fileBrowser(const QString & title = QString()) const;
 
-            //! Get the image I/O widget plugin factory.
-            QPointer<ImageIOWidgetFactory> imageIOWidgetFactory() const;
+            //! Get the I/O widget plugin factory.
+            QPointer<IOWidgetFactory> ioWidgetFactory() const;
 
             //! Get the preferences dialog.
             QPointer<PrefsDialog> prefsDialog() const;
@@ -98,8 +98,8 @@ namespace djv
             //! Get the file browser preferences.
             QPointer<FileBrowserPrefs> fileBrowserPrefs() const;
 
-            //! Get the image I/O preferences.
-            QPointer<ImageIOPrefs> imageIOPrefs() const;
+            //! Get the I/O preferences.
+            QPointer<IOPrefs> ioPrefs() const;
 
             //! Get the style preferences.
             QPointer<StylePrefs> stylePrefs() const;

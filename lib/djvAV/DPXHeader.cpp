@@ -75,7 +75,7 @@ namespace djv
             Core::Memory::fill<quint8>(0xff, &tv, sizeof(Tv));
         }
 
-        void DPXHeader::load(Core::FileIO & io, ImageIOInfo & info, bool & filmPrint)
+        void DPXHeader::load(Core::FileIO & io, IOInfo & info, bool & filmPrint)
         {
             //DJV_DEBUG("DPXHeader::load");
             //DJV_DEBUG_PRINT("file = " << io.fileName());
@@ -85,24 +85,24 @@ namespace djv
             //DJV_DEBUG_PRINT("magic = " << QString::fromLatin1((char *)&file.magic, 4));
             if (0 == memcmp(&file.magic, magic[0], 4))
             {
-                info.endian = Core::Memory::MSB;
+                info.layers[0].endian = Core::Memory::MSB;
             }
             else if (0 == memcmp(&file.magic, magic[1], 4))
             {
-                info.endian = Core::Memory::LSB;
+                info.layers[0].endian = Core::Memory::LSB;
             }
             else
             {
                 throw Core::Error(
                     DPX::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNRECOGNIZED]);
             }
             //DJV_DEBUG_PRINT("endian = " << info.endian);
             io.get(&image, sizeof(Image));
             io.get(&source, sizeof(Source));
             io.get(&film, sizeof(Film));
             io.get(&tv, sizeof(Tv));
-            if (info.endian != Core::Memory::endian())
+            if (info.layers[0].endian != Core::Memory::endian())
             {
                 //DJV_DEBUG_PRINT("endian");
                 io.setEndian(true);
@@ -114,23 +114,23 @@ namespace djv
             {
                 throw Core::Error(
                     DPX::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
-            info.size = glm::ivec2(image.size[0], image.size[1]);
+            info.layers[0].size = glm::ivec2(image.size[0], image.size[1]);
             //DJV_DEBUG_PRINT("size = " << info.size);
             switch (image.orient)
             {
             case ORIENT_LEFT_RIGHT_TOP_BOTTOM:
-                info.mirror.y = true;
+                info.layers[0].mirror.y = true;
                 break;
             case ORIENT_RIGHT_LEFT_TOP_BOTTOM:
-                info.mirror.x = true;
+                info.layers[0].mirror.x = true;
                 break;
             case ORIENT_LEFT_RIGHT_BOTTOM_TOP:
                 break;
             case ORIENT_RIGHT_LEFT_BOTTOM_TOP:
-                info.mirror.x = true;
-                info.mirror.y = true;
+                info.layers[0].mirror.x = true;
+                info.layers[0].mirror.y = true;
                 break;
             case ORIENT_TOP_BOTTOM_LEFT_RIGHT:
             case ORIENT_TOP_BOTTOM_RIGHT_LEFT:
@@ -213,54 +213,54 @@ namespace djv
             {
                 throw Core::Error(
                     DPX::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
-            info.pixel = pixel;
+            info.layers[0].pixel = pixel;
             //DJV_DEBUG_PRINT("pixel = " << info.pixel);
-            switch (Pixel::bitDepth(info.pixel))
+            switch (Pixel::bitDepth(info.layers[0].pixel))
             {
             case 8:
-            case 10: info.align = 4; break;
+            case 10: info.layers[0].align = 4; break;
             }
 
             if (image.elem[0].encoding)
             {
                 throw Core::Error(
                     DPX::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             if (isValid(&image.elem[0].linePadding) && image.elem[0].linePadding)
             {
                 throw Core::Error(
                     DPX::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             filmPrint = TRANSFER_FILM_PRINT == image.elem[0].transfer;
 
-            // File image tags.
-            const QStringList & tags = ImageTags::tagLabels();
+            // File tags.
+            const QStringList & tags = Tags::tagLabels();
             const QStringList & dpxTags = DPX::tagLabels();
             if (isValid(file.time, 24))
             {
-                info.tags[tags[ImageTags::TIME]] = toString(file.time, 24);
+                info.tags[tags[Tags::TIME]] = toString(file.time, 24);
             }
             if (isValid(file.creator, 100))
             {
-                info.tags[tags[ImageTags::CREATOR]] = toString(file.creator, 100);
+                info.tags[tags[Tags::CREATOR]] = toString(file.creator, 100);
             }
             if (isValid(file.project, 200))
             {
-                info.tags[tags[ImageTags::PROJECT]] = toString(file.project, 200);
+                info.tags[tags[Tags::PROJECT]] = toString(file.project, 200);
             }
             if (isValid(file.copyright, 200))
             {
-                info.tags[tags[ImageTags::COPYRIGHT]] = toString(file.copyright, 200);
+                info.tags[tags[Tags::COPYRIGHT]] = toString(file.copyright, 200);
             }
 
-            // Source image tags.
+            // Source tags.
             if (isValid(&source.offset[0]) && isValid(&source.offset[1]))
                 info.tags[dpxTags[DPX::TAG_SOURCE_OFFSET]] = (QStringList() <<
                     QString::number(source.offset[0]) <<
@@ -304,12 +304,12 @@ namespace djv
                     QString::number(source.scanSize[0]) <<
                     QString::number(source.scanSize[1])).join(" ");
 
-            // Film image tags.
+            // Film tags.
             if (
                 isValid(film.id, 2) && isValid(film.type, 2) &&
                 isValid(film.offset, 2) && isValid(film.prefix, 6) &&
                 isValid(film.count, 4))
-                info.tags[tags[ImageTags::KEYCODE]] = Core::Time::keycodeToString(
+                info.tags[tags[Tags::KEYCODE]] = Core::Time::keycodeToString(
                     toString(film.id, 2).toInt(),
                     toString(film.type, 2).toInt(),
                     toString(film.prefix, 6).toInt(),
@@ -352,9 +352,9 @@ namespace djv
                 info.tags[dpxTags[DPX::TAG_FILM_SLATE]] = toString(film.slate, 100);
             }
 
-            // TV image tags.
+            // TV tags.
             if (isValid(&tv.timecode))
-                info.tags[tags[ImageTags::TIMECODE]] =
+                info.tags[tags[Tags::TIMECODE]] =
                 Core::Time::timecodeToString(tv.timecode);
             if (isValid(&tv.interlace))
                 info.tags[dpxTags[DPX::TAG_TV_INTERLACE]] =
@@ -412,7 +412,7 @@ namespace djv
 
         void DPXHeader::save(
             Core::FileIO & io,
-            const ImageIOInfo & info,
+            const IOInfo & info,
             DPX::ENDIAN endian,
             Cineon::COLOR_PROFILE colorProfile,
             DPX::VERSION version)
@@ -439,11 +439,11 @@ namespace djv
             file.dittoKey = 1;
 
             image.elemSize = 1;
-            image.size[0] = info.size.x;
-            image.size[1] = info.size.y;
+            image.size[0] = info.layers[0].size.x;
+            image.size[1] = info.layers[0].size.y;
             image.orient = ORIENT_LEFT_RIGHT_TOP_BOTTOM;
 
-            switch (info.pixel)
+            switch (info.layers[0].pixel)
             {
             case Pixel::L_U8:
             case Pixel::L_U16:
@@ -467,7 +467,7 @@ namespace djv
             default: break;
             }
 
-            switch (info.pixel)
+            switch (info.layers[0].pixel)
             {
             case Pixel::RGB_U10:
                 image.elem[0].packing = TYPE_A;
@@ -475,7 +475,7 @@ namespace djv
             default: break;
             }
 
-            const int bitDepth = Pixel::bitDepth(info.pixel);
+            const int bitDepth = Pixel::bitDepth(info.layers[0].pixel);
             image.elem[0].bitDepth = bitDepth;
 
             image.elem[0].dataSign = 0;
@@ -537,34 +537,34 @@ namespace djv
             image.elem[0].linePadding = 0;
             image.elem[0].elemPadding = 0;
 
-            // File image tags.
-            const QStringList & tags = ImageTags::tagLabels();
+            // File tags.
+            const QStringList & tags = Tags::tagLabels();
             const QStringList & dpxTags = DPX::tagLabels();
             QString tmp;
-            Core::StringUtil::cString(info.fileName, file.name, 100, false);
-            tmp = info.tags[tags[ImageTags::TIME]];
+            Core::StringUtil::cString(info.layers[0].fileName, file.name, 100, false);
+            tmp = info.tags[tags[Tags::TIME]];
             if (tmp.length())
             {
                 Core::StringUtil::cString(tmp, file.time, 24, false);
             }
-            tmp = info.tags[tags[ImageTags::CREATOR]];
+            tmp = info.tags[tags[Tags::CREATOR]];
             if (tmp.length())
             {
                 Core::StringUtil::cString(tmp, file.creator, 100, false);
             }
-            tmp = info.tags[tags[ImageTags::PROJECT]];
+            tmp = info.tags[tags[Tags::PROJECT]];
             if (tmp.length())
             {
                 Core::StringUtil::cString(tmp, file.project, 200, false);
             }
-            tmp = info.tags[tags[ImageTags::COPYRIGHT]];
+            tmp = info.tags[tags[Tags::COPYRIGHT]];
             if (tmp.length())
             {
                 Core::StringUtil::cString(tmp, file.copyright, 200, false);
             }
             file.encryptionKey = 0;
 
-            // Source image tags.
+            // Source tags.
             tmp = info.tags[dpxTags[DPX::TAG_SOURCE_OFFSET]];
             if (tmp.length())
             {
@@ -648,8 +648,8 @@ namespace djv
                 }
             }
 
-            // Film image tags.
-            tmp = info.tags[tags[ImageTags::KEYCODE]];
+            // Film tags.
+            tmp = info.tags[tags[Tags::KEYCODE]];
             if (tmp.length())
             {
                 int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
@@ -706,8 +706,8 @@ namespace djv
                 Core::StringUtil::cString(tmp, film.slate, 100, false);
             }
 
-            // TV image tags.
-            tmp = info.tags[tags[ImageTags::TIMECODE]];
+            // TV tags.
+            tmp = info.tags[tags[Tags::TIMECODE]];
             if (tmp.length())
             {
                 tv.timecode = Core::Time::stringToTimecode(tmp);

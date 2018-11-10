@@ -43,8 +43,8 @@ namespace djv
 {
     namespace UI
     {
-        SGIWidget::SGIWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        SGIWidget::SGIWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             // Create the output widgets.    
             _compressionWidget = new QComboBox;
@@ -130,10 +130,10 @@ namespace djv
         }
 
         SGIWidgetPlugin::SGIWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * SGIWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * SGIWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new SGIWidget(plugin, uiContext());
         }

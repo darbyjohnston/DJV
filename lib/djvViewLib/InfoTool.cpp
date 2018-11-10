@@ -37,7 +37,7 @@
 #include <djvCore/SignalBlocker.h>
 #include <djvCore/Time.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <QApplication>
 #include <QDir>
@@ -52,7 +52,7 @@ namespace djv
     {
         struct InfoTool::Private
         {
-            AV::ImageIOInfo info;
+            AV::IOInfo info;
 
             QPointer<QLineEdit>      fileNameWidget;
             QPointer<QLineEdit>      layerNameWidget;
@@ -123,8 +123,8 @@ namespace djv
             // Setup the callbacks.
             connect(
                 session->fileGroup(),
-                &FileGroup::imageIOInfoChanged,
-                [this](const AV::ImageIOInfo & value)
+                &FileGroup::ioInfoChanged,
+                [this](const AV::IOInfo & value)
             {
                 _p->info = value;
                 widgetUpdate();
@@ -149,15 +149,15 @@ namespace djv
                 _p->timeWidget <<
                 _p->tagsWidget);
             _p->fileNameWidget->setText(
-                QDir::toNativeSeparators(_p->info.fileName));
-            _p->layerNameWidget->setText(_p->info.layerName);
+                QDir::toNativeSeparators(_p->info.layers[0].fileName));
+            _p->layerNameWidget->setText(_p->info.layers[0].layerName);
             _p->sizeWidget->setText(
                 qApp->translate("djv::ViewLib::InfoTool", "%1x%2:%3").
-                arg(_p->info.size.x).
-                arg(_p->info.size.y).
-                arg(Core::VectorUtil::aspect(_p->info.size)));
+                arg(_p->info.layers[0].size.x).
+                arg(_p->info.layers[0].size.y).
+                arg(Core::VectorUtil::aspect(_p->info.layers[0].size)));
             QStringList pixelLabel;
-            pixelLabel << _p->info.pixel;
+            pixelLabel << _p->info.layers[0].pixel;
             _p->pixelWidget->setText(pixelLabel.join(", "));
             _p->timeWidget->setText(
                 qApp->translate("djv::ViewLib::InfoTool", "%1@%2").

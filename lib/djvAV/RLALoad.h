@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/RLA.h>
 
 #include <djvCore/FileInfo.h>
@@ -38,17 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a RLA loader.
-        class RLALoad : public ImageLoad
+        class RLALoad : public Load
         {
         public:
             explicit RLALoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~RLALoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO &);
+            void _open(const QString &, IOInfo &, Core::FileIO &);
 
             std::vector<qint32> _rleOffset;
             PixelData           _tmp;

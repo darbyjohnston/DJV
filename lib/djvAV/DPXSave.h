@@ -32,7 +32,7 @@
 #include <djvAV/DPX.h>
 #include <djvAV/DPXHeader.h>
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -40,17 +40,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a DPX saver.
-        class DPXSave : public ImageSave
+        class DPXSave : public Save
         {
         public:
-            DPXSave(const Core::FileInfo &, const ImageIOInfo &, const DPX::Options &, const QPointer<Core::CoreContext> &);
+            DPXSave(const Core::FileInfo &, const IOInfo &, const DPX::Options &, const QPointer<Core::CoreContext> &);
             ~DPXSave() override;
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, const ImageIOInfo &);
+            void _open(const QString &, const IOInfo &);
 
             DPX::Options  _options;
             DPXHeader     _header;

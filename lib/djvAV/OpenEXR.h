@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/ColorProfile.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <ImathBox.h>
 #include <ImfChannelList.h>
@@ -68,12 +68,12 @@ namespace djv
             struct Layer
             {
                 Layer(
-                    const QVector<Channel> & channels        = QVector<Channel>(),
-                    bool                     luminanceChroma = false);
+                    const std::vector<Channel> & channels        = std::vector<Channel>(),
+                    bool                         luminanceChroma = false);
 
-                QString          name;
-                QVector<Channel> channels;
-                bool             luminanceChroma = false;
+                QString              name;
+                std::vector<Channel> channels;
+                bool                 luminanceChroma = false;
             };
 
             //! This enumeration provides the color profiles.
@@ -124,7 +124,7 @@ namespace djv
             //! Get the channel labels.
             static const QStringList & channelsLabels();
 
-            //! This enumeration provides the image tags.
+            //! This enumeration provides the tags.
             enum TAG
             {
                 TAG_LONGITUDE,
@@ -141,7 +141,7 @@ namespace djv
                 TAG_COUNT
             };
 
-            //! Get the image tag labels.
+            //! Get the tag labels.
             static const QStringList & tagLabels();
 
             //! Create a layer name from a list of channel names.
@@ -159,13 +159,13 @@ namespace djv
             static const Imf::Channel * find(const Imf::ChannelList &, QString &);
 
             //! Build a list of layers from Imf channels.
-            static QVector<Layer> layer(const Imf::ChannelList &, CHANNELS);
+            static std::vector<Layer> layer(const Imf::ChannelList &, CHANNELS);
 
-            //! Load image tags.
-            static void loadTags(const Imf::Header &, ImageIOInfo &);
+            //! Load tags.
+            static void loadTags(const Imf::Header &, IOInfo &);
 
-            //! Save image tags.
-            static void saveTags(const ImageIOInfo &, Imf::Header &);
+            //! Save tags.
+            static void saveTags(const IOInfo &, Imf::Header &);
 
             //! Convert from an OpenEXR box type.
             static Core::Box2i imfToBox(const Imath::Box2i &);
@@ -221,6 +221,6 @@ namespace djv
     DJV_STRING_OPERATOR(AV::OpenEXR::COMPRESSION);
     DJV_STRING_OPERATOR(AV::OpenEXR::CHANNELS);
 
-    bool compare(const QVector<Imf::Channel> &);
+    bool compare(const std::vector<Imf::Channel> &);
 
 } // namespace djv

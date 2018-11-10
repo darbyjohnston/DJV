@@ -44,7 +44,7 @@ namespace djv
     namespace AV
     {
         IFFPlugin::IFFPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString IFFPlugin::pluginName() const
@@ -137,14 +137,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> IFFPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> IFFPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new IFFLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new IFFLoad(fileInfo, context()));
         }
 
-        std::unique_ptr<ImageSave> IFFPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> IFFPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new IFFSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new IFFSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

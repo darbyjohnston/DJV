@@ -39,31 +39,31 @@ namespace djv
     namespace AV
     {
         SGILoad::SGILoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             Core::FileIO io;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo, io);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
         SGILoad::~SGILoad()
         {}
 
-        void SGILoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void SGILoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("SGILoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             Core::FileIO io;
             _open(fileName, info, io);
 
@@ -71,31 +71,32 @@ namespace djv
             io.readAhead();
             const quint64 pos = io.pos();
             const quint64 size = io.size() - pos;
-            const int     channels = Pixel::channels(info.pixel);
-            const int     bytes = Pixel::channelByteCount(info.pixel);
+            auto pixelDataInfo = info.layers[0];
+            const int channels = Pixel::channels(pixelDataInfo.pixel);
+            const int bytes = Pixel::channelByteCount(pixelDataInfo.pixel);
             if (!_compression)
             {
                 if (1 == bytes)
                 {
                     const quint8 * p = io.mmapP();
-                    io.seek(PixelDataUtil::dataByteCount(info));
-                    _tmp.set(info, p);
+                    io.seek(PixelDataUtil::dataByteCount(pixelDataInfo));
+                    _tmp.set(pixelDataInfo, p);
                 }
                 else
                 {
-                    if (size != PixelDataUtil::dataByteCount(info))
+                    if (size != PixelDataUtil::dataByteCount(pixelDataInfo))
                     {
                         throw Core::Error(
                             SGI::staticName,
-                            ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                            IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                     }
-                    _tmp.set(info);
+                    _tmp.set(pixelDataInfo);
                     io.get(_tmp.data(), size / bytes, bytes);
                 }
             }
             else
             {
-                _tmp.set(info);
+                _tmp.set(pixelDataInfo);
                 std::vector<quint8> tmp(size);
                 io.get(tmp.data(), size / bytes, bytes);
                 const quint8 * inP = tmp.data();
@@ -104,35 +105,35 @@ namespace djv
                 for (int c = 0; c < channels; ++c)
                 {
                     //DJV_DEBUG_PRINT("channel = " << c);
-                    for (int y = 0; y < info.size.y; ++y, outP += info.size.x * bytes)
+                    for (int y = 0; y < pixelDataInfo.size.y; ++y, outP += pixelDataInfo.size.x * bytes)
                     {
                         //DJV_DEBUG_PRINT("y = " << y);
                         if (!SGI::readRle(
-                            inP + _rleOffset[y + info.size.y * c] - pos,
+                            inP + _rleOffset[y + pixelDataInfo.size.y * c] - pos,
                             end,
                             outP,
-                            info.size.x,
+                            pixelDataInfo.size.x,
                             bytes,
                             io.endian()))
                         {
                             throw Core::Error(
                                 SGI::staticName,
-                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                         }
                     }
                 }
             }
 
             // Interleave the image channels.
-            info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-            info.proxy = frame.proxy;
-            image.set(info);
+            pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+            pixelDataInfo.proxy = frame.proxy;
+            image.set(pixelDataInfo);
             PixelDataUtil::planarInterleave(_tmp, image, frame.proxy);
 
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void SGILoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+        void SGILoad::_open(const QString & in, IOInfo & info, Core::FileIO & io)
         {
             //DJV_DEBUG("SGILoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -140,13 +141,13 @@ namespace djv
             // Open the file.
             io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
             io.open(in, Core::FileIO::READ);
-            info.fileName = in;
+            info.layers[0].fileName = in;
             SGI::loadInfo(io, info, &_compression);
 
             // Read the scanline tables.
             if (_compression)
             {
-                const int tableSize = info.size.y * Pixel::channels(info.pixel);
+                const int tableSize = info.layers[0].size.y * Pixel::channels(info.layers[0].pixel);
                 //DJV_DEBUG_PRINT("rle table size = " << tableSize);
                 _rleOffset.resize(tableSize);
                 _rleSize.resize(tableSize);

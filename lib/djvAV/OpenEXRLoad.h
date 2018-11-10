@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/OpenEXR.h>
 
 #include <djvCore/FileIO.h>
@@ -61,17 +61,16 @@ namespace djv
             char *       _p    = nullptr;
         };
 
-        //! This class provides an OpenEXR loader.
-        class OpenEXRLoad : public ImageLoad
+        class OpenEXRLoad : public Load
         {
         public:
             OpenEXRLoad(const Core::FileInfo &, const OpenEXR::Options &, const QPointer<Core::CoreContext> &);
             ~OpenEXRLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &);
+            void _open(const QString &, IOInfo &);
             void _close();
 
             OpenEXR::Options                     _options;
@@ -80,7 +79,7 @@ namespace djv
             Core::Box2i                          _displayWindow;
             Core::Box2i                          _dataWindow;
             Core::Box2i                          _intersectedWindow;
-            QVector<OpenEXR::Layer>              _layers;
+            std::vector<OpenEXR::Layer>          _layers;
             PixelData                            _tmp;
             bool                                 _fast = false;
         };

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/LUT.h>
 
@@ -41,12 +41,12 @@ namespace djv
     namespace UI
     {
         //! This class provides a LUT widget.
-        class LUTWidget : public ImageIOWidget
+        class LUTWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            LUTWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            LUTWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -64,12 +64,12 @@ namespace djv
         };
 
         //! This class provides a LUT widget plugin.
-        class LUTWidgetPlugin : public ImageIOWidgetPlugin
+        class LUTWidgetPlugin : public IOWidgetPlugin
         {
         public:
             LUTWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/PPM.h>
 
@@ -41,12 +41,12 @@ namespace djv
     namespace UI
     {
         //! This class provides a PPM widget.
-        class PPMWidget : public ImageIOWidget
+        class PPMWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            PPMWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            PPMWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -66,12 +66,12 @@ namespace djv
         };
 
         //! This class provides a PPM widget plugin.
-        class PPMWidgetPlugin : public ImageIOWidgetPlugin
+        class PPMWidgetPlugin : public IOWidgetPlugin
         {
         public:
             PPMWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

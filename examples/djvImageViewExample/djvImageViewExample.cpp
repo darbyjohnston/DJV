@@ -104,8 +104,8 @@ namespace djv
     {
         try
         {
-            AV::ImageIOInfo info;
-            _load = _context->imageIOFactory()->load(_fileInfo, info);
+            AV::IOInfo info;
+            _load = _context->ioFactory()->load(_fileInfo, info);
             _load->read(_image);
         }
         catch (const Core::Error & error)

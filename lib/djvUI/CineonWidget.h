@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/Cineon.h>
 
@@ -46,12 +46,12 @@ namespace djv
         class IntEditSlider;
 
         //! This class proivdes a Cineon widget.
-        class CineonWidget : public ImageIOWidget
+        class CineonWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            CineonWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            CineonWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -87,12 +87,12 @@ namespace djv
         };
 
         //! This class provides a Cineon widget plugin.
-        class CineonWidgetPlugin : public ImageIOWidgetPlugin
+        class CineonWidgetPlugin : public IOWidgetPlugin
         {
         public:
             CineonWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

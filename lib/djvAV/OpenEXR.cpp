@@ -58,13 +58,13 @@ namespace djv
         {}
 
         OpenEXR::Layer::Layer(
-            const QVector<Channel> & channels,
-            bool                     luminanceChroma) :
+            const std::vector<Channel> & channels,
+            bool                         luminanceChroma) :
             channels(channels),
             luminanceChroma(luminanceChroma)
         {
             QStringList names;
-            for (int i = 0; i < channels.count(); ++i)
+            for (size_t i = 0; i < channels.size(); ++i)
             {
                 names += channels[i].name;
             }
@@ -216,13 +216,13 @@ namespace djv
 
         namespace
         {
-            QVector<OpenEXR::Layer> _layer(
+            std::vector<OpenEXR::Layer> _layer(
                 const Imf::ChannelList & in,
                 OpenEXR::CHANNELS        channels)
             {
                 //DJV_DEBUG("_layer");
-                QVector<OpenEXR::Layer> out;
-                QVector<const Imf::Channel *> reserved;
+                std::vector<OpenEXR::Layer> out;
+                std::vector<const Imf::Channel *> reserved;
                 if (channels != OpenEXR::CHANNELS_GROUP_NONE)
                 {
                     // Look for known channel configurations then convert the remainder.
@@ -236,29 +236,29 @@ namespace djv
                     const Imf::Channel * g = OpenEXR::find(in, gName);
                     const Imf::Channel * b = OpenEXR::find(in, bName);
                     const Imf::Channel * a = OpenEXR::find(in, aName);
-                    if (r && g && b && a &&
-                        compare(QVector<Imf::Channel>() << *r << *g << *b << *a))
+                    if (r && g && b && a && compare({ *r, *g, *b, *a }))
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(rName, *r) <<
-                            OpenEXR::imfToChannel(gName, *g) <<
-                            OpenEXR::imfToChannel(bName, *b) <<
-                            OpenEXR::imfToChannel(aName, *a));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(rName, *r),
+                            OpenEXR::imfToChannel(gName, *g),
+                            OpenEXR::imfToChannel(bName, *b),
+                            OpenEXR::imfToChannel(aName, *a) }));
                         //DJV_DEBUG_PRINT("rgba = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            r << g << b << a;
+                        reserved.push_back(r);
+                        reserved.push_back(g);
+                        reserved.push_back(b);
+                        reserved.push_back(a);
                     }
-                    else if (
-                        r && g && b &&
-                        compare(QVector<Imf::Channel>() << *r << *g << *b))
+                    else if (r && g && b && compare({ *r, *g, *b }))
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(rName, *r) <<
-                            OpenEXR::imfToChannel(gName, *g) <<
-                            OpenEXR::imfToChannel(bName, *b));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(rName, *r),
+                            OpenEXR::imfToChannel(gName, *g),
+                            OpenEXR::imfToChannel(bName, *b) }));
                         //DJV_DEBUG_PRINT("rgb = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            r << g << b;
+                        reserved.push_back(r);
+                        reserved.push_back(g);
+                        reserved.push_back(b);
                     }
 
                     // Luminance, XYZ.
@@ -272,14 +272,14 @@ namespace djv
                     const Imf::Channel * by = OpenEXR::find(in, byName);
                     const Imf::Channel * x = OpenEXR::find(in, xName);
                     const Imf::Channel * z = OpenEXR::find(in, zName);
-                    if (y && a && compare(QVector<Imf::Channel>() << *y << *a))
+                    if (y && a && compare({ *y, *a }))
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(yName, *y) <<
-                            OpenEXR::imfToChannel(aName, *a));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(yName, *y),
+                            OpenEXR::imfToChannel(aName, *a) }));
                         //DJV_DEBUG_PRINT("ya = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            y << a;
+                        reserved.push_back(y);
+                        reserved.push_back(a);
                     }
                     else if (y && ry && by &&
                         1 == y->xSampling &&
@@ -289,61 +289,56 @@ namespace djv
                         2 == by->xSampling &&
                         2 == by->ySampling)
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(yName, *y) <<
-                            OpenEXR::imfToChannel(ryName, *ry) <<
-                            OpenEXR::imfToChannel(byName, *by),
-                            true);
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(yName, *y),
+                            OpenEXR::imfToChannel(ryName, *ry),
+                            OpenEXR::imfToChannel(byName, *by) },
+                            true));
                         //DJV_DEBUG_PRINT("yc = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            y << ry << by;
+                        reserved.push_back(y);
+                        reserved.push_back(ry);
+                        reserved.push_back(by);
                     }
-                    else if (
-                        x && y && z &&
-                        compare(QVector<Imf::Channel>() << *x << *y << *z))
+                    else if (x && y && z && compare({ *x, *y, *z }))
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(xName, *x) <<
-                            OpenEXR::imfToChannel(yName, *y) <<
-                            OpenEXR::imfToChannel(zName, *z));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(xName, *x),
+                            OpenEXR::imfToChannel(yName, *y),
+                            OpenEXR::imfToChannel(zName, *z) }));
                         //DJV_DEBUG_PRINT("xyz = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            x << y << z;
+                        reserved.push_back(x);
+                        reserved.push_back(y);
+                        reserved.push_back(z);
                     }
-                    else if (
-                        x && y &&
-                        compare(QVector<Imf::Channel>() << *x << *y))
+                    else if (x && y && compare({ *x, *y }))
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(xName, *x) <<
-                            OpenEXR::imfToChannel(yName, *y));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(xName, *x),
+                            OpenEXR::imfToChannel(yName, *y) }));
                         //DJV_DEBUG_PRINT("xy = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            x << y;
+                        reserved.push_back(x);
+                        reserved.push_back(y);
                     }
                     else if (x)
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(xName, *x));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(xName, *x) }));
                         //DJV_DEBUG_PRINT("x = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            x;
+                        reserved.push_back(x);
                     }
                     else if (y)
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(yName, *y));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(yName, *y) }));
                         //DJV_DEBUG_PRINT("y = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            y;
+                        reserved.push_back(y);
                     }
                     else if (z)
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(zName, *z));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(zName, *z) }));
                         //DJV_DEBUG_PRINT("z = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            z;
+                        reserved.push_back(z);
                     }
 
                     // Colored mattes.
@@ -353,16 +348,16 @@ namespace djv
                     const Imf::Channel * ar = OpenEXR::find(in, arName);
                     const Imf::Channel * ag = OpenEXR::find(in, agName);
                     const Imf::Channel * ab = OpenEXR::find(in, abName);
-                    if (ar && ag && ab &&
-                        compare(QVector<Imf::Channel>() << *ar << *ag << *ab))
+                    if (ar && ag && ab && compare({ *ar, *ag, *ab }))
                     {
-                        out += OpenEXR::Layer(QVector<OpenEXR::Channel>() <<
-                            OpenEXR::imfToChannel(arName, *ar) <<
-                            OpenEXR::imfToChannel(agName, *ag) <<
-                            OpenEXR::imfToChannel(abName, *ab));
+                        out.push_back(OpenEXR::Layer({
+                            OpenEXR::imfToChannel(arName, *ar),
+                            OpenEXR::imfToChannel(agName, *ag),
+                            OpenEXR::imfToChannel(abName, *ab) }));
                         //DJV_DEBUG_PRINT("matte = " << out[out.count() - 1].name);
-                        reserved += QVector<const Imf::Channel *>() <<
-                            ar << ag << ab;
+                        reserved.push_back(ar);
+                        reserved.push_back(ag);
+                        reserved.push_back(ab);
                     }
                 }
 
@@ -372,17 +367,17 @@ namespace djv
                     Imf::ChannelList::ConstIterator i = in.begin();
                     i != in.end();)
                 {
-                    QVector<OpenEXR::Channel> list;
+                    std::vector<OpenEXR::Channel> list;
 
                     // Add the first channel.
                     const QString & name = i.name();
                     const Imf::Channel & channel = i.channel();
                     ++i;
-                    if (reserved.contains(&channel))
+                    if (std::find(reserved.begin(), reserved.end(), &channel) != reserved.end())
                     {
                         continue;
                     }
-                    list += OpenEXR::imfToChannel(name, channel);
+                    list.push_back(OpenEXR::imfToChannel(name, channel));
                     if (OpenEXR::CHANNELS_GROUP_ALL == channels)
                     {
                         // Group as many additional channels as possible.
@@ -390,15 +385,15 @@ namespace djv
                             ;
                             i != in.end() &&
                             i.channel() == channel &&
-                            reserved.contains(&i.channel());
+                            std::find(reserved.begin(), reserved.end(), &i.channel()) != reserved.end();
                             ++i)
                         {
-                            list += OpenEXR::imfToChannel(i.name(), i.channel());
+                            list.push_back(OpenEXR::imfToChannel(i.name(), i.channel()));
                         }
                     }
 
                     // Add the layer.
-                    out += OpenEXR::Layer(list);
+                    out.push_back(OpenEXR::Layer(list));
                     //DJV_DEBUG_PRINT("layer = " << out[out.count() - 1].name);
                 }
 
@@ -407,16 +402,19 @@ namespace djv
 
         } // namespace
 
-        QVector<OpenEXR::Layer> OpenEXR::layer(
+        std::vector<OpenEXR::Layer> OpenEXR::layer(
             const Imf::ChannelList & in,
             CHANNELS                 channels)
         {
             //DJV_DEBUG("layer");
 
-            QVector<Layer> out;
+            std::vector<Layer> out;
 
             // Default layer.
-            out += _layer(defaultLayer(in), channels);
+            for (const auto & layer : _layer(defaultLayer(in), channels))
+            {
+                out.push_back(layer);
+            }
 
             // Additional layers.
             std::set<std::string> layers;
@@ -434,7 +432,10 @@ namespace djv
                 {
                     list.insert(j.name(), j.channel());
                 }
-                out += _layer(list, channels);
+                for (const auto & layer : _layer(list, channels))
+                {
+                    out.push_back(layer);
+                }
             }
             //for (int i = 0; i < out.count(); ++i)
             //    DJV_DEBUG_PRINT("layer[" << i << "] = " << out[i].name);
@@ -442,25 +443,25 @@ namespace djv
             return out;
         }
 
-        void OpenEXR::loadTags(const Imf::Header & in, ImageIOInfo & out)
+        void OpenEXR::loadTags(const Imf::Header & in, IOInfo & out)
         {
             const QStringList & openexrTags = tagLabels();
-            const QStringList & tags = ImageTags::tagLabels();
+            const QStringList & tags = Tags::tagLabels();
             if (hasOwner(in))
             {
-                out.tags[tags[ImageTags::CREATOR]] = ownerAttribute(in).value().c_str();
+                out.tags[tags[Tags::CREATOR]] = ownerAttribute(in).value().c_str();
             }
             if (hasComments(in))
             {
-                out.tags[tags[ImageTags::DESCRIPTION]] =
+                out.tags[tags[Tags::DESCRIPTION]] =
                     commentsAttribute(in).value().c_str();
             }
             if (hasCapDate(in))
             {
-                out.tags[tags[ImageTags::TIME]] = capDateAttribute(in).value().c_str();
+                out.tags[tags[Tags::TIME]] = capDateAttribute(in).value().c_str();
             }
             if (hasUtcOffset(in))
-                out.tags[tags[ImageTags::UTC_OFFSET]] =
+                out.tags[tags[Tags::UTC_OFFSET]] =
                 QString::number(utcOffsetAttribute(in).value());
             if (hasLongitude(in))
                 out.tags[openexrTags[TAG_LONGITUDE]] =
@@ -505,7 +506,7 @@ namespace djv
             if (hasKeyCode(in))
             {
                 const Imf::KeyCode data = keyCodeAttribute(in).value();
-                out.tags[tags[ImageTags::KEYCODE]] =
+                out.tags[tags[Tags::KEYCODE]] =
                     Core::Time::keycodeToString(
                         data.filmMfcCode(),
                         data.filmType(),
@@ -514,7 +515,7 @@ namespace djv
                         data.perfOffset());
             }
             if (hasTimeCode(in))
-                out.tags[tags[ImageTags::TIMECODE]] = Core::Time::timecodeToString(
+                out.tags[tags[Tags::TIMECODE]] = Core::Time::timecodeToString(
                     timeCodeAttribute(in).value().timeAndFlags());
             if (hasFramesPerSecond(in))
             {
@@ -523,26 +524,26 @@ namespace djv
             }
         }
 
-        void OpenEXR::saveTags(const ImageIOInfo & in, Imf::Header & out)
+        void OpenEXR::saveTags(const IOInfo & in, Imf::Header & out)
         {
             const QStringList & openexrTags = tagLabels();
-            const QStringList & tags = ImageTags::tagLabels();
-            QString tmp = in.tags[tags[ImageTags::CREATOR]];
+            const QStringList & tags = Tags::tagLabels();
+            QString tmp = in.tags[tags[Tags::CREATOR]];
             if (tmp.length())
             {
                 addOwner(out, tmp.toUtf8().data());
             }
-            tmp = in.tags[tags[ImageTags::DESCRIPTION]];
+            tmp = in.tags[tags[Tags::DESCRIPTION]];
             if (tmp.length())
             {
                 addComments(out, tmp.toUtf8().data());
             }
-            tmp = in.tags[tags[ImageTags::TIME]];
+            tmp = in.tags[tags[Tags::TIME]];
             if (tmp.length())
             {
                 addCapDate(out, tmp.toUtf8().data());
             }
-            tmp = in.tags[tags[ImageTags::UTC_OFFSET]];
+            tmp = in.tags[tags[Tags::UTC_OFFSET]];
             if (tmp.length())
             {
                 addUtcOffset(out, tmp.toFloat());
@@ -605,14 +606,14 @@ namespace djv
             {
                 addXDensity(out, tmp.toFloat());
             }
-            tmp = in.tags[tags[ImageTags::KEYCODE]];
+            tmp = in.tags[tags[Tags::KEYCODE]];
             if (tmp.length())
             {
                 int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
                 Core::Time::stringToKeycode(tmp, id, type, prefix, count, offset);
                 addKeyCode(out, Imf::KeyCode(id, type, prefix, count, offset));
             }
-            tmp = in.tags[tags[ImageTags::TIMECODE]];
+            tmp = in.tags[tags[Tags::TIMECODE]];
             if (tmp.length())
             {
                 addTimeCode(out, Core::Time::stringToTimecode(tmp));
@@ -686,9 +687,9 @@ namespace djv
     _DJV_STRING_OPERATOR_LABEL(AV::OpenEXR::COMPRESSION, AV::OpenEXR::compressionLabels());
     _DJV_STRING_OPERATOR_LABEL(AV::OpenEXR::CHANNELS, AV::OpenEXR::channelsLabels());
 
-    bool compare(const QVector<Imf::Channel> & in)
+    bool compare(const std::vector<Imf::Channel> & in)
     {
-        for (int i = 1; i < in.count(); ++i)
+        for (size_t i = 1; i < in.size(); ++i)
         {
             if (!(in[0] == in[i]))
             {

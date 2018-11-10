@@ -33,13 +33,13 @@
 #include <djvAVTest/ColorUtilTest.h>
 #include <djvAVTest/ImageIOFormatsTest.h>
 #include <djvAVTest/ImageIOTest.h>
-#include <djvAVTest/ImageTagsTest.h>
 #include <djvAVTest/ImageTest.h>
 #include <djvAVTest/OpenGLImageTest.h>
 #include <djvAVTest/OpenGLTest.h>
 #include <djvAVTest/PixelDataTest.h>
 #include <djvAVTest/PixelDataUtilTest.h>
 #include <djvAVTest/PixelTest.h>
+#include <djvAVTest/TagsTest.h>
 
 #include <djvCoreTest/BoxTest.h>
 #include <djvCoreTest/BoxUtilTest.h>
@@ -109,13 +109,13 @@ int main(int argc, char ** argv)
             new AVTest::ColorUtilTest <<
             new AVTest::ImageIOFormatsTest <<
             new AVTest::ImageIOTest <<
-            new AVTest::ImageTagsTest <<
             new AVTest::ImageTest <<
             new AVTest::OpenGLImageTest <<
             new AVTest::OpenGLTest <<
             new AVTest::PixelDataTest <<
             new AVTest::PixelDataUtilTest <<
-            new AVTest::PixelTest;
+            new AVTest::PixelTest <<
+            new AVTest::TagsTest;
 
         for (int i = 0; i < tests.count(); ++i)
         {

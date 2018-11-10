@@ -308,7 +308,7 @@ namespace djv
 
             _p->image.reset();
             _p->fileGroup->open(fileInfo);
-            const Core::Sequence & sequence = _p->fileGroup->imageIOInfo().sequence;
+            const Core::Sequence & sequence = _p->fileGroup->ioInfo().sequence;
             //DJV_DEBUG_PRINT("sequence = " << sequence);
             _p->playbackGroup->setSequence(sequence);
             if (init)
@@ -382,7 +382,7 @@ namespace djv
             const FileExportInfo info(
                 _p->fileGroup->fileInfo(),
                 in,
-                _p->fileGroup->imageIOInfo()[_p->fileGroup->layer()],
+                _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()],
                 sequence,
                 _p->fileGroup->layer(),
                 _p->fileGroup->proxy(),
@@ -407,7 +407,7 @@ namespace djv
             const FileExportInfo info(
                 _p->fileGroup->fileInfo(),
                 in,
-                _p->fileGroup->imageIOInfo()[_p->fileGroup->layer()],
+                _p->fileGroup->ioInfo().layers[_p->fileGroup->layer()],
                 sequence,
                 _p->fileGroup->layer(),
                 _p->fileGroup->proxy(),

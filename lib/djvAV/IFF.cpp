@@ -54,8 +54,8 @@ namespace djv
         {
             struct Header
             {
-                void load(Core::FileIO &, ImageIOInfo &, int * tiles, bool * compression);
-                void save(Core::FileIO &, const ImageIOInfo &, bool compression);
+                void load(Core::FileIO &, IOInfo &, int * tiles, bool * compression);
+                void save(Core::FileIO &, const IOInfo &, bool compression);
 
                 void debug() const;
 
@@ -75,7 +75,7 @@ namespace djv
 
             void Header::load(
                 Core::FileIO & io,
-                ImageIOInfo &  info,
+                IOInfo &       info,
                 int *          tiles,
                 bool *         compression)
             {
@@ -143,7 +143,7 @@ namespace djv
                                     {
                                         throw Core::Error(
                                             IFF::staticName,
-                                            ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                            IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                                     }
 
                                     // Set data.
@@ -152,7 +152,7 @@ namespace djv
                                     // Get width and height.
                                     io.getU32(&data.width, 1);
                                     io.getU32(&data.height, 1);
-                                    info.size = glm::ivec2(data.width, data.height);
+                                    info.layers[0].size = glm::ivec2(data.width, data.height);
 
                                     // Get prnum and prdeb
                                     io.getU16(&prnum, 1);
@@ -180,7 +180,7 @@ namespace djv
 
                                         throw Core::Error(
                                             IFF::staticName,
-                                            ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                                            IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                                     }
 
                                     // Get compressed.
@@ -225,11 +225,11 @@ namespace djv
 
                                             if (!alpha)
                                             {
-                                                info.pixel = Pixel::RGB_U16;
+                                                info.layers[0].pixel = Pixel::RGB_U16;
                                             }
                                             else
                                             {
-                                                info.pixel = Pixel::RGBA_U16;
+                                                info.layers[0].pixel = Pixel::RGBA_U16;
                                             }
                                         }
                                         else
@@ -240,11 +240,11 @@ namespace djv
 
                                                 if (!alpha)
                                                 {
-                                                    info.pixel = Pixel::RGB_U8;
+                                                    info.layers[0].pixel = Pixel::RGB_U8;
                                                 }
                                                 else
                                                 {
-                                                    info.pixel = Pixel::RGBA_U8;
+                                                    info.layers[0].pixel = Pixel::RGBA_U8;
                                                 }
                                             }
                                             else
@@ -253,11 +253,11 @@ namespace djv
 
                                                 if (!alpha)
                                                 {
-                                                    info.pixel = Pixel::RGB_U16;
+                                                    info.layers[0].pixel = Pixel::RGB_U16;
                                                 }
                                                 else
                                                 {
-                                                    info.pixel = Pixel::RGBA_U16;
+                                                    info.layers[0].pixel = Pixel::RGBA_U16;
                                                 }
                                             }
                                         }
@@ -265,7 +265,7 @@ namespace djv
                                         // Test bits.
                                         const int bits = data.pixelChannels * data.pixelBits;
                                         DJV_ASSERT(
-                                            bits == (Pixel::channels(info.pixel) *
+                                            bits == (Pixel::channels(info.layers[0].pixel) *
                                                 data.pixelBits) &&
                                                 (bits % data.pixelBits) == 0);
                                     }
@@ -311,7 +311,7 @@ namespace djv
             }
 
 
-            void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+            void Header::save(Core::FileIO & io, const IOInfo & info, bool compression)
             {
                 //DJV_DEBUG("Header::save");
 
@@ -323,13 +323,13 @@ namespace djv
 
                 // Information.
 
-                const int channels = Pixel::channels(info.pixel);
+                const int channels = Pixel::channels(info.layers[0].pixel);
                 int bytes = 0;
 
-                _data.width = info.size.x;
-                _data.height = info.size.y;
+                _data.width = info.layers[0].size.x;
+                _data.height = info.layers[0].size.y;
                 _data.pixelChannels = channels;
-                _data.pixelBits = 1 == channels ? (1 == info.size.y ? 1 : 2) : 3;
+                _data.pixelBits = 1 == channels ? (1 == info.layers[0].size.y ? 1 : 2) : 3;
 
                 // Write.
 
@@ -371,7 +371,7 @@ namespace djv
                 io.setU16(1);
 
                 // Set flags.
-                switch (info.pixel)
+                switch (info.layers[0].pixel)
                 {
                 case Pixel::RGB_U8:
                     // RGB 8.
@@ -443,7 +443,7 @@ namespace djv
 
         void IFF::loadInfo(
             Core::FileIO & io,
-            ImageIOInfo &  info,
+            IOInfo &       info,
             int *          tiles,
             bool *         compression)
         {
@@ -451,7 +451,7 @@ namespace djv
             header.load(io, info, tiles, compression);
         }
 
-        void IFF::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+        void IFF::saveInfo(Core::FileIO & io, const IOInfo & info, bool compression)
         {
             Header header;
             header.save(io, info, compression);

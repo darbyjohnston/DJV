@@ -41,13 +41,13 @@ namespace djv
 {
     namespace AV
     {
-        FFmpegSave::FFmpegSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const FFmpeg::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        FFmpegSave::FFmpegSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const FFmpeg::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options)
         {
             //DJV_DEBUG("FFmpegSave::FFmpegSave");
-            //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-            //DJV_DEBUG_PRINT("imageIOInfo = " << imageIOInfo);
+            //DJV_DEBUG_PRINT("file info = " << fileInfo);
+            //DJV_DEBUG_PRINT("io info = " << ioInfo);
 
             _frame = 0;
 
@@ -83,7 +83,7 @@ namespace djv
                     break;*/
             case FFmpeg::MPEG4:
                 pixel = Pixel::RGBA_U8;
-                bgr = imageIOInfo.bgr;
+                bgr = ioInfo.layers[0].bgr;
                 avFormatName = "mp4";
                 avCodecId = AV_CODEC_ID_MPEG4;
                 avPixel = AV_PIX_FMT_YUV420P;
@@ -98,7 +98,7 @@ namespace djv
                 break;
             case FFmpeg::PRO_RES:
                 pixel = Pixel::RGB_U16;
-                bgr = imageIOInfo.bgr;
+                bgr = ioInfo.layers[0].bgr;
                 avFormatName = "mov";
                 avCodecId = AV_CODEC_ID_PRORES;
                 avPixel = AV_PIX_FMT_YUV422P10;
@@ -118,7 +118,7 @@ namespace djv
                 break;
             case FFmpeg::MJPEG:
                 pixel = Pixel::RGBA_U8;
-                bgr = imageIOInfo.bgr;
+                bgr = ioInfo.layers[0].bgr;
                 avFormatName = "mov";
                 avCodecId = AV_CODEC_ID_MJPEG;
                 avPixel = AV_PIX_FMT_YUVJ422P;
@@ -171,10 +171,10 @@ namespace djv
             //DJV_DEBUG_PRINT("default gop = " << avCodecContext->gop_size);
 
             avCodecContext->pix_fmt = avPixel;
-            avCodecContext->width = imageIOInfo.size.x;
-            avCodecContext->height = imageIOInfo.size.y;
-            avCodecContext->time_base.den = imageIOInfo.sequence.speed.scale();
-            avCodecContext->time_base.num = imageIOInfo.sequence.speed.duration();
+            avCodecContext->width = ioInfo.layers[0].size.x;
+            avCodecContext->height = ioInfo.layers[0].size.y;
+            avCodecContext->time_base.den = ioInfo.sequence.speed.scale();
+            avCodecContext->time_base.num = ioInfo.sequence.speed.duration();
 
             if (avFormat->flags & AVFMT_GLOBALHEADER)
                 avCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
@@ -202,8 +202,8 @@ namespace djv
             }
 
             _avStream->codec = avCodecContext;
-            _avStream->time_base.den = imageIOInfo.sequence.speed.scale();
-            _avStream->time_base.num = imageIOInfo.sequence.speed.duration();
+            _avStream->time_base.den = ioInfo.sequence.speed.scale();
+            _avStream->time_base.num = ioInfo.sequence.speed.duration();
 
             r = avio_open2(
                 &_avIoContext,
@@ -229,16 +229,16 @@ namespace djv
 
             _info = PixelDataInfo();
             _info.fileName = fileInfo;
-            _info.size = imageIOInfo.size;
+            _info.size = ioInfo.layers[0].size;
             _info.pixel = pixel;
-            _info.bgr = imageIOInfo.bgr;
+            _info.bgr = ioInfo.layers[0].bgr;
 
             // Initialize the buffers.
             _image.set(_info);
 
             _avFrame = av_frame_alloc();
-            _avFrame->width = imageIOInfo.size.x;
-            _avFrame->height = imageIOInfo.size.y;
+            _avFrame->width = ioInfo.layers[0].size.x;
+            _avFrame->height = ioInfo.layers[0].size.y;
             _avFrame->format = avCodecContext->pix_fmt;
 
             _avFrameBuf = (uint8_t *)av_malloc(
@@ -258,8 +258,8 @@ namespace djv
 
             // Initialize the software scaler.
             _swsContext = sws_getContext(
-                imageIOInfo.size.x,
-                imageIOInfo.size.y,
+                ioInfo.layers[0].size.x,
+                ioInfo.layers[0].size.y,
                 _avFrameRgbPixel,
                 avCodecContext->width,
                 avCodecContext->height,
@@ -279,7 +279,7 @@ namespace djv
         FFmpegSave::~FFmpegSave()
         {}
 
-        void FFmpegSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void FFmpegSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("FFmpegSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

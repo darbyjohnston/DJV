@@ -6,13 +6,13 @@ set(header
     ColorUtilTest.h
     ImageIOFormatsTest.h
     ImageIOTest.h
-    ImageTagsTest.h
     ImageTest.h
     OpenGLImageTest.h
     OpenGLTest.h
     PixelDataTest.h
     PixelDataUtilTest.h
-    PixelTest.h)
+    PixelTest.h
+    TagsTest.h)
 set(mocHeader)
 set(source
     AVContextTest.cpp
@@ -21,13 +21,13 @@ set(source
     ColorUtilTest.cpp
     ImageIOFormatsTest.cpp
     ImageIOTest.cpp
-    ImageTagsTest.cpp
     ImageTest.cpp
     OpenGLImageTest.cpp
     OpenGLTest.cpp
     PixelDataTest.cpp
     PixelDataUtilTest.cpp
-    PixelTest.cpp)
+    PixelTest.cpp
+    TagsTest.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 

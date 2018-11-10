@@ -40,26 +40,26 @@ namespace djv
     namespace AV
     {
         IFFLoad::IFFLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             Core::FileIO io;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo, io);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
         IFFLoad::~IFFLoad()
         {}
 
-        void IFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void IFFLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("IFFLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             quint8 type[4];
             quint8 pixels[32];
@@ -71,20 +71,20 @@ namespace djv
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             Core::FileIO io;
             _open(fileName, info, io);
             image.tags = info.tags;
 
             // Read the file.
-            const int channelByteCount = Pixel::channelByteCount(info.pixel);
-            const uint byteCount = Pixel::byteCount(info.pixel);
+            const int channelByteCount = Pixel::channelByteCount(info.layers[0].pixel);
+            const uint byteCount = Pixel::byteCount(info.layers[0].pixel);
             //DJV_DEBUG_PRINT("channels = " << channels);
             //DJV_DEBUG_PRINT("channelByteCount = " << channelByteCount);
             //DJV_DEBUG_PRINT("byteCount = " << byteCount);
             io.readAhead();
             PixelData * data = frame.proxy ? &_tmp : &image;
-            data->set(info);
+            data->set(info.layers[0]);
             tilesRgba = _tiles;
 
             // Read FOR4 <size> TBMP block
@@ -106,7 +106,7 @@ namespace djv
                     const quint8 * p = io.mmapP();
 
                     // Get tag.
-                    info.tags[ImageTags::tagLabels()[ImageTags::CREATOR]] = QString((const char *)p).mid(chunkSize);
+                    info.tags[Tags::tagLabels()[Tags::CREATOR]] = QString((const char *)p).mid(chunkSize);
 
                     // Skip to the next block.
                     io.seek(chunkSize);
@@ -161,12 +161,12 @@ namespace djv
 
                                 if (xmin > xmax ||
                                     ymin > ymax ||
-                                    xmax >= info.size.x ||
-                                    ymax >= info.size.y)
+                                    xmax >= info.layers[0].size.x ||
+                                    ymax >= info.layers[0].size.y)
                                 {
                                     throw Core::Error(
                                         IFF::staticName,
-                                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                                 }
 
                                 // NOTE: tile w = xmax - xmin + 1
@@ -179,7 +179,7 @@ namespace djv
                                 {
                                     throw Core::Error(
                                         IFF::staticName,
-                                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                                 }
 
                                 bool tile_compress = false;
@@ -189,14 +189,14 @@ namespace djv
                                 // is written uncompressed.
 
                                 // Set channels.
-                                quint8 channels = Pixel::channels(info.pixel);
+                                quint8 channels = Pixel::channels(info.layers[0].pixel);
 
                                 // Set tile pixels.
 
                                 // Append xmin, xmax, ymin and ymax.
                                 quint32 tileSize =
                                     tw * th * channels *
-                                    Pixel::channelByteCount(info.pixel) + 8;
+                                    Pixel::channelByteCount(info.layers[0].pixel) + 8;
 
                                 // Test compressed.
                                 if (tileSize > imageSize)
@@ -205,8 +205,8 @@ namespace djv
                                 }
 
                                 // Handle 8-bit data.
-                                if (info.pixel == Pixel::RGB_U8 ||
-                                    info.pixel == Pixel::RGBA_U8)
+                                if (info.layers[0].pixel == Pixel::RGB_U8 ||
+                                    info.layers[0].pixel == Pixel::RGBA_U8)
                                 {
 
                                     // Tile compress.
@@ -250,7 +250,7 @@ namespace djv
                                         {
                                             throw Core::Error(
                                                 IFF::staticName,
-                                                ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                                                IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                                         }
                                     }
                                     else
@@ -273,7 +273,7 @@ namespace djv
                                                 {
                                                     throw Core::Error(
                                                         IFF::staticName,
-                                                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                                        IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                                                 }
 
                                                 size -= byteCount;
@@ -296,8 +296,8 @@ namespace djv
                                 }
                                 // Handle 16-bit data.
                                 else if (
-                                    info.pixel == Pixel::RGB_U16 ||
-                                    info.pixel == Pixel::RGBA_U16)
+                                    info.layers[0].pixel == Pixel::RGB_U16 ||
+                                    info.layers[0].pixel == Pixel::RGBA_U16)
                                 {
                                     if (tile_compress)
                                     {
@@ -313,7 +313,7 @@ namespace djv
                                             int rgb16[] = { 0, 2, 4, 1, 3, 5 };
                                             int rgba16[] = { 0, 2, 4, 7, 1, 3, 5, 6 };
 
-                                            if (info.pixel == Pixel::RGB_U16)
+                                            if (info.layers[0].pixel == Pixel::RGB_U16)
                                             {
                                                 map = rgb16;
                                             }
@@ -327,7 +327,7 @@ namespace djv
                                             int rgb16[] = { 1, 3, 5, 0, 2, 4 };
                                             int rgba16[] = { 1, 3, 5, 7, 0, 2, 4, 6 };
 
-                                            if (info.pixel == Pixel::RGB_U16)
+                                            if (info.layers[0].pixel == Pixel::RGB_U16)
                                             {
                                                 map = rgb16;
                                             }
@@ -374,7 +374,7 @@ namespace djv
                                         {
                                             throw Core::Error(
                                                 IFF::staticName,
-                                                ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                                                IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                                         }
                                     }
                                     else
@@ -397,7 +397,7 @@ namespace djv
                                                 {
                                                     throw Core::Error(
                                                         IFF::staticName,
-                                                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                                        IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                                                 }
 
                                                 size -= byteCount;
@@ -473,22 +473,22 @@ namespace djv
 
             if (frame.proxy)
             {
-                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                info.proxy = frame.proxy;
-                image.set(info);
+                info.layers[0].size = PixelDataUtil::proxyScale(info.layers[0].size, frame.proxy);
+                info.layers[0].proxy = frame.proxy;
+                image.set(info.layers[0]);
                 PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
             }
 
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void IFFLoad::_open(const Core::FileInfo & in, ImageIOInfo & info, Core::FileIO & io)
+        void IFFLoad::_open(const Core::FileInfo & in, IOInfo & info, Core::FileIO & io)
         {
             //DJV_DEBUG("IFFLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
             io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
             io.open(in, Core::FileIO::READ);
-            info.fileName = in;
+            info.layers[0].fileName = in;
             IFF::loadInfo(io, info, &_tiles, &_compression);
         }
 

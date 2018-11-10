@@ -40,31 +40,31 @@ namespace djv
     namespace AV
     {
         PICLoad::PICLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             Core::FileIO io;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo, io);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
         PICLoad::~PICLoad()
         {}
 
-        void PICLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void PICLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("PICLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             Core::FileIO io;
             _open(fileName, info, io);
             image.tags = info.tags;
@@ -72,12 +72,13 @@ namespace djv
             // Read the file.
             io.readAhead();
             PixelData * data = frame.proxy ? &_tmp : &image;
-            data->set(info);
-            const int  channels = Pixel::channels(info.pixel);
-            const int  byteCount = Pixel::channelByteCount(info.pixel);
+            auto pixelDataInfo = info.layers[0];
+            data->set(pixelDataInfo);
+            const int  channels = Pixel::channels(pixelDataInfo.pixel);
+            const int  byteCount = Pixel::channelByteCount(pixelDataInfo.pixel);
             const bool endian = io.endian();
             const quint8 * p = io.mmapP(), *const end = io.mmapEnd();
-            for (int y = 0; y < info.size.y; ++y)
+            for (int y = 0; y < pixelDataInfo.size.y; ++y)
             {
                 //DJV_DEBUG_PRINT("y = " << y);
                 switch (_type)
@@ -90,7 +91,7 @@ namespace djv
                             p,
                             end,
                             data->data(0, y),
-                            info.size.x,
+                            pixelDataInfo.size.x,
                             channels,
                             channels * byteCount,
                             endian);
@@ -98,18 +99,18 @@ namespace djv
                         {
                             throw Core::Error(
                                 PIC::staticName,
-                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                         }
                     }
                     else
                     {
-                        const int size = info.size.x * channels * byteCount;
+                        const int size = pixelDataInfo.size.x * channels * byteCount;
                         if ((io.size() - io.pos()) <
-                            PixelDataUtil::dataByteCount(info))
+                            PixelDataUtil::dataByteCount(pixelDataInfo))
                         {
                             throw Core::Error(
                                 PIC::staticName,
-                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                         }
 
                         memcpy(data->data(0, y), p, size);
@@ -124,7 +125,7 @@ namespace djv
                             p,
                             end,
                             data->data(0, y),
-                            info.size.x,
+                            pixelDataInfo.size.x,
                             3,
                             channels * byteCount,
                             endian);
@@ -132,18 +133,18 @@ namespace djv
                         {
                             throw Core::Error(
                                 PIC::staticName,
-                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                         }
                     }
                     else
                     {
-                        const int size = info.size.x * 3 * byteCount;
+                        const int size = pixelDataInfo.size.x * 3 * byteCount;
                         if ((io.size() - io.pos()) <
-                            PixelDataUtil::dataByteCount(info))
+                            PixelDataUtil::dataByteCount(pixelDataInfo))
                         {
                             throw Core::Error(
                                 PIC::staticName,
-                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                         }
                         memcpy(data->data(0, y), p, size);
                         p += size;
@@ -154,7 +155,7 @@ namespace djv
                             p,
                             end,
                             data->data(0, y) + 3 * byteCount,
-                            info.size.x,
+                            pixelDataInfo.size.x,
                             1,
                             channels * byteCount,
                             endian);
@@ -162,18 +163,18 @@ namespace djv
                         {
                             throw Core::Error(
                                 PIC::staticName,
-                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                         }
                     }
                     else
                     {
-                        const int size = info.size.x * 1 * byteCount;
+                        const int size = pixelDataInfo.size.x * 1 * byteCount;
                         if ((io.size() - io.pos()) <
-                            PixelDataUtil::dataByteCount(info))
+                            PixelDataUtil::dataByteCount(pixelDataInfo))
                         {
                             throw Core::Error(
                                 PIC::staticName,
-                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                         }
                         memcpy(data->data(0, y), p, size);
                         p += size;
@@ -187,9 +188,9 @@ namespace djv
             // Proxy scale the image.
             if (frame.proxy)
             {
-                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                info.proxy = frame.proxy;
-                image.set(info);
+                pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                pixelDataInfo.proxy = frame.proxy;
+                image.set(pixelDataInfo);
                 PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
             }
 
@@ -247,7 +248,7 @@ namespace djv
 
         } /// namespace
 
-        void PICLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+        void PICLoad::_open(const QString & in, IOInfo & info, Core::FileIO & io)
         {
             //DJV_DEBUG("PICLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -264,7 +265,7 @@ namespace djv
             {
                 throw Core::Error(
                     PIC::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             io.getF32(&header.version);
             io.get(header.comment, sizeof(header.comment));
@@ -285,13 +286,13 @@ namespace djv
             {
                 throw Core::Error(
                     PIC::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             // Information.
-            info.fileName = in;
-            info.size = glm::ivec2(header.width, header.height);
-            info.mirror.y = true;
+            info.layers[0].fileName = in;
+            info.layers[0].size = glm::ivec2(header.width, header.height);
+            info.layers[0].mirror.y = true;
             Channel channel;
             memset(&channel, 0, sizeof(Channel));
             _channel(io, &channel);
@@ -341,24 +342,24 @@ namespace djv
             {
                 throw Core::Error(
                     PIC::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             _type = static_cast<PIC::TYPE>(type);
             switch (_type)
             {
             case PIC::TYPE_RGB:
-                info.pixel = Pixel::RGB_U8;
+                info.layers[0].pixel = Pixel::RGB_U8;
                 break;
             case PIC::TYPE_RGBA:
             case PIC::TYPE_RGB_A:
-                info.pixel = Pixel::RGBA_U8;
+                info.layers[0].pixel = Pixel::RGBA_U8;
                 break;
             default: break;
             }
 
-            // Read image tags.
+            // Read tags.
             if (header.comment[0])
-                info.tags[ImageTags::tagLabels()[ImageTags::DESCRIPTION]] =
+                info.tags[Tags::tagLabels()[Tags::DESCRIPTION]] =
                 QString::fromLatin1(header.comment, sizeof(header.comment));
 
             //DJV_DEBUG_PRINT("info = " << info);

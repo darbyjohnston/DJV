@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         CineonPlugin::CineonPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         CineonPlugin::~CineonPlugin()
@@ -220,14 +220,14 @@ namespace djv
                 arg(outputFilmPrintLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> CineonPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> CineonPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new CineonLoad(fileInfo, _options, context()));
+            return std::unique_ptr<Load>(new CineonLoad(fileInfo, _options, context()));
         }
 
-        std::unique_ptr<ImageSave> CineonPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> CineonPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new CineonSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new CineonSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

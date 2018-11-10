@@ -30,19 +30,16 @@
 #pragma once
 
 #include <djvAV/IFL.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Autodesk Image File List (IFL) format.
-        //! IFL is a file format for creating sequences or playlists of other image
-        //! files. An IFL file simply consists of a list of image file names, one per
-        //! line.
+        //! IFL - Autodesk Image File List
         //!
         //! File extensions: .ifl
-        class IFLPlugin : public ImageIO
+        class IFLPlugin : public IOPlugin
         {
         public:
             explicit IFLPlugin(const QPointer<Core::CoreContext> &);
@@ -51,7 +48,7 @@ namespace djv
             QStringList extensions() const override;
             bool isSequence() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
         };
 
     } // namespace AV

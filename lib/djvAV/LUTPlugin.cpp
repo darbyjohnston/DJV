@@ -42,7 +42,7 @@ namespace djv
     namespace AV
     {
         LUTPlugin::LUTPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         void LUTPlugin::commandLine(QStringList & in)
@@ -133,14 +133,14 @@ namespace djv
             return LUT::optionsLabels();
         }
 
-        std::unique_ptr<ImageLoad> LUTPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> LUTPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new LUTLoad(fileInfo, _options, context()));
+            return std::unique_ptr<Load>(new LUTLoad(fileInfo, _options, context()));
         }
 
-        std::unique_ptr<ImageSave> LUTPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> LUTPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new LUTSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new LUTSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

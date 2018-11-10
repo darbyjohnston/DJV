@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/SGISave.h>
 
@@ -41,12 +41,12 @@ namespace djv
     namespace UI
     {
         //! This class provides a SGI widget.
-        class SGIWidget : public ImageIOWidget
+        class SGIWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            SGIWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            SGIWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -64,12 +64,12 @@ namespace djv
         };
 
         //! This class provides a SGI widget plugin.
-        class SGIWidgetPlugin : public ImageIOWidgetPlugin
+        class SGIWidgetPlugin : public IOWidgetPlugin
         {
         public:
             SGIWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

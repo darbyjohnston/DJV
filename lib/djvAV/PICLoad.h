@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/PIC.h>
 
 #include <djvCore/FileInfo.h>
@@ -38,17 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a PIC loader.
-        class PICLoad : public ImageLoad
+        class PICLoad : public Load
         {
         public:
             explicit PICLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~PICLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO &);
+            void _open(const QString &, IOInfo &, Core::FileIO &);
 
             PIC::TYPE _type           = static_cast<PIC::TYPE>(0);
             bool      _compression[2] = { false, false };

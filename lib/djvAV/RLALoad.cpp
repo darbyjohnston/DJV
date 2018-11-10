@@ -39,39 +39,39 @@ namespace djv
     namespace AV
     {
         RLALoad::RLALoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             Core::FileIO io;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo, io);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
         RLALoad::~RLALoad()
         {}
 
-        void RLALoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void RLALoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("RLALoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             Core::FileIO io;
             _open(fileName, info, io);
-            if (frame.layer < 0 || frame.layer >= info.layerCount())
+            if (frame.layer < 0 || frame.layer >= info.layers.size())
             {
                 throw Core::Error(
                     RLA::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
             }
-            PixelDataInfo _info = info[frame.layer];
+            PixelDataInfo _info = info.layers[frame.layer];
 
             // Read the file.
             io.readAhead();
@@ -212,7 +212,7 @@ namespace djv
 
         } // namespace
 
-        void RLALoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+        void RLALoad::_open(const QString & in, IOInfo & info, Core::FileIO & io)
         {
             //DJV_DEBUG("djvRLALoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -244,19 +244,19 @@ namespace djv
             {
                 throw Core::Error(
                     RLA::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             if (header.matteChannelType != header.colorChannelType)
             {
                 throw Core::Error(
                     RLA::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             if (header.matteBitDepth != header.colorBitDepth)
             {
                 throw Core::Error(
                     RLA::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             if (!Pixel::pixel(
                 header.colorChannels + header.matteChannels,
@@ -266,13 +266,13 @@ namespace djv
             {
                 throw Core::Error(
                     RLA::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             if (header.field)
             {
                 throw Core::Error(
                     RLA::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             info = PixelDataInfo(in, size, pixel);
         }

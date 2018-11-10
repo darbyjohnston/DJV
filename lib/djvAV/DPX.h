@@ -78,7 +78,7 @@ namespace djv
             //! Get the file endian labels.
             static const QStringList & endianLabels();
 
-            //! This enumeration provides the DPX image tags.
+            //! This enumeration provides the DPX tags.
             enum TAG
             {
                 TAG_SOURCE_OFFSET,
@@ -115,7 +115,7 @@ namespace djv
                 TAG_COUNT
             };
 
-            //! Get the DPX image tag labels.
+            //! Get the DPX tag labels.
             static const QStringList & tagLabels();
 
             //! This enumeration provides the options.

@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         TargaPlugin::TargaPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+           IOPlugin(context)
         {}
 
         QString TargaPlugin::pluginName() const
@@ -134,14 +134,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> TargaPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> TargaPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new TargaLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new TargaLoad(fileInfo, context()));
         }
 
-        std::unique_ptr<ImageSave> TargaPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> TargaPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new TargaSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new TargaSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

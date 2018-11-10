@@ -31,7 +31,7 @@
 
 #include <djvAV/FFmpeg.h>
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -39,14 +39,13 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a FFmpeg saver.
-        class FFmpegSave : public ImageSave
+        class FFmpegSave : public Save
         {
         public:
-            FFmpegSave(const Core::FileInfo &, const ImageIOInfo &, const FFmpeg::Options &, const QPointer<Core::CoreContext> &);
+            FFmpegSave(const Core::FileInfo &, const IOInfo &, const FFmpeg::Options &, const QPointer<Core::CoreContext> &);
             virtual ~FFmpegSave();
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
             void close() override;
 
         private:

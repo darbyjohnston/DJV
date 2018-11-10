@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         JPEGPlugin::JPEGPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString JPEGPlugin::pluginName() const
@@ -135,14 +135,14 @@ namespace djv
                 arg(qualityLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> JPEGPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> JPEGPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new JPEGLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new JPEGLoad(fileInfo, context()));
         }
 
-        std::unique_ptr<ImageSave> JPEGPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> JPEGPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new JPEGSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new JPEGSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

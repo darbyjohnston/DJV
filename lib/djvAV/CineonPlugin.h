@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/Cineon.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileIO.h>
 
@@ -38,20 +38,17 @@ namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Kodak Cineon image file format. Cineon
-        //! is a specialized image file format for working with motion picture film.
+        //! Kodak Cineon
         //!
         //! File extensions: .cin
         //!
         //! Supported features:
-        //!
         //! - 10-bit RGB
         //! - Interleaved channels only
         //!
         //! References:
-        //!
         //! - Kodak, "4.5 DRAFT - Image File Format Proposal for Digital Pictures"
-        class CineonPlugin : public ImageIO
+        class CineonPlugin : public IOPlugin
         {
         public:
             explicit CineonPlugin(const QPointer<Core::CoreContext> &);
@@ -67,8 +64,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             Cineon::Options _options;

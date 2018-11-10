@@ -37,17 +37,17 @@ namespace djv
 {
     namespace AV
     {
-        DPXSave::DPXSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const DPX::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        DPXSave::DPXSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const DPX::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options)
         {
-            if (_imageIOInfo.sequence.frames.count() > 1)
+            if (_ioInfo.sequence.frames.count() > 1)
             {
                 _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
-            _info.size = _imageIOInfo.size;
+            _info.size = _ioInfo.layers[0].size;
             _info.mirror.y = true;
 
             switch (_options.endian)
@@ -63,14 +63,14 @@ namespace djv
             case DPX::TYPE_U10: _info.pixel = Pixel::RGB_U10; break;
             default:
             {
-                Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
+                Pixel::TYPE type = Pixel::type(_ioInfo.layers[0].pixel);
                 switch (type)
                 {
                 case Pixel::F16:
                 case Pixel::F32: type = Pixel::U16; break;
                 default: break;
                 }
-                _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
+                _info.pixel = Pixel::pixel(Pixel::format(_ioInfo.layers[0].pixel), type);
             }
             break;
             }
@@ -88,7 +88,7 @@ namespace djv
         DPXSave::~DPXSave()
         {}
 
-        void DPXSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void DPXSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("DPXSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -106,8 +106,8 @@ namespace djv
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info(_info);
-            info.fileName = fileName;
+            IOInfo info(_info);
+            info.layers[0].fileName = fileName;
             info.tags = in.tags;
             Core::FileIO io;
             io.open(fileName, Core::FileIO::WRITE);

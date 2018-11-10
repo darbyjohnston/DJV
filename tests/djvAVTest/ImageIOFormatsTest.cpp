@@ -31,7 +31,7 @@
 
 #include <djvAV/Image.h>
 #include <djvAV/AVContext.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/OpenGLImage.h>
 #include <djvAV/PixelDataUtil.h>
 
@@ -81,7 +81,7 @@ namespace djv
 
             for (int j = 0; j < _plugins.count(); ++j)
             {
-                AV::ImageIO * plugin = static_cast<AV::ImageIO *>(_plugins[j]);
+                auto plugin = static_cast<AV::IOPlugin *>(_plugins[j]);
                 for (int i = 0; i < _images.count(); ++i)
                 {
                     const AV::Image & image = _images[i];
@@ -109,15 +109,15 @@ namespace djv
 
             QStringList option;
             option << "None";
-            context->imageIOFactory()->setOption("Cineon", "Input Color Profile", option);
+            context->ioFactory()->setOption("Cineon", "Input Color Profile", option);
             option << "None";
-            context->imageIOFactory()->setOption("Cineon", "Output Color Profile", option);
+            context->ioFactory()->setOption("Cineon", "Output Color Profile", option);
             option << "None";
-            context->imageIOFactory()->setOption("DPX", "Input Color Profile", option);
+            context->ioFactory()->setOption("DPX", "Input Color Profile", option);
             option << "None";
-            context->imageIOFactory()->setOption("DPX", "Output Color Profile", option);
+            context->ioFactory()->setOption("DPX", "Output Color Profile", option);
             option << "None";
-            context->imageIOFactory()->setOption("OpenEXR", "Input Color Profile", option);
+            context->ioFactory()->setOption("OpenEXR", "Input Color Profile", option);
 
             //! \todo Fix FFmpeg image I/O testing.
             QStringList disable = QStringList() <<
@@ -126,7 +126,7 @@ namespace djv
             //! \todo JPEG is lossy which will cause the pixel comparison tests to fail.
             disable += "JPEG";
 
-            const QList<Plugin *> & pluginsTmp = context->imageIOFactory()->plugins();
+            const QList<Plugin *> & pluginsTmp = context->ioFactory()->plugins();
             for (int i = 0; i < pluginsTmp.count(); ++i)
             {
                 if (!disable.contains(pluginsTmp[i]->pluginName()))
@@ -195,7 +195,7 @@ namespace djv
             }
         }
 
-        void ImageIOFormatsTest::runTest(AV::ImageIO * plugin, const AV::Image & image)
+        void ImageIOFormatsTest::runTest(AV::IOPlugin * plugin, const AV::Image & image)
         {
             DJV_DEBUG("ImageIOFormatsTest::runTest");
             DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -223,16 +223,16 @@ namespace djv
 
                 AV::Image tmp;
                 load->read(tmp);
-                auto info = load->imageIOInfo();
-                if (info.pixel != image.pixel() ||
-                    info.size != image.size())
+                auto info = load->ioInfo();
+                if (info.layers[0].pixel != image.pixel() ||
+                    info.layers[0].size != image.size())
                     return;
 
                 AV::PixelData p(AV::PixelDataInfo(1, 1, image.pixel()));
                 AV::OpenGLImageOptions options;
-                for (int y = 0; y < info.size.y; ++y)
+                for (int y = 0; y < info.layers[0].size.y; ++y)
                 {
-                    for (int x = 0; x < info.size.x; ++x)
+                    for (int x = 0; x < info.layers[0].size.x; ++x)
                     {
                         options.xform.position = -glm::vec2(x, y);
                         AV::OpenGLImage().copy(image, p, options);

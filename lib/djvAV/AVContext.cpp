@@ -34,14 +34,15 @@
 #include <djvAV/IFFPlugin.h>
 #include <djvAV/IFLPlugin.h>
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/LUTPlugin.h>
 #include <djvAV/OpenGLImage.h>
 #include <djvAV/PICPlugin.h>
 #include <djvAV/PPMPlugin.h>
-#include <djvAV/TargaPlugin.h>
 #include <djvAV/RLAPlugin.h>
 #include <djvAV/SGIPlugin.h>
+#include <djvAV/TargaPlugin.h>
+#include <djvAV/WAVPlugin.h>
 #if defined(JPEG_FOUND)
 #include <djvAV/JPEGPlugin.h>
 #endif // JPEG_FOUND
@@ -80,7 +81,7 @@ namespace djv
             QScopedPointer<QOffscreenSurface> offscreenSurface;
             QScopedPointer<QOpenGLContext> openGLContext;
             QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
-            QScopedPointer<ImageIOFactory> imageIOFactory;
+            QScopedPointer<IOFactory> ioFactory;
         };
 
         AVContext::AVContext(int & argc, char ** argv, QObject * parent) :
@@ -91,7 +92,7 @@ namespace djv
 
             // Register meta types.
             qRegisterMetaType<Image>("djv::AV::Image");
-            qRegisterMetaType<ImageIOInfo>("djv::AV::ImageIOInfo");
+            qRegisterMetaType<IOInfo>("djv::AV::IOInfo");
 
             // Create the default OpenGL context.
             DJV_LOG(debugLog(), "djv::AV::AVContext", "Creating the default OpenGL context...");
@@ -150,34 +151,35 @@ namespace djv
                 _p->openGLDebugLogger->startLogging();
             }
 
-            //! Create the image I/O plugins.
-            DJV_LOG(debugLog(), "djv::AV::AVContext", "Loading image I/O plugins...");
+            //! Create the I/O plugins.
+            DJV_LOG(debugLog(), "djv::AV::AVContext", "Loading I/O plugins...");
 
-            _p->imageIOFactory.reset(new ImageIOFactory(this));
-            _p->imageIOFactory->addPlugin(new CineonPlugin(this));
-            _p->imageIOFactory->addPlugin(new DPXPlugin(this));
-            _p->imageIOFactory->addPlugin(new IFFPlugin(this));
-            _p->imageIOFactory->addPlugin(new IFLPlugin(this));
-            _p->imageIOFactory->addPlugin(new LUTPlugin(this));
-            _p->imageIOFactory->addPlugin(new PICPlugin(this));
-            _p->imageIOFactory->addPlugin(new PPMPlugin(this));
-            _p->imageIOFactory->addPlugin(new RLAPlugin(this));
-            _p->imageIOFactory->addPlugin(new SGIPlugin(this));
-            _p->imageIOFactory->addPlugin(new TargaPlugin(this));
+            _p->ioFactory.reset(new IOFactory(this));
+            _p->ioFactory->addPlugin(new CineonPlugin(this));
+            _p->ioFactory->addPlugin(new DPXPlugin(this));
+            _p->ioFactory->addPlugin(new IFFPlugin(this));
+            _p->ioFactory->addPlugin(new IFLPlugin(this));
+            _p->ioFactory->addPlugin(new LUTPlugin(this));
+            _p->ioFactory->addPlugin(new PICPlugin(this));
+            _p->ioFactory->addPlugin(new PPMPlugin(this));
+            _p->ioFactory->addPlugin(new RLAPlugin(this));
+            _p->ioFactory->addPlugin(new SGIPlugin(this));
+            _p->ioFactory->addPlugin(new TargaPlugin(this));
+            _p->ioFactory->addPlugin(new WAVPlugin(this));
 #if defined(JPEG_FOUND)
-            _p->imageIOFactory->addPlugin(new JPEGPlugin(this));
+            _p->ioFactory->addPlugin(new JPEGPlugin(this));
 #endif // JPEG_FOUND
 #if defined(PNG_FOUND)
-            _p->imageIOFactory->addPlugin(new PNGPlugin(this));
+            _p->ioFactory->addPlugin(new PNGPlugin(this));
 #endif // PNG_FOUND
 #if defined(TIFF_FOUND)
-            _p->imageIOFactory->addPlugin(new TIFFPlugin(this));
+            _p->ioFactory->addPlugin(new TIFFPlugin(this));
 #endif // TIFF_FOUND
 #if defined(OPENEXR_FOUND)
-            _p->imageIOFactory->addPlugin(new OpenEXRPlugin(this));
+            _p->ioFactory->addPlugin(new OpenEXRPlugin(this));
 #endif // OPENEXR_FOUND
 #if defined(FFMPEG_FOUND)
-            _p->imageIOFactory->addPlugin(new FFmpegPlugin(this));
+            _p->ioFactory->addPlugin(new FFmpegPlugin(this));
 #endif // FFMPEG_FOUND
 
             DJV_LOG(debugLog(), "djv::AV::AVContext", "Information:");
@@ -188,15 +190,15 @@ namespace djv
         {
             //DJV_DEBUG("AVContext::~AVContext");
 #if defined(DJV_WINDOWS)
-    //! \todo On Windows deleting the image factory causes the application
-    //! to hang on exit.
-            _p->imageIOFactory.take();
+            //! \todo On Windows deleting the factory causes the application
+            //! to hang on exit.
+            _p->ioFactory.take();
 #endif // DJV_WINDOWS
         }
 
-        QPointer<ImageIOFactory> AVContext::imageIOFactory() const
+        QPointer<IOFactory> AVContext::ioFactory() const
         {
-            return _p->imageIOFactory.data();
+            return _p->ioFactory.data();
         }
 
         QPointer<QOpenGLContext> AVContext::openGLContext() const
@@ -219,7 +221,7 @@ namespace djv
                 "    Version: %2.%3\n"
                 "    Render filter: %4, %5\n"
                 "\n"
-                "Image I/O\n"
+                "I/O\n"
                 "\n"
                 "    Plugins: %6\n");
             QStringList filterMinLabel;
@@ -232,7 +234,7 @@ namespace djv
                 arg(_p->openGLContext->format().minorVersion()).
                 arg(filterMinLabel.join(", ")).
                 arg(filterMagLabel.join(", ")).
-                arg(_p->imageIOFactory->names().join(", "));
+                arg(_p->ioFactory->names().join(", "));
         }
 
         bool AVContext::commandLineParse(QStringList & in)
@@ -243,9 +245,9 @@ namespace djv
             if (!Core::CoreContext::commandLineParse(in))
                 return false;
 
-            Q_FOREACH(Core::Plugin * plugin, _p->imageIOFactory->plugins())
+            Q_FOREACH(Core::Plugin * plugin, _p->ioFactory->plugins())
             {
-                ImageIO * io = static_cast<ImageIO *>(plugin);
+                auto io = static_cast<IOPlugin *>(plugin);
                 io->commandLine(in);
             }
 
@@ -288,11 +290,11 @@ namespace djv
 
         QString AVContext::commandLineHelp() const
         {
-            QString imageIOHelp;
-            Q_FOREACH(Core::Plugin * plugin, _p->imageIOFactory->plugins())
+            QString ioHelp;
+            Q_FOREACH(Core::Plugin * plugin, _p->ioFactory->plugins())
             {
-                ImageIO * io = static_cast<ImageIO *>(plugin);
-                imageIOHelp += io->commandLineHelp();
+                auto io = static_cast<IOPlugin *>(plugin);
+                ioHelp += io->commandLineHelp();
             }
             static const QString label = qApp->translate("djv::AV::AVContext",
                 "%1"
@@ -313,7 +315,7 @@ namespace djv
             QStringList filterHighQualityMagLabel;
             filterHighQualityMagLabel << OpenGLImageFilter::filterHighQuality().mag;
             return QString(label).
-                arg(imageIOHelp).
+                arg(ioHelp).
                 arg(OpenGLImageFilter::filterLabels().join(", ")).
                 arg(filterMinLabel.join(", ")).
                 arg(filterMagLabel.join(", ")).

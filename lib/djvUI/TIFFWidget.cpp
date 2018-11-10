@@ -32,7 +32,7 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -45,8 +45,8 @@ namespace djv
 {
     namespace UI
     {
-        TIFFWidget::TIFFWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        TIFFWidget::TIFFWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             //DJV_DEBUG("TIFFWidget::TIFFWidget");
 
@@ -134,10 +134,10 @@ namespace djv
         }
 
         TIFFWidgetPlugin::TIFFWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * TIFFWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * TIFFWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new TIFFWidget(plugin, uiContext());
         }

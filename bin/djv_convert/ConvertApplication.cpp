@@ -31,7 +31,7 @@
 
 #include <djv_convert/ConvertContext.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/Sequence.h>
 #include <djvCore/Time.h>
@@ -109,14 +109,14 @@ namespace djv
             imageOptions.channel = options.channel;
 
             // Open the input file.
-            std::unique_ptr<AV::ImageLoad> load;
-            AV::ImageIOInfo loadInfo;
+            std::unique_ptr<AV::Load> load;
+            AV::IOInfo loadInfo;
             Core::Error error;
             while (!load)
             {
                 try
                 {
-                    load = _context->imageIOFactory()->load(input.file, loadInfo);
+                    load = _context->ioFactory()->load(input.file, loadInfo);
                 }
                 catch (const Core::Error & in)
                 {
@@ -143,7 +143,7 @@ namespace djv
                 return;
             }
 
-            const int layer = Core::Math::clamp(input.layer, 0, loadInfo.layerCount() - 1);
+            const size_t layer = Core::Math::clamp(input.layer, size_t(0), loadInfo.layers.size() - 1);
             qint64 start = 0;
             qint64 end =
                 loadInfo.sequence.frames.count() ?
@@ -168,12 +168,12 @@ namespace djv
                 loadInfo.sequence.frames.mid(start, end - start + 1);
             _context->print(qApp->translate("djv::convert::Application", "%1 %2").
                 arg(QDir::toNativeSeparators(input.file)).
-                arg(labelImage(loadInfo, loadInfo.sequence)));
+                arg(labelImage(loadInfo.layers[0], loadInfo.sequence)));
 
             // Open the output file.
-            std::unique_ptr<AV::ImageSave> save;
-            AV::ImageIOInfo saveInfo(loadInfo[layer]);
-            glm::ivec2 scaleSize = loadInfo.size;
+            std::unique_ptr<AV::Save> save;
+            AV::IOInfo saveInfo(loadInfo.layers[layer]);
+            glm::ivec2 scaleSize = loadInfo.layers[0].size;
             glm::ivec2 size = options.size;
             if (Core::VectorUtil::isSizeValid(size))
             {
@@ -183,12 +183,12 @@ namespace djv
             {
                 scaleSize = glm::ivec2(
                     size.x,
-                    Core::Math::ceil(size.x / Core::VectorUtil::aspect(loadInfo.size)));
+                    Core::Math::ceil(size.x / Core::VectorUtil::aspect(loadInfo.layers[0].size)));
             }
             else if (size.y)
             {
                 scaleSize = glm::ivec2(
-                    Core::Math::ceil(size.x * Core::VectorUtil::aspect(loadInfo.size)),
+                    Core::Math::ceil(size.x * Core::VectorUtil::aspect(loadInfo.layers[0].size)),
                     size.y);
             }
             else if (
@@ -196,30 +196,30 @@ namespace djv
                 !Core::Math::fuzzyCompare(imageOptions.xform.scale.y, 1.f))
             {
                 scaleSize = Core::VectorUtil::ceil(
-                    glm::vec2(loadInfo.size) * imageOptions.xform.scale);
+                    glm::vec2(loadInfo.layers[0].size) * imageOptions.xform.scale);
             }
             glm::vec2 position(0.f, 0.f);
             if (options.crop.isValid())
             {
                 position = -options.crop.position;
 
-                saveInfo.size = options.crop.size;
+                saveInfo.layers[0].size = options.crop.size;
             }
             else if (options.cropPercent.isValid())
             {
                 position = -Core::VectorUtil::ceil(glm::vec2(scaleSize) *
                     (options.cropPercent.position / 100.f));
 
-                saveInfo.size = Core::VectorUtil::ceil(glm::vec2(scaleSize) *
+                saveInfo.layers[0].size = Core::VectorUtil::ceil(glm::vec2(scaleSize) *
                     (options.cropPercent.size / 100.f));
             }
             else
             {
-                saveInfo.size = scaleSize;
+                saveInfo.layers[0].size = scaleSize;
             }
             if (output.pixel.data())
             {
-                saveInfo.pixel = *output.pixel;
+                saveInfo.layers[0].pixel = *output.pixel;
             }
             saveInfo.tags = output.tags;
             saveInfo.sequence = Core::Sequence(
@@ -238,7 +238,7 @@ namespace djv
             //DJV_DEBUG_PRINT("save sequence = " << saveInfo.sequence);
             try
             {
-                save = _context->imageIOFactory()->save(output.file, saveInfo);
+                save = _context->ioFactory()->save(output.file, saveInfo);
             }
             catch (Core::Error error)
             {
@@ -251,7 +251,7 @@ namespace djv
             }
             _context->print(qApp->translate("djv::convert::Application", "%1 %2").
                 arg(QDir::toNativeSeparators(output.file)).
-                arg(labelImage(saveInfo, saveInfo.sequence)));
+                arg(labelImage(saveInfo.layers[0], saveInfo.sequence)));
 
             // Add the slate.
             AV::Image slate;
@@ -260,14 +260,14 @@ namespace djv
                 try
                 {
                     _context->print(qApp->translate("djv::convert::Application", "Slating..."));
-                    AV::ImageIOInfo info;
-                    auto load = _context->imageIOFactory()->load(input.slate, info);
+                    AV::IOInfo info;
+                    auto load = _context->ioFactory()->load(input.slate, info);
                     AV::Image image;
                     load->read(image);
-                    slate.set(saveInfo);
+                    slate.set(saveInfo.layers[0]);
                     AV::OpenGLImageOptions imageOptions;
                     imageOptions.xform.position = position;
-                    imageOptions.xform.scale = glm::vec2(scaleSize) / glm::vec2(info.size);
+                    imageOptions.xform.scale = glm::vec2(scaleSize) / glm::vec2(info.layers[0].size);
                     imageOptions.colorProfile = image.colorProfile;
                     openGLImage->copy(image, slate, imageOptions);
                 }
@@ -290,7 +290,7 @@ namespace djv
                 {
                     save->write(
                         slate,
-                        AV::ImageIOFrameInfo(saveInfo.sequence.frames.first()));
+                        AV::ImageIOInfo(saveInfo.sequence.frames.first()));
                     saveInfo.sequence.frames.pop_front();
                 }
                 catch (Core::Error error)
@@ -322,7 +322,7 @@ namespace djv
                     {
                         load->read(
                             image,
-                            AV::ImageIOFrameInfo(
+                            AV::ImageIOInfo(
                                 loadInfo.sequence.frames.count() ?
                                 loadInfo.sequence.frames[i] :
                                 -1,
@@ -356,16 +356,16 @@ namespace djv
                 }
                 //DJV_DEBUG_PRINT("image = " << *image);
 
-                // Process the image tags.
-                AV::ImageTags tags = output.tags;
+                // Process the tags.
+                AV::Tags tags = output.tags;
                 tags.add(image.tags);
                 if (output.tagsAuto)
                 {
-                    tags[AV::ImageTags::tagLabels()[AV::ImageTags::CREATOR]] =
+                    tags[AV::Tags::tagLabels()[AV::Tags::CREATOR]] =
                         Core::User::current();
-                    tags[AV::ImageTags::tagLabels()[AV::ImageTags::TIME]] =
+                    tags[AV::Tags::tagLabels()[AV::Tags::TIME]] =
                         Core::Time::timeToString(Core::Time::current());
-                    tags[AV::ImageTags::tagLabels()[AV::ImageTags::TIMECODE]] =
+                    tags[AV::Tags::tagLabels()[AV::Tags::TIMECODE]] =
                         Core::Time::timecodeToString(
                             Core::Time::frameToTimecode(
                                 saveInfo.sequence.frames.count() ?
@@ -378,12 +378,12 @@ namespace djv
                 AV::Image * p = &image;
                 AV::Image tmp;
                 imageOptions.xform.position = position;
-                imageOptions.xform.scale = glm::vec2(scaleSize) / glm::vec2(loadInfo.size);
+                imageOptions.xform.scale = glm::vec2(scaleSize) / glm::vec2(loadInfo.layers[0].size);
                 imageOptions.colorProfile = image.colorProfile;
-                if (p->info() != static_cast<AV::PixelDataInfo>(saveInfo) ||
+                if (p->info() != static_cast<AV::PixelDataInfo>(saveInfo.layers[0]) ||
                     imageOptions != AV::OpenGLImageOptions())
                 {
-                    tmp.set(saveInfo);
+                    tmp.set(saveInfo.layers[0]);
                     openGLImage->copy(
                         image,
                         tmp,
@@ -398,7 +398,7 @@ namespace djv
                 {
                     save->write(
                         *p,
-                        AV::ImageIOFrameInfo(
+                        AV::ImageIOInfo(
                             saveInfo.sequence.frames.count() ?
                             saveInfo.sequence.frames[i] :
                             -1));

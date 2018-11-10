@@ -38,7 +38,7 @@ namespace djv
     namespace AV
     {
         RLAPlugin::RLAPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString RLAPlugin::pluginName() const
@@ -53,9 +53,9 @@ namespace djv
                 ".rpf";
         }
 
-        std::unique_ptr<ImageLoad> RLAPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> RLAPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new RLALoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new RLALoad(fileInfo, context()));
         }
 
     } // namespace AV

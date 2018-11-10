@@ -34,8 +34,6 @@ set(header
     HelpPrefs.h
     IconLibrary.h
     IFFWidget.h
-    ImageIOPrefs.h
-    ImageIOWidget.h
     ImageView.h
     IndexShortcut.h
     InfoDialog.h
@@ -45,6 +43,8 @@ set(header
     IntEditSlider.h
     IntObject.h
     IntSlider.h
+    IOPrefs.h
+    IOWidget.h
     LUTWidget.h
     MessagesDialog.h
     MultiChoiceDialog.h
@@ -112,8 +112,6 @@ set(mocHeader
     HelpPrefs.h
     IconLibrary.h
     IFFWidget.h
-    ImageIOPrefs.h
-    ImageIOWidget.h
     ImageView.h
     IndexShortcut.h
     InfoDialog.h
@@ -123,6 +121,8 @@ set(mocHeader
     IntEditSlider.h
     IntObject.h
     IntSlider.h
+    IOPrefs.h
+    IOWidget.h
     LUTWidget.h
     MessagesDialog.h
     MultiChoiceDialog.h
@@ -185,8 +185,6 @@ set(source
     HelpPrefs.cpp
     IconLibrary.cpp
     IFFWidget.cpp
-    ImageIOPrefs.cpp
-    ImageIOWidget.cpp
     ImageView.cpp
     IndexShortcut.cpp
     InfoDialog.cpp
@@ -196,6 +194,8 @@ set(source
     IntEditSlider.cpp
     IntObject.cpp
     IntSlider.cpp
+    IOPrefs.cpp
+    IOWidget.cpp
     LUTWidget.cpp
     MessagesDialog.cpp
     MultiChoiceDialog.cpp

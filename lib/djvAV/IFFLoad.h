@@ -38,20 +38,18 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides an IFF loader.
-        //!
         //! \todo We need more careful error handling when using memory-mapping to
         //! read files; in some cases reading truncated files may cause crashes.
-        class IFFLoad : public ImageLoad
+        class IFFLoad : public Load
         {
         public:
             explicit IFFLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~IFFLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &);
+            void _open(const Core::FileInfo &, IOInfo &, Core::FileIO &);
 
             int       _tiles       = 0;
             bool      _compression = false;

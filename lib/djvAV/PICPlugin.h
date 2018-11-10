@@ -29,27 +29,25 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Softimage image file format.
+        //! Softimage PIC
         //!
         //! File extensions: .pic
         //!
         //! Supported features:
-        //!
         //! - 8-bit, RGB, RGBA, RGB plus Alpha
         //! - File compression
         //! - Read only
         //!
         //! References:
-        //!
         //! - Softimage, "INFO: PIC file format"
         //!   http://xsi.wiki.avid.com/index.php/INFO:_PIC_file_format
-        class PICPlugin : public ImageIO
+        class PICPlugin : public IOPlugin
         {
         public:
             explicit PICPlugin(const QPointer<Core::CoreContext> &);
@@ -57,7 +55,7 @@ namespace djv
             QString pluginName() const;
             QStringList extensions() const;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const;
         };
 
     } // namespace AV

@@ -38,14 +38,13 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a SGI saver.
-        class SGISave : public ImageSave
+        class SGISave : public Save
         {
         public:
-            SGISave(const Core::FileInfo &, const ImageIOInfo &, const SGI::Options &, const QPointer<Core::CoreContext> &);
+            SGISave(const Core::FileInfo &, const IOInfo &, const SGI::Options &, const QPointer<Core::CoreContext> &);
             ~SGISave() override;
             
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
             void _open(const QString &);

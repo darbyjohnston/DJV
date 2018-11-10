@@ -29,86 +29,81 @@
 
 #pragma once
 
-#include <djvCore/Debug.h>
+#include <djvUI/AbstractPrefsWidget.h>
 
-#include <QMetaType>
+#include <djvCore/Plugin.h>
+#include <djvCore/System.h>
 
-#include <memory>
+#include <QWidget>
 
 namespace djv
 {
     namespace AV
     {
-        //! This class provides a collection of image tags.
-        class ImageTags
+        class IOPlugin;
+
+    } // namespace AV
+
+    namespace UI
+    {
+        class UIContext;
+
+        //! This class provides the base functionality for I/O widgets.
+        class IOWidget : public AbstractPrefsWidget
         {
-            Q_GADGET
+            Q_OBJECT
 
         public:
-            ImageTags();
-            ImageTags(const ImageTags &);
-            ~ImageTags();
+            explicit IOWidget(AV::IOPlugin *, const QPointer<UIContext> &, QWidget * parent = nullptr);
+            ~IOWidget() override;
 
-            //! Add image tags.
-            void add(const ImageTags &);
+            //! Get the plugin.
+            AV::IOPlugin * plugin() const;
 
-            //! Add an image tag.
-            void add(const QString & key, const QString & value);
-
-            //! Get an image tag.
-            QString tag(const QString & key) const;
-
-            //! Get the list of keys.
-            QStringList keys() const;
-
-            //! Get the list of values.
-            QStringList values() const;
-
-            //! Get the number of tags.
-            int count() const;
-
-            //! Get whether the given key is valid.
-            bool isValid(const QString & key);
-
-            //! Remove all the tags.
-            void clear();
-
-            //! This enumeration provides the standard image tags.
-            enum TAGS
-            {
-                PROJECT,
-                CREATOR,
-                DESCRIPTION,
-                COPYRIGHT,
-                TIME,
-                UTC_OFFSET,
-                KEYCODE,
-                TIMECODE,
-
-                TAGS_COUNT
-            };
-            Q_ENUM(TAGS);
-
-            //! Get the image tag labels.
-            static const QStringList & tagLabels();
-
-            ImageTags & operator = (const ImageTags &);
-
-            QString & operator [] (const QString & key);
-
-            QString operator [] (const QString & key) const;
+            //! Get the context.
+            const QPointer<UIContext> & context() const;
 
         private:
             struct Private;
             std::unique_ptr<Private> _p;
         };
 
-    } // namespace AV
+        //! This class provides an I/O widget plugin.
+        class IOWidgetPlugin : public Core::Plugin
+        {
+        public:
+            IOWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-    DJV_COMPARISON_OPERATOR(AV::ImageTags);
+            //! Create a widget.    
+            virtual IOWidget * createWidget(AV::IOPlugin * plugin) const = 0;
 
-    DJV_DEBUG_OPERATOR(AV::ImageTags);
+            //! Get the context.
+            QPointer<UIContext> uiContext() const;
 
+            virtual Core::Plugin * copyPlugin() const;
+        };
+
+        //! This class provides a factory for I/O widget plugins.
+        class IOWidgetFactory : public Core::PluginFactory
+        {
+            Q_OBJECT
+
+        public:
+            explicit IOWidgetFactory(
+                const QPointer<UIContext> &,
+                const QStringList & searchPath = Core::System::searchPath(),
+                QObject * parent = nullptr);
+            ~IOWidgetFactory() override;
+            
+            //! Create a widget.    
+            IOWidget * createWidget(AV::IOPlugin *) const;
+
+        private:
+            DJV_PRIVATE_COPY(IOWidgetFactory);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
 } // namespace djv
-
-Q_DECLARE_METATYPE(djv::AV::ImageTags)

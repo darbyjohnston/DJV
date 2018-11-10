@@ -29,26 +29,23 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/PNG.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Portable Network AV (PNG) image
-        //! file format.
+        //! PNG - Portable Network Graphics
         //!
         //! Requires:
-        //!
         //! - libpng - http://www.libpng.org
         //!
         //! File extensions: .png
         //!
         //! Supported features:
-        //!
         //! - 8-bit, 16-bit, Luminance, RGB, RGBA
-        class PNGPlugin : public ImageIO
+        class PNGPlugin : public IOPlugin
         {
         public:
             explicit PNGPlugin(const QPointer<Core::CoreContext> &);
@@ -56,8 +53,8 @@ namespace djv
             QString pluginName() const override;
             QStringList extensions() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
         };
 
     } // namespace AV

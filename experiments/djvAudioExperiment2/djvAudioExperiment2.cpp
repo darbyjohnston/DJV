@@ -33,9 +33,6 @@
 #include <djvCore/Debug.h>
 #include <djvCore/DebugLog.h>
 
-#define DR_WAV_IMPLEMENTATION
-#include <dr_libs/dr_wav.h>
-
 #include <iostream>
 
 using namespace djv;

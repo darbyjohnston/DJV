@@ -29,81 +29,28 @@
 
 #pragma once
 
-#include <djvUI/AbstractPrefsWidget.h>
+#include <djvUI/Core.h>
 
-#include <djvCore/Plugin.h>
-#include <djvCore/System.h>
+#include <djvCore/Time.h>
 
-#include <QWidget>
+#include <QObject>
 
 namespace djv
 {
-    namespace AV
-    {
-        class ImageIO;
-
-    } // namespace AV
-
     namespace UI
     {
         class UIContext;
 
-        //! This class provides the base functionality for image I/O widgets.
-        class ImageIOWidget : public AbstractPrefsWidget
+        //! This class provides I/O preferences.
+        class IOPrefs : public QObject
         {
             Q_OBJECT
 
         public:
-            explicit ImageIOWidget(
-                AV::ImageIO * plugin,
-                const QPointer<UIContext> & context,
-                QWidget * parent = nullptr);
-            ~ImageIOWidget() override;
-
-            //! Get the plugin.
-            AV::ImageIO * plugin() const;
-
-            //! Get the context.
-            const QPointer<UIContext> & context() const;
+            explicit IOPrefs(const QPointer<UIContext> &, QObject * parent = nullptr);
+            ~IOPrefs() override;
 
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-        //! This class provides an image I/O widget plugin.
-        class ImageIOWidgetPlugin : public Core::Plugin
-        {
-        public:
-            ImageIOWidgetPlugin(const QPointer<Core::CoreContext> &);
-
-            //! Create a widget.    
-            virtual ImageIOWidget * createWidget(AV::ImageIO * plugin) const = 0;
-
-            //! Get the context.
-            QPointer<UIContext> uiContext() const;
-
-            virtual Core::Plugin * copyPlugin() const;
-        };
-
-        //! This class provides a factory for image I/O widget plugins.
-        class ImageIOWidgetFactory : public Core::PluginFactory
-        {
-            Q_OBJECT
-
-        public:
-            explicit ImageIOWidgetFactory(
-                const QPointer<UIContext> &,
-                const QStringList & searchPath = Core::System::searchPath(),
-                QObject * parent = nullptr);
-            ~ImageIOWidgetFactory() override;
-            
-            //! Create a widget.    
-            ImageIOWidget * createWidget(AV::ImageIO *) const;
-
-        private:
-            DJV_PRIVATE_COPY(ImageIOWidgetFactory);
-
             struct Private;
             std::unique_ptr<Private> _p;
         };

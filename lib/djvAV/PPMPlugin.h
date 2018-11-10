@@ -29,27 +29,25 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/PPM.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the NetPBM image file format.
+        //! NetPBM
         //!
         //! File extensions: .ppm, pnm, .pgm, .pbm
         //!
         //! Supported features:
-        //!
         //! - 1-bit, 8-bit, 16-bit, Luminance, RGB
         //! - Binary and ASCII data
         //!
         //! References:
-        //!
         //! - Netpbm, "PPM Format Specification"
         //!   http://netpbm.sourceforge.net/doc/ppm.html
-        class PPMPlugin : public ImageIO
+        class PPMPlugin : public IOPlugin
         {
         public:
             explicit PPMPlugin(const QPointer<Core::CoreContext> &);
@@ -64,8 +62,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             PPM::Options _options;

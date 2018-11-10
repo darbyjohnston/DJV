@@ -78,7 +78,7 @@ namespace djv
                 }
 
                 Core::FileInfo fileInfo;
-                std::promise<AV::ImageIOInfo> promise;
+                std::promise<AV::IOInfo> promise;
             };
 
             struct PixmapRequest
@@ -119,7 +119,7 @@ namespace djv
         struct FileBrowserThumbnailSystem::Private
         {
             Core::DebugLog * debugLog = nullptr;
-            AV::ImageIOFactory * imageIO = nullptr;
+            AV::IOFactory * ioFactory = nullptr;
             std::vector<InfoRequest> infoQueue;
             std::vector<PixmapRequest> pixmapQueue;
             std::condition_variable requestCV;
@@ -138,7 +138,7 @@ namespace djv
             _p(new Private)
         {
             _p->debugLog = context->debugLog();
-            _p->imageIO = context->imageIOFactory();
+            _p->ioFactory = context->ioFactory();
 
             _p->offscreenSurface.reset(new QOffscreenSurface);
             QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
@@ -165,7 +165,7 @@ namespace djv
         FileBrowserThumbnailSystem::~FileBrowserThumbnailSystem()
         {}
 
-        std::future<AV::ImageIOInfo> FileBrowserThumbnailSystem::getInfo(const Core::FileInfo& fileInfo)
+        std::future<AV::IOInfo> FileBrowserThumbnailSystem::getInfo(const Core::FileInfo& fileInfo)
         {
             InfoRequest request;
             request.fileInfo = fileInfo;
@@ -248,10 +248,10 @@ namespace djv
         {
             for (auto& request : _p->infoRequests)
             {
-                AV::ImageIOInfo info;
+                AV::IOInfo info;
                 try
                 {
-                    auto load = std::unique_ptr<AV::ImageLoad>(_p->imageIO->load(request.fileInfo, info));
+                    auto load = std::unique_ptr<AV::Load>(_p->ioFactory->load(request.fileInfo, info));
                 }
                 catch (const Core::Error&)
                 {
@@ -271,8 +271,8 @@ namespace djv
                 {
                     //DJV_DEBUG_PRINT("file = " << request.fileInfo);
                     
-                    AV::ImageIOInfo info;
-                    auto load = std::unique_ptr<AV::ImageLoad>(_p->imageIO->load(request.fileInfo, info));
+                    AV::IOInfo info;
+                    auto load = std::unique_ptr<AV::Load>(_p->ioFactory->load(request.fileInfo, info));
                     AV::Image image;
                     load->read(image);
                     //DJV_DEBUG_PRINT("image = " << image);

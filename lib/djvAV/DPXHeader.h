@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/DPX.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileIO.h>
 
@@ -267,13 +267,13 @@ namespace djv
             //!
             //! Throws:
             //! - Core::Error
-            void load(Core::FileIO &, ImageIOInfo &, bool & filmPrint);
+            void load(Core::FileIO &, IOInfo &, bool & filmPrint);
 
             //! Save the header.
             //!
             //! Throws:
             //! - Core::Error
-            void save(Core::FileIO &, const ImageIOInfo &, DPX::ENDIAN, Cineon::COLOR_PROFILE, DPX::VERSION);
+            void save(Core::FileIO &, const IOInfo &, DPX::ENDIAN, Cineon::COLOR_PROFILE, DPX::VERSION);
 
             //! Update the header when saving is finished.
             //!

@@ -37,17 +37,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a SGI loader.
-        class SGILoad : public ImageLoad
+        class SGILoad : public Load
         {
         public:
             explicit SGILoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~SGILoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO &);
+            void _open(const QString &, IOInfo &, Core::FileIO &);
 
             bool                 _compression = false;
             std::vector<quint32> _rleOffset;

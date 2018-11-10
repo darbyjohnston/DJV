@@ -29,8 +29,9 @@
 
 #pragma once
 
-#include <djvAV/ImageTags.h>
+#include <djvAV/AudioData.h>
 #include <djvAV/PixelData.h>
+#include <djvAV/Tags.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/Plugin.h>
@@ -42,6 +43,7 @@
 #include <QStringList>
 
 #include <memory>
+#include <vector>
 
 #if defined DJV_WINDOWS
 #undef ERROR
@@ -59,113 +61,112 @@ namespace djv
     {
         class Image;
 
-        //! This class provides image I/O information.
-        class ImageIOInfo : public PixelDataInfo
+        //! This struct provides I/O information.
+        struct IOInfo
         {
-        public:
-            ImageIOInfo();
-            ImageIOInfo(const PixelDataInfo &);
+            IOInfo();
+            IOInfo(const PixelDataInfo &);
 
-            //! Add a layer.
-            void addLayer(const PixelDataInfo &);
-
-            //! Get the number of layers.
-            int layerCount() const;
-
-            //! Set the number of layers.
-            void setLayerCount(int);
-
-            //! Remove all the layers.
-            void clearLayers();
-
-            //! The image tags.
-            ImageTags tags;
-
-            //! The frame sequence.
+            std::vector<PixelDataInfo> layers;
+            AudioInfo audio;
+            Tags tags;
             Core::Sequence sequence;
 
-            PixelDataInfo & operator [] (int);
-
-            const PixelDataInfo & operator [] (int) const;
-
-        private:
-            QVector<PixelDataInfo> _info;
+            bool operator == (const IOInfo &) const;
+            bool operator != (const IOInfo &) const;
         };
 
-        //! This struct provides image I/O frame information.
-        struct ImageIOFrameInfo
+        //! This struct provides image I/O information.
+        struct ImageIOInfo
         {
-            ImageIOFrameInfo();
-            ImageIOFrameInfo(
+            ImageIOInfo();
+            ImageIOInfo(
                 qint64               frame,
-                int                  layer = 0,
+                size_t               layer = 0,
                 PixelDataInfo::PROXY proxy = PixelDataInfo::PROXY_NONE);
 
-            //! The frame number.
             qint64 frame = -1;
-
-            //! The image layer.
-            int layer = 0;
-
-            //! The proxy scale.
+            size_t layer = 0;
             PixelDataInfo::PROXY proxy = PixelDataInfo::PROXY_NONE;
+
+            bool operator == (const ImageIOInfo &) const;
+            bool operator != (const ImageIOInfo &) const;
         };
 
-        //! This class provides the base functionality for image loading.
+        //! This struct provides audio I/O information.
+        struct AudioIOInfo
+        {
+            AudioIOInfo();
+            AudioIOInfo(uint64_t offset, uint64_t size);
+
+            uint64_t offset = 0;
+            uint64_t size = 0;
+
+            bool operator == (const AudioIOInfo &) const;
+            bool operator != (const AudioIOInfo &) const;
+        };
+
+        //! This class provides the base functionality for loading media.
         //!
-        //! Note that image loaders may be run in a separate thread.
-        class ImageLoad
+        //! Note that loaders may be run in a separate thread.
+        class Load
         {
         public:
             //! Throws:
             //! - Core::Error
-            explicit ImageLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
-            virtual ~ImageLoad() = 0;
+            explicit Load(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
+            virtual ~Load() = 0;
 
             //! Get the file information.
             const Core::FileInfo & fileInfo() const { _fileInfo; }
 
-            //! Get the image I/O information.
-            const ImageIOInfo & imageIOInfo() const { return _imageIOInfo; }
+            //! Get the I/O information.
+            const IOInfo & ioInfo() const { return _ioInfo; }
 
-            //! Load an image.
+            //! Read an image.
             //!
             //! Throws:
             //! - Core::Error
-            virtual void read(Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) = 0;
+            virtual void read(Image &, const ImageIOInfo & = ImageIOInfo());
+
+            //! Read audio.
+            //!
+            //! Throws:
+            //! - Core::Error
+            virtual void read(AudioData &, const AudioIOInfo & = AudioIOInfo());
 
             //! Get the context.
             const QPointer<Core::CoreContext> & context() const;
 
         protected:
             Core::FileInfo _fileInfo;
-            ImageIOInfo _imageIOInfo;
+            IOInfo _ioInfo;
 
         private:
             struct Private;
             std::unique_ptr<Private> _p;
         };
 
-        //! This class provides the base functionality for image saving.
-        class ImageSave
+        //! This class provides the base functionality for saving media.
+        class Save
         {
         public:
             //! Throws:
             //! - Core::Error
-            explicit ImageSave(const Core::FileInfo &, const ImageIOInfo &, const QPointer<Core::CoreContext> &);
-            virtual ~ImageSave() = 0;
+            explicit Save(const Core::FileInfo &, const IOInfo &, const QPointer<Core::CoreContext> &);
+            virtual ~Save() = 0;
 
             //! Get the file information.
             const Core::FileInfo & fileInfo() const { _fileInfo; }
 
-            //! Get the image I/O information.
-            const ImageIOInfo & imageIOInfo() const { return _imageIOInfo; }
+            //! Get the I/O information.
+            const IOInfo & ioInfo() const { return _ioInfo; }
 
             //! Save an image.
             //!
             //! Throws:
             //! - Core::Error
-            virtual void write(const Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) = 0;
+            virtual void write(const Image &, const ImageIOInfo & = ImageIOInfo());
 
             //! Close the file.
             //!
@@ -178,21 +179,21 @@ namespace djv
 
         protected:
             Core::FileInfo _fileInfo;
-            ImageIOInfo _imageIOInfo;
+            IOInfo _ioInfo;
 
         private:
             struct Private;
             std::unique_ptr<Private> _p;
         };
 
-        //! This class provides the base functionality for image I/O plugins.
-        class ImageIO : public QObject, public Core::Plugin
+        //! This class provides the base functionality for I/O plugins.
+        class IOPlugin : public QObject, public Core::Plugin
         {
             Q_OBJECT
 
         public:
-            explicit ImageIO(const QPointer<Core::CoreContext> &);
-            virtual ~ImageIO() = 0;
+            explicit IOPlugin(const QPointer<Core::CoreContext> &);
+            virtual ~IOPlugin() = 0;
 
             //! Get the list of supported file extensions.
             virtual QStringList extensions() const;
@@ -218,11 +219,11 @@ namespace djv
             //! Get the command line help.
             virtual QString commandLineHelp() const;
 
-            //! Get an image loader.
-            virtual std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const;
+            //! Get a loader.
+            virtual std::unique_ptr<Load> createLoad(const Core::FileInfo &) const;
 
-            //! Get an image saver.
-            virtual std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const;
+            //! Get a saver.
+            virtual std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const;
 
             //! This enumeration provides error codes.
             enum ERROR
@@ -244,17 +245,17 @@ namespace djv
             void optionChanged(const QString &);
         };
 
-        //! This class provides a factory for image I/O plugins.
-        class ImageIOFactory : public Core::PluginFactory
+        //! This class provides a factory for I/O plugins.
+        class IOFactory : public Core::PluginFactory
         {
             Q_OBJECT
 
         public:
-            explicit ImageIOFactory(
+            explicit IOFactory(
                 const QPointer<Core::CoreContext> &,
                 const QStringList & searchPath = Core::System::searchPath(),
                 QObject * parent = nullptr);
-            ~ImageIOFactory() override;
+            ~IOFactory() override;
 
             //! Get a plugin option.
             QStringList option(const QString & name, const QString &) const;
@@ -262,17 +263,17 @@ namespace djv
             //! Set a plugin option.
             bool setOption(const QString & name, const QString &, QStringList &);
 
-            //! Open an image for loading.
+            //! Load media.
             //!
             //! Throws:
             //! - Core::Error
-            std::unique_ptr<ImageLoad> load(const Core::FileInfo &, ImageIOInfo &) const;
+            std::unique_ptr<Load> load(const Core::FileInfo &, IOInfo &) const;
 
-            //! Open an image for saving.
+            //! Save media.
             //!
             //! Throws:
             //! - Core::Error
-            std::unique_ptr<ImageSave> save(const Core::FileInfo &, const ImageIOInfo &) const;
+            std::unique_ptr<Save> save(const Core::FileInfo &, const IOInfo &) const;
 
             //! This enumeration provides error codes.
             enum ERROR
@@ -295,9 +296,9 @@ namespace djv
             void pluginOptionCallback(const QString &);
 
         private:
-            DJV_PRIVATE_COPY(ImageIOFactory);
+            DJV_PRIVATE_COPY(IOFactory);
 
-            void _addPlugin(ImageIO *);
+            void _addPlugin(IOPlugin *);
 
             struct Private;
             std::unique_ptr<Private> _p;
@@ -305,13 +306,12 @@ namespace djv
 
     } // namespace AV
 
-    DJV_COMPARISON_OPERATOR(AV::ImageIOInfo);
-    DJV_COMPARISON_OPERATOR(AV::ImageIOFrameInfo);
-
+    DJV_DEBUG_OPERATOR(AV::IOInfo);
     DJV_DEBUG_OPERATOR(AV::ImageIOInfo);
-    DJV_DEBUG_OPERATOR(AV::ImageIOFrameInfo);
+    DJV_DEBUG_OPERATOR(AV::ImageIOInfo);
 
 } // namespace djv
 
+Q_DECLARE_METATYPE(djv::AV::IOInfo)
 Q_DECLARE_METATYPE(djv::AV::ImageIOInfo)
-Q_DECLARE_METATYPE(djv::AV::ImageIOFrameInfo)
+Q_DECLARE_METATYPE(djv::AV::AudioIOInfo)

@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         TIFFPlugin::TIFFPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         void TIFFPlugin::initPlugin()
@@ -142,14 +142,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> TIFFPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> TIFFPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new TIFFLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new TIFFLoad(fileInfo, context()));
         }
 
-        std::unique_ptr<ImageSave> TIFFPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> TIFFPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new TIFFSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new TIFFSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

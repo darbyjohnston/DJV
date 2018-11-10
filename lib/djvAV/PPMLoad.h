@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/PPM.h>
 
 #include <djvCore/FileInfo.h>
@@ -38,17 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a PPM loader.
-        class PPMLoad : public ImageLoad
+        class PPMLoad : public Load
         {
         public:
             explicit PPMLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~PPMLoad();
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO &);
+            void _open(const QString &, IOInfo &, Core::FileIO &);
 
             int       _bitDepth = 0;
             PPM::DATA _data     = static_cast<PPM::DATA>(0);

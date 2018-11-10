@@ -31,7 +31,7 @@
 
 #include <djvViewLib/AbstractGroup.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/Pixel.h>
 
 #include <memory>
@@ -86,7 +86,7 @@ namespace djv
             std::shared_ptr<AV::Image> image(qint64 frame) const;
 
             //! Get image I/O information.
-            const AV::ImageIOInfo & imageIOInfo() const;
+            const AV::IOInfo & ioInfo() const;
 
             QPointer<QMenu> createMenu() const override;
             QPointer<QToolBar> createToolBar() const override;
@@ -117,8 +117,8 @@ namespace djv
             void setPreloadFrame(qint64);
 
         Q_SIGNALS:
-            //! This signal is emitted when the image I/O information is changed.
-            void imageIOInfoChanged(const djv::AV::ImageIOInfo &);
+            //! This signal is emitted when the I/O information is changed.
+            void ioInfoChanged(const djv::AV::IOInfo &);
 
             //! This signal is emitted when the current image is changed.
             void imageChanged();

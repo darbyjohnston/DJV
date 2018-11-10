@@ -40,19 +40,19 @@ namespace djv
 {
     namespace AV
     {
-        PNGSave::PNGSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context)
+        PNGSave::PNGSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context)
         {
             //DJV_DEBUG("PNGSave::PNGSave");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
             _pngError.context = context;
-            if (_imageIOInfo.sequence.frames.count() > 1)
+            if (_ioInfo.sequence.frames.count() > 1)
             {
                 _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
-            _info.size = _imageIOInfo.size;
-            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
+            _info.size = _ioInfo.layers[0].size;
+            Pixel::TYPE type = Pixel::type(_ioInfo.layers[0].pixel);
             switch (type)
             {
             case Pixel::U10:
@@ -60,7 +60,7 @@ namespace djv
             case Pixel::F32: type = Pixel::U16; break;
             default: break;
             }
-            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
+            _info.pixel = Pixel::pixel(Pixel::format(_ioInfo.layers[0].pixel), type);
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
         }
@@ -90,7 +90,7 @@ namespace djv
 
         } // namespace
 
-        void PNGSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void PNGSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("PNGSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -98,7 +98,7 @@ namespace djv
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info(_info);
+            IOInfo info(_info);
             info.tags = in.tags;
             _open(fileName, info);
 
@@ -131,10 +131,10 @@ namespace djv
         namespace
         {
             bool pngOpen(
-                FILE *              f,
-                png_structp         png,
-                png_infop *         pngInfo,
-                const ImageIOInfo & info)
+                FILE *         f,
+                png_structp    png,
+                png_infop *    pngInfo,
+                const IOInfo & info)
             {
                 if (setjmp(png_jmpbuf(png)))
                 {
@@ -147,7 +147,7 @@ namespace djv
                 }
                 png_init_io(png, f);
                 int colorType = 0;
-                switch (info.pixel)
+                switch (info.layers[0].pixel)
                 {
                 case Pixel::L_U8:
                 case Pixel::L_U16:
@@ -170,9 +170,9 @@ namespace djv
                 png_set_IHDR(
                     png,
                     *pngInfo,
-                    info.size.x,
-                    info.size.y,
-                    Pixel::bitDepth(info.pixel),
+                    info.layers[0].size.x,
+                    info.layers[0].size.y,
+                    Pixel::bitDepth(info.layers[0].pixel),
                     colorType,
                     PNG_INTERLACE_NONE,
                     PNG_COMPRESSION_TYPE_DEFAULT,
@@ -183,7 +183,7 @@ namespace djv
 
         } // namespace
 
-        void PNGSave::_open(const QString & in, const ImageIOInfo & info)
+        void PNGSave::_open(const QString & in, const IOInfo & info)
         {
             //DJV_DEBUG("PNGSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -198,7 +198,7 @@ namespace djv
             {
                 throw Core::Error(
                     PNG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
 
             // Open the file.
@@ -211,7 +211,7 @@ namespace djv
             {
                 throw Core::Error(
                     PNG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
             if (!pngOpen(_f, _png, &_pngInfo, info))
             {
@@ -219,7 +219,7 @@ namespace djv
             }
 
             // Set the endian.
-            if (Pixel::bitDepth(info.pixel) >= 16 &&
+            if (Pixel::bitDepth(info.layers[0].pixel) >= 16 &&
                 Core::Memory::LSB == Core::Memory::endian())
             {
                 png_set_swap(_png);

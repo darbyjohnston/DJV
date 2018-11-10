@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/LUT.h>
 
 #include <djvCore/FileInfo.h>
@@ -38,17 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a LUT loader.
-        class LUTLoad : public ImageLoad
+        class LUTLoad : public Load
         {
         public:
             LUTLoad(const Core::FileInfo &, const LUT::Options &, const QPointer<Core::CoreContext> &);
             ~LUTLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &)  override;
+            void read(Image &, const ImageIOInfo &)  override;
 
         private:
-            void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &);
+            void _open(const Core::FileInfo &, IOInfo &, Core::FileIO &);
 
             LUT::Options _options;
             LUT::FORMAT _format = static_cast<LUT::FORMAT>(0);

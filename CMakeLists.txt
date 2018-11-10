@@ -92,13 +92,13 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/bin
     ${CMAKE_SOURCE_DIR}/tests
+    ${CMAKE_SOURCE_DIR}/third-party
     ${CMAKE_BINARY_DIR})
 
 # Third party libraries.
 if(DJV_THIRD_PARTY)
     set(ZLIB_ROOT ${DJV_THIRD_PARTY})
     set(GLM_ROOT ${DJV_THIRD_PARTY})
-    set(dr_libs_ROOT ${DJV_THIRD_PARTY})
     set(OpenAL_ROOT ${DJV_THIRD_PARTY})
     set(JPEG_ROOT ${DJV_THIRD_PARTY})
     set(TIFF_ROOT ${DJV_THIRD_PARTY})

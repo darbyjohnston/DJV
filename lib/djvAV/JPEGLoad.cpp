@@ -40,13 +40,13 @@ namespace djv
     namespace AV
     {
         JPEGLoad::JPEGLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo);
             _close();
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
@@ -88,25 +88,26 @@ namespace djv
 
         } // namespace
 
-        void JPEGLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void JPEGLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("JPEGLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             _open(fileName, info);
             image.tags = info.tags;
 
             // Read the file.
             PixelData * data = frame.proxy ? &_tmp : &image;
-            data->set(info);
-            for (int y = 0; y < info.size.y; ++y)
+            auto pixelDataInfo = info.layers[0];
+            data->set(pixelDataInfo);
+            for (int y = 0; y < pixelDataInfo.size.y; ++y)
             {
                 if (!jpegScanline(
                     &_jpeg,
@@ -123,9 +124,9 @@ namespace djv
 
             if (frame.proxy)
             {
-                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                info.proxy = frame.proxy;
-                image.set(info);
+                pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                pixelDataInfo.proxy = frame.proxy;
+                image.set(pixelDataInfo);
                 PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
             }
 
@@ -171,7 +172,7 @@ namespace djv
 
         } // namespace
 
-        void JPEGLoad::_open(const QString & in, ImageIOInfo & info)
+        void JPEGLoad::_open(const QString & in, IOInfo & info)
         {
             //DJV_DEBUG("JPEGLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -197,7 +198,7 @@ namespace djv
             {
                 throw Core::Error(
                     JPEG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
             if (!jpegOpen(_f, &_jpeg, &_jpegError))
             {
@@ -205,19 +206,19 @@ namespace djv
             }
 
             // Information.
-            info.fileName = in;
-            info.size = glm::ivec2(_jpeg.output_width, _jpeg.output_height);
-            if (!Pixel::pixel(_jpeg.out_color_components, 8, Pixel::INTEGER, info.pixel))
+            info.layers[0].fileName = in;
+            info.layers[0].size = glm::ivec2(_jpeg.output_width, _jpeg.output_height);
+            if (!Pixel::pixel(_jpeg.out_color_components, 8, Pixel::INTEGER, info.layers[0].pixel))
             {
                 throw Core::Error(
                     JPEG::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
-            // Image tags.
+            // Tags.
             const jpeg_saved_marker_ptr marker = _jpeg.marker_list;
             if (marker)
-                info.tags[ImageTags::tagLabels()[ImageTags::DESCRIPTION]] =
+                info.tags[Tags::tagLabels()[Tags::DESCRIPTION]] =
                 QString((const char *)marker->data).mid(0, marker->data_length);
 
             //DJV_DEBUG_PRINT("info = " << info);

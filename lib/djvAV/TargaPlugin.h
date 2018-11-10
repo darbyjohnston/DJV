@@ -35,20 +35,18 @@ namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Targa image file format.
+        //! Targa
         //!
         //! File extensions: .tga
         //!
         //! Supported features:
-        //!
         //! - 8-bit Luminance, Luminance Alpha, RGB, RGBA
         //! - File compression
         //!
         //! References:
-        //!
         //! - James D. Murray, William vanRyper, "Encyclopedia of AV File Formats,
         //!   Second Edition"
-        class TargaPlugin : public ImageIO
+        class TargaPlugin : public IOPlugin
         {
         public:
             TargaPlugin(const QPointer<Core::CoreContext> &);
@@ -63,8 +61,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             Targa::Options _options;

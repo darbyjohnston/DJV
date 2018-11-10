@@ -33,7 +33,7 @@
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -45,8 +45,8 @@ namespace djv
 {
     namespace UI
     {
-        JPEGWidget::JPEGWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        JPEGWidget::JPEGWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             // Create the widgets.
             _qualityWidget = new IntEditSlider(context);
@@ -130,10 +130,10 @@ namespace djv
         }
 
         JPEGWidgetPlugin::JPEGWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * JPEGWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * JPEGWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new JPEGWidget(plugin, uiContext());
         }

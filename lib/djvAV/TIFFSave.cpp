@@ -37,18 +37,18 @@ namespace djv
 {
     namespace AV
     {
-        TIFFSave::TIFFSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const TIFF::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        TIFFSave::TIFFSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const TIFF::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options)
         {
             //DJV_DEBUG("TIFFSave::TIFFSave");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
             _info = PixelDataInfo();
-            _info.size = _imageIOInfo.size;
+            _info.size = _ioInfo.layers[0].size;
             _info.mirror.y = true;
 
-            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
+            Pixel::TYPE type = Pixel::type(_ioInfo.layers[0].pixel);
             switch (type)
             {
             case Pixel::U10: type = Pixel::U16; break;
@@ -57,7 +57,7 @@ namespace djv
             default: break;
             }
 
-            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), type);
+            _info.pixel = Pixel::pixel(Pixel::format(_ioInfo.layers[0].pixel), type);
             //DJV_DEBUG_PRINT("info = " << _info);
 
             _image.set(_info);
@@ -68,7 +68,7 @@ namespace djv
             _close();
         }
 
-        void TIFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void TIFFSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("TIFFSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -76,7 +76,7 @@ namespace djv
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame);
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info(_info);
+            IOInfo info(_info);
             info.tags = in.tags;
             _open(fileName, info);
 
@@ -98,14 +98,14 @@ namespace djv
                 {
                     throw Core::Error(
                         TIFF::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_WRITE]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_WRITE]);
                 }
             }
 
             _close();
         }
 
-        void TIFFSave::_open(const QString & in, const ImageIOInfo & info)
+        void TIFFSave::_open(const QString & in, const IOInfo & info)
         {
             //DJV_DEBUG("TIFFSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -120,7 +120,7 @@ namespace djv
             {
                 throw Core::Error(
                     TIFF::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
 
             // Write the header.
@@ -194,24 +194,24 @@ namespace djv
             TIFFSetField(_f, TIFFTAG_COMPRESSION, compression);
             TIFFSetField(_f, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 
-            // Set image tags.
-            const QStringList & tags = ImageTags::tagLabels();
-            QString tmp = info.tags[tags[ImageTags::CREATOR]];
+            // Set tags.
+            const QStringList & tags = Tags::tagLabels();
+            QString tmp = info.tags[tags[Tags::CREATOR]];
             if (tmp.length())
             {
                 TIFFSetField(_f, TIFFTAG_ARTIST, tmp.toUtf8().data());
             }
-            tmp = info.tags[tags[ImageTags::COPYRIGHT]];
+            tmp = info.tags[tags[Tags::COPYRIGHT]];
             if (tmp.length())
             {
                 TIFFSetField(_f, TIFFTAG_COPYRIGHT, tmp.toUtf8().data());
             }
-            tmp = info.tags[tags[ImageTags::TIME]];
+            tmp = info.tags[tags[Tags::TIME]];
             if (tmp.length())
             {
                 TIFFSetField(_f, TIFFTAG_DATETIME, tmp.toUtf8().data());
             }
-            tmp = info.tags[tags[ImageTags::DESCRIPTION]];
+            tmp = info.tags[tags[Tags::DESCRIPTION]];
             if (tmp.length())
             {
                 TIFFSetField(_f, TIFFTAG_IMAGEDESCRIPTION, tmp.toUtf8().data());

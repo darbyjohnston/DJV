@@ -40,64 +40,65 @@ namespace djv
     namespace AV
     {
         PPMLoad::PPMLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             Core::FileIO io;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo, io);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
         PPMLoad::~PPMLoad()
         {}
 
-        void PPMLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void PPMLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("PPMLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
+            IOInfo info;
             QScopedPointer<Core::FileIO> io(new Core::FileIO);
             _open(fileName, info, *io);
 
             // Read the file.
             io->readAhead();
             PixelData * data = frame.proxy ? &_tmp : &image;
+            auto pixelDataInfo = info.layers[0];
             if (PPM::DATA_BINARY == _data && _bitDepth != 1)
             {
-                if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(info))
+                if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(pixelDataInfo))
                 {
                     throw Core::Error(
                         PPM::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
                 }
-                data->set(info, io->mmapP(), io.data());
+                data->set(pixelDataInfo, io->mmapP(), io.data());
                 io.take();
             }
             else
             {
-                data->set(info);
-                const int channels = Pixel::channels(info.pixel);
+                data->set(pixelDataInfo);
+                const int channels = Pixel::channels(pixelDataInfo.pixel);
                 if (PPM::DATA_BINARY == _data && 1 == _bitDepth)
                 {
                     const quint64 scanlineByteCount = PPM::scanlineByteCount(
-                        info.size.x, channels, _bitDepth, _data);
+                        pixelDataInfo.size.x, channels, _bitDepth, _data);
                     std::vector<quint8> scanline(scanlineByteCount);
                     //DJV_DEBUG_PRINT("scanline = " <<
                     //    static_cast<int>(scanlineByteCount));
-                    for (int y = 0; y < info.size.y; ++y)
+                    for (int y = 0; y < pixelDataInfo.size.y; ++y)
                     {
                         io->get(scanline.data(), scanlineByteCount);
                         const quint8 * inP = scanline.data();
                         quint8 * outP = data->data(0, y);
-                        for (int i = info.size.x - 1; i >= 0; --i)
+                        for (int i = pixelDataInfo.size.x - 1; i >= 0; --i)
                         {
                             outP[i] = (inP[i / 8] >> (7 - (i % 8))) & 1 ? 0 : 255;
                         }
@@ -105,12 +106,12 @@ namespace djv
                 }
                 else
                 {
-                    for (int y = 0; y < info.size.y; ++y)
+                    for (int y = 0; y < pixelDataInfo.size.y; ++y)
                     {
                         PPM::asciiLoad(
                             *io,
                             data->data(0, y),
-                            info.size.x * channels,
+                            pixelDataInfo.size.x * channels,
                             _bitDepth);
                     }
                 }
@@ -119,16 +120,16 @@ namespace djv
             // Proxy scale the image.
             if (frame.proxy)
             {
-                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
-                info.proxy = frame.proxy;
-                image.set(info);
+                pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                pixelDataInfo.proxy = frame.proxy;
+                image.set(pixelDataInfo);
                 PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
             }
 
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void PPMLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+        void PPMLoad::_open(const QString & in, IOInfo & info, Core::FileIO & io)
         {
             //DJV_DEBUG("PPMLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -143,7 +144,7 @@ namespace djv
             {
                 throw Core::Error(
                     PPM::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNRECOGNIZED]);
             }
             switch (magic[1])
             {
@@ -156,7 +157,7 @@ namespace djv
             default:
                 throw Core::Error(
                     PPM::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             const int ppmType = magic[1] - '0';
             //DJV_DEBUG_PRINT("ppm type = " << ppmType);
@@ -178,9 +179,9 @@ namespace djv
             //DJV_DEBUG_PRINT("max value = " << maxValue);
 
             // Information.
-            info.fileName = in;
-            info.size = glm::ivec2(width, height);
-            info.mirror.y = true;
+            info.layers[0].fileName = in;
+            info.layers[0].size = glm::ivec2(width, height);
+            info.layers[0].mirror.y = true;
             if (1 == ppmType || 4 == ppmType)
             {
                 _bitDepth = 1;
@@ -204,11 +205,11 @@ namespace djv
                 channels,
                 _bitDepth != 1 ? _bitDepth : 8,
                 Pixel::INTEGER,
-                info.pixel))
+                info.layers[0].pixel))
             {
                 throw Core::Error(
                     PPM::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
             _data =
                 (1 == ppmType || 2 == ppmType || 3 == ppmType) ?
@@ -217,7 +218,7 @@ namespace djv
 
             if (PPM::DATA_BINARY == _data)
             {
-                info.endian = Core::Memory::MSB;
+                info.layers[0].endian = Core::Memory::MSB;
             }
         }
 

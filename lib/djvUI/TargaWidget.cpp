@@ -43,8 +43,8 @@ namespace djv
 {
     namespace UI
     {
-        TargaWidget::TargaWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        TargaWidget::TargaWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             //DJV_DEBUG("TargaWidget::TargaWidget");
 
@@ -132,10 +132,10 @@ namespace djv
         }
 
         TargaWidgetPlugin::TargaWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * TargaWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * TargaWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new TargaWidget(plugin, uiContext());
         }

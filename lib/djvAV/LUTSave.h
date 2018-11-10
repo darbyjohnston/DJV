@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/LUT.h>
 
 #include <djvCore/FileInfo.h>
@@ -39,14 +39,13 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a LUT saver.
-        class LUTSave : public ImageSave
+        class LUTSave : public Save
         {
         public:
-            LUTSave(const Core::FileInfo &, const ImageIOInfo &, const LUT::Options &, const QPointer<Core::CoreContext> &);
+            LUTSave(const Core::FileInfo &, const IOInfo &, const LUT::Options &, const QPointer<Core::CoreContext> &);
             ~LUTSave() override;
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
             void _open(const Core::FileInfo &);

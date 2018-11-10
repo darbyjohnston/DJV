@@ -29,22 +29,24 @@
 
 #pragma once
 
-#include <djvAVTest/AVTest.h>
+#include <djvAV/WAV.h>
+#include <djvAV/IO.h>
+
+#include <dr_libs/dr_wav.h>
 
 namespace djv
 {
-    namespace AVTest
+    namespace AV
     {
-        class ImageTagsTest : public TestLib::AbstractTest
+        class WAVLoad : public Load
         {
         public:
-            void run(int &, char **) override;
+            explicit WAVLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
+            ~WAVLoad() override;
 
         private:
-            void ctors();
-            void members();
-            void operators();
+            drwav * _drwav = nullptr;
         };
 
-    } // namespace AVTest
+    } // namespace AV
 } // namespace djv

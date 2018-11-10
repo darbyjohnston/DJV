@@ -32,7 +32,7 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/PrefsGroupBox.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/SignalBlocker.h>
 
@@ -45,8 +45,8 @@ namespace djv
 {
     namespace UI
     {
-        LUTWidget::LUTWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        LUTWidget::LUTWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             // Create the widgets.
             _typeWidget = new QComboBox;
@@ -129,10 +129,10 @@ namespace djv
         }
 
         LUTWidgetPlugin::LUTWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * LUTWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * LUTWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new LUTWidget(plugin, uiContext());
         }

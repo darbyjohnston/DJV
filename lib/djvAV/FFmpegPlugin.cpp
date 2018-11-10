@@ -57,7 +57,7 @@ namespace djv
         } // namespace
 
         FFmpegPlugin::FFmpegPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {
             _context = context;
         }
@@ -236,14 +236,14 @@ namespace djv
                 arg(qualityLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> FFmpegPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> FFmpegPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new FFmpegLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new FFmpegLoad(fileInfo, context()));
         }
 
-        std::unique_ptr<ImageSave> FFmpegPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> FFmpegPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new FFmpegSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new FFmpegSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

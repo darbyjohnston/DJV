@@ -29,25 +29,24 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/LUT.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for two-dimensional lookup table file formats.
+        //! Ttwo-dimensional lookup tables
         //!
         //! File extensions: .lut, .1dl
         //!
         //! Supported features:
-        //!
         //! - Inferno and Kodak formats
         //! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA; 10-bit RGB
         //!
         //! \todo Add support for detecting whether the input LUT file is horizontal
         //! or vertical.
-        class LUTPlugin : public ImageIO
+        class LUTPlugin : public IOPlugin
         {
         public:
             explicit LUTPlugin(const QPointer<Core::CoreContext> &);
@@ -62,8 +61,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             LUT::Options _options;

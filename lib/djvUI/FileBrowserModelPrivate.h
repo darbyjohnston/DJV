@@ -31,7 +31,7 @@
 
 #include <djvUI/FileBrowserModel.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <QPixmap>
 #include <QVariant>
@@ -59,8 +59,8 @@ namespace djv
             //! Get the file information.
             const Core::FileInfo & fileInfo() const;
 
-            //! Get the image information.
-            const AV::ImageIOInfo & imageInfo() const;
+            //! Get the I/O information.
+            const AV::IOInfo & ioInfo() const;
 
             //! Get the thumbnail.
             const QPixmap & thumbnail() const;
@@ -76,8 +76,8 @@ namespace djv
             void requestImage();
 
         Q_SIGNALS:
-            //! This signal is emitted when the image information is available.
-            void imageInfoAvailable();
+            //! This signal is emitted when the I/O information is available.
+            void ioInfoAvailable();
 
             //! This signal is emitted when the thumbnail is available.
             void thumbnailAvailable();
@@ -86,7 +86,7 @@ namespace djv
             void timerEvent(QTimerEvent *) override;
 
         private:
-            void updateImageInfo();
+            void updateIOInfo();
 
             QPointer<UIContext> _context;
             Core::FileInfo _fileInfo;
@@ -94,10 +94,10 @@ namespace djv
             FileBrowserModel::THUMBNAIL_SIZE _thumbnailSize = static_cast<FileBrowserModel::THUMBNAIL_SIZE>(0);
             glm::ivec2 _thumbnailResolution = glm::ivec2(0, 0);
             AV::PixelDataInfo::PROXY _thumbnailProxy = static_cast<AV::PixelDataInfo::PROXY>(0);
-            bool _imageInfoInit = false;
-            std::future<AV::ImageIOInfo> _imageInfoRequest;
-            int _imageInfoRequestTimer = 0;
-            AV::ImageIOInfo _imageInfo;
+            bool _ioInfoInit = false;
+            std::future<AV::IOInfo> _ioInfoRequest;
+            int _ioInfoRequestTimer = 0;
+            AV::IOInfo _ioInfo;
             bool _thumbnailInit = false;
             std::future<QPixmap> _thumbnailRequest;
             int _thumbnailRequestTimer = 0;

@@ -116,7 +116,7 @@ namespace djv
         }
         try
         {
-            _load = _context->imageIOFactory()->load(_fileInfo, _info);
+            _load = _context->ioFactory()->load(_fileInfo, _info);
         }
         catch (const Core::Error & error)
         {
@@ -126,7 +126,7 @@ namespace djv
         }
         _widget.reset(new ImagePlayExampleWidget(_context.data()));
         //_widget->zoom(0.5);
-        const glm::ivec2 size = UI::WindowUtil::resize(_info.size);
+        const glm::ivec2 size = UI::WindowUtil::resize(_info.layers[0].size);
         _widget->resize(size.x, size.y);
         _widget->show();
         startTimer(0);

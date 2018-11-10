@@ -93,11 +93,14 @@ namespace djv
             //! This struct provides mirroring.
             struct Mirror
             {
-                Mirror();
-                Mirror(bool x, bool y);
+                inline Mirror();
+                inline Mirror(bool x, bool y);
 
                 bool x = false;
                 bool y = false;
+
+                inline bool operator == (const Mirror &) const;
+                inline bool operator != (const Mirror &) const;
             };
 
             QString              fileName;
@@ -109,6 +112,12 @@ namespace djv
             Mirror               mirror;
             int                  align = 1;
             Core::Memory::ENDIAN endian = Core::Memory::endian();
+
+            //! Get whether the pixel data info is valid.
+            inline bool isValid() const;
+
+            inline bool operator == (const PixelDataInfo &) const;
+            inline bool operator != (const PixelDataInfo &) const;
 
         private:
             void init();
@@ -180,6 +189,9 @@ namespace djv
 
             PixelData & operator = (const PixelData &);
 
+            bool operator == (const PixelData &) const;
+            bool operator != (const PixelData &) const;
+
         private:
             void detach();
             void copy(const PixelData &);
@@ -195,10 +207,6 @@ namespace djv
         };
 
     } // namespace AV
-
-    DJV_COMPARISON_OPERATOR(AV::PixelDataInfo::Mirror);
-    DJV_COMPARISON_OPERATOR(AV::PixelDataInfo);
-    DJV_COMPARISON_OPERATOR(AV::PixelData);
 
     DJV_STRING_OPERATOR(AV::PixelDataInfo::PROXY);
     DJV_STRING_OPERATOR(AV::PixelDataInfo::Mirror);

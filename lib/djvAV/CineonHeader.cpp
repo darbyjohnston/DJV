@@ -80,7 +80,7 @@ namespace djv
             zero(film.slate, 200);
         }
 
-        void CineonHeader::load(Core::FileIO & io, ImageIOInfo & info, bool & filmPrint)
+        void CineonHeader::load(Core::FileIO & io, IOInfo & info, bool & filmPrint)
         {
             //DJV_DEBUG("CineonHeader::load");
 
@@ -97,7 +97,7 @@ namespace djv
             {
                 throw Core::Error(
                     Cineon::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNRECOGNIZED]);
             }
             io.get(&image, sizeof(Image));
             io.get(&source, sizeof(Source));
@@ -107,7 +107,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("endian");
                 io.setEndian(true);
                 this->endian();
-                info.endian = Core::Memory::endianOpposite(Core::Memory::endian());
+                info.layers[0].endian = Core::Memory::endianOpposite(Core::Memory::endian());
             }
 
             // Information.
@@ -118,16 +118,16 @@ namespace djv
             switch (image.orient)
             {
             case ORIENT_LEFT_RIGHT_TOP_BOTTOM:
-                info.mirror.y = true;
+                info.layers[0].mirror.y = true;
                 break;
             case ORIENT_LEFT_RIGHT_BOTTOM_TOP:
                 break;
             case ORIENT_RIGHT_LEFT_TOP_BOTTOM:
-                info.mirror.x = true;
+                info.layers[0].mirror.x = true;
                 break;
             case ORIENT_RIGHT_LEFT_BOTTOM_TOP:
-                info.mirror.x = true;
-                info.mirror.y = true;
+                info.layers[0].mirror.x = true;
+                info.layers[0].mirror.y = true;
                 break;
             case ORIENT_TOP_BOTTOM_LEFT_RIGHT:
             case ORIENT_TOP_BOTTOM_RIGHT_LEFT:
@@ -139,7 +139,7 @@ namespace djv
             {
                 throw Core::Error(
                     Cineon::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             int i = 1;
@@ -159,7 +159,7 @@ namespace djv
             {
                 throw Core::Error(
                     Cineon::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             int pixel = -1;
@@ -178,11 +178,11 @@ namespace djv
             {
                 throw Core::Error(
                     Cineon::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
-            info.pixel = Pixel::PIXEL(pixel);
-            info.size = glm::ivec2(
+            info.layers[0].pixel = Pixel::PIXEL(pixel);
+            info.layers[0].size = glm::ivec2(
                 image.channel[0].size[0],
                 image.channel[0].size[1]);
 
@@ -190,27 +190,27 @@ namespace djv
             {
                 throw Core::Error(
                     Cineon::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             if (isValid(&image.channelPadding) && image.channelPadding)
             {
                 throw Core::Error(
                     Cineon::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
 
             filmPrint = DESCRIPTOR_R_FILM_PRINT == image.channel[0].descriptor[1];
 
-            // File image tags.
-            const QStringList & tags = ImageTags::tagLabels();
+            // File tags.
+            const QStringList & tags = Tags::tagLabels();
             const QStringList & cineonTags = Cineon::tagLabels();
             if (isValid(file.time, 24))
             {
-                info.tags[tags[ImageTags::TIME]] = toString(file.time, 24);
+                info.tags[tags[Tags::TIME]] = toString(file.time, 24);
             }
 
-            // Source image tags.
+            // Source tags.
             if (isValid(&source.offset[0]) && isValid(&source.offset[1]))
                 info.tags[cineonTags[Cineon::TAG_SOURCE_OFFSET]] = (QStringList() <<
                     QString::number(source.offset[0]) <<
@@ -242,14 +242,14 @@ namespace djv
                 info.tags[cineonTags[Cineon::TAG_SOURCE_GAMMA]] =
                 QString::number(source.gamma);
 
-            // Film image tags.
+            // Film tags.
             if (isValid(&film.id) &&
                 isValid(&film.type) &&
                 isValid(&film.offset) &&
                 isValid(&film.prefix) &&
                 isValid(&film.count))
             {
-                info.tags[tags[ImageTags::KEYCODE]] = Core::Time::keycodeToString(
+                info.tags[tags[Tags::KEYCODE]] = Core::Time::keycodeToString(
                     film.id, film.type, film.prefix, film.count, film.offset);
             }
             if (isValid(film.format, 32))
@@ -283,7 +283,7 @@ namespace djv
             debug();
         }
 
-        void CineonHeader::save(Core::FileIO & io, const ImageIOInfo & info, Cineon::COLOR_PROFILE colorProfile)
+        void CineonHeader::save(Core::FileIO & io, const IOInfo & info, Cineon::COLOR_PROFILE colorProfile)
         {
             //DJV_DEBUG("CineonHeader::save");
 
@@ -315,8 +315,8 @@ namespace djv
             {
                 image.channel[i].descriptor[0] = 0;
                 image.channel[i].bitDepth = bitDepth;
-                image.channel[i].size[0] = info.size.x;
-                image.channel[i].size[1] = info.size.y;
+                image.channel[i].size[0] = info.layers[0].size.x;
+                image.channel[i].size[1] = info.layers[0].size.y;
 
                 image.channel[i].lowData = 0;
 
@@ -344,14 +344,14 @@ namespace djv
             image.linePadding = 0;
             image.channelPadding = 0;
 
-            // File image tags.
-            const QStringList & tags = ImageTags::tagLabels();
+            // File tags.
+            const QStringList & tags = Tags::tagLabels();
             const QStringList & cineonTags = Cineon::tagLabels();
             QString tmp;
-            Core::StringUtil::cString(info.fileName, file.name, 100, false);
-            Core::StringUtil::cString(info.tags[tags[ImageTags::TIME]], file.time, 24, false);
+            Core::StringUtil::cString(info.layers[0].fileName, file.name, 100, false);
+            Core::StringUtil::cString(info.tags[tags[Tags::TIME]], file.time, 24, false);
 
-            // Source image tags.
+            // Source tags.
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_OFFSET]];
             if (tmp.length())
             {
@@ -404,8 +404,8 @@ namespace djv
                 source.gamma = static_cast<float>(tmp.toDouble());
             }
 
-            // Film image tags.
-            tmp = info.tags[tags[ImageTags::KEYCODE]];
+            // Film tags.
+            tmp = info.tags[tags[Tags::KEYCODE]];
             if (tmp.length())
             {
                 int id = 0, type = 0, prefix = 0, count = 0, offset = 0;

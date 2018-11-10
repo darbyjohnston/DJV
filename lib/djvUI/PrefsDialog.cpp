@@ -31,7 +31,7 @@
 
 #include <djvUI/FileBrowserPrefsWidget.h>
 #include <djvUI/HelpPrefsWidget.h>
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 #include <djvUI/OpenGLPrefsWidget.h>
 #include <djvUI/QuestionDialog.h>
 #include <djvUI/SequencePrefsWidget.h>
@@ -39,7 +39,7 @@
 #include <djvUI/TimePrefsWidget.h>
 #include <djvUI/UIContext.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <QApplication>
 #include <QDialogButtonBox>
@@ -136,12 +136,12 @@ namespace djv
             addWidget(new StylePrefsWidget(context));
             addWidget(new FileBrowserPrefsWidget(context));
 
-            const QList<Core::Plugin *> & imageIOPlugins = context->imageIOFactory()->plugins();
-            for (int i = 0; i < imageIOPlugins.count(); ++i)
+            const QList<Core::Plugin *> & ioPlugins = context->ioFactory()->plugins();
+            for (int i = 0; i < ioPlugins.count(); ++i)
             {
-                if (AV::ImageIO * imageIOPlugin = dynamic_cast<AV::ImageIO *>(imageIOPlugins[i]))
+                if (auto ioPlugin = dynamic_cast<AV::IOPlugin *>(ioPlugins[i]))
                 {
-                    if (AbstractPrefsWidget * widget = context->imageIOWidgetFactory()->createWidget(imageIOPlugin))
+                    if (auto widget = context->ioWidgetFactory()->createWidget(ioPlugin))
                     {
                         addWidget(widget);
                     }

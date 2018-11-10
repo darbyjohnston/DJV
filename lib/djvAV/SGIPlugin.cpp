@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         SGIPlugin::SGIPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString SGIPlugin::pluginName() const
@@ -138,14 +138,14 @@ namespace djv
                 arg(compressionLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> SGIPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> SGIPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new SGILoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new SGILoad(fileInfo, context()));
         }
 
-        std::unique_ptr<ImageSave> SGIPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> SGIPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new SGISave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new SGISave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

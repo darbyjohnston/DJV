@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/FFmpeg.h>
 
@@ -40,12 +40,12 @@ namespace djv
     namespace UI
     {
         //! This class provides a FFmpeg widget.
-        class FFmpegWidget : public ImageIOWidget
+        class FFmpegWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            FFmpegWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            FFmpegWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             virtual ~FFmpegWidget();
 
@@ -66,12 +66,12 @@ namespace djv
         };
 
         //! This class provides a FFmpeg widget plugin.
-        class FFmpegWidgetPlugin : public ImageIOWidgetPlugin
+        class FFmpegWidgetPlugin : public IOWidgetPlugin
         {
         public:
             FFmpegWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            virtual ImageIOWidget * createWidget(AV::ImageIO *) const;
+            virtual IOWidget * createWidget(AV::IOPlugin *) const;
 
             virtual QString pluginName() const;
         };

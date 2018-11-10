@@ -37,17 +37,17 @@ namespace djv
 {
     namespace AV
     {
-        TargaSave::TargaSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const Targa::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        TargaSave::TargaSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const Targa::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options)
         {
-            if (_imageIOInfo.sequence.frames.count() > 1)
+            if (_ioInfo.sequence.frames.count() > 1)
             {
                 _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
-            _info.size = _imageIOInfo.size;
-            _info.pixel = Pixel::pixel(Pixel::format(_imageIOInfo.pixel), Pixel::U8);
+            _info.size = _ioInfo.layers[0].size;
+            _info.pixel = Pixel::pixel(Pixel::format(_ioInfo.layers[0].pixel), Pixel::U8);
             switch (Pixel::format(_info.pixel))
             {
             case Pixel::RGB:
@@ -62,7 +62,7 @@ namespace djv
         TargaSave::~TargaSave()
         {}
 
-        void TargaSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void TargaSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("TargaSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

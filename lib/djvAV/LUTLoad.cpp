@@ -41,36 +41,37 @@ namespace djv
     namespace AV
     {
         LUTLoad::LUTLoad(const Core::FileInfo & fileInfo, const LUT::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context),
+            Load(fileInfo, context),
             _options(options)
         {
             Core::FileIO io;
-            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _imageIOInfo, io);
+            _open(_fileInfo.fileName(_fileInfo.sequence().start()), _ioInfo, io);
             if (Core::FileInfo::SEQUENCE == _fileInfo.type())
             {
-                _imageIOInfo.sequence.frames = _fileInfo.sequence().frames;
+                _ioInfo.sequence.frames = _fileInfo.sequence().frames;
             }
         }
 
         LUTLoad::~LUTLoad()
         {}
 
-        void LUTLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void LUTLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("LUTLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
 
             // Open the file.
             const QString fileName = _fileInfo.fileName(frame.frame != -1 ? frame.frame : _fileInfo.sequence().start());
-            ImageIOInfo info;
+            IOInfo info;
             Core::FileIO io;
             _open(fileName, info, io);
 
             // Read the file.
-            image.set(info);
+            auto pixelDataInfo = info.layers[0];
+            image.set(pixelDataInfo);
             switch (_format)
             {
             case LUT::FORMAT_INFERNO:
@@ -84,27 +85,27 @@ namespace djv
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void LUTLoad::_open(const Core::FileInfo & in, ImageIOInfo & info, Core::FileIO & io)
+        void LUTLoad::_open(const Core::FileInfo & in, IOInfo & info, Core::FileIO & io)
         {
             //DJV_DEBUG("LUTLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
             io.open(in, Core::FileIO::READ);
-            info.fileName = in;
+            info.layers[0].fileName = in;
             const int index = LUT::staticExtensions.indexOf(in.extension());
             if (-1 == index)
             {
                 throw Core::Error(
                     LUT::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNRECOGNIZED]);
             }
             _format = static_cast<LUT::FORMAT>(index);
             switch (_format)
             {
             case LUT::FORMAT_INFERNO:
-                LUT::infernoOpen(io, info, _options.type);
+                LUT::infernoOpen(io, info.layers[0], _options.type);
                 break;
             case LUT::FORMAT_KODAK:
-                LUT::kodakOpen(io, info, _options.type);
+                LUT::kodakOpen(io, info.layers[0], _options.type);
                 break;
             default: break;
             }

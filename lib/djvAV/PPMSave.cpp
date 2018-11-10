@@ -39,35 +39,35 @@ namespace djv
 {
     namespace AV
     {
-        PPMSave::PPMSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const PPM::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        PPMSave::PPMSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const PPM::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options),
             _bitDepth(0)
         {
             //DJV_DEBUG("PPMSave::PPMSave");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
-            if (_imageIOInfo.sequence.frames.count() > 1)
+            if (_ioInfo.sequence.frames.count() > 1)
             {
                 _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
-            _info.size = _imageIOInfo.size;
+            _info.size = _ioInfo.layers[0].size;
             _info.mirror.y = true;
 
             switch (_options.type)
             {
             case PPM::TYPE_AUTO:
             {
-                Pixel::FORMAT format = Pixel::format(_imageIOInfo.pixel);
+                Pixel::FORMAT format = Pixel::format(_ioInfo.layers[0].pixel);
                 switch (format)
                 {
                 case Pixel::LA:   format = Pixel::L;   break;
                 case Pixel::RGBA: format = Pixel::RGB; break;
                 default: break;
                 }
-                Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
+                Pixel::TYPE type = Pixel::type(_ioInfo.layers[0].pixel);
                 switch (type)
                 {
                 case Pixel::U10:
@@ -95,7 +95,7 @@ namespace djv
         PPMSave::~PPMSave()
         {}
 
-        void PPMSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void PPMSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("PPMSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

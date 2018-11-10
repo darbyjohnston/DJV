@@ -30,31 +30,25 @@
 #pragma once
 
 #include <djvAV/DPX.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the SMPTE Digital Picture Exchange (DPX)
-        //! image file format. DPX is a specialized image file format for working with
-        //! motion picture film. DPX is the successor to the Cineon file format with
-        //! support for additional image and meta data.
+        //! DPX - SMPTE Digital Picture Exchange
         //!
         //! File extensions: .dpx
         //!
         //! Supported features:
-        //!
         //! - 10-bit RGB type "A" packing, 8-bit, 16-bit, Luminance, RGB, RGBA
         //! - Interleaved channels only
         //!
         //! References:
-        //!
         //! - SMPTE, "SMPTE 268M-2003"
         //!   http://www.smpte.org
-        //! - Cinesite, "Conversion of 10-bit Log Film Data To 8-bit Linear or Video
-        //!   Data"
-        class DPXPlugin : public ImageIO
+        //! - Cinesite, "Conversion of 10-bit Log Film Data To 8-bit Linear or Video Data"
+        class DPXPlugin : public IOPlugin
         {
         public:
             explicit DPXPlugin(const QPointer<Core::CoreContext> &);
@@ -69,8 +63,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             DPX::Options _options;

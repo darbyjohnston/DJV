@@ -27,26 +27,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvUI/UIContext.h>
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 namespace djv
 {
     namespace UI
     {
-        struct ImageIOWidget::Private
+        struct IOWidget::Private
         {
             QPointer<UIContext> context;
-            AV::ImageIO * plugin = nullptr;
+            AV::IOPlugin * plugin = nullptr;
         };
 
-        ImageIOWidget::ImageIOWidget(
-            AV::ImageIO * plugin,
-            const QPointer<UIContext> & context,
-            QWidget * parent) :
+        IOWidget::IOWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context, QWidget * parent) :
             AbstractPrefsWidget(plugin->pluginName(), context, parent),
             _p(new Private)
         {
@@ -54,60 +51,60 @@ namespace djv
             _p->plugin = plugin;
         }
 
-        ImageIOWidget::~ImageIOWidget()
+        IOWidget::~IOWidget()
         {}
 
-        AV::ImageIO * ImageIOWidget::plugin() const
+        AV::IOPlugin * IOWidget::plugin() const
         {
             return _p->plugin;
         }
 
-        const QPointer<UIContext> & ImageIOWidget::context() const
+        const QPointer<UIContext> & IOWidget::context() const
         {
             return _p->context;
         }
 
-        ImageIOWidgetPlugin::ImageIOWidgetPlugin(const QPointer<Core::CoreContext> & context) :
+        IOWidgetPlugin::IOWidgetPlugin(const QPointer<Core::CoreContext> & context) :
             Core::Plugin(context)
         {}
 
-        QPointer<UIContext> ImageIOWidgetPlugin::uiContext() const
+        QPointer<UIContext> IOWidgetPlugin::uiContext() const
         {
             return dynamic_cast<UIContext *>(context().data());
         }
 
-        Core::Plugin * ImageIOWidgetPlugin::copyPlugin() const
+        Core::Plugin * IOWidgetPlugin::copyPlugin() const
         {
-            return 0;
+            return nullptr;
         }
 
-        struct ImageIOWidgetFactory::Private
+        struct IOWidgetFactory::Private
         {
             QPointer<UIContext> context;
         };
 
-        ImageIOWidgetFactory::ImageIOWidgetFactory(
+        IOWidgetFactory::IOWidgetFactory(
             const QPointer<UIContext> & context,
             const QStringList & searchPath,
             QObject * parent) :
-            Core::PluginFactory(context.data(), searchPath, "djvImageIOWidgetEntry", "djv", "Plugin", parent),
+            Core::PluginFactory(context.data(), searchPath, "djvIOWidgetEntry", "djv", "Plugin", parent),
             _p(new Private)
         {
             _p->context = context;
         }
         
-        ImageIOWidgetFactory::~ImageIOWidgetFactory()
+        IOWidgetFactory::~IOWidgetFactory()
         {}
 
-        ImageIOWidget * ImageIOWidgetFactory::createWidget(AV::ImageIO * imageIOPlugin) const
+        IOWidget * IOWidgetFactory::createWidget(AV::IOPlugin * ioPlugin) const
         {
             Q_FOREACH(Core::Plugin * plugin, plugins())
             {
-                if (ImageIOWidgetPlugin * imageIOWidgetPlugin = dynamic_cast<ImageIOWidgetPlugin *>(plugin))
+                if (IOWidgetPlugin * ioWidgetPlugin = dynamic_cast<IOWidgetPlugin *>(plugin))
                 {
-                    if (imageIOWidgetPlugin->pluginName() == imageIOPlugin->pluginName())
+                    if (ioWidgetPlugin->pluginName() == ioPlugin->pluginName())
                     {
-                        return imageIOWidgetPlugin->createWidget(imageIOPlugin);
+                        return ioWidgetPlugin->createWidget(ioPlugin);
                     }
                 }
             }

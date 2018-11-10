@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/TIFF.h>
 
 #include <djvCore/FileInfo.h>
@@ -38,17 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a TIFF loader.
-        class TIFFLoad : public ImageLoad
+        class TIFFLoad : public Load
         {
         public:
             explicit TIFFLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~TIFFLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &)  override;
+            void read(Image &, const ImageIOInfo &)  override;
 
         private:
-            void _open(const QString &, ImageIOInfo &);
+            void _open(const QString &, IOInfo &);
             void _close();
 
             ::TIFF *  _f           = nullptr;

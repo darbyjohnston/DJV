@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/TIFF.h>
 
 #include <djvCore/FileInfo.h>
@@ -40,16 +40,16 @@ namespace djv
     namespace AV
     {
         //! This class provides a TIFF saver.
-        class TIFFSave : public ImageSave
+        class TIFFSave : public Save
         {
         public:
-            TIFFSave(const Core::FileInfo &, const ImageIOInfo &, const TIFF::Options &, const QPointer<Core::CoreContext> &);
+            TIFFSave(const Core::FileInfo &, const IOInfo &, const TIFF::Options &, const QPointer<Core::CoreContext> &);
             ~TIFFSave() override;
 
-            void write(const Image &, const ImageIOFrameInfo &) override;
+            void write(const Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, const ImageIOInfo &);
+            void _open(const QString &, const IOInfo &);
             void _close();
 
             TIFF::Options _options;

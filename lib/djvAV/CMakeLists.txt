@@ -1,4 +1,5 @@
 find_package(IlmBase REQUIRED)
+find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
 
 find_package(JPEG)
@@ -8,6 +9,10 @@ find_package(OpenEXR)
 find_package(FFmpeg)
 
 set(header
+    Audio.h
+    AudioInline.h
+    AudioData.h
+    AudioDataInline.h
     AVContext.h
     AV.h
     Cineon.h
@@ -33,9 +38,8 @@ set(header
     IFLLoad.h
     IFLPlugin.h
     Image.h
-    ImageIO.h
-    ImageTags.h
     ImageUtil.h
+    IO.h
     LUT.h
     LUTLoad.h
     LUTPlugin.h
@@ -65,18 +69,24 @@ set(header
     SGILoad.h
     SGIPlugin.h
     SGISave.h
+    Tags.h
     Targa.h
     TargaLoad.h
     TargaPlugin.h
-    TargaSave.h)
+    TargaSave.h
+    WAV.h
+    WAVLoad.h
+    WAVPlugin.h)
 set(mocHeader
     ColorProfile.h
-    ImageIO.h
-    ImageTags.h
+    IO.h
     OpenGLImage.h
     PixelData.h
-    Pixel.h)
+    Pixel.h
+    Tags.h)
 set(source
+    Audio.cpp
+    AudioData.cpp
     AVContext.cpp
     Cineon.cpp
     CineonHeader.cpp
@@ -99,9 +109,8 @@ set(source
     IFLLoad.cpp
     IFLPlugin.cpp
     Image.cpp
-    ImageIO.cpp
-    ImageTags.cpp
     ImageUtil.cpp
+    IO.cpp
     LUT.cpp
     LUTLoad.cpp
     LUTPlugin.cpp
@@ -131,10 +140,14 @@ set(source
     SGILoad.cpp
     SGIPlugin.cpp
     SGISave.cpp
+    Tags.cpp
     Targa.cpp
     TargaLoad.cpp
     TargaPlugin.cpp
-    TargaSave.cpp)
+    TargaSave.cpp
+    WAV.cpp
+    WAVLoad.cpp
+    WAVPlugin.cpp)
 if(JPEG_FOUND)
     set(header
         ${header}
@@ -217,6 +230,7 @@ add_library(djvAV ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 set(djvAVLibs
     djvCore
     IlmBase
+    OpenAL
     ${OPENGL_LIBRARIES})
 if(JPEG_FOUND)
     set(djvAVLibs ${djvAVLibs} JPEG)

@@ -47,14 +47,14 @@ namespace djv
     namespace ViewLib
     {
         FileExportInfo::FileExportInfo(
-            const Core::FileInfo &               inputFile,
-            const Core::FileInfo &               outputFile,
+            const Core::FileInfo &         inputFile,
+            const Core::FileInfo &         outputFile,
             const AV::PixelDataInfo &      info,
-            const Core::Sequence &               sequence,
-            int                                  layer,
+            const Core::Sequence &         sequence,
+            int                            layer,
             AV::PixelDataInfo::PROXY       proxy,
-            bool                                 u8Conversion,
-            bool                                 colorProfile,
+            bool                           u8Conversion,
+            bool                           colorProfile,
             const AV::OpenGLImageOptions & options) :
             inputFile(inputFile),
             outputFile(outputFile),
@@ -75,8 +75,8 @@ namespace djv
 
             FileExportInfo info;
             Core::Sequence saveSequence;
-            std::unique_ptr<AV::ImageLoad> load;
-            std::unique_ptr<AV::ImageSave> save;
+            std::unique_ptr<AV::Load> load;
+            std::unique_ptr<AV::Save> save;
             std::unique_ptr<AV::OpenGLImage> openGLImage;
             QPointer<UI::ProgressDialog> dialog;
             QPointer<ViewContext> context;
@@ -142,10 +142,10 @@ namespace djv
             _p->info.info.size = bbox.size;
 
             // Open input.
-            AV::ImageIOInfo loadInfo;
+            AV::IOInfo loadInfo;
             try
             {
-                _p->load = _p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo);
+                _p->load = _p->context->ioFactory()->load(_p->info.inputFile, loadInfo);
             }
             catch (Core::Error error)
             {
@@ -157,12 +157,12 @@ namespace djv
             }
 
             // Open output.
-            AV::ImageIOInfo saveInfo(_p->info.info);
+            AV::IOInfo saveInfo(_p->info.info);
             saveInfo.tags = loadInfo.tags;
             saveInfo.sequence = _p->saveSequence;
             try
             {
-                _p->save = _p->context->imageIOFactory()->save(_p->info.outputFile, saveInfo);
+                _p->save = _p->context->ioFactory()->save(_p->info.outputFile, saveInfo);
             }
             catch (Core::Error error)
             {
@@ -225,7 +225,7 @@ namespace djv
             {
                 const qint64 frame = in < _p->info.sequence.frames.count() ? _p->info.sequence.frames[in] : -1;
                 //DJV_DEBUG_PRINT("frame = " << frame);
-                _p->load->read(image, AV::ImageIOFrameInfo(frame, _p->info.layer, _p->info.proxy));
+                _p->load->read(image, AV::ImageIOInfo(frame, _p->info.layer, _p->info.proxy));
                 //DJV_DEBUG_PRINT("image = " << image);
             }
             catch (Core::Error error)
@@ -277,8 +277,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("save");
                 _p->save->write(
                     tmp,
-                    AV::ImageIOFrameInfo(
-                        in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
+                    AV::ImageIOInfo(in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
             }
             catch (Core::Error error)
             {

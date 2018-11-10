@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/DPX.h>
 
@@ -46,12 +46,12 @@ namespace djv
         class IntEditSlider;
 
         //! This class provides a DPX widget.
-        class DPXWidget : public ImageIOWidget
+        class DPXWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            DPXWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            DPXWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -93,12 +93,12 @@ namespace djv
         };
 
         //! This class provides a DPX widget plugin.
-        class DPXWidgetPlugin : public ImageIOWidgetPlugin
+        class DPXWidgetPlugin : public IOWidgetPlugin
         {
         public:
             DPXWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

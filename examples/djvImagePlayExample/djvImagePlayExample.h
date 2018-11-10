@@ -33,7 +33,7 @@
 #include <djvUI/UIContext.h>
 
 #include <djvAV/Image.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -77,8 +77,8 @@ namespace djv
     private:
         QScopedPointer<UI::UIContext> _context;
         Core::FileInfo _fileInfo;
-        std::unique_ptr<AV::ImageLoad> _load;
-        AV::ImageIOInfo _info;
+        std::unique_ptr<AV::Load> _load;
+        AV::IOInfo _info;
         AV::Image _image;
         bool _cache;
         QVector<AV::Image *> _cachedImages;

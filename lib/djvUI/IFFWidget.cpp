@@ -44,8 +44,8 @@ namespace djv
 {
     namespace UI
     {
-        IFFWidget::IFFWidget(AV::ImageIO * plugin, const QPointer<UIContext> & context) :
-            ImageIOWidget(plugin, context)
+        IFFWidget::IFFWidget(AV::IOPlugin * plugin, const QPointer<UIContext> & context) :
+            IOWidget(plugin, context)
         {
             //DJV_DEBUG("IFFWidget::IFFWidget");
 
@@ -133,10 +133,10 @@ namespace djv
         }
 
         IFFWidgetPlugin::IFFWidgetPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIOWidgetPlugin(context)
+            IOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * IFFWidgetPlugin::createWidget(AV::ImageIO * plugin) const
+        IOWidget * IFFWidgetPlugin::createWidget(AV::IOPlugin * plugin) const
         {
             return new IFFWidget(plugin, uiContext());
         }

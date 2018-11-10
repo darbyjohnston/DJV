@@ -85,9 +85,9 @@ namespace djv
             {
                 _thumbnailResolution = item->thumbnailResolution;
                 _thumbnailProxy = item->thumbnailProxy;
-                _imageInfoInit = true;
-                _imageInfo = item->imageInfo;
-                updateImageInfo();
+                _ioInfoInit = true;
+                _ioInfo = item->ioInfo;
+                updateIOInfo();
                 _thumbnailInit = true;
                 _thumbnail = item->thumbnail;
             }
@@ -98,9 +98,9 @@ namespace djv
             return _fileInfo;
         }
 
-        const AV::ImageIOInfo & FileBrowserItem::imageInfo() const
+        const AV::IOInfo & FileBrowserItem::ioInfo() const
         {
-            return _imageInfo;
+            return _ioInfo;
         }
 
         const QPixmap & FileBrowserItem::thumbnail() const
@@ -120,11 +120,11 @@ namespace djv
 
         void FileBrowserItem::requestImage()
         {
-            if (!_imageInfoInit)
+            if (!_ioInfoInit)
             {
-                _imageInfoInit = true;
-                _imageInfoRequest = _context->fileBrowserThumbnailSystem()->getInfo(_fileInfo);
-                _imageInfoRequestTimer = startTimer(0);
+                _ioInfoInit = true;
+                _ioInfoRequest = _context->fileBrowserThumbnailSystem()->getInfo(_fileInfo);
+                _ioInfoRequestTimer = startTimer(0);
             }
 
             if (!_thumbnailInit && Core::VectorUtil::isSizeValid(_thumbnailResolution))
@@ -175,23 +175,23 @@ namespace djv
 
         void FileBrowserItem::timerEvent(QTimerEvent * event)
         {
-            if (_imageInfoRequestTimer == event->timerId())
+            if (_ioInfoRequestTimer == event->timerId())
             {
-                if (_imageInfoRequest.valid())
+                if (_ioInfoRequest.valid())
                 {
-                    _imageInfo = _imageInfoRequest.get();
+                    _ioInfo = _ioInfoRequest.get();
                     AV::PixelDataInfo::PROXY thumbnailProxy = static_cast<AV::PixelDataInfo::PROXY>(0);
                     _thumbnailResolution = thumbnailSize(
                         _thumbnailMode,
-                        _imageInfo.size,
+                        _ioInfo.layers[0].size,
                         FileBrowserModel::thumbnailSizeValue(_thumbnailSize),
                         &thumbnailProxy);
                     _thumbnail = QPixmap(_thumbnailResolution.x, _thumbnailResolution.y);
                     _thumbnail.fill(Qt::transparent);
-                    updateImageInfo();
-                    killTimer(_imageInfoRequestTimer);
-                    _imageInfoRequestTimer = 0;
-                    Q_EMIT imageInfoAvailable();
+                    updateIOInfo();
+                    killTimer(_ioInfoRequestTimer);
+                    _ioInfoRequestTimer = 0;
+                    Q_EMIT ioInfoAvailable();
                 }
             }
             else if (_thumbnailRequestTimer == event->timerId())
@@ -202,7 +202,7 @@ namespace djv
                     _context->fileBrowserCache()->insert(
                         _fileInfo,
                         new FileBrowserCacheItem(
-                            _imageInfo,
+                            _ioInfo,
                             _thumbnailResolution,
                             _thumbnailProxy,
                             _thumbnail),
@@ -214,23 +214,23 @@ namespace djv
             }
         }
 
-        void FileBrowserItem::updateImageInfo()
+        void FileBrowserItem::updateIOInfo()
         {
-            if (Core::VectorUtil::isSizeValid(_imageInfo.size))
+            if (Core::VectorUtil::isSizeValid(_ioInfo.layers[0].size))
             {
                 QStringList pixelLabel;
-                pixelLabel << _imageInfo.pixel;
+                pixelLabel << _ioInfo.layers[0].pixel;
                 _displayRole[FileBrowserModel::NAME] =
                     QString("%1\n%2x%3:%4 %5\n%6@%7").
                     arg(_fileInfo.name()).
-                    arg(_imageInfo.size.x).
-                    arg(_imageInfo.size.y).
-                    arg(Core::VectorUtil::aspect(_imageInfo.size), 0, 'f', 2).
+                    arg(_ioInfo.layers[0].size.x).
+                    arg(_ioInfo.layers[0].size.y).
+                    arg(Core::VectorUtil::aspect(_ioInfo.layers[0].size), 0, 'f', 2).
                     arg(pixelLabel.join(", ")).
                     arg(Core::Time::frameToString(
-                        _imageInfo.sequence.frames.count(),
-                        _imageInfo.sequence.speed)).
-                    arg(Core::Speed::speedToFloat(_imageInfo.sequence.speed));
+                        _ioInfo.sequence.frames.count(),
+                        _ioInfo.sequence.speed)).
+                    arg(Core::Speed::speedToFloat(_ioInfo.sequence.speed));
             }
         }
 

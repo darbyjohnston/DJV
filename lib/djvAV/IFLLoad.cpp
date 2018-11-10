@@ -43,7 +43,7 @@ namespace djv
     namespace AV
     {
         IFLLoad::IFLLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
-            ImageLoad(fileInfo, context)
+            Load(fileInfo, context)
         {
             //DJV_DEBUG("IFLLoad::IFLLoad");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -58,7 +58,7 @@ namespace djv
             {
                 throw Core::Error(
                     IFL::staticName,
-                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                    IOPlugin::errorLabels()[IOPlugin::ERROR_READ]);
             }
             for (int i = 0; i < tmp.count(); ++i)
             {
@@ -83,23 +83,23 @@ namespace djv
                 }
             }
             //DJV_DEBUG_PRINT("list = " << _list);
-            dynamic_cast<AVContext*>(context.data())->imageIOFactory()->load(_list.count() ? _list[0] : QString(), _imageIOInfo);
-            _imageIOInfo.sequence.frames.resize(_list.count());
+            dynamic_cast<AVContext*>(context.data())->ioFactory()->load(_list.count() ? _list[0] : QString(), _ioInfo);
+            _ioInfo.sequence.frames.resize(_list.count());
             for (int i = 0; i < _list.count(); ++i)
             {
-                _imageIOInfo.sequence.frames[i] = i;
+                _ioInfo.sequence.frames[i] = i;
             }
         }
 
         IFLLoad::~IFLLoad()
         {}
 
-        void IFLLoad::read(Image & image, const ImageIOFrameInfo & frame)
+        void IFLLoad::read(Image & image, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("IFLLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
             image.colorProfile = ColorProfile();
-            image.tags = ImageTags();
+            image.tags = Tags();
             QString fileName;
             if (_list.count())
             {
@@ -115,9 +115,9 @@ namespace djv
                 }
             }
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            ImageIOInfo info;
-            auto load = dynamic_cast<AVContext*>(context().data())->imageIOFactory()->load(fileName, info);
-            load->read(image, ImageIOFrameInfo(-1, frame.layer, frame.proxy));
+            IOInfo info;
+            auto load = dynamic_cast<AVContext*>(context().data())->ioFactory()->load(fileName, info);
+            load->read(image, ImageIOInfo(-1, frame.layer, frame.proxy));
         }
 
     } // namespace AV

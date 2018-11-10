@@ -53,8 +53,8 @@ namespace djv
     namespace AV
     {
         class Image;
-        class ImageIOInfo;
         class OpenGLImageOptions;
+        struct ImageIOInfo;
 
     } // AV
 

@@ -37,17 +37,16 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a Targa loader.
-        class TargaLoad : public ImageLoad
+        class TargaLoad : public Load
         {
         public:
             explicit TargaLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
             ~TargaLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO &);
+            void _open(const QString &, IOInfo &, Core::FileIO &);
 
             bool      _compression = false;
             PixelData _tmp;

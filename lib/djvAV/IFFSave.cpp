@@ -38,23 +38,23 @@ namespace djv
 {
     namespace AV
     {
-        IFFSave::IFFSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo, const IFF::Options & options, const QPointer<Core::CoreContext> & context) :
-            ImageSave(fileInfo, imageIOInfo, context),
+        IFFSave::IFFSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo, const IFF::Options & options, const QPointer<Core::CoreContext> & context) :
+            Save(fileInfo, ioInfo, context),
             _options(options)
         {
             //DJV_DEBUG("IFFSave::IFFSave");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
-            if (_imageIOInfo.sequence.frames.count() > 1)
+            if (_ioInfo.sequence.frames.count() > 1)
             {
                 _fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
-            _info.size = _imageIOInfo.size;
+            _info.size = _ioInfo.layers[0].size;
             _info.endian = Core::Memory::MSB;
 
-            Pixel::FORMAT format = Pixel::format(_imageIOInfo.pixel);
+            Pixel::FORMAT format = Pixel::format(_ioInfo.layers[0].pixel);
             switch (format)
             {
             case Pixel::L:  format = Pixel::RGB;  break;
@@ -62,7 +62,7 @@ namespace djv
             default: break;
             }
 
-            Pixel::TYPE type = Pixel::type(_imageIOInfo.pixel);
+            Pixel::TYPE type = Pixel::type(_ioInfo.layers[0].pixel);
             switch (type)
             {
             case Pixel::U10:
@@ -81,7 +81,7 @@ namespace djv
         IFFSave::~IFFSave()
         {}
 
-        void IFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
+        void IFFSave::write(const Image & in, const ImageIOInfo & frame)
         {
             //DJV_DEBUG("djvIFFSave::write");
             //DJV_DEBUG_PRINT("in = " << in);

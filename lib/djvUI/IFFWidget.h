@@ -30,7 +30,7 @@
 
 #pragma once
 
-#include <djvUI/ImageIOWidget.h>
+#include <djvUI/IOWidget.h>
 
 #include <djvAV/IFF.h>
 
@@ -42,12 +42,12 @@ namespace djv
     namespace UI
     {
         //! This class provides an IFF widget.
-        class IFFWidget : public ImageIOWidget
+        class IFFWidget : public IOWidget
         {
             Q_OBJECT
 
         public:
-            IFFWidget(AV::ImageIO *, const QPointer<UIContext> &);
+            IFFWidget(AV::IOPlugin *, const QPointer<UIContext> &);
 
             void resetPreferences() override;
 
@@ -65,12 +65,12 @@ namespace djv
         };
 
         //! This class provides an IFF widget plugin.
-        class IFFWidgetPlugin : public ImageIOWidgetPlugin
+        class IFFWidgetPlugin : public IOWidgetPlugin
         {
         public:
             IFFWidgetPlugin(const QPointer<Core::CoreContext> &);
 
-            ImageIOWidget * createWidget(AV::ImageIO *) const override;
+            IOWidget * createWidget(AV::IOPlugin *) const override;
             QString pluginName() const override;
         };
 

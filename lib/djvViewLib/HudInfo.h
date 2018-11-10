@@ -31,8 +31,8 @@
 
 #include <djvViewLib/Enum.h>
 
-#include <djvAV/ImageTags.h>
 #include <djvAV/PixelData.h>
+#include <djvAV/Tags.h>
 
 #include <djvCore/Speed.h>
 
@@ -46,7 +46,7 @@ namespace djv
         struct HudInfo
         {
             AV::PixelDataInfo     info;
-            AV::ImageTags         tags;
+            AV::Tags              tags;
             qint64                frame = 0;
             Core::Speed           speed;
             float                 actualSpeed = 0.f;

@@ -40,9 +40,9 @@
 #include <djvUI/HelpPrefs.h>
 #include <djvUI/IFFWidget.h>
 #include <djvUI/IconLibrary.h>
-#include <djvUI/ImageIOPrefs.h>
-#include <djvUI/ImageIOWidget.h>
 #include <djvUI/InfoDialog.h>
+#include <djvUI/IOPrefs.h>
+#include <djvUI/IOWidget.h>
 #include <djvUI/LUTWidget.h>
 #include <djvUI/MessagesDialog.h>
 #include <djvUI/OpenGLPrefs.h>
@@ -106,19 +106,19 @@ namespace djv
                 QScopedPointer<SequencePrefs>    sequence;
                 QScopedPointer<OpenGLPrefs>      openGL;
                 QScopedPointer<StylePrefs>       style;
-                QScopedPointer<ImageIOPrefs>     imageIO;
+                QScopedPointer<IOPrefs>          io;
                 QScopedPointer<FileBrowserPrefs> fileBrowser;
             };
             std::unique_ptr<Prefs> prefs;
             
             struct Widgets
             {
-                QScopedPointer<ImageIOWidgetFactory> imageIOWidgetFactory;
-                QScopedPointer<PrefsDialog>          prefsDialog;
-                QScopedPointer<InfoDialog>           infoDialog;
-                QScopedPointer<AboutDialog>          aboutDialog;
-                QScopedPointer<MessagesDialog>       messagesDialog;
-                QScopedPointer<DebugLogDialog>       debugLogDialog;
+                QScopedPointer<IOWidgetFactory> ioWidgetFactory;
+                QScopedPointer<PrefsDialog>     prefsDialog;
+                QScopedPointer<InfoDialog>      infoDialog;
+                QScopedPointer<AboutDialog>     aboutDialog;
+                QScopedPointer<MessagesDialog>  messagesDialog;
+                QScopedPointer<DebugLogDialog>  debugLogDialog;
             };
             std::unique_ptr<Widgets> widgets;
             
@@ -168,7 +168,7 @@ namespace djv
             _p->prefs->sequence.reset(new SequencePrefs);
             _p->prefs->openGL.reset(new OpenGLPrefs);
             _p->prefs->style.reset(new StylePrefs);
-            _p->prefs->imageIO.reset(new ImageIOPrefs(this));
+            _p->prefs->io.reset(new IOPrefs(this));
             _p->prefs->fileBrowser.reset(new FileBrowserPrefs(this));
 
             // Initialize.
@@ -232,33 +232,33 @@ namespace djv
             return _p->fileBrowser->dialog.data();
         }
 
-        QPointer<ImageIOWidgetFactory> UIContext::imageIOWidgetFactory() const
+        QPointer<IOWidgetFactory> UIContext::ioWidgetFactory() const
         {
-            if (!_p->widgets->imageIOWidgetFactory)
+            if (!_p->widgets->ioWidgetFactory)
             {
                 UIContext * that = const_cast<UIContext *>(this);
-                _p->widgets->imageIOWidgetFactory.reset(new ImageIOWidgetFactory(that));
-                _p->widgets->imageIOWidgetFactory->addPlugin(new CineonWidgetPlugin(that));
-                _p->widgets->imageIOWidgetFactory->addPlugin(new DPXWidgetPlugin(that));
-                _p->widgets->imageIOWidgetFactory->addPlugin(new IFFWidgetPlugin(that));
-                _p->widgets->imageIOWidgetFactory->addPlugin(new LUTWidgetPlugin(that));
-                _p->widgets->imageIOWidgetFactory->addPlugin(new PPMWidgetPlugin(that));
-                _p->widgets->imageIOWidgetFactory->addPlugin(new SGIWidgetPlugin(that));
-                _p->widgets->imageIOWidgetFactory->addPlugin(new TargaWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory.reset(new IOWidgetFactory(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new CineonWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new DPXWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new IFFWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new LUTWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new PPMWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new SGIWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new TargaWidgetPlugin(that));
 #if defined(JPEG_FOUND)
-                _p->widgets->imageIOWidgetFactory->addPlugin(new JPEGWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new JPEGWidgetPlugin(that));
 #endif // JPEG_FOUND
 #if defined(TIFF_FOUND)
-                _p->widgets->imageIOWidgetFactory->addPlugin(new TIFFWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new TIFFWidgetPlugin(that));
 #endif // TIFF_FOUND
 #if defined(OPENEXR_FOUND)
-                _p->widgets->imageIOWidgetFactory->addPlugin(new OpenEXRWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new OpenEXRWidgetPlugin(that));
 #endif // OPENEXR_FOUND
 #if defined(FFMPEG_FOUND)
-                _p->widgets->imageIOWidgetFactory->addPlugin(new FFmpegWidgetPlugin(that));
+                _p->widgets->ioWidgetFactory->addPlugin(new FFmpegWidgetPlugin(that));
 #endif // FFMPEG_FOUND
             }
-            return _p->widgets->imageIOWidgetFactory.data();
+            return _p->widgets->ioWidgetFactory.data();
         }
 
         QPointer<PrefsDialog> UIContext::prefsDialog() const
@@ -316,9 +316,9 @@ namespace djv
             return _p->prefs->fileBrowser.data();
         }
 
-        QPointer<ImageIOPrefs> UIContext::imageIOPrefs() const
+        QPointer<IOPrefs> UIContext::ioPrefs() const
         {
-            return _p->prefs->imageIO.data();
+            return _p->prefs->io.data();
         }
 
         QPointer<StylePrefs> UIContext::stylePrefs() const
@@ -366,7 +366,7 @@ namespace djv
             static const QString label = qApp->translate("djv::UI::UIContext",
                 "%1"
                 "\n"
-                "Image I/O Widgets\n"
+                "I/O Widgets\n"
                 "\n"
                 "    Plugins: %2\n"
                 "\n"
@@ -376,7 +376,7 @@ namespace djv
                 "    System: %4\n");
             return QString(label).
                 arg(AV::AVContext::info()).
-                arg(imageIOWidgetFactory()->names().join(", ")).
+                arg(ioWidgetFactory()->names().join(", ")).
                 arg(Prefs(QString(), Prefs::USER).fileName()).
                 arg(Prefs(QString(), Prefs::SYSTEM).fileName());
         }

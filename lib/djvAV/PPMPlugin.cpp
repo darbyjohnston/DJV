@@ -45,7 +45,7 @@ namespace djv
     namespace AV
     {
         PPMPlugin::PPMPlugin(const QPointer<Core::CoreContext> & context) :
-            ImageIO(context)
+            IOPlugin(context)
         {}
 
         QString PPMPlugin::pluginName() const
@@ -165,14 +165,14 @@ namespace djv
                 arg(dataLabel.join(", "));
         }
 
-        std::unique_ptr<ImageLoad> PPMPlugin::createLoad(const Core::FileInfo & fileInfo) const
+        std::unique_ptr<Load> PPMPlugin::createLoad(const Core::FileInfo & fileInfo) const
         {
-            return std::unique_ptr<ImageLoad>(new PPMLoad(fileInfo, context()));
+            return std::unique_ptr<Load>(new PPMLoad(fileInfo, context()));
         }
 
-        std::unique_ptr<ImageSave> PPMPlugin::createSave(const Core::FileInfo & fileInfo, const ImageIOInfo & imageIOInfo) const
+        std::unique_ptr<Save> PPMPlugin::createSave(const Core::FileInfo & fileInfo, const IOInfo & ioInfo) const
         {
-            return std::unique_ptr<ImageSave>(new PPMSave(fileInfo, imageIOInfo, _options, context()));
+            return std::unique_ptr<Save>(new PPMSave(fileInfo, ioInfo, _options, context()));
         }
 
     } // namespace AV

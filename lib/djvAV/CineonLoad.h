@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/Cineon.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -38,16 +38,16 @@ namespace djv
 {
     namespace AV
     {
-        class CineonLoad : public ImageLoad
+        class CineonLoad : public Load
         {
         public:
             CineonLoad(const Core::FileInfo &, const Cineon::Options &, const QPointer<Core::CoreContext> &);
             ~CineonLoad() override;
 
-            void read(Image &, const ImageIOFrameInfo &) override;
+            void read(Image &, const ImageIOInfo &) override;
 
         private:
-            void _open(const QString &, ImageIOInfo &, Core::FileIO & io);
+            void _open(const QString &, IOInfo &, Core::FileIO & io);
 
             Cineon::Options _options;
             bool            _filmPrint = false;

@@ -56,8 +56,8 @@ namespace djv
             {
                 Header();
 
-                void load(Core::FileIO &, ImageIOInfo &, bool * compression);
-                void save(Core::FileIO &, const ImageIOInfo &, bool compression);
+                void load(Core::FileIO &, IOInfo &, bool * compression);
+                void save(Core::FileIO &, const IOInfo &, bool compression);
 
                 void debug() const;
 
@@ -96,7 +96,7 @@ namespace djv
                 _data.descriptor = 0;
             }
 
-            void Header::load(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+            void Header::load(Core::FileIO & io, IOInfo & info, bool * compression)
             {
                 //DJV_DEBUG("Header::load");
 
@@ -116,9 +116,9 @@ namespace djv
                 io.seek(_data.idSize);
 
                 // Information.
-                info.size = glm::ivec2(_data.width, _data.height);
-                info.mirror.x = (_data.descriptor >> 4) & 1;
-                info.mirror.y = (_data.descriptor >> 5) & 1;
+                info.layers[0].size = glm::ivec2(_data.width, _data.height);
+                info.layers[0].mirror.x = (_data.descriptor >> 4) & 1;
+                info.layers[0].mirror.y = (_data.descriptor >> 5) & 1;
                 const int alphaBits = _data.descriptor & 15;
                 //DJV_DEBUG_PRINT("alpha bits = " << alphaBits);
                 switch (alphaBits)
@@ -128,7 +128,7 @@ namespace djv
                 default:
                     throw Core::Error(
                         Targa::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                 }
                 int pixel = -1;
                 switch (_data.imageType)
@@ -147,11 +147,11 @@ namespace djv
                     {
                     case 24:
                         pixel = Pixel::RGB_U8;
-                        info.bgr = true;
+                        info.layers[0].bgr = true;
                         break;
                     case 32:
                         pixel = Pixel::RGBA_U8;
-                        info.bgr = true;
+                        info.layers[0].bgr = true;
                         break;
                     }
                     break;
@@ -160,32 +160,32 @@ namespace djv
                 {
                     throw Core::Error(
                         Targa::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                 }
-                info.pixel = static_cast<Pixel::PIXEL>(pixel);
+                info.layers[0].pixel = static_cast<Pixel::PIXEL>(pixel);
                 //DJV_DEBUG_PRINT("pixel = " << info.pixel);
                 const int bits = _data.pixelBits + alphaBits;
-                if (bits < (Pixel::channels(info.pixel) * 8) || (bits % 8) != 0)
+                if (bits < (Pixel::channels(info.layers[0].pixel) * 8) || (bits % 8) != 0)
                 {
                     throw Core::Error(
                         Targa::staticName,
-                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
                 }
                 *compression =
                     10 == _data.imageType ||
                     11 == _data.imageType;
                 //DJV_DEBUG_PRINT("compression = " << compression);
-                info.endian = Core::Memory::LSB;
+                info.layers[0].endian = Core::Memory::LSB;
             }
 
-            void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+            void Header::save(Core::FileIO & io, const IOInfo & info, bool compression)
             {
                 //DJV_DEBUG("Header::save");
 
                 // Information.
-                _data.width = info.size.x;
-                _data.height = info.size.y;
-                const int channels = Pixel::channels(info.pixel);
+                _data.width = info.layers[0].size.x;
+                _data.height = info.layers[0].size.y;
+                const int channels = Pixel::channels(info.layers[0].pixel);
                 _data.pixelBits = channels * 8;
                 switch (channels)
                 {
@@ -199,7 +199,7 @@ namespace djv
                     _data.imageType += 8;
                 }
                 int alphaBits = 0;
-                switch (Pixel::format(info.pixel))
+                switch (Pixel::format(info.layers[0].pixel))
                 {
                 case Pixel::LA:
                 case Pixel::RGBA: alphaBits = 8; break;
@@ -239,13 +239,13 @@ namespace djv
 
         } // namespace
 
-        void Targa::loadInfo(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+        void Targa::loadInfo(Core::FileIO & io, IOInfo & info, bool * compression)
         {
             Header header;
             header.load(io, info, compression);
         }
 
-        void Targa::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+        void Targa::saveInfo(Core::FileIO & io, const IOInfo & info, bool compression)
         {
             Header header;
             header.save(io, info, compression);

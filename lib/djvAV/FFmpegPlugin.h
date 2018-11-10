@@ -30,27 +30,25 @@
 #pragma once
 
 #include <djvAV/FFmpeg.h>
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the FFmpeg library.
+        //! FFmpeg
         //!
         //! File extensions: .mov, .avi
         //!
         //! Supported features:
-        //!
         //! - 8-bit RGBA
         //!
         //! References:
-        //!
         //! - An ffmpeg and SDL Tutorial
         //!   http://dranger.com/ffmpeg/
         //! - libavformat/output-example.c
         //!   https://libav.org/doxygen/release/0.8/libavformat_2output-example_8c-example.html
-        class FFmpegPlugin : public ImageIO
+        class FFmpegPlugin : public IOPlugin
         {
         public:
             explicit FFmpegPlugin(const QPointer<Core::CoreContext> &);
@@ -68,8 +66,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             FFmpeg::Options _options;

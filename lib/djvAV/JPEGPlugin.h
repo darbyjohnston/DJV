@@ -28,26 +28,23 @@
 
 #pragma once
 
-#include <djvAV/ImageIO.h>
+#include <djvAV/IO.h>
 #include <djvAV/JPEG.h>
 
 namespace djv
 {
     namespace AV
     {
-        //! This plugin provides support for the Joint Photographic Experts Group
-        //! (JPEG) image file format.
+        //! JPEG - Joint Photographic Experts Group
         //!
         //! Requires:
-        //!
         //! - libjpeg - http://www.ijg.org
         //!
         //! File extensions: .jpeg, .jpg, .jfif
         //!
         //! Supported features:
-        //!
         //! - 8-bit, Luminance, RGB
-        class JPEGPlugin : public ImageIO
+        class JPEGPlugin : public IOPlugin
         {
         public:
             explicit JPEGPlugin(const QPointer<Core::CoreContext> &);
@@ -62,8 +59,8 @@ namespace djv
             void commandLine(QStringList &) override;
             QString commandLineHelp() const override;
 
-            std::unique_ptr<ImageLoad> createLoad(const Core::FileInfo &) const override;
-            std::unique_ptr<ImageSave> createSave(const Core::FileInfo &, const ImageIOInfo &) const override;
+            std::unique_ptr<Load> createLoad(const Core::FileInfo &) const override;
+            std::unique_ptr<Save> createSave(const Core::FileInfo &, const IOInfo &) const override;
 
         private:
             JPEG::Options _options;
