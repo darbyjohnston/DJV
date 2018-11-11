@@ -19,7 +19,7 @@ find_path(ZLIB_INCLUDE_DIR
 set(ZLIB_INCLUDE_DIRS ${ZLIB_INCLUDE_DIR})
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    find_library(ZLIB_LIBRARY NAMES zlibd zlibstaticd a)
+    find_library(ZLIB_LIBRARY NAMES z zlibd zlibstaticd a)
 else()
     find_library(ZLIB_LIBRARY NAMES z zlib zlibstatic)
 endif()
