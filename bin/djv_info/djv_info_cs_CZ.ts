@@ -11,24 +11,24 @@
     <message>
         <location filename="InfoApplication.cpp" line="208"/>
         <location filename="InfoApplication.cpp" line="231"/>
-        <location filename="InfoApplication.cpp" line="247"/>
+        <location filename="InfoApplication.cpp" line="245"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="261"/>
+        <location filename="InfoApplication.cpp" line="259"/>
         <source>    Image width = %1</source>
         <oldsource>    Width = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="263"/>
+        <location filename="InfoApplication.cpp" line="261"/>
         <source>    Image height = %1</source>
         <oldsource>    Height = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="281"/>
+        <location filename="InfoApplication.cpp" line="279"/>
         <source>        Image width = %1</source>
         <oldsource>        Width = %1</oldsource>
         <translation type="unfinished"></translation>
@@ -36,109 +36,123 @@
     <message>
         <location filename="InfoApplication.cpp" line="202"/>
         <location filename="InfoApplication.cpp" line="225"/>
-        <source>%1@%2</source>
+        <source>T[%1@%2]</source>
+        <oldsource>%1@%2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="InfoApplication.cpp" line="236"/>
-        <location filename="InfoApplication.cpp" line="279"/>
+        <location filename="InfoApplication.cpp" line="277"/>
         <source>    %1</source>
         <oldsource>    %1. %2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="187"/>
-        <location filename="InfoApplication.cpp" line="241"/>
-        <source>%1x%2:%3 %4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="InfoApplication.cpp" line="195"/>
         <location filename="InfoApplication.cpp" line="218"/>
-        <source>%1:%2@%3</source>
+        <source>A[%1:%2@%3]</source>
+        <oldsource>%1:%2@%3</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="265"/>
+        <location filename="InfoApplication.cpp" line="263"/>
         <source>    Image aspect ratio = %1</source>
         <oldsource>    Aspect = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="269"/>
+        <location filename="InfoApplication.cpp" line="267"/>
         <source>    Image pixel = %1</source>
         <oldsource>    Pixel = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="285"/>
+        <location filename="InfoApplication.cpp" line="283"/>
         <source>        Image aspect ratio = %1</source>
         <oldsource>        Aspect = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="283"/>
+        <location filename="InfoApplication.cpp" line="281"/>
         <source>        Image height = %1</source>
         <oldsource>        Height = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="289"/>
+        <location filename="InfoApplication.cpp" line="187"/>
+        <location filename="InfoApplication.cpp" line="240"/>
+        <source>I[%1x%2:%3 %4]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InfoApplication.cpp" line="195"/>
+        <location filename="InfoApplication.cpp" line="218"/>
+        <source>A[%1:%2@%3]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InfoApplication.cpp" line="202"/>
+        <location filename="InfoApplication.cpp" line="225"/>
+        <source>T[%1@%2]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="InfoApplication.cpp" line="287"/>
         <source>        Image pixel = %1</source>
         <oldsource>        Pixel = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="296"/>
+        <location filename="InfoApplication.cpp" line="294"/>
         <source>    Audio channels = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="298"/>
+        <location filename="InfoApplication.cpp" line="296"/>
         <source>    Audio bit depth = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="300"/>
+        <location filename="InfoApplication.cpp" line="298"/>
         <source>    Audio sample rate = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="302"/>
+        <location filename="InfoApplication.cpp" line="300"/>
         <source>    Audio sample Count = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="307"/>
+        <location filename="InfoApplication.cpp" line="305"/>
         <source>    Time start = %1</source>
         <oldsource>    Start = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="311"/>
+        <location filename="InfoApplication.cpp" line="309"/>
         <source>    Time end = %1</source>
         <oldsource>    End = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="315"/>
+        <location filename="InfoApplication.cpp" line="313"/>
         <source>    Time duration = %1</source>
         <oldsource>    Duration = %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="319"/>
+        <location filename="InfoApplication.cpp" line="317"/>
         <source>    Speed = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="325"/>
+        <location filename="InfoApplication.cpp" line="323"/>
         <source>    Tag %1 = %2</source>
         <oldsource>    %1 = %2</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="InfoApplication.cpp" line="352"/>
+        <location filename="InfoApplication.cpp" line="350"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -202,22 +216,22 @@
     Print file metadata.
 
     Example output:
-    yesterdayview.mov          640x424:1.51 RGB U8 2:8@44100 00:02:00:01@12
-    dlad.dpx                                         2048x1556:1.32 RGB U10
-    render0001-1000.exr                                      00:00:41:16@24
-        A,B,G,R                                        720x480:1.5 RGBA F16
-        Ambient                                         720x480:1.5 RGB F16
-        Diffuse                                         720x480:1.5 RGB F16
-        Specular                                        720x480:1.5 RGB F16
-        Z                                                 720x480:1.5 L F32
+    yesterdayview.mov I[640x424:1.51 RGB U8] A[2:8@44100] T[00:02:00:01@12]
+    dlad.dpx                                      I[2048x1556:1.32 RGB U10]
+    render0001-1000.exr                                   T[00:00:41:16@24]
+        A,B,G,R                                     I[720x480:1.5 RGBA F16]
+        Ambient                                      I[720x480:1.5 RGB F16]
+        Diffuse                                      I[720x480:1.5 RGB F16]
+        Specular                                     I[720x480:1.5 RGB F16]
+        Z                                              I[720x480:1.5 L F32]
 
     Key:
-    yesterdayview.mov          640x424:1.51 RGB U8 2:8@44100 00:02:00:01@12
-    file name                  image               audio     time
+    yesterdayview.mov I[640x424:1.51 RGB U8] A[2:8@44100] T[00:02:00:01@12]
+    (File Name)       (Image)                (Audio)      (Time)
 
-    image - (width)x(height):(aspect) (format) (type)
-    audio - (channels):(bit depth)@(sample rate)
-    time  - (time)@(speed)
+    Image - (width)x(height):(aspect) (format) (type)
+    Audio - (channels):(bit depth)@(sample rate)
+    Time  - (time)@(speed)
 
 Usage
 
@@ -268,7 +282,7 @@ Examples
 
     Key:
     yesterdayview.mov          640x424:1.51 RGB U8 2:8@44100 00:02:00:01@12
-    file name                  image               audio     time
+    (file name)                (image)             (audio)   (time)
 
     image - (width)x(height):(aspect) (format) (type)
     audio - (channels):(bit depth)@(sample rate)
@@ -276,19 +290,19 @@ Examples
 
 Usage
 
-    djv_info [image|directory]... [option]...
+    djv_info [file|directory]... [option]...
 
-    image     - One or more images, image sequences, or movies
+    file      - One or more files or file sequences
     directory - One or more directories
 
-    If no images or directories are given then the current directory will be used.
+    If no files or directories are given then the current directory will be used.
 
 Options
 
     -x_info, -xi
-        Don&apos;t show image information, only file names.
+        Don&apos;t show information, only file names.
     -verbose, -v
-        Show verbose image information.
+        Show verbose information.
     -file_path, -fp
         Show file path names.
     -recurse, -r
@@ -298,13 +312,13 @@ Options
 %1
 Examples
 
-    Display image information:
+    Display information:
     &gt; djv_info image.sgi image2.sgi
 
-    Display image sequence information:
+    Display sequence information:
     &gt; djv_info image.1-100.sgi
 
-    Display information about all images within a directory:
+    Display information about all files within a directory:
     &gt; djv_info ~/pics
 </oldsource>
         <translation type="unfinished"></translation>

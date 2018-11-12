@@ -201,11 +201,7 @@ namespace djv
             case 3:
             case 6: channels = 3; break;
             }
-            if (!Pixel::pixel(
-                channels,
-                _bitDepth != 1 ? _bitDepth : 8,
-                Pixel::INTEGER,
-                info.layers[0].pixel))
+            if (!Pixel::intPixel(channels, _bitDepth != 1 ? _bitDepth : 8, info.layers[0].pixel))
             {
                 throw Core::Error(
                     PPM::staticName,

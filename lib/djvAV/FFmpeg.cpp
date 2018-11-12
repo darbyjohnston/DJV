@@ -135,6 +135,44 @@ namespace djv
             return QString(buf);
         }
 
+        Audio::TYPE FFmpeg::fromFFmpeg(AVSampleFormat value)
+        {
+            Audio::TYPE out = Audio::TYPE_NONE;
+            switch (value)
+            {
+            case AV_SAMPLE_FMT_U8:   out = Audio::U8;  break;
+            case AV_SAMPLE_FMT_S16:  out = Audio::S16; break;
+            case AV_SAMPLE_FMT_S32:  out = Audio::S32; break;
+            case AV_SAMPLE_FMT_FLT:  out = Audio::F32; break;
+            case AV_SAMPLE_FMT_U8P:  out = Audio::U8;  break;
+            case AV_SAMPLE_FMT_S16P: out = Audio::S16; break;
+            case AV_SAMPLE_FMT_S32P: out = Audio::S32; break;
+            case AV_SAMPLE_FMT_FLTP:  out = Audio::F32; break;
+            }
+            return out;
+        }
+
+        QString FFmpeg::toString(AVSampleFormat value)
+        {
+            static const std::map<AVSampleFormat, QString> data =
+            {
+                { AV_SAMPLE_FMT_NONE, qApp->translate("djv::AV::FFmpeg", "None") },
+                { AV_SAMPLE_FMT_U8, qApp->translate("djv::AV::FFmpeg", "U8") },
+                { AV_SAMPLE_FMT_S16, qApp->translate("djv::AV::FFmpeg", "S16") },
+                { AV_SAMPLE_FMT_S32, qApp->translate("djv::AV::FFmpeg", "S32") },
+                { AV_SAMPLE_FMT_FLT, qApp->translate("djv::AV::FFmpeg", "Float") },
+                { AV_SAMPLE_FMT_DBL, qApp->translate("djv::AV::FFmpeg", "Double") },
+                { AV_SAMPLE_FMT_U8P, qApp->translate("djv::AV::FFmpeg", "U8 planar") },
+                { AV_SAMPLE_FMT_S16P, qApp->translate("djv::AV::FFmpeg", "S16 planar") },
+                { AV_SAMPLE_FMT_S32P, qApp->translate("djv::AV::FFmpeg", "S32 planar") },
+                { AV_SAMPLE_FMT_FLTP, qApp->translate("djv::AV::FFmpeg", "Float planar") },
+                { AV_SAMPLE_FMT_DBLP, qApp->translate("djv::AV::FFmpeg", "Double planar") }
+            };
+            static const QString unknown = qApp->translate("djv::AV::FFmpeg", "Unknown");
+            const auto i = data.find(value);
+            return i != data.end() ? i->second : unknown;
+        }
+
         const QStringList & FFmpeg::optionsLabels()
         {
             static const QStringList data = QStringList() <<

@@ -53,38 +53,48 @@ OpenGL Options
 <context>
     <name>djv::AV::Audio</name>
     <message>
-        <location filename="Audio.cpp" line="43"/>
+        <location filename="Audio.cpp" line="54"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Audio.cpp" line="44"/>
-        <source>8</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Audio.cpp" line="45"/>
-        <source>16</source>
-        <oldsource>16-bit</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Audio.cpp" line="52"/>
-        <source>Unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="Audio.cpp" line="55"/>
-        <source>Out of memory</source>
+        <source>U8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Audio.cpp" line="56"/>
-        <source>Invalid value</source>
+        <source>S16</source>
+        <oldsource>16</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Audio.cpp" line="57"/>
+        <source>S32</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="58"/>
+        <source>F32</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="65"/>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="68"/>
+        <source>Out of memory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="69"/>
+        <source>Invalid value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Audio.cpp" line="70"/>
         <source>Invalid enum</source>
         <translation type="unfinished"></translation>
     </message>
@@ -556,12 +566,72 @@ DPX Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="141"/>
+        <location filename="FFmpeg.cpp" line="159"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="160"/>
+        <source>U8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="161"/>
+        <source>S16</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="162"/>
+        <source>S32</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="163"/>
+        <source>Float</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="164"/>
+        <source>Double</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="165"/>
+        <source>U8 planar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="166"/>
+        <source>S16 planar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="167"/>
+        <source>S32 planar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="168"/>
+        <source>Float planar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="169"/>
+        <source>Double planar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="171"/>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpeg.cpp" line="179"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="142"/>
+        <location filename="FFmpeg.cpp" line="180"/>
         <source>Quality</source>
         <translation type="unfinished"></translation>
     </message>
@@ -569,13 +639,24 @@ DPX Options
 <context>
     <name>djv::AV::FFmpegLoad</name>
     <message>
-        <location filename="FFmpegLoad.cpp" line="90"/>
-        <source>Cannot find video stream</source>
+        <location filename="FFmpegLoad.cpp" line="95"/>
+        <source>Cannot find any streams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegLoad.cpp" line="101"/>
-        <source>Cannot find codec</source>
+        <location filename="FFmpegLoad.cpp" line="106"/>
+        <source>Cannot find video codec</source>
+        <oldsource>Cannot find codec</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegLoad.cpp" line="140"/>
+        <source>Unsupported audio format: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="FFmpegLoad.cpp" line="147"/>
+        <source>Cannot find audio codec</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1255,96 +1336,86 @@ PPM Options
     </message>
     <message>
         <location filename="Pixel.cpp" line="70"/>
-        <source>Integer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Pixel.cpp" line="71"/>
-        <source>Float</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Pixel.cpp" line="79"/>
         <source>L U8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="80"/>
+        <location filename="Pixel.cpp" line="71"/>
         <source>L U16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="81"/>
+        <location filename="Pixel.cpp" line="72"/>
         <source>L F16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="82"/>
+        <location filename="Pixel.cpp" line="73"/>
         <source>L F32</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="83"/>
+        <location filename="Pixel.cpp" line="74"/>
         <source>LA U8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="84"/>
+        <location filename="Pixel.cpp" line="75"/>
         <source>LA U16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="85"/>
+        <location filename="Pixel.cpp" line="76"/>
         <source>LA F16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="86"/>
+        <location filename="Pixel.cpp" line="77"/>
         <source>LA F32</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="87"/>
+        <location filename="Pixel.cpp" line="78"/>
         <source>RGB U8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="88"/>
+        <location filename="Pixel.cpp" line="79"/>
         <source>RGB U10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="89"/>
+        <location filename="Pixel.cpp" line="80"/>
         <source>RGB U16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="90"/>
+        <location filename="Pixel.cpp" line="81"/>
         <source>RGB F16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="91"/>
+        <location filename="Pixel.cpp" line="82"/>
         <source>RGB F32</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="92"/>
+        <location filename="Pixel.cpp" line="83"/>
         <source>RGBA U8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="93"/>
+        <location filename="Pixel.cpp" line="84"/>
         <source>RGBA U16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="94"/>
+        <location filename="Pixel.cpp" line="85"/>
         <source>RGBA F16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pixel.cpp" line="95"/>
+        <location filename="Pixel.cpp" line="86"/>
         <source>RGBA F32</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1385,7 +1456,7 @@ PPM Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SGI.cpp" line="384"/>
+        <location filename="SGI.cpp" line="380"/>
         <source>Compression</source>
         <translation type="unfinished"></translation>
     </message>

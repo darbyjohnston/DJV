@@ -184,7 +184,7 @@ namespace djv
                     {
                         QStringList pixelLabel;
                         pixelLabel << _info.layers[0].pixel;
-                        info += qApp->translate("djv::info::Application", "%1x%2:%3 %4").
+                        info += qApp->translate("djv::info::Application", "I[%1x%2:%3 %4]").
                             arg(_info.layers[0].size.x).
                             arg(_info.layers[0].size.y).
                             arg(Core::VectorUtil::aspect(_info.layers[0].size), 0, 'f', 2).
@@ -192,14 +192,14 @@ namespace djv
                     }
                     if (_info.audio.isValid())
                     {
-                        info += qApp->translate("djv::info::Application", "%1:%2@%3").
+                        info += qApp->translate("djv::info::Application", "A[%1:%2@%3]").
                             arg(_info.audio.channels).
                             arg(AV::Audio::typeLabels()[_info.audio.type]).
                             arg(_info.audio.sampleRate);
                     }
                     if (_info.sequence.frames.size())
                     {
-                        info += qApp->translate("djv::info::Application", "%1@%2").
+                        info += qApp->translate("djv::info::Application", "T[%1@%2]").
                             arg(Core::Time::frameToString(
                                 _info.sequence.frames.count(),
                                 _info.sequence.speed)).
@@ -215,14 +215,14 @@ namespace djv
                     QStringList info;
                     if (_info.audio.isValid())
                     {
-                        info += qApp->translate("djv::info::Application", "%1:%2@%3").
+                        info += qApp->translate("djv::info::Application", "A[%1:%2@%3]").
                             arg(_info.audio.channels).
                             arg(AV::Audio::typeLabels()[_info.audio.type]).
                             arg(_info.audio.sampleRate);
                     }
                     if (_info.sequence.frames.size())
                     {
-                        info += qApp->translate("djv::info::Application", "%1@%2").
+                        info += qApp->translate("djv::info::Application", "T[%1@%2]").
                             arg(Core::Time::frameToString(
                                 _info.sequence.frames.count(),
                                 _info.sequence.speed)).
@@ -233,13 +233,11 @@ namespace djv
                         arg(info.join(' '), columns - name.length() - 2));
                     for (size_t i = 0; i < _info.layers.size(); ++i)
                     {
-                        const QString nameString = qApp->translate("djv::info::Application",
-                            "    %1").
+                        const QString nameString = qApp->translate("djv::info::Application", "    %1").
                             arg(_info.layers[i].layerName);
                         QStringList pixelLabel;
                         pixelLabel << _info.layers[i].pixel;
-                        const QString infoString = qApp->translate("djv::info::Application",
-                            "%1x%2:%3 %4").
+                        const QString infoString = qApp->translate("djv::info::Application","I[%1x%2:%3 %4]").
                             arg(_info.layers[i].size.x).
                             arg(_info.layers[i].size.y).
                             arg(Core::VectorUtil::aspect(_info.layers[i].size), 0, 'f', 2).

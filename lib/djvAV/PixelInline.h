@@ -128,28 +128,23 @@ namespace djv
             return data[in];
         }
 
-        inline bool Pixel::type(int bitDepth, DATA data, TYPE & type)
+        inline bool Pixel::intType(int bitDepth, TYPE & type)
         {
-            switch (data)
+            switch (bitDepth)
             {
-            case INTEGER:
-                switch (bitDepth)
-                {
-                case  8: type = U8; return true;
-                case 10: type = U10; return true;
-                case 16: type = U16; return true;
-                default: return false;
-                }
-                break;
-            case FLOAT:
-                switch (bitDepth)
-                {
-                case 16: type = F16; return true;
-                case 32: type = F32; return true;
-                default: return false;
-                }
-                break;
-            default: break;
+            case  8: type = U8; return true;
+            case 10: type = U10; return true;
+            case 16: type = U16; return true;
+            }
+            return false;
+        }
+
+        inline bool Pixel::floatType(int bitDepth, TYPE & type)
+        {
+            switch (bitDepth)
+            {
+            case 16: type = F16; return true;
+            case 32: type = F32; return true;
             }
             return false;
         }
@@ -334,13 +329,24 @@ namespace djv
             return true;
         }
 
-        inline bool Pixel::pixel(int channels, int bitDepth, DATA data, PIXEL & pixel)
+        inline bool Pixel::intPixel(int channels, int bitDepth, PIXEL & pixel)
         {
             FORMAT format = static_cast<FORMAT>(0);
             if (!Pixel::format(channels, format))
                 return false;
             TYPE type = static_cast<TYPE>(0);
-            if (!Pixel::type(bitDepth, data, type))
+            if (!Pixel::intType(bitDepth, type))
+                return false;
+            return Pixel::pixel(format, type, pixel);
+        }
+
+        inline bool Pixel::floatPixel(int channels, int bitDepth, PIXEL & pixel)
+        {
+            FORMAT format = static_cast<FORMAT>(0);
+            if (!Pixel::format(channels, format))
+                return false;
+            TYPE type = static_cast<TYPE>(0);
+            if (!Pixel::floatType(bitDepth, type))
                 return false;
             return Pixel::pixel(format, type, pixel);
         }

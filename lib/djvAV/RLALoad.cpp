@@ -258,15 +258,23 @@ namespace djv
                     RLA::staticName,
                     IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
             }
-            if (!Pixel::pixel(
-                header.colorChannels + header.matteChannels,
-                header.colorBitDepth,
-                3 == header.colorChannelType ? Pixel::FLOAT : Pixel::INTEGER,
-                pixel))
+            if (3 == header.colorChannelType)
             {
-                throw Core::Error(
-                    RLA::staticName,
-                    IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
+                if (!Pixel::floatPixel(header.colorChannels + header.matteChannels, header.colorBitDepth, pixel))
+                {
+                    throw Core::Error(
+                        RLA::staticName,
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
+                }
+            }
+            else
+            {
+                if (!Pixel::intPixel(header.colorChannels + header.matteChannels, header.colorBitDepth, pixel))
+                {
+                    throw Core::Error(
+                        RLA::staticName,
+                        IOPlugin::errorLabels()[IOPlugin::ERROR_UNSUPPORTED]);
+                }
             }
             if (header.field)
             {

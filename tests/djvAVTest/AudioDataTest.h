@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2015 Darby Johnston
+// Copyright (c) 2004-2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,39 +29,22 @@
 
 #pragma once
 
-#include <djvAV/FFmpeg.h>
-#include <djvAV/IO.h>
-
-#include <djvCore/FileInfo.h>
+#include <djvAVTest/AVTest.h>
 
 namespace djv
 {
-    namespace AV
+    namespace AVTest
     {
-        class FFmpegLoad : public Load
+        class AudioDataTest : public TestLib::AbstractTest
         {
         public:
-            explicit FFmpegLoad(const Core::FileInfo &, const QPointer<Core::CoreContext> &);
-            virtual ~FFmpegLoad();
-
-            void read(Image &, const ImageIOInfo &) override;
+            void run(int &, char **) override;
 
         private:
-            bool readFrame(int64_t & pts);
-
-            int _frame = 0;
-            PixelData _tmp;
-
-            AVFormatContext * _avFormatContext = nullptr;
-            int _avVideoStream = -1;
-            int _avAudioStream = -1;
-            std::map<int, AVCodecParameters *> _avCodecParameters;
-            std::map<int, AVCodecContext *> _avCodecContext;
-            AVFrame * _avFrame = nullptr;
-            AVFrame * _avFrameRgb = nullptr;
-            SwsContext * _swsContext = nullptr;
-            AVSampleFormat _avSampleFormat = AV_SAMPLE_FMT_NONE;
+            void convert();
+            void interleave();
+            void deinterleave();
         };
 
-    } // namespace AV
+    } // namespace AVTest
 } // namespace djv

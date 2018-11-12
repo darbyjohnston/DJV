@@ -135,23 +135,27 @@ namespace djv
             }
             {
                 AV::Pixel::TYPE type = static_cast<AV::Pixel::TYPE>(0);
-                DJV_ASSERT(AV::Pixel::type(10, AV::Pixel::INTEGER, type));
+                DJV_ASSERT(AV::Pixel::intType(10, type));
                 DJV_ASSERT(AV::Pixel::U10 == type);
-                DJV_ASSERT(!AV::Pixel::type(10, AV::Pixel::FLOAT, type));
             }
             {
                 AV::Pixel::TYPE type = static_cast<AV::Pixel::TYPE>(0);
-                DJV_ASSERT(!AV::Pixel::type(0, AV::Pixel::INTEGER, type));
-                AV::Pixel::type(8, AV::Pixel::INTEGER, type);
-                DJV_ASSERT(AV::Pixel::U8 == type);
-                AV::Pixel::type(10, AV::Pixel::INTEGER, type);
+                DJV_ASSERT(AV::Pixel::intType(10, type));
                 DJV_ASSERT(AV::Pixel::U10 == type);
-                AV::Pixel::type(16, AV::Pixel::INTEGER, type);
+            }
+            {
+                AV::Pixel::TYPE type = static_cast<AV::Pixel::TYPE>(0);
+                DJV_ASSERT(!AV::Pixel::intType(0, type));
+                AV::Pixel::intType(8, type);
+                DJV_ASSERT(AV::Pixel::U8 == type);
+                AV::Pixel::intType(10, type);
+                DJV_ASSERT(AV::Pixel::U10 == type);
+                AV::Pixel::intType(16, type);
                 DJV_ASSERT(AV::Pixel::U16 == type);
-                DJV_ASSERT(!AV::Pixel::type(0, AV::Pixel::FLOAT, type));
-                AV::Pixel::type(16, AV::Pixel::FLOAT, type);
+                DJV_ASSERT(!AV::Pixel::floatType(0, type));
+                AV::Pixel::floatType(16, type);
                 DJV_ASSERT(AV::Pixel::F16 == type);
-                AV::Pixel::type(32, AV::Pixel::FLOAT, type);
+                AV::Pixel::floatType(32, type);
                 DJV_ASSERT(AV::Pixel::F32 == type);
             }
             {
@@ -291,10 +295,10 @@ namespace djv
             }
             {
                 AV::Pixel::PIXEL pixel = static_cast<AV::Pixel::PIXEL>(0);
-                DJV_ASSERT(AV::Pixel::pixel(3, 10, AV::Pixel::INTEGER, pixel));
+                DJV_ASSERT(AV::Pixel::intPixel(3, 10, pixel));
                 DJV_ASSERT(AV::Pixel::RGB_U10 == pixel);
-                DJV_ASSERT(!AV::Pixel::pixel(3, 10, AV::Pixel::FLOAT, pixel));
-                DJV_ASSERT(!AV::Pixel::pixel(4, 10, AV::Pixel::INTEGER, pixel));
+                DJV_ASSERT(!AV::Pixel::floatPixel(3, 10, pixel));
+                DJV_ASSERT(!AV::Pixel::intPixel(4, 10, pixel));
             }
         }
 
@@ -389,7 +393,6 @@ namespace djv
             {
                 DJV_DEBUG_PRINT(AV::Pixel::RGBA);
                 DJV_DEBUG_PRINT(AV::Pixel::F32);
-                DJV_DEBUG_PRINT(AV::Pixel::FLOAT);
                 DJV_DEBUG_PRINT(AV::Pixel::RGBA_F32);
             }
         }

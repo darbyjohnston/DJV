@@ -230,7 +230,7 @@ namespace djv
                 bitDepth = 8;
             }
             //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
-            if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.layers[0].pixel))
+            if (!Pixel::intPixel(channels, bitDepth, info.layers[0].pixel))
             {
                 throw Core::Error(
                     PNG::staticName,

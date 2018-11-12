@@ -177,13 +177,14 @@ namespace djv
             case PHOTOMETRIC_RGB:
                 if (32 == sampleDepth && sampleFormat != SAMPLEFORMAT_IEEEFP)
                     break;
-                found = Pixel::pixel(
-                    samples,
-                    sampleDepth,
-                    SAMPLEFORMAT_IEEEFP == sampleFormat ?
-                    Pixel::FLOAT :
-                    Pixel::INTEGER,
-                    pixel);
+                if (SAMPLEFORMAT_IEEEFP == sampleFormat)
+                {
+                    found = Pixel::floatPixel(samples, sampleDepth, pixel);
+                }
+                else
+                {
+                    found = Pixel::intPixel(samples, sampleDepth, pixel);
+                }
                 break;
             }
             //DJV_DEBUG_PRINT("found = " << found);

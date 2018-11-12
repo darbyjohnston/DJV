@@ -49,12 +49,29 @@ namespace djv
             //! This enumeration provides the audio data types.
             enum TYPE
             {
-                TYPE_NONE,
-                TYPE_16,    //!< 16-bit
+                TYPE_NONE,  //!< Invalid
+                U8,         //!< 8-bit unsigned
+                S16,        //!< 16-bit signed
+                S32,        //!< 32-bit signed
+                F32,        //!< 32-bit floating-point
 
                 TYPE_COUNT
             };
             Q_ENUM(TYPE);
+
+            typedef uint8_t U8_T;
+            typedef int16_t S16_T;
+            typedef int32_t S32_T;
+            typedef float   F32_T;
+
+            static const U8_T   u8Min;
+            static const U8_T   u8Max;
+            static const S16_T s16Min;
+            static const S16_T s16Max;
+            static const S32_T s32Min;
+            static const S32_T s32Max;
+            static const F32_T f32Min;
+            static const F32_T f32Max;
 
             //! Get the audio data type labels.
             static const QStringList & typeLabels();
@@ -62,14 +79,30 @@ namespace djv
             //! Get the number of bytes in a data type.
             static inline int byteCount(TYPE);
 
-            //! Get the type from the given number of bytes.
-            static inline TYPE type(size_t);
+            //! Get the integer type from the given number of bytes.
+            static inline TYPE intType(size_t);
+
+            //! Get the floating-point type from the given number of bytes.
+            static inline TYPE floatType(size_t);
 
             //! Get the OpenAL format from the given channels and type.
             static inline ALenum toAL(size_t channels, TYPE);
 
             //! Get an OpenAL error string.
             static QString alErrorString(ALenum);
+
+            static inline void convert( U8_T, S16_T &);
+            static inline void convert( U8_T, S32_T &);
+            static inline void convert( U8_T, F32_T &);
+            static inline void convert(S16_T,  U8_T &);
+            static inline void convert(S16_T, S32_T &);
+            static inline void convert(S16_T, F32_T &);
+            static inline void convert(S32_T,  U8_T &);
+            static inline void convert(S32_T, S16_T &);
+            static inline void convert(S32_T, F32_T &);
+            static inline void convert(F32_T,  U8_T &);
+            static inline void convert(F32_T, S16_T &);
+            static inline void convert(F32_T, S32_T &);
         };
 
     } // namespace AV

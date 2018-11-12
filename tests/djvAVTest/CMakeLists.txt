@@ -1,4 +1,6 @@
 set(header
+    AudioDataTest.h
+    AudioTest.h
     AVContextTest.h
     AVTest.h
     ColorProfileTest.h
@@ -15,6 +17,8 @@ set(header
     TagsTest.h)
 set(mocHeader)
 set(source
+    AudioDataTest.cpp
+    AudioTest.cpp
     AVContextTest.cpp
     ColorProfileTest.cpp
     ColorTest.cpp

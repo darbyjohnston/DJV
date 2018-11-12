@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvAV/Audio.h>
+
 #include <djvCore/StringUtil.h>
 
 #include <QMap>
@@ -104,7 +106,6 @@ namespace djv
                 QMap<QString, QString> map() const;
 
                 AVDictionary ** operator () ();
-
                 const AVDictionary * const * operator () () const;
 
             private:
@@ -119,7 +120,6 @@ namespace djv
                 ~Packet();
 
                 AVPacket & operator () ();
-
                 const AVPacket & operator () () const;
 
             private:
@@ -132,8 +132,11 @@ namespace djv
             //! Convert an FFmpeg return code to a string.
             static QString toString(int);
 
-            //! Get the option labels.
-            static const QStringList & optionsLabels();
+            //! Convert an FFmpeg audio format.
+            static Audio::TYPE fromFFmpeg(AVSampleFormat);
+
+            //! Convert an FFmpeg audio format to a string.
+            static QString toString(AVSampleFormat);
 
             //! This struct provides options.
             struct Options
@@ -143,6 +146,9 @@ namespace djv
                 FORMAT  format;
                 QUALITY quality;
             };
+
+            //! Get the option labels.
+            static const QStringList & optionsLabels();
         };
 
     } // namespace AV

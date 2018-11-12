@@ -114,11 +114,7 @@ namespace djv
 
                 // Information.
                 info.layers[0].size = glm::ivec2(_data.width, _data.height);
-                if (!Pixel::pixel(
-                    _data.channels,
-                    1 == _data.bytes ? 8 : 16,
-                    Pixel::INTEGER,
-                    info.layers[0].pixel))
+                if (!Pixel::intPixel(_data.channels, 1 == _data.bytes ? 8 : 16, info.layers[0].pixel))
                 {
                     throw Core::Error(
                         SGI::staticName,

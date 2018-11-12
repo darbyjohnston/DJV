@@ -33,16 +33,29 @@
 
 #include <QCoreApplication>
 
+#include <limits>
+
 namespace djv
 {
     namespace AV
     {
+        const Audio::U8_T  Audio::u8Min  = std::numeric_limits<U8_T>::min();
+        const Audio::U8_T  Audio::u8Max  = std::numeric_limits<U8_T>::max();
+        const Audio::S16_T Audio::s16Min = std::numeric_limits<S16_T>::min();
+        const Audio::S16_T Audio::s16Max = std::numeric_limits<S16_T>::max();
+        const Audio::S32_T Audio::s32Min = std::numeric_limits<S32_T>::min();
+        const Audio::S32_T Audio::s32Max = std::numeric_limits<S32_T>::max();
+        const Audio::F32_T Audio::f32Min = -1.f;
+        const Audio::F32_T Audio::f32Max = 1.f;
+
         const QStringList & Audio::typeLabels()
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::AV::Audio", "None") <<
-                qApp->translate("djv::AV::Audio", "8") <<
-                qApp->translate("djv::AV::Audio", "16");
+                qApp->translate("djv::AV::Audio", "U8") <<
+                qApp->translate("djv::AV::Audio", "S16") <<
+                qApp->translate("djv::AV::Audio", "S32") <<
+                qApp->translate("djv::AV::Audio", "F32");
             DJV_ASSERT(data.count() == Audio::TYPE_COUNT);
             return data;
         }

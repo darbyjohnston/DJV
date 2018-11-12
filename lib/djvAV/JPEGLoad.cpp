@@ -208,7 +208,7 @@ namespace djv
             // Information.
             info.layers[0].fileName = in;
             info.layers[0].size = glm::ivec2(_jpeg.output_width, _jpeg.output_height);
-            if (!Pixel::pixel(_jpeg.out_color_components, 8, Pixel::INTEGER, info.layers[0].pixel))
+            if (!Pixel::intPixel(_jpeg.out_color_components, 8, info.layers[0].pixel))
             {
                 throw Core::Error(
                     JPEG::staticName,

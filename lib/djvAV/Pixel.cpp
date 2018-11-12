@@ -64,15 +64,6 @@ namespace djv
             return data;
         }
 
-        const QStringList & Pixel::dataLabels()
-        {
-            static const QStringList data = QStringList() <<
-                qApp->translate("djv::AV::Pixel", "Integer") <<
-                qApp->translate("djv::AV::Pixel", "Float");
-            DJV_ASSERT(data.count() == DATA_COUNT);
-            return data;
-        }
-
         const QStringList & Pixel::pixelLabels()
         {
             static const QStringList data = QStringList() <<
@@ -101,7 +92,6 @@ namespace djv
 
     _DJV_STRING_OPERATOR_LABEL(AV::Pixel::FORMAT, AV::Pixel::formatLabels());
     _DJV_STRING_OPERATOR_LABEL(AV::Pixel::TYPE, AV::Pixel::typeLabels());
-    _DJV_STRING_OPERATOR_LABEL(AV::Pixel::DATA, AV::Pixel::dataLabels());
     _DJV_STRING_OPERATOR_LABEL(AV::Pixel::PIXEL, AV::Pixel::pixelLabels());
 
     QStringList & operator >> (QStringList & in, AV::Pixel::Mask & out)
@@ -130,13 +120,6 @@ namespace djv
     }
 
     Core::Debug & operator << (Core::Debug & debug, const AV::Pixel::TYPE & in)
-    {
-        QStringList tmp;
-        tmp << in;
-        return debug << tmp;
-    }
-
-    Core::Debug & operator << (Core::Debug & debug, const AV::Pixel::DATA & in)
     {
         QStringList tmp;
         tmp << in;

@@ -182,8 +182,7 @@ namespace djv
             {
                 for (int y = 0; y < h; ++y)
                 {
-                    const quint8 * inP = in.data() + (c * in.h() + y * proxyScale) *
-                        in.w() * channelByteCount;
+                    const quint8 * inP = in.data() + (c * in.h() + y * proxyScale) * in.w() * channelByteCount;
                     quint8 * outP = out.data(0, y) + c * channelByteCount;
                     for (
                         int x = 0;

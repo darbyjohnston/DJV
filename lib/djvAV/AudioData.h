@@ -40,12 +40,16 @@ namespace djv
         //! This struct provides audio data information.
         struct AudioInfo
         {
-            unsigned int channels    = 0;
+            AudioInfo();
+            AudioInfo(size_t channels, Audio::TYPE type, size_t sampleRate, size_t sampleCount);
+
+            size_t       channels    = 0;
             Audio::TYPE  type        = Audio::TYPE_NONE;
-            unsigned int sampleRate  = 0;
+            size_t       sampleRate  = 0;
             uint64_t     sampleCount = 0;
 
             inline bool isValid() const;
+            inline uint64_t byteCount() const;
 
             bool operator == (const AudioInfo &) const;
             bool operator != (const AudioInfo &) const;
@@ -65,17 +69,23 @@ namespace djv
             void zero();
 
             inline const AudioInfo & info() const;
-            inline unsigned int channels() const;
+            inline size_t channels() const;
             inline Audio::TYPE type() const;
-            inline unsigned int sampleRate() const;
+            inline size_t sampleRate() const;
             inline uint64_t sampleCount() const;
 
             inline bool isValid() const;
-            inline quint8 * data();
-            inline const quint8 * data() const;
-            inline quint8 * data(uint64_t offset);
-            inline const quint8 * data(uint64_t offset) const;
-            inline quint64 dataByteCount() const;
+            inline uint64_t byteCount() const;
+
+            inline uint8_t * data();
+            inline const uint8_t * data() const;
+            inline uint8_t * data(uint64_t offset);
+            inline const uint8_t * data(uint64_t offset) const;
+
+            static AudioData convert(const AudioData &, Audio::TYPE);
+
+            static AudioData planarInterleave(const AudioData &);
+            static AudioData planarDeinterleave(const AudioData &);
 
             bool operator == (const AudioData &) const;
             bool operator != (const AudioData &) const;

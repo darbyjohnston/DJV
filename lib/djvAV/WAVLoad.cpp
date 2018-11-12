@@ -49,7 +49,7 @@ namespace djv
                     IOPlugin::errorLabels()[IOPlugin::ERROR_OPEN]);
             }
 
-            _ioInfo.audio.type        = Audio::type(_drwav->bytesPerSample);
+            _ioInfo.audio.type        = Audio::intType(_drwav->bytesPerSample);
             _ioInfo.audio.channels    = _drwav->channels;
             _ioInfo.audio.sampleRate  = _drwav->sampleRate;
             _ioInfo.audio.sampleCount = _drwav->totalSampleCount;
@@ -77,7 +77,7 @@ namespace djv
             drwav_uint64 read = 0;
             switch (info.type)
             {
-            case Audio::TYPE_16: read = drwav_read_s16(_drwav, info.sampleCount, reinterpret_cast<drwav_int16 *>(data.data())); break;
+            case Audio::S16: read = drwav_read_s16(_drwav, info.sampleCount, reinterpret_cast<drwav_int16 *>(data.data())); break;
             default: break;
             }
             if (read != info.sampleCount)

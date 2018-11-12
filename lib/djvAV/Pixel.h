@@ -79,17 +79,6 @@ namespace djv
             //! Get the pixel type labels.
             static const QStringList & typeLabels();
 
-            //! This enumeration provides whether the pixel has integer or floating
-            //! point data.
-            enum DATA
-            {
-                INTEGER,
-                FLOAT,
-
-                DATA_COUNT
-            };
-            Q_ENUM(DATA);
-
             //! Get the data labels.
             static const QStringList & dataLabels();
 
@@ -162,8 +151,11 @@ namespace djv
             //! Get the pixel type.
             static inline TYPE type(PIXEL);
 
-            //! Get the pixel type for the given bit depth.
-            static inline bool type(int bitDepth, DATA, TYPE &);
+            //! Get the integer pixel type for the given bit depth.
+            static inline bool intType(int bitDepth, TYPE &);
+
+            //! Get the floating-point pixel type for the given bit depth.
+            static inline bool floatType(int bitDepth, TYPE &);
 
             //! Get the number of channels in a format.
             static inline int channels(FORMAT);
@@ -195,9 +187,13 @@ namespace djv
             //! not compatible then false is returned.
             static inline bool pixel(FORMAT, TYPE, PIXEL &);
 
-            //! Create a pixel from the given number of channels and bit depth. If the
-            //! combination is not compatible then false is returned.
-            static inline bool pixel(int channels, int bitDepth, DATA, PIXEL &);
+            //! Create an integer pixel from the given number of channels and bit depth.
+            //! If the combination is not compatible then false is returned.
+            static inline bool intPixel(int channels, int bitDepth, PIXEL &);
+
+            //! Create a floating-point pixel from the given number of channels and bit depth.
+            //! If the combination is not compatible then false is returned.
+            static inline bool floatPixel(int channels, int bitDepth, PIXEL &);
 
             //! This struct provides a pixel mask.
             struct Mask
@@ -336,13 +332,11 @@ namespace djv
 
     DJV_STRING_OPERATOR(AV::Pixel::FORMAT);
     DJV_STRING_OPERATOR(AV::Pixel::TYPE);
-    DJV_STRING_OPERATOR(AV::Pixel::DATA);
     DJV_STRING_OPERATOR(AV::Pixel::PIXEL);
     DJV_STRING_OPERATOR(AV::Pixel::Mask);
 
     DJV_DEBUG_OPERATOR(AV::Pixel::FORMAT);
     DJV_DEBUG_OPERATOR(AV::Pixel::TYPE);
-    DJV_DEBUG_OPERATOR(AV::Pixel::DATA);
     DJV_DEBUG_OPERATOR(AV::Pixel::PIXEL);
     DJV_DEBUG_OPERATOR(AV::Pixel::FORMAT);
     DJV_DEBUG_OPERATOR(AV::Pixel::Mask);

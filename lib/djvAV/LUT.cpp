@@ -137,7 +137,7 @@ namespace djv
             default: break;
             }
             //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
-            if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.pixel))
+            if (!Pixel::intPixel(channels, bitDepth, info.pixel))
             {
                 throw Core::Error(
                     LUT::staticName,
@@ -237,7 +237,7 @@ namespace djv
             default: break;
             }
             //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
-            if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.pixel))
+            if (!Pixel::intPixel(channels, bitDepth, info.pixel))
             {
                 throw Core::Error(
                     LUT::staticName,

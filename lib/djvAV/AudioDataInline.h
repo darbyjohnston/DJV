@@ -36,12 +36,17 @@ namespace djv
             return type != Audio::TYPE_NONE;
         }
 
+        inline uint64_t AudioInfo::byteCount() const
+        {
+            return sampleCount * Audio::byteCount(type);
+        }
+
         inline const AudioInfo & AudioData::info() const
         {
             return _info;
         }
 
-        inline unsigned int AudioData::channels() const
+        inline size_t AudioData::channels() const
         {
             return _info.channels;
         }
@@ -51,7 +56,7 @@ namespace djv
             return _info.type;
         }
 
-        inline unsigned int AudioData::sampleRate() const
+        inline size_t AudioData::sampleRate() const
         {
             return _info.sampleRate;
         }
@@ -66,29 +71,29 @@ namespace djv
             return _info.isValid();
         }
 
-        inline quint8 * AudioData::data()
+        inline uint8_t * AudioData::data()
         {
             return _data.data();
         }
 
-        inline const quint8 * AudioData::data() const
+        inline const uint8_t * AudioData::data() const
         {
             return _data.data();
         }
 
-        inline quint8 * AudioData::data(uint64_t offset)
+        inline uint8_t * AudioData::data(uint64_t offset)
         {
             return _data.data();
         }
 
-        inline const quint8 * AudioData::data(uint64_t offset) const
+        inline const uint8_t * AudioData::data(uint64_t offset) const
         {
             return _data.data();
         }
 
-        inline quint64 AudioData::dataByteCount() const
+        inline uint64_t AudioData::byteCount() const
         {
-            return _info.sampleCount * Audio::byteCount(_info.type);
+            return _info.byteCount();
         }
 
     } // namespace AV

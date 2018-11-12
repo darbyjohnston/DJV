@@ -161,11 +161,7 @@ namespace djv
                 }
                 //DJV_DEBUG_PRINT("channels = " << channels);
                 //DJV_DEBUG_PRINT("bit depth = " << image.elem[0].bitDepth);
-                found = Pixel::pixel(
-                    channels,
-                    image.elem[0].bitDepth,
-                    Pixel::INTEGER,
-                    pixel);
+                found = Pixel::intPixel(channels, image.elem[0].bitDepth, pixel);
             }
             break;
             case TYPE_A:
@@ -197,11 +193,7 @@ namespace djv
                         //DJV_DEBUG_PRINT("channels = " << channels);
                         //DJV_DEBUG_PRINT("bit depth = " <<
                         //    image.elem[0].bitDepth);
-                        found = Pixel::pixel(
-                            channels,
-                            image.elem[0].bitDepth,
-                            Pixel::INTEGER,
-                            pixel);
+                        found = Pixel::intPixel(channels, image.elem[0].bitDepth, pixel);
                     }
                     break;
                     }
