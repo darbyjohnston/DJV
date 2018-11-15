@@ -49,16 +49,16 @@ namespace djv
             //! This property holds the pixel data.
             Q_PROPERTY(
                 const djv::AV::PixelData * data
-                READ                             data
-                WRITE                            setData
-                NOTIFY                           dataChanged)
+                READ                       data
+                WRITE                      setData
+                NOTIFY                     dataChanged)
 
             //! This property holds the image options.
             Q_PROPERTY(
                 djv::AV::OpenGLImageOptions options
-                READ                              options
-                WRITE                             setOptions
-                NOTIFY                            optionsChanged)
+                READ                        options
+                WRITE                       setOptions
+                NOTIFY                      optionsChanged)
 
             //! This property holds the view position.
             Q_PROPERTY(
