@@ -31,20 +31,12 @@
 
 #include <Util.h>
 
-#include <djvAV/AudioData.h>
-#include <djvAV/FFmpeg.h>
-#include <djvAV/PixelData.h>
-
-#include <djvCore/Error.h>
-#include <djvCore/FileInfo.h>
-
-#include <QObject>
+#include <QAbstractListModel>
 #include <QPointer>
+#include <QWidget>
 
-#include <future>
-#include <map>
-#include <mutex>
-#include <thread>
+class QLabel;
+class QListView;
 
 namespace djv
 {
@@ -52,52 +44,66 @@ namespace djv
     {
         class Context;
 
-        struct IOInfo
+        class VideoFrameModel : public QAbstractListModel
         {
-            Core::FileInfo  fileInfo;
-            Util::VideoInfo video;
-            Util::AudioInfo audio;
+        public:
+            VideoFrameModel(const std::shared_ptr<Util::AVQueue> &);
+
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+
+        protected:
+            void timerEvent(QTimerEvent *) override;
+
+        private:
+            std::shared_ptr<Util::AVQueue> _queue;
+            int _queueTimer = 0;
+            std::vector<int64_t> _pts;
         };
 
-        class IO : public QObject
+        class AudioFrameModel : public QAbstractListModel
+        {
+        public:
+            AudioFrameModel(const std::shared_ptr<Util::AVQueue> &);
+
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+
+        protected:
+            void timerEvent(QTimerEvent *) override;
+
+        private:
+            std::shared_ptr<Util::AVQueue> _queue;
+            int _queueTimer = 0;
+            std::vector<int64_t> _pts;
+        };
+
+        class InfoWidget : public QWidget
         {
             Q_OBJECT
 
         public:
-            IO(const Core::FileInfo &, const std::shared_ptr<Util::AVQueue> &, const QPointer<Context> &, QObject * parent = nullptr);
-            ~IO() override;
+            InfoWidget(const QPointer<Context> &, QWidget * parent = nullptr);
+            ~InfoWidget() override;
 
-            std::future<IOInfo> ioInfo();
+        protected:
+            void timerEvent(QTimerEvent *) override;
 
-        public Q_SLOTS:
-            void seek(int64_t);
+        private Q_SLOTS:
+            void widgetUpdate();
 
         private:
-            int64_t _decodeVideo(AVPacket *, bool seek = false);
-            int64_t _decodeAudio(AVPacket *, bool seek = false);
-
             QPointer<Context> _context;
-
-            std::shared_ptr<Util::AVQueue> _queue;
-            std::condition_variable _queueCV;
-
-            IOInfo _ioInfo;
-            std::promise<IOInfo> _ioInfoPromise;
-
-            std::thread _thread;
-            std::atomic<bool> _running;
-
-            AVFormatContext * _avFormatContext = nullptr;
-            int _avVideoStream = -1;
-            int _avAudioStream = -1;
-            std::map<int, AVCodecParameters *> _avCodecParameters;
-            std::map<int, AVCodecContext *> _avCodecContext;
-            AVFrame * _avFrame = nullptr;
-            AVFrame * _avFrameRgb = nullptr;
-            SwsContext * _swsContext = nullptr;
-            int64_t _seek = -1;
-
-            Core::Error _error;
+            QPointer<QLabel> _currentTimeLabel;
+            QPointer<QLabel> _durationLabel;
+            QScopedPointer< VideoFrameModel> _queueVideoModel;
+            QPointer<QListView> _queueVideoView;
+            QPointer<QLabel> _queueVideoLabel;
+            QScopedPointer< AudioFrameModel> _queueAudioModel;
+            QPointer<QListView> _queueAudioView;
+            QPointer<QLabel> _queueAudioLabel;
+            QPointer<QLabel> _alUnqueuedBuffersLabel;
+            int _queueTimer = 0;
         };
 
     } // namespace AudioExperiment2

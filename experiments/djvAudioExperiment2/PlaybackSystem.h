@@ -29,43 +29,70 @@
 
 #pragma once
 
-#include <IO.h>
+#include <Util.h>
 
-#include <djvUI/UIContext.h>
+#include <QObject>
+#include <QPointer>
 
-#include <QAction>
-#include <QMap>
-
-#include <future>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 namespace djv
 {
     namespace AudioExperiment2
     {
-        class PlaybackSystem;
+        class Context;
 
-        class Context : public UI::UIContext
+        class PlaybackSystem : public QObject
         {
             Q_OBJECT
 
         public:
-            Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
+            PlaybackSystem(
+                const std::shared_ptr<Util::AVQueue> &,
+                const QPointer<Context> &,
+                QObject * parent = nullptr);
+            ~PlaybackSystem() override;
 
-            std::shared_ptr<Util::AVQueue> ioQueue() const;
-            QPointer<PlaybackSystem> playbackSystem() const;
-            const QMap<QString, QPointer<QAction> > & actions() const;
+            const Util::AudioInfo & info() const { return _info; }
+            int64_t duration() const { return _duration; }
+            int64_t currentTime() const { return _currentTime; }
+            Util::PLAYBACK playback() const { return _playback; }
+            size_t alUnqueuedBuffers() const { return _alBuffers.size(); }
+
+        public Q_SLOTS:
+            void setInfo(const Util::AudioInfo &);
+            void setDuration(int64_t);
+            void setCurrentTime(int64_t);
+            void setPlayback(Util::PLAYBACK);
+
+        Q_SIGNALS:
+            void infoChanged(const Util::AudioInfo &);
+            void durationChanged(int64_t);
+            void currentTimeChanged(int64_t);
+            void playbackChanged(Util::PLAYBACK);
 
         protected:
             void timerEvent(QTimerEvent *);
 
         private:
-            std::shared_ptr<Util::AVQueue> _ioQueue;
-            QScopedPointer<IO> _io;
-            std::future<IOInfo> _ioInfoFuture;
-            int _ioInfoTimer = 0;
-            QScopedPointer<PlaybackSystem> _playbackSystem;
-            QMap<QString, QPointer<QAction> > _actions;
+            void playbackUpdate();
+            void timeUpdate();
+
+            QPointer<Context> _context;
+            std::shared_ptr<Util::AVQueue> _queue;
+            Util::AudioInfo _info;
+            int64_t _duration = 0;
+            int64_t _currentTime = 0;
+            Util::PLAYBACK _playback = Util::PLAYBACK_STOP;
+            ALCdevice * _alDevice = nullptr;
+            ALCcontext * _alContext = nullptr;
+            ALuint _alSource = 0;
+            std::vector<ALuint> _alBuffers;
+            int _playbackTimer = 0;
+            int _startTimer = 0;
+            int64_t _queuedBytes = 0;
+            int64_t _timeOffset = 0;
         };
 
     } // namespace AudioExperiment2

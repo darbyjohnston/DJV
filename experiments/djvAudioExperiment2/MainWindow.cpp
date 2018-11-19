@@ -29,11 +29,15 @@
 
 #include <MainWindow.h>
 
-#include <AudioSystem.h>
 #include <Context.h>
+#include <ImageView.h>
+#include <InfoWidget.h>
+#include <PlaybackSystem.h>
 #include <TimelineWidget.h>
 
 #include <QDockWidget>
+#include <QMenuBar>
+#include <QMenu>
 
 using namespace djv;
 
@@ -44,71 +48,35 @@ namespace djv
         MainWindow::MainWindow(const QPointer<Context> & context) :
             _context(context)
         {
-            _imageView = new UI::ImageView(context.data());
+            auto menu = new QMenu("File");
+            menu->addAction(context->actions()["File/Open"].data());
+            menu->addAction(context->actions()["File/Close"].data());
+            menuBar()->addMenu(menu);
+
+            menu = new QMenu("Playback");
+            menu->addAction(context->actions()["Playback/Stop"].data());
+            menu->addAction(context->actions()["Playback/Forward"].data());
+            menuBar()->addMenu(menu);
+
+            _imageView = new ImageView(context.data());
             setCentralWidget(_imageView);
 
             auto timelineWidget = new TimelineWidget(context);
-            auto timelineDockWidget = new QDockWidget;
+            auto timelineDockWidget = new QDockWidget("Timeline");
             timelineDockWidget->setWidget(timelineWidget);
             addDockWidget(Qt::BottomDockWidgetArea, timelineDockWidget);
 
-            timelineWidget->setDuration(context->audioSystem()->duration());
-            timelineWidget->setCurrentTime(context->audioSystem()->currentTime());
+            auto infoWidget = new InfoWidget(context);
+            auto infoDockWidget = new QDockWidget("Information");
+            infoDockWidget->setWidget(infoWidget);
+            addDockWidget(Qt::RightDockWidgetArea, infoDockWidget);
 
-            connect(
-                context->audioSystem(),
-                SIGNAL(currentTimeChanged(int64_t)),
-                SLOT(currentTimeCallback(int64_t)));
-
-            connect(
-                context->audioSystem(),
-                SIGNAL(durationChanged(int64_t)),
-                timelineWidget,
-                SLOT(setDuration(int64_t)));
-            connect(
-                context->audioSystem(),
-                SIGNAL(currentTimeChanged(int64_t)),
-                timelineWidget,
-                SLOT(setCurrentTime(int64_t)));
-            connect(
-                context->audioSystem(),
-                SIGNAL(playbackChanged(Util::PLAYBACK)),
-                timelineWidget,
-                SLOT(setPlayback(Util::PLAYBACK)));
-
-            connect(
-                timelineWidget,
-                SIGNAL(playbackChanged(Util::PLAYBACK)),
-                context->audioSystem(),
-                SLOT(setPlayback(Util::PLAYBACK)));
+            timelineWidget->setDuration(context->playbackSystem()->duration());
+            timelineWidget->setCurrentTime(context->playbackSystem()->currentTime());
         }
 
         MainWindow::~MainWindow()
         {}
-
-        void MainWindow::currentTimeCallback(int64_t value)
-        {
-            DJV_DEBUG("MainWindow::currentTimeCallback");
-            DJV_DEBUG_PRINT("value = " << value);
-            {
-                auto queue = _context->io()->queue();
-                std::lock_guard<std::mutex> lock(queue->mutex);
-                DJV_DEBUG_PRINT("queued = " << queue->video.size());
-                if (queue->video.size())
-                {
-                    DJV_DEBUG_PRINT("front = " << queue->video.front().first);
-                }
-                if (queue->video.size() && queue->video.front().first < value)
-                {
-                    _videoFrame = queue->video.front();
-                    queue->video.pop();
-                }
-            }
-            if (_videoFrame.second)
-            {
-                _imageView->setData(&*_videoFrame.second);
-            }
-        }
 
     } // namespace AudioExperiment2
 } // namespace djv

@@ -54,7 +54,7 @@ namespace djv
                 context(context)
             {}
 
-            const AV::PixelData *  data = nullptr;
+            std::shared_ptr<AV::PixelData> data;
             AV::OpenGLImageOptions options;
             glm::ivec2 viewPos = glm::ivec2(0, 0);
             float viewZoom = 1.f;
@@ -77,7 +77,7 @@ namespace djv
             _p->openGLImage.reset();
         }
 
-        const AV::PixelData * ImageView::data() const
+        const std::shared_ptr<AV::PixelData> ImageView::data() const
         {
             return _p->data;
         }
@@ -112,7 +112,7 @@ namespace djv
             return QSize(200, 200);
         }
 
-        void ImageView::setData(const AV::PixelData * data)
+        void ImageView::setData(const std::shared_ptr<AV::PixelData> & data)
         {
             if (data == _p->data)
                 return;

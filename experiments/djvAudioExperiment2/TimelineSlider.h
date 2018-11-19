@@ -29,15 +29,8 @@
 
 #pragma once
 
-#include <IO.h>
-
-#include <QObject>
 #include <QPointer>
-
-#include <AL/al.h>
-#include <AL/alc.h>
-
-#include <future>
+#include <QWidget>
 
 namespace djv
 {
@@ -45,56 +38,27 @@ namespace djv
     {
         class Context;
 
-        class AudioSystem : public QObject
+        class TimelineSlider : public QWidget
         {
             Q_OBJECT
 
         public:
-            AudioSystem(
-                const QPointer<IO> &,
-                const QPointer<Context> &,
-                QObject * parent = nullptr);
-            ~AudioSystem() override;
-
-            const Util::AudioInfo & info() const { return _info; }
-            float duration() const { return _duration; }
-            float currentTime() const { return _currentTime; }
-            Util::PLAYBACK playback() const { return _playback; }
-
-        public Q_SLOTS:
-            void setInfo(const Util::AudioInfo &);
-            void setDuration(int64_t);
-            void setCurrentTime(int64_t);
-            void setPlayback(Util::PLAYBACK);
-
-        Q_SIGNALS:
-            void infoChanged(const Util::AudioInfo &);
-            void durationChanged(int64_t);
-            void currentTimeChanged(int64_t);
-            void playbackChanged(Util::PLAYBACK);
+            TimelineSlider(const QPointer<Context> &, QWidget * parent = nullptr);
+            ~TimelineSlider() override;
 
         protected:
-            void timerEvent(QTimerEvent *);
+            void paintEvent(QPaintEvent *) override;
+            void mousePressEvent(QMouseEvent *) override;
+            void mouseReleaseEvent(QMouseEvent *) override;
+            void mouseMoveEvent(QMouseEvent *) override;
 
         private:
-            void playbackUpdate();
-            void timeUpdate();
+            int64_t posToTime(int) const;
 
             QPointer<Context> _context;
-            QPointer<IO> _io;
-            std::future<IOInfo> _ioInfoFuture;
-            int _ioInfoTimer = 0;
-            Util::AudioInfo _info;
             int64_t _duration = 0;
             int64_t _currentTime = 0;
-            Util::PLAYBACK _playback = Util::PLAYBACK_STOP;
-            ALCdevice * _alDevice = nullptr;
-            ALCcontext * _alContext = nullptr;
-            ALuint _alSource = 0;
-            std::vector<ALuint> _alBuffers;
-            int _playbackTimer = 0;
-            int64_t _queuedBytes = 0;
-            int64_t _timeOffset = 0;
+            bool _mousePressed = false;
         };
 
     } // namespace AudioExperiment2

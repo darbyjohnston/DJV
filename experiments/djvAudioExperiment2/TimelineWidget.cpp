@@ -30,9 +30,9 @@
 #include <TimelineWidget.h>
 
 #include <Context.h>
+#include <PlaybackSystem.h>
+#include <TimelineSlider.h>
 #include <Util.h>
-
-#include <djvUI/IconLibrary.h>
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -47,45 +47,40 @@ namespace djv
             QWidget(parent)
         {
             _stopButton = new UI::ToolButton(context.data());
-            _stopButton->setIcon(context->iconLibrary()->icon("djv/UI/PlayStopIcon"));
-            _stopButton->setCheckable(true);
+            _stopButton->setDefaultAction(context->actions()["Playback/Stop"]);
 
             _forwardButton = new UI::ToolButton(context.data());
-            _forwardButton->setIcon(context->iconLibrary()->icon("djv/UI/PlayForwardIcon"));
-            _forwardButton->setCheckable(true);
+            _forwardButton->setDefaultAction(context->actions()["Playback/Forward"]);
+
+            _slider = new TimelineSlider(context);
 
             _timeLabel = new QLabel;
 
             auto layout = new QHBoxLayout(this);
             layout->addWidget(_stopButton);
             layout->addWidget(_forwardButton);
-            layout->addStretch();
+            layout->addWidget(_slider, 1);
             layout->addWidget(_timeLabel);
 
             widgetUpdate();
 
             connect(
-                _stopButton,
-                &UI::ToolButton::toggled,
-                [this](bool value)
-            {
-                if (value)
-                {
-                    setPlayback(Util::PLAYBACK_STOP);
-                }
-                widgetUpdate();
-            });
+                context->playbackSystem(),
+                SIGNAL(durationChanged(int64_t)),
+                SLOT(setDuration(int64_t)));
             connect(
-                _forwardButton,
-                &UI::ToolButton::toggled,
-                [this](bool value)
-            {
-                if (value)
-                {
-                    setPlayback(Util::PLAYBACK_FORWARD);
-                }
-                widgetUpdate();
-            });
+                context->playbackSystem(),
+                SIGNAL(currentTimeChanged(int64_t)),
+                SLOT(setCurrentTime(int64_t)));
+            connect(
+                context->playbackSystem(),
+                SIGNAL(playbackChanged(Util::PLAYBACK)),
+                SLOT(setPlayback(Util::PLAYBACK)));
+
+            context->playbackSystem()->connect(
+                this,
+                SIGNAL(playbackChanged(Util::PLAYBACK)),
+                SLOT(setPlayback(Util::PLAYBACK)));
         }
 
         TimelineWidget::~TimelineWidget()
@@ -120,9 +115,11 @@ namespace djv
         
         void TimelineWidget::widgetUpdate()
         {
-            _timeLabel->setText(QString("%1/%2").arg(Util::timeToSeconds(_currentTime)).arg(Util::timeToSeconds(_duration)));
             _stopButton->setChecked(Util::PLAYBACK_STOP == _playback);
             _forwardButton->setChecked(Util::PLAYBACK_FORWARD == _playback);
+            _timeLabel->setText(QString("%1/%2").
+                arg(Util::timeToSeconds(_currentTime), 0, 'f', 2).
+                arg(Util::timeToSeconds(_duration), 0, 'f', 2));
         }
 
     } // namespace AudioExperiment2

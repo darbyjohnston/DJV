@@ -36,9 +36,9 @@
 
 #include <QMetaType>
 
+#include <list>
 #include <memory>
 #include <mutex>
-#include <queue>
 
 namespace djv
 {
@@ -87,8 +87,8 @@ namespace djv
 
             struct AVQueue
             {
-                std::queue<VideoFrame> video;
-                std::queue<AudioFrame> audio;
+                std::list<VideoFrame> video;
+                std::list<AudioFrame> audio;
                 std::mutex mutex;
             };
 

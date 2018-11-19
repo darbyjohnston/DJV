@@ -65,7 +65,6 @@ OpenGL Options
     <message>
         <location filename="Audio.cpp" line="56"/>
         <source>S16</source>
-        <oldsource>16</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -644,18 +643,17 @@ DPX Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegLoad.cpp" line="106"/>
+        <location filename="FFmpegLoad.cpp" line="109"/>
         <source>Cannot find video codec</source>
-        <oldsource>Cannot find codec</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegLoad.cpp" line="140"/>
+        <location filename="FFmpegLoad.cpp" line="165"/>
         <source>Unsupported audio format: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpegLoad.cpp" line="147"/>
+        <location filename="FFmpegLoad.cpp" line="172"/>
         <source>Cannot find audio codec</source>
         <translation type="unfinished"></translation>
     </message>

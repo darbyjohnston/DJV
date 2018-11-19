@@ -413,8 +413,7 @@ namespace djv
 
             auto viewWidget = _p->session->viewWidget();
             viewWidget->setOptions(_p->session->imageOptions());
-            auto image = _p->session->image();
-            viewWidget->setData(image ? &*image : nullptr);
+            viewWidget->setData(_p->session->image());
             viewOverlayUpdate();
             viewWidget->update();
         }

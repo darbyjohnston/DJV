@@ -48,10 +48,10 @@ namespace djv
 
             //! This property holds the pixel data.
             Q_PROPERTY(
-                const djv::AV::PixelData * data
-                READ                       data
-                WRITE                      setData
-                NOTIFY                     dataChanged)
+                const std::shared_ptr<djv::AV::PixelData> & data
+                READ                                        data
+                WRITE                                       setData
+                NOTIFY                                      dataChanged)
 
             //! This property holds the image options.
             Q_PROPERTY(
@@ -82,7 +82,7 @@ namespace djv
             ~ImageView() override;
 
             //! Get the pixel data.
-            const AV::PixelData * data() const;
+            const std::shared_ptr<AV::PixelData> data() const;
 
             //! Get the image options.
             const AV::OpenGLImageOptions & options() const;
@@ -103,7 +103,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the pixel data.
-            void setData(const djv::AV::PixelData *);
+            void setData(const std::shared_ptr<djv::AV::PixelData> &);
 
             //! Set the image options.
             void setOptions(const djv::AV::OpenGLImageOptions &);
@@ -131,7 +131,7 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the pixel data is changed.
-            void dataChanged(const djv::AV::PixelData *);
+            void dataChanged(const std::shared_ptr<djv::AV::PixelData> &);
 
             //! This signal is emitted when the image options are changed.
             void optionsChanged(const djv::AV::OpenGLImageOptions &);

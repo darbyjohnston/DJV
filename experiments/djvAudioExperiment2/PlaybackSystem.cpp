@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <AudioSystem.h>
+#include <PlaybackSystem.h>
 
 #include <Context.h>
 
@@ -65,15 +65,15 @@ namespace djv
 
         } // namespace
 
-        AudioSystem::AudioSystem(
-            const QPointer<IO> & io,
+        PlaybackSystem::PlaybackSystem(
+            const std::shared_ptr<Util::AVQueue> & queue,
             const QPointer<Context> & context,
             QObject * parent) :
             QObject(parent),
             _context(context),
-            _io(io)
+            _queue(queue)
         {
-            DJV_DEBUG("AudioSystem::AudioSystem");
+            //DJV_DEBUG("PlaybackSystem::PlaybackSystem");
 
             const ALCchar * devices = NULL;
             ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
@@ -82,31 +82,31 @@ namespace djv
                 devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
                 Q_FOREACH(auto s, split(devices))
                 {
-                    DJV_DEBUG_PRINT("device = " << s);
+                    //DJV_DEBUG_PRINT("device = " << s);
                 }
             }
 
             _alDevice = alcOpenDevice(devices);
             if (!_alDevice)
             {
-                throw Core::Error("AudioSystem", "Cannot open OpenAL device");
+                throw Core::Error("PlaybackSystem", "Cannot open OpenAL device");
             }
             _alContext = alcCreateContext(_alDevice, NULL);
             if (!_alContext)
             {
-                throw Core::Error("AudioSystem", "Cannot create OpenAL context");
+                throw Core::Error("PlaybackSystem", "Cannot create OpenAL context");
             }
             ALCboolean r = alcMakeContextCurrent(_alContext);
             if (AL_FALSE == r)
             {
-                throw Core::Error("AudioSystem", "Cannot make OpenAL context current");
+                throw Core::Error("PlaybackSystem", "Cannot make OpenAL context current");
             }
             alGetError();
             alGenSources(1, &_alSource);
             ALenum error = AL_NO_ERROR;
             if ((error = alGetError()) != AL_NO_ERROR)
             {
-                throw Core::Error("AudioSystem",
+                throw Core::Error("PlaybackSystem",
                     QString("Cannot create OpenAL source: %1").arg(AV::Audio::alErrorString(error)));
             }
 
@@ -114,15 +114,12 @@ namespace djv
             alGenBuffers(bufferCount, _alBuffers.data());
             if ((error = alGetError()) != AL_NO_ERROR)
             {
-                throw Core::Error("AudioSystem",
+                throw Core::Error("PlaybackSystem",
                     QString("Cannot create OpenAL buffers: %1").arg(AV::Audio::alErrorString(error)));
             }
-
-            _ioInfoFuture = _io->ioInfo();
-            _ioInfoTimer = startTimer(100);
         }
 
-        AudioSystem::~AudioSystem()
+        PlaybackSystem::~PlaybackSystem()
         {
             alcMakeContextCurrent(NULL);
             if (_alContext)
@@ -135,7 +132,7 @@ namespace djv
             }
         }
 
-        void AudioSystem::setInfo(const Util::AudioInfo & value)
+        void PlaybackSystem::setInfo(const Util::AudioInfo & value)
         {
             if (value == _info)
                 return;
@@ -143,7 +140,7 @@ namespace djv
             Q_EMIT infoChanged(_info);
         }
 
-        void AudioSystem::setDuration(int64_t value)
+        void PlaybackSystem::setDuration(int64_t value)
         {
             if (value == _duration)
                 return;
@@ -151,16 +148,18 @@ namespace djv
             Q_EMIT durationChanged(_duration);
         }
 
-        void AudioSystem::setCurrentTime(int64_t value)
+        void PlaybackSystem::setCurrentTime(int64_t value)
         {
             if (value == _currentTime)
                 return;
             _currentTime = value;
+            setPlayback(Util::PLAYBACK_STOP);
+            _timeOffset = _currentTime;
             timeUpdate();
             Q_EMIT currentTimeChanged(_currentTime);
         }
 
-        void AudioSystem::setPlayback(Util::PLAYBACK value)
+        void PlaybackSystem::setPlayback(Util::PLAYBACK value)
         {
             if (value == _playback)
                 return;
@@ -169,52 +168,37 @@ namespace djv
             Q_EMIT playbackChanged(_playback);
         }
 
-        void AudioSystem::timerEvent(QTimerEvent * event)
+        void PlaybackSystem::timerEvent(QTimerEvent *)
         {
-            DJV_DEBUG("AudioSystem::timerEvent");
-            const int id = event->timerId();
-            if (id == _ioInfoTimer)
+            //DJV_DEBUG("PlaybackSystem::timerEvent");
+            switch (_playback)
             {
-                if (_ioInfoFuture.valid())
-                {
-                    const auto info = _ioInfoFuture.get();
-                    setPlayback(Util::PLAYBACK_STOP);
-                    setInfo(info.audio);
-                    setDuration(info.video.duration);
-                    setCurrentTime(0.f);
-                    killTimer(_ioInfoTimer);
-                    _ioInfoTimer = 0;
-                }
+            case Util::PLAYBACK_FORWARD:
+            {
+                ALint offset = 0;
+                alGetSourcei(_alSource, AL_BYTE_OFFSET, &offset);
+                //DJV_DEBUG_PRINT("al offset = " << offset);
+                AVRational r;
+                r.num = 1;
+                r.den = static_cast<int>(_info.sampleRate);
+                auto time = _timeOffset + av_rescale_q(
+                    (_queuedBytes + offset) / AV::Audio::byteCount(_info.type),
+                    r,
+                    AV::FFmpeg::timeBaseQ());
+                //DJV_DEBUG_PRINT("time = " << time);
+                _currentTime = time;
+                timeUpdate();
+                Q_EMIT currentTimeChanged(_currentTime);
+                break;
             }
-            else if (id == _playbackTimer)
-            {
-                switch (_playback)
-                {
-                case Util::PLAYBACK_FORWARD:
-                {
-                    ALint offset = 0;
-                    alGetSourcei(_alSource, AL_BYTE_OFFSET, &offset);
-                    DJV_DEBUG_PRINT("al offset = " << offset);
-                    AVRational r;
-                    r.num = 1;
-                    r.den = static_cast<int>(_info.sampleRate);
-                    auto time = _timeOffset + av_rescale_q(
-                        (_queuedBytes + offset) / AV::Audio::byteCount(_info.type),
-                        r,
-                        AV::FFmpeg::timeBaseQ());
-                    DJV_DEBUG_PRINT("time = " << time);
-                    setCurrentTime(time);
-                    break;
-                }
-                default: break;
-                }
+            default: break;
             }
         }
 
-        void AudioSystem::playbackUpdate()
+        void PlaybackSystem::playbackUpdate()
         {
-            DJV_DEBUG("AudioSystem::playbackUpdate");
-            DJV_DEBUG_PRINT("playback = " << _playback);
+            //DJV_DEBUG("PlaybackSystem::playbackUpdate");
+            //DJV_DEBUG_PRINT("playback = " << _playback);
             switch (_playback)
             {
             case Util::PLAYBACK_FORWARD:
@@ -242,18 +226,28 @@ namespace djv
             }
         }
 
-        void AudioSystem::timeUpdate()
+        void PlaybackSystem::timeUpdate()
         {
-            DJV_DEBUG("AudioSystem::timeUpdate");
-            DJV_DEBUG_PRINT("current time = " << _currentTime);
-            DJV_DEBUG_PRINT("playback = " << _playback);
-            DJV_DEBUG_PRINT("buffers = " << _alBuffers.size());
+            //DJV_DEBUG("PlaybackSystem::timeUpdate");
+            //DJV_DEBUG_PRINT("current time = " << _currentTime);
+            //DJV_DEBUG_PRINT("playback = " << _playback);
+            //DJV_DEBUG_PRINT("buffers = " << _alBuffers.size());
 
-            ALint processed = 0;
-            alGetSourcei(_alSource, AL_BUFFERS_PROCESSED, &processed);
-            DJV_DEBUG_PRINT("al processed = " << processed);
+            // Update the video queue.
+            {
+                std::lock_guard<std::mutex> lock(_queue->mutex);
+                //DJV_DEBUG_PRINT("video queue = " << _queue->video.size());
+                while (!_queue->video.empty() && _queue->video.front().first < _currentTime)
+                {
+                    _queue->video.pop_front();
+                }
+                //DJV_DEBUG_PRINT("video queue = " << _queue->video.size());
+            }
 
             // Unqueue the processed OpenAL buffers.
+            ALint processed = 0;
+            alGetSourcei(_alSource, AL_BUFFERS_PROCESSED, &processed);
+            //DJV_DEBUG_PRINT("al processed = " << processed);
             std::vector<ALuint> buffers;
             buffers.resize(processed);
             alSourceUnqueueBuffers(_alSource, processed, buffers.data());
@@ -267,26 +261,25 @@ namespace djv
                     _queuedBytes += size;
                 }
             }
-            DJV_DEBUG_PRINT("buffers = " << _alBuffers.size());
+            //DJV_DEBUG_PRINT("al buffers = " << _alBuffers.size());
 
             if (Util::PLAYBACK_STOP != _playback)
             {
                 // Fill the OpenAL queue with frames from the I/O queue.
                 ALint queued = 0;
                 alGetSourcei(_alSource, AL_BUFFERS_QUEUED, &queued);
-                DJV_DEBUG_PRINT("al queued = " << queued);
+                //DJV_DEBUG_PRINT("al queued = " << queued);
                 std::vector<Util::AudioFrame> frames;
                 {
-                    auto queue = _io->queue();
-                    std::lock_guard<std::mutex>(queue->mutex);
-                    DJV_DEBUG_PRINT("queued = " << queue->audio.size());
-                    while (queue->audio.size() && frames.size() < bufferCount - queued && frames.size() < _alBuffers.size())
+                    std::lock_guard<std::mutex> lock(_queue->mutex);
+                    //DJV_DEBUG_PRINT("audio queue = " << _queue->audio.size());
+                    while (!_queue->audio.empty() && frames.size() < bufferCount - queued && frames.size() < _alBuffers.size())
                     {
-                        frames.push_back(queue->audio.front());
-                        queue->audio.pop();
+                        frames.push_back(_queue->audio.front());
+                        _queue->audio.pop_front();
                     }
                 }
-                DJV_DEBUG_PRINT("frames = " << frames.size());
+                //DJV_DEBUG_PRINT("audio frames = " << frames.size());
                 for (size_t i = 0; i < frames.size(); ++i)
                 {
                     auto data = AV::AudioData::convert(*frames[i].second, AV::Audio::S16);

@@ -1,25 +1,34 @@
 set(header
     Application.h
-    AudioSystem.h
     Context.h
+    ImageView.h
+    InfoWidget.h
     IO.h
     MainWindow.h
+    PlaybackSystem.h
+    TimelineSlider.h
     TimelineWidget.h
     Util.h)
 set(mocHeader
     Application.h
-    AudioSystem.h
     Context.h
+    ImageView.h
+    InfoWidget.h
     IO.h
     MainWindow.h
+    PlaybackSystem.h
+    TimelineSlider.h
     TimelineWidget.h
     Util.h)
 set(source
     Application.cpp
-    AudioSystem.cpp
     Context.cpp
+    ImageView.cpp
+    InfoWidget.cpp
     IO.cpp
     MainWindow.cpp
+    PlaybackSystem.cpp
+    TimelineSlider.cpp
     TimelineWidget.cpp
     Util.cpp
     main.cpp)

@@ -1,3 +1,4 @@
+
 //------------------------------------------------------------------------------
 // Copyright (c) 2004-2018 Darby Johnston
 // All rights reserved.
@@ -29,43 +30,33 @@
 
 #pragma once
 
-#include <IO.h>
+#include <djvUI/ImageView.h>
 
-#include <djvUI/UIContext.h>
+#include <QPointer>
 
-#include <QAction>
-#include <QMap>
-
-#include <future>
+#include <condition_variable>
 
 namespace djv
 {
     namespace AudioExperiment2
     {
-        class PlaybackSystem;
+        class Context;
 
-        class Context : public UI::UIContext
+        class ImageView : public UI::ImageView
         {
             Q_OBJECT
 
         public:
-            Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
-
-            std::shared_ptr<Util::AVQueue> ioQueue() const;
-            QPointer<PlaybackSystem> playbackSystem() const;
-            const QMap<QString, QPointer<QAction> > & actions() const;
+            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
+            ~ImageView() override;
 
         protected:
             void timerEvent(QTimerEvent *);
 
         private:
-            std::shared_ptr<Util::AVQueue> _ioQueue;
-            QScopedPointer<IO> _io;
-            std::future<IOInfo> _ioInfoFuture;
-            int _ioInfoTimer = 0;
-            QScopedPointer<PlaybackSystem> _playbackSystem;
-            QMap<QString, QPointer<QAction> > _actions;
+            QPointer<Context> _context;
+            int _timer = 0;
+            std::condition_variable _queueCV;
         };
 
     } // namespace AudioExperiment2

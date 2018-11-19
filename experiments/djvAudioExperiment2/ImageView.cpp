@@ -27,46 +27,48 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <ImageView.h>
 
+#include <Context.h>
 #include <IO.h>
 
-#include <djvUI/UIContext.h>
-
-#include <QAction>
-#include <QMap>
-
-#include <future>
+using namespace djv;
 
 namespace djv
 {
     namespace AudioExperiment2
     {
-        class PlaybackSystem;
-
-        class Context : public UI::UIContext
+        namespace
         {
-            Q_OBJECT
+            const size_t timeout = 10;
 
-        public:
-            Context(int & argc, char ** argv, QObject * parent = nullptr);
-            ~Context() override;
+        } // namespace
 
-            std::shared_ptr<Util::AVQueue> ioQueue() const;
-            QPointer<PlaybackSystem> playbackSystem() const;
-            const QMap<QString, QPointer<QAction> > & actions() const;
+        ImageView::ImageView(const QPointer<Context> & context, QWidget * parent) :
+            UI::ImageView(context.data(), parent),
+            _context(context)
+        {
+            _timer = startTimer(10);
+        }
 
-        protected:
-            void timerEvent(QTimerEvent *);
+        ImageView::~ImageView()
+        {}
 
-        private:
-            std::shared_ptr<Util::AVQueue> _ioQueue;
-            QScopedPointer<IO> _io;
-            std::future<IOInfo> _ioInfoFuture;
-            int _ioInfoTimer = 0;
-            QScopedPointer<PlaybackSystem> _playbackSystem;
-            QMap<QString, QPointer<QAction> > _actions;
-        };
+        void ImageView::timerEvent(QTimerEvent *)
+        {
+            auto queue = _context->ioQueue();
+            std::unique_lock<std::mutex> lock(queue->mutex);
+            if (_queueCV.wait_for(
+                lock,
+                std::chrono::milliseconds(timeout),
+                [this, queue]
+            {
+                return !queue->video.empty();
+            }))
+            {
+                setData(queue->video.front().second);
+            }
+        }
 
     } // namespace AudioExperiment2
 } // namespace djv

@@ -1,3 +1,4 @@
+
 //------------------------------------------------------------------------------
 // Copyright (c) 2004-2018 Darby Johnston
 // All rights reserved.
@@ -43,6 +44,7 @@ namespace djv
     namespace AudioExperiment2
     {
         class Context;
+        class TimelineSlider;
 
         class TimelineWidget : public QWidget
         {
@@ -72,6 +74,7 @@ namespace djv
             Util::PLAYBACK _playback = Util::PLAYBACK_STOP;
             QPointer<UI::ToolButton> _stopButton;
             QPointer<UI::ToolButton> _forwardButton;
+            QPointer<TimelineSlider> _slider;
             QPointer<QLabel> _timeLabel;
         };
 

@@ -95,152 +95,169 @@ namespace djv
                     qApp->translate("djv::AV::FFmpegLoad", "Cannot find any streams"));
             }
 
-            // Find the codec for the video stream.
-            auto avVideoStream = _avFormatContext->streams[_avVideoStream];
-            auto avVideoCodecParameters = avVideoStream->codecpar;
-            auto avVideoCodec = avcodec_find_decoder(avVideoCodecParameters->codec_id);
-            if (!avVideoCodec)
+            AVStream * avVideoStream = nullptr;
+            if (_avVideoStream != -1)
             {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    qApp->translate("djv::AV::FFmpegLoad", "Cannot find video codec"));
-            }
-            _avCodecParameters[_avVideoStream] = avcodec_parameters_alloc();
-            r = avcodec_parameters_copy(_avCodecParameters[_avVideoStream], avVideoCodecParameters);
-            if (r < 0)
-            {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    FFmpeg::toString(r));
-            }
-            _avCodecContext[_avVideoStream] = avcodec_alloc_context3(avVideoCodec);
-            r = avcodec_parameters_to_context(_avCodecContext[_avVideoStream], _avCodecParameters[_avVideoStream]);
-            if (r < 0)
-            {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    FFmpeg::toString(r));
-            }
-            r = avcodec_open2(_avCodecContext[_avVideoStream], avVideoCodec, 0);
-            if (r < 0)
-            {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    FFmpeg::toString(r));
+                // Find the codec for the video stream.
+                avVideoStream = _avFormatContext->streams[_avVideoStream];
+                auto avVideoCodecParameters = avVideoStream->codecpar;
+                auto avVideoCodec = avcodec_find_decoder(avVideoCodecParameters->codec_id);
+                if (!avVideoCodec)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        qApp->translate("djv::AV::FFmpegLoad", "Cannot find video codec"));
+                }
+                _avCodecParameters[_avVideoStream] = avcodec_parameters_alloc();
+                r = avcodec_parameters_copy(_avCodecParameters[_avVideoStream], avVideoCodecParameters);
+                if (r < 0)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        FFmpeg::toString(r));
+                }
+                _avCodecContext[_avVideoStream] = avcodec_alloc_context3(avVideoCodec);
+                r = avcodec_parameters_to_context(_avCodecContext[_avVideoStream], _avCodecParameters[_avVideoStream]);
+                if (r < 0)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        FFmpeg::toString(r));
+                }
+                r = avcodec_open2(_avCodecContext[_avVideoStream], avVideoCodec, 0);
+                if (r < 0)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        FFmpeg::toString(r));
+                }
+
+                // Initialize the buffers.
+                _avFrame = av_frame_alloc();
+                _avFrameRgb = av_frame_alloc();
+
+                // Initialize the software scaler.
+                _swsContext = sws_getContext(
+                    _avCodecParameters[_avVideoStream]->width,
+                    _avCodecParameters[_avVideoStream]->height,
+                    static_cast<AVPixelFormat>(_avCodecParameters[_avVideoStream]->format),
+                    _avCodecParameters[_avVideoStream]->width,
+                    _avCodecParameters[_avVideoStream]->height,
+                    AV_PIX_FMT_RGBA,
+                    SWS_BILINEAR,
+                    0,
+                    0,
+                    0);
             }
 
-            // Find the codec for the audio stream.
-            auto avAudioStream = _avFormatContext->streams[_avAudioStream];
-            auto avAudioCodecParameters = avAudioStream->codecpar;
-            Audio::TYPE audioType = FFmpeg::fromFFmpeg(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
-            if (Audio::TYPE_NONE == audioType)
+            AVStream * avAudioStream = nullptr;
+            Audio::TYPE audioType = Audio::TYPE_NONE;
+            if (_avAudioStream != -1)
             {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    qApp->translate("djv::AV::FFmpegLoad", "Unsupported audio format: %1").arg(FFmpeg::toString(avAudioCodecParameters->format)));
+                // Find the codec for the audio stream.
+                avAudioStream = _avFormatContext->streams[_avAudioStream];
+                auto avAudioCodecParameters = avAudioStream->codecpar;
+                audioType = FFmpeg::fromFFmpeg(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
+                if (Audio::TYPE_NONE == audioType)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        qApp->translate("djv::AV::FFmpegLoad", "Unsupported audio format: %1").arg(FFmpeg::toString(avAudioCodecParameters->format)));
+                }
+                auto avAudioCodec = avcodec_find_decoder(avAudioCodecParameters->codec_id);
+                if (!avAudioCodec)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        qApp->translate("djv::AV::FFmpegLoad", "Cannot find audio codec"));
+                }
+                _avCodecParameters[_avAudioStream] = avcodec_parameters_alloc();
+                r = avcodec_parameters_copy(_avCodecParameters[_avAudioStream], avAudioCodecParameters);
+                if (r < 0)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        FFmpeg::toString(r));
+                }
+                _avCodecContext[_avAudioStream] = avcodec_alloc_context3(avAudioCodec);
+                r = avcodec_parameters_to_context(_avCodecContext[_avAudioStream], _avCodecParameters[_avAudioStream]);
+                if (r < 0)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        FFmpeg::toString(r));
+                }
+                r = avcodec_open2(_avCodecContext[_avAudioStream], avAudioCodec, 0);
+                if (r < 0)
+                {
+                    throw Core::Error(
+                        FFmpeg::staticName,
+                        FFmpeg::toString(r));
+                }
             }
-            auto avAudioCodec = avcodec_find_decoder(avAudioCodecParameters->codec_id);
-            if (!avAudioCodec)
-            {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    qApp->translate("djv::AV::FFmpegLoad", "Cannot find audio codec"));
-            }
-            _avCodecParameters[_avAudioStream] = avcodec_parameters_alloc();
-            r = avcodec_parameters_copy(_avCodecParameters[_avAudioStream], avAudioCodecParameters);
-            if (r < 0)
-            {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    FFmpeg::toString(r));
-            }
-            _avCodecContext[_avAudioStream] = avcodec_alloc_context3(avAudioCodec);
-            r = avcodec_parameters_to_context(_avCodecContext[_avAudioStream], _avCodecParameters[_avAudioStream]);
-            if (r < 0)
-            {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    FFmpeg::toString(r));
-            }
-            r = avcodec_open2(_avCodecContext[_avAudioStream], avAudioCodec, 0);
-            if (r < 0)
-            {
-                throw Core::Error(
-                    FFmpeg::staticName,
-                    FFmpeg::toString(r));
-            }
-
-            // Initialize the buffers.
-            _avFrame = av_frame_alloc();
-            _avFrameRgb = av_frame_alloc();
-
-            // Initialize the software scaler.
-            _swsContext = sws_getContext(
-                _avCodecParameters[_avVideoStream]->width,
-                _avCodecParameters[_avVideoStream]->height,
-                static_cast<AVPixelFormat>(_avCodecParameters[_avVideoStream]->format),
-                _avCodecParameters[_avVideoStream]->width,
-                _avCodecParameters[_avVideoStream]->height,
-                AV_PIX_FMT_RGBA,
-                SWS_BILINEAR,
-                0,
-                0,
-                0);
 
             // Get file information.
-            _ioInfo.layers[0].fileName = _fileInfo;
-            _ioInfo.layers[0].size = glm::ivec2(_avCodecParameters[_avVideoStream]->width, _avCodecParameters[_avVideoStream]->height);
-            _ioInfo.layers[0].pixel = Pixel::RGBA_U8;
-            _ioInfo.layers[0].mirror.y = true;
-            _ioInfo.audio.channels = _avCodecParameters[_avAudioStream]->channels;
-            _ioInfo.audio.type = audioType;
-            _ioInfo.audio.sampleRate = _avCodecParameters[_avAudioStream]->sample_rate;            
             int64_t duration = 0;
-            if (avVideoStream->duration != AV_NOPTS_VALUE)
+            if (_avVideoStream != -1)
             {
-                duration = av_rescale_q(
-                    avVideoStream->duration,
-                    avVideoStream->time_base,
-                    FFmpeg::timeBaseQ());
-            }
-            else if (_avFormatContext->duration != AV_NOPTS_VALUE)
-            {
-                duration = _avFormatContext->duration;
-            }
-            const Core::Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
-            //DJV_DEBUG_PRINT("duration = " << static_cast<qint64>(duration));
-            //DJV_DEBUG_PRINT("speed = " << speed);
-            int64_t nbFrames = 0;
-            if (avVideoStream->nb_frames != 0)
-            {
-                nbFrames = avVideoStream->nb_frames;
-            }
-            else
-            {
-                nbFrames =
-                    duration / static_cast<float>(AV_TIME_BASE) *
-                    Core::Speed::speedToFloat(speed);
-            }
-            if (!nbFrames)
-            {
-                //DJV_DEBUG_PRINT("count frames");
+                _ioInfo.layers[0].fileName = _fileInfo;
+                _ioInfo.layers[0].size = glm::ivec2(_avCodecParameters[_avVideoStream]->width, _avCodecParameters[_avVideoStream]->height);
+                _ioInfo.layers[0].pixel = Pixel::RGBA_U8;
+                _ioInfo.layers[0].mirror.y = true;
 
-                //! \todo As a last resort count the number of frames manually. If
-                //! there are a lot of frames (like a two hour movie) this could take
-                //! a really long time.
-                int64_t pts = 0;
-                while (readFrame(pts))
+                if (avVideoStream->duration != AV_NOPTS_VALUE)
                 {
-                    ++nbFrames;
+                    duration = av_rescale_q(
+                        avVideoStream->duration,
+                        avVideoStream->time_base,
+                        FFmpeg::timeBaseQ());
                 }
-                av_seek_frame(
-                    _avFormatContext,
-                    _avVideoStream,
-                    0,
-                    AVSEEK_FLAG_BACKWARD);
+                else if (_avFormatContext->duration != AV_NOPTS_VALUE)
+                {
+                    duration = _avFormatContext->duration;
+                }
+                const Core::Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+                //DJV_DEBUG_PRINT("duration = " << static_cast<qint64>(duration));
+                //DJV_DEBUG_PRINT("speed = " << speed);
+                int64_t nbFrames = 0;
+                if (avVideoStream->nb_frames != 0)
+                {
+                    nbFrames = avVideoStream->nb_frames;
+                }
+                else
+                {
+                    nbFrames =
+                        duration / static_cast<float>(AV_TIME_BASE) *
+                        Core::Speed::speedToFloat(speed);
+                }
+                if (!nbFrames)
+                {
+                    //DJV_DEBUG_PRINT("count frames");
+
+                    //! \todo As a last resort count the number of frames manually. If
+                    //! there are a lot of frames (like a two hour movie) this could take
+                    //! a really long time.
+                    int64_t pts = 0;
+                    while (readFrame(pts))
+                    {
+                        ++nbFrames;
+                    }
+                    av_seek_frame(
+                        _avFormatContext,
+                        _avVideoStream,
+                        0,
+                        AVSEEK_FLAG_BACKWARD);
+                }
+                //DJV_DEBUG_PRINT("nbFrames = " << static_cast<qint64>(nbFrames));
+                _ioInfo.sequence = Core::Sequence(0, nbFrames - 1, 0, speed);
+
             }
-            //DJV_DEBUG_PRINT("nbFrames = " << static_cast<qint64>(nbFrames));
-            _ioInfo.sequence = Core::Sequence(0, nbFrames - 1, 0, speed);
+            if (_avAudioStream != -1)
+            {
+                _ioInfo.audio.channels = _avCodecParameters[_avAudioStream]->channels;
+                _ioInfo.audio.type = audioType;
+                _ioInfo.audio.sampleRate = _avCodecParameters[_avAudioStream]->sample_rate;
+            }
         }
 
         FFmpegLoad::~FFmpegLoad()
@@ -269,6 +286,7 @@ namespace djv
                 avcodec_parameters_free(&i.second);
             }
             _avVideoStream = -1;
+            _avAudioStream = -1;
             if (_avFormatContext)
             {
                 avformat_close_input(&_avFormatContext);

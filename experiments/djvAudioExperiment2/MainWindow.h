@@ -29,10 +29,6 @@
 
 #pragma once
 
-#include <Util.h>
-
-#include <djvUI/ImageView.h>
-
 #include <QMainWindow>
 #include <QPointer>
 
@@ -41,6 +37,7 @@ namespace djv
     namespace AudioExperiment2
     {
         class Context;
+        class ImageView;
         class TimelineWidget;
 
         class MainWindow : public QMainWindow
@@ -51,14 +48,10 @@ namespace djv
             MainWindow(const QPointer<Context> &);
             ~MainWindow() override;
 
-        private Q_SLOTS:
-            void currentTimeCallback(int64_t);
-
         private:
             QPointer<Context> _context;
-            QPointer<UI::ImageView> _imageView;
+            QPointer<ImageView> _imageView;
             QPointer<TimelineWidget> _timelineWidget;
-            Util::VideoFrame _videoFrame;
         };
 
     } // namespace AudioExperiment2
