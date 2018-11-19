@@ -60,7 +60,7 @@ namespace djv
             if (!index.isValid())
                 return QVariant();
             if (Qt::DisplayRole == role)
-                return _pts[index.row()];
+                return static_cast<qlonglong>(_pts[index.row()]);
             return QVariant();
         }
 
@@ -96,7 +96,7 @@ namespace djv
             if (!index.isValid())
                 return QVariant();
             if (Qt::DisplayRole == role)
-                return _pts[index.row()];
+                return static_cast<qlonglong>(_pts[index.row()]);
             return QVariant();
         }
 
