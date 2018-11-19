@@ -44,6 +44,7 @@ namespace djv
         namespace
         {
             const size_t bufferCount = 100;
+            const size_t timeout = 10;
 
             QStringList split(const ALCchar * value)
             {
@@ -207,7 +208,7 @@ namespace djv
                 {
                     killTimer(_playbackTimer);
                 }
-                _playbackTimer = startTimer(10);
+                _playbackTimer = startTimer(timeout);
                 alSourcePlay(_alSource);
                 break;
             case Util::PLAYBACK_STOP:
