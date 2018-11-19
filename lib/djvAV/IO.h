@@ -118,7 +118,7 @@ namespace djv
             virtual ~Load() = 0;
 
             //! Get the file information.
-            const Core::FileInfo & fileInfo() const { _fileInfo; }
+            const Core::FileInfo & fileInfo() const { return _fileInfo; }
 
             //! Get the I/O information.
             const IOInfo & ioInfo() const { return _ioInfo; }
@@ -157,7 +157,7 @@ namespace djv
             virtual ~Save() = 0;
 
             //! Get the file information.
-            const Core::FileInfo & fileInfo() const { _fileInfo; }
+            const Core::FileInfo & fileInfo() const { return _fileInfo; }
 
             //! Get the I/O information.
             const IOInfo & ioInfo() const { return _ioInfo; }

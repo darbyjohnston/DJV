@@ -151,7 +151,9 @@ namespace djv
                     // Parse the input options.
                     else if (qApp->translate("djv::convert::Context", "-layer") == arg)
                     {
-                        in >> _input.layer;
+                        int layer = 0;
+                        in >> layer;
+                        _input.layer = layer;
                     }
                     else if (qApp->translate("djv::convert::Context", "-proxy") == arg)
                     {

@@ -42,7 +42,7 @@ namespace djv
         
         MouseButtonAction::MouseButtonAction(
             Enum::MOUSE_BUTTON button,
-            Enum::KEYBOARD_MODIFIER modeifier,
+            Enum::KEYBOARD_MODIFIER modifier,
             Enum::MOUSE_BUTTON_ACTION action) :
             button(button),
             modifier(modifier),
@@ -71,7 +71,7 @@ namespace djv
         {}
         
         MouseWheelAction::MouseWheelAction(
-            Enum::KEYBOARD_MODIFIER modeifier,
+            Enum::KEYBOARD_MODIFIER modifier,
             Enum::MOUSE_WHEEL_ACTION action) :
             modifier(modifier),
             action(action)

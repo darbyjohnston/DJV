@@ -51,7 +51,7 @@ namespace djv
             ~ImageView() override;
 
         protected:
-            void timerEvent(QTimerEvent *);
+            void timerEvent(QTimerEvent *) override;
 
         private:
             QPointer<Context> _context;

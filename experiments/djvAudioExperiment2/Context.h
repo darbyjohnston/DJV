@@ -57,7 +57,7 @@ namespace djv
             const QMap<QString, QPointer<QAction> > & actions() const;
 
         protected:
-            void timerEvent(QTimerEvent *);
+            void timerEvent(QTimerEvent *) override;
 
         private:
             std::shared_ptr<Util::AVQueue> _ioQueue;

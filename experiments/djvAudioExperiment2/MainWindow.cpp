@@ -48,11 +48,11 @@ namespace djv
         MainWindow::MainWindow(const QPointer<Context> & context) :
             _context(context)
         {
+            menuBar()->setNativeMenuBar(false);
             auto menu = new QMenu("File");
             menu->addAction(context->actions()["File/Open"].data());
             menu->addAction(context->actions()["File/Close"].data());
             menuBar()->addMenu(menu);
-
             menu = new QMenu("Playback");
             menu->addAction(context->actions()["Playback/Stop"].data());
             menu->addAction(context->actions()["Playback/Forward"].data());

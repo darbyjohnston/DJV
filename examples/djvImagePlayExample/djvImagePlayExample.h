@@ -79,9 +79,9 @@ namespace djv
         Core::FileInfo _fileInfo;
         std::unique_ptr<AV::Load> _load;
         AV::IOInfo _info;
-        AV::Image _image;
+        std::shared_ptr<AV::Image> _image;
         bool _cache;
-        QVector<AV::Image *> _cachedImages;
+        std::vector<std::shared_ptr<AV::Image> > _cachedImages;
         QScopedPointer<ImagePlayExampleWidget> _widget;
         int _frame;
     };

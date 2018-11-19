@@ -74,7 +74,7 @@ namespace djv
         QScopedPointer<UI::UIContext> _context;
         Core::FileInfo _fileInfo;
         std::unique_ptr<AV::Load> _load;
-        AV::Image _image;
+        std::shared_ptr<AV::Image> _image;
         QScopedPointer<ImageViewExampleWidget> _widget;
     };
 

@@ -565,72 +565,72 @@ DPX Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="159"/>
+        <location filename="FFmpeg.cpp" line="160"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="160"/>
+        <location filename="FFmpeg.cpp" line="161"/>
         <source>U8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="161"/>
+        <location filename="FFmpeg.cpp" line="162"/>
         <source>S16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="162"/>
+        <location filename="FFmpeg.cpp" line="163"/>
         <source>S32</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="163"/>
+        <location filename="FFmpeg.cpp" line="164"/>
         <source>Float</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="164"/>
+        <location filename="FFmpeg.cpp" line="165"/>
         <source>Double</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="165"/>
+        <location filename="FFmpeg.cpp" line="166"/>
         <source>U8 planar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="166"/>
+        <location filename="FFmpeg.cpp" line="167"/>
         <source>S16 planar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="167"/>
+        <location filename="FFmpeg.cpp" line="168"/>
         <source>S32 planar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="168"/>
+        <location filename="FFmpeg.cpp" line="169"/>
         <source>Float planar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="169"/>
+        <location filename="FFmpeg.cpp" line="170"/>
         <source>Double planar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="171"/>
+        <location filename="FFmpeg.cpp" line="172"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="179"/>
+        <location filename="FFmpeg.cpp" line="180"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FFmpeg.cpp" line="180"/>
+        <location filename="FFmpeg.cpp" line="181"/>
         <source>Quality</source>
         <translation type="unfinished"></translation>
     </message>

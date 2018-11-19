@@ -420,9 +420,9 @@ namespace djv
             Q_EMIT optionChanged();
         }
 
-        void FileBrowserModel::imageInfoCallback()
+        void FileBrowserModel::ioInfoCallback()
         {
-            //DJV_DEBUG("FileBrowserModel::imageInfoCallback");
+            //DJV_DEBUG("FileBrowserModel::ioInfoCallback");
             const int row = _p->items.indexOf(qobject_cast<FileBrowserItem *>(sender()));
             if (row != -1)
             {
@@ -527,7 +527,7 @@ namespace djv
                     _p->context,
                     this);
                 _p->items[i] = item;
-                connect(item, SIGNAL(imageInfoAvailable()), SLOT(imageInfoCallback()));
+                connect(item, SIGNAL(ioInfoAvailable()), SLOT(ioInfoCallback()));
                 connect(item, SIGNAL(thumbnailAvailable()), SLOT(thumbnailCallback()));
             }
 

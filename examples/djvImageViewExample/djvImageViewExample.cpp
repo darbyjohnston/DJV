@@ -106,7 +106,8 @@ namespace djv
         {
             AV::IOInfo info;
             _load = _context->ioFactory()->load(_fileInfo, info);
-            _load->read(_image);
+            _image = std::shared_ptr<AV::Image>(new AV::Image);
+            _load->read(*_image);
         }
         catch (const Core::Error & error)
         {
@@ -117,14 +118,15 @@ namespace djv
 
         _widget.reset(new ImageViewExampleWidget(_context.data()));
         _widget->setWindowTitle("djvImageViewExample");
-        _widget->setData(&_image);
-
-        AV::OpenGLImageOptions options;
-        options.colorProfile = _image.colorProfile;
-        _widget->setOptions(options);
-
-        const glm::ivec2 size = UI::WindowUtil::resize(_image.size());
-        _widget->resize(size.x, size.y);
+        _widget->setData(_image);
+        if (_image)
+        {
+            AV::OpenGLImageOptions options;
+            options.colorProfile = _image->colorProfile;
+            _widget->setOptions(options);
+            const glm::ivec2 size = UI::WindowUtil::resize(_image->size());
+            _widget->resize(size.x, size.y);
+        }
         _widget->show();
     }
 

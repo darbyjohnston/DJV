@@ -51,7 +51,7 @@ namespace djv
         FFmpegLoad::FFmpegLoad(const Core::FileInfo & fileInfo, const QPointer<Core::CoreContext> & context) :
             Load(fileInfo, context)
         {
-            DJV_DEBUG("FFmpegLoad::FFmpegLoad");
+            //DJV_DEBUG("FFmpegLoad::FFmpegLoad");
 
             // Open the file.
             int r = avformat_open_input(
@@ -86,8 +86,8 @@ namespace djv
                     _avAudioStream = i;
                 }
             }
-            DJV_DEBUG_PRINT("video stream = " << _avVideoStream);
-            DJV_DEBUG_PRINT("audio stream = " << _avAudioStream);
+            //DJV_DEBUG_PRINT("video stream = " << _avVideoStream);
+            //DJV_DEBUG_PRINT("audio stream = " << _avAudioStream);
             if (-1 == _avVideoStream && -1 == _avAudioStream)
             {
                 throw Core::Error(

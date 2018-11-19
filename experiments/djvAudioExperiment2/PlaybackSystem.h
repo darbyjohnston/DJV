@@ -73,7 +73,7 @@ namespace djv
             void playbackChanged(Util::PLAYBACK);
 
         protected:
-            void timerEvent(QTimerEvent *);
+            void timerEvent(QTimerEvent *) override;
 
         private:
             void playbackUpdate();

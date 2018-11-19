@@ -148,6 +148,7 @@ namespace djv
             case AV_SAMPLE_FMT_S16P: out = Audio::S16; break;
             case AV_SAMPLE_FMT_S32P: out = Audio::S32; break;
             case AV_SAMPLE_FMT_FLTP: out = Audio::F32; break;
+            default: break;
             }
             return out;
         }

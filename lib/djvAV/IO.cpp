@@ -398,7 +398,7 @@ namespace djv
 
     Core::Debug & operator << (Core::Debug & debug, const AV::IOInfo & in)
     {
-        debug << "layers=" << in.layers.size();
+        debug << "layers=" << static_cast<int>(in.layers.size());
         return debug;
     }
 

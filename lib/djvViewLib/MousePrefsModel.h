@@ -63,7 +63,7 @@ namespace djv
             bool setData(const QModelIndex &, const QVariant &, int role = Qt::EditRole) override;
             int	columnCount(const QModelIndex & parent = QModelIndex()) const override;
             int	rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const;
+            Qt::ItemFlags flags(const QModelIndex &) const override;
 
         public Q_SLOTS:
             void setActions(const QVector<djv::ViewLib::MouseButtonAction> &);
@@ -99,7 +99,7 @@ namespace djv
             bool setData(const QModelIndex &, const QVariant &, int role = Qt::EditRole) override;
             int	columnCount(const QModelIndex & parent = QModelIndex()) const override;
             int	rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            Qt::ItemFlags flags(const QModelIndex &) const;
+            Qt::ItemFlags flags(const QModelIndex &) const override;
 
         public Q_SLOTS:
             void setActions(const QVector<djv::ViewLib::MouseWheelAction> &);

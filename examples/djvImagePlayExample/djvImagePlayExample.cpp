@@ -155,38 +155,36 @@ namespace djv
             arg(fps).
             arg(accum ? (average / static_cast<float>(accum)) : 0.f));
 
-        AV::Image * imageP = 0;
         try
         {
             if (_cache)
             {
-                if (_cachedImages.count() < _info.sequence.frames.count())
+                if (_cachedImages.size() < _info.sequence.frames.count())
                 {
-                    AV::Image * image = new AV::Image;
-                    _load->read(*image, _info.sequence.frames[_frame]);
-                    _cachedImages += image;
-                    imageP = image;
+                    _image = std::shared_ptr<AV::Image>(new AV::Image);
+                    _load->read(*_image, _info.sequence.frames[_frame]);
+                    _cachedImages.push_back(_image);
                 }
                 else
                 {
-                    imageP = _cachedImages[_frame];
+                    _image = _cachedImages[_frame];
                 }
             }
             else
             {
-                _load->read(_image, _info.sequence.frames[_frame]);
-                imageP = &_image;
+                _image = std::shared_ptr<AV::Image>(new AV::Image);
+                _load->read(*_image, _info.sequence.frames[_frame]);
             }
         }
         catch (const Core::Error &)
         {
         }
 
-        if (imageP && imageP->isValid())
+        if (_image && _image->isValid())
         {
-            _widget->setData(imageP);
+            _widget->setData(_image);
             AV::OpenGLImageOptions options;
-            options.colorProfile = imageP->colorProfile;
+            options.colorProfile = _image->colorProfile;
             _widget->setOptions(options);
             _widget->update();
         }

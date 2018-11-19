@@ -273,7 +273,7 @@ namespace djv
             void optionChanged();
 
         private Q_SLOTS:
-            void imageInfoCallback();
+            void ioInfoCallback();
             void thumbnailCallback();
             void sequencePrefsCallback();
 

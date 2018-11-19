@@ -123,57 +123,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="156"/>
+        <location filename="ConvertContext.cpp" line="158"/>
         <source>-proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="160"/>
+        <location filename="ConvertContext.cpp" line="162"/>
         <source>-time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="165"/>
+        <location filename="ConvertContext.cpp" line="167"/>
         <source>-slate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="172"/>
+        <location filename="ConvertContext.cpp" line="174"/>
         <source>-timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="178"/>
+        <location filename="ConvertContext.cpp" line="180"/>
         <source>-pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="184"/>
+        <location filename="ConvertContext.cpp" line="186"/>
         <source>-speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="190"/>
+        <location filename="ConvertContext.cpp" line="192"/>
         <source>-tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="197"/>
+        <location filename="ConvertContext.cpp" line="199"/>
         <source>-tags_auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="222"/>
+        <location filename="ConvertContext.cpp" line="224"/>
         <source>input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="231"/>
+        <location filename="ConvertContext.cpp" line="233"/>
         <source>output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ConvertContext.cpp" line="246"/>
+        <location filename="ConvertContext.cpp" line="248"/>
         <source>djv_convert
 
     Batch process images and movies. Common uses include resizing images and converting sequences of images to a movie.

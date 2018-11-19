@@ -65,7 +65,7 @@ namespace djv
             IOInfo info;
             Core::FileIO io;
             _open(fileName, info, io);
-            if (frame.layer < 0 || frame.layer >= info.layers.size())
+            if (frame.layer >= info.layers.size())
             {
                 throw Core::Error(
                     RLA::staticName,
