@@ -38,6 +38,7 @@ namespace djv
     namespace ViewExperiment
     {
         class Context;
+        class Project;
 
         class ProjectTabWidget : public QWidget
         {
@@ -47,6 +48,10 @@ namespace djv
             ProjectTabWidget(const QPointer<Context> &, QWidget * parent = nullptr);
             ~ProjectTabWidget() override;
             
+        private Q_SLOTS:
+            void _addTab(const QPointer<Project> &);
+            void _removeTab(const QPointer<Project> &);
+
         private:
             DJV_PRIVATE();
         };

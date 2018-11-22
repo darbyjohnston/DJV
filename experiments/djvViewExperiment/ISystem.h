@@ -34,8 +34,6 @@
 #include <QObject>
 #include <QPointer>
 
-#include <memory>
-
 namespace djv
 {
     namespace ViewExperiment
@@ -47,10 +45,11 @@ namespace djv
             Q_OBJECT
 
         public:
-            ISystem(const QPointer<Context> &, QObject * parent = nullptr);
+            ISystem(const QString & name, const QPointer<Context> &, QObject * parent = nullptr);
             virtual ~ISystem() = 0;
 
             const QPointer<Context> & getContext() const;
+            const QString & getName() const;
                         
         private:
             DJV_PRIVATE();

@@ -31,27 +31,54 @@
 
 #include <Util.h>
 
-#include <QOpenGLWidget>
-#include <QPointer>
+#include <QObject>
+#include <QAbstractListModel>
 
 namespace djv
 {
     namespace ViewExperiment
     {
         class Context;
+        class ICommand;
 
-        class ImageView : public QOpenGLWidget
+        class UndoStack : public QObject
         {
             Q_OBJECT
 
         public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
-            
+            UndoStack(const QPointer<Context> &);
+            ~UndoStack() override;
+
+            const std::vector<std::shared_ptr<ICommand> > & getCommands() const;
+            size_t getSize() const;
+            int64_t getCurrentIndex() const;
+
+            void push(const std::shared_ptr<ICommand> &);
+            void undo();
+            void redo();
+            void clear();
+
+        Q_SIGNALS:
+            void stackChanged();
+
+        protected:
+            DJV_PRIVATE();
+        };
+
+        class UndoStackModel : public QAbstractListModel
+        {
+            Q_OBJECT
+
+        public:
+            UndoStackModel(const QPointer<UndoStack> &);
+            ~UndoStackModel() override;
+
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+
         private:
             DJV_PRIVATE();
         };
 
     } // namespace ViewExperiment
 } // namespace djv
-

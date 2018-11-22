@@ -29,26 +29,30 @@
 
 #pragma once
 
-#include <Util.h>
+#include <IUISystem.h>
 
-#include <QOpenGLWidget>
-#include <QPointer>
+class QDockWidget;
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        class Context;
-
-        class ImageView : public QOpenGLWidget
+        class WindowSystem : public IUISystem
         {
             Q_OBJECT
 
         public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
+            WindowSystem(const QPointer<Context> &, QObject * parent = nullptr);
+            ~WindowSystem() override;
             
+            void setDockWidgets(const std::vector<QPointer<QDockWidget> > &);
+
+            QPointer<QMenu> createMenu() override;
+            QString getMenuSortKey() const override;
+
         private:
+            void _updateMenus();
+
             DJV_PRIVATE();
         };
 

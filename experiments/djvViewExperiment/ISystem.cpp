@@ -38,9 +38,10 @@ namespace djv
         struct ISystem::Private
         {
             QPointer<Context> context;
+            QString name;
         };
         
-        ISystem::ISystem(const QPointer<Context> & context, QObject * parent) :
+        ISystem::ISystem(const QString & name, const QPointer<Context> & context, QObject * parent) :
             QObject(parent),
             _p(new Private)
         {
@@ -53,6 +54,11 @@ namespace djv
         const QPointer<Context> & ISystem::getContext() const
         {
             return _p->context;
+        }
+
+        const QString & ISystem::getName() const
+        {
+            return _p->name;
         }
         
     } // namespace ViewExperiment

@@ -32,27 +32,30 @@
 #include <Util.h>
 
 #include <QObject>
-#include <QList>
-#include <QPointer>
+
+#include <vector>
 
 namespace djv
 {
     namespace ViewExperiment
     {
         class ISystem;
+        class UndoStack;
         
         class Context : public QObject
         {
             Q_OBJECT
 
         public:
-            Context(int &, char **, QObject * parent = nullptr);
+            Context(int &, char **);
             ~Context() override;
                         
-            const QList<QPointer<ISystem> > & getSystems() const;
+            const std::vector<QPointer<ISystem> > & getSystems() const;
             template<typename T>
             inline QPointer<T> getSystem() const;
             void addSystem(const QPointer<ISystem> &);
+
+            const QPointer<UndoStack> & getUndoStack() const;
 
         private:
             DJV_PRIVATE();

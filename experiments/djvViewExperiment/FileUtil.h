@@ -29,29 +29,19 @@
 
 #pragma once
 
-#include <Util.h>
-
-#include <QOpenGLWidget>
-#include <QPointer>
+#include <QStringList>
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        class Context;
-
-        class ImageView : public QOpenGLWidget
+        struct FileUtil
         {
-            Q_OBJECT
+            static const QChar nativeSeparator;
 
-        public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
-            
-        private:
-            DJV_PRIVATE();
+            static QStringList splitPath(const QString &);
+            static QString joinPath(QStringList);
         };
 
     } // namespace ViewExperiment
 } // namespace djv
-

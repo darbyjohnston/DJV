@@ -31,7 +31,8 @@
 
 #include <ISystem.h>
 
-#include <QMenu>
+class QDockWidget;
+class QMenu;
 
 namespace djv
 {
@@ -44,15 +45,19 @@ namespace djv
             Q_OBJECT
 
         public:
-            IUISystem(const QPointer<Context> &, QObject * parent = nullptr);
+            IUISystem(const QString & name, const QPointer<Context> &, QObject * parent = nullptr);
             virtual ~IUISystem() = 0;
 
-            virtual QString menuSortKey() const { return QString(); }
-            virtual QPointer<QMenu> createMenu() const { return nullptr; }
+            virtual QPointer<QMenu> createMenu();
+            virtual QString getMenuSortKey() const;
 
-            virtual QString contextMenuSortKey() const { return menuSortKey(); }
-            virtual QPointer<QMenu> createContextMenu() const { return createMenu(); }
-                        
+            virtual QPointer<QMenu> createContextMenu() { return createMenu(); }
+            virtual QString getContextMenuSortKey() const { return getMenuSortKey(); }
+
+            virtual QPointer<QDockWidget> createDockWidget();
+            virtual QString getDockWidgetSortKey() const;
+            virtual Qt::DockWidgetArea getDockWidgetArea() const;
+
         private:
             DJV_PRIVATE();
         };

@@ -32,20 +32,23 @@
 #include <IUISystem.h>
 
 #include <QFileInfo>
-#include <QVector>
 
-#include <memory>
+#include <vector>
 
 namespace djv
 {
     namespace ViewExperiment
     {
+        class ProjectSystem;
+
         class Project : public QObject
         {
             Q_OBJECT
 
-        public:
+        protected:
             Project(const QPointer<Context> &, QObject * parent = nullptr);
+
+        public:
             ~Project() override;
 
             const QFileInfo & getFileInfo() const;
@@ -59,9 +62,11 @@ namespace djv
             
         Q_SIGNALS:
             void fileInfoChanged(const QFileInfo &);
-            
+
         private:
             DJV_PRIVATE();
+
+            friend class ProjectSystem;
         };
         
         class ProjectSystem : public IUISystem
@@ -72,17 +77,24 @@ namespace djv
             ProjectSystem(const QPointer<Context> &, QObject * parent = nullptr);
             ~ProjectSystem() override;
 
-            QVector<QPointer<Project> > getProjects() const;
-            QPointer<Project> getCurrentProject() const;
+            const std::vector<QPointer<Project> > & getProjects() const;
+            QPointer<Project> getProject(int) const;
+            const QPointer<Project> & getCurrentProject() const;
             
-            QString menuSortKey() const override;
-            QPointer<QMenu> createMenu() const override;
+            QPointer<QMenu> createMenu() override;
+            QString getMenuSortKey() const override;
+
+            QPointer<QDockWidget> createDockWidget() override;
+            QString getDockWidgetSortKey() const override;
+            Qt::DockWidgetArea getDockWidgetArea() const override;
 
         public Q_SLOTS:
             void newProject();
             void openProject(const QFileInfo &);
             void closeProject(const QPointer<Project> &);
+            void closeProject(int);
             void setCurrentProject(const QPointer<Project> &);
+            void setCurrentProject(int);
 
         Q_SIGNALS:
             void projectAdded(const QPointer<Project> &);

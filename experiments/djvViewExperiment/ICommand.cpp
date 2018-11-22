@@ -27,31 +27,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <Util.h>
-
-#include <QOpenGLWidget>
-#include <QPointer>
+#include <ICommand.h>
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        class Context;
+        ICommand::ICommand(const QString & name, const QPointer<Context> & context) :
+            _name(name),
+            _context(context)
+        {}
 
-        class ImageView : public QOpenGLWidget
-        {
-            Q_OBJECT
-
-        public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
-            
-        private:
-            DJV_PRIVATE();
-        };
+        ICommand::~ICommand()
+        {}
 
     } // namespace ViewExperiment
 } // namespace djv
-

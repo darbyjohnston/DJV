@@ -31,7 +31,6 @@
 
 #include <Context.h>
 #include <MainWindow.h>
-#include <Project.h>
 
 namespace djv
 {
@@ -48,7 +47,6 @@ namespace djv
             _p(new Private)
         {
             _p->context.reset(new Context(argc, argv));
-            _p->context->addSystem(new ProjectSystem(_p->context.data()));
             
             _p->mainWindow.reset(new MainWindow(_p->context.data()));
             _p->mainWindow->resize(800, 600);

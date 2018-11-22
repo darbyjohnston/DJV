@@ -31,8 +31,7 @@
 
 #include <Util.h>
 
-#include <QOpenGLWidget>
-#include <QPointer>
+#include <QWidget>
 
 namespace djv
 {
@@ -40,18 +39,17 @@ namespace djv
     {
         class Context;
 
-        class ImageView : public QOpenGLWidget
+        class FileBrowserWidget : public QWidget
         {
             Q_OBJECT
 
         public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
-            
+            FileBrowserWidget(const QPointer<Context> &, QWidget * parent = nullptr);
+            ~FileBrowserWidget() override;
+
         private:
             DJV_PRIVATE();
         };
 
     } // namespace ViewExperiment
 } // namespace djv
-

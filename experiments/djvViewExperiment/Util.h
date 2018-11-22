@@ -31,7 +31,12 @@
 
 #include <memory>
 
+//! This macro provides private implementation members.
 #define DJV_PRIVATE() \
-    class Private; \
+    struct Private; \
     std::unique_ptr<Private> _p
 
+//! This macro provides a private copy constructor and operator.
+#define DJV_PRIVATE_COPY(class) \
+    class(const class &); \
+    class & operator = (const class &);

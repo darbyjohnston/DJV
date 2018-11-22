@@ -31,7 +31,11 @@
 
 #include <Context.h>
 #include <IUISystem.h>
+#include <ProjectTabWidget.h>
+#include <WindowSystem.h>
 
+#include <QDockWidget>
+#include <QLayout>
 #include <QMenu>
 #include <QMenuBar>
 
@@ -42,6 +46,7 @@ namespace djv
         struct MainWindow::Private
         {
             QPointer<Context> context;
+            QPointer<ProjectTabWidget> projectTabWidget;
         };
         
         MainWindow::MainWindow(const QPointer<Context> & context) :
@@ -49,18 +54,44 @@ namespace djv
         {
             _p->context = context;
 
-            QMap<QString, QPointer<QMenu> > map;
-            Q_FOREACH(auto i, _p->context->getSystems())
+            std::map<QString, QPointer<QMenu> > menus;
+            for (auto i : _p->context->getSystems())
             {
                 if (auto uiSystem = qobject_cast<IUISystem *>(i))
                 {
-                    map[uiSystem->contextMenuSortKey()] = uiSystem->createContextMenu();
+                    if (auto menu = uiSystem->createContextMenu())
+                    {
+                        menus[uiSystem->getContextMenuSortKey()] = menu;
+                    }
                 }
             }
-            Q_FOREACH(auto i, map)
+            for (auto i : menus)
             {
-                menuBar()->addMenu(i);
+                menuBar()->addMenu(i.second);
             }
+
+            std::map<QString, std::pair<QPointer<QDockWidget>, Qt::DockWidgetArea> > dockWidgetMap;
+            for (auto i : _p->context->getSystems())
+            {
+                if (auto uiSystem = qobject_cast<IUISystem *>(i))
+                {
+                    if (auto dockWidget = uiSystem->createDockWidget())
+                    {
+                        dockWidgetMap[uiSystem->getDockWidgetSortKey()] = std::make_pair(dockWidget, uiSystem->getDockWidgetArea());
+                    }
+                }
+            }
+            std::vector<QPointer<QDockWidget> > dockWidgetList;
+            for (auto i : dockWidgetMap)
+            {
+                addDockWidget(i.second.second, i.second.first);
+                dockWidgetList.push_back(i.second.first);
+            }
+            context->getSystem<WindowSystem>()->setDockWidgets(dockWidgetList);
+
+            _p->projectTabWidget = new ProjectTabWidget(context);
+            _p->projectTabWidget->layout()->setContentsMargins(0, 0, 0, 0);
+            setCentralWidget(_p->projectTabWidget);
         }
         
         MainWindow::~MainWindow()
@@ -74,7 +105,10 @@ namespace djv
             {
                 if (auto uiSystem = qobject_cast<IUISystem *>(i))
                 {
-                    map[uiSystem->contextMenuSortKey()] = uiSystem->createContextMenu();
+                    if (auto menu = uiSystem->createContextMenu())
+                    {
+                        map[uiSystem->getContextMenuSortKey()] = menu;
+                    }
                 }
             }
             Q_FOREACH(auto i, map)

@@ -27,31 +27,60 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <FileUtil.h>
 
-#include <Util.h>
+#include <QDir>
+#include <QRegularExpression>
 
-#include <QOpenGLWidget>
-#include <QPointer>
+#include <iostream>
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        class Context;
+#if defined(DJV_WINDOWS)
+        const QChar FileUtil::nativeSeparator = '\\';
+#else
+        const QChar FileUtil::nativeSeparator = '/';
+#endif
 
-        class ImageView : public QOpenGLWidget
+        QStringList FileUtil::splitPath(const QString & value)
         {
-            Q_OBJECT
+            QStringList out;
 
-        public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
-            
-        private:
-            DJV_PRIVATE();
-        };
+            // Handle the root path.
+            if (value.size() && '/' == value[0])
+            {
+                out.push_back("/");
+            }
+
+            // Split the path on seperators.
+            static const QRegularExpression re("[/\\\\]");
+            out.append(value.split(re, QString::SkipEmptyParts));
+
+            return out;
+        }
+
+        QString FileUtil::joinPath(QStringList value)
+        {
+            QString out;
+
+            // Handle the root path.
+            if (value.size())
+            {
+                if (value[0] != "/")
+                {
+                    out.append(value[0]);
+                }
+                out.append('/');
+                value.pop_front();
+            }
+
+            // Join the remaining pieces.
+            out.append(value.join(nativeSeparator));
+
+            return out;
+        }
 
     } // namespace ViewExperiment
 } // namespace djv
-

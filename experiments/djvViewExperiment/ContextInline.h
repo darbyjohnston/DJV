@@ -34,11 +34,11 @@ namespace djv
         template<typename T>
         inline QPointer<T> Context::getSystem() const
         {
-            Q_FOREACH(auto i, getSystems())
+            for (auto i : getSystems())
             {
-                if (auto r = qobject_cast<T *>(i))
+                if (auto system = qobject_cast<T *>(i))
                 {
-                    return r;
+                    return system;
                 }
             }
             return nullptr;

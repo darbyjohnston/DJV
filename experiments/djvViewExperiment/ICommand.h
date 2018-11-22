@@ -29,10 +29,9 @@
 
 #pragma once
 
-#include <Util.h>
-
-#include <QOpenGLWidget>
 #include <QPointer>
+
+#include <memory>
 
 namespace djv
 {
@@ -40,18 +39,23 @@ namespace djv
     {
         class Context;
 
-        class ImageView : public QOpenGLWidget
+        class ICommand
         {
-            Q_OBJECT
-
         public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
-            
+            ICommand(const QString & name, const QPointer<Context> &);
+            virtual ~ICommand() = 0;
+
+            const QString & getName() const { return _name; }
+
+            virtual void exec() = 0;
+            virtual void undo() = 0;
+
+        protected:
+            QPointer<Context> _context;
+
         private:
-            DJV_PRIVATE();
+            QString _name;
         };
 
     } // namespace ViewExperiment
 } // namespace djv
-

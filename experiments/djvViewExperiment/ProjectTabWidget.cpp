@@ -36,6 +36,9 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
+#include <iostream>
+#include <map>
+
 namespace djv
 {
     namespace ViewExperiment
@@ -44,9 +47,10 @@ namespace djv
         {
             QPointer<Context> context;
             QPointer<QTabWidget> tabWidget;
-            QMap<int, QPointer<Project> > tabToProject;
+            std::map<QPointer<Project>, QPointer<ImageView> > projectToWidget;
+            std::map<QPointer<ImageView>, QPointer<Project> > widgetToProject;
         };
-        
+
         ProjectTabWidget::ProjectTabWidget(const QPointer<Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
@@ -58,20 +62,84 @@ namespace djv
             auto layout = new QVBoxLayout(this);
             layout->addWidget(_p->tabWidget);
             
+            auto projectSystem = context->getSystem<ProjectSystem>().data();
+            for (auto project : projectSystem->getProjects())
+            {
+                _addTab(project);
+            }
+
             connect(
-                context->getSystem<ProjectSystem>().data(),
+                projectSystem,
                 &ProjectSystem::projectAdded,
                 [this, context](const QPointer<Project> & project)
             {
-                auto imageView = new ImageView(context);
-                auto index = _p->tabWidget->addTab(imageView, project->getFileInfo().fileName());
-                _p->tabToProject[index] = project;
+                _addTab(project);
+            });
+            connect(
+                projectSystem,
+                &ProjectSystem::projectRemoved,
+                [this, context](const QPointer<Project> & project)
+            {
+                _removeTab(project);
+            });
+            connect(
+                projectSystem,
+                &ProjectSystem::currentProjectChanged,
+                [this, context](const QPointer<Project> & project)
+            {
+                auto i = _p->projectToWidget.find(project);
+                if (i != _p->projectToWidget.end())
+                {
+                    _p->tabWidget->setCurrentIndex(_p->tabWidget->indexOf(i->second));
+                }
+            });
+
+            connect(
+                _p->tabWidget,
+                &QTabWidget::currentChanged,
+                [this, context](int index)
+            {
+                context->getSystem<ProjectSystem>()->setCurrentProject(index);
+            });
+            connect(
+                _p->tabWidget,
+                &QTabWidget::tabCloseRequested,
+                [this, context](int index)
+            {
+                context->getSystem<ProjectSystem>()->closeProject(index);
             });
         }
         
         ProjectTabWidget::~ProjectTabWidget()
         {}
-                
+
+        void ProjectTabWidget::_addTab(const QPointer<Project> & project)
+        {
+            auto imageView = new ImageView(_p->context);
+            _p->tabWidget->addTab(imageView, project->getFileInfo().fileName());
+            _p->tabWidget->setTabsClosable(_p->tabWidget->count() > 1);
+            _p->projectToWidget[project] = imageView;
+            _p->widgetToProject[imageView] = project;
+        }
+
+        void ProjectTabWidget::_removeTab(const QPointer<Project> & project)
+        {
+            auto i = _p->projectToWidget.find(project);
+            if (i != _p->projectToWidget.end())
+            {
+                auto imageView = i->second;
+                _p->projectToWidget.erase(i);
+                _p->tabWidget->removeTab(_p->tabWidget->indexOf(imageView));
+                _p->tabWidget->setTabsClosable(_p->tabWidget->count() > 1);
+                auto j = _p->widgetToProject.find(imageView);
+                if (j != _p->widgetToProject.end())
+                {
+                    _p->widgetToProject.erase(j);
+                }
+                delete imageView;
+            }
+        }
+
     } // namespace ViewExperiment
 } // namespace djv
 

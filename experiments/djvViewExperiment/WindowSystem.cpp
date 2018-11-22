@@ -27,44 +27,85 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <WindowSystem.h>
+
 #include <Context.h>
 
-#include <FileBrowser.h>
-#include <ISystem.h>
-#include <Project.h>
-#include <UndoStack.h>
-#include <WindowSystem.h>
+#include <QAction>
+#include <QDockWidget>
+#include <QMenu>
+
+#include <iostream>
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        struct Context::Private
+        struct WindowSystem::Private
         {
-            std::vector<QPointer<ISystem> > systems;
-            QPointer<UndoStack> undoStack;
+            std::map<QString, QAction *> dockWidgetsActions;
+            std::vector<QPointer<QMenu> > menus;
         };
-
-        Context::Context(int & argc, char ** argv) :
+        
+        WindowSystem::WindowSystem(const QPointer<Context> & context, QObject * parent) :
+            IUISystem("WindowSystem", context, parent),
             _p(new Private)
         {
-            _p->systems.push_back(new ProjectSystem(this));
-            _p->systems.push_back(new WindowSystem(this));
-
-            _p->undoStack = new UndoStack(this);
         }
-
-        Context::~Context()
+        
+        WindowSystem::~WindowSystem()
         {}
 
-        const std::vector<QPointer<ISystem> > & Context::getSystems() const
+        void WindowSystem::setDockWidgets(const std::vector<QPointer<QDockWidget> > & value)
         {
-            return _p->systems;
+            for (auto i : value)
+            {
+                const auto & title = i->windowTitle();
+                _p->dockWidgetsActions[title] = new QAction(title, this);
+                auto action = _p->dockWidgetsActions[title];
+                action->setCheckable(true);
+                action->setChecked(i->isVisible());
+                connect(
+                    action,
+                    &QAction::toggled,
+                    [i](bool value)
+                {
+                    i->setVisible(value);
+                });
+                connect(
+                    i,
+                    &QDockWidget::visibilityChanged,
+                    [action](bool value)
+                {
+                    action->setChecked(value);
+                });
+            }
+            _updateMenus();
         }
 
-        void Context::addSystem(const QPointer<ISystem> & system)
+        QString WindowSystem::getMenuSortKey() const
         {
-            _p->systems.push_back(system);
+            return "1";
+        }
+        
+        QPointer<QMenu> WindowSystem::createMenu()
+        {
+            auto menu = new QMenu("Window");
+            _p->menus.push_back(menu);
+            _updateMenus();
+            return menu;
+        }
+
+        void WindowSystem::_updateMenus()
+        {
+            for (auto menu : _p->menus)
+            {
+                menu->clear();
+                for (auto action : _p->dockWidgetsActions)
+                {
+                    menu->addAction(action.second);
+                }
+            }
         }
 
     } // namespace ViewExperiment
