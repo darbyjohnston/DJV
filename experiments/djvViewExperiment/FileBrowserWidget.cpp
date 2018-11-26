@@ -33,8 +33,9 @@
 #include <FileUtil.h>
 
 #include <QAction>
+#include <QButtonGroup>
+#include <QComboBox>
 #include <QFileInfo>
-#include <QFrame>
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPointer>
@@ -61,7 +62,9 @@ namespace djv
             QFrame(parent),
             _p(new Private)
         {
-            setFrameStyle(QFrame::Panel | QFrame::Sunken);
+            setFrameShape(QFrame::StyledPanel);
+            setBackgroundRole(QPalette::Base);
+            setAutoFillBackground(true);
 
             _p->toolBar = new QToolBar;
 
@@ -122,11 +125,10 @@ namespace djv
             QPointer<PathWidget> pathWidget;
             QPointer<QLineEdit> pathLineEdit;
             QPointer<QStackedWidget> pathStackedWidget;
-            QPointer<QToolButton> pathEditButton;
+            QPointer<QToolButton> upButton;
             QPointer<QToolButton> backButton;
             QPointer<QToolButton> forwardButton;
-            QPointer<QToolButton> upButton;
-            QPointer<QLineEdit> filterLineEdit;
+            QPointer<QToolButton> pathEditButton;
         };
 
         FileBrowserHeader::FileBrowserHeader(const QPointer<Context> & context, QWidget * parent) :
@@ -141,43 +143,36 @@ namespace djv
             _p->pathStackedWidget->addWidget(_p->pathWidget);
             _p->pathStackedWidget->addWidget(_p->pathLineEdit);
             _p->pathStackedWidget->setCurrentWidget(_p->pathWidget);
-            _p->pathEditButton = new QToolButton;
-            _p->pathEditButton->setText("Edit");
-            _p->pathEditButton->setCheckable(true);
-            _p->pathEditButton->setAutoRaise(true);
 
+            _p->upButton = new QToolButton;
+            _p->upButton->setAutoRaise(true);
+            _p->upButton->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
             _p->backButton = new QToolButton;
             _p->backButton->setAutoRaise(true);
             _p->backButton->setIcon(style()->standardIcon(QStyle::SP_ArrowLeft));
             _p->forwardButton = new QToolButton;
             _p->forwardButton->setAutoRaise(true);
             _p->forwardButton->setIcon(style()->standardIcon(QStyle::SP_ArrowRight));
-            _p->upButton = new QToolButton;
-            _p->upButton->setAutoRaise(true);
-            _p->upButton->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
 
-            _p->filterLineEdit = new QLineEdit;
-            _p->filterLineEdit->setClearButtonEnabled(true);
+            _p->pathEditButton = new QToolButton;
+            _p->pathEditButton->setText("Edit");
+            _p->pathEditButton->setCheckable(true);
+            _p->pathEditButton->setAutoRaise(true);
 
             auto layout = new QVBoxLayout(this);
             layout->setMargin(0);
-
+            layout->addWidget(_p->pathStackedWidget);
             auto hLayout = new QHBoxLayout;
-            hLayout->setMargin(0);
-            hLayout->addWidget(_p->pathStackedWidget);
-            hLayout->addWidget(_p->pathEditButton);
-            layout->addLayout(hLayout);
-
-            hLayout = new QHBoxLayout;
             hLayout->setMargin(0);
             auto hLayout2 = new QHBoxLayout;
             hLayout2->setMargin(0);
             hLayout2->setSpacing(0);
+            hLayout2->addWidget(_p->upButton);
             hLayout2->addWidget(_p->backButton);
             hLayout2->addWidget(_p->forwardButton);
-            hLayout2->addWidget(_p->upButton);
             hLayout->addLayout(hLayout2);
-            hLayout->addWidget(_p->filterLineEdit);
+            hLayout->addStretch(1);
+            hLayout->addWidget(_p->pathEditButton);
             layout->addLayout(hLayout);
 
             _widgetUpdate();
@@ -196,15 +191,11 @@ namespace djv
             {
                 Q_EMIT pathChanged(_p->pathLineEdit->text());
             });
-            connect(
-                _p->pathEditButton,
-                &QToolButton::toggled,
-                [this](bool value)
-            {
-                _p->pathEdit = value;
-                _widgetUpdate();
-            });
 
+            connect(
+                _p->upButton,
+                SIGNAL(clicked()),
+                SIGNAL(up()));
             connect(
                 _p->backButton,
                 SIGNAL(clicked()),
@@ -213,15 +204,19 @@ namespace djv
                 _p->forwardButton,
                 SIGNAL(clicked()),
                 SIGNAL(forward()));
-            connect(
-                _p->upButton,
-                SIGNAL(clicked()),
-                SIGNAL(up()));
 
             connect(
-                _p->filterLineEdit,
-                SIGNAL(textChanged(const QString &)),
-                SIGNAL(filterChanged(const QString &)));
+                _p->pathEditButton,
+                &QToolButton::toggled,
+                [this](bool value)
+            {
+                _p->pathEdit = value;
+                if (value)
+                {
+                    _p->pathLineEdit->setFocus();
+                }
+                _widgetUpdate();
+            });
         }
 
         FileBrowserHeader::~FileBrowserHeader()
@@ -241,6 +236,11 @@ namespace djv
             Q_EMIT pathChanged(_p->path);
         }
 
+        void FileBrowserHeader::setUpEnabled(bool value)
+        {
+            _p->upButton->setEnabled(value);
+        }
+
         void FileBrowserHeader::setBackEnabled(bool value)
         {
             _p->backButton->setEnabled(value);
@@ -249,11 +249,6 @@ namespace djv
         void FileBrowserHeader::setForwardEnabled(bool value)
         {
             _p->forwardButton->setEnabled(value);
-        }
-
-        void FileBrowserHeader::setUpEnabled(bool value)
-        {
-            _p->upButton->setEnabled(value);
         }
 
         void FileBrowserHeader::_widgetUpdate()
@@ -268,6 +263,74 @@ namespace djv
             {
                 _p->pathStackedWidget->setCurrentWidget(_p->pathWidget);
             }
+        }
+
+        struct FileBrowserFooter::Private
+        {
+            QPointer<QButtonGroup> viewModeButtonGroup;
+            QMap<int, QListView::ViewMode> buttonToViewMode;
+        };
+
+        FileBrowserFooter::FileBrowserFooter(const QPointer<Context> & context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+            auto filterLineEdit = new QLineEdit;
+            filterLineEdit->setClearButtonEnabled(true);
+
+            auto listModeButton = new QToolButton;
+            listModeButton->setCheckable(true);
+            listModeButton->setAutoRaise(true);
+            listModeButton->setText("List");
+            auto iconModeButton = new QToolButton;
+            iconModeButton->setCheckable(true);
+            iconModeButton->setAutoRaise(true);
+            iconModeButton->setText("Icon");
+            _p->viewModeButtonGroup = new QButtonGroup(this);
+            _p->viewModeButtonGroup->setExclusive(true);
+            _p->viewModeButtonGroup->addButton(listModeButton);
+            _p->viewModeButtonGroup->addButton(iconModeButton);
+            _p->buttonToViewMode[_p->viewModeButtonGroup->id(listModeButton)] = QListView::ViewMode::ListMode;
+            _p->buttonToViewMode[_p->viewModeButtonGroup->id(iconModeButton)] = QListView::ViewMode::IconMode;
+
+            auto layout = new QVBoxLayout(this);
+            layout->setMargin(0);
+            auto hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            hLayout->addWidget(filterLineEdit);
+            auto hLayout2 = new QHBoxLayout;
+            hLayout2->setMargin(0);
+            hLayout2->setSpacing(0);
+            hLayout2->addWidget(listModeButton);
+            hLayout2->addWidget(iconModeButton);
+            hLayout->addLayout(hLayout2);
+            layout->addLayout(hLayout);
+
+            listModeButton->setChecked(true);
+
+            connect(
+                filterLineEdit,
+                SIGNAL(textChanged(const QString &)),
+                SIGNAL(filterChanged(const QString &)));
+            connect(
+                _p->viewModeButtonGroup,
+                SIGNAL(buttonClicked(int)),
+                SLOT(_viewModeCallback(int)));
+        }
+
+        FileBrowserFooter::~FileBrowserFooter()
+        {}
+
+        void FileBrowserFooter::setViewMode(QListView::ViewMode value)
+        {
+            _p->viewModeButtonGroup->buttons()[value]->setChecked(true);
+        }
+
+        void FileBrowserFooter::_viewModeCallback(int value)
+        {
+            Q_EMIT viewModeChanged(_p->buttonToViewMode[value]);
         }
 
     } // namespace ViewExperiment

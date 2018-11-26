@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <WindowSystem.h>
+#include <ToolSystem.h>
 
 #include <Context.h>
 
@@ -41,22 +41,22 @@ namespace djv
 {
     namespace ViewExperiment
     {
-        struct WindowSystem::Private
+        struct ToolSystem::Private
         {
-            std::map<QString, QAction *> dockWidgetsActions;
+            std::map<QString, QPointer<QAction> > dockWidgetsActions;
             std::vector<QPointer<QMenu> > menus;
         };
         
-        WindowSystem::WindowSystem(const QPointer<Context> & context, QObject * parent) :
-            IUISystem("WindowSystem", context, parent),
+        ToolSystem::ToolSystem(const QPointer<Context> & context, QObject * parent) :
+            IUISystem("ToolSystem", context, parent),
             _p(new Private)
         {
         }
         
-        WindowSystem::~WindowSystem()
+        ToolSystem::~ToolSystem()
         {}
 
-        void WindowSystem::setDockWidgets(const std::vector<QPointer<QDockWidget> > & value)
+        void ToolSystem::setDockWidgets(const std::vector<QPointer<QDockWidget> > & value)
         {
             for (auto i : value)
             {
@@ -83,20 +83,20 @@ namespace djv
             _updateMenus();
         }
 
-        QString WindowSystem::getMenuSortKey() const
+        QString ToolSystem::getMenuSortKey() const
         {
-            return "1";
+            return "2";
         }
         
-        QPointer<QMenu> WindowSystem::createMenu()
+        QPointer<QMenu> ToolSystem::createMenu()
         {
-            auto menu = new QMenu("Window");
+            auto menu = new QMenu("Tools");
             _p->menus.push_back(menu);
             _updateMenus();
             return menu;
         }
 
-        void WindowSystem::_updateMenus()
+        void ToolSystem::_updateMenus()
         {
             for (auto menu : _p->menus)
             {

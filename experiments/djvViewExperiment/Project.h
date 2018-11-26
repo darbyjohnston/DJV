@@ -39,16 +39,12 @@ namespace djv
 {
     namespace ViewExperiment
     {
-        class ProjectSystem;
-
         class Project : public QObject
         {
             Q_OBJECT
 
-        protected:
-            Project(const QPointer<Context> &, QObject * parent = nullptr);
-
         public:
+            Project(const QPointer<Context> &, QObject * parent = nullptr);
             ~Project() override;
 
             const QFileInfo & getFileInfo() const;
@@ -63,44 +59,6 @@ namespace djv
         Q_SIGNALS:
             void fileInfoChanged(const QFileInfo &);
 
-        private:
-            DJV_PRIVATE();
-
-            friend class ProjectSystem;
-        };
-        
-        class ProjectSystem : public IUISystem
-        {
-            Q_OBJECT
-
-        public:
-            ProjectSystem(const QPointer<Context> &, QObject * parent = nullptr);
-            ~ProjectSystem() override;
-
-            const std::vector<QPointer<Project> > & getProjects() const;
-            QPointer<Project> getProject(int) const;
-            const QPointer<Project> & getCurrentProject() const;
-            
-            QPointer<QMenu> createMenu() override;
-            QString getMenuSortKey() const override;
-
-            QPointer<QDockWidget> createDockWidget() override;
-            QString getDockWidgetSortKey() const override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
-
-        public Q_SLOTS:
-            void newProject();
-            void openProject(const QFileInfo &);
-            void closeProject(const QPointer<Project> &);
-            void closeProject(int);
-            void setCurrentProject(const QPointer<Project> &);
-            void setCurrentProject(int);
-
-        Q_SIGNALS:
-            void projectAdded(const QPointer<Project> &);
-            void projectRemoved(const QPointer<Project> &);
-            void currentProjectChanged(const QPointer<Project> &);
-            
         private:
             DJV_PRIVATE();
         };

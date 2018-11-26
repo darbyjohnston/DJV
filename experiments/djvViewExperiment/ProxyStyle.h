@@ -29,33 +29,28 @@
 
 #pragma once
 
-#include <IUISystem.h>
+#include <Util.h>
 
-class QDockWidget;
+#include <QPointer>
+#include <QProxyStyle>
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        class WindowSystem : public IUISystem
+        class Context;
+
+        class ProxyStyle : public QProxyStyle
         {
             Q_OBJECT
 
         public:
-            WindowSystem(const QPointer<Context> &, QObject * parent = nullptr);
-            ~WindowSystem() override;
-            
-            void setDockWidgets(const std::vector<QPointer<QDockWidget> > &);
-
-            QPointer<QMenu> createMenu() override;
-            QString getMenuSortKey() const override;
+            ProxyStyle(const QPointer<Context> &);
+            ~ProxyStyle() override;
 
         private:
-            void _updateMenus();
-
             DJV_PRIVATE();
         };
 
     } // namespace ViewExperiment
 } // namespace djv
-

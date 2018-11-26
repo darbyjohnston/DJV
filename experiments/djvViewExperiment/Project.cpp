@@ -30,11 +30,6 @@
 #include <Project.h>
 
 #include <Context.h>
-#include <FileBrowser.h>
-
-#include <QAction>
-#include <QDockWidget>
-#include <QMenu>
 
 #include <iostream>
 
@@ -60,10 +55,13 @@ namespace djv
         {
             ++projectCount;
             _p->fileInfo = QString("Untitled %1").arg(projectCount);
+            //std::cout << "Project::Project(" << _p->fileInfo.fileName().toLatin1().data() << ")" << std::endl;
         }
         
         Project::~Project()
-        {}
+        {
+            //std::cout << "Project::~Project(" << _p->fileInfo.fileName().toLatin1().data() << ")" << std::endl;
+        }
 
         const QFileInfo & Project::getFileInfo() const
         {
@@ -94,180 +92,6 @@ namespace djv
         {
             _p->fileInfo = fileInfo;
             Q_EMIT fileInfoChanged(_p->fileInfo);
-        }
-
-        struct ProjectSystem::Private
-        {
-            std::vector<QPointer<Project> > projects;
-            QPointer<Project> currentProject;
-            std::map<QString, QAction *> actions;
-        };
-        
-        ProjectSystem::ProjectSystem(const QPointer<Context> & context, QObject * parent) :
-            IUISystem("ProjectSystem", context, parent),
-            _p(new Private)
-        {
-            _p->actions["New"] = new QAction("New", this);
-            _p->actions["New"]->setShortcut(QKeySequence("Ctrl+N"));
-            _p->actions["Open"] = new QAction("Open", this);
-            _p->actions["Open"]->setShortcut(QKeySequence("Ctrl+O"));
-            _p->actions["Close"] = new QAction("Close", this);
-            _p->actions["Close"]->setShortcut(QKeySequence("Ctrl+E"));
-            _p->actions["Save"] = new QAction("Save", this);
-            _p->actions["Save"]->setShortcut(QKeySequence("Ctrl+S"));
-            _p->actions["Save As"] = new QAction("Save As", this);
-            _p->actions["Save As"]->setShortcut(QKeySequence("Ctrl+Shift+S"));
-
-            newProject();
-
-            connect(
-                _p->actions["New"],
-                &QAction::triggered,
-                [this]
-            {
-                newProject();
-            });
-            connect(
-                _p->actions["Open"],
-                &QAction::triggered,
-                [this]
-            {
-            });
-            connect(
-                _p->actions["Close"],
-                &QAction::triggered,
-                [this]
-            {
-                if (_p->projects.size() > 1)
-                {
-                    closeProject(_p->currentProject);
-                }
-            });
-            connect(
-                _p->actions["Save"],
-                &QAction::triggered,
-                [this]
-            {
-            });
-            connect(
-                _p->actions["Save As"],
-                &QAction::triggered,
-                [this]
-            {
-            });
-        }
-        
-        ProjectSystem::~ProjectSystem()
-        {}
-       
-        const std::vector<QPointer<Project> > & ProjectSystem::getProjects() const
-        {
-            return _p->projects;
-        }
-        
-        QPointer<Project> ProjectSystem::getProject(int index) const
-        {
-            return index >= 0 && index < static_cast<int>(_p->projects.size()) ? _p->projects[index].data() : nullptr;
-        }
-
-        const QPointer<Project> & ProjectSystem::getCurrentProject() const
-        {
-            return _p->currentProject;
-        }
-
-        QString ProjectSystem::getMenuSortKey() const
-        {
-            return "0";
-        }
-        
-        QPointer<QMenu> ProjectSystem::createMenu()
-        {
-            auto menu = new QMenu("File");
-            menu->addAction(_p->actions["New"]);
-            menu->addAction(_p->actions["Open"]);
-            menu->addAction(_p->actions["Close"]);
-            menu->addAction(_p->actions["Save"]);
-            menu->addAction(_p->actions["Save As"]);
-            return menu;
-        }
-
-        QPointer<QDockWidget> ProjectSystem::createDockWidget()
-        {
-            auto out = new QDockWidget("File Browser");
-            out->setWidget(new FileBrowserWidget(getContext()));
-            //out->hide();
-            return out;
-        }
-
-        QString ProjectSystem::getDockWidgetSortKey() const
-        {
-            return "0";
-        }
-
-        Qt::DockWidgetArea ProjectSystem::getDockWidgetArea() const
-        {
-            return Qt::DockWidgetArea::LeftDockWidgetArea;
-        }
-
-        void ProjectSystem::newProject()
-        {
-            auto project = new Project(getContext());
-            _p->projects.push_back(project);
-            _p->currentProject = project;
-            Q_EMIT projectAdded(_p->currentProject);
-            Q_EMIT currentProjectChanged(_p->currentProject);
-        }
-        
-        void ProjectSystem::openProject(const QFileInfo & fileInfo)
-        {
-            auto project = new Project(getContext());
-            project->open(fileInfo);
-            _p->projects.push_back(project);
-            _p->currentProject = project;
-            Q_EMIT projectAdded(_p->currentProject);
-            Q_EMIT currentProjectChanged(_p->currentProject);
-        }
-        
-        void ProjectSystem::closeProject(const QPointer<Project> & project)
-        {
-            auto i = std::find(_p->projects.begin(), _p->projects.end(), project);
-            if (i != _p->projects.end())
-            {
-                //! \todo Save
-                auto project = *i;
-                int index = static_cast<int>(i - _p->projects.begin());
-                _p->projects.erase(i);
-                Q_EMIT projectRemoved(project);
-                delete project.data();
-                if (project == _p->currentProject)
-                {
-                    index = std::min(index, static_cast<int>(_p->projects.size()) - 1);
-                    _p->currentProject = index != -1 ? _p->projects[index] : nullptr;
-                    Q_EMIT currentProjectChanged(_p->currentProject);
-                }
-                if (!_p->projects.size())
-                {
-                    newProject();
-                }
-            }
-        }
-
-        void ProjectSystem::closeProject(int index)
-        {
-            closeProject(getProject(index));
-        }
-
-        void ProjectSystem::setCurrentProject(const QPointer<Project> & project)
-        {
-            if (project == _p->currentProject)
-                return;
-            _p->currentProject = project;
-            Q_EMIT currentProjectChanged(_p->currentProject);
-        }
-
-        void ProjectSystem::setCurrentProject(int index)
-        {
-            setCurrentProject(getProject(index));
         }
 
     } // namespace ViewExperiment

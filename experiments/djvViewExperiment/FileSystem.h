@@ -29,28 +29,27 @@
 
 #pragma once
 
-#include <Util.h>
-
-#include <QMainWindow>
-#include <QPointer>
+#include <IUISystem.h>
 
 namespace djv
 {
     namespace ViewExperiment
-    {
-        class Context;
-        class Workspace;
-
-        class MainWindow : public QMainWindow
+    {   
+        class FileSystem : public IUISystem
         {
             Q_OBJECT
 
         public:
-            MainWindow(const QPointer<Context> &);
-            ~MainWindow() override;
+            FileSystem(const QPointer<Context> &, QObject * parent = nullptr);
+            ~FileSystem() override;
+            
+            QPointer<QMenu> createMenu() override;
+            QString getMenuSortKey() const override;
 
-            QMenu * createPopupMenu() override;
-
+            QPointer<QDockWidget> createDockWidget() override;
+            QString getDockWidgetSortKey() const override;
+            Qt::DockWidgetArea getDockWidgetArea() const override;
+            
         private:
             DJV_PRIVATE();
         };

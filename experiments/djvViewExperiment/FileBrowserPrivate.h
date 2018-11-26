@@ -33,6 +33,7 @@
 
 #include <QAbstractListModel>
 #include <QFrame>
+#include <QListView>
 #include <QWidget>
 
 namespace djv
@@ -87,6 +88,8 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! \todo Use a separate thread for listing directories
+        //! \todo Add directory watching functionality
         class FileBrowserModel : public QAbstractListModel
         {
             Q_OBJECT
@@ -96,9 +99,9 @@ namespace djv
             ~FileBrowserModel() override;
 
             QString getPath() const;
+            bool hasUp() const;
             bool hasBack() const;
             bool hasForward() const;
-            bool hasUp() const;
             QPointer<FileBrowserHistory> getHistory() const;
 
             int rowCount(const QModelIndex & parent = QModelIndex()) const override;
@@ -109,15 +112,15 @@ namespace djv
 
         public Q_SLOTS:
             void setPath(const QString &);
+            void up();
             void back();
             void forward();
-            void up();
 
         Q_SIGNALS:
             void pathChanged(const QString &);
+            void upEnabled(bool);
             void backEnabled(bool);
             void forwardEnabled(bool);
-            void upEnabled(bool);
 
         private:
             void _updateModel();
@@ -160,19 +163,41 @@ namespace djv
 
         public Q_SLOTS:
             void setPath(const QString &);
+            void setUpEnabled(bool);
             void setBackEnabled(bool);
             void setForwardEnabled(bool);
-            void setUpEnabled(bool);
 
         Q_SIGNALS:
             void pathChanged(const QString &);
+            void up();
             void back();
             void forward();
-            void up();
             void filterChanged(const QString &);
 
         private Q_SLOTS:
             void _widgetUpdate();
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class FileBrowserFooter : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            FileBrowserFooter(const QPointer<Context> &, QWidget * parent = nullptr);
+            ~FileBrowserFooter() override;
+
+        public Q_SLOTS:
+            void setViewMode(QListView::ViewMode);
+
+        Q_SIGNALS:
+            void filterChanged(const QString &);
+            void viewModeChanged(QListView::ViewMode);
+
+        private Q_SLOTS:
+            void _viewModeCallback(int);
 
         private:
             DJV_PRIVATE();

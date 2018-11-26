@@ -31,8 +31,8 @@
 
 #include <Context.h>
 #include <IUISystem.h>
-#include <ProjectTabWidget.h>
-#include <WindowSystem.h>
+#include <ToolSystem.h>
+#include <Workspace.h>
 
 #include <QDockWidget>
 #include <QLayout>
@@ -46,7 +46,6 @@ namespace djv
         struct MainWindow::Private
         {
             QPointer<Context> context;
-            QPointer<ProjectTabWidget> projectTabWidget;
         };
         
         MainWindow::MainWindow(const QPointer<Context> & context) :
@@ -55,7 +54,7 @@ namespace djv
             _p->context = context;
 
             std::map<QString, QPointer<QMenu> > menus;
-            for (auto i : _p->context->getSystems())
+            for (auto i : context->getSystems())
             {
                 if (auto uiSystem = qobject_cast<IUISystem *>(i))
                 {
@@ -70,8 +69,11 @@ namespace djv
                 menuBar()->addMenu(i.second);
             }
 
+            auto workspaceSystem = context->getSystem<WorkspaceSystem>();
+            setCentralWidget(workspaceSystem->createWorkspaceTabs());
+
             std::map<QString, std::pair<QPointer<QDockWidget>, Qt::DockWidgetArea> > dockWidgetMap;
-            for (auto i : _p->context->getSystems())
+            for (auto i : context->getSystems())
             {
                 if (auto uiSystem = qobject_cast<IUISystem *>(i))
                 {
@@ -87,11 +89,7 @@ namespace djv
                 addDockWidget(i.second.second, i.second.first);
                 dockWidgetList.push_back(i.second.first);
             }
-            context->getSystem<WindowSystem>()->setDockWidgets(dockWidgetList);
-
-            _p->projectTabWidget = new ProjectTabWidget(context);
-            _p->projectTabWidget->layout()->setContentsMargins(0, 0, 0, 0);
-            setCentralWidget(_p->projectTabWidget);
+            context->getSystem<ToolSystem>()->setDockWidgets(dockWidgetList);
         }
         
         MainWindow::~MainWindow()

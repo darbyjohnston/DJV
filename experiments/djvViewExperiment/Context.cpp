@@ -29,11 +29,15 @@
 
 #include <Context.h>
 
-#include <FileBrowser.h>
+#include <FileSystem.h>
 #include <ISystem.h>
 #include <Project.h>
+#include <ProxyStyle.h>
+#include <ToolSystem.h>
 #include <UndoStack.h>
-#include <WindowSystem.h>
+#include <Workspace.h>
+
+#include <QApplication>
 
 namespace djv
 {
@@ -43,15 +47,20 @@ namespace djv
         {
             std::vector<QPointer<ISystem> > systems;
             QPointer<UndoStack> undoStack;
+            QPointer<ProxyStyle> style;
         };
 
         Context::Context(int & argc, char ** argv) :
             _p(new Private)
         {
-            _p->systems.push_back(new ProjectSystem(this));
-            _p->systems.push_back(new WindowSystem(this));
+            _p->systems.push_back(new FileSystem(this));
+            _p->systems.push_back(new ToolSystem(this));
+            _p->systems.push_back(new WorkspaceSystem(this));
 
             _p->undoStack = new UndoStack(this);
+
+            _p->style = new ProxyStyle(this);
+            qApp->setStyle(_p->style);
         }
 
         Context::~Context()
@@ -65,6 +74,16 @@ namespace djv
         void Context::addSystem(const QPointer<ISystem> & system)
         {
             _p->systems.push_back(system);
+        }
+
+        const QPointer<UndoStack> & Context::getUndoStack() const
+        {
+            return _p->undoStack;
+        }
+
+        QPointer<QStyle> Context::getStyle() const
+        {
+            return _p->style.data();
         }
 
     } // namespace ViewExperiment

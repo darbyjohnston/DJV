@@ -32,7 +32,6 @@
 #include <Context.h>
 #include <Project.h>
 
-#include <QTabWidget>
 #include <QVBoxLayout>
 
 namespace djv

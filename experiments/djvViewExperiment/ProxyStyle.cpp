@@ -27,34 +27,26 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <ProxyStyle.h>
 
-#include <Util.h>
-
-#include <QMainWindow>
-#include <QPointer>
+#include <QStyleFactory>
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        class Context;
-        class Workspace;
-
-        class MainWindow : public QMainWindow
+        struct ProxyStyle::Private
         {
-            Q_OBJECT
 
-        public:
-            MainWindow(const QPointer<Context> &);
-            ~MainWindow() override;
-
-            QMenu * createPopupMenu() override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        ProxyStyle::ProxyStyle(const QPointer<Context> &) :
+            QProxyStyle(QStyleFactory::create("fusion")),
+            _p(new Private)
+        {}
+
+        ProxyStyle::~ProxyStyle()
+        {}
 
     } // namespace ViewExperiment
 } // namespace djv
-

@@ -36,6 +36,7 @@
 #include <QFileInfo>
 #include <QMimeData>
 #include <QPointer>
+#include <QStyle>
 
 #include <iostream>
 #include <vector>
@@ -161,16 +162,17 @@ namespace djv
         {
             if (!index.isValid())
                 return QVariant();
-            if (Qt::DisplayRole == role)
+            switch (role)
             {
+            case Qt::DisplayRole:
                 return _p->items[index.row()];
-            }
-            else if (Qt::DecorationRole == role)
-            {
+            case Qt::DecorationRole:
                 if (index.row() == _p->history->getHistoryIndex())
                 {
                     return QColor(255, 0, 0);
                 }
+                break;
+            default: break;
             }
             return QVariant();
         }
@@ -221,6 +223,11 @@ namespace djv
             return _p->dir.path();
         }
 
+        bool FileBrowserModel::hasUp() const
+        {
+            return !_p->dir.isRoot();
+        }
+
         bool FileBrowserModel::hasBack() const
         {
             return _p->history->hasBack();
@@ -229,11 +236,6 @@ namespace djv
         bool FileBrowserModel::hasForward() const
         {
             return _p->history->hasForward();
-        }
-
-        bool FileBrowserModel::hasUp() const
-        {
-            return !_p->dir.isRoot();
         }
 
         QPointer<FileBrowserHistory> FileBrowserModel::getHistory() const
@@ -250,9 +252,26 @@ namespace djv
         {
             if (!index.isValid())
                 return QVariant();
-            if (Qt::DisplayRole == role)
+            switch (role)
             {
+            case Qt::DisplayRole:
                 return _p->fileInfoList[index.row()].fileName();
+            case Qt::DecorationRole:
+            {
+                const auto & fileInfo = _p->fileInfoList[index.row()];
+                if (fileInfo.isFile())
+                {
+                    return _p->context->getStyle()->standardIcon(QStyle::SP_FileIcon);
+                }
+                else if (fileInfo.isDir())
+                {
+                    return _p->context->getStyle()->standardIcon(QStyle::SP_DirIcon);
+                }
+                break;
+            }
+            case Qt::EditRole:
+                return _p->fileInfoList[index.row()].filePath();
+            default: break;
             }
             return QVariant();
         }
@@ -289,16 +308,6 @@ namespace djv
             Q_EMIT upEnabled(hasUp());
         }
 
-        void FileBrowserModel::back()
-        {
-            _p->history->back();
-        }
-
-        void FileBrowserModel::forward()
-        {
-            _p->history->forward();
-        }
-
         void FileBrowserModel::up()
         {
             if (_p->dir.cdUp())
@@ -308,6 +317,16 @@ namespace djv
                 Q_EMIT pathChanged(_p->dir.path());
                 Q_EMIT upEnabled(hasUp());
             }
+        }
+
+        void FileBrowserModel::back()
+        {
+            _p->history->back();
+        }
+
+        void FileBrowserModel::forward()
+        {
+            _p->history->forward();
         }
 
         void FileBrowserModel::_updateModel()

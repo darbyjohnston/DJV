@@ -6,6 +6,7 @@ set(header
     ContextInline.h
     FileBrowser.h
     FileBrowserPrivate.h
+    FileSystem.h
     FileUtil.h
     ICommand.h
     ISystem.h
@@ -13,31 +14,35 @@ set(header
     ImageView.h
     MainWindow.h
     Project.h
-    ProjectTabWidget.h
+    ProxyStyle.h
+    ToolSystem.h
     UndoStack.h
     Util.h
-    WindowSystem.h)
+    Workspace.h)
 set(mocHeader
     Application.h
     Context.h
     FileBrowser.h
     FileBrowserPrivate.h
+    FileSystem.h
     ICommand.h
     ISystem.h
     IUISystem.h
     ImageView.h
     MainWindow.h
     Project.h
-    ProjectTabWidget.h
+    ProxyStyle.h
+    ToolSystem.h
     UndoStack.h
     Util.h
-    WindowSystem.h)
+    Workspace.h)
 set(source
     Application.cpp
     Context.cpp
     FileBrowser.cpp
     FileBrowserModel.cpp
     FileBrowserWidget.cpp
+    FileSystem.cpp
     FileUtil.cpp
     ICommand.cpp
     ISystem.cpp
@@ -45,10 +50,11 @@ set(source
     ImageView.cpp
     MainWindow.cpp
     Project.cpp
-    ProjectTabWidget.cpp
+    ProxyStyle.cpp
+    ToolSystem.cpp
     Util.cpp
     UndoStack.cpp
-    WindowSystem.cpp
+    Workspace.cpp
     main.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})

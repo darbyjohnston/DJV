@@ -48,104 +48,143 @@ namespace djv
     {
         struct FileBrowserWidget::Private
         {
-
+            QPointer<FileBrowserModel> model;
+            QPointer<QSortFilterProxyModel> proxyModel;
+            QListView::ViewMode viewMode = QListView::ListMode;
+            QPointer<QListView> listView;
+            QPointer<FileBrowserHeader> header;
+            QPointer<FileBrowserFooter> footer;
         };
 
         FileBrowserWidget::FileBrowserWidget(const QPointer<Context> & context, QWidget * parent) :
-            QWidget(parent)
+            QWidget(parent),
+            _p(new Private)
         {
-            auto header = new FileBrowserHeader(context);
+            _p->model = new FileBrowserModel(context, this);
+            _p->proxyModel = new QSortFilterProxyModel(this);
+            _p->proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+            _p->proxyModel->setSourceModel(_p->model);
 
-            auto model = new FileBrowserModel(context, this);
-            auto proxyModel = new QSortFilterProxyModel(this);
-            proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-            proxyModel->setSourceModel(model);
-            auto listView = new QListView;
-            listView->setDragDropMode(QAbstractItemView::DragOnly);
-            listView->setModel(proxyModel);
+            _p->listView = new QListView;
+            _p->listView->setDragDropMode(QAbstractItemView::DragOnly);
+            _p->listView->setModel(_p->proxyModel);
 
-            auto historyModel = new FileBrowserHistoryModel(model->getHistory());
-            auto historyListView = new QListView;
-            historyListView->setModel(historyModel);
+            _p->header = new FileBrowserHeader(context);
+            _p->footer = new FileBrowserFooter(context);
 
             auto layout = new QVBoxLayout(this);
-            layout->addWidget(header);
-            layout->addWidget(listView);
-            layout->addWidget(historyListView);
+            layout->addWidget(_p->header);
+            layout->addWidget(_p->listView);
+            layout->addWidget(_p->footer);
 
-            header->setPath(model->getPath());
-            header->setBackEnabled(model->hasBack());
-            header->setForwardEnabled(model->hasForward());
-            header->setUpEnabled(model->hasUp());
+            _updateWidget();
 
             connect(
-                model,
+                _p->model,
                 &FileBrowserModel::pathChanged,
-                [header](const QString & value)
+                [this](const QString & value)
             {
-                header->setPath(value);
+                _p->header->setPath(value);
             });
             connect(
-                model,
-                &FileBrowserModel::backEnabled,
-                [header](bool value)
-            {
-                header->setBackEnabled(value);
-            });
-            connect(
-                model,
-                &FileBrowserModel::forwardEnabled,
-                [header](bool value)
-            {
-                header->setForwardEnabled(value);
-            });
-            connect(
-                model,
+                _p->model,
                 &FileBrowserModel::upEnabled,
-                [header](bool value)
+                [this](bool value)
             {
-                header->setUpEnabled(value);
+                _p->header->setUpEnabled(value);
+            });
+            connect(
+                _p->model,
+                &FileBrowserModel::backEnabled,
+                [this](bool value)
+            {
+                _p->header->setBackEnabled(value);
+            });
+            connect(
+                _p->model,
+                &FileBrowserModel::forwardEnabled,
+                [this](bool value)
+            {
+                _p->header->setForwardEnabled(value);
             });
 
             connect(
-                header,
+                _p->listView,
+                &QAbstractItemView::doubleClicked,
+                [this](const QModelIndex & value)
+            {
+                _p->model->setPath(value.data(Qt::EditRole).toString());
+            });
+
+            connect(
+                _p->header,
                 &FileBrowserHeader::pathChanged,
-                [model](const QString & value)
+                [this](const QString & value)
             {
-                model->setPath(value);
+                _p->model->setPath(value);
             });
             connect(
-                header,
-                &FileBrowserHeader::back,
-                [model]
-            {
-                model->back();
-            });
-            connect(
-                header,
-                &FileBrowserHeader::forward,
-                [model]
-            {
-                model->forward();
-            });
-            connect(
-                header,
+                _p->header,
                 &FileBrowserHeader::up,
-                [model]
+                [this]
             {
-                model->up();
+                _p->model->up();
             });
             connect(
-                header,
-                &FileBrowserHeader::filterChanged,
-                [proxyModel](const QString & value)
+                _p->header,
+                &FileBrowserHeader::back,
+                [this]
             {
-                proxyModel->setFilterFixedString(value);
+                _p->model->back();
+            });
+            connect(
+                _p->header,
+                &FileBrowserHeader::forward,
+                [this]
+            {
+                _p->model->forward();
+            });
+
+            connect(
+                _p->footer,
+                &FileBrowserFooter::filterChanged,
+                [this](const QString & value)
+            {
+                _p->proxyModel->setFilterFixedString(value);
+            });
+            connect(
+                _p->footer,
+                &FileBrowserFooter::viewModeChanged,
+                [this](QListView::ViewMode value)
+            {
+                _p->viewMode = value;
+                _updateWidget();
             });
         }
 
         FileBrowserWidget::~FileBrowserWidget()
         {}
+
+        void FileBrowserWidget::_updateWidget()
+        {
+            switch (_p->viewMode)
+            {
+            case QListView::ListMode:
+                _p->listView->setGridSize(QSize());
+                _p->listView->setResizeMode(QListView::Fixed);
+                break;
+            case QListView::IconMode:
+                _p->listView->setGridSize(QSize(100, 100));
+                _p->listView->setResizeMode(QListView::Adjust);
+                break;
+            }
+            _p->listView->setViewMode(_p->viewMode);
+            _p->header->setPath(_p->model->getPath());
+            _p->header->setUpEnabled(_p->model->hasUp());
+            _p->header->setBackEnabled(_p->model->hasBack());
+            _p->header->setForwardEnabled(_p->model->hasForward());
+            _p->footer->setViewMode(_p->listView->viewMode());
+        }
 
     } // namespace ViewExperiment
 } // namespace djv

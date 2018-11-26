@@ -39,6 +39,12 @@ namespace djv
     {
         class Context;
 
+        //! \todo Sorting
+        //! \todo Multiple selection
+        //! \todo Bookmarks
+        //! \todo History menu
+        //! \todo Thumbnails
+        //! \todo File information
         class FileBrowserWidget : public QWidget
         {
             Q_OBJECT
@@ -48,6 +54,8 @@ namespace djv
             ~FileBrowserWidget() override;
 
         private:
+            void _updateWidget();
+
             DJV_PRIVATE();
         };
 

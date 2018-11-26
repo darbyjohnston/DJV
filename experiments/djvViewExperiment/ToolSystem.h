@@ -29,30 +29,28 @@
 
 #pragma once
 
-#include <Util.h>
-
-#include <QWidget>
+#include <IUISystem.h>
 
 namespace djv
 {
     namespace ViewExperiment
     {
-        class Context;
-        class Project;
-
-        class ProjectTabWidget : public QWidget
+        class ToolSystem : public IUISystem
         {
             Q_OBJECT
 
         public:
-            ProjectTabWidget(const QPointer<Context> &, QWidget * parent = nullptr);
-            ~ProjectTabWidget() override;
+            ToolSystem(const QPointer<Context> &, QObject * parent = nullptr);
+            ~ToolSystem() override;
             
-        private Q_SLOTS:
-            void _addTab(const QPointer<Project> &);
-            void _removeTab(const QPointer<Project> &);
+            void setDockWidgets(const std::vector<QPointer<QDockWidget> > &);
+
+            QPointer<QMenu> createMenu() override;
+            QString getMenuSortKey() const override;
 
         private:
+            void _updateMenus();
+
             DJV_PRIVATE();
         };
 

@@ -35,6 +35,8 @@
 
 #include <vector>
 
+class QStyle;
+
 namespace djv
 {
     namespace ViewExperiment
@@ -56,6 +58,8 @@ namespace djv
             void addSystem(const QPointer<ISystem> &);
 
             const QPointer<UndoStack> & getUndoStack() const;
+
+            QPointer<QStyle> getStyle() const;
 
         private:
             DJV_PRIVATE();
