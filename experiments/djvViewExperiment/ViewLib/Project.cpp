@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,73 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <ViewLib/Project.h>
+
+#include <ViewLib/Context.h>
 
 #include <iostream>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        namespace
+        {
+            size_t projectCount = 0;
+
+        } // namespace
+
+        struct Project::Private
+        {
+            QFileInfo fileInfo;
+            bool changes = false;
+        };
+        
+        Project::Project(const QPointer<Context> &, QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            ++projectCount;
+            _p->fileInfo = QString("Untitled %1").arg(projectCount);
+            //std::cout << "Project::Project(" << _p->fileInfo.fileName().toLatin1().data() << ")" << std::endl;
+        }
+        
+        Project::~Project()
+        {
+            //std::cout << "Project::~Project(" << _p->fileInfo.fileName().toLatin1().data() << ")" << std::endl;
+        }
+
+        const QFileInfo & Project::getFileInfo() const
+        {
+            return _p->fileInfo;
+        }
+
+        bool Project::hasChanges() const
+        {
+            return _p->changes;
+        }
+            
+        void Project::open(const QFileInfo & fileInfo)
+        {
+            _p->fileInfo = fileInfo;
+            Q_EMIT fileInfoChanged(_p->fileInfo);
+        }
+        
+        void Project::close()
+        {
+            _p->fileInfo = QFileInfo();
+            Q_EMIT fileInfoChanged(_p->fileInfo);
+        }
+        
+        void Project::save()
+        {}
+        
+        void Project::saveAs(const QFileInfo & fileInfo)
+        {
+            _p->fileInfo = fileInfo;
+            Q_EMIT fileInfoChanged(_p->fileInfo);
+        }
+
+    } // namespace ViewLib
+} // namespace djv
+

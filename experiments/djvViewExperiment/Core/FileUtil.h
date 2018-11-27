@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <QStringList>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct FileUtil
+        {
+            static const QChar nativeSeparator;
+
+            static QStringList splitPath(const QString &);
+            static QString joinPath(QStringList);
+        };
+
+    } // namespace Core
+} // namespace djv

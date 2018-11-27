@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,60 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <ViewLib/Enum.h>
 
-using namespace djv;
+#include <QFileInfo>
+#include <QMdiArea>
+#include <QPointer>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class Context;
+        class Project;
+
+        class Workspace : public QObject
+        {
+            Q_OBJECT
+
+        public:
+            Workspace(const QPointer<Context> &, QObject * parent = nullptr);
+            ~Workspace() override;
+
+            const QString & getName() const;
+            const std::vector<QPointer<Project> > & getProjects() const;
+            const QPointer<Project> & getCurrentProject() const;
+
+            QMdiArea::ViewMode getViewMode() const;
+            Enum::WindowState getWindowState() const;
+
+        public Q_SLOTS:
+            void setName(const QString &);
+            void newProject();
+            void openProject(const QFileInfo &);
+            void closeProject(const QPointer<Project> &);
+            void setCurrentProject(const QPointer<Project> &);
+            void nextProject();
+            void prevProject();
+            void setViewMode(QMdiArea::ViewMode);
+            void setWindowState(Enum::WindowState);
+            void setWindowState(const QPointer<Project> &, Enum::WindowState);
+
+        Q_SIGNALS:
+            void nameChanged(const QString &);
+            void projectAdded(const QPointer<Project> &);
+            void projectRemoved(const QPointer<Project> &);
+            void currentProjectChanged(const QPointer<Project> &);
+            void viewModeChanged(QMdiArea::ViewMode);
+            void windowStateChanged(Enum::WindowState);
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,49 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <ViewLib/ImageSystem.h>
+
+#include <ViewLib/Context.h>
+#include <ViewLib/Project.h>
+
+#include <QAction>
+#include <QDockWidget>
+#include <QMenu>
 
 #include <iostream>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct ImageSystem::Private
+        {
+            std::map<QString, QPointer<QAction> > actions;
+        };
+        
+        ImageSystem::ImageSystem(const QPointer<Context> & context, QObject * parent) :
+            IViewSystem("ImageSystem", context, parent),
+            _p(new Private)
+        {}
+        
+        ImageSystem::~ImageSystem()
+        {}
+
+        QString ImageSystem::getMenuSortKey() const
+        {
+            return "4";
+        }
+        
+        QPointer<QMenu> ImageSystem::createMenu()
+        {
+            auto menu = new QMenu("Image");
+            return menu;
+        }
+
+        void ImageSystem::setCurrentProject(const QPointer<Project> & project)
+        {
+        }
+
+    } // namespace ViewLib
+} // namespace djv
+

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,65 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <ViewLib/IViewSystem.h>
 
-#include <iostream>
+#include <ViewLib/Context.h>
 
-using namespace djv;
+#include <QDockWidget>
+#include <QMenu>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct IViewSystem::Private
+        {
+        };
+        
+        IViewSystem::IViewSystem(const QString & name, const QPointer<Context> & context, QObject * parent) :
+            Core::ISystem(name, context.data(), parent),
+            _p(new Private)
+        {}
+        
+        IViewSystem::~IViewSystem()
+        {}
+
+        QPointer<QMenu> IViewSystem::createMenu()
+        {
+            return nullptr;
+        }
+
+        QString IViewSystem::getMenuSortKey() const
+        {
+            return getName();
+        }
+
+        QPointer<QDockWidget> IViewSystem::createDockWidget()
+        {
+            return nullptr;
+        }
+
+        QString IViewSystem::getDockWidgetSortKey() const
+        {
+            return getName();
+        }
+
+        Qt::DockWidgetArea IViewSystem::getDockWidgetArea() const
+        {
+            return Qt::NoDockWidgetArea;
+        }
+
+        bool IViewSystem::isDockWidgetVisible() const
+        {
+            return false;
+        }
+
+        void IViewSystem::setCurrentWorkspace(const QPointer<Workspace> &)
+        {}
+
+        void IViewSystem::setCurrentProject(const QPointer<Project> &)
+        {}
+
+    } // namespace ViewLib
+} // namespace djv
+

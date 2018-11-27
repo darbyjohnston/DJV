@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <UI/Context.h>
 
-#include <iostream>
+#include <ProxyStyle.h>
 
-using namespace djv;
+#include <QApplication>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace UI
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct Context::Private
+        {
+            QPointer<ProxyStyle> style;
+        };
+
+        Context::Context(int & argc, char ** argv) :
+            AV::Context(argc, argv),
+            _p(new Private)
+        {
+            _p->style = new ProxyStyle(this);
+            qApp->setStyle(_p->style);
+        }
+
+        Context::~Context()
+        {}
+
+        QPointer<QStyle> Context::getStyle() const
+        {
+            return _p->style.data();
+        }
+
+    } // namespace UI
+} // namespace djv
+

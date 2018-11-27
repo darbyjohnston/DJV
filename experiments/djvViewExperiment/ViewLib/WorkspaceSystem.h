@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,53 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <ViewLib/IViewSystem.h>
+#include <ViewLib/Workspace.h>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class WorkspaceSystem : public IViewSystem
+        {
+            Q_OBJECT
+
+        public:
+            WorkspaceSystem(const QPointer<Context> &, QObject * parent = nullptr);
+            ~WorkspaceSystem() override;
+
+            const std::vector<QPointer<Workspace> > & getWorkspaces() const;
+            const QPointer<Workspace> & getCurrentWorkspace() const;
+            QPointer<Project> getCurrentProject() const;
+
+            QPointer<QWidget> createWorkspaceTabs();
+            
+            QPointer<QMenu> createMenu() override;
+            QString getMenuSortKey() const override;
+
+        public Q_SLOTS:
+            void newWorkspace();
+            void closeWorkspace(const QPointer<Workspace> &);
+            void nextWorkspace();
+            void prevWorkspace();
+
+            void setCurrentWorkspace(const QPointer<Workspace> &) override;
+
+        Q_SIGNALS:
+            void workspaceAdded(const QPointer<Workspace> &);
+            void workspaceRemoved(const QPointer<Workspace> &);
+            void currentWorkspaceChanged(const QPointer<Workspace> &);
+            void currentProjectChanged(const QPointer<Project> &);
+
+        private Q_SLOTS:
+            void _updateMenus();
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+

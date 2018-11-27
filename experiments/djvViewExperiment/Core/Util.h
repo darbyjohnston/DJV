@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <memory>
 
-using namespace djv;
+//! This macro provides private implementation members.
+#define DJV_PRIVATE() \
+    struct Private; \
+    std::unique_ptr<Private> _p
 
-int main(int argc, char ** argv)
-{
-    int r = 0;
-    try
-    {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+//! This macro provides a private copy constructor and operator.
+#define DJV_PRIVATE_COPY(class) \
+    class(const class &); \
+    class & operator = (const class &);

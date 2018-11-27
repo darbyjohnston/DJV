@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <Core/Util.h>
 
-using namespace djv;
+#include <QObject>
+#include <QPointer>
 
-int main(int argc, char ** argv)
+#include <vector>
+
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class ISystem;
+        class UndoStack;
+        
+        class Context : public QObject
+        {
+            Q_OBJECT
+
+        public:
+            Context(int &, char **);
+            ~Context() override;
+                        
+            const std::vector<QPointer<ISystem> > & getSystems() const;
+            template<typename T>
+            inline std::vector<QPointer<T> > getSystemsT() const;
+            template<typename T>
+            inline QPointer<T> getSystemT() const;
+            void addSystem(const QPointer<ISystem> &);
+
+            const QPointer<UndoStack> & getUndoStack() const;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace Core
+} // namespace djv
+
+#include <Core/ContextInline.h>
+

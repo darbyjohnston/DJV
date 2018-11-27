@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,70 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <Enum.h>
 
-using namespace djv;
+#include <QMdiSubWindow>
+#include <QPointer>
+#include <QWidget>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class Context;
+        class Project;
+        class Workspace;
+
+        class WorkspaceMDISubWindow : public QMdiSubWindow
+        {
+            Q_OBJECT
+
+        public:
+            WorkspaceMDISubWindow(const QPointer<Workspace> &, const QPointer<Project> &, const QPointer<Context> &);
+
+            virtual QSize sizeHint() const override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class WorkspaceMDI : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            WorkspaceMDI(const QPointer<Workspace> &, const QPointer<Context> &, QWidget * parent = nullptr);
+            ~WorkspaceMDI() override;
+
+        protected:
+            bool eventFilter(QObject *, QEvent *) override;
+
+        private Q_SLOTS:
+            void _addProject(const QPointer<Project> &);
+            void _removeProject(const QPointer<Project> &);
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class WorkspaceTabs : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            WorkspaceTabs(const QPointer<Context> &, QWidget * parent = nullptr);
+            ~WorkspaceTabs() override;
+
+        private Q_SLOTS:
+            void _addWorkspace(const QPointer<Workspace> &);
+            void _removeWorkspace(const QPointer<Workspace> &);
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+

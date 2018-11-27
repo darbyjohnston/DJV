@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,66 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <ViewLib/HistogramTool.h>
+
+#include <ViewLib/Context.h>
+
+#include <QAction>
+#include <QDockWidget>
+#include <QMenu>
 
 #include <iostream>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        namespace
+        {
+            class Widget : public QWidget
+            {
+            public:
+                Widget()
+                {
+                    setBackgroundRole(QPalette::Base);
+                    setAutoFillBackground(true);
+                }
+
+                QSize sizeHint() const override { return QSize(100, 100); }
+            };
+
+        } // namespace
+
+        struct HistogramTool::Private
+        {
+        };
+
+        HistogramTool::HistogramTool(const QPointer<Context> & context, QObject * parent) :
+            IToolSystem("HistogramTool", context.data(), parent),
+            _p(new Private)
+        {}
+
+        HistogramTool::~HistogramTool()
+        {}
+
+        QPointer<QDockWidget> HistogramTool::createDockWidget()
+        {
+            auto out = new QDockWidget("Histogram");
+            out->setWidget(new Widget);
+            out->hide();
+            return out;
+        }
+
+        QString HistogramTool::getDockWidgetSortKey() const
+        {
+            return "2";
+        }
+
+        Qt::DockWidgetArea HistogramTool::getDockWidgetArea() const
+        {
+            return Qt::DockWidgetArea::RightDockWidgetArea;
+        }
+
+    } // namespace ViewLib
+} // namespace djv
+

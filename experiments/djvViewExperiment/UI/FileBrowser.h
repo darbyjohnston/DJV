@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,38 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <Core/Util.h>
 
-using namespace djv;
+#include <QPointer>
+#include <QWidget>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace UI
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class Context;
+
+        //! \todo Sorting
+        //! \todo Multiple selection
+        //! \todo Bookmarks
+        //! \todo History menu
+        //! \todo Thumbnails
+        //! \todo File information
+        class FileBrowserWidget : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            FileBrowserWidget(const QPointer<Context> &, QWidget * parent = nullptr);
+            ~FileBrowserWidget() override;
+
+        private:
+            void _updateWidget();
+
+            DJV_PRIVATE();
+        };
+
+    } // namespace UI
+} // namespace djv

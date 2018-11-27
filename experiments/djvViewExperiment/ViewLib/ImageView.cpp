@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <ViewLib/ImageView.h>
 
-#include <iostream>
+#include <ViewLib/Context.h>
 
-using namespace djv;
+#include <QVBoxLayout>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct ImageView::Private
+        {
+            QPointer<Context> context;
+        };
+        
+        ImageView::ImageView(const QPointer<Context> & context, QWidget * parent) :
+            QOpenGLWidget(parent),
+            _p(new Private)
+        {
+            _p->context = context;
+        }
+        
+        ImageView::~ImageView()
+        {}
+                
+    } // namespace ViewLib
+} // namespace djv
+

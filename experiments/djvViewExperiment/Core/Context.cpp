@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,47 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <Context.h>
 
-#include <iostream>
+#include <Core/ISystem.h>
+#include <Core/UndoStack.h>
 
-using namespace djv;
+#include <QApplication>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct Context::Private
+        {
+            std::vector<QPointer<ISystem> > systems;
+            QPointer<UndoStack> undoStack;
+        };
+
+        Context::Context(int & argc, char ** argv) :
+            _p(new Private)
+        {
+            _p->undoStack = new UndoStack(this);
+        }
+
+        Context::~Context()
+        {}
+
+        const std::vector<QPointer<ISystem> > & Context::getSystems() const
+        {
+            return _p->systems;
+        }
+
+        void Context::addSystem(const QPointer<ISystem> & system)
+        {
+            _p->systems.push_back(system);
+        }
+
+        const QPointer<UndoStack> & Context::getUndoStack() const
+        {
+            return _p->undoStack;
+        }
+
+    } // namespace ViewExperiment
+} // namespace djv
+

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <ViewLib/IViewSystem.h>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class FileSystem : public IViewSystem
+        {
+            Q_OBJECT
+
+        public:
+            FileSystem(const QPointer<Context> &, QObject * parent = nullptr);
+            ~FileSystem() override;
+            
+            QPointer<QMenu> createMenu() override;
+            QString getMenuSortKey() const override;
+
+            QPointer<QDockWidget> createDockWidget() override;
+            Qt::DockWidgetArea getDockWidgetArea() const override;
+            bool isDockWidgetVisible() const override;
+            
+        public Q_SLOTS:
+            void setCurrentWorkspace(const QPointer<Workspace> &) override;
+            void setCurrentProject(const QPointer<Project> &) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+

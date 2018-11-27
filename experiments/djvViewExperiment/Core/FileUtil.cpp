@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,60 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <Core/FileUtil.h>
+
+#include <QDir>
+#include <QRegularExpression>
 
 #include <iostream>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+#if defined(DJV_WINDOWS)
+        const QChar FileUtil::nativeSeparator = '\\';
+#else
+        const QChar FileUtil::nativeSeparator = '/';
+#endif
+
+        QStringList FileUtil::splitPath(const QString & value)
+        {
+            QStringList out;
+
+            // Handle the root path.
+            if (value.size() && '/' == value[0])
+            {
+                out.push_back("/");
+            }
+
+            // Split the path on seperators.
+            static const QRegularExpression re("[/\\\\]");
+            out.append(value.split(re, QString::SkipEmptyParts));
+
+            return out;
+        }
+
+        QString FileUtil::joinPath(QStringList value)
+        {
+            QString out;
+
+            // Handle the root path.
+            if (value.size())
+            {
+                if (value[0] != "/")
+                {
+                    out.append(value[0]);
+                }
+                out.append('/');
+                value.pop_front();
+            }
+
+            // Join the remaining pieces.
+            out.append(value.join(nativeSeparator));
+
+            return out;
+        }
+
+    } // namespace Core
+} // namespace djv

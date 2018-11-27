@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,41 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <Core/ISystem.h>
 
-#include <iostream>
+#include <Context.h>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct ISystem::Private
+        {
+            QPointer<Context> context;
+            QString name;
+        };
+        
+        ISystem::ISystem(const QString & name, const QPointer<Context> & context, QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            _p->context = context;
+            _p->name = name;
+        }
+        
+        ISystem::~ISystem()
+        {}
+
+        const QPointer<Context> & ISystem::getContext() const
+        {
+            return _p->context;
+        }
+
+        const QString & ISystem::getName() const
+        {
+            return _p->name;
+        }
+        
+    } // namespace Core
+} // namespace djv
+

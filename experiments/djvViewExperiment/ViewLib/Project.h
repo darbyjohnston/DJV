@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <Core/Util.h>
 
-using namespace djv;
+#include <QFileInfo>
+#include <QPointer>
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class Context;
+
+        class Project : public QObject
+        {
+            Q_OBJECT
+
+        public:
+            Project(const QPointer<Context> &, QObject * parent = nullptr);
+            ~Project() override;
+
+            const QFileInfo & getFileInfo() const;
+            bool hasChanges() const;
+            
+        public Q_SLOTS:
+            void open(const QFileInfo &);
+            void close();
+            void save();
+            void saveAs(const QFileInfo &);
+            
+        Q_SIGNALS:
+            void fileInfoChanged(const QFileInfo &);
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+

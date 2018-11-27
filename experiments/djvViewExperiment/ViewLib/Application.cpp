@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,20 +29,33 @@
 
 #include <ViewLib/Application.h>
 
-#include <iostream>
+#include <ViewLib/Context.h>
+#include <ViewLib/MainWindow.h>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct Application::Private
+        {
+            QScopedPointer<Context> context;
+            QScopedPointer<MainWindow> mainWindow;
+        };
+        
+        Application::Application(int & argc, char ** argv) :
+            QApplication(argc, argv),
+            _p(new Private)
+        {
+            _p->context.reset(new Context(argc, argv));
+            
+            _p->mainWindow.reset(new MainWindow(_p->context.data()));
+            _p->mainWindow->resize(800, 600);
+            _p->mainWindow->show();
+        }
+        
+        Application::~Application()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv
+

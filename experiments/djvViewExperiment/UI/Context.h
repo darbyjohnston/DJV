@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <AV/Context.h>
 
-using namespace djv;
+class QStyle;
 
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace UI
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class Context : public AV::Context
+        {
+            Q_OBJECT
+
+        public:
+            Context(int &, char **);
+            ~Context() override;
+
+            QPointer<QStyle> getStyle() const;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace UI
+} // namespace djv

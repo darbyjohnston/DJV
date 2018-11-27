@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,26 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#include <UI/ProxyStyle.h>
 
-#include <iostream>
+#include <QStyleFactory>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace UI
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        struct ProxyStyle::Private
+        {
+
+        };
+
+        ProxyStyle::ProxyStyle(const QPointer<Context> &) :
+            QProxyStyle(QStyleFactory::create("fusion")),
+            _p(new Private)
+        {}
+
+        ProxyStyle::~ProxyStyle()
+        {}
+
+    } // namespace UI
+} // namespace djv

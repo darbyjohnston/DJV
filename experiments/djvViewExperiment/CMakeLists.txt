@@ -1,69 +1,21 @@
-find_package(GLM REQUIRED)
+include_directories(
+    ${CMAKE_SOURCE_DIR}/experiments/djvViewExperiment)
 
-set(header
-    Application.h
-    Context.h
-    ContextInline.h
-    FileBrowser.h
-    FileBrowserPrivate.h
-    FileSystem.h
-    FileUtil.h
-    ICommand.h
-    ISystem.h
-    IUISystem.h
-    ImageView.h
-    MainWindow.h
-    Project.h
-    ProxyStyle.h
-    ToolSystem.h
-    UndoStack.h
-    Util.h
-    Workspace.h)
-set(mocHeader
-    Application.h
-    Context.h
-    FileBrowser.h
-    FileBrowserPrivate.h
-    FileSystem.h
-    ICommand.h
-    ISystem.h
-    IUISystem.h
-    ImageView.h
-    MainWindow.h
-    Project.h
-    ProxyStyle.h
-    ToolSystem.h
-    UndoStack.h
-    Util.h
-    Workspace.h)
+add_subdirectory(Core)
+add_subdirectory(AV)
+add_subdirectory(UI)
+add_subdirectory(ViewLib)
+
 set(source
-    Application.cpp
-    Context.cpp
-    FileBrowser.cpp
-    FileBrowserModel.cpp
-    FileBrowserWidget.cpp
-    FileSystem.cpp
-    FileUtil.cpp
-    ICommand.cpp
-    ISystem.cpp
-    IUISystem.cpp
-    ImageView.cpp
-    MainWindow.cpp
-    Project.cpp
-    ProxyStyle.cpp
-    ToolSystem.cpp
-    Util.cpp
-    UndoStack.cpp
-    Workspace.cpp
     main.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${OPENGL_INCLUDE_DIRS})
 add_executable(djvViewExperiment ${header} ${source} ${mocSource} ${qmSource})
-target_link_libraries(djvViewExperiment
-    Qt5
-    GLM
-    ${CMAKE_DL_LIBS})
-set_target_properties(djvViewExperiment PROPERTIES FOLDER experiments CXX_STANDARD 11)
-
+target_link_libraries(djvViewExperiment djvViewExperimentViewLib)
+set_target_properties(
+    djvViewExperiment
+    PROPERTIES
+    FOLDER experiments
+    CXX_STANDARD 11)

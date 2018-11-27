@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,22 +27,33 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <ViewLib/Application.h>
+#pragma once
 
-#include <iostream>
+#include <QPointer>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace Core
     {
-        r = ViewLib::Application(argc, argv).exec();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << "ERROR: " << error.what() << std::endl;
-    }
-    return r;
-}
+        class Context;
+
+        class ICommand
+        {
+        public:
+            ICommand(const QString & name, const QPointer<Context> &);
+            virtual ~ICommand() = 0;
+
+            const QString & getName() const { return _name; }
+
+            virtual void exec() = 0;
+            virtual void undo() = 0;
+
+        protected:
+            QPointer<Context> _context;
+
+        private:
+            QString _name;
+        };
+
+    } // namespace Core
+} // namespace djv
