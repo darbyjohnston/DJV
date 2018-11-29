@@ -33,24 +33,54 @@
 
 #include <QVBoxLayout>
 
+#include <condition_variable>
+
 namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const size_t timeout = 10;
+
+        } // namespace
+
         struct ImageView::Private
         {
             QPointer<Context> context;
+            std::shared_ptr<AV::IO::Queue> queue;
+            std::shared_ptr<AV::PixelData> pixelData;
+            int timer = 0;
+            std::condition_variable queueCV;
         };
         
-        ImageView::ImageView(const QPointer<Context> & context, QWidget * parent) :
+        ImageView::ImageView(const std::shared_ptr<AV::IO::Queue> & queue, const QPointer<Context> & context, QWidget * parent) :
             QOpenGLWidget(parent),
             _p(new Private)
         {
             _p->context = context;
+            _p->queue = queue;
+            _p->timer = startTimer(timeout);
         }
         
         ImageView::~ImageView()
         {}
+
+        void ImageView::timerEvent(QTimerEvent *)
+        {
+            std::unique_lock<std::mutex> lock(_p->queue->getMutex());
+            if (_p->queueCV.wait_for(
+                lock,
+                std::chrono::milliseconds(timeout),
+                [this]
+            {
+                return !_p->queue->isVideoEmpty();
+            }))
+            {
+                _p->pixelData = _p->queue->getFront().second;
+                update();
+            }
+        }
                 
     } // namespace ViewLib
 } // namespace djv

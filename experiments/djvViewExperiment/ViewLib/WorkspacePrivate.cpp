@@ -202,7 +202,7 @@ namespace djv
             auto window = new WorkspaceMDISubWindow(_p->workspace, project, _p->context);
             _p->projectToWindow[project] = window;
             _p->windowToProject[window] = project;
-            window->setWindowTitle(project->getFileInfo().fileName());
+            window->setWindowTitle(project->getFileName());
             window->setAttribute(Qt::WA_DeleteOnClose);
             window->setWidget(imageView);
             window->installEventFilter(this);

@@ -45,7 +45,7 @@ namespace djv
 
         struct Project::Private
         {
-            QFileInfo fileInfo;
+            QString fileName;
             bool changes = false;
         };
         
@@ -54,18 +54,18 @@ namespace djv
             _p(new Private)
         {
             ++projectCount;
-            _p->fileInfo = QString("Untitled %1").arg(projectCount);
-            //std::cout << "Project::Project(" << _p->fileInfo.fileName().toLatin1().data() << ")" << std::endl;
+            _p->fileName = QString("Untitled %1").arg(projectCount);
+            //std::cout << "Project::Project(" << _p->fileName.fileName().toLatin1().data() << ")" << std::endl;
         }
         
         Project::~Project()
         {
-            //std::cout << "Project::~Project(" << _p->fileInfo.fileName().toLatin1().data() << ")" << std::endl;
+            //std::cout << "Project::~Project(" << _p->fileName.fileName().toLatin1().data() << ")" << std::endl;
         }
 
-        const QFileInfo & Project::getFileInfo() const
+        const QString & Project::getFileName() const
         {
-            return _p->fileInfo;
+            return _p->fileName;
         }
 
         bool Project::hasChanges() const
@@ -73,25 +73,25 @@ namespace djv
             return _p->changes;
         }
             
-        void Project::open(const QFileInfo & fileInfo)
+        void Project::open(const QString & fileName)
         {
-            _p->fileInfo = fileInfo;
-            Q_EMIT fileInfoChanged(_p->fileInfo);
+            _p->fileName = fileName;
+            Q_EMIT fileNameChanged(_p->fileName);
         }
         
         void Project::close()
         {
-            _p->fileInfo = QFileInfo();
-            Q_EMIT fileInfoChanged(_p->fileInfo);
+            _p->fileName = QString();
+            Q_EMIT fileNameChanged(_p->fileName);
         }
         
         void Project::save()
         {}
         
-        void Project::saveAs(const QFileInfo & fileInfo)
+        void Project::saveAs(const QString & fileName)
         {
-            _p->fileInfo = fileInfo;
-            Q_EMIT fileInfoChanged(_p->fileInfo);
+            _p->fileName = fileName;
+            Q_EMIT fileNameChanged(_p->fileName);
         }
 
     } // namespace ViewLib

@@ -31,7 +31,7 @@
 
 #include <Core/Util.h>
 
-#include <QFileInfo>
+#include <QString>
 #include <QPointer>
 
 namespace djv
@@ -48,17 +48,17 @@ namespace djv
             Project(const QPointer<Context> &, QObject * parent = nullptr);
             ~Project() override;
 
-            const QFileInfo & getFileInfo() const;
+            const QString & getFileName() const;
             bool hasChanges() const;
             
         public Q_SLOTS:
-            void open(const QFileInfo &);
+            void open(const QString &);
             void close();
             void save();
-            void saveAs(const QFileInfo &);
+            void saveAs(const QString &);
             
         Q_SIGNALS:
-            void fileInfoChanged(const QFileInfo &);
+            void fileNameChanged(const QString &);
 
         private:
             DJV_PRIVATE();

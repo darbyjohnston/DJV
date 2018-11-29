@@ -31,18 +31,20 @@
 
 #include <QCoreApplication>
 
+#include <limits>
+
 namespace djv
 {
     namespace AV
     {
-        const Audio::U8_T  Audio::u8Min = std::numeric_limits<U8_T>::min();
-        const Audio::U8_T  Audio::u8Max = std::numeric_limits<U8_T>::max();
-        const Audio::S16_T Audio::s16Min = std::numeric_limits<S16_T>::min();
-        const Audio::S16_T Audio::s16Max = std::numeric_limits<S16_T>::max();
-        const Audio::S32_T Audio::s32Min = std::numeric_limits<S32_T>::min();
-        const Audio::S32_T Audio::s32Max = std::numeric_limits<S32_T>::max();
+        const Audio::U8_T   Audio::u8Min = std::numeric_limits<uint8_t>::min();
+        const Audio::U8_T   Audio::u8Max = std::numeric_limits<uint8_t>::max();
+        const Audio::S16_T Audio::s16Min = std::numeric_limits<int16_t>::min();
+        const Audio::S16_T Audio::s16Max = std::numeric_limits<int16_t>::max();
+        const Audio::S32_T Audio::s32Min = std::numeric_limits<int32_t>::min();
+        const Audio::S32_T Audio::s32Max = std::numeric_limits<int32_t>::max();
         const Audio::F32_T Audio::f32Min = -1.f;
-        const Audio::F32_T Audio::f32Max = 1.f;
+        const Audio::F32_T Audio::f32Max =  1.f;
 
         const QString & Audio::getLabel(Type value)
         {

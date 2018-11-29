@@ -29,8 +29,6 @@
 
 #include <Core/MathUtil.h>
 
-#include <limits>
-
 namespace djv
 {
     namespace AV
@@ -78,22 +76,22 @@ namespace djv
 
         inline void Audio::convert(U8_T value, S16_T & out)
         {
-            out = (value << 8) - std::numeric_limits<int16_t>::min();
+            out = (value << 8) - s16Min;
         }
 
         inline void Audio::convert(U8_T value, Audio::S32_T & out)
         {
-            out = (value << 24) - std::numeric_limits<int32_t>::min();
+            out = (value << 24) - s32Min;
         }
 
         inline void Audio::convert(U8_T value, Audio::F32_T & out)
         {
-            out = value / static_cast<float>(std::numeric_limits<uint8_t>::max()) * 2.f - 1.f;
+            out = value / static_cast<float>(u8Max) * 2.f - 1.f;
         }
 
         inline void Audio::convert(S16_T value, Audio::U8_T & out)
         {
-            out = (value - std::numeric_limits<int16_t>::min()) >> 8;
+            out = (value - s16Min) >> 8;
         }
 
         inline void Audio::convert(S16_T value, Audio::S32_T & out)
@@ -103,12 +101,12 @@ namespace djv
 
         inline void Audio::convert(S16_T value, Audio::F32_T & out)
         {
-            out = value / static_cast<float>(std::numeric_limits<int16_t>::max());
+            out = value / static_cast<float>(s16Max);
         }
 
         inline void Audio::convert(S32_T value, Audio::U8_T & out)
         {
-            out = (value - std::numeric_limits<int32_t>::min()) >> 24;
+            out = (value - s32Min) >> 24;
         }
 
         inline void Audio::convert(S32_T value, Audio::S16_T & out)
@@ -118,13 +116,13 @@ namespace djv
 
         inline void Audio::convert(S32_T value, Audio::F32_T & out)
         {
-            out = value / static_cast<float>(std::numeric_limits<int32_t>::max());
+            out = value / static_cast<float>(s32Max);
         }
 
         inline void Audio::convert(F32_T value, Audio::U8_T & out)
         {
             out = Core::MathUtil::clamp(
-                static_cast<int16_t>((value * .5f + .5f) * std::numeric_limits<uint8_t>::max()),
+                static_cast<int16_t>((value * .5f + .5f) * u8Max),
                 static_cast<int16_t>(u8Min),
                 static_cast<int16_t>(u8Max));
         }
@@ -132,7 +130,7 @@ namespace djv
         inline void Audio::convert(F32_T value, Audio::S16_T & out)
         {
             out = Core::MathUtil::clamp(
-                static_cast<int32_t>(value * std::numeric_limits<int16_t>::max()),
+                static_cast<int32_t>(value * s16Max),
                 static_cast<int32_t>(s16Min),
                 static_cast<int32_t>(s16Max));
         }
@@ -140,7 +138,7 @@ namespace djv
         inline void Audio::convert(F32_T value, Audio::S32_T & out)
         {
             out = Core::MathUtil::clamp(
-                static_cast<int64_t>(value * std::numeric_limits<int32_t>::max()),
+                static_cast<int64_t>(value * s32Max),
                 static_cast<int64_t>(s32Min),
                 static_cast<int64_t>(s32Max));
         }

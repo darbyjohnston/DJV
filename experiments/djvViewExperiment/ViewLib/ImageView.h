@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <Core/Util.h>
+#include <AV/IO.h>
 
 #include <QOpenGLWidget>
 #include <QPointer>
@@ -45,9 +45,12 @@ namespace djv
             Q_OBJECT
 
         public:
-            ImageView(const QPointer<Context> &, QWidget * parent = nullptr);
+            ImageView(const std::shared_ptr<AV::IO::Queue> &, const QPointer<Context> &, QWidget * parent = nullptr);
             ~ImageView() override;
-            
+
+        protected:
+            void timerEvent(QTimerEvent *) override;
+
         private:
             DJV_PRIVATE();
         };

@@ -27,28 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <AV/Context.h>
-
-#include <AV/AudioSystem.h>
-
 namespace djv
 {
     namespace AV
     {
-        struct Context::Private
+        template<>
+        inline Pixel::U8_T Color::getChannel(size_t channel) const
         {
-        };
-
-        Context::Context(int & argc, char ** argv) :
-            Core::Context(argc, argv),
-            _p(new Private)
-        {
-            addSystem(new AudioSystem(this));
+            const auto data = Pixel::convert(_data, _pixel, Pixel(_pixel.getFormat(), GL_UNSIGNED_BYTE));
+            return channel < _pixel.getChannelCount() ? data[channel] : 0;
         }
 
-        Context::~Context()
-        {}
+        template<>
+        inline void Color::setChannel(size_t channel, Pixel::U8_T value)
+        {
+
+        }
 
     } // namespace AV
 } // namespace djv
-

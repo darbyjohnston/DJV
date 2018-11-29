@@ -27,28 +27,65 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <AV/Context.h>
+#include <ViewLib/MediaPlayer.h>
 
-#include <AV/AudioSystem.h>
+#include <ViewLib/Context.h>
+
+#include <AV/Audio.h>
+
+#include <iostream>
 
 namespace djv
 {
-    namespace AV
+    namespace ViewLib
     {
-        struct Context::Private
+        struct MediaPlayer::Private
         {
+            QPointer<Context> context;
+            std::shared_ptr<AV::IO::Queue> queue;
+            AV::IO::AudioInfo info;
+            AV::IO::Duration duration = 0;
+            AV::IO::Timestamp currentTime = 0;
+            Enum::Playback playback = Enum::Playback::Stop;
+            ALuint alSource = 0;
+            std::vector<ALuint> alBuffers;
+            int playbackTimer = 0;
+            int startTimer = 0;
+            int64_t queuedBytes = 0;
+            int64_t timeOffset = 0;
         };
-
-        Context::Context(int & argc, char ** argv) :
-            Core::Context(argc, argv),
+        
+        MediaPlayer::MediaPlayer(const std::shared_ptr<AV::IO::Queue> & queue, const QPointer<Context> & context, QObject * parent) :
+            QObject(parent),
             _p(new Private)
         {
-            addSystem(new AudioSystem(this));
+            _p->context = context;
+            _p->queue = queue;
         }
-
-        Context::~Context()
+        
+        MediaPlayer::~MediaPlayer()
         {}
 
-    } // namespace AV
+        const AV::IO::AudioInfo & MediaPlayer::getInfo() const
+        {
+            return _p->info;
+        }
+
+        AV::IO::Timestamp MediaPlayer::getCurrentTime() const
+        {
+            return _p->currentTime;
+        }
+
+        Enum::Playback MediaPlayer::getPlayback() const
+        {
+            return _p->playback;
+        }
+
+        size_t MediaPlayer::getALUnqueuedBuffers() const
+        {
+            return _p->alBuffers.size();
+        }
+
+    } // namespace ViewLib
 } // namespace djv
 

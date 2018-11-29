@@ -35,6 +35,19 @@ namespace djv
 {
     namespace AV
     {
+        const Pixel::U8_T   u8Min = std::numeric_limits<uint8_t>::min();
+        const Pixel::U8_T   u8Max = std::numeric_limits<uint8_t>::max();
+        const Pixel::U10_T u10Min = 0;
+        const Pixel::U10_T u10Max = 1023;
+        const Pixel::U16_T u16Min = std::numeric_limits<uint16_t>::min();
+        const Pixel::U16_T u16Max = std::numeric_limits<uint16_t>::max();
+        const Pixel::U32_T u32Min = std::numeric_limits<uint32_t>::min();
+        const Pixel::U32_T u32Max = std::numeric_limits<uint32_t>::max();
+        const Pixel::F16_T f16Min = 0.f;
+        const Pixel::F16_T f16Max = 1.f;
+        const Pixel::F32_T f32Min = 0.f;
+        const Pixel::F32_T f32Max = 1.f;
+
         QString Pixel::getPixelLabel(const Pixel& pixel)
         {
             static const std::map<GLenum, QString> formatLabel =

@@ -27,11 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <Core/MathUtil.h>
+
 namespace djv
 {
     namespace AV
     {
-        inline bool U10_S_MSB::operator == (const U10_S_MSB& value) const
+        inline bool Pixel::U10_S_MSB::operator == (const U10_S_MSB& value) const
         {
             return
                 value.r == r &&
@@ -39,12 +41,12 @@ namespace djv
                 value.b == b;
         }
 
-        inline bool U10_S_MSB::operator != (const U10_S_MSB& value) const
+        inline bool Pixel::U10_S_MSB::operator != (const U10_S_MSB& value) const
         {
             return !(*this == value);
         }
 
-        inline bool U10_S_LSB::operator == (const U10_S_LSB& value) const
+        inline bool Pixel::U10_S_LSB::operator == (const U10_S_LSB& value) const
         {
             return
                 value.r == r &&
@@ -52,7 +54,7 @@ namespace djv
                 value.b == b;
         }
 
-        inline bool U10_S_LSB::operator != (const U10_S_LSB& value) const
+        inline bool Pixel::U10_S_LSB::operator != (const U10_S_LSB& value) const
         {
             return !(*this == value);
         }
@@ -193,6 +195,95 @@ namespace djv
                 break;
             }
             return Pixel();
+        }
+
+        inline void Pixel::convert(U8_T in, U16_T & out)
+        {
+            out = in << 8;
+        }
+
+        inline void Pixel::convert(U8_T in, U32_T & out)
+        {
+            out = in << 24;
+        }
+
+        inline void Pixel::convert(U8_T in, F16_T & out)
+        {
+            out = in / static_cast<float>(u8Max);
+        }
+
+        inline void Pixel::convert(U8_T in, F32_T & out)
+        {
+            out = in / static_cast<float>(u8Max);
+        }
+
+        inline void Pixel::convert(U16_T in, U8_T & out)
+        {
+            out = in >> 8;
+        }
+
+        inline void Pixel::convert(U16_T in, U32_T & out)
+        {
+            out = in << 16;
+        }
+
+        inline void Pixel::convert(U16_T in, F16_T & out)
+        {
+            out = in / static_cast<float>(u16Max);
+        }
+
+        inline void Pixel::convert(U16_T in, F32_T & out)
+        {
+            out = in / static_cast<float>(u16Max);
+        }
+
+        inline void Pixel::convert(U32_T in, U8_T & out)
+        {
+            out = in >> 24;
+        }
+
+        inline void Pixel::convert(U32_T in, U16_T & out)
+        {
+            out = in >> 16;
+        }
+
+        inline void Pixel::convert(U32_T in, F16_T & out)
+        {
+            out = in / static_cast<float>(u32Max);
+        }
+
+        inline void Pixel::convert(U32_T in, F32_T & out)
+        {
+            out = in / static_cast<float>(u32Max);
+        }
+
+        inline void Pixel::convert(F32_T in, U8_T & out)
+        {
+            out = Core::MathUtil::clamp(
+                static_cast<uint16_t>(in * u8Max),
+                static_cast<uint16_t>(u8Min),
+                static_cast<uint16_t>(u8Max));
+        }
+
+        inline void Pixel::convert(F32_T in, U16_T & out)
+        {
+            out = Core::MathUtil::clamp(
+                static_cast<uint32_t>(in * u16Max),
+                static_cast<uint32_t>(u16Min),
+                static_cast<uint32_t>(u16Max));
+        }
+
+        inline void Pixel::convert(F32_T in, U32_T & out)
+        {
+            out = Core::MathUtil::clamp(
+                static_cast<uint64_t>(in * u32Max),
+                static_cast<uint64_t>(u32Min),
+                static_cast<uint64_t>(u32Max));
+        }
+
+        inline void Pixel::convert(F32_T in, F16_T & out)
+        {
+            out = in;
         }
 
         inline bool Pixel::operator == (const Pixel& other) const

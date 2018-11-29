@@ -31,9 +31,9 @@
 
 #include <ViewLib/Enum.h>
 
-#include <QFileInfo>
 #include <QMdiArea>
 #include <QPointer>
+#include <QString>
 
 namespace djv
 {
@@ -60,7 +60,7 @@ namespace djv
         public Q_SLOTS:
             void setName(const QString &);
             void newProject();
-            void openProject(const QFileInfo &);
+            void openProject(const QString &);
             void closeProject(const QPointer<Project> &);
             void setCurrentProject(const QPointer<Project> &);
             void nextProject();

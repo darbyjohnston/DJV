@@ -115,10 +115,10 @@ namespace djv
             Q_EMIT currentProjectChanged(_p->currentProject);
         }
 
-        void Workspace::openProject(const QFileInfo & fileInfo)
+        void Workspace::openProject(const QString & fileName)
         {
             auto project = new Project(_p->context);
-            project->open(fileInfo);
+            project->open(fileName);
             _p->projects.push_back(project);
             _p->currentProject = project;
             Q_EMIT projectAdded(project);

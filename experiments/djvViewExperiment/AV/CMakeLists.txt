@@ -1,10 +1,17 @@
+find_package(FFmpeg REQUIRED)
+find_package(IlmBase REQUIRED)
+find_package(OpenAL REQUIRED)
+find_package(OpenGL REQUIRED)
+
 set(header
     Audio.h
     AudioData.h
     AudioDataInline.h
     AudioInline.h
+    AudioSystem.h
     Context.h
     Color.h
+    ColorInline.h
     FFmpeg.h
     IO.h
     IOInline.h
@@ -17,6 +24,7 @@ set(header
 set(mocHeader
     Audio.h
     AudioData.h
+    AudioSystem.h
     Color.h
     Context.h
     IO.h
@@ -25,6 +33,7 @@ set(mocHeader
 set(source
     Audio.cpp
     AudioData.cpp
+    AudioSystem.cpp
     Context.cpp
     Color.cpp
     FFmpeg.cpp
@@ -38,7 +47,13 @@ QT5_WRAP_CPP(mocSource ${mocHeader})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${OPENGL_INCLUDE_DIRS})
 add_library(djvViewExperimentAV ${header} ${source} ${mocSource} ${qmSource})
-target_link_libraries(djvViewExperimentAV djvViewExperimentCore)
+target_link_libraries(
+    djvViewExperimentAV
+    djvViewExperimentCore
+    FFMPEG
+    IlmBase
+    OpenAL
+    ${OPENGL_LIBRARIES})
 set_target_properties(
     djvViewExperimentAV
     PROPERTIES

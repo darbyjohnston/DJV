@@ -120,6 +120,9 @@ namespace djv
 
                 size_t getVideoSize() const;
                 size_t getAudioSize() const;
+                bool isVideoEmpty() const;
+                bool isAudioEmpty() const;
+                VideoFrame getFront() const;
 
                 void addVideo(Timestamp, const std::shared_ptr<PixelData> &);
                 void addAudio(Timestamp, const std::shared_ptr<AudioData> &);

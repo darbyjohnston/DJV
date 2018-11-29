@@ -27,28 +27,32 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <AV/Context.h>
+#pragma once
 
-#include <AV/AudioSystem.h>
+#include <AV/Audio.h>
+
+#include <Core/ISystem.h>
 
 namespace djv
 {
     namespace AV
     {
-        struct Context::Private
+        class Context;
+
+        class AudioSystem : public Core::ISystem
         {
+            Q_OBJECT
+
+        public:
+            AudioSystem(const QPointer<Context> &, QObject * parent = nullptr);
+            ~AudioSystem() override;
+
+            ALCdevice * getALDevice() const;
+            ALCcontext * getALContext() const;
+
+        private:
+            DJV_PRIVATE();
         };
-
-        Context::Context(int & argc, char ** argv) :
-            Core::Context(argc, argv),
-            _p(new Private)
-        {
-            addSystem(new AudioSystem(this));
-        }
-
-        Context::~Context()
-        {}
 
     } // namespace AV
 } // namespace djv
-

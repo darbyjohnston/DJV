@@ -27,28 +27,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <AV/Context.h>
+#pragma once
 
-#include <AV/AudioSystem.h>
+#include <ViewLib/Enum.h>
+
+#include <AV/IO.h>
+
+#include <QPointer>
 
 namespace djv
 {
-    namespace AV
+    namespace ViewLib
     {
-        struct Context::Private
+        class Context;
+
+        class MediaPlayer : public QObject
         {
+            Q_OBJECT
+
+        public:
+            MediaPlayer(const std::shared_ptr<AV::IO::Queue> &, const QPointer<Context> &, QObject * parent = nullptr);
+            ~MediaPlayer() override;
+
+            const AV::IO::AudioInfo & getInfo() const;
+            AV::IO::Timestamp getCurrentTime() const;
+            Enum::Playback getPlayback() const;
+            size_t getALUnqueuedBuffers() const;
+
+        public Q_SLOTS:
+            void setInfo(const AV::IO::AudioInfo &);
+            void setCurrentTime(AV::IO::Timestamp);
+            void setPlayback(Enum::Playback);
+
+        Q_SIGNALS:
+            void infoChanged(const AV::IO::AudioInfo &);
+            void currentTimeChanged(AV::IO::Timestamp);
+            void playbackChanged(Enum::Playback);
+
+        protected:
+            void timerEvent(QTimerEvent *) override;
+
+        private:
+            void playbackUpdate();
+            void timeUpdate();
+            
+        private:
+            DJV_PRIVATE();
         };
 
-        Context::Context(int & argc, char ** argv) :
-            Core::Context(argc, argv),
-            _p(new Private)
-        {
-            addSystem(new AudioSystem(this));
-        }
-
-        Context::~Context()
-        {}
-
-    } // namespace AV
+    } // namespace ViewLib
 } // namespace djv
 

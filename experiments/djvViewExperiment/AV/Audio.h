@@ -34,6 +34,7 @@
 #include <QMetaType>
 
 #include <AL/al.h>
+#include <AL/alc.h>
 
 namespace djv
 {
@@ -58,7 +59,7 @@ namespace djv
             Q_ENUM(Type);
             static const QString & getLabel(Type);
 
-            typedef uint8_t U8_T;
+            typedef uint8_t  U8_T;
             typedef int16_t S16_T;
             typedef int32_t S32_T;
             typedef float   F32_T;
