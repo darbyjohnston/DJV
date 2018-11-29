@@ -29,34 +29,33 @@
 
 #pragma once
 
-#include <memory>
+#include <AV/ImageTags.h>
+#include <AV/PixelData.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        class Image : public PixelData
+        {
+            Q_GADGET
+            DJV_NON_COPYABLE(Image);
 
-    } // namespace Core
+        protected:
+            void _init(const PixelDataInfo &);
+            Image();
+
+        public:
+            ~Image();
+
+            static std::shared_ptr<Image> create(const PixelDataInfo &);
+
+            const ImageTags & getTags() const;
+            void setTags(const ImageTags &);
+
+        private:
+            ImageTags _tags;
+        };
+
+    } // namespace AV
 } // namespace djv
-
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif

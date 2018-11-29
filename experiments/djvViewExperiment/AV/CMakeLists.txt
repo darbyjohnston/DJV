@@ -1,9 +1,38 @@
 set(header
-    Context.h)
+    Audio.h
+    AudioData.h
+    AudioDataInline.h
+    AudioInline.h
+    Context.h
+    Color.h
+    FFmpeg.h
+    IO.h
+    IOInline.h
+    Pixel.h
+    PixelData.h
+    PixelDataInline.h
+    PixelInline.h
+    Image.h
+    ImageTags.h)
 set(mocHeader
-    Context.h)
+    Audio.h
+    AudioData.h
+    Color.h
+    Context.h
+    IO.h
+    Pixel.h
+    PixelData.h)
 set(source
-    Context.cpp)
+    Audio.cpp
+    AudioData.cpp
+    Context.cpp
+    Color.cpp
+    FFmpeg.cpp
+    IO.cpp
+    Pixel.cpp
+    PixelData.cpp
+    Image.cpp
+    ImageTags.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 

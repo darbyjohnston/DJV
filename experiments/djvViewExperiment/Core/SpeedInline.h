@@ -27,36 +27,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <memory>
-
 namespace djv
 {
     namespace Core
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        inline int Speed::getScale() const
+        {
+            return _scale;
+        }
+
+        inline int Speed::getDuration() const
+        {
+            return _duration;
+        }
+
+        inline bool Speed::isValid() const
+        {
+            return _scale != 0 && _duration != 0;
+        }
 
     } // namespace Core
 } // namespace djv
-
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif

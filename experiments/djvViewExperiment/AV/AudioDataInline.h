@@ -27,22 +27,84 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <Util.h>
-
-#include <iostream>
-
-#include <assert.h>
-#include <stdlib.h>
-
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        void _assert(const char * file, int line)
+        inline size_t AudioDataInfo::getChannels() const
         {
-            std::cout << "ASSERT file: " << file << ", line: " << line << std::endl;
-            abort();
+            return _channels;
         }
 
-    } // namespace Core
+        inline Audio::Type AudioDataInfo::getType() const
+        {
+            return _type;
+        }
+
+        inline size_t AudioDataInfo::getSampleRate() const
+        {
+            return _sampleRate;
+        }
+
+        inline bool AudioDataInfo::isValid() const
+        {
+            return _type != Audio::Type::None;
+        }
+
+        inline const AudioDataInfo & AudioData::getInfo() const
+        {
+            return _info;
+        }
+
+        inline size_t AudioData::getChannels() const
+        {
+            return _info.getChannels();
+        }
+
+        inline Audio::Type AudioData::getType() const
+        {
+            return _info.getType();
+        }
+
+        inline size_t AudioData::getSampleRate() const
+        {
+            return _info.getSampleRate();
+        }
+
+        inline size_t AudioData::getSampleCount() const
+        {
+            return _sampleCount;
+        }
+
+        inline bool AudioData::isValid() const
+        {
+            return _info.isValid();
+        }
+
+        inline size_t AudioData::getByteCount() const
+        {
+            return _sampleCount * Audio::getByteCount(_info.getType());
+        }
+
+        inline uint8_t * AudioData::getData()
+        {
+            return _data.data();
+        }
+
+        inline const uint8_t * AudioData::getData() const
+        {
+            return _data.data();
+        }
+
+        inline uint8_t * AudioData::getData(size_t offset)
+        {
+            return _data.data();
+        }
+
+        inline const uint8_t * AudioData::getData(size_t offset) const
+        {
+            return _data.data();
+        }
+
+    } // namespace AV
 } // namespace djv

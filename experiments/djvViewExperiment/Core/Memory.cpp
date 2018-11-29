@@ -27,36 +27,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <Memory.h>
 
-#include <memory>
+#include <QCoreApplication>
 
 namespace djv
 {
     namespace Core
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        Memory::Endian Memory::getEndian()
+        {
+            static const uint32_t tmp = 1;
+            static const uint8_t * const p = reinterpret_cast<const uint8_t *>(&tmp);
+            return *p ? Endian::LSB : Endian::MSB;
+        }
+
+        const QString & Memory::getLabel(Endian value)
+        {
+            static const std::vector<QString> data =
+            {
+                qApp->translate("djv::Core::Memory", "MSB"),
+                qApp->translate("djv::Core::Memory", "LSB")
+            };
+            DJV_ASSERT(static_cast<size_t>(Endian::Count) == data.size());
+            return data[static_cast<size_t>(value)];
+        }
 
     } // namespace Core
 } // namespace djv
-
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif

@@ -27,36 +27,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <memory>
+#include <AV/ImageTags.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        const std::map<QString, QString> & ImageTags::getTags() const
+        {
+            return _tags;
+        }
 
-    } // namespace Core
+        const QString & ImageTags::getTag(const QString & key) const
+        {
+            static const QString empty;
+            const auto i = _tags.find(key);
+            return i != _tags.end() ? i->second : empty;
+        }
+
+        void ImageTags::setTags(const std::map<QString, QString> & tags)
+        {
+            _tags = tags;
+        }
+
+        void ImageTags::setTag(const QString & key, const QString & value)
+        {
+            _tags[key] = value;
+        }
+
+    } // namespace AV
 } // namespace djv
 
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif

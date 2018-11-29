@@ -27,22 +27,50 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <Util.h>
+#include <AV/Audio.h>
 
-#include <iostream>
-
-#include <assert.h>
-#include <stdlib.h>
+#include <QCoreApplication>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        void _assert(const char * file, int line)
+        const Audio::U8_T  Audio::u8Min = std::numeric_limits<U8_T>::min();
+        const Audio::U8_T  Audio::u8Max = std::numeric_limits<U8_T>::max();
+        const Audio::S16_T Audio::s16Min = std::numeric_limits<S16_T>::min();
+        const Audio::S16_T Audio::s16Max = std::numeric_limits<S16_T>::max();
+        const Audio::S32_T Audio::s32Min = std::numeric_limits<S32_T>::min();
+        const Audio::S32_T Audio::s32Max = std::numeric_limits<S32_T>::max();
+        const Audio::F32_T Audio::f32Min = -1.f;
+        const Audio::F32_T Audio::f32Max = 1.f;
+
+        const QString & Audio::getLabel(Type value)
         {
-            std::cout << "ASSERT file: " << file << ", line: " << line << std::endl;
-            abort();
+            static const std::vector<QString> data =
+            {
+                qApp->translate("djv::AV::Audio", "None"),
+                qApp->translate("djv::AV::Audio", "U8"),
+                qApp->translate("djv::AV::Audio", "S16"),
+                qApp->translate("djv::AV::Audio", "S32"),
+                qApp->translate("djv::AV::Audio", "F32")
+            };
+            DJV_ASSERT(static_cast<size_t>(Audio::Type::Count) == data.size());
+            return data[static_cast<size_t>(value)];
         }
 
-    } // namespace Core
+        QString Audio::getALErrorString(ALenum value)
+        {
+            QString out = qApp->translate("djv::AV::Audio", "Unknown");
+            switch (value)
+            {
+            case AL_OUT_OF_MEMORY: out = qApp->translate("djv::AV::Audio", "Out of memory"); break;
+            case AL_INVALID_VALUE: out = qApp->translate("djv::AV::Audio", "Invalid value"); break;
+            case AL_INVALID_ENUM:  out = qApp->translate("djv::AV::Audio", "Invalid enum");  break;
+            default: break;
+            }
+            return out;
+        }
+
+    } // namespace AV
 } // namespace djv
+

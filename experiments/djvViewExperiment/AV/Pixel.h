@@ -29,34 +29,66 @@
 
 #pragma once
 
-#include <memory>
+#include <Core/Util.h>
+
+#include <QMetaType>
+#include <QOpenGLFunctions_3_3_Core>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        struct U10_S_MSB
+        {
+            uint32_t r : 10, g : 10, b : 10, pad : 2;
 
-    } // namespace Core
+            inline bool operator == (const U10_S_MSB &) const;
+            inline bool operator != (const U10_S_MSB &) const;
+        };
+        struct U10_S_LSB
+        {
+            uint32_t pad : 2, b : 10, g : 10, r : 10;
+
+            inline bool operator == (const U10_S_LSB &) const;
+            inline bool operator != (const U10_S_LSB &) const;
+        };
+#if defined(DJV_ENDIAN_MSB)
+        typedef U10_S_MSB U10_S;
+#else
+        typedef U10_S_LSB U10_S;
+#endif
+
+        class Pixel
+        {
+            Q_GADGET
+
+        public:
+            inline Pixel();
+            inline Pixel(GLenum format, GLenum type);
+
+            inline GLenum getFormat() const;
+            inline GLenum getType() const;
+            inline bool isValid() const;
+
+            inline size_t getChannelCount() const;
+            inline size_t getBitDepth() const;
+            inline size_t getByteCount() const;
+
+            static inline Pixel getIntPixel(int channels, int bitDepth);
+            static inline Pixel getFloatPixel(int channels, int bitDepth);
+
+            static QString getPixelLabel(const Pixel &);
+
+            inline bool operator == (const Pixel &) const;
+            inline bool operator != (const Pixel &) const;
+            inline bool operator < (const Pixel &) const;
+
+        private:
+            GLenum _format = 0;
+            GLenum _type   = 0;
+        };
+
+    } // namespace AV
 } // namespace djv
 
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif
+#include <AV/PixelInline.h>

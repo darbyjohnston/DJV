@@ -29,34 +29,68 @@
 
 #pragma once
 
-#include <memory>
+#include <QMetaType>
+#include <QString>
 
 namespace djv
 {
     namespace Core
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        class Speed
+        {
+            Q_GADGET
+
+        public:
+            enum class FPS
+            {
+                _1,
+                _3,
+                _6,
+                _12,
+                _15,
+                _16,
+                _18,
+                _23_976,
+                _24,
+                _25,
+                _29_97,
+                _30,
+                _50,
+                _59_94,
+                _60,
+                _120,
+
+                Count
+            };
+            Q_ENUM(FPS);
+            static const QString & getLabel(FPS);
+
+            Speed();
+            Speed(int scale, int duration = 1);
+            Speed(FPS);
+
+            inline int getScale() const;
+            inline int getDuration() const;
+            inline bool isValid() const;
+
+            void set(FPS);
+
+            static float speedToFloat(const Speed &);
+            static Speed floatToSpeed(float);
+
+            static FPS getDefaultSpeed();
+            static FPS getGlobalSpeed();
+            static void setGlobalSpeed(FPS);
+
+            bool operator == (const Speed &) const;
+            bool operator != (const Speed &) const;
+
+        private:
+            int _scale = 0;
+            int _duration = 0;
+        };
 
     } // namespace Core
 } // namespace djv
 
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif
+#include <Core/SpeedInline.h>

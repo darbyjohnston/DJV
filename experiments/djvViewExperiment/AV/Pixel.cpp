@@ -27,36 +27,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <AV/Pixel.h>
 
-#include <memory>
+#include <QCoreApplication>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        QString Pixel::getPixelLabel(const Pixel& pixel)
+        {
+            static const std::map<GLenum, QString> formatLabel =
+            {
+                { GL_RED,  qApp->translate("djv::AV::Pixel", "L") },
+                { GL_RG,   qApp->translate("djv::AV::Pixel", "LA") },
+                { GL_RGB,  qApp->translate("djv::AV::Pixel", "RGB") },
+                { GL_RGBA, qApp->translate("djv::AV::Pixel", "RGBA") }
+            };
+            static const std::map<GLenum, QString> typeLabel =
+            {
+                { GL_UNSIGNED_BYTE,           qApp->translate("djv::AV::Pixel", "U8") },
+                { GL_UNSIGNED_INT_10_10_10_2, qApp->translate("djv::AV::Pixel", "U10") },
+                { GL_UNSIGNED_SHORT,          qApp->translate("djv::AV::Pixel", "U16") },
+                { GL_UNSIGNED_INT,            qApp->translate("djv::AV::Pixel", "U32") },
+                { GL_HALF_FLOAT,              qApp->translate("djv::AV::Pixel", "F16") },
+                { GL_FLOAT,                   qApp->translate("djv::AV::Pixel", "F32") }
+            };
+            const auto i = formatLabel.find(pixel._format);
+            const auto j = typeLabel.find(pixel._type);
+            return i != formatLabel.end() && j != typeLabel.end() ?
+                (i->second + " " + j->second) :
+                qApp->translate("djv::AV::Pixel", "None");
+        }
 
-    } // namespace Core
+    } // namespace AV
 } // namespace djv
 
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif

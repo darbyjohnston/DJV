@@ -29,34 +29,20 @@
 
 #pragma once
 
-#include <memory>
-
 namespace djv
 {
     namespace Core
     {
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+        class MathUtil
+        {
+        public:
+            virtual ~MathUtil() = 0;
+
+            template<typename T>
+            static inline T clamp(T value, T min, T max);
+        };
 
     } // namespace Core
 } // namespace djv
 
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!value) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif
+#include <Core/MathUtilInline.h>

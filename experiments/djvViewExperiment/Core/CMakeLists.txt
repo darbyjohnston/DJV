@@ -3,20 +3,33 @@ find_package(GLM REQUIRED)
 set(header
     Context.h
     ContextInline.h
+    Error.h
     FileUtil.h
     ICommand.h
     ISystem.h
+    MathUtil.h
+    MathUtilInline.h
+    Memory.h
+    Speed.h
+    SpeedInline.h
+    StringUtil.h
     UndoStack.h
     Util.h)
 set(mocHeader
     Context.h
     ISystem.h
+    Memory.h
     UndoStack.h)
 set(source
     Context.cpp
+    Error.cpp
     FileUtil.cpp
     ICommand.cpp
     ISystem.cpp
+    MathUtil.cpp
+    Memory.cpp
+    Speed.cpp
+    StringUtil.cpp
     Util.cpp
     UndoStack.cpp)
 

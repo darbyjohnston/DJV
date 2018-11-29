@@ -35,8 +35,11 @@ namespace djv
 {
     namespace Core
     {
-        struct FileUtil
+        class FileUtil
         {
+        public:
+            virtual ~FileUtil() = 0;
+
             static const QChar nativeSeparator;
 
             static QStringList splitPath(const QString &);
