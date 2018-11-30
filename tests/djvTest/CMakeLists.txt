@@ -4,7 +4,7 @@ set(source
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
 add_executable(djvTest ${header} ${source} ${mocSource} ${qmSource})
-target_link_libraries(djvTest djvCoreTest)
+target_link_libraries(djvTest djvAVTest djvCoreTest)
 set_target_properties(
     djvTest
     PROPERTIES

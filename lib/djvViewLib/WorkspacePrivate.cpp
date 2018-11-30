@@ -41,8 +41,6 @@
 #include <QTabBar>
 #include <QVBoxLayout>
 
-#include <iostream>
-
 namespace djv
 {
     namespace ViewLib

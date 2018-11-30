@@ -34,8 +34,6 @@
 #include <QAction>
 #include <QMenu>
 
-#include <iostream>
-
 namespace djv
 {
     namespace ViewLib

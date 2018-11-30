@@ -46,8 +46,6 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-#include <iostream>
-
 namespace djv
 {
     namespace UI

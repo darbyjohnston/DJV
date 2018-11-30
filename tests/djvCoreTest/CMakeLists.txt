@@ -1,15 +1,13 @@
 set(header
-    MathUtilTest.h)
+    MathTest.h)
 set(mocHeader)
 set(source
-    MathUtilTest.cpp)
+    MathTest.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
 add_library(djvCoreTest ${header} ${source} ${mocSource} ${qmSource})
-target_link_libraries(
-    djvCoreTest
-    djvTestLib)
+target_link_libraries(djvCoreTest djvTestLib)
 set_target_properties(
     djvCoreTest
     PROPERTIES

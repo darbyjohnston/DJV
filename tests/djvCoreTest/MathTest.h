@@ -27,25 +27,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/MathUtilTest.h>
-
-#include <djvCore/MathUtil.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
     namespace CoreTest
     {
-        MathUtilTest::MathUtilTest(const QPointer<Core::Context> & context) :
-            ITest("djv::CoreTest::MathUtilTest", context)
-        {}
-        
-        void MathUtilTest::run(int & argc, char ** argv)
+        class MathTest : public Test::ITest
         {
-            {
-                DJV_ASSERT(Core::MathUtil::clamp(0, 1, 2) == 1);
-                DJV_ASSERT(Core::MathUtil::clamp(3, 1, 2) == 2);
-            }
-        }
+        public:
+            MathTest(const std::shared_ptr<Core::Context> &);
+            
+            void run(int & argc, char ** argv) override;
+        };
         
     } // namespace CoreTest
 } // namespace djv

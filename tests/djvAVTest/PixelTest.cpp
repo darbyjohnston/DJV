@@ -27,72 +27,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/Project.h>
+#include <djvAVTest/PixelTest.h>
 
-#include <djvViewLib/Context.h>
-
-#include <sstream>
+#include <djvAV/Pixel.h>
 
 namespace djv
 {
-    namespace ViewLib
+    namespace AVTest
     {
-        namespace
-        {
-            size_t projectCount = 0;
-
-        } // namespace
-
-        struct Project::Private
-        {
-            std::string fileName;
-            bool changes = false;
-        };
-        
-        Project::Project(const std::shared_ptr<Context> &, QObject * parent) :
-            QObject(parent),
-            _p(new Private)
-        {
-            ++projectCount;
-            std::stringstream s;
-            s << "Untitled " << projectCount;
-            _p->fileName = s.str();
-        }
-        
-        Project::~Project()
-        {}
-
-        const std::string & Project::getFileName() const
-        {
-            return _p->fileName;
-        }
-
-        bool Project::hasChanges() const
-        {
-            return _p->changes;
-        }
-            
-        void Project::open(const std::string & fileName)
-        {
-            _p->fileName = fileName;
-            Q_EMIT fileNameChanged(_p->fileName);
-        }
-        
-        void Project::close()
-        {
-            _p->fileName = std::string();
-            Q_EMIT fileNameChanged(_p->fileName);
-        }
-        
-        void Project::save()
+        PixelTest::PixelTest(const std::shared_ptr<Core::Context> & context) :
+            ITest("djv::AVTest::PixelTest", context)
         {}
         
-        void Project::saveAs(const std::string & fileName)
+        void PixelTest::run(int & argc, char ** argv)
         {
-            _p->fileName = fileName;
-            Q_EMIT fileNameChanged(_p->fileName);
+            {
+            }
         }
-
-    } // namespace ViewLib
+        
+    } // namespace AVTest
 } // namespace djv
 

@@ -43,8 +43,6 @@
 #include <djvViewLib/WindowObject.h>
 #include <djvViewLib/WorkspaceObject.h>
 
-#include <iostream>
-
 namespace djv
 {
     namespace ViewLib

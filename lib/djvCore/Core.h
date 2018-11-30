@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -87,7 +88,7 @@ namespace djv
 #if defined(DJV_ASSERT)
 #undef DJV_ASSERT
 #define DJV_ASSERT(value) \
-    if (!value) \
+    if (!(value)) \
         djv::Core::_assert(__FILE__, __LINE__)
 #else
 #define DJV_ASSERT(value)

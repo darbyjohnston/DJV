@@ -40,8 +40,6 @@
 #include <QSortFilterProxyModel>
 #include <QVBoxLayout>
 
-#include <iostream>
-
 namespace djv
 {
     namespace UI

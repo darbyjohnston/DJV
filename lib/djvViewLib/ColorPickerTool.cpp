@@ -35,8 +35,6 @@
 #include <QDockWidget>
 #include <QMenu>
 
-#include <iostream>
-
 namespace djv
 {
     namespace ViewLib

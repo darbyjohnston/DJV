@@ -39,9 +39,6 @@
 #include <QPointer>
 #include <QStyle>
 
-#include <iostream>
-#include <vector>
-
 namespace djv
 {
     namespace UI

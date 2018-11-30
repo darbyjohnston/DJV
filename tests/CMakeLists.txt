@@ -1,4 +1,4 @@
-#add_subdirectory(djvAVTest)
+add_subdirectory(djvAVTest)
 add_subdirectory(djvCoreTest)
 add_subdirectory(djvTest)
 add_subdirectory(djvTestLib)

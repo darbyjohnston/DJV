@@ -32,7 +32,6 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/Project.h>
 
-#include <iostream>
 #include <sstream>
 
 namespace djv

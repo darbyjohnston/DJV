@@ -27,14 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/MathUtilTest.h>
+#include <djvCoreTest/MathTest.h>
 
-#include <djvCore/Context.h>
+#include <djvAV/Context.h>
 
 #include <QApplication>
 #include <QScopedPointer>
-
-#include <iostream>
 
 using namespace djv;
 
@@ -44,8 +42,8 @@ int main(int argc, char ** argv)
     try
     {
         QApplication app(argc, argv);
-        QScopedPointer<Core::Context> context(new Core::Context(argc, argv));
-        (new CoreTest::MathUtilTest(context.data()))->run(argc, argv);
+        auto context = AV::Context::create(argc, argv);
+        (new CoreTest::MathTest(context))->run(argc, argv);
     }
     catch (const std::exception & error)
     {

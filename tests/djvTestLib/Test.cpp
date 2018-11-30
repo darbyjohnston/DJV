@@ -37,11 +37,11 @@ namespace djv
     {
         struct ITest::Private
         {
-            QPointer<Core::Context> context;
+            std::weak_ptr<Core::Context> context;
             std::string name;
         };
         
-        ITest::ITest(const std::string & name, const QPointer<Core::Context> & context) :
+        ITest::ITest(const std::string & name, const std::shared_ptr<Core::Context> & context) :
             _p(new Private)
         {
             _p->context = context;
@@ -51,7 +51,7 @@ namespace djv
         ITest::~ITest()
         {}
         
-        const QPointer<Core::Context> & ITest::getContext() const
+        const std::weak_ptr<Core::Context> & ITest::getContext() const
         {
             return _p->context;
         }

@@ -38,8 +38,6 @@
 #include <QMenu>
 #include <QMenuBar>
 
-#include <iostream>
-
 namespace djv
 {
     namespace ViewLib
