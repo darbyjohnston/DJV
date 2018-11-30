@@ -29,10 +29,9 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
-#include <QString>
-#include <QPointer>
+#include <QObject>
 
 namespace djv
 {
@@ -45,20 +44,20 @@ namespace djv
             Q_OBJECT
 
         public:
-            Project(const QPointer<Context> &, QObject * parent = nullptr);
+            Project(const std::shared_ptr<Context> &, QObject * parent = nullptr);
             ~Project() override;
 
-            const QString & getFileName() const;
+            const std::string & getFileName() const;
             bool hasChanges() const;
             
         public Q_SLOTS:
-            void open(const QString &);
+            void open(const std::string &);
             void close();
             void save();
-            void saveAs(const QString &);
+            void saveAs(const std::string &);
             
         Q_SIGNALS:
-            void fileNameChanged(const QString &);
+            void fileNameChanged(const std::string &);
 
         private:
             DJV_PRIVATE();

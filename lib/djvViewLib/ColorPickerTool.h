@@ -29,22 +29,22 @@
 
 #pragma once
 
-#include <djvViewLib/ToolSystem.h>
+#include <djvViewLib/ToolObject.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class ColorPickerTool : public IToolSystem
+        class ColorPickerTool : public IToolObject
         {
             Q_OBJECT
 
         public:
-            ColorPickerTool(const QPointer<Context> &, QObject * parent = nullptr);
+            ColorPickerTool(const std::shared_ptr<Context> &, QObject * parent = nullptr);
             ~ColorPickerTool() override;
 
             QPointer<QDockWidget> createDockWidget() override;
-            QString getDockWidgetSortKey() const override;
+            std::string getDockWidgetSortKey() const override;
             Qt::DockWidgetArea getDockWidgetArea() const override;
 
         private:

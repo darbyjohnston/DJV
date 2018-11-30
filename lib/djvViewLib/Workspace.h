@@ -33,7 +33,6 @@
 
 #include <QMdiArea>
 #include <QPointer>
-#include <QString>
 
 namespace djv
 {
@@ -47,10 +46,10 @@ namespace djv
             Q_OBJECT
 
         public:
-            Workspace(const QPointer<Context> &, QObject * parent = nullptr);
+            Workspace(const std::shared_ptr<Context> &, QObject * parent = nullptr);
             ~Workspace() override;
 
-            const QString & getName() const;
+            const std::string & getName() const;
             const std::vector<QPointer<Project> > & getProjects() const;
             const QPointer<Project> & getCurrentProject() const;
 
@@ -58,9 +57,9 @@ namespace djv
             Enum::WindowState getWindowState() const;
 
         public Q_SLOTS:
-            void setName(const QString &);
+            void setName(const std::string &);
             void newProject();
-            void openProject(const QString &);
+            void openProject(const std::string &);
             void closeProject(const QPointer<Project> &);
             void setCurrentProject(const QPointer<Project> &);
             void nextProject();
@@ -70,7 +69,7 @@ namespace djv
             void setWindowState(const QPointer<Project> &, Enum::WindowState);
 
         Q_SIGNALS:
-            void nameChanged(const QString &);
+            void nameChanged(const std::string &);
             void projectAdded(const QPointer<Project> &);
             void projectRemoved(const QPointer<Project> &);
             void currentProjectChanged(const QPointer<Project> &);

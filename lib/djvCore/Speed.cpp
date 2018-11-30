@@ -145,7 +145,7 @@ namespace djv
                     return fps;
                 }
             }
-            return Speed(round(value));
+            return Speed(static_cast<int>(round(value)));
         }
 
         Speed::FPS Speed::getDefaultSpeed()

@@ -30,8 +30,8 @@
 #include <djvViewLib/MainWindow.h>
 
 #include <djvViewLib/Context.h>
-#include <djvViewLib/ToolSystem.h>
-#include <djvViewLib/WorkspaceSystem.h>
+#include <djvViewLib/ToolObject.h>
+#include <djvViewLib/WorkspaceObject.h>
 
 #include <QDockWidget>
 #include <QLayout>
@@ -46,22 +46,22 @@ namespace djv
     {
         struct MainWindow::Private
         {
-            QPointer<Context> context;
+            std::weak_ptr<Context> context;
         };
         
-        MainWindow::MainWindow(const QPointer<Context> & context) :
+        MainWindow::MainWindow(const std::shared_ptr<Context> & context) :
             _p(new Private)
         {
             _p->context = context;
 
-            std::map<QString, QPointer<QMenu> > menus;
-            for (auto i : context->getSystems())
+            std::map<std::string, QPointer<QMenu> > menus;
+            for (auto i : context->getObjects())
             {
-                if (auto uiSystem = qobject_cast<IViewSystem *>(i))
+                if (auto viewObject = qobject_cast<IViewObject *>(i))
                 {
-                    if (auto menu = uiSystem->createContextMenu())
+                    if (auto menu = viewObject->createContextMenu())
                     {
-                        menus[uiSystem->getContextMenuSortKey()] = menu;
+                        menus[viewObject->getContextMenuSortKey()] = menu;
                     }
                 }
             }
@@ -70,40 +70,40 @@ namespace djv
                 menuBar()->addMenu(i.second);
             }
 
-            auto workspaceSystem = context->getSystemT<WorkspaceSystem>();
-            setCentralWidget(workspaceSystem->createWorkspaceTabs());
+            auto workspaceObject = context->getObjectT<WorkspaceObject>();
+            setCentralWidget(workspaceObject->createWorkspaceTabs());
 
             struct DockWidget
             {
-                QPointer<IViewSystem> system;
+                QPointer<IViewObject> object;
                 QPointer<QDockWidget> widget;
                 Qt::DockWidgetArea area;
                 bool visible = false;
             };
-            std::map<QString, DockWidget> dockWidgetMap;
-            std::map<QString, DockWidget> toolDockWidgetMap;
-            for (auto i : context->getSystems())
+            std::map<std::string, DockWidget> dockWidgetMap;
+            std::map<std::string, DockWidget> toolDockWidgetMap;
+            for (auto i : context->getObjects())
             {
-                if (auto toolSystem = qobject_cast<IToolSystem *>(i))
+                if (auto toolObject = qobject_cast<IToolObject *>(i))
                 {
-                    if (auto dockWidget = toolSystem->createDockWidget())
+                    if (auto dockWidget = toolObject->createDockWidget())
                     {
-                        const auto & key = toolSystem->getDockWidgetSortKey();
-                        toolDockWidgetMap[key].system = toolSystem;
+                        const auto & key = toolObject->getDockWidgetSortKey();
+                        toolDockWidgetMap[key].object = toolObject;
                         toolDockWidgetMap[key].widget = dockWidget;
-                        toolDockWidgetMap[key].area = toolSystem->getDockWidgetArea();
-                        toolDockWidgetMap[key].visible = toolSystem->isDockWidgetVisible();
+                        toolDockWidgetMap[key].area = toolObject->getDockWidgetArea();
+                        toolDockWidgetMap[key].visible = toolObject->isDockWidgetVisible();
                     }
                 }
-                else if (auto uiSystem = qobject_cast<IViewSystem *>(i))
+                else if (auto viewObject = qobject_cast<IViewObject *>(i))
                 {
-                    if (auto dockWidget = uiSystem->createDockWidget())
+                    if (auto dockWidget = viewObject->createDockWidget())
                     {
-                        const auto & key = uiSystem->getDockWidgetSortKey();
-                        dockWidgetMap[key].system = uiSystem;
+                        const auto & key = viewObject->getDockWidgetSortKey();
+                        dockWidgetMap[key].object = viewObject;
                         dockWidgetMap[key].widget = dockWidget;
-                        dockWidgetMap[key].area = uiSystem->getDockWidgetArea();
-                        dockWidgetMap[key].visible = uiSystem->isDockWidgetVisible();
+                        dockWidgetMap[key].area = viewObject->getDockWidgetArea();
+                        dockWidgetMap[key].visible = viewObject->isDockWidgetVisible();
                     }
                 }
             }
@@ -112,12 +112,12 @@ namespace djv
                 addDockWidget(i.second.area, i.second.widget);
                 i.second.widget->setVisible(i.second.visible);
             }
-            auto toolSystem = context->getSystemT<ToolSystem>();
+            auto toolObject = context->getObjectT<ToolObject>();
             for (auto i : toolDockWidgetMap)
             {
                 addDockWidget(i.second.area, i.second.widget);
                 i.second.widget->setVisible(i.second.visible);
-                toolSystem->addDockWidget(qobject_cast<IToolSystem *>(i.second.system.data()), i.second.widget);
+                toolObject->addDockWidget(qobject_cast<IToolObject *>(i.second.object.data()), i.second.widget);
             }
         }
         
@@ -126,21 +126,25 @@ namespace djv
         
         QMenu * MainWindow::createPopupMenu()
         {
-            auto out = new QMenu;
-            QMap<QString, QPointer<QMenu> > map;
-            Q_FOREACH(auto i, _p->context->getSystems())
+            QMenu * out = nullptr;
+            if (auto context = _p->context.lock())
             {
-                if (auto uiSystem = qobject_cast<IViewSystem *>(i))
+                auto out = new QMenu;
+                std::map<std::string, QPointer<QMenu> > map;
+                for (auto i : context->getObjects())
                 {
-                    if (auto menu = uiSystem->createContextMenu())
+                    if (auto viewObject = qobject_cast<IViewObject *>(i))
                     {
-                        map[uiSystem->getContextMenuSortKey()] = menu;
+                        if (auto menu = viewObject->createContextMenu())
+                        {
+                            map[viewObject->getContextMenuSortKey()] = menu;
+                        }
                     }
                 }
-            }
-            Q_FOREACH(auto i, map)
-            {
-                out->addMenu(i);
+                for (auto i : map)
+                {
+                    out->addMenu(i.second);
+                }
             }
             return out;
         }

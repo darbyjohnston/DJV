@@ -32,6 +32,7 @@
 #include <djvViewLib/Context.h>
 
 #include <iostream>
+#include <sstream>
 
 namespace djv
 {
@@ -45,25 +46,24 @@ namespace djv
 
         struct Project::Private
         {
-            QString fileName;
+            std::string fileName;
             bool changes = false;
         };
         
-        Project::Project(const QPointer<Context> &, QObject * parent) :
+        Project::Project(const std::shared_ptr<Context> &, QObject * parent) :
             QObject(parent),
             _p(new Private)
         {
             ++projectCount;
-            _p->fileName = QString("Untitled %1").arg(projectCount);
-            //std::cout << "Project::Project(" << _p->fileName.fileName().toLatin1().data() << ")" << std::endl;
+            std::stringstream s;
+            s << "Untitled " << projectCount;
+            _p->fileName = s.str();
         }
         
         Project::~Project()
-        {
-            //std::cout << "Project::~Project(" << _p->fileName.fileName().toLatin1().data() << ")" << std::endl;
-        }
+        {}
 
-        const QString & Project::getFileName() const
+        const std::string & Project::getFileName() const
         {
             return _p->fileName;
         }
@@ -73,7 +73,7 @@ namespace djv
             return _p->changes;
         }
             
-        void Project::open(const QString & fileName)
+        void Project::open(const std::string & fileName)
         {
             _p->fileName = fileName;
             Q_EMIT fileNameChanged(_p->fileName);
@@ -81,14 +81,14 @@ namespace djv
         
         void Project::close()
         {
-            _p->fileName = QString();
+            _p->fileName = std::string();
             Q_EMIT fileNameChanged(_p->fileName);
         }
         
         void Project::save()
         {}
         
-        void Project::saveAs(const QString & fileName)
+        void Project::saveAs(const std::string & fileName)
         {
             _p->fileName = fileName;
             Q_EMIT fileNameChanged(_p->fileName);

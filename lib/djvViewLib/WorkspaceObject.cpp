@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/WorkspaceSystem.h>
+#include <djvViewLib/WorkspaceObject.h>
 
 #include <djvViewLib/Context.h>
 #include <djvViewLib/Project.h>
@@ -43,17 +43,17 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct WorkspaceSystem::Private
+        struct WorkspaceObject::Private
         {
             std::vector<QPointer<Workspace> > workspaces;
             QPointer<Workspace> currentWorkspace;
-            std::map<QString, QPointer<QAction> > actions;
-            std::map<QString, QPointer<QActionGroup> > actionGroups;
+            std::map<std::string, QPointer<QAction> > actions;
+            std::map<std::string, QPointer<QActionGroup> > actionGroups;
             std::vector<QPointer<QMenu> > menus;
         };
         
-        WorkspaceSystem::WorkspaceSystem(const QPointer<Context> & context, QObject * parent) :
-            IViewSystem("WorkspaceSystem", context, parent),
+        WorkspaceObject::WorkspaceObject(const std::shared_ptr<Context> & context, QObject * parent) :
+            IViewObject("WorkspaceObject", context, parent),
             _p(new Private)
         {
             _p->actions["New"] = new QAction("New", this);
@@ -123,31 +123,35 @@ namespace djv
             newWorkspace();
         }
         
-        WorkspaceSystem::~WorkspaceSystem()
+        WorkspaceObject::~WorkspaceObject()
         {}
 
-        const std::vector<QPointer<Workspace> > & WorkspaceSystem::getWorkspaces() const
+        const std::vector<QPointer<Workspace> > & WorkspaceObject::getWorkspaces() const
         {
             return _p->workspaces;
         }
 
-        const QPointer<Workspace> & WorkspaceSystem::getCurrentWorkspace() const
+        const QPointer<Workspace> & WorkspaceObject::getCurrentWorkspace() const
         {
             return _p->currentWorkspace;
         }
 
-        QPointer<Project> WorkspaceSystem::getCurrentProject() const
+        QPointer<Project> WorkspaceObject::getCurrentProject() const
         {
             return _p->currentWorkspace ? _p->currentWorkspace->getCurrentProject() : nullptr;
         }
 
-        QPointer<QWidget> WorkspaceSystem::createWorkspaceTabs()
+        QPointer<QWidget> WorkspaceObject::createWorkspaceTabs()
         {
-            auto out = new WorkspaceTabs(qobject_cast<Context *>(getContext().data()));
+            WorkspaceTabs * out = nullptr;
+            if (auto context = std::dynamic_pointer_cast<Context>(getContext().lock()))
+            {
+                out = new WorkspaceTabs(context);
+            }
             return out;
         }
 
-        QPointer<QMenu> WorkspaceSystem::createMenu()
+        QPointer<QMenu> WorkspaceObject::createMenu()
         {
             auto menu = new QMenu("Workspace");
             _p->menus.push_back(menu);
@@ -155,21 +159,24 @@ namespace djv
             return menu;
         }
 
-        QString WorkspaceSystem::getMenuSortKey() const
+        std::string WorkspaceObject::getMenuSortKey() const
         {
             return "1";
         }
 
-        void WorkspaceSystem::newWorkspace()
+        void WorkspaceObject::newWorkspace()
         {
-            auto workspace = new Workspace(qobject_cast<Context *>(getContext().data()));
-            _p->workspaces.push_back(workspace);
-            _updateMenus();
-            Q_EMIT workspaceAdded(workspace);
-            setCurrentWorkspace(workspace);
+            if (auto context = std::dynamic_pointer_cast<Context>(getContext().lock()))
+            {
+                auto workspace = new Workspace(context);
+                _p->workspaces.push_back(workspace);
+                _updateMenus();
+                Q_EMIT workspaceAdded(workspace);
+                setCurrentWorkspace(workspace);
+            }
         }
 
-        void WorkspaceSystem::closeWorkspace(const QPointer<Workspace> & workspace)
+        void WorkspaceObject::closeWorkspace(const QPointer<Workspace> & workspace)
         {
             auto i = std::find(_p->workspaces.begin(), _p->workspaces.end(), workspace);
             if (i != _p->workspaces.end())
@@ -189,7 +196,7 @@ namespace djv
             }
         }
 
-        void WorkspaceSystem::setCurrentWorkspace(const QPointer<Workspace> & workspace)
+        void WorkspaceObject::setCurrentWorkspace(const QPointer<Workspace> & workspace)
         {
             if (workspace == _p->currentWorkspace)
                 return;
@@ -235,7 +242,7 @@ namespace djv
             Q_EMIT currentWorkspaceChanged(_p->currentWorkspace);
         }
 
-        void WorkspaceSystem::nextWorkspace()
+        void WorkspaceObject::nextWorkspace()
         {
             auto i = std::find(_p->workspaces.begin(), _p->workspaces.end(), _p->currentWorkspace);
             if (i != _p->workspaces.end())
@@ -249,7 +256,7 @@ namespace djv
             }
         }
 
-        void WorkspaceSystem::prevWorkspace()
+        void WorkspaceObject::prevWorkspace()
         {
             auto i = std::find(_p->workspaces.begin(), _p->workspaces.end(), _p->currentWorkspace);
             if (i != _p->workspaces.end())
@@ -263,7 +270,7 @@ namespace djv
             }
         }
 
-        void WorkspaceSystem::_updateMenus()
+        void WorkspaceObject::_updateMenus()
         {
             const bool currentWorkspace = _p->currentWorkspace;
             _p->actions["Close"]->setEnabled(currentWorkspace);

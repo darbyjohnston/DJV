@@ -29,10 +29,9 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
 #include <QMainWindow>
-#include <QPointer>
 
 namespace djv
 {
@@ -46,7 +45,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            MainWindow(const QPointer<Context> &);
+            MainWindow(const std::shared_ptr<Context> &);
             ~MainWindow() override;
 
             QMenu * createPopupMenu() override;

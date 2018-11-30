@@ -27,10 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ImageSystem.h>
+#include <djvViewLib/ToolObject.h>
 
 #include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
 
 #include <QAction>
 #include <QDockWidget>
@@ -42,32 +41,79 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct ImageSystem::Private
+        struct IToolObject::Private
         {
-            std::map<QString, QPointer<QAction> > actions;
+        };
+
+        IToolObject::IToolObject(const std::string & name, const std::shared_ptr<Context> & context, QObject * parent) :
+            IViewObject(name, context, parent),
+            _p(new Private)
+        {}
+
+        IToolObject::~IToolObject()
+        {}
+
+        struct ToolObject::Private
+        {
+            std::map<std::string, QPointer<QAction> > dockWidgetsActions;
+            std::vector<QPointer<QMenu> > menus;
         };
         
-        ImageSystem::ImageSystem(const QPointer<Context> & context, QObject * parent) :
-            IViewSystem("ImageSystem", context, parent),
+        ToolObject::ToolObject(const std::shared_ptr<Context> & context, QObject * parent) :
+            IViewObject("ToolObject", context, parent),
             _p(new Private)
         {}
         
-        ImageSystem::~ImageSystem()
+        ToolObject::~ToolObject()
         {}
 
-        QString ImageSystem::getMenuSortKey() const
+        void ToolObject::addDockWidget(const QPointer<IToolObject> & object, const QPointer<QDockWidget> & dockWidget)
         {
-            return "4";
+            const auto & key = object->getDockWidgetSortKey();
+            _p->dockWidgetsActions[key] = new QAction(dockWidget->windowTitle(), this);
+            auto action = _p->dockWidgetsActions[key];
+            action->setCheckable(true);
+            action->setChecked(dockWidget->isVisible());
+            connect(
+                action,
+                &QAction::toggled,
+                [dockWidget](bool value)
+            {
+                dockWidget->setVisible(value);
+            });
+            connect(
+                dockWidget,
+                &QDockWidget::visibilityChanged,
+                [action](bool value)
+            {
+                action->setChecked(value);
+            });
+            _updateMenus();
+        }
+
+        std::string ToolObject::getMenuSortKey() const
+        {
+            return "6";
         }
         
-        QPointer<QMenu> ImageSystem::createMenu()
+        QPointer<QMenu> ToolObject::createMenu()
         {
-            auto menu = new QMenu("Image");
+            auto menu = new QMenu("Tools");
+            _p->menus.push_back(menu);
+            _updateMenus();
             return menu;
         }
 
-        void ImageSystem::setCurrentProject(const QPointer<Project> & project)
+        void ToolObject::_updateMenus()
         {
+            for (auto menu : _p->menus)
+            {
+                menu->clear();
+                for (auto action : _p->dockWidgetsActions)
+                {
+                    menu->addAction(action.second);
+                }
+            }
         }
 
     } // namespace ViewLib

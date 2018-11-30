@@ -33,6 +33,7 @@
 #include <djvViewLib/Project.h>
 
 #include <iostream>
+#include <sstream>
 
 namespace djv
 {
@@ -46,21 +47,23 @@ namespace djv
 
         struct Workspace::Private
         {
-            QPointer<Context> context;
-            QString name;
+            std::weak_ptr<Context> context;
+            std::string name;
             std::vector<QPointer<Project> > projects;
             QPointer<Project> currentProject;
             QMdiArea::ViewMode viewMode = QMdiArea::TabbedView;
             std::map<QPointer<Project>, Enum::WindowState> windowState;
         };
 
-        Workspace::Workspace(const QPointer<Context> & context, QObject * parent) :
+        Workspace::Workspace(const std::shared_ptr<Context> & context, QObject * parent) :
             QObject(parent),
             _p(new Private)
         {
             _p->context = context;
             ++workspaceCount;
-            _p->name = QString("Workspace %1").arg(workspaceCount);
+            std::stringstream s;
+            s << "Workspace " << workspaceCount;
+            _p->name = s.str();
         }
 
         Workspace::~Workspace()
@@ -72,7 +75,7 @@ namespace djv
             }
         }
 
-        const QString & Workspace::getName() const
+        const std::string & Workspace::getName() const
         {
             return _p->name;
         }
@@ -98,7 +101,7 @@ namespace djv
             return i != _p->windowState.end() ? i->second : Enum::WindowState::Normal;
         }
 
-        void Workspace::setName(const QString & value)
+        void Workspace::setName(const std::string & value)
         {
             if (value == _p->name)
                 return;
@@ -108,21 +111,27 @@ namespace djv
 
         void Workspace::newProject()
         {
-            auto project = new Project(_p->context);
-            _p->projects.push_back(project);
-            _p->currentProject = project;
-            Q_EMIT projectAdded(project);
-            Q_EMIT currentProjectChanged(_p->currentProject);
+            if (auto context = _p->context.lock())
+            {
+                auto project = new Project(context);
+                _p->projects.push_back(project);
+                _p->currentProject = project;
+                Q_EMIT projectAdded(project);
+                Q_EMIT currentProjectChanged(_p->currentProject);
+            }
         }
 
-        void Workspace::openProject(const QString & fileName)
+        void Workspace::openProject(const std::string & fileName)
         {
-            auto project = new Project(_p->context);
-            project->open(fileName);
-            _p->projects.push_back(project);
-            _p->currentProject = project;
-            Q_EMIT projectAdded(project);
-            Q_EMIT currentProjectChanged(_p->currentProject);
+            if (auto context = _p->context.lock())
+            {
+                auto project = new Project(context);
+                project->open(fileName);
+                _p->projects.push_back(project);
+                _p->currentProject = project;
+                Q_EMIT projectAdded(project);
+                Q_EMIT currentProjectChanged(_p->currentProject);
+            }
         }
 
         void Workspace::closeProject(const QPointer<Project> & project)

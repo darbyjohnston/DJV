@@ -27,44 +27,79 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/IViewObject.h>
 
-#include <djvViewLib/IViewSystem.h>
+#include <djvViewLib/Context.h>
+
+#include <QDockWidget>
+#include <QMenu>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class IToolSystem : public IViewSystem
+        struct IViewObject::Private
         {
-            Q_OBJECT
-
-        public:
-            IToolSystem(const QString & name, const QPointer<Context> &, QObject * parent = nullptr);
-            virtual ~IToolSystem() = 0;
-
-        private:
-            DJV_PRIVATE();
+            std::weak_ptr<Context> context;
+            std::string name;
         };
-
-        class ToolSystem : public IViewSystem
+        
+        IViewObject::IViewObject(const std::string & name, const std::shared_ptr<Context> & context, QObject * parent) :
+            QObject(parent),
+            _p(new Private)
         {
-            Q_OBJECT
+            _p->context = context;
+            _p->name = name;
+        }
+        
+        IViewObject::~IViewObject()
+        {}
 
-        public:
-            ToolSystem(const QPointer<Context> &, QObject * parent = nullptr);
-            ~ToolSystem() override;
-            
-            void addDockWidget(const QPointer<IToolSystem> &, const QPointer<QDockWidget> &);
+        const std::weak_ptr<Context> & IViewObject::getContext() const
+        {
+            return _p->context;
+        }
 
-            QPointer<QMenu> createMenu() override;
-            QString getMenuSortKey() const override;
+        const std::string & IViewObject::getName() const
+        {
+            return _p->name;
+        }
 
-        private:
-            void _updateMenus();
+        QPointer<QMenu> IViewObject::createMenu()
+        {
+            return nullptr;
+        }
 
-            DJV_PRIVATE();
-        };
+        std::string IViewObject::getMenuSortKey() const
+        {
+            return _p->name;
+        }
+
+        QPointer<QDockWidget> IViewObject::createDockWidget()
+        {
+            return nullptr;
+        }
+
+        std::string IViewObject::getDockWidgetSortKey() const
+        {
+            return _p->name;
+        }
+
+        Qt::DockWidgetArea IViewObject::getDockWidgetArea() const
+        {
+            return Qt::NoDockWidgetArea;
+        }
+
+        bool IViewObject::isDockWidgetVisible() const
+        {
+            return false;
+        }
+
+        void IViewObject::setCurrentWorkspace(const QPointer<Workspace> &)
+        {}
+
+        void IViewObject::setCurrentProject(const QPointer<Project> &)
+        {}
 
     } // namespace ViewLib
 } // namespace djv

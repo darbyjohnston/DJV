@@ -61,8 +61,8 @@ namespace djv
         {
         };
 
-        HistogramTool::HistogramTool(const QPointer<Context> & context, QObject * parent) :
-            IToolSystem("HistogramTool", context.data(), parent),
+        HistogramTool::HistogramTool(const std::shared_ptr<Context> & context, QObject * parent) :
+            IToolObject("HistogramTool", context, parent),
             _p(new Private)
         {}
 
@@ -77,7 +77,7 @@ namespace djv
             return out;
         }
 
-        QString HistogramTool::getDockWidgetSortKey() const
+        std::string HistogramTool::getDockWidgetSortKey() const
         {
             return "2";
         }

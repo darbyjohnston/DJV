@@ -34,7 +34,7 @@ namespace djv
 {
     namespace Core
     {
-        namespace StringUtil
+        namespace String
         {
             inline std::vector<std::string> split(const char * s, size_t size, char delimeter, bool keepEmpty)
             {
@@ -358,6 +358,6 @@ namespace djv
                 }
             }
 
-        } // namespace StringUtil
+        } // namespace String
     } // namespace Core
 } // namespace djv

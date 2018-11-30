@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/FileSystem.h>
+#include <djvViewLib/FileObject.h>
 
 #include <djvViewLib/Context.h>
 #include <djvViewLib/Project.h>
-#include <djvViewLib/WorkspaceSystem.h>
+#include <djvViewLib/WorkspaceObject.h>
 #include <djvViewLib/Workspace.h>
 
 #include <djvUI/FileBrowser.h>
@@ -47,14 +47,14 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct FileSystem::Private
+        struct FileObject::Private
         {
             std::map<QString, QPointer<QAction> > actions;
             std::vector<QPointer<QDockWidget> > dockWidgets;
         };
         
-        FileSystem::FileSystem(const QPointer<Context> & context, QObject * parent) :
-            IViewSystem("FileSystem", context, parent),
+        FileObject::FileObject(const std::shared_ptr<Context> & context, QObject * parent) :
+            IViewObject("FileObject", context, parent),
             _p(new Private)
         {
             _p->actions["Open"] = new QAction("Open", this);
@@ -71,8 +71,8 @@ namespace djv
                 &QAction::triggered,
                 [this, context]
             {
-                auto workspaceSystem = context->getSystemT<WorkspaceSystem>();
-                if (auto workspace = workspaceSystem->getCurrentWorkspace())
+                auto workspaceObject = context->getObjectT<WorkspaceObject>();
+                if (auto workspace = workspaceObject->getCurrentWorkspace())
                 {
                     workspace->newProject();
                 }
@@ -86,8 +86,8 @@ namespace djv
                 &QAction::triggered,
                 [context]
             {
-                auto workspaceSystem = context->getSystemT<WorkspaceSystem>();
-                if (auto workspace = workspaceSystem->getCurrentWorkspace())
+                auto workspaceObject = context->getObjectT<WorkspaceObject>();
+                if (auto workspace = workspaceObject->getCurrentWorkspace())
                 {
                     workspace->closeProject(workspace->getCurrentProject());
                 }
@@ -107,15 +107,15 @@ namespace djv
             });
         }
         
-        FileSystem::~FileSystem()
+        FileObject::~FileObject()
         {}
 
-        QString FileSystem::getMenuSortKey() const
+        std::string FileObject::getMenuSortKey() const
         {
             return "0";
         }
         
-        QPointer<QMenu> FileSystem::createMenu()
+        QPointer<QMenu> FileObject::createMenu()
         {
             auto menu = new QMenu("File");
             menu->addAction(_p->actions["Open"]);
@@ -126,30 +126,34 @@ namespace djv
             return menu;
         }
 
-        QPointer<QDockWidget> FileSystem::createDockWidget()
+        QPointer<QDockWidget> FileObject::createDockWidget()
         {
-            auto out = new QDockWidget("File Browser");
-            out->setWidget(new UI::FileBrowserWidget(qobject_cast<UI::Context *>(getContext().data())));
-            _p->dockWidgets.push_back(out);
+            QPointer<QDockWidget> out;
+            if (auto context = std::dynamic_pointer_cast<Context>(getContext().lock()))
+            {
+                out = new QDockWidget("File Browser");
+                out->setWidget(new UI::FileBrowserWidget(context));
+                _p->dockWidgets.push_back(out);
+            }
             return out;
         }
 
-        Qt::DockWidgetArea FileSystem::getDockWidgetArea() const
+        Qt::DockWidgetArea FileObject::getDockWidgetArea() const
         {
             return Qt::DockWidgetArea::LeftDockWidgetArea;
         }
 
-        bool FileSystem::isDockWidgetVisible() const
+        bool FileObject::isDockWidgetVisible() const
         {
             return true;
         }
 
-        void FileSystem::setCurrentWorkspace(const QPointer<Workspace> & workspace)
+        void FileObject::setCurrentWorkspace(const QPointer<Workspace> & workspace)
         {
             _p->actions["Open"]->setEnabled(workspace);
         }
 
-        void FileSystem::setCurrentProject(const QPointer<Project> & project)
+        void FileObject::setCurrentProject(const QPointer<Project> & project)
         {
             _p->actions["Close"]->setEnabled(project);
             _p->actions["Export"]->setEnabled(project);

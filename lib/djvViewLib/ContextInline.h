@@ -27,49 +27,36 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ViewSystem.h>
-
-#include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
-
-#include <QAction>
-#include <QDockWidget>
-#include <QMenu>
-
-#include <iostream>
-
 namespace djv
 {
     namespace ViewLib
-    {
-        struct ViewSystem::Private
+    {        
+        template<typename T>
+        inline std::vector<QPointer<T> > Context::getObjectsT() const
         {
-            std::map<QString, QPointer<QAction> > actions;
-        };
-        
-        ViewSystem::ViewSystem(const QPointer<Context> & context, QObject * parent) :
-            IViewSystem("ViewSystem", context, parent),
-            _p(new Private)
-        {}
-        
-        ViewSystem::~ViewSystem()
-        {}
-
-        QString ViewSystem::getMenuSortKey() const
-        {
-            return "3";
-        }
-        
-        QPointer<QMenu> ViewSystem::createMenu()
-        {
-            auto menu = new QMenu("View");
-            return menu;
+            std::vector<QPointer<T> > out;
+            for (auto i : getObjects())
+            {
+                if (auto object = qobject_cast<T *>(i))
+                {
+                    out.push_back(object);
+                }
+            }
+            return out;
         }
 
-        void ViewSystem::setCurrentProject(const QPointer<Project> & project)
+        template<typename T>
+        inline QPointer<T> Context::getObjectT() const
         {
+            for (auto i : getObjects())
+            {
+                if (auto object = qobject_cast<T *>(i))
+                {
+                    return object;
+                }
+            }
+            return nullptr;
         }
 
     } // namespace ViewLib
 } // namespace djv
-

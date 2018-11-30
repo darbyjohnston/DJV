@@ -27,32 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/HelpObject.h>
 
-#include <djvCore/Core.h>
+#include <djvViewLib/Context.h>
+
+#include <QAction>
+#include <QMenu>
+
+#include <iostream>
 
 namespace djv
 {
-    namespace Core
+    namespace ViewLib
     {
-        class Context;
-
-        class ICommand
+        struct HelpObject::Private
         {
-        public:
-            ICommand(const std::string & name, const std::shared_ptr<Context> &);
-            virtual ~ICommand() = 0;
-
-            const std::weak_ptr<Context> & getContext() const;
-            const std::string & getName() const;
-
-            virtual void exec() = 0;
-            virtual void undo() = 0;
-
-        private:
-            std::weak_ptr<Context> _context;
-            std::string _name;
+            std::map<QString, QPointer<QAction> > actions;
         };
+        
+        HelpObject::HelpObject(const std::shared_ptr<Context> & context, QObject * parent) :
+            IViewObject("HelpObject", context, parent),
+            _p(new Private)
+        {}
+        
+        HelpObject::~HelpObject()
+        {}
 
-    } // namespace Core
+        std::string HelpObject::getMenuSortKey() const
+        {
+            return "7";
+        }
+        
+        QPointer<QMenu> HelpObject::createMenu()
+        {
+            auto menu = new QMenu("Help");
+            return menu;
+        }
+
+    } // namespace ViewLib
 } // namespace djv
+

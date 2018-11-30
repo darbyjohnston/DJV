@@ -29,34 +29,40 @@
 
 #pragma once
 
-#include <djvViewLib/IViewSystem.h>
+#include <djvViewLib/IViewObject.h>
 
 namespace djv
 {
     namespace ViewLib
-    {   
-        class Project;
-        class Workspace;
-
-        class PlaybackSystem : public IViewSystem
+    {
+        class IToolObject : public IViewObject
         {
             Q_OBJECT
 
         public:
-            PlaybackSystem(const QPointer<Context> &, QObject * parent = nullptr);
-            ~PlaybackSystem() override;
-            
-            QPointer<QMenu> createMenu() override;
-            QString getMenuSortKey() const override;
-
-            QPointer<QDockWidget> createDockWidget() override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
-            bool isDockWidgetVisible() const override;
-            
-        public Q_SLOTS:
-            void setCurrentProject(const QPointer<Project> &) override;
+            IToolObject(const std::string & name, const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            virtual ~IToolObject() = 0;
 
         private:
+            DJV_PRIVATE();
+        };
+
+        class ToolObject : public IViewObject
+        {
+            Q_OBJECT
+
+        public:
+            ToolObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            ~ToolObject() override;
+            
+            void addDockWidget(const QPointer<IToolObject> &, const QPointer<QDockWidget> &);
+
+            QPointer<QMenu> createMenu() override;
+            std::string getMenuSortKey() const override;
+
+        private:
+            void _updateMenus();
+
             DJV_PRIVATE();
         };
 

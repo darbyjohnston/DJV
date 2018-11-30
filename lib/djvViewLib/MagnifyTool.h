@@ -29,22 +29,22 @@
 
 #pragma once
 
-#include <djvViewLib/ToolSystem.h>
+#include <djvViewLib/ToolObject.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class MagnifyTool : public IToolSystem
+        class MagnifyTool : public IToolObject
         {
             Q_OBJECT
 
         public:
-            MagnifyTool(const QPointer<Context> &, QObject * parent = nullptr);
+            MagnifyTool(const std::shared_ptr<Context> &, QObject * parent = nullptr);
             ~MagnifyTool() override;
 
             QPointer<QDockWidget> createDockWidget() override;
-            QString getDockWidgetSortKey() const override;
+            std::string getDockWidgetSortKey() const override;
             Qt::DockWidgetArea getDockWidgetArea() const override;
 
         private:

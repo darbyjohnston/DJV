@@ -31,6 +31,9 @@
 
 #include <djvUI/Context.h>
 
+#include <QObject>
+#include <QPointer>
+
 namespace djv
 {
     namespace ViewLib
@@ -48,9 +51,18 @@ namespace djv
 
             static std::shared_ptr<Context> create(int &, char **);
 
+            const std::vector<QPointer<QObject> > & getObjects() const;
+            template<typename T>
+            inline std::vector<QPointer<T> > getObjectsT() const;
+            template<typename T>
+            inline QPointer<T> getObjectT() const;
+            void addObject(const QPointer<QObject> &);
+
         private:
             DJV_PRIVATE();
         };
 
     } // namespace ViewLib
 } // namespace djv
+
+#include <djvViewLib/ContextInline.h>

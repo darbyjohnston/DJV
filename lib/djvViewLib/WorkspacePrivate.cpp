@@ -32,7 +32,7 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/ImageView.h>
 #include <djvViewLib/Project.h>
-#include <djvViewLib/WorkspaceSystem.h>
+#include <djvViewLib/WorkspaceObject.h>
 #include <djvViewLib/Workspace.h>
 
 #include <QEvent>
@@ -49,12 +49,12 @@ namespace djv
     {
         struct WorkspaceMDISubWindow::Private
         {
-            QPointer<Context> context;
+            std::weak_ptr<Context> context;
             QPointer<Workspace> workspace;
             QPointer<Project> project;
         };
 
-        WorkspaceMDISubWindow::WorkspaceMDISubWindow(const QPointer<Workspace> &workspace, const QPointer<Project> & project, const QPointer<Context> & context) :
+        WorkspaceMDISubWindow::WorkspaceMDISubWindow(const QPointer<Workspace> & workspace, const QPointer<Project> & project, const std::shared_ptr<Context> & context) :
             _p(new Private)
         {
             _p->context = context;
@@ -72,14 +72,14 @@ namespace djv
 
         struct WorkspaceMDI::Private
         {
-            QPointer<Context> context;
+            std::weak_ptr<Context> context;
             QPointer<Workspace> workspace;
             QPointer<QMdiArea> mdiArea;
             std::map<QPointer<Project>, QPointer<QMdiSubWindow> > projectToWindow;
             std::map<QPointer<QMdiSubWindow >, QPointer<Project> > windowToProject;
         };
 
-        WorkspaceMDI::WorkspaceMDI(const QPointer<Workspace> & workspace, const QPointer<Context> & context, QWidget * parent) :
+        WorkspaceMDI::WorkspaceMDI(const QPointer<Workspace> & workspace, const std::shared_ptr<Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -201,17 +201,20 @@ namespace djv
 
         void WorkspaceMDI::_addProject(const QPointer<Project> & project)
         {
-            auto ioQueue = AV::IO::Queue::create();
-            auto imageView = new ImageView(ioQueue, _p->context);
-            auto window = new WorkspaceMDISubWindow(_p->workspace, project, _p->context);
-            _p->projectToWindow[project] = window;
-            _p->windowToProject[window] = project;
-            window->setWindowTitle(project->getFileName());
-            window->setAttribute(Qt::WA_DeleteOnClose);
-            window->setWidget(imageView);
-            window->installEventFilter(this);
-            _p->mdiArea->addSubWindow(window);
-            window->show();
+            if (auto context = _p->context.lock())
+            {
+                auto ioQueue = AV::IO::Queue::create();
+                auto imageView = new ImageView(ioQueue, context);
+                auto window = new WorkspaceMDISubWindow(_p->workspace, project, context);
+                _p->projectToWindow[project] = window;
+                _p->windowToProject[window] = project;
+                window->setWindowTitle(QString::fromStdString(project->getFileName()));
+                window->setAttribute(Qt::WA_DeleteOnClose);
+                window->setWidget(imageView);
+                window->installEventFilter(this);
+                _p->mdiArea->addSubWindow(window);
+                window->show();
+            }
         }
 
         void WorkspaceMDI::_removeProject(const QPointer<Project> & project)
@@ -232,7 +235,7 @@ namespace djv
 
         struct WorkspaceTabs::Private
         {
-            QPointer<Context> context;
+            std::weak_ptr<Context> context;
             QPointer<QTabBar> tabBar;
             QPointer<QStackedLayout> stackedLayout;
             std::map<QPointer<Workspace>, QPointer<WorkspaceMDI> > workspaceToMDI;
@@ -241,7 +244,7 @@ namespace djv
             std::map<QPointer<WorkspaceMDI>, int> mdiToTab;
         };
 
-        WorkspaceTabs::WorkspaceTabs(const QPointer<Context> & context, QWidget * parent) :
+        WorkspaceTabs::WorkspaceTabs(const std::shared_ptr<Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -252,8 +255,8 @@ namespace djv
             _p->stackedLayout = new QStackedLayout;
             _p->stackedLayout->setMargin(0);
 
-            auto workspaceSystem = context->getSystemT<WorkspaceSystem>();
-            for (auto i : workspaceSystem->getWorkspaces())
+            auto workspaceObject = context->getObjectT<WorkspaceObject>();
+            for (auto i : workspaceObject->getWorkspaces())
             {
                 _addWorkspace(i);
             }
@@ -265,22 +268,22 @@ namespace djv
             layout->addLayout(_p->stackedLayout, 1);
 
             connect(
-                workspaceSystem,
-                &WorkspaceSystem::workspaceAdded,
+                workspaceObject,
+                &WorkspaceObject::workspaceAdded,
                 [this](const QPointer<Workspace> & workspace)
             {
                 _addWorkspace(workspace);
             });
             connect(
-                workspaceSystem,
-                &WorkspaceSystem::workspaceRemoved,
+                workspaceObject,
+                &WorkspaceObject::workspaceRemoved,
                 [this](const QPointer<Workspace> & workspace)
             {
                 _removeWorkspace(workspace);
             });
             connect(
-                workspaceSystem,
-                &WorkspaceSystem::currentWorkspaceChanged,
+                workspaceObject,
+                &WorkspaceObject::currentWorkspaceChanged,
                 [this](const QPointer<Workspace> & workspace)
             {
                 const auto i = _p->workspaceToMDI.find(workspace);
@@ -297,7 +300,7 @@ namespace djv
             connect(
                 _p->tabBar,
                 &QTabBar::currentChanged,
-                [this, workspaceSystem](int index)
+                [this, workspaceObject](int index)
             {
                 const auto i = _p->tabToMDI.find(index);
                 if (i != _p->tabToMDI.end())
@@ -306,7 +309,7 @@ namespace djv
                     const auto j = _p->mdiToWorkspace.find(i->second);
                     if (j != _p->mdiToWorkspace.end())
                     {
-                        workspaceSystem->setCurrentWorkspace(j->second);
+                        workspaceObject->setCurrentWorkspace(j->second);
                     }
                 }
             });
@@ -317,15 +320,18 @@ namespace djv
 
         void WorkspaceTabs::_addWorkspace(const QPointer<Workspace> & workspace)
         {
-            auto mdi = new WorkspaceMDI(workspace, _p->context);
-            _p->workspaceToMDI[workspace] = mdi;
-            _p->mdiToWorkspace[mdi] = workspace;
-            const int index = _p->tabBar->addTab(workspace->getName());
-            _p->tabToMDI[index] = mdi;
-            _p->mdiToTab[mdi] = index;
-            _p->stackedLayout->addWidget(mdi);
-            //! \todo Why do we need to set the margin here?
-            mdi->layout()->setMargin(0);
+            if (auto context = _p->context.lock())
+            {
+                auto mdi = new WorkspaceMDI(workspace, context);
+                _p->workspaceToMDI[workspace] = mdi;
+                _p->mdiToWorkspace[mdi] = workspace;
+                const int index = _p->tabBar->addTab(QString::fromStdString(workspace->getName()));
+                _p->tabToMDI[index] = mdi;
+                _p->mdiToTab[mdi] = index;
+                _p->stackedLayout->addWidget(mdi);
+                //! \todo Why do we need to set the margin here?
+                mdi->layout()->setMargin(0);
+            }
         }
 
         void WorkspaceTabs::_removeWorkspace(const QPointer<Workspace> & workspace)

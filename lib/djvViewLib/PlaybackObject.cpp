@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/PlaybackSystem.h>
+#include <djvViewLib/PlaybackObject.h>
 
 #include <djvViewLib/Context.h>
 #include <djvViewLib/Project.h>
@@ -42,13 +42,13 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct PlaybackSystem::Private
+        struct PlaybackObject::Private
         {
             std::map<QString, QPointer<QAction> > actions;
         };
         
-        PlaybackSystem::PlaybackSystem(const QPointer<Context> & context, QObject * parent) :
-            IViewSystem("PlaybackSystem", context, parent),
+        PlaybackObject::PlaybackObject(const std::shared_ptr<Context> & context, QObject * parent) :
+            IViewObject("PlaybackObject", context, parent),
             _p(new Private)
         {
             _p->actions["Stop"] = new QAction("Stop", this);
@@ -63,15 +63,15 @@ namespace djv
             _p->actions["Timeline"]->setChecked(true);
         }
         
-        PlaybackSystem::~PlaybackSystem()
+        PlaybackObject::~PlaybackObject()
         {}
 
-        QString PlaybackSystem::getMenuSortKey() const
+        std::string PlaybackObject::getMenuSortKey() const
         {
             return "5";
         }
         
-        QPointer<QMenu> PlaybackSystem::createMenu()
+        QPointer<QMenu> PlaybackObject::createMenu()
         {
             auto menu = new QMenu("Playback");
             menu->addAction(_p->actions["Stop"]);
@@ -82,7 +82,7 @@ namespace djv
             return menu;
         }
 
-        QPointer<QDockWidget> PlaybackSystem::createDockWidget()
+        QPointer<QDockWidget> PlaybackObject::createDockWidget()
         {
             auto out = new QDockWidget("Timeline");
             connect(
@@ -102,17 +102,17 @@ namespace djv
             return out;
         }
 
-        Qt::DockWidgetArea PlaybackSystem::getDockWidgetArea() const
+        Qt::DockWidgetArea PlaybackObject::getDockWidgetArea() const
         {
             return Qt::DockWidgetArea::BottomDockWidgetArea;
         }
 
-        bool PlaybackSystem::isDockWidgetVisible() const
+        bool PlaybackObject::isDockWidgetVisible() const
         {
             return true;
         }
 
-        void PlaybackSystem::setCurrentProject(const QPointer<Project> & project)
+        void PlaybackObject::setCurrentProject(const QPointer<Project> & project)
         {
             _p->actions["Stop"]->setEnabled(project);
             _p->actions["Forward"]->setEnabled(project);

@@ -29,27 +29,29 @@
 
 #pragma once
 
-#include <djvViewLib/IViewSystem.h>
+#include <djvViewLib/IViewObject.h>
 
 namespace djv
 {
     namespace ViewLib
-    {   
-        class Project;
-        class Workspace;
-
-        class ViewSystem : public IViewSystem
+    {
+        class FileObject : public IViewObject
         {
             Q_OBJECT
 
         public:
-            ViewSystem(const QPointer<Context> &, QObject * parent = nullptr);
-            ~ViewSystem() override;
+            FileObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            ~FileObject() override;
             
             QPointer<QMenu> createMenu() override;
-            QString getMenuSortKey() const override;
+            std::string getMenuSortKey() const override;
+
+            QPointer<QDockWidget> createDockWidget() override;
+            Qt::DockWidgetArea getDockWidgetArea() const override;
+            bool isDockWidgetVisible() const override;
             
         public Q_SLOTS:
+            void setCurrentWorkspace(const QPointer<Workspace> &) override;
             void setCurrentProject(const QPointer<Project> &) override;
 
         private:

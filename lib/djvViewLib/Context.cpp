@@ -30,18 +30,18 @@
 #include <djvViewLib/Context.h>
 
 #include <djvViewLib/ColorPickerTool.h>
-#include <djvViewLib/FileSystem.h>
-#include <djvViewLib/HelpSystem.h>
+#include <djvViewLib/FileObject.h>
+#include <djvViewLib/HelpObject.h>
 #include <djvViewLib/HistogramTool.h>
-#include <djvViewLib/ImageSystem.h>
+#include <djvViewLib/ImageObject.h>
 #include <djvViewLib/InfoTool.h>
 #include <djvViewLib/MagnifyTool.h>
-#include <djvViewLib/PlaybackSystem.h>
+#include <djvViewLib/PlaybackObject.h>
 #include <djvViewLib/Project.h>
-#include <djvViewLib/ToolSystem.h>
-#include <djvViewLib/ViewSystem.h>
-#include <djvViewLib/WindowSystem.h>
-#include <djvViewLib/WorkspaceSystem.h>
+#include <djvViewLib/ToolObject.h>
+#include <djvViewLib/ViewObject.h>
+#include <djvViewLib/WindowObject.h>
+#include <djvViewLib/WorkspaceObject.h>
 
 #include <iostream>
 
@@ -51,56 +51,78 @@ namespace djv
     {
         struct Context::Private
         {
+            std::vector<QPointer<QObject> > objects;
         };
 
-        Context::Context(int & argc, char ** argv) :
-            UI::Context(argc, argv),
-            _p(new Private)
+        void Context::_init(int & argc, char ** argv)
         {
-            addSystem(new ColorPickerTool(this));
-            addSystem(new FileSystem(this));
-            addSystem(new HelpSystem(this));
-            addSystem(new HistogramTool(this));
-            addSystem(new ImageSystem(this));
-            addSystem(new InfoTool(this));
-            addSystem(new MagnifyTool(this));
-            addSystem(new PlaybackSystem(this));
-            addSystem(new ToolSystem(this));
-            addSystem(new WindowSystem(this));
-            addSystem(new ViewSystem(this));
-            auto workspaceSystem = new WorkspaceSystem(this);
-            addSystem(workspaceSystem);
+            UI::Context::_init(argc, argv);
 
-            for (auto system : getSystemsT<IViewSystem>())
+            addObject(new ColorPickerTool(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new FileObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new HelpObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new HistogramTool(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new ImageObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new InfoTool(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new MagnifyTool(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new PlaybackObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new ToolObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new WindowObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new ViewObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            auto workspaceObject = new WorkspaceObject(std::dynamic_pointer_cast<Context>(shared_from_this()));
+            addObject(workspaceObject);
+
+            for (auto object : getObjectsT<IViewObject>())
             {
-                system->setCurrentWorkspace(workspaceSystem->getCurrentWorkspace());
-                system->setCurrentProject(workspaceSystem->getCurrentProject());
+                object->setCurrentWorkspace(workspaceObject->getCurrentWorkspace());
+                object->setCurrentProject(workspaceObject->getCurrentProject());
             }
 
-            connect(
-                workspaceSystem,
-                &WorkspaceSystem::currentWorkspaceChanged,
+            QObject::connect(
+                workspaceObject,
+                &WorkspaceObject::currentWorkspaceChanged,
                 [this](const QPointer<Workspace> & value)
             {
-                for (auto system : getSystemsT<IViewSystem>())
+                for (auto object : getObjectsT<IViewObject>())
                 {
-                    system->setCurrentWorkspace(value);
+                    object->setCurrentWorkspace(value);
                 }
             });
-            connect(
-                workspaceSystem,
-                &WorkspaceSystem::currentProjectChanged,
+            QObject::connect(
+                workspaceObject,
+                &WorkspaceObject::currentProjectChanged,
                 [this](const QPointer<Project> & value)
             {
-                for (auto system : getSystemsT<IViewSystem>())
+                for (auto object : getObjectsT<IViewObject>())
                 {
-                    system->setCurrentProject(value);
+                    object->setCurrentProject(value);
                 }
             });
         }
 
+        Context::Context() :
+            _p(new Private)
+        {}
+
         Context::~Context()
         {}
+
+        std::shared_ptr<Context> Context::create(int & argc, char ** argv)
+        {
+            auto out = std::shared_ptr<Context>(new Context);
+            out->_init(argc, argv);
+            return out;
+        }
+
+        const std::vector<QPointer<QObject> > & Context::getObjects() const
+        {
+            return _p->objects;
+        }
+
+        void Context::addObject(const QPointer<QObject> & object)
+        {
+            _p->objects.push_back(object);
+        }
 
     } // namespace ViewLib
 } // namespace djv

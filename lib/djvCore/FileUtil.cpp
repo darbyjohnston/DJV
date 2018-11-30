@@ -74,7 +74,7 @@ namespace djv
                 }
 
                 // Join the remaining pieces.
-                out += StringUtil::join(value, nativeSeparator);
+                out += String::join(value, nativeSeparator);
 
                 return out;
             }

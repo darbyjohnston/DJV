@@ -48,7 +48,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            WorkspaceMDISubWindow(const QPointer<Workspace> &, const QPointer<Project> &, const QPointer<Context> &);
+            WorkspaceMDISubWindow(const QPointer<Workspace> &, const QPointer<Project> &, const std::shared_ptr<Context> &);
             ~WorkspaceMDISubWindow() override;
             
             virtual QSize sizeHint() const override;
@@ -62,7 +62,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            WorkspaceMDI(const QPointer<Workspace> &, const QPointer<Context> &, QWidget * parent = nullptr);
+            WorkspaceMDI(const QPointer<Workspace> &, const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~WorkspaceMDI() override;
 
         protected:
@@ -81,7 +81,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            WorkspaceTabs(const QPointer<Context> &, QWidget * parent = nullptr);
+            WorkspaceTabs(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~WorkspaceTabs() override;
 
         private Q_SLOTS:

@@ -29,47 +29,32 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
-
-#include <QObject>
-#include <QPointer>
-
-class QDockWidget;
-class QMenu;
+#include <djvViewLib/IViewObject.h>
 
 namespace djv
 {
     namespace ViewLib
-    {
-        class Context;
+    {   
         class Project;
         class Workspace;
-        
-        class IViewSystem : public QObject
+
+        class PlaybackObject : public IViewObject
         {
             Q_OBJECT
 
         public:
-            IViewSystem(const std::string & name, const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            virtual ~IViewSystem() = 0;
+            PlaybackObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            ~PlaybackObject() override;
+            
+            QPointer<QMenu> createMenu() override;
+            std::string getMenuSortKey() const override;
 
-            const std::weak_ptr<Context> & getContext() const;
-            const std::string & getName() const;
-
-            virtual QPointer<QMenu> createMenu();
-            virtual std::string getMenuSortKey() const;
-
-            virtual QPointer<QMenu> createContextMenu() { return createMenu(); }
-            virtual std::string getContextMenuSortKey() const { return getMenuSortKey(); }
-
-            virtual QPointer<QDockWidget> createDockWidget();
-            virtual std::string getDockWidgetSortKey() const;
-            virtual Qt::DockWidgetArea getDockWidgetArea() const;
-            virtual bool isDockWidgetVisible() const;
-
+            QPointer<QDockWidget> createDockWidget() override;
+            Qt::DockWidgetArea getDockWidgetArea() const override;
+            bool isDockWidgetVisible() const override;
+            
         public Q_SLOTS:
-            virtual void setCurrentWorkspace(const QPointer<Workspace> &);
-            virtual void setCurrentProject(const QPointer<Project> &);
+            void setCurrentProject(const QPointer<Project> &) override;
 
         private:
             DJV_PRIVATE();

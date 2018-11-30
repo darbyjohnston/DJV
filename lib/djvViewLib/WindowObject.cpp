@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/WindowSystem.h>
+#include <djvViewLib/WindowObject.h>
 
 #include <djvViewLib/Context.h>
 #include <djvViewLib/Project.h>
@@ -42,7 +42,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        struct WindowSystem::Private
+        struct WindowObject::Private
         {
             std::map<QString, QPointer<QAction> > actions;
             std::map<QString, QPointer<QActionGroup> > actionGroups;
@@ -50,8 +50,8 @@ namespace djv
             QPointer<Workspace> currentWorkspace;
         };
         
-        WindowSystem::WindowSystem(const QPointer<Context> & context, QObject * parent) :
-            IViewSystem("WindowSystem", context, parent),
+        WindowObject::WindowObject(const std::shared_ptr<Context> & context, QObject * parent) :
+            IViewObject("WindowObject", context, parent),
             _p(new Private)
         {
             _p->actions["Next"] = new QAction("Next", this);
@@ -118,10 +118,10 @@ namespace djv
             });
         }
         
-        WindowSystem::~WindowSystem()
+        WindowObject::~WindowObject()
         {}
 
-        QPointer<QMenu> WindowSystem::createMenu()
+        QPointer<QMenu> WindowObject::createMenu()
         {
             auto menu = new QMenu("Window");
             menu->addAction(_p->actions["Next"]);
@@ -133,12 +133,12 @@ namespace djv
             return menu;
         }
 
-        QString WindowSystem::getMenuSortKey() const
+        std::string WindowObject::getMenuSortKey() const
         {
             return "2";
         }
 
-        void WindowSystem::nextProject()
+        void WindowObject::nextProject()
         {
             if (_p->currentWorkspace)
             {
@@ -146,7 +146,7 @@ namespace djv
             }
         }
 
-        void WindowSystem::prevProject()
+        void WindowObject::prevProject()
         {
             if (_p->currentWorkspace)
             {
@@ -154,7 +154,7 @@ namespace djv
             }
         }
 
-        void WindowSystem::setCurrentWorkspace(const QPointer<Workspace> & workspace)
+        void WindowObject::setCurrentWorkspace(const QPointer<Workspace> & workspace)
         {
             if (workspace == _p->currentWorkspace)
                 return;
@@ -204,7 +204,7 @@ namespace djv
             }
         }
 
-        void WindowSystem::_updateActions()
+        void WindowObject::_updateActions()
         {
             const bool multipleProjects = _p->currentWorkspace && _p->currentWorkspace->getProjects().size() > 1;
             _p->actions["Next"]->setEnabled(multipleProjects);

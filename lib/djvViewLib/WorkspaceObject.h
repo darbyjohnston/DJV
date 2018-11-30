@@ -29,28 +29,46 @@
 
 #pragma once
 
-#include <djvViewLib/IViewSystem.h>
+#include <djvViewLib/IViewObject.h>
+#include <djvViewLib/Workspace.h>
 
 namespace djv
 {
     namespace ViewLib
-    {   
-        class Project;
-        class Workspace;
-
-        class ImageSystem : public IViewSystem
+    {
+        class WorkspaceObject : public IViewObject
         {
             Q_OBJECT
 
         public:
-            ImageSystem(const QPointer<Context> &, QObject * parent = nullptr);
-            ~ImageSystem() override;
+            WorkspaceObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            ~WorkspaceObject() override;
+
+            const std::vector<QPointer<Workspace> > & getWorkspaces() const;
+            const QPointer<Workspace> & getCurrentWorkspace() const;
+            QPointer<Project> getCurrentProject() const;
+
+            QPointer<QWidget> createWorkspaceTabs();
             
             QPointer<QMenu> createMenu() override;
-            QString getMenuSortKey() const override;
-            
+            std::string getMenuSortKey() const override;
+
         public Q_SLOTS:
-            void setCurrentProject(const QPointer<Project> &) override;
+            void newWorkspace();
+            void closeWorkspace(const QPointer<Workspace> &);
+            void nextWorkspace();
+            void prevWorkspace();
+
+            void setCurrentWorkspace(const QPointer<Workspace> &) override;
+
+        Q_SIGNALS:
+            void workspaceAdded(const QPointer<Workspace> &);
+            void workspaceRemoved(const QPointer<Workspace> &);
+            void currentWorkspaceChanged(const QPointer<Workspace> &);
+            void currentProjectChanged(const QPointer<Project> &);
+
+        private Q_SLOTS:
+            void _updateMenus();
 
         private:
             DJV_PRIVATE();

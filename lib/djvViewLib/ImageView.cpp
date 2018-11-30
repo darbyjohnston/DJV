@@ -47,14 +47,14 @@ namespace djv
 
         struct ImageView::Private
         {
-            QPointer<Context> context;
+            std::weak_ptr<Context> context;
             std::shared_ptr<AV::IO::Queue> queue;
-            std::shared_ptr<AV::PixelData> pixelData;
+            std::shared_ptr<AV::Image::PixelData> pixelData;
             int timer = 0;
             std::condition_variable queueCV;
         };
         
-        ImageView::ImageView(const std::shared_ptr<AV::IO::Queue> & queue, const QPointer<Context> & context, QWidget * parent) :
+        ImageView::ImageView(const std::shared_ptr<AV::IO::Queue> & queue, const std::shared_ptr<Context> & context, QWidget * parent) :
             QOpenGLWidget(parent),
             _p(new Private)
         {

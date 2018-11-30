@@ -33,8 +33,6 @@
 
 #include <djvAV/IO.h>
 
-#include <QPointer>
-
 namespace djv
 {
     namespace ViewLib
@@ -46,7 +44,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            MediaPlayer(const std::shared_ptr<AV::IO::Queue> &, const QPointer<Context> &, QObject * parent = nullptr);
+            MediaPlayer(const std::shared_ptr<AV::IO::Queue> &, const std::shared_ptr<Context> &, QObject * parent = nullptr);
             ~MediaPlayer() override;
 
             const AV::IO::AudioInfo & getInfo() const;

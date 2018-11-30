@@ -61,8 +61,8 @@ namespace djv
         {
         };
 
-        InfoTool::InfoTool(const QPointer<Context> & context, QObject * parent) :
-            IToolSystem("InfoTool", context.data(), parent),
+        InfoTool::InfoTool(const std::shared_ptr<Context> & context, QObject * parent) :
+            IToolObject("InfoTool", context, parent),
             _p(new Private)
         {}
 
@@ -77,7 +77,7 @@ namespace djv
             return out;
         }
 
-        QString InfoTool::getDockWidgetSortKey() const
+        std::string InfoTool::getDockWidgetSortKey() const
         {
             return "3";
         }

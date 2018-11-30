@@ -38,7 +38,7 @@ namespace djv
     {
         struct Application::Private
         {
-            QScopedPointer<Context> context;
+            std::shared_ptr<Context> context;
             QScopedPointer<MainWindow> mainWindow;
         };
         
@@ -46,9 +46,9 @@ namespace djv
             QApplication(argc, argv),
             _p(new Private)
         {
-            _p->context.reset(new Context(argc, argv));
+            _p->context = Context::create(argc, argv);
             
-            _p->mainWindow.reset(new MainWindow(_p->context.data()));
+            _p->mainWindow.reset(new MainWindow(_p->context));
             _p->mainWindow->resize(800, 600);
             _p->mainWindow->show();
         }

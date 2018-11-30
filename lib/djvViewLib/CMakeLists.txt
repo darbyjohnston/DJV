@@ -2,46 +2,47 @@ set(header
     Application.h
     ColorPickerTool.h
     Context.h
+    ContextInline.h
     Enum.h
-    FileSystem.h
-    HelpSystem.h
+    FileObject.h
+    HelpObject.h
     HistogramTool.h
-    IViewSystem.h
-    ImageSystem.h
+    IViewObject.h
+    ImageObject.h
     ImageView.h
     InfoTool.h
     MagnifyTool.h
     MainWindow.h
     MediaPlayer.h
-    PlaybackSystem.h
+    PlaybackObject.h
     Project.h
-    ToolSystem.h
-    ViewSystem.h
-    WindowSystem.h
+    ToolObject.h
+    ViewObject.h
+    WindowObject.h
+    WorkspaceObject.h
     WorkspacePrivate.h
-    WorkspaceSystem.h
     Workspace.h)
 set(mocHeader
     Application.h
     ColorPickerTool.h
     Context.h
     Enum.h
-    FileSystem.h
-    HelpSystem.h
+    FileObject.h
+    HelpObject.h
     HistogramTool.h
-    IViewSystem.h
-    ImageSystem.h
+    IViewObject.h
+    ImageObject.h
     ImageView.h
     InfoTool.h
     MagnifyTool.h
     MainWindow.h
     MediaPlayer.h
-    PlaybackSystem.h
+    PlaybackObject.h
     Project.h
-    ToolSystem.h
-    ViewSystem.h
-    WindowSystem.h
-    WorkspaceSystem.h
+    ToolObject.h
+    ViewObject.h
+    WindowObject.h
+    WorkspaceObject.h
     WorkspacePrivate.h
     Workspace.h)
 set(source
@@ -49,22 +50,22 @@ set(source
     ColorPickerTool.cpp
     Context.cpp
     Enum.cpp
-    FileSystem.cpp
-    HelpSystem.cpp
+    FileObject.cpp
+    HelpObject.cpp
     HistogramTool.cpp
-    IViewSystem.cpp
-    ImageSystem.cpp
+    IViewObject.cpp
+    ImageObject.cpp
     ImageView.cpp
     InfoTool.cpp
     MagnifyTool.cpp
     MainWindow.cpp
     MediaPlayer.cpp
-    PlaybackSystem.cpp
+    PlaybackObject.cpp
     Project.cpp
-    ToolSystem.cpp
-    ViewSystem.cpp
-    WindowSystem.cpp
-    WorkspaceSystem.cpp
+    ToolObject.cpp
+    ViewObject.cpp
+    WindowObject.cpp
+    WorkspaceObject.cpp
     WorkspacePrivate.cpp
     Workspace.cpp)
 

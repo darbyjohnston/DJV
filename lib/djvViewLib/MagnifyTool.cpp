@@ -61,8 +61,8 @@ namespace djv
         {
         };
 
-        MagnifyTool::MagnifyTool(const QPointer<Context> & context, QObject * parent) :
-            IToolSystem("MagnifyTool", context.data(), parent),
+        MagnifyTool::MagnifyTool(const std::shared_ptr<Context> & context, QObject * parent) :
+            IToolObject("MagnifyTool", context, parent),
             _p(new Private)
         {}
 
@@ -77,7 +77,7 @@ namespace djv
             return out;
         }
 
-        QString MagnifyTool::getDockWidgetSortKey() const
+        std::string MagnifyTool::getDockWidgetSortKey() const
         {
             return "0";
         }

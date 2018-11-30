@@ -61,8 +61,8 @@ namespace djv
         {
         };
 
-        ColorPickerTool::ColorPickerTool(const QPointer<Context> & context, QObject * parent) :
-            IToolSystem("ColorPickerTool", context.data(), parent),
+        ColorPickerTool::ColorPickerTool(const std::shared_ptr<Context> & context, QObject * parent) :
+            IToolObject("ColorPickerTool", context, parent),
             _p(new Private)
         {}
 
@@ -77,7 +77,7 @@ namespace djv
             return out;
         }
 
-        QString ColorPickerTool::getDockWidgetSortKey() const
+        std::string ColorPickerTool::getDockWidgetSortKey() const
         {
             return "1";
         }

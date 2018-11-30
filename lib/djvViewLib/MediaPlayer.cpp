@@ -41,7 +41,7 @@ namespace djv
     {
         struct MediaPlayer::Private
         {
-            QPointer<Context> context;
+            std::weak_ptr<Context> context;
             std::shared_ptr<AV::IO::Queue> queue;
             AV::IO::AudioInfo info;
             AV::IO::Duration duration = 0;
@@ -55,7 +55,7 @@ namespace djv
             int64_t timeOffset = 0;
         };
         
-        MediaPlayer::MediaPlayer(const std::shared_ptr<AV::IO::Queue> & queue, const QPointer<Context> & context, QObject * parent) :
+        MediaPlayer::MediaPlayer(const std::shared_ptr<AV::IO::Queue> & queue, const std::shared_ptr<Context> & context, QObject * parent) :
             QObject(parent),
             _p(new Private)
         {

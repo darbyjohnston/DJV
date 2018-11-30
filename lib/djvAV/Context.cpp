@@ -46,6 +46,10 @@ namespace djv
             addSystem(AudioSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this())));
         }
 
+        Context::Context() :
+            _p(new Private)
+        {}
+
         Context::~Context()
         {}
 

@@ -96,7 +96,7 @@ namespace djv
                 out = (value - s16Min) >> 8;
             }
 
-            inline void S16ToU32(S16_T value, S32_T & out)
+            inline void S16ToS32(S16_T value, S32_T & out)
             {
                 out = value << 16;
             }

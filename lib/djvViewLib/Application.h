@@ -29,10 +29,9 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
 #include <QApplication>
-#include <QScopedPointer>
 
 class QFileInfo;
 
