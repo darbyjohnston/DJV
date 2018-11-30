@@ -32,12 +32,12 @@ namespace djv
     namespace Core
     {
         template<typename T>
-        inline std::vector<QPointer<T> > Context::getSystemsT() const
+        inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
         {
             std::vector<QPointer<T> > out;
             for (auto i : getSystems())
             {
-                if (auto system = qobject_cast<T *>(i))
+                if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
                     out.push_back(system);
                 }
@@ -46,11 +46,11 @@ namespace djv
         }
 
         template<typename T>
-        inline QPointer<T> Context::getSystemT() const
+        inline std::shared_ptr<T> Context::getSystemT() const
         {
             for (auto i : getSystems())
             {
-                if (auto system = qobject_cast<T *>(i))
+                if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
                     return system;
                 }

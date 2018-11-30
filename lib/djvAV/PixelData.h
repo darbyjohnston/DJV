@@ -39,124 +39,127 @@ namespace djv
 {
     namespace AV
     {
-        class PixelDataMirror
+        namespace Image
         {
-            Q_GADGET
+            class PixelDataMirror
+            {
+                Q_GADGET
 
-        public:
-            inline PixelDataMirror();
-            inline PixelDataMirror(bool x, bool y);
+            public:
+                inline PixelDataMirror();
+                inline PixelDataMirror(bool x, bool y);
 
-            inline bool getX() const;
-            inline bool getY() const;
+                inline bool getX() const;
+                inline bool getY() const;
 
-            inline bool operator == (const PixelDataMirror &) const;
-            inline bool operator != (const PixelDataMirror &) const;
+                inline bool operator == (const PixelDataMirror &) const;
+                inline bool operator != (const PixelDataMirror &) const;
 
-        private:
-            bool _x = false;
-            bool _y = false;
-        };
+            private:
+                bool _x = false;
+                bool _y = false;
+            };
 
-        class PixelDataLayout
-        {
-            Q_GADGET
+            class PixelDataLayout
+            {
+                Q_GADGET
 
-        public:
-            inline PixelDataLayout();
-            inline PixelDataLayout(const PixelDataMirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
+            public:
+                inline PixelDataLayout();
+                inline PixelDataLayout(const PixelDataMirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
-            inline const PixelDataMirror & getMirror() const;
-            inline GLint getAlignment() const;
-            inline Core::Memory::Endian getEndian() const;
+                inline const PixelDataMirror & getMirror() const;
+                inline GLint getAlignment() const;
+                inline Core::Memory::Endian getEndian() const;
 
-            inline bool operator == (const PixelDataLayout &) const;
-            inline bool operator != (const PixelDataLayout &) const;
+                inline bool operator == (const PixelDataLayout &) const;
+                inline bool operator != (const PixelDataLayout &) const;
 
-        private:
-            PixelDataMirror _mirror;
-            GLint _alignment = 1;
-            Core::Memory::Endian _endian = Core::Memory::getEndian();
-        };
+            private:
+                PixelDataMirror _mirror;
+                GLint _alignment = 1;
+                Core::Memory::Endian _endian = Core::Memory::getEndian();
+            };
 
-        class PixelDataInfo
-        {
-            Q_GADGET
+            class PixelDataInfo
+            {
+                Q_GADGET
 
-        public:
-            inline PixelDataInfo();
-            inline PixelDataInfo(const glm::ivec2 &, const Pixel &, const PixelDataLayout & = PixelDataLayout());
-            inline PixelDataInfo(int width, int height, const Pixel &, const PixelDataLayout & = PixelDataLayout());
+            public:
+                inline PixelDataInfo();
+                inline PixelDataInfo(const glm::ivec2 &, const Pixel &, const PixelDataLayout & = PixelDataLayout());
+                inline PixelDataInfo(int width, int height, const Pixel &, const PixelDataLayout & = PixelDataLayout());
 
-            inline const QString & getName() const;
-            inline const glm::ivec2 & getSize() const;
-            inline float getAspectRatio() const;
-            inline const Pixel & getPixel() const;
-            inline const PixelDataLayout & getLayout() const;
-            inline bool isValid() const;
-            inline size_t getPixelByteCount() const;
-            inline size_t getScanlineByteCount() const;
-            inline size_t getDataByteCount() const;
+                inline const QString & getName() const;
+                inline const glm::ivec2 & getSize() const;
+                inline float getAspectRatio() const;
+                inline const Pixel & getPixel() const;
+                inline const PixelDataLayout & getLayout() const;
+                inline bool isValid() const;
+                inline size_t getPixelByteCount() const;
+                inline size_t getScanlineByteCount() const;
+                inline size_t getDataByteCount() const;
 
-            void setName(const QString &);
+                void setName(const QString &);
 
-            inline bool operator == (const PixelDataInfo &) const;
-            inline bool operator != (const PixelDataInfo &) const;
+                inline bool operator == (const PixelDataInfo &) const;
+                inline bool operator != (const PixelDataInfo &) const;
 
-        private:
-            QString _name;
-            glm::ivec2 _size = glm::ivec2(0, 0);
-            Pixel _pixel;
-            PixelDataLayout _layout;
-        };
+            private:
+                QString _name;
+                glm::ivec2 _size = glm::ivec2(0, 0);
+                Pixel _pixel;
+                PixelDataLayout _layout;
+            };
 
-        class PixelData
-        {
-            Q_GADGET
-            DJV_NON_COPYABLE(PixelData);
+            class PixelData
+            {
+                Q_GADGET
+                    DJV_NON_COPYABLE(PixelData);
 
-        protected:
-            void _init(const PixelDataInfo &);
-            PixelData();
+            protected:
+                void _init(const PixelDataInfo &);
+                PixelData();
 
-        public:
-            ~PixelData();
+            public:
+                ~PixelData();
 
-            static std::shared_ptr<PixelData> create(const PixelDataInfo &);
+                static std::shared_ptr<PixelData> create(const PixelDataInfo &);
 
-            inline const PixelDataInfo & getInfo() const;
-            inline const glm::ivec2 & getSize() const;
-            inline int getWidth() const;
-            inline int getHeight() const;
-            inline float getAspectRatio() const;
-            inline const Pixel & getPixel() const;
-            inline const PixelDataLayout & getLayout() const;
-            inline bool isValid() const;
-            inline size_t getPixelByteCount() const;
-            inline size_t getScanlineByteCount() const;
-            inline size_t getDataByteCount() const;
+                inline const PixelDataInfo & getInfo() const;
+                inline const glm::ivec2 & getSize() const;
+                inline int getWidth() const;
+                inline int getHeight() const;
+                inline float getAspectRatio() const;
+                inline const Pixel & getPixel() const;
+                inline const PixelDataLayout & getLayout() const;
+                inline bool isValid() const;
+                inline size_t getPixelByteCount() const;
+                inline size_t getScanlineByteCount() const;
+                inline size_t getDataByteCount() const;
 
-            inline const uint8_t * getData() const;
-            inline const uint8_t * getData(int y) const;
-            inline const uint8_t * getData(int x, int y) const;
-            uint8_t * getData();
-            uint8_t * getData(int y);
-            uint8_t * getData(int x, int y);
+                inline const uint8_t * getData() const;
+                inline const uint8_t * getData(int y) const;
+                inline const uint8_t * getData(int x, int y) const;
+                uint8_t * getData();
+                uint8_t * getData(int y);
+                uint8_t * getData(int x, int y);
 
-            void zero();
+                void zero();
 
-            bool operator == (const PixelData &) const;
-            bool operator != (const PixelData &) const;
+                bool operator == (const PixelData &) const;
+                bool operator != (const PixelData &) const;
 
-        private:
-            PixelDataInfo _info;
-            size_t _pixelByteCount = 0;
-            size_t _scanlineByteCount = 0;
-            size_t _dataByteCount = 0;
-            uint8_t * _data = nullptr;
-            const uint8_t * _p = nullptr;
-        };
+            private:
+                PixelDataInfo _info;
+                size_t _pixelByteCount = 0;
+                size_t _scanlineByteCount = 0;
+                size_t _dataByteCount = 0;
+                uint8_t * _data = nullptr;
+                const uint8_t * _p = nullptr;
+            };
 
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

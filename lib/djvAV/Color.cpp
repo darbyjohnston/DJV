@@ -33,7 +33,10 @@ namespace djv
 {
     namespace AV
     {
+        namespace Image
+        {
 
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

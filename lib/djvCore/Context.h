@@ -29,12 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
-
-#include <QObject>
-#include <QPointer>
-
-#include <vector>
+#include <djvCore/Core.h>
 
 namespace djv
 {
@@ -43,22 +38,27 @@ namespace djv
         class ISystem;
         class UndoStack;
         
-        class Context : public QObject
+        class Context : public std::enable_shared_from_this<Context>
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(Context);
+
+        protected:
+            void _init(int &, char **);
+            Context();
 
         public:
-            Context(int &, char **);
-            ~Context() override;
-                        
-            const std::vector<QPointer<ISystem> > & getSystems() const;
-            template<typename T>
-            inline std::vector<QPointer<T> > getSystemsT() const;
-            template<typename T>
-            inline QPointer<T> getSystemT() const;
-            void addSystem(const QPointer<ISystem> &);
+            virtual ~Context();
+            
+            static std::shared_ptr<Context> create(int &, char **);
 
-            const QPointer<UndoStack> & getUndoStack() const;
+            const std::vector<std::shared_ptr<ISystem> > & getSystems() const;
+            template<typename T>
+            inline std::vector<std::shared_ptr<T> > getSystemsT() const;
+            template<typename T>
+            inline std::shared_ptr<T> getSystemT() const;
+            void addSystem(const std::shared_ptr<ISystem> &);
+
+            const std::shared_ptr<UndoStack> & getUndoStack() const;
 
         private:
             DJV_PRIVATE();

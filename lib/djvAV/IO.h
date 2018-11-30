@@ -36,9 +36,6 @@
 #include <djvCore/Error.h>
 #include <djvCore/Speed.h>
 
-#include <QObject>
-#include <QPointer>
-
 #include <condition_variable>
 #include <future>
 #include <mutex>
@@ -58,59 +55,60 @@ namespace djv
             {
             public:
                 VideoInfo();
-                VideoInfo(const PixelDataInfo &, const Core::Speed &, Duration duration);
+                VideoInfo(const Image::PixelDataInfo &, const Core::Speed &, Duration duration);
 
-                inline const PixelDataInfo & getInfo() const;
+                inline const Image::PixelDataInfo & getInfo() const;
                 inline const Core::Speed & getSpeed() const;
                 inline Duration getDuration() const;
 
                 bool operator == (const VideoInfo &) const;
 
             private:
-                PixelDataInfo _info;
-                Core::Speed   _speed;
-                Duration      _duration = 0;
+                Image::PixelDataInfo _info;
+                Core::Speed _speed;
+                Duration _duration = 0;
             };
 
             class AudioInfo
             {
             public:
                 AudioInfo();
-                AudioInfo(const AudioDataInfo &, Duration duration);
+                AudioInfo(const Audio::DataInfo &, Duration duration);
 
-                inline const AudioDataInfo & getInfo() const;
+                inline const Audio::DataInfo & getInfo() const;
                 inline Duration getDuration() const;
 
                 bool operator == (const AudioInfo &) const;
 
             private:
-                AudioDataInfo _info;
-                Duration      _duration   = 0;
+                Audio::DataInfo _info;
+                Duration _duration   = 0;
             };
 
             class Info
             {
             public:
                 Info();
-                Info(const QString & fileName, const VideoInfo &, const AudioInfo &);
+                Info(const std::string & fileName, const VideoInfo &, const AudioInfo &);
 
-                inline const QString & getfileName() const;
+                inline const std::string & getFileName() const;
                 inline const VideoInfo & getVideo() const;
                 inline const AudioInfo & getAudio() const;
 
             private:
-                QString   _fileName;
+                std::string _fileName;
                 VideoInfo _video;
                 AudioInfo _audio;
             };
 
-            typedef std::pair<Timestamp, std::shared_ptr<PixelData> > VideoFrame;
-            typedef std::pair<Timestamp, std::shared_ptr<AudioData> > AudioFrame;
+            typedef std::pair<Timestamp, std::shared_ptr<Image::PixelData> > VideoFrame;
+            typedef std::pair<Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
-            class Queue
+            class Queue : public std::enable_shared_from_this<Queue>
             {
                 DJV_NON_COPYABLE(Queue);
 
+            protected:
                 Queue();
 
             public:
@@ -126,8 +124,8 @@ namespace djv
                 
                 VideoFrame getFirstVideoFrame() const;
 
-                void addVideoFrame(Timestamp, const std::shared_ptr<PixelData> &);
-                void addAudioFrame(Timestamp, const std::shared_ptr<AudioData> &);
+                void addVideoFrame(Timestamp, const std::shared_ptr<Image::PixelData> &);
+                void addAudioFrame(Timestamp, const std::shared_ptr<Audio::Data> &);
 
                 void clear();
 
@@ -137,25 +135,28 @@ namespace djv
                 std::mutex _mutex;
             };
 
-            class Loader : public QObject
+            class Loader : public std::enable_shared_from_this<Loader>
             {
-                Q_OBJECT
                 DJV_NON_COPYABLE(Loader);
 
+            protected:
+                void _init(const std::string & fileName, const std::shared_ptr<Queue> &, const std::shared_ptr<Context> &);
+                Loader();
+
             public:
-                Loader(const QString &, const std::shared_ptr<Queue> &, const QPointer<Context> &, QObject * parent = nullptr);
-                ~Loader() override;
+                ~Loader();
+
+                static std::shared_ptr<Loader> create(const std::string & fileName, const std::shared_ptr<Queue> &, const std::shared_ptr<Context> &);
 
                 std::future<Info> getInfo();
 
-            public Q_SLOTS:
                 void seek(Timestamp);
 
             private:
                 Timestamp _decodeVideo(AVPacket *, bool seek = false);
                 Timestamp _decodeAudio(AVPacket *, bool seek = false);
 
-                QPointer<Context> _context;
+                std::weak_ptr<Context> _context;
 
                 std::shared_ptr<Queue> _queue;
                 std::condition_variable _queueCV;

@@ -36,26 +36,28 @@ namespace djv
 {
     namespace AV
     {
-        class Image : public PixelData
+        namespace Image
         {
-            Q_GADGET
-            DJV_NON_COPYABLE(Image);
+            class Image : public PixelData
+            {
+                DJV_NON_COPYABLE(Image);
 
-        protected:
-            void _init(const PixelDataInfo &);
-            Image();
+            protected:
+                void _init(const PixelDataInfo &);
+                Image();
 
-        public:
-            ~Image();
+            public:
+                ~Image();
 
-            static std::shared_ptr<Image> create(const PixelDataInfo &);
+                static std::shared_ptr<Image> create(const PixelDataInfo &);
 
-            const ImageTags & getTags() const;
-            void setTags(const ImageTags &);
+                const Tags & getTags() const;
+                void setTags(const Tags &);
 
-        private:
-            ImageTags _tags;
-        };
+            private:
+                Tags _tags;
+            };
 
+        } // namespace Image
     } // namespace AV
 } // namespace djv

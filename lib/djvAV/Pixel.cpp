@@ -29,50 +29,38 @@
 
 #include <djvAV/Pixel.h>
 
-#include <QCoreApplication>
-
 namespace djv
 {
     namespace AV
     {
-        const Pixel::U8_T   u8Min = std::numeric_limits<uint8_t>::min();
-        const Pixel::U8_T   u8Max = std::numeric_limits<uint8_t>::max();
-        const Pixel::U10_T u10Min = 0;
-        const Pixel::U10_T u10Max = 1023;
-        const Pixel::U16_T u16Min = std::numeric_limits<uint16_t>::min();
-        const Pixel::U16_T u16Max = std::numeric_limits<uint16_t>::max();
-        const Pixel::U32_T u32Min = std::numeric_limits<uint32_t>::min();
-        const Pixel::U32_T u32Max = std::numeric_limits<uint32_t>::max();
-        const Pixel::F16_T f16Min = 0.f;
-        const Pixel::F16_T f16Max = 1.f;
-        const Pixel::F32_T f32Min = 0.f;
-        const Pixel::F32_T f32Max = 1.f;
-
-        QString Pixel::getPixelLabel(const Pixel& pixel)
+        namespace Image
         {
-            static const std::map<GLenum, QString> formatLabel =
+            QString getPixelLabel(const Pixel& pixel)
             {
-                { GL_RED,  qApp->translate("djv::AV::Pixel", "L") },
-                { GL_RG,   qApp->translate("djv::AV::Pixel", "LA") },
-                { GL_RGB,  qApp->translate("djv::AV::Pixel", "RGB") },
-                { GL_RGBA, qApp->translate("djv::AV::Pixel", "RGBA") }
-            };
-            static const std::map<GLenum, QString> typeLabel =
-            {
-                { GL_UNSIGNED_BYTE,           qApp->translate("djv::AV::Pixel", "U8") },
-                { GL_UNSIGNED_INT_10_10_10_2, qApp->translate("djv::AV::Pixel", "U10") },
-                { GL_UNSIGNED_SHORT,          qApp->translate("djv::AV::Pixel", "U16") },
-                { GL_UNSIGNED_INT,            qApp->translate("djv::AV::Pixel", "U32") },
-                { GL_HALF_FLOAT,              qApp->translate("djv::AV::Pixel", "F16") },
-                { GL_FLOAT,                   qApp->translate("djv::AV::Pixel", "F32") }
-            };
-            const auto i = formatLabel.find(pixel._format);
-            const auto j = typeLabel.find(pixel._type);
-            return i != formatLabel.end() && j != typeLabel.end() ?
-                (i->second + " " + j->second) :
-                qApp->translate("djv::AV::Pixel", "None");
-        }
+                static const std::map<GLenum, QString> formatLabel =
+                {
+                    { GL_RED,  DJV_TEXT("L") },
+                    { GL_RG,   DJV_TEXT("LA") },
+                    { GL_RGB,  DJV_TEXT("RGB") },
+                    { GL_RGBA, DJV_TEXT("RGBA") }
+                };
+                static const std::map<GLenum, QString> typeLabel =
+                {
+                    { GL_UNSIGNED_BYTE,           DJV_TEXT("U8") },
+                    { GL_UNSIGNED_INT_10_10_10_2, DJV_TEXT("U10") },
+                    { GL_UNSIGNED_SHORT,          DJV_TEXT("U16") },
+                    { GL_UNSIGNED_INT,            DJV_TEXT("U32") },
+                    { GL_HALF_FLOAT,              DJV_TEXT("F16") },
+                    { GL_FLOAT,                   DJV_TEXT("F32") }
+                };
+                const auto i = formatLabel.find(pixel.getFormat());
+                const auto j = typeLabel.find(pixel.getType());
+                return i != formatLabel.end() && j != typeLabel.end() ?
+                    (i->second + " " + j->second) :
+                    DJV_TEXT("None");
+            }
 
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

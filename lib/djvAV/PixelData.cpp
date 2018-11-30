@@ -33,83 +33,86 @@ namespace djv
 {
     namespace AV
     {
-        void PixelData::_init(const PixelDataInfo & info)
+        namespace Image
         {
-            _info = info;
-            _pixelByteCount = info.getPixelByteCount();
-            _scanlineByteCount = info.getScanlineByteCount();
-            _dataByteCount = info.getDataByteCount();
-            if (_dataByteCount)
+            void PixelData::_init(const PixelDataInfo & info)
             {
-                _data = new uint8_t[_dataByteCount];
-                _p = _data;
-            }
-        }
-
-        PixelData::PixelData()
-        {}
-
-        PixelData::~PixelData()
-        {
-            delete[] _data;
-        }
-
-        std::shared_ptr<PixelData> PixelData::create(const PixelDataInfo& info)
-        {
-            auto out = std::shared_ptr<PixelData>(new PixelData);
-            out->_init(info);
-            return out;
-        }
-
-        uint8_t * PixelData::getData()
-        {
-            return _data;
-        }
-
-        uint8_t* PixelData::getData(int y)
-        {
-            return _data + y * _scanlineByteCount;
-        }
-
-        uint8_t * PixelData::getData(int x, int y)
-        {
-            return _data + y * _scanlineByteCount + x * _pixelByteCount;
-        }
-
-        void PixelData::zero()
-        {
-            memset(_data, 0, _dataByteCount);
-        }
-
-        bool PixelData::operator == (const PixelData & other) const
-        {
-            if (other._info == _info)
-            {
-                if (GL_UNSIGNED_INT_10_10_10_2 == _info.getPixel().getType())
+                _info = info;
+                _pixelByteCount = info.getPixelByteCount();
+                _scanlineByteCount = info.getScanlineByteCount();
+                _dataByteCount = info.getDataByteCount();
+                if (_dataByteCount)
                 {
-                    const auto & size = _info.getSize();
-                    for (int y = 0; y < size.y; ++y)
+                    _data = new uint8_t[_dataByteCount];
+                    _p = _data;
+                }
+            }
+
+            PixelData::PixelData()
+            {}
+
+            PixelData::~PixelData()
+            {
+                delete[] _data;
+            }
+
+            std::shared_ptr<PixelData> PixelData::create(const PixelDataInfo& info)
+            {
+                auto out = std::shared_ptr<PixelData>(new PixelData);
+                out->_init(info);
+                return out;
+            }
+
+            uint8_t * PixelData::getData()
+            {
+                return _data;
+            }
+
+            uint8_t* PixelData::getData(int y)
+            {
+                return _data + y * _scanlineByteCount;
+            }
+
+            uint8_t * PixelData::getData(int x, int y)
+            {
+                return _data + y * _scanlineByteCount + x * _pixelByteCount;
+            }
+
+            void PixelData::zero()
+            {
+                memset(_data, 0, _dataByteCount);
+            }
+
+            bool PixelData::operator == (const PixelData & other) const
+            {
+                if (other._info == _info)
+                {
+                    if (GL_UNSIGNED_INT_10_10_10_2 == _info.getPixel().getType())
                     {
-                        const Pixel::U10_S * p = reinterpret_cast<const Pixel::U10_S*>(getData(y));
-                        const Pixel::U10_S * otherP = reinterpret_cast<const Pixel::U10_S*>(other.getData(y));
-                        for (int x = 0; x < size.x; ++x, ++p, ++otherP)
+                        const auto & size = _info.getSize();
+                        for (int y = 0; y < size.y; ++y)
                         {
-                            if (*p != *otherP)
+                            const U10_S * p = reinterpret_cast<const U10_S*>(getData(y));
+                            const U10_S * otherP = reinterpret_cast<const U10_S*>(other.getData(y));
+                            for (int x = 0; x < size.x; ++x, ++p, ++otherP)
                             {
-                                return false;
+                                if (*p != *otherP)
+                                {
+                                    return false;
+                                }
                             }
                         }
+                        return true;
                     }
-                    return true;
+                    else
+                    {
+                        return 0 == memcmp(other._p, _p, _dataByteCount);
+                    }
                 }
-                else
-                {
-                    return 0 == memcmp(other._p, _p, _dataByteCount);
-                }
+                return false;
             }
-            return false;
-        }
 
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

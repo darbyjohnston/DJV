@@ -45,11 +45,11 @@ set(source
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${OPENGL_INCLUDE_DIRS})
 add_library(djvAV ${header} ${source} ${mocSource} ${qmSource})
 target_link_libraries(
     djvAV
     djvCore
+    Qt5
     FFMPEG
     IlmBase
     OpenAL
@@ -59,4 +59,3 @@ set_target_properties(
     PROPERTIES
     FOLDER lib
     CXX_STANDARD 11)
-

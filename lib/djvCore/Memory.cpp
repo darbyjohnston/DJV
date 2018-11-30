@@ -29,29 +29,54 @@
 
 #include <djvCore/Memory.h>
 
-#include <QCoreApplication>
+#include <sstream>
 
 namespace djv
 {
     namespace Core
     {
-        Memory::Endian Memory::getEndian()
+        namespace Memory
         {
-            static const uint32_t tmp = 1;
-            static const uint8_t * const p = reinterpret_cast<const uint8_t *>(&tmp);
-            return *p ? Endian::LSB : Endian::MSB;
-        }
-
-        const QString & Memory::getLabel(Endian value)
-        {
-            static const std::vector<QString> data =
+            std::string getSizeLabel(uint64_t value)
             {
-                qApp->translate("djv::Core::Memory", "MSB"),
-                qApp->translate("djv::Core::Memory", "LSB")
-            };
-            DJV_ASSERT(static_cast<size_t>(Endian::Count) == data.size());
-            return data[static_cast<size_t>(value)];
-        }
+                static const std::vector<std::string> data = { "TB", "GB", "MB", "KB" };
+                std::stringstream ss;
+                ss.precision(2);
+                if (value >= terabyte)
+                {
+                    ss << std::fixed << value / static_cast<double>(terabyte);
+                    ss << data[0];
+                }
+                else if (value >= gigabyte)
+                {
+                    ss << std::fixed << value / static_cast<double>(gigabyte);
+                    ss << data[1];
+                }
+                else if (value >= megabyte)
+                {
+                    ss << std::fixed << value / static_cast<double>(megabyte);
+                    ss << data[2];
+                }
+                else
+                {
+                    ss << std::fixed << value / static_cast<double>(kilobyte);
+                    ss << data[3];
+                }
+                return ss.str();
+            }
 
+            DJV_ENUM_HELPERS_IMPL(
+                Endian,
+                DJV_TEXT("MSB"),
+                DJV_TEXT("LSB"));
+
+            Endian getEndian()
+            {
+                static const int tmp = 1;
+                static const uint8_t* const p = reinterpret_cast<const uint8_t*>(&tmp);
+                return *p ? Endian::LSB : Endian::MSB;
+            }
+
+        } // namespace Memory
     } // namespace Core
 } // namespace djv

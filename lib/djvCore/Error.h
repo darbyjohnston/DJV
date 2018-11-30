@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <QString>
+#include <djvCore/Core.h>
 
 #include <exception>
 
@@ -41,16 +41,16 @@ namespace djv
         {
         public:
             Error();
-            Error(const QString & context, const QString & text);
+            Error(const std::string & context, const std::string & text);
 
-            const QString & getContext() const;
-            const QString & getText() const;
+            const std::string & getContext() const;
+            const std::string & getText() const;
 
             const char * what() const noexcept override;
             
         private:
-            QString _context;
-            QString _text;
+            std::string _context;
+            std::string _text;
         };
 
     } // namespace Core

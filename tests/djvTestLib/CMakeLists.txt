@@ -6,7 +6,6 @@ set(source
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_library(djvTestLib ${header} ${source} ${mocSource} ${qmSource})
 target_link_libraries(
     djvTestLib

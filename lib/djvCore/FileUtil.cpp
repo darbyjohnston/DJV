@@ -29,8 +29,7 @@
 
 #include <djvCore/FileUtil.h>
 
-#include <QDir>
-#include <QRegularExpression>
+#include <djvCore/String.h>
 
 #include <iostream>
 
@@ -38,49 +37,48 @@ namespace djv
 {
     namespace Core
     {
-#if defined(DJV_WINDOWS)
-        const QChar FileUtil::nativeSeparator = '\\';
-#else
-        const QChar FileUtil::nativeSeparator = '/';
-#endif
-
-        QStringList FileUtil::splitPath(const QString & value)
+        namespace FileUtil
         {
-            QStringList out;
-
-            // Handle the root path.
-            if (value.size() && '/' == value[0])
+            std::vector<std::string> FileUtil::splitPath(const std::string & value)
             {
-                out.push_back("/");
-            }
+                std::vector<std::string> out;
 
-            // Split the path on seperators.
-            static const QRegularExpression re("[/\\\\]");
-            out.append(value.split(re, QString::SkipEmptyParts));
-
-            return out;
-        }
-
-        QString FileUtil::joinPath(QStringList value)
-        {
-            QString out;
-
-            // Handle the root path.
-            if (value.size())
-            {
-                if (value[0] != "/")
+                // Handle the root path.
+                if (value.size() && '/' == value[0])
                 {
-                    out.append(value[0]);
+                    out.push_back("/");
                 }
-                out.append('/');
-                value.pop_front();
+
+                // Split the path on seperators.
+                for (const auto & i : String::split(value, separators))
+                {
+                    out.push_back(i);
+                }
+
+                return out;
             }
 
-            // Join the remaining pieces.
-            out.append(value.join(nativeSeparator));
+            std::string FileUtil::joinPath(std::vector<std::string> value)
+            {
+                std::string out;
 
-            return out;
-        }
+                // Handle the root path.
+                if (value.size())
+                {
+                    if (value[0] != "/")
+                    {
+                        out.append(value[0]);
+                    }
+                    out.push_back('/');
+                    value.erase(value.begin());
+                }
 
+                // Join the remaining pieces.
+                out += StringUtil::join(value, nativeSeparator);
+
+                return out;
+            }
+
+        } // namespace FileUtil
     } // namespace Core
 } // namespace djv

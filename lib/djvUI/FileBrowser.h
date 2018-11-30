@@ -29,9 +29,8 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
-#include <QPointer>
 #include <QWidget>
 
 namespace djv
@@ -51,7 +50,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserWidget(const QPointer<Context> &, QWidget * parent = nullptr);
+            FileBrowserWidget(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~FileBrowserWidget() override;
 
         private:

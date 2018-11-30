@@ -40,7 +40,7 @@ namespace djv
 
         };
 
-        ProxyStyle::ProxyStyle(const QPointer<Context> &) :
+        ProxyStyle::ProxyStyle(const std::shared_ptr<Context> &) :
             QProxyStyle(QStyleFactory::create("fusion")),
             _p(new Private)
         {}

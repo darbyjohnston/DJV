@@ -29,31 +29,65 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
-
-#include <QMetaType>
+#include <djvCore/Core.h>
 
 namespace djv
 {
     namespace Core
     {
-        class Memory
+        namespace Memory
         {
-            Q_GADGET
+            const uint64_t kilobyte = 1024; //!< The number of bytes in a kilobyte
+            const uint64_t megabyte = kilobyte * 1024; //!< The number of bytes in a megabyte
+            const uint64_t gigabyte = megabyte * 1024; //!< The number of bytes in a gigabyte
+            const uint64_t terabyte = gigabyte * 1024; //!< The number of bytes in a terabyte
 
-        public:
+            //! Convert a byte count to a human readable string.
+            std::string getSizeLabel(uint64_t);
+
+            //! \name Endian
+            ///@{
+
             enum class Endian
             {
-                MSB,
-                LSB,
+                MSB, //!< Most siginificant byte first
+                LSB, //!< Least significant byte first
 
-                Count
+                Count,
+                First = MSB
             };
-            Q_ENUM(Endian);
+            DJV_ENUM_HELPERS(Endian);
 
-            static Endian getEndian();
-            static const QString & getLabel(Endian);
-        };
+            //! Get the current machine's endian.
+            Endian getEndian();
 
+            //! Get the opposite of the given endian.
+            inline Endian opposite(Endian);
+
+            //! Convert the endianness of a block of memory in place.
+            inline void endian(
+                void*  in,
+                size_t size,
+                size_t wordSize);
+
+            //! Convert the endianness of a block of memory.
+            inline void endian(
+                const void* in,
+                void*       out,
+                size_t      size,
+                size_t      wordSize);
+
+            ///@}
+
+            //! Combine hashes.
+            //!
+            //! References:
+            //! - http://www.boost.org/doc/libs/1_65_1/doc/html/hash/combine.html
+            template <class T>
+            inline void hashCombine(std::size_t&, const T&);
+
+        } // namespace Memory
     } // namespace Core
 } // namespace djv
+
+#include <djvCore/MemoryInline.h>

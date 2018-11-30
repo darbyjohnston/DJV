@@ -33,34 +33,37 @@ namespace djv
 {
     namespace AV
     {
-        void Image::_init(const PixelDataInfo & value)
+        namespace Image
         {
-            PixelData::_init(value);
-        }
+            void Image::_init(const PixelDataInfo & value)
+            {
+                PixelData::_init(value);
+            }
 
-        Image::Image()
-        {}
+            Image::Image()
+            {}
 
-        Image::~Image()
-        {}
+            Image::~Image()
+            {}
 
-        std::shared_ptr<Image> Image::create(const PixelDataInfo & value)
-        {
-            auto out = std::shared_ptr<Image>(new Image);
-            out->_init(value);
-            return out;
-        }
+            std::shared_ptr<Image> Image::create(const PixelDataInfo & value)
+            {
+                auto out = std::shared_ptr<Image>(new Image);
+                out->_init(value);
+                return out;
+            }
 
-        const ImageTags & Image::getTags() const
-        {
-            return _tags;
-        }
+            const Tags & Image::getTags() const
+            {
+                return _tags;
+            }
 
-        void Image::setTags(const ImageTags & tags)
-        {
-            _tags = tags;
-        }
+            void Image::setTags(const Tags & tags)
+            {
+                _tags = tags;
+            }
 
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

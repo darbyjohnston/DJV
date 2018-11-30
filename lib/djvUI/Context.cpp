@@ -42,16 +42,27 @@ namespace djv
             QPointer<ProxyStyle> style;
         };
 
-        Context::Context(int & argc, char ** argv) :
-            AV::Context(argc, argv),
-            _p(new Private)
+        void Context::_init(int & argc, char ** argv)
         {
-            _p->style = new ProxyStyle(this);
+            AV::Context::_init(argc, argv);
+
+            _p->style = new ProxyStyle(std::dynamic_pointer_cast<Context>(shared_from_this()));
             qApp->setStyle(_p->style);
         }
 
+        Context::Context() :
+            _p(new Private)
+        {}
+
         Context::~Context()
         {}
+
+        std::shared_ptr<Context> Context::create(int & argc, char ** argv)
+        {
+            auto out = std::shared_ptr<Context>(new Context);
+            out->_init(argc, argv);
+            return out;
+        }
 
         QPointer<QStyle> Context::getStyle() const
         {

@@ -29,7 +29,7 @@
 
 #include <djvAV/FFmpeg.h>
 
-#include <djvCore/StringUtil.h>
+#include <djvCore/String.h>
 
 #include <QCoreApplication>
 
@@ -63,32 +63,32 @@ namespace djv
             return out;
         }
 
-        QString FFmpeg::toString(AVSampleFormat value)
+        std::string FFmpeg::toString(AVSampleFormat value)
         {
-            static const std::map<AVSampleFormat, QString> data =
+            static const std::map<AVSampleFormat, std::string> data =
             {
-                { AV_SAMPLE_FMT_NONE, qApp->translate("djv::AV::FFmpeg", "None") },
-                { AV_SAMPLE_FMT_U8, qApp->translate("djv::AV::FFmpeg", "U8") },
-                { AV_SAMPLE_FMT_S16, qApp->translate("djv::AV::FFmpeg", "S16") },
-                { AV_SAMPLE_FMT_S32, qApp->translate("djv::AV::FFmpeg", "S32") },
-                { AV_SAMPLE_FMT_FLT, qApp->translate("djv::AV::FFmpeg", "Float") },
-                { AV_SAMPLE_FMT_DBL, qApp->translate("djv::AV::FFmpeg", "Double") },
-                { AV_SAMPLE_FMT_U8P, qApp->translate("djv::AV::FFmpeg", "U8 planar") },
-                { AV_SAMPLE_FMT_S16P, qApp->translate("djv::AV::FFmpeg", "S16 planar") },
-                { AV_SAMPLE_FMT_S32P, qApp->translate("djv::AV::FFmpeg", "S32 planar") },
-                { AV_SAMPLE_FMT_FLTP, qApp->translate("djv::AV::FFmpeg", "Float planar") },
-                { AV_SAMPLE_FMT_DBLP, qApp->translate("djv::AV::FFmpeg", "Double planar") }
+                { AV_SAMPLE_FMT_NONE, DJV_TEXT("None") },
+                { AV_SAMPLE_FMT_U8, DJV_TEXT("U8") },
+                { AV_SAMPLE_FMT_S16, DJV_TEXT("S16") },
+                { AV_SAMPLE_FMT_S32, DJV_TEXT("S32") },
+                { AV_SAMPLE_FMT_FLT, DJV_TEXT("Float") },
+                { AV_SAMPLE_FMT_DBL, DJV_TEXT("Double") },
+                { AV_SAMPLE_FMT_U8P, DJV_TEXT("U8 planar") },
+                { AV_SAMPLE_FMT_S16P, DJV_TEXT("S16 planar") },
+                { AV_SAMPLE_FMT_S32P, DJV_TEXT("S32 planar") },
+                { AV_SAMPLE_FMT_FLTP, DJV_TEXT("Float planar") },
+                { AV_SAMPLE_FMT_DBLP, DJV_TEXT("Double planar") }
             };
-            static const QString unknown = qApp->translate("djv::AV::FFmpeg", "Unknown");
+            static const std::string unknown = DJV_TEXT("Unknown");
             const auto i = data.find(value);
             return i != data.end() ? i->second : unknown;
         }
 
-        QString FFmpeg::getErrorString(int r)
+        std::string FFmpeg::getErrorString(int r)
         {
-            char buf[Core::StringUtil::cStringLength];
-            av_strerror(r, buf, Core::StringUtil::cStringLength);
-            return QString(buf);
+            char buf[Core::String::cStringLength];
+            av_strerror(r, buf, Core::String::cStringLength);
+            return std::string(buf);
         }
 
     } // namespace AV

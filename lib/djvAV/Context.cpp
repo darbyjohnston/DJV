@@ -39,15 +39,22 @@ namespace djv
         {
         };
 
-        Context::Context(int & argc, char ** argv) :
-            Core::Context(argc, argv),
-            _p(new Private)
+        void Context::_init(int & argc, char ** argv)
         {
-            addSystem(new AudioSystem(this));
+            Core::Context::_init(argc, argv);
+
+            addSystem(AudioSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this())));
         }
 
         Context::~Context()
         {}
+
+        std::shared_ptr<Context> Context::create(int & argc, char ** argv)
+        {
+            auto out = std::shared_ptr<Context>(new Context);
+            out->_init(argc, argv);
+            return out;
+        }
 
     } // namespace AV
 } // namespace djv

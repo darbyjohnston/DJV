@@ -29,8 +29,7 @@
 
 #pragma once
 
-#include <QMetaType>
-#include <QString>
+#include <djvCore/Core.h>
 
 namespace djv
 {
@@ -38,8 +37,6 @@ namespace djv
     {
         class Speed
         {
-            Q_GADGET
-
         public:
             enum class FPS
             {
@@ -62,8 +59,7 @@ namespace djv
 
                 Count
             };
-            Q_ENUM(FPS);
-            static const QString & getLabel(FPS);
+            static const std::string & getLabel(FPS);
 
             Speed();
             Speed(int scale, int duration = 1);

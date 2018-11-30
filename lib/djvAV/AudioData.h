@@ -35,71 +35,71 @@ namespace djv
 {
     namespace AV
     {
-        class AudioDataInfo
+        namespace Audio
         {
-            Q_GADGET
+            class DataInfo
+            {
+            public:
+                DataInfo();
+                DataInfo(size_t channels, Type, size_t sampleRate);
 
-        public:
-            AudioDataInfo();
-            AudioDataInfo(size_t channels, Audio::Type, size_t sampleRate);
+                inline size_t getChannels() const;
+                inline Type getType() const;
+                inline size_t getSampleRate() const;
+                inline bool isValid() const;
 
-            inline size_t getChannels() const;
-            inline Audio::Type getType() const;
-            inline size_t getSampleRate() const;
-            inline bool isValid() const;
+                bool operator == (const DataInfo &) const;
+                bool operator != (const DataInfo &) const;
 
-            bool operator == (const AudioDataInfo &) const;
-            bool operator != (const AudioDataInfo &) const;
+            private:
+                size_t _channels = 0;
+                Type   _type = Audio::Type::None;
+                size_t _sampleRate = 0;
+            };
 
-        private:
-            size_t      _channels   = 0;
-            Audio::Type _type       = Audio::Type::None;
-            size_t      _sampleRate = 0;
-        };
+            class Data
+            {
+                DJV_NON_COPYABLE(Data);
 
-        class AudioData
-        {
-            Q_GADGET
-            DJV_NON_COPYABLE(AudioData);
+            protected:
+                void _init(const DataInfo &, size_t sampleCount);
+                Data();
 
-        protected:
-            void _init(const AudioDataInfo &, size_t sampleCount);
-            AudioData();
+            public:
+                ~Data();
 
-        public:
-            ~AudioData();
+                static std::shared_ptr<Data> create(const DataInfo &, size_t sampleCount);
 
-            static std::shared_ptr<AudioData> create(const AudioDataInfo &, size_t sampleCount);
+                void zero();
 
-            void zero();
+                inline const DataInfo & getInfo() const;
+                inline size_t getChannels() const;
+                inline Type getType() const;
+                inline size_t getSampleRate() const;
+                inline size_t getSampleCount() const;
+                inline bool isValid() const;
+                inline size_t getByteCount() const;
 
-            inline const AudioDataInfo & getInfo() const;
-            inline size_t getChannels() const;
-            inline Audio::Type getType() const;
-            inline size_t getSampleRate() const;
-            inline size_t getSampleCount() const;
-            inline bool isValid() const;
-            inline size_t getByteCount() const;
+                inline uint8_t * getData();
+                inline const uint8_t * getData() const;
+                inline uint8_t * getData(size_t offset);
+                inline const uint8_t * getData(size_t offset) const;
 
-            inline uint8_t * getData();
-            inline const uint8_t * getData() const;
-            inline uint8_t * getData(size_t offset);
-            inline const uint8_t * getData(size_t offset) const;
+                static std::shared_ptr<Data> convert(const std::shared_ptr<Data> &, Type);
 
-            static std::shared_ptr<AudioData> convert(const std::shared_ptr<AudioData> &, Audio::Type);
+                static std::shared_ptr<Data> planarInterleave(const std::shared_ptr<Data> &);
+                static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data> &);
 
-            static std::shared_ptr<AudioData> planarInterleave(const std::shared_ptr<AudioData> &);
-            static std::shared_ptr<AudioData> planarDeinterleave(const std::shared_ptr<AudioData> &);
+                bool operator == (const Data &) const;
+                bool operator != (const Data &) const;
 
-            bool operator == (const AudioData &) const;
-            bool operator != (const AudioData &) const;
+            private:
+                DataInfo _info;
+                size_t _sampleCount = 0;
+                std::vector<uint8_t> _data;
+            };
 
-        private:
-            AudioDataInfo _info;
-            size_t _sampleCount = 0;
-            std::vector<uint8_t> _data;
-        };
-
+        } // namespace Audio
     } // namespace AV
 } // namespace djv
 

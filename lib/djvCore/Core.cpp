@@ -27,21 +27,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCore/Core.h>
 
-#include <string>
+#include <iostream>
+
+#include <stdlib.h>
 
 namespace djv
 {
     namespace Core
     {
-        class StringUtil
+        void _assert(const char * file, int line)
         {
-        public:
-            virtual ~StringUtil() = 0;
-
-            static const size_t cStringLength = 255;
-        };
+            std::cout << "ASSERT: " << file << ":" << line << std::endl;
+            abort();
+        }
 
     } // namespace Core
 } // namespace djv

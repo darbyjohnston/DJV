@@ -27,289 +27,292 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/MathUtil.h>
+#include <djvCore/Math.h>
 
 namespace djv
 {
     namespace AV
     {
-        inline bool Pixel::U10_S_MSB::operator == (const U10_S_MSB& value) const
+        namespace Image
         {
-            return
-                value.r == r &&
-                value.g == g &&
-                value.b == b;
-        }
-
-        inline bool Pixel::U10_S_MSB::operator != (const U10_S_MSB& value) const
-        {
-            return !(*this == value);
-        }
-
-        inline bool Pixel::U10_S_LSB::operator == (const U10_S_LSB& value) const
-        {
-            return
-                value.r == r &&
-                value.g == g &&
-                value.b == b;
-        }
-
-        inline bool Pixel::U10_S_LSB::operator != (const U10_S_LSB& value) const
-        {
-            return !(*this == value);
-        }
-
-        inline Pixel::Pixel()
-        {}
-
-        inline Pixel::Pixel(GLenum format, GLenum type) :
-            _format(_format),
-            _type(_type)
-        {}
-
-        inline GLenum Pixel::getFormat() const
-        {
-            return _format;
-        }
-        
-        inline GLenum Pixel::getType() const
-        {
-            return _type;
-        }
-        
-        inline bool Pixel::isValid() const
-        {
-            return _format != 0 && _type != 0;
-        }
-
-        inline size_t Pixel::getChannelCount() const
-        {
-            size_t out = 0;
-            switch (_format)
+            inline bool U10_S_MSB::operator == (const U10_S_MSB& value) const
             {
-            case GL_RED:  out = 1; break;
-            case GL_RG:   out = 2; break;
-            case GL_RGB:  out = 3; break;
-            case GL_RGBA: out = 4; break;
+                return
+                    value.r == r &&
+                    value.g == g &&
+                    value.b == b;
             }
-            return out;
-        }
 
-        inline size_t Pixel::getBitDepth() const
-        {
-            size_t out = 0;
-            switch (_type)
+            inline bool U10_S_MSB::operator != (const U10_S_MSB& value) const
             {
-            case GL_UNSIGNED_BYTE:           out =  8; break;
-            case GL_UNSIGNED_SHORT:          out = 16; break;
-            case GL_UNSIGNED_INT:            out = 32; break;
-            case GL_HALF_FLOAT:              out = 16; break;
-            case GL_FLOAT:                   out = 32; break;
-            case GL_UNSIGNED_INT_10_10_10_2: out = 10; break;
+                return !(*this == value);
             }
-            return out;
-        }
 
-        inline size_t Pixel::getByteCount() const
-        {
-            size_t out = 0;
-            const size_t channels = getChannelCount();
-            switch (_type)
+            inline bool U10_S_LSB::operator == (const U10_S_LSB& value) const
             {
-            case GL_UNSIGNED_BYTE:
-            case GL_UNSIGNED_SHORT:
-            case GL_UNSIGNED_INT:
-            case GL_HALF_FLOAT:
-            case GL_FLOAT:
-                out = channels * getBitDepth() / 8;
-                break;
-            case GL_UNSIGNED_INT_10_10_10_2:
-                out = 4;
-                break;
+                return
+                    value.r == r &&
+                    value.g == g &&
+                    value.b == b;
             }
-            return out;
-        }
 
-        inline Pixel Pixel::getIntPixel(int channelCount, int bitDepth)
-        {
-            switch (channelCount)
+            inline bool U10_S_LSB::operator != (const U10_S_LSB& value) const
             {
-            case 1:
-                switch (bitDepth)
-                {
-                case  8: return Pixel(GL_RED, GL_UNSIGNED_BYTE);
-                case 16: return Pixel(GL_RED, GL_UNSIGNED_SHORT);
-                case 32: return Pixel(GL_RED, GL_UNSIGNED_INT);
-                }
-                break;
-            case 2:
-                switch (bitDepth)
-                {
-                case  8: return Pixel(GL_RG, GL_UNSIGNED_BYTE);
-                case 16: return Pixel(GL_RG, GL_UNSIGNED_SHORT);
-                case 32: return Pixel(GL_RG, GL_UNSIGNED_INT);
-                }
-                break;
-            case 3:
-                switch (bitDepth)
-                {
-                case  8: return Pixel(GL_RGB, GL_UNSIGNED_BYTE);
-                case 10: return Pixel(GL_RGB, GL_UNSIGNED_INT_10_10_10_2);
-                case 16: return Pixel(GL_RGB, GL_UNSIGNED_SHORT);
-                case 32: return Pixel(GL_RGB, GL_UNSIGNED_INT);
-                }
-                break;
-            case 4:
-                switch (bitDepth)
-                {
-                case  8: return Pixel(GL_RGBA, GL_UNSIGNED_BYTE);
-                case 16: return Pixel(GL_RGBA, GL_UNSIGNED_SHORT);
-                case 32: return Pixel(GL_RGBA, GL_UNSIGNED_INT);
-                }
-                break;
+                return !(*this == value);
             }
-            return Pixel();
-        }
 
-        inline Pixel Pixel::getFloatPixel(int channelCount, int bitDepth)
-        {
-            switch (channelCount)
+            inline Pixel::Pixel()
+            {}
+
+            inline Pixel::Pixel(GLenum format, GLenum type) :
+                _format(_format),
+                _type(_type)
+            {}
+
+            inline GLenum Pixel::getFormat() const
             {
-            case 1:
-                switch (bitDepth)
-                {
-                case 16: return Pixel(GL_RED, GL_HALF_FLOAT);
-                case 32: return Pixel(GL_RED, GL_FLOAT);
-                }
-                break;
-            case 2:
-                switch (bitDepth)
-                {
-                case 16: return Pixel(GL_RG, GL_HALF_FLOAT);
-                case 32: return Pixel(GL_RG, GL_FLOAT);
-                }
-                break;
-            case 3:
-                switch (bitDepth)
-                {
-                case 16: return Pixel(GL_RGB, GL_HALF_FLOAT);
-                case 32: return Pixel(GL_RGB, GL_FLOAT);
-                }
-                break;
-            case 4:
-                switch (bitDepth)
-                {
-                case 16: return Pixel(GL_RGBA, GL_HALF_FLOAT);
-                case 32: return Pixel(GL_RGBA, GL_FLOAT);
-                }
-                break;
+                return _format;
             }
-            return Pixel();
-        }
 
-        inline void Pixel::U8ToU16(U8_T in, U16_T & out)
-        {
-            out = in << 8;
-        }
+            inline GLenum Pixel::getType() const
+            {
+                return _type;
+            }
 
-        inline void Pixel::U8ToU32(U8_T in, U32_T & out)
-        {
-            out = in << 24;
-        }
+            inline bool Pixel::isValid() const
+            {
+                return _format != 0 && _type != 0;
+            }
 
-        inline void Pixel::U8ToF16(U8_T in, F16_T & out)
-        {
-            out = in / static_cast<float>(u8Max);
-        }
+            inline size_t Pixel::getChannelCount() const
+            {
+                size_t out = 0;
+                switch (_format)
+                {
+                case GL_RED:  out = 1; break;
+                case GL_RG:   out = 2; break;
+                case GL_RGB:  out = 3; break;
+                case GL_RGBA: out = 4; break;
+                }
+                return out;
+            }
 
-        inline void Pixel::U8ToF32(U8_T in, F32_T & out)
-        {
-            out = in / static_cast<float>(u8Max);
-        }
+            inline size_t Pixel::getBitDepth() const
+            {
+                size_t out = 0;
+                switch (_type)
+                {
+                case GL_UNSIGNED_BYTE:           out = 8; break;
+                case GL_UNSIGNED_SHORT:          out = 16; break;
+                case GL_UNSIGNED_INT:            out = 32; break;
+                case GL_HALF_FLOAT:              out = 16; break;
+                case GL_FLOAT:                   out = 32; break;
+                case GL_UNSIGNED_INT_10_10_10_2: out = 10; break;
+                }
+                return out;
+            }
 
-        inline void Pixel::U16ToU8(U16_T in, U8_T & out)
-        {
-            out = in >> 8;
-        }
+            inline size_t Pixel::getByteCount() const
+            {
+                size_t out = 0;
+                const size_t channels = getChannelCount();
+                switch (_type)
+                {
+                case GL_UNSIGNED_BYTE:
+                case GL_UNSIGNED_SHORT:
+                case GL_UNSIGNED_INT:
+                case GL_HALF_FLOAT:
+                case GL_FLOAT:
+                    out = channels * getBitDepth() / 8;
+                    break;
+                case GL_UNSIGNED_INT_10_10_10_2:
+                    out = 4;
+                    break;
+                }
+                return out;
+            }
 
-        inline void Pixel::U16ToU32(U16_T in, U32_T & out)
-        {
-            out = in << 16;
-        }
+            inline bool Pixel::operator == (const Pixel& other) const
+            {
+                return other._format == _format && other._type == _type;
+            }
 
-        inline void Pixel::U16ToF16(U16_T in, F16_T & out)
-        {
-            out = in / static_cast<float>(u16Max);
-        }
+            inline bool Pixel::operator != (const Pixel& other) const
+            {
+                return !(other == *this);
+            }
 
-        inline void Pixel::U16ToF32(U16_T in, F32_T & out)
-        {
-            out = in / static_cast<float>(u16Max);
-        }
+            inline bool Pixel::operator < (const Pixel& other) const
+            {
+                return _format < other._format || (!(other._format < _format) && _type < other._type);
+            }
 
-        inline void Pixel::U32ToU8(U32_T in, U8_T & out)
-        {
-            out = in >> 24;
-        }
+            inline Pixel getIntPixel(int channelCount, int bitDepth)
+            {
+                switch (channelCount)
+                {
+                case 1:
+                    switch (bitDepth)
+                    {
+                    case  8: return Pixel(GL_RED, GL_UNSIGNED_BYTE);
+                    case 16: return Pixel(GL_RED, GL_UNSIGNED_SHORT);
+                    case 32: return Pixel(GL_RED, GL_UNSIGNED_INT);
+                    }
+                    break;
+                case 2:
+                    switch (bitDepth)
+                    {
+                    case  8: return Pixel(GL_RG, GL_UNSIGNED_BYTE);
+                    case 16: return Pixel(GL_RG, GL_UNSIGNED_SHORT);
+                    case 32: return Pixel(GL_RG, GL_UNSIGNED_INT);
+                    }
+                    break;
+                case 3:
+                    switch (bitDepth)
+                    {
+                    case  8: return Pixel(GL_RGB, GL_UNSIGNED_BYTE);
+                    case 10: return Pixel(GL_RGB, GL_UNSIGNED_INT_10_10_10_2);
+                    case 16: return Pixel(GL_RGB, GL_UNSIGNED_SHORT);
+                    case 32: return Pixel(GL_RGB, GL_UNSIGNED_INT);
+                    }
+                    break;
+                case 4:
+                    switch (bitDepth)
+                    {
+                    case  8: return Pixel(GL_RGBA, GL_UNSIGNED_BYTE);
+                    case 16: return Pixel(GL_RGBA, GL_UNSIGNED_SHORT);
+                    case 32: return Pixel(GL_RGBA, GL_UNSIGNED_INT);
+                    }
+                    break;
+                }
+                return Pixel();
+            }
 
-        inline void Pixel::U32ToU16(U32_T in, U16_T & out)
-        {
-            out = in >> 16;
-        }
+            inline Pixel getFloatPixel(int channelCount, int bitDepth)
+            {
+                switch (channelCount)
+                {
+                case 1:
+                    switch (bitDepth)
+                    {
+                    case 16: return Pixel(GL_RED, GL_HALF_FLOAT);
+                    case 32: return Pixel(GL_RED, GL_FLOAT);
+                    }
+                    break;
+                case 2:
+                    switch (bitDepth)
+                    {
+                    case 16: return Pixel(GL_RG, GL_HALF_FLOAT);
+                    case 32: return Pixel(GL_RG, GL_FLOAT);
+                    }
+                    break;
+                case 3:
+                    switch (bitDepth)
+                    {
+                    case 16: return Pixel(GL_RGB, GL_HALF_FLOAT);
+                    case 32: return Pixel(GL_RGB, GL_FLOAT);
+                    }
+                    break;
+                case 4:
+                    switch (bitDepth)
+                    {
+                    case 16: return Pixel(GL_RGBA, GL_HALF_FLOAT);
+                    case 32: return Pixel(GL_RGBA, GL_FLOAT);
+                    }
+                    break;
+                }
+                return Pixel();
+            }
 
-        inline void Pixel::U32ToF16(U32_T in, F16_T & out)
-        {
-            out = in / static_cast<float>(u32Max);
-        }
+            inline void U8ToU16(U8_T in, U16_T & out)
+            {
+                out = in << 8;
+            }
 
-        inline void Pixel::U32ToF32(U32_T in, F32_T & out)
-        {
-            out = in / static_cast<float>(u32Max);
-        }
+            inline void U8ToU32(U8_T in, U32_T & out)
+            {
+                out = in << 24;
+            }
 
-        inline void Pixel::F32ToU8(F32_T in, U8_T & out)
-        {
-            out = Core::MathUtil::clamp(
-                static_cast<uint16_t>(in * u8Max),
-                static_cast<uint16_t>(u8Min),
-                static_cast<uint16_t>(u8Max));
-        }
+            inline void U8ToF16(U8_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(u8Max);
+            }
 
-        inline void Pixel::F32ToU16(F32_T in, U16_T & out)
-        {
-            out = Core::MathUtil::clamp(
-                static_cast<uint32_t>(in * u16Max),
-                static_cast<uint32_t>(u16Min),
-                static_cast<uint32_t>(u16Max));
-        }
+            inline void U8ToF32(U8_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(u8Max);
+            }
 
-        inline void Pixel::F32ToU32(F32_T in, U32_T & out)
-        {
-            out = Core::MathUtil::clamp(
-                static_cast<uint64_t>(in * u32Max),
-                static_cast<uint64_t>(u32Min),
-                static_cast<uint64_t>(u32Max));
-        }
+            inline void U16ToU8(U16_T in, U8_T & out)
+            {
+                out = in >> 8;
+            }
 
-        inline void Pixel::F32ToF16(F32_T in, F16_T & out)
-        {
-            out = in;
-        }
+            inline void U16ToU32(U16_T in, U32_T & out)
+            {
+                out = in << 16;
+            }
 
-        inline bool Pixel::operator == (const Pixel& other) const
-        {
-            return other._format == _format && other._type == _type;
-        }
+            inline void U16ToF16(U16_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(u16Max);
+            }
 
-        inline bool Pixel::operator != (const Pixel& other) const
-        {
-            return !(other == *this);
-        }
+            inline void U16ToF32(U16_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(u16Max);
+            }
 
-        inline bool Pixel::operator < (const Pixel& other) const
-        {
-            return _format < other._format || (!(other._format < _format) && _type < other._type);
-        }
+            inline void U32ToU8(U32_T in, U8_T & out)
+            {
+                out = in >> 24;
+            }
 
+            inline void U32ToU16(U32_T in, U16_T & out)
+            {
+                out = in >> 16;
+            }
+
+            inline void U32ToF16(U32_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(u32Max);
+            }
+
+            inline void U32ToF32(U32_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(u32Max);
+            }
+
+            inline void F32ToU8(F32_T in, U8_T & out)
+            {
+                out = static_cast<U8_T>(Core::Math::clamp(
+                    static_cast<uint16_t>(in * u8Max),
+                    static_cast<uint16_t>(u8Min),
+                    static_cast<uint16_t>(u8Max)));
+            }
+
+            inline void F32ToU16(F32_T in, U16_T & out)
+            {
+                out = static_cast<U8_T>(Core::Math::clamp(
+                    static_cast<uint32_t>(in * u16Max),
+                    static_cast<uint32_t>(u16Min),
+                    static_cast<uint32_t>(u16Max)));
+            }
+
+            inline void F32ToU32(F32_T in, U32_T & out)
+            {
+                out = static_cast<U8_T>(Core::Math::clamp(
+                    static_cast<uint64_t>(in * u32Max),
+                    static_cast<uint64_t>(u32Min),
+                    static_cast<uint64_t>(u32Max)));
+            }
+
+            inline void F32ToF16(F32_T in, F16_T & out)
+            {
+                out = in;
+            }
+
+        } // namespace Image
     } // namespace AV
 } // namespace djv

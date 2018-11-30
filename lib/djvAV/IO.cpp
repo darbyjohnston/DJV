@@ -31,13 +31,13 @@
 
 #include <djvAV/Context.h>
 
-#include <QCoreApplication>
-
 extern "C"
 {
 #include <libavutil/imgutils.h>
 
 } // extern "C"
+
+#include <sstream>
 
 namespace djv
 {
@@ -48,7 +48,7 @@ namespace djv
             VideoInfo::VideoInfo()
             {}
 
-            VideoInfo::VideoInfo(const PixelDataInfo & info, const Core::Speed & speed, Duration duration) :
+            VideoInfo::VideoInfo(const Image::PixelDataInfo & info, const Core::Speed & speed, Duration duration) :
                 _info(info),
                 _speed(speed),
                 _duration(duration)
@@ -62,7 +62,7 @@ namespace djv
             AudioInfo::AudioInfo()
             {}
 
-            AudioInfo::AudioInfo(const AudioDataInfo & info, Duration duration) :
+            AudioInfo::AudioInfo(const Audio::DataInfo & info, Duration duration) :
                 _info(info),
                 _duration(duration)
             {}
@@ -75,7 +75,7 @@ namespace djv
             Info::Info()
             {}
 
-            Info::Info(const QString & fileName, const VideoInfo & video, const AudioInfo & audio) :
+            Info::Info(const std::string & fileName, const VideoInfo & video, const AudioInfo & audio) :
                 _fileName(fileName),
                 _video(video),
                 _audio(audio)
@@ -120,12 +120,12 @@ namespace djv
                 return _videoFrames.size() > 0 ? _videoFrames.front() : VideoFrame();
             }
 
-            void Queue::addVideoFrame(Timestamp ts, const std::shared_ptr<PixelData> & data)
+            void Queue::addVideoFrame(Timestamp ts, const std::shared_ptr<Image::PixelData> & data)
             {
                 _videoFrames.push_back(std::make_pair(ts, data));
             }
 
-            void Queue::addAudioFrame(Timestamp ts, const std::shared_ptr<AudioData> & data)
+            void Queue::addAudioFrame(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
             {
                 _audioFrames.push_back(std::make_pair(ts, data));
             }
@@ -146,11 +146,10 @@ namespace djv
 
             } // namespace
 
-            Loader::Loader(const QString & fileName, const std::shared_ptr<Queue> & queue, const QPointer<Context> & context, QObject * parent) :
-                QObject(parent),
-                _context(context),
-                _queue(queue)
+            void Loader::_init(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Context> & context)
             {
+                _context = context;
+                _queue = queue;
                 _running = true;
                 _thread = std::thread(
                     [this, fileName]
@@ -160,7 +159,7 @@ namespace djv
                         // Open the file.
                         int r = avformat_open_input(
                             &_avFormatContext,
-                            fileName.toUtf8().data(),
+                            fileName.c_str(),
                             nullptr,
                             nullptr);
                         if (r < 0)
@@ -176,7 +175,7 @@ namespace djv
                                 "djv::AV::IO::Loader",
                                 FFmpeg::getErrorString(r));
                         }
-                        av_dump_format(_avFormatContext, 0, fileName.toUtf8().data(), 0);
+                        av_dump_format(_avFormatContext, 0, fileName.c_str(), 0);
 
                         // Find the first video and audio stream.
                         for (unsigned int i = 0; i < _avFormatContext->nb_streams; ++i)
@@ -194,7 +193,7 @@ namespace djv
                         {
                             throw Core::Error(
                                 "djv::AV::IO::Loader",
-                                qApp->translate("djv::AV::IO::Loader", "Cannot find any streams"));
+                                DJV_TEXT("Cannot find any streams"));
                         }
 
                         // Find the codec for the video stream.
@@ -205,7 +204,7 @@ namespace djv
                         {
                             throw Core::Error(
                                 "djv::AV::IO::Loader",
-                                qApp->translate("djv::AV::IO::Loader", "Cannot find video codec"));
+                                DJV_TEXT("Cannot find video codec"));
                         }
                         _avCodecParameters[_avVideoStream] = avcodec_parameters_alloc();
                         r = avcodec_parameters_copy(_avCodecParameters[_avVideoStream], avVideoCodecParameters);
@@ -237,16 +236,16 @@ namespace djv
                         Audio::Type audioType = FFmpeg::fromFFmpeg(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
                         if (Audio::Type::None == audioType)
                         {
-                            throw Core::Error(
-                                "djv::AV::IO::Loader",
-                                qApp->translate("djv::AV::IO::Loader", "Unsupported audio format: %1").arg(FFmpeg::toString(static_cast<AVSampleFormat>(avAudioCodecParameters->format))));
+                            std::stringstream s;
+                            s << DJV_TEXT("Unsupported audio format: ") << FFmpeg::toString(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
+                            throw Core::Error("djv::AV::IO::Loader", s.str());
                         }
                         auto avAudioCodec = avcodec_find_decoder(avAudioCodecParameters->codec_id);
                         if (!avAudioCodec)
                         {
                             throw Core::Error(
                                 "djv::AV::IO::Loader",
-                                qApp->translate("djv::AV::IO::Loader", "Cannot find audio codec"));
+                                DJV_TEXT("Cannot find audio codec"));
                         }
                         _avCodecParameters[_avAudioStream] = avcodec_parameters_alloc();
                         r = avcodec_parameters_copy(_avCodecParameters[_avAudioStream], avAudioCodecParameters);
@@ -290,11 +289,10 @@ namespace djv
                             0);
 
                         // Get file information.
-
-                        const auto pixelDataInfo = PixelDataInfo(
+                        const auto pixelDataInfo = Image::PixelDataInfo(
                             glm::ivec2(_avCodecParameters[_avVideoStream]->width, _avCodecParameters[_avVideoStream]->height),
-                            Pixel(GL_RGBA, GL_UNSIGNED_BYTE),
-                            PixelDataLayout(PixelDataMirror(false, true)));
+                            Image::Pixel(GL_RGBA, GL_UNSIGNED_BYTE),
+                            Image::PixelDataLayout(Image::PixelDataMirror(false, true)));
                         Duration duration = 0;
                         if (avVideoStream->duration != AV_NOPTS_VALUE)
                         {
@@ -323,7 +321,7 @@ namespace djv
                             duration = _avFormatContext->duration;
                         }
                         const auto audioInfo = AudioInfo(
-                            AudioDataInfo(
+                            Audio::DataInfo(
                                 _avCodecParameters[_avAudioStream]->channels,
                                 audioType,
                                 _avCodecParameters[_avAudioStream]->sample_rate),
@@ -452,10 +450,20 @@ namespace djv
                 }
             }
 
+            Loader::Loader()
+            {}
+
             Loader::~Loader()
             {
                 _running = false;
                 _thread.join();
+            }
+
+            std::shared_ptr<Loader> Loader::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Context> & context)
+            {
+                auto out = std::shared_ptr<Loader>(new Loader);
+                out->_init(fileName, queue, context);
+                return out;
             }
 
             std::future<Info> Loader::getInfo()
@@ -496,7 +504,7 @@ namespace djv
 
                     if (!seek)
                     {
-                        auto pixelData = PixelData::create(_info.getVideo().getInfo());
+                        auto pixelData = Image::PixelData::create(_info.getVideo().getInfo());
                         av_image_fill_arrays(
                             _avFrameRgb->data,
                             _avFrameRgb->linesize,
@@ -550,7 +558,7 @@ namespace djv
                     if (!seek)
                     {
                         const auto & info = _info.getAudio().getInfo();
-                        auto audioData = AudioData::create(info, _avFrame->nb_samples * info.getChannels());
+                        auto audioData = Audio::Data::create(info, _avFrame->nb_samples * info.getChannels());
                         switch (_avCodecParameters[_avAudioStream]->format)
                         {
                         case AV_SAMPLE_FMT_U8:
@@ -570,7 +578,7 @@ namespace djv
                             {
                                 memcpy(p, _avFrame->data[0], byteCount);
                             }
-                            audioData = AudioData::planarInterleave(audioData);
+                            audioData = Audio::Data::planarInterleave(audioData);
                             break;
                         }
                         }

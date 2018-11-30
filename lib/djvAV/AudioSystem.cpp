@@ -41,9 +41,9 @@ namespace djv
     {
         namespace
         {
-            QStringList split(const ALCchar * value)
+            std::vector<std::string> split(const ALCchar * value)
             {
-                QStringList out;
+                std::vector<std::string> out;
                 for (const ALCchar * p = value, *p2 = value; p2; ++p2)
                 {
                     if (!*p2)
@@ -52,7 +52,7 @@ namespace djv
                         {
                             break;
                         }
-                        out.append(QString::fromLatin1(p, p2 - p));
+                        out.push_back(std::string(p, p2 - p));
                         p = p2;
                     }
                 }
@@ -67,19 +67,15 @@ namespace djv
             ALCcontext * alContext = nullptr;
         };
 
-        AudioSystem::AudioSystem(const QPointer<Context> & context, QObject * parent) :
-            ISystem("djv::AV::AudioSsytem", context.data(), parent),
-            _p(new Private)
+        void AudioSystem::_init(const std::shared_ptr<Context> & context)
         {
+            ISystem::_init("djv::AV::AudioSystem", context);
+
             const ALCchar * devices = NULL;
             ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
             if (AL_TRUE == alEnum)
             {
                 devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
-                /*Q_FOREACH(auto s, split(devices))
-                {
-                    std::cout << "device = " << s.toLatin1().data() << std::endl;
-                }*/
             }
 
             _p->alDevice = alcOpenDevice(devices);
@@ -99,6 +95,10 @@ namespace djv
             }
         }
 
+        AudioSystem::AudioSystem() :
+            _p(new Private)
+        {}
+
         AudioSystem::~AudioSystem()
         {
             alcMakeContextCurrent(NULL);
@@ -112,6 +112,13 @@ namespace djv
                 alcCloseDevice(_p->alDevice);
                 _p->alDevice = nullptr;
             }
+        }
+
+        std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<Context> & context)
+        {
+            auto out = std::shared_ptr<AudioSystem>(new AudioSystem);
+            out->_init(context);
+            return out;
         }
 
         ALCdevice * AudioSystem::getALDevice() const

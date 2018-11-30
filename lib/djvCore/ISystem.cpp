@@ -29,7 +29,7 @@
 
 #include <djvCore/ISystem.h>
 
-#include <Context.h>
+#include <djvCore/Context.h>
 
 namespace djv
 {
@@ -37,27 +37,29 @@ namespace djv
     {
         struct ISystem::Private
         {
-            QPointer<Context> context;
-            QString name;
+            std::weak_ptr<Context> context;
+            std::string name;
         };
         
-        ISystem::ISystem(const QString & name, const QPointer<Context> & context, QObject * parent) :
-            QObject(parent),
-            _p(new Private)
+        void ISystem::_init(const std::string & name, const std::shared_ptr<Context> & context)
         {
             _p->context = context;
             _p->name = name;
         }
+
+        ISystem::ISystem() :
+            _p(new Private)
+        {}
         
         ISystem::~ISystem()
         {}
 
-        const QPointer<Context> & ISystem::getContext() const
+        const std::weak_ptr<Context> & ISystem::getContext() const
         {
             return _p->context;
         }
 
-        const QString & ISystem::getName() const
+        const std::string & ISystem::getName() const
         {
             return _p->name;
         }

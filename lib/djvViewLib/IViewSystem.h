@@ -29,7 +29,10 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvCore/Core.h>
+
+#include <QObject>
+#include <QPointer>
 
 class QDockWidget;
 class QMenu;
@@ -42,22 +45,25 @@ namespace djv
         class Project;
         class Workspace;
         
-        class IViewSystem : public Core::ISystem
+        class IViewSystem : public QObject
         {
             Q_OBJECT
 
         public:
-            IViewSystem(const QString & name, const QPointer<Context> &, QObject * parent = nullptr);
+            IViewSystem(const std::string & name, const std::shared_ptr<Context> &, QObject * parent = nullptr);
             virtual ~IViewSystem() = 0;
 
+            const std::weak_ptr<Context> & getContext() const;
+            const std::string & getName() const;
+
             virtual QPointer<QMenu> createMenu();
-            virtual QString getMenuSortKey() const;
+            virtual std::string getMenuSortKey() const;
 
             virtual QPointer<QMenu> createContextMenu() { return createMenu(); }
-            virtual QString getContextMenuSortKey() const { return getMenuSortKey(); }
+            virtual std::string getContextMenuSortKey() const { return getMenuSortKey(); }
 
             virtual QPointer<QDockWidget> createDockWidget();
-            virtual QString getDockWidgetSortKey() const;
+            virtual std::string getDockWidgetSortKey() const;
             virtual Qt::DockWidgetArea getDockWidgetArea() const;
             virtual bool isDockWidgetVisible() const;
 

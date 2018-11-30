@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
 #include <QAbstractListModel>
 #include <QFrame>
@@ -95,7 +95,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserModel(const QPointer<Context> &, QObject * parent = nullptr);
+            FileBrowserModel(const std::shared_ptr<Context> &, QObject * parent = nullptr);
             ~FileBrowserModel() override;
 
             QString getPath() const;
@@ -133,7 +133,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            PathWidget(const QPointer<Context> &, QWidget * parent = nullptr);
+            PathWidget(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~PathWidget() override;
 
             const QString & getPath() const;
@@ -156,7 +156,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserHeader(const QPointer<Context> &, QWidget * parent = nullptr);
+            FileBrowserHeader(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~FileBrowserHeader() override;
 
             const QString & getPath() const;
@@ -186,7 +186,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserFooter(const QPointer<Context> &, QWidget * parent = nullptr);
+            FileBrowserFooter(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~FileBrowserFooter() override;
 
         public Q_SLOTS:

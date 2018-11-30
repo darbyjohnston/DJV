@@ -32,38 +32,46 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/UndoStack.h>
 
-#include <QApplication>
-
 namespace djv
 {
     namespace Core
     {
         struct Context::Private
         {
-            std::vector<QPointer<ISystem> > systems;
-            QPointer<UndoStack> undoStack;
+            std::vector<std::shared_ptr<ISystem> > systems;
+            std::shared_ptr<UndoStack> undoStack;
         };
 
-        Context::Context(int & argc, char ** argv) :
-            _p(new Private)
+        void Context::_init(int & argc, char ** argv)
         {
-            _p->undoStack = new UndoStack(this);
+            _p->undoStack = UndoStack::create(shared_from_this());
         }
+
+        Context::Context() :
+            _p(new Private)
+        {}
 
         Context::~Context()
         {}
 
-        const std::vector<QPointer<ISystem> > & Context::getSystems() const
+        std::shared_ptr<Context> Context::create(int & argc, char ** argv)
+        {
+            auto out = std::shared_ptr<Context>(new Context);
+            out->_init(argc, argv);
+            return out;
+        }
+
+        const std::vector<std::shared_ptr<ISystem> > & Context::getSystems() const
         {
             return _p->systems;
         }
 
-        void Context::addSystem(const QPointer<ISystem> & system)
+        void Context::addSystem(const std::shared_ptr<ISystem> & system)
         {
             _p->systems.push_back(system);
         }
 
-        const QPointer<UndoStack> & Context::getUndoStack() const
+        const std::shared_ptr<UndoStack> & Context::getUndoStack() const
         {
             return _p->undoStack;
         }

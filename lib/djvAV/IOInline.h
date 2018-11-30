@@ -33,7 +33,7 @@ namespace djv
     {
         namespace IO
         {
-            inline const PixelDataInfo & VideoInfo::getInfo() const
+            inline const Image::PixelDataInfo & VideoInfo::getInfo() const
             {
                 return _info;
             }
@@ -48,7 +48,7 @@ namespace djv
                 return _duration;
             }
 
-            inline const AudioDataInfo & AudioInfo::getInfo() const
+            inline const Audio::DataInfo & AudioInfo::getInfo() const
             {
                 return _info;
             }
@@ -58,7 +58,7 @@ namespace djv
                 return _duration;
             }
 
-            inline const QString & Info::getfileName() const
+            inline const std::string & Info::getFileName() const
             {
                 return _fileName;
             }

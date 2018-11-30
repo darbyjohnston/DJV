@@ -30,6 +30,8 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace djv
 {
@@ -50,6 +52,36 @@ namespace djv
 #define DJV_NON_COPYABLE(name) \
     name(const name &) = delete; \
     name & operator = (const name &) = delete
+
+//! This macro marks strings for extraction.
+#define DJV_TEXT(arg) (arg)
+
+//! This macro provides enum helpers.
+#define DJV_ENUM_HELPERS(name) \
+    std::vector<name> get##name##Enums(); \
+    const std::string& geLabel(name)
+
+//! This macro provides enum helpers implementations.
+#define DJV_ENUM_HELPERS_IMPL(name, ...) \
+    std::vector<name> get##name##Enums() \
+    { \
+        std::vector<name> out; \
+        for (size_t i = 0; i < static_cast<size_t>(name::Count); ++i) \
+        { \
+            out.push_back(static_cast<name>(i)); \
+        } \
+        return out; \
+    } \
+    \
+    const std::string& getLabel(name value) \
+    { \
+        static const std::vector<std::string> data = \
+        { \
+            __VA_ARGS__ \
+        }; \
+        DJV_ASSERT(static_cast<size_t>(name::Count) == data.size()); \
+        return data[static_cast<size_t>(value)]; \
+    }
 
 //! This macro provides an assert.
 #if defined(DJV_ASSERT)

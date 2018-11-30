@@ -27,12 +27,48 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/MathUtil.h>
+#include <djvCore/Math.h>
+
+#include <stdlib.h>
 
 namespace djv
 {
     namespace Core
     {
+        namespace Math
+        {
+            float getRandom()
+            {
+                return rand() / static_cast<float>(RAND_MAX);
+            }
 
+            float getRandom(float value)
+            {
+                return value * getRandom();
+            }
+
+            int getRandom(int value)
+            {
+                const float r = rand() / (static_cast<float>(RAND_MAX) + 1);
+                return static_cast<int>((value + 1) * r);
+            }
+
+            float getRandom(float min, float max)
+            {
+                return min + (max - min) * getRandom();
+            }
+
+            int getRandom(int min, int max)
+            {
+                const float r = rand() / (static_cast<float>(RAND_MAX) + 1);
+                return min + static_cast<int>((max - min + 1) * r);
+            }
+
+            void setRandomSeed(unsigned int value)
+            {
+                srand(value);
+            }
+
+        } // namespace Math
     } // namespace Core
 } // namespace djv

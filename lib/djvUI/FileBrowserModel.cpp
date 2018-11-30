@@ -187,13 +187,13 @@ namespace djv
 
         struct FileBrowserModel::Private
         {
-            QPointer<Context> context;
+            std::weak_ptr<Context> context;
             QDir dir;
             QFileInfoList fileInfoList;
             QScopedPointer<FileBrowserHistory> history;
         };
 
-        FileBrowserModel::FileBrowserModel(const QPointer<Context> & context, QObject * parent) :
+        FileBrowserModel::FileBrowserModel(const std::shared_ptr<Context> & context, QObject * parent) :
             QAbstractListModel(parent),
             _p(new Private)
         {
@@ -258,18 +258,19 @@ namespace djv
             case Qt::DisplayRole:
                 return _p->fileInfoList[index.row()].fileName();
             case Qt::DecorationRole:
-            {
-                const auto & fileInfo = _p->fileInfoList[index.row()];
-                if (fileInfo.isFile())
+                if (auto context = _p->context.lock())
                 {
-                    return _p->context->getStyle()->standardIcon(QStyle::SP_FileIcon);
-                }
-                else if (fileInfo.isDir())
-                {
-                    return _p->context->getStyle()->standardIcon(QStyle::SP_DirIcon);
+                    const auto & fileInfo = _p->fileInfoList[index.row()];
+                    if (fileInfo.isFile())
+                    {
+                        return context->getStyle()->standardIcon(QStyle::SP_FileIcon);
+                    }
+                    else if (fileInfo.isDir())
+                    {
+                        return context->getStyle()->standardIcon(QStyle::SP_DirIcon);
+                    }
                 }
                 break;
-            }
             case Qt::EditRole:
                 return _p->fileInfoList[index.row()].filePath();
             default: break;

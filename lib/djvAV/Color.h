@@ -35,29 +35,30 @@ namespace djv
 {
     namespace AV
     {
-        class Color
+        namespace Image
         {
-            Q_GADGET
+            class Color
+            {
+            public:
+                Color();
+                Color(const Pixel &);
+                Color(U8_T, U8_T, U8_T, U8_T = u8Max);
+                Color(F32_T, F32_T, F32_T, F32_T = f32Max);
 
-        public:
-            Color();
-            Color(const Pixel &);
-            Color(Pixel::U8_T, Pixel::U8_T, Pixel::U8_T, Pixel::U8_T = Pixel::u8Max);
-            Color(Pixel::F32_T, Pixel::F32_T, Pixel::F32_T, Pixel::F32_T = Pixel::f32Max);
+                const Pixel & getPixel() const;
 
-            const Pixel & getPixel() const;
+                template<typename T>
+                inline T getChannel(size_t) const;
 
-            template<typename T>
-            inline T getChannel(size_t) const;
+                template<typename T>
+                inline void setChannel(size_t, T);
 
-            template<typename T>
-            inline void setChannel(size_t, T);
+            private:
+                Pixel _pixel;
+                std::vector<uint8_t> _data;
+            };
 
-        private:
-            Pixel _pixel;
-            std::vector<uint8_t> _data;
-        };
-
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

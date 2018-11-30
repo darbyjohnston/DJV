@@ -31,6 +31,8 @@
 
 #include <djvAV/Context.h>
 
+#include <QPointer>
+
 class QStyle;
 
 namespace djv
@@ -39,11 +41,16 @@ namespace djv
     {
         class Context : public AV::Context
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(Context);
+
+        protected:
+            void _init(int &, char **);
+            Context();
 
         public:
-            Context(int &, char **);
             ~Context() override;
+
+            static std::shared_ptr<Context> create(int &, char **);
 
             QPointer<QStyle> getStyle() const;
 

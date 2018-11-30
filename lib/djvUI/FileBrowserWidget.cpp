@@ -59,7 +59,7 @@ namespace djv
             QPointer<QToolBar> toolBar;
         };
 
-        PathWidget::PathWidget(const QPointer<Context> &, QWidget * parent) :
+        PathWidget::PathWidget(const std::shared_ptr<Context> &, QWidget * parent) :
             QFrame(parent),
             _p(new Private)
         {
@@ -101,11 +101,11 @@ namespace djv
                 delete i.data();
             }
             _p->actions.clear();
-            const auto splitPath = Core::FileUtil::splitPath(_p->path);
-            QStringList subPath;
+            const auto splitPath = Core::FileUtil::splitPath(_p->path.toStdString());
+            std::vector<std::string> subPath;
             for (int i = 0; i < splitPath.size(); ++i)
             {
-                auto action = new QAction(splitPath[i], this);
+                auto action = new QAction(QString::fromStdString(splitPath[i]), this);
                 _p->actions.push_back(action);
                 _p->toolBar->addAction(action);
                 subPath.push_back(splitPath[i]);
@@ -114,7 +114,7 @@ namespace djv
                     &QAction::triggered,
                     [this, subPath]
                 {
-                    Q_EMIT pathChanged(Core::FileUtil::joinPath(subPath));
+                    Q_EMIT pathChanged(QString::fromStdString(Core::FileUtil::joinPath(subPath)));
                 });
             }
         }
@@ -132,7 +132,7 @@ namespace djv
             QPointer<QToolButton> pathEditButton;
         };
 
-        FileBrowserHeader::FileBrowserHeader(const QPointer<Context> & context, QWidget * parent) :
+        FileBrowserHeader::FileBrowserHeader(const std::shared_ptr<Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -272,7 +272,7 @@ namespace djv
             QMap<int, QListView::ViewMode> buttonToViewMode;
         };
 
-        FileBrowserFooter::FileBrowserFooter(const QPointer<Context> & context, QWidget * parent) :
+        FileBrowserFooter::FileBrowserFooter(const std::shared_ptr<Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

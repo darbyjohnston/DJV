@@ -29,17 +29,16 @@
 
 #include <djvCore/Speed.h>
 
-#include <djvCore/Util.h>
-
 #include <cmath>
+#include <vector>
 
 namespace djv
 {
     namespace Core
     {
-        const QString & Speed::getLabel(FPS value)
+        const std::string & Speed::getLabel(FPS value)
         {
-            static const std::vector<QString> data =
+            static const std::vector<std::string> data =
             {
                 "1",
                 "3",

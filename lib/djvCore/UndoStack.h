@@ -29,10 +29,9 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
-#include <QObject>
-#include <QAbstractListModel>
+#include <functional>
 
 namespace djv
 {
@@ -41,13 +40,18 @@ namespace djv
         class Context;
         class ICommand;
 
-        class UndoStack : public QObject
+        class UndoStack : public std::enable_shared_from_this<UndoStack>
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(UndoStack);
+
+        protected:
+            void _init(const std::shared_ptr<Context> &);
+            UndoStack();
 
         public:
-            UndoStack(const QPointer<Context> &);
-            ~UndoStack() override;
+            ~UndoStack();
+
+            static std::shared_ptr<UndoStack> create(const std::shared_ptr<Context> &);
 
             const std::vector<std::shared_ptr<ICommand> > & getCommands() const;
             size_t getSize() const;
@@ -58,25 +62,9 @@ namespace djv
             void redo();
             void clear();
 
-        Q_SIGNALS:
-            void stackChanged();
+            void setCallback(const std::function<void()> &);
 
         protected:
-            DJV_PRIVATE();
-        };
-
-        class UndoStackModel : public QAbstractListModel
-        {
-            Q_OBJECT
-
-        public:
-            UndoStackModel(const QPointer<UndoStack> &);
-            ~UndoStackModel() override;
-
-            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
-            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
-
-        private:
             DJV_PRIVATE();
         };
 

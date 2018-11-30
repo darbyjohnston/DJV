@@ -31,8 +31,6 @@
 
 #include <djvAV/Audio.h>
 
-#include <QString>
-
 #if defined(DJV_LINUX)
 #define __STDC_CONSTANT_MACROS
 #endif // DJV_LINUX
@@ -50,18 +48,15 @@ namespace djv
 {
     namespace AV
     {
-        class FFmpeg
+        namespace FFmpeg
         {
-        public:
-            virtual ~FFmpeg() = 0;
+            AVRational timeBaseQ();
 
-            static AVRational timeBaseQ();
+            Audio::Type fromFFmpeg(AVSampleFormat);
+            std::string toString(AVSampleFormat);
 
-            static Audio::Type fromFFmpeg(AVSampleFormat);
-            static QString toString(AVSampleFormat);
+            std::string getErrorString(int);
 
-            static QString getErrorString(int);
-        };
-
+        } // namespace FFmpeg
     } // namespace AV
 } // namespace djv

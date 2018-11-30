@@ -33,28 +33,31 @@ namespace djv
 {
     namespace AV
     {
-        const std::map<QString, QString> & ImageTags::getTags() const
+        namespace Image
         {
-            return _tags;
-        }
+            const std::map<std::string, std::string> & Tags::getTags() const
+            {
+                return _tags;
+            }
 
-        const QString & ImageTags::getTag(const QString & key) const
-        {
-            static const QString empty;
-            const auto i = _tags.find(key);
-            return i != _tags.end() ? i->second : empty;
-        }
+            const std::string & Tags::getTag(const std::string & key) const
+            {
+                static const std::string empty;
+                const auto i = _tags.find(key);
+                return i != _tags.end() ? i->second : empty;
+            }
 
-        void ImageTags::setTags(const std::map<QString, QString> & tags)
-        {
-            _tags = tags;
-        }
+            void Tags::setTags(const std::map<std::string, std::string> & tags)
+            {
+                _tags = tags;
+            }
 
-        void ImageTags::setTag(const QString & key, const QString & value)
-        {
-            _tags[key] = value;
-        }
+            void Tags::setTag(const std::string & key, const std::string & value)
+            {
+                _tags[key] = value;
+            }
 
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

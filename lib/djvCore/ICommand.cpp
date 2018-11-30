@@ -33,13 +33,23 @@ namespace djv
 {
     namespace Core
     {
-        ICommand::ICommand(const QString & name, const QPointer<Context> & context) :
+        ICommand::ICommand(const std::string & name, const std::shared_ptr<Context> & context) :
             _name(name),
             _context(context)
         {}
 
         ICommand::~ICommand()
         {}
+
+        const std::weak_ptr<Context> & ICommand::getContext() const
+        {
+            return _context;
+        }
+
+        const std::string & ICommand::getName() const
+        {
+            return _name;
+        }
 
     } // namespace Core
 } // namespace djv

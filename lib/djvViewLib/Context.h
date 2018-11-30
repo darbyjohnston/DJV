@@ -37,11 +37,16 @@ namespace djv
     {        
         class Context : public UI::Context
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(Context);
+
+        protected:
+            void _init(int &, char **);
+            Context();
 
         public:
-            Context(int &, char **);
             ~Context() override;
+
+            static std::shared_ptr<Context> create(int &, char **);
 
         private:
             DJV_PRIVATE();

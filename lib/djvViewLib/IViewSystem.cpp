@@ -40,24 +40,39 @@ namespace djv
     {
         struct IViewSystem::Private
         {
+            std::weak_ptr<Context> context;
+            std::string name;
         };
         
-        IViewSystem::IViewSystem(const QString & name, const QPointer<Context> & context, QObject * parent) :
-            Core::ISystem(name, context.data(), parent),
+        IViewSystem::IViewSystem(const std::string & name, const std::shared_ptr<Context> & context, QObject * parent) :
+            QObject(parent),
             _p(new Private)
-        {}
+        {
+            _p->context = context;
+            _p->name = name;
+        }
         
         IViewSystem::~IViewSystem()
         {}
+
+        const std::weak_ptr<Context> & IViewSystem::getContext() const
+        {
+            return _p->context;
+        }
+
+        const std::string & IViewSystem::getName() const
+        {
+            return _p->name;
+        }
 
         QPointer<QMenu> IViewSystem::createMenu()
         {
             return nullptr;
         }
 
-        QString IViewSystem::getMenuSortKey() const
+        std::string IViewSystem::getMenuSortKey() const
         {
-            return getName();
+            return _p->name;
         }
 
         QPointer<QDockWidget> IViewSystem::createDockWidget()
@@ -65,9 +80,9 @@ namespace djv
             return nullptr;
         }
 
-        QString IViewSystem::getDockWidgetSortKey() const
+        std::string IViewSystem::getDockWidgetSortKey() const
         {
-            return getName();
+            return _p->name;
         }
 
         Qt::DockWidgetArea IViewSystem::getDockWidgetArea() const

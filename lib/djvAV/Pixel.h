@@ -29,22 +29,20 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
-#include <QMetaType>
 #include <QOpenGLFunctions_3_3_Core>
 
 #include <OpenEXR/half.h>
+
+#include <limits>
 
 namespace djv
 {
     namespace AV
     {
-        class Pixel
+        namespace Image
         {
-            Q_GADGET
-
-        public:
             typedef uint8_t   U8_T;
             typedef uint16_t U10_T;
             typedef uint16_t U16_T;
@@ -52,18 +50,18 @@ namespace djv
             typedef half     F16_T;
             typedef float    F32_T;
 
-            static const U8_T   u8Min;
-            static const U8_T   u8Max;
-            static const U10_T u10Min;
-            static const U10_T u10Max;
-            static const U16_T u16Min;
-            static const U16_T u16Max;
-            static const U32_T u32Min;
-            static const U32_T u32Max;
-            static const F16_T f16Min;
-            static const F16_T f16Max;
-            static const F32_T f32Min;
-            static const F32_T f32Max;
+            const U8_T   u8Min = std::numeric_limits<uint8_t>::min();
+            const U8_T   u8Max = std::numeric_limits<uint8_t>::max();
+            const U10_T u10Min = 0;
+            const U10_T u10Max = 1023;
+            const U16_T u16Min = std::numeric_limits<uint16_t>::min();
+            const U16_T u16Max = std::numeric_limits<uint16_t>::max();
+            const U32_T u32Min = std::numeric_limits<uint32_t>::min();
+            const U32_T u32Max = std::numeric_limits<uint32_t>::max();
+            const F16_T f16Min = 0.f;
+            const F16_T f16Max = 1.f;
+            const F32_T f32Min = 0.f;
+            const F32_T f32Max = 1.f;
 
             struct U10_S_MSB
             {
@@ -85,63 +83,68 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
-            inline Pixel();
-            inline Pixel(GLenum format, GLenum type);
+            class Pixel
+            {
+            public:
 
-            inline GLenum getFormat() const;
-            inline GLenum getType() const;
-            inline bool isValid() const;
+                inline Pixel();
+                inline Pixel(GLenum format, GLenum type);
 
-            inline size_t getChannelCount() const;
-            inline size_t getBitDepth() const;
-            inline size_t getByteCount() const;
+                inline GLenum getFormat() const;
+                inline GLenum getType() const;
+                inline bool isValid() const;
 
-            static inline Pixel getIntPixel(int channels, int bitDepth);
-            static inline Pixel getFloatPixel(int channels, int bitDepth);
+                inline size_t getChannelCount() const;
+                inline size_t getBitDepth() const;
+                inline size_t getByteCount() const;
 
-            static QString getPixelLabel(const Pixel &);
+                inline bool operator == (const Pixel &) const;
+                inline bool operator != (const Pixel &) const;
+                inline bool operator < (const Pixel &) const;
 
-            static inline void U8ToU10(U8_T, U10_T &);
-            static inline void U8ToU16(U8_T, U16_T &);
-            static inline void U8ToU32(U8_T, U32_T &);
-            static inline void U8ToF16(U8_T, F16_T &);
-            static inline void U8ToF32(U8_T, F32_T &);
+            private:
+                GLenum _format = 0;
+                GLenum _type = 0;
+            };
 
-            static inline void U16ToU8(U16_T, U8_T &);
-            static inline void U16ToU10(U16_T, U10_T &);
-            static inline void U16ToU32(U16_T, U32_T &);
-            static inline void U16ToF16(U16_T, F16_T &);
-            static inline void U16ToF32(U16_T, F32_T &);
+            inline Pixel getIntPixel(int channels, int bitDepth);
+            inline Pixel getFloatPixel(int channels, int bitDepth);
 
-            static inline void U10ToU8(U16_T, U8_T &);
-            static inline void U10ToU16(U16_T, U10_T &);
-            static inline void U10ToU32(U16_T, U32_T &);
-            static inline void U10ToF16(U16_T, F16_T &);
-            static inline void U10ToF32(U16_T, F32_T &);
+            QString getPixelLabel(const Pixel &);
 
-            static inline void U32ToU8(U32_T, U8_T &);
-            static inline void U32ToU10(U32_T, U10_T &);
-            static inline void U32ToU16(U32_T, U16_T &);
-            static inline void U32ToF16(U32_T, F16_T &);
-            static inline void U32ToF32(U32_T, F32_T &);
+            inline void U8ToU10(U8_T, U10_T &);
+            inline void U8ToU16(U8_T, U16_T &);
+            inline void U8ToU32(U8_T, U32_T &);
+            inline void U8ToF16(U8_T, F16_T &);
+            inline void U8ToF32(U8_T, F32_T &);
 
-            static inline void F32ToU8(F32_T, U8_T &);
-            static inline void F32ToU10(F32_T, U10_T &);
-            static inline void F32ToU16(F32_T, U16_T &);
-            static inline void F32ToU32(F32_T, U32_T &);
-            static inline void F32ToF16(F32_T, F16_T &);
+            inline void U16ToU8(U16_T, U8_T &);
+            inline void U16ToU10(U16_T, U10_T &);
+            inline void U16ToU32(U16_T, U32_T &);
+            inline void U16ToF16(U16_T, F16_T &);
+            inline void U16ToF32(U16_T, F32_T &);
 
-            static std::vector<uint8_t> convert(const std::vector<uint8_t> &, const Pixel &, const Pixel &);
+            inline void U10ToU8(U16_T, U8_T &);
+            inline void U10ToU16(U16_T, U10_T &);
+            inline void U10ToU32(U16_T, U32_T &);
+            inline void U10ToF16(U16_T, F16_T &);
+            inline void U10ToF32(U16_T, F32_T &);
 
-            inline bool operator == (const Pixel &) const;
-            inline bool operator != (const Pixel &) const;
-            inline bool operator < (const Pixel &) const;
+            inline void U32ToU8(U32_T, U8_T &);
+            inline void U32ToU10(U32_T, U10_T &);
+            inline void U32ToU16(U32_T, U16_T &);
+            inline void U32ToF16(U32_T, F16_T &);
+            inline void U32ToF32(U32_T, F32_T &);
 
-        private:
-            GLenum _format = 0;
-            GLenum _type   = 0;
-        };
+            inline void F32ToU8(F32_T, U8_T &);
+            inline void F32ToU10(F32_T, U10_T &);
+            inline void F32ToU16(F32_T, U16_T &);
+            inline void F32ToU32(F32_T, U32_T &);
+            inline void F32ToF16(F32_T, F16_T &);
 
+            std::vector<uint8_t> convert(const std::vector<uint8_t> &, const Pixel &, const Pixel &);
+
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

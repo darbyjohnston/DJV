@@ -29,22 +29,19 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
-
-#include <QMetaType>
+#include <djvCore/Core.h>
 
 #include <AL/al.h>
 #include <AL/alc.h>
+
+#include <limits>
 
 namespace djv
 {
     namespace AV
     {
-        class Audio
+        namespace Audio
         {
-            Q_GADGET
-
-        public:
             //! This enumeration provides the audio data types.
             enum class Type
             {
@@ -56,43 +53,46 @@ namespace djv
 
                 Count
             };
-            Q_ENUM(Type);
-            static const QString & getLabel(Type);
+            DJV_ENUM_HELPERS(Type);
 
             typedef uint8_t  U8_T;
             typedef int16_t S16_T;
             typedef int32_t S32_T;
             typedef float   F32_T;
 
-            static const U8_T   u8Min;
-            static const U8_T   u8Max;
-            static const S16_T s16Min;
-            static const S16_T s16Max;
-            static const S32_T s32Min;
-            static const S32_T s32Max;
-            static const F32_T f32Min;
-            static const F32_T f32Max;
+            const U8_T   u8Min = std::numeric_limits<uint8_t>::min();
+            const U8_T   u8Max = std::numeric_limits<uint8_t>::max();
+            const S16_T s16Min = std::numeric_limits<int16_t>::min();
+            const S16_T s16Max = std::numeric_limits<int16_t>::max();
+            const S32_T s32Min = std::numeric_limits<int32_t>::min();
+            const S32_T s32Max = std::numeric_limits<int32_t>::max();
+            const F32_T f32Min = -1.f;
+            const F32_T f32Max = 1.f;
 
-            static inline size_t getByteCount(Type);
-            static inline Type getIntType(size_t);
-            static inline Type getFloatType(size_t);
-            static inline ALenum getALType(size_t channels, Type);
-            static QString getALErrorString(ALenum);
+            inline size_t getByteCount(Type);
+            inline Type getIntType(size_t);
+            inline Type getFloatType(size_t);
 
-            static inline void convert(U8_T, S16_T &);
-            static inline void convert(U8_T, S32_T &);
-            static inline void convert(U8_T, F32_T &);
-            static inline void convert(S16_T, U8_T &);
-            static inline void convert(S16_T, S32_T &);
-            static inline void convert(S16_T, F32_T &);
-            static inline void convert(S32_T, U8_T &);
-            static inline void convert(S32_T, S16_T &);
-            static inline void convert(S32_T, F32_T &);
-            static inline void convert(F32_T, U8_T &);
-            static inline void convert(F32_T, S16_T &);
-            static inline void convert(F32_T, S32_T &);
-        };
+            inline ALenum getALType(size_t channels, Type);
+            std::string getALErrorString(ALenum);
 
+            inline void U8ToS16(U8_T, S16_T &);
+            inline void U8ToS32(U8_T, S32_T &);
+            inline void U8ToF32(U8_T, F32_T &);
+
+            inline void S16ToU8(S16_T, U8_T &);
+            inline void S16ToS32(S16_T, S32_T &);
+            inline void S16ToF32(S16_T, F32_T &);
+
+            inline void S32ToU8(S32_T, U8_T &);
+            inline void S32ToS16(S32_T, S16_T &);
+            inline void S32ToF32(S32_T, F32_T &);
+
+            inline void F32ToU8(F32_T, U8_T &);
+            inline void F32ToS16(F32_T, S16_T &);
+            inline void F32ToS32(F32_T, S32_T &);
+
+        } // namespace Audio
     } // namespace AV
 } // namespace djv
 

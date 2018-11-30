@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <QPointer>
+#include <djvCore/Core.h>
 
 namespace djv
 {
@@ -40,19 +40,18 @@ namespace djv
         class ICommand
         {
         public:
-            ICommand(const QString & name, const QPointer<Context> &);
+            ICommand(const std::string & name, const std::shared_ptr<Context> &);
             virtual ~ICommand() = 0;
 
-            const QString & getName() const { return _name; }
+            const std::weak_ptr<Context> & getContext() const;
+            const std::string & getName() const;
 
             virtual void exec() = 0;
             virtual void undo() = 0;
 
-        protected:
-            QPointer<Context> _context;
-
         private:
-            QString _name;
+            std::shared_ptr<Context> _context;
+            std::string _name;
         };
 
     } // namespace Core

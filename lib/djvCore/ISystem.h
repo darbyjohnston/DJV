@@ -29,10 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
-
-#include <QObject>
-#include <QPointer>
+#include <djvCore/Core.h>
 
 namespace djv
 {
@@ -40,16 +37,17 @@ namespace djv
     {
         class Context;
         
-        class ISystem : public QObject
+        class ISystem : public std::enable_shared_from_this<ISystem>
         {
-            Q_OBJECT
+        protected:
+            void _init(const std::string & name, const std::shared_ptr<Context> &);
 
         public:
-            ISystem(const QString & name, const QPointer<Context> &, QObject * parent = nullptr);
+            ISystem();
             virtual ~ISystem() = 0;
 
-            const QPointer<Context> & getContext() const;
-            const QString & getName() const;
+            const std::weak_ptr<Context> & getContext() const;
+            const std::string & getName() const;
                         
         private:
             DJV_PRIVATE();

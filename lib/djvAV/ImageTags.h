@@ -29,10 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
-
-#include <QMetaType>
-#include <QString>
+#include <djvCore/Core.h>
 
 #include <map>
 
@@ -40,20 +37,21 @@ namespace djv
 {
     namespace AV
     {
-        class ImageTags
+        namespace Image
         {
-            Q_GADGET
+            class Tags
+            {
+            public:
+                const std::map<std::string, std::string> & getTags() const;
+                const std::string & getTag(const std::string & key) const;
 
-        public:
-            const std::map<QString, QString> & getTags() const;
-            const QString & getTag(const QString & key) const;
+                void setTags(const std::map<std::string, std::string> &);
+                void setTag(const std::string & key, const std::string & value);
 
-            void setTags(const std::map<QString, QString> &);
-            void setTag(const QString & key, const QString & value);
+            private:
+                std::map<std::string, std::string> _tags;
+            };
 
-        private:
-            std::map<QString, QString> _tags;
-        };
-
+        } // namespace Image
     } // namespace AV
 } // namespace djv

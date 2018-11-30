@@ -56,7 +56,7 @@ namespace djv
             QPointer<FileBrowserFooter> footer;
         };
 
-        FileBrowserWidget::FileBrowserWidget(const QPointer<Context> & context, QWidget * parent) :
+        FileBrowserWidget::FileBrowserWidget(const std::shared_ptr<Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {

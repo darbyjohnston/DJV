@@ -29,9 +29,10 @@
 
 #include <djvCore/UndoStack.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/ICommand.h>
 
-#include <QColor>
+#include <vector>
 
 namespace djv
 {
@@ -41,14 +42,25 @@ namespace djv
         {
             std::vector<std::shared_ptr<ICommand> > commands;
             int64_t currentIndex = -1;
+            std::function<void()> callback;
         };
 
-        UndoStack::UndoStack(const QPointer<Context> & context) :
+        void UndoStack::_init(const std::shared_ptr<Context> & context)
+        {}
+
+        UndoStack::UndoStack() :
             _p(new Private)
         {}
 
         UndoStack::~UndoStack()
         {}
+
+        std::shared_ptr<UndoStack> UndoStack::create(const std::shared_ptr<Context> & context)
+        {
+            auto out = std::shared_ptr<UndoStack>(new UndoStack);
+            out->_init(context);
+            return out;
+        }
 
         const std::vector<std::shared_ptr<ICommand> > & UndoStack::getCommands() const
         {
@@ -74,7 +86,10 @@ namespace djv
             _p->commands.push_back(command);
             ++_p->currentIndex;
             command->exec();
-            Q_EMIT stackChanged();
+            if (_p->callback)
+            {
+                _p->callback();
+            }
         }
 
         void UndoStack::undo()
@@ -83,7 +98,10 @@ namespace djv
             {
                 _p->commands[_p->currentIndex]->undo();
                 --_p->currentIndex;
-                Q_EMIT stackChanged();
+                if (_p->callback)
+                {
+                    _p->callback();
+                }
             }
         }
 
@@ -93,7 +111,10 @@ namespace djv
             {
                 ++_p->currentIndex;
                 _p->commands[_p->currentIndex]->exec();
-                Q_EMIT stackChanged();
+                if (_p->callback)
+                {
+                    _p->callback();
+                }
             }
         }
 
@@ -103,45 +124,11 @@ namespace djv
             {
                 _p->commands.clear();
                 _p->currentIndex = -1;
-                Q_EMIT stackChanged();
-            }
-        }
-
-        struct UndoStackModel::Private
-        {
-            QPointer<UndoStack> undoStack;
-        };
-
-        UndoStackModel::UndoStackModel(const QPointer<UndoStack> & undoStack) :
-            _p(new Private)
-        {
-            _p->undoStack = undoStack;
-        }
-
-        UndoStackModel::~UndoStackModel()
-        {}
-
-        int UndoStackModel::rowCount(const QModelIndex & parent) const
-        {
-            return static_cast<int>(_p->undoStack->getSize());
-        }
-
-        QVariant UndoStackModel::data(const QModelIndex & index, int role) const
-        {
-            if (!index.isValid())
-                return QVariant();
-            if (Qt::DisplayRole == role)
-            {
-                return _p->undoStack->getCommands()[index.row()]->getName();
-            }
-            else if (Qt::DecorationRole == role)
-            {
-                if (index.row() == _p->undoStack->getCurrentIndex())
+                if (_p->callback)
                 {
-                    return QColor(255, 0, 0);
+                    _p->callback();
                 }
             }
-            return QVariant();
         }
 
     } // namespace Core

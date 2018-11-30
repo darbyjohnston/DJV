@@ -36,24 +36,24 @@ namespace djv
         Error::Error()
         {}
 
-        Error::Error(const QString & context, const QString & text) :
+        Error::Error(const std::string & context, const std::string & text) :
             _context(context),
             _text(text)
         {}
 
-        const QString & Error::getContext() const
+        const std::string & Error::getContext() const
         {
             return _context;
         }
 
-        const QString & Error::getText() const
+        const std::string & Error::getText() const
         {
             return _text;
         }
 
         const char * Error::what() const noexcept
         {
-            return _text.toLatin1().data();
+            return _text.c_str();
         }
         
     } // namespace Core

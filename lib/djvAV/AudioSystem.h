@@ -41,11 +41,16 @@ namespace djv
 
         class AudioSystem : public Core::ISystem
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(AudioSystem);
+
+        protected:
+            void _init(const std::shared_ptr<Context> &);
+            AudioSystem();
 
         public:
-            AudioSystem(const QPointer<Context> &, QObject * parent = nullptr);
             ~AudioSystem() override;
+
+            static std::shared_ptr<AudioSystem> create(const std::shared_ptr<Context> &);
 
             ALCdevice * getALDevice() const;
             ALCcontext * getALContext() const;

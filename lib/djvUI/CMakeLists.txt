@@ -18,7 +18,6 @@ set(source
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${OPENGL_INCLUDE_DIRS})
 add_library(djvUI ${header} ${source} ${mocSource} ${qmSource})
 target_link_libraries(djvUI djvAV)
 set_target_properties(

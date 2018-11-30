@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Util.h>
+#include <djvCore/Core.h>
 
 #include <QPointer>
 #include <QProxyStyle>
@@ -45,7 +45,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            ProxyStyle(const QPointer<Context> &);
+            ProxyStyle(const std::shared_ptr<Context> &);
             ~ProxyStyle() override;
 
         private:

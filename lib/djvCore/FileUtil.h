@@ -29,22 +29,33 @@
 
 #pragma once
 
-#include <QStringList>
+#include <djvCore/Core.h>
 
 namespace djv
 {
     namespace Core
     {
-        class FileUtil
+        namespace FileUtil
         {
-        public:
-            virtual ~FileUtil() = 0;
-
-            static const QChar nativeSeparator;
-
-            static QStringList splitPath(const QString &);
-            static QString joinPath(QStringList);
+#if defined(DJV_WINDOWS)
+            const char nativeSeparator = '\\';
+            const std::vector<char> separators =
+            {
+                '\\',
+                '/'
         };
+#else
+            const char nativeSeparator = '/';
+            const std::vector<char> separators =
+            {
+                '/',
+                '\\'
+            };
+#endif
 
+            std::vector<std::string> splitPath(const std::string &);
+            std::string joinPath(std::vector<std::string>);
+
+        } // namespace FileUtil
     } // namespace Core
 } // namespace djv
