@@ -4,6 +4,7 @@ set(header
     Context.h
     ContextInline.h
     Core.h
+    Enum.h
     Error.h
     FileUtil.h
     ICommand.h

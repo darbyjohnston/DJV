@@ -29,6 +29,7 @@
 
 #include <djvCore/Memory.h>
 
+#include <algorithm>
 #include <sstream>
 
 namespace djv
@@ -65,11 +66,6 @@ namespace djv
                 return ss.str();
             }
 
-            DJV_ENUM_HELPERS_IMPL(
-                Endian,
-                DJV_TEXT("MSB"),
-                DJV_TEXT("LSB"));
-
             Endian getEndian()
             {
                 static const int tmp = 1;
@@ -79,4 +75,11 @@ namespace djv
 
         } // namespace Memory
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::Memory::,
+        Endian,
+        DJV_TEXT("MSB"),
+        DJV_TEXT("LSB"));
+
 } // namespace djv

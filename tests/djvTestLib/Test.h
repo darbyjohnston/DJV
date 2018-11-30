@@ -27,6 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
 #include <djvCore/Core.h>
 
 namespace djv
@@ -49,6 +51,9 @@ namespace djv
             const std::string & getName() const;
             
             virtual void run(int & argc, char ** argv) = 0;
+
+        protected:
+            void _print(const std::string &);
 
         private:
             DJV_PRIVATE();

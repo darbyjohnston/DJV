@@ -29,20 +29,15 @@
 
 #include <djvAV/Audio.h>
 
+#include <algorithm>
+#include <sstream>
+
 namespace djv
 {
     namespace AV
     {
         namespace Audio
         {
-            DJV_ENUM_HELPERS_IMPL(
-                Type,
-                DJV_TEXT("None"),
-                DJV_TEXT("U8"),
-                DJV_TEXT("S16"),
-                DJV_TEXT("S32"),
-                DJV_TEXT("F32"));
-
             std::string Audio::getALErrorString(ALenum value)
             {
                 std::string out = DJV_TEXT("Unknown");
@@ -58,5 +53,15 @@ namespace djv
 
         } // namespace Audio
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Audio::,
+        Type,
+        DJV_TEXT("None"),
+        DJV_TEXT("U8"),
+        DJV_TEXT("S16"),
+        DJV_TEXT("S32"),
+        DJV_TEXT("F32"));
+
 } // namespace djv
 

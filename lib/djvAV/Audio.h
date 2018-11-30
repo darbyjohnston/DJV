@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Enum.h>
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -60,14 +60,14 @@ namespace djv
             typedef int32_t S32_T;
             typedef float   F32_T;
 
-            const U8_T   u8Min = std::numeric_limits<uint8_t>::min();
-            const U8_T   u8Max = std::numeric_limits<uint8_t>::max();
-            const S16_T s16Min = std::numeric_limits<int16_t>::min();
-            const S16_T s16Max = std::numeric_limits<int16_t>::max();
-            const S32_T s32Min = std::numeric_limits<int32_t>::min();
-            const S32_T s32Max = std::numeric_limits<int32_t>::max();
-            const F32_T f32Min = -1.f;
-            const F32_T f32Max = 1.f;
+            const U8_T   U8Min = std::numeric_limits<uint8_t>::min();
+            const U8_T   U8Max = std::numeric_limits<uint8_t>::max();
+            const S16_T S16Min = std::numeric_limits<int16_t>::min();
+            const S16_T S16Max = std::numeric_limits<int16_t>::max();
+            const S32_T S32Min = std::numeric_limits<int32_t>::min();
+            const S32_T S32Max = std::numeric_limits<int32_t>::max();
+            const F32_T F32Min = -1.f;
+            const F32_T F32Max =  1.f;
 
             inline size_t getByteCount(Type);
             inline Type getIntType(size_t);
@@ -94,6 +94,9 @@ namespace djv
 
         } // namespace Audio
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Audio::Type);
+
 } // namespace djv
 
 #include <djvAV/AudioInline.h>

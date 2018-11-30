@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Enum.h>
 
 namespace djv
 {
@@ -88,6 +88,9 @@ namespace djv
 
         } // namespace Memory
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Memory::Endian);
+
 } // namespace djv
 
 #include <djvCore/MemoryInline.h>

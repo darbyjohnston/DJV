@@ -65,8 +65,8 @@ namespace djv
             {}
 
             inline Pixel::Pixel(GLenum format, GLenum type) :
-                _format(_format),
-                _type(_type)
+                _format(format),
+                _type(type)
             {}
 
             inline GLenum Pixel::getFormat() const
@@ -224,6 +224,11 @@ namespace djv
                 return Pixel();
             }
 
+            inline void U8ToU10(U8_T in, U10_T & out)
+            {
+                out = in << 2;
+            }
+
             inline void U8ToU16(U8_T in, U16_T & out)
             {
                 out = in << 8;
@@ -236,17 +241,47 @@ namespace djv
 
             inline void U8ToF16(U8_T in, F16_T & out)
             {
-                out = in / static_cast<float>(u8Max);
+                out = in / static_cast<float>(U8Max);
             }
 
             inline void U8ToF32(U8_T in, F32_T & out)
             {
-                out = in / static_cast<float>(u8Max);
+                out = in / static_cast<float>(U8Max);
+            }
+
+            inline void U10ToU8(U10_T in, U8_T & out)
+            {
+                out = in >> 2;
+            }
+
+            inline void U10ToU16(U10_T in, U16_T & out)
+            {
+                out = in << 6;
+            }
+
+            inline void U10ToU32(U10_T in, U32_T & out)
+            {
+                out = in << 22;
+            }
+
+            inline void U10ToF16(U10_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(U10Max);
+            }
+
+            inline void U10ToF32(U10_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(U10Max);
             }
 
             inline void U16ToU8(U16_T in, U8_T & out)
             {
                 out = in >> 8;
+            }
+
+            inline void U16ToU10(U16_T in, U10_T & out)
+            {
+                out = in >> 6;
             }
 
             inline void U16ToU32(U16_T in, U32_T & out)
@@ -256,17 +291,22 @@ namespace djv
 
             inline void U16ToF16(U16_T in, F16_T & out)
             {
-                out = in / static_cast<float>(u16Max);
+                out = in / static_cast<float>(U16Max);
             }
 
             inline void U16ToF32(U16_T in, F32_T & out)
             {
-                out = in / static_cast<float>(u16Max);
+                out = in / static_cast<float>(U16Max);
             }
 
             inline void U32ToU8(U32_T in, U8_T & out)
             {
                 out = in >> 24;
+            }
+
+            inline void U32ToU10(U32_T in, U10_T & out)
+            {
+                out = in >> 22;
             }
 
             inline void U32ToU16(U32_T in, U16_T & out)
@@ -276,36 +316,81 @@ namespace djv
 
             inline void U32ToF16(U32_T in, F16_T & out)
             {
-                out = in / static_cast<float>(u32Max);
+                out = in / static_cast<float>(U32Max);
             }
 
             inline void U32ToF32(U32_T in, F32_T & out)
             {
-                out = in / static_cast<float>(u32Max);
+                out = in / static_cast<float>(U32Max);
+            }
+
+            inline void F16ToU8(F16_T in, U8_T & out)
+            {
+                out = static_cast<U8_T>(Core::Math::clamp(
+                    static_cast<uint16_t>(in * U8Max),
+                    static_cast<uint16_t>(U8Min),
+                    static_cast<uint16_t>(U8Max)));
+            }
+
+            inline void F16ToU10(F16_T in, U10_T & out)
+            {
+                out = static_cast<U10_T>(Core::Math::clamp(
+                    static_cast<uint16_t>(in * U10Max),
+                    static_cast<uint16_t>(U10Min),
+                    static_cast<uint16_t>(U10Max)));
+            }
+
+            inline void F16ToU16(F16_T in, U16_T & out)
+            {
+                out = static_cast<U16_T>(Core::Math::clamp(
+                    static_cast<uint32_t>(in * U16Max),
+                    static_cast<uint32_t>(U16Min),
+                    static_cast<uint32_t>(U16Max)));
+            }
+
+            inline void F16ToU32(F16_T in, U32_T & out)
+            {
+                out = static_cast<U32_T>(Core::Math::clamp(
+                    static_cast<uint64_t>(in * U32Max),
+                    static_cast<uint64_t>(U32Min),
+                    static_cast<uint64_t>(U32Max)));
+            }
+
+            inline void F16ToF32(F16_T in, F32_T & out)
+            {
+                out = in;
             }
 
             inline void F32ToU8(F32_T in, U8_T & out)
             {
                 out = static_cast<U8_T>(Core::Math::clamp(
-                    static_cast<uint16_t>(in * u8Max),
-                    static_cast<uint16_t>(u8Min),
-                    static_cast<uint16_t>(u8Max)));
+                    static_cast<uint16_t>(in * U8Max),
+                    static_cast<uint16_t>(U8Min),
+                    static_cast<uint16_t>(U8Max)));
+            }
+
+            inline void F32ToU10(F32_T in, U10_T & out)
+            {
+                out = static_cast<U10_T>(Core::Math::clamp(
+                    static_cast<uint16_t>(in * U10Max),
+                    static_cast<uint16_t>(U10Min),
+                    static_cast<uint16_t>(U10Max)));
             }
 
             inline void F32ToU16(F32_T in, U16_T & out)
             {
-                out = static_cast<U8_T>(Core::Math::clamp(
-                    static_cast<uint32_t>(in * u16Max),
-                    static_cast<uint32_t>(u16Min),
-                    static_cast<uint32_t>(u16Max)));
+                out = static_cast<U16_T>(Core::Math::clamp(
+                    static_cast<uint32_t>(in * U16Max),
+                    static_cast<uint32_t>(U16Min),
+                    static_cast<uint32_t>(U16Max)));
             }
 
             inline void F32ToU32(F32_T in, U32_T & out)
             {
-                out = static_cast<U8_T>(Core::Math::clamp(
-                    static_cast<uint64_t>(in * u32Max),
-                    static_cast<uint64_t>(u32Min),
-                    static_cast<uint64_t>(u32Max)));
+                out = static_cast<U32_T>(Core::Math::clamp(
+                    static_cast<uint64_t>(in * U32Max),
+                    static_cast<uint64_t>(U32Min),
+                    static_cast<uint64_t>(U32Max)));
             }
 
             inline void F32ToF16(F32_T in, F16_T & out)

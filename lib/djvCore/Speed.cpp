@@ -29,38 +29,14 @@
 
 #include <djvCore/Speed.h>
 
+#include <algorithm>
 #include <cmath>
-#include <vector>
+#include <sstream>
 
 namespace djv
 {
     namespace Core
     {
-        const std::string & Speed::getLabel(FPS value)
-        {
-            static const std::vector<std::string> data =
-            {
-                "1",
-                "3",
-                "6",
-                "12",
-                "15",
-                "16",
-                "18",
-                "23.976",
-                "24",
-                "25",
-                "29.97",
-                "30",
-                "50",
-                "59.94",
-                "60",
-                "120"
-            };
-            DJV_ASSERT(static_cast<size_t>(FPS::Count) == data.size());
-            return data[static_cast<size_t>(value)];
-        }
-
         namespace
         {
             Speed::FPS _globalSpeed = Speed::getDefaultSpeed();
@@ -174,4 +150,25 @@ namespace djv
         }
 
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::Speed::,
+        FPS,
+        "1",
+        "3",
+        "6",
+        "12",
+        "15",
+        "16",
+        "18",
+        "23.976",
+        "24",
+        "25",
+        "29.97",
+        "30",
+        "50",
+        "59.94",
+        "60",
+        "120");
+
 } // namespace djv

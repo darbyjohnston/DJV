@@ -21,15 +21,6 @@ set(header
     PixelInline.h
     Image.h
     ImageTags.h)
-set(mocHeader
-    Audio.h
-    AudioData.h
-    AudioSystem.h
-    Color.h
-    Context.h
-    IO.h
-    Pixel.h
-    PixelData.h)
 set(source
     Audio.cpp
     AudioData.cpp
@@ -43,9 +34,7 @@ set(source
     Image.cpp
     ImageTags.cpp)
 
-QT5_WRAP_CPP(mocSource ${mocHeader})
-
-add_library(djvAV ${header} ${source} ${mocSource} ${qmSource})
+add_library(djvAV ${header} ${source})
 target_link_libraries(
     djvAV
     djvCore

@@ -31,36 +31,75 @@
 
 namespace djv
 {
-    namespace AV
+    namespace
     {
-        namespace Image
+        const std::map<GLenum, std::string> formatLabel =
         {
-            QString getPixelLabel(const Pixel& pixel)
-            {
-                static const std::map<GLenum, QString> formatLabel =
-                {
-                    { GL_RED,  DJV_TEXT("L") },
-                    { GL_RG,   DJV_TEXT("LA") },
-                    { GL_RGB,  DJV_TEXT("RGB") },
-                    { GL_RGBA, DJV_TEXT("RGBA") }
-                };
-                static const std::map<GLenum, QString> typeLabel =
-                {
-                    { GL_UNSIGNED_BYTE,           DJV_TEXT("U8") },
-                    { GL_UNSIGNED_INT_10_10_10_2, DJV_TEXT("U10") },
-                    { GL_UNSIGNED_SHORT,          DJV_TEXT("U16") },
-                    { GL_UNSIGNED_INT,            DJV_TEXT("U32") },
-                    { GL_HALF_FLOAT,              DJV_TEXT("F16") },
-                    { GL_FLOAT,                   DJV_TEXT("F32") }
-                };
-                const auto i = formatLabel.find(pixel.getFormat());
-                const auto j = typeLabel.find(pixel.getType());
-                return i != formatLabel.end() && j != typeLabel.end() ?
-                    (i->second + " " + j->second) :
-                    DJV_TEXT("None");
-            }
+            { GL_NONE, DJV_TEXT("None") },
+            { GL_RED,  DJV_TEXT("L") },
+            { GL_RG,   DJV_TEXT("LA") },
+            { GL_RGB,  DJV_TEXT("RGB") },
+            { GL_RGBA, DJV_TEXT("RGBA") }
+        };
+        const std::map<GLenum, std::string> typeLabel =
+        {
+            { GL_NONE,                    DJV_TEXT("None") },
+            { GL_UNSIGNED_BYTE,           DJV_TEXT("U8") },
+            { GL_UNSIGNED_INT_10_10_10_2, DJV_TEXT("U10") },
+            { GL_UNSIGNED_SHORT,          DJV_TEXT("U16") },
+            { GL_UNSIGNED_INT,            DJV_TEXT("U32") },
+            { GL_HALF_FLOAT,              DJV_TEXT("F16") },
+            { GL_FLOAT,                   DJV_TEXT("F32") }
+        };
 
-        } // namespace Image
-    } // namespace AV
+    } // namespace
+
+    std::ostream & operator << (std::ostream & os, AV::Image::Pixel value)
+    {
+        const auto i = formatLabel.find(value.getFormat());
+        if (i != formatLabel.end())
+        {
+            const auto j = typeLabel.find(value.getType());
+            if (j != typeLabel.end())
+            {
+                os << i->second << " " << j->second;
+            }
+        }
+        return os;
+    }
+
+    std::istream & operator >> (std::istream & is, AV::Image::Pixel & value)
+    {
+        GLenum format = GL_NONE;
+        GLenum type = GL_NONE;
+        bool error = true;
+        std::string s;
+        is >> s;
+        for (auto i : formatLabel)
+        {
+            if (s == i.second)
+            {
+                format = i.first;
+                is >> s;
+                for (auto j : typeLabel)
+                {
+                    if (s == j.second)
+                    {
+                        type = j.first;
+                        error = false;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        if (error)
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse pixel"));
+        }
+        value = AV::Image::Pixel(format, type);
+        return is;
+    }
+
 } // namespace djv
 

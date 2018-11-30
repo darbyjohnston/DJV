@@ -50,18 +50,18 @@ namespace djv
             typedef half     F16_T;
             typedef float    F32_T;
 
-            const U8_T   u8Min = std::numeric_limits<uint8_t>::min();
-            const U8_T   u8Max = std::numeric_limits<uint8_t>::max();
-            const U10_T u10Min = 0;
-            const U10_T u10Max = 1023;
-            const U16_T u16Min = std::numeric_limits<uint16_t>::min();
-            const U16_T u16Max = std::numeric_limits<uint16_t>::max();
-            const U32_T u32Min = std::numeric_limits<uint32_t>::min();
-            const U32_T u32Max = std::numeric_limits<uint32_t>::max();
-            const F16_T f16Min = 0.f;
-            const F16_T f16Max = 1.f;
-            const F32_T f32Min = 0.f;
-            const F32_T f32Max = 1.f;
+            const U8_T   U8Min = std::numeric_limits<uint8_t>::min();
+            const U8_T   U8Max = std::numeric_limits<uint8_t>::max();
+            const U10_T U10Min = 0;
+            const U10_T U10Max = 1023;
+            const U16_T U16Min = std::numeric_limits<uint16_t>::min();
+            const U16_T U16Max = std::numeric_limits<uint16_t>::max();
+            const U32_T U32Min = std::numeric_limits<uint32_t>::min();
+            const U32_T U32Max = std::numeric_limits<uint32_t>::max();
+            const F16_T F16Min = 0.f;
+            const F16_T F16Max = 1.f;
+            const F32_T F32Min = 0.f;
+            const F32_T F32Max = 1.f;
 
             struct U10_S_MSB
             {
@@ -86,7 +86,6 @@ namespace djv
             class Pixel
             {
             public:
-
                 inline Pixel();
                 inline Pixel(GLenum format, GLenum type);
 
@@ -103,14 +102,12 @@ namespace djv
                 inline bool operator < (const Pixel &) const;
 
             private:
-                GLenum _format = 0;
-                GLenum _type = 0;
+                GLenum _format = GL_NONE;
+                GLenum _type = GL_NONE;
             };
 
             inline Pixel getIntPixel(int channels, int bitDepth);
             inline Pixel getFloatPixel(int channels, int bitDepth);
-
-            QString getPixelLabel(const Pixel &);
 
             inline void U8ToU10(U8_T, U10_T &);
             inline void U8ToU16(U8_T, U16_T &);
@@ -136,6 +133,12 @@ namespace djv
             inline void U32ToF16(U32_T, F16_T &);
             inline void U32ToF32(U32_T, F32_T &);
 
+            inline void F16ToU8(F16_T, U8_T &);
+            inline void F16ToU10(F16_T, U10_T &);
+            inline void F16ToU16(F16_T, U16_T &);
+            inline void F16ToU32(F16_T, U32_T &);
+            inline void F16ToF32(F16_T, F32_T &);
+
             inline void F32ToU8(F32_T, U8_T &);
             inline void F32ToU10(F32_T, U10_T &);
             inline void F32ToU16(F32_T, U16_T &);
@@ -146,6 +149,10 @@ namespace djv
 
         } // namespace Image
     } // namespace AV
+
+    std::ostream & operator << (std::ostream &, AV::Image::Pixel);
+    std::istream & operator >> (std::istream &, AV::Image::Pixel &);
+
 } // namespace djv
 
 #include <djvAV/PixelInline.h>

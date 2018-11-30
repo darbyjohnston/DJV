@@ -60,6 +60,11 @@ namespace djv
         {
             return _p->name;
         }
+
+        void ITest::_print(const std::string & value)
+        {
+            std::cout << _p->name << ": " << value << std::endl;
+        }
         
     } // namespace Test
 } // namespace djv

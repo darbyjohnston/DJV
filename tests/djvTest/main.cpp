@@ -27,7 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCoreTest/EnumTest.h>
 #include <djvCoreTest/MathTest.h>
+#include <djvCoreTest/MemoryTest.h>
+
+#include <djvAVTest/AudioTest.h>
+#include <djvAVTest/PixelTest.h>
 
 #include <djvAV/Context.h>
 
@@ -43,7 +48,13 @@ int main(int argc, char ** argv)
     {
         QApplication app(argc, argv);
         auto context = AV::Context::create(argc, argv);
+
+        (new CoreTest::EnumTest(context))->run(argc, argv);
         (new CoreTest::MathTest(context))->run(argc, argv);
+        (new CoreTest::MemoryTest(context))->run(argc, argv);
+
+        (new AVTest::AudioTest(context))->run(argc, argv);
+        (new AVTest::PixelTest(context))->run(argc, argv);
     }
     catch (const std::exception & error)
     {

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Enum.h>
 
 namespace djv
 {
@@ -59,7 +59,7 @@ namespace djv
 
                 Count
             };
-            static const std::string & getLabel(FPS);
+            DJV_ENUM_HELPERS(FPS);
 
             Speed();
             Speed(int scale, int duration = 1);
@@ -87,6 +87,9 @@ namespace djv
         };
 
     } // namespace Core
+
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Speed::FPS);
+
 } // namespace djv
 
 #include <djvCore/SpeedInline.h>

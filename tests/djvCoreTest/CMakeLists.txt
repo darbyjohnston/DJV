@@ -1,12 +1,13 @@
 set(header
-    MathTest.h)
-set(mocHeader)
+    EnumTest.h
+    MathTest.h
+    MemoryTest.h)
 set(source
-    MathTest.cpp)
+    EnumTest.cpp
+    MathTest.cpp
+    MemoryTest.cpp)
 
-QT5_WRAP_CPP(mocSource ${mocHeader})
-
-add_library(djvCoreTest ${header} ${source} ${mocSource} ${qmSource})
+add_library(djvCoreTest ${header} ${source})
 target_link_libraries(djvCoreTest djvTestLib)
 set_target_properties(
     djvCoreTest

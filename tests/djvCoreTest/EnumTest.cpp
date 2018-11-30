@@ -27,39 +27,64 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/EnumTest.h>
 
-#include <djvAV/Pixel.h>
+#include <djvCore/Memory.h>
+
+#include <sstream>
 
 namespace djv
 {
-    namespace AV
+    using namespace Core;
+
+    namespace CoreTest
     {
-        namespace Image
+        EnumTest::EnumTest(const std::shared_ptr<Core::Context> & context) :
+            ITest("djv::CoreTest::EnumTest", context)
+        {}
+        
+        void EnumTest::run(int & argc, char ** argv)
         {
-            class Color
             {
-            public:
-                Color();
-                Color(const Pixel &);
-                Color(U8_T, U8_T, U8_T, U8_T = U8Max);
-                Color(F32_T, F32_T, F32_T, F32_T = F32Max);
-
-                const Pixel & getPixel() const;
-
-                template<typename T>
-                inline T getChannel(size_t) const;
-
-                template<typename T>
-                inline void setChannel(size_t, T);
-
-            private:
-                Pixel _pixel;
-                std::vector<uint8_t> _data;
-            };
-
-        } // namespace Image
-    } // namespace AV
+                for (auto i : Memory::getEndianEnums())
+                {
+                    std::stringstream ss;
+                    ss << "Endian string: " << i;
+                    _print(ss.str());
+                }
+            }
+            {
+                std::stringstream ss;
+                ss << Memory::Endian::MSB;
+                Memory::Endian endian = Memory::Endian::LSB;
+                ss >> endian;
+                DJV_ASSERT(Memory::Endian::MSB == endian);
+            }
+            {
+                std::stringstream ss;
+                ss << Memory::Endian::MSB << " " << Memory::Endian::LSB;
+                Memory::Endian endian = Memory::Endian::LSB;
+                ss >> endian;
+                DJV_ASSERT(Memory::Endian::MSB == endian);
+                ss >> endian;
+                DJV_ASSERT(Memory::Endian::LSB == endian);
+            }
+            {
+                std::stringstream ss;
+                ss << "None";
+                try
+                {
+                    Memory::Endian endian = Memory::Endian::LSB;
+                    ss >> endian;
+                    DJV_ASSERT(true);
+                }
+                catch (const std::exception & e)
+                {
+                    _print(e.what());
+                }
+            }
+        }
+        
+    } // namespace CoreTest
 } // namespace djv
 
-#include <djvAV/ColorInline.h>

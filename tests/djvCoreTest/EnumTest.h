@@ -29,37 +29,20 @@
 
 #pragma once
 
-#include <djvAV/Pixel.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    namespace AV
+    namespace CoreTest
     {
-        namespace Image
+        class EnumTest : public Test::ITest
         {
-            class Color
-            {
-            public:
-                Color();
-                Color(const Pixel &);
-                Color(U8_T, U8_T, U8_T, U8_T = U8Max);
-                Color(F32_T, F32_T, F32_T, F32_T = F32Max);
-
-                const Pixel & getPixel() const;
-
-                template<typename T>
-                inline T getChannel(size_t) const;
-
-                template<typename T>
-                inline void setChannel(size_t, T);
-
-            private:
-                Pixel _pixel;
-                std::vector<uint8_t> _data;
-            };
-
-        } // namespace Image
-    } // namespace AV
+        public:
+            EnumTest(const std::shared_ptr<Core::Context> &);
+            
+            void run(int & argc, char ** argv) override;
+        };
+        
+    } // namespace CoreTest
 } // namespace djv
 
-#include <djvAV/ColorInline.h>
