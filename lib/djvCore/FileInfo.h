@@ -31,7 +31,6 @@
 
 #include <djvCore/Frame.h>
 #include <djvCore/Path.h>
-#include <djvCore/PicoJSON.h>
 
 #include <sys/types.h>
 
@@ -176,17 +175,8 @@ namespace djv
         };
     } // namespace Core
 
-    template<>
-    inline picojson::value toJSON<Core::FileInfo>(const Core::FileInfo&);
-
-    //! Throws:
-    //! - std::exception
-    template<>
-    inline void fromJSON<Core::FileInfo>(const picojson::value&, Core::FileInfo&);
-
     std::ostream& operator << (std::ostream&, const Core::FileInfo&);
-
-    DJV_ENUM_SERIALIZE_HELPERS(Core::FileType);
+    
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileType);
 
 } // namespace djv

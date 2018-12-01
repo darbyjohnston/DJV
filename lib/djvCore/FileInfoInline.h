@@ -142,35 +142,4 @@ namespace djv
         }
 
     } // namespace Core
-
-    template<>
-    inline picojson::value toJSON<Core::FileInfo>(const Core::FileInfo& value)
-    {
-        picojson::value out(picojson::array_type, true);
-        out.get<picojson::array>().push_back(toJSON(value.getPath()));
-        out.get<picojson::array>().push_back(toJSON(value.getType()));
-        return out;
-    }
-
-    template<>
-    inline void fromJSON<Core::FileInfo>(const picojson::value& value, Core::FileInfo& out)
-    {
-        if (value.is<picojson::array>() && 2 == value.get<picojson::array>().size())
-        {
-            Core::Path path;
-            fromJSON(value.get<picojson::array>()[0], path);
-            out.setPath(path);
-            Core::FileType fileType = Core::FileType::First;
-            fromJSON(value.get<picojson::array>()[1], fileType);
-            if (Core::FileType::Sequence == fileType)
-            {
-                out.evalSequence();
-            }
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
-        }
-    }
-
 } // namespace djv

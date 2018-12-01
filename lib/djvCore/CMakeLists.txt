@@ -1,5 +1,15 @@
 find_package(GLM REQUIRED)
 find_package(PicoJSON REQUIRED)
+find_package(Threads REQUIRED)
+set(LIBRARIES
+    GLM
+    PicoJSON
+    Threads::Threads
+    ${CMAKE_DL_LIBS})
+if (APPLE)
+    find_library(CORE_SERVICES CoreServices)
+    set(LIBRARIES ${LIBRARIES} ${CORE_SERVICES})
+endif()
 
 set(header
     Animation.h
@@ -19,6 +29,8 @@ set(header
     Error.h
     FileInfo.h
     FileInfoInline.h
+    FileInfoUtil.h
+    FileInfoUtilInline.h
     FileIO.h
     FileIOInline.h
     Frame.h
@@ -120,12 +132,7 @@ else()
 endif()
 
 add_library(djvCore ${header} ${source})
-target_link_libraries(
-    djvCore
-    GLM
-    PicoJSON
-    Threads::Threads
-    ${CMAKE_DL_LIBS})
+target_link_libraries(djvCore ${LIBRARIES})
 set_target_properties(
     djvCore
     PROPERTIES

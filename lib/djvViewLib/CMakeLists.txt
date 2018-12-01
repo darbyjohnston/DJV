@@ -77,5 +77,5 @@ set_target_properties(
     djvViewLib
     PROPERTIES
     FOLDER lib
-    XX_STANDARD 11)
+    CXX_STANDARD 11)
 
