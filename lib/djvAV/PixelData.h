@@ -39,6 +39,8 @@ namespace djv
 {
     namespace AV
     {
+        class Context;
+
         namespace Image
         {
             class PixelDataMirror
@@ -87,13 +89,17 @@ namespace djv
 
             public:
                 inline PixelDataInfo();
-                inline PixelDataInfo(const glm::ivec2 &, const Pixel &, const PixelDataLayout & = PixelDataLayout());
-                inline PixelDataInfo(int width, int height, const Pixel &, const PixelDataLayout & = PixelDataLayout());
+                inline PixelDataInfo(const glm::ivec2 &, Pixel, const PixelDataLayout & = PixelDataLayout());
+                inline PixelDataInfo(int width, int height, Pixel, const PixelDataLayout & = PixelDataLayout());
 
                 inline const QString & getName() const;
                 inline const glm::ivec2 & getSize() const;
+                inline int getWidth() const;
+                inline int getHeight() const;
                 inline float getAspectRatio() const;
-                inline const Pixel & getPixel() const;
+                inline Pixel getPixel() const;
+                inline GLenum getFormat() const;
+                inline GLenum getType() const;
                 inline const PixelDataLayout & getLayout() const;
                 inline bool isValid() const;
                 inline size_t getPixelByteCount() const;
@@ -115,7 +121,7 @@ namespace djv
             class PixelData
             {
                 Q_GADGET
-                    DJV_NON_COPYABLE(PixelData);
+                DJV_NON_COPYABLE(PixelData);
 
             protected:
                 void _init(const PixelDataInfo &);
@@ -131,7 +137,9 @@ namespace djv
                 inline int getWidth() const;
                 inline int getHeight() const;
                 inline float getAspectRatio() const;
-                inline const Pixel & getPixel() const;
+                inline Pixel getPixel() const;
+                inline GLenum getFormat() const;
+                inline GLenum getType() const;
                 inline const PixelDataLayout & getLayout() const;
                 inline bool isValid() const;
                 inline size_t getPixelByteCount() const;
@@ -146,6 +154,8 @@ namespace djv
                 uint8_t * getData(int x, int y);
 
                 void zero();
+
+                std::shared_ptr<PixelData> convert(const Pixel &, const std::shared_ptr<Context> &) const;
 
                 bool operator == (const PixelData &) const;
                 bool operator != (const PixelData &) const;

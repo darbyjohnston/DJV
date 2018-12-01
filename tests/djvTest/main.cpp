@@ -32,6 +32,7 @@
 #include <djvCoreTest/MemoryTest.h>
 
 #include <djvAVTest/AudioTest.h>
+#include <djvAVTest/ColorTest.h>
 #include <djvAVTest/PixelTest.h>
 
 #include <djvAV/Context.h>
@@ -56,6 +57,7 @@ int main(int argc, char ** argv)
         (new CoreTest::MemoryTest(context))->run(argc, argv);
 
         (new AVTest::AudioTest(context))->run(argc, argv);
+        (new AVTest::ColorTest(context))->run(argc, argv);
         (new AVTest::PixelTest(context))->run(argc, argv);
 
         context->exit();

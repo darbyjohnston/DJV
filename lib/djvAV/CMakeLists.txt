@@ -15,13 +15,18 @@ set(header
     FFmpeg.h
     IO.h
     IOInline.h
+    Image.h
+    ImageTags.h
     OpenGL.h
+    OpenGLMesh.h
+    OpenGLShader.h
+    OpenGLTexture.h
     Pixel.h
     PixelData.h
     PixelDataInline.h
     PixelInline.h
-    Image.h
-    ImageTags.h)
+    Shader.h
+    TriangleMesh.h)
 set(source
     Audio.cpp
     AudioData.cpp
@@ -30,10 +35,15 @@ set(source
     Color.cpp
     FFmpeg.cpp
     IO.cpp
+    Image.cpp
+    ImageTags.cpp
+    OpenGLMesh.cpp
+    OpenGLShader.cpp
+    OpenGLTexture.cpp
     Pixel.cpp
     PixelData.cpp
-    Image.cpp
-    ImageTags.cpp)
+    Shader.cpp
+    TriangleMesh.cpp)
 
 add_library(djvAV ${header} ${source})
 target_link_libraries(

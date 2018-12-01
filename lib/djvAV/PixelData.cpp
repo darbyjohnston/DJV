@@ -29,6 +29,8 @@
 
 #include <djvAV/PixelData.h>
 
+#include <djvAV/Context.h>
+
 namespace djv
 {
     namespace AV
@@ -83,11 +85,18 @@ namespace djv
                 memset(_data, 0, _dataByteCount);
             }
 
+            std::shared_ptr<PixelData> PixelData::convert(const Pixel & pixel, const std::shared_ptr<Context> & context) const
+            {
+                auto out = PixelData::create(PixelDataInfo(_info.getSize(), pixel));
+                //! \todo
+                return out;
+            }
+
             bool PixelData::operator == (const PixelData & other) const
             {
                 if (other._info == _info)
                 {
-                    if (GL_UNSIGNED_INT_10_10_10_2 == _info.getPixel().getType())
+                    if (GL_UNSIGNED_INT_10_10_10_2 == _info.getType())
                     {
                         const auto & size = _info.getSize();
                         for (int y = 0; y < size.y; ++y)

@@ -70,8 +70,7 @@ namespace djv
         private:
             void _updatePath();
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
     } // namespace Core

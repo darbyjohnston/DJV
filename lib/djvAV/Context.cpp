@@ -69,6 +69,7 @@ namespace djv
                 defaultFormat.setOption(QSurfaceFormat::DebugContext);
             }
             QSurfaceFormat::setDefaultFormat(defaultFormat);
+
             _p->offscreenSurface.reset(new QOffscreenSurface);
             QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
             surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
@@ -85,6 +86,7 @@ namespace djv
                     _p->openGLContext->format().minorVersion();
                 throw Core::Error("djv::AV::AVContext", ss.str());
             }
+
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
             std::stringstream ss;
             ss << "OpenGL context valid = " << _p->openGLContext->isValid();
@@ -103,6 +105,20 @@ namespace djv
                 throw Core::Error("djv::AV::AVContext", ss.str());
             }
 
+            _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
+            QObject::connect(
+                _p->openGLDebugLogger.data(),
+                &QOpenGLDebugLogger::messageLogged,
+                [this](const QOpenGLDebugMessage & message)
+            {
+                log("djv::AV::Context", message.message().toStdString());
+            });
+            if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
+            {
+                _p->openGLDebugLogger->initialize();
+                _p->openGLDebugLogger->startLogging();
+            }
+
             // Create the systems.
             AudioSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
         }
@@ -119,6 +135,16 @@ namespace djv
             auto out = std::shared_ptr<Context>(new Context);
             out->_init(argc, argv);
             return out;
+        }
+
+        QPointer<QOpenGLContext> Context::openGLContext() const
+        {
+            return _p->openGLContext.data();
+        }
+
+        void Context::makeGLContextCurrent()
+        {
+            _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
         }
 
     } // namespace AV

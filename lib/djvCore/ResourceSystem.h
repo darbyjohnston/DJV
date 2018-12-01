@@ -64,9 +64,8 @@ namespace djv
 
         private:
             static Path _getDocumentsPath();
-            
-            struct Private;
-            std::unique_ptr<Private> _p;
+
+            DJV_PRIVATE();
         };
 
     } // namespace Core

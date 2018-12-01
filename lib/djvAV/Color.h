@@ -29,23 +29,33 @@
 
 #pragma once
 
-#include <djvAV/Pixel.h>
+#include <djvAV/PixelData.h>
 
 namespace djv
 {
     namespace AV
     {
+        class Context;
+
         namespace Image
         {
             class Color
             {
             public:
                 Color();
-                Color(const Pixel &);
-                Color(U8_T, U8_T, U8_T, U8_T = U8Max);
-                Color(F32_T, F32_T, F32_T, F32_T = F32Max);
+                Color(Pixel);
+                Color(U8_T r, U8_T g, U8_T b, U8_T a = U8Max);
+                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
 
-                const Pixel & getPixel() const;
+                inline Pixel getPixel() const;
+                inline bool isValid() const;
+
+                void zero();
+
+                Color convert(const Pixel &, const std::shared_ptr<Context> &) const;
+
+                inline const uint8_t * getData() const;
+                inline uint8_t * getData();
 
             private:
                 Pixel _pixel;

@@ -29,89 +29,43 @@
 
 #include <djvAV/Pixel.h>
 
+#include <algorithm>
+#include <sstream>
+
 namespace djv
 {
     namespace AV
     {
         namespace Image
         {
-            void convert(const Pixel & inPixel, const void * in, const Pixel & outPixel, void * out)
-            {
-
-            }
-
         } // namespace Image
     } // namespace AV
 
-    namespace
-    {
-        const std::map<GLenum, std::string> formatLabel =
-        {
-            { GL_NONE, DJV_TEXT("None") },
-            { GL_RED,  DJV_TEXT("L") },
-            { GL_RG,   DJV_TEXT("LA") },
-            { GL_RGB,  DJV_TEXT("RGB") },
-            { GL_RGBA, DJV_TEXT("RGBA") }
-        };
-        const std::map<GLenum, std::string> typeLabel =
-        {
-            { GL_NONE,                    DJV_TEXT("None") },
-            { GL_UNSIGNED_BYTE,           DJV_TEXT("U8") },
-            { GL_UNSIGNED_INT_10_10_10_2, DJV_TEXT("U10") },
-            { GL_UNSIGNED_SHORT,          DJV_TEXT("U16") },
-            { GL_UNSIGNED_INT,            DJV_TEXT("U32") },
-            { GL_HALF_FLOAT,              DJV_TEXT("F16") },
-            { GL_FLOAT,                   DJV_TEXT("F32") }
-        };
-
-    } // namespace
-
-    std::ostream & operator << (std::ostream & os, AV::Image::Pixel value)
-    {
-        const auto i = formatLabel.find(value.getFormat());
-        if (i != formatLabel.end())
-        {
-            const auto j = typeLabel.find(value.getType());
-            if (j != typeLabel.end())
-            {
-                os << i->second << " " << j->second;
-            }
-        }
-        return os;
-    }
-
-    std::istream & operator >> (std::istream & is, AV::Image::Pixel & value)
-    {
-        GLenum format = GL_NONE;
-        GLenum type = GL_NONE;
-        bool error = true;
-        std::string s;
-        is >> s;
-        for (auto i : formatLabel)
-        {
-            if (s == i.second)
-            {
-                format = i.first;
-                is >> s;
-                for (auto j : typeLabel)
-                {
-                    if (s == j.second)
-                    {
-                        type = j.first;
-                        error = false;
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-        if (error)
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse pixel"));
-        }
-        value = AV::Image::Pixel(format, type);
-        return is;
-    }
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Image,
+        Pixel,
+        DJV_TEXT("None"),
+        DJV_TEXT("L_U8"),
+        DJV_TEXT("L_U16"),
+        DJV_TEXT("L_U32"),
+        DJV_TEXT("L_F16"),
+        DJV_TEXT("L_F32"),
+        DJV_TEXT("LA_U8"),
+        DJV_TEXT("LA_U16"),
+        DJV_TEXT("LA_U32"),
+        DJV_TEXT("LA_F16"),
+        DJV_TEXT("LA_F32"),
+        DJV_TEXT("RGB_U8"),
+        DJV_TEXT("RGB_U10"),
+        DJV_TEXT("RGB_U16"),
+        DJV_TEXT("RGB_U32"),
+        DJV_TEXT("RGB_F16"),
+        DJV_TEXT("RGB_F32"),
+        DJV_TEXT("RGBA_U8"),
+        DJV_TEXT("RGBA_U16"),
+        DJV_TEXT("RGBA_U32"),
+        DJV_TEXT("RGBA_F16"),
+        DJV_TEXT("RGBA_F32"));
 
 } // namespace djv
 

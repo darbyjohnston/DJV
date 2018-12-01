@@ -29,79 +29,40 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvAV/OpenGL.h>
 
-#include <chrono>
-#include <functional>
+#include <djvAV/PixelData.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        class TimerSystem;
-
-        //! This class provides a timer.
-        class Timer : public std::enable_shared_from_this<Timer>
+        namespace OpenGL
         {
-            DJV_NON_COPYABLE(Timer);
-            void _init(const std::shared_ptr<Context>&);
-            Timer();
+            //! This class provides an OpenGL texture.
+            class Texture
+            {
+                DJV_NON_COPYABLE(Texture);
 
-        public:
-            ~Timer();
+            public:
+                Texture();
+                ~Texture();
 
-            //! Create a new time.
-            static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
+                void init(const Image::PixelDataInfo &, GLint filter = GL_LINEAR);
+                void del();
+                void copy(const std::shared_ptr<Image::PixelData> &);
+                void copy(const std::shared_ptr<Image::PixelData> &, const glm::ivec2 &);
+                void bind();
 
-            //! \name Timer Options
-            ///@{
-            
-            bool isRepeating() const;
-            void setRepeating(bool);
-            
-            ///@}
+                const Image::PixelDataInfo & getInfo() const;
+                GLuint getId() const;
 
-            //! Is the timer active?
-            bool isActive() const;
-            
-            //! Start the timer.
-            void start(std::chrono::milliseconds, const std::function<void(float)>&);
-            
-            //! Stop the timer.
-            void stop();
+                static GLenum getInternalFormat(Image::Pixel);
 
-        private:
-            void _tick(float dt);
+            private:
+                DJV_PRIVATE();
+            };
 
-            DJV_PRIVATE();
-
-            friend class TimerSystem;
-        };
-
-        //! This class provides a timer system.
-        class TimerSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TimerSystem);
-            void _init(const std::shared_ptr<Context>&);
-            TimerSystem();
-
-        public:
-            virtual ~TimerSystem();
-            
-            //! Create a new timer system.
-            static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
-
-        protected:
-            void _tick(float dt) override;
-            void _exit() override;
-
-        private:
-            void _addTimer(const std::weak_ptr<Timer>&);
-
-            DJV_PRIVATE();
-
-            friend class Timer;
-        };
-
-    } // namespace Core
+        } // namespace OpenGL
+    } // namespace AV
 } // namespace djv

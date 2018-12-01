@@ -29,79 +29,61 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvCore/Core.h>
 
-#include <chrono>
-#include <functional>
+#include <glm/mat4x4.hpp>
+#include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 namespace djv
 {
     namespace Core
     {
-        class TimerSystem;
-
-        //! This class provides a timer.
-        class Timer : public std::enable_shared_from_this<Timer>
-        {
-            DJV_NON_COPYABLE(Timer);
-            void _init(const std::shared_ptr<Context>&);
-            Timer();
-
-        public:
-            ~Timer();
-
-            //! Create a new time.
-            static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
-
-            //! \name Timer Options
-            ///@{
-            
-            bool isRepeating() const;
-            void setRepeating(bool);
-            
-            ///@}
-
-            //! Is the timer active?
-            bool isActive() const;
-            
-            //! Start the timer.
-            void start(std::chrono::milliseconds, const std::function<void(float)>&);
-            
-            //! Stop the timer.
-            void stop();
-
-        private:
-            void _tick(float dt);
-
-            DJV_PRIVATE();
-
-            friend class TimerSystem;
-        };
-
-        //! This class provides a timer system.
-        class TimerSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TimerSystem);
-            void _init(const std::shared_ptr<Context>&);
-            TimerSystem();
-
-        public:
-            virtual ~TimerSystem();
-            
-            //! Create a new timer system.
-            static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
-
-        protected:
-            void _tick(float dt) override;
-            void _exit() override;
-
-        private:
-            void _addTimer(const std::weak_ptr<Timer>&);
-
-            DJV_PRIVATE();
-
-            friend class Timer;
-        };
-
+        class Path;
+    
     } // namespace Core
+
+    namespace AV
+    {
+        class Context;
+        class Shader;
+
+        namespace Image
+        {
+            class Color;
+
+        } // namespace Image
+
+        namespace OpenGL
+        {
+            //! This class provides an OpenGL shader.
+            class Shader
+            {
+                DJV_NON_COPYABLE(Shader);
+
+            public:
+                Shader(const std::shared_ptr<AV::Shader> &, const std::shared_ptr<Context> &);
+                ~Shader();
+
+                void setUniform(const std::string&, int);
+                void setUniform(const std::string&, float);
+                void setUniform(const std::string&, const glm::vec2 &);
+                void setUniform(const std::string&, const glm::vec3 &);
+                void setUniform(const std::string&, const glm::vec4 &);
+                void setUniform(const std::string&, const glm::mat3x3 &);
+                void setUniform(const std::string&, const glm::mat4x4 &);
+                void setUniform(const std::string&, const Image::Color &);
+
+                //! Throws:
+                //! - std::exception
+                virtual void init();
+                virtual void del();
+                virtual void bind();
+
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace OpenGL
+    } // namespace AV
 } // namespace djv

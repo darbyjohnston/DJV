@@ -103,8 +103,7 @@ namespace djv
         private:
             void _tick(float dt);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
 
             friend class AnimationSystem;
         };
@@ -128,8 +127,7 @@ namespace djv
         private:
             void _addAnimation(const std::weak_ptr<Animation>&);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
 
             friend class Animation;
         };

@@ -1,8 +1,10 @@
 set(header
     AudioTest.h
+    ColorTest.h
     PixelTest.h)
 set(source
     AudioTest.cpp
+    ColorTest.cpp
     PixelTest.cpp)
 
 add_library(djvAVTest ${header} ${source})

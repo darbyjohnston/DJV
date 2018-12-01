@@ -27,81 +27,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvCore/ISystem.h>
-
-#include <chrono>
-#include <functional>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AVTest
     {
-        class TimerSystem;
-
-        //! This class provides a timer.
-        class Timer : public std::enable_shared_from_this<Timer>
+        class ColorTest : public Test::ITest
         {
-            DJV_NON_COPYABLE(Timer);
-            void _init(const std::shared_ptr<Context>&);
-            Timer();
-
         public:
-            ~Timer();
-
-            //! Create a new time.
-            static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
-
-            //! \name Timer Options
-            ///@{
+            ColorTest(const std::shared_ptr<Core::Context> &);
             
-            bool isRepeating() const;
-            void setRepeating(bool);
-            
-            ///@}
-
-            //! Is the timer active?
-            bool isActive() const;
-            
-            //! Start the timer.
-            void start(std::chrono::milliseconds, const std::function<void(float)>&);
-            
-            //! Stop the timer.
-            void stop();
-
-        private:
-            void _tick(float dt);
-
-            DJV_PRIVATE();
-
-            friend class TimerSystem;
+            void run(int & argc, char ** argv) override;
         };
-
-        //! This class provides a timer system.
-        class TimerSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TimerSystem);
-            void _init(const std::shared_ptr<Context>&);
-            TimerSystem();
-
-        public:
-            virtual ~TimerSystem();
-            
-            //! Create a new timer system.
-            static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
-
-        protected:
-            void _tick(float dt) override;
-            void _exit() override;
-
-        private:
-            void _addTimer(const std::weak_ptr<Timer>&);
-
-            DJV_PRIVATE();
-
-            friend class Timer;
-        };
-
-    } // namespace Core
+        
+    } // namespace AVTest
 } // namespace djv
+

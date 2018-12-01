@@ -189,8 +189,7 @@ namespace djv
         private:
             void _setPos(size_t, bool seek);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
         FILE* fopen(const std::string& fileName, const std::string& mode);

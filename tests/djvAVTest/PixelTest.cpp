@@ -56,11 +56,11 @@ namespace djv
         {
             {
                 std::stringstream ss;
-                ss << AV::Image::Pixel(GL_RGBA, GL_UNSIGNED_BYTE);
-                DJV_ASSERT("RGBA U8" == ss.str());
+                ss << AV::Image::Pixel::RGBA_U8;
+                DJV_ASSERT("RGBA_U8" == ss.str());
                 AV::Image::Pixel pixel;
                 ss >> pixel;
-                DJV_ASSERT(GL_RGBA == pixel.getFormat() && GL_UNSIGNED_BYTE == pixel.getType());
+                DJV_ASSERT(AV::Image::Pixel::RGBA_U8 == pixel);
             }
             {
                 std::stringstream ss;

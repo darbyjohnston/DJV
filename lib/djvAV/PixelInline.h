@@ -61,90 +61,116 @@ namespace djv
                 return !(*this == value);
             }
 
-            inline Pixel::Pixel()
-            {}
-
-            inline Pixel::Pixel(GLenum format, GLenum type) :
-                _format(format),
-                _type(type)
-            {}
-
-            inline GLenum Pixel::getFormat() const
+            inline GLenum getFormat(Pixel value)
             {
-                return _format;
-            }
-
-            inline GLenum Pixel::getType() const
-            {
-                return _type;
-            }
-
-            inline bool Pixel::isValid() const
-            {
-                return _format != 0 && _type != 0;
-            }
-
-            inline size_t Pixel::getChannelCount() const
-            {
-                size_t out = 0;
-                switch (_format)
+                static const std::vector<GLenum> data =
                 {
-                case GL_RED:  out = 1; break;
-                case GL_RG:   out = 2; break;
-                case GL_RGB:  out = 3; break;
-                case GL_RGBA: out = 4; break;
-                }
-                return out;
+                    GL_NONE,
+
+                    GL_RED,
+                    GL_RED,
+                    GL_RED,
+                    GL_RED,
+                    GL_RED,
+
+                    GL_RG,
+                    GL_RG,
+                    GL_RG,
+                    GL_RG,
+                    GL_RG,
+
+                    GL_RGB,
+                    GL_RGBA,
+                    GL_RGB,
+                    GL_RGB,
+                    GL_RGB,
+                    GL_RGB,
+
+                    GL_RGBA,
+                    GL_RGBA,
+                    GL_RGBA,
+                    GL_RGBA,
+                    GL_RGBA
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
+                return data[static_cast<size_t>(value)];
             }
 
-            inline size_t Pixel::getBitDepth() const
+            inline GLenum getType(Pixel value)
             {
-                size_t out = 0;
-                switch (_type)
+                static const std::vector<GLenum> data =
                 {
-                case GL_UNSIGNED_BYTE:           out = 8; break;
-                case GL_UNSIGNED_SHORT:          out = 16; break;
-                case GL_UNSIGNED_INT:            out = 32; break;
-                case GL_HALF_FLOAT:              out = 16; break;
-                case GL_FLOAT:                   out = 32; break;
-                case GL_UNSIGNED_INT_10_10_10_2: out = 10; break;
-                }
-                return out;
+                    GL_NONE,
+
+                    GL_UNSIGNED_BYTE,
+                    GL_UNSIGNED_SHORT,
+                    GL_UNSIGNED_INT,
+                    GL_HALF_FLOAT,
+                    GL_FLOAT,
+
+                    GL_UNSIGNED_BYTE,
+                    GL_UNSIGNED_SHORT,
+                    GL_UNSIGNED_INT,
+                    GL_HALF_FLOAT,
+                    GL_FLOAT,
+
+                    GL_UNSIGNED_BYTE,
+                    GL_UNSIGNED_INT_10_10_10_2,
+                    GL_UNSIGNED_SHORT,
+                    GL_UNSIGNED_INT,
+                    GL_HALF_FLOAT,
+                    GL_FLOAT,
+
+                    GL_UNSIGNED_BYTE,
+                    GL_UNSIGNED_SHORT,
+                    GL_UNSIGNED_INT,
+                    GL_HALF_FLOAT,
+                    GL_FLOAT
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
+                return data[static_cast<size_t>(value)];
             }
 
-            inline size_t Pixel::getByteCount() const
+            inline size_t getChannelCount(Pixel value)
             {
-                size_t out = 0;
-                const size_t channels = getChannelCount();
-                switch (_type)
+                static const std::vector<GLenum> data =
                 {
-                case GL_UNSIGNED_BYTE:
-                case GL_UNSIGNED_SHORT:
-                case GL_UNSIGNED_INT:
-                case GL_HALF_FLOAT:
-                case GL_FLOAT:
-                    out = channels * getBitDepth() / 8;
-                    break;
-                case GL_UNSIGNED_INT_10_10_10_2:
-                    out = 4;
-                    break;
-                }
-                return out;
+                    0,
+                    1, 1, 1, 1, 1,
+                    2, 2, 2, 2, 2,
+                    3, 3, 3, 3, 3, 3,
+                    4, 4, 4, 4, 4
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
+                return data[static_cast<size_t>(value)];
             }
 
-            inline bool Pixel::operator == (const Pixel& other) const
+            inline size_t getBitDepth(Pixel value)
             {
-                return other._format == _format && other._type == _type;
+                static const std::vector<GLenum> data =
+                {
+                    0,
+                    8, 16, 32, 16, 32,
+                    8, 16, 32, 16, 32,
+                    8, 10, 16, 32, 16, 32,
+                    8, 16, 32, 16, 32
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
+                return data[static_cast<size_t>(value)];
             }
 
-            inline bool Pixel::operator != (const Pixel& other) const
+            inline size_t getByteCount(Pixel value)
             {
-                return !(other == *this);
-            }
-
-            inline bool Pixel::operator < (const Pixel& other) const
-            {
-                return _format < other._format || (!(other._format < _format) && _type < other._type);
+                static const std::vector<GLenum> data =
+                {
+                    0,
+                    1, 2, 4, 2, 4,
+                    2, 4, 8, 4, 8,
+                    3, 4, 6, 12, 6, 12,
+                    4, 8, 16, 8, 16
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
+                return data[static_cast<size_t>(value)];
             }
 
             inline Pixel getIntPixel(int channelCount, int bitDepth)
@@ -154,34 +180,34 @@ namespace djv
                 case 1:
                     switch (bitDepth)
                     {
-                    case  8: return Pixel(GL_RED, GL_UNSIGNED_BYTE);
-                    case 16: return Pixel(GL_RED, GL_UNSIGNED_SHORT);
-                    case 32: return Pixel(GL_RED, GL_UNSIGNED_INT);
+                    case  8: return Pixel::L_U8;
+                    case 16: return Pixel::L_U16;
+                    case 32: return Pixel::L_U32;
                     }
                     break;
                 case 2:
                     switch (bitDepth)
                     {
-                    case  8: return Pixel(GL_RG, GL_UNSIGNED_BYTE);
-                    case 16: return Pixel(GL_RG, GL_UNSIGNED_SHORT);
-                    case 32: return Pixel(GL_RG, GL_UNSIGNED_INT);
+                    case  8: return Pixel::LA_U8;
+                    case 16: return Pixel::LA_U16;
+                    case 32: return Pixel::LA_U32;
                     }
                     break;
                 case 3:
                     switch (bitDepth)
                     {
-                    case  8: return Pixel(GL_RGB, GL_UNSIGNED_BYTE);
-                    case 10: return Pixel(GL_RGB, GL_UNSIGNED_INT_10_10_10_2);
-                    case 16: return Pixel(GL_RGB, GL_UNSIGNED_SHORT);
-                    case 32: return Pixel(GL_RGB, GL_UNSIGNED_INT);
+                    case  8: return Pixel::RGB_U8;
+                    case 10: return Pixel::RGB_U10;
+                    case 16: return Pixel::RGB_U16;
+                    case 32: return Pixel::RGB_U32;
                     }
                     break;
                 case 4:
                     switch (bitDepth)
                     {
-                    case  8: return Pixel(GL_RGBA, GL_UNSIGNED_BYTE);
-                    case 16: return Pixel(GL_RGBA, GL_UNSIGNED_SHORT);
-                    case 32: return Pixel(GL_RGBA, GL_UNSIGNED_INT);
+                    case  8: return Pixel::RGBA_U8;
+                    case 16: return Pixel::RGBA_U16;
+                    case 32: return Pixel::RGBA_U32;
                     }
                     break;
                 }
@@ -195,29 +221,29 @@ namespace djv
                 case 1:
                     switch (bitDepth)
                     {
-                    case 16: return Pixel(GL_RED, GL_HALF_FLOAT);
-                    case 32: return Pixel(GL_RED, GL_FLOAT);
+                    case 16: return Pixel::L_F16;
+                    case 32: return Pixel::L_F32;
                     }
                     break;
                 case 2:
                     switch (bitDepth)
                     {
-                    case 16: return Pixel(GL_RG, GL_HALF_FLOAT);
-                    case 32: return Pixel(GL_RG, GL_FLOAT);
+                    case 16: return Pixel::LA_F16;
+                    case 32: return Pixel::LA_F32;
                     }
                     break;
                 case 3:
                     switch (bitDepth)
                     {
-                    case 16: return Pixel(GL_RGB, GL_HALF_FLOAT);
-                    case 32: return Pixel(GL_RGB, GL_FLOAT);
+                    case 16: return Pixel::RGB_F16;
+                    case 32: return Pixel::RGB_F32;
                     }
                     break;
                 case 4:
                     switch (bitDepth)
                     {
-                    case 16: return Pixel(GL_RGBA, GL_HALF_FLOAT);
-                    case 32: return Pixel(GL_RGBA, GL_FLOAT);
+                    case 16: return Pixel::RGBA_F16;
+                    case 32: return Pixel::RGBA_F32;
                     }
                     break;
                 }

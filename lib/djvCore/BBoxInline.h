@@ -27,6 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <algorithm>
+
 namespace djv
 {
     namespace Core

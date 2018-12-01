@@ -29,39 +29,78 @@
 
 #pragma once
 
-#include <djvCore/Context.h>
+#include <djvAV/OpenGL.h>
 
-#include <QPointer>
-
-class QOpenGLContext;
-class QOpenGLDebugMessage;
+#include <djvCore/Core.h>
 
 namespace djv
 {
     namespace AV
     {
-        class Context : public Core::Context
+        struct TriangleMesh;
+
+        namespace OpenGL
         {
-            DJV_NON_COPYABLE(Context);
+            //! This enumeration provides the VBO vertex types. The components are in
+            //! this order:
+            //! - Position
+            //! - UV
+            //! - Normal
+            //! - Color
+            enum class VBOType
+            {
+                F32_U16_U10,
+                F32_U16_U10_U8,
+                F32_F32_F32_F32,
 
-        protected:
-            void _init(int &, char **);
-            Context();
+                Count,
+                First = F32_U16_U10
+            };
 
-        public:
-            ~Context() override;
+            size_t getVertexSize(VBOType);
 
-            static std::shared_ptr<Context> create(int &, char **);
+            class VBO
+            {
+                DJV_NON_COPYABLE(VBO);
 
-            //! Get the default OpenGL context.
-            QPointer<QOpenGLContext> openGLContext() const;
+            public:
+                VBO(size_t size, size_t vertexCount, VBOType);
+                ~VBO();
 
-            //! Make the default OpenGL context current.
-            void makeGLContextCurrent();
+                void copy(const std::vector<uint8_t>&);
+                void copy(const std::vector<uint8_t>&, size_t offset);
 
-        private:
-            DJV_PRIVATE();
-        };
+                size_t getSize() const { return _size; }
+                size_t getVertexCount() const { return _vertexCount; }
+                VBOType getType() const { return _type; }
+                GLuint getID() const { return _vbo; }
 
+                static std::vector<uint8_t> convert(const TriangleMesh&, VBOType);
+
+            private:
+                size_t _size = 0;
+                size_t _vertexCount = 0;
+                VBOType _type = VBOType::First;
+                GLuint _vbo = 0;
+            };
+
+            class VAO
+            {
+                DJV_NON_COPYABLE(VAO);
+
+            public:
+                VAO(VBOType, GLuint vbo);
+                ~VAO();
+
+                void bind();
+                void draw(size_t offset, size_t size);
+
+                GLuint getID() const { return _vao; }
+
+            private:
+                GLuint _vao = 0;
+            };
+
+        } // namespace OpenGL
     } // namespace AV
 } // namespace djv

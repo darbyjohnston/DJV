@@ -33,6 +33,25 @@ namespace djv
     {
         namespace Image
         {
+            inline Pixel Color::getPixel() const
+            {
+                return _pixel;
+            }
+
+            inline bool Color::isValid() const
+            {
+                return _pixel != Pixel::None;
+            }
+
+            inline const uint8_t * Color::getData() const
+            {
+                return _data.data();
+            }
+
+            inline uint8_t * Color::getData()
+            {
+                return _data.data();
+            }
 
         } // namespace Image
     } // namespace AV

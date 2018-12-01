@@ -29,79 +29,44 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
-
-#include <chrono>
-#include <functional>
+#include <djvCore/Core.h>
 
 namespace djv
 {
     namespace Core
     {
-        class TimerSystem;
-
-        //! This class provides a timer.
-        class Timer : public std::enable_shared_from_this<Timer>
-        {
-            DJV_NON_COPYABLE(Timer);
-            void _init(const std::shared_ptr<Context>&);
-            Timer();
-
-        public:
-            ~Timer();
-
-            //! Create a new time.
-            static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
-
-            //! \name Timer Options
-            ///@{
-            
-            bool isRepeating() const;
-            void setRepeating(bool);
-            
-            ///@}
-
-            //! Is the timer active?
-            bool isActive() const;
-            
-            //! Start the timer.
-            void start(std::chrono::milliseconds, const std::function<void(float)>&);
-            
-            //! Stop the timer.
-            void stop();
-
-        private:
-            void _tick(float dt);
-
-            DJV_PRIVATE();
-
-            friend class TimerSystem;
-        };
-
-        //! This class provides a timer system.
-        class TimerSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TimerSystem);
-            void _init(const std::shared_ptr<Context>&);
-            TimerSystem();
-
-        public:
-            virtual ~TimerSystem();
-            
-            //! Create a new timer system.
-            static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
-
-        protected:
-            void _tick(float dt) override;
-            void _exit() override;
-
-        private:
-            void _addTimer(const std::weak_ptr<Timer>&);
-
-            DJV_PRIVATE();
-
-            friend class Timer;
-        };
+        class Path;
 
     } // namespace Core
+
+    namespace AV
+    {
+        class Shader
+        {
+            DJV_NON_COPYABLE(Shader);
+
+        protected:
+            Shader();
+
+        public:
+            ~Shader();
+
+            static std::shared_ptr<Shader> create(
+                const std::pair<std::string, std::string>& vertex,
+                const std::pair<std::string, std::string>& fragment);
+
+            //! Throws:
+            //! - std::exception
+            static std::shared_ptr<Shader> create(const Core::Path& vertex, const Core::Path& fragment);
+
+            const std::string& getVertexName() const;
+            const std::string& getVertexSource() const;
+            const std::string& getFragmentName() const;
+            const std::string& getFragmentSource() const;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace AV
 } // namespace djv

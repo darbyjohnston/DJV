@@ -31,6 +31,8 @@
 
 #include <djvAV/OpenGL.h>
 
+#include <djvCore/Enum.h>
+
 #include <OpenEXR/half.h>
 
 #include <limits>
@@ -41,6 +43,39 @@ namespace djv
     {
         namespace Image
         {
+            enum class Pixel
+            {
+                None,
+
+                L_U8,
+                L_U16,
+                L_U32,
+                L_F16,
+                L_F32,
+                
+                LA_U8,
+                LA_U16,
+                LA_U32,
+                LA_F16,
+                LA_F32,
+                
+                RGB_U8,
+                RGB_U10,
+                RGB_U16,
+                RGB_U32,
+                RGB_F16,
+                RGB_F32,
+
+                RGBA_U8,
+                RGBA_U16,
+                RGBA_U32,
+                RGBA_F16,
+                RGBA_F32,
+
+                Count
+            };
+            DJV_ENUM_HELPERS(Pixel);
+
             typedef uint8_t   U8_T;
             typedef uint16_t U10_T;
             typedef uint16_t U16_T;
@@ -81,28 +116,11 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
-            class Pixel
-            {
-            public:
-                inline Pixel();
-                inline Pixel(GLenum format, GLenum type);
-
-                inline GLenum getFormat() const;
-                inline GLenum getType() const;
-                inline bool isValid() const;
-
-                inline size_t getChannelCount() const;
-                inline size_t getBitDepth() const;
-                inline size_t getByteCount() const;
-
-                inline bool operator == (const Pixel &) const;
-                inline bool operator != (const Pixel &) const;
-                inline bool operator < (const Pixel &) const;
-
-            private:
-                GLenum _format = GL_NONE;
-                GLenum _type = GL_NONE;
-            };
+            GLenum getFormat(Pixel);
+            GLenum getType(Pixel);
+            size_t getChannelCount(Pixel);
+            size_t getBitDepth(Pixel);
+            size_t getByteCount(Pixel);
 
             inline Pixel getIntPixel(int channels, int bitDepth);
             inline Pixel getFloatPixel(int channels, int bitDepth);
@@ -143,13 +161,10 @@ namespace djv
             inline void F32ToU32(F32_T, U32_T &);
             inline void F32ToF16(F32_T, F16_T &);
 
-            void convert(const Pixel &, const void *, const Pixel &, void *);
-
         } // namespace Image
     } // namespace AV
 
-    std::ostream & operator << (std::ostream &, AV::Image::Pixel);
-    std::istream & operator >> (std::istream &, AV::Image::Pixel &);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Pixel);
 
 } // namespace djv
 

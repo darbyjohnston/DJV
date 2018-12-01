@@ -69,8 +69,7 @@ namespace djv
             void _localeRecursive(const std::shared_ptr<IObject>&, LocaleEvent&);
             void _hover(const std::shared_ptr<IObject>&, PointerMoveEvent&, std::shared_ptr<IObject>&);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
     } // namespace Core

@@ -98,13 +98,13 @@ namespace djv
             inline PixelDataInfo::PixelDataInfo()
             {}
 
-            inline PixelDataInfo::PixelDataInfo(const glm::ivec2 & size, const Pixel & pixel, const PixelDataLayout & layout) :
+            inline PixelDataInfo::PixelDataInfo(const glm::ivec2 & size, Pixel pixel, const PixelDataLayout & layout) :
                 _size(size),
                 _pixel(pixel),
                 _layout(layout)
             {}
 
-            inline PixelDataInfo::PixelDataInfo(int width, int height, const Pixel& pixel, const PixelDataLayout & layout) :
+            inline PixelDataInfo::PixelDataInfo(int width, int height, Pixel pixel, const PixelDataLayout & layout) :
                 _size(width, height),
                 _pixel(pixel),
                 _layout(layout)
@@ -120,14 +120,34 @@ namespace djv
                 return _size;
             }
 
+            inline int PixelDataInfo::getWidth() const
+            {
+                return _size.x;
+            }
+
+            inline int PixelDataInfo::getHeight() const
+            {
+                return _size.y;
+            }
+
             inline float PixelDataInfo::getAspectRatio() const
             {
                 return _size.y > 0 ? (_size.x / static_cast<float>(_size.y)) : 1.f;
             }
 
-            inline const Pixel & PixelDataInfo::getPixel() const
+            inline Pixel PixelDataInfo::getPixel() const
             {
                 return _pixel;
+            }
+
+            inline GLenum PixelDataInfo::getFormat() const
+            {
+                return Image::getFormat(_pixel);
+            }
+
+            inline GLenum PixelDataInfo::getType() const
+            {
+                return Image::getType(_pixel);
             }
 
             inline const PixelDataLayout & PixelDataInfo::getLayout() const
@@ -137,17 +157,17 @@ namespace djv
 
             inline bool PixelDataInfo::isValid() const
             {
-                return _size.x > 0 && _size.y > 0 && _pixel.isValid();
+                return _size.x > 0 && _size.y > 0 && _pixel != Pixel::None;
             }
 
             inline size_t PixelDataInfo::getPixelByteCount() const
             {
-                return _pixel.getByteCount();
+                return Image::getByteCount(_pixel);
             }
 
             inline size_t PixelDataInfo::getScanlineByteCount() const
             {
-                const size_t byteCount = _size.x * _pixel.getByteCount();
+                const size_t byteCount = _size.x * Image::getByteCount(_pixel);
                 const size_t q = byteCount / _layout.getAlignment() * _layout.getAlignment();
                 const size_t r = byteCount - q;
                 return q + (r ? _layout.getAlignment() : 0);
@@ -201,9 +221,19 @@ namespace djv
                 return _info.getAspectRatio();
             }
 
-            inline const Pixel& PixelData::getPixel() const
+            inline Pixel PixelData::getPixel() const
             {
                 return _info.getPixel();
+            }
+
+            inline GLenum PixelData::getFormat() const
+            {
+                return _info.getFormat();
+            }
+
+            inline GLenum PixelData::getType() const
+            {
+                return _info.getType();
             }
 
             inline const PixelDataLayout & PixelData::getLayout() const
