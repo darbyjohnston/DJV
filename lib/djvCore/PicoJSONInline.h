@@ -31,24 +31,8 @@
 
 namespace djv
 {
-    template<>
-    inline picojson::value toJSON(const int & value)
-    {
-        std::stringstream ss;
-        ss << value;
-        return picojson::value(ss.str());
-    }
-
-    template<>
-    inline picojson::value toJSON(const float & value)
-    {
-        std::stringstream ss;
-        ss << value;
-        return picojson::value(ss.str());
-    }
-
-    template<>
-    inline picojson::value toJSON(const std::string & value)
+    template<typename T>
+    inline picojson::value toJSON(const T & value)
     {
         std::stringstream ss;
         ss << value;
@@ -77,36 +61,8 @@ namespace djv
         return out;
     }
 
-    template<>
-    inline void fromJSON(const picojson::value& value, int & out)
-    {
-        if (value.is<std::string>())
-        {
-            std::stringstream ss(value.get<std::string>());
-            ss >> out;
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
-        }
-    }
-
-    template<>
-    inline void fromJSON(const picojson::value& value, float & out)
-    {
-        if (value.is<std::string>())
-        {
-            std::stringstream ss(value.get<std::string>());
-            ss >> out;
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
-        }
-    }
-
-    template<>
-    inline void fromJSON(const picojson::value& value, std::string & out)
+    template<typename T>
+    inline void fromJSON(const picojson::value& value, T & out)
     {
         if (value.is<std::string>())
         {

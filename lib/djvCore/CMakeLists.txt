@@ -124,6 +124,7 @@ target_link_libraries(
     djvCore
     GLM
     PicoJSON
+    Threads::Threads
     ${CMAKE_DL_LIBS})
 set_target_properties(
     djvCore

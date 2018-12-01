@@ -38,7 +38,7 @@ namespace djv
     {
         namespace Audio
         {
-            std::string Audio::getALErrorString(ALenum value)
+            std::string getALErrorString(ALenum value)
             {
                 std::string out = DJV_TEXT("Unknown");
                 switch (value)
@@ -55,7 +55,7 @@ namespace djv
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::Audio::,
+        AV::Audio,
         Type,
         DJV_TEXT("None"),
         DJV_TEXT("U8"),

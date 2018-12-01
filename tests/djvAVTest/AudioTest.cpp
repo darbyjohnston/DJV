@@ -43,10 +43,10 @@ namespace djv
         
 #define CONVERT(ta, min, max, tb) \
     { \
-        auto bmin = static_cast<AV::Audio::##tb##_T>(0); \
-        auto bmax = static_cast<AV::Audio::##tb##_T>(0); \
-        AV::Audio::##ta##To##tb(min, bmin); \
-        AV::Audio::##ta##To##tb(max, bmax); \
+        auto bmin = static_cast<AV::Audio::tb##_T>(0); \
+        auto bmax = static_cast<AV::Audio::tb##_T>(0); \
+        AV::Audio::ta##To##tb(min, bmin); \
+        AV::Audio::ta##To##tb(max, bmax); \
         std::stringstream ss; \
         ss << "    " << #tb << " " << static_cast<int64_t>(bmin) << " " << static_cast<int64_t>(bmax); \
         _print(ss.str()); \

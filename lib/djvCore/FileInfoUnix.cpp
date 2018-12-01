@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <GpCore/FileInfo.h>
+#include <djvCore/FileInfo.h>
 
-#include <GpCore/Memory.h>
+#include <djvCore/Memory.h>
 
 #include <sys/stat.h>
 #include <glob.h>
@@ -37,16 +37,16 @@
 
 //#pragma optimize("", off)
 
-#if defined(GP_PLATFORM_OSX) || defined(GP_PLATFORM_IOS)
+#if defined(DJV_OSX) || defined(DJV_IOS)
 //! \bug OS X doesn't have stat64?
 #define _STAT struct ::stat
 #define _STAT_FNC    ::stat
-#elif defined(GP_PLATFORM_LINUX)
+#elif defined(DJV_LINUX)
 #define _STAT struct ::stat64
 #define _STAT_FNC    ::stat64
-#endif // GP_PLATFORM_OSX
+#endif // DJV_OSX
 
-namespace Gp
+namespace djv
 {
     namespace Core
     {
@@ -175,5 +175,5 @@ namespace Gp
         }
 
     } // namespace Core
-} // namespace Gp
+} // namespace djv
 

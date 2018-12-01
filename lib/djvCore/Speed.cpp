@@ -152,7 +152,7 @@ namespace djv
     } // namespace Core
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::Speed::,
+        Core::Speed,
         FPS,
         "1",
         "3",

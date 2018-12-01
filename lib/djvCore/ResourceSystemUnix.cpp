@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <GpCore/ResourceSystem.h>
+#include <djvCore/ResourceSystem.h>
 
-#include <GpCore/OS.h>
+#include <djvCore/OS.h>
 
-namespace Gp
+namespace djv
 {
     namespace Core
     {
@@ -44,5 +44,5 @@ namespace Gp
         }
 
     } // namespace Core
-} // namespace Gp
+} // namespace djv
 

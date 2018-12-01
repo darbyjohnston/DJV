@@ -63,18 +63,18 @@
             { \
                 __VA_ARGS__ \
             }; \
-            DJV_ASSERT(static_cast<size_t>(prefix##name::Count) == data.size()); \
+            DJV_ASSERT(static_cast<size_t>(prefix::name::Count) == data.size()); \
             return data; \
         } \
     } \
     \
-    std::ostream & operator << (std::ostream & os, prefix##name value) \
+    std::ostream & operator << (std::ostream & os, prefix::name value) \
     { \
         os << get##name##Labels()[static_cast<size_t>(value)]; \
         return os; \
     } \
     \
-    std::istream & operator >> (std::istream & is, prefix##name & value) \
+    std::istream & operator >> (std::istream & is, prefix::name & value) \
     { \
         std::string s; \
         is >> s; \
@@ -86,6 +86,6 @@
             ss << DJV_TEXT("Cannot parse: ") << s; \
             throw std::invalid_argument(ss.str()); \
         } \
-        value = static_cast<prefix##name>(i - labels.begin()); \
+        value = static_cast<prefix::name>(i - labels.begin()); \
         return is; \
     }

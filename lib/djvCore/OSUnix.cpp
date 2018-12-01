@@ -27,13 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <GpCore/OS.h>
+#include <djvCore/OS.h>
 
-#include <GpCore/Path.h>
+#include <djvCore/Path.h>
 
-#if defined(GP_PLATFORM_OSX)
+#if defined(DJV_OSX)
 #include <CoreServices/CoreServices.h>
-#endif // GP_PLATFORM_OSX
+#endif // DJV_OSX
 
 #include <sstream>
 
@@ -45,7 +45,7 @@
 
 //#pragma optimize("", off)
 
-namespace Gp
+namespace djv
 {
     namespace Core
     {
@@ -103,7 +103,7 @@ namespace Gp
             Path getPath(DirectoryShortcut value)
             {
                 Path out;
-#if defined(GP_PLATFORM_OSX)
+#if defined(DJV_OSX)
                 OSType folderType = kDesktopFolderType;
                 switch (value)
                 {
@@ -125,7 +125,7 @@ namespace Gp
                 {
                     out = Path(path);
                 }
-#elif defined(GP_PLATFORM_LINUX)
+#elif defined(DJV_LINUX)
                 if (struct passwd* buf = ::getpwuid(::getuid()))
                 {
                     const std::string dir(buf->pw_dir);
@@ -138,10 +138,10 @@ namespace Gp
                     default: break;
                     }
                 }
-#endif // GP_PLATFORM_OSX
+#endif // DJV_OSX
                 return out;
             }
 
         } // namespace OS
     } // namespace Core
-} // namespace Gp
+} // namespace djv

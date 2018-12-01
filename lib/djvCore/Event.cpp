@@ -86,7 +86,7 @@ namespace djv
     } // namespace Core
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::,
+        Core,
         EventType,
         DJV_TEXT("Update"),
         DJV_TEXT("Locale"),

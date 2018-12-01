@@ -77,7 +77,7 @@ namespace djv
     } // namespace Core
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::Memory::,
+        Core::Memory,
         Endian,
         DJV_TEXT("MSB"),
         DJV_TEXT("LSB"));

@@ -37,7 +37,7 @@
 namespace djv
 {
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::OS::,
+        Core::OS,
         DirectoryShortcut,
         DJV_TEXT("Home"),
         DJV_TEXT("Desktop"),

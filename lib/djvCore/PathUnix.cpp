@@ -27,23 +27,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <GpCore/Path.h>
+#include <djvCore/Path.h>
 
-#include <GpCore/Error.h>
-#include <GpCore/FileInfo.h>
+#include <djvCore/Error.h>
+#include <djvCore/FileInfo.h>
 
 #include <sstream>
 
-#if defined(GP_PLATFORM_LINUX)
+#if defined(DJV_LINUX)
 #include <linux/limits.h>
-#endif // GP_PLATFORM_LINUX
+#endif // DJV_LINUX
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <unistd.h>
 
-namespace Gp
+namespace djv
 {
     namespace Core
     {
@@ -123,5 +123,5 @@ namespace Gp
         }
 
     } // namespace Core
-} // namespace Gp
+} // namespace djv
 

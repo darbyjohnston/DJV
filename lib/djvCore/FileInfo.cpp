@@ -196,7 +196,7 @@ namespace djv
     }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::,
+        Core,
         FileType,
         DJV_TEXT("File"),
         DJV_TEXT("Sequence"),

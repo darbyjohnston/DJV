@@ -27,17 +27,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <GpCore/FileIO.h>
+#include <djvCore/FileIO.h>
 
-#include <GpCore/Error.h>
-#include <GpCore/Math.h>
-#include <GpCore/Memory.h>
+#include <djvCore/Error.h>
+#include <djvCore/Math.h>
+#include <djvCore/Memory.h>
 
 #include <sstream>
 
-#if defined(GP_PLATFORM_LINUX)
+#if defined(DJV_LINUX)
 #include <linux/limits.h>
-#endif // GP_PLATFORM_LINUX
+#endif // DJV_LINUX
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -47,7 +47,7 @@
 #define _STAT struct stat
 #define _STAT_FNC    stat
 
-namespace Gp
+namespace djv
 {
     namespace Core
     {
@@ -393,4 +393,4 @@ namespace Gp
         }
 
     } // namespace Core
-} // namespace Gp
+} // namespace djv

@@ -29,6 +29,8 @@
 
 #include <djvAV/AudioData.h>
 
+#include <string.h>
+
 namespace djv
 {
     namespace AV

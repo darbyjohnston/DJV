@@ -293,7 +293,7 @@ namespace djv
     }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::,
+        Core,
         ResourcePath,
         DJV_TEXT("Application"),
         DJV_TEXT("Log File"),

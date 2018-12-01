@@ -34,7 +34,7 @@ namespace djv
         template<typename T>
         inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
         {
-            std::vector<QPointer<T> > out;
+            std::vector<std::shared_ptr<T> > out;
             for (auto i : getSystems())
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i.lock()))

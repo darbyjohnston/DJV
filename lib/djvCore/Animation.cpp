@@ -247,7 +247,7 @@ namespace djv
     } // namespace Core
     
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::,
+        Core,
         AnimationType,
         DJV_TEXT("Linear"),
         DJV_TEXT("Ease In"),

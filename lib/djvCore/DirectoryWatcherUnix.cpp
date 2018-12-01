@@ -27,16 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <GpCore/DirectoryWatcher.h>
+#include <djvCore/DirectoryWatcher.h>
 
-#include <GpCore/Context.h>
-#include <GpCore/Timer.h>
+#include <djvCore/Context.h>
+#include <djvCore/Timer.h>
 
 #include <ctime>
 #include <mutex>
 #include <thread>
 
-#if defined(GP_PLATFORM_OSX)
+#if defined(DJV_OSX)
 #include <CoreServices/CoreServices.h>
 
 #include <sys/types.h>
@@ -48,7 +48,7 @@
 #include <unistd.h>
 #endif
 
-namespace Gp
+namespace djv
 {
     namespace Core
     {
@@ -56,7 +56,7 @@ namespace Gp
         {
             const size_t timeout = 100;
 
-#if defined(GP_PLATFORM_OSX)
+#if defined(DJV_OSX)
             class Notify
             {
             public:
@@ -112,7 +112,7 @@ namespace Gp
                 ::time_t _lastModified = 0;
             };
 
-#else // GP_PLATFORM_OSX
+#else // DJV_OSX
 
             class Notify
             {
@@ -176,7 +176,7 @@ namespace Gp
                 int _wd = 0;
                 ::time_t _lastModified = 0;
             };
-#endif // GP_PLATFORM_OSX
+#endif // DJV_OSX
 
         } // namespace
                 
@@ -307,5 +307,6 @@ namespace Gp
         }
 
     } // namespace Core
-} // namespace Gp
+} // namespace djv
+
 

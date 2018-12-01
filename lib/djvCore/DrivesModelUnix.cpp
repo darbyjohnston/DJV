@@ -27,29 +27,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <GpCore/DrivesModel.h>
+#include <djvCore/DrivesModel.h>
 
-#include <GpCore/FileInfo.h>
+#include <djvCore/FileInfo.h>
 
 //#pragma optimize("", off)
 
-namespace Gp
+namespace djv
 {
     namespace Core
     {
         std::vector<Path> DrivesModel::_getDrives()
         {
             std::vector<Path> out;
-#if defined(GP_PLATFORM_OSX)
+#if defined(DJV_OSX)
             for (const auto& fileInfo : FileInfo::dirList(Path("/Volumes")))
             {
                 out.push_back(fileInfo.getPath());
             }
-#elif defined(GP_PLATFORM_LINUX)
+#elif defined(DJV_LINUX)
             out.push_back(Path("/"));
-#endif // GP_PLATFORM_OSX
+#endif // DJV_OSX
             return out;
         }
 
     } // namespace Core
-} // namespace Gp
+} // namespace djv
