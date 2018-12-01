@@ -9,9 +9,8 @@
 #
 # * GLM
 
-find_path(GLM_INCLUDE_DIR
-  NAMES glm.hpp
-  PATH_SUFFIXES glm)
+find_path(GLM_INCLUDE_DIR "glm/glm.hpp")
+#message("GLM_INCLUDE_DIR="${GLM_INCLUDE_DIR})
 set(GLM_INCLUDE_DIRS ${GLM_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)

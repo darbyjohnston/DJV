@@ -29,9 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
-
-#include <QOpenGLFunctions_3_3_Core>
+#include <djvAV/OpenGL.h>
 
 #include <OpenEXR/half.h>
 
@@ -145,7 +143,7 @@ namespace djv
             inline void F32ToU32(F32_T, U32_T &);
             inline void F32ToF16(F32_T, F16_T &);
 
-            std::vector<uint8_t> convert(const std::vector<uint8_t> &, const Pixel &, const Pixel &);
+            void convert(const Pixel &, const void *, const Pixel &, void *);
 
         } // namespace Image
     } // namespace AV

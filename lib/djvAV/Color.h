@@ -47,12 +47,6 @@ namespace djv
 
                 const Pixel & getPixel() const;
 
-                template<typename T>
-                inline T getChannel(size_t) const;
-
-                template<typename T>
-                inline void setChannel(size_t, T);
-
             private:
                 Pixel _pixel;
                 std::vector<uint8_t> _data;

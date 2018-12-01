@@ -27,56 +27,51 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/FileUtil.h>
+#pragma once
 
-#include <djvCore/String.h>
+#include <djvCore/ISystem.h>
 
 namespace djv
 {
     namespace Core
     {
-        namespace FileUtil
+        class IObject;
+        class LocaleEvent;
+        class PointerMoveEvent;
+        class UpdateEvent;
+        struct PointerInfo;
+
+        class IEventSystem : public ISystem
         {
-            std::vector<std::string> FileUtil::splitPath(const std::string & value)
-            {
-                std::vector<std::string> out;
+            DJV_NON_COPYABLE(IEventSystem);
 
-                // Handle the root path.
-                if (value.size() && '/' == value[0])
-                {
-                    out.push_back("/");
-                }
+        protected:
+            void _init(const std::string& systemName, const std::shared_ptr<Core::Context>&);
+            IEventSystem();
 
-                // Split the path on seperators.
-                for (const auto & i : String::split(value, separators))
-                {
-                    out.push_back(i);
-                }
+        public:
+            virtual ~IEventSystem() = 0;
 
-                return out;
-            }
+            const std::shared_ptr<IObject>& getRootObject() const;
+            void setRootObject(const std::shared_ptr<IObject>&);
 
-            std::string FileUtil::joinPath(std::vector<std::string> value)
-            {
-                std::string out;
+        protected:
+            void _locale(LocaleEvent&);
+            void _pointerMove(const PointerInfo&);
+            void _buttonPress(const PointerInfo&);
+            void _buttonRelease(const PointerInfo&);
 
-                // Handle the root path.
-                if (value.size())
-                {
-                    if (value[0] != "/")
-                    {
-                        out.append(value[0]);
-                    }
-                    out.push_back('/');
-                    value.erase(value.begin());
-                }
+            void _tick(float dt) override;
 
-                // Join the remaining pieces.
-                out += String::join(value, nativeSeparator);
+        private:
+            void _getFirstTick(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<IObject> >&);
+            void _updateRecursive(const std::shared_ptr<IObject>&, UpdateEvent&);
+            void _localeRecursive(const std::shared_ptr<IObject>&, LocaleEvent&);
+            void _hover(const std::shared_ptr<IObject>&, PointerMoveEvent&, std::shared_ptr<IObject>&);
 
-                return out;
-            }
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
-        } // namespace FileUtil
     } // namespace Core
 } // namespace djv

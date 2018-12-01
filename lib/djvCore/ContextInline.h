@@ -37,7 +37,7 @@ namespace djv
             std::vector<QPointer<T> > out;
             for (auto i : getSystems())
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
+                if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
                 {
                     out.push_back(system);
                 }
@@ -50,7 +50,7 @@ namespace djv
         {
             for (auto i : getSystems())
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
+                if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
                 {
                     return system;
                 }

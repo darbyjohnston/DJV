@@ -29,6 +29,8 @@
 
 #include <djvViewLib/Application.h>
 
+#include <djvCore/Error.h>
+
 using namespace djv;
 
 int main(int argc, char ** argv)
@@ -40,7 +42,7 @@ int main(int argc, char ** argv)
     }
     catch (const std::exception & error)
     {
-        std::cout << "ERROR: " << error.what() << std::endl;
+        std::cout << Core::format(error) << std::endl;
     }
     return r;
 }

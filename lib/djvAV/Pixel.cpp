@@ -31,6 +31,18 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            void convert(const Pixel & inPixel, const void * in, const Pixel & outPixel, void * out)
+            {
+
+            }
+
+        } // namespace Image
+    } // namespace AV
+
     namespace
     {
         const std::map<GLenum, std::string> formatLabel =

@@ -15,6 +15,7 @@ set(header
     FFmpeg.h
     IO.h
     IOInline.h
+    OpenGL.h
     Pixel.h
     PixelData.h
     PixelDataInline.h

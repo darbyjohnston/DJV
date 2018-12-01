@@ -29,6 +29,8 @@
 
 #include <djvCore/Error.h>
 
+#include <sstream>
+
 namespace djv
 {
     namespace Core
@@ -54,6 +56,13 @@ namespace djv
         const char * Error::what() const noexcept
         {
             return _text.c_str();
+        }
+
+        std::string format(const std::exception& e)
+        {
+            std::stringstream s;
+            s << "ERROR: " << e.what();
+            return s.str();
         }
         
     } // namespace Core

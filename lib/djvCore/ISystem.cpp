@@ -45,6 +45,12 @@ namespace djv
         {
             _p->context = context;
             _p->name = name;
+
+            std::stringstream s;
+            s << name << " starting...";
+            _log(s.str());
+
+            context->_addSystem(shared_from_this());
         }
 
         ISystem::ISystem() :
@@ -62,6 +68,21 @@ namespace djv
         const std::string & ISystem::getName() const
         {
             return _p->name;
+        }
+
+        void ISystem::_exit()
+        {
+            std::stringstream s;
+            s << _p->name << " exiting...";
+            _log(s.str());
+        }
+
+        void ISystem::_log(const std::string& message, LogLevel level)
+        {
+            if (auto context = _p->context.lock())
+            {
+                context->log(_p->name, message, level);
+            }
         }
         
     } // namespace Core

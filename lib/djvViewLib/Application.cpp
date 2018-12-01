@@ -54,7 +54,9 @@ namespace djv
         }
         
         Application::~Application()
-        {}
+        {
+            _p->context->exit();
+        }
 
     } // namespace ViewLib
 } // namespace djv

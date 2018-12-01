@@ -27,35 +27,68 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCore/Path.h>
 
-#include <djvCore/Core.h>
+#include <djvCore/FileInfo.h>
+
+#include <sstream>
+
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#include <direct.h>
 
 namespace djv
 {
     namespace Core
     {
-        namespace FileUtil
+        char Path::getCurrentPathSeparator()
         {
-#if defined(DJV_WINDOWS)
-            const char nativeSeparator = '\\';
-            const std::vector<char> separators =
+            return getPathSeparator(PathSeparator::Windows);
+        }
+        
+        void Path::mkdir(const Path& value)
+        {
+            if (_mkdir(value.get().c_str()) != 0)
             {
-                '\\',
-                '/'
-        };
-#else
-            const char nativeSeparator = '/';
-            const std::vector<char> separators =
+                std::stringstream s;
+                s << "Cannot create directory: " << value;
+                throw std::invalid_argument(s.str());
+            }
+        }
+
+        Path Path::getAbsolute(const Path& value)
+        {
+            char buf[MAX_PATH];
+            if (!::_fullpath(buf, value._directoryName.c_str(), MAX_PATH))
             {
-                '/',
-                '\\'
-            };
-#endif
+                buf[0] = 0;
+            }
+            return Path(buf);
+        }
 
-            std::vector<std::string> splitPath(const std::string &);
-            std::string joinPath(std::vector<std::string>);
+        Path Path::getCWD()
+        {
+            char buf[MAX_PATH];
+            if (!::_getcwd(buf, MAX_PATH))
+            {
+                buf[0] = 0;
+            }
+            return Path(buf);
+        }
 
-        } // namespace FileUtil
+        Path Path::getTemp()
+        {
+            Path out;
+            TCHAR buf[MAX_PATH];
+            DWORD r = GetTempPath(MAX_PATH, buf);
+            if (r && r < MAX_PATH)
+            {
+                out.set(buf);
+            }
+            return out;
+        }
+
     } // namespace Core
 } // namespace djv
+

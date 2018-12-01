@@ -33,18 +33,6 @@ namespace djv
     {
         namespace Image
         {
-            template<>
-            inline U8_T Color::getChannel(size_t channel) const
-            {
-                const auto data = convert(_data, _pixel, Pixel(_pixel.getFormat(), GL_UNSIGNED_BYTE));
-                return channel < _pixel.getChannelCount() ? data[channel] : 0;
-            }
-
-            template<>
-            inline void Color::setChannel(size_t channel, U8_T value)
-            {
-
-            }
 
         } // namespace Image
     } // namespace AV

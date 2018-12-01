@@ -29,13 +29,16 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Path.h>
 
 namespace djv
 {
     namespace Core
     {
         class ISystem;
+        class LogSystem;
+        class ResourceSystem;
+        class TextSystem;
         class UndoStack;
         
         class Context : public std::enable_shared_from_this<Context>
@@ -48,20 +51,67 @@ namespace djv
 
         public:
             virtual ~Context();
-            
+
+            //! Throws:
+            //! - std::exception
             static std::shared_ptr<Context> create(int &, char **);
 
-            const std::vector<std::shared_ptr<ISystem> > & getSystems() const;
+            //! Get the context name.
+            const std::string& getName() const;
+
+            //! This should be called before destroying the context.
+            virtual void exit();
+
+            //! Get the average FPS.
+            float getFpsAverage() const;
+
+            //! \name Systems
+            ///@{
+
+            //! Get the systems.
+            const std::vector<std::weak_ptr<ISystem> > & getSystems() const;
+
+            //! Get systems by type.
             template<typename T>
             inline std::vector<std::shared_ptr<T> > getSystemsT() const;
+
+            //! Get a system by type.
             template<typename T>
             inline std::shared_ptr<T> getSystemT() const;
-            void addSystem(const std::shared_ptr<ISystem> &);
+
+            //! This function is called by the application to tick the systems.
+            virtual void tick(float dt);
+
+            const std::shared_ptr<ResourceSystem>& getResourceSystem() const;
+            const std::shared_ptr<LogSystem>& getLogSystem() const;
+            const std::shared_ptr<TextSystem>& getTextSystem() const;
+
+            ///@}
+
+            //! \name Resources
+            ///@{
+
+            Path getResourcePath(ResourcePath) const;
+            Path getResourcePath(ResourcePath, const Path&) const;
+            Path getResourcePath(ResourcePath, const std::string&) const;
+
+            ///@}
+
+            //! \name Logging
+            ///@{
+
+            void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);
+
+            ///@}
 
             const std::shared_ptr<UndoStack> & getUndoStack() const;
 
         private:
+            void _addSystem(const std::weak_ptr<ISystem>&);
+
             DJV_PRIVATE();
+
+            friend class ISystem;
         };
 
     } // namespace Core

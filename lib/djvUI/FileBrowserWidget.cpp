@@ -31,7 +31,7 @@
 
 #include <djvUI/Context.h>
 
-#include <djvCore/FileUtil.h>
+#include <djvCore/Path.h>
 
 #include <QAction>
 #include <QButtonGroup>
@@ -99,7 +99,7 @@ namespace djv
                 delete i.data();
             }
             _p->actions.clear();
-            const auto splitPath = Core::FileUtil::splitPath(_p->path.toStdString());
+            const auto splitPath = Core::Path::splitDir(_p->path.toStdString());
             std::vector<std::string> subPath;
             for (int i = 0; i < splitPath.size(); ++i)
             {
@@ -112,7 +112,7 @@ namespace djv
                     &QAction::triggered,
                     [this, subPath]
                 {
-                    Q_EMIT pathChanged(QString::fromStdString(Core::FileUtil::joinPath(subPath)));
+                    Q_EMIT pathChanged(QString::fromStdString(Core::Path::joinDirs(subPath)));
                 });
             }
         }

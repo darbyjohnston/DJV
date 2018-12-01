@@ -463,4 +463,14 @@ namespace djv
 
         } // namespace String
     } // namespace Core
+
+    namespace
+    {
+        const std::vector<std::string> boolLabels =
+        {
+            DJV_TEXT("False"),
+            DJV_TEXT("True")
+        };
+
+    } // namespace
 } // namespace djv

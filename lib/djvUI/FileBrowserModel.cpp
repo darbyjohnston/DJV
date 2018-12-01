@@ -31,8 +31,6 @@
 
 #include <djvUI/Context.h>
 
-#include <djvCore/FileUtil.h>
-
 #include <QDir>
 #include <QFileInfo>
 #include <QMimeData>

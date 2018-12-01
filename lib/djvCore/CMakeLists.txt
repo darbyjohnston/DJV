@@ -1,46 +1,129 @@
 find_package(GLM REQUIRED)
+find_package(PicoJSON REQUIRED)
 
 set(header
+    Animation.h
+    BBox.h
+    BBoxInline.h
+    Cache.h
+    CacheInline.h
     Context.h
     ContextInline.h
     Core.h
+    DirectoryModel.h
+    DirectoryWatcher.h
+    DrivesModel.h
     Enum.h
+    Event.h
+    EventSystem.h
     Error.h
-    FileUtil.h
+    FileInfo.h
+    FileInfoInline.h
+    FileIO.h
+    FileIOInline.h
+    Frame.h
+    FrameInline.h
     ICommand.h
+    IObject.h
+    IObjectInline.h
     ISystem.h
+    Keycode.h
     ListObserver.h
     ListObserverInline.h
+    LogSystem.h
     MapObserver.h
     MapObserverInline.h
     Math.h
     MathInline.h
+    Matrix.h
+    MatrixInline.h
     Memory.h
     MemoryInline.h
+    OS.h
+    Path.h
+    PathInline.h
+    PicoJSON.h
+    PicoJSONInline.h
+    Range.h
+    RangeInline.h
+    Ray.h
+    RayInline.h
+    RecentFilesModel.h
+    ResourceSystem.h
     Speed.h
     SpeedInline.h
     String.h
     StringInline.h
+    TextSystem.h
+    Time.h
+    Timecode.h
+    TimecodeInline.h
+    TimeInline.h
+    Timer.h
     UndoStack.h
     ValueObserver.h
-    ValueObserverInline.h)
+    ValueObserverInline.h
+    Vector.h
+    VectorInline.h)
 set(source
+    Animation.cpp
     Context.cpp
     Core.cpp
+    DirectoryModel.cpp
+    DrivesModel.cpp
+    Event.cpp
+    EventSystem.cpp
     Error.cpp
-    FileUtil.cpp
+    FileIO.cpp
+    FileInfo.cpp
+    Frame.cpp
     ICommand.cpp
+    IObject.cpp
     ISystem.cpp
+    Keycode.cpp
+    LogSystem.cpp
     Math.cpp
     Memory.cpp
+    OS.cpp
+    RecentFilesModel.cpp
+    ResourceSystem.cpp
+    Path.cpp
+    PicoJSON.cpp
     Speed.cpp
     String.cpp
+    TextSystem.cpp
+    Time.cpp
+    Timecode.cpp
+    Timer.cpp
     UndoStack.cpp)
+if (WIN32)
+    set(source
+        ${source}
+        DirectoryWatcherWin32.cpp
+        DrivesModelWin32.cpp
+        ErrorWin32.cpp
+        FileIOWin32.cpp
+        FileInfoWin32.cpp
+        OSWin32.cpp
+        PathWin32.cpp
+        ResourceSystemWin32.cpp)
+else()
+    set(source
+        ${source}
+        DirectoryWatcherUnix.cpp
+        DrivesModelUnix.cpp
+        FileIOUnix.cpp
+        FileInfoUnix.cpp
+        OSUnix.cpp
+        PathUnix.cpp
+        ResourceSystemUnix.cpp)
+endif()
 
 add_library(djvCore ${header} ${source})
 target_link_libraries(
     djvCore
     GLM
+    PicoJSON
     ${CMAKE_DL_LIBS})
 set_target_properties(
     djvCore

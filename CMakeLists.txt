@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 cmake_policy(SET CMP0048 NEW)
-cmake_policy(SET CMP0074 NEW)
 
 set(DJV_VERSION_MAJOR "2")
 set(DJV_VERSION_MINOR "0")

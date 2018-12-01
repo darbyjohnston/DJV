@@ -48,9 +48,21 @@ namespace djv
 
             const std::weak_ptr<Context> & getContext() const;
             const std::string & getName() const;
+
+        protected:
+            //! Override this function to do work each frame.
+            virtual void _tick(float dt) {}
+
+            //! This function provides a chance to finish up any work that needs a valid context.
+            virtual void _exit();
+
+            //! Convenience function for logging messages.
+            void _log(const std::string& message, LogLevel = LogLevel::Information);
                         
         private:
             DJV_PRIVATE();
+
+            friend class Context;
         };
 
     } // namespace Core

@@ -30,6 +30,17 @@
 #include <djvAV/Context.h>
 
 #include <djvAV/AudioSystem.h>
+#include <djvAV/OpenGL.h>
+
+#include <djvCore/Error.h>
+#include <djvCore/OS.h>
+#include <djvCore/String.h>
+
+#include <QCoreApplication>
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
+#include <QOpenGLDebugLogger>
+#include <QScopedPointer>
 
 namespace djv
 {
@@ -37,13 +48,63 @@ namespace djv
     {
         struct Context::Private
         {
+            QScopedPointer<QOffscreenSurface> offscreenSurface;
+            QScopedPointer<QOpenGLContext> openGLContext;
+            QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
         };
 
         void Context::_init(int & argc, char ** argv)
         {
             Core::Context::_init(argc, argv);
 
-            addSystem(AudioSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            // Create the default OpenGL context.
+            QSurfaceFormat defaultFormat;
+            defaultFormat.setRenderableType(QSurfaceFormat::OpenGL);
+            defaultFormat.setMajorVersion(4);
+            defaultFormat.setMinorVersion(1);
+            defaultFormat.setProfile(QSurfaceFormat::CoreProfile);
+            //! \todo Document this environment variable.
+            if (!Core::OS::getEnv("DJV_OPENGL_DEBUG").empty())
+            {
+                defaultFormat.setOption(QSurfaceFormat::DebugContext);
+            }
+            QSurfaceFormat::setDefaultFormat(defaultFormat);
+            _p->offscreenSurface.reset(new QOffscreenSurface);
+            QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
+            surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+            surfaceFormat.setSamples(1);
+            _p->offscreenSurface->setFormat(surfaceFormat);
+            _p->offscreenSurface->create();
+            _p->openGLContext.reset(new QOpenGLContext);
+            _p->openGLContext->setFormat(surfaceFormat);
+            if (!_p->openGLContext->create())
+            {
+                std::stringstream ss;
+                ss << DJV_TEXT("Cannot create OpenGL context, found version ") <<
+                    _p->openGLContext->format().majorVersion() << "." <<
+                    _p->openGLContext->format().minorVersion();
+                throw Core::Error("djv::AV::AVContext", ss.str());
+            }
+            _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
+            std::stringstream ss;
+            ss << "OpenGL context valid = " << _p->openGLContext->isValid();
+            log("djv::AV::Context", ss.str());
+            ss.str(std::string());
+            ss << "OpenGL version = " <<
+                _p->openGLContext->format().majorVersion() << "." <<
+                _p->openGLContext->format().minorVersion();
+            log("djv::AV::Context", ss.str());
+            if (!_p->openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
+            {
+                std::stringstream ss;
+                ss << DJV_TEXT("Cannot find OpenGL 3.3 functions, found version ") <<
+                    _p->openGLContext->format().majorVersion() << "." <<
+                    _p->openGLContext->format().minorVersion();
+                throw Core::Error("djv::AV::AVContext", ss.str());
+            }
+
+            // Create the systems.
+            AudioSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
         }
 
         Context::Context() :
