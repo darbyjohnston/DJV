@@ -30,10 +30,16 @@
 #include <djvUIQt/System.h>
 
 #include <djvUIQt/ProxyStyle.h>
+#include <djvUIQt/Util.h>
 
+#include <djvUICore/StyleSettings.h>
 #include <djvUICore/System.h>
 
+#include <djvCore/Context.h>
+
 #include <QApplication>
+
+using namespace djv::Core;
 
 namespace djv
 {
@@ -42,14 +48,33 @@ namespace djv
         struct System::Private
         {
             QPointer<ProxyStyle> qStyle;
+            std::shared_ptr<ValueObserver<UICore::Palette> > paletteObserver;
         };
 
-        void System::_init(const std::shared_ptr<Core::Context> & context)
+        void System::_init(const std::shared_ptr<Context> & context)
         {
             ISystem::_init("djv::UIQt::System", context);
             UICore::System::create(context);
             _p->qStyle = new ProxyStyle(context);
             qApp->setStyle(_p->qStyle);
+
+            auto weak = std::weak_ptr<System>(std::dynamic_pointer_cast<System>(shared_from_this()));
+            auto system = context->getSystemT<UICore::System>();
+            _p->paletteObserver = ValueObserver<UICore::Palette>::create(
+                system->getStyleSettings()->getCurrentPalette(),
+                [](const UICore::Palette & value)
+            {
+                QPalette palette;
+                palette.setColor(QPalette::Window, toQt(value.getColor(UICore::ColorRole::Background)));
+                palette.setColor(QPalette::WindowText, toQt(value.getColor(UICore::ColorRole::Foreground)));
+                palette.setColor(QPalette::Base, toQt(value.getColor(UICore::ColorRole::Trough)));
+                palette.setColor(QPalette::AlternateBase, toQt(value.getColor(UICore::ColorRole::Trough)));
+                palette.setColor(QPalette::Text, toQt(value.getColor(UICore::ColorRole::Foreground)));
+                palette.setColor(QPalette::Button, toQt(value.getColor(UICore::ColorRole::Button)));
+                palette.setColor(QPalette::ButtonText, toQt(value.getColor(UICore::ColorRole::Foreground)));
+                palette.setColor(QPalette::Highlight, toQt(value.getColor(UICore::ColorRole::Checked)));
+                qApp->setPalette(palette);
+            });
         }
 
         System::System() :
@@ -59,7 +84,7 @@ namespace djv
         System::~System()
         {}
 
-        std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
+        std::shared_ptr<System> System::create(const std::shared_ptr<Context> & context)
         {
             auto out = std::shared_ptr<System>(new System);
             out->_init(context);

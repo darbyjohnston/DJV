@@ -30,6 +30,7 @@
 #include <djvUICore/System.h>
 
 #include <djvUICore/SettingsSystem.h>
+#include <djvUICore/StyleSettings.h>
 #include <djvUICore/Style.h>
 
 #include <djvAV/System.h>
@@ -40,6 +41,7 @@ namespace djv
     {
         struct System::Private
         {
+            std::shared_ptr<StyleSettings> styleSettings;
             std::shared_ptr<Style> style;
         };
 
@@ -48,6 +50,7 @@ namespace djv
             ISystem::_init("djv::UICore::System", context);
             AV::System::create(context);
             SettingsSystem::create(context);
+            _p->styleSettings = StyleSettings::create(context);
             _p->style = Style::create(context);
         }
 
@@ -63,6 +66,11 @@ namespace djv
             auto out = std::shared_ptr<System>(new System);
             out->_init(context);
             return out;
+        }
+
+        const std::shared_ptr<StyleSettings> System::getStyleSettings() const
+        {
+            return _p->styleSettings;
         }
 
         const std::shared_ptr<Style> System::getStyle() const

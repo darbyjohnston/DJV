@@ -29,34 +29,21 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvCore/Core.h>
+
+class QColor;
 
 namespace djv
 {
-    namespace UICore
+    namespace AV
     {
-        class Style;
-        class StyleSettings;
+        class Color;
+    
+    } // namespace AV
 
-        class System : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(System);
+    namespace UIQt
+    {
+        QColor toQt(const AV::Color &);
 
-        protected:
-            void _init(const std::shared_ptr<Core::Context> &);
-            System();
-
-        public:
-            ~System() override;
-
-            static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
-
-            const std::shared_ptr<StyleSettings> getStyleSettings() const;
-            const std::shared_ptr<Style> getStyle() const;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace UICore
+    } // namespace UIQt
 } // namespace djv

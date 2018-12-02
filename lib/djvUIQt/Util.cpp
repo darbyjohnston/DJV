@@ -27,36 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUIQt/Util.h>
 
-#include <djvCore/ISystem.h>
+#include <djvAV/Color.h>
+
+#include <QColor>
 
 namespace djv
 {
-    namespace UICore
+    namespace UIQt
     {
-        class Style;
-        class StyleSettings;
-
-        class System : public Core::ISystem
+        QColor toQt(const AV::Color & value)
         {
-            DJV_NON_COPYABLE(System);
+            const auto tmp = value.convert(AV::Pixel::Type::RGBA_U8);
+            const auto * p = reinterpret_cast<const AV::Pixel::U8_T *>(tmp.getData());
+            return QColor(p[0], p[1], p[2], p[3]);
+        }
 
-        protected:
-            void _init(const std::shared_ptr<Core::Context> &);
-            System();
-
-        public:
-            ~System() override;
-
-            static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
-
-            const std::shared_ptr<StyleSettings> getStyleSettings() const;
-            const std::shared_ptr<Style> getStyle() const;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace UICore
+    } // namespace UIQt
 } // namespace djv
