@@ -29,46 +29,54 @@
 
 #pragma once
 
-#include <djvAV/PixelData.h>
+#include <djvCore/ISystem.h>
+
+#include <djvCore/PicoJSON.h>
 
 namespace djv
 {
-    namespace AV
+    namespace Core
     {
-        namespace Image
+        class Path;
+    }
+
+    namespace UI
+    {
+        class Context;
+        class ISettings;
+
+        //! This class provides a system for saving and restoring user settings.
+        //!
+        //! \bug How can we merge settings changes from multiple application instances?
+        class SettingsSystem : public Core::ISystem
         {
-            class Color
-            {
-            public:
-                Color();
-                Color(Pixel);
-                Color(int r, int g, int b, int a = U8Max);
-                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
+            DJV_NON_COPYABLE(SettingsSystem);
+            void _init(const std::shared_ptr<Context>&);
+            SettingsSystem();
 
-                inline Pixel getPixel() const;
-                inline bool isValid() const;
+        public:
+            virtual ~SettingsSystem();
 
-                void zero();
+            //! Create a new settings system.
+            static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<Context>&);
 
-                Color convert(const Pixel &) const;
+        protected:
+            void _exit() override;
 
-                inline const uint8_t * getData() const;
-                inline uint8_t * getData();
+        private:
+            void _addSettings(const std::shared_ptr<ISettings>&);
+            void _removeSettings(const std::shared_ptr<ISettings>&);
 
-                bool operator == (const Color &) const;
-                bool operator != (const Color &) const;
+            void _loadSettings(const std::shared_ptr<ISettings>&);
+            void _saveSettings();
 
-            private:
-                Pixel _pixel;
-                std::vector<uint8_t> _data;
-            };
+            void _readSettingsFile(const Core::Path&, std::map<std::string, picojson::value>&);
+            void _writeSettingsFile(const Core::Path&, const picojson::value&);
 
-        } // namespace Image
-    } // namespace AV
+            DJV_PRIVATE();
 
-    std::ostream & operator << (std::ostream &, const AV::Image::Color &);
-    std::istream & operator >> (std::istream &, AV::Image::Color &);
+            friend class ISettings;
+        };
 
+    } // namespace UI
 } // namespace djv
-
-#include <djvAV/ColorInline.h>

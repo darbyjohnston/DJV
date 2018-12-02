@@ -101,7 +101,8 @@ namespace djv
             for (const auto& i : value.get<picojson::object>())
             {
                 T key;
-                fromString(i.first, key);
+                std::stringstream ss(i.first);
+                ss >> key;
                 U value;
                 fromJSON(i.second, value);
                 out[key] = value;

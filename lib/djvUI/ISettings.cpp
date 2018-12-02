@@ -27,48 +27,71 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUI/ISettings.h>
 
-#include <djvAV/PixelData.h>
+#include <djvUI/Context.h>
+#include <djvUI/SettingsSystem.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
-    namespace AV
+    namespace UI
     {
-        namespace Image
+        struct ISettings::Private
         {
-            class Color
+            std::weak_ptr<Context> context;
+            std::string name;
+        };
+
+        void ISettings::_init(const std::string& name, const std::shared_ptr<Context>& context)
+        {
+            _p->context = context;
+            _p->name = name;
+
+            if (auto system = context->getSystemT<SettingsSystem>())
             {
-            public:
-                Color();
-                Color(Pixel);
-                Color(int r, int g, int b, int a = U8Max);
-                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
+                system->_addSettings(shared_from_this());
+            }
+        }
 
-                inline Pixel getPixel() const;
-                inline bool isValid() const;
+        ISettings::ISettings() :
+            _p(new Private)
+        {}
 
-                void zero();
+        ISettings::~ISettings()
+        {}
 
-                Color convert(const Pixel &) const;
+        const std::weak_ptr<Context> & ISettings::getContext() const
+        {
+            return _p->context;
+        }
 
-                inline const uint8_t * getData() const;
-                inline uint8_t * getData();
+        const std::string& ISettings::getName() const
+        {
+            return _p->name;
+        }
 
-                bool operator == (const Color &) const;
-                bool operator != (const Color &) const;
+        void ISettings::_load()
+        {
+            if (auto context = _p->context.lock())
+            {
+                if (auto system = context->getSystemT<SettingsSystem>())
+                {
+                    system->_loadSettings(shared_from_this());
+                }
+            }
+        }
 
-            private:
-                Pixel _pixel;
-                std::vector<uint8_t> _data;
-            };
+        void ISettings::_readError(const std::string& value)
+        {
+            if (auto context = _p->context.lock())
+            {
+                std::stringstream s;
+                s << "Error reading settings: " << _p->name << ": " << value;
+                context->log("djv::UI::ISettings", s.str(), LogLevel::Error);
+            }
+        }
 
-        } // namespace Image
-    } // namespace AV
-
-    std::ostream & operator << (std::ostream &, const AV::Image::Color &);
-    std::istream & operator >> (std::istream &, AV::Image::Color &);
-
+    } // namespace UI
 } // namespace djv
-
-#include <djvAV/ColorInline.h>

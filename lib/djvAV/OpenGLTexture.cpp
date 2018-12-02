@@ -72,8 +72,6 @@ namespace djv
                     glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
                     GLenum internalFormat = GL_RGBA;
                     const glm::ivec2 & size = _p->info.getSize();
-                    const auto format = _p->info.getFormat();
-                    const auto type = _p->info.getType();
                     glFuncs->glTexImage2D(
                         GL_TEXTURE_2D,
                         0,
@@ -81,8 +79,8 @@ namespace djv
                         size.x,
                         size.y,
                         0,
-                        GL_UNSIGNED_INT_10_10_10_2 == type ? GL_RGBA : format,
-                        type,
+                        _p->info.getFormat(),
+                        _p->info.getType(),
                         0);
                     glFuncs->glGenBuffers(1, &_p->pbo);
                 }
@@ -128,7 +126,7 @@ namespace djv
                         0,
                         info.getWidth(),
                         info.getHeight(),
-                        GL_UNSIGNED_INT_10_10_10_2 == info.getType() ? GL_RGBA : info.getFormat(),
+                        info.getFormat(),
                         info.getType(),
                         0);
 
@@ -160,7 +158,7 @@ namespace djv
                         pos.y,
                         info.getWidth(),
                         info.getHeight(),
-                        GL_UNSIGNED_INT_10_10_10_2 == info.getType() ? GL_RGBA : info.getFormat(),
+                        info.getFormat(),
                         info.getType(),
                         0);
 

@@ -69,7 +69,7 @@ namespace djv
             ///@{
 
             //! Get the systems.
-            const std::vector<std::weak_ptr<ISystem> > & getSystems() const;
+            const std::vector<std::shared_ptr<ISystem> > & getSystems() const;
 
             //! Get systems by type.
             template<typename T>
@@ -107,7 +107,7 @@ namespace djv
             const std::shared_ptr<UndoStack> & getUndoStack() const;
 
         private:
-            void _addSystem(const std::weak_ptr<ISystem>&);
+            void _addSystem(const std::shared_ptr<ISystem>&);
 
             DJV_PRIVATE();
 

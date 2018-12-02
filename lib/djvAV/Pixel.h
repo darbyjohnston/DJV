@@ -72,7 +72,8 @@ namespace djv
                 RGBA_F16,
                 RGBA_F32,
 
-                Count
+                Count,
+                First = None
             };
             DJV_ENUM_HELPERS(Pixel);
 

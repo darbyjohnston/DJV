@@ -3,7 +3,13 @@ set(header
     FileBrowser.h
     FileBrowser.h
     FileBrowserPrivate.h
-    ProxyStyle.h)
+    ISettings.h
+    ISettingsInline.h
+    ProxyStyle.h
+    SettingsSystem.h
+    Style.h
+    StyleInline.h
+    StyleSettings.h)
 set(mocHeader
     Context.h
     FileBrowser.h
@@ -14,7 +20,11 @@ set(source
     FileBrowser.cpp
     FileBrowserModel.cpp
     FileBrowserWidget.cpp
-    ProxyStyle.cpp)
+    ISettings.cpp
+    ProxyStyle.cpp
+    SettingsSystem.cpp
+    Style.cpp
+    StyleSettings.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 

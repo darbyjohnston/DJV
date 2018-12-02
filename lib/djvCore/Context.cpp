@@ -54,7 +54,7 @@ namespace djv
         {
             std::vector<std::string> args;
             std::string name;
-            std::vector<std::weak_ptr<ISystem> > systems;
+            std::vector<std::shared_ptr<ISystem> > systems;
             struct CoreSystems
             {
                 std::shared_ptr<TimerSystem> timer;
@@ -127,12 +127,9 @@ namespace djv
             log("djv::Core::Context", s.str());
 
             auto systems = _p->systems;
-            for (auto s = systems.rbegin(); s != systems.rend(); ++s)
+            for (auto system = systems.rbegin(); system != systems.rend(); ++system)
             {
-                if (auto system = s->lock())
-                {
-                    system->_exit();
-                }
+                (*system)->_exit();
             }
 
             //! \bug [1.0 S] It seems on OSX that the "Context::_p" pointer is getting
@@ -146,7 +143,7 @@ namespace djv
             return _p->fpsAverage;
         }
 
-        const std::vector<std::weak_ptr<ISystem> >& Context::getSystems() const
+        const std::vector<std::shared_ptr<ISystem> >& Context::getSystems() const
         {
             return _p->systems;
         }
@@ -216,49 +213,24 @@ namespace djv
             _p->fpsAverage /= static_cast<float>(_p->fpsSamples.size());
             //std::cout << "fps = " << _p->fpsAverage << std::endl;
 
-            std::vector<std::weak_ptr<ISystem> > zombies;
-
             static bool logSystemOrder = true;
             auto systems = _p->systems;
             size_t count = 0;
-            for (const auto& s : systems)
+            for (const auto & system : systems)
             {
-                if (auto system = s.lock())
+                if (logSystemOrder)
                 {
-                    if (logSystemOrder)
-                    {
-                        std::stringstream s;
-                        s << "Tick system #" << count << ": " << system->getName();
-                        log("djv::Core::Context", s.str());
-                        ++count;
-                    }
-
-                    system->_tick(dt);
+                    std::stringstream s;
+                    s << "Tick system #" << count << ": " << system->getName();
+                    log("djv::Core::Context", s.str());
+                    ++count;
                 }
-                else
-                {
-                    zombies.push_back(s);
-                }
+                system->_tick(dt);
             }
             logSystemOrder = false;
-
-            for (const auto& zombie : zombies)
-            {
-                const auto i = std::find_if(_p->systems.begin(), _p->systems.end(),
-                    [zombie](const std::weak_ptr<ISystem>& other)
-                {
-                    auto a = zombie.lock();
-                    auto b = other.lock();
-                    return (a && b) ? (a.get() == b.get()) : false;
-                });
-                if (i != _p->systems.end())
-                {
-                    _p->systems.erase(i);
-                }
-            }
         }
 
-        void Context::_addSystem(const std::weak_ptr<ISystem>& system)
+        void Context::_addSystem(const std::shared_ptr<ISystem>& system)
         {
             _p->systems.push_back(system);
         }

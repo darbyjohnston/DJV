@@ -258,11 +258,11 @@ namespace djv
                     const auto & fileInfo = _p->fileInfoList[index.row()];
                     if (fileInfo.isFile())
                     {
-                        return context->getStyle()->standardIcon(QStyle::SP_FileIcon);
+                        return context->getQStyle()->standardIcon(QStyle::SP_FileIcon);
                     }
                     else if (fileInfo.isDir())
                     {
-                        return context->getStyle()->standardIcon(QStyle::SP_DirIcon);
+                        return context->getQStyle()->standardIcon(QStyle::SP_DirIcon);
                     }
                 }
                 break;

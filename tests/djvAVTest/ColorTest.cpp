@@ -82,6 +82,30 @@ namespace djv
                     }
                 }
             }
+            {
+                AV::Image::Color in(0, 127, 255);
+                std::stringstream ss;
+                ss << in;
+                AV::Image::Color out;
+                ss >> out;
+                DJV_ASSERT(in == out);
+
+                _print(ss.str());
+            }
+            {
+                AV::Image::Color in(AV::Image::Pixel::RGB_U10);
+                auto * p = reinterpret_cast<AV::Image::U10_S *>(in.getData());
+                p->r = 0;
+                p->g = 511;
+                p->b = 1023;
+                std::stringstream ss;
+                ss << in;
+                AV::Image::Color out;
+                ss >> out;
+                DJV_ASSERT(in == out);
+
+                _print(ss.str());
+            }
         }
         
     } // namespace AVTest

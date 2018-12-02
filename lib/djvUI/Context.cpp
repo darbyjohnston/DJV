@@ -30,6 +30,8 @@
 #include <djvUI/Context.h>
 
 #include <djvUI/ProxyStyle.h>
+#include <djvUI/SettingsSystem.h>
+#include <djvUI/Style.h>
 
 #include <QApplication>
 
@@ -39,15 +41,18 @@ namespace djv
     {
         struct Context::Private
         {
-            QPointer<ProxyStyle> style;
+            std::shared_ptr<Style> style;
+            QPointer<ProxyStyle> qStyle;
         };
 
         void Context::_init(int & argc, char ** argv)
         {
             AV::Context::_init(argc, argv);
 
-            _p->style = new ProxyStyle(std::dynamic_pointer_cast<Context>(shared_from_this()));
-            qApp->setStyle(_p->style);
+            SettingsSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
+            _p->style = Style::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
+            _p->qStyle = new ProxyStyle(std::dynamic_pointer_cast<Context>(shared_from_this()));
+            qApp->setStyle(_p->qStyle);
         }
 
         Context::Context() :
@@ -64,9 +69,14 @@ namespace djv
             return out;
         }
 
-        QPointer<QStyle> Context::getStyle() const
+        const std::shared_ptr<Style> Context::getStyle() const
         {
-            return _p->style.data();
+            return _p->style;
+        }
+
+        QPointer<QStyle> Context::getQStyle() const
+        {
+            return _p->qStyle.data();
         }
 
     } // namespace UI

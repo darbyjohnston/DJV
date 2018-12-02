@@ -29,46 +29,53 @@
 
 #pragma once
 
-#include <djvAV/PixelData.h>
+#include <djvUI/ISettings.h>
+#include <djvUI/Style.h>
+
+#include <djvCore/MapObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace AV
+    namespace Core
     {
-        namespace Image
+        class Animation;
+    
+    } // namespace Core
+    
+    namespace UI
+    {
+        //! This class provides the style settings.
+        class StyleSettings : public ISettings
         {
-            class Color
-            {
-            public:
-                Color();
-                Color(Pixel);
-                Color(int r, int g, int b, int a = U8Max);
-                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
+            DJV_NON_COPYABLE(StyleSettings);
 
-                inline Pixel getPixel() const;
-                inline bool isValid() const;
+        protected:
+            void _init(const std::shared_ptr<Context>& context);
 
-                void zero();
+            StyleSettings();
 
-                Color convert(const Pixel &) const;
+        public:
+            virtual ~StyleSettings();
 
-                inline const uint8_t * getData() const;
-                inline uint8_t * getData();
+            static std::shared_ptr<StyleSettings> create(const std::shared_ptr<Context>&);
 
-                bool operator == (const Color &) const;
-                bool operator != (const Color &) const;
+            std::shared_ptr<Core::IMapSubject<std::string, Palette> > getPalettes() const;
+            std::shared_ptr<Core::IValueSubject<Palette> > getCurrentPalette() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentPaletteName() const;
+            void setCurrentPalette(const std::string&);
 
-            private:
-                Pixel _pixel;
-                std::vector<uint8_t> _data;
-            };
+            std::shared_ptr<Core::IMapSubject<std::string, Metrics> > getMetrics() const;
+            std::shared_ptr<Core::IValueSubject<Metrics> > getCurrentMetrics() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentMetricsName() const;
+            void setCurrentMetrics(const std::string&);
 
-        } // namespace Image
-    } // namespace AV
+            void load(const picojson::value&) override;
+            picojson::value save() override;
 
-    std::ostream & operator << (std::ostream &, const AV::Image::Color &);
-    std::istream & operator >> (std::istream &, AV::Image::Color &);
+        private:
+            DJV_PRIVATE();
+        };
 
+    } // namespace UI
 } // namespace djv
-
-#include <djvAV/ColorInline.h>

@@ -35,6 +35,12 @@ namespace djv
 {
     namespace Core
     {
+        namespace
+        {
+            size_t activeSystemCount = 0;
+
+        } // namespace
+
         struct ISystem::Private
         {
             std::weak_ptr<Context> context;
@@ -49,6 +55,7 @@ namespace djv
             std::stringstream s;
             s << name << " starting...";
             _log(s.str());
+            ++activeSystemCount;
 
             context->_addSystem(shared_from_this());
         }
@@ -75,6 +82,7 @@ namespace djv
             std::stringstream s;
             s << _p->name << " exiting...";
             _log(s.str());
+            --activeSystemCount;
         }
 
         void ISystem::_log(const std::string& message, LogLevel level)

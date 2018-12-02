@@ -37,7 +37,7 @@ namespace djv
             std::vector<std::shared_ptr<T> > out;
             for (auto i : getSystems())
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
+                if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
                     out.push_back(system);
                 }
@@ -50,7 +50,7 @@ namespace djv
         {
             for (auto i : getSystems())
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
+                if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
                     return system;
                 }

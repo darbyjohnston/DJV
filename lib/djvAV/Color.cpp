@@ -35,7 +35,8 @@ namespace djv
     {
         namespace Image
         {
-            Color::Color()
+            Color::Color() :
+                _pixel(Pixel::None)
             {}
 
             Color::Color(Pixel pixel) :
@@ -45,9 +46,9 @@ namespace djv
                 zero();
             }
 
-            Color::Color(U8_T r, U8_T g, U8_T b, U8_T a) :
+            Color::Color(int r, int g, int b, int a) :
                 _pixel(Pixel::RGBA_U8),
-                _data(getByteCount(_pixel))
+                _data(getByteCount(Pixel::RGBA_U8))
             {
                 _data[0] = r;
                 _data[1] = g;
@@ -57,7 +58,7 @@ namespace djv
 
             Color::Color(F32_T r, F32_T g, F32_T b, F32_T a) :
                 _pixel(Pixel::RGBA_F32),
-                _data(getByteCount(_pixel))
+                _data(getByteCount(Pixel::RGBA_F32))
             {
                 float * p = reinterpret_cast<float *>(_data.data());
                 p[0] = r;
@@ -78,7 +79,178 @@ namespace djv
                 return out;
             }
 
+            bool Color::operator == (const Color & other) const
+            {
+                return
+                    _pixel == other._pixel &&
+                    0 == memcmp(_data.data(), other._data.data(), getByteCount(_pixel));
+            }
+
+            bool Color::operator != (const Color & other) const
+            {
+                return !(*this == other);
+            }
+
         } // namespace Image
     } // namespace AV
+
+    std::ostream & operator << (std::ostream & os, const AV::Image::Color & value)
+    {
+        const auto pixel = value.getPixel();
+        os << pixel;
+        const size_t channelCount = AV::Image::getChannelCount(pixel);
+        switch (AV::Image::getType(pixel))
+        {
+        case GL_UNSIGNED_BYTE:
+        {
+            os << " ";
+            const auto * p = reinterpret_cast<const AV::Image::U8_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                os << static_cast<int>(p[i]);
+                if (i < channelCount - 1)
+                {
+                    os << " ";
+                }
+            }
+            break;
+        }
+        case GL_UNSIGNED_SHORT:
+        {
+            os << " ";
+            const auto * p = reinterpret_cast<const AV::Image::U16_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                os << p[i];
+                if (i < channelCount - 1)
+                {
+                    os << " ";
+                }
+            }
+            break;
+        }
+        case GL_UNSIGNED_INT:
+        {
+            os << " ";
+            const auto * p = reinterpret_cast<const AV::Image::U32_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                os << p[i];
+                if (i < channelCount - 1)
+                {
+                    os << " ";
+                }
+            }
+            break;
+        }
+        case GL_HALF_FLOAT:
+        {
+            os << " ";
+            const auto * p = reinterpret_cast<const AV::Image::F16_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                os << p[i];
+                if (i < channelCount - 1)
+                {
+                    os << " ";
+                }
+            }
+            break;
+        }
+        case GL_FLOAT:
+        {
+            os << " ";
+            const auto * p = reinterpret_cast<const AV::Image::F32_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                os << p[i];
+                if (i < channelCount - 1)
+                {
+                    os << " ";
+                }
+            }
+            break;
+        }
+        case GL_UNSIGNED_INT_10_10_10_2:
+        {
+            const auto * p = reinterpret_cast<const AV::Image::U10_S *>(value.getData());
+            os << " " << p->r << " " << p->g << " " << p->b;
+            break;
+        }
+        }
+        return os;
+    }
+
+    std::istream & operator >> (std::istream & is, AV::Image::Color & value)
+    {
+        AV::Image::Pixel pixel = AV::Image::Pixel::None;
+        is >> pixel;
+        value = AV::Image::Color(pixel);
+        const size_t channelCount = AV::Image::getChannelCount(pixel);
+        switch (AV::Image::getType(pixel))
+        {
+        case GL_UNSIGNED_BYTE:
+        {
+            auto * p = reinterpret_cast<AV::Image::U8_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                int tmp = 0;
+                is >> tmp;
+                p[i] = tmp;
+            }
+            break;
+        }
+        case GL_UNSIGNED_SHORT:
+        {
+            auto * p = reinterpret_cast<AV::Image::U16_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                is >> p[i];
+            }
+            break;
+        }
+        case GL_UNSIGNED_INT:
+        {
+            auto * p = reinterpret_cast<AV::Image::U32_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                is >> p[i];
+            }
+            break;
+        }
+        case GL_HALF_FLOAT:
+        {
+            auto * p = reinterpret_cast<AV::Image::F16_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                is >> p[i];
+            }
+            break;
+        }
+        case GL_FLOAT:
+        {
+            auto * p = reinterpret_cast<AV::Image::F32_T *>(value.getData());
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                is >> p[i];
+            }
+            break;
+        }
+        case GL_UNSIGNED_INT_10_10_10_2:
+        {
+            auto * p = reinterpret_cast<AV::Image::U10_S *>(value.getData());
+            int tmp = 0;
+            is >> tmp;
+            p->r = tmp;
+            is >> tmp;
+            p->g = tmp;
+            is >> tmp;
+            p->b = tmp;
+            break;
+        }
+        }
+        return is;
+    }
+
 } // namespace djv
 
