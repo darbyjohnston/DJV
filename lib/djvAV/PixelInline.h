@@ -250,144 +250,127 @@ namespace djv
                 return Pixel();
             }
 
-            inline void U8ToU10(U8_T in, U10_T & out)
-            {
-                out = in << 2;
-            }
-
-            inline void U8ToU16(U8_T in, U16_T & out)
-            {
-                out = in << 8;
-            }
-
-            inline void U8ToU32(U8_T in, U32_T & out)
-            {
-                out = in << 24;
-            }
-
-            inline void U8ToF16(U8_T in, F16_T & out)
-            {
-                out = in / static_cast<float>(U8Max);
-            }
-
-            inline void U8ToF32(U8_T in, F32_T & out)
-            {
-                out = in / static_cast<float>(U8Max);
-            }
-
-            inline void U10ToU8(U10_T in, U8_T & out)
-            {
-                out = in >> 2;
-            }
-
-            inline void U10ToU16(U10_T in, U16_T & out)
-            {
-                out = in << 6;
-            }
-
-            inline void U10ToU32(U10_T in, U32_T & out)
-            {
-                out = in << 22;
-            }
-
-            inline void U10ToF16(U10_T in, F16_T & out)
-            {
-                out = in / static_cast<float>(U10Max);
-            }
-
-            inline void U10ToF32(U10_T in, F32_T & out)
-            {
-                out = in / static_cast<float>(U10Max);
-            }
-
-            inline void U16ToU8(U16_T in, U8_T & out)
-            {
-                out = in >> 8;
-            }
-
-            inline void U16ToU10(U16_T in, U10_T & out)
-            {
-                out = in >> 6;
-            }
-
-            inline void U16ToU32(U16_T in, U32_T & out)
-            {
-                out = in << 16;
-            }
-
-            inline void U16ToF16(U16_T in, F16_T & out)
-            {
-                out = in / static_cast<float>(U16Max);
-            }
-
-            inline void U16ToF32(U16_T in, F32_T & out)
-            {
-                out = in / static_cast<float>(U16Max);
-            }
-
-            inline void U32ToU8(U32_T in, U8_T & out)
-            {
-                out = in >> 24;
-            }
-
-            inline void U32ToU10(U32_T in, U10_T & out)
-            {
-                out = in >> 22;
-            }
-
-            inline void U32ToU16(U32_T in, U16_T & out)
-            {
-                out = in >> 16;
-            }
-
-            inline void U32ToF16(U32_T in, F16_T & out)
-            {
-                out = in / static_cast<float>(U32Max);
-            }
-
-            inline void U32ToF32(U32_T in, F32_T & out)
-            {
-                out = in / static_cast<float>(U32Max);
-            }
-
-            inline void F16ToU8(F16_T in, U8_T & out)
-            {
-                out = static_cast<U8_T>(Core::Math::clamp(
-                    static_cast<uint16_t>(in * U8Max),
-                    static_cast<uint16_t>(U8Min),
-                    static_cast<uint16_t>(U8Max)));
-            }
-
-            inline void F16ToU10(F16_T in, U10_T & out)
-            {
-                out = static_cast<U10_T>(Core::Math::clamp(
-                    static_cast<uint16_t>(in * U10Max),
-                    static_cast<uint16_t>(U10Min),
-                    static_cast<uint16_t>(U10Max)));
-            }
-
-            inline void F16ToU16(F16_T in, U16_T & out)
-            {
-                out = static_cast<U16_T>(Core::Math::clamp(
-                    static_cast<uint32_t>(in * U16Max),
-                    static_cast<uint32_t>(U16Min),
-                    static_cast<uint32_t>(U16Max)));
-            }
-
-            inline void F16ToU32(F16_T in, U32_T & out)
-            {
-                out = static_cast<U32_T>(Core::Math::clamp(
-                    static_cast<uint64_t>(in * U32Max),
-                    static_cast<uint64_t>(U32Min),
-                    static_cast<uint64_t>(U32Max)));
-            }
-
-            inline void F16ToF32(F16_T in, F32_T & out)
+            inline void convert_U8_U8(U8_T in, U8_T & out)
             {
                 out = in;
             }
 
-            inline void F32ToU8(F32_T in, U8_T & out)
+            inline void convert_U8_U10(U8_T in, U10_T & out)
+            {
+                out = in << 2;
+            }
+
+            inline void convert_U8_U16(U8_T in, U16_T & out)
+            {
+                out = in << 8;
+            }
+
+            inline void convert_U8_U32(U8_T in, U32_T & out)
+            {
+                out = in << 24;
+            }
+
+            inline void convert_U8_F16(U8_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(U8Max);
+            }
+
+            inline void convert_U8_F32(U8_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(U8Max);
+            }
+
+            inline void convert_U10_U8(U10_T in, U8_T & out)
+            {
+                out = in >> 2;
+            }
+
+            inline void convert_U10_U8(U10_T in, U10_T & out)
+            {
+                out = in;
+            }
+
+            inline void convert_U10_U16(U10_T in, U16_T & out)
+            {
+                out = in << 6;
+            }
+
+            inline void convert_U10_U32(U10_T in, U32_T & out)
+            {
+                out = in << 22;
+            }
+
+            inline void convert_U10_F16(U10_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(U10Max);
+            }
+
+            inline void convert_U10_F32(U10_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(U10Max);
+            }
+
+            inline void convert_U16_U8(U16_T in, U8_T & out)
+            {
+                out = in >> 8;
+            }
+
+            inline void convert_U16_U10(U16_T in, U10_T & out)
+            {
+                out = in >> 6;
+            }
+
+            inline void convert_U16_U16(U16_T in, U16_T & out)
+            {
+                out = in;
+            }
+
+            inline void convert_U16_U32(U16_T in, U32_T & out)
+            {
+                out = in << 16;
+            }
+
+            inline void convert_U16_F16(U16_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(U16Max);
+            }
+
+            inline void convert_U16_F32(U16_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(U16Max);
+            }
+
+            inline void convert_U32_U8(U32_T in, U8_T & out)
+            {
+                out = in >> 24;
+            }
+
+            inline void convert_U32_U10(U32_T in, U10_T & out)
+            {
+                out = in >> 22;
+            }
+
+            inline void convert_U32_U16(U32_T in, U16_T & out)
+            {
+                out = in >> 16;
+            }
+
+            inline void convert_U32_U32(U32_T in, U32_T & out)
+            {
+                out = in;
+            }
+
+            inline void convert_U32_F16(U32_T in, F16_T & out)
+            {
+                out = in / static_cast<float>(U32Max);
+            }
+
+            inline void convert_U32_F32(U32_T in, F32_T & out)
+            {
+                out = in / static_cast<float>(U32Max);
+            }
+
+            inline void convert_F16_U8(F16_T in, U8_T & out)
             {
                 out = static_cast<U8_T>(Core::Math::clamp(
                     static_cast<uint16_t>(in * U8Max),
@@ -395,7 +378,7 @@ namespace djv
                     static_cast<uint16_t>(U8Max)));
             }
 
-            inline void F32ToU10(F32_T in, U10_T & out)
+            inline void convert_F16_U10(F16_T in, U10_T & out)
             {
                 out = static_cast<U10_T>(Core::Math::clamp(
                     static_cast<uint16_t>(in * U10Max),
@@ -403,7 +386,7 @@ namespace djv
                     static_cast<uint16_t>(U10Max)));
             }
 
-            inline void F32ToU16(F32_T in, U16_T & out)
+            inline void convert_F16_U16(F16_T in, U16_T & out)
             {
                 out = static_cast<U16_T>(Core::Math::clamp(
                     static_cast<uint32_t>(in * U16Max),
@@ -411,7 +394,7 @@ namespace djv
                     static_cast<uint32_t>(U16Max)));
             }
 
-            inline void F32ToU32(F32_T in, U32_T & out)
+            inline void convert_F16_U32(F16_T in, U32_T & out)
             {
                 out = static_cast<U32_T>(Core::Math::clamp(
                     static_cast<uint64_t>(in * U32Max),
@@ -419,7 +402,54 @@ namespace djv
                     static_cast<uint64_t>(U32Max)));
             }
 
-            inline void F32ToF16(F32_T in, F16_T & out)
+            inline void convert_F16_F16(F16_T in, F16_T & out)
+            {
+                out = in;
+            }
+
+            inline void convert_F16_F32(F16_T in, F32_T & out)
+            {
+                out = in;
+            }
+
+            inline void convert_F32_U8(F32_T in, U8_T & out)
+            {
+                out = static_cast<U8_T>(Core::Math::clamp(
+                    static_cast<uint16_t>(in * U8Max),
+                    static_cast<uint16_t>(U8Min),
+                    static_cast<uint16_t>(U8Max)));
+            }
+
+            inline void convert_F32_U10(F32_T in, U10_T & out)
+            {
+                out = static_cast<U10_T>(Core::Math::clamp(
+                    static_cast<uint16_t>(in * U10Max),
+                    static_cast<uint16_t>(U10Min),
+                    static_cast<uint16_t>(U10Max)));
+            }
+
+            inline void convert_F32_U16(F32_T in, U16_T & out)
+            {
+                out = static_cast<U16_T>(Core::Math::clamp(
+                    static_cast<uint32_t>(in * U16Max),
+                    static_cast<uint32_t>(U16Min),
+                    static_cast<uint32_t>(U16Max)));
+            }
+
+            inline void convert_F32_U32(F32_T in, U32_T & out)
+            {
+                out = static_cast<U32_T>(Core::Math::clamp(
+                    static_cast<uint64_t>(in * U32Max),
+                    static_cast<uint64_t>(U32Min),
+                    static_cast<uint64_t>(U32Max)));
+            }
+
+            inline void convert_F32_F16(F32_T in, F16_T & out)
+            {
+                out = in;
+            }
+
+            inline void convert_F32_F32(F32_T in, F32_T & out)
             {
                 out = in;
             }

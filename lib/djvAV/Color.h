@@ -35,8 +35,6 @@ namespace djv
 {
     namespace AV
     {
-        class Context;
-
         namespace Image
         {
             class Color
@@ -52,7 +50,7 @@ namespace djv
 
                 void zero();
 
-                Color convert(const Pixel &, const std::shared_ptr<Context> &) const;
+                Color convert(const Pixel &) const;
 
                 inline const uint8_t * getData() const;
                 inline uint8_t * getData();

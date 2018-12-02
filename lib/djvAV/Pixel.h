@@ -125,41 +125,49 @@ namespace djv
             inline Pixel getIntPixel(int channels, int bitDepth);
             inline Pixel getFloatPixel(int channels, int bitDepth);
 
-            inline void U8ToU10(U8_T, U10_T &);
-            inline void U8ToU16(U8_T, U16_T &);
-            inline void U8ToU32(U8_T, U32_T &);
-            inline void U8ToF16(U8_T, F16_T &);
-            inline void U8ToF32(U8_T, F32_T &);
+            inline void convert_U8_U8(U8_T, U8_T &);
+            inline void convert_U8_U10(U8_T, U10_T &);
+            inline void convert_U8_U16(U8_T, U16_T &);
+            inline void convert_U8_U32(U8_T, U32_T &);
+            inline void convert_U8_F16(U8_T, F16_T &);
+            inline void convert_U8_F32(U8_T, F32_T &);
 
-            inline void U16ToU8(U16_T, U8_T &);
-            inline void U16ToU10(U16_T, U10_T &);
-            inline void U16ToU32(U16_T, U32_T &);
-            inline void U16ToF16(U16_T, F16_T &);
-            inline void U16ToF32(U16_T, F32_T &);
+            inline void convert_U16_U8(U16_T, U8_T &);
+            inline void convert_U16_U10(U16_T, U10_T &);
+            inline void convert_U16_U16(U16_T, U16_T &);
+            inline void convert_U16_U32(U16_T, U32_T &);
+            inline void convert_U16_F16(U16_T, F16_T &);
+            inline void convert_U16_F32(U16_T, F32_T &);
 
-            inline void U10ToU8(U16_T, U8_T &);
-            inline void U10ToU16(U16_T, U10_T &);
-            inline void U10ToU32(U16_T, U32_T &);
-            inline void U10ToF16(U16_T, F16_T &);
-            inline void U10ToF32(U16_T, F32_T &);
+            inline void convert_U10_U8(U16_T, U8_T &);
+            inline void convert_U10_U10(U10_T, U10_T &);
+            inline void convert_U10_U16(U16_T, U10_T &);
+            inline void convert_U10_U32(U16_T, U32_T &);
+            inline void convert_U10_F16(U16_T, F16_T &);
+            inline void convert_U10_F32(U16_T, F32_T &);
 
-            inline void U32ToU8(U32_T, U8_T &);
-            inline void U32ToU10(U32_T, U10_T &);
-            inline void U32ToU16(U32_T, U16_T &);
-            inline void U32ToF16(U32_T, F16_T &);
-            inline void U32ToF32(U32_T, F32_T &);
+            inline void convert_U32_U8(U32_T, U8_T &);
+            inline void convert_U32_U10(U32_T, U10_T &);
+            inline void convert_U32_U16(U32_T, U16_T &);
+            inline void convert_U32_U32(U32_T, U32_T &);
+            inline void convert_U32_F16(U32_T, F16_T &);
+            inline void convert_U32_F32(U32_T, F32_T &);
 
-            inline void F16ToU8(F16_T, U8_T &);
-            inline void F16ToU10(F16_T, U10_T &);
-            inline void F16ToU16(F16_T, U16_T &);
-            inline void F16ToU32(F16_T, U32_T &);
-            inline void F16ToF32(F16_T, F32_T &);
+            inline void convert_F16_U8(F16_T, U8_T &);
+            inline void convert_F16_U10(F16_T, U10_T &);
+            inline void convert_F16_U16(F16_T, U16_T &);
+            inline void convert_F16_U32(F16_T, U32_T &);
+            inline void convert_F16_F16(F16_T, F16_T &);
+            inline void convert_F16_F32(F16_T, F32_T &);
 
-            inline void F32ToU8(F32_T, U8_T &);
-            inline void F32ToU10(F32_T, U10_T &);
-            inline void F32ToU16(F32_T, U16_T &);
-            inline void F32ToU32(F32_T, U32_T &);
-            inline void F32ToF16(F32_T, F16_T &);
+            inline void convert_F32_U8(F32_T, U8_T &);
+            inline void convert_F32_U10(F32_T, U10_T &);
+            inline void convert_F32_U16(F32_T, U16_T &);
+            inline void convert_F32_U32(F32_T, U32_T &);
+            inline void convert_F32_F16(F32_T, F16_T &);
+            inline void convert_F32_F32(F32_T, F32_T &);
+
+            void convert(const void *, Pixel, void *, Pixel, size_t);
 
         } // namespace Image
     } // namespace AV

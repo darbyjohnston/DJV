@@ -41,14 +41,14 @@ namespace djv
             ITest("djv::AVTest::PixelTest", context)
         {}
         
-#define CONVERT(ta, min, max, tb) \
+#define CONVERT(A, MIN, MAX, B) \
     { \
-        auto bmin = static_cast<AV::Image::tb##_T>(0); \
-        auto bmax = static_cast<AV::Image::tb##_T>(0); \
-        AV::Image::ta##To##tb(min, bmin); \
-        AV::Image::ta##To##tb(max, bmax); \
+        auto bMin = static_cast<AV::Image::B##_T>(0); \
+        auto bMax = static_cast<AV::Image::B##_T>(0); \
+        AV::Image::convert_##A##_##B(MIN, bMin); \
+        AV::Image::convert_##A##_##B(MAX, bMax); \
         std::stringstream ss; \
-        ss << "    " << #tb << " " << static_cast<int64_t>(bmin) << " " << static_cast<int64_t>(bmax); \
+        ss << "    " << #B << " " << static_cast<int64_t>(bMin) << " " << static_cast<int64_t>(bMax); \
         _print(ss.str()); \
     }
 

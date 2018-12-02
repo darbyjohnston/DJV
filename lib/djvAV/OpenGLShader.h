@@ -45,7 +45,6 @@ namespace djv
 
     namespace AV
     {
-        class Context;
         class Shader;
 
         namespace Image
@@ -62,7 +61,7 @@ namespace djv
                 DJV_NON_COPYABLE(Shader);
 
             public:
-                Shader(const std::shared_ptr<AV::Shader> &, const std::shared_ptr<Context> &);
+                Shader(const std::shared_ptr<AV::Shader> &);
                 ~Shader();
 
                 void setUniform(const std::string&, int);

@@ -29,7 +29,6 @@
 
 #include <djvAVTest/ColorTest.h>
 
-#include <djvAV/Context.h>
 #include <djvAV/Color.h>
 
 #include <sstream>
@@ -44,37 +43,43 @@ namespace djv
         
         void ColorTest::run(int & argc, char ** argv)
         {
-            if (auto context = std::dynamic_pointer_cast<AV::Context>(getContext().lock()))
             {
+                auto u8 = AV::Image::Color(AV::Image::Pixel::L_U8);
+                auto u8p = reinterpret_cast<AV::Image::U8_T *>(u8.getData());
+                u8p[0] = 255;
+                const auto u16 = u8.convert(AV::Image::Pixel::L_U16);
+                const auto u16p = reinterpret_cast<const AV::Image::U16_T *>(u16.getData());
+                std::stringstream ss;
+                ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "U16 = " << u16p[0];
+                _print(ss.str());
+            }
+            {
+                auto u8 = AV::Image::Color(AV::Image::Pixel::L_U8);
+                auto u8p = reinterpret_cast<AV::Image::U8_T *>(u8.getData());
+                u8p[0] = 255;
+                const auto u10 = u8.convert(AV::Image::Pixel::RGB_U10);
+                const auto u10p = reinterpret_cast<const AV::Image::U10_S *>(u10.getData());
+                std::stringstream ss;
+                ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "U10 = " << u10p->r << ", " << u10p->g << ", " << u10p->b;
+                _print(ss.str());
+            }
+            {
+                auto u8 = AV::Image::Color(AV::Image::Pixel::L_U8);
+                auto u8p = reinterpret_cast<AV::Image::U8_T *>(u8.getData());
+                u8p[0] = 255;
+                const auto f32 = u8.convert(AV::Image::Pixel::L_F32);
+                const auto f32p = reinterpret_cast<const AV::Image::F32_T *>(f32.getData());
+                std::stringstream ss;
+                ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "F32 = " << f32p[0];
+                _print(ss.str());
+            }
+            {
+                for (size_t i = 1; i < static_cast<size_t>(AV::Image::Pixel::Count); ++i)
                 {
-                    auto u8 = AV::Image::Color(AV::Image::Pixel::L_U8);
-                    auto u8p = reinterpret_cast<AV::Image::U8_T *>(u8.getData());
-                    u8p[0] = 255;
-                    const auto u16 = u8.convert(AV::Image::Pixel::L_U16, context);
-                    const auto u16p = reinterpret_cast<const AV::Image::U16_T *>(u16.getData());
-                    std::stringstream ss;
-                    ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "U16 = " << u16p[0];
-                    _print(ss.str());
-                }
-                {
-                    auto u8 = AV::Image::Color(AV::Image::Pixel::L_U8);
-                    auto u8p = reinterpret_cast<AV::Image::U8_T *>(u8.getData());
-                    u8p[0] = 255;
-                    const auto u10 = u8.convert(AV::Image::Pixel::RGB_U10, context);
-                    const auto u10p = reinterpret_cast<const AV::Image::U10_S *>(u10.getData());
-                    std::stringstream ss;
-                    ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "U10 = " << u10p->r << ", " << u10p->g << ", " << u10p->b;
-                    _print(ss.str());
-                }
-                {
-                    auto u8 = AV::Image::Color(AV::Image::Pixel::L_U8);
-                    auto u8p = reinterpret_cast<AV::Image::U8_T *>(u8.getData());
-                    u8p[0] = 255;
-                    const auto f32 = u8.convert(AV::Image::Pixel::L_F32, context);
-                    const auto f32p = reinterpret_cast<const AV::Image::F32_T *>(f32.getData());
-                    std::stringstream ss;
-                    ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "F32 = " << f32p[0];
-                    _print(ss.str());
+                    for (size_t j = 1; j < static_cast<size_t>(AV::Image::Pixel::Count); ++j)
+                    {
+                        AV::Image::Color(static_cast<AV::Image::Pixel>(i)).convert(static_cast<AV::Image::Pixel>(j));
+                    }
                 }
             }
         }

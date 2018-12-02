@@ -29,8 +29,6 @@
 
 #include <djvAV/Color.h>
 
-#include <djvAV/Context.h>
-
 namespace djv
 {
     namespace AV
@@ -73,35 +71,10 @@ namespace djv
                 memset(_data.data(), 0, getByteCount(_pixel));
             }
 
-            Color Color::convert(const Pixel & pixel, const std::shared_ptr<Context> & context) const
+            Color Color::convert(const Pixel & pixel) const
             {
                 auto out = Color(pixel);
-                context->makeGLContextCurrent();
-                GLuint id = 0;
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenTextures(1, &id);
-                glFuncs->glBindTexture(GL_TEXTURE_2D, id);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glFuncs->glTexImage2D(
-                    GL_TEXTURE_2D,
-                    0,
-                    GL_RGBA,
-                    1,
-                    1,
-                    0,
-                    getFormat(_pixel),
-                    getType(_pixel),
-                    _data.data());
-                glFuncs->glGetTexImage(
-                    GL_TEXTURE_2D,
-                    0,
-                    getFormat(pixel),
-                    getType(pixel),
-                    out._data.data());
-                glFuncs->glDeleteTextures(1, &id);
+                Image::convert(_data.data(), _pixel, out._data.data(), pixel, 1);
                 return out;
             }
 

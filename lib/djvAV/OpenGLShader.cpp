@@ -48,17 +48,15 @@ namespace djv
         {
             struct Shader::Private
             {
-                std::weak_ptr<Context> context;
                 std::shared_ptr<AV::Shader> shader;
                 GLuint vertex = 0;
                 GLuint fragment = 0;
                 GLuint program = 0;
             };
 
-            Shader::Shader(const std::shared_ptr<AV::Shader>& shader, const std::shared_ptr<Context> & context) :
+            Shader::Shader(const std::shared_ptr<AV::Shader>& shader) :
                 _p(new Private)
             {
-                _p->context = context;
                 _p->shader = shader;
             }
 
@@ -118,13 +116,10 @@ namespace djv
 
             void Shader::setUniform(const std::string& name, const Image::Color & value)
             {
-                if (auto context = _p->context.lock())
-                {
-                    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                    const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
-                    auto color = value.convert(Image::Pixel::RGBA_F32, context);
-                    glFuncs->glUniform4fv(loc, 1, reinterpret_cast<const GLfloat *>(color.getData()));
-                }
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                auto color = value.convert(Image::Pixel::RGBA_F32);
+                glFuncs->glUniform4fv(loc, 1, reinterpret_cast<const GLfloat *>(color.getData()));
             }
 
             void Shader::init()
