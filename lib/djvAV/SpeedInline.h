@@ -29,7 +29,7 @@
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
         inline int Speed::getScale() const
         {
@@ -46,5 +46,5 @@ namespace djv
             return _scale != 0 && _duration != 0;
         }
 
-    } // namespace Core
+    } // namespace AV
 } // namespace djv

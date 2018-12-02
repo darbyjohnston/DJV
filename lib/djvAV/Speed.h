@@ -27,68 +27,69 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/Timecode.h>
+#pragma once
 
-#include <djvCore/String.h>
-
-#include <iomanip>
-#include <sstream>
+#include <djvCore/Enum.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        namespace Timecode
+        class Speed
         {
-		    std::string toString(uint32_t in)
-		    {
-			    int hour   = 0;
-			    int minute = 0;
-			    int second = 0;
-			    int frame  = 0;
-			    toTime(in, hour, minute, second, frame);
+        public:
+            enum class FPS
+            {
+                _1,
+                _3,
+                _6,
+                _12,
+                _15,
+                _16,
+                _18,
+                _23_976,
+                _24,
+                _25,
+                _29_97,
+                _30,
+                _50,
+                _59_94,
+                _60,
+                _120,
 
-			    std::stringstream s;
-			    s << std::setfill('0') << std::setw(2) << hour;
-			    s << std::setw(0) << ":";
-			    s << std::setfill('0') << std::setw(2) << minute;
-			    s << std::setw(0) << ":";
-			    s << std::setfill('0') << std::setw(2) << second;
-			    s << std::setw(0) << ":";
-			    s << std::setfill('0') << std::setw(2) << frame;
-			    return s.str();
-		    }
+                Count
+            };
+            DJV_ENUM_HELPERS(FPS);
 
-		    void fromString(const std::string& in, uint32_t& out, bool* ok)
-		    {
-			    if (ok)
-			    {
-				    *ok = true;
-			    }
+            Speed();
+            Speed(int scale, int duration = 1);
+            Speed(FPS);
 
-			    int hour   = 0;
-			    int minute = 0;
-			    int second = 0;
-			    int frame  = 0;
+            inline int getScale() const;
+            inline int getDuration() const;
+            inline bool isValid() const;
 
-			    const auto pieces = String::split(in, ':');
-			    if (pieces.size() != 4 && ok)
-			    {
-				    *ok = false;
-			    }
+            void set(FPS);
 
-			    int i = 0;
-			    switch (pieces.size())
-			    {
-                case 4: hour   = std::stoi(pieces[i]); ++i;
-                case 3: minute = std::stoi(pieces[i]); ++i;
-                case 2: second = std::stoi(pieces[i]); ++i;
-                case 1: frame  = std::stoi(pieces[i]); ++i;
-			    }
+            static float speedToFloat(const Speed &);
+            static Speed floatToSpeed(float);
 
-			    out = fromTime(hour, minute, second, frame);
-		    }
+            static FPS getDefaultSpeed();
+            static FPS getGlobalSpeed();
+            static void setGlobalSpeed(FPS);
 
-	    } // namespace Timecode
-	} // namespace Core
+            bool operator == (const Speed &) const;
+            bool operator != (const Speed &) const;
+
+        private:
+            int _scale = 0;
+            int _duration = 0;
+        };
+
+    } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Speed::FPS);
+
 } // namespace djv
+
+#include <djvAV/SpeedInline.h>

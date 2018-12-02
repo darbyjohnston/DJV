@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/Speed.h>
+#include <djvAV/Speed.h>
 
 #include <algorithm>
 #include <cmath>
@@ -35,7 +35,7 @@
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
         namespace
         {
@@ -149,10 +149,10 @@ namespace djv
             return !(*this == other);
         }
 
-    } // namespace Core
+    } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::Speed,
+        AV::Speed,
         FPS,
         "1",
         "3",

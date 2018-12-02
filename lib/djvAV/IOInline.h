@@ -38,7 +38,7 @@ namespace djv
                 return _info;
             }
 
-            inline const Core::Speed & VideoInfo::getSpeed() const
+            inline const Speed & VideoInfo::getSpeed() const
             {
                 return _speed;
             }

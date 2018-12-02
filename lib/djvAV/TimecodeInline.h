@@ -29,7 +29,7 @@
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
 	    namespace Timecode
 	    {
@@ -91,5 +91,5 @@ namespace djv
 		    }
 
 	    } // namespace Timecode
-	} // namespace Core
+	} // namespace AV
 } // namespace djv

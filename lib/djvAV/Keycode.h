@@ -27,52 +27,38 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/Keycode.h>
+#pragma once
 
-#include <djvCore/String.h>
+#include <djvCore/Core.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
 	    namespace Keycode
 	    {
+	        //! \name Conversion
+	        ///@{
+	        
 		    std::string toString(
 			    int id,
 			    int type,
 			    int prefix,
 			    int count,
-			    int offset)
-		    {
-                std::vector<std::string> list;
-                list.push_back(std::to_string(id));
-                list.push_back(std::to_string(type));
-                list.push_back(std::to_string(prefix));
-                list.push_back(std::to_string(count));
-                list.push_back(std::to_string(offset));
-                return String::join(list, ':');
-            }
+			    int offset);
 
-		    void fromString(
-			    const std::string& string,
-			    int&               id,
-			    int&               type,
-			    int&               prefix,
-			    int&               count,
-			    int&               offset)
-		    {
-			    const auto pieces = String::split(string, ':');
-                if (pieces.size() != 5)
-                {
-                    throw std::invalid_argument(DJV_TEXT("Cannot parse"));
-                }
-                id = std::stoi(pieces[0]);
-                type = std::stoi(pieces[1]);
-                prefix = std::stoi(pieces[2]);
-                count = std::stoi(pieces[3]);
-                offset = std::stoi(pieces[4]);
-		    }
+            //! Throws:
+            //! - std::exception
+            void fromString(
+			    const std::string&,
+			    int& id,
+			    int& type,
+			    int& prefix,
+			    int& count,
+			    int& offset);
 
+            ///@}
+               
 	    } // namespace Keycode
-	} // namespace Core
+	} // namespace AV
 } // namespace djv

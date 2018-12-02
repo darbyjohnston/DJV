@@ -39,7 +39,6 @@ set(header
     IObject.h
     IObjectInline.h
     ISystem.h
-    Keycode.h
     ListObserver.h
     ListObserverInline.h
     LogSystem.h
@@ -62,14 +61,10 @@ set(header
     RayInline.h
     RecentFilesModel.h
     ResourceSystem.h
-    Speed.h
-    SpeedInline.h
     String.h
     StringInline.h
     TextSystem.h
     Time.h
-    Timecode.h
-    TimecodeInline.h
     TimeInline.h
     Timer.h
     UndoStack.h
@@ -92,7 +87,6 @@ set(source
     ICommand.cpp
     IObject.cpp
     ISystem.cpp
-    Keycode.cpp
     LogSystem.cpp
     Math.cpp
     Memory.cpp
@@ -101,11 +95,9 @@ set(source
     ResourceSystem.cpp
     Path.cpp
     PicoJSON.cpp
-    Speed.cpp
     String.cpp
     TextSystem.cpp
     Time.cpp
-    Timecode.cpp
     Timer.cpp
     UndoStack.cpp)
 if (WIN32)

@@ -32,9 +32,9 @@
 #include <djvAV/AudioData.h>
 #include <djvAV/FFmpeg.h>
 #include <djvAV/PixelData.h>
+#include <djvAV/Speed.h>
 
 #include <djvCore/Error.h>
-#include <djvCore/Speed.h>
 
 #include <condition_variable>
 #include <future>
@@ -55,17 +55,17 @@ namespace djv
             {
             public:
                 VideoInfo();
-                VideoInfo(const Image::PixelDataInfo &, const Core::Speed &, Duration duration);
+                VideoInfo(const Image::PixelDataInfo &, const Speed &, Duration duration);
 
                 inline const Image::PixelDataInfo & getInfo() const;
-                inline const Core::Speed & getSpeed() const;
+                inline const Speed & getSpeed() const;
                 inline Duration getDuration() const;
 
                 bool operator == (const VideoInfo &) const;
 
             private:
                 Image::PixelDataInfo _info;
-                Core::Speed _speed;
+                Speed _speed;
                 Duration _duration = 0;
             };
 

@@ -17,6 +17,7 @@ set(header
     IOInline.h
     Image.h
     ImageTags.h
+    Keycode.h
     OpenGL.h
     OpenGLMesh.h
     OpenGLShader.h
@@ -26,6 +27,10 @@ set(header
     PixelDataInline.h
     PixelInline.h
     Shader.h
+    Speed.h
+    SpeedInline.h
+    Timecode.h
+    TimecodeInline.h
     TriangleMesh.h)
 set(source
     Audio.cpp
@@ -37,12 +42,15 @@ set(source
     IO.cpp
     Image.cpp
     ImageTags.cpp
+    Keycode.cpp
     OpenGLMesh.cpp
     OpenGLShader.cpp
     OpenGLTexture.cpp
     Pixel.cpp
     PixelData.cpp
     Shader.cpp
+    Speed.cpp
+    Timecode.cpp
     TriangleMesh.cpp)
 
 add_library(djvAV ${header} ${source})

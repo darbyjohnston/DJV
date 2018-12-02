@@ -29,11 +29,11 @@
 
 #pragma once
 
-#include <djvCore/Speed.h>
+#include <djvAV/Speed.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
 	    namespace Timecode
 	    {
@@ -61,7 +61,7 @@ namespace djv
 		    ///@}
             
 	    } // namespace Timecode
-	} // namespace Core
+	} // namespace AV
 } // namespace djv
 
-#include <djvCore/TimecodeInline.h>
+#include <djvAV/TimecodeInline.h>

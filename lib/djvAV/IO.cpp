@@ -48,7 +48,7 @@ namespace djv
             VideoInfo::VideoInfo()
             {}
 
-            VideoInfo::VideoInfo(const Image::PixelDataInfo & info, const Core::Speed & speed, Duration duration) :
+            VideoInfo::VideoInfo(const Image::PixelDataInfo & info, const Speed & speed, Duration duration) :
                 _info(info),
                 _speed(speed),
                 _duration(duration)
@@ -305,7 +305,7 @@ namespace djv
                         {
                             duration = _avFormatContext->duration;
                         }
-                        const Core::Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+                        const Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
                         const auto videoInfo = VideoInfo(pixelDataInfo, speed, duration);
 
                         duration = 0;
