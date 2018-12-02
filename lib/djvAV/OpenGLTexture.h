@@ -48,16 +48,16 @@ namespace djv
                 Texture();
                 ~Texture();
 
-                void init(const Image::PixelDataInfo &, GLint filter = GL_LINEAR);
+                void init(const Pixel::Info &, GLint filter = GL_LINEAR);
                 void del();
-                void copy(const std::shared_ptr<Image::PixelData> &);
-                void copy(const std::shared_ptr<Image::PixelData> &, const glm::ivec2 &);
+                void copy(const std::shared_ptr<Pixel::Data> &);
+                void copy(const std::shared_ptr<Pixel::Data> &, const glm::ivec2 &);
                 void bind();
 
-                const Image::PixelDataInfo & getInfo() const;
+                const Pixel::Info & getInfo() const;
                 GLuint getId() const;
 
-                static GLenum getInternalFormat(Image::Pixel);
+                static GLenum getInternalFormat(Pixel::Type);
 
             private:
                 DJV_PRIVATE();

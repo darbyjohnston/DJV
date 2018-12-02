@@ -33,7 +33,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
+        namespace Pixel
         {
             inline bool U10_S_MSB::operator == (const U10_S_MSB& value) const
             {
@@ -61,7 +61,126 @@ namespace djv
                 return !(*this == value);
             }
 
-            inline GLenum getFormat(Pixel value)
+            inline size_t getChannelCount(Type value)
+            {
+                static const std::vector<GLenum> data =
+                {
+                    0,
+                    1, 1, 1, 1, 1,
+                    2, 2, 2, 2, 2,
+                    3, 3, 3, 3, 3, 3,
+                    4, 4, 4, 4, 4
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline size_t getBitDepth(Type value)
+            {
+                static const std::vector<GLenum> data =
+                {
+                    0,
+                    8, 16, 32, 16, 32,
+                    8, 16, 32, 16, 32,
+                    8, 10, 16, 32, 16, 32,
+                    8, 16, 32, 16, 32
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline size_t getByteCount(Type value)
+            {
+                static const std::vector<GLenum> data =
+                {
+                    0,
+                    1, 2, 4, 2, 4,
+                    2, 4, 8, 4, 8,
+                    3, 4, 6, 12, 6, 12,
+                    4, 8, 16, 8, 16
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            inline Type getIntType(int channelCount, int bitDepth)
+            {
+                switch (channelCount)
+                {
+                case 1:
+                    switch (bitDepth)
+                    {
+                    case  8: return Type::L_U8;
+                    case 16: return Type::L_U16;
+                    case 32: return Type::L_U32;
+                    }
+                    break;
+                case 2:
+                    switch (bitDepth)
+                    {
+                    case  8: return Type::LA_U8;
+                    case 16: return Type::LA_U16;
+                    case 32: return Type::LA_U32;
+                    }
+                    break;
+                case 3:
+                    switch (bitDepth)
+                    {
+                    case  8: return Type::RGB_U8;
+                    case 10: return Type::RGB_U10;
+                    case 16: return Type::RGB_U16;
+                    case 32: return Type::RGB_U32;
+                    }
+                    break;
+                case 4:
+                    switch (bitDepth)
+                    {
+                    case  8: return Type::RGBA_U8;
+                    case 16: return Type::RGBA_U16;
+                    case 32: return Type::RGBA_U32;
+                    }
+                    break;
+                }
+                return Type::None;
+            }
+
+            inline Type getFloatType(int channelCount, int bitDepth)
+            {
+                switch (channelCount)
+                {
+                case 1:
+                    switch (bitDepth)
+                    {
+                    case 16: return Type::L_F16;
+                    case 32: return Type::L_F32;
+                    }
+                    break;
+                case 2:
+                    switch (bitDepth)
+                    {
+                    case 16: return Type::LA_F16;
+                    case 32: return Type::LA_F32;
+                    }
+                    break;
+                case 3:
+                    switch (bitDepth)
+                    {
+                    case 16: return Type::RGB_F16;
+                    case 32: return Type::RGB_F32;
+                    }
+                    break;
+                case 4:
+                    switch (bitDepth)
+                    {
+                    case 16: return Type::RGBA_F16;
+                    case 32: return Type::RGBA_F32;
+                    }
+                    break;
+                }
+                return Type::None;
+            }
+
+            inline GLenum getGLFormat(Type value)
             {
                 static const std::vector<GLenum> data =
                 {
@@ -92,11 +211,11 @@ namespace djv
                     GL_RGBA,
                     GL_RGBA
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
             }
 
-            inline GLenum getType(Pixel value)
+            inline GLenum getGLType(Type value)
             {
                 static const std::vector<GLenum> data =
                 {
@@ -127,127 +246,8 @@ namespace djv
                     GL_HALF_FLOAT,
                     GL_FLOAT
                 };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
-            }
-
-            inline size_t getChannelCount(Pixel value)
-            {
-                static const std::vector<GLenum> data =
-                {
-                    0,
-                    1, 1, 1, 1, 1,
-                    2, 2, 2, 2, 2,
-                    3, 3, 3, 3, 3, 3,
-                    4, 4, 4, 4, 4
-                };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
-                return data[static_cast<size_t>(value)];
-            }
-
-            inline size_t getBitDepth(Pixel value)
-            {
-                static const std::vector<GLenum> data =
-                {
-                    0,
-                    8, 16, 32, 16, 32,
-                    8, 16, 32, 16, 32,
-                    8, 10, 16, 32, 16, 32,
-                    8, 16, 32, 16, 32
-                };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
-                return data[static_cast<size_t>(value)];
-            }
-
-            inline size_t getByteCount(Pixel value)
-            {
-                static const std::vector<GLenum> data =
-                {
-                    0,
-                    1, 2, 4, 2, 4,
-                    2, 4, 8, 4, 8,
-                    3, 4, 6, 12, 6, 12,
-                    4, 8, 16, 8, 16
-                };
-                DJV_ASSERT(data.size() == static_cast<size_t>(Pixel::Count));
-                return data[static_cast<size_t>(value)];
-            }
-
-            inline Pixel getIntPixel(int channelCount, int bitDepth)
-            {
-                switch (channelCount)
-                {
-                case 1:
-                    switch (bitDepth)
-                    {
-                    case  8: return Pixel::L_U8;
-                    case 16: return Pixel::L_U16;
-                    case 32: return Pixel::L_U32;
-                    }
-                    break;
-                case 2:
-                    switch (bitDepth)
-                    {
-                    case  8: return Pixel::LA_U8;
-                    case 16: return Pixel::LA_U16;
-                    case 32: return Pixel::LA_U32;
-                    }
-                    break;
-                case 3:
-                    switch (bitDepth)
-                    {
-                    case  8: return Pixel::RGB_U8;
-                    case 10: return Pixel::RGB_U10;
-                    case 16: return Pixel::RGB_U16;
-                    case 32: return Pixel::RGB_U32;
-                    }
-                    break;
-                case 4:
-                    switch (bitDepth)
-                    {
-                    case  8: return Pixel::RGBA_U8;
-                    case 16: return Pixel::RGBA_U16;
-                    case 32: return Pixel::RGBA_U32;
-                    }
-                    break;
-                }
-                return Pixel();
-            }
-
-            inline Pixel getFloatPixel(int channelCount, int bitDepth)
-            {
-                switch (channelCount)
-                {
-                case 1:
-                    switch (bitDepth)
-                    {
-                    case 16: return Pixel::L_F16;
-                    case 32: return Pixel::L_F32;
-                    }
-                    break;
-                case 2:
-                    switch (bitDepth)
-                    {
-                    case 16: return Pixel::LA_F16;
-                    case 32: return Pixel::LA_F32;
-                    }
-                    break;
-                case 3:
-                    switch (bitDepth)
-                    {
-                    case 16: return Pixel::RGB_F16;
-                    case 32: return Pixel::RGB_F32;
-                    }
-                    break;
-                case 4:
-                    switch (bitDepth)
-                    {
-                    case 16: return Pixel::RGBA_F16;
-                    case 32: return Pixel::RGBA_F32;
-                    }
-                    break;
-                }
-                return Pixel();
             }
 
             inline void convert_U8_U8(U8_T in, U8_T & out)
@@ -454,6 +454,6 @@ namespace djv
                 out = in;
             }
 
-        } // namespace Image
+        } // namespace Pixel
     } // namespace AV
 } // namespace djv

@@ -29,35 +29,32 @@
 
 #pragma once
 
-#include <djvAV/ImageTags.h>
 #include <djvAV/PixelData.h>
+#include <djvAV/Tags.h>
 
 namespace djv
 {
     namespace AV
     {
-        namespace Image
+        class Image : public Pixel::Data
         {
-            class Image : public PixelData
-            {
-                DJV_NON_COPYABLE(Image);
+            DJV_NON_COPYABLE(Image);
 
-            protected:
-                void _init(const PixelDataInfo &);
-                Image();
+        protected:
+            void _init(const Pixel::Info &);
+            Image();
 
-            public:
-                ~Image();
+        public:
+            ~Image();
 
-                static std::shared_ptr<Image> create(const PixelDataInfo &);
+            static std::shared_ptr<Image> create(const Pixel::Info &);
 
-                const Tags & getTags() const;
-                void setTags(const Tags &);
+            const Tags & getTags() const;
+            void setTags(const Tags &);
 
-            private:
-                Tags _tags;
-            };
+        private:
+            Tags _tags;
+        };
 
-        } // namespace Image
     } // namespace AV
 } // namespace djv

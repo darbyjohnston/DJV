@@ -113,11 +113,11 @@ namespace djv
                 glFuncs->glUniformMatrix4fv(loc, 1, GL_FALSE, &value[0][0]);
             }
 
-            void Shader::setUniform(const std::string& name, const Image::Color & value)
+            void Shader::setUniform(const std::string& name, const Color & value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
-                auto color = value.convert(Image::Pixel::RGBA_F32);
+                auto color = value.convert(Pixel::Type::RGBA_F32);
                 glFuncs->glUniform4fv(loc, 1, reinterpret_cast<const GLfloat *>(color.getData()));
             }
 

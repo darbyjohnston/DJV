@@ -46,7 +46,7 @@ namespace djv
             VideoInfo::VideoInfo()
             {}
 
-            VideoInfo::VideoInfo(const Image::PixelDataInfo & info, const Speed & speed, Duration duration) :
+            VideoInfo::VideoInfo(const Pixel::Info & info, const Speed & speed, Duration duration) :
                 _info(info),
                 _speed(speed),
                 _duration(duration)
@@ -118,7 +118,7 @@ namespace djv
                 return _videoFrames.size() > 0 ? _videoFrames.front() : VideoFrame();
             }
 
-            void Queue::addVideoFrame(Timestamp ts, const std::shared_ptr<Image::PixelData> & data)
+            void Queue::addVideoFrame(Timestamp ts, const std::shared_ptr<Pixel::Data> & data)
             {
                 _videoFrames.push_back(std::make_pair(ts, data));
             }
@@ -287,10 +287,10 @@ namespace djv
                             0);
 
                         // Get file information.
-                        const auto pixelDataInfo = Image::PixelDataInfo(
+                        const auto pixelDataInfo = Pixel::Info(
                             glm::ivec2(_avCodecParameters[_avVideoStream]->width, _avCodecParameters[_avVideoStream]->height),
-                            Image::Pixel::RGBA_U8,
-                            Image::PixelDataLayout(Image::PixelDataMirror(false, true)));
+                            Pixel::Type::RGBA_U8,
+                            Pixel::Layout(Pixel::Mirror(false, true)));
                         Duration duration = 0;
                         if (avVideoStream->duration != AV_NOPTS_VALUE)
                         {
@@ -502,7 +502,7 @@ namespace djv
 
                     if (!seek)
                     {
-                        auto pixelData = Image::PixelData::create(_info.getVideo().getInfo());
+                        auto pixelData = Pixel::Data::create(_info.getVideo().getInfo());
                         av_image_fill_arrays(
                             _avFrameRgb->data,
                             _avFrameRgb->linesize,

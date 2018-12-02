@@ -27,37 +27,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/ImageTags.h>
+#include <djvAV/Tags.h>
 
 namespace djv
 {
     namespace AV
     {
-        namespace Image
+        const std::map<std::string, std::string> & Tags::getTags() const
         {
-            const std::map<std::string, std::string> & Tags::getTags() const
-            {
-                return _tags;
-            }
+            return _tags;
+        }
 
-            const std::string & Tags::getTag(const std::string & key) const
-            {
-                static const std::string empty;
-                const auto i = _tags.find(key);
-                return i != _tags.end() ? i->second : empty;
-            }
+        const std::string & Tags::getTag(const std::string & key) const
+        {
+            static const std::string empty;
+            const auto i = _tags.find(key);
+            return i != _tags.end() ? i->second : empty;
+        }
 
-            void Tags::setTags(const std::map<std::string, std::string> & tags)
-            {
-                _tags = tags;
-            }
+        void Tags::setTags(const std::map<std::string, std::string> & tags)
+        {
+            _tags = tags;
+        }
 
-            void Tags::setTag(const std::string & key, const std::string & value)
-            {
-                _tags[key] = value;
-            }
+        void Tags::setTag(const std::string & key, const std::string & value)
+        {
+            _tags[key] = value;
+        }
 
-        } // namespace Image
     } // namespace AV
 } // namespace djv
 

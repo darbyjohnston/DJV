@@ -29,45 +29,42 @@
 
 #pragma once
 
-#include <djvAV/PixelData.h>
+#include <djvAV/Pixel.h>
 
 namespace djv
 {
     namespace AV
     {
-        namespace Image
+        class Color
         {
-            class Color
-            {
-            public:
-                Color();
-                Color(Pixel);
-                Color(int r, int g, int b, int a = U8Max);
-                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
+        public:
+            Color();
+            Color(Pixel::Type);
+            Color(int r, int g, int b, int a = Pixel::U8Max);
+            Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a = Pixel::F32Max);
 
-                inline Pixel getPixel() const;
-                inline bool isValid() const;
+            inline Pixel::Type getType() const;
+            inline bool isValid() const;
 
-                void zero();
+            void zero();
 
-                Color convert(const Pixel &) const;
+            Color convert(Pixel::Type) const;
 
-                inline const uint8_t * getData() const;
-                inline uint8_t * getData();
+            inline const uint8_t * getData() const;
+            inline uint8_t * getData();
 
-                bool operator == (const Color &) const;
-                bool operator != (const Color &) const;
+            bool operator == (const Color &) const;
+            bool operator != (const Color &) const;
 
-            private:
-                Pixel _pixel;
-                std::vector<uint8_t> _data;
-            };
+        private:
+            Pixel::Type _type = Pixel::Type::None;
+            std::vector<uint8_t> _data;
+        };
 
-        } // namespace Image
     } // namespace AV
 
-    std::ostream & operator << (std::ostream &, const AV::Image::Color &);
-    std::istream & operator >> (std::istream &, AV::Image::Color &);
+    std::ostream & operator << (std::ostream &, const AV::Color &);
+    std::istream & operator >> (std::istream &, AV::Color &);
 
 } // namespace djv
 

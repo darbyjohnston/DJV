@@ -31,28 +31,25 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
+        inline Pixel::Type Color::getType() const
         {
-            inline Pixel Color::getPixel() const
-            {
-                return _pixel;
-            }
+            return _type;
+        }
 
-            inline bool Color::isValid() const
-            {
-                return _pixel != Pixel::None;
-            }
+        inline bool Color::isValid() const
+        {
+            return _type != Pixel::Type::None;
+        }
 
-            inline const uint8_t * Color::getData() const
-            {
-                return _data.data();
-            }
+        inline const uint8_t * Color::getData() const
+        {
+            return _data.data();
+        }
 
-            inline uint8_t * Color::getData()
-            {
-                return _data.data();
-            }
+        inline uint8_t * Color::getData()
+        {
+            return _data.data();
+        }
 
-        } // namespace Image
     } // namespace AV
 } // namespace djv

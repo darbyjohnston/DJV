@@ -41,9 +41,9 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
+        namespace Pixel
         {
-            enum class Pixel
+            enum class Type
             {
                 None,
 
@@ -75,7 +75,7 @@ namespace djv
                 Count,
                 First = None
             };
-            DJV_ENUM_HELPERS(Pixel);
+            DJV_ENUM_HELPERS(Type);
 
             typedef uint8_t   U8_T;
             typedef uint16_t U10_T;
@@ -117,14 +117,15 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
-            GLenum getFormat(Pixel);
-            GLenum getType(Pixel);
-            size_t getChannelCount(Pixel);
-            size_t getBitDepth(Pixel);
-            size_t getByteCount(Pixel);
+            inline size_t getChannelCount(Type);
+            inline size_t getBitDepth(Type);
+            inline size_t getByteCount(Type);
 
-            inline Pixel getIntPixel(int channels, int bitDepth);
-            inline Pixel getFloatPixel(int channels, int bitDepth);
+            inline Type getIntType(int channels, int bitDepth);
+            inline Type getFloatType(int channels, int bitDepth);
+
+            inline GLenum getGLFormat(Type);
+            inline GLenum getGLType(Type);
 
             inline void convert_U8_U8(U8_T, U8_T &);
             inline void convert_U8_U10(U8_T, U10_T &);
@@ -168,12 +169,12 @@ namespace djv
             inline void convert_F32_F16(F32_T, F16_T &);
             inline void convert_F32_F32(F32_T, F32_T &);
 
-            void convert(const void *, Pixel, void *, Pixel, size_t);
+            void convert(const void *, Type, void *, Type, size_t);
 
         } // namespace Image
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Pixel);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Pixel::Type);
 
 } // namespace djv
 

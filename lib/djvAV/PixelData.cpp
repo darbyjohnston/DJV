@@ -33,9 +33,9 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
+        namespace Pixel
         {
-            void PixelData::_init(const PixelDataInfo & info)
+            void Data::_init(const Info & info)
             {
                 _info = info;
                 _pixelByteCount = info.getPixelByteCount();
@@ -48,53 +48,53 @@ namespace djv
                 }
             }
 
-            PixelData::PixelData()
+            Data::Data()
             {}
 
-            PixelData::~PixelData()
+            Data::~Data()
             {
                 delete[] _data;
             }
 
-            std::shared_ptr<PixelData> PixelData::create(const PixelDataInfo& info)
+            std::shared_ptr<Data> Data::create(const Info& info)
             {
-                auto out = std::shared_ptr<PixelData>(new PixelData);
+                auto out = std::shared_ptr<Data>(new Data);
                 out->_init(info);
                 return out;
             }
 
-            uint8_t * PixelData::getData()
+            uint8_t * Data::getData()
             {
                 return _data;
             }
 
-            uint8_t* PixelData::getData(int y)
+            uint8_t* Data::getData(int y)
             {
                 return _data + y * _scanlineByteCount;
             }
 
-            uint8_t * PixelData::getData(int x, int y)
+            uint8_t * Data::getData(int x, int y)
             {
                 return _data + y * _scanlineByteCount + x * _pixelByteCount;
             }
 
-            void PixelData::zero()
+            void Data::zero()
             {
                 memset(_data, 0, _dataByteCount);
             }
 
-            std::shared_ptr<PixelData> PixelData::convert(const Pixel & pixel, const std::shared_ptr<Context> & context) const
+            std::shared_ptr<Data> Data::convert(Type type, const std::shared_ptr<Core::Context> & context) const
             {
-                auto out = PixelData::create(PixelDataInfo(_info.getSize(), pixel));
+                auto out = Data::create(Info(_info.getSize(), type));
                 //! \todo
                 return out;
             }
 
-            bool PixelData::operator == (const PixelData & other) const
+            bool Data::operator == (const Data & other) const
             {
                 if (other._info == _info)
                 {
-                    if (GL_UNSIGNED_INT_10_10_10_2 == _info.getType())
+                    if (GL_UNSIGNED_INT_10_10_10_2 == _info.getGLType())
                     {
                         const auto & size = _info.getSize();
                         for (int y = 0; y < size.y; ++y)
@@ -119,7 +119,7 @@ namespace djv
                 return false;
             }
 
-        } // namespace Image
+        } // namespace Pixel
     } // namespace AV
 } // namespace djv
 

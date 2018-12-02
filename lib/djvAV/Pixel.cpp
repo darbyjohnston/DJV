@@ -38,7 +38,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
+        namespace Pixel
         {
             namespace
             {
@@ -494,36 +494,36 @@ namespace djv
 
             } // namespace
 
-            void convert(const void * in, Pixel inPixel, void * out, Pixel outPixel, size_t size)
+            void convert(const void * in, Type inType, void * out, Type outType, size_t size)
             {
                 typedef std::function<void(const void *, void *, size_t)> Function;
-                std::map<Pixel, std::map<Pixel, Function> > functions =
+                std::map<Type, std::map<Type, Function> > functions =
                 {
 #define CONVERT_MAP(A) \
                     { \
-                        Pixel::A, \
+                        Type::A, \
                         { \
-                            { Pixel::L_U8,     convert_##A##_L_U8 },     \
-                            { Pixel::L_U16,    convert_##A##_L_U16 },    \
-                            { Pixel::L_U32,    convert_##A##_L_U32 },    \
-                            { Pixel::L_F16,    convert_##A##_L_F16 },    \
-                            { Pixel::L_F32,    convert_##A##_L_F32 },    \
-                            { Pixel::LA_U8,    convert_##A##_LA_U8 },    \
-                            { Pixel::LA_U16,   convert_##A##_LA_U16 },   \
-                            { Pixel::LA_U32,   convert_##A##_LA_U32 },   \
-                            { Pixel::LA_F16,   convert_##A##_LA_F16 },   \
-                            { Pixel::LA_F32,   convert_##A##_LA_F32 },   \
-                            { Pixel::RGB_U8,   convert_##A##_RGB_U8 },   \
-                            { Pixel::RGB_U10,  convert_##A##_RGB_U10 },  \
-                            { Pixel::RGB_U16,  convert_##A##_RGB_U16 },  \
-                            { Pixel::RGB_U32,  convert_##A##_RGB_U32 },  \
-                            { Pixel::RGB_F16,  convert_##A##_RGB_F16 },  \
-                            { Pixel::RGB_F32,  convert_##A##_RGB_F32 },  \
-                            { Pixel::RGBA_U8,  convert_##A##_RGBA_U8 },  \
-                            { Pixel::RGBA_U16, convert_##A##_RGBA_U16 }, \
-                            { Pixel::RGBA_U32, convert_##A##_RGBA_U32 }, \
-                            { Pixel::RGBA_F16, convert_##A##_RGBA_F16 }, \
-                            { Pixel::RGBA_F32, convert_##A##_RGBA_F32 }  \
+                            { Type::L_U8,     convert_##A##_L_U8 },     \
+                            { Type::L_U16,    convert_##A##_L_U16 },    \
+                            { Type::L_U32,    convert_##A##_L_U32 },    \
+                            { Type::L_F16,    convert_##A##_L_F16 },    \
+                            { Type::L_F32,    convert_##A##_L_F32 },    \
+                            { Type::LA_U8,    convert_##A##_LA_U8 },    \
+                            { Type::LA_U16,   convert_##A##_LA_U16 },   \
+                            { Type::LA_U32,   convert_##A##_LA_U32 },   \
+                            { Type::LA_F16,   convert_##A##_LA_F16 },   \
+                            { Type::LA_F32,   convert_##A##_LA_F32 },   \
+                            { Type::RGB_U8,   convert_##A##_RGB_U8 },   \
+                            { Type::RGB_U10,  convert_##A##_RGB_U10 },  \
+                            { Type::RGB_U16,  convert_##A##_RGB_U16 },  \
+                            { Type::RGB_U32,  convert_##A##_RGB_U32 },  \
+                            { Type::RGB_F16,  convert_##A##_RGB_F16 },  \
+                            { Type::RGB_F32,  convert_##A##_RGB_F32 },  \
+                            { Type::RGBA_U8,  convert_##A##_RGBA_U8 },  \
+                            { Type::RGBA_U16, convert_##A##_RGBA_U16 }, \
+                            { Type::RGBA_U32, convert_##A##_RGBA_U32 }, \
+                            { Type::RGBA_F16, convert_##A##_RGBA_F16 }, \
+                            { Type::RGBA_F32, convert_##A##_RGBA_F32 }  \
                         } \
                     }
                     CONVERT_MAP(L_U8),
@@ -549,10 +549,10 @@ namespace djv
                     CONVERT_MAP(RGBA_F32)
                 };
                 Function function;
-                const auto i = functions.find(inPixel);
+                const auto i = functions.find(inType);
                 if (i != functions.end())
                 {
-                    const auto j = i->second.find(outPixel);
+                    const auto j = i->second.find(outType);
                     if (j != i->second.end())
                     {
                         function = j->second;
@@ -572,8 +572,8 @@ namespace djv
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::Image,
-        Pixel,
+        AV::Pixel,
+        Type,
         DJV_TEXT("None"),
         DJV_TEXT("L_U8"),
         DJV_TEXT("L_U16"),

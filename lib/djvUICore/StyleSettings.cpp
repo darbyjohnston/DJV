@@ -63,15 +63,15 @@ namespace djv
             std::map<std::string, Palette> palettes;
             palettes[DJV_TEXT("Default")] = Palette();
             auto palette = Palette();
-            palette.setColor(ColorRole::Background, AV::Image::Color(1.f, 1.f, 1.f));
-            palette.setColor(ColorRole::Foreground, AV::Image::Color(.1f, .1f, .1f));
-            palette.setColor(ColorRole::Trough, AV::Image::Color(.9f, .9f, .9f));
-            palette.setColor(ColorRole::Button, AV::Image::Color(.8f, .8f, .8f));
-            palette.setColor(ColorRole::Checked, AV::Image::Color(.3f, .5f, .8f));
-            palette.setColor(ColorRole::CheckedForeground, AV::Image::Color(1.f, 1.f, 1.f));
-            palette.setColor(ColorRole::Hover, AV::Image::Color(0.f, 0.f, 0.f, .05f));
-            palette.setColor(ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f));
-            palette.setColor(ColorRole::Border, AV::Image::Color(.9f, .9f, .9f));
+            palette.setColor(ColorRole::Background, AV::Color(1.f, 1.f, 1.f));
+            palette.setColor(ColorRole::Foreground, AV::Color(.1f, .1f, .1f));
+            palette.setColor(ColorRole::Trough, AV::Color(.9f, .9f, .9f));
+            palette.setColor(ColorRole::Button, AV::Color(.8f, .8f, .8f));
+            palette.setColor(ColorRole::Checked, AV::Color(.3f, .5f, .8f));
+            palette.setColor(ColorRole::CheckedForeground, AV::Color(1.f, 1.f, 1.f));
+            palette.setColor(ColorRole::Hover, AV::Color(0.f, 0.f, 0.f, .05f));
+            palette.setColor(ColorRole::Overlay, AV::Color(0.f, 0.f, 0.f, .5f));
+            palette.setColor(ColorRole::Border, AV::Color(.9f, .9f, .9f));
             palettes[DJV_TEXT("Light")] = palette;
 
             std::map<std::string, Metrics> metrics;

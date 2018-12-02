@@ -49,7 +49,7 @@ namespace djv
         {
             std::weak_ptr<Context> context;
             std::shared_ptr<AV::IO::Queue> queue;
-            std::shared_ptr<AV::Image::PixelData> pixelData;
+            std::shared_ptr<AV::Pixel::Data> pixelData;
             int timer = 0;
             std::condition_variable queueCV;
         };

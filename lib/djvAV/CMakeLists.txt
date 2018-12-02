@@ -15,7 +15,6 @@ set(header
     IO.h
     IOInline.h
     Image.h
-    ImageTags.h
     Keycode.h
     OpenGL.h
     OpenGLMesh.h
@@ -29,6 +28,7 @@ set(header
     Speed.h
     SpeedInline.h
     System.h
+    Tags.h
     Timecode.h
     TimecodeInline.h
     TriangleMesh.h)
@@ -40,7 +40,6 @@ set(source
     FFmpeg.cpp
     IO.cpp
     Image.cpp
-    ImageTags.cpp
     Keycode.cpp
     OpenGLMesh.cpp
     OpenGLShader.cpp
@@ -50,6 +49,7 @@ set(source
     Shader.cpp
     Speed.cpp
     System.cpp
+    Tags.cpp
     Timecode.cpp
     TriangleMesh.cpp)
 

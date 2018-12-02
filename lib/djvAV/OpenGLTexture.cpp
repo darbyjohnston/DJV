@@ -41,7 +41,7 @@ namespace djv
         {
             struct Texture::Private
             {
-                Image::PixelDataInfo info;
+                Pixel::Info info;
                 GLuint id = 0;
                 GLuint pbo = 0;
             };
@@ -55,7 +55,7 @@ namespace djv
                 del();
             }
 
-            void Texture::init(const Image::PixelDataInfo& info, GLint filter)
+            void Texture::init(const Pixel::Info& info, GLint filter)
             {
                 if (info == _p->info)
                     return;
@@ -79,8 +79,8 @@ namespace djv
                         size.x,
                         size.y,
                         0,
-                        _p->info.getFormat(),
-                        _p->info.getType(),
+                        _p->info.getGLFormat(),
+                        _p->info.getGLType(),
                         0);
                     glFuncs->glGenBuffers(1, &_p->pbo);
                 }
@@ -88,7 +88,7 @@ namespace djv
 
             void Texture::del()
             {
-                _p->info = Image::PixelDataInfo();
+                _p->info = Pixel::Info();
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 if (_p->id)
                 {
@@ -102,7 +102,7 @@ namespace djv
                 }
             }
 
-            void Texture::copy(const std::shared_ptr<Image::PixelData>& data)
+            void Texture::copy(const std::shared_ptr<Pixel::Data>& data)
             {
                 if (_p->info.isValid())
                 {
@@ -126,15 +126,15 @@ namespace djv
                         0,
                         info.getWidth(),
                         info.getHeight(),
-                        info.getFormat(),
-                        info.getType(),
+                        info.getGLFormat(),
+                        info.getGLType(),
                         0);
 
                     glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
                 }
             }
 
-            void Texture::copy(const std::shared_ptr<Image::PixelData>& data, const glm::ivec2& pos)
+            void Texture::copy(const std::shared_ptr<Pixel::Data>& data, const glm::ivec2& pos)
             {
                 if (_p->info.isValid())
                 {
@@ -158,8 +158,8 @@ namespace djv
                         pos.y,
                         info.getWidth(),
                         info.getHeight(),
-                        info.getFormat(),
-                        info.getType(),
+                        info.getGLFormat(),
+                        info.getGLType(),
                         0);
 
                     glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -171,7 +171,7 @@ namespace djv
                 glBindTexture(GL_TEXTURE_2D, _p->id);
             }
 
-            const Image::PixelDataInfo & Texture::getInfo() const
+            const Pixel::Info & Texture::getInfo() const
             {
                 return _p->info;
             }
@@ -181,12 +181,12 @@ namespace djv
                 return _p->id;
             }
 
-            GLenum Texture::getInternalFormat(Image::Pixel pixel)
+            GLenum Texture::getInternalFormat(Pixel::Type type)
             {
-                switch (Image::getFormat(pixel))
+                switch (Pixel::getGLFormat(type))
                 {
                 case GL_RED:
-                    switch (Image::getType(pixel))
+                    switch (Pixel::getGLType(type))
                     {
                     case GL_UNSIGNED_BYTE: return GL_R8;
                     case GL_UNSIGNED_SHORT: return GL_R16;
@@ -197,7 +197,7 @@ namespace djv
                     }
                     break;
                 case GL_RG:
-                    switch (Image::getType(pixel))
+                    switch (Pixel::getGLType(type))
                     {
                     case GL_UNSIGNED_BYTE: return GL_RG8;
                     case GL_UNSIGNED_SHORT: return GL_RG16;
@@ -208,7 +208,7 @@ namespace djv
                     }
                     break;
                 case GL_RGB:
-                    switch (Image::getType(pixel))
+                    switch (Pixel::getGLType(type))
                     {
                     case GL_UNSIGNED_BYTE: return GL_RGB8;
                     case GL_UNSIGNED_INT_10_10_10_2: return GL_RGB10;
@@ -220,7 +220,7 @@ namespace djv
                     }
                     break;
                 case GL_RGBA:
-                    switch (Image::getType(pixel))
+                    switch (Pixel::getGLType(type))
                     {
                     case GL_UNSIGNED_BYTE: return GL_RGBA8;
                     case GL_UNSIGNED_SHORT: return GL_RGBA16;

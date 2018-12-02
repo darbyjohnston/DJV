@@ -55,16 +55,16 @@ namespace djv
             {
             public:
                 VideoInfo();
-                VideoInfo(const Image::PixelDataInfo &, const Speed &, Duration duration);
+                VideoInfo(const Pixel::Info &, const Speed &, Duration duration);
 
-                inline const Image::PixelDataInfo & getInfo() const;
+                inline const Pixel::Info & getInfo() const;
                 inline const Speed & getSpeed() const;
                 inline Duration getDuration() const;
 
                 bool operator == (const VideoInfo &) const;
 
             private:
-                Image::PixelDataInfo _info;
+                Pixel::Info _info;
                 Speed _speed;
                 Duration _duration = 0;
             };
@@ -101,7 +101,7 @@ namespace djv
                 AudioInfo _audio;
             };
 
-            typedef std::pair<Timestamp, std::shared_ptr<Image::PixelData> > VideoFrame;
+            typedef std::pair<Timestamp, std::shared_ptr<Pixel::Data> > VideoFrame;
             typedef std::pair<Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
             class Queue : public std::enable_shared_from_this<Queue>
@@ -124,7 +124,7 @@ namespace djv
                 
                 VideoFrame getFirstVideoFrame() const;
 
-                void addVideoFrame(Timestamp, const std::shared_ptr<Image::PixelData> &);
+                void addVideoFrame(Timestamp, const std::shared_ptr<Pixel::Data> &);
                 void addAudioFrame(Timestamp, const std::shared_ptr<Audio::Data> &);
 
                 void clear();

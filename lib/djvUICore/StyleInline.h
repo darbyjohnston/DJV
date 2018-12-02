@@ -97,7 +97,7 @@ namespace djv
             {
                 if ("Roles" == i.first)
                 {
-                    std::map<UICore::ColorRole, AV::Image::Color> value;
+                    std::map<UICore::ColorRole, AV::Color> value;
                     fromJSON(i.second, value);
                     for (const auto& i : value)
                     {

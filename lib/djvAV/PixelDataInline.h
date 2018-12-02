@@ -31,246 +31,246 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
+        namespace Pixel
         {
-            inline PixelDataMirror::PixelDataMirror()
+            inline Mirror::Mirror()
             {}
 
-            inline PixelDataMirror::PixelDataMirror(bool x, bool y) :
+            inline Mirror::Mirror(bool x, bool y) :
                 _x(x),
                 _y(y)
             {}
 
-            inline bool PixelDataMirror::getX() const
+            inline bool Mirror::getX() const
             {
                 return _x;
             }
 
-            inline bool PixelDataMirror::getY() const
+            inline bool Mirror::getY() const
             {
                 return _y;
             }
 
-            inline bool PixelDataMirror::operator == (const PixelDataMirror & other) const
+            inline bool Mirror::operator == (const Mirror & other) const
             {
                 return other._x == _x && other._y == _y;
             }
 
-            inline bool PixelDataMirror::operator != (const PixelDataMirror & other) const
+            inline bool Mirror::operator != (const Mirror & other) const
             {
                 return !(other == *this);
             }
 
-            inline PixelDataLayout::PixelDataLayout()
+            inline Layout::Layout()
             {}
 
-            inline PixelDataLayout::PixelDataLayout(const PixelDataMirror & mirror, GLint alignment, Core::Memory::Endian endian) :
+            inline Layout::Layout(const Mirror & mirror, GLint alignment, Core::Memory::Endian endian) :
                 _mirror(mirror),
                 _alignment(alignment),
                 _endian(endian)
             {}
 
-            inline const PixelDataMirror & PixelDataLayout::getMirror() const
+            inline const Mirror & Layout::getMirror() const
             {
                 return _mirror;
             }
 
-            inline GLint PixelDataLayout::getAlignment() const
+            inline GLint Layout::getAlignment() const
             {
                 return _alignment;
             }
 
-            inline Core::Memory::Endian PixelDataLayout::getEndian() const
+            inline Core::Memory::Endian Layout::getEndian() const
             {
                 return _endian;
             }
 
-            inline bool PixelDataLayout::operator == (const PixelDataLayout & other) const
+            inline bool Layout::operator == (const Layout & other) const
             {
                 return other._mirror == _mirror && other._alignment == _alignment && other._endian == _endian;
             }
 
-            inline bool PixelDataLayout::operator != (const PixelDataLayout & other) const
+            inline bool Layout::operator != (const Layout & other) const
             {
                 return !(other == *this);
             }
 
-            inline PixelDataInfo::PixelDataInfo()
+            inline Info::Info()
             {}
 
-            inline PixelDataInfo::PixelDataInfo(const glm::ivec2 & size, Pixel pixel, const PixelDataLayout & layout) :
+            inline Info::Info(const glm::ivec2 & size, Type type, const Layout & layout) :
                 _size(size),
-                _pixel(pixel),
+                _type(type),
                 _layout(layout)
             {}
 
-            inline PixelDataInfo::PixelDataInfo(int width, int height, Pixel pixel, const PixelDataLayout & layout) :
+            inline Info::Info(int width, int height, Type type, const Layout & layout) :
                 _size(width, height),
-                _pixel(pixel),
+                _type(type),
                 _layout(layout)
             {}
 
-            inline const QString & PixelDataInfo::getName() const
+            inline const QString & Info::getName() const
             {
                 return _name;
             }
 
-            inline const glm::ivec2 & PixelDataInfo::getSize() const
+            inline const glm::ivec2 & Info::getSize() const
             {
                 return _size;
             }
 
-            inline int PixelDataInfo::getWidth() const
+            inline int Info::getWidth() const
             {
                 return _size.x;
             }
 
-            inline int PixelDataInfo::getHeight() const
+            inline int Info::getHeight() const
             {
                 return _size.y;
             }
 
-            inline float PixelDataInfo::getAspectRatio() const
+            inline float Info::getAspectRatio() const
             {
                 return _size.y > 0 ? (_size.x / static_cast<float>(_size.y)) : 1.f;
             }
 
-            inline Pixel PixelDataInfo::getPixel() const
+            inline Type Info::getType() const
             {
-                return _pixel;
+                return _type;
             }
 
-            inline GLenum PixelDataInfo::getFormat() const
+            inline GLenum Info::getGLFormat() const
             {
-                return Image::getFormat(_pixel);
+                return Pixel::getGLFormat(_type);
             }
 
-            inline GLenum PixelDataInfo::getType() const
+            inline GLenum Info::getGLType() const
             {
-                return Image::getType(_pixel);
+                return Pixel::getGLType(_type);
             }
 
-            inline const PixelDataLayout & PixelDataInfo::getLayout() const
+            inline const Layout & Info::getLayout() const
             {
                 return _layout;
             }
 
-            inline bool PixelDataInfo::isValid() const
+            inline bool Info::isValid() const
             {
-                return _size.x > 0 && _size.y > 0 && _pixel != Pixel::None;
+                return _size.x > 0 && _size.y > 0 && _type != Type::None;
             }
 
-            inline size_t PixelDataInfo::getPixelByteCount() const
+            inline size_t Info::getPixelByteCount() const
             {
-                return Image::getByteCount(_pixel);
+                return Pixel::getByteCount(_type);
             }
 
-            inline size_t PixelDataInfo::getScanlineByteCount() const
+            inline size_t Info::getScanlineByteCount() const
             {
-                const size_t byteCount = _size.x * Image::getByteCount(_pixel);
+                const size_t byteCount = _size.x * Pixel::getByteCount(_type);
                 const size_t q = byteCount / _layout.getAlignment() * _layout.getAlignment();
                 const size_t r = byteCount - q;
                 return q + (r ? _layout.getAlignment() : 0);
             }
 
-            inline size_t PixelDataInfo::getDataByteCount() const
+            inline size_t Info::getDataByteCount() const
             {
                 return _size.y * getScanlineByteCount();
             }
 
-            inline bool PixelDataInfo::operator == (const PixelDataInfo& other) const
+            inline bool Info::operator == (const Info& other) const
             {
                 return
                     other._size == _size &&
-                    other._pixel == _pixel &&
+                    other._type == _type &&
                     other._layout == _layout;
             }
 
-            inline bool PixelDataInfo::operator != (const PixelDataInfo& other) const
+            inline bool Info::operator != (const Info& other) const
             {
                 return !(other == *this);
             }
 
-            inline bool PixelData::isValid() const
+            inline bool Data::isValid() const
             {
                 return _info.isValid();
             }
 
-            inline const PixelDataInfo & PixelData::getInfo() const
+            inline const Info & Data::getInfo() const
             {
                 return _info;
             }
 
-            inline const glm::ivec2 & PixelData::getSize() const
+            inline const glm::ivec2 & Data::getSize() const
             {
                 return _info.getSize();
             }
 
-            inline int PixelData::getWidth() const
+            inline int Data::getWidth() const
             {
                 return _info.getSize().x;
             }
 
-            inline int PixelData::getHeight() const
+            inline int Data::getHeight() const
             {
                 return _info.getSize().y;
             }
 
-            inline float PixelData::getAspectRatio() const
+            inline float Data::getAspectRatio() const
             {
                 return _info.getAspectRatio();
             }
 
-            inline Pixel PixelData::getPixel() const
-            {
-                return _info.getPixel();
-            }
-
-            inline GLenum PixelData::getFormat() const
-            {
-                return _info.getFormat();
-            }
-
-            inline GLenum PixelData::getType() const
+            inline Type Data::getType() const
             {
                 return _info.getType();
             }
 
-            inline const PixelDataLayout & PixelData::getLayout() const
+            inline GLenum Data::getGLFormat() const
+            {
+                return _info.getGLFormat();
+            }
+
+            inline GLenum Data::getGLType() const
+            {
+                return _info.getGLType();
+            }
+
+            inline const Layout & Data::getLayout() const
             {
                 return _info.getLayout();
             }
 
-            inline size_t PixelData::getPixelByteCount() const
+            inline size_t Data::getPixelByteCount() const
             {
                 return _info.getPixelByteCount();
             }
 
-            inline size_t PixelData::getScanlineByteCount() const
+            inline size_t Data::getScanlineByteCount() const
             {
                 return _info.getScanlineByteCount();
             }
 
-            inline size_t PixelData::getDataByteCount() const
+            inline size_t Data::getDataByteCount() const
             {
                 return _info.getDataByteCount();
             }
 
-            inline const uint8_t * PixelData::getData() const
+            inline const uint8_t * Data::getData() const
             {
                 return _p;
             }
 
-            inline const uint8_t * PixelData::getData(int y) const
+            inline const uint8_t * Data::getData(int y) const
             {
                 return _p + y * _scanlineByteCount;
             }
 
-            inline const uint8_t * PixelData::getData(int x, int y) const
+            inline const uint8_t * Data::getData(int x, int y) const
             {
                 return _p + y * _scanlineByteCount + x * _pixelByteCount;
             }
 
-        } // namespace Image
+        } // namespace Pixel
     } // namespace AV
 } // namespace djv

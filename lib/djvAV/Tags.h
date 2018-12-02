@@ -37,21 +37,18 @@ namespace djv
 {
     namespace AV
     {
-        namespace Image
+        class Tags
         {
-            class Tags
-            {
-            public:
-                const std::map<std::string, std::string> & getTags() const;
-                const std::string & getTag(const std::string & key) const;
+        public:
+            const std::map<std::string, std::string> & getTags() const;
+            const std::string & getTag(const std::string & key) const;
 
-                void setTags(const std::map<std::string, std::string> &);
-                void setTag(const std::string & key, const std::string & value);
+            void setTags(const std::map<std::string, std::string> &);
+            void setTag(const std::string & key, const std::string & value);
 
-            private:
-                std::map<std::string, std::string> _tags;
-            };
+        private:
+            std::map<std::string, std::string> _tags;
+        };
 
-        } // namespace Image
     } // namespace AV
 } // namespace djv

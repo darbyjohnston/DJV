@@ -33,7 +33,7 @@ namespace djv
     {
         namespace IO
         {
-            inline const Image::PixelDataInfo & VideoInfo::getInfo() const
+            inline const Pixel::Info & VideoInfo::getInfo() const
             {
                 return _info;
             }

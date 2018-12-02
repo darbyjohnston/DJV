@@ -45,13 +45,8 @@ namespace djv
 
     namespace AV
     {
+        class Color;
         class Shader;
-
-        namespace Image
-        {
-            class Color;
-
-        } // namespace Image
 
         namespace OpenGL
         {
@@ -71,7 +66,7 @@ namespace djv
                 void setUniform(const std::string&, const glm::vec4 &);
                 void setUniform(const std::string&, const glm::mat3x3 &);
                 void setUniform(const std::string&, const glm::mat4x4 &);
-                void setUniform(const std::string&, const Image::Color &);
+                void setUniform(const std::string&, const Color &);
 
                 //! Throws:
                 //! - std::exception
