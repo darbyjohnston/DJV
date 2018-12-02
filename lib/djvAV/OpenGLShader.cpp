@@ -30,7 +30,6 @@
 #include <djvAV/OpenGLShader.h>
 
 #include <djvAV/Color.h>
-#include <djvAV/Context.h>
 #include <djvAV/OpenGL.h>
 #include <djvAV/Shader.h>
 
@@ -205,4 +204,4 @@ namespace djv
 
         } // namespace OpenGL
     } // namespace AV
-} // namespace Gp
+} // namespace djv

@@ -38,10 +38,14 @@
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
         class Context;
+    
+    } // namespace Core
 
+    namespace UIQt
+    {
         class FileBrowserHistory : public QObject
         {
             Q_OBJECT
@@ -95,7 +99,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserModel(const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            FileBrowserModel(const std::shared_ptr<Core::Context> &, QObject * parent = nullptr);
             ~FileBrowserModel() override;
 
             QString getPath() const;
@@ -133,7 +137,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            PathWidget(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
+            PathWidget(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
             ~PathWidget() override;
 
             const QString & getPath() const;
@@ -156,7 +160,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserHeader(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
+            FileBrowserHeader(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
             ~FileBrowserHeader() override;
 
             const QString & getPath() const;
@@ -186,7 +190,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            FileBrowserFooter(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
+            FileBrowserFooter(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
             ~FileBrowserFooter() override;
 
         public Q_SLOTS:
@@ -203,5 +207,5 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIQt
 } // namespace djv

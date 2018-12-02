@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Context.h>
+#include <djvAV/System.h>
 
 #include <djvAV/AudioSystem.h>
 #include <djvAV/OpenGL.h>
@@ -42,20 +42,22 @@
 #include <QOpenGLDebugLogger>
 #include <QScopedPointer>
 
+#include <sstream>
+
 namespace djv
 {
     namespace AV
     {
-        struct Context::Private
+        struct System::Private
         {
             QScopedPointer<QOffscreenSurface> offscreenSurface;
             QScopedPointer<QOpenGLContext> openGLContext;
             QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
         };
 
-        void Context::_init(int & argc, char ** argv)
+        void System::_init(const std::shared_ptr<Core::Context> & context)
         {
-            Core::Context::_init(argc, argv);
+            Core::ISystem::_init("djv::AV::System", context);
 
             // Create the default OpenGL context.
             QSurfaceFormat defaultFormat;
@@ -90,12 +92,12 @@ namespace djv
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
             std::stringstream ss;
             ss << "OpenGL context valid = " << _p->openGLContext->isValid();
-            log("djv::AV::Context", ss.str());
+            _log(ss.str());
             ss.str(std::string());
             ss << "OpenGL version = " <<
                 _p->openGLContext->format().majorVersion() << "." <<
                 _p->openGLContext->format().minorVersion();
-            log("djv::AV::Context", ss.str());
+            _log(ss.str());
             if (!_p->openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
             {
                 std::stringstream ss;
@@ -111,7 +113,7 @@ namespace djv
                 &QOpenGLDebugLogger::messageLogged,
                 [this](const QOpenGLDebugMessage & message)
             {
-                log("djv::AV::Context", message.message().toStdString());
+                _log(message.message().toStdString());
             });
             if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
             {
@@ -120,29 +122,29 @@ namespace djv
             }
 
             // Create the systems.
-            AudioSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
+            AudioSystem::create(context);
         }
 
-        Context::Context() :
+        System::System() :
             _p(new Private)
         {}
 
-        Context::~Context()
+        System::~System()
         {}
 
-        std::shared_ptr<Context> Context::create(int & argc, char ** argv)
+        std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
         {
-            auto out = std::shared_ptr<Context>(new Context);
-            out->_init(argc, argv);
+            auto out = std::shared_ptr<System>(new System);
+            out->_init(context);
             return out;
         }
 
-        QPointer<QOpenGLContext> Context::openGLContext() const
+        QPointer<QOpenGLContext> System::openGLContext() const
         {
             return _p->openGLContext.data();
         }
 
-        void Context::makeGLContextCurrent()
+        void System::makeGLContextCurrent()
         {
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
         }

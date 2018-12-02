@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ISettings.h>
+#include <djvUICore/ISettings.h>
 
 #include <djvAV/Color.h>
 
@@ -47,7 +47,7 @@ namespace djv
     
     } // namespace Core
     
-    namespace UI
+    namespace UICore
     {
         class StyleSettings;
 
@@ -155,14 +155,14 @@ namespace djv
         class Style : public Core::ISystem
         {
             DJV_NON_COPYABLE(Style);
-            void _init(const std::shared_ptr<Context>&);
+            void _init(const std::shared_ptr<Core::Context>&);
             Style();
 
         public:
             virtual ~Style();
 
             //! Create a new style.
-            static std::shared_ptr<Style> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<Style> create(const std::shared_ptr<Core::Context>&);
 
             //! Get the style settings.
             const std::shared_ptr<StyleSettings>& getSettings() const;
@@ -204,31 +204,31 @@ namespace djv
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UICore
 
     template<>
-    inline picojson::value toJSON<UI::Palette>(const UI::Palette&);
+    inline picojson::value toJSON<UICore::Palette>(const UICore::Palette&);
     template<>
-    inline picojson::value toJSON<std::string, UI::Palette>(const std::map<std::string, UI::Palette>&);
+    inline picojson::value toJSON<std::string, UICore::Palette>(const std::map<std::string, UICore::Palette>&);
     template<>
-    inline picojson::value toJSON<UI::Metrics>(const UI::Metrics&);
+    inline picojson::value toJSON<UICore::Metrics>(const UICore::Metrics&);
     template<>
-    inline picojson::value toJSON<std::string, UI::Metrics>(const std::map<std::string, UI::Metrics>&);
+    inline picojson::value toJSON<std::string, UICore::Metrics>(const std::map<std::string, UICore::Metrics>&);
 
     //! Throws:
     //! - std::exception
     template<>
-    inline void fromJSON<UI::Palette>(const picojson::value&, UI::Palette&);
+    inline void fromJSON<UICore::Palette>(const picojson::value&, UICore::Palette&);
     template<>
-    inline void fromJSON<std::string, UI::Palette>(const picojson::value&, std::map<std::string, UI::Palette>&);
+    inline void fromJSON<std::string, UICore::Palette>(const picojson::value&, std::map<std::string, UICore::Palette>&);
     template<>
-    inline void fromJSON<UI::Metrics>(const picojson::value&, UI::Metrics&);
+    inline void fromJSON<UICore::Metrics>(const picojson::value&, UICore::Metrics&);
     template<>
-    inline void fromJSON<std::string, UI::Metrics>(const picojson::value&, std::map<std::string, UI::Metrics>&);
+    inline void fromJSON<std::string, UICore::Metrics>(const picojson::value&, std::map<std::string, UICore::Metrics>&);
 
-    DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UICore::ColorRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UICore::MetricsRole);
 
 } // namespace djv
 
-#include <djvUI/StyleInline.h>
+#include <djvUICore/StyleInline.h>

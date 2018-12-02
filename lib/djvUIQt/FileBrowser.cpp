@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FileBrowser.h>
+#include <djvUIQt/FileBrowser.h>
 
-#include <djvUI/FileBrowserPrivate.h>
+#include <djvUIQt/FileBrowserPrivate.h>
 
-#include <djvUI/Context.h>
+#include <djvCore/Context.h>
 
 #include <QAction>
 #include <QFileInfo>
@@ -42,7 +42,7 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIQt
     {
         struct FileBrowserWidget::Private
         {
@@ -54,7 +54,7 @@ namespace djv
             QPointer<FileBrowserFooter> footer;
         };
 
-        FileBrowserWidget::FileBrowserWidget(const std::shared_ptr<Context> & context, QWidget * parent) :
+        FileBrowserWidget::FileBrowserWidget(const std::shared_ptr<Core::Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -184,5 +184,5 @@ namespace djv
             _p->footer->setViewMode(_p->listView->viewMode());
         }
 
-    } // namespace UI
+    } // namespace UIQt
 } // namespace djv

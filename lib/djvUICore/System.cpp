@@ -27,41 +27,49 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUICore/System.h>
 
-#include <djvCore/Context.h>
+#include <djvUICore/SettingsSystem.h>
+#include <djvUICore/Style.h>
 
-#include <QPointer>
-
-class QOpenGLContext;
-class QOpenGLDebugMessage;
+#include <djvAV/System.h>
 
 namespace djv
 {
-    namespace AV
+    namespace UICore
     {
-        class Context : public Core::Context
+        struct System::Private
         {
-            DJV_NON_COPYABLE(Context);
-
-        protected:
-            void _init(int &, char **);
-            Context();
-
-        public:
-            ~Context() override;
-
-            static std::shared_ptr<Context> create(int &, char **);
-
-            //! Get the default OpenGL context.
-            QPointer<QOpenGLContext> openGLContext() const;
-
-            //! Make the default OpenGL context current.
-            void makeGLContextCurrent();
-
-        private:
-            DJV_PRIVATE();
+            std::shared_ptr<Style> style;
         };
 
-    } // namespace AV
+        void System::_init(const std::shared_ptr<Core::Context> & context)
+        {
+            ISystem::_init("djv::UICore::System", context);
+            AV::System::create(context);
+            SettingsSystem::create(context);
+            _p->style = Style::create(context);
+        }
+
+        System::System() :
+            _p(new Private)
+        {}
+
+        System::~System()
+        {}
+
+        std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
+        {
+            auto out = std::shared_ptr<System>(new System);
+            out->_init(context);
+            return out;
+        }
+
+        const std::shared_ptr<Style> System::getStyle() const
+        {
+            return _p->style;
+        }
+
+    } // namespace UICore
 } // namespace djv
+

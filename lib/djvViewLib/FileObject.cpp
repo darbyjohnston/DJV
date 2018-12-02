@@ -34,7 +34,7 @@
 #include <djvViewLib/WorkspaceObject.h>
 #include <djvViewLib/Workspace.h>
 
-#include <djvUI/FileBrowser.h>
+#include <djvUIQt/FileBrowser.h>
 
 #include <QAction>
 #include <QApplication>
@@ -130,7 +130,7 @@ namespace djv
             if (auto context = std::dynamic_pointer_cast<Context>(getContext().lock()))
             {
                 out = new QDockWidget("File Browser");
-                out->setWidget(new UI::FileBrowserWidget(context));
+                out->setWidget(new UIQt::FileBrowserWidget(context));
                 _p->dockWidgets.push_back(out);
             }
             return out;

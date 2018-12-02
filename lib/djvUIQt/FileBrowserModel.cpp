@@ -27,9 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FileBrowserPrivate.h>
+#include <djvUIQt/FileBrowserPrivate.h>
 
-#include <djvUI/Context.h>
+#include <djvUIQt/System.h>
+
+#include <djvCore/Context.h>
 
 #include <QDir>
 #include <QFileInfo>
@@ -39,7 +41,7 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIQt
     {
         struct FileBrowserHistory::Private
         {
@@ -182,13 +184,13 @@ namespace djv
 
         struct FileBrowserModel::Private
         {
-            std::weak_ptr<Context> context;
+            std::weak_ptr<Core::Context> context;
             QDir dir;
             QFileInfoList fileInfoList;
             QScopedPointer<FileBrowserHistory> history;
         };
 
-        FileBrowserModel::FileBrowserModel(const std::shared_ptr<Context> & context, QObject * parent) :
+        FileBrowserModel::FileBrowserModel(const std::shared_ptr<Core::Context> & context, QObject * parent) :
             QAbstractListModel(parent),
             _p(new Private)
         {
@@ -255,14 +257,17 @@ namespace djv
             case Qt::DecorationRole:
                 if (auto context = _p->context.lock())
                 {
-                    const auto & fileInfo = _p->fileInfoList[index.row()];
-                    if (fileInfo.isFile())
+                    if (auto system = context->getSystemT<System>())
                     {
-                        return context->getQStyle()->standardIcon(QStyle::SP_FileIcon);
-                    }
-                    else if (fileInfo.isDir())
-                    {
-                        return context->getQStyle()->standardIcon(QStyle::SP_DirIcon);
+                        const auto & fileInfo = _p->fileInfoList[index.row()];
+                        if (fileInfo.isFile())
+                        {
+                            return system->getQStyle()->standardIcon(QStyle::SP_FileIcon);
+                        }
+                        else if (fileInfo.isDir())
+                        {
+                            return system->getQStyle()->standardIcon(QStyle::SP_DirIcon);
+                        }
                     }
                 }
                 break;
@@ -333,5 +338,5 @@ namespace djv
             endResetModel();
         }
 
-    } // namespace UI
+    } // namespace UIQt
 } // namespace djv

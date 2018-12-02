@@ -27,26 +27,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ProxyStyle.h>
+#pragma once
 
-#include <QStyleFactory>
+#include <djvCore/ISystem.h>
+
+#include <QPointer>
+
+class QStyle;
 
 namespace djv
 {
-    namespace UI
+    namespace UIQt
     {
-        struct ProxyStyle::Private
-        {
+        class Style;
 
+        class System : public Core::ISystem
+        {
+            DJV_NON_COPYABLE(System);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context> &);
+            System();
+
+        public:
+            ~System() override;
+
+            static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
+
+            const std::shared_ptr<Style> getStyle() const;
+            QPointer<QStyle> getQStyle() const;
+
+        private:
+            DJV_PRIVATE();
         };
 
-        ProxyStyle::ProxyStyle(const std::shared_ptr<Context> &) :
-            QProxyStyle(QStyleFactory::create("fusion")),
-            _p(new Private)
-        {}
-
-        ProxyStyle::~ProxyStyle()
-        {}
-
-    } // namespace UI
+    } // namespace UIQt
 } // namespace djv

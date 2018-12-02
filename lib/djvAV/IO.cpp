@@ -29,8 +29,6 @@
 
 #include <djvAV/IO.h>
 
-#include <djvAV/Context.h>
-
 extern "C"
 {
 #include <libavutil/imgutils.h>

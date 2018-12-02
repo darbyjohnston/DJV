@@ -31,26 +31,29 @@
 
 #include <djvCore/Core.h>
 
-#include <QPointer>
 #include <QProxyStyle>
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
         class Context;
 
+    } // namespace Core
+
+    namespace UIQt
+    {
         class ProxyStyle : public QProxyStyle
         {
             Q_OBJECT
 
         public:
-            ProxyStyle(const std::shared_ptr<Context> &);
+            ProxyStyle(const std::shared_ptr<Core::Context> &);
             ~ProxyStyle() override;
 
         private:
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UIQt
 } // namespace djv

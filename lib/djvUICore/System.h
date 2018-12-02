@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2018 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,44 +27,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/EnumTest.h>
-#include <djvCoreTest/MathTest.h>
-#include <djvCoreTest/MemoryTest.h>
+#pragma once
 
-#include <djvAVTest/AudioTest.h>
-#include <djvAVTest/ColorTest.h>
-#include <djvAVTest/PixelTest.h>
+#include <djvCore/ISystem.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Error.h>
-
-#include <QApplication>
-#include <QScopedPointer>
-
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace UICore
     {
-        QApplication app(argc, argv);
-        auto context = Core::Context::create(argc, argv);
+        class Style;
 
-        (new CoreTest::EnumTest(context))->run(argc, argv);
-        (new CoreTest::MathTest(context))->run(argc, argv);
-        (new CoreTest::MemoryTest(context))->run(argc, argv);
+        class System : public Core::ISystem
+        {
+            DJV_NON_COPYABLE(System);
 
-        (new AVTest::AudioTest(context))->run(argc, argv);
-        (new AVTest::ColorTest(context))->run(argc, argv);
-        (new AVTest::PixelTest(context))->run(argc, argv);
+        protected:
+            void _init(const std::shared_ptr<Core::Context> &);
+            System();
 
-        context->exit();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << Core::format(error) << std::endl;
-    }
-    return r;
-}
+        public:
+            ~System() override;
 
+            static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
+
+            const std::shared_ptr<Style> getStyle() const;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace UICore
+} // namespace djv

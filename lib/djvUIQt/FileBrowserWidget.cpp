@@ -27,10 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/FileBrowserPrivate.h>
+#include <djvUIQt/FileBrowserPrivate.h>
 
-#include <djvUI/Context.h>
-
+#include <djvCore/Context.h>
 #include <djvCore/Path.h>
 
 #include <QAction>
@@ -48,7 +47,7 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UIQt
     {
         struct PathWidget::Private
         {
@@ -57,7 +56,7 @@ namespace djv
             QPointer<QToolBar> toolBar;
         };
 
-        PathWidget::PathWidget(const std::shared_ptr<Context> &, QWidget * parent) :
+        PathWidget::PathWidget(const std::shared_ptr<Core::Context> &, QWidget * parent) :
             QFrame(parent),
             _p(new Private)
         {
@@ -130,7 +129,7 @@ namespace djv
             QPointer<QToolButton> pathEditButton;
         };
 
-        FileBrowserHeader::FileBrowserHeader(const std::shared_ptr<Context> & context, QWidget * parent) :
+        FileBrowserHeader::FileBrowserHeader(const std::shared_ptr<Core::Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -270,7 +269,7 @@ namespace djv
             QMap<int, QListView::ViewMode> buttonToViewMode;
         };
 
-        FileBrowserFooter::FileBrowserFooter(const std::shared_ptr<Context> & context, QWidget * parent) :
+        FileBrowserFooter::FileBrowserFooter(const std::shared_ptr<Core::Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -332,5 +331,5 @@ namespace djv
             Q_EMIT viewModeChanged(_p->buttonToViewMode[value]);
         }
 
-    } // namespace UI
+    } // namespace UIQt
 } // namespace djv

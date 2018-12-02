@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Context.h>
+#include <djvCore/Context.h>
 
 #include <QObject>
 #include <QPointer>
@@ -38,7 +38,7 @@ namespace djv
 {
     namespace ViewLib
     {        
-        class Context : public UI::Context
+        class Context : public Core::Context
         {
             DJV_NON_COPYABLE(Context);
 

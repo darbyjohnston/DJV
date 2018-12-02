@@ -29,35 +29,53 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvUICore/ISettings.h>
+#include <djvUICore/Style.h>
 
-#include <QWidget>
+#include <djvCore/MapObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
-        class Context;
-
-        //! \todo Sorting
-        //! \todo Multiple selection
-        //! \todo Bookmarks
-        //! \todo History menu
-        //! \todo Thumbnails
-        //! \todo File information
-        class FileBrowserWidget : public QWidget
+        class Animation;
+    
+    } // namespace Core
+    
+    namespace UICore
+    {
+        //! This class provides the style settings.
+        class StyleSettings : public ISettings
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(StyleSettings);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>& context);
+
+            StyleSettings();
 
         public:
-            FileBrowserWidget(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
-            ~FileBrowserWidget() override;
+            virtual ~StyleSettings();
+
+            static std::shared_ptr<StyleSettings> create(const std::shared_ptr<Core::Context>&);
+
+            std::shared_ptr<Core::IMapSubject<std::string, Palette> > getPalettes() const;
+            std::shared_ptr<Core::IValueSubject<Palette> > getCurrentPalette() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentPaletteName() const;
+            void setCurrentPalette(const std::string&);
+
+            std::shared_ptr<Core::IMapSubject<std::string, Metrics> > getMetrics() const;
+            std::shared_ptr<Core::IValueSubject<Metrics> > getCurrentMetrics() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentMetricsName() const;
+            void setCurrentMetrics(const std::string&);
+
+            void load(const picojson::value&) override;
+            picojson::value save() override;
 
         private:
-            void _updateWidget();
-
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace UICore
 } // namespace djv

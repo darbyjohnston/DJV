@@ -29,8 +29,6 @@
 
 #include <djvAV/PixelData.h>
 
-#include <djvAV/Context.h>
-
 namespace djv
 {
     namespace AV

@@ -27,12 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/Style.h>
+#include <djvUICore/Style.h>
 
-#include <djvUI/Context.h>
-#include <djvUI/StyleSettings.h>
+#include <djvUICore/StyleSettings.h>
 
 #include <djvCore/Animation.h>
+#include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 #include <djvCore/TextSystem.h>
@@ -45,7 +45,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UICore
     {
         struct Palette::Private
         {
@@ -189,7 +189,7 @@ namespace djv
 
         void Style::_init(const std::shared_ptr<Context>& context)
         {
-            ISystem::_init("Gp::UI::Style", context);
+            ISystem::_init("djv::UICore::Style", context);
 
             _p->settings = StyleSettings::create(context);
 
@@ -331,10 +331,10 @@ namespace djv
             }
         }*/
 
-    } // namespace UI
+    } // namespace UICore
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI,
+        UICore,
         ColorRole,
         DJV_TEXT("None"),
         DJV_TEXT("Background"),
@@ -353,7 +353,7 @@ namespace djv
         DJV_TEXT("Shadow"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI,
+        UICore,
         MetricsRole,
         DJV_TEXT("None"),
         DJV_TEXT("Border"),
@@ -375,5 +375,5 @@ namespace djv
         DJV_TEXT("Thumbnail"),
         DJV_TEXT("Shadow"));
 
-} // namespace Gp
+} // namespace djv
 

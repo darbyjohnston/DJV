@@ -27,56 +27,26 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUIQt/ProxyStyle.h>
 
-#include <djvCore/ISystem.h>
-
-#include <djvCore/PicoJSON.h>
+#include <QStyleFactory>
 
 namespace djv
 {
-    namespace Core
+    namespace UIQt
     {
-        class Path;
-    }
-
-    namespace UI
-    {
-        class Context;
-        class ISettings;
-
-        //! This class provides a system for saving and restoring user settings.
-        //!
-        //! \bug How can we merge settings changes from multiple application instances?
-        class SettingsSystem : public Core::ISystem
+        struct ProxyStyle::Private
         {
-            DJV_NON_COPYABLE(SettingsSystem);
-            void _init(const std::shared_ptr<Context>&);
-            SettingsSystem();
 
-        public:
-            virtual ~SettingsSystem();
-
-            //! Create a new settings system.
-            static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<Context>&);
-
-        protected:
-            void _exit() override;
-
-        private:
-            void _addSettings(const std::shared_ptr<ISettings>&);
-            void _removeSettings(const std::shared_ptr<ISettings>&);
-
-            void _loadSettings(const std::shared_ptr<ISettings>&);
-            void _saveSettings();
-
-            void _readSettingsFile(const Core::Path&, std::map<std::string, picojson::value>&);
-            void _writeSettingsFile(const Core::Path&, const picojson::value&);
-
-            DJV_PRIVATE();
-
-            friend class ISettings;
         };
 
-    } // namespace UI
+        ProxyStyle::ProxyStyle(const std::shared_ptr<Core::Context> &) :
+            QProxyStyle(QStyleFactory::create("fusion")),
+            _p(new Private)
+        {}
+
+        ProxyStyle::~ProxyStyle()
+        {}
+
+    } // namespace UIQt
 } // namespace djv

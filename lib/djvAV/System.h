@@ -29,53 +29,39 @@
 
 #pragma once
 
-#include <djvUI/ISettings.h>
-#include <djvUI/Style.h>
+#include <djvCore/ISystem.h>
 
-#include <djvCore/MapObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <QPointer>
+
+class QOpenGLContext;
+class QOpenGLDebugMessage;
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        class Animation;
-    
-    } // namespace Core
-    
-    namespace UI
-    {
-        //! This class provides the style settings.
-        class StyleSettings : public ISettings
+        class System : public Core::ISystem
         {
-            DJV_NON_COPYABLE(StyleSettings);
+            DJV_NON_COPYABLE(System);
 
         protected:
-            void _init(const std::shared_ptr<Context>& context);
-
-            StyleSettings();
+            void _init(const std::shared_ptr<Core::Context> &);
+            System();
 
         public:
-            virtual ~StyleSettings();
+            ~System() override;
 
-            static std::shared_ptr<StyleSettings> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
 
-            std::shared_ptr<Core::IMapSubject<std::string, Palette> > getPalettes() const;
-            std::shared_ptr<Core::IValueSubject<Palette> > getCurrentPalette() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentPaletteName() const;
-            void setCurrentPalette(const std::string&);
+            //! Get the default OpenGL context.
+            QPointer<QOpenGLContext> openGLContext() const;
 
-            std::shared_ptr<Core::IMapSubject<std::string, Metrics> > getMetrics() const;
-            std::shared_ptr<Core::IValueSubject<Metrics> > getCurrentMetrics() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentMetricsName() const;
-            void setCurrentMetrics(const std::string&);
-
-            void load(const picojson::value&) override;
-            picojson::value save() override;
+            //! Make the default OpenGL context current.
+            void makeGLContextCurrent();
 
         private:
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace AV
 } // namespace djv

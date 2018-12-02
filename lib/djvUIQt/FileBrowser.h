@@ -27,71 +27,41 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ISettings.h>
+#pragma once
 
-#include <djvUI/Context.h>
-#include <djvUI/SettingsSystem.h>
+#include <djvCore/Core.h>
 
-using namespace djv::Core;
+#include <QWidget>
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
-        struct ISettings::Private
+        class Context;
+    
+    } // namespace Core
+
+    namespace UIQt
+    {
+        //! \todo Sorting
+        //! \todo Multiple selection
+        //! \todo Bookmarks
+        //! \todo History menu
+        //! \todo Thumbnails
+        //! \todo File information
+        class FileBrowserWidget : public QWidget
         {
-            std::weak_ptr<Context> context;
-            std::string name;
+            Q_OBJECT
+
+        public:
+            FileBrowserWidget(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
+            ~FileBrowserWidget() override;
+
+        private:
+            void _updateWidget();
+
+            DJV_PRIVATE();
         };
 
-        void ISettings::_init(const std::string& name, const std::shared_ptr<Context>& context)
-        {
-            _p->context = context;
-            _p->name = name;
-
-            if (auto system = context->getSystemT<SettingsSystem>())
-            {
-                system->_addSettings(shared_from_this());
-            }
-        }
-
-        ISettings::ISettings() :
-            _p(new Private)
-        {}
-
-        ISettings::~ISettings()
-        {}
-
-        const std::weak_ptr<Context> & ISettings::getContext() const
-        {
-            return _p->context;
-        }
-
-        const std::string& ISettings::getName() const
-        {
-            return _p->name;
-        }
-
-        void ISettings::_load()
-        {
-            if (auto context = _p->context.lock())
-            {
-                if (auto system = context->getSystemT<SettingsSystem>())
-                {
-                    system->_loadSettings(shared_from_this());
-                }
-            }
-        }
-
-        void ISettings::_readError(const std::string& value)
-        {
-            if (auto context = _p->context.lock())
-            {
-                std::stringstream s;
-                s << "Error reading settings: " << _p->name << ": " << value;
-                context->log("djv::UI::ISettings", s.str(), LogLevel::Error);
-            }
-        }
-
-    } // namespace UI
+    } // namespace UIQt
 } // namespace djv

@@ -1,5 +1,5 @@
 add_subdirectory(djvViewLib)
 add_subdirectory(djvCore)
 add_subdirectory(djvAV)
-add_subdirectory(djvUI)
-
+add_subdirectory(djvUICore)
+add_subdirectory(djvUIQt)

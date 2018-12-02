@@ -27,58 +27,72 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/Context.h>
+#include <djvUICore/ISettings.h>
 
-#include <djvUI/ProxyStyle.h>
-#include <djvUI/SettingsSystem.h>
-#include <djvUI/Style.h>
+#include <djvUICore/SettingsSystem.h>
 
-#include <QApplication>
+#include <djvCore/Context.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UICore
     {
-        struct Context::Private
+        struct ISettings::Private
         {
-            std::shared_ptr<Style> style;
-            QPointer<ProxyStyle> qStyle;
+            std::weak_ptr<Context> context;
+            std::string name;
         };
 
-        void Context::_init(int & argc, char ** argv)
+        void ISettings::_init(const std::string& name, const std::shared_ptr<Context>& context)
         {
-            AV::Context::_init(argc, argv);
+            _p->context = context;
+            _p->name = name;
 
-            SettingsSystem::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
-            _p->style = Style::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
-            _p->qStyle = new ProxyStyle(std::dynamic_pointer_cast<Context>(shared_from_this()));
-            qApp->setStyle(_p->qStyle);
+            if (auto system = context->getSystemT<SettingsSystem>())
+            {
+                system->_addSettings(shared_from_this());
+            }
         }
 
-        Context::Context() :
+        ISettings::ISettings() :
             _p(new Private)
         {}
 
-        Context::~Context()
+        ISettings::~ISettings()
         {}
 
-        std::shared_ptr<Context> Context::create(int & argc, char ** argv)
+        const std::weak_ptr<Context> & ISettings::getContext() const
         {
-            auto out = std::shared_ptr<Context>(new Context);
-            out->_init(argc, argv);
-            return out;
+            return _p->context;
         }
 
-        const std::shared_ptr<Style> Context::getStyle() const
+        const std::string& ISettings::getName() const
         {
-            return _p->style;
+            return _p->name;
         }
 
-        QPointer<QStyle> Context::getQStyle() const
+        void ISettings::_load()
         {
-            return _p->qStyle.data();
+            if (auto context = _p->context.lock())
+            {
+                if (auto system = context->getSystemT<SettingsSystem>())
+                {
+                    system->_loadSettings(shared_from_this());
+                }
+            }
         }
 
-    } // namespace UI
+        void ISettings::_readError(const std::string& value)
+        {
+            if (auto context = _p->context.lock())
+            {
+                std::stringstream s;
+                s << "Error reading settings: " << _p->name << ": " << value;
+                context->log("djv::UICore::ISettings", s.str(), LogLevel::Error);
+            }
+        }
+
+    } // namespace UICore
 } // namespace djv
-

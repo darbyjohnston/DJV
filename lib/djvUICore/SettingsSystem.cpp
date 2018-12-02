@@ -27,11 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/SettingsSystem.h>
+#include <djvUICore/SettingsSystem.h>
 
-#include <djvUI/Context.h>
-#include <djvUI/ISettings.h>
+#include <djvUICore/ISettings.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
@@ -41,7 +41,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UICore
     {
         struct SettingsSystem::Private
         {
@@ -50,9 +50,9 @@ namespace djv
             Path settingsPath;
         };
 
-        void SettingsSystem::_init(const std::shared_ptr<Context>& context)
+        void SettingsSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
-            ISystem::_init("djv::UI::SettingsSystem", context);
+            ISystem::_init("djv::UICore::SettingsSystem", context);
             _p->settingsPath = context->getResourceSystem()->getPath(ResourcePath::SettingsFile);
             _readSettingsFile(_p->settingsPath, _p->json);
         }
@@ -64,7 +64,7 @@ namespace djv
         SettingsSystem::~SettingsSystem()
         {}
 
-        std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
             out->_init(context);
@@ -181,5 +181,5 @@ namespace djv
             }
         }
 
-    } // namespace UI
+    } // namespace UICore
 } // namespace djv

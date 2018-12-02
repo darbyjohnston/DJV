@@ -25,7 +25,6 @@ set(header
 set(mocHeader
     Application.h
     ColorPickerTool.h
-    Context.h
     Enum.h
     FileObject.h
     HelpObject.h
@@ -72,7 +71,7 @@ set(source
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
 add_library(djvViewLib ${header} ${source} ${mocSource} ${qmSource})
-target_link_libraries(djvViewLib djvUI)
+target_link_libraries(djvViewLib djvUIQt)
 set_target_properties(
     djvViewLib
     PROPERTIES

@@ -43,6 +43,8 @@
 #include <djvViewLib/WindowObject.h>
 #include <djvViewLib/WorkspaceObject.h>
 
+#include <djvUIQt/System.h>
+
 namespace djv
 {
     namespace ViewLib
@@ -54,7 +56,9 @@ namespace djv
 
         void Context::_init(int & argc, char ** argv)
         {
-            UI::Context::_init(argc, argv);
+            Core::Context::_init(argc, argv);
+
+            UIQt::System::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
 
             addObject(new ColorPickerTool(std::dynamic_pointer_cast<Context>(shared_from_this())));
             addObject(new FileObject(std::dynamic_pointer_cast<Context>(shared_from_this())));

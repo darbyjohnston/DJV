@@ -9,7 +9,6 @@ set(header
     AudioDataInline.h
     AudioInline.h
     AudioSystem.h
-    Context.h
     Color.h
     ColorInline.h
     FFmpeg.h
@@ -29,6 +28,7 @@ set(header
     Shader.h
     Speed.h
     SpeedInline.h
+    System.h
     Timecode.h
     TimecodeInline.h
     TriangleMesh.h)
@@ -36,7 +36,6 @@ set(source
     Audio.cpp
     AudioData.cpp
     AudioSystem.cpp
-    Context.cpp
     Color.cpp
     FFmpeg.cpp
     IO.cpp
@@ -50,6 +49,7 @@ set(source
     PixelData.cpp
     Shader.cpp
     Speed.cpp
+    System.cpp
     Timecode.cpp
     TriangleMesh.cpp)
 

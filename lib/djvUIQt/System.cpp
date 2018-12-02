@@ -27,39 +27,50 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUIQt/System.h>
 
-#include <djvAV/Context.h>
+#include <djvUIQt/ProxyStyle.h>
 
-#include <QPointer>
+#include <djvUICore/System.h>
 
-class QStyle;
+#include <QApplication>
 
 namespace djv
 {
-    namespace UI
+    namespace UIQt
     {
-        class Style;
-
-        class Context : public AV::Context
+        struct System::Private
         {
-            DJV_NON_COPYABLE(Context);
-
-        protected:
-            void _init(int &, char **);
-            Context();
-
-        public:
-            ~Context() override;
-
-            static std::shared_ptr<Context> create(int &, char **);
-
-            const std::shared_ptr<Style> getStyle() const;
-            QPointer<QStyle> getQStyle() const;
-
-        private:
-            DJV_PRIVATE();
+            QPointer<ProxyStyle> qStyle;
         };
 
-    } // namespace UI
+        void System::_init(const std::shared_ptr<Core::Context> & context)
+        {
+            ISystem::_init("djv::UIQt::System", context);
+            UICore::System::create(context);
+            _p->qStyle = new ProxyStyle(context);
+            qApp->setStyle(_p->qStyle);
+        }
+
+        System::System() :
+            _p(new Private)
+        {}
+
+        System::~System()
+        {}
+
+        std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
+        {
+            auto out = std::shared_ptr<System>(new System);
+            out->_init(context);
+            return out;
+        }
+
+        QPointer<QStyle> System::getQStyle() const
+        {
+            return _p->qStyle.data();
+        }
+
+    } // namespace UIQt
 } // namespace djv
+

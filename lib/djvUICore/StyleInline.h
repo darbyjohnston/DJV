@@ -32,12 +32,12 @@
 namespace djv
 {
     template<>
-    inline picojson::value toJSON<UI::Palette>(const UI::Palette& value)
+    inline picojson::value toJSON<UICore::Palette>(const UICore::Palette& value)
     {
         picojson::value out(picojson::object_type, true);
         {
             picojson::value object(picojson::object_type, true);
-            for (auto role : UI::getColorRoleEnums())
+            for (auto role : UICore::getColorRoleEnums())
             {
                 std::stringstream ss;
                 ss << role;
@@ -49,7 +49,7 @@ namespace djv
     }
 
     template<>
-    inline picojson::value toJSON<std::string, UI::Palette>(const std::map<std::string, UI::Palette>& value)
+    inline picojson::value toJSON<std::string, UICore::Palette>(const std::map<std::string, UICore::Palette>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
@@ -60,12 +60,12 @@ namespace djv
     }
 
     template<>
-    inline picojson::value toJSON<UI::Metrics>(const UI::Metrics& value)
+    inline picojson::value toJSON<UICore::Metrics>(const UICore::Metrics& value)
     {
         picojson::value out(picojson::object_type, true);
         {
             picojson::value object(picojson::object_type, true);
-            for (auto role : UI::getMetricsRoleEnums())
+            for (auto role : UICore::getMetricsRoleEnums())
             {
                 std::stringstream ss;
                 ss << role;
@@ -78,7 +78,7 @@ namespace djv
     }
 
     template<>
-    inline picojson::value toJSON<std::string, UI::Metrics>(const std::map<std::string, UI::Metrics>& value)
+    inline picojson::value toJSON<std::string, UICore::Metrics>(const std::map<std::string, UICore::Metrics>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
@@ -89,7 +89,7 @@ namespace djv
     }
 
     template<>
-    inline void fromJSON<UI::Palette>(const picojson::value& value, UI::Palette& out)
+    inline void fromJSON<UICore::Palette>(const picojson::value& value, UICore::Palette& out)
     {
         if (value.is<picojson::object>())
         {
@@ -97,7 +97,7 @@ namespace djv
             {
                 if ("Roles" == i.first)
                 {
-                    std::map<UI::ColorRole, AV::Image::Color> value;
+                    std::map<UICore::ColorRole, AV::Image::Color> value;
                     fromJSON(i.second, value);
                     for (const auto& i : value)
                     {
@@ -113,7 +113,7 @@ namespace djv
     }
 
     template<>
-    inline void fromJSON<std::string, UI::Palette>(const picojson::value& value, std::map<std::string, UI::Palette>& out)
+    inline void fromJSON<std::string, UICore::Palette>(const picojson::value& value, std::map<std::string, UICore::Palette>& out)
     {
         if (value.is<picojson::object>())
         {
@@ -129,7 +129,7 @@ namespace djv
     }
 
     template<>
-    inline void fromJSON<UI::Metrics>(const picojson::value& value, UI::Metrics& out)
+    inline void fromJSON<UICore::Metrics>(const picojson::value& value, UICore::Metrics& out)
     {
         if (value.is<picojson::object>())
         {
@@ -141,7 +141,7 @@ namespace djv
                     {
                         for (const auto& j : i.second.get<picojson::object>())
                         {
-                            UI::MetricsRole role = UI::MetricsRole::First;
+                            UICore::MetricsRole role = UICore::MetricsRole::First;
                             std::stringstream ss(j.first);
                             ss >> role;
                             if (j.second.is<std::string>())
@@ -179,7 +179,7 @@ namespace djv
     }
 
     template<>
-    inline void fromJSON<std::string, UI::Metrics>(const picojson::value& value, std::map<std::string, UI::Metrics>& out)
+    inline void fromJSON<std::string, UICore::Metrics>(const picojson::value& value, std::map<std::string, UICore::Metrics>& out)
     {
         if (value.is<picojson::object>())
         {

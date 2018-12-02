@@ -27,11 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/StyleSettings.h>
-
-#include <djvUI/Context.h>
+#include <djvUICore/StyleSettings.h>
 
 #include <djvCore/Animation.h>
+#include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 #include <djvCore/PicoJSON.h>
@@ -45,7 +44,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace UI
+    namespace UICore
     {
         struct StyleSettings::Private
         {
@@ -59,7 +58,7 @@ namespace djv
 
         void StyleSettings::_init(const std::shared_ptr<Context>& context)
         {
-            ISettings::_init("djv::UI::StyleSettings", context);
+            ISettings::_init("djv::UICore::StyleSettings", context);
 
             std::map<std::string, Palette> palettes;
             palettes[DJV_TEXT("Default")] = Palette();
@@ -184,6 +183,6 @@ namespace djv
             return out;
         }
 
-    } // namespace UI
+    } // namespace UICore
 } // namespace djv
 

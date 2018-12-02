@@ -29,8 +29,7 @@
 
 #include <djvAV/AudioSystem.h>
 
-#include <djvAV/Context.h>
-
+#include <djvCore/Context.h>
 #include <djvCore/Error.h>
 
 namespace djv
@@ -65,7 +64,7 @@ namespace djv
             ALCcontext * alContext = nullptr;
         };
 
-        void AudioSystem::_init(const std::shared_ptr<Context> & context)
+        void AudioSystem::_init(const std::shared_ptr<Core::Context> & context)
         {
             ISystem::_init("djv::AV::AudioSystem", context);
 
@@ -112,7 +111,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<Context> & context)
+        std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<Core::Context> & context)
         {
             auto out = std::shared_ptr<AudioSystem>(new AudioSystem);
             out->_init(context);

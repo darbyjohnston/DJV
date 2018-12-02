@@ -29,62 +29,54 @@
 
 #pragma once
 
-#include <djvCore/ListObserver.h>
-#include <djvCore/MapObserver.h>
+#include <djvCore/ISystem.h>
+
 #include <djvCore/PicoJSON.h>
-#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
-        class Context;
+        class Path;
 
-        //! This class provides an interface for saving and restoring user settings.
-        class ISettings : public std::enable_shared_from_this<ISettings>
+    } // namespace Core
+
+    namespace UICore
+    {
+        class ISettings;
+
+        //! This class provides a system for saving and restoring user settings.
+        //!
+        //! \bug How can we merge settings changes from multiple application instances?
+        class SettingsSystem : public Core::ISystem
         {
-        protected:
-            void _init(const std::string& name, const std::shared_ptr<Context>&);
+            DJV_NON_COPYABLE(SettingsSystem);
+            void _init(const std::shared_ptr<Core::Context>&);
+            SettingsSystem();
 
         public:
-            ISettings();
-            virtual ~ISettings() = 0;
+            virtual ~SettingsSystem();
 
-            // Get the context.
-            const std::weak_ptr<Context> & getContext() const;
-
-            // Get the settings name.
-            const std::string& getName() const;
-
-            //! Load the settings from the given JSON. This function is called by the settings system.
-            virtual void load(const picojson::value&) = 0;
-
-            //! Save the settings to JSON. This function is called by the settings system.
-            virtual picojson::value save() = 0;
+            //! Create a new settings system.
+            static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<Core::Context>&);
 
         protected:
-            //! \todo This function needs to be called by derived classes at the end of their _init() function.
-            void _load();
-
-            template<typename T>
-            inline void _read(const std::string& name, const picojson::object&, T&);
-            template<typename T>
-            inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ValueSubject<T> >&);
-            template<typename T>
-            inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ListSubject<T> >&);
-            template<typename T, typename U>
-            inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::MapSubject<T, U> >&);
-
-            template<typename T>
-            inline void _write(const std::string& name, const T&, picojson::object&);
+            void _exit() override;
 
         private:
-            void _readError(const std::string&);
+            void _addSettings(const std::shared_ptr<ISettings>&);
+            void _removeSettings(const std::shared_ptr<ISettings>&);
+
+            void _loadSettings(const std::shared_ptr<ISettings>&);
+            void _saveSettings();
+
+            void _readSettingsFile(const Core::Path&, std::map<std::string, picojson::value>&);
+            void _writeSettingsFile(const Core::Path&, const picojson::value&);
 
             DJV_PRIVATE();
+
+            friend class ISettings;
         };
 
-    } // namespace UI
+    } // namespace UICore
 } // namespace djv
-
-#include <djvUI/ISettingsInline.h>

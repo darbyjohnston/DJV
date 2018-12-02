@@ -29,7 +29,7 @@
 
 namespace djv
 {
-    namespace UI
+    namespace UICore
     {
         template<typename T>
         inline void ISettings::_read(const std::string& name, const picojson::object& object, T& out)
@@ -111,5 +111,5 @@ namespace djv
             out[name] = toJSON(value);
         }
 
-    } // namespace UI
+    } // namespace UICore
 } // namespace djv
