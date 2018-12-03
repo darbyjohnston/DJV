@@ -97,19 +97,7 @@ namespace djv
         {}
 
         AudioSystem::~AudioSystem()
-        {
-            alcMakeContextCurrent(NULL);
-            if (_p->alContext)
-            {
-                alcDestroyContext(_p->alContext);
-                _p->alContext = nullptr;
-            }
-            if (_p->alDevice)
-            {
-                alcCloseDevice(_p->alDevice);
-                _p->alDevice = nullptr;
-            }
-        }
+        {}
 
         std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<Core::Context> & context)
         {
@@ -126,6 +114,21 @@ namespace djv
         ALCcontext * AudioSystem::getALContext() const
         {
             return _p->alContext;
+        }
+        
+        void AudioSystem::_exit()
+        {
+            alcMakeContextCurrent(NULL);
+            if (_p->alContext)
+            {
+                alcDestroyContext(_p->alContext);
+                _p->alContext = nullptr;
+            }
+            if (_p->alDevice)
+            {
+                alcCloseDevice(_p->alDevice);
+                _p->alDevice = nullptr;
+            }
         }
 
     } // namespace AV

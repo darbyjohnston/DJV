@@ -56,7 +56,9 @@ namespace djv
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
         {
-            out.get<picojson::object>()[toString(i.first)] = toJSON(i.second);
+            std::stringstream ss;
+            ss << i.first;
+            out.get<picojson::object>()[ss.str()] = toJSON(i.second);
         }
         return out;
     }

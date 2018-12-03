@@ -1,4 +1,6 @@
 set(header
+    FontSettings.h
+    FontSettingsInline.h
     ISettings.h
     ISettingsInline.h
     SettingsSystem.h
@@ -7,6 +9,7 @@ set(header
     StyleSettings.h
     System.h)
 set(source
+    FontSettings.cpp
     ISettings.cpp
     SettingsSystem.cpp
     Style.cpp

@@ -30,17 +30,19 @@
 #include <djvAV/System.h>
 
 #include <djvAV/AudioSystem.h>
+#include <djvAV/FontSystem.h>
 #include <djvAV/OpenGL.h>
 
 #include <djvCore/Error.h>
 #include <djvCore/OS.h>
 #include <djvCore/String.h>
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
 #include <QOpenGLDebugLogger>
 #include <QScopedPointer>
+#include <QScreen>
 
 #include <sstream>
 
@@ -122,6 +124,11 @@ namespace djv
             }
 
             // Create the systems.
+            glm::vec2 dpi;
+            auto screen = qApp->primaryScreen();
+            dpi.x = screen->physicalDotsPerInchX();
+            dpi.y = screen->physicalDotsPerInchY();
+            FontSystem::create(dpi, context);
             AudioSystem::create(context);
         }
 

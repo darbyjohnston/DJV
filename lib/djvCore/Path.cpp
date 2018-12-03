@@ -247,6 +247,7 @@ namespace djv
         std::vector<std::string> Path::splitDir(const std::string& value)
         {
             std::vector<std::string> out;
+            
             // Save the root path.
             std::string tmp = value;
             if (tmp.size() && isPathSeparator(tmp[0]))
@@ -254,7 +255,13 @@ namespace djv
                 out.push_back(std::string(1, tmp[0]));
                 tmp.erase(tmp.begin());
             }
-            return String::split(tmp, { '/', '\\' });
+            
+            for (const auto & i : String::split(tmp, { '/', '\\' }))
+            {
+                out.push_back(i);
+            }
+            
+            return out;
         }
 
         std::string Path::joinDirs(const std::vector<std::string>& value, char separator)

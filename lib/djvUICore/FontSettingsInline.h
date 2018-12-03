@@ -27,58 +27,70 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <iostream>
-#include <memory>
-#include <string>
-#include <vector>
+#include <sstream>
 
 namespace djv
 {
-    namespace Core
+    template<>
+    inline picojson::value toJSON<UICore::FontMap>(const UICore::FontMap& value)
     {
-        //! This enumeration provides the log levels.
-        enum class LogLevel
+        picojson::value out(picojson::object_type, true);
+        for (const auto& i : value)
         {
-            Information,
-            Warning,
-            Error
-        };
+            std::stringstream ss;
+            ss << i.first;
+            out.get<picojson::object>()[ss.str()] = picojson::value(i.second);
+        }
+        return out;
+    }
 
-        //! This function provides an assert (use the DJV_ASSERT macro instead).
-        void _assert(const char * file, int line);
+    template<>
+    inline picojson::value toJSON<std::string, UICore::FontMap>(const std::map<std::string, UICore::FontMap>& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        for (const auto& i : value)
+        {
+            out.get<picojson::object>()[i.first] = toJSON(i.second);
+        }
+        return out;
+    }
 
-    } // namespace Core
+    template<>
+    inline void fromJSON<UICore::FontMap>(const picojson::value& value, UICore::FontMap& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                UICore::FontFace v = UICore::FontFace::First;
+                std::stringstream ss(i.first);
+                ss >> v;
+                std::string s;
+                fromJSON(i.second, s);
+                out[v] = s;
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("Cannot parse");
+        }
+    }
+
+    template<>
+    inline void fromJSON<std::string, UICore::FontMap>(const picojson::value& value, std::map<std::string, UICore::FontMap>& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                fromJSON(i.second, out[i.first]);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("Cannot parse");
+        }
+    }
+
 } // namespace djv
-
-//! This macro provides private implementation members.
-#define DJV_PRIVATE() \
-    struct Private; \
-    std::unique_ptr<Private> _p
-
-//! This macro makes a class non-copyable.
-#define DJV_NON_COPYABLE(name) \
-    name(const name &) = delete; \
-    name & operator = (const name &) = delete
-
-//! This macro marks strings for extraction.
-#define DJV_TEXT(arg) (arg)
-
-//! This macro provides an assert.
-#if defined(DJV_ASSERT)
-#undef DJV_ASSERT
-#define DJV_ASSERT(value) \
-    if (!(value)) \
-        djv::Core::_assert(__FILE__, __LINE__)
-#else
-#define DJV_ASSERT(value)
-#endif
-
-#if defined(DJV_WINDOWS)
-//! \bug [S 1.0] https://social.msdn.microsoft.com/Forums/vstudio/en-US/8f40dcd8-c67f-4eba-9134-a19b9178e481/vs-2015-rc-linker-stdcodecvt-error?forum=vcgeneral
-typedef unsigned int djv_char_t;
-#else // DJV_PLATFORM_WINDOWS
-typedef char32_t djv_char_t;
-#endif // DJV_WINDOWS
 

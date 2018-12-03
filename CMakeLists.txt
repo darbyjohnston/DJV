@@ -13,6 +13,10 @@ project(
     HOMEPAGE_URL "http://djv.sourceforge.net"
     LANGUAGES CXX)
 
+#-------------------------------------------------------------------------------
+# Options
+#-------------------------------------------------------------------------------
+
 # Set the platform we are building for.
 if(APPLE)
     add_definitions(-DDJV_OSX)
@@ -94,7 +98,10 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/third-party
     ${CMAKE_BINARY_DIR})
 
-# Third party libraries.
+#-------------------------------------------------------------------------------
+# Third Party Libraries
+#-------------------------------------------------------------------------------
+
 if(DJV_THIRD_PARTY)
     set(ZLIB_ROOT ${DJV_THIRD_PARTY})
     set(GLM_ROOT ${DJV_THIRD_PARTY})
@@ -119,6 +126,81 @@ if(DJV_THIRD_PARTY)
 endif()
 
 find_package(Qt5 REQUIRED)
+
+#-------------------------------------------------------------------------------
+# Resources
+#-------------------------------------------------------------------------------
+
+file(GLOB_RECURSE DJV_TEXT_FILES ${CMAKE_SOURCE_DIR}/etc/Text/*.text)
+file(COPY ${DJV_TEXT_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Text)
+install(FILES ${DJV_TEXT_FILES} DESTINATION etc/Text)
+
+file(GLOB_RECURSE DJV_FONT_FILES ${CMAKE_SOURCE_DIR}/etc/Fonts/*.ttf ${CMAKE_SOURCE_DIR}/etc/Fonts/*.otf)
+file(COPY ${DJV_FONT_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Fonts)
+install(FILES ${DJV_FONT_FILES} DESTINATION etc/Fonts)
+
+file(GLOB_RECURSE DJV_ICON_FILES
+    ${CMAKE_SOURCE_DIR}/etc/Icons/*.ppm
+    ${CMAKE_SOURCE_DIR}/etc/Icons/*.png)
+file(COPY ${DJV_ICON_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Icons)
+install(FILES ${DJV_ICON_FILES} DESTINATION etc/Icons)
+
+file(GLOB_RECURSE DJV_IMAGE_FILES
+    ${CMAKE_SOURCE_DIR}/etc/Images/*.ppm
+    ${CMAKE_SOURCE_DIR}/etc/Images/*.png)
+file(COPY ${DJV_IMAGE_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Images)
+install(FILES ${DJV_IMAGE_FILES} DESTINATION etc/Images)
+
+file(GLOB_RECURSE DJV_MODEL_FILES
+    ${CMAKE_SOURCE_DIR}/etc/Models/*.obj
+    ${CMAKE_SOURCE_DIR}/etc/Models/*.3dm)
+file(COPY ${DJV_MODEL_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Models)
+install(FILES ${DJV_MODEL_FILES} DESTINATION etc/Models)
+
+file(GLOB_RECURSE DJV_AUDIO_FILES ${CMAKE_SOURCE_DIR}/etc/Audio/*.wav)
+file(COPY ${DJV_AUDIO_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Audio)
+install(FILES ${DJV_AUDIO_FILES} DESTINATION etc/Audio)
+
+file(GLOB_RECURSE DJV_SHADER_FILES ${CMAKE_SOURCE_DIR}/*.glsl)
+file(COPY ${DJV_SHADER_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Shaders)
+install(FILES ${DJV_SHADER_FILES} DESTINATION etc/Shaders)
+
+#function(add_vulkan_vert_shader TARGET ARG)
+#    add_custom_command(
+#        OUTPUT ${DJV_SHADERS_DIR}/${ARG}.spv
+#        COMMAND ${CMAKE_COMMAND} -E make_directory ${DJV_SHADERS_DIR}
+#        COMMAND ${Vulkan_SHADER_COMPILER} -V ${CMAKE_CURRENT_SOURCE_DIR}/${ARG}.vert -o ${DJV_SHADERS_DIR}/${ARG}.spv
+#        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${ARG}.vert)
+#    add_custom_target(${ARG} DEPENDS ${DJV_SHADERS_DIR}/${ARG}.spv)
+#    set_target_properties(${ARG} PROPERTIES FOLDER "Shaders")
+#    add_dependencies(${TARGET} ${ARG})
+#    install(FILES ${DJV_SHADERS_DIR}/${ARG}.spv DESTINATION etc/Shaders)
+#endfunction()
+#
+#function(add_vulkan_frag_shader TARGET ARG)
+#    add_custom_command(
+#        OUTPUT ${DJV_SHADERS_DIR}/${ARG}.spv
+#        COMMAND ${CMAKE_COMMAND} -E make_directory ${DJV_SHADERS_DIR}
+#        COMMAND ${Vulkan_SHADER_COMPILER} -V ${CMAKE_CURRENT_SOURCE_DIR}/${ARG}.frag -o ${DJV_SHADERS_DIR}/${ARG}.spv
+#        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${ARG}.frag)
+#    add_custom_target(${ARG} DEPENDS ${DJV_SHADERS_DIR}/${ARG}.spv)
+#    set_target_properties(${ARG} PROPERTIES FOLDER "Shaders")
+#    add_dependencies(${TARGET} ${ARG})
+#    install(FILES ${DJV_SHADERS_DIR}/${ARG}.spv DESTINATION etc/Shaders)
+#endfunction()
+
+set(DJV_RESOURCE_FILES
+    ${DJV_TEXT_FILES}
+    ${DJV_FONT_FILES}
+    ${DJV_ICON_FILES}
+    ${DJV_IMAGE_FILES}
+    ${DJV_MODEL_FILES}
+    ${DJV_AUDIO_FILES}
+    ${DJV_SHADER_FILES})
+
+#-------------------------------------------------------------------------------
+# Subdirectories
+#-------------------------------------------------------------------------------
 
 include(djvPackage)
 

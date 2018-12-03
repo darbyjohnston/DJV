@@ -1,3 +1,4 @@
+find_package(FreeType REQUIRED)
 find_package(FFmpeg REQUIRED)
 find_package(IlmBase REQUIRED)
 find_package(OpenAL REQUIRED)
@@ -12,6 +13,7 @@ set(header
     Color.h
     ColorInline.h
     FFmpeg.h
+    FontSystem.h
     IO.h
     IOInline.h
     Image.h
@@ -38,6 +40,7 @@ set(source
     AudioSystem.cpp
     Color.cpp
     FFmpeg.cpp
+    FontSystem.cpp
     IO.cpp
     Image.cpp
     Keycode.cpp
@@ -58,6 +61,7 @@ target_link_libraries(
     djvAV
     djvCore
     Qt5
+    FreeType
     FFMPEG
     IlmBase
     OpenAL

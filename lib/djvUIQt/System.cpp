@@ -32,12 +32,16 @@
 #include <djvUIQt/ProxyStyle.h>
 #include <djvUIQt/Util.h>
 
+#include <djvUICore/FontSettings.h>
 #include <djvUICore/StyleSettings.h>
 #include <djvUICore/System.h>
+
+#include <djvAV/FontSystem.h>
 
 #include <djvCore/Context.h>
 
 #include <QApplication>
+#include <QFontDatabase>
 
 using namespace djv::Core;
 
@@ -48,7 +52,9 @@ namespace djv
         struct System::Private
         {
             QPointer<ProxyStyle> qStyle;
+            std::map<std::string, std::string> fontFileNames;
             std::shared_ptr<ValueObserver<UICore::Palette> > paletteObserver;
+            std::shared_ptr<MapObserver<std::string, UICore::FontMap> > fontsObserver;
         };
 
         void System::_init(const std::shared_ptr<Context> & context)
@@ -57,6 +63,12 @@ namespace djv
             UICore::System::create(context);
             _p->qStyle = new ProxyStyle(context);
             qApp->setStyle(_p->qStyle);
+            
+            _p->fontFileNames = context->getSystemT<AV::FontSystem>()->getFileNames().get();
+            for (const auto & i : _p->fontFileNames)
+            {
+                QFontDatabase::addApplicationFont(QString::fromStdString(i.second));
+            }
 
             auto weak = std::weak_ptr<System>(std::dynamic_pointer_cast<System>(shared_from_this()));
             auto system = context->getSystemT<UICore::System>();
@@ -74,6 +86,24 @@ namespace djv
                 palette.setColor(QPalette::ButtonText, toQt(value.getColor(UICore::ColorRole::Foreground)));
                 palette.setColor(QPalette::Highlight, toQt(value.getColor(UICore::ColorRole::Checked)));
                 qApp->setPalette(palette);
+            });
+            
+            _p->fontsObserver = MapObserver<std::string, UICore::FontMap>::create(
+                system->getFontSettings()->getFonts(),
+                [weak](const std::map<std::string, UICore::FontMap> & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    const auto i = value.find("Default");
+                    if (i != value.end())
+                    {
+                        const auto j = i->second.find(UICore::FontFace::Regular);
+                        if (j != i->second.end())
+                        {
+                            qApp->setFont(QString::fromStdString(j->second));
+                        }
+                    }
+                }
             });
         }
 

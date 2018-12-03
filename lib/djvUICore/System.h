@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UICore
     {
+        class FontSettings;
         class Style;
         class StyleSettings;
 
@@ -51,6 +52,7 @@ namespace djv
 
             static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
 
+            const std::shared_ptr<FontSettings> getFontSettings() const;
             const std::shared_ptr<StyleSettings> getStyleSettings() const;
             const std::shared_ptr<Style> getStyle() const;
 
