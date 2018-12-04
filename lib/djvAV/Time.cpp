@@ -27,63 +27,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/MediaPlayer.h>
+#include <djvAV/Time.h>
 
-#include <djvViewLib/Context.h>
+extern "C"
+{
+#include <libavcodec/avcodec.h>
 
-#include <djvAV/Audio.h>
+} // extern "C"
 
 namespace djv
 {
-    namespace ViewLib
+    namespace AV
     {
-        struct MediaPlayer::Private
+        double timestampToSeconds(Timestamp value)
         {
-            std::weak_ptr<Context> context;
-            std::shared_ptr<AV::IO::Queue> queue;
-            AV::IO::AudioInfo info;
-            AV::IO::Duration duration = 0;
-            AV::IO::Timestamp currentTime = 0;
-            Enum::Playback playback = Enum::Playback::Stop;
-            ALuint alSource = 0;
-            std::vector<ALuint> alBuffers;
-            int playbackTimer = 0;
-            int startTimer = 0;
-            int64_t queuedBytes = 0;
-            int64_t timeOffset = 0;
-        };
-        
-        MediaPlayer::MediaPlayer(const std::shared_ptr<AV::IO::Queue> & queue, const std::shared_ptr<Context> & context, QObject * parent) :
-            QObject(parent),
-            _p(new Private)
-        {
-            _p->context = context;
-            _p->queue = queue;
-        }
-        
-        MediaPlayer::~MediaPlayer()
-        {}
-
-        const AV::IO::AudioInfo & MediaPlayer::getInfo() const
-        {
-            return _p->info;
+            return value / static_cast<double>(AV_TIME_BASE);
         }
 
-        AV::IO::Timestamp MediaPlayer::getCurrentTime() const
+        Timestamp secondsToTimestamp(double value)
         {
-            return _p->currentTime;
+            return static_cast<Timestamp>(value * static_cast<double>(AV_TIME_BASE));
         }
 
-        Enum::Playback MediaPlayer::getPlayback() const
-        {
-            return _p->playback;
-        }
-
-        size_t MediaPlayer::getALUnqueuedBuffers() const
-        {
-            return _p->alBuffers.size();
-        }
-
-    } // namespace ViewLib
+    } // namespace AV
 } // namespace djv
-

@@ -29,61 +29,50 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvViewLib/Enum.h>
 
-#include <future>
+#include <djvAV/Time.h>
+
+#include <QObject>
 
 namespace djv
 {
-    namespace Core
+    namespace ViewLib
     {
-        //! This class provides text and translations.
-        //!
-        //! The current locale is determined in this order:
-        //! - DJV_LANG environment variable
-        //! - std::locale("")
-        class TextSystem : public ISystem
+        class Context;
+        class Project;
+
+        class ProjectPlayer : public QObject
         {
-            DJV_NON_COPYABLE(TextSystem);
-            void _init(const std::shared_ptr<Context> &);
-            TextSystem();
+            Q_OBJECT
 
         public:
-            virtual ~TextSystem();
-            
-            //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(const std::shared_ptr<Context> &);
+            ProjectPlayer(const std::shared_ptr<Project> &, const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            ~ProjectPlayer() override;
 
-            //! \name Language Locale
-            ///@{
+            AV::Timestamp getCurrentTime() const;
+            Enum::Playback getPlayback() const;
+            size_t getALUnqueuedBuffers() const;
 
-            const std::vector<std::string> & getLocales() const;
+        public Q_SLOTS:
+            void setCurrentTime(AV::Timestamp);
+            void setPlayback(Enum::Playback);
 
-            const std::string & getCurrentLocale() const;
-            std::shared_ptr<IValueSubject<std::string> > getCurrentLocaleSubject() const;
-            void setCurrentLocale(const std::string &);
-
-            ///@}
-
-            //! \name Text
-            ///@{
-
-            //! Get the text for the given ID.
-            const std::string & getText(const std::string& id) const;
-
-            ///@}
+        Q_SIGNALS:
+            void currentTimeChanged(AV::Timestamp);
+            void playbackChanged(Enum::Playback);
 
         protected:
-            void _exit() override;
+            void timerEvent(QTimerEvent *) override;
 
         private:
-            void _readText();
-
+            void _playbackUpdate();
+            void _timeUpdate();
+            
+        private:
             DJV_PRIVATE();
         };
 
-    } // namespace Core
+    } // namespace ViewLib
 } // namespace djv
 

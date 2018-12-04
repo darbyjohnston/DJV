@@ -29,61 +29,17 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
-
-#include <future>
+#include <djvCore/Core.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AV
     {
-        //! This class provides text and translations.
-        //!
-        //! The current locale is determined in this order:
-        //! - DJV_LANG environment variable
-        //! - std::locale("")
-        class TextSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TextSystem);
-            void _init(const std::shared_ptr<Context> &);
-            TextSystem();
+        typedef int64_t Timestamp;
+        typedef int64_t Duration;
 
-        public:
-            virtual ~TextSystem();
-            
-            //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(const std::shared_ptr<Context> &);
+        double timestampToSeconds(Timestamp);
+        Timestamp secondsToTimestamp(double);
 
-            //! \name Language Locale
-            ///@{
-
-            const std::vector<std::string> & getLocales() const;
-
-            const std::string & getCurrentLocale() const;
-            std::shared_ptr<IValueSubject<std::string> > getCurrentLocaleSubject() const;
-            void setCurrentLocale(const std::string &);
-
-            ///@}
-
-            //! \name Text
-            ///@{
-
-            //! Get the text for the given ID.
-            const std::string & getText(const std::string& id) const;
-
-            ///@}
-
-        protected:
-            void _exit() override;
-
-        private:
-            void _readText();
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace Core
+    } // namespace AV
 } // namespace djv
-

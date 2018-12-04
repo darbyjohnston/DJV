@@ -50,7 +50,7 @@ namespace djv
             std::string getMenuSortKey() const override;
             
         public Q_SLOTS:
-            void setCurrentProject(const QPointer<Project> &) override;
+            void setCurrentProject(const std::shared_ptr<Project> &) override;
 
         private:
             DJV_PRIVATE();

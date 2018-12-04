@@ -151,10 +151,10 @@ namespace djv
             _p->actions["Open"]->setEnabled(workspace);
         }
 
-        void FileObject::setCurrentProject(const QPointer<Project> & project)
+        void FileObject::setCurrentProject(const std::shared_ptr<Project> & project)
         {
-            _p->actions["Close"]->setEnabled(project);
-            _p->actions["Export"]->setEnabled(project);
+            _p->actions["Close"]->setEnabled(project ? true : false);
+            _p->actions["Export"]->setEnabled(project ? true : false);
         }
 
     } // namespace ViewLib

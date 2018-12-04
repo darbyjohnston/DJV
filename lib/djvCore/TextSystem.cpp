@@ -33,9 +33,11 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/OS.h>
+#include <djvCore/Timer.h>
 
-#include <locale>
+#include <condition_variable>
 #include <future>
+#include <locale>
 #include <set>
 
 //#pragma optimize("", off)
@@ -44,19 +46,31 @@ namespace djv
 {
     namespace Core
     {
+        namespace
+        {
+            //! \todo [1.0 S] Should this be configurable?
+            const size_t timeout = 100;
+
+        } // namespace
+
         struct TextSystem::Private
         {
             std::vector<std::string> locales;
             std::string currentLocale;
+            bool currentLocaleChanged = false;
+            std::condition_variable currentLocaleChangedCV;
+            std::shared_ptr<ValueSubject<std::string> > currentLocaleSubject;
+
             std::map<std::string, std::map<std::string, std::string> > text;
 
             std::thread thread;
             std::mutex mutex;
+            std::shared_ptr<Timer> timer;
         };
 
         namespace
         {
-            std::string parseLocale(const std::string& value)
+            std::string parseLocale(const std::string & value)
             {
                 std::string out;
 #if defined(DJV_WINDOWS)
@@ -78,9 +92,11 @@ namespace djv
             }
         } // namespace
 
-        void TextSystem::_init(const std::shared_ptr<Context>& context)
+        void TextSystem::_init(const std::shared_ptr<Context> & context)
         {
             ISystem::_init("djv::Core::TextSystem", context);
+
+            _p->currentLocaleSubject = ValueSubject<std::string>::create();
             
             _p->thread = std::thread(
                 [this, context]
@@ -88,6 +104,7 @@ namespace djv
                 std::unique_lock<std::mutex> lock(_p->mutex);
 
                 _p->currentLocale = "en";
+                _p->currentLocaleChanged = true;
                 std::string djvLocale = OS::getEnv("DJV_LANG");
                 std::stringstream s;
                 if (djvLocale.size())
@@ -107,7 +124,7 @@ namespace djv
                             _p->currentLocale = cppLocale;
                         }
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }
@@ -123,7 +140,7 @@ namespace djv
 
                 // Extract the locale names.
                 std::set<std::string> localeSet;
-                for (const auto& fileInfo : fileInfos)
+                for (const auto & fileInfo : fileInfos)
                 {
                     std::string temp = Path(fileInfo.getPath().getBaseName()).getExtension();
                     if (temp.size() && '.' == temp[0])
@@ -135,16 +152,43 @@ namespace djv
                         localeSet.insert(temp);
                     }
                 }
-                for (const auto& locale : localeSet)
+                for (const auto & locale : localeSet)
                 {
                     _p->locales.push_back(locale);
                 }
                 s.str(std::string());
-                s << "Found text files: " << String::join(_p->locales, ", ");
+                s << "Found locales: " << String::join(_p->locales, ", ");
                 _log(s.str());
 
                 // Read the .text files.
                 _readText();
+            });
+
+            _p->timer = Timer::create(context);
+            _p->timer->setRepeating(true);
+            _p->timer->start(
+                std::chrono::milliseconds(timeout),
+                [this](float)
+            {
+                bool currentLocaleChanged = false;
+                {
+                    std::unique_lock<std::mutex> lock(_p->mutex);
+                    if (_p->currentLocaleChangedCV.wait_for(
+                        lock,
+                        std::chrono::milliseconds(0),
+                        [this]
+                    {
+                        return _p->currentLocaleChanged;
+                    }))
+                    {
+                        currentLocaleChanged = true;
+                        _p->currentLocaleChanged = false;
+                    }
+                }
+                if (currentLocaleChanged)
+                {
+                    _p->currentLocaleSubject->setAlways(_p->currentLocale);
+                }
             });
         }
 
@@ -155,32 +199,38 @@ namespace djv
         TextSystem::~TextSystem()
         {}
 
-        std::shared_ptr<TextSystem> TextSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TextSystem> TextSystem::create(const std::shared_ptr<Context> & context)
         {
             auto out = std::shared_ptr<TextSystem>(new TextSystem);
             out->_init(context);
             return out;
         }
 
-        const std::vector<std::string>& TextSystem::getLocales() const
+        const std::vector<std::string> & TextSystem::getLocales() const
         {
             std::unique_lock<std::mutex> lock(_p->mutex);
             return _p->locales;
         }
 
-        const std::string& TextSystem::getCurrentLocale() const
+        const std::string & TextSystem::getCurrentLocale() const
         {
             std::unique_lock<std::mutex> lock(_p->mutex);
             return _p->currentLocale;
         }
 
-        void TextSystem::setCurrentLocale(const std::string& value)
+        std::shared_ptr<IValueSubject<std::string> > TextSystem::getCurrentLocaleSubject() const
+        {
+            return _p->currentLocaleSubject;
+        }
+
+        void TextSystem::setCurrentLocale(const std::string & value)
         {
             std::unique_lock<std::mutex> lock(_p->mutex);
             _p->currentLocale = value;
+            _p->currentLocaleChanged = true;
         }
         
-        const std::string& TextSystem::getText(const std::string& id) const
+        const std::string & TextSystem::getText(const std::string & id) const
         {
             std::unique_lock<std::mutex> lock(_p->mutex);
             const auto i = _p->text.find(_p->currentLocale);
@@ -210,13 +260,13 @@ namespace djv
                 _log("Reading text files:");
                 DirListOptions options;
                 options.glob = "*.text";
-                for (const auto& i : FileInfo::dirList(context->getResourcePath(ResourcePath::TextDirectory), options))
+                for (const auto & i : FileInfo::dirList(context->getResourcePath(ResourcePath::TextDirectory), options))
                 {
                     _log(String::indent(1) + i.getPath().get());
                     try
                     {
-                        const auto& path = i.getPath();
-                        const auto& baseName = path.getBaseName();
+                        const auto & path = i.getPath();
+                        const auto & baseName = path.getBaseName();
                         std::string locale;
                         for (auto i = baseName.rbegin(); i != baseName.rend() && *i != '.'; ++i)
                         {
@@ -241,14 +291,14 @@ namespace djv
 
                         if (v.is<picojson::array>())
                         {
-                            for (const auto& item : v.get<picojson::array>())
+                            for (const auto & item : v.get<picojson::array>())
                             {
                                 if (item.is<picojson::object>())
                                 {
                                     std::string id;
                                     std::string text;
                                     std::string description;
-                                    const auto& obj = item.get<picojson::object>();
+                                    const auto & obj = item.get<picojson::object>();
                                     for (auto i = obj.begin(); i != obj.end(); ++i)
                                     {
                                         if ("id" == i->first)
@@ -272,7 +322,7 @@ namespace djv
                             }
                         }
                     }
-                    catch (const std::exception& e)
+                    catch (const std::exception & e)
                     {
                         _log(e.what(), LogLevel::Error);
                     }

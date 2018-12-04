@@ -69,7 +69,7 @@ namespace djv
         struct DirListOptions
         {
             DirListOptions() {}
-            bool fileSequences = false;
+            bool fileSequencesEnabled = false;
             std::string glob = "*";
         };
 

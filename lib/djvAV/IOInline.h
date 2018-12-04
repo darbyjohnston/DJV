@@ -63,14 +63,34 @@ namespace djv
                 return _fileName;
             }
 
-            inline const VideoInfo & Info::getVideo() const
+            inline const std::vector<VideoInfo> & Info::getVideo() const
             {
                 return _video;
             }
 
-            inline const AudioInfo & Info::getAudio() const
+            inline const std::vector<AudioInfo> & Info::getAudio() const
             {
                 return _audio;
+            }
+
+            inline const Tags & Info::getTags() const
+            {
+                return _tags;
+            }
+
+            inline const std::string & IPlugin::getPluginName() const
+            {
+                return _pluginName;
+            }
+
+            inline const std::string & IPlugin::getPluginInfo() const
+            {
+                return _pluginInfo;
+            }
+
+            inline const std::set<std::string> & IPlugin::getFileExtensions() const
+            {
+                return _fileExtensions;
             }
 
         } // namespace IO

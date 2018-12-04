@@ -98,7 +98,7 @@ namespace djv
         void IViewObject::setCurrentWorkspace(const QPointer<Workspace> &)
         {}
 
-        void IViewObject::setCurrentProject(const QPointer<Project> &)
+        void IViewObject::setCurrentProject(const std::shared_ptr<Project> &)
         {}
 
     } // namespace ViewLib

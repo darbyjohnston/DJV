@@ -34,6 +34,7 @@
 #include <djvCore/Timer.h>
 
 #include <atomic>
+#include <condition_variable>
 #include <mutex>
 #include <sstream>
 #include <thread>
@@ -57,6 +58,7 @@ namespace djv
         {
             Path path;
             bool changed = false;
+            std::condition_variable changedCV;
             std::mutex mutex;
             std::thread thread;
             std::atomic<bool> running = true;
@@ -140,9 +142,18 @@ namespace djv
             {
                 bool changed = false;
                 {
-                    std::lock_guard<std::mutex> lock(_p->mutex);
-                    changed = _p->changed;
-                    _p->changed = false;
+                    std::unique_lock<std::mutex> lock(_p->mutex);
+                    if (_p->changedCV.wait_for(
+                        lock,
+                        std::chrono::milliseconds(0),
+                        [this]
+                    {
+                        return _p->changed;
+                    }))
+                    {
+                        changed = true;
+                        _p->changed = false;
+                    }
                 }
                 if (changed && _p->callback)
                 {
@@ -177,9 +188,15 @@ namespace djv
         {
             if (value == _p->path)
                 return;
-            std::lock_guard<std::mutex> lock(_p->mutex);
-            _p->path = value;
-            _p->changed = false;
+            {
+                std::lock_guard<std::mutex> lock(_p->mutex);
+                _p->path = value;
+                _p->changed = true;
+            }
+            if (_p->callback)
+            {
+                _p->callback();
+            }
         }
 
         void DirectoryWatcher::setCallback(const std::function<void(void)>& value)

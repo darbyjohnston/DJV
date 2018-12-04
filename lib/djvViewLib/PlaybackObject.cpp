@@ -110,11 +110,11 @@ namespace djv
             return true;
         }
 
-        void PlaybackObject::setCurrentProject(const QPointer<Project> & project)
+        void PlaybackObject::setCurrentProject(const std::shared_ptr<Project> & project)
         {
-            _p->actions["Stop"]->setEnabled(project);
-            _p->actions["Forward"]->setEnabled(project);
-            _p->actions["Reverse"]->setEnabled(project);
+            _p->actions["Stop"]->setEnabled(project ? true : false);
+            _p->actions["Forward"]->setEnabled(project ? true : false);
+            _p->actions["Reverse"]->setEnabled(project ? true : false);
         }
 
     } // namespace ViewLib

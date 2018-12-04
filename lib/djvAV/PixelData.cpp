@@ -35,6 +35,11 @@ namespace djv
     {
         namespace Pixel
         {
+            void Info::setName(const std::string & name)
+            {
+                _name = name;
+            }
+
             void Data::_init(const Info & info)
             {
                 _info = info;

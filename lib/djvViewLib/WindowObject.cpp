@@ -160,12 +160,12 @@ namespace djv
             {
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const QPointer<Project> &)),
+                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
                     this,
                     SLOT(_updateActions()));
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const QPointer<Project> &)),
+                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
                     this,
                     SLOT(_updateActions()));
                 disconnect(
@@ -185,11 +185,11 @@ namespace djv
             {
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const QPointer<Project> &)),
+                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
                     SLOT(_updateActions()));
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const QPointer<Project> &)),
+                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
                     SLOT(_updateActions()));
                 connect(
                     _p->currentWorkspace,

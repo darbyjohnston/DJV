@@ -134,7 +134,7 @@ namespace djv
             return _p->currentWorkspace;
         }
 
-        QPointer<Project> WorkspaceObject::getCurrentProject() const
+        std::shared_ptr<Project> WorkspaceObject::getCurrentProject() const
         {
             return _p->currentWorkspace ? _p->currentWorkspace->getCurrentProject() : nullptr;
         }
@@ -202,19 +202,19 @@ namespace djv
             {
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const QPointer<Project> &)),
+                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
                     this,
                     SLOT(_updateMenus()));
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const QPointer<Project> &)),
+                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
                     this,
                     SLOT(_updateMenus()));
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(currentProjectChanged(const QPointer<Project> &)),
+                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)),
                     this,
-                    SIGNAL(currentProjectChanged(const QPointer<Project> &)));
+                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)));
             }
             _p->currentWorkspace = workspace;
             _updateMenus();
@@ -222,16 +222,16 @@ namespace djv
             {
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const QPointer<Project> &)),
+                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
                     SLOT(_updateMenus()));
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const QPointer<Project> &)),
+                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
                     SLOT(_updateMenus()));
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(currentProjectChanged(const QPointer<Project> &)),
-                    SIGNAL(currentProjectChanged(const QPointer<Project> &)));
+                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)),
+                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)));
             }
             else
             {

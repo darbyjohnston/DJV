@@ -64,7 +64,7 @@ namespace djv
             return menu;
         }
 
-        void ViewObject::setCurrentProject(const QPointer<Project> & project)
+        void ViewObject::setCurrentProject(const std::shared_ptr<Project> & project)
         {
         }
 

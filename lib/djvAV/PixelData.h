@@ -96,7 +96,7 @@ namespace djv
                 inline Info(const glm::ivec2 &, Type, const Layout & = Layout());
                 inline Info(int width, int height, Type, const Layout & = Layout());
 
-                inline const QString & getName() const;
+                inline const std::string & getName() const;
                 inline const glm::ivec2 & getSize() const;
                 inline int getWidth() const;
                 inline int getHeight() const;
@@ -110,13 +110,13 @@ namespace djv
                 inline size_t getScanlineByteCount() const;
                 inline size_t getDataByteCount() const;
 
-                void setName(const QString &);
+                void setName(const std::string &);
 
                 inline bool operator == (const Info &) const;
                 inline bool operator != (const Info &) const;
 
             private:
-                QString _name;
+                std::string _name;
                 glm::ivec2 _size = glm::ivec2(0, 0);
                 Type _type;
                 Layout _layout;

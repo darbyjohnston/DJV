@@ -30,27 +30,25 @@
 #pragma once
 
 #include <djvAV/AudioData.h>
-#include <djvAV/FFmpeg.h>
 #include <djvAV/PixelData.h>
 #include <djvAV/Speed.h>
+#include <djvAV/Tags.h>
+#include <djvAV/Time.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/ISystem.h>
+#include <djvCore/PicoJSON.h>
 
-#include <condition_variable>
 #include <future>
 #include <mutex>
+#include <set>
 
 namespace djv
 {
     namespace AV
     {
-        class Context;
-
         namespace IO
         {
-            typedef int64_t Timestamp;
-            typedef int64_t Duration;
-
             class VideoInfo
             {
             public:
@@ -60,6 +58,10 @@ namespace djv
                 inline const Pixel::Info & getInfo() const;
                 inline const Speed & getSpeed() const;
                 inline Duration getDuration() const;
+
+                void setInfo(const Pixel::Info &);
+                void setSpeed(const Speed &);
+                void setDuration(Duration);
 
                 bool operator == (const VideoInfo &) const;
 
@@ -78,6 +80,9 @@ namespace djv
                 inline const Audio::DataInfo & getInfo() const;
                 inline Duration getDuration() const;
 
+                void setInfo(const Audio::DataInfo &);
+                void setDuration(Duration);
+
                 bool operator == (const AudioInfo &) const;
 
             private:
@@ -90,38 +95,47 @@ namespace djv
             public:
                 Info();
                 Info(const std::string & fileName, const VideoInfo &, const AudioInfo &);
+                Info(const std::string & fileName, const std::vector<VideoInfo> &, const std::vector<AudioInfo> &);
 
                 inline const std::string & getFileName() const;
-                inline const VideoInfo & getVideo() const;
-                inline const AudioInfo & getAudio() const;
+                inline const std::vector<VideoInfo> & getVideo() const;
+                inline const std::vector<AudioInfo> & getAudio() const;
+                inline const Tags & getTags() const;
+
+                void setFileName(const std::string &);
+                void setVideo(const VideoInfo &);
+                void setVideo(const std::vector<VideoInfo> &);
+                void setAudio(const AudioInfo &);
+                void setAudio(const std::vector<AudioInfo> &);
+                void setTags(const Tags &);
 
             private:
                 std::string _fileName;
-                VideoInfo _video;
-                AudioInfo _audio;
+                std::vector<VideoInfo> _video;
+                std::vector<AudioInfo> _audio;
+                Tags _tags;
             };
 
             typedef std::pair<Timestamp, std::shared_ptr<Pixel::Data> > VideoFrame;
             typedef std::pair<Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
-            class Queue : public std::enable_shared_from_this<Queue>
+            class ReadQueue : public std::enable_shared_from_this<ReadQueue>
             {
-                DJV_NON_COPYABLE(Queue);
+                DJV_NON_COPYABLE(ReadQueue);
 
             protected:
-                Queue();
+                ReadQueue();
 
             public:
-                static std::shared_ptr<Queue> create();
+                static std::shared_ptr<ReadQueue> create();
 
                 std::mutex & getMutex();
 
                 size_t getVideoFrameCount() const;
                 size_t getAudioFrameCount() const;
-                
                 bool hasVideoFrames() const;
                 bool hasAudioFrames() const;
-                
+
                 VideoFrame getFirstVideoFrame() const;
 
                 void addVideoFrame(Timestamp, const std::shared_ptr<Pixel::Data> &);
@@ -135,59 +149,134 @@ namespace djv
                 std::mutex _mutex;
             };
 
-            class Loader : public std::enable_shared_from_this<Loader>
+            class IRead : public std::enable_shared_from_this<IRead>
             {
-                DJV_NON_COPYABLE(Loader);
+                DJV_NON_COPYABLE(IRead);
 
             protected:
-                void _init(const std::string & fileName, const std::shared_ptr<Queue> &, const std::shared_ptr<Context> &);
-                Loader();
+                void _init(
+                    const std::string & fileName,
+                    const std::shared_ptr<ReadQueue> &,
+                    const std::shared_ptr<Core::Context> &);
+                IRead();
 
             public:
-                ~Loader();
+                virtual ~IRead() = 0;
 
-                static std::shared_ptr<Loader> create(const std::string & fileName, const std::shared_ptr<Queue> &, const std::shared_ptr<Context> &);
+                virtual std::future<Info> getInfo() = 0;
 
-                std::future<Info> getInfo();
+                virtual void seek(Timestamp) = 0;
 
-                void seek(Timestamp);
-
-            private:
-                Timestamp _decodeVideo(AVPacket *, bool seek = false);
-                Timestamp _decodeAudio(AVPacket *, bool seek = false);
-
-                std::weak_ptr<Context> _context;
-
-                std::shared_ptr<Queue> _queue;
-                std::condition_variable _queueCV;
-
-                Info _info;
-                std::promise<Info> _infoPromise;
-
-                std::thread _thread;
-                std::atomic<bool> _running;
-
-                AVFormatContext * _avFormatContext = nullptr;
-                int _avVideoStream = -1;
-                int _avAudioStream = -1;
-                std::map<int, AVCodecParameters *> _avCodecParameters;
-                std::map<int, AVCodecContext *> _avCodecContext;
-                AVFrame * _avFrame = nullptr;
-                AVFrame * _avFrameRgb = nullptr;
-                SwsContext * _swsContext = nullptr;
-                Timestamp _seek = -1;
-
-                bool _hasError = false;
-                Core::Error _error;
+            protected:
+                std::weak_ptr<Core::Context> _context;
+                std::string _fileName;
+                std::shared_ptr<ReadQueue> _queue;
             };
 
-            class Util
+            class IWrite : public std::enable_shared_from_this<IWrite>
             {
-            public:
-                virtual ~Util() = 0;
+                DJV_NON_COPYABLE(IWrite);
 
-                static double timestampToSeconds(Timestamp);
-                static Timestamp secondsToTimestamp(double);
+            protected:
+                void _init(const std::string &, const Info &, const std::shared_ptr<Core::Context> &);
+                IWrite();
+
+            public:                
+                virtual ~IWrite() = 0;
+
+            protected:
+                std::weak_ptr<Core::Context> _context;
+                std::string _fileName;
+                Info _info;
+            };
+
+            class IPlugin : public std::enable_shared_from_this<IPlugin>
+            {
+                DJV_NON_COPYABLE(IPlugin);
+
+            protected:
+                void _init(
+                    const std::string & pluginName,
+                    const std::string & pluginInfo,
+                    const std::set<std::string> & fileExtensions,
+                    const std::shared_ptr<Core::Context> &);
+                IPlugin();
+
+            public:
+                virtual ~IPlugin() = 0;
+
+                inline const std::string & getPluginName() const;
+                inline const std::string & getPluginInfo() const;
+                inline const std::set<std::string> & getFileExtensions() const;
+
+                virtual bool canRead(const std::string &) const;
+                virtual bool canWrite(const std::string &, const Info &) const;
+
+                virtual picojson::value getOptions() const;
+
+                //! Throws:
+                //! - std::exception
+                virtual void setOptions(const picojson::value &);
+
+                //! Throws:
+                //! - std::exception
+                virtual std::shared_ptr<IRead> read(
+                    const std::string & fileName,
+                    const std::shared_ptr<ReadQueue> &) const { return nullptr; }
+
+                //! Throws:
+                //! - std::exception
+                virtual std::shared_ptr<IWrite> write(
+                    const std::string & fileName,
+                    const Info &) const { return nullptr; }
+
+            protected:
+                std::weak_ptr<Core::Context> _context;
+                std::string _pluginName;
+                std::string _pluginInfo;
+                std::set<std::string> _fileExtensions;
+            };
+
+            class System : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(System);
+
+            protected:
+                void _init(const std::shared_ptr<Core::Context> &);
+                System();
+
+            public:
+                virtual ~System();
+
+                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
+
+                virtual picojson::value getOptions(const std::string & pluginName) const;
+
+                //! Throws:
+                //! - std::exception
+                virtual void setOptions(const std::string & pluginName, const picojson::value &);
+
+                bool canRead(const std::string &) const;
+                bool canWrite(const std::string &, const Info &) const;
+
+                //! Throws:
+                //! - std::exception
+                std::shared_ptr<IRead> read(
+                    const std::string & fileName,
+                    const std::shared_ptr<ReadQueue> &);
+
+                //! Throws:
+                //! - std::exception
+                std::shared_ptr<IWrite> write(
+                    const std::string & fileName,
+                    const Info &);
+
+            protected:
+                void _exit() override;
+
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
             };
 
         } // namespace IO

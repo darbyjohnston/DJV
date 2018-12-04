@@ -56,10 +56,10 @@ namespace djv
             std::shared_ptr<IValueSubject<Path> > getPath() const;
             void setPath(const Path&);
 
-            std::shared_ptr<IValueSubject<bool> > getFileSequences() const;
-            void setFileSequences(bool);
+            std::shared_ptr<IValueSubject<bool> > getFileSequencesEnabled() const;
+            void setFileSequencesEnabled(bool);
 
-            std::shared_ptr<IListSubject<FileInfo> > getList() const;
+            std::shared_ptr<IListSubject<FileInfo> > getFileInfos() const;
             std::shared_ptr<IListSubject<std::string> > getFileNames() const;
             std::shared_ptr<IListSubject<Path> > getHistory() const;
 

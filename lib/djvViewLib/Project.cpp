@@ -37,6 +37,77 @@ namespace djv
 {
     namespace ViewLib
     {
+        struct Track::Private
+        {
+            std::shared_ptr<Core::ValueSubject<std::string> > fileName;
+            std::shared_ptr<Core::ValueSubject<AV::Timestamp> > offset;
+            std::shared_ptr<Core::ValueSubject<AV::Duration> > duration;
+        };
+
+        void Track::_init(const std::shared_ptr<Context> &)
+        {
+            _p->fileName = Core::ValueSubject<std::string>::create();
+            _p->offset = Core::ValueSubject<AV::Timestamp>::create();
+            _p->duration = Core::ValueSubject<AV::Duration>::create();
+        }
+
+        Track::Track() :
+            _p(new Private)
+        {}
+
+        Track::~Track()
+        {}
+
+        std::shared_ptr<Track> Track::create(const std::shared_ptr<Context> & context)
+        {
+            auto out = std::shared_ptr<Track>(new Track);
+            out->_init(context);
+            return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::string> > Track::getFileName() const
+        {
+            return _p->fileName;
+        }
+
+        std::shared_ptr<Core::IValueSubject<AV::Timestamp> > Track::getOffset() const
+        {
+            return _p->offset;
+        }
+
+        std::shared_ptr<Core::IValueSubject<AV::Duration> > Track::getDuration() const
+        {
+            return _p->duration;
+        }
+
+        void Track::setFileName(const std::string & value)
+        {
+            _p->fileName->setIfChanged(value);
+        }
+
+        void Track::setOFfset(AV::Timestamp value)
+        {
+            _p->offset->setIfChanged(value);
+        }
+
+        void Track::setDuration(AV::Duration value)
+        {
+            _p->duration->setIfChanged(value);
+        }
+
+        bool Track::operator == (const Track & other) const
+        {
+            return
+                _p->fileName == other._p->fileName &&
+                _p->offset == other._p->offset &&
+                _p->duration == other._p->duration;
+        }
+
+        bool Track::operator != (const Track & other) const
+        {
+            return !(*this == other);
+        }
+
         namespace
         {
             size_t projectCount = 0;
@@ -45,52 +116,133 @@ namespace djv
 
         struct Project::Private
         {
-            std::string fileName;
-            bool changes = false;
+            std::shared_ptr<Core::ValueSubject<std::string> > fileName;
+            std::shared_ptr<Core::ValueSubject<bool> > changes;
+            std::shared_ptr<Core::ListSubject<std::shared_ptr<Track> > > tracks;
+            std::shared_ptr<Core::ValueSubject<AV::Duration> > duration;
+            std::map<std::shared_ptr<Track>, std::shared_ptr<Core::ValueObserver<AV::Timestamp> > > trackOffsetObserver;
+            std::map<std::shared_ptr<Track>, std::shared_ptr<Core::ValueObserver<AV::Duration> > > trackDurationObserver;
         };
-        
-        Project::Project(const std::shared_ptr<Context> &, QObject * parent) :
-            QObject(parent),
-            _p(new Private)
+
+        void Project::_init(const std::shared_ptr<Context> &)
         {
+            _p->fileName = Core::ValueSubject<std::string>::create();
+            _p->changes = Core::ValueSubject<bool>::create();
+            _p->tracks = Core::ListSubject<std::shared_ptr<Track> >::create();
+            _p->duration = Core::ValueSubject<AV::Duration>::create();
+
             ++projectCount;
             std::stringstream s;
             s << "Untitled " << projectCount;
-            _p->fileName = s.str();
+            _p->fileName->setIfChanged(s.str());
+
+            _updateDuration();
         }
-        
+
+        Project::Project() :
+            _p(new Private)
+        {}
+
         Project::~Project()
         {}
 
-        const std::string & Project::getFileName() const
+        std::shared_ptr<Project> Project::create(const std::shared_ptr<Context> & context)
+        {
+            auto out = std::shared_ptr<Project>(new Project);
+            out->_init(context);
+            return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::string> > Project::getFileName() const
         {
             return _p->fileName;
         }
 
-        bool Project::hasChanges() const
+        std::shared_ptr<Core::IValueSubject<bool> >Project::getHasChanges() const
         {
             return _p->changes;
         }
-            
+
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Track> > > Project::getTracks() const
+        {
+            return _p->tracks;
+        }
+
+        std::shared_ptr<Core::IValueSubject<AV::Duration> >Project::getDuration() const
+        {
+            return _p->duration;
+        }
+
         void Project::open(const std::string & fileName)
         {
-            _p->fileName = fileName;
-            Q_EMIT fileNameChanged(_p->fileName);
+            _p->fileName->setIfChanged(fileName);
         }
-        
+
         void Project::close()
         {
-            _p->fileName = std::string();
-            Q_EMIT fileNameChanged(_p->fileName);
+            _p->fileName->setIfChanged(std::string());
         }
-        
+
         void Project::save()
         {}
-        
+
         void Project::saveAs(const std::string & fileName)
         {
-            _p->fileName = fileName;
-            Q_EMIT fileNameChanged(_p->fileName);
+            _p->fileName->setIfChanged(fileName);
+        }
+
+        void Project::addTrack(const std::shared_ptr<Track> & track)
+        {
+            _p->tracks->pushBack(track);
+
+            auto weak = std::weak_ptr<Project>(std::dynamic_pointer_cast<Project>(shared_from_this()));
+            _p->trackOffsetObserver[track] = Core::ValueObserver<AV::Timestamp>::create(
+                track->getOffset(),
+                [weak](AV::Timestamp value)
+            {
+                if (auto project = weak.lock())
+                {
+                    project->_updateDuration();
+                }
+            });
+            _p->trackDurationObserver[track] = Core::ValueObserver<AV::Timestamp>::create(
+                track->getOffset(),
+                [weak](AV::Timestamp value)
+            {
+                if (auto project = weak.lock())
+                {
+                    project->_updateDuration();
+                }
+            });
+        }
+
+        void Project::removeTrack(const std::shared_ptr<Track> & track)
+        {
+            const auto i = _p->tracks->indexOf(track);
+            if (i != _p->tracks->invalidIndex)
+            {
+                _p->tracks->removeItem(i);
+                const auto i = _p->trackOffsetObserver.find(track);
+                if (i != _p->trackOffsetObserver.end())
+                {
+                    _p->trackOffsetObserver.erase(i);
+                }
+                const auto j = _p->trackDurationObserver.find(track);
+                if (j != _p->trackDurationObserver.end())
+                {
+                    _p->trackDurationObserver.erase(j);
+                }
+            }
+        }
+
+        void Project::_updateDuration()
+        {
+            AV::Duration duration = 0;
+            for (const auto & i : _p->tracks->get())
+            {
+                duration = std::max(duration, i->getOffset()->get() + i->getDuration()->get());
+            }
+            _p->duration->setIfChanged(duration);
         }
 
     } // namespace ViewLib

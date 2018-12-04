@@ -29,9 +29,10 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvAV/Time.h>
 
-#include <QObject>
+#include <djvCore/ListObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -39,28 +40,64 @@ namespace djv
     {
         class Context;
 
-        class Project : public QObject
+        class Track : public std::enable_shared_from_this<Track>
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(Track);
+
+        protected:
+            void _init(const std::shared_ptr<Context> &);
+            Track();
 
         public:
-            Project(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~Project() override;
+            ~Track();
 
-            const std::string & getFileName() const;
-            bool hasChanges() const;
+            static std::shared_ptr<Track> create(const std::shared_ptr<Context> &);
+
+            std::shared_ptr<Core::IValueSubject<std::string> > getFileName() const;
+            std::shared_ptr<Core::IValueSubject<AV::Timestamp> > getOffset() const;
+            std::shared_ptr<Core::IValueSubject<AV::Duration> > getDuration() const;
+
+            void setFileName(const std::string &);
+            void setOFfset(AV::Timestamp);
+            void setDuration(AV::Duration);
+
+            bool operator == (const Track &) const;
+            bool operator != (const Track &) const;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        class Project : public std::enable_shared_from_this<Project>
+        {
+            DJV_NON_COPYABLE(Project);
+
+        protected:
+            void _init(const std::shared_ptr<Context> &);
+            Project();
+
+        public:
+            ~Project();
+
+            static std::shared_ptr<Project> create(const std::shared_ptr<Context> &);
+
+            std::shared_ptr<Core::IValueSubject<std::string> > getFileName() const;
+            std::shared_ptr<Core::IValueSubject<bool> > getHasChanges() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Track> > > getTracks() const;
+            std::shared_ptr<Core::IValueSubject<AV::Duration> > getDuration() const;
             
-        public Q_SLOTS:
             void open(const std::string &);
             void close();
             void save();
             void saveAs(const std::string &);
-            
-        Q_SIGNALS:
-            void fileNameChanged(const std::string &);
 
+            void addTrack(const std::shared_ptr<Track> &);
+            void removeTrack(const std::shared_ptr<Track> &);
+            
         private:
             DJV_PRIVATE();
+
+            void _updateDuration();
         };
 
     } // namespace ViewLib

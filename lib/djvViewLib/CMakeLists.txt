@@ -13,9 +13,9 @@ set(header
     InfoTool.h
     MagnifyTool.h
     MainWindow.h
-    MediaPlayer.h
     PlaybackObject.h
     Project.h
+    ProjectPlayer.h
     ToolObject.h
     ViewObject.h
     WindowObject.h
@@ -35,9 +35,9 @@ set(mocHeader
     InfoTool.h
     MagnifyTool.h
     MainWindow.h
-    MediaPlayer.h
     PlaybackObject.h
     Project.h
+    ProjectPlayer.h
     ToolObject.h
     ViewObject.h
     WindowObject.h
@@ -58,9 +58,9 @@ set(source
     InfoTool.cpp
     MagnifyTool.cpp
     MainWindow.cpp
-    MediaPlayer.cpp
     PlaybackObject.cpp
     Project.cpp
+    ProjectPlayer.cpp
     ToolObject.cpp
     ViewObject.cpp
     WindowObject.cpp

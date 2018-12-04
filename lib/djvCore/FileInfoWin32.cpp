@@ -123,7 +123,7 @@ namespace djv
                         if (!filter)
                         {
                             FileInfo fileInfo(Path(value, fileName));
-                            if (options.fileSequences)
+                            if (options.fileSequencesEnabled)
                             {
                                 fileInfo.evalSequence();
                                 if (fileInfo.isSequenceValid())

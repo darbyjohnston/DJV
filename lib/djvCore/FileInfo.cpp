@@ -176,7 +176,7 @@ namespace djv
         FileInfo FileInfo::getFileSequence(const Path& path)
         {
             DirListOptions options;
-            options.fileSequences = true;
+            options.fileSequencesEnabled = true;
             for (const auto& fileInfo : dirList(path.getDirectoryName(), options))
             {
                 if (fileInfo.sequenceContains(path))

@@ -51,8 +51,8 @@ namespace djv
         struct DirectoryModel::Private
         {
             std::shared_ptr<ValueSubject<Path> > path;
-            std::shared_ptr<ValueSubject<bool> > fileSequences;
-            std::shared_ptr<ListSubject<FileInfo> > list;
+            std::shared_ptr<ValueSubject<bool> > fileSequencesEnabled;
+            std::shared_ptr<ListSubject<FileInfo> > fileInfos;
             std::shared_ptr<ListSubject<std::string> > fileNames;
             std::shared_ptr<ListSubject<Path> > history;
             std::future<std::pair<std::vector<FileInfo>, std::vector<std::string> > > future;
@@ -63,8 +63,8 @@ namespace djv
         void DirectoryModel::_init(const std::shared_ptr<Context>& context)
         {
             _p->path = ValueSubject<Path>::create();
-            _p->fileSequences = ValueSubject<bool>::create(true);
-            _p->list = ListSubject<FileInfo>::create();
+            _p->fileSequencesEnabled = ValueSubject<bool>::create(true);
+            _p->fileInfos = ListSubject<FileInfo>::create();
             _p->fileNames = ListSubject<std::string>::create();
             _p->history = ListSubject<Path>::create();
 
@@ -116,7 +116,6 @@ namespace djv
             const auto& path = _p->path->get();
             if (value == path)
                 return;
-
             if (!path.isEmpty())
             {
                 std::vector<Path> history = _p->history->get();
@@ -137,30 +136,26 @@ namespace djv
                 }
                 _p->history->setIfChanged(history);
             }
-            
             _p->path->setIfChanged(value);            
-
             _updatePath();
         }
 
-        std::shared_ptr<IValueSubject<bool> > DirectoryModel::getFileSequences() const
+        std::shared_ptr<IValueSubject<bool> > DirectoryModel::getFileSequencesEnabled() const
         {
-            return _p->fileSequences;
+            return _p->fileSequencesEnabled;
         }
 
-        void DirectoryModel::setFileSequences(bool value)
+        void DirectoryModel::setFileSequencesEnabled(bool value)
         {
-            if (value == _p->fileSequences->get())
-                return;
-
-            _p->fileSequences->setIfChanged(value);
-
-            _updatePath();
+            if (_p->fileSequencesEnabled->setIfChanged(value))
+            {
+                _updatePath();
+            }
         }
 
-        std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::getList() const
+        std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::getFileInfos() const
         {
-            return _p->list;
+            return _p->fileInfos;
         }
 
         std::shared_ptr<IListSubject<std::string> > DirectoryModel::getFileNames() const
@@ -185,18 +180,15 @@ namespace djv
 
         void DirectoryModel::_updatePath()
         {
-            _p->list->clear();
-            _p->fileNames->clear();
-            
             const Path path = _p->path->get();
-            const bool fileSequences = _p->fileSequences->get();
+            const bool fileSequencesEnabled = _p->fileSequencesEnabled->get();
             _p->future = std::async(
                 std::launch::async,
-                [path, fileSequences]
+                [path, fileSequencesEnabled]
             {
                 std::pair<std::vector<FileInfo>, std::vector<std::string> > out;
                 DirListOptions options;
-                options.fileSequences = fileSequences;
+                options.fileSequencesEnabled = fileSequencesEnabled;
                 out.first = FileInfo::dirList(path, options);
                 for (const auto& fileInfo : out.first)
                 {
@@ -215,7 +207,7 @@ namespace djv
                     _p->futureTimer->stop();
 
                     const auto& out = _p->future.get();
-                    _p->list->setIfChanged(out.first);
+                    _p->fileInfos->setIfChanged(out.first);
                     _p->fileNames->setIfChanged(out.second);
                 }
             });
@@ -225,4 +217,3 @@ namespace djv
 
     } // namespace Core
 } // namespace djv
-

@@ -46,7 +46,7 @@ namespace djv
 
             const std::vector<QPointer<Workspace> > & getWorkspaces() const;
             const QPointer<Workspace> & getCurrentWorkspace() const;
-            QPointer<Project> getCurrentProject() const;
+            std::shared_ptr<Project> getCurrentProject() const;
 
             QPointer<QWidget> createWorkspaceTabs();
             
@@ -65,7 +65,7 @@ namespace djv
             void workspaceAdded(const QPointer<Workspace> &);
             void workspaceRemoved(const QPointer<Workspace> &);
             void currentWorkspaceChanged(const QPointer<Workspace> &);
-            void currentProjectChanged(const QPointer<Project> &);
+            void currentProjectChanged(const std::shared_ptr<Project> &);
 
         private Q_SLOTS:
             void _updateMenus();

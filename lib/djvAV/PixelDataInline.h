@@ -110,7 +110,7 @@ namespace djv
                 _layout(layout)
             {}
 
-            inline const QString & Info::getName() const
+            inline const std::string & Info::getName() const
             {
                 return _name;
             }

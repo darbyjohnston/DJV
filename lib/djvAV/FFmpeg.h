@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/Audio.h>
+#include <djvAV/IO.h>
 
 #if defined(DJV_LINUX)
 #define __STDC_CONSTANT_MACROS
@@ -48,15 +48,88 @@ namespace djv
 {
     namespace AV
     {
-        namespace FFmpeg
+        namespace IO
         {
-            AVRational timeBaseQ();
+            //! This plugin provides support support for FFmpeg.
+            namespace FFmpeg
+            {
+                static const std::string pluginName = "FFmpeg";
+                static const std::set<std::string> fileExtensions = { ".mp4", ".m4v", ".mov" };
 
-            Audio::Type fromFFmpeg(AVSampleFormat);
-            std::string toString(AVSampleFormat);
+                AVRational getTimeBaseQ();
 
-            std::string getErrorString(int);
+                Audio::Type toAudioType(AVSampleFormat);
+                std::string toString(AVSampleFormat);
 
-        } // namespace FFmpeg
+                std::string getErrorString(int);
+
+                class Read : public IRead
+                {
+                    DJV_NON_COPYABLE(Read);
+
+                protected:
+                    void _init(
+                        const std::string & fileName,
+                        const std::shared_ptr<ReadQueue> &,
+                        const std::shared_ptr<Core::Context> &);
+                    Read();
+
+                public:
+                    ~Read();
+
+                    static std::shared_ptr<Read> create(
+                        const std::string & fileName,
+                        const std::shared_ptr<ReadQueue> &,
+                        const std::shared_ptr<Core::Context> &);
+
+                    std::future<Info> getInfo() override;
+
+                    virtual void seek(Timestamp) override;
+
+                private:
+                    Timestamp _decodeVideo(AVPacket *, bool seek = false);
+                    Timestamp _decodeAudio(AVPacket *, bool seek = false);
+
+                    VideoInfo _videoInfo;
+                    AudioInfo _audioInfo;
+                    std::promise<Info> _infoPromise;
+
+                    std::condition_variable _queueCV;
+                    std::thread _thread;
+                    std::atomic<bool> _running;
+
+                    AVFormatContext * _avFormatContext = nullptr;
+                    int _avVideoStream = -1;
+                    int _avAudioStream = -1;
+                    std::map<int, AVCodecParameters *> _avCodecParameters;
+                    std::map<int, AVCodecContext *> _avCodecContext;
+                    AVFrame * _avFrame = nullptr;
+                    AVFrame * _avFrameRgb = nullptr;
+                    SwsContext * _swsContext = nullptr;
+                    Timestamp _seek = -1;
+
+                    bool _hasError = false;
+                    Core::Error _error;
+                };
+
+                class Plugin : public IPlugin
+                {
+                    DJV_NON_COPYABLE(Plugin);
+
+                protected:
+                    void _init(const std::shared_ptr<Core::Context>&);
+
+                    Plugin();
+
+                public:
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+
+                    std::shared_ptr<IRead> read(
+                        const std::string & fileName,
+                        const std::shared_ptr<ReadQueue> &) const override;
+                };
+
+            } // namespace FFmpeg
+        } // namespace IO
     } // namespace AV
 } // namespace djv

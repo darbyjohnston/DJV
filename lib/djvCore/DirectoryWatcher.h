@@ -47,18 +47,18 @@ namespace djv
         class DirectoryWatcher : public std::enable_shared_from_this<DirectoryWatcher>
         {
             DJV_NON_COPYABLE(DirectoryWatcher);
-            void _init(const std::shared_ptr<Context>&);
+            void _init(const std::shared_ptr<Context> &);
             DirectoryWatcher();
 
         public:
             ~DirectoryWatcher();
 
-            static std::shared_ptr<DirectoryWatcher> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<DirectoryWatcher> create(const std::shared_ptr<Context> &);
 
-            const Path& getPath() const;
-            void setPath(const Path&);
+            const Path & getPath() const;
+            void setPath(const Path &);
 
-            void setCallback(const std::function<void(void)>&);
+            void setCallback(const std::function<void(void)> &);
 
         private:
             DJV_PRIVATE();

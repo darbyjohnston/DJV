@@ -31,6 +31,7 @@ set(header
     SpeedInline.h
     System.h
     Tags.h
+    Time.h
     Timecode.h
     TimecodeInline.h
     TriangleMesh.h)
@@ -40,6 +41,7 @@ set(source
     AudioSystem.cpp
     Color.cpp
     FFmpeg.cpp
+    FFmpegRead.cpp
     FontSystem.cpp
     IO.cpp
     Image.cpp
@@ -53,6 +55,7 @@ set(source
     Speed.cpp
     System.cpp
     Tags.cpp
+    Time.cpp
     Timecode.cpp
     TriangleMesh.cpp)
 

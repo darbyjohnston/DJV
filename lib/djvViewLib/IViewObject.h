@@ -69,7 +69,7 @@ namespace djv
 
         public Q_SLOTS:
             virtual void setCurrentWorkspace(const QPointer<Workspace> &);
-            virtual void setCurrentProject(const QPointer<Project> &);
+            virtual void setCurrentProject(const std::shared_ptr<Project> &);
 
         private:
             DJV_PRIVATE();

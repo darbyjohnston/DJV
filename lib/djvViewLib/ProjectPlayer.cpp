@@ -27,9 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/ProjectPlayer.h>
 
-#include <djvViewLib/Enum.h>
+#include <djvViewLib/Context.h>
+#include <djvViewLib/Project.h>
 
 #include <djvAV/IO.h>
 
@@ -37,41 +38,47 @@ namespace djv
 {
     namespace ViewLib
     {
-        class Context;
-
-        class MediaPlayer : public QObject
+        struct ProjectPlayer::Private
         {
-            Q_OBJECT
+            std::weak_ptr<Context> context;
+            std::shared_ptr<Project> project;
 
-        public:
-            MediaPlayer(const std::shared_ptr<AV::IO::Queue> &, const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~MediaPlayer() override;
-
-            const AV::IO::AudioInfo & getInfo() const;
-            AV::IO::Timestamp getCurrentTime() const;
-            Enum::Playback getPlayback() const;
-            size_t getALUnqueuedBuffers() const;
-
-        public Q_SLOTS:
-            void setInfo(const AV::IO::AudioInfo &);
-            void setCurrentTime(AV::IO::Timestamp);
-            void setPlayback(Enum::Playback);
-
-        Q_SIGNALS:
-            void infoChanged(const AV::IO::AudioInfo &);
-            void currentTimeChanged(AV::IO::Timestamp);
-            void playbackChanged(Enum::Playback);
-
-        protected:
-            void timerEvent(QTimerEvent *) override;
-
-        private:
-            void playbackUpdate();
-            void timeUpdate();
-            
-        private:
-            DJV_PRIVATE();
+            AV::Duration duration = 0;
+            AV::Timestamp currentTime = 0;
+            Enum::Playback playback = Enum::Playback::Stop;
+            ALuint alSource = 0;
+            std::vector<ALuint> alBuffers;
+            int playbackTimer = 0;
+            int startTimer = 0;
+            int64_t queuedBytes = 0;
+            int64_t timeOffset = 0;
         };
+        
+        ProjectPlayer::ProjectPlayer(const std::shared_ptr<Project> & project, const std::shared_ptr<Context> & context, QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            _p->context = context;
+            _p->project = project;
+        }
+        
+        ProjectPlayer::~ProjectPlayer()
+        {}
+
+        AV::Timestamp ProjectPlayer::getCurrentTime() const
+        {
+            return _p->currentTime;
+        }
+
+        Enum::Playback ProjectPlayer::getPlayback() const
+        {
+            return _p->playback;
+        }
+
+        size_t ProjectPlayer::getALUnqueuedBuffers() const
+        {
+            return _p->alBuffers.size();
+        }
 
     } // namespace ViewLib
 } // namespace djv

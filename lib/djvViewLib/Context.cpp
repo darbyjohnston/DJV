@@ -93,7 +93,7 @@ namespace djv
             QObject::connect(
                 workspaceObject,
                 &WorkspaceObject::currentProjectChanged,
-                [this](const QPointer<Project> & value)
+                [this](const std::shared_ptr<Project> & value)
             {
                 for (auto object : getObjectsT<IViewObject>())
                 {

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/IO.h>
+#include <djvCore/Core.h>
 
 #include <QOpenGLWidget>
 #include <QPointer>
@@ -45,11 +45,8 @@ namespace djv
             Q_OBJECT
 
         public:
-            ImageView(const std::shared_ptr<AV::IO::Queue> &, const std::shared_ptr<Context> &, QWidget * parent = nullptr);
+            ImageView(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~ImageView() override;
-
-        protected:
-            void timerEvent(QTimerEvent *) override;
 
         private:
             DJV_PRIVATE();

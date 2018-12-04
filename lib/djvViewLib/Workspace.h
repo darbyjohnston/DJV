@@ -50,8 +50,8 @@ namespace djv
             ~Workspace() override;
 
             const std::string & getName() const;
-            const std::vector<QPointer<Project> > & getProjects() const;
-            const QPointer<Project> & getCurrentProject() const;
+            const std::vector<std::shared_ptr<Project> > & getProjects() const;
+            const std::shared_ptr<Project> & getCurrentProject() const;
 
             QMdiArea::ViewMode getViewMode() const;
             Enum::WindowState getWindowState() const;
@@ -60,19 +60,19 @@ namespace djv
             void setName(const std::string &);
             void newProject();
             void openProject(const std::string &);
-            void closeProject(const QPointer<Project> &);
-            void setCurrentProject(const QPointer<Project> &);
+            void closeProject(const std::shared_ptr<Project> &);
+            void setCurrentProject(const std::shared_ptr<Project> &);
             void nextProject();
             void prevProject();
             void setViewMode(QMdiArea::ViewMode);
             void setWindowState(Enum::WindowState);
-            void setWindowState(const QPointer<Project> &, Enum::WindowState);
+            void setWindowState(const std::shared_ptr<Project> &, Enum::WindowState);
 
         Q_SIGNALS:
             void nameChanged(const std::string &);
-            void projectAdded(const QPointer<Project> &);
-            void projectRemoved(const QPointer<Project> &);
-            void currentProjectChanged(const QPointer<Project> &);
+            void projectAdded(const std::shared_ptr<Project> &);
+            void projectRemoved(const std::shared_ptr<Project> &);
+            void currentProjectChanged(const std::shared_ptr<Project> &);
             void viewModeChanged(QMdiArea::ViewMode);
             void windowStateChanged(Enum::WindowState);
 

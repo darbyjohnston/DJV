@@ -48,10 +48,10 @@ namespace djv
         {
             std::weak_ptr<Context> context;
             std::string name;
-            std::vector<QPointer<Project> > projects;
-            QPointer<Project> currentProject;
+            std::vector<std::shared_ptr<Project> > projects;
+            std::shared_ptr<Project> currentProject;
             QMdiArea::ViewMode viewMode = QMdiArea::TabbedView;
-            std::map<QPointer<Project>, Enum::WindowState> windowState;
+            std::map<std::shared_ptr<Project>, Enum::WindowState> windowState;
         };
 
         Workspace::Workspace(const std::shared_ptr<Context> & context, QObject * parent) :
@@ -70,7 +70,6 @@ namespace djv
             for (auto i : _p->projects)
             {
                 //! \todo Save
-                delete i.data();
             }
         }
 
@@ -79,12 +78,12 @@ namespace djv
             return _p->name;
         }
 
-        const std::vector<QPointer<Project> > & Workspace::getProjects() const
+        const std::vector<std::shared_ptr<Project> > & Workspace::getProjects() const
         {
             return _p->projects;
         }
 
-        const QPointer<Project> & Workspace::getCurrentProject() const
+        const std::shared_ptr<Project> & Workspace::getCurrentProject() const
         {
             return _p->currentProject;
         }
@@ -112,7 +111,7 @@ namespace djv
         {
             if (auto context = _p->context.lock())
             {
-                auto project = new Project(context);
+                auto project = Project::create(context);
                 _p->projects.push_back(project);
                 _p->currentProject = project;
                 Q_EMIT projectAdded(project);
@@ -124,7 +123,7 @@ namespace djv
         {
             if (auto context = _p->context.lock())
             {
-                auto project = new Project(context);
+                auto project = Project::create(context);
                 project->open(fileName);
                 _p->projects.push_back(project);
                 _p->currentProject = project;
@@ -133,7 +132,7 @@ namespace djv
             }
         }
 
-        void Workspace::closeProject(const QPointer<Project> & project)
+        void Workspace::closeProject(const std::shared_ptr<Project> & project)
         {
             const auto i = std::find(_p->projects.begin(), _p->projects.end(), project);
             if (i != _p->projects.end())
@@ -153,11 +152,10 @@ namespace djv
                     index = std::min(index, static_cast<int>(_p->projects.size()) - 1);
                     setCurrentProject(index != -1 ? _p->projects[index] : nullptr);
                 }
-                delete project.data();
             }
         }
 
-        void Workspace::setCurrentProject(const QPointer<Project> & project)
+        void Workspace::setCurrentProject(const std::shared_ptr<Project> & project)
         {
             if (project == _p->currentProject)
                 return;
@@ -213,7 +211,7 @@ namespace djv
             setWindowState(_p->currentProject, value);
         }
 
-        void Workspace::setWindowState(const QPointer<Project> & project, Enum::WindowState value)
+        void Workspace::setWindowState(const std::shared_ptr<Project> & project, Enum::WindowState value)
         {
             const auto i = _p->windowState.find(project);
             if (i == _p->windowState.end())
