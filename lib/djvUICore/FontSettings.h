@@ -73,8 +73,7 @@ namespace djv
             picojson::value save() override;
 
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
     } // namespace UICore

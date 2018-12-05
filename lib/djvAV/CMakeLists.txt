@@ -16,6 +16,7 @@ set(header
     FontSystem.h
     IO.h
     IOInline.h
+    IconSystem.h
     Image.h
     Keycode.h
     OpenGL.h
@@ -44,6 +45,7 @@ set(source
     FFmpegRead.cpp
     FontSystem.cpp
     IO.cpp
+    IconSystem.cpp
     Image.cpp
     Keycode.cpp
     OpenGLMesh.cpp

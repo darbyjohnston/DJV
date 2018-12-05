@@ -31,6 +31,7 @@
 
 #include <djvAV/AudioSystem.h>
 #include <djvAV/FontSystem.h>
+#include <djvAV/IconSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/OpenGL.h>
 
@@ -132,6 +133,7 @@ namespace djv
             dpi.x = screen->physicalDotsPerInchX();
             dpi.y = screen->physicalDotsPerInchY();
             FontSystem::create(dpi, context);
+            IconSystem::create(context);
         }
 
         System::System() :

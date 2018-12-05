@@ -112,8 +112,7 @@ namespace djv
             void _handleBreakLinesRequests();
             void _handleGlyphsRequests();
 
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
     } // namespace AV

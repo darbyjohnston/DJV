@@ -417,6 +417,7 @@ namespace djv
                 {
                     std::lock_guard<std::mutex> lock(_queue->getMutex());
                     _seek = value;
+                    _queueCV.notify_one();
                 }
 
                 Timestamp Read::_decodeVideo(AVPacket * packet, bool seek)

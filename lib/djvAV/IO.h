@@ -280,8 +280,7 @@ namespace djv
                 void _exit() override;
 
             private:
-                struct Private;
-                std::unique_ptr<Private> _p;
+                DJV_PRIVATE();
             };
 
         } // namespace IO
