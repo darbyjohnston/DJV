@@ -30,6 +30,9 @@
 #include <djvAV/IO.h>
 
 #include <djvAV/FFmpeg.h>
+#if defined(PNG_FOUND)
+#include <djvAV/PNG.h>
+#endif // PNG_FOUND
 
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
@@ -165,60 +168,80 @@ namespace djv
                 return _mutex;
             }
 
-            size_t ReadQueue::getVideoFrameCount() const
+            bool ReadQueue::isEnabled() const
             {
-                return _videoFrames.size();
+                return _enabled;
             }
 
-            size_t ReadQueue::getAudioFrameCount() const
+            void ReadQueue::setEnabled(bool value)
             {
-                return _audioFrames.size();
+                _enabled = value;
             }
 
-            bool ReadQueue::hasVideoFrames() const
+            size_t ReadQueue::getVideoMax() const
             {
-                return _videoFrames.size() > 0;
+                return _enabled ? _videoMax : 0;
             }
 
-            bool ReadQueue::hasAudioFrames() const
+            size_t ReadQueue::getAudioMax() const
             {
-                return _audioFrames.size() > 0;
+                return _enabled ? _audioMax : 0;
             }
 
-            void ReadQueue::addVideoFrame(Timestamp ts, const std::shared_ptr<Image> & data)
+            size_t ReadQueue::getVideoCount() const
             {
-                _videoFrames.push_back(std::make_pair(ts, data));
+                return _video.size();
             }
 
-            void ReadQueue::addAudioFrame(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
+            size_t ReadQueue::getAudioCount() const
             {
-                _audioFrames.push_back(std::make_pair(ts, data));
+                return _audio.size();
             }
 
-            VideoFrame ReadQueue::getVideoFrame() const
+            bool ReadQueue::hasVideo() const
             {
-                return _videoFrames.size() > 0 ? _videoFrames.front() : VideoFrame();
+                return _video.size() > 0;
             }
 
-            AudioFrame ReadQueue::getAudioFrame() const
+            bool ReadQueue::hasAudio() const
             {
-                return _audioFrames.size() > 0 ? _audioFrames.front() : AudioFrame();
+                return _audio.size() > 0;
             }
 
-            void ReadQueue::popVideoFrame()
+            void ReadQueue::addVideo(Timestamp ts, const std::shared_ptr<Image> & data)
             {
-                _videoFrames.pop_front();
+                _video.push_back(std::make_pair(ts, data));
             }
 
-            void ReadQueue::popAudioFrame()
+            void ReadQueue::addAudio(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
             {
-                _audioFrames.pop_front();
+                _audio.push_back(std::make_pair(ts, data));
+            }
+
+            VideoFrame ReadQueue::getVideo() const
+            {
+                return _video.size() > 0 ? _video.front() : VideoFrame();
+            }
+
+            AudioFrame ReadQueue::getAudio() const
+            {
+                return _audio.size() > 0 ? _audio.front() : AudioFrame();
+            }
+
+            void ReadQueue::popVideo()
+            {
+                _video.pop_front();
+            }
+
+            void ReadQueue::popAudio()
+            {
+                _audio.pop_front();
             }
 
             void ReadQueue::clear()
             {
-                _videoFrames.clear();
-                _audioFrames.clear();
+                _video.clear();
+                _audio.clear();
             }
 
             void IRead::_init(
@@ -235,6 +258,9 @@ namespace djv
             {}
 
             IRead::~IRead()
+            {}
+
+            void IRead::seek(Timestamp)
             {}
 
             void IWrite::_init(
@@ -310,6 +336,9 @@ namespace djv
                 ISystem::_init("djv::AV::IO::System", context);
 
                 _p->plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
+#if defined(PNG_FOUND)
+                _p->plugins[PNG::pluginName] = PNG::Plugin::create(context);
+#endif // PNG_FOUND
 
                 /*
                 _p->plugins[Cineon::pluginName].reset(new Cineon::Plugin(context));

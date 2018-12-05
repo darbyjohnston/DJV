@@ -31,18 +31,9 @@
 
 #include <djvAV/IO.h>
 
-#if defined(DJV_LINUX)
-#define __STDC_CONSTANT_MACROS
-#endif // DJV_LINUX
+#include <djvCore/String.h>
 
-extern "C"
-{
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libavutil/dict.h>
-#include <libswscale/swscale.h>
-
-} // extern "C"
+#include <png.h>
 
 namespace djv
 {
@@ -50,24 +41,19 @@ namespace djv
     {
         namespace IO
         {
-            //! This plugin provides support support for FFmpeg image and audio I/O.
+            //! This plugin provides support for Portable Network Graphics (PNG) image I/O.
             //!
             //! References:
-            //! - https://ffmpeg.org
-            namespace FFmpeg
+            //! - http://www.libpng.org
+            namespace PNG
             {
-                static const std::string pluginName = "FFmpeg";
-                static const std::set<std::string> fileExtensions =
+                static const std::string pluginName = "PNG";
+                static const std::set<std::string> fileExtensions = { ".png" };
+
+                struct ErrorStruct
                 {
-                    ".avi", ".dv", ".gif", ".flv", ".mkv", ".mov", ".mpg", ".mpeg", ".mp4", ".m4v", ".mxf", ".wav"
+                    char msg[Core::String::cStringLength];
                 };
-
-                AVRational getTimeBaseQ();
-
-                Audio::Type toAudioType(AVSampleFormat);
-                std::string toString(AVSampleFormat);
-
-                std::string getErrorString(int);
 
                 class Read : public IRead
                 {
@@ -90,31 +76,22 @@ namespace djv
 
                     std::future<Info> getInfo() override;
 
-                    virtual void seek(Timestamp) override;
-
                 private:
-                    Timestamp _decodeVideo(AVPacket *, bool seek = false);
-                    Timestamp _decodeAudio(AVPacket *, bool seek = false);
+                    void _open(const std::string&);
+                    void _close();
 
-                    VideoInfo _videoInfo;
-                    AudioInfo _audioInfo;
+                    Pixel::Info _info;
                     std::promise<Info> _infoPromise;
 
-                    std::condition_variable _queueCV;
-                    Timestamp _seek = -1;
                     std::thread _thread;
-                    std::atomic<bool> _running;
                     bool _hasError = false;
                     Core::Error _error;
 
-                    AVFormatContext * _avFormatContext = nullptr;
-                    int _avVideoStream = -1;
-                    int _avAudioStream = -1;
-                    std::map<int, AVCodecParameters *> _avCodecParameters;
-                    std::map<int, AVCodecContext *> _avCodecContext;
-                    AVFrame * _avFrame = nullptr;
-                    AVFrame * _avFrameRgb = nullptr;
-                    SwsContext * _swsContext = nullptr;
+                    FILE * _f = nullptr;
+                    png_structp _png = nullptr;
+                    png_infop _pngInfo = nullptr;
+                    png_infop _pngInfoEnd = nullptr;
+                    ErrorStruct _pngError;
                 };
 
                 class Plugin : public IPlugin
@@ -134,7 +111,14 @@ namespace djv
                         const std::shared_ptr<ReadQueue> &) const override;
                 };
 
-            } // namespace FFmpeg
+                extern "C"
+                {
+                    void djvPngError(png_structp, png_const_charp);
+                    void djvPngWarning(png_structp, png_const_charp);
+
+                } // extern "C"
+
+            } // namespace PNG
         } // namespace IO
     } // namespace AV
 } // namespace djv

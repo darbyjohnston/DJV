@@ -29,41 +29,58 @@
 
 #pragma once
 
-#include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
+#include <djvViewLib/ToolObject.h>
+
+#include <djvAV/Time.h>
+
+#include <QAbstractTableModel>
 
 namespace djv
 {
-    namespace AV
+    namespace ViewLib
     {
-        namespace OpenGL
+        class Media;
+
+        class DebugModel : public QAbstractTableModel
         {
-            //! This class provides an OpenGL texture.
-            class Texture
-            {
-                DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                Texture();
+            Q_OBJECT
 
-            public:
-                ~Texture();
+        public:
+            DebugModel(QObject * parent = nullptr);
+            ~DebugModel() override;
 
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
+            void setMedia(const std::shared_ptr<Media>&);
 
-                const Pixel::Info & getInfo() const;
-                GLuint getID() const;
+            int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+            int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+            QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
+        private Q_SLOTS:
+            void _updateModel();
 
-                void bind();
+        private:
+            DJV_PRIVATE();
+        };
 
-                static GLenum getInternalFormat(Pixel::Type);
+        class DebugTool : public IToolObject
+        {
+            Q_OBJECT
 
-            private:
-                DJV_PRIVATE();
-            };
+        public:
+            DebugTool(const std::shared_ptr<Context> &, QObject * parent = nullptr);
+            ~DebugTool() override;
 
-        } // namespace OpenGL
-    } // namespace AV
+            QPointer<QDockWidget> createDockWidget() override;
+            std::string getDockWidgetSortKey() const override;
+            Qt::DockWidgetArea getDockWidgetArea() const override;
+
+        public Q_SLOTS:
+            void setCurrentMedia(const std::shared_ptr<Media> &) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
 } // namespace djv
+

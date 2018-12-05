@@ -30,6 +30,7 @@
 #include <djvViewLib/Context.h>
 
 #include <djvViewLib/ColorPickerTool.h>
+#include <djvViewLib/DebugTool.h>
 #include <djvViewLib/FileObject.h>
 #include <djvViewLib/HelpObject.h>
 #include <djvViewLib/HistogramTool.h>
@@ -61,6 +62,7 @@ namespace djv
             UIQt::System::create(std::dynamic_pointer_cast<Context>(shared_from_this()));
 
             addObject(new ColorPickerTool(std::dynamic_pointer_cast<Context>(shared_from_this())));
+            addObject(new DebugTool(std::dynamic_pointer_cast<Context>(shared_from_this())));
             addObject(new FileObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
             addObject(new HelpObject(std::dynamic_pointer_cast<Context>(shared_from_this())));
             addObject(new HistogramTool(std::dynamic_pointer_cast<Context>(shared_from_this())));

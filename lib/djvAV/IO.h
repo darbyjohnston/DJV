@@ -53,7 +53,7 @@ namespace djv
             {
             public:
                 VideoInfo();
-                VideoInfo(const Pixel::Info &, const Speed &, Duration duration);
+                VideoInfo(const Pixel::Info &, const Speed & = Speed(), Duration duration = 0);
 
                 inline const Pixel::Info & getInfo() const;
                 inline const Speed & getSpeed() const;
@@ -75,7 +75,7 @@ namespace djv
             {
             public:
                 AudioInfo();
-                AudioInfo(const Audio::DataInfo &, Duration duration);
+                AudioInfo(const Audio::DataInfo &, Duration duration = 0);
 
                 inline const Audio::DataInfo & getInfo() const;
                 inline Duration getDuration() const;
@@ -133,24 +133,35 @@ namespace djv
 
                 std::mutex & getMutex();
 
-                size_t getVideoFrameCount() const;
-                size_t getAudioFrameCount() const;
-                bool hasVideoFrames() const;
-                bool hasAudioFrames() const;
+                bool isEnabled() const;
+                void setEnabled(bool);
 
-                void addVideoFrame(Timestamp, const std::shared_ptr<Image> &);
-                void addAudioFrame(Timestamp, const std::shared_ptr<Audio::Data> &);
+                size_t getVideoMax() const;
+                size_t getAudioMax() const;
+                void setVideoMax(size_t);
+                void setAudioMax(size_t);
 
-                VideoFrame getVideoFrame() const;
-                AudioFrame getAudioFrame() const;
-                void popVideoFrame();
-                void popAudioFrame();
+                size_t getVideoCount() const;
+                size_t getAudioCount() const;
+                bool hasVideo() const;
+                bool hasAudio() const;
+
+                void addVideo(Timestamp, const std::shared_ptr<Image> &);
+                void addAudio(Timestamp, const std::shared_ptr<Audio::Data> &);
+
+                VideoFrame getVideo() const;
+                AudioFrame getAudio() const;
+                void popVideo();
+                void popAudio();
 
                 void clear();
 
             private:
-                std::list<VideoFrame> _videoFrames;
-                std::list<AudioFrame> _audioFrames;
+                bool _enabled = true;
+                size_t _videoMax = 100;
+                size_t _audioMax = 100;
+                std::list<VideoFrame> _video;
+                std::list<AudioFrame> _audio;
                 std::mutex _mutex;
             };
 
@@ -170,7 +181,7 @@ namespace djv
 
                 virtual std::future<Info> getInfo() = 0;
 
-                virtual void seek(Timestamp) = 0;
+                virtual void seek(Timestamp);
 
             protected:
                 std::weak_ptr<Core::Context> _context;

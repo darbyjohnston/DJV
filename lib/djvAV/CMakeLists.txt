@@ -4,6 +4,8 @@ find_package(IlmBase REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
 
+find_package(PNG)
+
 set(header
     Audio.h
     AudioData.h
@@ -21,13 +23,16 @@ set(header
     Keycode.h
     OpenGL.h
     OpenGLMesh.h
+    OpenGLOffscreenBuffer.h
     OpenGLShader.h
     OpenGLTexture.h
     Pixel.h
     PixelData.h
     PixelDataInline.h
     PixelInline.h
+    PNG.h
     Shader.h
+    Shape.h
     Speed.h
     SpeedInline.h
     System.h
@@ -49,10 +54,14 @@ set(source
     Image.cpp
     Keycode.cpp
     OpenGLMesh.cpp
+    OpenGLOffscreenBuffer.cpp
     OpenGLShader.cpp
     OpenGLTexture.cpp
     Pixel.cpp
     PixelData.cpp
+    PNG.cpp
+    PNGRead.cpp
+    Shape.cpp
     Shader.cpp
     Speed.cpp
     System.cpp
@@ -60,10 +69,18 @@ set(source
     Time.cpp
     Timecode.cpp
     TriangleMesh.cpp)
+if(PNG_FOUND)
+    set(header
+        ${header}
+        PNG.h)
+    set(source
+        ${source}
+        PNG.cpp
+        PNGRead.cpp)
+endif()
 
 add_library(djvAV ${header} ${source})
-target_link_libraries(
-    djvAV
+set(djvAVLibs
     djvCore
     Qt5
     FreeType
@@ -71,6 +88,10 @@ target_link_libraries(
     IlmBase
     OpenAL
     OpenGL::GL)
+if(PNG_FOUND)
+    set(djvAVLibs ${djvAVLibs} PNG)
+endif()
+target_link_libraries(djvAV ${djvAVLibs})
 set_target_properties(
     djvAV
     PROPERTIES

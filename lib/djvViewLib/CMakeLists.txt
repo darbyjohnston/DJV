@@ -3,6 +3,7 @@ set(header
     ColorPickerTool.h
     Context.h
     ContextInline.h
+    DebugTool.h
     Enum.h
     FileObject.h
     HelpObject.h
@@ -26,6 +27,7 @@ set(header
 set(mocHeader
     Application.h
     ColorPickerTool.h
+    DebugTool.h
     Enum.h
     FileObject.h
     HelpObject.h
@@ -49,6 +51,7 @@ set(source
     Application.cpp
     ColorPickerTool.cpp
     Context.cpp
+    DebugTool.cpp
     Enum.cpp
     FileObject.cpp
     HelpObject.cpp

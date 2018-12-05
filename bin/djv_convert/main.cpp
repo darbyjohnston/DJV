@@ -27,43 +27,60 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAV/IO.h>
 
-#include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
+#include <djvCore/Context.h>
+#include <djvCore/Error.h>
+#include <djvCore/FileInfo.h>
+#include <djvCore/TextSystem.h>
+#include <djvCore/Vector.h>
 
-namespace djv
+using namespace djv;
+
+class Context : public Core::Context
 {
-    namespace AV
+    DJV_NON_COPYABLE(Context);
+
+protected:
+    void _init(int & argc, char ** argv)
     {
-        namespace OpenGL
+        Core::Context::_init(argc, argv);
+
+        if (argc != 3)
         {
-            //! This class provides an OpenGL texture.
-            class Texture
-            {
-                DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                Texture();
+            throw std::runtime_error("Usage: djv_convert (input) (output)");
+        }
 
-            public:
-                ~Texture();
+        _io = AV::IO::System::create(shared_from_this());
 
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
+        const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
+    }
 
-                const Pixel::Info & getInfo() const;
-                GLuint getID() const;
+    Context()
+    {}
 
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
+public:
+    static std::shared_ptr<Context> create(int & argc, char ** argv)
+    {
+        auto out = std::shared_ptr<Context>(new Context);
+        out->_init(argc, argv);
+        return out;
+    }
 
-                void bind();
+private:
+    std::shared_ptr<AV::IO::System> _io;
+};
 
-                static GLenum getInternalFormat(Pixel::Type);
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace OpenGL
-    } // namespace AV
-} // namespace djv
+int main(int argc, char ** argv)
+{
+    int r = 0;
+    try
+    {
+        Context::create(argc, argv)->exit();
+    }
+    catch (const std::exception & error)
+    {
+        std::cout << Core::format(error) << std::endl;
+    }
+    return r;
+}

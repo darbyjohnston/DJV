@@ -61,6 +61,11 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<AV::Timestamp> > getCurrentTime() const;
             std::shared_ptr<Core::IValueSubject<Enum::Playback> > getPlayback() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image> > > getCurrentImage() const;
+
+            std::shared_ptr<Core::IValueSubject<size_t> > getVideoQueueMax() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > getAudioQueueMax() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > getVideoQueueCount() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > getAudioQueueCount() const;
             std::shared_ptr<Core::IValueSubject<size_t> > getALUnqueuedBuffers() const;
 
             void setCurrentTime(AV::Timestamp);

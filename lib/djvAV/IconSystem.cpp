@@ -331,9 +331,9 @@ namespace djv
                     std::shared_ptr<Image> image;
                     {
                         std::lock_guard<std::mutex> lock(i->queue->getMutex());
-                        if (i->queue->hasVideoFrames())
+                        if (i->queue->hasVideo())
                         {
-                            image = i->queue->getVideoFrame().second;
+                            image = i->queue->getVideo().second;
                         }
                     }
                     if (image)

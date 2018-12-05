@@ -27,43 +27,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#version 330 core
 
-#include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexture;
 
-namespace djv
+out vec2 Texture;
+
+uniform struct Transform
 {
-    namespace AV
-    {
-        namespace OpenGL
-        {
-            //! This class provides an OpenGL texture.
-            class Texture
-            {
-                DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                Texture();
+    mat4 mvp;
+} transform;
 
-            public:
-                ~Texture();
-
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
-
-                const Pixel::Info & getInfo() const;
-                GLuint getID() const;
-
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
-
-                void bind();
-
-                static GLenum getInternalFormat(Pixel::Type);
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace OpenGL
-    } // namespace AV
-} // namespace djv
+void main()
+{
+    gl_Position = transform.mvp * vec4(aPos, 1.0);
+    Texture = aTexture;
+}

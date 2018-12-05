@@ -38,30 +38,39 @@ namespace djv
     {
         namespace OpenGL
         {
-            //! This class provides an OpenGL texture.
-            class Texture
+            //! This class provides an OpenGL offscreen buffer.
+            class OffscreenBuffer : public std::enable_shared_from_this<OffscreenBuffer>
             {
-                DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                Texture();
+                DJV_NON_COPYABLE(OffscreenBuffer);
+                void _init(const Pixel::Info &);
+                OffscreenBuffer();
 
             public:
-                ~Texture();
+                ~OffscreenBuffer();
 
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
+                static std::shared_ptr<OffscreenBuffer> create(const Pixel::Info &);
 
                 const Pixel::Info & getInfo() const;
                 GLuint getID() const;
-
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
+                GLuint getTextureID() const;
 
                 void bind();
-
-                static GLenum getInternalFormat(Pixel::Type);
+                void unbind();
 
             private:
                 DJV_PRIVATE();
+            };
+
+            //! This class provides a wrapped for automatically binding and unbinding an
+            //! OpenGL offscreen buffer.
+            class OffscreenBufferBinding
+            {
+            public:
+                OffscreenBufferBinding(const std::shared_ptr<OffscreenBuffer> &);
+                ~OffscreenBufferBinding();
+
+            private:
+                std::shared_ptr<OffscreenBuffer> _buffer;
             };
 
         } // namespace OpenGL

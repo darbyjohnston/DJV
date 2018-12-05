@@ -47,10 +47,6 @@ namespace djv
             {
                 namespace
                 {
-                    const size_t videoFrameQueueMax = 100;
-                    const size_t audioFrameQueueMax = 100;
-                    size_t videoFrameQueue = videoFrameQueueMax;
-                    size_t audioFrameQueue = audioFrameQueueMax;
                     const size_t timeout = 10;
 
                 } // namespace
@@ -268,8 +264,8 @@ namespace djv
                                             [this]
                                         {
                                             return
-                                                (_avVideoStream != -1 && _queue->getVideoFrameCount() < videoFrameQueue) ||
-                                                (_avAudioStream != -1 && _queue->getAudioFrameCount() < audioFrameQueue) ||
+                                                (_avVideoStream != -1 && _queue->getVideoCount() < _queue->getVideoMax()) ||
+                                                (_avAudioStream != -1 && _queue->getAudioCount() < _queue->getAudioMax()) ||
                                                 _seek != -1;
                                         }))
                                         {
@@ -278,8 +274,7 @@ namespace djv
                                             {
                                                 seek = _seek;
                                                 _seek = -1;
-                                                videoFrameQueue = videoFrameQueueMax;
-                                                audioFrameQueue = audioFrameQueueMax;
+                                                _queue->setEnabled(true);
                                                 _queue->clear();
                                             }
                                         }
@@ -374,8 +369,8 @@ namespace djv
                                 catch (const std::exception &)
                                 {
                                     av_packet_unref(&packet);
-                                    videoFrameQueue = 0;
-                                    audioFrameQueue = 0;
+                                    std::lock_guard<std::mutex> lock(_queue->getMutex());
+                                    _queue->setEnabled(false);
                                 }
                             }
                         }
@@ -383,7 +378,6 @@ namespace djv
                         {
                             _hasError = true;
                             _error = error;
-                            _running = false;
                         }
                     });
                     if (_hasError)
@@ -466,7 +460,7 @@ namespace djv
                                 _avFrameRgb->linesize);
                             {
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                _queue->addVideoFrame(pts, image);
+                                _queue->addVideo(pts, image);
                             }
                         }
                     }
@@ -527,7 +521,7 @@ namespace djv
                             }
                             {
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                _queue->addAudioFrame(pts, audioData);
+                                _queue->addAudio(pts, audioData);
                             }
                         }
                     }

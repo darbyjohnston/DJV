@@ -46,6 +46,7 @@ namespace djv
         {
             const size_t bufferCount = 100;
             const size_t timeout = 10;
+            const size_t debugTimeout = 100;
 
         } // namespace
 
@@ -60,6 +61,10 @@ namespace djv
             std::shared_ptr<Core::ValueSubject<AV::Timestamp> > currentTime;
             std::shared_ptr<Core::ValueSubject<Enum::Playback> > playback;
             std::shared_ptr<Core::ValueSubject<std::shared_ptr<AV::Image> > > currentImage;
+            std::shared_ptr<Core::ValueSubject<size_t> > videoQueueMax;
+            std::shared_ptr<Core::ValueSubject<size_t> > audioQueueMax;
+            std::shared_ptr<Core::ValueSubject<size_t> > videoQueueCount;
+            std::shared_ptr<Core::ValueSubject<size_t> > audioQueueCount;
             std::shared_ptr<Core::ValueSubject<size_t> > alUnqueuedBuffers;
             std::shared_ptr<AV::IO::ReadQueue> queue;
             std::shared_ptr<Core::Timer> queueTimer;
@@ -72,6 +77,7 @@ namespace djv
             int64_t queuedBytes = 0;
             AV::Timestamp timeOffset = 0;
             std::shared_ptr<Core::Timer> playbackTimer;
+            std::shared_ptr<Core::Timer> debugTimer;
         };
 
         void Media::_init(const std::string & fileName, const std::shared_ptr<Context> & context)
@@ -83,6 +89,10 @@ namespace djv
             _p->currentTime = Core::ValueSubject<AV::Timestamp>::create();
             _p->playback = Core::ValueSubject<Enum::Playback>::create();
             _p->currentImage = Core::ValueSubject<std::shared_ptr<AV::Image >>::create();
+            _p->videoQueueMax = Core::ValueSubject<size_t>::create();
+            _p->audioQueueMax = Core::ValueSubject<size_t>::create();
+            _p->videoQueueCount = Core::ValueSubject<size_t>::create();
+            _p->audioQueueCount = Core::ValueSubject<size_t>::create();
             _p->alUnqueuedBuffers = Core::ValueSubject<size_t>::create();
             _p->queue = AV::IO::ReadQueue::create();
             _p->queueTimer = Core::Timer::create(context);
@@ -91,6 +101,8 @@ namespace djv
             _p->infoTimer->setRepeating(true);
             _p->playbackTimer = Core::Timer::create(context);
             _p->playbackTimer->setRepeating(true);
+            _p->debugTimer = Core::Timer::create(context);
+            _p->debugTimer->setRepeating(true);
 
             alGetError();
             alGenSources(1, &_p->alSource);
@@ -152,11 +164,23 @@ namespace djv
                         std::chrono::milliseconds(timeout),
                         [this]
                     {
-                        return _p->queue->hasVideoFrames();
+                        return _p->queue->hasVideo();
                     }))
                     {
-                        _p->currentImage->setIfChanged(_p->queue->getVideoFrame().second);
+                        _p->currentImage->setIfChanged(_p->queue->getVideo().second);
                     }
+                });
+
+                _p->debugTimer->start(
+                    std::chrono::milliseconds(debugTimeout),
+                    [this](float)
+                {
+                    std::lock_guard<std::mutex> lock(_p->queue->getMutex());
+                    _p->videoQueueMax->setIfChanged(_p->queue->getVideoMax());
+                    _p->audioQueueMax->setIfChanged(_p->queue->getAudioMax());
+                    _p->videoQueueCount->setIfChanged(_p->queue->getVideoCount());
+                    _p->audioQueueCount->setIfChanged(_p->queue->getAudioCount());
+                    _p->alUnqueuedBuffers->setIfChanged(_p->alBuffers.size());
                 });
             }
             catch (const std::exception & e)
@@ -211,6 +235,26 @@ namespace djv
             return _p->currentImage;
         }
 
+        std::shared_ptr<Core::IValueSubject<size_t> > Media::getVideoQueueMax() const
+        {
+            return _p->videoQueueMax;
+        }
+
+        std::shared_ptr<Core::IValueSubject<size_t> > Media::getAudioQueueMax() const
+        {
+            return _p->audioQueueMax;
+        }
+
+        std::shared_ptr<Core::IValueSubject<size_t> > Media::getVideoQueueCount() const
+        {
+            return _p->videoQueueCount;
+        }
+
+        std::shared_ptr<Core::IValueSubject<size_t> > Media::getAudioQueueCount() const
+        {
+            return _p->audioQueueCount;
+        }
+
         std::shared_ptr<Core::IValueSubject<size_t> > Media::getALUnqueuedBuffers() const
         {
             return _p->alUnqueuedBuffers;
@@ -220,12 +264,12 @@ namespace djv
         {
             if (_p->currentTime->setIfChanged(value))
             {
-                setPlayback(Enum::Playback::Stop);
-                _p->timeOffset = _p->currentTime->get();
                 if (_p->read)
                 {
                     _p->read->seek(value);
                 }
+                setPlayback(Enum::Playback::Stop);
+                _p->timeOffset = _p->currentTime->get();
                 _timeUpdate();
             }
         }
@@ -255,7 +299,7 @@ namespace djv
                     {
                         /*ALint alSourceState = 0;
                         alGetSourcei(_p->alSource, AL_SOURCE_STATE, &alSourceState);
-                        if ((AL_INITIAL == alSourceState || AL_STOPPED == alSourceState) && _p->queue->getAudioFrameCount() == 100)
+                        if ((AL_INITIAL == alSourceState || AL_STOPPED == alSourceState) && _p->queue->getAudioCount() == 100)
                         {
                             alSourcePlay(_p->alSource);
                         }*/
@@ -300,9 +344,9 @@ namespace djv
             // Update the video queue.
             {
                 std::lock_guard<std::mutex> lock(_p->queue->getMutex());
-                while (_p->queue->hasVideoFrames() && _p->queue->getVideoFrame().first < _p->currentTime->get())
+                while (_p->queue->hasVideo() && _p->queue->getVideo().first < _p->currentTime->get())
                 {
-                    _p->queue->popVideoFrame();
+                    _p->queue->popVideo();
                 }
             }
 
@@ -331,10 +375,10 @@ namespace djv
                 std::vector<AV::IO::AudioFrame> frames;
                 {
                     std::lock_guard<std::mutex> lock(_p->queue->getMutex());
-                    while (_p->queue->hasAudioFrames() && frames.size() < bufferCount - queued && frames.size() < _p->alBuffers.size())
+                    while (_p->queue->hasAudio() && frames.size() < bufferCount - queued && frames.size() < _p->alBuffers.size())
                     {
-                        frames.push_back(_p->queue->getAudioFrame());
-                        _p->queue->popAudioFrame();
+                        frames.push_back(_p->queue->getAudio());
+                        _p->queue->popAudio();
                     }
                 }
                 for (size_t i = 0; i < frames.size(); ++i)

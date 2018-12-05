@@ -160,6 +160,7 @@ namespace djv
                 void zero();
 
                 std::shared_ptr<Data> convert(Type, const std::shared_ptr<Core::Context> &) const;
+                std::shared_ptr<Data> resize(const glm::ivec2 &, Type, const std::shared_ptr<Core::Context> &) const;
 
                 bool operator == (const Data &) const;
                 bool operator != (const Data &) const;

@@ -41,20 +41,15 @@ namespace djv
 
         namespace OpenGL
         {
-            //! This enumeration provides the VBO vertex types. The components are in
-            //! this order:
-            //! - Position
-            //! - UV
-            //! - Normal
-            //! - Color
+            //! This enumeration provides the VBO vertex types.
             enum class VBOType
             {
-                F32_U16_U10,
-                F32_U16_U10_U8,
-                F32_F32_F32_F32,
+                Pos3_F32_UV_U16_Normal_U10,
+                Pos3_F32_UV_U16_Normal_U10_Color_U8,
+                Pos3_F32_UV_F32_Normal_F32_Color_F32,
 
                 Count,
-                First = F32_U16_U10
+                First = Pos3_F32_UV_U16_Normal_U10
             };
 
             size_t getVertexSize(VBOType);

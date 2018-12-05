@@ -32,10 +32,12 @@
 #include <djvViewLib/Context.h>
 
 #include <djvAV/Image.h>
-#include <djvAV/OpenGL.h>
+#include <djvAV/OpenGLMesh.h>
 #include <djvAV/OpenGLShader.h>
 #include <djvAV/OpenGLTexture.h>
 #include <djvAV/Shader.h>
+#include <djvAV/Shape.h>
+#include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Path.h>
 #include <djvCore/Vector.h>
@@ -45,120 +47,10 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <condition_variable>
-
 namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            const size_t timeout = 10;
-
-            class VBO
-            {
-            public:
-                VBO(const Core::BBox2i &);
-                ~VBO();
-
-                const Core::BBox2i & getBBox() const { return _bbox; }
-                size_t getVertexByteCount() const { return _vertexByteCount; }
-                GLuint getID() const { return _vbo; }
-
-            private:
-                Core::BBox2i _bbox;
-                size_t _vertexByteCount = 0;
-                GLuint _vbo = 0;
-            };
-
-            VBO::VBO(const Core::BBox2i & bbox) :
-                _bbox(bbox)
-            {
-                _vertexByteCount = 8 + 8;
-                std::vector<float> data =
-                {
-                    static_cast<float>(bbox.min.x),
-                    static_cast<float>(bbox.min.y),
-                    0.f,
-                    1.f,
-                    static_cast<float>(bbox.max.x),
-                    static_cast<float>(bbox.min.y),
-                    1.f,
-                    1.f,
-                    static_cast<float>(bbox.max.x),
-                    static_cast<float>(bbox.max.y),
-                    1.f,
-                    0.f,
-                    static_cast<float>(bbox.max.x),
-                    static_cast<float>(bbox.max.y),
-                    1.f,
-                    0.f,
-                    static_cast<float>(bbox.min.x),
-                    static_cast<float>(bbox.max.y),
-                    0.f,
-                    0.f,
-                    static_cast<float>(bbox.min.x),
-                    static_cast<float>(bbox.min.y),
-                    0.f,
-                    1.f
-                };
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenBuffers(1, &_vbo);
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(data.size() * _vertexByteCount), data.data(), GL_STATIC_DRAW);
-            }
-
-            VBO::~VBO()
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glDeleteBuffers(1, &_vbo);
-            }
-
-            class VAO
-            {
-            public:
-                VAO(size_t vertexByteCount, GLuint vbo);
-                ~VAO();
-
-                void bind();
-                void draw(size_t start, size_t count);
-
-            private:
-                GLuint _vao = 0;
-            };
-
-            VAO::VAO(size_t vertexByteCount, GLuint vbo)
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenVertexArrays(1, &_vao);
-                glFuncs->glBindVertexArray(_vao);
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, vbo);
-                glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
-                glFuncs->glEnableVertexAttribArray(0);
-                glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)8);
-                glFuncs->glEnableVertexAttribArray(1);
-            }
-
-            VAO::~VAO()
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glDeleteVertexArrays(1, &_vao);
-            }
-
-            void VAO::bind()
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindVertexArray(_vao);
-            }
-
-            void VAO::draw(size_t start, size_t count)
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glDrawArrays(GL_TRIANGLES, static_cast<GLsizei>(start * 6), static_cast<GLsizei>(count * 6));
-            }
-
-        } // namespace
-
         struct ImageView::Private
         {
             std::weak_ptr<Context> context;
@@ -167,8 +59,8 @@ namespace djv
             std::shared_ptr<AV::Shader> shader;
             std::shared_ptr<AV::OpenGL::Shader> openGLShader;
             std::shared_ptr<AV::OpenGL::Texture> openGLTexture;
-            std::unique_ptr<VBO> openGLVBO;
-            std::unique_ptr<VAO> openGLVAO;
+            std::shared_ptr<AV::OpenGL::VBO> openGLVBO;
+            std::shared_ptr<AV::OpenGL::VAO> openGLVAO;
         };
         
         ImageView::ImageView(const std::shared_ptr<Context> & context, QWidget * parent) :
@@ -221,36 +113,47 @@ namespace djv
 
             if (_p->image)
             {
+                if (!_p->openGLTexture || (_p->openGLTexture && (_p->openGLTexture->getInfo() != _p->image->getInfo())))
+                {
+                    _p->openGLTexture = AV::OpenGL::Texture::create(_p->image->getInfo());
+                }
                 if (_p->imageChanged)
                 {
                     _p->imageChanged = false;
-                    if (!_p->openGLTexture || (_p->openGLTexture && (_p->image->getInfo() != _p->openGLTexture->getInfo())))
-                    {
-                        _p->openGLTexture = AV::OpenGL::Texture::create(_p->image->getInfo());
-                    }
-                    _p->openGLTexture->copy(_p->image);
+                    _p->openGLTexture->copy(*_p->image);
                 }
                 _p->openGLTexture->bind();
 
-                if (!_p->openGLVBO || (_p->openGLVBO && (_p->image->getSize() != _p->openGLVBO->getBBox().getSize())))
+                if (!_p->openGLVBO)
                 {
-                    _p->openGLVBO.reset(new VBO(Core::BBox2i(0, 0, _p->image->getWidth() - 1, _p->image->getHeight() - 1)));
-                    _p->openGLVAO.reset(new VAO(_p->openGLVBO->getVertexByteCount(), _p->openGLVBO->getID()));
+                    AV::Shape::Square square;
+                    AV::TriangleMesh mesh;
+                    square.triangulate(mesh);
+                    _p->openGLVBO = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                    _p->openGLVBO->copy(AV::OpenGL::VBO::convert(mesh, _p->openGLVBO->getType()));
+                    _p->openGLVAO = AV::OpenGL::VAO::create(_p->openGLVBO->getType(), _p->openGLVBO->getID());
                 }
+                _p->openGLVAO->bind();
 
                 _p->openGLShader->bind();
                 _p->openGLShader->setUniform("textureSampler", 0);
-                const auto viewMatrix = glm::ortho(
+                glm::mat4x4 modelMatrix(1);
+                modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
+                modelMatrix = glm::scale(modelMatrix, glm::vec3(_p->image->getWidth(), 0.f, _p->image->getHeight()));
+                modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
+                glm::mat4x4 viewMatrix(1);
+                glm::mat4x4 projectionMatrix(1);
+                projectionMatrix = glm::ortho(
                     0.f,
                     static_cast<float>(width()),
                     0.f,
                     static_cast<float>(height()),
                     -1.f,
                     1.f);
-                _p->openGLShader->setUniform("transform.mvp", viewMatrix);
+                _p->openGLShader->setUniform("transform.mvp", projectionMatrix * viewMatrix * modelMatrix);
 
                 glFuncs->glActiveTexture(GL_TEXTURE0);
-                _p->openGLVAO->draw(0, 1);
+                _p->openGLVAO->draw(0, 6);
             }
         }
 

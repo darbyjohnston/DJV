@@ -69,9 +69,12 @@ namespace djv
             {
                 switch (value)
                 {
-                case VBOType::F32_U16_U10: return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal);
-                case VBOType::F32_U16_U10_U8: return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal) + sizeof(PackedColor);
-                case VBOType::F32_F32_F32_F32: return 3 * sizeof(float) + 2 * sizeof(float) + 3 * sizeof(float) + 3 * sizeof(float);
+                case VBOType::Pos3_F32_UV_U16_Normal_U10: 
+                    return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal);
+                case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
+                    return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal) + sizeof(PackedColor);
+                case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
+                    return 3 * sizeof(float) + 2 * sizeof(float) + 3 * sizeof(float) + 3 * sizeof(float);
                 default: break;
                 }
                 return 0;
@@ -167,7 +170,7 @@ namespace djv
                     };
                     switch (type)
                     {
-                    case VBOType::F32_U16_U10:
+                    case VBOType::Pos3_F32_UV_U16_Normal_U10:
                         for (size_t k = 0; k < 3; ++k)
                         {
                             const size_t v = vertices[k]->v;
@@ -191,7 +194,7 @@ namespace djv
                             p += sizeof(PackedNormal);
                         }
                         break;
-                    case VBOType::F32_U16_U10_U8:
+                    case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
                         for (size_t k = 0; k < 3; ++k)
                         {
                             const size_t v = vertices[k]->v;
@@ -222,7 +225,7 @@ namespace djv
                             p += sizeof(PackedColor);
                         }
                         break;
-                    case VBOType::F32_F32_F32_F32:
+                    case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
                         for (size_t k = 0; k < 3; ++k)
                         {
                             const size_t v = vertices[k]->v;
@@ -272,8 +275,8 @@ namespace djv
                 const size_t vertexSize = getVertexSize(type);
                 switch (type)
                 {
-                case VBOType::F32_U16_U10:
-                case VBOType::F32_U16_U10_U8:
+                case VBOType::Pos3_F32_UV_U16_Normal_U10:
+                case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
                     glFuncs->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
                     glFuncs->glEnableVertexAttribArray(0);
                     glFuncs->glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
@@ -283,7 +286,7 @@ namespace djv
                     glFuncs->glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)20);
                     glFuncs->glEnableVertexAttribArray(3);
                     break;
-                case VBOType::F32_F32_F32_F32:
+                case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
                     glFuncs->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
                     glFuncs->glEnableVertexAttribArray(0);
                     glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
