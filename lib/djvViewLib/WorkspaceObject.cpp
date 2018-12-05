@@ -30,7 +30,7 @@
 #include <djvViewLib/WorkspaceObject.h>
 
 #include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
+#include <djvViewLib/Media.h>
 #include <djvViewLib/WorkspacePrivate.h>
 
 #include <QAction>
@@ -134,9 +134,9 @@ namespace djv
             return _p->currentWorkspace;
         }
 
-        std::shared_ptr<Project> WorkspaceObject::getCurrentProject() const
+        std::shared_ptr<Media> WorkspaceObject::getCurrentMedia() const
         {
-            return _p->currentWorkspace ? _p->currentWorkspace->getCurrentProject() : nullptr;
+            return _p->currentWorkspace ? _p->currentWorkspace->getCurrentMedia() : nullptr;
         }
 
         QPointer<QWidget> WorkspaceObject::createWorkspaceTabs()
@@ -202,19 +202,19 @@ namespace djv
             {
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateMenus()));
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateMenus()));
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)),
+                    SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)),
                     this,
-                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)));
+                    SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)));
             }
             _p->currentWorkspace = workspace;
             _updateMenus();
@@ -222,20 +222,20 @@ namespace djv
             {
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     SLOT(_updateMenus()));
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     SLOT(_updateMenus()));
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)),
-                    SIGNAL(currentProjectChanged(const std::shared_ptr<Project> &)));
+                    SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)),
+                    SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)));
             }
             else
             {
-                Q_EMIT currentProjectChanged(nullptr);
+                Q_EMIT currentMediaChanged(nullptr);
             }
             Q_EMIT currentWorkspaceChanged(_p->currentWorkspace);
         }

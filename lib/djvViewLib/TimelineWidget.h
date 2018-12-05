@@ -33,28 +33,26 @@
 
 #include <djvAV/Time.h>
 
-#include <QObject>
+#include <QWidget>
+
+class QAbstractButton;
 
 namespace djv
 {
     namespace ViewLib
     {
         class Context;
-        class Project;
 
-        class ProjectPlayer : public QObject
+        class TimelineWidget : public QWidget
         {
             Q_OBJECT
 
         public:
-            ProjectPlayer(const std::shared_ptr<Project> &, const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~ProjectPlayer() override;
-
-            AV::Timestamp getCurrentTime() const;
-            Enum::Playback getPlayback() const;
-            size_t getALUnqueuedBuffers() const;
+            TimelineWidget(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
+            ~TimelineWidget() override;
 
         public Q_SLOTS:
+            void setDuration(AV::Duration);
             void setCurrentTime(AV::Timestamp);
             void setPlayback(Enum::Playback);
 
@@ -62,17 +60,13 @@ namespace djv
             void currentTimeChanged(AV::Timestamp);
             void playbackChanged(Enum::Playback);
 
-        protected:
-            void timerEvent(QTimerEvent *) override;
+        private Q_SLOTS:
+            void _buttonCallback(QAbstractButton *, bool);
+            void _widgetUpdate();
 
-        private:
-            void _playbackUpdate();
-            void _timeUpdate();
-            
         private:
             DJV_PRIVATE();
         };
-
     } // namespace ViewLib
 } // namespace djv
 

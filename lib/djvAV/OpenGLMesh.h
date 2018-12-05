@@ -62,43 +62,46 @@ namespace djv
             class VBO
             {
                 DJV_NON_COPYABLE(VBO);
+                void _init(size_t size, size_t vertexCount, VBOType);
+                VBO();
 
             public:
-                VBO(size_t size, size_t vertexCount, VBOType);
                 ~VBO();
+
+                static std::shared_ptr<VBO> create(size_t size, size_t vertexCount, VBOType);
+
+                size_t getSize() const;
+                size_t getVertexCount() const;
+                VBOType getType() const;
+                GLuint getID() const;
 
                 void copy(const std::vector<uint8_t>&);
                 void copy(const std::vector<uint8_t>&, size_t offset);
 
-                size_t getSize() const { return _size; }
-                size_t getVertexCount() const { return _vertexCount; }
-                VBOType getType() const { return _type; }
-                GLuint getID() const { return _vbo; }
-
                 static std::vector<uint8_t> convert(const TriangleMesh&, VBOType);
 
             private:
-                size_t _size = 0;
-                size_t _vertexCount = 0;
-                VBOType _type = VBOType::First;
-                GLuint _vbo = 0;
+                DJV_PRIVATE();
             };
 
             class VAO
             {
                 DJV_NON_COPYABLE(VAO);
+                void _init(VBOType, GLuint vbo);
+                VAO();
 
             public:
-                VAO(VBOType, GLuint vbo);
                 ~VAO();
+
+                static std::shared_ptr<VAO> create(VBOType, GLuint vbo);
+
+                GLuint getID() const;
 
                 void bind();
                 void draw(size_t offset, size_t size);
 
-                GLuint getID() const { return _vao; }
-
             private:
-                GLuint _vao = 0;
+                DJV_PRIVATE();
             };
 
         } // namespace OpenGL

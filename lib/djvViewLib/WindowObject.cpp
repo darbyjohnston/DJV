@@ -30,7 +30,7 @@
 #include <djvViewLib/WindowObject.h>
 
 #include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
+#include <djvViewLib/Media.h>
 
 #include <QAction>
 #include <QDockWidget>
@@ -78,14 +78,14 @@ namespace djv
                 &QAction::triggered,
                 [this]
             {
-                nextProject();
+                nextMedia();
             });
             connect(
                 _p->actions["Previous"],
                 &QAction::triggered,
                 [this]
             {
-                prevProject();
+                prevMedia();
             });
             connect(
                 _p->actionGroups["WindowState"],
@@ -136,19 +136,19 @@ namespace djv
             return "2";
         }
 
-        void WindowObject::nextProject()
+        void WindowObject::nextMedia()
         {
             if (_p->currentWorkspace)
             {
-                _p->currentWorkspace->nextProject();
+                _p->currentWorkspace->nextMedia();
             }
         }
 
-        void WindowObject::prevProject()
+        void WindowObject::prevMedia()
         {
             if (_p->currentWorkspace)
             {
-                _p->currentWorkspace->prevProject();
+                _p->currentWorkspace->prevMedia();
             }
         }
 
@@ -160,12 +160,12 @@ namespace djv
             {
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateActions()));
                 disconnect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateActions()));
                 disconnect(
@@ -185,11 +185,11 @@ namespace djv
             {
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectAdded(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     SLOT(_updateActions()));
                 connect(
                     _p->currentWorkspace,
-                    SIGNAL(projectRemoved(const std::shared_ptr<Project> &)),
+                    SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     SLOT(_updateActions()));
                 connect(
                     _p->currentWorkspace,
@@ -204,15 +204,15 @@ namespace djv
 
         void WindowObject::_updateActions()
         {
-            const bool multipleProjects = _p->currentWorkspace && _p->currentWorkspace->getProjects().size() > 1;
-            _p->actions["Next"]->setEnabled(multipleProjects);
-            _p->actions["Previous"]->setEnabled(multipleProjects);
+            const bool multipleMedia = _p->currentWorkspace && _p->currentWorkspace->getMedia().size() > 1;
+            _p->actions["Next"]->setEnabled(multipleMedia);
+            _p->actions["Previous"]->setEnabled(multipleMedia);
 
-            const bool hasProjects =
+            const bool hasMedia =
                 _p->currentWorkspace &&
-                _p->currentWorkspace->getProjects().size() > 0 &&
+                _p->currentWorkspace->getMedia().size() > 0 &&
                 QMdiArea::SubWindowView == _p->currentWorkspace->getViewMode();
-            _p->actionGroups["WindowState"]->setEnabled(hasProjects);
+            _p->actionGroups["WindowState"]->setEnabled(hasMedia);
             _p->actions["Normal"]->setChecked(_p->currentWorkspace && _p->currentWorkspace->getWindowState() == Enum::WindowState::Normal);
             _p->actions["Maximize"]->setChecked(_p->currentWorkspace && _p->currentWorkspace->getWindowState() == Enum::WindowState::Maximized);
             _p->actions["Minimize"]->setChecked(_p->currentWorkspace && _p->currentWorkspace->getWindowState() == Enum::WindowState::Minimized);

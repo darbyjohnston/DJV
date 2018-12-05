@@ -55,6 +55,11 @@ namespace djv
             _tags[key] = value;
         }
 
+        bool Tags::operator == (const Tags & other) const
+        {
+            return _tags == other._tags;
+        }
+
     } // namespace AV
 } // namespace djv
 

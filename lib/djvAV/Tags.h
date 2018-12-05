@@ -46,6 +46,8 @@ namespace djv
             void setTags(const std::map<std::string, std::string> &);
             void setTag(const std::string & key, const std::string & value);
 
+            bool operator == (const Tags &) const;
+
         private:
             std::map<std::string, std::string> _tags;
         };

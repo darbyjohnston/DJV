@@ -49,13 +49,19 @@ namespace djv
         //! \todo History menu
         //! \todo Thumbnails
         //! \todo File information
-        class FileBrowserWidget : public QWidget
+        class FileBrowser : public QWidget
         {
             Q_OBJECT
 
         public:
-            FileBrowserWidget(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
-            ~FileBrowserWidget() override;
+            FileBrowser(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
+            ~FileBrowser() override;
+
+        public Q_SLOTS:
+            void setPath(const std::string &);
+
+        Q_SIGNALS:
+            void opened(const std::string &);
 
         private:
             void _updateWidget();

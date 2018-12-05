@@ -35,7 +35,7 @@ namespace djv
 {
     namespace ViewLib
     {   
-        class Project;
+        class Media;
         class Workspace;
 
         class ViewObject : public IViewObject
@@ -50,7 +50,7 @@ namespace djv
             std::string getMenuSortKey() const override;
             
         public Q_SLOTS:
-            void setCurrentProject(const std::shared_ptr<Project> &) override;
+            void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         private:
             DJV_PRIVATE();

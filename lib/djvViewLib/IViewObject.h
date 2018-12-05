@@ -42,7 +42,7 @@ namespace djv
     namespace ViewLib
     {
         class Context;
-        class Project;
+        class Media;
         class Workspace;
         
         class IViewObject : public QObject
@@ -69,7 +69,7 @@ namespace djv
 
         public Q_SLOTS:
             virtual void setCurrentWorkspace(const QPointer<Workspace> &);
-            virtual void setCurrentProject(const std::shared_ptr<Project> &);
+            virtual void setCurrentMedia(const std::shared_ptr<Media> &);
 
         private:
             DJV_PRIVATE();

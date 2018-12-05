@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/AudioData.h>
-#include <djvAV/PixelData.h>
+#include <djvAV/Image.h>
 #include <djvAV/Speed.h>
 #include <djvAV/Tags.h>
 #include <djvAV/Time.h>
@@ -109,6 +109,8 @@ namespace djv
                 void setAudio(const std::vector<AudioInfo> &);
                 void setTags(const Tags &);
 
+                bool operator == (const Info &) const;
+
             private:
                 std::string _fileName;
                 std::vector<VideoInfo> _video;
@@ -116,7 +118,7 @@ namespace djv
                 Tags _tags;
             };
 
-            typedef std::pair<Timestamp, std::shared_ptr<Pixel::Data> > VideoFrame;
+            typedef std::pair<Timestamp, std::shared_ptr<Image> > VideoFrame;
             typedef std::pair<Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
             class ReadQueue : public std::enable_shared_from_this<ReadQueue>
@@ -136,10 +138,13 @@ namespace djv
                 bool hasVideoFrames() const;
                 bool hasAudioFrames() const;
 
-                VideoFrame getFirstVideoFrame() const;
-
-                void addVideoFrame(Timestamp, const std::shared_ptr<Pixel::Data> &);
+                void addVideoFrame(Timestamp, const std::shared_ptr<Image> &);
                 void addAudioFrame(Timestamp, const std::shared_ptr<Audio::Data> &);
+
+                VideoFrame getVideoFrame() const;
+                AudioFrame getAudioFrame() const;
+                void popVideoFrame();
+                void popAudioFrame();
 
                 void clear();
 

@@ -30,7 +30,7 @@
 #include <djvViewLib/FileObject.h>
 
 #include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
+#include <djvViewLib/Media.h>
 #include <djvViewLib/WorkspaceObject.h>
 #include <djvViewLib/Workspace.h>
 
@@ -49,6 +49,7 @@ namespace djv
         {
             std::map<QString, QPointer<QAction> > actions;
             std::vector<QPointer<QDockWidget> > dockWidgets;
+            QPointer<Workspace> currentWorkspace;
         };
         
         FileObject::FileObject(const std::shared_ptr<Context> & context, QObject * parent) :
@@ -69,11 +70,6 @@ namespace djv
                 &QAction::triggered,
                 [this, context]
             {
-                auto workspaceObject = context->getObjectT<WorkspaceObject>();
-                if (auto workspace = workspaceObject->getCurrentWorkspace())
-                {
-                    workspace->newProject();
-                }
                 for (const auto & i : _p->dockWidgets)
                 {
                     i->show();
@@ -87,7 +83,7 @@ namespace djv
                 auto workspaceObject = context->getObjectT<WorkspaceObject>();
                 if (auto workspace = workspaceObject->getCurrentWorkspace())
                 {
-                    workspace->closeProject(workspace->getCurrentProject());
+                    workspace->closeMedia(workspace->getCurrentMedia());
                 }
             });
             connect(
@@ -130,8 +126,20 @@ namespace djv
             if (auto context = std::dynamic_pointer_cast<Context>(getContext().lock()))
             {
                 out = new QDockWidget("File Browser");
-                out->setWidget(new UIQt::FileBrowserWidget(context));
+                auto fileBrowser = new UIQt::FileBrowser(context);
+                fileBrowser->setPath("C:/Users/darby/Desktop");
+                out->setWidget(fileBrowser);
                 _p->dockWidgets.push_back(out);
+                connect(
+                    fileBrowser,
+                    &UIQt::FileBrowser::opened,
+                    [this](const std::string & fileName)
+                {
+                    if (_p->currentWorkspace)
+                    {
+                        _p->currentWorkspace->openMedia(fileName);
+                    }
+                });
             }
             return out;
         }
@@ -149,9 +157,10 @@ namespace djv
         void FileObject::setCurrentWorkspace(const QPointer<Workspace> & workspace)
         {
             _p->actions["Open"]->setEnabled(workspace);
+            _p->currentWorkspace = workspace;
         }
 
-        void FileObject::setCurrentProject(const std::shared_ptr<Project> & project)
+        void FileObject::setCurrentMedia(const std::shared_ptr<Media> & project)
         {
             _p->actions["Close"]->setEnabled(project ? true : false);
             _p->actions["Export"]->setEnabled(project ? true : false);

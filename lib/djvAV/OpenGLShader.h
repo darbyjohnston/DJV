@@ -54,10 +54,15 @@ namespace djv
             class Shader
             {
                 DJV_NON_COPYABLE(Shader);
+                void _init(const std::shared_ptr<AV::Shader> &);
+                Shader();
 
             public:
-                Shader(const std::shared_ptr<AV::Shader> &);
                 ~Shader();
+
+                //! Throws:
+                //! - std::exception
+                static std::shared_ptr<Shader> create(const std::shared_ptr<AV::Shader> &);
 
                 void setUniform(const std::string&, int);
                 void setUniform(const std::string&, float);
@@ -68,11 +73,7 @@ namespace djv
                 void setUniform(const std::string&, const glm::mat4x4 &);
                 void setUniform(const std::string&, const Color &);
 
-                //! Throws:
-                //! - std::exception
-                virtual void init();
-                virtual void del();
-                virtual void bind();
+                void bind();
 
             private:
                 DJV_PRIVATE();

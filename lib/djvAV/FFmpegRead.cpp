@@ -286,28 +286,20 @@ namespace djv
                                     }
                                     if (seek != -1)
                                     {
+                                        if (av_seek_frame(
+                                            _avFormatContext,
+                                            -1,
+                                            seek,
+                                            AVSEEK_FLAG_BACKWARD) < 0)
+                                        {
+                                            throw std::exception();
+                                        }
                                         if (_avVideoStream != -1)
                                         {
-                                            if (av_seek_frame(
-                                                _avFormatContext,
-                                                _avVideoStream,
-                                                av_rescale_q(seek, FFmpeg::getTimeBaseQ(), _avFormatContext->streams[_avVideoStream]->time_base),
-                                                AVSEEK_FLAG_BACKWARD) < 0)
-                                            {
-                                                throw std::exception();
-                                            }
-                                            avcodec_flush_buffers(_avCodecContext[_avAudioStream]);
+                                            avcodec_flush_buffers(_avCodecContext[_avVideoStream]);
                                         }
                                         if (_avAudioStream != -1)
                                         {
-                                            if (av_seek_frame(
-                                                _avFormatContext,
-                                                _avAudioStream,
-                                                av_rescale_q(seek, FFmpeg::getTimeBaseQ(), _avFormatContext->streams[_avAudioStream]->time_base),
-                                                AVSEEK_FLAG_BACKWARD) < 0)
-                                            {
-                                                throw std::exception();
-                                            }
                                             avcodec_flush_buffers(_avCodecContext[_avAudioStream]);
                                         }
                                         Timestamp pts = 0;
@@ -454,14 +446,14 @@ namespace djv
 
                         if (!seek)
                         {
-                            auto pixelData = Pixel::Data::create(_videoInfo.getInfo());
+                            auto image = Image::create(_videoInfo.getInfo());
                             av_image_fill_arrays(
                                 _avFrameRgb->data,
                                 _avFrameRgb->linesize,
-                                pixelData->getData(),
+                                image->getData(),
                                 AV_PIX_FMT_RGBA,
-                                pixelData->getWidth(),
-                                pixelData->getHeight(),
+                                image->getWidth(),
+                                image->getHeight(),
                                 1);
                             sws_scale(
                                 _swsContext,
@@ -473,7 +465,7 @@ namespace djv
                                 _avFrameRgb->linesize);
                             {
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                _queue->addVideoFrame(pts, pixelData);
+                                _queue->addVideoFrame(pts, image);
                             }
                         }
                     }

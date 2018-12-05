@@ -48,8 +48,8 @@ namespace djv
             std::string getMenuSortKey() const override;
 
         public Q_SLOTS:
-            void nextProject();
-            void prevProject();
+            void nextMedia();
+            void prevMedia();
 
             void setCurrentWorkspace(const QPointer<Workspace> &) override;
 

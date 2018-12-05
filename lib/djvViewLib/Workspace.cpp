@@ -30,7 +30,7 @@
 #include <djvViewLib/Workspace.h>
 
 #include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
+#include <djvViewLib/Media.h>
 
 #include <sstream>
 
@@ -48,10 +48,10 @@ namespace djv
         {
             std::weak_ptr<Context> context;
             std::string name;
-            std::vector<std::shared_ptr<Project> > projects;
-            std::shared_ptr<Project> currentProject;
+            std::vector<std::shared_ptr<Media> > media;
+            std::shared_ptr<Media> currentMedia;
             QMdiArea::ViewMode viewMode = QMdiArea::TabbedView;
-            std::map<std::shared_ptr<Project>, Enum::WindowState> windowState;
+            std::map<std::shared_ptr<Media>, Enum::WindowState> windowState;
         };
 
         Workspace::Workspace(const std::shared_ptr<Context> & context, QObject * parent) :
@@ -67,7 +67,7 @@ namespace djv
 
         Workspace::~Workspace()
         {
-            for (auto i : _p->projects)
+            for (auto i : _p->media)
             {
                 //! \todo Save
             }
@@ -78,14 +78,14 @@ namespace djv
             return _p->name;
         }
 
-        const std::vector<std::shared_ptr<Project> > & Workspace::getProjects() const
+        const std::vector<std::shared_ptr<Media> > & Workspace::getMedia() const
         {
-            return _p->projects;
+            return _p->media;
         }
 
-        const std::shared_ptr<Project> & Workspace::getCurrentProject() const
+        const std::shared_ptr<Media> & Workspace::getCurrentMedia() const
         {
-            return _p->currentProject;
+            return _p->currentMedia;
         }
 
         QMdiArea::ViewMode Workspace::getViewMode() const
@@ -95,7 +95,7 @@ namespace djv
 
         Enum::WindowState Workspace::getWindowState() const
         {
-            const auto i = _p->windowState.find(_p->currentProject);
+            const auto i = _p->windowState.find(_p->currentMedia);
             return i != _p->windowState.end() ? i->second : Enum::WindowState::Normal;
         }
 
@@ -107,62 +107,49 @@ namespace djv
             Q_EMIT nameChanged(_p->name);
         }
 
-        void Workspace::newProject()
+        void Workspace::openMedia(const std::string & fileName)
         {
             if (auto context = _p->context.lock())
             {
-                auto project = Project::create(context);
-                _p->projects.push_back(project);
-                _p->currentProject = project;
-                Q_EMIT projectAdded(project);
-                Q_EMIT currentProjectChanged(_p->currentProject);
+                auto media = Media::create(fileName, context);
+                _p->media.push_back(media);
+                _p->currentMedia = media;
+                Q_EMIT mediaAdded(media);
+                Q_EMIT currentMediaChanged(_p->currentMedia);
             }
         }
 
-        void Workspace::openProject(const std::string & fileName)
+        void Workspace::closeMedia(const std::shared_ptr<Media> & media)
         {
-            if (auto context = _p->context.lock())
-            {
-                auto project = Project::create(context);
-                project->open(fileName);
-                _p->projects.push_back(project);
-                _p->currentProject = project;
-                Q_EMIT projectAdded(project);
-                Q_EMIT currentProjectChanged(_p->currentProject);
-            }
-        }
-
-        void Workspace::closeProject(const std::shared_ptr<Project> & project)
-        {
-            const auto i = std::find(_p->projects.begin(), _p->projects.end(), project);
-            if (i != _p->projects.end())
+            const auto i = std::find(_p->media.begin(), _p->media.end(), media);
+            if (i != _p->media.end())
             {
                 //! \todo Save
-                int index = static_cast<int>(i - _p->projects.begin());
-                auto project = *i;
-                _p->projects.erase(i);
-                Q_EMIT projectRemoved(project);
-                const auto j = _p->windowState.find(project);
-                if (j != _p->windowState.end())
+                int index = static_cast<int>(i - _p->media.begin());
+                auto media = *i;
+                _p->media.erase(i);
+                const auto k = _p->windowState.find(media);
+                if (k != _p->windowState.end())
                 {
-                    _p->windowState.erase(j);
+                    _p->windowState.erase(k);
                 }
-                if (project == _p->currentProject)
+                Q_EMIT mediaRemoved(media);
+                if (media == _p->currentMedia)
                 {
-                    index = std::min(index, static_cast<int>(_p->projects.size()) - 1);
-                    setCurrentProject(index != -1 ? _p->projects[index] : nullptr);
+                    index = std::min(index, static_cast<int>(_p->media.size()) - 1);
+                    setCurrentMedia(index != -1 ? _p->media[index] : nullptr);
                 }
             }
         }
 
-        void Workspace::setCurrentProject(const std::shared_ptr<Project> & project)
+        void Workspace::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
-            if (project == _p->currentProject)
+            if (media == _p->currentMedia)
                 return;
-            _p->currentProject = project;
-            Q_EMIT currentProjectChanged(_p->currentProject);
+            _p->currentMedia = media;
+            Q_EMIT currentMediaChanged(_p->currentMedia);
             auto windowState = Enum::WindowState::Normal;
-            const auto i = _p->windowState.find(project);
+            const auto i = _p->windowState.find(media);
             if (i != _p->windowState.end())
             {
                 windowState = i->second;
@@ -170,31 +157,31 @@ namespace djv
             Q_EMIT windowStateChanged(windowState);
         }
 
-        void Workspace::nextProject()
+        void Workspace::nextMedia()
         {
-            auto i = std::find(_p->projects.begin(), _p->projects.end(), _p->currentProject);
-            if (i != _p->projects.end())
+            auto i = std::find(_p->media.begin(), _p->media.end(), _p->currentMedia);
+            if (i != _p->media.end())
             {
                 ++i;
-                if (i == _p->projects.end())
+                if (i == _p->media.end())
                 {
-                    i = _p->projects.begin();
+                    i = _p->media.begin();
                 }
-                setCurrentProject(*i);
+                setCurrentMedia(*i);
             }
         }
 
-        void Workspace::prevProject()
+        void Workspace::prevMedia()
         {
-            auto i = std::find(_p->projects.begin(), _p->projects.end(), _p->currentProject);
-            if (i != _p->projects.end())
+            auto i = std::find(_p->media.begin(), _p->media.end(), _p->currentMedia);
+            if (i != _p->media.end())
             {
-                if (i == _p->projects.begin())
+                if (i == _p->media.begin())
                 {
-                    i = _p->projects.end();
+                    i = _p->media.end();
                 }
                 --i;
-                setCurrentProject(*i);
+                setCurrentMedia(*i);
             }
         }
 
@@ -208,19 +195,19 @@ namespace djv
 
         void Workspace::setWindowState(Enum::WindowState value)
         {
-            setWindowState(_p->currentProject, value);
+            setWindowState(_p->currentMedia, value);
         }
 
-        void Workspace::setWindowState(const std::shared_ptr<Project> & project, Enum::WindowState value)
+        void Workspace::setWindowState(const std::shared_ptr<Media> & media, Enum::WindowState value)
         {
-            const auto i = _p->windowState.find(project);
+            const auto i = _p->windowState.find(media);
             if (i == _p->windowState.end())
             {
-                _p->windowState[project] = Enum::WindowState::Normal;
+                _p->windowState[media] = Enum::WindowState::Normal;
             }
-            if (value == _p->windowState[project])
+            if (value == _p->windowState[media])
                 return;
-            _p->windowState[project] = value;
+            _p->windowState[media] = value;
             Q_EMIT windowStateChanged(value);
         }
 

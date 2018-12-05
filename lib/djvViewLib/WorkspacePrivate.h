@@ -40,7 +40,7 @@ namespace djv
     namespace ViewLib
     {
         class Context;
-        class Project;
+        class Media;
         class Workspace;
 
         class WorkspaceMDISubWindow : public QMdiSubWindow
@@ -48,7 +48,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            WorkspaceMDISubWindow(const QPointer<Workspace> &, const std::shared_ptr<Project> &, const std::shared_ptr<Context> &);
+            WorkspaceMDISubWindow(const QPointer<Workspace> &, const std::shared_ptr<Media> &, const std::shared_ptr<Context> &);
             ~WorkspaceMDISubWindow() override;
             
             virtual QSize sizeHint() const override;
@@ -69,8 +69,8 @@ namespace djv
             bool eventFilter(QObject *, QEvent *) override;
 
         private Q_SLOTS:
-            void _addProject(const std::shared_ptr<Project> &);
-            void _removeProject(const std::shared_ptr<Project> &);
+            void _addMedia(const std::shared_ptr<Media> &);
+            void _removeMedia(const std::shared_ptr<Media> &);
 
         private:
             DJV_PRIVATE();

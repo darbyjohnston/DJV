@@ -53,17 +53,15 @@ namespace djv
         Shader::~Shader()
         {}
 
-        std::shared_ptr<Shader> Shader::create(
-            const std::pair<std::string, std::string>& vertex,
-            const std::pair<std::string, std::string>& fragment)
+        std::shared_ptr<Shader> Shader::create(const std::string & vertex, const std::string & fragment)
         {
             auto out = std::shared_ptr<Shader>(new Shader);
-            out->_p->vertex = vertex;
-            out->_p->fragment = fragment;
+            out->_p->vertex.second = vertex;
+            out->_p->fragment.second = fragment;
             return out;
         }
 
-        std::shared_ptr<Shader> Shader::create(const Path& vertex, const Path& fragment)
+        std::shared_ptr<Shader> Shader::create(const Path & vertex, const Path & fragment)
         {
             auto out = std::shared_ptr<Shader>(new Shader);
             try

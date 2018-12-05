@@ -31,8 +31,7 @@
 
 #include <djvAV/Time.h>
 
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <QWidget>
 
 namespace djv
 {
@@ -40,66 +39,32 @@ namespace djv
     {
         class Context;
 
-        class Track : public std::enable_shared_from_this<Track>
+        class TimelineSlider : public QWidget
         {
-            DJV_NON_COPYABLE(Track);
-
-        protected:
-            void _init(const std::shared_ptr<Context> &);
-            Track();
+            Q_OBJECT
 
         public:
-            ~Track();
+            TimelineSlider(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
+            ~TimelineSlider() override;
 
-            static std::shared_ptr<Track> create(const std::shared_ptr<Context> &);
-
-            std::shared_ptr<Core::IValueSubject<std::string> > getFileName() const;
-            std::shared_ptr<Core::IValueSubject<AV::Timestamp> > getOffset() const;
-            std::shared_ptr<Core::IValueSubject<AV::Duration> > getDuration() const;
-
-            void setFileName(const std::string &);
-            void setOFfset(AV::Timestamp);
+        public Q_SLOTS:
             void setDuration(AV::Duration);
+            void setCurrentTime(AV::Timestamp);
 
-            bool operator == (const Track &) const;
-            bool operator != (const Track &) const;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-        class Project : public std::enable_shared_from_this<Project>
-        {
-            DJV_NON_COPYABLE(Project);
+        Q_SIGNALS:
+            void currentTimeChanged(AV::Timestamp);
 
         protected:
-            void _init(const std::shared_ptr<Context> &);
-            Project();
+            void paintEvent(QPaintEvent *) override;
+            void mousePressEvent(QMouseEvent *) override;
+            void mouseReleaseEvent(QMouseEvent *) override;
+            void mouseMoveEvent(QMouseEvent *) override;
 
-        public:
-            ~Project();
-
-            static std::shared_ptr<Project> create(const std::shared_ptr<Context> &);
-
-            std::shared_ptr<Core::IValueSubject<std::string> > getFileName() const;
-            std::shared_ptr<Core::IValueSubject<bool> > getHasChanges() const;
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Track> > > getTracks() const;
-            std::shared_ptr<Core::IValueSubject<AV::Duration> > getDuration() const;
-            
-            void open(const std::string &);
-            void close();
-            void save();
-            void saveAs(const std::string &);
-
-            void addTrack(const std::shared_ptr<Track> &);
-            void removeTrack(const std::shared_ptr<Track> &);
-            
         private:
             DJV_PRIVATE();
 
-            void _updateDuration();
+            AV::Timestamp _posToTime(int) const;
         };
 
     } // namespace ViewLib
 } // namespace djv
-

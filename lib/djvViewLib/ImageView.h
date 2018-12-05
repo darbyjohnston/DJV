@@ -36,6 +36,12 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        class Image;
+
+    } // namespace AV
+
     namespace ViewLib
     {
         class Context;
@@ -47,6 +53,13 @@ namespace djv
         public:
             ImageView(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~ImageView() override;
+
+            void setImage(const std::shared_ptr<AV::Image> &);
+
+        protected:
+            void initializeGL();
+            void resizeGL(int w, int h);
+            void paintGL();
 
         private:
             DJV_PRIVATE();

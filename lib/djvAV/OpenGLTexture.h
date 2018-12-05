@@ -43,19 +43,21 @@ namespace djv
             class Texture
             {
                 DJV_NON_COPYABLE(Texture);
+                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
+                Texture();
 
             public:
-                Texture();
                 ~Texture();
 
-                void init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                void del();
-                void copy(const std::shared_ptr<Pixel::Data> &);
-                void copy(const std::shared_ptr<Pixel::Data> &, const glm::ivec2 &);
-                void bind();
+                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
 
                 const Pixel::Info & getInfo() const;
                 GLuint getId() const;
+
+                void copy(const std::shared_ptr<Pixel::Data> &);
+                void copy(const std::shared_ptr<Pixel::Data> &, const glm::ivec2 &);
+
+                void bind();
 
                 static GLenum getInternalFormat(Pixel::Type);
 

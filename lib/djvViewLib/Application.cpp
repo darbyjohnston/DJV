@@ -32,14 +32,24 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
+#include <chrono>
+
 namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            const size_t timeout = 10;
+
+        } // namespace
+
         struct Application::Private
         {
             std::shared_ptr<Context> context;
             QScopedPointer<MainWindow> mainWindow;
+            std::chrono::time_point<std::chrono::system_clock> time;
+            int timer = 0;
         };
         
         Application::Application(int & argc, char ** argv) :
@@ -51,11 +61,23 @@ namespace djv
             _p->mainWindow.reset(new MainWindow(_p->context));
             _p->mainWindow->resize(800, 600);
             _p->mainWindow->show();
+
+            _p->time = std::chrono::system_clock::now();
+            _p->timer = startTimer(timeout, Qt::PreciseTimer);
         }
         
         Application::~Application()
         {
             _p->context->exit();
+        }
+
+        void Application::timerEvent(QTimerEvent * event)
+        {
+            const auto now = std::chrono::system_clock::now();
+            const std::chrono::duration<float> delta = now - _p->time;
+            _p->time = now;
+            const float dt = delta.count();
+            _p->context->tick(dt);
         }
 
     } // namespace ViewLib

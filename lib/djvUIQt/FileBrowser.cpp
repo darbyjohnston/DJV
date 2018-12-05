@@ -35,8 +35,10 @@
 
 #include <QAction>
 #include <QFileInfo>
+#include <QItemSelectionModel>
 #include <QListView>
 #include <QPointer>
+#include <QPushButton>
 #include <QSortFilterProxyModel>
 #include <QVBoxLayout>
 
@@ -44,7 +46,7 @@ namespace djv
 {
     namespace UIQt
     {
-        struct FileBrowserWidget::Private
+        struct FileBrowser::Private
         {
             QPointer<FileBrowserModel> model;
             QPointer<QSortFilterProxyModel> proxyModel;
@@ -54,7 +56,7 @@ namespace djv
             QPointer<FileBrowserFooter> footer;
         };
 
-        FileBrowserWidget::FileBrowserWidget(const std::shared_ptr<Core::Context> & context, QWidget * parent) :
+        FileBrowser::FileBrowser(const std::shared_ptr<Core::Context> & context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -70,10 +72,17 @@ namespace djv
             _p->header = new FileBrowserHeader(context);
             _p->footer = new FileBrowserFooter(context);
 
+            auto okButton = new QPushButton(DJV_TEXT("Open"));
+            okButton->setEnabled(false);
+
             auto layout = new QVBoxLayout(this);
             layout->addWidget(_p->header);
             layout->addWidget(_p->listView);
             layout->addWidget(_p->footer);
+            auto hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            hLayout->addWidget(okButton);
+            layout->addLayout(hLayout);
 
             _updateWidget();
 
@@ -112,6 +121,14 @@ namespace djv
                 [this](const QModelIndex & value)
             {
                 _p->model->setPath(value.data(Qt::EditRole).toString());
+            });
+
+            connect(
+                _p->listView->selectionModel(),
+                &QItemSelectionModel::currentChanged,
+                [okButton](const QModelIndex & current, const QModelIndex & previous)
+            {
+                okButton->setEnabled(current.isValid());
             });
 
             connect(
@@ -158,12 +175,25 @@ namespace djv
                 _p->viewMode = value;
                 _updateWidget();
             });
+
+            connect(
+                okButton,
+                &QPushButton::clicked,
+                [this]
+            {
+                Q_EMIT opened(_p->listView->selectionModel()->currentIndex().data(Qt::EditRole).toString().toStdString());
+            });
         }
 
-        FileBrowserWidget::~FileBrowserWidget()
+        FileBrowser::~FileBrowser()
         {}
 
-        void FileBrowserWidget::_updateWidget()
+        void FileBrowser::setPath(const std::string & value)
+        {
+            _p->model->setPath(QString::fromStdString(value));
+        }
+
+        void FileBrowser::_updateWidget()
         {
             switch (_p->viewMode)
             {

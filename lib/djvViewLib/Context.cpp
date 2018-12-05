@@ -36,8 +36,8 @@
 #include <djvViewLib/ImageObject.h>
 #include <djvViewLib/InfoTool.h>
 #include <djvViewLib/MagnifyTool.h>
+#include <djvViewLib/Media.h>
 #include <djvViewLib/PlaybackObject.h>
-#include <djvViewLib/Project.h>
 #include <djvViewLib/ToolObject.h>
 #include <djvViewLib/ViewObject.h>
 #include <djvViewLib/WindowObject.h>
@@ -77,7 +77,7 @@ namespace djv
             for (auto object : getObjectsT<IViewObject>())
             {
                 object->setCurrentWorkspace(workspaceObject->getCurrentWorkspace());
-                object->setCurrentProject(workspaceObject->getCurrentProject());
+                object->setCurrentMedia(workspaceObject->getCurrentMedia());
             }
 
             QObject::connect(
@@ -92,12 +92,12 @@ namespace djv
             });
             QObject::connect(
                 workspaceObject,
-                &WorkspaceObject::currentProjectChanged,
-                [this](const std::shared_ptr<Project> & value)
+                &WorkspaceObject::currentMediaChanged,
+                [this](const std::shared_ptr<Media> & value)
             {
                 for (auto object : getObjectsT<IViewObject>())
                 {
-                    object->setCurrentProject(value);
+                    object->setCurrentMedia(value);
                 }
             });
         }

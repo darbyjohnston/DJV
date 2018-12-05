@@ -53,15 +53,90 @@ namespace djv
                 GLuint program = 0;
             };
 
-            Shader::Shader(const std::shared_ptr<AV::Shader>& shader) :
-                _p(new Private)
+            void Shader::_init(const std::shared_ptr<AV::Shader> & shader)
             {
                 _p->shader = shader;
+
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+                _p->vertex = glFuncs->glCreateShader(GL_VERTEX_SHADER);
+                if (!_p->vertex)
+                {
+                    throw std::runtime_error("Cannot create vertex shader");
+                }
+                const char* src = _p->shader->getVertexSource().c_str();
+                glFuncs->glShaderSource(_p->vertex, 1, &src, NULL);
+                glFuncs->glCompileShader(_p->vertex);
+                int success = 0;
+                char infoLog[String::cStringLength];
+                glFuncs->glGetShaderiv(_p->vertex, GL_COMPILE_STATUS, &success);
+                if (!success)
+                {
+                    glFuncs->glGetShaderInfoLog(_p->vertex, String::cStringLength, NULL, infoLog);
+                    std::stringstream s;
+                    s << "Cannot compile vertex shader: " << _p->shader->getVertexName() << ": " << infoLog;
+                    throw std::runtime_error(s.str());
+                }
+
+                _p->fragment = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
+                if (!_p->fragment)
+                {
+                    throw std::runtime_error("Cannot create fragment shader");
+                }
+                src = _p->shader->getFragmentSource().c_str();
+                glFuncs->glShaderSource(_p->fragment, 1, &src, NULL);
+                glFuncs->glCompileShader(_p->fragment);
+                glFuncs->glGetShaderiv(_p->fragment, GL_COMPILE_STATUS, &success);
+                if (!success)
+                {
+                    glFuncs->glGetShaderInfoLog(_p->fragment, String::cStringLength, NULL, infoLog);
+                    std::stringstream s;
+                    s << "Cannot compile framgent shader: " << _p->shader->getFragmentName() << ": " << infoLog;
+                    throw std::runtime_error(s.str());
+                }
+
+                _p->program = glFuncs->glCreateProgram();
+                glFuncs->glAttachShader(_p->program, _p->vertex);
+                glFuncs->glAttachShader(_p->program, _p->fragment);
+                glFuncs->glLinkProgram(_p->program);
+                glFuncs->glGetProgramiv(_p->program, GL_LINK_STATUS, &success);
+                if (!success)
+                {
+                    glFuncs->glGetProgramInfoLog(_p->program, String::cStringLength, NULL, infoLog);
+                    std::stringstream s;
+                    s << "Cannot link program: " << _p->shader->getVertexName() << ": " << infoLog;
+                    throw std::invalid_argument(s.str());
+                }
             }
+
+            Shader::Shader() :
+                _p(new Private)
+            {}
 
             Shader::~Shader()
             {
-                del();
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+                if (_p->program)
+                {
+                    glFuncs->glDeleteProgram(_p->program);
+                    _p->program = 0;
+                }
+                if (_p->vertex)
+                {
+                    glFuncs->glDeleteShader(_p->vertex);
+                    _p->vertex = 0;
+                }
+                if (_p->fragment)
+                {
+                    glFuncs->glDeleteShader(_p->fragment);
+                    _p->fragment = 0;
+                }
+            }
+
+            std::shared_ptr<Shader> Shader::create(const std::shared_ptr<AV::Shader> & shader)
+            {
+                auto out = std::shared_ptr<Shader>(new Shader);
+                out->_init(shader);
+                return out;
             }
 
             void Shader::setUniform(const std::string& name, int value)
@@ -119,81 +194,6 @@ namespace djv
                 const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
                 auto color = value.convert(Pixel::Type::RGBA_F32);
                 glFuncs->glUniform4fv(loc, 1, reinterpret_cast<const GLfloat *>(color.getData()));
-            }
-
-            void Shader::init()
-            {
-                del();
-
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                _p->vertex = glFuncs->glCreateShader(GL_VERTEX_SHADER);
-                if (!_p->vertex)
-                {
-                    throw std::runtime_error("Cannot create vertex shader");
-                }
-                const char* src = _p->shader->getVertexSource().c_str();
-                glFuncs->glShaderSource(_p->vertex, 1, &src, NULL);
-                glFuncs->glCompileShader(_p->vertex);
-                int success = 0;
-                char infoLog[String::cStringLength];
-                glFuncs->glGetShaderiv(_p->vertex, GL_COMPILE_STATUS, &success);
-                if (!success)
-                {
-                    glFuncs->glGetShaderInfoLog(_p->vertex, String::cStringLength, NULL, infoLog);
-                    std::stringstream s;
-                    s << "Cannot compile vertex shader: " << _p->shader->getVertexName() << ": " << infoLog;
-                    throw std::runtime_error(s.str());
-                }
-
-                _p->fragment = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
-                if (!_p->fragment)
-                {
-                    throw std::runtime_error("Cannot create fragment shader");
-                }
-                src = _p->shader->getFragmentSource().c_str();
-                glFuncs->glShaderSource(_p->fragment, 1, &src, NULL);
-                glFuncs->glCompileShader(_p->fragment);
-                glFuncs->glGetShaderiv(_p->fragment, GL_COMPILE_STATUS, &success);
-                if (!success)
-                {
-                    glFuncs->glGetShaderInfoLog(_p->fragment, String::cStringLength, NULL, infoLog);
-                    std::stringstream s;
-                    s << "Cannot compile framgent shader: " << _p->shader->getFragmentName() << ": " << infoLog;
-                    throw std::runtime_error(s.str());
-                }
-
-                _p->program = glFuncs->glCreateProgram();
-                glFuncs->glAttachShader(_p->program, _p->vertex);
-                glFuncs->glAttachShader(_p->program, _p->fragment);
-                glFuncs->glLinkProgram(_p->program);
-                glFuncs->glGetProgramiv(_p->program, GL_LINK_STATUS, &success);
-                if (!success)
-                {
-                    glFuncs->glGetProgramInfoLog(_p->program, String::cStringLength, NULL, infoLog);
-                    std::stringstream s;
-                    s << "Cannot link program: " << _p->shader->getVertexName() << ": " << infoLog;
-                    throw std::invalid_argument(s.str());
-                }
-            }
-
-            void Shader::del()
-            {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                if (_p->program)
-                {
-                    glFuncs->glDeleteProgram(_p->program);
-                    _p->program = 0;
-                }
-                if (_p->vertex)
-                {
-                    glFuncs->glDeleteShader(_p->vertex);
-                    _p->vertex = 0;
-                }
-                if (_p->fragment)
-                {
-                    glFuncs->glDeleteShader(_p->fragment);
-                    _p->fragment = 0;
-                }
             }
 
             void Shader::bind()

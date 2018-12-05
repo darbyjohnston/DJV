@@ -142,6 +142,15 @@ namespace djv
                 _tags = tags;
             }
 
+            bool Info::operator == (const Info & other) const
+            {
+                return
+                    _fileName == other._fileName &&
+                    _video == other._video &&
+                    _audio == other._audio &&
+                    _tags == other._tags;
+            }
+
             ReadQueue::ReadQueue()
             {}
 
@@ -176,12 +185,7 @@ namespace djv
                 return _audioFrames.size() > 0;
             }
 
-            VideoFrame ReadQueue::getFirstVideoFrame() const
-            {
-                return _videoFrames.size() > 0 ? _videoFrames.front() : VideoFrame();
-            }
-
-            void ReadQueue::addVideoFrame(Timestamp ts, const std::shared_ptr<Pixel::Data> & data)
+            void ReadQueue::addVideoFrame(Timestamp ts, const std::shared_ptr<Image> & data)
             {
                 _videoFrames.push_back(std::make_pair(ts, data));
             }
@@ -189,6 +193,26 @@ namespace djv
             void ReadQueue::addAudioFrame(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
             {
                 _audioFrames.push_back(std::make_pair(ts, data));
+            }
+
+            VideoFrame ReadQueue::getVideoFrame() const
+            {
+                return _videoFrames.size() > 0 ? _videoFrames.front() : VideoFrame();
+            }
+
+            AudioFrame ReadQueue::getAudioFrame() const
+            {
+                return _audioFrames.size() > 0 ? _audioFrames.front() : AudioFrame();
+            }
+
+            void ReadQueue::popVideoFrame()
+            {
+                _videoFrames.pop_front();
+            }
+
+            void ReadQueue::popAudioFrame()
+            {
+                _audioFrames.pop_front();
             }
 
             void ReadQueue::clear()

@@ -46,20 +46,8 @@ namespace djv
                 GLuint pbo = 0;
             };
 
-            Texture::Texture() :
-                _p(new Private)
-            {}
-
-            Texture::~Texture()
+            void Texture::_init(const Pixel::Info& info, GLint filter)
             {
-                del();
-            }
-
-            void Texture::init(const Pixel::Info& info, GLint filter)
-            {
-                if (info == _p->info)
-                    return;
-                del();
                 _p->info = info;
                 if (_p->info.isValid())
                 {
@@ -86,9 +74,12 @@ namespace djv
                 }
             }
 
-            void Texture::del()
+            Texture::Texture() :
+                _p(new Private)
+            {}
+
+            Texture::~Texture()
             {
-                _p->info = Pixel::Info();
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 if (_p->id)
                 {
@@ -100,6 +91,23 @@ namespace djv
                     glFuncs->glDeleteBuffers(1, &_p->pbo);
                     _p->pbo = 0;
                 }
+            }
+
+            std::shared_ptr<Texture> Texture::create(const Pixel::Info& info, GLint filter)
+            {
+                auto out = std::shared_ptr<Texture>(new Texture);
+                out->_init(info, filter);
+                return out;
+            }
+
+            const Pixel::Info & Texture::getInfo() const
+            {
+                return _p->info;
+            }
+
+            GLuint Texture::getId() const
+            {
+                return _p->id;
             }
 
             void Texture::copy(const std::shared_ptr<Pixel::Data>& data)
@@ -169,16 +177,6 @@ namespace djv
             void Texture::bind()
             {
                 glBindTexture(GL_TEXTURE_2D, _p->id);
-            }
-
-            const Pixel::Info & Texture::getInfo() const
-            {
-                return _p->info;
-            }
-
-            GLuint Texture::getId() const
-            {
-                return _p->id;
             }
 
             GLenum Texture::getInternalFormat(Pixel::Type type)

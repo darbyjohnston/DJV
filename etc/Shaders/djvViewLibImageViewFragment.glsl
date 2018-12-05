@@ -27,58 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#version 330 core
 
-#include <djvViewLib/Enum.h>
+out vec4 FragColor;
 
-#include <QMdiArea>
-#include <QPointer>
+in vec2 Texture;
 
-namespace djv
+uniform sampler2D textureSampler;
+
+void main()
 {
-    namespace ViewLib
-    {
-        class Context;
-        class Media;
-
-        class Workspace : public QObject
-        {
-            Q_OBJECT
-
-        public:
-            Workspace(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~Workspace() override;
-
-            const std::string & getName() const;
-            const std::vector<std::shared_ptr<Media> > & getMedia() const;
-            const std::shared_ptr<Media> & getCurrentMedia() const;
-
-            QMdiArea::ViewMode getViewMode() const;
-            Enum::WindowState getWindowState() const;
-
-        public Q_SLOTS:
-            void setName(const std::string &);
-            void openMedia(const std::string &);
-            void closeMedia(const std::shared_ptr<Media> &);
-            void setCurrentMedia(const std::shared_ptr<Media> &);
-            void nextMedia();
-            void prevMedia();
-            void setViewMode(QMdiArea::ViewMode);
-            void setWindowState(Enum::WindowState);
-            void setWindowState(const std::shared_ptr<Media> &, Enum::WindowState);
-
-        Q_SIGNALS:
-            void nameChanged(const std::string &);
-            void mediaAdded(const std::shared_ptr<Media> &);
-            void mediaRemoved(const std::shared_ptr<Media> &);
-            void currentMediaChanged(const std::shared_ptr<Media> &);
-            void viewModeChanged(QMdiArea::ViewMode);
-            void windowStateChanged(Enum::WindowState);
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewLib
-} // namespace djv
-
+    vec4 t = texture(textureSampler, Texture);
+    FragColor = t;
+}

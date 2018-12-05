@@ -31,52 +31,46 @@
 
 #include <djvViewLib/Enum.h>
 
-#include <QMdiArea>
-#include <QPointer>
+#include <djvAV/IO.h>
+
+#include <djvCore/ListObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewLib
     {
         class Context;
-        class Media;
 
-        class Workspace : public QObject
+        class Media : public std::enable_shared_from_this<Media>
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(Media);
+
+        protected:
+            void _init(const std::string &, const std::shared_ptr<Context> &);
+            Media();
 
         public:
-            Workspace(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~Workspace() override;
+            ~Media();
 
-            const std::string & getName() const;
-            const std::vector<std::shared_ptr<Media> > & getMedia() const;
-            const std::shared_ptr<Media> & getCurrentMedia() const;
+            static std::shared_ptr<Media> create(const std::string &, std::shared_ptr<Context> &);
 
-            QMdiArea::ViewMode getViewMode() const;
-            Enum::WindowState getWindowState() const;
+            const std::string & getFileName() const;
+            std::shared_ptr<Core::IValueSubject<AV::IO::Info> > getInfo() const;
+            std::shared_ptr<Core::IValueSubject<AV::Duration> > getDuration() const;
+            std::shared_ptr<Core::IValueSubject<AV::Timestamp> > getCurrentTime() const;
+            std::shared_ptr<Core::IValueSubject<Enum::Playback> > getPlayback() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image> > > getCurrentImage() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > getALUnqueuedBuffers() const;
 
-        public Q_SLOTS:
-            void setName(const std::string &);
-            void openMedia(const std::string &);
-            void closeMedia(const std::shared_ptr<Media> &);
-            void setCurrentMedia(const std::shared_ptr<Media> &);
-            void nextMedia();
-            void prevMedia();
-            void setViewMode(QMdiArea::ViewMode);
-            void setWindowState(Enum::WindowState);
-            void setWindowState(const std::shared_ptr<Media> &, Enum::WindowState);
-
-        Q_SIGNALS:
-            void nameChanged(const std::string &);
-            void mediaAdded(const std::shared_ptr<Media> &);
-            void mediaRemoved(const std::shared_ptr<Media> &);
-            void currentMediaChanged(const std::shared_ptr<Media> &);
-            void viewModeChanged(QMdiArea::ViewMode);
-            void windowStateChanged(Enum::WindowState);
+            void setCurrentTime(AV::Timestamp);
+            void setPlayback(Enum::Playback);
 
         private:
             DJV_PRIVATE();
+
+            void _playbackUpdate();
+            void _timeUpdate();
         };
 
     } // namespace ViewLib

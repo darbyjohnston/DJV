@@ -50,6 +50,9 @@ namespace djv
             Application(int &, char **);
             ~Application() override;
 
+        protected:
+            void timerEvent(QTimerEvent *) override;
+
         private:
             DJV_PRIVATE();
         };

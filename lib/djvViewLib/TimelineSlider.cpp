@@ -27,79 +27,91 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/IViewObject.h>
+#include <djvViewLib/TimelineSlider.h>
 
 #include <djvViewLib/Context.h>
 
-#include <QDockWidget>
-#include <QMenu>
+#include <djvCore/Math.h>
+
+#include <QMouseEvent>
+#include <QPainter>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct IViewObject::Private
+        struct TimelineSlider::Private
         {
             std::weak_ptr<Context> context;
-            std::string name;
+            AV::Duration duration = 0;
+            AV::Timestamp currentTime = 0;
+            bool mousePressed = false;
         };
-        
-        IViewObject::IViewObject(const std::string & name, const std::shared_ptr<Context> & context, QObject * parent) :
-            QObject(parent),
+
+        TimelineSlider::TimelineSlider(const std::shared_ptr<Context> & context, QWidget * parent) :
+            QWidget(parent),
             _p(new Private)
         {
             _p->context = context;
-            _p->name = name;
+            setBackgroundRole(QPalette::Base);
+            setAutoFillBackground(true);
         }
-        
-        IViewObject::~IViewObject()
+
+        TimelineSlider::~TimelineSlider()
         {}
 
-        const std::weak_ptr<Context> & IViewObject::getContext() const
+        void TimelineSlider::setDuration(AV::Duration value)
         {
-            return _p->context;
+            if (value == _p->duration)
+                return;
+            _p->duration = value;
+            update();
         }
 
-        const std::string & IViewObject::getName() const
+        void TimelineSlider::setCurrentTime(AV::Timestamp value)
         {
-            return _p->name;
+            if (value == _p->currentTime)
+                return;
+            _p->currentTime = value;
+            update();
+            Q_EMIT currentTimeChanged(value);
         }
 
-        QPointer<QMenu> IViewObject::createMenu()
+        void TimelineSlider::paintEvent(QPaintEvent * event)
         {
-            return nullptr;
+            QWidget::paintEvent(event);
+            QPainter painter(this);
+            const int w = width();
+            const int h = height();
+            const int x = _p->currentTime / static_cast<double>(_p->duration) * (w - 1);
+            painter.setPen(palette().color(QPalette::Foreground));
+            painter.drawLine(x, 0, x, h - 1);
         }
 
-        std::string IViewObject::getMenuSortKey() const
+        void TimelineSlider::mousePressEvent(QMouseEvent * event)
         {
-            return _p->name;
+            _p->mousePressed = true;
+            Q_EMIT currentTimeChanged(_posToTime(event->pos().x()));
         }
 
-        QPointer<QDockWidget> IViewObject::createDockWidget()
+        void TimelineSlider::mouseReleaseEvent(QMouseEvent * event)
         {
-            return nullptr;
+            _p->mousePressed = false;
         }
 
-        std::string IViewObject::getDockWidgetSortKey() const
+        void TimelineSlider::mouseMoveEvent(QMouseEvent * event)
         {
-            return _p->name;
+            if (_p->mousePressed)
+            {
+                Q_EMIT currentTimeChanged(_posToTime(event->pos().x()));
+            }
         }
 
-        Qt::DockWidgetArea IViewObject::getDockWidgetArea() const
+        int64_t TimelineSlider::_posToTime(int value) const
         {
-            return Qt::NoDockWidgetArea;
+            const double v = value / static_cast<double>(width() - 1);
+            return Core::Math::clamp(static_cast<int64_t>(v * _p->duration), static_cast<int64_t>(0), _p->duration - 1);
         }
-
-        bool IViewObject::isDockWidgetVisible() const
-        {
-            return false;
-        }
-
-        void IViewObject::setCurrentWorkspace(const QPointer<Workspace> &)
-        {}
-
-        void IViewObject::setCurrentMedia(const std::shared_ptr<Media> &)
-        {}
 
     } // namespace ViewLib
 } // namespace djv

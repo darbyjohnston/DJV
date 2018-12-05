@@ -30,7 +30,7 @@
 #include <djvViewLib/ImageObject.h>
 
 #include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
+#include <djvViewLib/Media.h>
 
 #include <QAction>
 #include <QDockWidget>
@@ -64,7 +64,7 @@ namespace djv
             return menu;
         }
 
-        void ImageObject::setCurrentProject(const std::shared_ptr<Project> & project)
+        void ImageObject::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
         }
 

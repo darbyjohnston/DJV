@@ -77,38 +77,77 @@ namespace djv
                 return 0;
             }
 
-            VBO::VBO(size_t size, size_t vertexCount, VBOType type) :
-                _size(size),
-                _vertexCount(vertexCount),
-                _type(type)
+            struct VBO::Private
             {
+                size_t size = 0;
+                size_t vertexCount = 0;
+                VBOType type = VBOType::First;
+                GLuint vbo = 0;
+            };
+
+            void VBO::_init(size_t size, size_t vertexCount, VBOType type)
+            {
+                _p->size = size;
+                _p->vertexCount = vertexCount;
+                _p->type = type;
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenBuffers(1, &_vbo);
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+                glFuncs->glGenBuffers(1, &_p->vbo);
+                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _p->vbo);
                 glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(size * vertexCount * getVertexSize(type)), NULL, GL_DYNAMIC_DRAW);
             }
 
+            VBO::VBO() :
+                _p(new Private)
+            {}
+
             VBO::~VBO()
             {
-                if (_vbo)
+                if (_p->vbo)
                 {
                     auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                    glFuncs->glDeleteBuffers(1, &_vbo);
-                    _vbo = 0;
+                    glFuncs->glDeleteBuffers(1, &_p->vbo);
+                    _p->vbo = 0;
                 }
+            }
+
+            std::shared_ptr<VBO> VBO::create(size_t size, size_t vertexCount, VBOType type)
+            {
+                auto out = std::shared_ptr<VBO>(new VBO);
+                out->_init(size, vertexCount, type);
+                return out;
+            }
+
+            size_t VBO::getSize() const
+            {
+                return _p->size;
+            }
+
+            size_t VBO::getVertexCount() const
+            {
+                return _p->vertexCount;
+            }
+
+            VBOType VBO::getType() const
+            {
+                return _p->type;
+            }
+
+            GLuint VBO::getID() const
+            {
+                return _p->vbo;
             }
 
             void VBO::copy(const std::vector<uint8_t>& data)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _p->vbo);
                 glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
             void VBO::copy(const std::vector<uint8_t>& data, size_t offset)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _p->vbo);
                 glFuncs->glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
@@ -219,11 +258,16 @@ namespace djv
                 return out;
             }
 
-            VAO::VAO(VBOType type, GLuint vbo)
+            struct VAO::Private
+            {
+                GLuint vao = 0;
+            };
+
+            void VAO::_init(VBOType type, GLuint vbo)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenVertexArrays(1, &_vao);
-                glFuncs->glBindVertexArray(_vao);
+                glFuncs->glGenVertexArrays(1, &_p->vao);
+                glFuncs->glBindVertexArray(_p->vao);
                 glFuncs->glBindBuffer(GL_ARRAY_BUFFER, vbo);
                 const size_t vertexSize = getVertexSize(type);
                 switch (type)
@@ -253,20 +297,36 @@ namespace djv
                 }
             }
 
+            VAO::VAO() :
+                _p(new Private)
+            {}
+
             VAO::~VAO()
             {
-                if (_vao)
+                if (_p->vao)
                 {
                     auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                    glFuncs->glDeleteVertexArrays(1, &_vao);
-                    _vao = 0;
+                    glFuncs->glDeleteVertexArrays(1, &_p->vao);
+                    _p->vao = 0;
                 }
+            }
+
+            std::shared_ptr<VAO> VAO::create(VBOType type, GLuint vbo)
+            {
+                auto out = std::shared_ptr<VAO>(new VAO);
+                out->_init(type, vbo);
+                return out;
+            }
+
+            GLuint VAO::getID() const
+            {
+                return _p->vao;
             }
 
             void VAO::bind()
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindVertexArray(_vao);
+                glFuncs->glBindVertexArray(_p->vao);
             }
 
             void VAO::draw(size_t offset, size_t size)

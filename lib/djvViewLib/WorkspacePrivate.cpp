@@ -31,7 +31,7 @@
 
 #include <djvViewLib/Context.h>
 #include <djvViewLib/ImageView.h>
-#include <djvViewLib/Project.h>
+#include <djvViewLib/Media.h>
 #include <djvViewLib/WorkspaceObject.h>
 #include <djvViewLib/Workspace.h>
 
@@ -49,22 +49,30 @@ namespace djv
         {
             std::weak_ptr<Context> context;
             QPointer<Workspace> workspace;
-            std::shared_ptr<Project> project;
+            std::shared_ptr<Media> media;
             QPointer<ImageView> imageView;
+            std::shared_ptr<Core::ValueObserver<std::shared_ptr<AV::Image> > > imageObserver;
         };
 
-        WorkspaceMDISubWindow::WorkspaceMDISubWindow(const QPointer<Workspace> & workspace, const std::shared_ptr<Project> & project, const std::shared_ptr<Context> & context) :
+        WorkspaceMDISubWindow::WorkspaceMDISubWindow(const QPointer<Workspace> & workspace, const std::shared_ptr<Media> & media, const std::shared_ptr<Context> & context) :
             _p(new Private)
         {
             _p->context = context;
             _p->workspace = workspace;
-            _p->project = project;
+            _p->media = media;
 
-            setWindowTitle(QString::fromStdString(project->getFileName()->get()));
+            setWindowTitle(QString::fromStdString(media->getFileName()));
             setAttribute(Qt::WA_DeleteOnClose);
 
             _p->imageView = new ImageView(context);
             setWidget(_p->imageView);
+
+            _p->imageObserver = Core::ValueObserver<std::shared_ptr<AV::Image> >::create(
+                media->getCurrentImage(),
+                [this](const std::shared_ptr<AV::Image> & image)
+            {
+                _p->imageView->setImage(image);
+            });
         }
 
         WorkspaceMDISubWindow::~WorkspaceMDISubWindow()
@@ -80,8 +88,8 @@ namespace djv
             std::weak_ptr<Context> context;
             QPointer<Workspace> workspace;
             QPointer<QMdiArea> mdiArea;
-            std::map<std::shared_ptr<Project>, QPointer<QMdiSubWindow> > projectToWindow;
-            std::map<QPointer<QMdiSubWindow >, std::shared_ptr<Project> > windowToProject;
+            std::map<std::shared_ptr<Media>, QPointer<QMdiSubWindow> > mediaToWindow;
+            std::map<QPointer<QMdiSubWindow>, std::shared_ptr<Media> > windowToMedia;
         };
 
         WorkspaceMDI::WorkspaceMDI(const QPointer<Workspace> & workspace, const std::shared_ptr<Context> & context, QWidget * parent) :
@@ -97,32 +105,32 @@ namespace djv
             auto layout = new QVBoxLayout(this);
             layout->addWidget(_p->mdiArea);
 
-            for (auto project : workspace->getProjects())
+            for (auto media : workspace->getMedia())
             {
-                _addProject(project);
+                _addMedia(media);
             }
 
             connect(
                 workspace,
-                &Workspace::projectAdded,
-                [this](const std::shared_ptr<Project> & project)
+                &Workspace::mediaAdded,
+                [this](const std::shared_ptr<Media> & media)
             {
-                _addProject(project);
+                _addMedia(media);
             });
             connect(
                 workspace,
-                &Workspace::projectRemoved,
-                [this](const std::shared_ptr<Project> & project)
+                &Workspace::mediaRemoved,
+                [this](const std::shared_ptr<Media> & media)
             {
-                _removeProject(project);
+                _removeMedia(media);
             });
             connect(
                 workspace,
-                &Workspace::currentProjectChanged,
-                [this](const std::shared_ptr<Project> & project)
+                &Workspace::currentMediaChanged,
+                [this](const std::shared_ptr<Media> & media)
             {
-                auto i = _p->projectToWindow.find(project);
-                if (i != _p->projectToWindow.end())
+                auto i = _p->mediaToWindow.find(media);
+                if (i != _p->mediaToWindow.end())
                 {
                     _p->mdiArea->setActiveSubWindow(i->second);
                 }
@@ -156,10 +164,10 @@ namespace djv
                 &QMdiArea::subWindowActivated,
                 [this, workspace](QMdiSubWindow * window)
             {
-                auto i = _p->windowToProject.find(window);
-                if (i != _p->windowToProject.end())
+                auto i = _p->windowToMedia.find(window);
+                if (i != _p->windowToMedia.end())
                 {
-                    workspace->setCurrentProject(i->second);
+                    workspace->setCurrentMedia(i->second);
                 }
             });
         }
@@ -173,17 +181,17 @@ namespace djv
             {
             case QEvent::Close:
             {
-                auto i = _p->windowToProject.find(qobject_cast<WorkspaceMDISubWindow *>(object));
-                if (i != _p->windowToProject.end())
+                auto i = _p->windowToMedia.find(qobject_cast<WorkspaceMDISubWindow *>(object));
+                if (i != _p->windowToMedia.end())
                 {
-                    _p->workspace->closeProject(i->second);
+                    _p->workspace->closeMedia(i->second);
                 }
                 break;
             }
             case QEvent::WindowStateChange:
             {
-                auto i = _p->windowToProject.find(qobject_cast<WorkspaceMDISubWindow *>(object));
-                if (i != _p->windowToProject.end())
+                auto i = _p->windowToMedia.find(qobject_cast<WorkspaceMDISubWindow *>(object));
+                if (i != _p->windowToMedia.end())
                 {
                     Enum::WindowState windowState = Enum::WindowState::Normal;
                     if (i->first->windowState() & Qt::WindowMaximized)
@@ -204,30 +212,30 @@ namespace djv
             return QWidget::eventFilter(object, event);
         }
 
-        void WorkspaceMDI::_addProject(const std::shared_ptr<Project> & project)
+        void WorkspaceMDI::_addMedia(const std::shared_ptr<Media> & media)
         {
             if (auto context = _p->context.lock())
             {
-                auto window = new WorkspaceMDISubWindow(_p->workspace, project, context);
-                _p->projectToWindow[project] = window;
-                _p->windowToProject[window] = project;
+                auto window = new WorkspaceMDISubWindow(_p->workspace, media, context);
+                _p->mediaToWindow[media] = window;
+                _p->windowToMedia[window] = media;
                 window->installEventFilter(this);
                 _p->mdiArea->addSubWindow(window);
                 window->show();
             }
         }
 
-        void WorkspaceMDI::_removeProject(const std::shared_ptr<Project> & project)
+        void WorkspaceMDI::_removeMedia(const std::shared_ptr<Media> & media)
         {
-            auto i = _p->projectToWindow.find(project);
-            if (i != _p->projectToWindow.end())
+            auto i = _p->mediaToWindow.find(media);
+            if (i != _p->mediaToWindow.end())
             {
                 auto window = i->second;
-                _p->projectToWindow.erase(i);
-                auto j = _p->windowToProject.find(window);
-                if (j != _p->windowToProject.end())
+                _p->mediaToWindow.erase(i);
+                auto j = _p->windowToMedia.find(window);
+                if (j != _p->windowToMedia.end())
                 {
-                    _p->windowToProject.erase(j);
+                    _p->windowToMedia.erase(j);
                 }
                 window->close();
             }

@@ -35,7 +35,7 @@ namespace djv
 {
     namespace ViewLib
     {   
-        class Project;
+        class Media;
         class Workspace;
 
         class PlaybackObject : public IViewObject
@@ -54,7 +54,7 @@ namespace djv
             bool isDockWidgetVisible() const override;
             
         public Q_SLOTS:
-            void setCurrentProject(const std::shared_ptr<Project> &) override;
+            void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         private:
             DJV_PRIVATE();

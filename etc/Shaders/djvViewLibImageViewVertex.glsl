@@ -27,59 +27,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ProjectPlayer.h>
+#version 330 core
 
-#include <djvViewLib/Context.h>
-#include <djvViewLib/Project.h>
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexture;
 
-#include <djvAV/IO.h>
+out vec2 Texture;
 
-namespace djv
+uniform struct Transform
 {
-    namespace ViewLib
-    {
-        struct ProjectPlayer::Private
-        {
-            std::weak_ptr<Context> context;
-            std::shared_ptr<Project> project;
+    mat4 mvp;
+} transform;
 
-            AV::Duration duration = 0;
-            AV::Timestamp currentTime = 0;
-            Enum::Playback playback = Enum::Playback::Stop;
-            ALuint alSource = 0;
-            std::vector<ALuint> alBuffers;
-            int playbackTimer = 0;
-            int startTimer = 0;
-            int64_t queuedBytes = 0;
-            int64_t timeOffset = 0;
-        };
-        
-        ProjectPlayer::ProjectPlayer(const std::shared_ptr<Project> & project, const std::shared_ptr<Context> & context, QObject * parent) :
-            QObject(parent),
-            _p(new Private)
-        {
-            _p->context = context;
-            _p->project = project;
-        }
-        
-        ProjectPlayer::~ProjectPlayer()
-        {}
-
-        AV::Timestamp ProjectPlayer::getCurrentTime() const
-        {
-            return _p->currentTime;
-        }
-
-        Enum::Playback ProjectPlayer::getPlayback() const
-        {
-            return _p->playback;
-        }
-
-        size_t ProjectPlayer::getALUnqueuedBuffers() const
-        {
-            return _p->alBuffers.size();
-        }
-
-    } // namespace ViewLib
-} // namespace djv
-
+void main()
+{
+    gl_Position = transform.mvp * vec4(aPos, 1.0);
+    Texture = aTexture;
+}
