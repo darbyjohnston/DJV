@@ -125,7 +125,7 @@ namespace djv
 
                     if (!filter)
                     {
-                        if (options.fileSequences)
+                        if (options.fileSequencesEnabled)
                         {
                             fileInfo.evalSequence();
                             if (fileInfo.isSequenceValid())
