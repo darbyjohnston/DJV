@@ -89,7 +89,7 @@ namespace djv
             connect(
                 _p->model,
                 &FileBrowserModel::pathChanged,
-                [this](const QString & value)
+                [this](const std::string & value)
             {
                 _p->header->setPath(value);
             });
@@ -120,7 +120,7 @@ namespace djv
                 &QAbstractItemView::doubleClicked,
                 [this](const QModelIndex & value)
             {
-                _p->model->setPath(value.data(Qt::EditRole).toString());
+                _p->model->setPath(value.data(Qt::EditRole).toString().toStdString());
             });
 
             connect(
@@ -134,7 +134,7 @@ namespace djv
             connect(
                 _p->header,
                 &FileBrowserHeader::pathChanged,
-                [this](const QString & value)
+                [this](const std::string & value)
             {
                 _p->model->setPath(value);
             });
@@ -163,9 +163,9 @@ namespace djv
             connect(
                 _p->footer,
                 &FileBrowserFooter::filterChanged,
-                [this](const QString & value)
+                [this](const std::string & value)
             {
-                _p->proxyModel->setFilterFixedString(value);
+                _p->proxyModel->setFilterFixedString(QString::fromStdString(value));
             });
             connect(
                 _p->footer,
@@ -190,7 +190,7 @@ namespace djv
 
         void FileBrowser::setPath(const std::string & value)
         {
-            _p->model->setPath(QString::fromStdString(value));
+            _p->model->setPath(value);
         }
 
         void FileBrowser::_updateWidget()

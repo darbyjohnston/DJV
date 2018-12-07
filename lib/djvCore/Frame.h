@@ -103,11 +103,11 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            inline static void fromString(const std::string&, Range&, size_t& pad);
+            inline void fromString(const std::string&, Range&, size_t& pad);
 
             //! Throws:
             //! - std::exception
-            inline static void fromString(const std::string&, Sequence&);
+            inline void fromString(const std::string&, Sequence&);
 
             ///@}
 

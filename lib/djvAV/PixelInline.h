@@ -103,7 +103,7 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline Type getIntType(int channelCount, int bitDepth)
+            inline Type getIntType(size_t channelCount, size_t bitDepth)
             {
                 switch (channelCount)
                 {
@@ -144,7 +144,7 @@ namespace djv
                 return Type::None;
             }
 
-            inline Type getFloatType(int channelCount, int bitDepth)
+            inline Type getFloatType(size_t channelCount, size_t bitDepth)
             {
                 switch (channelCount)
                 {

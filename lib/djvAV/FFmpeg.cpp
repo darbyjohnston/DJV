@@ -116,7 +116,7 @@ namespace djv
                 {
                     IPlugin::_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides support for FFmpeg."),
+                        DJV_TEXT("This plugin provides FFmpeg image and audio I/O."),
                         fileExtensions,
                         context);
                         
@@ -135,7 +135,7 @@ namespace djv
                     return out;
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<ReadQueue> & queue) const
+                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<Queue> & queue) const
                 {
                     if (auto context = _context.lock())
                     {

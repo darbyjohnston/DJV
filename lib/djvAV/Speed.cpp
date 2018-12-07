@@ -29,6 +29,8 @@
 
 #include <djvAV/Speed.h>
 
+#include <djvCore/String.h>
+
 #include <algorithm>
 #include <cmath>
 #include <sstream>
@@ -45,7 +47,7 @@ namespace djv
 
         Speed::Speed()
         {
-            set(_globalSpeed);
+            _set(_globalSpeed);
         }
 
         Speed::Speed(int scale, int duration) :
@@ -55,53 +57,7 @@ namespace djv
 
         Speed::Speed(FPS in)
         {
-            set(in);
-        }
-
-        void Speed::set(FPS fps)
-        {
-            static const int scale[] =
-            {
-                1,
-                3,
-                6,
-                12,
-                15,
-                16,
-                18,
-                24000,
-                24,
-                25,
-                30000,
-                30,
-                50,
-                60000,
-                60,
-                120
-            };
-            DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(scale) / sizeof(scale[0]));
-            static const int duration[] =
-            {
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                1001,
-                1,
-                1,
-                1001,
-                1,
-                1,
-                1001,
-                1,
-                1
-            };
-            DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(duration) / sizeof(duration[0]));
-            _scale = scale[static_cast<size_t>(fps)];
-            _duration = duration[static_cast<size_t>(fps)];
+            _set(in);
         }
 
         float Speed::speedToFloat(const Speed & speed)
@@ -149,6 +105,52 @@ namespace djv
             return !(*this == other);
         }
 
+        void Speed::_set(FPS fps)
+        {
+            static const int scale[] =
+            {
+                1,
+                3,
+                6,
+                12,
+                15,
+                16,
+                18,
+                24000,
+                24,
+                25,
+                30000,
+                30,
+                50,
+                60000,
+                60,
+                120
+            };
+            DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(scale) / sizeof(scale[0]));
+            static const int duration[] =
+            {
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1001,
+                1,
+                1,
+                1001,
+                1,
+                1,
+                1001,
+                1,
+                1
+            };
+            DJV_ASSERT(static_cast<size_t>(FPS::Count) == sizeof(duration) / sizeof(duration[0]));
+            _scale = scale[static_cast<size_t>(fps)];
+            _duration = duration[static_cast<size_t>(fps)];
+        }
+
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
@@ -170,5 +172,29 @@ namespace djv
         "59.94",
         "60",
         "120");
+
+    std::ostream& operator << (std::ostream & is, const AV::Speed & value)
+    {
+        is << value.getScale() << '/' << value.getDuration();
+        return is;
+    }
+
+    std::istream& operator >> (std::istream & os, AV::Speed & value)
+    {
+        std::string s;
+        os >> s;
+        const auto split = Core::String::split(s, '/');
+        if (2 == split.size())
+        {
+            value = AV::Speed(std::stoi(split[0]), std::stoi(split[1]));
+        }
+        else
+        {
+            std::stringstream ss;
+            ss << DJV_TEXT("Cannot parse: ") << s;
+            throw std::invalid_argument(ss.str());
+        }
+        return os;
+    }
 
 } // namespace djv

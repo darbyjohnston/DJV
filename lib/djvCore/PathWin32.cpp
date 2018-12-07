@@ -60,7 +60,7 @@ namespace djv
         Path Path::getAbsolute(const Path& value)
         {
             char buf[MAX_PATH];
-            if (!::_fullpath(buf, value._directoryName.c_str(), MAX_PATH))
+            if (!::_fullpath(buf, value._value.c_str(), MAX_PATH))
             {
                 buf[0] = 0;
             }

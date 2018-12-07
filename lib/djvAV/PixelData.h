@@ -45,6 +45,14 @@ namespace djv
 
     namespace AV
     {
+        namespace OpenGL
+        {
+            class OffscreenBuffer;
+            class Shader;
+            class Texture;
+
+        } // namespace OpenGL
+
         namespace Pixel
         {
             class Mirror
@@ -57,6 +65,9 @@ namespace djv
 
                 inline bool getX() const;
                 inline bool getY() const;
+
+                void setX(bool);
+                void setY(bool);
 
                 inline bool operator == (const Mirror &) const;
                 inline bool operator != (const Mirror &) const;
@@ -77,6 +88,10 @@ namespace djv
                 inline const Mirror & getMirror() const;
                 inline GLint getAlignment() const;
                 inline Core::Memory::Endian getEndian() const;
+
+                void setMirror(const Mirror &);
+                void setAlignment(GLint);
+                void setEndian(Core::Memory::Endian);
 
                 inline bool operator == (const Layout &) const;
                 inline bool operator != (const Layout &) const;
@@ -159,7 +174,14 @@ namespace djv
 
                 void zero();
 
+                //! Note that this function requires an OpenGL context.
+                //! Throws:
+                //! - std::exception
                 std::shared_ptr<Data> convert(Type, const std::shared_ptr<Core::Context> &) const;
+
+                //! Note that this function requires an OpenGL context.
+                //! Throws:
+                //! - std::exception
                 std::shared_ptr<Data> resize(const glm::ivec2 &, Type, const std::shared_ptr<Core::Context> &) const;
 
                 bool operator == (const Data &) const;

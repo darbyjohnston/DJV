@@ -35,27 +35,52 @@
 
 #include <QOpenGLDebugLogger>
 
-#include <png.h>
-
 namespace djv
 {
     namespace AV
     {
         namespace IO
         {
-            //! This plugin provides Portable Network Graphics (PNG) image I/O.
+            //! This plugin provides NetPBM image I/O.
             //!
             //! References:
-            //! - http://www.libpng.org
-            namespace PNG
+            //! - Netpbm, "PPM Format Specification"
+            //!   http://netpbm.sourceforge.net/doc/ppm.html
+            namespace PPM
             {
-                static const std::string pluginName = "PNG";
-                static const std::set<std::string> fileExtensions = { ".png" };
+                static const std::string pluginName = "PPM";
+                static const std::set<std::string> fileExtensions = { ".ppm" };
 
-                struct ErrorStruct
+                //! This enumeration provides the PPM data types.
+                enum class Data
                 {
-                    char msg[Core::String::cStringLength];
+                    ASCII,
+                    Binary,
+
+                    Count,
+                    First = ASCII
                 };
+                DJV_ENUM_HELPERS(Data);
+
+                //! Get the number of bytes in a scanline.
+                size_t getScanlineByteCount(
+                    int    width,
+                    size_t channelCount,
+                    size_t componentSize);
+
+                //! Read ASCII data.
+                void readASCII(
+                    Core::FileIO& io,
+                    uint8_t*      out,
+                    size_t        size,
+                    size_t        componentSize);
+
+                //! Save ASCII data.
+                size_t writeASCII(
+                    const uint8_t* in,
+                    char*          out,
+                    size_t         size,
+                    size_t         componentSize);
 
                 class Read : public IRead
                 {
@@ -79,8 +104,7 @@ namespace djv
                     std::future<Info> getInfo() override;
 
                 private:
-                    void _open(const std::string&);
-                    void _close();
+                    Core::FileIO _open(const std::string &);
 
                     DJV_PRIVATE();
                 };
@@ -93,6 +117,7 @@ namespace djv
                     void _init(
                         const std::string & fileName,
                         const Info &,
+                        Data,
                         const std::shared_ptr<Queue> &,
                         const std::shared_ptr<Core::Context> &);
                     Write();
@@ -103,6 +128,7 @@ namespace djv
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
                         const Info &,
+                        Data,
                         const std::shared_ptr<Queue> &,
                         const std::shared_ptr<Core::Context> &);
 
@@ -113,9 +139,6 @@ namespace djv
                     void _debugLogMessage(const QOpenGLDebugMessage &);
 
                 private:
-                    void _open(const std::string&);
-                    void _close();
-
                     DJV_PRIVATE();
                 };
 
@@ -127,6 +150,9 @@ namespace djv
                     void _init(const std::shared_ptr<Core::Context>&);
                     Plugin();
 
+                    picojson::value getOptions() const override;
+                    void setOptions(const picojson::value&) override;
+
                 public:
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
@@ -137,16 +163,15 @@ namespace djv
                         const std::string & fileName,
                         const Info &,
                         const std::shared_ptr<Queue> &) const override;
+
+                private:
+                    DJV_PRIVATE();
                 };
-
-                extern "C"
-                {
-                    void djvPngError(png_structp, png_const_charp);
-                    void djvPngWarning(png_structp, png_const_charp);
-
-                } // extern "C"
 
             } // namespace PNG
         } // namespace IO
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::PPM::Data);
+
 } // namespace djv

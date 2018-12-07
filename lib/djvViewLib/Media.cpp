@@ -66,7 +66,7 @@ namespace djv
             std::shared_ptr<Core::ValueSubject<size_t> > videoQueueCount;
             std::shared_ptr<Core::ValueSubject<size_t> > audioQueueCount;
             std::shared_ptr<Core::ValueSubject<size_t> > alUnqueuedBuffers;
-            std::shared_ptr<AV::IO::ReadQueue> queue;
+            std::shared_ptr<AV::IO::Queue> queue;
             std::shared_ptr<Core::Timer> queueTimer;
             std::condition_variable queueCV;
             std::shared_ptr<AV::IO::IRead> read;
@@ -94,7 +94,8 @@ namespace djv
             _p->videoQueueCount = Core::ValueSubject<size_t>::create();
             _p->audioQueueCount = Core::ValueSubject<size_t>::create();
             _p->alUnqueuedBuffers = Core::ValueSubject<size_t>::create();
-            _p->queue = AV::IO::ReadQueue::create();
+            _p->queue = AV::IO::Queue::create();
+            _p->queue->setCloseOnFinish(false);
             _p->queueTimer = Core::Timer::create(context);
             _p->queueTimer->setRepeating(true);
             _p->infoTimer = Core::Timer::create(context);

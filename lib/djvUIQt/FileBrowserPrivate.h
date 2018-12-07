@@ -54,19 +54,19 @@ namespace djv
             FileBrowserHistory(QObject * parent = nullptr);
             ~FileBrowserHistory() override;
 
-            const std::vector<QString> & getHistory() const;
+            const std::vector<std::string> & getHistory() const;
             size_t getHistorySize() const;
             int getHistoryIndex() const;
             bool hasBack() const;
             bool hasForward() const;
 
         public Q_SLOTS:
-            void setPath(const QString &);
+            void setPath(const std::string &);
             void back();
             void forward();
 
         Q_SIGNALS:
-            void pathChanged(const QString &);
+            void pathChanged(const std::string &);
             void backEnabled(bool);
             void forwardEnabled(bool);
 
@@ -102,7 +102,7 @@ namespace djv
             FileBrowserModel(const std::shared_ptr<Core::Context> &, QObject * parent = nullptr);
             ~FileBrowserModel() override;
 
-            QString getPath() const;
+            std::string getPath() const;
             bool hasUp() const;
             bool hasBack() const;
             bool hasForward() const;
@@ -115,13 +115,13 @@ namespace djv
             QMimeData * mimeData(const QModelIndexList &) const override;
 
         public Q_SLOTS:
-            void setPath(const QString &);
+            void setPath(const std::string &);
             void up();
             void back();
             void forward();
 
         Q_SIGNALS:
-            void pathChanged(const QString &);
+            void pathChanged(const std::string &);
             void upEnabled(bool);
             void backEnabled(bool);
             void forwardEnabled(bool);
@@ -140,13 +140,13 @@ namespace djv
             PathWidget(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
             ~PathWidget() override;
 
-            const QString & getPath() const;
+            const std::string & getPath() const;
 
         public Q_SLOTS:
-            void setPath(const QString &);
+            void setPath(const std::string &);
 
         Q_SIGNALS:
-            void pathChanged(const QString &);
+            void pathChanged(const std::string &);
 
         private Q_SLOTS:
             void _widgetUpdate();
@@ -163,20 +163,20 @@ namespace djv
             FileBrowserHeader(const std::shared_ptr<Core::Context> &, QWidget * parent = nullptr);
             ~FileBrowserHeader() override;
 
-            const QString & getPath() const;
+            const std::string & getPath() const;
 
         public Q_SLOTS:
-            void setPath(const QString &);
+            void setPath(const std::string &);
             void setUpEnabled(bool);
             void setBackEnabled(bool);
             void setForwardEnabled(bool);
 
         Q_SIGNALS:
-            void pathChanged(const QString &);
+            void pathChanged(const std::string &);
             void up();
             void back();
             void forward();
-            void filterChanged(const QString &);
+            void filterChanged(const std::string &);
 
         private Q_SLOTS:
             void _widgetUpdate();
@@ -197,7 +197,7 @@ namespace djv
             void setViewMode(QListView::ViewMode);
 
         Q_SIGNALS:
-            void filterChanged(const QString &);
+            void filterChanged(const std::string &);
             void viewModeChanged(QListView::ViewMode);
 
         private Q_SLOTS:

@@ -32,9 +32,9 @@
 #include <djvUIQt/System.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/DirectoryModel.h>
+#include <djvCore/FileInfo.h>
 
-#include <QDir>
-#include <QFileInfo>
 #include <QMimeData>
 #include <QPointer>
 #include <QStyle>
@@ -45,8 +45,8 @@ namespace djv
     {
         struct FileBrowserHistory::Private
         {
-            QString path;
-            std::vector<QString> history;
+            std::string path;
+            std::vector<std::string> history;
             int historyIndex = -1;
         };
 
@@ -58,7 +58,7 @@ namespace djv
         FileBrowserHistory::~FileBrowserHistory()
         {}
 
-        const std::vector<QString> & FileBrowserHistory::getHistory() const
+        const std::vector<std::string> & FileBrowserHistory::getHistory() const
         {
             return _p->history;
         }
@@ -83,7 +83,7 @@ namespace djv
             return _p->historyIndex < static_cast<int>(_p->history.size()) - 1;
         }
 
-        void FileBrowserHistory::setPath(const QString & value)
+        void FileBrowserHistory::setPath(const std::string & value)
         {
             if (value == _p->path)
                 return;
@@ -136,7 +136,7 @@ namespace djv
             _updateModel();
             connect(
                 _p->history,
-                SIGNAL(pathChanged(const QString &)),
+                SIGNAL(pathChanged(const std::string &)),
                 SLOT(_updateModel()));
             connect(
                 _p->history,
@@ -178,15 +178,20 @@ namespace djv
         void FileBrowserHistoryModel::_updateModel()
         {
             beginResetModel();
-            _p->items = _p->history->getHistory();
+            _p->items.clear();
+            for (const auto & i : _p->history->getHistory())
+            {
+                _p->items.push_back(QString::fromStdString(i));
+            }
             endResetModel();
         }
 
         struct FileBrowserModel::Private
         {
             std::weak_ptr<Core::Context> context;
-            QDir dir;
-            QFileInfoList fileInfoList;
+            std::shared_ptr<Core::DirectoryModel> directoryModel;
+            std::vector<Core::FileInfo> fileInfoList;
+            std::shared_ptr<Core::ListObserver<Core::FileInfo> > fileInfoObserver;
             QScopedPointer<FileBrowserHistory> history;
         };
 
@@ -195,14 +200,13 @@ namespace djv
             _p(new Private)
         {
             _p->context = context;
-            _p->dir.setPath(QFileInfo(QDir().path()).absolutePath());
+            _p->directoryModel = Core::DirectoryModel::create(context);
             _p->history.reset(new FileBrowserHistory);
-            _p->history->setPath(_p->dir.path());
-            _updateModel();
+            _p->history->setPath(_p->directoryModel->getPath()->get());
             connect(
                 _p->history.data(),
-                SIGNAL(pathChanged(const QString &)),
-                SLOT(setPath(const QString &)));
+                SIGNAL(pathChanged(const std::string &)),
+                SLOT(setPath(const std::string &)));
             connect(
                 _p->history.data(),
                 SIGNAL(backEnabled(bool)),
@@ -211,19 +215,27 @@ namespace djv
                 _p->history.data(),
                 SIGNAL(forwardEnabled(bool)),
                 SIGNAL(forwardEnabled(bool)));
+            _p->fileInfoObserver = Core::ListObserver<Core::FileInfo>::create(
+                _p->directoryModel->getFileInfoList(),
+                [this](const std::vector<Core::FileInfo> & list)
+            {
+                beginResetModel();
+                _p->fileInfoList = list;
+                endResetModel();
+            });
         }
 
         FileBrowserModel::~FileBrowserModel()
         {}
 
-        QString FileBrowserModel::getPath() const
+        std::string FileBrowserModel::getPath() const
         {
-            return _p->dir.path();
+            return _p->directoryModel->getPath()->get();
         }
 
         bool FileBrowserModel::hasUp() const
         {
-            return !_p->dir.isRoot();
+            return !_p->directoryModel->getPath()->get().isRoot();
         }
 
         bool FileBrowserModel::hasBack() const
@@ -253,26 +265,24 @@ namespace djv
             switch (role)
             {
             case Qt::DisplayRole:
-                return _p->fileInfoList[index.row()].fileName();
+                return QString::fromStdString(_p->fileInfoList[index.row()].getFileName(Core::Frame::Invalid, false));
             case Qt::DecorationRole:
                 if (auto context = _p->context.lock())
                 {
                     if (auto system = context->getSystemT<System>())
                     {
                         const auto & fileInfo = _p->fileInfoList[index.row()];
-                        if (fileInfo.isFile())
+                        switch (fileInfo.getType())
                         {
-                            return system->getQStyle()->standardIcon(QStyle::SP_FileIcon);
-                        }
-                        else if (fileInfo.isDir())
-                        {
-                            return system->getQStyle()->standardIcon(QStyle::SP_DirIcon);
+                        case Core::FileType::File: return system->getQStyle()->standardIcon(QStyle::SP_FileIcon);
+                        case Core::FileType::Directory:  return system->getQStyle()->standardIcon(QStyle::SP_DirIcon);
+                        default: break;
                         }
                     }
                 }
                 break;
             case Qt::EditRole:
-                return _p->fileInfoList[index.row()].filePath();
+                return QString::fromStdString(_p->fileInfoList[index.row()].getFileName());
             default: break;
             }
             return QVariant();
@@ -293,30 +303,37 @@ namespace djv
             auto out = new QMimeData;
             Q_FOREACH(const auto i, index)
             {
-                out->setText(_p->fileInfoList[i.row()].filePath());
+                out->setText(QString::fromStdString(_p->fileInfoList[i.row()].getFileName()));
             }
             return out;
         }
 
-        void FileBrowserModel::setPath(const QString & value)
+        void FileBrowserModel::setPath(const std::string & value)
         {
-            const auto tmp = QFileInfo(value).absoluteFilePath();
-            if (tmp == _p->dir.path())
-                return;
-            _p->dir.setPath(tmp);
-            _p->history->setPath(_p->dir.path());
-            _updateModel();
-            Q_EMIT pathChanged(_p->dir.path());
-            Q_EMIT upEnabled(hasUp());
+            try
+            {
+                const auto path = Core::Path::getAbsolute(value);
+                if (path == _p->directoryModel->getPath()->get())
+                    return;
+                _p->directoryModel->setPath(path);
+                _p->history->setPath(_p->directoryModel->getPath()->get());
+                Q_EMIT pathChanged(_p->directoryModel->getPath()->get());
+                Q_EMIT upEnabled(hasUp());
+            }
+            catch (const std::exception &)
+            {
+                //! \todo Error handling.
+            }
         }
 
         void FileBrowserModel::up()
         {
-            if (_p->dir.cdUp())
+            auto path = _p->directoryModel->getPath()->get();
+            if (path.cdUp())
             {
-                _p->history->setPath(_p->dir.path());
-                _updateModel();
-                Q_EMIT pathChanged(_p->dir.path());
+                _p->directoryModel->setPath(path);
+                _p->history->setPath(_p->directoryModel->getPath()->get());
+                Q_EMIT pathChanged(_p->directoryModel->getPath()->get());
                 Q_EMIT upEnabled(hasUp());
             }
         }
@@ -329,13 +346,6 @@ namespace djv
         void FileBrowserModel::forward()
         {
             _p->history->forward();
-        }
-
-        void FileBrowserModel::_updateModel()
-        {
-            beginResetModel();
-            _p->fileInfoList = _p->dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
-            endResetModel();
         }
 
     } // namespace UIQt

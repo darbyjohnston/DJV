@@ -38,9 +38,6 @@
 extern "C"
 {
 #include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libavutil/dict.h>
-#include <libswscale/swscale.h>
 
 } // extern "C"
 
@@ -50,7 +47,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This plugin provides support support for FFmpeg image and audio I/O.
+            //! This plugin provides FFmpeg image and audio I/O.
             //!
             //! References:
             //! - https://ffmpeg.org
@@ -76,7 +73,7 @@ namespace djv
                 protected:
                     void _init(
                         const std::string & fileName,
-                        const std::shared_ptr<ReadQueue> &,
+                        const std::shared_ptr<Queue> &,
                         const std::shared_ptr<Core::Context> &);
                     Read();
 
@@ -85,7 +82,7 @@ namespace djv
 
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
-                        const std::shared_ptr<ReadQueue> &,
+                        const std::shared_ptr<Queue> &,
                         const std::shared_ptr<Core::Context> &);
 
                     std::future<Info> getInfo() override;
@@ -96,25 +93,7 @@ namespace djv
                     Timestamp _decodeVideo(AVPacket *, bool seek = false);
                     Timestamp _decodeAudio(AVPacket *, bool seek = false);
 
-                    VideoInfo _videoInfo;
-                    AudioInfo _audioInfo;
-                    std::promise<Info> _infoPromise;
-
-                    std::condition_variable _queueCV;
-                    Timestamp _seek = -1;
-                    std::thread _thread;
-                    std::atomic<bool> _running;
-                    bool _hasError = false;
-                    Core::Error _error;
-
-                    AVFormatContext * _avFormatContext = nullptr;
-                    int _avVideoStream = -1;
-                    int _avAudioStream = -1;
-                    std::map<int, AVCodecParameters *> _avCodecParameters;
-                    std::map<int, AVCodecContext *> _avCodecContext;
-                    AVFrame * _avFrame = nullptr;
-                    AVFrame * _avFrameRgb = nullptr;
-                    SwsContext * _swsContext = nullptr;
+                    DJV_PRIVATE();
                 };
 
                 class Plugin : public IPlugin
@@ -131,7 +110,7 @@ namespace djv
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,
-                        const std::shared_ptr<ReadQueue> &) const override;
+                        const std::shared_ptr<Queue> &) const override;
                 };
 
             } // namespace FFmpeg

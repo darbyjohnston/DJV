@@ -121,8 +121,8 @@ namespace djv
             inline size_t getBitDepth(Type);
             inline size_t getByteCount(Type);
 
-            inline Type getIntType(int channels, int bitDepth);
-            inline Type getFloatType(int channels, int bitDepth);
+            inline Type getIntType(size_t channelCount, size_t bitDepth);
+            inline Type getFloatType(size_t channelCount, size_t bitDepth);
 
             inline GLenum getGLFormat(Type);
             inline GLenum getGLType(Type);

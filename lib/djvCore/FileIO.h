@@ -192,6 +192,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This function provides a wrapper for fopen().
         FILE* fopen(const std::string& fileName, const std::string& mode);
 
     } // namespace Core

@@ -30,6 +30,7 @@
 #include <djvAV/IO.h>
 
 #include <djvAV/FFmpeg.h>
+#include <djvAV/PPM.h>
 #if defined(PNG_FOUND)
 #include <djvAV/PNG.h>
 #endif // PNG_FOUND
@@ -154,99 +155,121 @@ namespace djv
                     _tags == other._tags;
             }
 
-            ReadQueue::ReadQueue()
+            struct Queue::Private
+            {
+                std::mutex mutex;
+                size_t videoMax = 100;
+                size_t audioMax = 100;
+                std::list<VideoFrame> video;
+                std::list<AudioFrame> audio;
+                bool finished = false;
+                bool closeOnFinish = true;
+            };
+
+            Queue::Queue() :
+                _p(new Private)
             {}
 
-            std::shared_ptr<ReadQueue> ReadQueue::create()
+            std::shared_ptr<Queue> Queue::create()
             {
-                auto out = std::shared_ptr<ReadQueue>(new ReadQueue);
+                auto out = std::shared_ptr<Queue>(new Queue);
                 return out;
             }
 
-            std::mutex & ReadQueue::getMutex()
+            std::mutex & Queue::getMutex()
             {
-                return _mutex;
+                return _p->mutex;
             }
 
-            bool ReadQueue::isEnabled() const
+            size_t Queue::getVideoMax() const
             {
-                return _enabled;
+                return _p->finished ? 0 : _p->videoMax;
             }
 
-            void ReadQueue::setEnabled(bool value)
+            size_t Queue::getAudioMax() const
             {
-                _enabled = value;
+                return _p->finished ? 0 : _p->audioMax;
             }
 
-            size_t ReadQueue::getVideoMax() const
+            size_t Queue::getVideoCount() const
             {
-                return _enabled ? _videoMax : 0;
+                return _p->video.size();
             }
 
-            size_t ReadQueue::getAudioMax() const
+            size_t Queue::getAudioCount() const
             {
-                return _enabled ? _audioMax : 0;
+                return _p->audio.size();
             }
 
-            size_t ReadQueue::getVideoCount() const
+            bool Queue::hasVideo() const
             {
-                return _video.size();
+                return _p->video.size() > 0;
             }
 
-            size_t ReadQueue::getAudioCount() const
+            bool Queue::hasAudio() const
             {
-                return _audio.size();
+                return _p->audio.size() > 0;
             }
 
-            bool ReadQueue::hasVideo() const
+            void Queue::addVideo(Timestamp ts, const std::shared_ptr<Image> & data)
             {
-                return _video.size() > 0;
+                _p->video.push_back(std::make_pair(ts, data));
             }
 
-            bool ReadQueue::hasAudio() const
+            void Queue::addAudio(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
             {
-                return _audio.size() > 0;
+                _p->audio.push_back(std::make_pair(ts, data));
             }
 
-            void ReadQueue::addVideo(Timestamp ts, const std::shared_ptr<Image> & data)
+            VideoFrame Queue::getVideo() const
             {
-                _video.push_back(std::make_pair(ts, data));
+                return _p->video.size() > 0 ? _p->video.front() : VideoFrame();
             }
 
-            void ReadQueue::addAudio(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
+            AudioFrame Queue::getAudio() const
             {
-                _audio.push_back(std::make_pair(ts, data));
+                return _p->audio.size() > 0 ? _p->audio.front() : AudioFrame();
             }
 
-            VideoFrame ReadQueue::getVideo() const
+            void Queue::popVideo()
             {
-                return _video.size() > 0 ? _video.front() : VideoFrame();
+                _p->video.pop_front();
             }
 
-            AudioFrame ReadQueue::getAudio() const
+            void Queue::popAudio()
             {
-                return _audio.size() > 0 ? _audio.front() : AudioFrame();
+                _p->audio.pop_front();
             }
 
-            void ReadQueue::popVideo()
+            void Queue::clear()
             {
-                _video.pop_front();
+                _p->video.clear();
+                _p->audio.clear();
             }
 
-            void ReadQueue::popAudio()
+            bool Queue::isFinished() const
             {
-                _audio.pop_front();
+                return _p->finished;
             }
 
-            void ReadQueue::clear()
+            bool Queue::hasCloseOnFinish() const
             {
-                _video.clear();
-                _audio.clear();
+                return _p->closeOnFinish;
+            }
+
+            void Queue::setFinished(bool value)
+            {
+                _p->finished = value;
+            }
+
+            void Queue::setCloseOnFinish(bool value)
+            {
+                _p->closeOnFinish = value;
             }
 
             void IRead::_init(
                 const std::string & fileName,
-                const std::shared_ptr<ReadQueue> & queue,
+                const std::shared_ptr<Queue> & queue,
                 const std::shared_ptr<Core::Context> & context)
             {
                 _context = context;
@@ -266,11 +289,13 @@ namespace djv
             void IWrite::_init(
                 const std::string & fileName,
                 const Info & info,
+                const std::shared_ptr<Queue> & queue,
                 const std::shared_ptr<Core::Context> & context)
             {
                 _context = context;
                 _fileName = fileName;
                 _info = info;
+                _queue = queue;
             }
 
             IWrite::IWrite()
@@ -336,6 +361,7 @@ namespace djv
                 ISystem::_init("djv::AV::IO::System", context);
 
                 _p->plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
+                _p->plugins[PPM::pluginName] = PPM::Plugin::create(context);
 #if defined(PNG_FOUND)
                 _p->plugins[PNG::pluginName] = PNG::Plugin::create(context);
 #endif // PNG_FOUND
@@ -434,7 +460,7 @@ namespace djv
 
             std::shared_ptr<IRead> System::read(
                 const std::string & fileName,
-                const std::shared_ptr<ReadQueue> & queue)
+                const std::shared_ptr<Queue> & queue)
             {
                 for (const auto & i : _p->plugins)
                 {
@@ -451,13 +477,14 @@ namespace djv
 
             std::shared_ptr<IWrite> System::write(
                 const std::string & fileName,
-                const Info & info)
+                const Info & info,
+                const std::shared_ptr<Queue> & queue)
             {
                 for (const auto & i : _p->plugins)
                 {
                     if (i.second->canWrite(fileName, info))
                     {
-                        return i.second->write(fileName, info);
+                        return i.second->write(fileName, info, queue);
                     }
                 }
                 std::stringstream s;

@@ -101,7 +101,7 @@ namespace djv
                 }
 
                 Path path;
-                std::shared_ptr<IO::ReadQueue> queue;
+                std::shared_ptr<IO::Queue> queue;
                 std::shared_ptr<IO::IRead> read;
                 std::promise<std::shared_ptr<Image> > promise;
             };
@@ -311,7 +311,7 @@ namespace djv
                     {
                         try
                         {
-                            i.queue = IO::ReadQueue::create();
+                            i.queue = IO::Queue::create();
                             i.read = io->read(i.path, i.queue);
                             _p->pendingImageRequests.push_back(std::move(i));
                         }

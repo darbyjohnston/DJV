@@ -51,7 +51,7 @@ namespace djv
     {
         struct PathWidget::Private
         {
-            QString path;
+            std::string path;
             std::vector<QPointer<QAction> > actions;
             QPointer<QToolBar> toolBar;
         };
@@ -76,12 +76,12 @@ namespace djv
         PathWidget::~PathWidget()
         {}
 
-        const QString & PathWidget::getPath() const
+        const std::string & PathWidget::getPath() const
         {
             return _p->path;
         }
 
-        void PathWidget::setPath(const QString & value)
+        void PathWidget::setPath(const std::string & value)
         {
             if (value == _p->path)
                 return;
@@ -98,7 +98,7 @@ namespace djv
                 delete i.data();
             }
             _p->actions.clear();
-            const auto splitPath = Core::Path::splitDir(_p->path.toStdString());
+            const auto splitPath = Core::Path::splitDir(_p->path);
             std::vector<std::string> subPath;
             for (int i = 0; i < splitPath.size(); ++i)
             {
@@ -111,14 +111,14 @@ namespace djv
                     &QAction::triggered,
                     [this, subPath]
                 {
-                    Q_EMIT pathChanged(QString::fromStdString(Core::Path::joinDirs(subPath)));
+                    Q_EMIT pathChanged(Core::Path::joinDirs(subPath));
                 });
             }
         }
 
         struct FileBrowserHeader::Private
         {
-            QString path;
+            std::string path;
             bool pathEdit = false;
             QPointer<PathWidget> pathWidget;
             QPointer<QLineEdit> pathLineEdit;
@@ -178,7 +178,7 @@ namespace djv
             connect(
                 _p->pathWidget,
                 &PathWidget::pathChanged,
-                [this](const QString & value)
+                [this](const std::string & value)
             {
                 Q_EMIT pathChanged(value);
             });
@@ -187,7 +187,7 @@ namespace djv
                 &QLineEdit::editingFinished,
                 [this]
             {
-                Q_EMIT pathChanged(_p->pathLineEdit->text());
+                Q_EMIT pathChanged(_p->pathLineEdit->text().toStdString());
             });
 
             connect(
@@ -220,12 +220,12 @@ namespace djv
         FileBrowserHeader::~FileBrowserHeader()
         {}
 
-        const QString & FileBrowserHeader::getPath() const
+        const std::string & FileBrowserHeader::getPath() const
         {
             return _p->path;
         }
 
-        void FileBrowserHeader::setPath(const QString & value)
+        void FileBrowserHeader::setPath(const std::string & value)
         {
             if (value == _p->path)
                 return;
@@ -252,7 +252,7 @@ namespace djv
         void FileBrowserHeader::_widgetUpdate()
         {
             _p->pathWidget->setPath(_p->path);
-            _p->pathLineEdit->setText(_p->path);
+            _p->pathLineEdit->setText(QString::fromStdString(_p->path));
             if (_p->pathEdit)
             {
                 _p->pathStackedWidget->setCurrentWidget(_p->pathLineEdit);
@@ -310,8 +310,11 @@ namespace djv
 
             connect(
                 filterLineEdit,
-                SIGNAL(textChanged(const QString &)),
-                SIGNAL(filterChanged(const QString &)));
+                &QLineEdit::textChanged,
+                [this](const QString & value)
+            {
+                Q_EMIT filterChanged(value.toStdString());
+            });
             connect(
                 _p->viewModeButtonGroup,
                 SIGNAL(buttonClicked(int)),

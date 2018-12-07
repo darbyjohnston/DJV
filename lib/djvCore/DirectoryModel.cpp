@@ -153,7 +153,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::getFileInfos() const
+        std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::getFileInfoList() const
         {
             return _p->fileInfos;
         }
@@ -173,9 +173,13 @@ namespace djv
             _updatePath();
         }
 
-        void DirectoryModel::goUp()
+        void DirectoryModel::cdUp()
         {
-            setPath(Path::upDir(_p->path->get()));
+            auto path = _p->path->get();
+            if (path.cdUp())
+            {
+                setPath(path);
+            }
         }
 
         void DirectoryModel::_updatePath()

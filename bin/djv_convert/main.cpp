@@ -35,6 +35,8 @@
 #include <djvCore/TextSystem.h>
 #include <djvCore/Vector.h>
 
+#include <QGuiApplication>
+
 using namespace djv;
 
 class Context : public Core::Context
@@ -48,12 +50,20 @@ protected:
 
         if (argc != 3)
         {
-            throw std::runtime_error("Usage: djv_convert (input) (output)");
+            throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
         }
 
         _io = AV::IO::System::create(shared_from_this());
 
         const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
+
+        auto queue = AV::IO::Queue::create();
+        auto read = _io->read(argv[1], queue);
+        const auto info = read->getInfo().get();
+
+        auto writeQueue = AV::IO::Queue::create();
+        auto write = _io->write(argv[2], info, queue);
+        write->wait();
     }
 
     Context()
@@ -76,6 +86,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
+        QGuiApplication app(argc, argv);
         Context::create(argc, argv)->exit();
     }
     catch (const std::exception & error)

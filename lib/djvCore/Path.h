@@ -110,7 +110,11 @@ namespace djv
             void append(const std::string&);
 
             bool isEmpty() const { return _value.empty(); }
-            
+            bool isRoot() const;
+
+            //! Go up a directory.
+            bool cdUp();
+
             ///@}
             
             //! \name Path Components
@@ -161,9 +165,6 @@ namespace djv
             //! Join a list of sub-directories into a directory path.
             //! For example: var, tmp -> var/tmp
             static std::string joinDirs(const std::vector<std::string>&, char separator = getCurrentPathSeparator());
-
-            //! Go up a directory.
-            static Path upDir(const Path&);
 
             //! Create a directory.
             //! Throws:

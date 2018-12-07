@@ -89,6 +89,28 @@ namespace djv
             }
         }
 
+        bool Path::isRoot() const
+        {
+            const bool unix = _value.size() == 1 ? '/' == _value[0] : false;
+            //! \todo This is buggy.
+            const bool windows1 = _value.size() == 3 ? (':' == _value[1] && '\\' == _value[2]) : false;
+            const bool windows2 = _value.size() == 3 ? (':' == _value[1] && '/' == _value[2]) : false;
+            return unix || windows1 || windows2;
+        }
+
+        bool Path::cdUp()
+        {
+            auto subDirectories = splitDir(_value);
+            if (subDirectories.size() > 1)
+            {
+                subDirectories.pop_back();
+                const auto join = joinDirs(subDirectories);
+                set(join);
+                return true;
+            }
+            return false;
+        }
+
         void Path::setDirectoryName(const std::string& value)
         {
             if (value == _directoryName)
@@ -279,16 +301,6 @@ namespace djv
             out += String::join(tmp, separator);
             
             return out;
-        }
-
-        Path Path::upDir(const Path& value)
-        {
-            auto subDirectories = splitDir(value);
-            if (subDirectories.size() > 1)
-            {
-                subDirectories.pop_back();
-            }
-            return joinDirs(subDirectories);
         }
 
     } // namespace Core

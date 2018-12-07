@@ -26,11 +26,11 @@ set(header
     OpenGLOffscreenBuffer.h
     OpenGLShader.h
     OpenGLTexture.h
+    PPM.h
     Pixel.h
     PixelData.h
     PixelDataInline.h
     PixelInline.h
-    PNG.h
     Shader.h
     Shape.h
     Speed.h
@@ -57,10 +57,11 @@ set(source
     OpenGLOffscreenBuffer.cpp
     OpenGLShader.cpp
     OpenGLTexture.cpp
+    PPM.cpp
+    PPMRead.cpp
+    PPMWrite.cpp
     Pixel.cpp
     PixelData.cpp
-    PNG.cpp
-    PNGRead.cpp
     Shape.cpp
     Shader.cpp
     Speed.cpp
@@ -76,7 +77,8 @@ if(PNG_FOUND)
     set(source
         ${source}
         PNG.cpp
-        PNGRead.cpp)
+        PNGRead.cpp
+        PNGWrite.cpp)
 endif()
 
 add_library(djvAV ${header} ${source})

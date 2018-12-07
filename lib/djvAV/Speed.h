@@ -69,8 +69,6 @@ namespace djv
             inline int getDuration() const;
             inline bool isValid() const;
 
-            void set(FPS);
-
             static float speedToFloat(const Speed &);
             static Speed floatToSpeed(float);
 
@@ -82,6 +80,8 @@ namespace djv
             bool operator != (const Speed &) const;
 
         private:
+            void _set(FPS);
+
             int _scale = 0;
             int _duration = 0;
         };
@@ -89,6 +89,9 @@ namespace djv
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Speed::FPS);
+
+    std::ostream& operator << (std::ostream &, const AV::Speed &);
+    std::istream& operator >> (std::istream &, AV::Speed &);
 
 } // namespace djv
 

@@ -39,6 +39,8 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/PicoJSON.h>
 
+#include <QThread>
+
 #include <future>
 #include <mutex>
 #include <set>
@@ -121,20 +123,17 @@ namespace djv
             typedef std::pair<Timestamp, std::shared_ptr<Image> > VideoFrame;
             typedef std::pair<Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
-            class ReadQueue : public std::enable_shared_from_this<ReadQueue>
+            class Queue : public std::enable_shared_from_this<Queue>
             {
-                DJV_NON_COPYABLE(ReadQueue);
+                DJV_NON_COPYABLE(Queue);
 
             protected:
-                ReadQueue();
+                Queue();
 
             public:
-                static std::shared_ptr<ReadQueue> create();
+                static std::shared_ptr<Queue> create();
 
                 std::mutex & getMutex();
-
-                bool isEnabled() const;
-                void setEnabled(bool);
 
                 size_t getVideoMax() const;
                 size_t getAudioMax() const;
@@ -156,13 +155,13 @@ namespace djv
 
                 void clear();
 
+                bool isFinished() const;
+                bool hasCloseOnFinish() const;
+                void setFinished(bool);
+                void setCloseOnFinish(bool);
+
             private:
-                bool _enabled = true;
-                size_t _videoMax = 100;
-                size_t _audioMax = 100;
-                std::list<VideoFrame> _video;
-                std::list<AudioFrame> _audio;
-                std::mutex _mutex;
+                DJV_PRIVATE();
             };
 
             class IRead : public std::enable_shared_from_this<IRead>
@@ -172,7 +171,7 @@ namespace djv
             protected:
                 void _init(
                     const std::string & fileName,
-                    const std::shared_ptr<ReadQueue> &,
+                    const std::shared_ptr<Queue> &,
                     const std::shared_ptr<Core::Context> &);
                 IRead();
 
@@ -186,15 +185,21 @@ namespace djv
             protected:
                 std::weak_ptr<Core::Context> _context;
                 std::string _fileName;
-                std::shared_ptr<ReadQueue> _queue;
+                std::shared_ptr<Queue> _queue;
             };
 
-            class IWrite : public std::enable_shared_from_this<IWrite>
+            //! \todo This class is derived from QThread for compatibility with Qt
+            //! OpenGL contexts.
+            class IWrite : public QThread, public std::enable_shared_from_this<IWrite>
             {
                 DJV_NON_COPYABLE(IWrite);
 
             protected:
-                void _init(const std::string &, const Info &, const std::shared_ptr<Core::Context> &);
+                void _init(
+                    const std::string &,
+                    const Info &,
+                    const std::shared_ptr<Queue> &,
+                    const std::shared_ptr<Core::Context> &);
                 IWrite();
 
             public:                
@@ -204,6 +209,7 @@ namespace djv
                 std::weak_ptr<Core::Context> _context;
                 std::string _fileName;
                 Info _info;
+                std::shared_ptr<Queue> _queue;
             };
 
             class IPlugin : public std::enable_shared_from_this<IPlugin>
@@ -238,13 +244,14 @@ namespace djv
                 //! - std::exception
                 virtual std::shared_ptr<IRead> read(
                     const std::string & fileName,
-                    const std::shared_ptr<ReadQueue> &) const { return nullptr; }
+                    const std::shared_ptr<Queue> &) const { return nullptr; }
 
                 //! Throws:
                 //! - std::exception
                 virtual std::shared_ptr<IWrite> write(
                     const std::string & fileName,
-                    const Info &) const { return nullptr; }
+                    const Info &,
+                    const std::shared_ptr<Queue> &) const { return nullptr; }
 
             protected:
                 std::weak_ptr<Core::Context> _context;
@@ -279,13 +286,14 @@ namespace djv
                 //! - std::exception
                 std::shared_ptr<IRead> read(
                     const std::string & fileName,
-                    const std::shared_ptr<ReadQueue> &);
+                    const std::shared_ptr<Queue> &);
 
                 //! Throws:
                 //! - std::exception
                 std::shared_ptr<IWrite> write(
                     const std::string & fileName,
-                    const Info &);
+                    const Info &,
+                    const std::shared_ptr<Queue> &);
 
             protected:
                 void _exit() override;

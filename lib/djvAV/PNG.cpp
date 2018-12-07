@@ -44,7 +44,7 @@ namespace djv
                 {
                     IPlugin::_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides support for the Portable Network Graphics (PNG) image file format."),
+                        DJV_TEXT("This plugin provides Portable Network Graphics (PNG) image I/O."),
                         fileExtensions,
                         context);
                 }
@@ -59,11 +59,23 @@ namespace djv
                     return out;
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<ReadQueue> & queue) const
+                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<Queue> & queue) const
                 {
                     if (auto context = _context.lock())
                     {
                         return Read::create(fileName, queue, context);
+                    }
+                    return nullptr;
+                }
+
+                std::shared_ptr<IWrite> Plugin::write(
+                    const std::string & fileName,
+                    const Info & info,
+                    const std::shared_ptr<Queue> & queue) const
+                {
+                    if (auto context = _context.lock())
+                    {
+                        return Write::create(fileName, info, queue, context);
                     }
                     return nullptr;
                 }

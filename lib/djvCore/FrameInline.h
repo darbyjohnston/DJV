@@ -199,7 +199,7 @@ namespace djv
                 return String::join(list, ',');
             }
 
-            inline static void fromString(const std::string& value, Sequence& out)
+            inline void fromString(const std::string& value, Sequence& out)
             {
                 const auto& pieces = String::split(value, ',');
                 for (const auto& piece : pieces)

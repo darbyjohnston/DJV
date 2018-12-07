@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
+#include <djvCore/OS.h>
 
 namespace djv
 {
@@ -67,6 +68,9 @@ namespace djv
         void AudioSystem::_init(const std::shared_ptr<Core::Context> & context)
         {
             ISystem::_init("djv::AV::AudioSystem", context);
+
+            //! \todo [2.0 S] Make this configurable.
+            Core::OS::setEnv("ALSOFT_LOGLEVEL", "0");
 
             const ALCchar * devices = NULL;
             ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
