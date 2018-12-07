@@ -36,7 +36,6 @@
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
-#include <sstream>
 #include <thread>
 
 #define WIN32_LEAN_AND_MEAN

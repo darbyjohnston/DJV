@@ -31,9 +31,9 @@
 
 #include <djvAV/IO.h>
 
-#if defined(DJV_LINUX)
+#if defined(DJV_PLATFORM_LINUX)
 #define __STDC_CONSTANT_MACROS
-#endif // DJV_LINUX
+#endif // DJV_PLATFORM_LINUX
 
 extern "C"
 {

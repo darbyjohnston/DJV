@@ -30,7 +30,6 @@
 #include <djvCore/Event.h>
 
 #include <algorithm>
-#include <sstream>
 
 namespace djv
 {

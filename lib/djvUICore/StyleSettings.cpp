@@ -36,8 +36,6 @@
 #include <djvCore/PicoJSON.h>
 #include <djvCore/TextSystem.h>
 
-#include <sstream>
-
 //#pragma optimize("", off)
 
 using namespace djv::Core;

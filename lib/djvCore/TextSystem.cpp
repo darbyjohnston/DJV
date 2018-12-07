@@ -73,9 +73,9 @@ namespace djv
             std::string parseLocale(const std::string & value)
             {
                 std::string out;
-#if defined(DJV_WINDOWS)
+#if defined(DJV_PLATFORM_WINDOWS)
                 //! \todo [1.0 M] Windows locale.
-#elif defined(DJV_OSX)
+#elif defined(DJV_PLATFORM_OSX)
                 //! \todo [1.0 M] OS X locale.
 #else
                 auto pieces = String::split(value, '_');
@@ -87,7 +87,7 @@ namespace djv
                 {
                     out = pieces[0];
                 }
-#endif
+#endif // DJV_PLATFORM_WINDOWS
                 return out;
             }
         } // namespace

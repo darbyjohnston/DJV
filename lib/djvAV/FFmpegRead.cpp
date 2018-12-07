@@ -41,8 +41,6 @@ extern "C"
 
 } // extern "C"
 
-#include <sstream>
-
 namespace djv
 {
     namespace AV

@@ -31,8 +31,6 @@
 
 #include <djvAV/Pixel.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace AVTest

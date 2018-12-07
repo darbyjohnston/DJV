@@ -46,8 +46,6 @@
 #include <QScopedPointer>
 #include <QScreen>
 
-#include <sstream>
-
 namespace djv
 {
     namespace AV

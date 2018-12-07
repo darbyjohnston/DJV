@@ -29,8 +29,6 @@
 
 #include <djvCore/Math.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace Core

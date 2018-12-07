@@ -30,7 +30,6 @@
 #include <djvAV/Audio.h>
 
 #include <algorithm>
-#include <sstream>
 
 namespace djv
 {

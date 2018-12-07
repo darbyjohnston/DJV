@@ -19,16 +19,16 @@ project(
 
 # Set the platform we are building for.
 if(APPLE)
-    add_definitions(-DDJV_OSX)
+    add_definitions(-DDJV_PLATFORM_OSX)
 elseif(UNIX)
     string(COMPARE EQUAL ${CMAKE_SYSTEM_NAME} Linux _TMP)
     if(_TMP)
-        add_definitions(-DDJV_LINUX)
+        add_definitions(-DDJV_PLATFORM_LINUX)
         set(CMAKE_C_FLAGS -fPIC)
         set(CMAKE_CXX_FLAGS -fPIC)
     endif()
 elseif(WIN32)
-    add_definitions(-DDJV_WINDOWS)
+    add_definitions(-DDJV_PLATFORM_WINDOWS)
 endif()
 
 # Update the CMake module path.

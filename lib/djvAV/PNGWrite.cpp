@@ -37,8 +37,6 @@
 #include <QOpenGLContext>
 #include <QOpenGLDebugLogger>
 
-#include <sstream>
-
 namespace djv
 {
     namespace AV

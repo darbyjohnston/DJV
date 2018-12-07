@@ -34,9 +34,9 @@
 
 #include <sys/types.h>
 
-#if defined(DJV_WINDOWS)
+#if defined(DJV_PLATFORM_WINDOWS)
 typedef int uid_t;
-#endif // DJV_WINDOWS
+#endif // DJV_PLATFORM_WINDOWS
 
 namespace djv
 {

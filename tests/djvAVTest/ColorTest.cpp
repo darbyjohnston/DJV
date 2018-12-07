@@ -31,8 +31,6 @@
 
 #include <djvAV/Color.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace AVTest

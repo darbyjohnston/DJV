@@ -35,7 +35,6 @@
 #include <codecvt>
 #include <iomanip>
 #include <locale>
-#include <sstream>
 
 namespace djv
 {

@@ -32,7 +32,6 @@
 #include <djvCore/String.h>
 
 #include <iomanip>
-#include <sstream>
 
 namespace djv
 {

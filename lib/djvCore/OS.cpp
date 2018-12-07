@@ -30,7 +30,6 @@
 #include <djvCore/OS.h>
 
 #include <algorithm>
-#include <sstream>
 
 //#pragma optimize("", off)
 

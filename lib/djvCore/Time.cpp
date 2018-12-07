@@ -30,7 +30,6 @@
 #include <djvCore/Time.h>
 
 #include <iomanip>
-#include <sstream>
 
 namespace djv
 {

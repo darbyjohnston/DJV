@@ -30,7 +30,6 @@
 #include <djvCore/Memory.h>
 
 #include <algorithm>
-#include <sstream>
 
 namespace djv
 {

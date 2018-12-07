@@ -36,7 +36,6 @@
 #include <djvCore/Timer.h>
 
 #include <condition_variable>
-#include <sstream>
 
 namespace djv
 {

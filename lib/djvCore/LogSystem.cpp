@@ -42,7 +42,6 @@
 #include <list>
 #include <mutex>
 #include <thread>
-#include <sstream>
 
 namespace djv
 {

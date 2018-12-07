@@ -31,8 +31,6 @@
 
 #include <djvAV/Audio.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace AVTest

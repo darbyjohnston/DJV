@@ -55,10 +55,10 @@ namespace djv
 
         std::string format(const std::exception&);
 
-#if defined(DJV_WINDOWS)
+#if defined(DJV_PLATFORM_WINDOWS)
         //! Get an error string from a Windows system call.
         std::string getLastError();
-#endif // DJV_WINDOWS
+#endif // DJV_PLATFORM_WINDOWS
 
     } // namespace Core
 } // namespace djv

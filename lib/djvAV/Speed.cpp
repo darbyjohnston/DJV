@@ -33,7 +33,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <sstream>
 
 namespace djv
 {

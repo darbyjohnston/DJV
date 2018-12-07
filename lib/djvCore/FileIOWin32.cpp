@@ -35,7 +35,6 @@
 #include <djvCore/Path.h>
 
 #include <atomic>
-#include <sstream>
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX

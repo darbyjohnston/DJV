@@ -31,8 +31,6 @@
 
 #include <djvCore/FileIO.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace Core

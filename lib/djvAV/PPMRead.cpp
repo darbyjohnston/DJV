@@ -35,8 +35,6 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace AV

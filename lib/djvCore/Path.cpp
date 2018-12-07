@@ -62,12 +62,12 @@ namespace djv
             if (value == _value)
                 return;
 
-#if defined(DJV_WINDOWS)
+#if defined(DJV_PLATFORM_WINDOWS)
             if (!value.empty() && value[value.size() - 1] == ':')
             {
                 value += getCurrentPathSeparator();
             }
-#endif
+#endif // DJV_PLATFORM_WINDOWS
 
             _value = value;
 

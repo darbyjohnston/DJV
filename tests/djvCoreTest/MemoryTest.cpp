@@ -31,8 +31,6 @@
 
 #include <djvCore/Memory.h>
 
-#include <sstream>
-
 namespace djv
 {
     using namespace Core;

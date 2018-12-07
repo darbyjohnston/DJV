@@ -32,7 +32,6 @@
 #include <algorithm>
 #include <functional>
 #include <map>
-#include <sstream>
 
 namespace djv
 {

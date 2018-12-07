@@ -32,8 +32,6 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/Media.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace ViewLib

@@ -29,8 +29,6 @@
 
 #include <djvCore/Error.h>
 
-#include <sstream>
-
 namespace djv
 {
     namespace Core
