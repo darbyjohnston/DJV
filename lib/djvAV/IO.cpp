@@ -35,6 +35,7 @@
 #include <djvAV/PNG.h>
 #endif // PNG_FOUND
 
+#include <djvCore/Context.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
 

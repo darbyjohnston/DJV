@@ -51,6 +51,7 @@ namespace djv
     {
         namespace IO
         {
+            //! This class provides video I/O information.
             class VideoInfo
             {
             public:
@@ -73,6 +74,7 @@ namespace djv
                 Duration _duration = 0;
             };
 
+            //! This class provides audio I/O information.
             class AudioInfo
             {
             public:
@@ -92,6 +94,7 @@ namespace djv
                 Duration _duration   = 0;
             };
 
+            //! This class provides I/O information.
             class Info
             {
             public:
@@ -120,9 +123,13 @@ namespace djv
                 Tags _tags;
             };
 
+            //! This typedef provides a video I/O frame.
             typedef std::pair<Timestamp, std::shared_ptr<Image> > VideoFrame;
+
+            //! This typedef provides an audio I/O frame.
             typedef std::pair<Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
+            //! This class provides a queue for video and audio I/O frames.
             class Queue : public std::enable_shared_from_this<Queue>
             {
                 DJV_NON_COPYABLE(Queue);
@@ -164,6 +171,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
+            //! This class provides an interface for reading.
             class IRead : public std::enable_shared_from_this<IRead>
             {
                 DJV_NON_COPYABLE(IRead);
@@ -188,6 +196,8 @@ namespace djv
                 std::shared_ptr<Queue> _queue;
             };
 
+            //! This class provides an interface for writing.
+            //!
             //! \todo This class is derived from QThread for compatibility with Qt
             //! OpenGL contexts.
             class IWrite : public QThread, public std::enable_shared_from_this<IWrite>
@@ -202,7 +212,7 @@ namespace djv
                     const std::shared_ptr<Core::Context> &);
                 IWrite();
 
-            public:                
+            public:
                 virtual ~IWrite() = 0;
 
             protected:
@@ -212,6 +222,7 @@ namespace djv
                 std::shared_ptr<Queue> _queue;
             };
 
+            //! This class provides an interface for I/O plugins.
             class IPlugin : public std::enable_shared_from_this<IPlugin>
             {
                 DJV_NON_COPYABLE(IPlugin);
@@ -260,6 +271,7 @@ namespace djv
                 std::set<std::string> _fileExtensions;
             };
 
+            //! This class provides an I/O system.
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);

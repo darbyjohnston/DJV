@@ -31,11 +31,6 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
-#include <djvCore/FileInfo.h>
-
-#include <QOffscreenSurface>
-#include <QOpenGLContext>
-#include <QOpenGLDebugLogger>
 
 namespace djv
 {
@@ -53,37 +48,29 @@ namespace djv
 
                 struct Write::Private
                 {
-                    Core::FileInfo fileInfo;
-                    Core::Frame::Number frameNumber = Core::Frame::Invalid;
                     Pixel::Info info;
                     Data data = Data::First;
-                    QScopedPointer<QOffscreenSurface> offscreenSurface;
-                    QScopedPointer<QOpenGLContext> openGLContext;
-                    QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
-                    std::atomic<bool> running;
+                    Core::FileIO io;
                 };
 
-                void Write::_init(
-                    const std::string & fileName,
-                    const Info & info,
-                    Data data,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context)
+                Write::Write(Data data) :
+                    _p(new Private)
                 {
-                    IWrite::_init(fileName, info, queue, context);
+                    _p->data = data;
+                }
 
-                    _p->fileInfo.setPath(fileName);
-                    _p->fileInfo.evalSequence();
-                    if (_p->fileInfo.isSequenceValid())
-                    {
-                        auto sequence = _p->fileInfo.getSequence();
-                        if (sequence.ranges.size())
-                        {
-                            sequence.sort();
-                            _p->frameNumber = sequence.ranges[0].min;
-                        }
-                    }
+                Write::~Write()
+                {}
 
+                std::shared_ptr<Write> Write::create(const std::string & fileName, const Info & info, Data data, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
+                {
+                    auto out = std::shared_ptr<Write>(new Write(data));
+                    out->_init(fileName, info, queue, context);
+                    return out;
+                }
+
+                void Write::_open(const std::string & fileName, const Info & info)
+                {
                     const auto & videoInfo = info.getVideo();
                     if (!videoInfo.size())
                     {
@@ -123,159 +110,69 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
-                    layout.setEndian(data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian());
+                    layout.setEndian(_p->data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian());
                     _p->info = Pixel::Info(videoInfo[0].getInfo().getSize(), pixelType, layout);
-                    _p->data = data;
 
-                    _p->offscreenSurface.reset(new QOffscreenSurface);
-                    QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
-                    surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
-                    surfaceFormat.setSamples(1);
-                    _p->offscreenSurface->setFormat(surfaceFormat);
-                    _p->offscreenSurface->create();
-
-                    _p->openGLContext.reset(new QOpenGLContext);
-                    _p->openGLContext->setFormat(surfaceFormat);
-                    _p->openGLContext->create();
-                    _p->openGLContext->moveToThread(this);
-
-                    _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
-                    connect(
-                        _p->openGLDebugLogger.data(),
-                        &QOpenGLDebugLogger::messageLogged,
-                        this,
-                        &Write::_debugLogMessage);
+                    _p->io.open(fileName, Core::FileIO::Mode::Write);
                 }
 
-                Write::Write() :
-                    _p(new Private)
-                {}
-
-                Write::~Write()
-                {
-                    _p->running = false;
-                }
-
-                std::shared_ptr<Write> Write::create(const std::string & fileName, const Info & info, Data data, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
-                {
-                    auto out = std::shared_ptr<Write>(new Write);
-                    out->_init(fileName, info, data, queue, context);
-                    out->start();
-                    return out;
-                }
-
-                void Write::run()
-                {
-                    _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
-                    if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
-                    {
-                        _p->openGLDebugLogger->initialize();
-                        _p->openGLDebugLogger->startLogging();
-                    }
-                    while (_p->running)
-                    {
-                        std::shared_ptr<Image> image;
-                        {
-                            std::unique_lock<std::mutex> lock(_queue->getMutex(), std::try_to_lock);
-                            if (lock.owns_lock())
-                            {
-                                if (_queue->hasVideo())
-                                {
-                                    image = _queue->getVideo().second;
-                                    _queue->popVideo();
-                                }
-                                else if (_queue->isFinished())
-                                {
-                                    _p->running = false;
-                                }
-                            }
-                        }
-                        if (image)
-                        {
-                            if (auto context = _context.lock())
-                            {
-                                try
-                                {
-                                    const auto fileName = _p->fileInfo.getFileName(_p->frameNumber);
-                                    if (_p->frameNumber != Core::Frame::Invalid)
-                                    {
-                                        ++_p->frameNumber;
-                                    }
-
-                                    std::stringstream ss;
-                                    ss << "Writing: " << fileName;
-                                    context->log("djv::AV::IO::PPM::Write", ss.str());
-
-                                    std::shared_ptr<Pixel::Data> pixelData(image);
-                                    if (pixelData->getInfo() != _p->info)
-                                    {
-                                        pixelData = pixelData->convert(_p->info.getType(), context);
-                                    }
-
-                                    Core::FileIO io;
-                                    io.open(fileName, Core::FileIO::Mode::Write);
-
-                                    int ppmType = Data::ASCII == _p->data ? 2 : 5;
-                                    const size_t channelCount = Pixel::getChannelCount(_p->info.getType());
-                                    if (3 == channelCount)
-                                    {
-                                        ++ppmType;
-                                    }
-                                    char magic[] = "P \n";
-                                    magic[1] = '0' + ppmType;
-                                    io.write(magic, 3);
-
-                                    std::stringstream s;
-                                    s << _p->info.getWidth() << ' ' << _p->info.getHeight();
-                                    io.write(s.str());
-                                    io.writeU8('\n');
-                                    const size_t bitDepth = Pixel::getBitDepth(_p->info.getType());
-                                    const int maxValue = 8 == bitDepth ? 255 : 65535;
-                                    s = std::stringstream();
-                                    s << maxValue;
-                                    io.write(s.str());
-                                    io.writeU8('\n');
-
-                                    switch (_p->data)
-                                    {
-                                    case Data::ASCII:
-                                    {
-                                        std::vector<uint8_t> scanline(_p->info.getScanlineByteCount());
-                                        for (int y = 0; y < _p->info.getHeight(); ++y)
-                                        {
-                                            const size_t size = writeASCII(
-                                                pixelData->getData(y),
-                                                reinterpret_cast<char*>(scanline.data()),
-                                                _p->info.getWidth() * channelCount,
-                                                bitDepth);
-                                            io.write(scanline.data(), size);
-                                        }
-                                        break;
-                                    }
-                                    case Data::Binary:
-                                        io.write(pixelData->getData(), _p->info.getDataByteCount());
-                                        break;
-                                    }
-                                }
-                                catch (const std::exception & e)
-                                {
-                                    context->log("djv::AV::IO::PPM::Write", e.what(), Core::LogLevel::Error);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
-                        }
-                    }
-                }
-
-                void Write::_debugLogMessage(const QOpenGLDebugMessage & message)
+                void Write::_write(const std::shared_ptr<Image> & image)
                 {
                     if (auto context = _context.lock())
                     {
-                        context->log("djv::AV::IO::PPM::Write", message.message().toStdString());
+                        std::shared_ptr<Pixel::Data> pixelData(image);
+                        if (pixelData->getInfo() != _p->info)
+                        {
+                            pixelData = pixelData->convert(_p->info.getType(), context);
+                        }
+
+                        int ppmType = Data::ASCII == _p->data ? 2 : 5;
+                        const size_t channelCount = Pixel::getChannelCount(_p->info.getType());
+                        if (3 == channelCount)
+                        {
+                            ++ppmType;
+                        }
+                        char magic[] = "P \n";
+                        magic[1] = '0' + ppmType;
+                        _p->io.write(magic, 3);
+
+                        std::stringstream s;
+                        s << _p->info.getWidth() << ' ' << _p->info.getHeight();
+                        _p->io.write(s.str());
+                        _p->io.writeU8('\n');
+                        const size_t bitDepth = Pixel::getBitDepth(_p->info.getType());
+                        const int maxValue = 8 == bitDepth ? 255 : 65535;
+                        s = std::stringstream();
+                        s << maxValue;
+                        _p->io.write(s.str());
+                        _p->io.writeU8('\n');
+
+                        switch (_p->data)
+                        {
+                        case Data::ASCII:
+                        {
+                            std::vector<uint8_t> scanline(_p->info.getScanlineByteCount());
+                            for (int y = 0; y < _p->info.getHeight(); ++y)
+                            {
+                                const size_t size = writeASCII(
+                                    pixelData->getData(y),
+                                    reinterpret_cast<char*>(scanline.data()),
+                                    _p->info.getWidth() * channelCount,
+                                    bitDepth);
+                                _p->io.write(scanline.data(), size);
+                            }
+                            break;
+                        }
+                        case Data::Binary:
+                            _p->io.write(pixelData->getData(), _p->info.getDataByteCount());
+                            break;
+                        }
                     }
+                }
+
+                void Write::_close()
+                {
+                    _p->io.close();
                 }
 
             } // namespace PPM

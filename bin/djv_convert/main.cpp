@@ -63,7 +63,6 @@ protected:
 
         auto writeQueue = AV::IO::Queue::create();
         auto write = _io->write(argv[2], info, queue);
-        write->wait();
     }
 
     Context()
