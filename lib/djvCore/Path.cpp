@@ -91,11 +91,11 @@ namespace djv
 
         bool Path::isRoot() const
         {
-            const bool unix = _value.size() == 1 ? '/' == _value[0] : false;
+            const bool unixStyle = _value.size() == 1 ? '/' == _value[0] : false;
             //! \todo This is buggy.
-            const bool windows1 = _value.size() == 3 ? (':' == _value[1] && '\\' == _value[2]) : false;
-            const bool windows2 = _value.size() == 3 ? (':' == _value[1] && '/' == _value[2]) : false;
-            return unix || windows1 || windows2;
+            const bool windowsStyle1 = _value.size() == 3 ? (':' == _value[1] && '\\' == _value[2]) : false;
+            const bool windowsStyle2 = _value.size() == 3 ? (':' == _value[1] && '/' == _value[2]) : false;
+            return unixStyle || windowsStyle1 || windowsStyle2;
         }
 
         bool Path::cdUp()

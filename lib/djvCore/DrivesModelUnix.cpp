@@ -40,14 +40,14 @@ namespace djv
         std::vector<Path> DrivesModel::_getDrives()
         {
             std::vector<Path> out;
-#if defined(DJV_OSX)
+#if defined(DJV_PLATFORM_OSX)
             for (const auto& fileInfo : FileInfo::dirList(Path("/Volumes")))
             {
                 out.push_back(fileInfo.getPath());
             }
-#elif defined(DJV_LINUX)
+#elif defined(DJV_PLATFORM_LINUX)
             out.push_back(Path("/"));
-#endif // DJV_OSX
+#endif // DJV_PLATFORM_OSX
             return out;
         }
 

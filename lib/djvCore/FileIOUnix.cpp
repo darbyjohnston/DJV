@@ -35,9 +35,9 @@
 
 #include <sstream>
 
-#if defined(DJV_LINUX)
+#if defined(DJV_PLATFORM_LINUX)
 #include <linux/limits.h>
-#endif // DJV_LINUX
+#endif // DJV_PLATFORM_LINUX
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>

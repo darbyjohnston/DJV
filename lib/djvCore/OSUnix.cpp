@@ -31,9 +31,9 @@
 
 #include <djvCore/Path.h>
 
-#if defined(DJV_OSX)
+#if defined(DJV_PLATFORM_OSX)
 #include <CoreServices/CoreServices.h>
-#endif // DJV_OSX
+#endif // DJV_PLATFORM_OSX
 
 #include <sstream>
 
@@ -103,7 +103,7 @@ namespace djv
             Path getPath(DirectoryShortcut value)
             {
                 Path out;
-#if defined(DJV_OSX)
+#if defined(DJV_PLATFORM_OSX)
                 OSType folderType = kDesktopFolderType;
                 switch (value)
                 {
@@ -125,7 +125,7 @@ namespace djv
                 {
                     out = Path(path);
                 }
-#elif defined(DJV_LINUX)
+#elif defined(DJV_PLATFORM_LINUX)
                 if (struct passwd* buf = ::getpwuid(::getuid()))
                 {
                     const std::string dir(buf->pw_dir);
@@ -138,7 +138,7 @@ namespace djv
                     default: break;
                     }
                 }
-#endif // DJV_OSX
+#endif // DJV_PLATFORM_OSX
                 return out;
             }
 

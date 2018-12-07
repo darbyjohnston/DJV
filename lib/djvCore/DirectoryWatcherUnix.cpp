@@ -36,7 +36,7 @@
 #include <mutex>
 #include <thread>
 
-#if defined(DJV_OSX)
+#if defined(DJV_PLATFORM_OSX)
 #include <CoreServices/CoreServices.h>
 
 #include <sys/types.h>
@@ -56,7 +56,7 @@ namespace djv
         {
             const size_t timeout = 100;
 
-#if defined(DJV_OSX)
+#if defined(DJV_PLATFORM_OSX)
             class Notify
             {
             public:
@@ -112,7 +112,7 @@ namespace djv
                 ::time_t _lastModified = 0;
             };
 
-#else // DJV_OSX
+#else // DJV_PLATFORM_OSX
 
             class Notify
             {
@@ -176,7 +176,7 @@ namespace djv
                 int _wd = 0;
                 ::time_t _lastModified = 0;
             };
-#endif // DJV_OSX
+#endif // DJV_PLATFORM_OSX
 
         } // namespace
                 
