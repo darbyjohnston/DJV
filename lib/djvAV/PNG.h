@@ -29,11 +29,9 @@
 
 #pragma once
 
-#include <djvAV/IO.h>
+#include <djvAV/SequenceIO.h>
 
 #include <djvCore/String.h>
-
-#include <QOpenGLDebugLogger>
 
 #include <png.h>
 
@@ -57,15 +55,11 @@ namespace djv
                     char msg[Core::String::cStringLength];
                 };
 
-                class Read : public IRead
+                class Read : public ISequenceRead
                 {
                     DJV_NON_COPYABLE(Read);
 
                 protected:
-                    void _init(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &,
-                        const std::shared_ptr<Core::Context> &);
                     Read();
 
                 public:
@@ -76,25 +70,19 @@ namespace djv
                         const std::shared_ptr<Queue> &,
                         const std::shared_ptr<Core::Context> &);
 
-                    std::future<Info> getInfo() override;
-
                 private:
-                    void _open(const std::string&);
-                    void _close();
+                    Info _open(const std::string &, const Speed &, Duration) override;
+                    std::shared_ptr<Image> _read() override;
+                    void _close() override;
 
                     DJV_PRIVATE();
                 };
                 
-                class Write : public IWrite
+                class Write : public ISequenceWrite
                 {
                     DJV_NON_COPYABLE(Write);
 
                 protected:
-                    void _init(
-                        const std::string & fileName,
-                        const Info &,
-                        const std::shared_ptr<Queue> &,
-                        const std::shared_ptr<Core::Context> &);
                     Write();
 
                 public:
@@ -107,15 +95,12 @@ namespace djv
                         const std::shared_ptr<Core::Context> &);
 
                 protected:
-                    void run() override;
-
-                private Q_SLOTS:
-                    void _debugLogMessage(const QOpenGLDebugMessage &);
+                    void _open(const std::string & fileName, const Info &) override;
+                    void _write(const std::shared_ptr<Image> &) override;
+                    void _close() override;
+                    void _exit() override;
 
                 private:
-                    void _open(const std::string&);
-                    void _close();
-
                     DJV_PRIVATE();
                 };
 
@@ -124,7 +109,6 @@ namespace djv
                     DJV_NON_COPYABLE(Plugin);
 
                 protected:
-                    void _init(const std::shared_ptr<Core::Context>&);
                     Plugin();
 
                 public:

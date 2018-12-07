@@ -29,6 +29,8 @@
 
 #include <djvAV/PPM.h>
 
+#include <djvAV/PixelProcess.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 
@@ -51,6 +53,7 @@ namespace djv
                     Pixel::Info info;
                     Data data = Data::First;
                     Core::FileIO io;
+                    std::shared_ptr<Pixel::Convert> convert;
                 };
 
                 Write::Write(Data data) :
@@ -114,16 +117,21 @@ namespace djv
                     _p->info = Pixel::Info(videoInfo[0].getInfo().getSize(), pixelType, layout);
 
                     _p->io.open(fileName, Core::FileIO::Mode::Write);
+
+                    if (auto context = _context.lock())
+                    {
+                        _p->convert = Pixel::Convert::create(context);
+                    }
                 }
 
                 void Write::_write(const std::shared_ptr<Image> & image)
                 {
                     if (auto context = _context.lock())
                     {
-                        std::shared_ptr<Pixel::Data> pixelData(image);
+                        std::shared_ptr<Pixel::Data> pixelData = image;
                         if (pixelData->getInfo() != _p->info)
                         {
-                            pixelData = pixelData->convert(_p->info.getType(), context);
+                            pixelData = _p->convert->process(pixelData, _p->info.getSize(), _p->info.getType());
                         }
 
                         int ppmType = Data::ASCII == _p->data ? 2 : 5;
@@ -173,6 +181,11 @@ namespace djv
                 void Write::_close()
                 {
                     _p->io.close();
+                }
+
+                void Write::_exit()
+                {
+                    _p->convert.reset();
                 }
 
             } // namespace PPM

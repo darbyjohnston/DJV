@@ -317,6 +317,7 @@ namespace djv
                         msleep(timeout);
                     }
                 }
+                _exit();
             }
 
             void ISequenceWrite::_debugLogMessage(const QOpenGLDebugMessage & message)

@@ -31,6 +31,7 @@ set(header
     PixelData.h
     PixelDataInline.h
     PixelInline.h
+    PixelProcess.h
     SequenceIO.h
     Shader.h
     Shape.h
@@ -63,6 +64,7 @@ set(source
     PPMWrite.cpp
     Pixel.cpp
     PixelData.cpp
+    PixelProcess.cpp
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp

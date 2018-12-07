@@ -48,14 +48,6 @@ namespace djv
                     Core::FileIO io;
                 };
 
-                void Read::_init(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context)
-                {
-                    IRead::_init(fileName, queue, context);
-                }
-
                 Read::Read() :
                     _p(new Private)
                 {}
@@ -123,7 +115,8 @@ namespace djv
                     }
                     Pixel::Layout layout;
                     layout.setEndian(_p->data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian());
-                    return Info(fileName, VideoInfo(Pixel::Info(w, h, pixelType, layout), speed, duration), AudioInfo());
+                    _p->info = Pixel::Info(w, h, pixelType, layout);
+                    return Info(fileName, VideoInfo(_p->info, speed, duration), AudioInfo());
                 }
 
                 std::shared_ptr<Image> Read::_read()

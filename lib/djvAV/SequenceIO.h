@@ -86,6 +86,7 @@ namespace djv
                 virtual void _open(const std::string & fileName, const Info &) = 0;
                 virtual void _write(const std::shared_ptr<Image> &) = 0;
                 virtual void _close() = 0;
+                virtual void _exit() {};
 
                 void run() override;
 

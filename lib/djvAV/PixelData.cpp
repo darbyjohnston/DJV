@@ -29,19 +29,6 @@
 
 #include <djvAV/PixelData.h>
 
-#include <djvAV/OpenGLMesh.h>
-#include <djvAV/OpenGLOffscreenBuffer.h>
-#include <djvAV/OpenGLShader.h>
-#include <djvAV/OpenGLTexture.h>
-#include <djvAV/Shader.h>
-#include <djvAV/Shape.h>
-#include <djvAV/System.h>
-#include <djvAV/TriangleMesh.h>
-
-#include <djvCore/Context.h>
-
-#include <glm/gtc/matrix_transform.hpp>
-
 namespace djv
 {
     namespace AV
@@ -124,65 +111,6 @@ namespace djv
             void Data::zero()
             {
                 memset(_data, 0, _dataByteCount);
-            }
-
-            std::shared_ptr<Data> Data::convert(Type type, const std::shared_ptr<Core::Context> & context) const
-            {
-                const auto size = _info.getSize();
-                const auto info = Info(size, type);
-                auto out = Data::create(info);
-
-                auto offscreenBuffer = OpenGL::OffscreenBuffer::create(info);
-                const OpenGL::OffscreenBufferBinding binding(offscreenBuffer);
-                        
-                auto texture = AV::OpenGL::Texture::create(info);
-                texture->copy(*this);
-                texture->bind();
-
-                AV::Shape::Square square;
-                AV::TriangleMesh mesh;
-                square.triangulate(mesh);
-                auto vbo = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                vbo->copy(AV::OpenGL::VBO::convert(mesh, vbo->getType()));
-                auto vao = AV::OpenGL::VAO::create(vbo->getType(),vbo->getID());
-                vao->bind();
-
-                auto shader = AV::OpenGL::Shader::create(AV::Shader::create(
-                    context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelDataConvertVertex.glsl"),
-                    context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelDataConvertFragment.glsl")));
-                shader->bind();
-                shader->setUniform("textureSampler", 0);
-                glm::mat4x4 modelMatrix(1);
-                modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
-                modelMatrix = glm::scale(modelMatrix, glm::vec3(size.x, 0.f, size.y));
-                modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
-                glm::mat4x4 viewMatrix(1);
-                glm::mat4x4 projectionMatrix(1);
-                projectionMatrix = glm::ortho(
-                    0.f,
-                    static_cast<float>(size.x),
-                    0.f,
-                    static_cast<float>(size.y),
-                    -1.f,
-                    1.f);
-                shader->setUniform("transform.mvp", projectionMatrix * viewMatrix * modelMatrix);
-
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glViewport(0, 0, size.x, size.y);
-                glFuncs->glClearColor(0.f, 0.f, 0.f, 0.f);
-                glFuncs->glClear(GL_COLOR_BUFFER_BIT);
-                glFuncs->glActiveTexture(GL_TEXTURE0);
-                        
-                vao->draw(0, 6);
-
-                glFuncs->glPixelStorei(GL_PACK_ALIGNMENT, 1);
-                glFuncs->glReadPixels(
-                    0, 0, size.x, size.y,
-                    info.getGLFormat(),
-                    info.getGLType(),
-                    out->getData());
-
-                return out;
             }
 
             bool Data::operator == (const Data & other) const

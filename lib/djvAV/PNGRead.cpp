@@ -42,10 +42,8 @@ namespace djv
             {
                 struct Read::Private
                 {
+                    std::string fileName;
                     Pixel::Info info;
-                    std::promise<Info> infoPromise;
-                    std::thread thread;
-
                     FILE * f = nullptr;
                     png_structp png = nullptr;
                     png_infop pngInfo = nullptr;
@@ -53,90 +51,18 @@ namespace djv
                     ErrorStruct pngError;
                 };
 
-                namespace
-                {
-                    bool pngScanline(png_structp png, uint8_t* out)
-                    {
-                        if (setjmp(png_jmpbuf(png)))
-                        {
-                            return false;
-                        }
-                        png_read_row(png, out, 0);
-                        return true;
-                    }
-
-                    bool pngEnd(png_structp png, png_infop pngInfo)
-                    {
-                        if (setjmp(png_jmpbuf(png)))
-                        {
-                            return false;
-                        }
-                        png_read_end(png, pngInfo);
-                        return true;
-                    }
-
-                } // namespace
-
-                void Read::_init(
-                    const std::string & fileName,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context)
-                {
-                    IRead::_init(fileName, queue, context);
-                    _p->thread = std::thread(
-                        [this, fileName]
-                    {
-                        std::shared_ptr<Image> image;
-                        try
-                        {
-                            _open(fileName);
-                            image = Image::create(_p->info);
-                            for (int y = 0; y < _p->info.getHeight(); ++y)
-                            {
-                                if (!pngScanline(_p->png, image->getData(y)))
-                                {
-                                    std::stringstream s;
-                                    s << pluginName << " cannot read: " << fileName << ": " << _p->pngError.msg;
-                                    throw std::runtime_error(s.str());
-                                }
-                            }
-                            pngEnd(_p->png, _p->pngInfoEnd);
-                        }
-                        catch (const Core::Error & error)
-                        {
-                            if (auto context = _context.lock())
-                            {
-                                context->log("djvAV::IO::PNG::Read", error.what(), Core::LogLevel::Error);
-                            }
-                        }
-                        _close();
-                        if (image)
-                        {
-                            std::lock_guard<std::mutex> lock(_queue->getMutex());
-                            _queue->addVideo(0, image);
-                        }
-                    });
-                }
-
                 Read::Read() :
                     _p(new Private)
                 {}
 
                 Read::~Read()
-                {
-                    _p->thread.join();
-                }
+                {}
 
                 std::shared_ptr<Read> Read::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileName, queue, context);
                     return out;
-                }
-
-                std::future<Info> Read::getInfo()
-                {
-                    return _p->infoPromise.get_future();
                 }
 
                 namespace
@@ -186,8 +112,10 @@ namespace djv
 
                 } // namespace
 
-                void Read::_open(const std::string& fileName)
+                Info Read::_open(const std::string& fileName, const Speed & speed, Duration duration)
                 {
+                    _p->fileName = fileName;
+
                     _p->png = png_create_read_struct(
                         PNG_LIBPNG_VER_STRING,
                         &_p->pngError,
@@ -239,12 +167,53 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     _p->info = Pixel::Info(size, pixelType);
-                    _p->infoPromise.set_value(Info(fileName, _p->info, AudioInfo()));
 
                     if (bitDepth >= 16 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
                     {
                         png_set_swap(_p->png);
                     }
+
+                    return Info(fileName, VideoInfo(_p->info, speed, duration), AudioInfo());
+                }
+
+                namespace
+                {
+                    bool pngScanline(png_structp png, uint8_t* out)
+                    {
+                        if (setjmp(png_jmpbuf(png)))
+                        {
+                            return false;
+                        }
+                        png_read_row(png, out, 0);
+                        return true;
+                    }
+
+                    bool pngEnd(png_structp png, png_infop pngInfo)
+                    {
+                        if (setjmp(png_jmpbuf(png)))
+                        {
+                            return false;
+                        }
+                        png_read_end(png, pngInfo);
+                        return true;
+                    }
+
+                } // namespace
+
+                std::shared_ptr<Image> Read::_read()
+                {
+                    auto out = Image::create(_p->info);
+                    for (int y = 0; y < _p->info.getHeight(); ++y)
+                    {
+                        if (!pngScanline(_p->png, out->getData(y)))
+                        {
+                            std::stringstream s;
+                            s << pluginName << " cannot read: " << _p->fileName << ": " << _p->pngError.msg;
+                            throw std::runtime_error(s.str());
+                        }
+                    }
+                    pngEnd(_p->png, _p->pngInfoEnd);
+                    return out;
                 }
 
                 void Read::_close()

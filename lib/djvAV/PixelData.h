@@ -37,22 +37,8 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        class Context;
-
-    } // namespace Core
-
     namespace AV
     {
-        namespace OpenGL
-        {
-            class OffscreenBuffer;
-            class Shader;
-            class Texture;
-
-        } // namespace OpenGL
-
         namespace Pixel
         {
             class Mirror
@@ -173,16 +159,6 @@ namespace djv
                 uint8_t * getData(int x, int y);
 
                 void zero();
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - std::exception
-                std::shared_ptr<Data> convert(Type, const std::shared_ptr<Core::Context> &) const;
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - std::exception
-                std::shared_ptr<Data> resize(const glm::ivec2 &, Type, const std::shared_ptr<Core::Context> &) const;
 
                 bool operator == (const Data &) const;
                 bool operator != (const Data &) const;

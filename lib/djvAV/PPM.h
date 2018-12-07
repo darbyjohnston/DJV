@@ -85,10 +85,6 @@ namespace djv
                     DJV_NON_COPYABLE(Read);
 
                 protected:
-                    void _init(
-                        const std::string & fileName,
-                        const std::shared_ptr<Queue> &,
-                        const std::shared_ptr<Core::Context> &);
                     Read();
 
                 public:
@@ -105,7 +101,6 @@ namespace djv
                     void _close() override;
 
                 private:
-
                     DJV_PRIVATE();
                 };
                 
@@ -130,6 +125,7 @@ namespace djv
                     void _open(const std::string & fileName, const Info &) override;
                     void _write(const std::shared_ptr<Image> &) override;
                     void _close() override;
+                    void _exit() override;
 
                 private:
                     DJV_PRIVATE();
@@ -140,14 +136,13 @@ namespace djv
                     DJV_NON_COPYABLE(Plugin);
 
                 protected:
-                    void _init(const std::shared_ptr<Core::Context>&);
                     Plugin();
-
-                    picojson::value getOptions() const override;
-                    void setOptions(const picojson::value&) override;
 
                 public:
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+
+                    picojson::value getOptions() const override;
+                    void setOptions(const picojson::value&) override;
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,

@@ -29,13 +29,10 @@
 
 #include <djvAV/PNG.h>
 
+#include <djvAV/PixelProcess.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
-#include <djvCore/FileInfo.h>
-
-#include <QOffscreenSurface>
-#include <QOpenGLContext>
-#include <QOpenGLDebugLogger>
 
 namespace djv
 {
@@ -45,231 +42,29 @@ namespace djv
         {
             namespace PNG
             {
-                namespace
-                {
-                    const size_t timeout = 10;
-
-                } // namespace
-
                 struct Write::Private
                 {
-                    Core::FileInfo fileInfo;
-                    Core::Frame::Number frameNumber = Core::Frame::Invalid;
+                    std::string fileName;
                     Pixel::Info info;
-                    QScopedPointer<QOffscreenSurface> offscreenSurface;
-                    QScopedPointer<QOpenGLContext> openGLContext;
-                    QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
-                    std::atomic<bool> running;
-
                     FILE * f = nullptr;
                     png_structp png = nullptr;
                     png_infop pngInfo = nullptr;
                     ErrorStruct pngError;
+                    std::shared_ptr<Pixel::Convert> convert;
                 };
-
-                void Write::_init(
-                    const std::string & fileName,
-                    const Info & info,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context)
-                {
-                    IWrite::_init(fileName, info, queue, context);
-
-                    _p->fileInfo.setPath(fileName);
-                    _p->fileInfo.evalSequence();
-                    if (_p->fileInfo.isSequenceValid())
-                    {
-                        auto sequence = _p->fileInfo.getSequence();
-                        if (sequence.ranges.size())
-                        {
-                            sequence.sort();
-                            _p->frameNumber = sequence.ranges[0].min;
-                        }
-                    }
-
-                    const auto & videoInfo = info.getVideo();
-                    if (!videoInfo.size())
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot write: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
-                    Pixel::Type pixelType = Pixel::Type::None;
-                    switch (videoInfo[0].getInfo().getType())
-                    {
-                    case Pixel::Type::L_U8:
-                    case Pixel::Type::L_U16:
-                    case Pixel::Type::LA_U8:
-                    case Pixel::Type::LA_U16:
-                    case Pixel::Type::RGB_U8:
-                    case Pixel::Type::RGB_U16:
-                    case Pixel::Type::RGBA_U8:
-                    case Pixel::Type::RGBA_U16: pixelType = videoInfo[0].getInfo().getType(); break;
-                    case Pixel::Type::L_U32:
-                    case Pixel::Type::L_F16:
-                    case Pixel::Type::L_F32:    pixelType = Pixel::Type::L_U16; break;
-                    case Pixel::Type::LA_U32:
-                    case Pixel::Type::LA_F16:
-                    case Pixel::Type::LA_F32:   pixelType = Pixel::Type::LA_U16; break;
-                    case Pixel::Type::RGB_U32:
-                    case Pixel::Type::RGB_F16:
-                    case Pixel::Type::RGB_F32:  pixelType = Pixel::Type::RGB_U16; break;
-                    case Pixel::Type::RGBA_U32:
-                    case Pixel::Type::RGBA_F16:
-                    case Pixel::Type::RGBA_F32: pixelType = Pixel::Type::RGBA_U16; break;
-                    default: break;
-                    }
-                    if (Pixel::Type::None == pixelType)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot write: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
-                    _p->info = Pixel::Info(videoInfo[0].getInfo().getSize(), pixelType);
-
-                    _p->offscreenSurface.reset(new QOffscreenSurface);
-                    QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
-                    surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
-                    surfaceFormat.setSamples(1);
-                    _p->offscreenSurface->setFormat(surfaceFormat);
-                    _p->offscreenSurface->create();
-
-                    _p->openGLContext.reset(new QOpenGLContext);
-                    _p->openGLContext->setFormat(surfaceFormat);
-                    _p->openGLContext->create();
-                    _p->openGLContext->moveToThread(this);
-
-                    _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
-                    connect(
-                        _p->openGLDebugLogger.data(),
-                        &QOpenGLDebugLogger::messageLogged,
-                        this,
-                        &Write::_debugLogMessage);
-                }
 
                 Write::Write() :
                     _p(new Private)
                 {}
 
                 Write::~Write()
-                {
-                    _p->running = false;
-                }
+                {}
 
                 std::shared_ptr<Write> Write::create(const std::string & fileName, const Info & info, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_init(fileName, info, queue, context);
-                    out->start();
                     return out;
-                }
-
-                namespace
-                {
-                    bool pngScanline(png_structp png, const uint8_t* in)
-                    {
-                        if (setjmp(png_jmpbuf(png)))
-                            return false;
-                        png_write_row(png, (png_byte *)in);
-                        return true;
-                    }
-
-                    bool pngEnd(png_structp png, png_infop pngInfo)
-                    {
-                        if (setjmp(png_jmpbuf(png)))
-                            return false;
-                        png_write_end(png, pngInfo);
-                        return true;
-                    }
-
-                } // namespace
-
-                void Write::run()
-                {
-                    _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
-                    if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
-                    {
-                        _p->openGLDebugLogger->initialize();
-                        _p->openGLDebugLogger->startLogging();
-                    }
-                    while (_p->running)
-                    {
-                        std::shared_ptr<Image> image;
-                        {
-                            std::unique_lock<std::mutex> lock(_queue->getMutex(), std::try_to_lock);
-                            if (lock.owns_lock())
-                            {
-                                if (_queue->hasVideo())
-                                {
-                                    image = _queue->getVideo().second;
-                                    _queue->popVideo();
-                                }
-                                else if (_queue->isFinished())
-                                {
-                                    _p->running = false;
-                                }
-                            }
-                        }
-                        if (image)
-                        {
-                            if (auto context = _context.lock())
-                            {
-                                try
-                                {
-                                    const std::string fileName = _p->fileInfo.getFileName(_p->frameNumber);
-                                    if (_p->frameNumber != Core::Frame::Invalid)
-                                    {
-                                        ++_p->frameNumber;
-                                    }
-
-                                    std::stringstream ss;
-                                    ss << "Writing: " << fileName;
-                                    context->log("djv::AV::IO::PNG::Write", ss.str());
-
-                                    std::shared_ptr<Pixel::Data> pixelData(image);
-                                    if (pixelData->getInfo() != _p->info)
-                                    {
-                                        pixelData = pixelData->convert(_p->info.getType(), context);
-                                    }
-
-                                    _open(fileName);
-                                    const auto & size = pixelData->getSize();
-                                    for (int y = 0; y < size.y; ++y)
-                                    {
-                                        if (!pngScanline(_p->png, pixelData->getData(y)))
-                                        {
-                                            std::stringstream s;
-                                            s << pluginName << " cannot write: " << _fileName << ": " << _p->pngError.msg;
-                                            throw std::runtime_error(s.str());
-                                        }
-                                    }
-                                    if (!pngEnd(_p->png, _p->pngInfo))
-                                    {
-                                        std::stringstream s;
-                                        s << pluginName << " cannot write: " << _fileName << ": " << _p->pngError.msg;
-                                        throw std::runtime_error(s.str());
-                                    }
-                                }
-                                catch (const std::exception & e)
-                                {
-                                    context->log("djv::AV::IO::PNG::Write", e.what(), Core::LogLevel::Error);
-                                }
-                                _close();
-                            }
-                        }
-                        else
-                        {
-                            std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
-                        }
-                    }
-                }
-
-                void Write::_debugLogMessage(const QOpenGLDebugMessage & message)
-                {
-                    if (auto context = _context.lock())
-                    {
-                        context->log("djv::AV::IO::PNG::Write", message.message().toStdString());
-                    }
                 }
 
                 namespace
@@ -317,8 +112,50 @@ namespace djv
 
                 } // namespace
 
-                void Write::_open(const std::string& fileName)
+                void Write::_open(const std::string & fileName, const Info & info)
                 {
+                    _p->fileName = fileName;
+
+                    const auto & videoInfo = info.getVideo();
+                    if (!videoInfo.size())
+                    {
+                        std::stringstream s;
+                        s << pluginName << " cannot write: " << fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    Pixel::Type pixelType = Pixel::Type::None;
+                    switch (videoInfo[0].getInfo().getType())
+                    {
+                    case Pixel::Type::L_U8:
+                    case Pixel::Type::L_U16:
+                    case Pixel::Type::LA_U8:
+                    case Pixel::Type::LA_U16:
+                    case Pixel::Type::RGB_U8:
+                    case Pixel::Type::RGB_U16:
+                    case Pixel::Type::RGBA_U8:
+                    case Pixel::Type::RGBA_U16: pixelType = videoInfo[0].getInfo().getType(); break;
+                    case Pixel::Type::L_U32:
+                    case Pixel::Type::L_F16:
+                    case Pixel::Type::L_F32:    pixelType = Pixel::Type::L_U16; break;
+                    case Pixel::Type::LA_U32:
+                    case Pixel::Type::LA_F16:
+                    case Pixel::Type::LA_F32:   pixelType = Pixel::Type::LA_U16; break;
+                    case Pixel::Type::RGB_U32:
+                    case Pixel::Type::RGB_F16:
+                    case Pixel::Type::RGB_F32:  pixelType = Pixel::Type::RGB_U16; break;
+                    case Pixel::Type::RGBA_U32:
+                    case Pixel::Type::RGBA_F16:
+                    case Pixel::Type::RGBA_F32: pixelType = Pixel::Type::RGBA_U16; break;
+                    default: break;
+                    }
+                    if (Pixel::Type::None == pixelType)
+                    {
+                        std::stringstream s;
+                        s << pluginName << " cannot write: " << fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    _p->info = Pixel::Info(videoInfo[0].getInfo().getSize(), pixelType);
+
                     _p->png = png_create_write_struct(
                         PNG_LIBPNG_VER_STRING,
                         &_p->pngError,
@@ -347,6 +184,60 @@ namespace djv
                     {
                         png_set_swap(_p->png);
                     }
+
+                    if (auto context = _context.lock())
+                    {
+                        _p->convert = Pixel::Convert::create(context);
+                    }
+                }
+
+                namespace
+                {
+                    bool pngScanline(png_structp png, const uint8_t* in)
+                    {
+                        if (setjmp(png_jmpbuf(png)))
+                            return false;
+                        png_write_row(png, (png_byte *)in);
+                        return true;
+                    }
+
+                    bool pngEnd(png_structp png, png_infop pngInfo)
+                    {
+                        if (setjmp(png_jmpbuf(png)))
+                            return false;
+                        png_write_end(png, pngInfo);
+                        return true;
+                    }
+
+                } // namespace
+
+                void Write::_write(const std::shared_ptr<Image> & image)
+                {
+                    if (auto context = _context.lock())
+                    {
+                        std::shared_ptr<Pixel::Data> pixelData = image;
+                        if (pixelData->getInfo() != _p->info)
+                        {
+                            pixelData = _p->convert->process(pixelData, _p->info.getSize(), _p->info.getType());
+                        }
+
+                        const auto & size = pixelData->getSize();
+                        for (int y = 0; y < size.y; ++y)
+                        {
+                            if (!pngScanline(_p->png, pixelData->getData(y)))
+                            {
+                                std::stringstream s;
+                                s << pluginName << " cannot write: " << _p->fileName << ": " << _p->pngError.msg;
+                                throw std::runtime_error(s.str());
+                            }
+                        }
+                        if (!pngEnd(_p->png, _p->pngInfo))
+                        {
+                            std::stringstream s;
+                            s << pluginName << " cannot write: " << _p->fileName << ": " << _p->pngError.msg;
+                            throw std::runtime_error(s.str());
+                        }
+                    }
                 }
 
                 void Write::_close()
@@ -364,6 +255,11 @@ namespace djv
                         fclose(_p->f);
                         _p->f = nullptr;
                     }
+                }
+
+                void Write::_exit()
+                {
+                    _p->convert.reset();
                 }
 
             } // namespace PNG

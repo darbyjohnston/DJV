@@ -123,15 +123,6 @@ namespace djv
                     Data data = Data::Binary;
                 };
 
-                void Plugin::_init(const std::shared_ptr<Core::Context>& context)
-                {
-                    IPlugin::_init(
-                        pluginName,
-                        DJV_TEXT("This plugin provides NetPBM image I/O."),
-                        fileExtensions,
-                        context);
-                }
-
                 Plugin::Plugin() :
                     _p(new Private)
                 {}
@@ -139,7 +130,11 @@ namespace djv
                 std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Core::Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
-                    out->_init(context);
+                    out->_init(
+                        pluginName,
+                        DJV_TEXT("This plugin provides NetPBM image I/O."),
+                        fileExtensions,
+                        context);
                     return out;
                 }
 
