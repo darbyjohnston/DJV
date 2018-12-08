@@ -57,11 +57,16 @@ protected:
             {
             case Core::FileType::File: _print(fileInfo); break;
             case Core::FileType::Directory:
-                for (const auto & i : Core::FileInfo::dirList(fileInfo.getPath()))
+            {
+                std::cout << fileInfo.getPath() << ":" << std::endl;
+                Core::DirListOptions options;
+                options.fileSequencesEnabled = true;
+                for (const auto & i : Core::FileInfo::dirList(fileInfo.getPath(), options))
                 {
                     _print(i);
                 }
                 break;
+            }
             default: break;
             }
         }

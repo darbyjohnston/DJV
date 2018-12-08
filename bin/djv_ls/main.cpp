@@ -28,16 +28,12 @@
 //------------------------------------------------------------------------------
 
 #include <djvAV/IO.h>
-#include <djvAV/System.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/TextSystem.h>
-#include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
-
-#include <QGuiApplication>
 
 using namespace djv;
 
@@ -50,46 +46,30 @@ protected:
     {
         Core::Context::_init(argc, argv);
 
-        if (argc != 3)
-        {
-            throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
-        }
+        _io = AV::IO::System::create(shared_from_this());
 
-        auto system = AV::System::create(shared_from_this());
-        auto io = getSystemT<AV::IO::System>();
         const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
 
-        _queue = AV::IO::Queue::create();
-        _read = io->read(argv[1], _queue);
-        const auto info = _read->getInfo().get();
-        AV::Duration duration = 0;
-        const auto & video = info.getVideo();
-        if (video.size())
+        for (int i = 1; i < argc; ++i)
         {
-            duration = video[0].getDuration();
-        }
-
-        _statsTimer = Core::Timer::create(shared_from_this());
-        _statsTimer->setRepeating(true);
-        _statsTimer->start(
-            std::chrono::milliseconds(1000),
-            [this, duration](float)
-        {
-            AV::Timestamp timestamp = 0;
+            const Core::FileInfo fileInfo(argv[i]);
+            switch (fileInfo.getType())
             {
-                std::lock_guard<std::mutex> lock(_queue->getMutex());
-                if (_queue->hasVideo())
+            case Core::FileType::File: _print(fileInfo); break;
+            case Core::FileType::Directory:
+            {
+                std::cout << fileInfo.getPath() << ":" << std::endl;
+                Core::DirListOptions options;
+                options.fileSequencesEnabled = true;
+                for (const auto & i : Core::FileInfo::dirList(fileInfo.getPath(), options))
                 {
-                    timestamp = _queue->getVideo().first;
+                    _print(i);
                 }
+                break;
             }
-            if (timestamp && duration)
-            {
-                std::cout << (timestamp / static_cast<float>(duration) * 100.f) << "%" << std::endl;
+            default: break;
             }
-        });
-
-        _write = io->write(argv[2], info, _queue);
+        }
     }
 
     Context()
@@ -103,51 +83,13 @@ public:
         return out;
     }
 
-    bool isRunning() const { return _write->isRunning(); }
-    
 private:
-    std::shared_ptr<AV::IO::Queue> _queue;    
-    std::shared_ptr<AV::IO::IRead> _read;
-    std::shared_ptr<Core::Timer> _statsTimer;
-    std::shared_ptr<AV::IO::IWrite> _write;   
-};
+    void _print(const std::string & fileName)
+    {
+        std::cout << fileName << std::endl;
+    }
 
-class Application : public QGuiApplication
-{
-public:
-    Application(int & argc, char ** argv) :
-        QGuiApplication(argc, argv),
-        _context(Context::create(argc, argv))
-    {
-        _time = std::chrono::system_clock::now();
-        _timer = startTimer(10, Qt::PreciseTimer);
-    }
-    ~Application()
-    {
-        _context->exit();
-    }
-    
-protected:
-    void timerEvent(QTimerEvent *) override
-    {
-        if (_context->isRunning())
-        {
-            const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - _time;
-            _time = now;
-            const float dt = delta.count();
-            _context->tick(dt);
-        }
-        else
-        {
-            exit();
-        }
-    }
-    
-private:
-    std::shared_ptr<Context> _context;
-    std::chrono::time_point<std::chrono::system_clock> _time;
-    int _timer = 0;
+    std::shared_ptr<AV::IO::System> _io;
 };
 
 int main(int argc, char ** argv)
@@ -155,7 +97,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        return Application(argc, argv).exec();
+        Context::create(argc, argv)->exit();
     }
     catch (const std::exception & error)
     {
