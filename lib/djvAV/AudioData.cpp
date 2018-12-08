@@ -149,8 +149,9 @@ namespace djv
                     for (size_t c = 0; c < channels; ++c)
                     {
                         const U * inP = value + c * planeSize;
+                        const U * endP = inP + planeSize;
                         U * outP = out + c;
-                        for (size_t i = 0; i < planeSize; ++i, ++inP, outP += channels)
+                        for (; inP < endP; ++inP, outP += channels)
                         {
                             *outP = *inP;
                         }

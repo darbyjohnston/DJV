@@ -28,6 +28,7 @@
 //------------------------------------------------------------------------------
 
 #include <djvAV/IO.h>
+#include <djvAV/System.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
@@ -53,16 +54,16 @@ protected:
             throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
         }
 
-        _io = AV::IO::System::create(shared_from_this());
-
+        auto system = AV::System::create(shared_from_this());
+        auto io = getSystemT<AV::IO::System>();
         const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
 
         auto queue = AV::IO::Queue::create();
-        auto read = _io->read(argv[1], queue);
+        auto read = io->read(argv[1], queue);
         const auto info = read->getInfo().get();
 
         auto writeQueue = AV::IO::Queue::create();
-        auto write = _io->write(argv[2], info, queue);
+        auto write = io->write(argv[2], info, queue);
         write->wait();
     }
 
@@ -76,9 +77,6 @@ public:
         out->_init(argc, argv);
         return out;
     }
-
-private:
-    std::shared_ptr<AV::IO::System> _io;
 };
 
 int main(int argc, char ** argv)

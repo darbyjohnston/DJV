@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvAV/OpenGL.h>
+
 #include <djvCore/Core.h>
 
 #include <glm/mat4x4.hpp>
@@ -76,9 +78,13 @@ namespace djv
                 void bind();
 
             private:
-                DJV_PRIVATE();
+                std::shared_ptr<AV::Shader> _shader;
+                GLuint _vertex = 0;
+                GLuint _fragment = 0;
+                GLuint _program = 0;
             };
 
         } // namespace OpenGL
     } // namespace AV
 } // namespace djv
+

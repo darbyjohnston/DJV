@@ -122,6 +122,7 @@ namespace djv
                         const std::shared_ptr<Core::Context> &);
 
                 protected:
+                    void _start() override;
                     void _open(const std::string & fileName, const Info &) override;
                     void _write(const std::shared_ptr<Image> &) override;
                     void _close() override;

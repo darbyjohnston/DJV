@@ -58,9 +58,11 @@ namespace djv
                 void seek(Timestamp) override;
 
             protected:
+                virtual void _start() {};
                 virtual Info _open(const std::string & fileName, const Speed &, Duration) = 0;
                 virtual std::shared_ptr<Image> _read() = 0;
                 virtual void _close() = 0;
+                virtual void _exit() {};
 
             private:
                 DJV_PRIVATE();
@@ -83,6 +85,7 @@ namespace djv
                 virtual ~ISequenceWrite() override = 0;
 
             protected:
+                virtual void _start() {};
                 virtual void _open(const std::string & fileName, const Info &) = 0;
                 virtual void _write(const std::shared_ptr<Image> &) = 0;
                 virtual void _close() = 0;

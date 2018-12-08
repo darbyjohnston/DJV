@@ -142,10 +142,10 @@ namespace djv
             inline static bool isSequenceSeparator(char);
 
             //! Get the path separator.
-            static char getPathSeparator(PathSeparator);
+            inline static char getPathSeparator(PathSeparator);
 
             //! Get the current path separator.
-            static char getCurrentPathSeparator();
+            inline static char getCurrentPathSeparator();
 
             //! Remove a trailing path separator.
             static void removeTrailingSeparator(std::string&);

@@ -62,7 +62,21 @@ namespace djv
         {
             return '-' == c || ',' == c;
         }
+        
+        inline char Path::getPathSeparator(PathSeparator value)
+        {
+            return PathSeparator::Unix == value ? '/' : '\\';
+        }
 
+        char Path::getCurrentPathSeparator()
+        {
+#if defined(DJV_PLATFORM_WINDOWS)
+            return getPathSeparator(PathSeparator::Windows);
+#else
+            return getPathSeparator(PathSeparator::Unix);
+#endif // DJV_PLATFORM_WINDOWS
+        }
+        
         inline bool Path::operator == (const Path& other) const
         {
             return other._value == _value;

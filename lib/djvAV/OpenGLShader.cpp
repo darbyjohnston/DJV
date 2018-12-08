@@ -43,90 +43,81 @@ namespace djv
     {
         namespace OpenGL
         {
-            struct Shader::Private
-            {
-                std::shared_ptr<AV::Shader> shader;
-                GLuint vertex = 0;
-                GLuint fragment = 0;
-                GLuint program = 0;
-            };
-
             void Shader::_init(const std::shared_ptr<AV::Shader> & shader)
             {
-                _p->shader = shader;
+                _shader = shader;
 
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                _p->vertex = glFuncs->glCreateShader(GL_VERTEX_SHADER);
-                if (!_p->vertex)
+                _vertex = glFuncs->glCreateShader(GL_VERTEX_SHADER);
+                if (!_vertex)
                 {
                     throw std::runtime_error("Cannot create vertex shader");
                 }
-                const char* src = _p->shader->getVertexSource().c_str();
-                glFuncs->glShaderSource(_p->vertex, 1, &src, NULL);
-                glFuncs->glCompileShader(_p->vertex);
+                const char* src = _shader->getVertexSource().c_str();
+                glFuncs->glShaderSource(_vertex, 1, &src, NULL);
+                glFuncs->glCompileShader(_vertex);
                 int success = 0;
                 char infoLog[String::cStringLength];
-                glFuncs->glGetShaderiv(_p->vertex, GL_COMPILE_STATUS, &success);
+                glFuncs->glGetShaderiv(_vertex, GL_COMPILE_STATUS, &success);
                 if (!success)
                 {
-                    glFuncs->glGetShaderInfoLog(_p->vertex, String::cStringLength, NULL, infoLog);
+                    glFuncs->glGetShaderInfoLog(_vertex, String::cStringLength, NULL, infoLog);
                     std::stringstream s;
-                    s << "Cannot compile vertex shader: " << _p->shader->getVertexName() << ": " << infoLog;
+                    s << "Cannot compile vertex shader: " << _shader->getVertexName() << ": " << infoLog;
                     throw std::runtime_error(s.str());
                 }
 
-                _p->fragment = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
-                if (!_p->fragment)
+                _fragment = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
+                if (!_fragment)
                 {
                     throw std::runtime_error("Cannot create fragment shader");
                 }
-                src = _p->shader->getFragmentSource().c_str();
-                glFuncs->glShaderSource(_p->fragment, 1, &src, NULL);
-                glFuncs->glCompileShader(_p->fragment);
-                glFuncs->glGetShaderiv(_p->fragment, GL_COMPILE_STATUS, &success);
+                src = _shader->getFragmentSource().c_str();
+                glFuncs->glShaderSource(_fragment, 1, &src, NULL);
+                glFuncs->glCompileShader(_fragment);
+                glFuncs->glGetShaderiv(_fragment, GL_COMPILE_STATUS, &success);
                 if (!success)
                 {
-                    glFuncs->glGetShaderInfoLog(_p->fragment, String::cStringLength, NULL, infoLog);
+                    glFuncs->glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
                     std::stringstream s;
-                    s << "Cannot compile framgent shader: " << _p->shader->getFragmentName() << ": " << infoLog;
+                    s << "Cannot compile framgent shader: " << _shader->getFragmentName() << ": " << infoLog;
                     throw std::runtime_error(s.str());
                 }
 
-                _p->program = glFuncs->glCreateProgram();
-                glFuncs->glAttachShader(_p->program, _p->vertex);
-                glFuncs->glAttachShader(_p->program, _p->fragment);
-                glFuncs->glLinkProgram(_p->program);
-                glFuncs->glGetProgramiv(_p->program, GL_LINK_STATUS, &success);
+                _program = glFuncs->glCreateProgram();
+                glFuncs->glAttachShader(_program, _vertex);
+                glFuncs->glAttachShader(_program, _fragment);
+                glFuncs->glLinkProgram(_program);
+                glFuncs->glGetProgramiv(_program, GL_LINK_STATUS, &success);
                 if (!success)
                 {
-                    glFuncs->glGetProgramInfoLog(_p->program, String::cStringLength, NULL, infoLog);
+                    glFuncs->glGetProgramInfoLog(_program, String::cStringLength, NULL, infoLog);
                     std::stringstream s;
-                    s << "Cannot link program: " << _p->shader->getVertexName() << ": " << infoLog;
+                    s << "Cannot link program: " << _shader->getVertexName() << ": " << infoLog;
                     throw std::invalid_argument(s.str());
                 }
             }
 
-            Shader::Shader() :
-                _p(new Private)
+            Shader::Shader()
             {}
 
             Shader::~Shader()
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                if (_p->program)
+                if (_program)
                 {
-                    glFuncs->glDeleteProgram(_p->program);
-                    _p->program = 0;
+                    glFuncs->glDeleteProgram(_program);
+                    _program = 0;
                 }
-                if (_p->vertex)
+                if (_vertex)
                 {
-                    glFuncs->glDeleteShader(_p->vertex);
-                    _p->vertex = 0;
+                    glFuncs->glDeleteShader(_vertex);
+                    _vertex = 0;
                 }
-                if (_p->fragment)
+                if (_fragment)
                 {
-                    glFuncs->glDeleteShader(_p->fragment);
-                    _p->fragment = 0;
+                    glFuncs->glDeleteShader(_fragment);
+                    _fragment = 0;
                 }
             }
 
@@ -140,56 +131,56 @@ namespace djv
             void Shader::setUniform(const std::string& name, int value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 glFuncs->glUniform1iv(loc, 1, &value);
             }
 
             void Shader::setUniform(const std::string& name, float value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 glFuncs->glUniform1fv(loc, 1, &value);
             }
 
             void Shader::setUniform(const std::string& name, const glm::vec2& value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 glFuncs->glUniform2fv(loc, 1, &value[0]);
             }
 
             void Shader::setUniform(const std::string& name, const glm::vec3& value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 glFuncs->glUniform3fv(loc, 1, &value[0]);
             }
 
             void Shader::setUniform(const std::string& name, const glm::vec4& value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 glFuncs->glUniform4fv(loc, 1, &value[0]);
             }
 
             void Shader::setUniform(const std::string& name, const glm::mat3x3& value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 glFuncs->glUniformMatrix3fv(loc, 1, GL_FALSE, &value[0][0]);
             }
 
             void Shader::setUniform(const std::string& name, const glm::mat4x4& value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 glFuncs->glUniformMatrix4fv(loc, 1, GL_FALSE, &value[0][0]);
             }
 
             void Shader::setUniform(const std::string& name, const Color & value)
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                const GLint loc = glFuncs->glGetUniformLocation(_p->program, name.c_str());
+                const GLint loc = glFuncs->glGetUniformLocation(_program, name.c_str());
                 auto color = value.convert(Pixel::Type::RGBA_F32);
                 glFuncs->glUniform4fv(loc, 1, reinterpret_cast<const GLfloat *>(color.getData()));
             }
@@ -197,7 +188,7 @@ namespace djv
             void Shader::bind()
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glUseProgram(_p->program);
+                glFuncs->glUseProgram(_program);
             }
 
         } // namespace OpenGL

@@ -156,19 +156,7 @@ namespace djv
                     _tags == other._tags;
             }
 
-            struct Queue::Private
-            {
-                std::mutex mutex;
-                size_t videoMax = 100;
-                size_t audioMax = 100;
-                std::list<VideoFrame> video;
-                std::list<AudioFrame> audio;
-                bool finished = false;
-                bool closeOnFinish = true;
-            };
-
-            Queue::Queue() :
-                _p(new Private)
+            Queue::Queue()
             {}
 
             std::shared_ptr<Queue> Queue::create()
@@ -177,95 +165,40 @@ namespace djv
                 return out;
             }
 
-            std::mutex & Queue::getMutex()
-            {
-                return _p->mutex;
-            }
-
-            size_t Queue::getVideoMax() const
-            {
-                return _p->finished ? 0 : _p->videoMax;
-            }
-
-            size_t Queue::getAudioMax() const
-            {
-                return _p->finished ? 0 : _p->audioMax;
-            }
-
-            size_t Queue::getVideoCount() const
-            {
-                return _p->video.size();
-            }
-
-            size_t Queue::getAudioCount() const
-            {
-                return _p->audio.size();
-            }
-
-            bool Queue::hasVideo() const
-            {
-                return _p->video.size() > 0;
-            }
-
-            bool Queue::hasAudio() const
-            {
-                return _p->audio.size() > 0;
-            }
-
             void Queue::addVideo(Timestamp ts, const std::shared_ptr<Image> & data)
             {
-                _p->video.push_back(std::make_pair(ts, data));
+                _video.push_back(std::make_pair(ts, data));
             }
 
             void Queue::addAudio(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
             {
-                _p->audio.push_back(std::make_pair(ts, data));
-            }
-
-            VideoFrame Queue::getVideo() const
-            {
-                return _p->video.size() > 0 ? _p->video.front() : VideoFrame();
-            }
-
-            AudioFrame Queue::getAudio() const
-            {
-                return _p->audio.size() > 0 ? _p->audio.front() : AudioFrame();
+                _audio.push_back(std::make_pair(ts, data));
             }
 
             void Queue::popVideo()
             {
-                _p->video.pop_front();
+                _video.pop_front();
             }
 
             void Queue::popAudio()
             {
-                _p->audio.pop_front();
+                _audio.pop_front();
             }
 
             void Queue::clear()
             {
-                _p->video.clear();
-                _p->audio.clear();
-            }
-
-            bool Queue::isFinished() const
-            {
-                return _p->finished;
-            }
-
-            bool Queue::hasCloseOnFinish() const
-            {
-                return _p->closeOnFinish;
+                _video.clear();
+                _audio.clear();
             }
 
             void Queue::setFinished(bool value)
             {
-                _p->finished = value;
+                _finished = value;
             }
 
             void Queue::setCloseOnFinish(bool value)
             {
-                _p->closeOnFinish = value;
+                _closeOnFinish = value;
             }
 
             void IRead::_init(

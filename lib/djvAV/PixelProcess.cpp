@@ -50,11 +50,13 @@ namespace djv
 	    {
             struct Convert::Private
             {
+                glm::ivec2 size;
                 std::shared_ptr<OpenGL::OffscreenBuffer> offscreenBuffer;
                 std::shared_ptr<AV::OpenGL::Texture> texture;
                 std::shared_ptr<AV::OpenGL::VBO> vbo;
                 std::shared_ptr<AV::OpenGL::VAO> vao;
                 std::shared_ptr<AV::OpenGL::Shader> shader;
+                glm::mat4x4 mvp;
             };
 
             void Convert::_init(const std::shared_ptr<Core::Context> & context)
@@ -105,20 +107,26 @@ namespace djv
 
                 _p->shader->bind();
                 _p->shader->setUniform("textureSampler", 0);
-                glm::mat4x4 modelMatrix(1);
-                modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
-                modelMatrix = glm::scale(modelMatrix, glm::vec3(size.x, 0.f, size.y));
-                modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
-                glm::mat4x4 viewMatrix(1);
-                glm::mat4x4 projectionMatrix(1);
-                projectionMatrix = glm::ortho(
-                    0.f,
-                    static_cast<float>(size.x),
-                    0.f,
-                    static_cast<float>(size.y),
-                    -1.f,
-                    1.f);
-                _p->shader->setUniform("transform.mvp", projectionMatrix * viewMatrix * modelMatrix);
+                
+                if (size != _p->size)
+                {
+                    _p->size = size;
+                    glm::mat4x4 modelMatrix(1);
+                    modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
+                    modelMatrix = glm::scale(modelMatrix, glm::vec3(size.x, 0.f, size.y));
+                    modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
+                    glm::mat4x4 viewMatrix(1);
+                    glm::mat4x4 projectionMatrix(1);
+                    projectionMatrix = glm::ortho(
+                        0.f,
+                        static_cast<float>(size.x),
+                        0.f,
+                        static_cast<float>(size.y),
+                        -1.f,
+                        1.f);
+                    _p->mvp = projectionMatrix * viewMatrix * modelMatrix;
+                }
+                _p->shader->setUniform("transform.mvp", _p->mvp);
 
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 glFuncs->glViewport(0, 0, size.x, size.y);

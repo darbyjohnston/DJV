@@ -23,9 +23,11 @@ set(header
     Keycode.h
     OpenGL.h
     OpenGLMesh.h
+    OpenGLMeshInline.h
     OpenGLOffscreenBuffer.h
     OpenGLShader.h
     OpenGLTexture.h
+    OpenGLTextureInline.h
     PPM.h
     Pixel.h
     PixelData.h

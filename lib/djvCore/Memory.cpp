@@ -65,13 +65,6 @@ namespace djv
                 return ss.str();
             }
 
-            Endian getEndian()
-            {
-                static const int tmp = 1;
-                static const uint8_t* const p = reinterpret_cast<const uint8_t*>(&tmp);
-                return *p ? Endian::LSB : Endian::MSB;
-            }
-
         } // namespace Memory
     } // namespace Core
 

@@ -37,6 +37,14 @@ namespace djv
     {
         namespace Memory
         {
+            inline Endian getEndian()
+            {
+                static const int tmp = 1;
+                static const uint8_t * const p = reinterpret_cast<const uint8_t *>(&tmp);
+                static const Endian endian = *p ? Endian::LSB : Endian::MSB;
+                return endian;
+            }
+            
             inline Endian opposite(Endian in)
             {
                 return Endian::MSB == in ? Endian::LSB : Endian::MSB;

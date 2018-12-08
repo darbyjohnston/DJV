@@ -47,11 +47,6 @@ namespace djv
 {
     namespace Core
     {
-        char Path::getCurrentPathSeparator()
-        {
-            return getPathSeparator(PathSeparator::Unix);
-        }
-        
         void Path::mkdir(const Path& value)
         {
             if (::mkdir(value.get().c_str(), S_IRWXU) != 0)

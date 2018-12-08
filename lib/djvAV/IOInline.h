@@ -78,6 +78,61 @@ namespace djv
                 return _tags;
             }
 
+            inline std::mutex & Queue::getMutex()
+            {
+                return _mutex;
+            }
+
+            inline size_t Queue::getVideoMax() const
+            {
+                return _finished ? 0 : _videoMax;
+            }
+
+            inline size_t Queue::getAudioMax() const
+            {
+                return _finished ? 0 : _audioMax;
+            }
+
+            inline size_t Queue::getVideoCount() const
+            {
+                return _video.size();
+            }
+
+            inline size_t Queue::getAudioCount() const
+            {
+                return _audio.size();
+            }
+
+            inline bool Queue::hasVideo() const
+            {
+                return _video.size() > 0;
+            }
+
+            inline bool Queue::hasAudio() const
+            {
+                return _audio.size() > 0;
+            }
+
+            inline VideoFrame Queue::getVideo() const
+            {
+                return _video.size() > 0 ? _video.front() : VideoFrame();
+            }
+
+            inline AudioFrame Queue::getAudio() const
+            {
+                return _audio.size() > 0 ? _audio.front() : AudioFrame();
+            }
+
+            inline bool Queue::isFinished() const
+            {
+                return _finished;
+            }
+
+            inline bool Queue::hasCloseOnFinish() const
+            {
+                return _closeOnFinish;
+            }
+
             inline const std::string & IPlugin::getPluginName() const
             {
                 return _pluginName;

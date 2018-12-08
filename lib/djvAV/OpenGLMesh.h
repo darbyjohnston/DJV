@@ -65,10 +65,10 @@ namespace djv
 
                 static std::shared_ptr<VBO> create(size_t size, size_t vertexCount, VBOType);
 
-                size_t getSize() const;
-                size_t getVertexCount() const;
-                VBOType getType() const;
-                GLuint getID() const;
+                inline size_t getSize() const;
+                inline size_t getVertexCount() const;
+                inline VBOType getType() const;
+                inline GLuint getID() const;
 
                 void copy(const std::vector<uint8_t>&);
                 void copy(const std::vector<uint8_t>&, size_t offset);
@@ -76,7 +76,10 @@ namespace djv
                 static std::vector<uint8_t> convert(const TriangleMesh&, VBOType);
 
             private:
-                DJV_PRIVATE();
+                size_t _size = 0;
+                size_t _vertexCount = 0;
+                VBOType _type = VBOType::First;
+                GLuint _vbo = 0;
             };
 
             class VAO
@@ -90,15 +93,18 @@ namespace djv
 
                 static std::shared_ptr<VAO> create(VBOType, GLuint vbo);
 
-                GLuint getID() const;
+                inline GLuint getID() const;
 
                 void bind();
                 void draw(size_t offset, size_t size);
 
             private:
-                DJV_PRIVATE();
+                GLuint _vao = 0;
             };
 
         } // namespace OpenGL
     } // namespace AV
 } // namespace djv
+
+#include <djvAV/OpenGLMeshInline.h>
+

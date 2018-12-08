@@ -44,6 +44,7 @@
 #include <future>
 #include <mutex>
 #include <set>
+#include <list>
 
 namespace djv
 {
@@ -140,35 +141,41 @@ namespace djv
             public:
                 static std::shared_ptr<Queue> create();
 
-                std::mutex & getMutex();
+                inline std::mutex & getMutex();
 
-                size_t getVideoMax() const;
-                size_t getAudioMax() const;
+                inline size_t getVideoMax() const;
+                inline size_t getAudioMax() const;
                 void setVideoMax(size_t);
                 void setAudioMax(size_t);
 
-                size_t getVideoCount() const;
-                size_t getAudioCount() const;
-                bool hasVideo() const;
-                bool hasAudio() const;
+                inline size_t getVideoCount() const;
+                inline size_t getAudioCount() const;
+                inline bool hasVideo() const;
+                inline bool hasAudio() const;
 
                 void addVideo(Timestamp, const std::shared_ptr<Image> &);
                 void addAudio(Timestamp, const std::shared_ptr<Audio::Data> &);
 
-                VideoFrame getVideo() const;
-                AudioFrame getAudio() const;
+                inline VideoFrame getVideo() const;
+                inline AudioFrame getAudio() const;
                 void popVideo();
                 void popAudio();
 
                 void clear();
 
-                bool isFinished() const;
-                bool hasCloseOnFinish() const;
+                inline bool isFinished() const;
+                inline bool hasCloseOnFinish() const;
                 void setFinished(bool);
                 void setCloseOnFinish(bool);
 
             private:
-                DJV_PRIVATE();
+                std::mutex _mutex;
+                size_t _videoMax = 100;
+                size_t _audioMax = 100;
+                std::list<VideoFrame> _video;
+                std::list<AudioFrame> _audio;
+                bool _finished = false;
+                bool _closeOnFinish = true;
             };
 
             //! This class provides an interface for reading.

@@ -59,7 +59,7 @@ namespace djv
             DJV_ENUM_HELPERS(Endian);
 
             //! Get the current machine's endian.
-            Endian getEndian();
+            inline Endian getEndian();
 
             //! Get the opposite of the given endian.
             inline Endian opposite(Endian);

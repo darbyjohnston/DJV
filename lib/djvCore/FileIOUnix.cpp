@@ -225,9 +225,10 @@ namespace djv
 
         bool FileIO::isOpen() const
         {
+            const auto pv = *_p;
             return
-                _p->f != -1 &&
-                (_p->size ? _p->pos < _p->size : false);
+                pv.f != -1 &&
+                (pv.size ? pv.pos < pv.size : false);
         }
         
         const std::string& FileIO::getFileName() const
@@ -242,45 +243,47 @@ namespace djv
 
         bool FileIO::isEOF() const
         {
+            const auto pv = *_p;
             return
-                -1 == _p->f ||
-                (_p->size ? _p->pos >= _p->size : true);
+                -1 == pv.f ||
+                (pv.size ? pv.pos >= pv.size : true);
         }
 
         void FileIO::read(void* in, size_t size, size_t wordSize)
         {
-            switch (_p->mode)
+            auto pv = *_p;
+            switch (pv.mode)
             {
             case Mode::Read:
             {
-                const uint8_t* p = _p->mmapP + size * wordSize;
-                if (p > _p->mmapEnd)
+                const uint8_t* p = pv.mmapP + size * wordSize;
+                if (p > pv.mmapEnd)
                 {
                     std::stringstream s;
-                    s << "Cannot read file: " << _p->fileName;
+                    s << "Cannot read file: " << pv.fileName;
                     throw std::runtime_error(s.str());
                 }
-                if (_p->endian && wordSize > 1)
+                if (pv.endian && wordSize > 1)
                 {
-                    Memory::endian(_p->mmapP, in, size, wordSize);
+                    Memory::endian(pv.mmapP, in, size, wordSize);
                 }
                 else
                 {
-                    memcpy(in, _p->mmapP, size * wordSize);
+                    memcpy(in, pv.mmapP, size * wordSize);
                 }
-                _p->mmapP = p;
+                pv.mmapP = p;
                 break;
             }
             case Mode::ReadWrite:
             {
-                const size_t r = ::read(_p->f, in, size * wordSize);
+                const size_t r = ::read(pv.f, in, size * wordSize);
                 if (r != size * wordSize)
                 {
                     std::stringstream s;
-                    s << "Cannot read file: " << _p->fileName;
+                    s << "Cannot read file: " << pv.fileName;
                     throw std::runtime_error(s.str());
                 }
-                if (_p->endian && wordSize > 1)
+                if (pv.endian && wordSize > 1)
                 {
                     Memory::endian(in, size, wordSize);
                 }
@@ -289,30 +292,32 @@ namespace djv
             default: break;
             }
 
-            _p->pos += size * wordSize;
+            pv.pos += size * wordSize;
         }
 
         void FileIO::write(const void* in, size_t size, size_t wordSize)
         {
+            auto pv = *_p;
+
             uint8_t* p = (uint8_t*)in;
 
             std::vector<uint8_t> tmp;
-            if (_p->endian && wordSize > 1)
+            if (pv.endian && wordSize > 1)
             {
                 tmp.resize(size * wordSize);
                 p = tmp.data();
                 Memory::endian(in, p, size, wordSize);
             }
 
-            if (::write(_p->f, p, size * wordSize) == -1)
+            if (::write(pv.f, p, size * wordSize) == -1)
             {
                 std::stringstream s;
-                s << "Cannot write file: " << _p->fileName;
+                s << "Cannot write file: " << pv.fileName;
                 throw std::runtime_error(s.str());
             }
 
-            _p->pos += size * wordSize;
-            _p->size = std::max(_p->pos, _p->size);
+            pv.pos += size * wordSize;
+            pv.size = std::max(pv.pos, pv.size);
         }
 
         const uint8_t* FileIO::mmapP() const
@@ -352,30 +357,32 @@ namespace djv
 
         void FileIO::_setPos(size_t in, bool seek)
         {
-            switch (_p->mode)
+            auto pv = *_p;
+
+            switch (pv.mode)
             {
             case Mode::Read:
                 if (!seek)
                 {
-                    _p->mmapP = reinterpret_cast<const uint8_t*>(_p->mmapStart) + in;
+                    pv.mmapP = reinterpret_cast<const uint8_t*>(pv.mmapStart) + in;
                 }
                 else
                 {
-                    _p->mmapP += in;
+                    pv.mmapP += in;
                 }
-                if (_p->mmapP > _p->mmapEnd)
+                if (pv.mmapP > pv.mmapEnd)
                 {
                     std::stringstream s;
-                    s << "Cannot read file: " << _p->fileName;
+                    s << "Cannot read file: " << pv.fileName;
                     throw std::runtime_error(s.str());
                 }
                 break;
             case Mode::Write:
             case Mode::ReadWrite:
-                if (::lseek(_p->f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
+                if (::lseek(pv.f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
                 {
                     std::stringstream s;
-                    s << "Cannot write file: " << _p->fileName;
+                    s << "Cannot write file: " << pv.fileName;
                     throw std::runtime_error(s.str());
                 }
                 break;
@@ -384,11 +391,11 @@ namespace djv
 
             if (!seek)
             {
-                _p->pos = in;
+                pv.pos = in;
             }
             else
             {
-                _p->pos += in;
+                pv.pos += in;
             }
         }
 

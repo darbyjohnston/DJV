@@ -72,6 +72,14 @@ namespace djv
                     return out;
                 }
 
+                void Write::_start()
+                {
+                    if (auto context = _context.lock())
+                    {
+                        _p->convert = Pixel::Convert::create(context);
+                    }
+                }
+                
                 void Write::_open(const std::string & fileName, const Info & info)
                 {
                     const auto & videoInfo = info.getVideo();
@@ -117,11 +125,6 @@ namespace djv
                     _p->info = Pixel::Info(videoInfo[0].getInfo().getSize(), pixelType, layout);
 
                     _p->io.open(fileName, Core::FileIO::Mode::Write);
-
-                    if (auto context = _context.lock())
-                    {
-                        _p->convert = Pixel::Convert::create(context);
-                    }
                 }
 
                 void Write::_write(const std::shared_ptr<Image> & image)

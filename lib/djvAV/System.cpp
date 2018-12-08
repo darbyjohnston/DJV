@@ -88,7 +88,7 @@ namespace djv
                 ss << DJV_TEXT("Cannot create OpenGL context, found version ") <<
                     _p->openGLContext->format().majorVersion() << "." <<
                     _p->openGLContext->format().minorVersion();
-                throw Core::Error("djv::AV::AVContext", ss.str());
+                throw Core::Error("djv::AV::System", ss.str());
             }
 
             _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
@@ -106,7 +106,7 @@ namespace djv
                 ss << DJV_TEXT("Cannot find OpenGL 3.3 functions, found version ") <<
                     _p->openGLContext->format().majorVersion() << "." <<
                     _p->openGLContext->format().minorVersion();
-                throw Core::Error("djv::AV::AVContext", ss.str());
+                throw Core::Error("djv::AV::System", ss.str());
             }
 
             _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);

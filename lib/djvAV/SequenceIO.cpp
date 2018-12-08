@@ -90,6 +90,7 @@ namespace djv
                         }
                     }
 
+                    _start();
                     while (_queue && _p->running)
                     {
                         bool read = false;
@@ -139,9 +140,9 @@ namespace djv
 
                                 if (auto context = _context.lock())
                                 {
-                                    std::stringstream ss;
-                                    ss << _fileName << ", read frame: " << pts;
-                                    context->log("djv::AV::IO::ISequenceRead", ss.str());
+                                    //std::stringstream ss;
+                                    //ss << _fileName << ", read frame: " << pts;
+                                    //context->log("djv::AV::IO::ISequenceRead", ss.str());
                                 }
 
                                 const auto info = _open(fileName, speed, duration);
@@ -171,6 +172,7 @@ namespace djv
                             }
                         }
                     }
+                    _exit();
                 });
             }
             
@@ -268,6 +270,7 @@ namespace djv
                     _p->openGLDebugLogger->initialize();
                     _p->openGLDebugLogger->startLogging();
                 }
+                _start();
                 while (_p->running)
                 {
                     std::shared_ptr<Image> image;
@@ -298,9 +301,9 @@ namespace djv
                                     ++_p->frameNumber;
                                 }
 
-                                std::stringstream ss;
-                                ss << "Writing: " << fileName;
-                                context->log("djv::AV::IO::ISequenceWrite", ss.str());
+                                //std::stringstream ss;
+                                //ss << "Writing: " << fileName;
+                                //context->log("djv::AV::IO::ISequenceWrite", ss.str());
 
                                 _open(fileName, _p->info);
                                 _write(image);

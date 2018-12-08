@@ -159,11 +159,6 @@ namespace djv
             _value = _directoryName + _fileName;
         }
 
-        char Path::getPathSeparator(PathSeparator value)
-        {
-            return PathSeparator::Unix == value ? '/' : '\\';
-        }
-
         void Path::removeTrailingSeparator(std::string& value)
         {
             if (value.size() > 2)

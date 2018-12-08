@@ -51,7 +51,7 @@ namespace djv
             //! \todo [1.0 S] Should this be configurable?
             const size_t infoCacheMax = 10000;
             const size_t imageCacheMax = 10000;
-            const size_t timeout = 10;
+            const size_t timeout = 100;
             const size_t statsTimeout = 10000;
 
             struct InfoRequest

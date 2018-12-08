@@ -321,9 +321,9 @@ namespace djv
                                     {
                                         if (auto context = _context.lock())
                                         {
-                                            std::stringstream ss;
-                                            ss << fileName << ", seek: " << seek;
-                                            context->log("djv::AV::IO::FFmpeg::Read", ss.str());
+                                            //std::stringstream ss;
+                                            //ss << fileName << ", seek: " << seek;
+                                            //context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                         }
                                         if (av_seek_frame(
                                             _p->avFormatContext,
@@ -493,9 +493,9 @@ namespace djv
 
                         if (auto context = _context.lock())
                         {
-                            std::stringstream ss;
-                            ss << _fileName << ", decoded frame: " << pts;
-                            context->log("djv::AV::IO::FFmpeg::Read", ss.str());
+                            //std::stringstream ss;
+                            //ss << _fileName << ", decoded frame: " << pts;
+                            //context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                         }
 
                         if (!seek)
