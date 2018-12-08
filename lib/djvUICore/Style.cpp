@@ -53,21 +53,22 @@ namespace djv
         Palette::Palette() :
             _p(new Private)
         {
-            _p->colors[ColorRole::None]              = AV::Color();
-            _p->colors[ColorRole::Background]        = AV::Color( .2f,  .21f, .23f);
-            _p->colors[ColorRole::BackgroundHeader]  = AV::Color( .1f,  .1f,  .1f);
-            _p->colors[ColorRole::BackgroundScroll]  = AV::Color( .15f, .16f, .18f);
-            _p->colors[ColorRole::Foreground]        = AV::Color( .9f,  .9f,  .9f);
-            _p->colors[ColorRole::ForegroundDim]     = AV::Color( .7f,  .7f,  .7f);
-            _p->colors[ColorRole::Border]            = AV::Color( .16f, .19f, .22f);
-            _p->colors[ColorRole::Trough]            = AV::Color( .1f,  .1f,  .1f);
-            _p->colors[ColorRole::Button]            = AV::Color( .27f, .3f,  .33f);
-            _p->colors[ColorRole::Checked]           = AV::Color( .2f,  .4f,  .7f);
-            _p->colors[ColorRole::CheckedForeground] = AV::Color( .9f,  .9f,  .9f);
-            _p->colors[ColorRole::Hover]             = AV::Color(1.f,  1.f,  1.f, .1f);
-            _p->colors[ColorRole::Disabled]          = AV::Color( .3f,  .3f,  .3f);
-            _p->colors[ColorRole::Overlay]           = AV::Color(0.f,  0.f,  0.f, .5f);
-            _p->colors[ColorRole::Shadow]            = AV::Color(0.f,  0.f,  0.f, .2f);
+            DJV_PRIVATE_PTR();
+            p.colors[ColorRole::None]              = AV::Color();
+            p.colors[ColorRole::Background]        = AV::Color( .2f,  .21f, .23f);
+            p.colors[ColorRole::BackgroundHeader]  = AV::Color( .1f,  .1f,  .1f);
+            p.colors[ColorRole::BackgroundScroll]  = AV::Color( .15f, .16f, .18f);
+            p.colors[ColorRole::Foreground]        = AV::Color( .9f,  .9f,  .9f);
+            p.colors[ColorRole::ForegroundDim]     = AV::Color( .7f,  .7f,  .7f);
+            p.colors[ColorRole::Border]            = AV::Color( .16f, .19f, .22f);
+            p.colors[ColorRole::Trough]            = AV::Color( .1f,  .1f,  .1f);
+            p.colors[ColorRole::Button]            = AV::Color( .27f, .3f,  .33f);
+            p.colors[ColorRole::Checked]           = AV::Color( .2f,  .4f,  .7f);
+            p.colors[ColorRole::CheckedForeground] = AV::Color( .9f,  .9f,  .9f);
+            p.colors[ColorRole::Hover]             = AV::Color(1.f,  1.f,  1.f, .1f);
+            p.colors[ColorRole::Disabled]          = AV::Color( .3f,  .3f,  .3f);
+            p.colors[ColorRole::Overlay]           = AV::Color(0.f,  0.f,  0.f, .5f);
+            p.colors[ColorRole::Shadow]            = AV::Color(0.f,  0.f,  0.f, .2f);
         }
 
         Palette::Palette(const Palette& other) :
@@ -124,25 +125,26 @@ namespace djv
         Metrics::Metrics() :
             _p(new Private)
         {
-            _p->metrics[MetricsRole::None]                =   0.f;
-            _p->metrics[MetricsRole::Border]              =   2.f;
-            _p->metrics[MetricsRole::Margin]              =  10.f;
-            _p->metrics[MetricsRole::MarginSmall]         =   5.f;
-            _p->metrics[MetricsRole::MarginLarge]         =  40.f;
-            _p->metrics[MetricsRole::Spacing]             =  10.f;
-            _p->metrics[MetricsRole::SpacingSmall]        =   5.f;
-            _p->metrics[MetricsRole::SpacingLarge]        =  40.f;
-            _p->metrics[MetricsRole::Drag]                =  20.f;
-            _p->metrics[MetricsRole::Icon]                =  25.f;
-            _p->metrics[MetricsRole::IconLarge]           = 100.f;
-            _p->metrics[MetricsRole::FontSmall]           =  16.f;
-            _p->metrics[MetricsRole::FontMedium]          =  18.f;
-            _p->metrics[MetricsRole::FontLarge]           =  28.f;
-            _p->metrics[MetricsRole::FontExtraLarge]      =  72.f;
-            _p->metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
-            _p->metrics[MetricsRole::Swatch]              =  40.f;
-            _p->metrics[MetricsRole::Thumbnail]           = 300.f;
-            _p->metrics[MetricsRole::Shadow]              =  20.f;
+            DJV_PRIVATE_PTR();
+            p.metrics[MetricsRole::None]                =   0.f;
+            p.metrics[MetricsRole::Border]              =   2.f;
+            p.metrics[MetricsRole::Margin]              =  10.f;
+            p.metrics[MetricsRole::MarginSmall]         =   5.f;
+            p.metrics[MetricsRole::MarginLarge]         =  40.f;
+            p.metrics[MetricsRole::Spacing]             =  10.f;
+            p.metrics[MetricsRole::SpacingSmall]        =   5.f;
+            p.metrics[MetricsRole::SpacingLarge]        =  40.f;
+            p.metrics[MetricsRole::Drag]                =  20.f;
+            p.metrics[MetricsRole::Icon]                =  25.f;
+            p.metrics[MetricsRole::IconLarge]           = 100.f;
+            p.metrics[MetricsRole::FontSmall]           =  16.f;
+            p.metrics[MetricsRole::FontMedium]          =  18.f;
+            p.metrics[MetricsRole::FontLarge]           =  28.f;
+            p.metrics[MetricsRole::FontExtraLarge]      =  72.f;
+            p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
+            p.metrics[MetricsRole::Swatch]              =  40.f;
+            p.metrics[MetricsRole::Thumbnail]           = 300.f;
+            p.metrics[MetricsRole::Shadow]              =  20.f;
         }
 
         float Metrics::getMetric(MetricsRole role) const
@@ -167,7 +169,8 @@ namespace djv
 
         bool Metrics::operator == (const Metrics& other) const
         {
-            return _p->metrics == other._p->metrics && _p->scale == other._p->scale;
+            DJV_PRIVATE_PTR();
+            return p.metrics == other._p->metrics && p.scale == other._p->scale;
         }
 
         struct Style::Private
@@ -189,11 +192,12 @@ namespace djv
         {
             ISystem::_init("djv::UICore::Style", context);
 
-            _p->settings = StyleSettings::create(context);
+            DJV_PRIVATE_PTR();
+            p.settings = StyleSettings::create(context);
 
             auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
-            _p->paletteObserver = ValueObserver<Palette>::create(
-                _p->settings->getCurrentPalette(),
+            p.paletteObserver = ValueObserver<Palette>::create(
+                p.settings->getCurrentPalette(),
                 [weak](const Palette value)
             {
                 if (auto style = weak.lock())
@@ -202,8 +206,8 @@ namespace djv
                 }
             });
 
-            _p->metricsObserver = ValueObserver<Metrics>::create(
-                _p->settings->getCurrentMetrics(),
+            p.metricsObserver = ValueObserver<Metrics>::create(
+                p.settings->getCurrentMetrics(),
                 [weak](const Metrics& value)
             {
                 if (auto style = weak.lock())
@@ -213,7 +217,7 @@ namespace djv
             });
 
             /*auto uiSystem = context->getSystemT<System>();
-            _p->currentLocaleObserver = ValueObserver<std::string>::create(
+            p.currentLocaleObserver = ValueObserver<std::string>::create(
                 uiSystem->getGeneralSettings()->getCurrentLocale(),
                 [weak](const std::string& value)
             {
@@ -224,7 +228,7 @@ namespace djv
                 }
             });
 
-            _p->fontsObserver = MapObserver<std::string, FontMap>::create(
+            p.fontsObserver = MapObserver<std::string, FontMap>::create(
                 uiSystem->getFontSettings()->getFonts(),
                 [weak](const std::map<std::string, FontMap>& value)
             {

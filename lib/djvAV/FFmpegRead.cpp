@@ -86,6 +86,7 @@ namespace djv
                     _p->thread = std::thread(
                         [this, fileName]
                     {
+                        DJV_PRIVATE_PTR();
                         try
                         {
                             // Open the file.
@@ -96,7 +97,7 @@ namespace djv
                                 context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                             }
                             int r = avformat_open_input(
-                                &_p->avFormatContext,
+                                &p.avFormatContext,
                                 fileName.c_str(),
                                 nullptr,
                                 nullptr);
@@ -106,28 +107,28 @@ namespace djv
                                     "djv::AV::IO::FFmpeg::Read",
                                     FFmpeg::getErrorString(r));
                             }
-                            r = avformat_find_stream_info(_p->avFormatContext, 0);
+                            r = avformat_find_stream_info(p.avFormatContext, 0);
                             if (r < 0)
                             {
                                 throw Core::Error(
                                     "djv::AV::IO::FFmpeg::Read",
                                     FFmpeg::getErrorString(r));
                             }
-                            av_dump_format(_p->avFormatContext, 0, fileName.c_str(), 0);
+                            av_dump_format(p.avFormatContext, 0, fileName.c_str(), 0);
 
                             // Find the first video and audio stream.
-                            for (unsigned int i = 0; i < _p->avFormatContext->nb_streams; ++i)
+                            for (unsigned int i = 0; i < p.avFormatContext->nb_streams; ++i)
                             {
-                                if (-1 == _p->avVideoStream && _p->avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+                                if (-1 == p.avVideoStream && p.avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
                                 {
-                                    _p->avVideoStream = i;
+                                    p.avVideoStream = i;
                                 }
-                                if (-1 == _p->avAudioStream && _p->avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO)
+                                if (-1 == p.avAudioStream && p.avFormatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO)
                                 {
-                                    _p->avAudioStream = i;
+                                    p.avAudioStream = i;
                                 }
                             }
-                            if (-1 == _p->avVideoStream && -1 == _p->avAudioStream)
+                            if (-1 == p.avVideoStream && -1 == p.avAudioStream)
                             {
                                 throw Core::Error(
                                     "djv::AV::IO::FFmpeg::Read",
@@ -137,10 +138,10 @@ namespace djv
                             Info info;
                             info.setFileName(fileName);
 
-                            if (_p->avVideoStream != -1)
+                            if (p.avVideoStream != -1)
                             {
                                 // Find the codec for the video stream.
-                                auto avVideoStream = _p->avFormatContext->streams[_p->avVideoStream];
+                                auto avVideoStream = p.avFormatContext->streams[p.avVideoStream];
                                 auto avVideoCodecParameters = avVideoStream->codecpar;
                                 auto avVideoCodec = avcodec_find_decoder(avVideoCodecParameters->codec_id);
                                 if (!avVideoCodec)
@@ -149,23 +150,23 @@ namespace djv
                                         "djv::AV::IO::FFmpeg::Read",
                                         DJV_TEXT("Cannot find video codec"));
                                 }
-                                _p->avCodecParameters[_p->avVideoStream] = avcodec_parameters_alloc();
-                                r = avcodec_parameters_copy(_p->avCodecParameters[_p->avVideoStream], avVideoCodecParameters);
+                                p.avCodecParameters[p.avVideoStream] = avcodec_parameters_alloc();
+                                r = avcodec_parameters_copy(p.avCodecParameters[p.avVideoStream], avVideoCodecParameters);
                                 if (r < 0)
                                 {
                                     throw Core::Error(
                                         "djv::AV::IO::FFmpeg::Read",
                                         FFmpeg::getErrorString(r));
                                 }
-                                _p->avCodecContext[_p->avVideoStream] = avcodec_alloc_context3(avVideoCodec);
-                                r = avcodec_parameters_to_context(_p->avCodecContext[_p->avVideoStream], _p->avCodecParameters[_p->avVideoStream]);
+                                p.avCodecContext[p.avVideoStream] = avcodec_alloc_context3(avVideoCodec);
+                                r = avcodec_parameters_to_context(p.avCodecContext[p.avVideoStream], p.avCodecParameters[p.avVideoStream]);
                                 if (r < 0)
                                 {
                                     throw Core::Error(
                                         "djv::AV::IO::FFmpeg::Read",
                                         FFmpeg::getErrorString(r));
                                 }
-                                r = avcodec_open2(_p->avCodecContext[_p->avVideoStream], avVideoCodec, 0);
+                                r = avcodec_open2(p.avCodecContext[p.avVideoStream], avVideoCodec, 0);
                                 if (r < 0)
                                 {
                                     throw Core::Error(
@@ -174,16 +175,16 @@ namespace djv
                                 }
 
                                 // Initialize the buffers.
-                                _p->avFrame = av_frame_alloc();
-                                _p->avFrameRgb = av_frame_alloc();
+                                p.avFrame = av_frame_alloc();
+                                p.avFrameRgb = av_frame_alloc();
 
                                 // Initialize the software scaler.
-                                _p->swsContext = sws_getContext(
-                                    _p->avCodecParameters[_p->avVideoStream]->width,
-                                    _p->avCodecParameters[_p->avVideoStream]->height,
-                                    static_cast<AVPixelFormat>(_p->avCodecParameters[_p->avVideoStream]->format),
-                                    _p->avCodecParameters[_p->avVideoStream]->width,
-                                    _p->avCodecParameters[_p->avVideoStream]->height,
+                                p.swsContext = sws_getContext(
+                                    p.avCodecParameters[p.avVideoStream]->width,
+                                    p.avCodecParameters[p.avVideoStream]->height,
+                                    static_cast<AVPixelFormat>(p.avCodecParameters[p.avVideoStream]->format),
+                                    p.avCodecParameters[p.avVideoStream]->width,
+                                    p.avCodecParameters[p.avVideoStream]->height,
                                     AV_PIX_FMT_RGBA,
                                     SWS_BILINEAR,
                                     0,
@@ -192,7 +193,7 @@ namespace djv
 
                                 // Get file information.
                                 const auto pixelDataInfo = Pixel::Info(
-                                    glm::ivec2(_p->avCodecParameters[_p->avVideoStream]->width, _p->avCodecParameters[_p->avVideoStream]->height),
+                                    glm::ivec2(p.avCodecParameters[p.avVideoStream]->width, p.avCodecParameters[p.avVideoStream]->height),
                                     Pixel::Type::RGBA_U8,
                                     Pixel::Layout(Pixel::Mirror(false, true)));
                                 Duration duration = 0;
@@ -203,13 +204,13 @@ namespace djv
                                         avVideoStream->time_base,
                                         FFmpeg::getTimeBaseQ());
                                 }
-                                else if (_p->avFormatContext->duration != AV_NOPTS_VALUE)
+                                else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
                                 {
-                                    duration = _p->avFormatContext->duration;
+                                    duration = p.avFormatContext->duration;
                                 }
                                 const Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
-                                _p->videoInfo = VideoInfo(pixelDataInfo, speed, duration);
-                                info.setVideo(_p->videoInfo);
+                                p.videoInfo = VideoInfo(pixelDataInfo, speed, duration);
+                                info.setVideo(p.videoInfo);
                                 if (auto context = _context.lock())
                                 {
                                     std::stringstream ss;
@@ -221,10 +222,10 @@ namespace djv
                                 }
                             }
 
-                            if (_p->avAudioStream != -1)
+                            if (p.avAudioStream != -1)
                             {
                                 // Find the codec for the audio stream.
-                                auto avAudioStream = _p->avFormatContext->streams[_p->avAudioStream];
+                                auto avAudioStream = p.avFormatContext->streams[p.avAudioStream];
                                 auto avAudioCodecParameters = avAudioStream->codecpar;
                                 Audio::Type audioType = FFmpeg::toAudioType(static_cast<AVSampleFormat>(avAudioCodecParameters->format));
                                 if (Audio::Type::None == audioType)
@@ -240,23 +241,23 @@ namespace djv
                                         "djv::AV::IO::FFmpeg::Read",
                                         DJV_TEXT("Cannot find audio codec"));
                                 }
-                                _p->avCodecParameters[_p->avAudioStream] = avcodec_parameters_alloc();
-                                r = avcodec_parameters_copy(_p->avCodecParameters[_p->avAudioStream], avAudioCodecParameters);
+                                p.avCodecParameters[p.avAudioStream] = avcodec_parameters_alloc();
+                                r = avcodec_parameters_copy(p.avCodecParameters[p.avAudioStream], avAudioCodecParameters);
                                 if (r < 0)
                                 {
                                     throw Core::Error(
                                         "djv::AV::IO::FFmpeg::Read",
                                         FFmpeg::getErrorString(r));
                                 }
-                                _p->avCodecContext[_p->avAudioStream] = avcodec_alloc_context3(avAudioCodec);
-                                r = avcodec_parameters_to_context(_p->avCodecContext[_p->avAudioStream], _p->avCodecParameters[_p->avAudioStream]);
+                                p.avCodecContext[p.avAudioStream] = avcodec_alloc_context3(avAudioCodec);
+                                r = avcodec_parameters_to_context(p.avCodecContext[p.avAudioStream], p.avCodecParameters[p.avAudioStream]);
                                 if (r < 0)
                                 {
                                     throw Core::Error(
                                         "djv::AV::IO::FFmpeg::Read",
                                         FFmpeg::getErrorString(r));
                                 }
-                                r = avcodec_open2(_p->avCodecContext[_p->avAudioStream], avAudioCodec, 0);
+                                r = avcodec_open2(p.avCodecContext[p.avAudioStream], avAudioCodec, 0);
                                 if (r < 0)
                                 {
                                     throw Core::Error(
@@ -273,42 +274,43 @@ namespace djv
                                         avAudioStream->time_base,
                                         FFmpeg::getTimeBaseQ());
                                 }
-                                else if (_p->avFormatContext->duration != AV_NOPTS_VALUE)
+                                else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
                                 {
-                                    duration = _p->avFormatContext->duration;
+                                    duration = p.avFormatContext->duration;
                                 }
-                                _p->audioInfo = AudioInfo(
+                                p.audioInfo = AudioInfo(
                                     Audio::DataInfo(
-                                        _p->avCodecParameters[_p->avAudioStream]->channels,
+                                        p.avCodecParameters[p.avAudioStream]->channels,
                                         audioType,
-                                        _p->avCodecParameters[_p->avAudioStream]->sample_rate),
+                                        p.avCodecParameters[p.avAudioStream]->sample_rate),
                                     duration);
-                                info.setAudio(_p->audioInfo);
+                                info.setAudio(p.audioInfo);
                             }
 
-                            _p->infoPromise.set_value(info);
+                            p.infoPromise.set_value(info);
 
-                            while (_queue && _p->running)
+                            while (_queue && p.running)
                             {
                                 bool read = false;
                                 Timestamp seek = -1;
                                 {
                                     std::unique_lock<std::mutex> lock(_queue->getMutex());
-                                    if (_p->queueCV.wait_for(
+                                    if (p.queueCV.wait_for(
                                         lock,
                                         std::chrono::milliseconds(timeout),
                                         [this]
                                     {
-                                        const bool video = _p->avVideoStream != -1 && (_queue->getVideoCount() < _queue->getVideoMax());
-                                        const bool audio = _p->avAudioStream != -1 && (_queue->getAudioCount() < _queue->getAudioMax());
-                                        return video || audio || _p->seek != -1;
+                                        DJV_PRIVATE_PTR();
+                                        const bool video = p.avVideoStream != -1 && (_queue->getVideoCount() < _queue->getVideoMax());
+                                        const bool audio = p.avAudioStream != -1 && (_queue->getAudioCount() < _queue->getAudioMax());
+                                        return video || audio || p.seek != -1;
                                     }))
                                     {
                                         read = true;
-                                        if (_p->seek != -1)
+                                        if (p.seek != -1)
                                         {
-                                            seek = _p->seek;
-                                            _p->seek = -1;
+                                            seek = p.seek;
+                                            p.seek = -1;
                                             _queue->setFinished(false);
                                             _queue->clear();
                                         }
@@ -326,39 +328,39 @@ namespace djv
                                             //context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                         }
                                         if (av_seek_frame(
-                                            _p->avFormatContext,
+                                            p.avFormatContext,
                                             -1,
                                             seek,
                                             AVSEEK_FLAG_BACKWARD) < 0)
                                         {
                                             throw std::exception();
                                         }
-                                        if (_p->avVideoStream != -1)
+                                        if (p.avVideoStream != -1)
                                         {
-                                            avcodec_flush_buffers(_p->avCodecContext[_p->avVideoStream]);
+                                            avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                                         }
-                                        if (_p->avAudioStream != -1)
+                                        if (p.avAudioStream != -1)
                                         {
-                                            avcodec_flush_buffers(_p->avCodecContext[_p->avAudioStream]);
+                                            avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                                         }
                                         Timestamp pts = 0;
                                         while (pts < seek - 1)
                                         {
-                                            if (av_read_frame(_p->avFormatContext, &packet) < 0)
+                                            if (av_read_frame(p.avFormatContext, &packet) < 0)
                                             {
-                                                if (_p->avVideoStream != -1)
+                                                if (p.avVideoStream != -1)
                                                 {
                                                     _decodeVideo(nullptr);
-                                                    avcodec_flush_buffers(_p->avCodecContext[_p->avVideoStream]);
+                                                    avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                                                 }
-                                                if (_p->avAudioStream != -1)
+                                                if (p.avAudioStream != -1)
                                                 {
                                                     _decodeAudio(nullptr);
-                                                    avcodec_flush_buffers(_p->avCodecContext[_p->avAudioStream]);
+                                                    avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                                                 }
                                                 throw std::exception();
                                             }
-                                            if (_p->avVideoStream == packet.stream_index)
+                                            if (p.avVideoStream == packet.stream_index)
                                             {
                                                 Timestamp r = _decodeVideo(&packet, true);
                                                 if (r < 0)
@@ -367,7 +369,7 @@ namespace djv
                                                 }
                                                 pts = r;
                                             }
-                                            else if (_p->avAudioStream == packet.stream_index)
+                                            else if (p.avAudioStream == packet.stream_index)
                                             {
                                                 if (_decodeAudio(&packet, true) < 0)
                                                 {
@@ -379,28 +381,28 @@ namespace djv
                                     }
                                     if (read)
                                     {
-                                        if (av_read_frame(_p->avFormatContext, &packet) < 0)
+                                        if (av_read_frame(p.avFormatContext, &packet) < 0)
                                         {
-                                            if (_p->avVideoStream != -1)
+                                            if (p.avVideoStream != -1)
                                             {
                                                 _decodeVideo(nullptr);
-                                                avcodec_flush_buffers(_p->avCodecContext[_p->avVideoStream]);
+                                                avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                                             }
-                                            if (_p->avAudioStream != -1)
+                                            if (p.avAudioStream != -1)
                                             {
                                                 _decodeAudio(nullptr);
-                                                avcodec_flush_buffers(_p->avCodecContext[_p->avAudioStream]);
+                                                avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                                             }
                                             throw std::exception();
                                         }
-                                        if (_p->avVideoStream == packet.stream_index)
+                                        if (p.avVideoStream == packet.stream_index)
                                         {
                                             if (_decodeVideo(&packet) < 0)
                                             {
                                                 throw std::exception();
                                             }
                                         }
-                                        else if (_p->avAudioStream == packet.stream_index)
+                                        else if (p.avAudioStream == packet.stream_index)
                                         {
                                             if (_decodeAudio(&packet) < 0)
                                             {
@@ -423,7 +425,7 @@ namespace djv
                                     _queue->setFinished(true);
                                     if (_queue->hasCloseOnFinish())
                                     {
-                                        _p->running = false;
+                                        p.running = false;
                                     }
                                 }
                             }
@@ -461,14 +463,16 @@ namespace djv
 
                 void Read::seek(Timestamp value)
                 {
+                    DJV_PRIVATE_PTR();
                     std::lock_guard<std::mutex> lock(_queue->getMutex());
-                    _p->seek = value;
-                    _p->queueCV.notify_one();
+                    p.seek = value;
+                    p.queueCV.notify_one();
                 }
 
                 Timestamp Read::_decodeVideo(AVPacket * packet, bool seek)
                 {
-                    int r = avcodec_send_packet(_p->avCodecContext[_p->avVideoStream], packet);
+                    DJV_PRIVATE_PTR();
+                    int r = avcodec_send_packet(p.avCodecContext[p.avVideoStream], packet);
                     if (r < 0)
                     {
                         return r;
@@ -476,7 +480,7 @@ namespace djv
                     Timestamp pts = 0;
                     while (r >= 0)
                     {
-                        r = avcodec_receive_frame(_p->avCodecContext[_p->avVideoStream], _p->avFrame);
+                        r = avcodec_receive_frame(p.avCodecContext[p.avVideoStream], p.avFrame);
                         if (AVERROR(EAGAIN) == r)
                         {
                             return pts;
@@ -487,8 +491,8 @@ namespace djv
                         }
 
                         pts = av_rescale_q(
-                            _p->avFrame->pts,
-                            _p->avFormatContext->streams[_p->avVideoStream]->time_base,
+                            p.avFrame->pts,
+                            p.avFormatContext->streams[p.avVideoStream]->time_base,
                             FFmpeg::getTimeBaseQ());
 
                         if (auto context = _context.lock())
@@ -500,23 +504,23 @@ namespace djv
 
                         if (!seek)
                         {
-                            auto image = Image::create(_p->videoInfo.getInfo());
+                            auto image = Image::create(p.videoInfo.getInfo());
                             av_image_fill_arrays(
-                                _p->avFrameRgb->data,
-                                _p->avFrameRgb->linesize,
+                                p.avFrameRgb->data,
+                                p.avFrameRgb->linesize,
                                 image->getData(),
                                 AV_PIX_FMT_RGBA,
                                 image->getWidth(),
                                 image->getHeight(),
                                 1);
                             sws_scale(
-                                _p->swsContext,
-                                (uint8_t const * const *)_p->avFrame->data,
-                                _p->avFrame->linesize,
+                                p.swsContext,
+                                (uint8_t const * const *)p.avFrame->data,
+                                p.avFrame->linesize,
                                 0,
-                                _p->avCodecParameters[_p->avVideoStream]->height,
-                                _p->avFrameRgb->data,
-                                _p->avFrameRgb->linesize);
+                                p.avCodecParameters[p.avVideoStream]->height,
+                                p.avFrameRgb->data,
+                                p.avFrameRgb->linesize);
                             {
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());
                                 _queue->addVideo(pts, image);
@@ -528,7 +532,8 @@ namespace djv
 
                 Timestamp Read::_decodeAudio(AVPacket * packet, bool seek)
                 {
-                    int r = avcodec_send_packet(_p->avCodecContext[_p->avAudioStream], packet);
+                    DJV_PRIVATE_PTR();
+                    int r = avcodec_send_packet(p.avCodecContext[p.avAudioStream], packet);
                     if (r < 0)
                     {
                         return r;
@@ -536,7 +541,7 @@ namespace djv
                     Timestamp pts = 0;
                     while (r >= 0)
                     {
-                        r = avcodec_receive_frame(_p->avCodecContext[_p->avAudioStream], _p->avFrame);
+                        r = avcodec_receive_frame(p.avCodecContext[p.avAudioStream], p.avFrame);
                         if (r == AVERROR(EAGAIN))
                         {
                             return pts;
@@ -547,36 +552,41 @@ namespace djv
                         }
 
                         pts = av_rescale_q(
-                            _p->avFrame->pts,
-                            _p->avFormatContext->streams[_p->avVideoStream]->time_base,
+                            p.avFrame->pts,
+                            p.avFormatContext->streams[p.avVideoStream]->time_base,
                             FFmpeg::getTimeBaseQ());
 
                         if (!seek)
                         {
-                            const auto & info = _p->audioInfo.getInfo();
-                            auto audioData = Audio::Data::create(info, _p->avFrame->nb_samples * info.getChannels());
-                            switch (_p->avCodecParameters[_p->avAudioStream]->format)
+                            const auto & info = p.audioInfo.getInfo();
+                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.getChannelCount());
+                            switch (p.avCodecParameters[p.avAudioStream]->format)
                             {
                             case AV_SAMPLE_FMT_U8:
                             case AV_SAMPLE_FMT_S16:
                             case AV_SAMPLE_FMT_S32:
                             case AV_SAMPLE_FMT_FLT:
-                                memcpy(audioData->getData(), _p->avFrame->data[0], audioData->getByteCount());
+                                memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
                                 break;
                             case AV_SAMPLE_FMT_U8P:
                             case AV_SAMPLE_FMT_S16P:
                             case AV_SAMPLE_FMT_S32P:
                             case AV_SAMPLE_FMT_FLTP:
                             {
-                                auto p = audioData->getData();
-                                const size_t byteCount = audioData->getByteCount() / info.getChannels();
-                                for (size_t i = 0; i < info.getChannels(); ++i, p += byteCount)
+                                const size_t channelCount = info.getChannelCount();
+                                const float ** c = new const float * [channelCount];
+                                for (size_t i = 0; i < channelCount; ++i)
                                 {
-                                    memcpy(p, _p->avFrame->data[0], byteCount);
+                                    c[i] = reinterpret_cast<float *>(p.avFrame->data[i]);
                                 }
-                                audioData = Audio::Data::planarInterleave(audioData);
+                                Audio::Data::planarInterleave(
+                                    c,
+                                    reinterpret_cast<float *>(audioData->getData()),
+                                    audioData->getSampleCount(),
+                                    channelCount);
                                 break;
                             }
+                            default: break;
                             }
                             {
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());

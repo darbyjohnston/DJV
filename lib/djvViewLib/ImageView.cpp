@@ -77,23 +77,25 @@ namespace djv
 
         void ImageView::setImage(const std::shared_ptr<AV::Image> & image)
         {
-            if (image == _p->image)
+            DJV_PRIVATE_PTR();
+            if (image == p.image)
                 return;
-            _p->image = image;
-            _p->imageChanged = true;
+            p.image = image;
+            p.imageChanged = true;
             update();
         }
 
         void ImageView::initializeGL()
         {
-            if (auto context = _p->context.lock())
+            DJV_PRIVATE_PTR();
+            if (auto context = p.context.lock())
             {
                 try
                 {
-                    _p->shader = AV::Shader::create(
+                    p.shader = AV::Shader::create(
                         context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvViewLibImageViewVertex.glsl"),
                         context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvViewLibImageViewFragment.glsl"));
-                    _p->openGLShader = AV::OpenGL::Shader::create(_p->shader);
+                    p.openGLShader = AV::OpenGL::Shader::create(p.shader);
                 }
                 catch (const std::exception& e)
                 {
@@ -111,35 +113,36 @@ namespace djv
             glFuncs->glClearColor(0.f, 0.f, 0.f, 0.f);
             glFuncs->glClear(GL_COLOR_BUFFER_BIT);
 
-            if (_p->image)
+            DJV_PRIVATE_PTR();
+            if (p.image)
             {
-                if (!_p->openGLTexture || (_p->openGLTexture && (_p->openGLTexture->getInfo() != _p->image->getInfo())))
+                if (!p.openGLTexture || (p.openGLTexture && (p.openGLTexture->getInfo() != p.image->getInfo())))
                 {
-                    _p->openGLTexture = AV::OpenGL::Texture::create(_p->image->getInfo());
+                    p.openGLTexture = AV::OpenGL::Texture::create(p.image->getInfo());
                 }
-                if (_p->imageChanged)
+                if (p.imageChanged)
                 {
-                    _p->imageChanged = false;
-                    _p->openGLTexture->copy(*_p->image);
+                    p.imageChanged = false;
+                    p.openGLTexture->copy(*p.image);
                 }
-                _p->openGLTexture->bind();
+                p.openGLTexture->bind();
 
-                if (!_p->openGLVBO)
+                if (!p.openGLVBO)
                 {
                     AV::Shape::Square square;
                     AV::TriangleMesh mesh;
                     square.triangulate(mesh);
-                    _p->openGLVBO = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                    _p->openGLVBO->copy(AV::OpenGL::VBO::convert(mesh, _p->openGLVBO->getType()));
-                    _p->openGLVAO = AV::OpenGL::VAO::create(_p->openGLVBO->getType(), _p->openGLVBO->getID());
+                    p.openGLVBO = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                    p.openGLVBO->copy(AV::OpenGL::VBO::convert(mesh, p.openGLVBO->getType()));
+                    p.openGLVAO = AV::OpenGL::VAO::create(p.openGLVBO->getType(), p.openGLVBO->getID());
                 }
-                _p->openGLVAO->bind();
+                p.openGLVAO->bind();
 
-                _p->openGLShader->bind();
-                _p->openGLShader->setUniform("textureSampler", 0);
+                p.openGLShader->bind();
+                p.openGLShader->setUniform("textureSampler", 0);
                 glm::mat4x4 modelMatrix(1);
                 modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
-                modelMatrix = glm::scale(modelMatrix, glm::vec3(_p->image->getWidth(), 0.f, _p->image->getHeight()));
+                modelMatrix = glm::scale(modelMatrix, glm::vec3(p.image->getWidth(), 0.f, p.image->getHeight()));
                 modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
                 glm::mat4x4 viewMatrix(1);
                 glm::mat4x4 projectionMatrix(1);
@@ -150,10 +153,10 @@ namespace djv
                     static_cast<float>(height()),
                     -1.f,
                     1.f);
-                _p->openGLShader->setUniform("transform.mvp", projectionMatrix * viewMatrix * modelMatrix);
+                p.openGLShader->setUniform("transform.mvp", projectionMatrix * viewMatrix * modelMatrix);
 
                 glFuncs->glActiveTexture(GL_TEXTURE0);
-                _p->openGLVAO->draw(0, 6);
+                p.openGLVAO->draw(0, 6);
             }
         }
 

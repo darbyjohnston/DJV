@@ -58,6 +58,10 @@ namespace djv
     struct Private; \
     std::unique_ptr<Private> _p
 
+//! This macro provides a raw pointer to the private implementation.
+#define DJV_PRIVATE_PTR() \
+    auto & p = *_p
+
 //! This macro makes a class non-copyable.
 #define DJV_NON_COPYABLE(name) \
     name(const name &) = delete; \

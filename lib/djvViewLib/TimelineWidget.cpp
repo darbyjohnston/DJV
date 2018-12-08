@@ -58,40 +58,41 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
-            _p->context = context;
+            DJV_PRIVATE_PTR();
+            p.context = context;
 
-            _p->stopButton = new QToolButton;
-            _p->stopButton->setCheckable(true);
-            _p->stopButton->setText("Stop");
+            p.stopButton = new QToolButton;
+            p.stopButton->setCheckable(true);
+            p.stopButton->setText("Stop");
 
-            _p->forwardButton = new QToolButton;
-            _p->forwardButton->setCheckable(true);
-            _p->forwardButton->setText("Forward");
+            p.forwardButton = new QToolButton;
+            p.forwardButton->setCheckable(true);
+            p.forwardButton->setText("Forward");
 
-            _p->buttonGroup = new QButtonGroup(this);
-            _p->buttonGroup->setExclusive(true);
-            _p->buttonGroup->addButton(_p->stopButton);
-            _p->buttonGroup->addButton(_p->forwardButton);
+            p.buttonGroup = new QButtonGroup(this);
+            p.buttonGroup->setExclusive(true);
+            p.buttonGroup->addButton(p.stopButton);
+            p.buttonGroup->addButton(p.forwardButton);
 
-            _p->slider = new TimelineSlider(context);
+            p.slider = new TimelineSlider(context);
 
-            _p->timeLabel = new QLabel;
+            p.timeLabel = new QLabel;
 
             auto layout = new QHBoxLayout(this);
-            layout->addWidget(_p->stopButton);
-            layout->addWidget(_p->forwardButton);
-            layout->addWidget(_p->slider, 1);
-            layout->addWidget(_p->timeLabel);
+            layout->addWidget(p.stopButton);
+            layout->addWidget(p.forwardButton);
+            layout->addWidget(p.slider, 1);
+            layout->addWidget(p.timeLabel);
 
             _widgetUpdate();
 
             connect(
-                _p->slider,
+                p.slider,
                 SIGNAL(currentTimeChanged(AV::Timestamp)),
                 this,
                 SIGNAL(currentTimeChanged(AV::Timestamp)));
             connect(
-                _p->buttonGroup,
+                p.buttonGroup,
                 SIGNAL(buttonToggled(QAbstractButton *, bool)),
                 SLOT(_buttonCallback(QAbstractButton *, bool)));
         }
@@ -101,37 +102,41 @@ namespace djv
 
         void TimelineWidget::setDuration(AV::Duration value)
         {
-            if (value == _p->duration)
+            DJV_PRIVATE_PTR();
+            if (value == p.duration)
                 return;
-            _p->duration = value;
+            p.duration = value;
             _widgetUpdate();
         }
 
         void TimelineWidget::setCurrentTime(AV::Timestamp value)
         {
-            if (value == _p->currentTime)
+            DJV_PRIVATE_PTR();
+            if (value == p.currentTime)
                 return;
-            _p->currentTime = value;
+            p.currentTime = value;
             _widgetUpdate();
-            Q_EMIT currentTimeChanged(_p->currentTime);
+            Q_EMIT currentTimeChanged(p.currentTime);
         }
 
         void TimelineWidget::setPlayback(Enum::Playback value)
         {
-            if (value == _p->playback)
+            DJV_PRIVATE_PTR();
+            if (value == p.playback)
                 return;
-            _p->playback = value;
+            p.playback = value;
             _widgetUpdate();
-            Q_EMIT playbackChanged(_p->playback);
+            Q_EMIT playbackChanged(p.playback);
         }
 
         void TimelineWidget::_buttonCallback(QAbstractButton * button, bool value)
         {
-            if (button == _p->stopButton)
+            DJV_PRIVATE_PTR();
+            if (button == p.stopButton)
             {
                 setPlayback(Enum::Playback::Stop);
             }
-            else if (button == _p->forwardButton)
+            else if (button == p.forwardButton)
             {
                 setPlayback(Enum::Playback::Forward);
             }
@@ -139,19 +144,20 @@ namespace djv
 
         void TimelineWidget::_widgetUpdate()
         {
-            const QSignalBlocker buttonGroupBlocker(_p->buttonGroup);
-            const QSignalBlocker sliderBlocker(_p->slider);
-            switch (_p->playback)
+            DJV_PRIVATE_PTR();
+            const QSignalBlocker buttonGroupBlocker(p.buttonGroup);
+            const QSignalBlocker sliderBlocker(p.slider);
+            switch (p.playback)
             {
-            case Enum::Playback::Stop: _p->stopButton->setChecked(true); break;
-            case Enum::Playback::Forward: _p->forwardButton->setChecked(true); break;
+            case Enum::Playback::Stop: p.stopButton->setChecked(true); break;
+            case Enum::Playback::Forward: p.forwardButton->setChecked(true); break;
             default: break;
             }
-            _p->slider->setDuration(_p->duration);
-            _p->slider->setCurrentTime(_p->currentTime);
-            _p->timeLabel->setText(QString("%1/%2").
-                arg(AV::timestampToSeconds(_p->currentTime), 0, 'f', 2).
-                arg(AV::timestampToSeconds(_p->duration), 0, 'f', 2));
+            p.slider->setDuration(p.duration);
+            p.slider->setCurrentTime(p.currentTime);
+            p.timeLabel->setText(QString("%1/%2").
+                arg(AV::timestampToSeconds(p.currentTime), 0, 'f', 2).
+                arg(AV::timestampToSeconds(p.duration), 0, 'f', 2));
         }
 
     } // namespace ViewLib

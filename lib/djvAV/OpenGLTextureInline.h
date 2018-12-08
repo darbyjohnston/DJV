@@ -33,6 +33,9 @@ namespace djv
     {
         namespace OpenGL
         {
+            inline Texture::Texture()
+            {}
+
             inline const Pixel::Info & Texture::getInfo() const
             {
                 return _info;

@@ -56,34 +56,12 @@ namespace djv
             DJV_ASSERT(data.size() == static_cast<size_t>(AnimationType::Count));
             return data[static_cast<size_t>(value)];
         }
-
-        struct Animation::Private
-        {
-            AnimationType type = AnimationType::Linear;
-            AnimationFunction function;
-            bool repeating = false;
-            bool active = false;
-            float begin = 0.f;
-            float end = 0.f;
-            std::chrono::milliseconds timeout;
-            Callback callback;
-            Callback endCallback;
-            std::chrono::time_point<std::chrono::system_clock> start;
-        };
         
         void Animation::_init(const std::shared_ptr<Context>& context)
         {
-            _p->function = getAnimationFunction(_p->type);
-
+            _function = getAnimationFunction(_type);
             context->getSystemT<AnimationSystem>()->_addAnimation(shared_from_this());
         }
-
-        Animation::Animation() :
-            _p(new Private)
-        {}
-        
-        Animation::~Animation()
-        {}
 
         std::shared_ptr<Animation> Animation::create(const std::shared_ptr<Context>& context)
         {
@@ -92,30 +70,15 @@ namespace djv
             return out;
         }
 
-        AnimationType Animation::getType() const
-        {
-            return _p->type;
-        }
-
         void Animation::setType(AnimationType type)
         {
-            _p->type     = type;
-            _p->function = getAnimationFunction(_p->type);
-        }
-
-        bool Animation::isRepeating() const
-        {
-            return _p->repeating;
+            _type     = type;
+            _function = getAnimationFunction(_type);
         }
         
         void Animation::setRepeating(bool value)
         {
-            _p->repeating = value;
-        }
-        
-        bool Animation::isActive() const
-        {
-            return _p->active;
+            _repeating = value;
         }
 
         void Animation::start(
@@ -125,55 +88,55 @@ namespace djv
             const Callback&           callback,
             const Callback&           endCallback)
         {
-            /*if (_p->active && _p->endCallback)
+            /*if (_active && _endCallback)
             {
-                _p->endCallback(_p->end);
+                _endCallback(_end);
             }*/
 
-            _p->active = true;
-            _p->begin = begin;
-            _p->end = end;
-            _p->timeout = timeout;
-            _p->callback = callback;
-            _p->endCallback = endCallback;
-            _p->start = std::chrono::system_clock::now();
+            _active = true;
+            _begin = begin;
+            _end = end;
+            _timeout = timeout;
+            _callback = callback;
+            _endCallback = endCallback;
+            _start = std::chrono::system_clock::now();
         }
 
         void Animation::_tick(float dt)
         {
-            if (_p->active)
+            if (_active)
             {
                 const auto now = std::chrono::system_clock::now();
-                const auto diff = std::chrono::duration<float>(now - _p->start);
+                const auto diff = std::chrono::duration<float>(now - _start);
 
-                const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_p->timeout).count(), 0.f, 1.f);
+                const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_timeout).count(), 0.f, 1.f);
 
                 float v = 0.f;
-                if (_p->begin < _p->end)
+                if (_begin < _end)
                 {
-                    v = Math::lerp(_p->function(t), _p->begin, _p->end);
+                    v = Math::lerp(_function(t), _begin, _end);
                 }
                 else
                 {
-                    v = Math::lerp(_p->function(1.f - t), _p->end, _p->begin);
+                    v = Math::lerp(_function(1.f - t), _end, _begin);
                 }
-                _p->callback(v);
+                _callback(v);
 
-                if (now > (_p->start + _p->timeout))
+                if (now > (_start + _timeout))
                 {
-                    if (_p->callback)
+                    if (_callback)
                     {
-                        if (_p->endCallback)
+                        if (_endCallback)
                         {
-                            _p->endCallback(_p->end);
+                            _endCallback(_end);
                         }
-                        _p->active = false;
+                        _active = false;
                     }
 
-                    if (_p->repeating)
+                    if (_repeating)
                     {
-                        _p->active = true;
-                        _p->start = now;
+                        _active = true;
+                        _start = now;
                     }
                 }
             }
@@ -205,8 +168,9 @@ namespace djv
 
         void AnimationSystem::_tick(float dt)
         {
+            DJV_PRIVATE_PTR();
             std::vector<std::weak_ptr<Animation> > zombies;
-            for (const auto& a : _p->animations)
+            for (const auto& a : p.animations)
             {
                 if (auto animation = a.lock())
                 {
@@ -220,15 +184,15 @@ namespace djv
             for (const auto& zombie : zombies)
             {
                 const auto i = std::find_if(
-                    _p->animations.begin(),
-                    _p->animations.end(),
+                    p.animations.begin(),
+                    p.animations.end(),
                     [zombie](const std::weak_ptr<Animation>& other)
                 {
                     return zombie.lock() == other.lock();
                 });
-                if (i != _p->animations.end())
+                if (i != p.animations.end())
                 {
-                    _p->animations.erase(i);
+                    p.animations.erase(i);
                 }
             }
         }

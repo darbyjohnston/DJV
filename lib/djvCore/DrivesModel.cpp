@@ -61,35 +61,39 @@ namespace djv
             
         void DrivesModel::_init(const std::shared_ptr<Context>& context)
         {
-            _p->drivesSubject = ListSubject<Path>::create();
+            DJV_PRIVATE_PTR();
+            
+            p.drivesSubject = ListSubject<Path>::create();
                 
-            _p->running = true;
-            _p->thread = std::thread(
+            p.running = true;
+            p.thread = std::thread(
                 [this]
             {
-                while (_p->running)
+                DJV_PRIVATE_PTR();
+                while (p.running)
                 {
                     const std::vector<Path> drives = _getDrives();
                     {
-                        std::lock_guard<std::mutex> lock(_p->mutex);
-                        _p->drives = drives;
+                        std::lock_guard<std::mutex> lock(p.mutex);
+                        p.drives = drives;
                     }
                     std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
                 }
             });
 
-            _p->timer = Timer::create(context);
-            _p->timer->setRepeating(true);
-            _p->timer->start(
+            p.timer = Timer::create(context);
+            p.timer->setRepeating(true);
+            p.timer->start(
                 std::chrono::milliseconds(timeout),
                 [this](float)
             {
+                DJV_PRIVATE_PTR();
                 std::vector<Path> drives;
                 {
-                    std::lock_guard<std::mutex> lock(_p->mutex);
-                    drives = _p->drives;
+                    std::lock_guard<std::mutex> lock(p.mutex);
+                    drives = p.drives;
                 }
-                _p->drivesSubject->setIfChanged(drives);
+                p.drivesSubject->setIfChanged(drives);
             });
         }
 

@@ -27,48 +27,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
-
 namespace djv
 {
     namespace AV
     {
         namespace OpenGL
         {
-            //! This class provides an OpenGL texture.
-            class Texture
+            inline OffscreenBuffer::OffscreenBuffer()
+            {}
+            
+            inline const Pixel::Info & OffscreenBuffer::getInfo() const
             {
-                DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                inline Texture();
+                return _info;
+            }
 
-            public:
-                ~Texture();
+            inline GLuint OffscreenBuffer::getID() const
+            {
+                return _id;
+            }
 
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
-
-                inline const Pixel::Info & getInfo() const;
-                inline GLuint getID() const;
-
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
-
-                void bind();
-
-                static GLenum getInternalFormat(Pixel::Type);
-
-            private:
-                Pixel::Info _info;
-                GLuint _id = 0;
-                GLuint _pbo = 0;
-            };
+            inline GLuint OffscreenBuffer::getTextureID() const
+            {
+                return _textureID;
+            }
 
         } // namespace OpenGL
     } // namespace AV
 } // namespace djv
-
-#include <djvAV/OpenGLTextureInline.h>
 

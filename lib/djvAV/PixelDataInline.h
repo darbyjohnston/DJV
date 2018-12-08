@@ -191,6 +191,9 @@ namespace djv
                 return !(other == *this);
             }
 
+            inline Data::Data()
+            {}
+
             inline bool Data::isValid() const
             {
                 return _info.isValid();
@@ -269,6 +272,21 @@ namespace djv
             inline const uint8_t * Data::getData(int x, int y) const
             {
                 return _p + y * _scanlineByteCount + x * _pixelByteCount;
+            }
+
+            inline uint8_t * Data::getData()
+            {
+                return _data;
+            }
+
+            inline uint8_t* Data::getData(int y)
+            {
+                return _data + y * _scanlineByteCount;
+            }
+
+            inline uint8_t * Data::getData(int x, int y)
+            {
+                return _data + y * _scanlineByteCount + x * _pixelByteCount;
             }
 
         } // namespace Pixel

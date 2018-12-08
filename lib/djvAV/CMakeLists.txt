@@ -15,6 +15,7 @@ set(header
     Color.h
     ColorInline.h
     FFmpeg.h
+    FFmpegInline.h
     FontSystem.h
     IO.h
     IOInline.h

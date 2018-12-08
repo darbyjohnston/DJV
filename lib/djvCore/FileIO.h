@@ -43,7 +43,7 @@ namespace djv
             DJV_NON_COPYABLE(FileIO);
 
         public:
-            FileIO();
+            inline FileIO();
             FileIO(FileIO&&);
             ~FileIO();
             FileIO& operator = (FileIO&&);
@@ -74,23 +74,23 @@ namespace djv
             void close();
 
             //! Get whether the file is open.
-            bool isOpen() const;
+            inline bool isOpen() const;
 
             //! Get the file name.
-            const std::string& getFileName() const;
+            inline const std::string& getFileName() const;
             
             //! Get the file size.
-            size_t getSize() const;
+            inline size_t getSize() const;
             
             //! \name File Position
             ///@{
             
-            size_t getPos() const;
+            inline size_t getPos() const;
             void setPos(size_t);
             void seek(size_t);
 
             //! Get whether the file position is EOF.
-            bool isEOF() const;
+            inline bool isEOF() const;
 
             ///@}
 
@@ -142,10 +142,10 @@ namespace djv
             ///@{
             
             //! Get the current memory-map position.
-            const uint8_t* mmapP() const;
+            inline const uint8_t* mmapP() const;
 
             //! Get a pointer to the end of the memory-map.
-            const uint8_t* mmapEnd() const;
+            inline const uint8_t* mmapEnd() const;
             
             ///@}
 
@@ -153,7 +153,7 @@ namespace djv
             ///@{
             
             //! Get whether automatic endian conversion is performed.
-            bool getEndian() const;
+            inline bool getEndian() const;
             
             //! Set whether automatic endian conversion is performed.
             void setEndian(bool);
@@ -189,7 +189,29 @@ namespace djv
         private:
             void _setPos(size_t, bool seek);
 
-            DJV_PRIVATE();
+#if defined(DJV_PLATFORM_WINDOWS)
+            HANDLE         _f         = INVALID_HANDLE_VALUE;
+            std::string    _fileName;
+            Mode           _mode      = Mode::First;
+            size_t         _pos       = 0;
+            size_t         _size      = 0;
+            bool           _endian    = false;
+            void*          _mmap      = nullptr;
+            const uint8_t* _mmapStart = nullptr;
+            const uint8_t* _mmapEnd   = nullptr;
+            const uint8_t* _mmapP     = nullptr;
+#else // DJV_PLATFORM_WINDOWS
+            int            _f         = -1;
+            std::string    _fileName;
+            Mode           _mode      = Mode::First;
+            size_t         _pos       = 0;
+            size_t         _size      = 0;
+            bool           _endian    = false;
+            void*          _mmap      = (void *)-1;
+            const uint8_t* _mmapStart = nullptr;
+            const uint8_t* _mmapEnd   = nullptr;
+            const uint8_t* _mmapP     = nullptr;
+#endif //DJV_PLATFORM_WINDOWS
         };
 
         //! This function provides a wrapper for fopen().

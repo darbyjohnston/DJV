@@ -78,27 +78,28 @@ namespace djv
 
         void IEventSystem::_pointerMove(const PointerInfo& info)
         {
+            DJV_PRIVATE_PTR();
             PointerMoveEvent moveEvent(info);
-            if (_p->grab)
+            if (p.grab)
             {
-                _p->grab->_event(moveEvent);
+                p.grab->_event(moveEvent);
             }
-            else if (_p->rootObject)
+            else if (p.rootObject)
             {
                 std::shared_ptr<IObject> hover;
-                _hover(_p->rootObject, moveEvent, hover);
-                if (hover != _p->hover)
+                _hover(p.rootObject, moveEvent, hover);
+                if (hover != p.hover)
                 {
-                    if (_p->hover)
+                    if (p.hover)
                     {
                         PointerLeaveEvent leaveEvent(info);
-                        _p->hover->_event(leaveEvent);
+                        p.hover->_event(leaveEvent);
                     }
-                    _p->hover = hover;
-                    if (_p->hover)
+                    p.hover = hover;
+                    if (p.hover)
                     {
                         PointerEnterEvent enterEvent(info);
-                        _p->hover->_event(enterEvent);
+                        p.hover->_event(enterEvent);
                     }
                 }
             }
@@ -106,40 +107,43 @@ namespace djv
 
         void IEventSystem::_buttonPress(const PointerInfo& info)
         {
+            DJV_PRIVATE_PTR();
             ButtonPressEvent event(info);
-            if (_p->hover)
+            if (p.hover)
             {
-                _p->hover->_event(event);
+                p.hover->_event(event);
                 if (event.isAccepted())
                 {
-                    _p->grab = _p->hover;
+                    p.grab = p.hover;
                 }
             }
         }
 
         void IEventSystem::_buttonRelease(const PointerInfo& info)
         {
+            DJV_PRIVATE_PTR();
             ButtonReleaseEvent event(info);
-            if (_p->grab)
+            if (p.grab)
             {
-                _p->grab->_event(event);
-                _p->grab = nullptr;
+                p.grab->_event(event);
+                p.grab = nullptr;
             }
         }
 
         void IEventSystem::_tick(float dt)
         {
-            if (_p->rootObject)
+            DJV_PRIVATE_PTR();
+            if (p.rootObject)
             {
                 std::vector<std::shared_ptr<IObject> > firstTick;
-                _getFirstTick(_p->rootObject, firstTick);
+                _getFirstTick(p.rootObject, firstTick);
                 for (auto& object : firstTick)
                 {
                     object->_firstTick = false;
                 }
 
                 UpdateEvent updateEvent(dt);
-                _updateRecursive(_p->rootObject, updateEvent);
+                _updateRecursive(p.rootObject, updateEvent);
 
                 if (firstTick.size())
                 {
@@ -206,3 +210,4 @@ namespace djv
 
     } // namespace Core
 } // namespace djv
+

@@ -71,16 +71,17 @@ namespace djv
             _p->thread = std::thread(
                 [this, weakContext]
             {
+                DJV_PRIVATE_PTR();
                 Path path;
                 HANDLE changeHandle = 0;
-                while (_p->running)
+                while (p.running)
                 {
                     bool pathChanged = false;
                     {
-                        std::lock_guard<std::mutex> lock(_p->mutex);
-                        if (_p->path != path)
+                        std::lock_guard<std::mutex> lock(p.mutex);
+                        if (p.path != path)
                         {
-                            path = _p->path;
+                            path = p.path;
                             pathChanged = true;
                         }
                     }
@@ -117,8 +118,8 @@ namespace djv
                         case WAIT_OBJECT_0:
                             FindNextChangeNotification(changeHandle);
                             {
-                                std::lock_guard<std::mutex> lock(_p->mutex);
-                                _p->changed = true;
+                                std::lock_guard<std::mutex> lock(p.mutex);
+                                p.changed = true;
                             }
                             break;
                         }
@@ -139,24 +140,25 @@ namespace djv
                 std::chrono::milliseconds(timeout),
                 [this](float)
             {
+                DJV_PRIVATE_PTR();
                 bool changed = false;
                 {
-                    std::unique_lock<std::mutex> lock(_p->mutex);
-                    if (_p->changedCV.wait_for(
+                    std::unique_lock<std::mutex> lock(p.mutex);
+                    if (p.changedCV.wait_for(
                         lock,
                         std::chrono::milliseconds(0),
                         [this]
                     {
-                        return _p->changed;
+                        return p.changed;
                     }))
                     {
                         changed = true;
-                        _p->changed = false;
+                        p.changed = false;
                     }
                 }
-                if (changed && _p->callback)
+                if (changed && p.callback)
                 {
-                    _p->callback();
+                    p.callback();
                 }
             });
         }
@@ -185,16 +187,17 @@ namespace djv
 
         void DirectoryWatcher::setPath(const Path& value)
         {
-            if (value == _p->path)
+            DJV_PRIVATE_PTR();
+            if (value == p.path)
                 return;
             {
-                std::lock_guard<std::mutex> lock(_p->mutex);
-                _p->path = value;
-                _p->changed = true;
+                std::lock_guard<std::mutex> lock(p.mutex);
+                p.path = value;
+                p.changed = true;
             }
-            if (_p->callback)
+            if (p.callback)
             {
-                _p->callback();
+                p.callback();
             }
         }
 

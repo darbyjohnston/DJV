@@ -33,6 +33,94 @@ namespace djv
 {
     namespace Core
     {
+        FileIO::FileIO(FileIO&& other) :
+            _f(other._f),
+            _fileName(other._fileName),
+            _mode(other._mode),
+            _pos(other._pos),
+            _size(other._size),
+            _endian(other._endian),
+            _mmap(other._mmap),
+            _mmapStart(other._mmapStart),
+            _mmapEnd(other._mmapEnd),
+            _mmapP(other._mmapP)
+        {
+#if defined(DJV_PLATFORM_WINDOWS)
+            other._f = INVALID_HANDLE_VALUE;
+            other._fileName = std::string();
+            other._mode = Mode::First;
+            other._pos = 0;
+            other._size = 0;
+            other._endian = false;
+            other._mmap = nullptr;
+            other._mmapStart = nullptr;
+            other._mmapEnd = nullptr;
+            other._mmapP = nullptr;
+#else // DJV_PLATFORM_WINDOWS
+            other._f = -1;
+            other._fileName = std::string();
+            other._mode = Mode::First;
+            other._pos = 0;
+            other._size = 0;
+            other._endian = false;
+            other._mmap = (void *)-1;
+            other._mmapStart = nullptr;
+            other._mmapEnd = nullptr;
+            other._mmapP = nullptr;
+#endif //DJV_PLATFORM_WINDOWS
+        }
+
+        FileIO::~FileIO()
+        {
+            try
+            {
+                close();
+            }
+            catch (const std::exception&)
+            {}
+        }
+
+        FileIO& FileIO::operator = (FileIO&& other)
+        {
+            if (this != &other)
+            {
+                _f = other._f;
+                _fileName = other._fileName;
+                _mode = other._mode;
+                _pos = other._pos;
+                _size = other._size;
+                _endian = other._endian;
+                _mmap = other._mmap;
+                _mmapStart = other._mmapStart;
+                _mmapEnd = other._mmapEnd;
+                _mmapP = other._mmapP;
+#if defined(DJV_PLATFORM_WINDOWS)
+                other._f = INVALID_HANDLE_VALUE;
+                other._fileName = std::string();
+                other._mode = Mode::First;
+                other._pos = 0;
+                other._size = 0;
+                other._endian = false;
+                other._mmap = nullptr;
+                other._mmapStart = nullptr;
+                other._mmapEnd = nullptr;
+                other._mmapP = nullptr;
+#else // DJV_PLATFORM_WINDOWS
+                other._f = -1;
+                other._fileName = std::string();
+                other._mode = Mode::First;
+                other._pos = 0;
+                other._size = 0;
+                other._endian = false;
+                other._mmap = (void *)-1;
+                other._mmapStart = nullptr;
+                other._mmapEnd = nullptr;
+                other._mmapP = nullptr;
+#endif //DJV_PLATFORM_WINDOWS
+            }
+            return *this;
+        }
+
         void FileIO::readContents(FileIO& fileIO, std::string& out)
         {
             const uint8_t* p = fileIO.mmapP();

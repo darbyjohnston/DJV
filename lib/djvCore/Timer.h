@@ -45,24 +45,22 @@ namespace djv
         {
             DJV_NON_COPYABLE(Timer);
             void _init(const std::shared_ptr<Context>&);
-            Timer();
+            inline Timer();
 
         public:
-            ~Timer();
-
             //! Create a new time.
             static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
 
             //! \name Timer Options
             ///@{
             
-            bool isRepeating() const;
+            inline bool isRepeating() const;
             void setRepeating(bool);
             
             ///@}
 
             //! Is the timer active?
-            bool isActive() const;
+            inline bool isActive() const;
             
             //! Start the timer.
             void start(std::chrono::milliseconds, const std::function<void(float)>&);
@@ -73,7 +71,11 @@ namespace djv
         private:
             void _tick(float dt);
 
-            DJV_PRIVATE();
+            bool _repeating = false;
+            bool _active = false;
+            std::chrono::milliseconds _timeout;
+            std::function<void(float)> _callback;
+            std::chrono::time_point<std::chrono::system_clock> _start;
 
             friend class TimerSystem;
         };
@@ -105,3 +107,6 @@ namespace djv
 
     } // namespace Core
 } // namespace djv
+
+#include <djvCore/TimerInline.h>
+

@@ -50,7 +50,7 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const size_t timeout = 10;
+            const size_t timeout = 100;
 
             const std::string name = "djv::Core::LogSystem";
 
@@ -96,44 +96,45 @@ namespace djv
             _p->thread = std::thread(
                 [this]
             {
+                DJV_PRIVATE_PTR();
                 try
                 {
-                    _p->io.open(_p->path, FileIO::Mode::Write);
+                    p.io.open(p.path, FileIO::Mode::Write);
                 }
                 catch (const std::exception& e)
                 {
                     std::cerr << name << ": " << e.what() << std::endl;
                 }
 
-                _p->consoleOutput = !OS::getEnv("DJV_LOG_CONSOLE").empty();
+                p.consoleOutput = !OS::getEnv("DJV_LOG_CONSOLE").empty();
 
                 std::stringstream s;
-                s << "Path: " << _p->path;
+                s << "Path: " << p.path;
                 log("djv::Core::LogSystem", s.str());
 
-                while (_p->running)
+                while (p.running)
                 {
                     {
-                        std::unique_lock<std::mutex> lock(_p->mutex);
-                        _p->queueCV.wait_for(
+                        std::unique_lock<std::mutex> lock(p.mutex);
+                        p.queueCV.wait_for(
                             lock,
                             std::chrono::milliseconds(timeout),
                             [this]
                         {
                             return _p->queue.size();
                         });
-                        _p->messages = std::move(_p->queue);
+                        p.messages = std::move(p.queue);
                     }
                     _writeMessages();
                 }
                 try
                 {
                     {
-                        std::unique_lock<std::mutex> lock(_p->mutex);
-                        _p->messages = std::move(_p->queue);
+                        std::unique_lock<std::mutex> lock(p.mutex);
+                        p.messages = std::move(p.queue);
                     }
                     _writeMessages();
-                    _p->io.close();
+                    p.io.close();
                 }
                 catch (const std::exception& e)
                 {
@@ -158,9 +159,10 @@ namespace djv
 
         void LogSystem::log(const std::string& prefix, const std::string& message, LogLevel level)
         {
-            std::unique_lock<std::mutex> lock(_p->mutex);
-            _p->queue.push_back(Message(prefix, message, level));
-            _p->queueCV.notify_one();
+            DJV_PRIVATE_PTR();
+            std::unique_lock<std::mutex> lock(p.mutex);
+            p.queue.push_back(Message(prefix, message, level));
+            p.queueCV.notify_one();
         }
 
         bool LogSystem::hasConsoleOutput() const
@@ -182,9 +184,10 @@ namespace djv
 
         void LogSystem::_writeMessages()
         {
+            DJV_PRIVATE_PTR();
             try
             {
-                for (const auto& message : _p->messages)
+                for (const auto& message : p.messages)
                 {
                     std::string line;
                     std::stringstream s(message.text);
@@ -210,14 +213,14 @@ namespace djv
                             s2 << label << " ";
                         }
                         s2 << line << std::endl;
-                        _p->io.write(s2.str());
-                        if (_p->consoleOutput)
+                        p.io.write(s2.str());
+                        if (p.consoleOutput)
                         {
                             std::cerr << s2.str();
                         }
                     }
                 }
-                _p->messages.clear();
+                p.messages.clear();
             }
             catch (const std::exception& e)
             {

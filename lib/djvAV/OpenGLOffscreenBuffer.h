@@ -43,22 +43,25 @@ namespace djv
             {
                 DJV_NON_COPYABLE(OffscreenBuffer);
                 void _init(const Pixel::Info &);
-                OffscreenBuffer();
+                inline OffscreenBuffer();
 
             public:
                 ~OffscreenBuffer();
 
                 static std::shared_ptr<OffscreenBuffer> create(const Pixel::Info &);
 
-                const Pixel::Info & getInfo() const;
-                GLuint getID() const;
-                GLuint getTextureID() const;
+                inline const Pixel::Info & getInfo() const;
+                inline GLuint getID() const;
+                inline GLuint getTextureID() const;
 
                 void bind();
                 void unbind();
 
             private:
-                DJV_PRIVATE();
+                Pixel::Info _info;
+                GLuint _id = 0;
+                GLuint _textureID = 0;
+                GLint _restore = 0;
             };
 
             //! This class provides a wrapped for automatically binding and unbinding an
@@ -76,3 +79,6 @@ namespace djv
         } // namespace OpenGL
     } // namespace AV
 } // namespace djv
+
+#include <djvAV/OpenGLOffscreenBufferInline.h>
+

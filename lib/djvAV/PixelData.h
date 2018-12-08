@@ -130,7 +130,7 @@ namespace djv
 
             protected:
                 void _init(const Info &);
-                Data();
+                inline Data();
 
             public:
                 ~Data();
@@ -154,9 +154,9 @@ namespace djv
                 inline const uint8_t * getData() const;
                 inline const uint8_t * getData(int y) const;
                 inline const uint8_t * getData(int x, int y) const;
-                uint8_t * getData();
-                uint8_t * getData(int y);
-                uint8_t * getData(int x, int y);
+                inline uint8_t * getData();
+                inline uint8_t * getData(int y);
+                inline uint8_t * getData(int x, int y);
 
                 void zero();
 

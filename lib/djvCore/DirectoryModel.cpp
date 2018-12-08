@@ -62,19 +62,20 @@ namespace djv
 
         void DirectoryModel::_init(const std::shared_ptr<Context>& context)
         {
-            _p->path = ValueSubject<Path>::create();
-            _p->fileSequencesEnabled = ValueSubject<bool>::create(true);
-            _p->fileInfos = ListSubject<FileInfo>::create();
-            _p->fileNames = ListSubject<std::string>::create();
-            _p->history = ListSubject<Path>::create();
+            DJV_PRIVATE_PTR();
+            p.path = ValueSubject<Path>::create();
+            p.fileSequencesEnabled = ValueSubject<bool>::create(true);
+            p.fileInfos = ListSubject<FileInfo>::create();
+            p.fileNames = ListSubject<std::string>::create();
+            p.history = ListSubject<Path>::create();
 
-            _p->futureTimer = Timer::create(context);
-            _p->futureTimer->setRepeating(true);
+            p.futureTimer = Timer::create(context);
+            p.futureTimer->setRepeating(true);
 
-            _p->directoryWatcher = DirectoryWatcher::create(context);
+            p.directoryWatcher = DirectoryWatcher::create(context);
 
             auto weak = std::weak_ptr<DirectoryModel>(shared_from_this());
-            _p->directoryWatcher->setCallback(
+            p.directoryWatcher->setCallback(
                 [weak]
             {
                 if (auto model = weak.lock())
@@ -113,12 +114,13 @@ namespace djv
 
         void DirectoryModel::setPath(const Path& value)
         {
-            const auto& path = _p->path->get();
+            DJV_PRIVATE_PTR();
+            const auto& path = p.path->get();
             if (value == path)
                 return;
             if (!path.isEmpty())
             {
-                std::vector<Path> history = _p->history->get();
+                std::vector<Path> history = p.history->get();
                 if (history.size())
                 {
                     if (path != history[0])
@@ -134,9 +136,9 @@ namespace djv
                 {
                     history.pop_back();
                 }
-                _p->history->setIfChanged(history);
+                p.history->setIfChanged(history);
             }
-            _p->path->setIfChanged(value);            
+            p.path->setIfChanged(value);            
             _updatePath();
         }
 
@@ -184,9 +186,10 @@ namespace djv
 
         void DirectoryModel::_updatePath()
         {
-            const Path path = _p->path->get();
-            const bool fileSequencesEnabled = _p->fileSequencesEnabled->get();
-            _p->future = std::async(
+            DJV_PRIVATE_PTR();
+            const Path path = p.path->get();
+            const bool fileSequencesEnabled = p.fileSequencesEnabled->get();
+            p.future = std::async(
                 std::launch::async,
                 [path, fileSequencesEnabled]
             {
@@ -201,22 +204,23 @@ namespace djv
                 return out;
             });
 
-            _p->futureTimer->start(
+            p.futureTimer->start(
                 std::chrono::milliseconds(timeout),
                 [this](float)
             {
-                if (_p->future.valid() &&
-                    _p->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                DJV_PRIVATE_PTR();
+                if (p.future.valid() &&
+                    p.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
-                    _p->futureTimer->stop();
+                    p.futureTimer->stop();
 
-                    const auto& out = _p->future.get();
-                    _p->fileInfos->setIfChanged(out.first);
-                    _p->fileNames->setIfChanged(out.second);
+                    const auto& out = p.future.get();
+                    p.fileInfos->setIfChanged(out.first);
+                    p.fileNames->setIfChanged(out.second);
                 }
             });
 
-            _p->directoryWatcher->setPath(_p->path->get());
+            p.directoryWatcher->setPath(p.path->get());
         }
 
     } // namespace Core

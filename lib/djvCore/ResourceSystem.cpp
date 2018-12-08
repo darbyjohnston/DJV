@@ -71,9 +71,10 @@ namespace djv
         {
             ISystem::_init("djv::Core::ResourceSystem", context);
 
+            DJV_PRIVATE_PTR();
             try
             {
-                _p->applicationPath = Path::getAbsolute(Path(argv0).getDirectoryName());
+                p.applicationPath = Path::getAbsolute(Path(argv0).getDirectoryName());
             }
             catch (const std::exception& e)
             {
@@ -84,11 +85,11 @@ namespace djv
             std::string env = OS::getEnv("DJV_RESOURCE_PATH");
             if (!env.empty())
             {
-                _p->paths[ResourcePath::Application] = env;
+                p.paths[ResourcePath::Application] = env;
             }
             else
             {
-                _p->paths[ResourcePath::Application] = getApplicationRoot(_p->applicationPath);
+                p.paths[ResourcePath::Application] = getApplicationRoot(p.applicationPath);
             }
 
             Path documents;
@@ -121,34 +122,34 @@ namespace djv
             
             const std::string applicationName = Path(argv0).getBaseName();
             Path logFile = Path(documents, applicationName + ".log");
-            _p->paths[ResourcePath::LogFile] = logFile;
+            p.paths[ResourcePath::LogFile] = logFile;
 
             Path settingsFile(documents, applicationName + ".json");
-            _p->paths[ResourcePath::SettingsFile] = settingsFile;
+            p.paths[ResourcePath::SettingsFile] = settingsFile;
 
-            Path testPath = _p->paths[ResourcePath::Application];
+            Path testPath = p.paths[ResourcePath::Application];
             testPath.append("djvCore.en.text");
             if (FileInfo(testPath).doesExist())
             {
                 // The resources are at the root (for example iOS).
-                _p->paths[ResourcePath::AudioDirectory]   = _p->paths[ResourcePath::Application];
-                _p->paths[ResourcePath::FontsDirectory]   = _p->paths[ResourcePath::Application];
-                _p->paths[ResourcePath::IconsDirectory]   = _p->paths[ResourcePath::Application];
-                _p->paths[ResourcePath::ImagesDirectory]  = _p->paths[ResourcePath::Application];
-                _p->paths[ResourcePath::ModelsDirectory]  = _p->paths[ResourcePath::Application];
-                _p->paths[ResourcePath::ShadersDirectory] = _p->paths[ResourcePath::Application];
-                _p->paths[ResourcePath::TextDirectory]    = _p->paths[ResourcePath::Application];
+                p.paths[ResourcePath::AudioDirectory]   = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::FontsDirectory]   = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::IconsDirectory]   = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::ImagesDirectory]  = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::ModelsDirectory]  = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::ShadersDirectory] = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::TextDirectory]    = p.paths[ResourcePath::Application];
             }
             else
             {
-                Path etc = Path(_p->paths[ResourcePath::Application], "etc");
-                _p->paths[ResourcePath::AudioDirectory]   = Path(etc, "Audio");
-                _p->paths[ResourcePath::FontsDirectory]   = Path(etc, "Fonts");
-                _p->paths[ResourcePath::IconsDirectory]   = Path(etc, "Icons");
-                _p->paths[ResourcePath::ImagesDirectory]  = Path(etc, "Images");
-                _p->paths[ResourcePath::ModelsDirectory]  = Path(etc, "Models");
-                _p->paths[ResourcePath::ShadersDirectory] = Path(etc, "Shaders");
-                _p->paths[ResourcePath::TextDirectory]    = Path(etc, "Text");
+                Path etc = Path(p.paths[ResourcePath::Application], "etc");
+                p.paths[ResourcePath::AudioDirectory]   = Path(etc, "Audio");
+                p.paths[ResourcePath::FontsDirectory]   = Path(etc, "Fonts");
+                p.paths[ResourcePath::IconsDirectory]   = Path(etc, "Icons");
+                p.paths[ResourcePath::ImagesDirectory]  = Path(etc, "Images");
+                p.paths[ResourcePath::ModelsDirectory]  = Path(etc, "Models");
+                p.paths[ResourcePath::ShadersDirectory] = Path(etc, "Shaders");
+                p.paths[ResourcePath::TextDirectory]    = Path(etc, "Text");
             }
         }
 

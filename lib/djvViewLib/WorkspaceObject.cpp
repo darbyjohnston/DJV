@@ -54,54 +54,55 @@ namespace djv
             IViewObject("WorkspaceObject", context, parent),
             _p(new Private)
         {
-            _p->actions["New"] = new QAction("New", this);
-            _p->actions["Close"] = new QAction("Close", this);
-            _p->actions["Next"] = new QAction("Next", this);
-            _p->actions["Next"]->setShortcut(QKeySequence("Ctrl+Page Up"));
-            _p->actions["Previous"] = new QAction("Previous", this);
-            _p->actions["Previous"]->setShortcut(QKeySequence("Ctrl+Page Down"));
+            DJV_PRIVATE_PTR();
+            p.actions["New"] = new QAction("New", this);
+            p.actions["Close"] = new QAction("Close", this);
+            p.actions["Next"] = new QAction("Next", this);
+            p.actions["Next"]->setShortcut(QKeySequence("Ctrl+Page Up"));
+            p.actions["Previous"] = new QAction("Previous", this);
+            p.actions["Previous"]->setShortcut(QKeySequence("Ctrl+Page Down"));
 
-            _p->actions["Tabs"] = new QAction("Tabs", this);
-            _p->actions["Tabs"]->setCheckable(true);
-            _p->actions["Tabs"]->setShortcut(QKeySequence("Ctrl+Meta+T"));
-            _p->actions["Windows"] = new QAction("Windows", this);
-            _p->actions["Windows"]->setCheckable(true);
-            _p->actions["Windows"]->setShortcut(QKeySequence("Ctrl+Meta+W"));
-            _p->actionGroups["ViewMode"] = new QActionGroup(this);
-            _p->actionGroups["ViewMode"]->setExclusive(true);
-            _p->actionGroups["ViewMode"]->addAction(_p->actions["Tabs"]);
-            _p->actionGroups["ViewMode"]->addAction(_p->actions["Windows"]);
+            p.actions["Tabs"] = new QAction("Tabs", this);
+            p.actions["Tabs"]->setCheckable(true);
+            p.actions["Tabs"]->setShortcut(QKeySequence("Ctrl+Meta+T"));
+            p.actions["Windows"] = new QAction("Windows", this);
+            p.actions["Windows"]->setCheckable(true);
+            p.actions["Windows"]->setShortcut(QKeySequence("Ctrl+Meta+W"));
+            p.actionGroups["ViewMode"] = new QActionGroup(this);
+            p.actionGroups["ViewMode"]->setExclusive(true);
+            p.actionGroups["ViewMode"]->addAction(p.actions["Tabs"]);
+            p.actionGroups["ViewMode"]->addAction(p.actions["Windows"]);
 
             connect(
-                _p->actions["New"],
+                p.actions["New"],
                 &QAction::triggered,
                 [this]
             {
                 newWorkspace();
             });
             connect(
-                _p->actions["Close"],
+                p.actions["Close"],
                 &QAction::triggered,
                 [this]
             {
                 closeWorkspace(getCurrentWorkspace());
             });
             connect(
-                _p->actions["Next"],
+                p.actions["Next"],
                 &QAction::triggered,
                 [this]
             {
                 nextWorkspace();
             });
             connect(
-                _p->actions["Previous"],
+                p.actions["Previous"],
                 &QAction::triggered,
                 [this]
             {
                 prevWorkspace();
             });
             connect(
-                _p->actionGroups["ViewMode"],
+                p.actionGroups["ViewMode"],
                 &QActionGroup::triggered,
                 [this](QAction * action)
             {
@@ -176,19 +177,20 @@ namespace djv
 
         void WorkspaceObject::closeWorkspace(const QPointer<Workspace> & workspace)
         {
-            auto i = std::find(_p->workspaces.begin(), _p->workspaces.end(), workspace);
-            if (i != _p->workspaces.end())
+            DJV_PRIVATE_PTR();
+            auto i = std::find(p.workspaces.begin(), p.workspaces.end(), workspace);
+            if (i != p.workspaces.end())
             {
                 //! \todo Save
-                int index = static_cast<int>(i - _p->workspaces.begin());
+                int index = static_cast<int>(i - p.workspaces.begin());
                 auto workspace = *i;
-                _p->workspaces.erase(i);
+                p.workspaces.erase(i);
                 _updateMenus();
                 Q_EMIT workspaceRemoved(workspace);
-                if (workspace == _p->currentWorkspace)
+                if (workspace == p.currentWorkspace)
                 {
-                    index = std::min(index, static_cast<int>(_p->workspaces.size()) - 1);
-                    setCurrentWorkspace(index != -1 ? _p->workspaces[index] : nullptr);
+                    index = std::min(index, static_cast<int>(p.workspaces.size()) - 1);
+                    setCurrentWorkspace(index != -1 ? p.workspaces[index] : nullptr);
                 }
                 delete workspace.data();
             }
@@ -196,40 +198,41 @@ namespace djv
 
         void WorkspaceObject::setCurrentWorkspace(const QPointer<Workspace> & workspace)
         {
-            if (workspace == _p->currentWorkspace)
+            DJV_PRIVATE_PTR();
+            if (workspace == p.currentWorkspace)
                 return;
-            if (_p->currentWorkspace)
+            if (p.currentWorkspace)
             {
                 disconnect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateMenus()));
                 disconnect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateMenus()));
                 disconnect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)),
                     this,
                     SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)));
             }
-            _p->currentWorkspace = workspace;
+            p.currentWorkspace = workspace;
             _updateMenus();
-            if (_p->currentWorkspace)
+            if (p.currentWorkspace)
             {
                 connect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     SLOT(_updateMenus()));
                 connect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     SLOT(_updateMenus()));
                 connect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)),
                     SIGNAL(currentMediaChanged(const std::shared_ptr<Media> &)));
             }
@@ -242,13 +245,14 @@ namespace djv
 
         void WorkspaceObject::nextWorkspace()
         {
-            auto i = std::find(_p->workspaces.begin(), _p->workspaces.end(), _p->currentWorkspace);
-            if (i != _p->workspaces.end())
+            DJV_PRIVATE_PTR();
+            auto i = std::find(p.workspaces.begin(), p.workspaces.end(), p.currentWorkspace);
+            if (i != p.workspaces.end())
             {
                 ++i;
-                if (i == _p->workspaces.end())
+                if (i == p.workspaces.end())
                 {
-                    i = _p->workspaces.begin();
+                    i = p.workspaces.begin();
                 }
                 setCurrentWorkspace(*i);
             }
@@ -256,12 +260,13 @@ namespace djv
 
         void WorkspaceObject::prevWorkspace()
         {
-            auto i = std::find(_p->workspaces.begin(), _p->workspaces.end(), _p->currentWorkspace);
-            if (i != _p->workspaces.end())
+            DJV_PRIVATE_PTR();
+            auto i = std::find(p.workspaces.begin(), p.workspaces.end(), p.currentWorkspace);
+            if (i != p.workspaces.end())
             {
-                if (i == _p->workspaces.begin())
+                if (i == p.workspaces.begin())
                 {
-                    i = _p->workspaces.end();
+                    i = p.workspaces.end();
                 }
                 --i;
                 setCurrentWorkspace(*i);
@@ -270,36 +275,37 @@ namespace djv
 
         void WorkspaceObject::_updateMenus()
         {
-            const bool currentWorkspace = _p->currentWorkspace;
-            _p->actions["Close"]->setEnabled(currentWorkspace);
-            _p->actionGroups["ViewMode"]->setEnabled(currentWorkspace);
+            DJV_PRIVATE_PTR();
+            const bool currentWorkspace = p.currentWorkspace;
+            p.actions["Close"]->setEnabled(currentWorkspace);
+            p.actionGroups["ViewMode"]->setEnabled(currentWorkspace);
 
-            const bool multipleWorkspaces = _p->workspaces.size() > 1;
-            _p->actions["Next"]->setEnabled(multipleWorkspaces);
-            _p->actions["Previous"]->setEnabled(multipleWorkspaces);
+            const bool multipleWorkspaces = p.workspaces.size() > 1;
+            p.actions["Next"]->setEnabled(multipleWorkspaces);
+            p.actions["Previous"]->setEnabled(multipleWorkspaces);
 
             QMdiArea::ViewMode viewMode = QMdiArea::TabbedView;
-            if (_p->currentWorkspace)
+            if (p.currentWorkspace)
             {
-                viewMode = _p->currentWorkspace->getViewMode();
+                viewMode = p.currentWorkspace->getViewMode();
             }
             switch (viewMode)
             {
-            case QMdiArea::TabbedView: _p->actions["Tabs"]->setChecked(true); break;
-            case QMdiArea::SubWindowView: _p->actions["Windows"]->setChecked(true); break;
+            case QMdiArea::TabbedView: p.actions["Tabs"]->setChecked(true); break;
+            case QMdiArea::SubWindowView: p.actions["Windows"]->setChecked(true); break;
             default: break;
             }
 
-            for (auto menu : _p->menus)
+            for (auto menu : p.menus)
             {
                 menu->clear();
-                menu->addAction(_p->actions["New"]);
-                menu->addAction(_p->actions["Close"]);
-                menu->addAction(_p->actions["Next"]);
-                menu->addAction(_p->actions["Previous"]);
+                menu->addAction(p.actions["New"]);
+                menu->addAction(p.actions["Close"]);
+                menu->addAction(p.actions["Next"]);
+                menu->addAction(p.actions["Previous"]);
                 menu->addSeparator();
-                menu->addAction(_p->actions["Tabs"]);
-                menu->addAction(_p->actions["Windows"]);
+                menu->addAction(p.actions["Tabs"]);
+                menu->addAction(p.actions["Windows"]);
             }
         }
 

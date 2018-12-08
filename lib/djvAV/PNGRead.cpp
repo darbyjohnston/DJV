@@ -114,47 +114,48 @@ namespace djv
 
                 Info Read::_open(const std::string& fileName, const Speed & speed, Duration duration)
                 {
-                    _p->fileName = fileName;
+                    DJV_PRIVATE_PTR();
+                    p.fileName = fileName;
 
-                    _p->png = png_create_read_struct(
+                    p.png = png_create_read_struct(
                         PNG_LIBPNG_VER_STRING,
-                        &_p->pngError,
+                        &p.pngError,
                         djvPngError,
                         djvPngWarning);
-                    if (!_p->png)
+                    if (!p.png)
                     {
                         std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName << ": " << _p->pngError.msg;
+                        s << pluginName << " cannot open: " << fileName << ": " << p.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
 
-                    _p->f = Core::fopen(fileName.c_str(), "rb");
-                    if (!_p->f)
+                    p.f = Core::fopen(fileName.c_str(), "rb");
+                    if (!p.f)
                     {
                         std::stringstream s;
                         s << pluginName << " cannot open: " << fileName;
                         throw std::runtime_error(s.str());
                     }
-                    if (!pngOpen(_p->f, _p->png, &_p->pngInfo, &_p->pngInfoEnd))
+                    if (!pngOpen(p.f, p.png, &p.pngInfo, &p.pngInfoEnd))
                     {
                         std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName << ": " << _p->pngError.msg;
+                        s << pluginName << " cannot open: " << fileName << ": " << p.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
 
                     const glm::ivec2 size(
-                        png_get_image_width(_p->png, _p->pngInfo),
-                        png_get_image_height(_p->png, _p->pngInfo));
-                    int channels = png_get_channels(_p->png, _p->pngInfo);
-                    if (png_get_color_type(_p->png, _p->pngInfo) == PNG_COLOR_TYPE_PALETTE)
+                        png_get_image_width(p.png, p.pngInfo),
+                        png_get_image_height(p.png, p.pngInfo));
+                    int channels = png_get_channels(p.png, p.pngInfo);
+                    if (png_get_color_type(p.png, p.pngInfo) == PNG_COLOR_TYPE_PALETTE)
                     {
                         channels = 3;
                     }
-                    if (png_get_valid(_p->png, _p->pngInfo, PNG_INFO_tRNS))
+                    if (png_get_valid(p.png, p.pngInfo, PNG_INFO_tRNS))
                     {
                         ++channels;
                     }
-                    int bitDepth = png_get_bit_depth(_p->png, _p->pngInfo);
+                    int bitDepth = png_get_bit_depth(p.png, p.pngInfo);
                     if (bitDepth < 8)
                     {
                         bitDepth = 8;
@@ -166,14 +167,14 @@ namespace djv
                         s << pluginName << " cannot open: " << fileName;
                         throw std::runtime_error(s.str());
                     }
-                    _p->info = Pixel::Info(size, pixelType);
+                    p.info = Pixel::Info(size, pixelType);
 
                     if (bitDepth >= 16 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
                     {
-                        png_set_swap(_p->png);
+                        png_set_swap(p.png);
                     }
 
-                    return Info(fileName, VideoInfo(_p->info, speed, duration), AudioInfo());
+                    return Info(fileName, VideoInfo(p.info, speed, duration), AudioInfo());
                 }
 
                 namespace
@@ -202,36 +203,38 @@ namespace djv
 
                 std::shared_ptr<Image> Read::_read()
                 {
-                    auto out = Image::create(_p->info);
-                    for (int y = 0; y < _p->info.getHeight(); ++y)
+                    DJV_PRIVATE_PTR();
+                    auto out = Image::create(p.info);
+                    for (int y = 0; y < p.info.getHeight(); ++y)
                     {
-                        if (!pngScanline(_p->png, out->getData(y)))
+                        if (!pngScanline(p.png, out->getData(y)))
                         {
                             std::stringstream s;
-                            s << pluginName << " cannot read: " << _p->fileName << ": " << _p->pngError.msg;
+                            s << pluginName << " cannot read: " << p.fileName << ": " << p.pngError.msg;
                             throw std::runtime_error(s.str());
                         }
                     }
-                    pngEnd(_p->png, _p->pngInfoEnd);
+                    pngEnd(p.png, p.pngInfoEnd);
                     return out;
                 }
 
                 void Read::_close()
                 {
-                    if (_p->png || _p->pngInfo || _p->pngInfoEnd)
+                    DJV_PRIVATE_PTR();
+                    if (p.png || p.pngInfo || p.pngInfoEnd)
                     {
                         png_destroy_read_struct(
-                            _p->png ? &_p->png : nullptr,
-                            _p->pngInfo ? &_p->pngInfo : nullptr,
-                            _p->pngInfoEnd ? &_p->pngInfoEnd : nullptr);
-                        _p->png = nullptr;
-                        _p->pngInfo = nullptr;
-                        _p->pngInfoEnd = nullptr;
+                            p.png ? &p.png : nullptr,
+                            p.pngInfo ? &p.pngInfo : nullptr,
+                            p.pngInfoEnd ? &p.pngInfoEnd : nullptr);
+                        p.png = nullptr;
+                        p.pngInfo = nullptr;
+                        p.pngInfoEnd = nullptr;
                     }
-                    if (_p->f)
+                    if (p.f)
                     {
-                        fclose(_p->f);
-                        _p->f = nullptr;
+                        fclose(p.f);
+                        p.f = nullptr;
                     }
                 }
 

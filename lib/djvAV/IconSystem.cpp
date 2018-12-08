@@ -133,44 +133,54 @@ namespace djv
         {
             ISystem::_init("djv::AV::IconSystem", context);
 
-            _p->infoCache.setMax(infoCacheMax);
-            _p->imageCache.setMax(imageCacheMax);
+            DJV_PRIVATE_PTR();
+            p.infoCache.setMax(infoCacheMax);
+            p.imageCache.setMax(imageCacheMax);
 
-            _p->statsTimer = Timer::create(context);
-            _p->statsTimer->setRepeating(true);
-            _p->statsTimer->start(
+            p.statsTimer = Timer::create(context);
+            p.statsTimer->setRepeating(true);
+            p.statsTimer->start(
                 std::chrono::milliseconds(statsTimeout),
                 [this](float)
             {
-                std::lock_guard<std::mutex> lock(_p->cacheMutex);
+                DJV_PRIVATE_PTR();
+                std::lock_guard<std::mutex> lock(p.cacheMutex);
                 std::stringstream s;
-                s << "Info cache: " << _p->infoCache.getPercentageUsed() << "%\n";
-                s << "Image cache: " << _p->imageCache.getPercentageUsed() << '%';
+                s << "Info cache: " << p.infoCache.getPercentageUsed() << "%\n";
+                s << "Image cache: " << p.imageCache.getPercentageUsed() << '%';
                 _log(s.str());
             });
 
-            _p->running = true;
-            _p->thread = std::thread(
+            p.running = true;
+            p.thread = std::thread(
                 [this]
             {
-                while (_p->running)
+                DJV_PRIVATE_PTR();
+                while (p.running)
                 {
                     {
-                        std::unique_lock<std::mutex> lock(_p->requestMutex);
-                        if (_p->requestCV.wait_for(
+                        std::unique_lock<std::mutex> lock(p.requestMutex);
+                        if (p.requestCV.wait_for(
                             lock,
                             std::chrono::milliseconds(timeout),
                             [this]
                         {
-                            return _p->infoQueue.size() || _p->imageQueue.size();
+                            DJV_PRIVATE_PTR();
+                            return p.infoQueue.size() || p.imageQueue.size();
                         }))
                         {
-                            _p->newInfoRequests = std::move(_p->infoQueue);
-                            _p->newImageRequests = std::move(_p->imageQueue);
+                            p.newInfoRequests = std::move(p.infoQueue);
+                            p.newImageRequests = std::move(p.imageQueue);
                         }
                     }
-                    _handleInfoRequests();
-                    _handleImageRequests();
+                    if (p.newInfoRequests.size() || p.pendingInfoRequests.size())
+                    {
+                        _handleInfoRequests();
+                    }
+                    if (p.newImageRequests.size() || p.pendingImageRequests.size())
+                    {
+                        _handleImageRequests();
+                    }
                 }
             });
         }
@@ -191,52 +201,56 @@ namespace djv
 
         std::future<Pixel::Info> IconSystem::getInfo(const Path& path)
         {
+            DJV_PRIVATE_PTR();
             InfoRequest request;
             request.path = path;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(_p->requestMutex);
-            _p->infoQueue.push_back(std::move(request));
-            _p->requestCV.notify_one();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.infoQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
             return future;
         }
 
         std::future<std::shared_ptr<Image> > IconSystem::getImage(const Path& path)
         {
+            DJV_PRIVATE_PTR();
             ImageRequest request;
             request.path = path;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(_p->requestMutex);
-            _p->imageQueue.push_back(std::move(request));
-            _p->requestCV.notify_one();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.imageQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
             return future;
         }
 
         void IconSystem::_exit()
         {
+            DJV_PRIVATE_PTR();
             ISystem::_exit();
             {
-                std::unique_lock<std::mutex> lock(_p->requestMutex);
-                _p->infoQueue.clear();
-                _p->imageQueue.clear();
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.infoQueue.clear();
+                p.imageQueue.clear();
             }
-            _p->running = false;
-            _p->thread.join();
+            p.running = false;
+            p.thread.join();
         }
 
         void IconSystem::_handleInfoRequests()
         {
+            DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 // Process new requests.
-                for (auto & i : _p->newInfoRequests)
+                for (auto & i : p.newInfoRequests)
                 {
                     Pixel::Info info;
                     bool cached = false;
                     {
-                        std::lock_guard<std::mutex> lock(_p->cacheMutex);
-                        if (_p->infoCache.contains(i.path))
+                        std::lock_guard<std::mutex> lock(p.cacheMutex);
+                        if (p.infoCache.contains(i.path))
                         {
-                            info = _p->infoCache.get(i.path);
+                            info = p.infoCache.get(i.path);
                             cached = true;
                         }
                     }
@@ -250,7 +264,7 @@ namespace djv
                         {
                             i.read = io->read(i.path, nullptr);
                             i.infoFuture = i.read->getInfo();
-                            _p->pendingInfoRequests.push_back(std::move(i));
+                            p.pendingInfoRequests.push_back(std::move(i));
                         }
                         catch (const std::exception& e)
                         {
@@ -259,11 +273,11 @@ namespace djv
                         }
                     }
                 }
-                _p->newInfoRequests.clear();
+                p.newInfoRequests.clear();
 
                 // Process pending requests.
-                auto i = _p->pendingInfoRequests.begin();
-                while (i != _p->pendingInfoRequests.end())
+                auto i = p.pendingInfoRequests.begin();
+                while (i != p.pendingInfoRequests.end())
                 {
                     if (i->infoFuture.valid() &&
                         i->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
@@ -275,9 +289,9 @@ namespace djv
                         {
                             info = videoInfo[0].getInfo();
                         }
-                        _p->infoCache.add(i->path, info);
+                        p.infoCache.add(i->path, info);
                         i->promise.set_value(info);
-                        i = _p->pendingInfoRequests.erase(i);
+                        i = p.pendingInfoRequests.erase(i);
                     }
                     else
                     {
@@ -289,18 +303,19 @@ namespace djv
 
         void IconSystem::_handleImageRequests()
         {
+            DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 // Process new requests.
-                for (auto & i : _p->newImageRequests)
+                for (auto & i : p.newImageRequests)
                 {
                     std::shared_ptr<Image> image;
                     bool cached = false;
                     {
-                        std::lock_guard<std::mutex> lock(_p->cacheMutex);
-                        if (_p->imageCache.contains(i.path))
+                        std::lock_guard<std::mutex> lock(p.cacheMutex);
+                        if (p.imageCache.contains(i.path))
                         {
-                            image = _p->imageCache.get(i.path);
+                            image = p.imageCache.get(i.path);
                         }
                     }
                     if (image)
@@ -313,7 +328,7 @@ namespace djv
                         {
                             i.queue = IO::Queue::create();
                             i.read = io->read(i.path, i.queue);
-                            _p->pendingImageRequests.push_back(std::move(i));
+                            p.pendingImageRequests.push_back(std::move(i));
                         }
                         catch (const std::exception& e)
                         {
@@ -322,11 +337,11 @@ namespace djv
                         }
                     }
                 }
-                _p->newImageRequests.clear();
+                p.newImageRequests.clear();
 
                 // Process pending requests.
-                auto i = _p->pendingImageRequests.begin();
-                while (i != _p->pendingImageRequests.end())
+                auto i = p.pendingImageRequests.begin();
+                while (i != p.pendingImageRequests.end())
                 {
                     std::shared_ptr<Image> image;
                     {
@@ -338,9 +353,9 @@ namespace djv
                     }
                     if (image)
                     {
-                        _p->imageCache.add(i->path, image);
+                        p.imageCache.add(i->path, image);
                         i->promise.set_value(image);
-                        i = _p->pendingImageRequests.erase(i);
+                        i = p.pendingImageRequests.erase(i);
                     }
                     else
                     {

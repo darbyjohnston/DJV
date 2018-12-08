@@ -31,6 +31,65 @@ namespace djv
 {
     namespace Core
     {
+        inline FileIO::FileIO()
+        {}
+
+        inline bool FileIO::isOpen() const
+        {
+#if defined(DJV_PLATFORM_WINDOWS)
+            return
+                _f != INVALID_HANDLE_VALUE &&
+                (_size ? _pos < _size : false);
+#else // DJV_PLATFORM_WINDOWS
+            return
+                _f != -1 &&
+                (_size ? _pos < _size : false);
+#endif //DJV_PLATFORM_WINDOWS
+        }
+        
+        inline const std::string& FileIO::getFileName() const
+        {
+            return _fileName;
+        }
+
+        inline size_t FileIO::getSize() const
+        {
+            return _size;
+        }
+
+        inline size_t FileIO::getPos() const
+        {
+            return _pos;
+        }
+
+        inline bool FileIO::isEOF() const
+        {
+#if defined(DJV_PLATFORM_WINDOWS)
+            return
+                _f == INVALID_HANDLE_VALUE ||
+                (_size ? _pos >= _size : true);
+#else // DJV_PLATFORM_WINDOWS
+            return
+                -1 == _f ||
+                (_size ? _pos >= _size : true);
+#endif //DJV_PLATFORM_WINDOWS
+        }
+
+        inline const uint8_t* FileIO::mmapP() const
+        {
+            return _mmapP;
+        }
+
+        inline const uint8_t* FileIO::mmapEnd() const
+        {
+            return _mmapEnd;
+        }
+
+        inline bool FileIO::getEndian() const
+        {
+            return _endian;
+        }
+
         inline void FileIO::read8(int8_t* value, size_t size)
         {
             return read(value, size, 1);

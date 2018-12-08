@@ -38,14 +38,7 @@ namespace djv
 {
     namespace AV
     {
-        struct Shader::Private
-        {
-            std::pair<std::string, std::string> vertex;
-            std::pair<std::string, std::string> fragment;
-        };
-
-        Shader::Shader() :
-            _p(new Private)
+        Shader::Shader()
         {}
 
         Shader::~Shader()
@@ -54,8 +47,8 @@ namespace djv
         std::shared_ptr<Shader> Shader::create(const std::string & vertex, const std::string & fragment)
         {
             auto out = std::shared_ptr<Shader>(new Shader);
-            out->_p->vertex.second = vertex;
-            out->_p->fragment.second = fragment;
+            out->_vertex.second = vertex;
+            out->_fragment.second = fragment;
             return out;
         }
 
@@ -66,11 +59,11 @@ namespace djv
             {
                 FileIO fileIO;
                 fileIO.open(vertex, FileIO::Mode::Read);
-                FileIO::readContents(fileIO, out->_p->vertex.second);
-                out->_p->vertex.first = vertex.get();
+                FileIO::readContents(fileIO, out->_vertex.second);
+                out->_vertex.first = vertex.get();
                 fileIO.open(fragment, FileIO::Mode::Read);
-                FileIO::readContents(fileIO, out->_p->fragment.second);
-                out->_p->fragment.first = fragment.get();
+                FileIO::readContents(fileIO, out->_fragment.second);
+                out->_fragment.first = fragment.get();
             }
             catch (const std::exception& e)
             {
@@ -83,22 +76,22 @@ namespace djv
 
         const std::string& Shader::getVertexName() const
         {
-            return _p->vertex.first;
+            return _vertex.first;
         }
 
         const std::string& Shader::getVertexSource() const
         {
-            return _p->vertex.second;
+            return _vertex.second;
         }
 
         const std::string& Shader::getFragmentName() const
         {
-            return _p->fragment.first;
+            return _fragment.first;
         }
 
         const std::string& Shader::getFragmentSource() const
         {
-            return _p->fragment.second;
+            return _fragment.second;
         }
 
     } // namespace AV

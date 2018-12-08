@@ -37,26 +37,10 @@ namespace djv
 {
     namespace Core
     {
-        struct Timer::Private
-        {
-            bool repeating = false;
-            bool active = false;
-            std::chrono::milliseconds timeout;
-            std::function<void(float)> callback;
-            std::chrono::time_point<std::chrono::system_clock> start;
-        };
-
         void Timer::_init(const std::shared_ptr<Context>& context)
         {
             context->getSystemT<TimerSystem>()->_addTimer(shared_from_this());
         }
-
-        Timer::Timer() :
-            _p(new Private)
-        {}
-
-        Timer::~Timer()
-        {}
 
         std::shared_ptr<Timer> Timer::create(const std::shared_ptr<Context>& context)
         {
@@ -65,53 +49,43 @@ namespace djv
             return out;
         }
 
-        bool Timer::isRepeating() const
-        {
-            return _p->repeating;
-        }
-
         void Timer::setRepeating(bool value)
         {
-            _p->repeating = value;
-        }
-
-        bool Timer::isActive() const
-        {
-            return _p->active;
+            _repeating = value;
         }
 
         void Timer::start(std::chrono::milliseconds value, const std::function<void(float)>& callback)
         {
-            _p->active   = true;
-            _p->timeout  = value;
-            _p->callback = callback;
-            _p->start    = std::chrono::system_clock::now();
+            _active   = true;
+            _timeout  = value;
+            _callback = callback;
+            _start    = std::chrono::system_clock::now();
         }
 
         void Timer::stop()
         {
-            _p->active = false;
+            _active = false;
         }
 
         void Timer::_tick(float dt)
         {
-            if (_p->active)
+            if (_active)
             {
                 const auto now = std::chrono::system_clock::now();
-                if (now >= (_p->start + _p->timeout))
+                if (now >= (_start + _timeout))
                 {
-                    if (_p->callback)
+                    if (_callback)
                     {
-                        const std::chrono::duration<float> delta = now - _p->start;
-                        _p->callback(delta.count());
+                        const std::chrono::duration<float> delta = now - _start;
+                        _callback(delta.count());
                     }
-                    if (_p->repeating)
+                    if (_repeating)
                     {
-                        _p->start = now;
+                        _start = now;
                     }
                     else
                     {
-                        _p->active = false;
+                        _active = false;
                     }
                 }
             }
@@ -143,8 +117,9 @@ namespace djv
 
         void TimerSystem::_tick(float dt)
         {
+            DJV_PRIVATE_PTR();
             std::vector<std::weak_ptr<Timer> > zombies;
-            auto timers = _p->timers;
+            auto timers = p.timers;
             for (const auto& t : timers)
             {
                 if (auto timer = t.lock())
@@ -159,15 +134,15 @@ namespace djv
             for (const auto& zombie : zombies)
             {
                 const auto i = std::find_if(
-                    _p->timers.begin(),
-                    _p->timers.end(),
+                    p.timers.begin(),
+                    p.timers.end(),
                     [zombie](const std::weak_ptr<Timer>& other)
                 {
                     return zombie.lock() == other.lock();
                 });
-                if (i != _p->timers.end())
+                if (i != p.timers.end())
                 {
-                    _p->timers.erase(i);
+                    p.timers.erase(i);
                 }
             }
         }

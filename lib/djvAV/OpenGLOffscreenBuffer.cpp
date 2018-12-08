@@ -43,28 +43,20 @@ namespace djv
     {
         namespace OpenGL
         {
-            struct OffscreenBuffer::Private
-            {
-                Pixel::Info info;
-                GLuint id = 0;
-                GLuint textureID = 0;
-                GLint restore = 0;
-            };
-
             void OffscreenBuffer::_init(const Pixel::Info& info)
             {
-                _p->info = info;
+                _info = info;
 
                 // Create the texture.
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenTextures(1, &_p->textureID);
-                if (!_p->textureID)
+                glFuncs->glGenTextures(1, &_textureID);
+                if (!_textureID)
                 {
                     throw Core::Error(
                         "djv::AV::OpenGL::OffscreenBuffer",
                         DJV_TEXT("Cannot create texture"));
                 }
-                glFuncs->glBindTexture(GL_TEXTURE_2D, _p->textureID);
+                glFuncs->glBindTexture(GL_TEXTURE_2D, _textureID);
                 glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                 glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -72,18 +64,18 @@ namespace djv
                 glFuncs->glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
-                    Texture::getInternalFormat(_p->info.getType()),
-                    _p->info.getWidth(),
-                    _p->info.getHeight(),
+                    Texture::getInternalFormat(_info.getType()),
+                    _info.getWidth(),
+                    _info.getHeight(),
                     0,
-                    _p->info.getGLFormat(),
-                    _p->info.getGLType(),
+                    _info.getGLFormat(),
+                    _info.getGLType(),
                     0);
                 glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
 
                 // Create the FBO.
-                glFuncs->glGenFramebuffers(1, &_p->id);
-                if (!_p->id)
+                glFuncs->glGenFramebuffers(1, &_id);
+                if (!_id)
                 {
                     throw Core::Error(
                         "djv::AV::OpenGL::OffscreenBuffer",
@@ -94,7 +86,7 @@ namespace djv
                     GL_FRAMEBUFFER,
                     GL_COLOR_ATTACHMENT0,
                     GL_TEXTURE_2D,
-                    _p->textureID,
+                    _textureID,
                     0);
                 GLenum error = glFuncs->glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if (error != GL_FRAMEBUFFER_COMPLETE)
@@ -105,22 +97,18 @@ namespace djv
                 }
             }
 
-            OffscreenBuffer::OffscreenBuffer() :
-                _p(new Private)
-            {}
-
             OffscreenBuffer::~OffscreenBuffer()
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                if (_p->id)
+                if (_id)
                 {
-                    glFuncs->glDeleteFramebuffers(1, &_p->id);
-                    _p->id = 0;
+                    glFuncs->glDeleteFramebuffers(1, &_id);
+                    _id = 0;
                 }
-                if (_p->textureID)
+                if (_textureID)
                 {
-                    glFuncs->glDeleteTextures(1, &_p->textureID);
-                    _p->textureID = 0;
+                    glFuncs->glDeleteTextures(1, &_textureID);
+                    _textureID = 0;
                 }
             }
 
@@ -131,33 +119,18 @@ namespace djv
                 return out;
             }
 
-            const Pixel::Info & OffscreenBuffer::getInfo() const
-            {
-                return _p->info;
-            }
-
-            GLuint OffscreenBuffer::getID() const
-            {
-                return _p->id;
-            }
-
-            GLuint OffscreenBuffer::getTextureID() const
-            {
-                return _p->textureID;
-            }
-
             void OffscreenBuffer::bind()
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_p->restore);
-                glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _p->id);
+                glFuncs->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore);
+                glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _id);
             }
 
             void OffscreenBuffer::unbind()
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _p->restore);
-                _p->restore = 0;
+                glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _restore);
+                _restore = 0;
             }
 
             OffscreenBufferBinding::OffscreenBufferBinding(const std::shared_ptr<OffscreenBuffer> & buffer) :

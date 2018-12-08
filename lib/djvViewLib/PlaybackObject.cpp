@@ -56,42 +56,44 @@ namespace djv
             IViewObject("PlaybackObject", context, parent),
             _p(new Private)
         {
-            _p->actions["Stop"] = new QAction("Stop", this);
-            _p->actions["Stop"]->setCheckable(true);
-            _p->actions["Stop"]->setShortcut(QKeySequence("K"));
-            _p->actions["Forward"] = new QAction("Forward", this);
-            _p->actions["Forward"]->setCheckable(true);
-            _p->actions["Forward"]->setShortcut(QKeySequence("L"));
-            _p->actions["Reverse"] = new QAction("Reverse", this);
-            _p->actions["Reverse"]->setCheckable(true);
-            _p->actions["Reverse"]->setShortcut(QKeySequence("J"));
-            _p->actionGroups["Playback"] = new QActionGroup(this);
-            _p->actionGroups["Playback"]->setExclusive(true);
-            _p->actionGroups["Playback"]->addAction(_p->actions["Stop"]);
-            _p->actionGroups["Playback"]->addAction(_p->actions["Forward"]);
-            _p->actionGroups["Playback"]->addAction(_p->actions["Reverse"]);
+            DJV_PRIVATE_PTR();            
+            p.actions["Stop"] = new QAction("Stop", this);
+            p.actions["Stop"]->setCheckable(true);
+            p.actions["Stop"]->setShortcut(QKeySequence("K"));
+            p.actions["Forward"] = new QAction("Forward", this);
+            p.actions["Forward"]->setCheckable(true);
+            p.actions["Forward"]->setShortcut(QKeySequence("L"));
+            p.actions["Reverse"] = new QAction("Reverse", this);
+            p.actions["Reverse"]->setCheckable(true);
+            p.actions["Reverse"]->setShortcut(QKeySequence("J"));
+            p.actionGroups["Playback"] = new QActionGroup(this);
+            p.actionGroups["Playback"]->setExclusive(true);
+            p.actionGroups["Playback"]->addAction(p.actions["Stop"]);
+            p.actionGroups["Playback"]->addAction(p.actions["Forward"]);
+            p.actionGroups["Playback"]->addAction(p.actions["Reverse"]);
 
-            _p->actions["Timeline"] = new QAction("Timeline", this);
-            _p->actions["Timeline"]->setCheckable(true);
-            _p->actions["Timeline"]->setChecked(true);
+            p.actions["Timeline"] = new QAction("Timeline", this);
+            p.actions["Timeline"]->setCheckable(true);
+            p.actions["Timeline"]->setChecked(true);
 
             connect(
-                _p->actionGroups["Playback"],
+                p.actionGroups["Playback"],
                 &QActionGroup::triggered,
                 [this](QAction * action)
             {
-                if (_p->currentMedia)
+                DJV_PRIVATE_PTR();
+                if (p.currentMedia)
                 {
                     Enum::Playback playback = Enum::Playback::Stop;
-                    if (_p->actions["Forward"] == action)
+                    if (p.actions["Forward"] == action)
                     {
                         playback = Enum::Playback::Forward;
                     }
-                    else if (_p->actions["Reverse"] == action)
+                    else if (p.actions["Reverse"] == action)
                     {
                         playback = Enum::Playback::Reverse;
                     }
-                    _p->currentMedia->setPlayback(playback);
+                    p.currentMedia->setPlayback(playback);
                 }
             });
         }
@@ -106,28 +108,30 @@ namespace djv
         
         QPointer<QMenu> PlaybackObject::createMenu()
         {
+            DJV_PRIVATE_PTR();
             auto menu = new QMenu("Playback");
-            menu->addAction(_p->actions["Stop"]);
-            menu->addAction(_p->actions["Forward"]);
-            menu->addAction(_p->actions["Reverse"]);
+            menu->addAction(p.actions["Stop"]);
+            menu->addAction(p.actions["Forward"]);
+            menu->addAction(p.actions["Reverse"]);
             menu->addSeparator();
-            menu->addAction(_p->actions["Timeline"]);
+            menu->addAction(p.actions["Timeline"]);
             return menu;
         }
 
         QPointer<QDockWidget> PlaybackObject::createDockWidget()
         {
+            DJV_PRIVATE_PTR();
             QDockWidget * out = nullptr;
             if (auto context = getContext().lock())
             {
                 out = new QDockWidget("Timeline");
                 auto timelineWidget = new TimelineWidget(context);
-                timelineWidget->setEnabled(_p->currentMedia ? true : false);
+                timelineWidget->setEnabled(p.currentMedia ? true : false);
                 out->setWidget(timelineWidget);
-                _p->timelineWidgets.push_back(timelineWidget);
+                p.timelineWidgets.push_back(timelineWidget);
 
                 connect(
-                    _p->actions["Timeline"],
+                    p.actions["Timeline"],
                     &QAction::toggled,
                     [out](bool value)
                 {
@@ -178,15 +182,16 @@ namespace djv
 
         void PlaybackObject::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
-            _p->actionGroups["Playback"]->setEnabled(media ? true : false);
-            for (auto & i : _p->timelineWidgets)
+            DJV_PRIVATE_PTR();
+            p.actionGroups["Playback"]->setEnabled(media ? true : false);
+            for (auto & i : p.timelineWidgets)
             {
                 i->setEnabled(media ? true : false);
             }
 
             if (media)
             {
-                _p->durationObserver = Core::ValueObserver<AV::Duration>::create(
+                p.durationObserver = Core::ValueObserver<AV::Duration>::create(
                     media->getDuration(),
                     [this](AV::Duration value)
                 {
@@ -195,7 +200,7 @@ namespace djv
                         i->setDuration(value);
                     }
                 });
-                _p->currentTimeObserver = Core::ValueObserver<AV::Timestamp>::create(
+                p.currentTimeObserver = Core::ValueObserver<AV::Timestamp>::create(
                     media->getCurrentTime(),
                     [this](AV::Timestamp value)
                 {
@@ -204,7 +209,7 @@ namespace djv
                         i->setCurrentTime(value);
                     }
                 });
-                _p->playbackObserver = Core::ValueObserver<Enum::Playback>::create(
+                p.playbackObserver = Core::ValueObserver<Enum::Playback>::create(
                     media->getPlayback(),
                     [this](Enum::Playback value)
                 {
@@ -223,16 +228,16 @@ namespace djv
             }
             else
             {
-                _p->currentTimeObserver = nullptr;
-                _p->playbackObserver = nullptr;
-                for (auto & i : _p->timelineWidgets)
+                p.currentTimeObserver = nullptr;
+                p.playbackObserver = nullptr;
+                for (auto & i : p.timelineWidgets)
                 {
                     i->setDuration(0);
                     i->setCurrentTime(0);
                     i->setPlayback(Enum::Playback::Stop);
                 }
             }
-            _p->currentMedia = media;
+            p.currentMedia = media;
         }
 
     } // namespace ViewLib

@@ -80,20 +80,19 @@ namespace djv
 
         void RecentFilesModel::addFile(const FileInfo& value)
         {
-            std::vector<FileInfo> list = _p->files->get();
-
+            DJV_PRIVATE_PTR();
+            std::vector<FileInfo> list = p.files->get();
             auto i = std::find(list.begin(), list.end(), value);
             if (i != list.end())
             {
                 list.erase(i);
             }
-
             list.insert(list.begin(), value);
-            while (list.size() > _p->filesMax->get())
+            while (list.size() > p.filesMax->get())
             {
                 list.pop_back();
             }
-            _p->files->setIfChanged(list);
+            p.files->setIfChanged(list);
         }
 
         std::shared_ptr<IValueSubject<size_t> > RecentFilesModel::getFilesMax() const
@@ -103,19 +102,18 @@ namespace djv
 
         void RecentFilesModel::setFilesMax(size_t value)
         {
-            if (value == _p->filesMax->get())
+            DJV_PRIVATE_PTR();
+            if (value == p.filesMax->get())
                 return;
-
-            _p->filesMax->setIfChanged(value);
-
-            if (_p->files->getSize() > value)
+            p.filesMax->setIfChanged(value);
+            if (p.files->getSize() > value)
             {
-                std::vector<FileInfo> list = _p->files->get();
+                std::vector<FileInfo> list = p.files->get();
                 while (list.size() > value)
                 {
                     list.pop_back();
                 }
-                _p->files->setIfChanged(list);
+                p.files->setIfChanged(list);
             }
         }
 

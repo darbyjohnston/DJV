@@ -80,12 +80,13 @@ namespace djv
             m.setScale(2.f);
             metrics[DJV_TEXT("Large")] = m;
 
-            _p->palettes = MapSubject<std::string, Palette>::create(palettes);
-            _p->currentPalette = ValueSubject<Palette>::create(palettes["Default"]);
-            _p->currentPaletteName = ValueSubject<std::string>::create("Default");
-            _p->metrics = MapSubject<std::string, Metrics>::create(metrics);
-            _p->currentMetrics = ValueSubject<Metrics>::create(metrics["Default"]);
-            _p->currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Default"));
+            DJV_PRIVATE_PTR();
+            p.palettes = MapSubject<std::string, Palette>::create(palettes);
+            p.currentPalette = ValueSubject<Palette>::create(palettes["Default"]);
+            p.currentPaletteName = ValueSubject<std::string>::create("Default");
+            p.metrics = MapSubject<std::string, Metrics>::create(metrics);
+            p.currentMetrics = ValueSubject<Metrics>::create(metrics["Default"]);
+            p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Default"));
 
             _load();
         }
@@ -121,11 +122,12 @@ namespace djv
 
         void StyleSettings::setCurrentPalette(const std::string& name)
         {
-            if (_p->currentPaletteName->setIfChanged(name))
+            DJV_PRIVATE_PTR();
+            if (p.currentPaletteName->setIfChanged(name))
             {
                 if (auto context = getContext().lock())
                 {
-                    context->getSystemT<Style>()->setPalette(_p->palettes->getItem(name));
+                    context->getSystemT<Style>()->setPalette(p.palettes->getItem(name));
                 }
             }
         }
@@ -147,11 +149,12 @@ namespace djv
 
         void StyleSettings::setCurrentMetrics(const std::string& name)
         {
-            if (_p->currentMetricsName->setIfChanged(name))
+            DJV_PRIVATE_PTR();
+            if (p.currentMetricsName->setIfChanged(name))
             {
                 if (auto context = getContext().lock())
                 {
-                    context->getSystemT<Style>()->setMetrics(_p->metrics->getItem(name));
+                    context->getSystemT<Style>()->setMetrics(p.metrics->getItem(name));
                 }
             }
         }
@@ -160,24 +163,26 @@ namespace djv
         {
             if (value.is<picojson::object>())
             {
+                DJV_PRIVATE_PTR();
                 const auto& object = value.get<picojson::object>();
-                _read("Palettes", object, _p->palettes);
-                _read("CurrentPalette", object, _p->currentPaletteName);
-                _p->currentPalette->setIfChanged(_p->palettes->getItem(_p->currentPaletteName->get()));
-                _read("Metrics", object, _p->metrics);
-                _read("CurrentMetrics", object, _p->currentMetricsName);
-                _p->currentMetrics->setIfChanged(_p->metrics->getItem(_p->currentMetricsName->get()));
+                _read("Palettes", object, p.palettes);
+                _read("CurrentPalette", object, p.currentPaletteName);
+                p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
+                _read("Metrics", object, p.metrics);
+                _read("CurrentMetrics", object, p.currentMetricsName);
+                p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
             }
         }
 
         picojson::value StyleSettings::save()
         {
+            DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto& object = out.get<picojson::object>();
-            _write("Palettes", _p->palettes->get(), object);
-            _write("CurrentPalette", _p->currentPaletteName->get(), object);
-            _write("Metrics", _p->metrics->get(), object);
-            _write("CurrentMetrics", _p->currentMetricsName->get(), object);
+            _write("Palettes", p.palettes->get(), object);
+            _write("CurrentPalette", p.currentPaletteName->get(), object);
+            _write("Metrics", p.metrics->get(), object);
+            _write("CurrentMetrics", p.currentMetricsName->get(), object);
             return out;
         }
 

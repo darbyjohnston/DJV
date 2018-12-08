@@ -57,17 +57,18 @@ namespace djv
         WorkspaceMDISubWindow::WorkspaceMDISubWindow(const QPointer<Workspace> & workspace, const std::shared_ptr<Media> & media, const std::shared_ptr<Context> & context) :
             _p(new Private)
         {
-            _p->context = context;
-            _p->workspace = workspace;
-            _p->media = media;
+            DJV_PRIVATE_PTR();
+            p.context = context;
+            p.workspace = workspace;
+            p.media = media;
 
             setWindowTitle(QString::fromStdString(media->getFileName()));
             setAttribute(Qt::WA_DeleteOnClose);
 
-            _p->imageView = new ImageView(context);
-            setWidget(_p->imageView);
+            p.imageView = new ImageView(context);
+            setWidget(p.imageView);
 
-            _p->imageObserver = Core::ValueObserver<std::shared_ptr<AV::Image> >::create(
+            p.imageObserver = Core::ValueObserver<std::shared_ptr<AV::Image> >::create(
                 media->getCurrentImage(),
                 [this](const std::shared_ptr<AV::Image> & image)
             {
@@ -96,14 +97,15 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
-            _p->context = context;
-            _p->workspace = workspace;
+            DJV_PRIVATE_PTR();
+            p.context = context;
+            p.workspace = workspace;
 
-            _p->mdiArea = new QMdiArea;
-            _p->mdiArea->setViewMode(workspace->getViewMode());
+            p.mdiArea = new QMdiArea;
+            p.mdiArea->setViewMode(workspace->getViewMode());
 
             auto layout = new QVBoxLayout(this);
-            layout->addWidget(_p->mdiArea);
+            layout->addWidget(p.mdiArea);
 
             for (auto media : workspace->getMedia())
             {
@@ -160,7 +162,7 @@ namespace djv
             });
 
             connect(
-                _p->mdiArea,
+                p.mdiArea,
                 &QMdiArea::subWindowActivated,
                 [this, workspace](QMdiSubWindow * window)
             {
@@ -177,21 +179,22 @@ namespace djv
 
         bool WorkspaceMDI::eventFilter(QObject * object, QEvent * event)
         {
+            DJV_PRIVATE_PTR();
             switch (event->type())
             {
             case QEvent::Close:
             {
-                auto i = _p->windowToMedia.find(qobject_cast<WorkspaceMDISubWindow *>(object));
-                if (i != _p->windowToMedia.end())
+                auto i = p.windowToMedia.find(qobject_cast<WorkspaceMDISubWindow *>(object));
+                if (i != p.windowToMedia.end())
                 {
-                    _p->workspace->closeMedia(i->second);
+                    p.workspace->closeMedia(i->second);
                 }
                 break;
             }
             case QEvent::WindowStateChange:
             {
-                auto i = _p->windowToMedia.find(qobject_cast<WorkspaceMDISubWindow *>(object));
-                if (i != _p->windowToMedia.end())
+                auto i = p.windowToMedia.find(qobject_cast<WorkspaceMDISubWindow *>(object));
+                if (i != p.windowToMedia.end())
                 {
                     Enum::WindowState windowState = Enum::WindowState::Normal;
                     if (i->first->windowState() & Qt::WindowMaximized)
@@ -202,7 +205,7 @@ namespace djv
                     {
                         windowState = Enum::WindowState::Minimized;
                     }
-                    _p->workspace->setWindowState(i->second, windowState);
+                    p.workspace->setWindowState(i->second, windowState);
                 }
                 break;
             }
@@ -214,28 +217,30 @@ namespace djv
 
         void WorkspaceMDI::_addMedia(const std::shared_ptr<Media> & media)
         {
-            if (auto context = _p->context.lock())
+            DJV_PRIVATE_PTR();
+            if (auto context = p.context.lock())
             {
-                auto window = new WorkspaceMDISubWindow(_p->workspace, media, context);
-                _p->mediaToWindow[media] = window;
-                _p->windowToMedia[window] = media;
+                auto window = new WorkspaceMDISubWindow(p.workspace, media, context);
+                p.mediaToWindow[media] = window;
+                p.windowToMedia[window] = media;
                 window->installEventFilter(this);
-                _p->mdiArea->addSubWindow(window);
+                p.mdiArea->addSubWindow(window);
                 window->show();
             }
         }
 
         void WorkspaceMDI::_removeMedia(const std::shared_ptr<Media> & media)
         {
-            auto i = _p->mediaToWindow.find(media);
-            if (i != _p->mediaToWindow.end())
+            DJV_PRIVATE_PTR();
+            auto i = p.mediaToWindow.find(media);
+            if (i != p.mediaToWindow.end())
             {
                 auto window = i->second;
-                _p->mediaToWindow.erase(i);
-                auto j = _p->windowToMedia.find(window);
-                if (j != _p->windowToMedia.end())
+                p.mediaToWindow.erase(i);
+                auto j = p.windowToMedia.find(window);
+                if (j != p.windowToMedia.end())
                 {
-                    _p->windowToMedia.erase(j);
+                    p.windowToMedia.erase(j);
                 }
                 window->close();
             }
@@ -256,12 +261,13 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
-            _p->context = context;
+            DJV_PRIVATE_PTR();
+            p.context = context;
 
-            _p->tabBar = new QTabBar;
+            p.tabBar = new QTabBar;
 
-            _p->stackedLayout = new QStackedLayout;
-            _p->stackedLayout->setMargin(0);
+            p.stackedLayout = new QStackedLayout;
+            p.stackedLayout->setMargin(0);
 
             auto workspaceObject = context->getObjectT<WorkspaceObject>();
             for (auto i : workspaceObject->getWorkspaces())
@@ -272,8 +278,8 @@ namespace djv
             auto layout = new QVBoxLayout(this);
             layout->setMargin(0);
             layout->setSpacing(0);
-            layout->addWidget(_p->tabBar);
-            layout->addLayout(_p->stackedLayout, 1);
+            layout->addWidget(p.tabBar);
+            layout->addLayout(p.stackedLayout, 1);
 
             connect(
                 workspaceObject,
@@ -306,7 +312,7 @@ namespace djv
             });
 
             connect(
-                _p->tabBar,
+                p.tabBar,
                 &QTabBar::currentChanged,
                 [this, workspaceObject](int index)
             {
@@ -328,15 +334,16 @@ namespace djv
 
         void WorkspaceTabs::_addWorkspace(const QPointer<Workspace> & workspace)
         {
-            if (auto context = _p->context.lock())
+            DJV_PRIVATE_PTR();
+            if (auto context = p.context.lock())
             {
                 auto mdi = new WorkspaceMDI(workspace, context);
-                _p->workspaceToMDI[workspace] = mdi;
-                _p->mdiToWorkspace[mdi] = workspace;
-                const int index = _p->tabBar->addTab(QString::fromStdString(workspace->getName()));
-                _p->tabToMDI[index] = mdi;
-                _p->mdiToTab[mdi] = index;
-                _p->stackedLayout->addWidget(mdi);
+                p.workspaceToMDI[workspace] = mdi;
+                p.mdiToWorkspace[mdi] = workspace;
+                const int index = p.tabBar->addTab(QString::fromStdString(workspace->getName()));
+                p.tabToMDI[index] = mdi;
+                p.mdiToTab[mdi] = index;
+                p.stackedLayout->addWidget(mdi);
                 //! \todo Why do we need to set the margin here?
                 mdi->layout()->setMargin(0);
             }
@@ -344,26 +351,27 @@ namespace djv
 
         void WorkspaceTabs::_removeWorkspace(const QPointer<Workspace> & workspace)
         {
-            auto i = _p->workspaceToMDI.find(workspace);
-            if (i != _p->workspaceToMDI.end())
+            DJV_PRIVATE_PTR();
+            auto i = p.workspaceToMDI.find(workspace);
+            if (i != p.workspaceToMDI.end())
             {
                 auto mdi = i->second;
-                _p->workspaceToMDI.erase(i);
-                auto j = _p->mdiToWorkspace.find(mdi);
-                if (j != _p->mdiToWorkspace.end())
+                p.workspaceToMDI.erase(i);
+                auto j = p.mdiToWorkspace.find(mdi);
+                if (j != p.mdiToWorkspace.end())
                 {
-                    _p->mdiToWorkspace.erase(j);
+                    p.mdiToWorkspace.erase(j);
                 }
-                auto k = _p->mdiToTab.find(mdi);
-                if (k != _p->mdiToTab.end())
+                auto k = p.mdiToTab.find(mdi);
+                if (k != p.mdiToTab.end())
                 {
-                    const auto l = _p->tabToMDI.find(k->second);
-                    if (l != _p->tabToMDI.end())
+                    const auto l = p.tabToMDI.find(k->second);
+                    if (l != p.tabToMDI.end())
                     {
-                        _p->tabToMDI.erase(l);
+                        p.tabToMDI.erase(l);
                     }
-                    _p->tabBar->removeTab(k->second);
-                    _p->mdiToTab.erase(k);
+                    p.tabBar->removeTab(k->second);
+                    p.mdiToTab.erase(k);
                 }
                 delete mdi;
             }

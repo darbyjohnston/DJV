@@ -64,9 +64,6 @@ namespace djv
                 glFuncs->glGenBuffers(1, &_pbo);
             }
 
-            Texture::Texture()
-            {}
-
             Texture::~Texture()
             {
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();

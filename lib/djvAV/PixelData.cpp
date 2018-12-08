@@ -78,9 +78,6 @@ namespace djv
                 }
             }
 
-            Data::Data()
-            {}
-
             Data::~Data()
             {
                 delete[] _data;
@@ -91,21 +88,6 @@ namespace djv
                 auto out = std::shared_ptr<Data>(new Data);
                 out->_init(info);
                 return out;
-            }
-
-            uint8_t * Data::getData()
-            {
-                return _data;
-            }
-
-            uint8_t* Data::getData(int y)
-            {
-                return _data + y * _scanlineByteCount;
-            }
-
-            uint8_t * Data::getData(int x, int y)
-            {
-                return _data + y * _scanlineByteCount + x * _pixelByteCount;
             }
 
             void Data::zero()

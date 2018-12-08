@@ -33,9 +33,12 @@ namespace djv
     {
         namespace Audio
         {
-            inline size_t DataInfo::getChannels() const
+            inline DataInfo::DataInfo()
+            {}
+
+            inline size_t DataInfo::getChannelCount() const
             {
-                return _channels;
+                return _channelCount;
             }
 
             inline Type DataInfo::getType() const
@@ -58,9 +61,12 @@ namespace djv
                 return _info;
             }
 
-            inline size_t Data::getChannels() const
+            inline Data::Data()
+            {}
+
+            inline size_t Data::getChannelCount() const
             {
-                return _info.getChannels();
+                return _info.getChannelCount();
             }
 
             inline Type Data::getType() const

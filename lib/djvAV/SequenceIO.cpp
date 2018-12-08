@@ -73,6 +73,7 @@ namespace djv
                 _p->thread = std::thread(
                     [this, fileName]
                 {
+                    DJV_PRIVATE_PTR();
                     Core::FileInfo fileInfo(fileName);
                     fileInfo.evalSequence();
 
@@ -91,13 +92,13 @@ namespace djv
                     }
 
                     _start();
-                    while (_queue && _p->running)
+                    while (_queue && p.running)
                     {
                         bool read = false;
                         Timestamp seek = -1;
                         {
                             std::unique_lock<std::mutex> lock(_queue->getMutex());
-                            if (_p->queueCV.wait_for(
+                            if (p.queueCV.wait_for(
                                 lock,
                                 std::chrono::milliseconds(timeout),
                                 [this]
@@ -106,10 +107,10 @@ namespace djv
                             }))
                             {
                                 read = true;
-                                if (_p->seek != -1)
+                                if (p.seek != -1)
                                 {
-                                    seek = _p->seek;
-                                    _p->seek = -1;
+                                    seek = p.seek;
+                                    p.seek = -1;
                                     _queue->setFinished(false);
                                     _queue->clear();
                                 }
@@ -148,7 +149,7 @@ namespace djv
                                 const auto info = _open(fileName, speed, duration);
                                 if (Core::Frame::Invalid == frameIndex || 0 == frameIndex)
                                 {
-                                    _p->infoPromise.set_value(info);
+                                    p.infoPromise.set_value(info);
                                 }
                                 image = _read();
                                 _close();
@@ -192,9 +193,10 @@ namespace djv
 
             void ISequenceRead::seek(Timestamp value)
             {
+                DJV_PRIVATE_PTR();
                 std::lock_guard<std::mutex> lock(_queue->getMutex());
-                _p->seek = value;
-                _p->queueCV.notify_one();
+                p.seek = value;
+                p.queueCV.notify_one();
             }
 
             struct ISequenceWrite::Private
@@ -216,34 +218,35 @@ namespace djv
             {
                 IWrite::_init(fileName, info, queue, context);
 
-                _p->fileInfo.setPath(fileName);
-                _p->fileInfo.evalSequence();
-                if (_p->fileInfo.isSequenceValid())
+                DJV_PRIVATE_PTR();
+                p.fileInfo.setPath(fileName);
+                p.fileInfo.evalSequence();
+                if (p.fileInfo.isSequenceValid())
                 {
-                    auto sequence = _p->fileInfo.getSequence();
+                    auto sequence = p.fileInfo.getSequence();
                     if (sequence.ranges.size())
                     {
                         sequence.sort();
-                        _p->frameNumber = sequence.ranges[0].min;
+                        p.frameNumber = sequence.ranges[0].min;
                     }
                 }
-                _p->info = info;
+                p.info = info;
 
-                _p->offscreenSurface.reset(new QOffscreenSurface);
+                p.offscreenSurface.reset(new QOffscreenSurface);
                 QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
                 surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
                 surfaceFormat.setSamples(1);
-                _p->offscreenSurface->setFormat(surfaceFormat);
-                _p->offscreenSurface->create();
+                p.offscreenSurface->setFormat(surfaceFormat);
+                p.offscreenSurface->create();
 
-                _p->openGLContext.reset(new QOpenGLContext);
-                _p->openGLContext->setFormat(surfaceFormat);
-                _p->openGLContext->create();
-                _p->openGLContext->moveToThread(this);
+                p.openGLContext.reset(new QOpenGLContext);
+                p.openGLContext->setFormat(surfaceFormat);
+                p.openGLContext->create();
+                p.openGLContext->moveToThread(this);
 
-                _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
+                p.openGLDebugLogger.reset(new QOpenGLDebugLogger);
                 connect(
-                    _p->openGLDebugLogger.data(),
+                    p.openGLDebugLogger.data(),
                     &QOpenGLDebugLogger::messageLogged,
                     this,
                     &ISequenceWrite::_debugLogMessage);
@@ -263,15 +266,16 @@ namespace djv
 
             void ISequenceWrite::run()
             {
-                _p->running = true;
-                _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
-                if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
+                DJV_PRIVATE_PTR();
+                p.running = true;
+                p.openGLContext->makeCurrent(p.offscreenSurface.data());
+                if (p.openGLContext->format().testOption(QSurfaceFormat::DebugContext))
                 {
-                    _p->openGLDebugLogger->initialize();
-                    _p->openGLDebugLogger->startLogging();
+                    p.openGLDebugLogger->initialize();
+                    p.openGLDebugLogger->startLogging();
                 }
                 _start();
-                while (_p->running)
+                while (p.running)
                 {
                     std::shared_ptr<Image> image;
                     {
@@ -285,7 +289,7 @@ namespace djv
                             }
                             else if (_queue->isFinished())
                             {
-                                _p->running = false;
+                                p.running = false;
                             }
                         }
                     }
@@ -295,17 +299,17 @@ namespace djv
                         {
                             try
                             {
-                                const auto fileName = _p->fileInfo.getFileName(_p->frameNumber);
-                                if (_p->frameNumber != Core::Frame::Invalid)
+                                const auto fileName = p.fileInfo.getFileName(p.frameNumber);
+                                if (p.frameNumber != Core::Frame::Invalid)
                                 {
-                                    ++_p->frameNumber;
+                                    ++p.frameNumber;
                                 }
 
                                 //std::stringstream ss;
                                 //ss << "Writing: " << fileName;
                                 //context->log("djv::AV::IO::ISequenceWrite", ss.str());
 
-                                _open(fileName, _p->info);
+                                _open(fileName, p.info);
                                 _write(image);
                                 _close();
                             }

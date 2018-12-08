@@ -104,7 +104,7 @@ private:
                 for (const auto & audio : info.getAudio())
                 {
                     std::cout << "    Audio track " << i << ":" << std::endl;
-                    std::cout << "        Channels: " << audio.getInfo().getChannels() << std::endl;
+                    std::cout << "        Channels: " << audio.getInfo().getChannelCount() << std::endl;
                     std::cout << "        Type: " << audio.getInfo().getType() << std::endl;
                     std::cout << "        Sample rate: " << audio.getInfo().getSampleRate() << std::endl;
                     std::cout << "        Duration: " << AV::timestampToSeconds(audio.getDuration()) << std::endl;

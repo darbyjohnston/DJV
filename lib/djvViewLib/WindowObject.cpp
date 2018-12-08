@@ -52,63 +52,65 @@ namespace djv
             IViewObject("WindowObject", context, parent),
             _p(new Private)
         {
-            _p->actions["Next"] = new QAction("Next", this);
-            _p->actions["Next"]->setShortcut(QKeySequence("Page Up"));
-            _p->actions["Previous"] = new QAction("Previous", this);
-            _p->actions["Previous"]->setShortcut(QKeySequence("Page Down"));
-            _p->actions["Normal"] = new QAction("Normal", this);
-            _p->actions["Normal"]->setCheckable(true);
-            _p->actions["Normal"]->setShortcut(QKeySequence("Ctrl+Meta+M"));
-            _p->actions["Maximize"] = new QAction("Maximize", this);
-            _p->actions["Maximize"]->setCheckable(true);
-            _p->actions["Maximize"]->setShortcut(QKeySequence("Ctrl+M"));
-            _p->actions["Minimize"] = new QAction("Minimize", this);
-            _p->actions["Minimize"]->setCheckable(true);
-            _p->actions["Minimize"]->setShortcut(QKeySequence("Ctrl+Shift+M"));
-            _p->actionGroups["WindowState"] = new QActionGroup(this);
-            _p->actionGroups["WindowState"]->setExclusive(true);
-            _p->actionGroups["WindowState"]->addAction(_p->actions["Normal"]);
-            _p->actionGroups["WindowState"]->addAction(_p->actions["Maximize"]);
-            _p->actionGroups["WindowState"]->addAction(_p->actions["Minimize"]);
+            DJV_PRIVATE_PTR();
+            p.actions["Next"] = new QAction("Next", this);
+            p.actions["Next"]->setShortcut(QKeySequence("Page Up"));
+            p.actions["Previous"] = new QAction("Previous", this);
+            p.actions["Previous"]->setShortcut(QKeySequence("Page Down"));
+            p.actions["Normal"] = new QAction("Normal", this);
+            p.actions["Normal"]->setCheckable(true);
+            p.actions["Normal"]->setShortcut(QKeySequence("Ctrl+Meta+M"));
+            p.actions["Maximize"] = new QAction("Maximize", this);
+            p.actions["Maximize"]->setCheckable(true);
+            p.actions["Maximize"]->setShortcut(QKeySequence("Ctrl+M"));
+            p.actions["Minimize"] = new QAction("Minimize", this);
+            p.actions["Minimize"]->setCheckable(true);
+            p.actions["Minimize"]->setShortcut(QKeySequence("Ctrl+Shift+M"));
+            p.actionGroups["WindowState"] = new QActionGroup(this);
+            p.actionGroups["WindowState"]->setExclusive(true);
+            p.actionGroups["WindowState"]->addAction(p.actions["Normal"]);
+            p.actionGroups["WindowState"]->addAction(p.actions["Maximize"]);
+            p.actionGroups["WindowState"]->addAction(p.actions["Minimize"]);
 
             _updateActions();
 
             connect(
-                _p->actions["Next"],
+                p.actions["Next"],
                 &QAction::triggered,
                 [this]
             {
                 nextMedia();
             });
             connect(
-                _p->actions["Previous"],
+                p.actions["Previous"],
                 &QAction::triggered,
                 [this]
             {
                 prevMedia();
             });
             connect(
-                _p->actionGroups["WindowState"],
+                p.actionGroups["WindowState"],
                 &QActionGroup::triggered,
                 [this](QAction * action)
             {
-                if (_p->currentWorkspace)
+                DJV_PRIVATE_PTR();
+                if (p.currentWorkspace)
                 {
-                    if (_p->actions["Normal"] == action)
+                    if (p.actions["Normal"] == action)
                     {
-                        _p->currentWorkspace->setWindowState(Enum::WindowState::Normal);
+                        p.currentWorkspace->setWindowState(Enum::WindowState::Normal);
                     }
-                    else if (_p->actions["Maximize"] == action)
+                    else if (p.actions["Maximize"] == action)
                     {
-                        _p->currentWorkspace->setWindowState(
-                            Enum::WindowState::Maximized == _p->currentWorkspace->getWindowState() ?
+                        p.currentWorkspace->setWindowState(
+                            Enum::WindowState::Maximized == p.currentWorkspace->getWindowState() ?
                             Enum::WindowState::Normal :
                             Enum::WindowState::Maximized);
                     }
-                    else if (_p->actions["Minimize"] == action)
+                    else if (p.actions["Minimize"] == action)
                     {
-                        _p->currentWorkspace->setWindowState(
-                            Enum::WindowState::Minimized == _p->currentWorkspace->getWindowState() ?
+                        p.currentWorkspace->setWindowState(
+                            Enum::WindowState::Minimized == p.currentWorkspace->getWindowState() ?
                             Enum::WindowState::Normal :
                             Enum::WindowState::Minimized);
                     }
@@ -121,13 +123,14 @@ namespace djv
 
         QPointer<QMenu> WindowObject::createMenu()
         {
+            DJV_PRIVATE_PTR();
             auto menu = new QMenu("Window");
-            menu->addAction(_p->actions["Next"]);
-            menu->addAction(_p->actions["Previous"]);
+            menu->addAction(p.actions["Next"]);
+            menu->addAction(p.actions["Previous"]);
             menu->addSeparator();
-            menu->addAction(_p->actions["Normal"]);
-            menu->addAction(_p->actions["Minimize"]);
-            menu->addAction(_p->actions["Maximize"]);
+            menu->addAction(p.actions["Normal"]);
+            menu->addAction(p.actions["Minimize"]);
+            menu->addAction(p.actions["Maximize"]);
             return menu;
         }
 
@@ -138,65 +141,68 @@ namespace djv
 
         void WindowObject::nextMedia()
         {
-            if (_p->currentWorkspace)
+            DJV_PRIVATE_PTR();
+            if (p.currentWorkspace)
             {
-                _p->currentWorkspace->nextMedia();
+                p.currentWorkspace->nextMedia();
             }
         }
 
         void WindowObject::prevMedia()
         {
-            if (_p->currentWorkspace)
+            DJV_PRIVATE_PTR();
+            if (p.currentWorkspace)
             {
-                _p->currentWorkspace->prevMedia();
+                p.currentWorkspace->prevMedia();
             }
         }
 
         void WindowObject::setCurrentWorkspace(const QPointer<Workspace> & workspace)
         {
-            if (workspace == _p->currentWorkspace)
+            DJV_PRIVATE_PTR();
+            if (workspace == p.currentWorkspace)
                 return;
-            if (_p->currentWorkspace)
+            if (p.currentWorkspace)
             {
                 disconnect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateActions()));
                 disconnect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     this,
                     SLOT(_updateActions()));
                 disconnect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(viewModeChanged(QMdiArea::ViewMode)),
                     this,
                     SLOT(_updateActions()));
                 disconnect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(windowStateChanged(Enum::WindowState)),
                     this,
                     SLOT(_updateActions()));
             }
-            _p->currentWorkspace = workspace;
+            p.currentWorkspace = workspace;
             _updateActions();
-            if (_p->currentWorkspace)
+            if (p.currentWorkspace)
             {
                 connect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaAdded(const std::shared_ptr<Media> &)),
                     SLOT(_updateActions()));
                 connect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(mediaRemoved(const std::shared_ptr<Media> &)),
                     SLOT(_updateActions()));
                 connect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(viewModeChanged(QMdiArea::ViewMode)),
                     SLOT(_updateActions()));
                 connect(
-                    _p->currentWorkspace,
+                    p.currentWorkspace,
                     SIGNAL(windowStateChanged(Enum::WindowState)),
                     SLOT(_updateActions()));
             }
@@ -204,18 +210,19 @@ namespace djv
 
         void WindowObject::_updateActions()
         {
-            const bool multipleMedia = _p->currentWorkspace && _p->currentWorkspace->getMedia().size() > 1;
-            _p->actions["Next"]->setEnabled(multipleMedia);
-            _p->actions["Previous"]->setEnabled(multipleMedia);
+            DJV_PRIVATE_PTR();
+            const bool multipleMedia = p.currentWorkspace && p.currentWorkspace->getMedia().size() > 1;
+            p.actions["Next"]->setEnabled(multipleMedia);
+            p.actions["Previous"]->setEnabled(multipleMedia);
 
             const bool hasMedia =
-                _p->currentWorkspace &&
-                _p->currentWorkspace->getMedia().size() > 0 &&
-                QMdiArea::SubWindowView == _p->currentWorkspace->getViewMode();
-            _p->actionGroups["WindowState"]->setEnabled(hasMedia);
-            _p->actions["Normal"]->setChecked(_p->currentWorkspace && _p->currentWorkspace->getWindowState() == Enum::WindowState::Normal);
-            _p->actions["Maximize"]->setChecked(_p->currentWorkspace && _p->currentWorkspace->getWindowState() == Enum::WindowState::Maximized);
-            _p->actions["Minimize"]->setChecked(_p->currentWorkspace && _p->currentWorkspace->getWindowState() == Enum::WindowState::Minimized);
+                p.currentWorkspace &&
+                p.currentWorkspace->getMedia().size() > 0 &&
+                QMdiArea::SubWindowView == p.currentWorkspace->getViewMode();
+            p.actionGroups["WindowState"]->setEnabled(hasMedia);
+            p.actions["Normal"]->setChecked(p.currentWorkspace && p.currentWorkspace->getWindowState() == Enum::WindowState::Normal);
+            p.actions["Maximize"]->setChecked(p.currentWorkspace && p.currentWorkspace->getWindowState() == Enum::WindowState::Maximized);
+            p.actions["Minimize"]->setChecked(p.currentWorkspace && p.currentWorkspace->getWindowState() == Enum::WindowState::Minimized);
         }
 
     } // namespace ViewLib

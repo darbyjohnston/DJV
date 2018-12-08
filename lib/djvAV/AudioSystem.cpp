@@ -79,17 +79,18 @@ namespace djv
                 devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
             }
 
-            _p->alDevice = alcOpenDevice(devices);
-            if (!_p->alDevice)
+            DJV_PRIVATE_PTR();
+            p.alDevice = alcOpenDevice(devices);
+            if (!p.alDevice)
             {
                 throw Core::Error("djv::AV::AudioSystem", "Cannot open OpenAL device");
             }
-            _p->alContext = alcCreateContext(_p->alDevice, NULL);
-            if (!_p->alContext)
+            p.alContext = alcCreateContext(p.alDevice, NULL);
+            if (!p.alContext)
             {
                 throw Core::Error("djv::AV::AudioSystem", "Cannot create OpenAL context");
             }
-            ALCboolean r = alcMakeContextCurrent(_p->alContext);
+            ALCboolean r = alcMakeContextCurrent(p.alContext);
             if (AL_FALSE == r)
             {
                 throw Core::Error("djv::AV::AudioSystem", "Cannot make OpenAL context current");
@@ -123,15 +124,16 @@ namespace djv
         void AudioSystem::_exit()
         {
             alcMakeContextCurrent(NULL);
-            if (_p->alContext)
+            DJV_PRIVATE_PTR();
+            if (p.alContext)
             {
-                alcDestroyContext(_p->alContext);
-                _p->alContext = nullptr;
+                alcDestroyContext(p.alContext);
+                p.alContext = nullptr;
             }
-            if (_p->alDevice)
+            if (p.alDevice)
             {
-                alcCloseDevice(_p->alDevice);
-                _p->alDevice = nullptr;
+                alcCloseDevice(p.alDevice);
+                p.alDevice = nullptr;
             }
         }
 

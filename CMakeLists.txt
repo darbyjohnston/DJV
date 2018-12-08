@@ -74,8 +74,8 @@ if(UNIX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format-security")
 
         # Set profiling options.    
-        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-        #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
 
         # Set gcov options.
         if(DJV_GCOV)

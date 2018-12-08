@@ -60,23 +60,24 @@ namespace djv
 
         void DebugModel::setMedia(const std::shared_ptr<Media>& media)
         {
-            _p->media = media;
-            if (_p->media)
+            DJV_PRIVATE_PTR();
+            p.media = media;
+            if (p.media)
             {
-                _p->durationObserver = Core::ValueObserver<AV::Duration>::create(
-                    _p->media->getDuration(),
+                p.durationObserver = Core::ValueObserver<AV::Duration>::create(
+                    p.media->getDuration(),
                     [this](AV::Duration)
                 {
                     _updateModel();
                 });
-                _p->currentTimeObserver = Core::ValueObserver<AV::Timestamp>::create(
-                    _p->media->getCurrentTime(),
+                p.currentTimeObserver = Core::ValueObserver<AV::Timestamp>::create(
+                    p.media->getCurrentTime(),
                     [this](AV::Timestamp)
                 {
                     _updateModel();
                 });
-                _p->alUnqueuedBuffersObserver = Core::ValueObserver<size_t>::create(
-                    _p->media->getALUnqueuedBuffers(),
+                p.alUnqueuedBuffersObserver = Core::ValueObserver<size_t>::create(
+                    p.media->getALUnqueuedBuffers(),
                     [this](size_t)
                 {
                     _updateModel();
@@ -84,9 +85,9 @@ namespace djv
             }
             else
             {
-                _p->durationObserver = nullptr;
-                _p->currentTimeObserver = nullptr;
-                _p->alUnqueuedBuffersObserver = nullptr;
+                p.durationObserver = nullptr;
+                p.currentTimeObserver = nullptr;
+                p.alUnqueuedBuffersObserver = nullptr;
             }
             _updateModel();
         }
@@ -123,17 +124,18 @@ namespace djv
 
         void DebugModel::_updateModel()
         {
+            DJV_PRIVATE_PTR();
             beginResetModel();
-            _p->data.clear();
-            if (_p->media)
+            p.data.clear();
+            if (p.media)
             {
-                _p->data.push_back(std::make_pair(QString("Duration"), _p->media->getDuration()->get()));
-                _p->data.push_back(std::make_pair(QString("Current time"), _p->media->getCurrentTime()->get()));
-                _p->data.push_back(std::make_pair(QString("Video queue max"), _p->media->getVideoQueueMax()->get()));
-                _p->data.push_back(std::make_pair(QString("Audio queue max"), _p->media->getAudioQueueMax()->get()));
-                _p->data.push_back(std::make_pair(QString("Video queue count"), _p->media->getVideoQueueCount()->get()));
-                _p->data.push_back(std::make_pair(QString("Audio queue count"), _p->media->getAudioQueueCount()->get()));
-                _p->data.push_back(std::make_pair(QString("OpenAL unqueued buffers"), _p->media->getALUnqueuedBuffers()->get()));
+                p.data.push_back(std::make_pair(QString("Duration"), p.media->getDuration()->get()));
+                p.data.push_back(std::make_pair(QString("Current time"), p.media->getCurrentTime()->get()));
+                p.data.push_back(std::make_pair(QString("Video queue max"), p.media->getVideoQueueMax()->get()));
+                p.data.push_back(std::make_pair(QString("Audio queue max"), p.media->getAudioQueueMax()->get()));
+                p.data.push_back(std::make_pair(QString("Video queue count"), p.media->getVideoQueueCount()->get()));
+                p.data.push_back(std::make_pair(QString("Audio queue count"), p.media->getAudioQueueCount()->get()));
+                p.data.push_back(std::make_pair(QString("OpenAL unqueued buffers"), p.media->getALUnqueuedBuffers()->get()));
             }
             endResetModel();
         }

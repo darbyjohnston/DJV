@@ -58,7 +58,7 @@ namespace djv
             {
                 DJV_NON_COPYABLE(VBO);
                 void _init(size_t size, size_t vertexCount, VBOType);
-                VBO();
+                inline VBO();
 
             public:
                 ~VBO();
@@ -86,7 +86,7 @@ namespace djv
             {
                 DJV_NON_COPYABLE(VAO);
                 void _init(VBOType, GLuint vbo);
-                VAO();
+                inline VAO();
 
             public:
                 ~VAO();

@@ -40,10 +40,10 @@ namespace djv
             class DataInfo
             {
             public:
-                DataInfo();
-                DataInfo(size_t channels, Type, size_t sampleRate);
+                inline DataInfo();
+                DataInfo(size_t channelCount, Type, size_t sampleRate);
 
-                inline size_t getChannels() const;
+                inline size_t getChannelCount() const;
                 inline Type getType() const;
                 inline size_t getSampleRate() const;
                 inline bool isValid() const;
@@ -52,7 +52,7 @@ namespace djv
                 bool operator != (const DataInfo &) const;
 
             private:
-                size_t _channels = 0;
+                size_t _channelCount = 0;
                 Type   _type = Audio::Type::None;
                 size_t _sampleRate = 0;
             };
@@ -63,17 +63,15 @@ namespace djv
 
             protected:
                 void _init(const DataInfo &, size_t sampleCount);
-                Data();
+                inline Data();
 
             public:
-                ~Data();
-
                 static std::shared_ptr<Data> create(const DataInfo &, size_t sampleCount);
 
                 void zero();
 
                 inline const DataInfo & getInfo() const;
-                inline size_t getChannels() const;
+                inline size_t getChannelCount() const;
                 inline Type getType() const;
                 inline size_t getSampleRate() const;
                 inline size_t getSampleCount() const;
@@ -88,6 +86,7 @@ namespace djv
                 static std::shared_ptr<Data> convert(const std::shared_ptr<Data> &, Type);
 
                 static std::shared_ptr<Data> planarInterleave(const std::shared_ptr<Data> &);
+                static void planarInterleave(const float **, float *, size_t size, size_t channelCount);
                 static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data> &);
 
                 bool operator == (const Data &) const;

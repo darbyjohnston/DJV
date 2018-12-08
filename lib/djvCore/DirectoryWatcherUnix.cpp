@@ -209,17 +209,18 @@ namespace djv
                 {
                     if (auto watcher = weak.lock())
                     {
-                        if (watcher->_p->mutex.try_lock_for(std::chrono::milliseconds(timeout)))
+                        auto & p = *watcher->_p;
+                        if (p.mutex.try_lock_for(std::chrono::milliseconds(timeout)))
                         {
                             // Synchronize with the main thread.
-                            running = watcher->_p->running;
-                            if (path != watcher->_p->path)
+                            running = p.running;
+                            if (path != p.path)
                             {
-                                path = watcher->_p->path;
+                                path = p.path;
                                 pathInit = true;
                             }
-                            watcher->_p->threadModified = lastModified;                                                        
-                            watcher->_p->mutex.unlock();
+                            p.threadModified = lastModified;                                                        
+                            p.mutex.unlock();
                         }
                     }
                     else
@@ -253,19 +254,19 @@ namespace djv
             {
                 if (auto watcher = weak.lock())
                 {
-                    if (watcher->_p->mutex.try_lock_for(std::chrono::milliseconds(timeout)))
+                    auto & p = *watcher->_p;
+                    if (p.mutex.try_lock_for(std::chrono::milliseconds(timeout)))
                     {
-                        if (watcher->_p->threadModified != watcher->_p->lastModified)
+                        if (p.threadModified != p.lastModified)
                         {                            
-                            watcher->_p->lastModified = watcher->_p->threadModified;
+                            p.lastModified = p.threadModified;
                             
-                            if (watcher->_p->callback)
+                            if (p.callback)
                             {
-                                watcher->_p->callback();
+                                p.callback();
                             }
                         }
-
-                        watcher->_p->mutex.unlock();
+                        p.mutex.unlock();
                     }
                 }
             });

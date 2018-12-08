@@ -101,15 +101,16 @@ namespace djv
             _p->thread = std::thread(
                 [this, context]
             {
-                std::unique_lock<std::mutex> lock(_p->mutex);
+                DJV_PRIVATE_PTR();
+                std::unique_lock<std::mutex> lock(p.mutex);
 
-                _p->currentLocale = "en";
-                _p->currentLocaleChanged = true;
+                p.currentLocale = "en";
+                p.currentLocaleChanged = true;
                 std::string djvLocale = OS::getEnv("DJV_LANG");
                 std::stringstream s;
                 if (djvLocale.size())
                 {
-                    _p->currentLocale = djvLocale;
+                    p.currentLocale = djvLocale;
                 }
                 else
                 {
@@ -121,7 +122,7 @@ namespace djv
                         std::string cppLocale = parseLocale(locale.name());
                         if (cppLocale.size())
                         {
-                            _p->currentLocale = cppLocale;
+                            p.currentLocale = cppLocale;
                         }
                     }
                     catch (const std::exception & e)
@@ -130,7 +131,7 @@ namespace djv
                     }
                 }
                 s.str(std::string());
-                s << "Current locale: " << _p->currentLocale;
+                s << "Current locale: " << p.currentLocale;
                 _log(s.str());
 
                 // Find the .text files.
@@ -154,10 +155,10 @@ namespace djv
                 }
                 for (const auto & locale : localeSet)
                 {
-                    _p->locales.push_back(locale);
+                    p.locales.push_back(locale);
                 }
                 s.str(std::string());
-                s << "Found locales: " << String::join(_p->locales, ", ");
+                s << "Found locales: " << String::join(p.locales, ", ");
                 _log(s.str());
 
                 // Read the .text files.
@@ -170,10 +171,11 @@ namespace djv
                 std::chrono::milliseconds(timeout),
                 [this](float)
             {
+                DJV_PRIVATE_PTR();
                 bool currentLocaleChanged = false;
                 {
-                    std::unique_lock<std::mutex> lock(_p->mutex);
-                    if (_p->currentLocaleChangedCV.wait_for(
+                    std::unique_lock<std::mutex> lock(p.mutex);
+                    if (p.currentLocaleChangedCV.wait_for(
                         lock,
                         std::chrono::milliseconds(0),
                         [this]
@@ -182,12 +184,12 @@ namespace djv
                     }))
                     {
                         currentLocaleChanged = true;
-                        _p->currentLocaleChanged = false;
+                        p.currentLocaleChanged = false;
                     }
                 }
                 if (currentLocaleChanged)
                 {
-                    _p->currentLocaleSubject->setAlways(_p->currentLocale);
+                    p.currentLocaleSubject->setAlways(p.currentLocale);
                 }
             });
         }
@@ -208,14 +210,16 @@ namespace djv
 
         const std::vector<std::string> & TextSystem::getLocales() const
         {
-            std::unique_lock<std::mutex> lock(_p->mutex);
-            return _p->locales;
+            DJV_PRIVATE_PTR();
+            std::unique_lock<std::mutex> lock(p.mutex);
+            return p.locales;
         }
 
         const std::string & TextSystem::getCurrentLocale() const
         {
-            std::unique_lock<std::mutex> lock(_p->mutex);
-            return _p->currentLocale;
+            DJV_PRIVATE_PTR();
+            std::unique_lock<std::mutex> lock(p.mutex);
+            return p.currentLocale;
         }
 
         std::shared_ptr<IValueSubject<std::string> > TextSystem::getCurrentLocaleSubject() const
@@ -225,16 +229,18 @@ namespace djv
 
         void TextSystem::setCurrentLocale(const std::string & value)
         {
-            std::unique_lock<std::mutex> lock(_p->mutex);
-            _p->currentLocale = value;
-            _p->currentLocaleChanged = true;
+            DJV_PRIVATE_PTR();
+            std::unique_lock<std::mutex> lock(p.mutex);
+            p.currentLocale = value;
+            p.currentLocaleChanged = true;
         }
         
         const std::string & TextSystem::getText(const std::string & id) const
         {
-            std::unique_lock<std::mutex> lock(_p->mutex);
-            const auto i = _p->text.find(_p->currentLocale);
-            if (i != _p->text.end())
+            DJV_PRIVATE_PTR();
+            std::unique_lock<std::mutex> lock(p.mutex);
+            const auto i = p.text.find(p.currentLocale);
+            if (i != p.text.end())
             {
                 const auto j = i->second.find(id);
                 if (j != i->second.end())
@@ -253,8 +259,8 @@ namespace djv
 
         void TextSystem::_readText()
         {
-            _p->text.clear();
-
+            DJV_PRIVATE_PTR();
+            p.text.clear();
             if (auto context = getContext().lock())
             {
                 _log("Reading text files:");
@@ -275,13 +281,13 @@ namespace djv
 
                         FileIO fileIO;
                         fileIO.open(path, FileIO::Mode::Read);
-                        const char* p = reinterpret_cast<const char*>(fileIO.mmapP());
-                        const char* end = reinterpret_cast<const char*>(fileIO.mmapEnd());
+                        const char* mmapP = reinterpret_cast<const char*>(fileIO.mmapP());
+                        const char* mmapEnd = reinterpret_cast<const char*>(fileIO.mmapEnd());
 
                         // Parse the JSON.
                         picojson::value v;
                         std::string error;
-                        picojson::parse(v, p, end, &error);
+                        picojson::parse(v, mmapP, mmapEnd, &error);
                         if (!error.empty())
                         {
                             std::stringstream s;
@@ -316,7 +322,7 @@ namespace djv
                                     }
                                     if (!id.empty())
                                     {
-                                        _p->text[locale][id] = text;
+                                        p.text[locale][id] = text;
                                     }
                                 }
                             }

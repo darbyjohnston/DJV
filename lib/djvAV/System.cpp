@@ -74,53 +74,54 @@ namespace djv
             }
             QSurfaceFormat::setDefaultFormat(defaultFormat);
 
-            _p->offscreenSurface.reset(new QOffscreenSurface);
+            DJV_PRIVATE_PTR();
+            p.offscreenSurface.reset(new QOffscreenSurface);
             QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
             surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
             surfaceFormat.setSamples(1);
-            _p->offscreenSurface->setFormat(surfaceFormat);
-            _p->offscreenSurface->create();
-            _p->openGLContext.reset(new QOpenGLContext);
-            _p->openGLContext->setFormat(surfaceFormat);
-            if (!_p->openGLContext->create())
+            p.offscreenSurface->setFormat(surfaceFormat);
+            p.offscreenSurface->create();
+            p.openGLContext.reset(new QOpenGLContext);
+            p.openGLContext->setFormat(surfaceFormat);
+            if (!p.openGLContext->create())
             {
                 std::stringstream ss;
                 ss << DJV_TEXT("Cannot create OpenGL context, found version ") <<
-                    _p->openGLContext->format().majorVersion() << "." <<
-                    _p->openGLContext->format().minorVersion();
+                    p.openGLContext->format().majorVersion() << "." <<
+                    p.openGLContext->format().minorVersion();
                 throw Core::Error("djv::AV::System", ss.str());
             }
 
-            _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
+            p.openGLContext->makeCurrent(p.offscreenSurface.data());
             std::stringstream ss;
-            ss << "OpenGL context valid = " << _p->openGLContext->isValid();
+            ss << "OpenGL context valid = " << p.openGLContext->isValid();
             _log(ss.str());
             ss.str(std::string());
             ss << "OpenGL version = " <<
-                _p->openGLContext->format().majorVersion() << "." <<
-                _p->openGLContext->format().minorVersion();
+                p.openGLContext->format().majorVersion() << "." <<
+                p.openGLContext->format().minorVersion();
             _log(ss.str());
-            if (!_p->openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
+            if (!p.openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
             {
                 std::stringstream ss;
                 ss << DJV_TEXT("Cannot find OpenGL 3.3 functions, found version ") <<
-                    _p->openGLContext->format().majorVersion() << "." <<
-                    _p->openGLContext->format().minorVersion();
+                    p.openGLContext->format().majorVersion() << "." <<
+                    p.openGLContext->format().minorVersion();
                 throw Core::Error("djv::AV::System", ss.str());
             }
 
-            _p->openGLDebugLogger.reset(new QOpenGLDebugLogger);
+            p.openGLDebugLogger.reset(new QOpenGLDebugLogger);
             QObject::connect(
-                _p->openGLDebugLogger.data(),
+                p.openGLDebugLogger.data(),
                 &QOpenGLDebugLogger::messageLogged,
                 [this](const QOpenGLDebugMessage & message)
             {
                 _log(message.message().toStdString());
             });
-            if (_p->openGLContext->format().testOption(QSurfaceFormat::DebugContext))
+            if (p.openGLContext->format().testOption(QSurfaceFormat::DebugContext))
             {
-                _p->openGLDebugLogger->initialize();
-                _p->openGLDebugLogger->startLogging();
+                p.openGLDebugLogger->initialize();
+                p.openGLDebugLogger->startLogging();
             }
 
             // Create the systems.
@@ -155,7 +156,8 @@ namespace djv
 
         void System::makeGLContextCurrent()
         {
-            _p->openGLContext->makeCurrent(_p->offscreenSurface.data());
+            DJV_PRIVATE_PTR();
+            p.openGLContext->makeCurrent(p.offscreenSurface.data());
         }
 
     } // namespace AV

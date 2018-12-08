@@ -64,10 +64,11 @@ namespace djv
 
                 Info Read::_open(const std::string& fileName, const Speed & speed, Duration duration)
                 {
-                    _p->io.open(fileName, Core::FileIO::Mode::Read);
+                    DJV_PRIVATE_PTR();
+                    p.io.open(fileName, Core::FileIO::Mode::Read);
 
                     char magic[] = { 0, 0, 0 };
-                    _p->io.read(magic, 2);
+                    p.io.read(magic, 2);
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
@@ -88,7 +89,7 @@ namespace djv
                     }
                     }
                     const int ppmType = magic[1] - '0';
-                    _p->data = (2 == ppmType || 3 == ppmType) ? Data::ASCII : Data::Binary;
+                    p.data = (2 == ppmType || 3 == ppmType) ? Data::ASCII : Data::Binary;
 
                     size_t channelCount = 0;
                     switch (ppmType)
@@ -99,11 +100,11 @@ namespace djv
                     case 6: channelCount = 3; break;
                     }
                     char tmp[Core::String::cStringLength] = "";
-                    Core::FileIO::readWord(_p->io, tmp, Core::String::cStringLength);
+                    Core::FileIO::readWord(p.io, tmp, Core::String::cStringLength);
                     const int w = std::stoi(tmp);
-                    Core::FileIO::readWord(_p->io, tmp, Core::String::cStringLength);
+                    Core::FileIO::readWord(p.io, tmp, Core::String::cStringLength);
                     const int h = std::stoi(tmp);
-                    Core::FileIO::readWord(_p->io, tmp, Core::String::cStringLength);
+                    Core::FileIO::readWord(p.io, tmp, Core::String::cStringLength);
                     const int maxValue = std::stoi(tmp);
                     const size_t bitDepth = maxValue < 256 ? 8 : 16;
                     const auto pixelType = Pixel::getIntType(channelCount, bitDepth);
@@ -114,30 +115,31 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
-                    layout.setEndian(_p->data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian());
-                    _p->info = Pixel::Info(w, h, pixelType, layout);
-                    return Info(fileName, VideoInfo(_p->info, speed, duration), AudioInfo());
+                    layout.setEndian(p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian());
+                    p.info = Pixel::Info(w, h, pixelType, layout);
+                    return Info(fileName, VideoInfo(p.info, speed, duration), AudioInfo());
                 }
 
                 std::shared_ptr<Image> Read::_read()
                 {
+                    DJV_PRIVATE_PTR();
                     std::shared_ptr<Image> out;
-                    switch (_p->data)
+                    switch (p.data)
                     {
                     case Data::ASCII:
                     {
-                        out = Image::create(_p->info);
-                        const size_t channelCount = Pixel::getChannelCount(_p->info.getType());
-                        const size_t bitDepth = Pixel::getBitDepth(_p->info.getType());
-                        for (int y = 0; y < _p->info.getHeight(); ++y)
+                        out = Image::create(p.info);
+                        const size_t channelCount = Pixel::getChannelCount(p.info.getType());
+                        const size_t bitDepth = Pixel::getBitDepth(p.info.getType());
+                        for (int y = 0; y < p.info.getHeight(); ++y)
                         {
-                            readASCII(_p->io, out->getData(y), _p->info.getWidth() * channelCount, bitDepth);
+                            readASCII(p.io, out->getData(y), p.info.getWidth() * channelCount, bitDepth);
                         }
                         break;
                     }
                     case Data::Binary:
-                        out = Image::create(_p->info);
-                        _p->io.read(out->getData(), _p->info.getDataByteCount());
+                        out = Image::create(p.info);
+                        p.io.read(out->getData(), p.info.getDataByteCount());
                         break;
                     }
                     return out;

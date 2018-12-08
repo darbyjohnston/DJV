@@ -13,6 +13,7 @@ endif()
 
 set(header
     Animation.h
+    AnimationInline.h
     BBox.h
     BBoxInline.h
     Cache.h
@@ -67,6 +68,7 @@ set(header
     Time.h
     TimeInline.h
     Timer.h
+    TimerInline.h
     UndoStack.h
     ValueObserver.h
     ValueObserverInline.h

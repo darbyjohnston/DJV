@@ -165,52 +165,68 @@ namespace djv
         {
             ISystem::_init("djv::AV::FontSystem", context);
 
-            _p->measureCache.setMax(measureCacheMax);
-            _p->glyphCache.setMax(glyphCacheMax);
-            _p->dpi = dpi;
+            DJV_PRIVATE_PTR();
+            p.measureCache.setMax(measureCacheMax);
+            p.glyphCache.setMax(glyphCacheMax);
+            p.dpi = dpi;
 
-            _p->statsTimer = Timer::create(context);
-            _p->statsTimer->setRepeating(true);
-            _p->statsTimer->start(
+            p.statsTimer = Timer::create(context);
+            p.statsTimer->setRepeating(true);
+            p.statsTimer->start(
                 std::chrono::milliseconds(statsTimeout),
                 [this](float)
             {
-                std::lock_guard<std::mutex>(_p->cacheMutex);
+                DJV_PRIVATE_PTR();
+                std::lock_guard<std::mutex>(p.cacheMutex);
                 std::stringstream s;
-                s << "Measure cache: " << _p->measureCache.getPercentageUsed() << "%\n";
-                s << "Glyph cache: " << _p->glyphCache.getPercentageUsed() << "%";
+                s << "Measure cache: " << p.measureCache.getPercentageUsed() << "%\n";
+                s << "Glyph cache: " << p.glyphCache.getPercentageUsed() << "%";
                 _log(s.str());
             });
             
-            _p->running = true;
-            _p->thread = std::thread(
+            p.running = true;
+            p.thread = std::thread(
                 [this]
             {
+                DJV_PRIVATE_PTR();
                 _initFreeType();
-                while (_p->running)
+                while (p.running)
                 {
                     {
-                        std::unique_lock<std::mutex> lock(_p->requestMutex);
-                        _p->requestCV.wait_for(
+                        std::unique_lock<std::mutex> lock(p.requestMutex);
+                        p.requestCV.wait_for(
                             lock,
                             std::chrono::milliseconds(timeout),
                             [this]
                         {
+                            DJV_PRIVATE_PTR();
                             return
-                                _p->metricsQueue.size() ||
-                                _p->measureQueue.size() ||
-                                _p->breakLinesQueue.size() ||
-                                _p->glyphsQueue.size();
+                                p.metricsQueue.size() ||
+                                p.measureQueue.size() ||
+                                p.breakLinesQueue.size() ||
+                                p.glyphsQueue.size();
                         });
-                        _p->metricsRequests = std::move(_p->metricsQueue);
-                        _p->measureRequests = std::move(_p->measureQueue);
-                        _p->breakLinesRequests = std::move(_p->breakLinesQueue);
-                        _p->glyphsRequests = std::move(_p->glyphsQueue);
+                        p.metricsRequests = std::move(p.metricsQueue);
+                        p.measureRequests = std::move(p.measureQueue);
+                        p.breakLinesRequests = std::move(p.breakLinesQueue);
+                        p.glyphsRequests = std::move(p.glyphsQueue);
                     }
-                    _handleMetricsRequests();
-                    _handleMeasureRequests();
-                    _handleBreakLinesRequests();
-                    _handleGlyphsRequests();
+                    if (p.metricsRequests.size())
+                    {
+                        _handleMetricsRequests();
+                    }
+                    if (p.measureRequests.size())
+                    {
+                        _handleMeasureRequests();
+                    }
+                    if (p.breakLinesRequests.size())
+                    {
+                        _handleBreakLinesRequests();
+                    }
+                    if (p.glyphsRequests.size())
+                    {
+                        _handleGlyphsRequests();
+                    }
                 }
                 _delFreeType();
             });
@@ -238,84 +254,91 @@ namespace djv
         
         std::future<FontMetrics> FontSystem::getMetrics(const Font& font)
         {
+            DJV_PRIVATE_PTR();
             MetricsRequest request;
             request.font = font;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(_p->requestMutex);
-            _p->metricsQueue.push_back(std::move(request));
-            _p->requestCV.notify_one();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.metricsQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
             return future;
         }
 
         std::future<glm::vec2> FontSystem::measure(const std::string& text, const Font& font)
         {
+            DJV_PRIVATE_PTR();
             MeasureRequest request;
             request.text = text;
             request.font = font;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(_p->requestMutex);
-            _p->measureQueue.push_back(std::move(request));
-            _p->requestCV.notify_one();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.measureQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
             return future;
         }
 
         std::future<glm::vec2> FontSystem::measure(const std::string& text, float maxLineWidth, const Font& font)
         {
+            DJV_PRIVATE_PTR();
             MeasureRequest request;
             request.text = text;
             request.font = font;
             request.maxLineWidth = maxLineWidth;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(_p->requestMutex);
-            _p->measureQueue.push_back(std::move(request));
-            _p->requestCV.notify_one();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.measureQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
             return future;
         }
 
         std::future<std::vector<FontLine> > FontSystem::breakLines(const std::string& text, float maxLineWidth, const Font& font)
         {
+            DJV_PRIVATE_PTR();
             BreakLinesRequest request;
             request.text = text;
             request.font = font;
             request.maxLineWidth = maxLineWidth;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(_p->requestMutex);
-            _p->breakLinesQueue.push_back(std::move(request));
-            _p->requestCV.notify_one();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.breakLinesQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
             return future;
         }
 
         std::future<std::vector<std::shared_ptr<FontGlyph> > > FontSystem::getGlyphs(const std::string& text, const Font& font)
         {
+            DJV_PRIVATE_PTR();
             GlyphsRequest request;
             request.text = text;
             request.font = font;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(_p->requestMutex);
-            _p->glyphsQueue.push_back(std::move(request));
-            _p->requestCV.notify_one();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.glyphsQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
             return future;
         }
 
         void FontSystem::_exit()
         {
+            DJV_PRIVATE_PTR();
             ISystem::_exit();
             {
-                std::unique_lock<std::mutex> lock(_p->requestMutex);
-                _p->metricsQueue.clear();
-                _p->measureQueue.clear();
-                _p->breakLinesQueue.clear();
-                _p->glyphsQueue.clear();
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.metricsQueue.clear();
+                p.measureQueue.clear();
+                p.breakLinesQueue.clear();
+                p.glyphsQueue.clear();
             }
-            _p->running = false;
-            _p->thread.join();
+            p.running = false;
+            p.thread.join();
         }
 
         void FontSystem::_initFreeType()
         {
+            DJV_PRIVATE_PTR();
             try
             {
-                FT_Error ftError = FT_Init_FreeType(&_p->ftLibrary);
+                FT_Error ftError = FT_Init_FreeType(&p.ftLibrary);
                 if (ftError)
                 {
                     throw std::runtime_error("Cannot initialize FreeType");
@@ -329,7 +352,7 @@ namespace djv
                         s << "Loading font: " << fileName;
                         _log(s.str());
                         FT_Face ftFace;
-                        ftError = FT_New_Face(_p->ftLibrary, fileName.c_str(), 0, &ftFace);
+                        ftError = FT_New_Face(p.ftLibrary, fileName.c_str(), 0, &ftFace);
                         if (ftError)
                         {
                             s = std::stringstream();
@@ -346,16 +369,16 @@ namespace djv
                             s << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
                             _log(s.str());
                             const std::string& name = i.getPath().getBaseName();
-                            _p->fontFileNames[name] = fileName;
-                            _p->fontFaces[name] = ftFace;
+                            p.fontFileNames[name] = fileName;
+                            p.fontFaces[name] = ftFace;
                         }
                     }
                 }
-                if (!_p->fontFaces.size())
+                if (!p.fontFaces.size())
                 {
                     throw std::runtime_error("Cannot find any fonts");
                 }
-                _p->fontFileNamesPromise.set_value(_p->fontFileNames);
+                p.fontFileNamesPromise.set_value(p.fontFileNames);
             }
             catch (const std::exception& e)
             {
@@ -365,30 +388,32 @@ namespace djv
 
         void FontSystem::_delFreeType()
         {
-            if (_p->ftLibrary)
+            DJV_PRIVATE_PTR();
+            if (p.ftLibrary)
             {
-                for (const auto& i : _p->fontFaces)
+                for (const auto& i : p.fontFaces)
                 {
                     FT_Done_Face(i.second);
                 }
-                FT_Done_FreeType(_p->ftLibrary);
+                FT_Done_FreeType(p.ftLibrary);
             }
         }
 
         void FontSystem::_handleMetricsRequests()
         {
-            for (auto& request : _p->metricsRequests)
+            DJV_PRIVATE_PTR();
+            for (auto& request : p.metricsRequests)
             {
-                const auto font = _p->fontFaces.find(request.font.name);
-                if (font != _p->fontFaces.end())
+                const auto font = p.fontFaces.find(request.font.name);
+                if (font != p.fontFaces.end())
                 {
                     FontMetrics metrics;
                     FT_Error ftError = FT_Set_Char_Size(
                         font->second,
                         0,
                         static_cast<int>(request.font.size * 64.f),
-                        static_cast<int>(_p->dpi.x),
-                        static_cast<int>(_p->dpi.y));
+                        static_cast<int>(p.dpi.x),
+                        static_cast<int>(p.dpi.y));
                     if (!ftError)
                     {
                         metrics.ascender = font->second->size->metrics.ascender / 64.f;
@@ -398,25 +423,26 @@ namespace djv
                     request.promise.set_value(std::move(metrics));
                 }
             }
-            _p->metricsRequests.clear();
+            p.metricsRequests.clear();
         }
 
         void FontSystem::_handleMeasureRequests()
         {
-            for (auto& request : _p->measureRequests)
+            DJV_PRIVATE_PTR();
+            for (auto& request : p.measureRequests)
             {
-                const auto font = _p->fontFaces.find(request.font.name);
-                if (font != _p->fontFaces.end())
+                const auto font = p.fontFaces.find(request.font.name);
+                if (font != p.fontFaces.end())
                 {
                     FT_Error ftError = FT_Set_Char_Size(
                         font->second,
                         0,
                         static_cast<int>(request.font.size * 64.f),
-                        static_cast<int>(_p->dpi.x),
-                        static_cast<int>(_p->dpi.y));
+                        static_cast<int>(p.dpi.x),
+                        static_cast<int>(p.dpi.y));
                     if (!ftError)
                     {
-                        const std::basic_string<djv_char_t> utf32 = _p->utf32.from_bytes(request.text);
+                        const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                         glm::vec2 size = glm::vec2(0.f, 0.f);
                         glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
                         for (const auto& c : utf32)
@@ -424,10 +450,10 @@ namespace djv
                             glm::vec2 glyphSize(0.f, 0.f);
                             {
                                 const auto hash = getFontGlyphHash(c, request.font);
-                                std::lock_guard<std::mutex>(_p->cacheMutex);
-                                if (_p->measureCache.contains(hash))
+                                std::lock_guard<std::mutex>(p.cacheMutex);
+                                if (p.measureCache.contains(hash))
                                 {
-                                    glyphSize = _p->measureCache.get(hash);
+                                    glyphSize = p.measureCache.get(hash);
                                 }
                                 else if (FT_UInt ftGlyphIndex = FT_Get_Char_Index(font->second, c))
                                 {
@@ -444,7 +470,7 @@ namespace djv
                                     }
                                     glyphSize.x = font->second->glyph->advance.x / 64.f;
                                     glyphSize.y = font->second->glyph->metrics.height / 64.f;
-                                    _p->measureCache.add(hash, glyphSize);
+                                    p.measureCache.add(hash, glyphSize);
                                     FT_Done_Glyph(ftGlyph);
                                 }
                             }
@@ -462,25 +488,26 @@ namespace djv
                     }
                 }
             }
-            _p->measureRequests.clear();
+            p.measureRequests.clear();
         }
 
         void FontSystem::_handleBreakLinesRequests()
         {
-            for (auto& request : _p->breakLinesRequests)
+            DJV_PRIVATE_PTR();
+            for (auto& request : p.breakLinesRequests)
             {
-                const auto font = _p->fontFaces.find(request.font.name);
-                if (font != _p->fontFaces.end())
+                const auto font = p.fontFaces.find(request.font.name);
+                if (font != p.fontFaces.end())
                 {
                     FT_Error ftError = FT_Set_Char_Size(
                         font->second,
                         0,
                         static_cast<int>(request.font.size * 64.f),
-                        static_cast<int>(_p->dpi.x),
-                        static_cast<int>(_p->dpi.y));
+                        static_cast<int>(p.dpi.x),
+                        static_cast<int>(p.dpi.y));
                     if (!ftError)
                     {
-                        const std::basic_string<djv_char_t> utf32 = _p->utf32.from_bytes(request.text);
+                        const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                         std::basic_string<djv_char_t> line;
                         std::vector<FontLine> lines;
                         glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
@@ -489,10 +516,10 @@ namespace djv
                             glm::vec2 glyphSize(0.f, 0.f);
                             {
                                 const auto hash = getFontGlyphHash(c, request.font);
-                                std::lock_guard<std::mutex>(_p->cacheMutex);
-                                if (_p->measureCache.contains(hash))
+                                std::lock_guard<std::mutex>(p.cacheMutex);
+                                if (p.measureCache.contains(hash))
                                 {
-                                    glyphSize = _p->measureCache.get(hash);
+                                    glyphSize = p.measureCache.get(hash);
                                 }
                                 else if (FT_UInt ftGlyphIndex = FT_Get_Char_Index(font->second, c))
                                 {
@@ -509,14 +536,14 @@ namespace djv
                                     }
                                     glyphSize.x = font->second->glyph->advance.x / 64.f;
                                     glyphSize.y = font->second->glyph->metrics.height / 64.f;
-                                    _p->measureCache.add(hash, glyphSize);
+                                    p.measureCache.add(hash, glyphSize);
                                     FT_Done_Glyph(ftGlyph);
                                 }
                             }
                             if ((pos.x > 0 && pos.x + glyphSize.x > request.maxLineWidth) || '\n' == c)
                             {
                                 lines.push_back(FontLine(
-                                    _p->utf32.to_bytes(line),
+                                    p.utf32.to_bytes(line),
                                     glm::vec2(request.maxLineWidth, font->second->size->metrics.height / 64.f)));
                                 line.clear();
                                 pos.x = 0;
@@ -528,32 +555,33 @@ namespace djv
                         if (line.size())
                         {
                             lines.push_back(FontLine(
-                                _p->utf32.to_bytes(line),
+                                p.utf32.to_bytes(line),
                                 glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                         }
                         request.promise.set_value(lines);
                     }
                 }
             }
-            _p->breakLinesRequests.clear();
+            p.breakLinesRequests.clear();
         }
 
         void FontSystem::_handleGlyphsRequests()
         {
-            for (auto& request : _p->glyphsRequests)
+            DJV_PRIVATE_PTR();
+            for (auto& request : p.glyphsRequests)
             {
-                const auto font = _p->fontFaces.find(request.font.name);
-                if (font != _p->fontFaces.end())
+                const auto font = p.fontFaces.find(request.font.name);
+                if (font != p.fontFaces.end())
                 {
                     FT_Error ftError = FT_Set_Char_Size(
                         font->second,
                         0,
                         static_cast<int>(request.font.size * 64.f),
-                        static_cast<int>(_p->dpi.x),
-                        static_cast<int>(_p->dpi.y));
+                        static_cast<int>(p.dpi.x),
+                        static_cast<int>(p.dpi.y));
                     if (!ftError)
                     {
-                        const std::basic_string<djv_char_t> utf32 = _p->utf32.from_bytes(request.text);
+                        const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                         std::vector<std::shared_ptr<FontGlyph> > glyphs;
                         glyphs.reserve(utf32.size());
                         for (const auto& c : utf32)
@@ -561,10 +589,10 @@ namespace djv
                             std::shared_ptr<FontGlyph> glyph;
                             {
                                 const auto hash = getFontGlyphHash(c, request.font);
-                                std::lock_guard<std::mutex>(_p->cacheMutex);
-                                if (_p->glyphCache.contains(hash))
+                                std::lock_guard<std::mutex>(p.cacheMutex);
+                                if (p.glyphCache.contains(hash))
                                 {
-                                    glyph = _p->glyphCache.get(hash);
+                                    glyph = p.glyphCache.get(hash);
                                 }
                                 else if (FT_UInt ftGlyphIndex = FT_Get_Char_Index(font->second, c))
                                 {
@@ -602,7 +630,7 @@ namespace djv
                                     glyph->pixelData = data;
                                     glyph->offset = glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top);
                                     glyph->advance = font->second->glyph->advance.x / 64.f;
-                                    _p->glyphCache.add(hash, glyph);
+                                    p.glyphCache.add(hash, glyph);
                                     FT_Done_Glyph(ftGlyph);
                                 }
                             }
@@ -615,7 +643,7 @@ namespace djv
                     }
                 }
             }
-            _p->glyphsRequests.clear();
+            p.glyphsRequests.clear();
         }
 
     } // namespace AV

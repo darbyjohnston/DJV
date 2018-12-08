@@ -93,65 +93,6 @@ namespace djv
 
         } // namespace
 
-        struct FileIO::Private
-        {
-            HANDLE         f         = INVALID_HANDLE_VALUE;
-            std::string    fileName;
-            Mode           mode      = Mode::First;
-            size_t         pos       = 0;
-            size_t         size      = 0;
-            bool           endian    = false;
-            void*          mmap      = nullptr;
-            const uint8_t* mmapStart = nullptr;
-            const uint8_t* mmapEnd   = nullptr;
-            const uint8_t* mmapP     = nullptr;
-        };
-
-        namespace
-        {
-            std::atomic<size_t> fileIOCount;
-
-        } // namespace
-
-        FileIO::FileIO() :
-            _p(new Private)
-        {
-            ++fileIOCount;
-            //std::cerr << "djv::Core::FileIO::FileIO = " << fileIOCount << std::endl;
-        }
-
-        FileIO::FileIO(FileIO&& other)
-        {
-            ++fileIOCount;
-            //std::cerr << "djv::Core::FileIO::FileIO = " << fileIOCount << std::endl;
-
-            _p.reset(other._p.release());
-            other._p.reset(new Private);
-        }
-
-        FileIO::~FileIO()
-        {
-            --fileIOCount;
-            //std::cerr << "djv::Core::FileIO::~FileIO = " << fileIOCount << std::endl;
-
-            try
-            {
-                close();
-            }
-            catch (const std::exception&)
-            {}
-        }
-
-        FileIO& FileIO::operator = (FileIO&& other)
-        {
-            if (this != &other)
-            {
-                _p.reset(other._p.release());
-                other._p.reset(new Private);
-            }
-            return *this;
-        }
-
         void FileIO::open(const std::string& fileName, Mode mode)
         {
             close();
@@ -182,33 +123,33 @@ namespace djv
                 break;
             default: break;
             }
-            _p->f = CreateFile(fileName.c_str(), desiredAccess, shareMode, 0, disposition, flags, 0);
-            if (INVALID_HANDLE_VALUE == _p->f)
+            _f = CreateFile(fileName.c_str(), desiredAccess, shareMode, 0, disposition, flags, 0);
+            if (INVALID_HANDLE_VALUE == _f)
             {
                 throw std::runtime_error(getOpenError(fileName));
             }
-            _p->fileName = fileName;
-            _p->mode     = mode;
-            _p->pos      = 0;
-            _p->size     = GetFileSize(_p->f, 0);
+            _fileName = fileName;
+            _mode     = mode;
+            _pos      = 0;
+            _size     = GetFileSize(_f, 0);
 
             // Memory mapping.
-            if (Mode::Read == _p->mode && _p->size > 0)
+            if (Mode::Read == _mode && _size > 0)
             {
-                _p->mmap = CreateFileMapping(_p->f, 0, PAGE_READONLY, 0, 0, 0);
-                if (!_p->mmap)
+                _mmap = CreateFileMapping(_f, 0, PAGE_READONLY, 0, 0, 0);
+                if (!_mmap)
                 {
-                    throw std::runtime_error(getMemoryMapError(_p->fileName));
+                    throw std::runtime_error(getMemoryMapError(_fileName));
                 }
 
-                _p->mmapStart = reinterpret_cast<const uint8_t*>(MapViewOfFile(_p->mmap, FILE_MAP_READ, 0, 0, 0));
-                if (!_p->mmapStart)
+                _mmapStart = reinterpret_cast<const uint8_t*>(MapViewOfFile(_mmap, FILE_MAP_READ, 0, 0, 0));
+                if (!_mmapStart)
                 {
-                    throw std::runtime_error(getMemoryMapError(_p->fileName));
+                    throw std::runtime_error(getMemoryMapError(_fileName));
                 }
 
-                _p->mmapEnd = _p->mmapStart + _p->size;
-                _p->mmapP   = _p->mmapStart;
+                _mmapEnd = _mmapStart + _size;
+                _mmapP   = _mmapStart;
             }
         }
 
@@ -228,56 +169,34 @@ namespace djv
 
         void FileIO::close()
         {
-            if (_p->mmapStart != 0)
+            if (_mmapStart != 0)
             {
-                if (!::UnmapViewOfFile((void*)_p->mmapStart))
+                if (!::UnmapViewOfFile((void*)_mmapStart))
                 {
-                    throw std::runtime_error(getMemoryUnmapError(_p->fileName));
+                    throw std::runtime_error(getMemoryUnmapError(_fileName));
                 }
-                _p->mmapStart = 0;
+                _mmapStart = 0;
             }
-            if (_p->mmap != 0)
+            if (_mmap != 0)
             {
-                if (!::CloseHandle(_p->mmap))
+                if (!::CloseHandle(_mmap))
                 {
-                    throw std::runtime_error(getCloseError(_p->fileName));
+                    throw std::runtime_error(getCloseError(_fileName));
                 }
-                _p->mmap = 0;
+                _mmap = 0;
             }
-            _p->mmapEnd = 0;
-            _p->mmapP   = 0;
+            _mmapEnd = 0;
+            _mmapP   = 0;
 
-            if (_p->f != INVALID_HANDLE_VALUE)
+            if (_f != INVALID_HANDLE_VALUE)
             {
-                CloseHandle(_p->f);
-                _p->f = INVALID_HANDLE_VALUE;
+                CloseHandle(_f);
+                _f = INVALID_HANDLE_VALUE;
             }
 
-            _p->mode = Mode::First;
-            _p->pos  = 0;
-            _p->size = 0;
-        }
-
-        bool FileIO::isOpen() const
-        {
-            return
-                _p->f != INVALID_HANDLE_VALUE &&
-                (_p->size ? _p->pos < _p->size : false);
-        }
-        
-        const std::string& FileIO::getFileName() const
-        {
-            return _p->fileName;
-        }
-
-        size_t FileIO::getSize() const
-        {
-            return _p->size;
-        }
-
-        size_t FileIO::getPos() const
-        {
-            return _p->pos;
+            _mode = Mode::First;
+            _pos  = 0;
+            _size = 0;
         }
 
         void FileIO::setPos(size_t in)
@@ -290,47 +209,40 @@ namespace djv
             _setPos(in, true);
         }
 
-        bool FileIO::isEOF() const
-        {
-            return
-                _p->f == INVALID_HANDLE_VALUE ||
-                (_p->size ? _p->pos >= _p->size : true);
-        }
-
         void FileIO::read(void* in, size_t size, size_t wordSize)
         {
-            switch (_p->mode)
+            switch (_mode)
             {
             case Mode::Read:
             {
-                const uint8_t* p = _p->mmapP + size * wordSize;
-                if (p > _p->mmapEnd)
+                const uint8_t* p = _mmapP + size * wordSize;
+                if (p > _mmapEnd)
                 {
-                    throw std::runtime_error(getReadError(_p->fileName));
+                    throw std::runtime_error(getReadError(_fileName));
                 }
-                if (_p->endian && wordSize > 1)
+                if (_endian && wordSize > 1)
                 {
-                    Memory::endian(_p->mmapP, in, size, wordSize);
+                    Memory::endian(_mmapP, in, size, wordSize);
                 }
                 else
                 {
-                    memcpy(in, _p->mmapP, size * wordSize);
+                    memcpy(in, _mmapP, size * wordSize);
                 }
-                _p->mmapP = p;
+                _mmapP = p;
                 break;
             }
             case Mode::ReadWrite:
             {
                 DWORD n;
-                if (!::ReadFile(_p->f, in, static_cast<DWORD>(size * wordSize), &n, 0))
+                if (!::ReadFile(_f, in, static_cast<DWORD>(size * wordSize), &n, 0))
                 {
-                    throw std::runtime_error(getReadError(_p->fileName));
+                    throw std::runtime_error(getReadError(_fileName));
                 }
                 break;
             }
             default: break;
             }
-            _p->pos += size * wordSize;
+            _pos += size * wordSize;
         }
 
         void FileIO::write(const void* in, size_t size, size_t wordSize)
@@ -338,7 +250,7 @@ namespace djv
             uint8_t* p = (uint8_t*)in;
 
             std::vector<uint8_t> tmp;
-            if (_p->endian && wordSize > 1)
+            if (_endian && wordSize > 1)
             {
                 tmp.resize(size * wordSize);
                 p = tmp.data();
@@ -346,51 +258,36 @@ namespace djv
             }
 
             DWORD n = 0;
-            if (!::WriteFile(_p->f, p, static_cast<DWORD>(size * wordSize), &n, 0))
+            if (!::WriteFile(_f, p, static_cast<DWORD>(size * wordSize), &n, 0))
             {
-                throw std::runtime_error(getWriteError(_p->fileName));
+                throw std::runtime_error(getWriteError(_fileName));
             }
 
-            _p->pos += size * wordSize;
-            _p->size = std::max(_p->pos, _p->size);
-        }
-
-        const uint8_t* FileIO::mmapP() const
-        {
-            return _p->mmapP;
-        }
-
-        const uint8_t* FileIO::mmapEnd() const
-        {
-            return _p->mmapEnd;
-        }
-
-        bool FileIO::getEndian() const
-        {
-            return _p->endian;
+            _pos += size * wordSize;
+            _size = std::max(_pos, _size);
         }
 
         void FileIO::setEndian(bool in)
         {
-            _p->endian = in;
+            _endian = in;
         }
 
         void FileIO::_setPos(size_t value, bool seek)
         {
-            switch (_p->mode)
+            switch (_mode)
             {
             case Mode::Read:
                 if (!seek)
                 {
-                    _p->mmapP = reinterpret_cast<const uint8_t*>(_p->mmapStart) + value;
+                    _mmapP = reinterpret_cast<const uint8_t*>(_mmapStart) + value;
                 }
                 else
                 {
-                    _p->mmapP += value;
+                    _mmapP += value;
                 }
-                if (_p->mmapP > _p->mmapEnd)
+                if (_mmapP > _mmapEnd)
                 {
-                    throw std::runtime_error(getReadError(_p->fileName));
+                    throw std::runtime_error(getReadError(_fileName));
                 }
                 break;
             case Mode::Write:
@@ -399,12 +296,12 @@ namespace djv
                 LARGE_INTEGER v;
                 v.QuadPart = value;
                 if (!::SetFilePointerEx(
-                    _p->f,
+                    _f,
                     static_cast<LARGE_INTEGER>(v),
                     0,
                     !seek ? FILE_BEGIN : FILE_CURRENT))
                 {
-                    throw std::runtime_error(getWriteError(_p->fileName));
+                    throw std::runtime_error(getWriteError(_fileName));
                 }
                 break;
             }
@@ -413,11 +310,11 @@ namespace djv
 
             if (!seek)
             {
-                _p->pos = value;
+                _pos = value;
             }
             else
             {
-                _p->pos += value;
+                _pos += value;
             }
         }
 
@@ -430,3 +327,4 @@ namespace djv
 
     } // namespace Core
 } // namespace djv
+

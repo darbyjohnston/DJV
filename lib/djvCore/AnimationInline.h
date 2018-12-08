@@ -27,48 +27,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
-
 namespace djv
 {
-    namespace AV
+    namespace Core
     {
-        namespace OpenGL
+        inline Animation::Animation()
+        {}
+
+        inline AnimationType Animation::getType() const
         {
-            //! This class provides an OpenGL texture.
-            class Texture
-            {
-                DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                inline Texture();
+            return _type;
+        }
 
-            public:
-                ~Texture();
-
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
-
-                inline const Pixel::Info & getInfo() const;
-                inline GLuint getID() const;
-
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
-
-                void bind();
-
-                static GLenum getInternalFormat(Pixel::Type);
-
-            private:
-                Pixel::Info _info;
-                GLuint _id = 0;
-                GLuint _pbo = 0;
-            };
-
-        } // namespace OpenGL
-    } // namespace AV
+        inline bool Animation::isRepeating() const
+        {
+            return _repeating;
+        }
+        
+        inline bool Animation::isActive() const
+        {
+            return _active;
+        }
+    
+    } // namespace Core
 } // namespace djv
-
-#include <djvAV/OpenGLTextureInline.h>
 

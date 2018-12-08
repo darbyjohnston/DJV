@@ -294,38 +294,39 @@ namespace djv
             {
                 ISystem::_init("djv::AV::IO::System", context);
 
-                _p->plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
-                _p->plugins[PPM::pluginName] = PPM::Plugin::create(context);
+                DJV_PRIVATE_PTR();
+                p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
+                p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
 #if defined(PNG_FOUND)
-                _p->plugins[PNG::pluginName] = PNG::Plugin::create(context);
+                p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
 #endif // PNG_FOUND
 
                 /*
-                _p->plugins[Cineon::pluginName].reset(new Cineon::Plugin(context));
-                _p->plugins[DPX::pluginName].reset(new DPX::Plugin(context));
-                _p->plugins[IFF::pluginName].reset(new IFF::Plugin(context));
-                _p->plugins[IFL::pluginName].reset(new IFL::Plugin(context));
-                _p->plugins[LUT::pluginName].reset(new LUT::Plugin(context));
-                _p->plugins[PIC::pluginName].reset(new PIC::Plugin(context));
-                _p->plugins[PPM::pluginName].reset(new PPM::Plugin(context));
-                _p->plugins[RLA::pluginName].reset(new RLA::Plugin(context));
-                _p->plugins[SGI::pluginName].reset(new SGI::Plugin(context));
-                _p->plugins[Targa::pluginName].reset(new Targa::Plugin(context));
+                p.plugins[Cineon::pluginName].reset(new Cineon::Plugin(context));
+                p.plugins[DPX::pluginName].reset(new DPX::Plugin(context));
+                p.plugins[IFF::pluginName].reset(new IFF::Plugin(context));
+                p.plugins[IFL::pluginName].reset(new IFL::Plugin(context));
+                p.plugins[LUT::pluginName].reset(new LUT::Plugin(context));
+                p.plugins[PIC::pluginName].reset(new PIC::Plugin(context));
+                p.plugins[PPM::pluginName].reset(new PPM::Plugin(context));
+                p.plugins[RLA::pluginName].reset(new RLA::Plugin(context));
+                p.plugins[SGI::pluginName].reset(new SGI::Plugin(context));
+                p.plugins[Targa::pluginName].reset(new Targa::Plugin(context));
 #if defined(DJV_THIRD_PARTY_OPENEXR)
-                _p->plugins[EXR::pluginName].reset(new EXR::Plugin(context));
+                p.plugins[EXR::pluginName].reset(new EXR::Plugin(context));
 #endif // DJV_THIRD_PARTY_OPENEXR
 #if defined(DJV_THIRD_PARTY_JPEG)
-                _p->plugins[JPEG::pluginName].reset(new JPEG::Plugin(context));
+                p.plugins[JPEG::pluginName].reset(new JPEG::Plugin(context));
 #endif // DJV_THIRD_PARTY_JPEG
 #if defined(DJV_THIRD_PARTY_PNG)
-                _p->plugins[PNG::pluginName].reset(new PNG::Plugin(context));
+                p.plugins[PNG::pluginName].reset(new PNG::Plugin(context));
 #endif // DJV_THIRD_PARTY_PNG
 #if defined(DJV_THIRD_PARTY_TIFF)
-                _p->plugins[TIFFPlugin::pluginName].reset(new TIFFPlugin::Plugin(context));
+                p.plugins[TIFFPlugin::pluginName].reset(new TIFFPlugin::Plugin(context));
 #endif // DJV_THIRD_PARTY_TIFF
                 */
 
-                for (const auto & i : _p->plugins)
+                for (const auto & i : p.plugins)
                 {
                     std::stringstream s;
                     s << "Plugin: " << i.second->getPluginName() << '\n';
@@ -351,6 +352,7 @@ namespace djv
 
             picojson::value System::getOptions(const std::string & pluginName) const
             {
+                DJV_PRIVATE_PTR();
                 const auto i = _p->plugins.find(pluginName);
                 if (i != _p->plugins.end())
                 {
@@ -361,8 +363,9 @@ namespace djv
 
             void System::setOptions(const std::string & pluginName, const picojson::value & value)
             {
-                const auto i = _p->plugins.find(pluginName);
-                if (i != _p->plugins.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.plugins.find(pluginName);
+                if (i != p.plugins.end())
                 {
                     i->second->setOptions(value);
                 }
@@ -370,7 +373,8 @@ namespace djv
 
             bool System::canRead(const std::string & fileName) const
             {
-                for (const auto & i : _p->plugins)
+                DJV_PRIVATE_PTR();
+                for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileName))
                     {
@@ -382,7 +386,8 @@ namespace djv
 
             bool System::canWrite(const std::string & fileName, const Info & info) const
             {
-                for (const auto & i : _p->plugins)
+                DJV_PRIVATE_PTR();
+                for (const auto & i : p.plugins)
                 {
                     if (i.second->canWrite(fileName, info))
                     {
@@ -396,7 +401,8 @@ namespace djv
                 const std::string & fileName,
                 const std::shared_ptr<Queue> & queue)
             {
-                for (const auto & i : _p->plugins)
+                DJV_PRIVATE_PTR();
+                for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileName))
                     {
@@ -414,7 +420,8 @@ namespace djv
                 const Info & info,
                 const std::shared_ptr<Queue> & queue)
             {
-                for (const auto & i : _p->plugins)
+                DJV_PRIVATE_PTR();
+                for (const auto & i : p.plugins)
                 {
                     if (i.second->canWrite(fileName, info))
                     {

@@ -46,26 +46,27 @@ namespace djv
         {
             ISettings::_init("djv::UICore::FontSettings", context);
 
-            _p->fonts = MapSubject<std::string, FontMap>::create();
-            _p->fonts->setItem(
+            DJV_PRIVATE_PTR();
+            p.fonts = MapSubject<std::string, FontMap>::create();
+            p.fonts->setItem(
                 "Default",
                 {
                     { FontFace::Regular, "Noto Sans" },
                     { FontFace::Bold, "Noto Sans" }
                 });
-            _p->fonts->setItem(
+            p.fonts->setItem(
                 "ja",
                 {
                     { FontFace::Regular, "Noto Sans CJKjp" },
                     { FontFace::Bold, "Noto Sans CJKjp" }
                 });
-            _p->fonts->setItem(
+            p.fonts->setItem(
                 "ko",
                 {
                     { FontFace::Regular, "Noto SansCJKkr" },
                     { FontFace::Bold, "Noto SansCJKkr" }
                 });
-            _p->fonts->setItem(
+            p.fonts->setItem(
                 "zh",
                 {
                     { FontFace::Regular, "Noto Sans CJKsc" },

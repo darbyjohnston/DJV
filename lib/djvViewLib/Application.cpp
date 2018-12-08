@@ -56,14 +56,15 @@ namespace djv
             QApplication(argc, argv),
             _p(new Private)
         {
-            _p->context = Context::create(argc, argv);
+            DJV_PRIVATE_PTR();
+            p.context = Context::create(argc, argv);
             
-            _p->mainWindow.reset(new MainWindow(_p->context));
-            _p->mainWindow->resize(800, 600);
-            _p->mainWindow->show();
+            p.mainWindow.reset(new MainWindow(p.context));
+            p.mainWindow->resize(800, 600);
+            p.mainWindow->show();
 
-            _p->time = std::chrono::system_clock::now();
-            _p->timer = startTimer(timeout, Qt::PreciseTimer);
+            p.time = std::chrono::system_clock::now();
+            p.timer = startTimer(timeout, Qt::PreciseTimer);
         }
         
         Application::~Application()
@@ -73,11 +74,12 @@ namespace djv
 
         void Application::timerEvent(QTimerEvent * event)
         {
+            DJV_PRIVATE_PTR();
             const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - _p->time;
-            _p->time = now;
+            const std::chrono::duration<float> delta = now - p.time;
+            p.time = now;
             const float dt = delta.count();
-            _p->context->tick(dt);
+            p.context->tick(dt);
         }
 
     } // namespace ViewLib

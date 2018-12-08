@@ -27,48 +27,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
-
 namespace djv
 {
     namespace AV
     {
-        namespace OpenGL
+        namespace IO
         {
-            //! This class provides an OpenGL texture.
-            class Texture
+            namespace FFmpeg
             {
-                DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
-                inline Texture();
+                inline AVRational getTimeBaseQ()
+                {
+                    AVRational r;
+                    r.num = 1;
+                    r.den = AV_TIME_BASE;
+                    return r;
+                }
 
-            public:
-                ~Texture();
-
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
-
-                inline const Pixel::Info & getInfo() const;
-                inline GLuint getID() const;
-
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
-
-                void bind();
-
-                static GLenum getInternalFormat(Pixel::Type);
-
-            private:
-                Pixel::Info _info;
-                GLuint _id = 0;
-                GLuint _pbo = 0;
-            };
-
-        } // namespace OpenGL
+            } // namespace FFmpeg
+        } // namespace IO
     } // namespace AV
 } // namespace djv
-
-#include <djvAV/OpenGLTextureInline.h>
 

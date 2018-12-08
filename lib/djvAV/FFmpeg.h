@@ -59,7 +59,7 @@ namespace djv
                     ".avi", ".dv", ".gif", ".flv", ".mkv", ".mov", ".mpg", ".mpeg", ".mp4", ".m4v", ".mxf", ".wav"
                 };
 
-                AVRational getTimeBaseQ();
+                inline AVRational getTimeBaseQ();
 
                 Audio::Type toAudioType(AVSampleFormat);
                 std::string toString(AVSampleFormat);
@@ -117,3 +117,6 @@ namespace djv
         } // namespace IO
     } // namespace AV
 } // namespace djv
+
+#include <djvAV/FFmpegInline.h>
+

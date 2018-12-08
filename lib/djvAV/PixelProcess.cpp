@@ -61,14 +61,16 @@ namespace djv
 
             void Convert::_init(const std::shared_ptr<Core::Context> & context)
             {
+                DJV_PRIVATE_PTR();
+
                 AV::Shape::Square square;
                 AV::TriangleMesh mesh;
                 square.triangulate(mesh);
-                _p->vbo = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                _p->vbo->copy(AV::OpenGL::VBO::convert(mesh, _p->vbo->getType()));
-                _p->vao = AV::OpenGL::VAO::create(_p->vbo->getType(), _p->vbo->getID());
+                p.vbo = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                p.vbo->copy(AV::OpenGL::VBO::convert(mesh, p.vbo->getType()));
+                p.vao = AV::OpenGL::VAO::create(p.vbo->getType(), p.vbo->getID());
 
-                _p->shader = AV::OpenGL::Shader::create(AV::Shader::create(
+                p.shader = AV::OpenGL::Shader::create(AV::Shader::create(
                     context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelConvertVertex.glsl"),
                     context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelConvertFragment.glsl")));
             }
@@ -92,25 +94,26 @@ namespace djv
                 const auto info = Info(size, type);
                 auto out = Data::create(info);
 
-                if (!_p->offscreenBuffer || (_p->offscreenBuffer && info != _p->offscreenBuffer->getInfo()))
+                DJV_PRIVATE_PTR();
+                if (!p.offscreenBuffer || (p.offscreenBuffer && info != p.offscreenBuffer->getInfo()))
                 {
-                    _p->offscreenBuffer = OpenGL::OffscreenBuffer::create(info);
+                    p.offscreenBuffer = OpenGL::OffscreenBuffer::create(info);
                 }
-                const OpenGL::OffscreenBufferBinding binding(_p->offscreenBuffer);
+                const OpenGL::OffscreenBufferBinding binding(p.offscreenBuffer);
 
-                if (!_p->texture || (_p->texture && data->getInfo() != _p->texture->getInfo()))
+                if (!p.texture || (p.texture && data->getInfo() != p.texture->getInfo()))
                 {
-                    _p->texture = OpenGL::Texture::create(data->getInfo());
+                    p.texture = OpenGL::Texture::create(data->getInfo());
                 }
-                _p->texture->bind();
-                _p->texture->copy(*data);
+                p.texture->bind();
+                p.texture->copy(*data);
 
-                _p->shader->bind();
-                _p->shader->setUniform("textureSampler", 0);
+                p.shader->bind();
+                p.shader->setUniform("textureSampler", 0);
                 
-                if (size != _p->size)
+                if (size != p.size)
                 {
-                    _p->size = size;
+                    p.size = size;
                     glm::mat4x4 modelMatrix(1);
                     modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
                     modelMatrix = glm::scale(modelMatrix, glm::vec3(size.x, 0.f, size.y));
@@ -124,9 +127,9 @@ namespace djv
                         static_cast<float>(size.y),
                         -1.f,
                         1.f);
-                    _p->mvp = projectionMatrix * viewMatrix * modelMatrix;
+                    p.mvp = projectionMatrix * viewMatrix * modelMatrix;
                 }
-                _p->shader->setUniform("transform.mvp", _p->mvp);
+                p.shader->setUniform("transform.mvp", p.mvp);
 
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 glFuncs->glViewport(0, 0, size.x, size.y);
@@ -134,8 +137,8 @@ namespace djv
                 glFuncs->glClear(GL_COLOR_BUFFER_BIT);
                 glFuncs->glActiveTexture(GL_TEXTURE0);
 
-                _p->vao->bind();
-                _p->vao->draw(0, 6);
+                p.vao->bind();
+                p.vao->draw(0, 6);
 
                 glFuncs->glPixelStorei(GL_PACK_ALIGNMENT, 1);
                 glFuncs->glReadPixels(

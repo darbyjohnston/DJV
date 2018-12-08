@@ -63,7 +63,8 @@ namespace djv
             const std::string & getFragmentSource() const;
 
         private:
-            DJV_PRIVATE();
+            std::pair<std::string, std::string> _vertex;
+            std::pair<std::string, std::string> _fragment;
         };
 
     } // namespace AV

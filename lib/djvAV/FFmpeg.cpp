@@ -40,14 +40,6 @@ namespace djv
         {
             namespace FFmpeg
             {
-                AVRational getTimeBaseQ()
-                {
-                    AVRational r;
-                    r.num = 1;
-                    r.den = AV_TIME_BASE;
-                    return r;
-                }
-
                 Audio::Type toAudioType(AVSampleFormat value)
                 {
                     Audio::Type out = Audio::Type::None;

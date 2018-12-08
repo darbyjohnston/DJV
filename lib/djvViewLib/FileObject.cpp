@@ -56,27 +56,29 @@ namespace djv
             IViewObject("FileObject", context, parent),
             _p(new Private)
         {
-            _p->actions["Open"] = new QAction("Open", this);
-            _p->actions["Open"]->setShortcut(QKeySequence("Ctrl+O"));
-            _p->actions["Close"] = new QAction("Close", this);
-            _p->actions["Close"]->setShortcut(QKeySequence("Ctrl+W"));
-            _p->actions["Export"] = new QAction("Export", this);
-            _p->actions["Export"]->setShortcut(QKeySequence("Ctrl+E"));
-            _p->actions["Exit"] = new QAction("Exit", this);
-            _p->actions["Exit"]->setShortcut(QKeySequence("Ctrl+Q"));
+            DJV_PRIVATE_PTR();
+            p.actions["Open"] = new QAction("Open", this);
+            p.actions["Open"]->setShortcut(QKeySequence("Ctrl+O"));
+            p.actions["Close"] = new QAction("Close", this);
+            p.actions["Close"]->setShortcut(QKeySequence("Ctrl+W"));
+            p.actions["Export"] = new QAction("Export", this);
+            p.actions["Export"]->setShortcut(QKeySequence("Ctrl+E"));
+            p.actions["Exit"] = new QAction("Exit", this);
+            p.actions["Exit"]->setShortcut(QKeySequence("Ctrl+Q"));
 
             connect(
-                _p->actions["Open"],
+                p.actions["Open"],
                 &QAction::triggered,
                 [this, context]
             {
-                for (const auto & i : _p->dockWidgets)
+                DJV_PRIVATE_PTR();
+                for (const auto & i : p.dockWidgets)
                 {
                     i->show();
                 }
             });
             connect(
-                _p->actions["Close"],
+                p.actions["Close"],
                 &QAction::triggered,
                 [context]
             {
@@ -87,13 +89,13 @@ namespace djv
                 }
             });
             connect(
-                _p->actions["Export"],
+                p.actions["Export"],
                 &QAction::triggered,
                 [context]
             {
             });
             connect(
-                _p->actions["Exit"],
+                p.actions["Exit"],
                 &QAction::triggered,
                 [this]
             {
@@ -111,17 +113,19 @@ namespace djv
         
         QPointer<QMenu> FileObject::createMenu()
         {
+            DJV_PRIVATE_PTR();
             auto menu = new QMenu("File");
-            menu->addAction(_p->actions["Open"]);
-            menu->addAction(_p->actions["Close"]);
-            menu->addAction(_p->actions["Export"]);
+            menu->addAction(p.actions["Open"]);
+            menu->addAction(p.actions["Close"]);
+            menu->addAction(p.actions["Export"]);
             menu->addSeparator();
-            menu->addAction(_p->actions["Exit"]);
+            menu->addAction(p.actions["Exit"]);
             return menu;
         }
 
         QPointer<QDockWidget> FileObject::createDockWidget()
         {
+            DJV_PRIVATE_PTR();
             QPointer<QDockWidget> out;
             if (auto context = std::dynamic_pointer_cast<Context>(getContext().lock()))
             {
@@ -129,15 +133,16 @@ namespace djv
                 auto fileBrowser = new UIQt::FileBrowser(context);
                 fileBrowser->setPath("C:/Users/darby/Desktop");
                 out->setWidget(fileBrowser);
-                _p->dockWidgets.push_back(out);
+                p.dockWidgets.push_back(out);
                 connect(
                     fileBrowser,
                     &UIQt::FileBrowser::opened,
                     [this](const std::string & fileName)
                 {
-                    if (_p->currentWorkspace)
+                    DJV_PRIVATE_PTR();
+                    if (p.currentWorkspace)
                     {
-                        _p->currentWorkspace->openMedia(fileName);
+                        p.currentWorkspace->openMedia(fileName);
                     }
                 });
             }
@@ -156,14 +161,16 @@ namespace djv
 
         void FileObject::setCurrentWorkspace(const QPointer<Workspace> & workspace)
         {
-            _p->actions["Open"]->setEnabled(workspace);
-            _p->currentWorkspace = workspace;
+            DJV_PRIVATE_PTR();
+            p.actions["Open"]->setEnabled(workspace);
+            p.currentWorkspace = workspace;
         }
 
         void FileObject::setCurrentMedia(const std::shared_ptr<Media> & project)
         {
-            _p->actions["Close"]->setEnabled(project ? true : false);
-            _p->actions["Export"]->setEnabled(project ? true : false);
+            DJV_PRIVATE_PTR();
+            p.actions["Close"]->setEnabled(project ? true : false);
+            p.actions["Export"]->setEnabled(project ? true : false);
         }
 
     } // namespace ViewLib

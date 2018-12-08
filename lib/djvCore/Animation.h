@@ -63,18 +63,16 @@ namespace djv
         {
             DJV_NON_COPYABLE(Animation);
             void _init(const std::shared_ptr<Context>&);
-            Animation();
+            inline Animation();
             
-        public:
-            ~Animation();
-            
+        public:            
             //! Create a new animation.
             static std::shared_ptr<Animation> create(const std::shared_ptr<Context>&);
             
             //! \name Animation Type
             ///@{
 
-            AnimationType getType() const;
+            inline AnimationType getType() const;
             void setType(AnimationType);
 
             ///@}
@@ -82,13 +80,13 @@ namespace djv
             //! \name Animation Options
             ///@{
 
-            bool isRepeating() const;
+            inline bool isRepeating() const;
             void setRepeating(bool);
 
             ///@}
 
             //! Get whether the animation is active.
-            bool isActive() const;
+            inline bool isActive() const;
 
             typedef std::function<void(float)> Callback;
             
@@ -103,7 +101,16 @@ namespace djv
         private:
             void _tick(float dt);
 
-            DJV_PRIVATE();
+            AnimationType _type = AnimationType::Linear;
+            AnimationFunction _function;
+            bool _repeating = false;
+            bool _active = false;
+            float _begin = 0.f;
+            float _end = 0.f;
+            std::chrono::milliseconds _timeout;
+            Callback _callback;
+            Callback _endCallback;
+            std::chrono::time_point<std::chrono::system_clock> _start;
 
             friend class AnimationSystem;
         };
@@ -138,4 +145,6 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(Core::AnimationType);
 
 } // namespace djv
+
+#include <djvCore/AnimationInline.h>
 

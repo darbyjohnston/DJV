@@ -56,11 +56,12 @@ namespace djv
             QObject(parent),
             _p(new Private)
         {
-            _p->context = context;
+            DJV_PRIVATE_PTR();
+            p.context = context;
             ++workspaceCount;
             std::stringstream s;
             s << "Workspace " << workspaceCount;
-            _p->name = s.str();
+            p.name = s.str();
         }
 
         Workspace::~Workspace()
@@ -93,62 +94,67 @@ namespace djv
 
         Enum::WindowState Workspace::getWindowState() const
         {
-            const auto i = _p->windowState.find(_p->currentMedia);
-            return i != _p->windowState.end() ? i->second : Enum::WindowState::Normal;
+            DJV_PRIVATE_PTR();
+            const auto i = p.windowState.find(p.currentMedia);
+            return i != p.windowState.end() ? i->second : Enum::WindowState::Normal;
         }
 
         void Workspace::setName(const std::string & value)
         {
-            if (value == _p->name)
+            DJV_PRIVATE_PTR();
+            if (value == p.name)
                 return;
-            _p->name = value;
-            Q_EMIT nameChanged(_p->name);
+            p.name = value;
+            Q_EMIT nameChanged(p.name);
         }
 
         void Workspace::openMedia(const std::string & fileName)
         {
-            if (auto context = _p->context.lock())
+            DJV_PRIVATE_PTR();
+            if (auto context = p.context.lock())
             {
                 auto media = Media::create(fileName, context);
-                _p->media.push_back(media);
-                _p->currentMedia = media;
+                p.media.push_back(media);
+                p.currentMedia = media;
                 Q_EMIT mediaAdded(media);
-                Q_EMIT currentMediaChanged(_p->currentMedia);
+                Q_EMIT currentMediaChanged(p.currentMedia);
             }
         }
 
         void Workspace::closeMedia(const std::shared_ptr<Media> & media)
         {
-            const auto i = std::find(_p->media.begin(), _p->media.end(), media);
-            if (i != _p->media.end())
+            DJV_PRIVATE_PTR();
+            const auto i = std::find(p.media.begin(), p.media.end(), media);
+            if (i != p.media.end())
             {
                 //! \todo Save
-                int index = static_cast<int>(i - _p->media.begin());
+                int index = static_cast<int>(i - p.media.begin());
                 auto media = *i;
-                _p->media.erase(i);
-                const auto k = _p->windowState.find(media);
-                if (k != _p->windowState.end())
+                p.media.erase(i);
+                const auto k = p.windowState.find(media);
+                if (k != p.windowState.end())
                 {
-                    _p->windowState.erase(k);
+                    p.windowState.erase(k);
                 }
                 Q_EMIT mediaRemoved(media);
-                if (media == _p->currentMedia)
+                if (media == p.currentMedia)
                 {
-                    index = std::min(index, static_cast<int>(_p->media.size()) - 1);
-                    setCurrentMedia(index != -1 ? _p->media[index] : nullptr);
+                    index = std::min(index, static_cast<int>(p.media.size()) - 1);
+                    setCurrentMedia(index != -1 ? p.media[index] : nullptr);
                 }
             }
         }
 
         void Workspace::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
-            if (media == _p->currentMedia)
+            DJV_PRIVATE_PTR();
+            if (media == p.currentMedia)
                 return;
-            _p->currentMedia = media;
-            Q_EMIT currentMediaChanged(_p->currentMedia);
+            p.currentMedia = media;
+            Q_EMIT currentMediaChanged(p.currentMedia);
             auto windowState = Enum::WindowState::Normal;
-            const auto i = _p->windowState.find(media);
-            if (i != _p->windowState.end())
+            const auto i = p.windowState.find(media);
+            if (i != p.windowState.end())
             {
                 windowState = i->second;
             }
@@ -157,13 +163,14 @@ namespace djv
 
         void Workspace::nextMedia()
         {
-            auto i = std::find(_p->media.begin(), _p->media.end(), _p->currentMedia);
-            if (i != _p->media.end())
+            DJV_PRIVATE_PTR();
+            auto i = std::find(p.media.begin(), p.media.end(), _p->currentMedia);
+            if (i != p.media.end())
             {
                 ++i;
-                if (i == _p->media.end())
+                if (i == p.media.end())
                 {
-                    i = _p->media.begin();
+                    i = p.media.begin();
                 }
                 setCurrentMedia(*i);
             }
@@ -171,12 +178,13 @@ namespace djv
 
         void Workspace::prevMedia()
         {
-            auto i = std::find(_p->media.begin(), _p->media.end(), _p->currentMedia);
-            if (i != _p->media.end())
+            DJV_PRIVATE_PTR();
+            auto i = std::find(p.media.begin(), p.media.end(), p.currentMedia);
+            if (i != p.media.end())
             {
-                if (i == _p->media.begin())
+                if (i == p.media.begin())
                 {
-                    i = _p->media.end();
+                    i = p.media.end();
                 }
                 --i;
                 setCurrentMedia(*i);
@@ -185,10 +193,11 @@ namespace djv
 
         void Workspace::setViewMode(QMdiArea::ViewMode value)
         {
-            if (value == _p->viewMode)
+            DJV_PRIVATE_PTR();
+            if (value == p.viewMode)
                 return;
-            _p->viewMode = value;
-            Q_EMIT viewModeChanged(_p->viewMode);
+            p.viewMode = value;
+            Q_EMIT viewModeChanged(p.viewMode);
         }
 
         void Workspace::setWindowState(Enum::WindowState value)
@@ -198,14 +207,15 @@ namespace djv
 
         void Workspace::setWindowState(const std::shared_ptr<Media> & media, Enum::WindowState value)
         {
-            const auto i = _p->windowState.find(media);
-            if (i == _p->windowState.end())
+            DJV_PRIVATE_PTR();
+            const auto i = p.windowState.find(media);
+            if (i == p.windowState.end())
             {
-                _p->windowState[media] = Enum::WindowState::Normal;
+                p.windowState[media] = Enum::WindowState::Normal;
             }
-            if (value == _p->windowState[media])
+            if (value == p.windowState[media])
                 return;
-            _p->windowState[media] = value;
+            p.windowState[media] = value;
             Q_EMIT windowStateChanged(value);
         }
 
