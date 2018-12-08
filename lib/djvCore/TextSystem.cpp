@@ -46,13 +46,6 @@ namespace djv
 {
     namespace Core
     {
-        namespace
-        {
-            //! \todo [1.0 S] Should this be configurable?
-            const size_t timeout = 100;
-
-        } // namespace
-
         struct TextSystem::Private
         {
             std::vector<std::string> locales;
@@ -168,7 +161,7 @@ namespace djv
             _p->timer = Timer::create(context);
             _p->timer->setRepeating(true);
             _p->timer->start(
-                std::chrono::milliseconds(timeout),
+                Timer::getMilliseconds(Timer::Value::Medium),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();

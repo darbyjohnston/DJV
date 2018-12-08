@@ -43,9 +43,8 @@ namespace djv
     {
         namespace
         {
+            //! \todo [1.0 S] Should this be configurable?
             const size_t bufferCount = 100;
-            const size_t timeout = 10;
-            const size_t debugTimeout = 100;
 
         } // namespace
 
@@ -128,8 +127,9 @@ namespace djv
             {
                 p.read = context->getSystemT<AV::IO::System>()->read(fileName, p.queue);
                 p.infoFuture = p.read->getInfo();
+                const auto timeout = Core::Timer::getMilliseconds(Core::Timer::Value::Fast);
                 p.infoTimer->start(
-                    std::chrono::milliseconds(timeout),
+                    timeout,
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();
@@ -157,14 +157,14 @@ namespace djv
                 });
 
                 p.queueTimer->start(
-                    std::chrono::milliseconds(timeout),
-                    [this](float)
+                    timeout,
+                    [this, timeout](float)
                 {
                     DJV_PRIVATE_PTR();
                     std::unique_lock<std::mutex> lock(p.queue->getMutex());
                     if (p.queueCV.wait_for(
                         lock,
-                        std::chrono::milliseconds(timeout),
+                        timeout,
                         [this]
                     {
                         return _p->queue->hasVideo();
@@ -175,7 +175,7 @@ namespace djv
                 });
 
                 p.debugTimer->start(
-                    std::chrono::milliseconds(debugTimeout),
+                    Core::Timer::getMilliseconds(Core::Timer::Value::Slow),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();
@@ -296,7 +296,7 @@ namespace djv
             {
                 _timeUpdate();
                 p.playbackTimer->start(
-                    std::chrono::milliseconds(timeout),
+                    Core::Timer::getMilliseconds(Core::Timer::Value::Fast),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();

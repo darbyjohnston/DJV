@@ -72,7 +72,7 @@ protected:
         _statsTimer = Core::Timer::create(shared_from_this());
         _statsTimer->setRepeating(true);
         _statsTimer->start(
-            std::chrono::milliseconds(1000),
+            Core::Timer::getMilliseconds(Core::Timer::Value::Slow),
             [this, duration](float)
         {
             AV::Timestamp timestamp = 0;
@@ -120,7 +120,7 @@ public:
         _context(Context::create(argc, argv))
     {
         _time = std::chrono::system_clock::now();
-        _timer = startTimer(10, Qt::PreciseTimer);
+        _timer = startTimer(Core::Timer::getValue(Core::Timer::Value::Fast), Qt::PreciseTimer);
     }
     ~Application()
     {

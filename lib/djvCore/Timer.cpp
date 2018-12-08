@@ -48,6 +48,25 @@ namespace djv
             out->_init(context);
             return out;
         }
+        
+        size_t Timer::getValue(Value value)
+        {
+            static const std::vector<size_t> data =
+            {
+                10000,
+                1000,
+                100,
+                10,
+                1
+            };
+            DJV_ASSERT(data.size() == static_cast<size_t>(Value::Count));
+            return data[static_cast<size_t>(value)];
+        }
+        
+        std::chrono::milliseconds Timer::getMilliseconds(Value value)
+        {
+            return std::chrono::milliseconds(getValue(value));
+        }
 
         void Timer::setRepeating(bool value)
         {
@@ -159,4 +178,13 @@ namespace djv
         }
 
     } // namespace Core
+    
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::Timer,
+        Value,
+        DJV_TEXT("Slow"),
+        DJV_TEXT("Medium"),
+        DJV_TEXT("Fast"),
+        DJV_TEXT("VeryFast"));
+
 } // namespace djv

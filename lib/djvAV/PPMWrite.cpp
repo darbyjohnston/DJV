@@ -42,12 +42,6 @@ namespace djv
         {
             namespace PPM
             {
-                namespace
-                {
-                    const size_t timeout = 10;
-
-                } // namespace
-
                 struct Write::Private
                 {
                     Pixel::Info info;

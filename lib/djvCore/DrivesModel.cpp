@@ -42,13 +42,6 @@ namespace djv
 {
     namespace Core
     {
-        namespace
-        {
-            //! \todo [1.0 S] Should this be configurable?
-            const size_t timeout = 100;
-
-        } // namespace
-
         struct DrivesModel::Private
         {
             std::vector<Path> drives;
@@ -66,8 +59,9 @@ namespace djv
             p.drivesSubject = ListSubject<Path>::create();
                 
             p.running = true;
+            const auto timeout = Timer::getValue(Timer::Value::Medium);
             p.thread = std::thread(
-                [this]
+                [this, timeout]
             {
                 DJV_PRIVATE_PTR();
                 while (p.running)

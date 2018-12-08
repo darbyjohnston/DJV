@@ -41,7 +41,6 @@ namespace djv
     namespace
     {
         //! \todo [1.0 S] Should this be configurable?
-        const size_t timeout = 100;
         const size_t historyMax = 10;
 
     } // namespace
@@ -205,7 +204,7 @@ namespace djv
             });
 
             p.futureTimer->start(
-                std::chrono::milliseconds(timeout),
+                Timer::getMilliseconds(Timer::Value::Medium),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();

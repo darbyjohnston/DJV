@@ -32,18 +32,12 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
-#include <chrono>
+#include <djvCore/Timer.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            const size_t timeout = 10;
-
-        } // namespace
-
         struct Application::Private
         {
             std::shared_ptr<Context> context;
@@ -64,7 +58,7 @@ namespace djv
             p.mainWindow->show();
 
             p.time = std::chrono::system_clock::now();
-            p.timer = startTimer(timeout, Qt::PreciseTimer);
+            p.timer = startTimer(Core::Timer::getValue(Core::Timer::Value::Fast), Qt::PreciseTimer);
         }
         
         Application::~Application()

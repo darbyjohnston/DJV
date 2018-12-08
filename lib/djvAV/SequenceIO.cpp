@@ -35,6 +35,7 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
+#include <djvCore/Timer.h>
 
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
@@ -48,12 +49,6 @@ namespace djv
     {
         namespace IO
         {
-            namespace
-            {
-                const size_t timeout = 10;
-
-            } // namespace
-
             struct ISequenceRead::Private
             {
                 std::promise<Info> infoPromise;
@@ -92,6 +87,7 @@ namespace djv
                     }
 
                     _start();
+                    const auto timeout = Core::Timer::getValue(Core::Timer::Value::Fast);
                     while (_queue && p.running)
                     {
                         bool read = false;
@@ -275,6 +271,7 @@ namespace djv
                     p.openGLDebugLogger->startLogging();
                 }
                 _start();
+                const auto timeout = Core::Timer::getValue(Core::Timer::Value::Fast);
                 while (p.running)
                 {
                     std::shared_ptr<Image> image;

@@ -34,6 +34,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/Path.h>
 #include <djvCore/Time.h>
+#include <djvCore/Timer.h>
 
 #include <atomic>
 #include <condition_variable>
@@ -49,9 +50,6 @@ namespace djv
     {
         namespace
         {
-            //! \todo [1.0 S] Should this be configurable?
-            const size_t timeout = 100;
-
             const std::string name = "djv::Core::LogSystem";
 
             struct Message
@@ -112,6 +110,7 @@ namespace djv
                 s << "Path: " << p.path;
                 log("djv::Core::LogSystem", s.str());
 
+                const auto timeout = Timer::getValue(Timer::Value::Medium);
                 while (p.running)
                 {
                     {

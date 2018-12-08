@@ -30,6 +30,7 @@
 #include <djvAV/FFmpeg.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
 
 extern "C"
@@ -49,12 +50,6 @@ namespace djv
         {
             namespace FFmpeg
             {
-                namespace
-                {
-                    const size_t timeout = 10;
-
-                } // namespace
-
                 struct Read::Private
                 {
                     VideoInfo videoInfo;
@@ -297,7 +292,7 @@ namespace djv
                                     std::unique_lock<std::mutex> lock(_queue->getMutex());
                                     if (p.queueCV.wait_for(
                                         lock,
-                                        std::chrono::milliseconds(timeout),
+                                        Core::Timer::getMilliseconds(Core::Timer::Value::Fast),
                                         [this]
                                     {
                                         DJV_PRIVATE_PTR();

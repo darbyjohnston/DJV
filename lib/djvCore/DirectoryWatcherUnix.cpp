@@ -54,8 +54,6 @@ namespace djv
     {
         namespace
         {
-            const size_t timeout = 100;
-
 #if defined(DJV_PLATFORM_OSX)
             class Notify
             {
@@ -95,7 +93,7 @@ namespace djv
                     struct kevent eventData[1];
                     timespec _timeout;
                     _timeout.tv_sec = 0;
-                    _timeout.tv_nsec = timeout * 1000000;
+                    _timeout.tv_nsec = Timer::getValue(Timer::Value::Medium) * 1000000;
                     int eventCount = ::kevent(_kq, _eventsToMonitor, 1, eventData, 1, &_timeout);
                     if (eventCount)
                     {
@@ -197,8 +195,9 @@ namespace djv
             _p->running = true;
             
             std::weak_ptr<DirectoryWatcher> weak(shared_from_this());
+            const auto timeout = Timer::getMilliseconds(Timer::Value::Medium);
             _p->thread = std::thread(
-                [weak]
+                [weak, timeout]
             {
                 Path path;
                 bool pathInit = false;
@@ -210,7 +209,7 @@ namespace djv
                     if (auto watcher = weak.lock())
                     {
                         auto & p = *watcher->_p;
-                        if (p.mutex.try_lock_for(std::chrono::milliseconds(timeout)))
+                        if (p.mutex.try_lock_for(timeout))
                         {
                             // Synchronize with the main thread.
                             running = p.running;
@@ -242,20 +241,20 @@ namespace djv
                         lastModified = notify->poll();
                     }
                     
-                    std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
+                    std::this_thread::sleep_for(timeout);
                 }
             });
 
             _p->timer = Timer::create(context);
             _p->timer->setRepeating(true);
             _p->timer->start(
-                std::chrono::milliseconds(timeout),
-                [weak](float)
+                timeout,
+                [weak, timeout](float)
             {
                 if (auto watcher = weak.lock())
                 {
                     auto & p = *watcher->_p;
-                    if (p.mutex.try_lock_for(std::chrono::milliseconds(timeout)))
+                    if (p.mutex.try_lock_for(timeout))
                     {
                         if (p.threadModified != p.lastModified)
                         {                            

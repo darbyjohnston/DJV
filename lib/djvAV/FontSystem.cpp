@@ -57,8 +57,6 @@ namespace djv
             //! \todo [1.0 S] Should this be configurable?
             const size_t measureCacheMax = 100000;
             const size_t glyphCacheMax = 10000;
-            const size_t timeout = 100;
-            const size_t statsTimeout = 10000;
 
             struct MetricsRequest
             {
@@ -173,7 +171,7 @@ namespace djv
             p.statsTimer = Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                std::chrono::milliseconds(statsTimeout),
+                Core::Timer::getMilliseconds(Core::Timer::Value::VerySlow),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
@@ -190,6 +188,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 _initFreeType();
+                const auto timeout = Core::Timer::getValue(Core::Timer::Value::Medium);
                 while (p.running)
                 {
                     {

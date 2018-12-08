@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvCore/Enum.h>
 #include <djvCore/ISystem.h>
 
 #include <chrono>
@@ -50,6 +51,26 @@ namespace djv
         public:
             //! Create a new time.
             static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
+
+            //! \name Common Timer Values
+            ///@{
+            
+            enum class Value
+            {
+                VerySlow,
+                Slow,
+                Medium,
+                Fast,
+                VeryFast,
+                
+                Count,
+                First = VerySlow
+            };
+            DJV_ENUM_HELPERS(Value);
+            static size_t getValue(Value);
+            static std::chrono::milliseconds getMilliseconds(Value);
+            
+            ///@}
 
             //! \name Timer Options
             ///@{
@@ -106,6 +127,9 @@ namespace djv
         };
 
     } // namespace Core
+    
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Timer::Value);
+    
 } // namespace djv
 
 #include <djvCore/TimerInline.h>

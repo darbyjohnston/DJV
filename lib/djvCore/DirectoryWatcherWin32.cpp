@@ -46,13 +46,6 @@ namespace djv
 {
     namespace Core
     {
-        namespace
-        {
-            //! \todo [1.0 S] Should this be configurable?
-            const size_t timeout = 100;
-
-        } // namespace
-
         struct DirectoryWatcher::Private
         {
             Path path;
@@ -68,8 +61,9 @@ namespace djv
         void DirectoryWatcher::_init(const std::shared_ptr<Context>& context)
         {
             std::weak_ptr<Context> weakContext = context;
+            const auto timeout = Timer::getValue(Timer::Value::Medium);
             _p->thread = std::thread(
-                [this, weakContext]
+                [this, weakContext, timeout]
             {
                 DJV_PRIVATE_PTR();
                 Path path;
