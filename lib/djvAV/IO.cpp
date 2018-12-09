@@ -51,109 +51,64 @@ namespace djv
             {}
 
             VideoInfo::VideoInfo(const Pixel::Info & info, const Speed & speed, Duration duration) :
-                _info(info),
-                _speed(speed),
-                _duration(duration)
+                info(info),
+                speed(speed),
+                duration(duration)
             {}
-
-            void VideoInfo::setInfo(const Pixel::Info & info)
-            {
-                _info = info;
-            }
-
-            void VideoInfo::setSpeed(const Speed & speed)
-            {
-                _speed = speed;
-            }
-
-            void VideoInfo::setDuration(Duration duration)
-            {
-                _duration = duration;
-            }
 
             bool VideoInfo::operator == (const VideoInfo & other) const
             {
-                return _info == other._info && _speed == other._speed && _duration == other._duration;
+                return info == other.info && speed == other.speed && duration == other.duration;
             }
 
             AudioInfo::AudioInfo()
             {}
 
             AudioInfo::AudioInfo(const Audio::DataInfo & info, Duration duration) :
-                _info(info),
-                _duration(duration)
+                info(info),
+                duration(duration)
             {}
-
-            void AudioInfo::setInfo(const Audio::DataInfo & info)
-            {
-                _info = info;
-            }
-
-            void AudioInfo::setDuration(Duration duration)
-            {
-                _duration = duration;
-            }
 
             bool AudioInfo::operator == (const AudioInfo & other) const
             {
-                return _info == other._info && _duration == other._duration;
+                return info == other.info && duration == other.duration;
             }
 
             Info::Info()
             {}
 
             Info::Info(const std::string & fileName, const VideoInfo & video, const AudioInfo & audio) :
-                _fileName(fileName)
+                fileName(fileName)
             {
-                _video.push_back(video);
-                _audio.push_back(audio);
+                this->video.push_back(video);
+                this->audio.push_back(audio);
             }
 
             Info::Info(const std::string & fileName, const std::vector<VideoInfo> & video, const std::vector<AudioInfo> & audio) :
-                _fileName(fileName),
-                _video(video),
-                _audio(audio)
+                fileName(fileName),
+                video(video),
+                audio(audio)
             {}
-
-            void Info::setFileName(const std::string & value)
-            {
-                _fileName = value;
-            }
 
             void Info::setVideo(const VideoInfo & info)
             {
-                _video.clear();
-                _video.push_back(info);
-            }
-
-            void Info::setVideo(const std::vector<VideoInfo> & info)
-            {
-                _video = info;
+                video.clear();
+                video.push_back(info);
             }
 
             void Info::setAudio(const AudioInfo & info)
             {
-                _audio.clear();
-                _audio.push_back(info);
-            }
-
-            void Info::setAudio(const std::vector<AudioInfo> & info)
-            {
-                _audio = info;
-            }
-
-            void Info::setTags(const Tags & tags)
-            {
-                _tags = tags;
+                audio.clear();
+                audio.push_back(info);
             }
 
             bool Info::operator == (const Info & other) const
             {
                 return
-                    _fileName == other._fileName &&
-                    _video == other._video &&
-                    _audio == other._audio &&
-                    _tags == other._tags;
+                    fileName == other.fileName &&
+                    video == other.video &&
+                    audio == other.audio &&
+                    tags == other.tags;
             }
 
             Queue::Queue()

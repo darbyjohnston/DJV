@@ -98,7 +98,10 @@ namespace djv
         DrivesModel::~DrivesModel()
         {
             _p->running = false;
-            _p->thread.join();
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
         }
 
         std::shared_ptr<DrivesModel> DrivesModel::create(const std::shared_ptr<Context>& context)

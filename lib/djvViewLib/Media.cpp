@@ -139,17 +139,17 @@ namespace djv
                         p.infoTimer->stop();
                         auto info = p.infoFuture.get();
                         AV::Duration duration = 0;
-                        const auto & video = info.getVideo();
+                        const auto & video = info.video;
                         if (video.size())
                         {
                             p.videoInfo = video[0];
-                            duration = std::max(duration, video[0].getDuration());
+                            duration = std::max(duration, video[0].duration);
                         }
-                        const auto & audio = info.getAudio();
+                        const auto & audio = info.audio;
                         if (audio.size())
                         {
                             p.audioInfo = audio[0];
-                            duration = std::max(duration, audio[0].getDuration());
+                            duration = std::max(duration, audio[0].duration);
                         }
                         p.info->setIfChanged(info);
                         p.duration->setIfChanged(duration);
@@ -314,9 +314,9 @@ namespace djv
                         alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
                         AVRational r;
                         r.num = 1;
-                        r.den = static_cast<int>(p.audioInfo.getInfo().getSampleRate());
+                        r.den = static_cast<int>(p.audioInfo.info.sampleRate);
                         auto time = p.timeOffset + av_rescale_q(
-                            (p.queuedBytes + offset) / AV::Audio::getByteCount(p.audioInfo.getInfo().getType()),
+                            (p.queuedBytes + offset) / AV::Audio::getByteCount(p.audioInfo.info.type),
                             r,
                             AV::IO::FFmpeg::getTimeBaseQ());
                         p.currentTime->setIfChanged(time);
@@ -397,10 +397,10 @@ namespace djv
                     p.alBuffers.pop_back();
                     alBufferData(
                         buffer,
-                        AV::Audio::getALType(info.getChannelCount(), info.getType()),
+                        AV::Audio::getALType(info.channelCount, info.type),
                         data->getData(),
                         data->getByteCount(),
-                        static_cast<ALsizei>(info.getSampleRate()));
+                        static_cast<ALsizei>(info.sampleRate));
                     alSourceQueueBuffers(p.alSource, 1, &buffer);
                 }
             }

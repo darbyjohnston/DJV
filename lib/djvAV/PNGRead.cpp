@@ -205,7 +205,7 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     auto out = Image::create(p.info);
-                    for (int y = 0; y < p.info.getHeight(); ++y)
+                    for (int y = 0; y < p.info.size.y; ++y)
                     {
                         if (!pngScanline(p.png, out->getData(y)))
                         {

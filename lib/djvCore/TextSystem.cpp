@@ -192,7 +192,12 @@ namespace djv
         {}
 
         TextSystem::~TextSystem()
-        {}
+        {
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
+        }
 
         std::shared_ptr<TextSystem> TextSystem::create(const std::shared_ptr<Context> & context)
         {
@@ -247,7 +252,10 @@ namespace djv
         void TextSystem::_exit()
         {
             ISystem::_exit();
-            _p->thread.join();
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
         }
 
         void TextSystem::_readText()

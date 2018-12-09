@@ -94,25 +94,25 @@ private:
                 auto info = read->getInfo().get();
                 std::cout << fileName << std::endl;
                 size_t i = 0;
-                for (const auto & video : info.getVideo())
+                for (const auto & video : info.video)
                 {
                     std::cout << "    Video track " << i << ":" << std::endl;
-                    std::cout << "        Name: " << video.getInfo().getName() << std::endl;
-                    std::cout << "        Size: " << video.getInfo().getSize() << std::endl;
-                    std::cout << "        Aspect ratio: " << video.getInfo().getAspectRatio() << std::endl;
-                    std::cout << "        Type: " << video.getInfo().getType() << std::endl;
-                    std::cout << "        Speed: " << AV::Speed::speedToFloat(video.getSpeed()) << std::endl;
-                    std::cout << "        Duration: " << AV::timestampToSeconds(video.getDuration()) << std::endl;
+                    std::cout << "        Name: " << video.info.name << std::endl;
+                    std::cout << "        Size: " << video.info.size << std::endl;
+                    std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
+                    std::cout << "        Type: " << video.info.type << std::endl;
+                    std::cout << "        Speed: " << AV::Speed::speedToFloat(video.speed) << std::endl;
+                    std::cout << "        Duration: " << AV::timestampToSeconds(video.duration) << std::endl;
                     ++i;
                 }
                 i = 0;
-                for (const auto & audio : info.getAudio())
+                for (const auto & audio : info.audio)
                 {
                     std::cout << "    Audio track " << i << ":" << std::endl;
-                    std::cout << "        Channels: " << audio.getInfo().getChannelCount() << std::endl;
-                    std::cout << "        Type: " << audio.getInfo().getType() << std::endl;
-                    std::cout << "        Sample rate: " << audio.getInfo().getSampleRate() << std::endl;
-                    std::cout << "        Duration: " << AV::timestampToSeconds(audio.getDuration()) << std::endl;
+                    std::cout << "        Channels: " << audio.info.channelCount << std::endl;
+                    std::cout << "        Type: " << audio.info.type << std::endl;
+                    std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
+                    std::cout << "        Duration: " << AV::timestampToSeconds(audio.duration) << std::endl;
                     ++i;
                 }
             }

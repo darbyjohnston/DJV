@@ -64,9 +64,9 @@ namespace djv
                 glFuncs->glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
-                    Texture::getInternalFormat(_info.getType()),
-                    _info.getWidth(),
-                    _info.getHeight(),
+                    Texture::getInternalFormat(_info.type),
+                    _info.size.x,
+                    _info.size.y,
                     0,
                     _info.getGLFormat(),
                     _info.getGLType(),

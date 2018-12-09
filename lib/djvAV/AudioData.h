@@ -43,18 +43,14 @@ namespace djv
                 inline DataInfo();
                 DataInfo(size_t channelCount, Type, size_t sampleRate);
 
-                inline size_t getChannelCount() const;
-                inline Type getType() const;
-                inline size_t getSampleRate() const;
-                inline bool isValid() const;
+                size_t channelCount = 0;
+                Type   type = Audio::Type::None;
+                size_t sampleRate = 0;
+                
+                inline bool DataInfo::isValid() const;
 
                 bool operator == (const DataInfo &) const;
                 bool operator != (const DataInfo &) const;
-
-            private:
-                size_t _channelCount = 0;
-                Type   _type = Audio::Type::None;
-                size_t _sampleRate = 0;
             };
 
             class Data

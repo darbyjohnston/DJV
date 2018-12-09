@@ -179,7 +179,10 @@ namespace djv
 
             ISequenceRead::~ISequenceRead()
             {
-                _p->thread.join();
+                if (_p->thread.joinable())
+                {
+                    _p->thread.join();
+                }
             }
 
             std::future<Info> ISequenceRead::getInfo()
@@ -318,7 +321,7 @@ namespace djv
                     }
                     else
                     {
-                        msleep(timeout);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
                     }
                 }
                 _exit();

@@ -99,9 +99,9 @@ namespace djv
                         png_set_IHDR(
                             png,
                             *pngInfo,
-                            info.getWidth(),
-                            info.getHeight(),
-                            static_cast<int>(Pixel::getBitDepth(info.getType())),
+                            info.size.x,
+                            info.size.y,
+                            static_cast<int>(Pixel::getBitDepth(info.type)),
                             colorType,
                             PNG_INTERLACE_NONE,
                             PNG_COMPRESSION_TYPE_DEFAULT,
@@ -117,7 +117,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     p.fileName = fileName;
 
-                    const auto & videoInfo = info.getVideo();
+                    const auto & videoInfo = info.video;
                     if (!videoInfo.size())
                     {
                         std::stringstream s;
@@ -125,7 +125,7 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Type pixelType = Pixel::Type::None;
-                    switch (videoInfo[0].getInfo().getType())
+                    switch (videoInfo[0].info.type)
                     {
                     case Pixel::Type::L_U8:
                     case Pixel::Type::L_U16:
@@ -134,7 +134,7 @@ namespace djv
                     case Pixel::Type::RGB_U8:
                     case Pixel::Type::RGB_U16:
                     case Pixel::Type::RGBA_U8:
-                    case Pixel::Type::RGBA_U16: pixelType = videoInfo[0].getInfo().getType(); break;
+                    case Pixel::Type::RGBA_U16: pixelType = videoInfo[0].info.type; break;
                     case Pixel::Type::L_U32:
                     case Pixel::Type::L_F16:
                     case Pixel::Type::L_F32:    pixelType = Pixel::Type::L_U16; break;
@@ -155,7 +155,7 @@ namespace djv
                         s << pluginName << " cannot write: " << fileName;
                         throw std::runtime_error(s.str());
                     }
-                    p.info = Pixel::Info(videoInfo[0].getInfo().getSize(), pixelType);
+                    p.info = Pixel::Info(videoInfo[0].info.size, pixelType);
 
                     p.png = png_create_write_struct(
                         PNG_LIBPNG_VER_STRING,
@@ -181,7 +181,7 @@ namespace djv
                         s << pluginName << " cannot open: " << fileName << ": " << p.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
-                    if (Pixel::getBitDepth(p.info.getType()) > 8 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
+                    if (Pixel::getBitDepth(p.info.type) > 8 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
                     {
                         png_set_swap(p.png);
                     }
@@ -220,7 +220,7 @@ namespace djv
                         std::shared_ptr<Pixel::Data> pixelData = image;
                         if (pixelData->getInfo() != p.info)
                         {
-                            pixelData = p.convert->process(pixelData, p.info.getSize(), p.info.getType());
+                            pixelData = p.convert->process(pixelData, p.info);
                         }
 
                         const auto & size = pixelData->getSize();

@@ -139,7 +139,7 @@ namespace djv
 
             //! \bug [1.0 S] It seems on OSX that the "Context::_p" pointer is getting
             //! set to NULL before the pointers are getting reset. So
-            //! unfortunately we need to manually reset the pointer here.
+            //! unfortunately we need to manually reset the pointer here?
             _p->coreSystems.reset();
         }
 

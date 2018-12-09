@@ -131,7 +131,7 @@ namespace djv
                             }
 
                             Info info;
-                            info.setFileName(fileName);
+                            info.fileName = fileName;
 
                             if (p.avVideoStream != -1)
                             {
@@ -209,8 +209,8 @@ namespace djv
                                 if (auto context = _context.lock())
                                 {
                                     std::stringstream ss;
-                                    ss << fileName << ", image size: " << pixelDataInfo.getSize() << std::endl;
-                                    ss << fileName << ", pixel type: " << pixelDataInfo.getType() << std::endl;
+                                    ss << fileName << ", image size: " << pixelDataInfo.size << std::endl;
+                                    ss << fileName << ", pixel type: " << pixelDataInfo.type << std::endl;
                                     ss << fileName << ", duration: " << duration << std::endl;
                                     ss << fileName << ", speed: " << speed << std::endl;
                                     context->log("djv::AV::IO::FFmpeg::Read", ss.str());
@@ -441,7 +441,10 @@ namespace djv
 
                 Read::~Read()
                 {
-                    _p->thread.join();
+                    if (_p->thread.joinable())
+                    {
+                        _p->thread.join();
+                    }
                 }
 
                 std::shared_ptr<Read> Read::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
@@ -499,7 +502,7 @@ namespace djv
 
                         if (!seek)
                         {
-                            auto image = Image::create(p.videoInfo.getInfo());
+                            auto image = Image::create(p.videoInfo.info);
                             av_image_fill_arrays(
                                 p.avFrameRgb->data,
                                 p.avFrameRgb->linesize,
@@ -553,8 +556,8 @@ namespace djv
 
                         if (!seek)
                         {
-                            const auto & info = p.audioInfo.getInfo();
-                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.getChannelCount());
+                            const auto & info = p.audioInfo.info;
+                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.channelCount);
                             switch (p.avCodecParameters[p.avAudioStream]->format)
                             {
                             case AV_SAMPLE_FMT_U8:
@@ -568,7 +571,7 @@ namespace djv
                             case AV_SAMPLE_FMT_S32P:
                             case AV_SAMPLE_FMT_FLTP:
                             {
-                                const size_t channelCount = info.getChannelCount();
+                                const size_t channelCount = info.channelCount;
                                 const float ** c = new const float * [channelCount];
                                 for (size_t i = 0; i < channelCount; ++i)
                                 {

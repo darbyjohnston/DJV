@@ -147,7 +147,12 @@ namespace djv
         {}
 
         LogSystem::~LogSystem()
-        {}
+        {
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
+        }
         
         std::shared_ptr<LogSystem> LogSystem::create(const Path& logFile, const std::shared_ptr<Context>& context)
         {
@@ -178,7 +183,10 @@ namespace djv
         {
             ISystem::_exit();
             _p->running = false;
-            _p->thread.join();
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
         }
 
         void LogSystem::_writeMessages()

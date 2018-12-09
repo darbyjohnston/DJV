@@ -36,24 +36,9 @@ namespace djv
             inline DataInfo::DataInfo()
             {}
 
-            inline size_t DataInfo::getChannelCount() const
-            {
-                return _channelCount;
-            }
-
-            inline Type DataInfo::getType() const
-            {
-                return _type;
-            }
-
-            inline size_t DataInfo::getSampleRate() const
-            {
-                return _sampleRate;
-            }
-
             inline bool DataInfo::isValid() const
             {
-                return _type != Type::None;
+                return type != Type::None;
             }
 
             inline const DataInfo & Data::getInfo() const
@@ -66,17 +51,17 @@ namespace djv
 
             inline size_t Data::getChannelCount() const
             {
-                return _info.getChannelCount();
+                return _info.channelCount;
             }
 
             inline Type Data::getType() const
             {
-                return _info.getType();
+                return _info.type;
             }
 
             inline size_t Data::getSampleRate() const
             {
-                return _info.getSampleRate();
+                return _info.sampleRate;
             }
 
             inline size_t Data::getSampleCount() const
@@ -91,7 +76,7 @@ namespace djv
 
             inline size_t Data::getByteCount() const
             {
-                return _sampleCount * Audio::getByteCount(_info.getType());
+                return _sampleCount * Audio::getByteCount(_info.type);
             }
 
             inline uint8_t * Data::getData()

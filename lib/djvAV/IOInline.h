@@ -33,51 +33,6 @@ namespace djv
     {
         namespace IO
         {
-            inline const Pixel::Info & VideoInfo::getInfo() const
-            {
-                return _info;
-            }
-
-            inline const Speed & VideoInfo::getSpeed() const
-            {
-                return _speed;
-            }
-
-            inline Duration VideoInfo::getDuration() const
-            {
-                return _duration;
-            }
-
-            inline const Audio::DataInfo & AudioInfo::getInfo() const
-            {
-                return _info;
-            }
-
-            inline Duration AudioInfo::getDuration() const
-            {
-                return _duration;
-            }
-
-            inline const std::string & Info::getFileName() const
-            {
-                return _fileName;
-            }
-
-            inline const std::vector<VideoInfo> & Info::getVideo() const
-            {
-                return _video;
-            }
-
-            inline const std::vector<AudioInfo> & Info::getAudio() const
-            {
-                return _audio;
-            }
-
-            inline const Tags & Info::getTags() const
-            {
-                return _tags;
-            }
-
             inline std::mutex & Queue::getMutex()
             {
                 return _mutex;

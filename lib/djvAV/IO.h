@@ -59,20 +59,11 @@ namespace djv
                 VideoInfo();
                 VideoInfo(const Pixel::Info &, const Speed & = Speed(), Duration duration = 0);
 
-                inline const Pixel::Info & getInfo() const;
-                inline const Speed & getSpeed() const;
-                inline Duration getDuration() const;
-
-                void setInfo(const Pixel::Info &);
-                void setSpeed(const Speed &);
-                void setDuration(Duration);
+                Pixel::Info info;
+                Speed speed;
+                Duration duration = 0;
 
                 bool operator == (const VideoInfo &) const;
-
-            private:
-                Pixel::Info _info;
-                Speed _speed;
-                Duration _duration = 0;
             };
 
             //! This class provides audio I/O information.
@@ -82,17 +73,10 @@ namespace djv
                 AudioInfo();
                 AudioInfo(const Audio::DataInfo &, Duration duration = 0);
 
-                inline const Audio::DataInfo & getInfo() const;
-                inline Duration getDuration() const;
-
-                void setInfo(const Audio::DataInfo &);
-                void setDuration(Duration);
+                Audio::DataInfo info;
+                Duration duration = 0;
 
                 bool operator == (const AudioInfo &) const;
-
-            private:
-                Audio::DataInfo _info;
-                Duration _duration   = 0;
             };
 
             //! This class provides I/O information.
@@ -103,25 +87,15 @@ namespace djv
                 Info(const std::string & fileName, const VideoInfo &, const AudioInfo &);
                 Info(const std::string & fileName, const std::vector<VideoInfo> &, const std::vector<AudioInfo> &);
 
-                inline const std::string & getFileName() const;
-                inline const std::vector<VideoInfo> & getVideo() const;
-                inline const std::vector<AudioInfo> & getAudio() const;
-                inline const Tags & getTags() const;
+                std::string fileName;
+                std::vector<VideoInfo> video;
+                std::vector<AudioInfo> audio;
+                Tags tags;
 
-                void setFileName(const std::string &);
                 void setVideo(const VideoInfo &);
-                void setVideo(const std::vector<VideoInfo> &);
                 void setAudio(const AudioInfo &);
-                void setAudio(const std::vector<AudioInfo> &);
-                void setTags(const Tags &);
 
                 bool operator == (const Info &) const;
-
-            private:
-                std::string _fileName;
-                std::vector<VideoInfo> _video;
-                std::vector<AudioInfo> _audio;
-                Tags _tags;
             };
 
             //! This typedef provides a video I/O frame.

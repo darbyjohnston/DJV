@@ -31,7 +31,11 @@
 
 #include <djvCore/String.h>
 
-#include <memory>
+#if defined(DJV_PLATFORM_WINDOWS)
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#endif // DJV_PLATFORM_WINDOWS
 
 namespace djv
 {

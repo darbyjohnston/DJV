@@ -236,7 +236,12 @@ namespace djv
         {}
 
         FontSystem::~FontSystem()
-        {}
+        {
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
+        }
 
         std::shared_ptr<FontSystem> FontSystem::create(const glm::vec2& dpi, const std::shared_ptr<Context>& context)
         {
@@ -329,7 +334,10 @@ namespace djv
                 p.glyphsQueue.clear();
             }
             p.running = false;
-            p.thread.join();
+            if (_p->thread.joinable())
+            {
+                p.thread.join();
+            }
         }
 
         void FontSystem::_initFreeType()
@@ -621,10 +629,9 @@ namespace djv
                                     glyph->font = request.font;
                                     Pixel::Info info = Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8);
                                     auto data = Pixel::Data::create(Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8));
-                                    const auto & size = info.getSize();
-                                    for (int y = 0; y < size.y; ++y)
+                                    for (int y = 0; y < info.size.y; ++y)
                                     {
-                                        memcpy(data->getData(size.y - 1 - y), bitmap->bitmap.buffer + y * size.x, size.x);
+                                        memcpy(data->getData(info.size.y - 1 - y), bitmap->bitmap.buffer + y * info.size.x, info.size.x);
                                     }
                                     glyph->pixelData = data;
                                     glyph->offset = glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top);

@@ -38,17 +38,17 @@ namespace djv
         namespace Audio
         {
             DataInfo::DataInfo(size_t channelCount, Type type, size_t sampleRate) :
-                _channelCount(channelCount),
-                _type(type),
-                _sampleRate(sampleRate)
+                channelCount(channelCount),
+                type(type),
+                sampleRate(sampleRate)
             {}
 
             bool DataInfo::operator == (const DataInfo & other) const
             {
                 return
-                    _channelCount == other._channelCount &&
-                    _type == other._type &&
-                    _sampleRate == other._sampleRate;
+                    channelCount == other.channelCount &&
+                    type == other.type &&
+                    sampleRate == other.sampleRate;
             }
 
             bool DataInfo::operator != (const DataInfo & other) const

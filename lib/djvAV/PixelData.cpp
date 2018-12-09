@@ -35,36 +35,6 @@ namespace djv
     {
         namespace Pixel
         {
-            void Mirror::setX(bool value)
-            {
-                _x = value;
-            }
-
-            void Mirror::setY(bool value)
-            {
-                _y = value;
-            }
-
-            void Layout::setMirror(const Mirror & value)
-            {
-                _mirror = value;
-            }
-
-            void Layout::setAlignment(GLint value)
-            {
-                _alignment = value;
-            }
-
-            void Layout::setEndian(Core::Memory::Endian value)
-            {
-                _endian = value;
-            }
-
-            void Info::setName(const std::string & name)
-            {
-                _name = name;
-            }
-
             void Data::_init(const Info & info)
             {
                 _info = info;
@@ -101,12 +71,11 @@ namespace djv
                 {
                     if (GL_UNSIGNED_INT_10_10_10_2 == _info.getGLType())
                     {
-                        const auto & size = _info.getSize();
-                        for (int y = 0; y < size.y; ++y)
+                        for (int y = 0; y < _info.size.y; ++y)
                         {
                             const U10_S * p = reinterpret_cast<const U10_S*>(getData(y));
                             const U10_S * otherP = reinterpret_cast<const U10_S*>(other.getData(y));
-                            for (int x = 0; x < size.x; ++x, ++p, ++otherP)
+                            for (int x = 0; x < _info.size.x; ++x, ++p, ++otherP)
                             {
                                 if (*p != *otherP)
                                 {

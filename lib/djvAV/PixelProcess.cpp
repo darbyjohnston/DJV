@@ -51,6 +51,7 @@ namespace djv
             struct Convert::Private
             {
                 glm::ivec2 size;
+                AV::Pixel::Mirror mirror;
                 std::shared_ptr<OpenGL::OffscreenBuffer> offscreenBuffer;
                 std::shared_ptr<AV::OpenGL::Texture> texture;
                 std::shared_ptr<AV::OpenGL::VBO> vbo;
@@ -62,14 +63,6 @@ namespace djv
             void Convert::_init(const std::shared_ptr<Core::Context> & context)
             {
                 DJV_PRIVATE_PTR();
-
-                AV::Shape::Square square;
-                AV::TriangleMesh mesh;
-                square.triangulate(mesh);
-                p.vbo = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                p.vbo->copy(AV::OpenGL::VBO::convert(mesh, p.vbo->getType()));
-                p.vao = AV::OpenGL::VAO::create(p.vbo->getType(), p.vbo->getID());
-
                 p.shader = AV::OpenGL::Shader::create(AV::Shader::create(
                     context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelConvertVertex.glsl"),
                     context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelConvertFragment.glsl")));
@@ -89,9 +82,8 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Data> Convert::process(const std::shared_ptr<Data> & data, const glm::ivec2 & size, Type type)
+            std::shared_ptr<Data> Convert::process(const std::shared_ptr<Data> & data, const Info & info)
             {
-                const auto info = Info(size, type);
                 auto out = Data::create(info);
 
                 DJV_PRIVATE_PTR();
@@ -111,38 +103,67 @@ namespace djv
                 p.shader->bind();
                 p.shader->setUniform("textureSampler", 0);
                 
-                if (size != p.size)
+                if (info.size != p.size)
                 {
-                    p.size = size;
+                    p.size = info.size;
                     glm::mat4x4 modelMatrix(1);
                     modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
-                    modelMatrix = glm::scale(modelMatrix, glm::vec3(size.x, 0.f, size.y));
+                    modelMatrix = glm::scale(modelMatrix, glm::vec3(info.size.x, 0.f, info.size.y));
                     modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
                     glm::mat4x4 viewMatrix(1);
                     glm::mat4x4 projectionMatrix(1);
                     projectionMatrix = glm::ortho(
                         0.f,
-                        static_cast<float>(size.x),
+                        static_cast<float>(info.size.x),
                         0.f,
-                        static_cast<float>(size.y),
+                        static_cast<float>(info.size.y),
                         -1.f,
                         1.f);
                     p.mvp = projectionMatrix * viewMatrix * modelMatrix;
                 }
                 p.shader->setUniform("transform.mvp", p.mvp);
 
+                if (!p.vbo || (p.vbo && info.layout.mirror != p.mirror))
+                {
+                    p.mirror = info.layout.mirror;
+                    AV::Shape::Square square;
+                    AV::TriangleMesh mesh;
+                    square.triangulate(mesh);
+                    if (p.mirror.x)
+                    {
+                        auto tmp = mesh.t[0].x;
+                        mesh.t[0].x = mesh.t[1].x;
+                        mesh.t[1].x = tmp;
+                        tmp = mesh.t[2].x;
+                        mesh.t[2].x = mesh.t[3].x;
+                        mesh.t[3].x = tmp;
+                    }
+                    if (p.mirror.y)
+                    {
+                        auto tmp = mesh.t[0].y;
+                        mesh.t[0].y = mesh.t[2].y;
+                        mesh.t[2].y = tmp;
+                        tmp = mesh.t[1].y;
+                        mesh.t[1].y = mesh.t[3].y;
+                        mesh.t[3].y = tmp;
+                    }
+                    p.vbo = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                    p.vbo->copy(AV::OpenGL::VBO::convert(mesh, p.vbo->getType()));
+                    p.vao = AV::OpenGL::VAO::create(p.vbo->getType(), p.vbo->getID());
+                }
+                p.vao->bind();
+
                 auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glViewport(0, 0, size.x, size.y);
+                glFuncs->glViewport(0, 0, info.size.x, info.size.y);
                 glFuncs->glClearColor(0.f, 0.f, 0.f, 0.f);
                 glFuncs->glClear(GL_COLOR_BUFFER_BIT);
                 glFuncs->glActiveTexture(GL_TEXTURE0);
 
-                p.vao->bind();
                 p.vao->draw(0, 6);
 
                 glFuncs->glPixelStorei(GL_PACK_ALIGNMENT, 1);
                 glFuncs->glReadPixels(
-                    0, 0, size.x, size.y,
+                    0, 0, info.size.x, info.size.y,
                     info.getGLFormat(),
                     info.getGLType(),
                     out->getData());

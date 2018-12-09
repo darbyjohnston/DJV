@@ -189,7 +189,12 @@ namespace djv
         {}
 
         IconSystem::~IconSystem()
-        {}
+        {
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
+        }
 
         std::shared_ptr<IconSystem> IconSystem::create(const std::shared_ptr<Context>& context)
         {
@@ -232,7 +237,10 @@ namespace djv
                 p.imageQueue.clear();
             }
             p.running = false;
-            p.thread.join();
+            if (_p->thread.joinable())
+            {
+                p.thread.join();
+            }
         }
 
         void IconSystem::_handleInfoRequests()
@@ -283,10 +291,10 @@ namespace djv
                     {
                         Pixel::Info info;
                         auto ioInfo = i->infoFuture.get();
-                        auto videoInfo = ioInfo.getVideo();
+                        auto & videoInfo = ioInfo.video;
                         if (videoInfo.size())
                         {
-                            info = videoInfo[0].getInfo();
+                            info = videoInfo[0].info;
                         }
                         p.infoCache.add(i->path, info);
                         i->promise.set_value(info);

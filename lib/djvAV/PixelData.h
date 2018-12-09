@@ -49,18 +49,11 @@ namespace djv
                 inline Mirror();
                 inline Mirror(bool x, bool y);
 
-                inline bool getX() const;
-                inline bool getY() const;
-
-                void setX(bool);
-                void setY(bool);
+                bool x = false;
+                bool y = false;
 
                 inline bool operator == (const Mirror &) const;
                 inline bool operator != (const Mirror &) const;
-
-            private:
-                bool _x = false;
-                bool _y = false;
             };
 
             class Layout
@@ -71,21 +64,12 @@ namespace djv
                 inline Layout();
                 inline Layout(const Mirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
-                inline const Mirror & getMirror() const;
-                inline GLint getAlignment() const;
-                inline Core::Memory::Endian getEndian() const;
-
-                void setMirror(const Mirror &);
-                void setAlignment(GLint);
-                void setEndian(Core::Memory::Endian);
+                Mirror mirror;
+                GLint alignment = 1;
+                Core::Memory::Endian endian = Core::Memory::getEndian();
 
                 inline bool operator == (const Layout &) const;
                 inline bool operator != (const Layout &) const;
-
-            private:
-                Mirror _mirror;
-                GLint _alignment = 1;
-                Core::Memory::Endian _endian = Core::Memory::getEndian();
             };
 
             class Info
@@ -97,30 +81,21 @@ namespace djv
                 inline Info(const glm::ivec2 &, Type, const Layout & = Layout());
                 inline Info(int width, int height, Type, const Layout & = Layout());
 
-                inline const std::string & getName() const;
-                inline const glm::ivec2 & getSize() const;
-                inline int getWidth() const;
-                inline int getHeight() const;
+                std::string name;
+                glm::ivec2 size = glm::ivec2(0, 0);
+                Type type;
+                Layout layout;
+
                 inline float getAspectRatio() const;
-                inline Type getType() const;
                 inline GLenum getGLFormat() const;
                 inline GLenum getGLType() const;
-                inline const Layout & getLayout() const;
                 inline bool isValid() const;
                 inline size_t getPixelByteCount() const;
                 inline size_t getScanlineByteCount() const;
                 inline size_t getDataByteCount() const;
 
-                void setName(const std::string &);
-
                 inline bool operator == (const Info &) const;
                 inline bool operator != (const Info &) const;
-
-            private:
-                std::string _name;
-                glm::ivec2 _size = glm::ivec2(0, 0);
-                Type _type;
-                Layout _layout;
             };
 
             class Data

@@ -77,7 +77,7 @@ namespace djv
                 void Write::_open(const std::string & fileName, const Info & info)
                 {
                     DJV_PRIVATE_PTR();
-                    const auto & videoInfo = info.getVideo();
+                    const auto & videoInfo = info.video;
                     if (!videoInfo.size())
                     {
                         std::stringstream s;
@@ -85,12 +85,12 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Type pixelType = Pixel::Type::None;
-                    switch (videoInfo[0].getInfo().getType())
+                    switch (videoInfo[0].info.type)
                     {
                     case Pixel::Type::L_U8:
                     case Pixel::Type::L_U16:
                     case Pixel::Type::RGB_U8:
-                    case Pixel::Type::RGB_U16:  pixelType = videoInfo[0].getInfo().getType(); break;
+                    case Pixel::Type::RGB_U16:  pixelType = videoInfo[0].info.type; break;
                     case Pixel::Type::LA_U8:    pixelType = Pixel::Type::L_U8; break;
                     case Pixel::Type::L_U32:
                     case Pixel::Type::L_F16:
@@ -116,8 +116,9 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
-                    layout.setEndian(p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian());
-                    p.info = Pixel::Info(videoInfo[0].getInfo().getSize(), pixelType, layout);
+                    layout.mirror.y = true;
+                    layout.endian = p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
+                    p.info = Pixel::Info(videoInfo[0].info.size, pixelType, layout);
 
                     p.io.open(fileName, Core::FileIO::Mode::Write);
                 }
@@ -130,11 +131,11 @@ namespace djv
                         std::shared_ptr<Pixel::Data> pixelData = image;
                         if (pixelData->getInfo() != p.info)
                         {
-                            pixelData = p.convert->process(pixelData, p.info.getSize(), p.info.getType());
+                            pixelData = p.convert->process(pixelData, p.info);
                         }
 
                         int ppmType = Data::ASCII == p.data ? 2 : 5;
-                        const size_t channelCount = Pixel::getChannelCount(p.info.getType());
+                        const size_t channelCount = Pixel::getChannelCount(p.info.type);
                         if (3 == channelCount)
                         {
                             ++ppmType;
@@ -144,10 +145,10 @@ namespace djv
                         p.io.write(magic, 3);
 
                         std::stringstream s;
-                        s << p.info.getWidth() << ' ' << p.info.getHeight();
+                        s << p.info.size.x << ' ' << p.info.size.y;
                         p.io.write(s.str());
                         p.io.writeU8('\n');
-                        const size_t bitDepth = Pixel::getBitDepth(p.info.getType());
+                        const size_t bitDepth = Pixel::getBitDepth(p.info.type);
                         const int maxValue = 8 == bitDepth ? 255 : 65535;
                         s = std::stringstream();
                         s << maxValue;
@@ -159,12 +160,12 @@ namespace djv
                         case Data::ASCII:
                         {
                             std::vector<uint8_t> scanline(p.info.getScanlineByteCount());
-                            for (int y = 0; y < p.info.getHeight(); ++y)
+                            for (int y = 0; y < p.info.size.y; ++y)
                             {
                                 const size_t size = writeASCII(
                                     pixelData->getData(y),
                                     reinterpret_cast<char*>(scanline.data()),
-                                    p.info.getWidth() * channelCount,
+                                    p.info.size.x * channelCount,
                                     bitDepth);
                                 p.io.write(scanline.data(), size);
                             }

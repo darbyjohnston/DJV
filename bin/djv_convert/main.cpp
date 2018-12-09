@@ -49,22 +49,26 @@ protected:
     void _init(int & argc, char ** argv)
     {
         Core::Context::_init(argc, argv);
-        
-        _parseArgs();
-        
+                
         auto system = AV::System::create(shared_from_this());
         auto io = getSystemT<AV::IO::System>();
         const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
+        _parseArgs();
 
         _queue = AV::IO::Queue::create();
         _read = io->read(argv[1], _queue);
-        const auto info = _read->getInfo().get();
-        AV::Duration duration = 0;
-        const auto & video = info.getVideo();
-        if (video.size())
+        auto info = _read->getInfo().get();
+        auto & video = info.video;
+        if (!video.size())
         {
-            duration = video[0].getDuration();
+            throw std::runtime_error(DJV_TEXT("Nothing to convert"));
         }
+        auto & videoInfo = video[0];
+        if (_resize)
+        {
+            video[0].info.size = *_resize;
+        }
+        const AV::Duration duration = videoInfo.duration;
 
         _statsTimer = Core::Timer::create(shared_from_this());
         _statsTimer->setRepeating(true);
@@ -120,7 +124,6 @@ private:
                     resize.y = std::stoi(*i);
                     i = args.erase(i);
                     _resize.reset(new glm::ivec2(resize));
-                    std::cout << resize << std::endl;
                 }
                 else
                 {
@@ -155,14 +158,14 @@ class Application : public QGuiApplication
 {
 public:
     Application(int & argc, char ** argv) :
-        QGuiApplication(argc, argv),
-        _context(Context::create(argc, argv))
+        QGuiApplication(argc, argv)
     {
+        _context = Context::create(argc, argv);
         _time = std::chrono::system_clock::now();
-        _timer = startTimer(Core::Timer::getValue(Core::Timer::Value::Fast), Qt::PreciseTimer);
+        _timer = startTimer(static_cast<int>(Core::Timer::getValue(Core::Timer::Value::Fast)), Qt::PreciseTimer);
     }
     
-    ~Application()
+    ~Application() override
     {
         _context->exit();
     }
@@ -197,9 +200,9 @@ int main(int argc, char ** argv)
     {
         return Application(argc, argv).exec();
     }
-    catch (const std::exception & error)
+    catch (const std::exception & e)
     {
-        std::cout << Core::format(error) << std::endl;
+        std::cout << Core::format(e) << std::endl;
     }
     return r;
 }

@@ -115,7 +115,8 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
-                    layout.setEndian(p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian());
+                    layout.mirror.y = true;
+                    layout.endian = p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
                     p.info = Pixel::Info(w, h, pixelType, layout);
                     return Info(fileName, VideoInfo(p.info, speed, duration), AudioInfo());
                 }
@@ -129,11 +130,11 @@ namespace djv
                     case Data::ASCII:
                     {
                         out = Image::create(p.info);
-                        const size_t channelCount = Pixel::getChannelCount(p.info.getType());
-                        const size_t bitDepth = Pixel::getBitDepth(p.info.getType());
-                        for (int y = 0; y < p.info.getHeight(); ++y)
+                        const size_t channelCount = Pixel::getChannelCount(p.info.type);
+                        const size_t bitDepth = Pixel::getBitDepth(p.info.type);
+                        for (int y = 0; y < p.info.size.y; ++y)
                         {
-                            readASCII(p.io, out->getData(y), p.info.getWidth() * channelCount, bitDepth);
+                            readASCII(p.io, out->getData(y), p.info.size.x * channelCount, bitDepth);
                         }
                         break;
                     }

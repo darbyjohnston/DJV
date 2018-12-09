@@ -143,7 +143,7 @@ namespace djv
                         std::chrono::milliseconds(0),
                         [this]
                     {
-                        return p.changed;
+                        return _p->changed;
                     }))
                     {
                         changed = true;
@@ -164,7 +164,10 @@ namespace djv
         DirectoryWatcher::~DirectoryWatcher()
         {
             _p->running = false;
-            _p->thread.join();
+            if (_p->thread.joinable())
+            {
+                _p->thread.join();
+            }
         }
 
         std::shared_ptr<DirectoryWatcher> DirectoryWatcher::create(const std::shared_ptr<Context>& context)
