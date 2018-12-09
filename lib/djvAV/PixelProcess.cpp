@@ -82,10 +82,8 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Data> Convert::process(const std::shared_ptr<Data> & data, const Info & info)
+            void Convert::process(const Data & data, const Info & info, Data & out)
             {
-                auto out = Data::create(info);
-
                 DJV_PRIVATE_PTR();
                 if (!p.offscreenBuffer || (p.offscreenBuffer && info != p.offscreenBuffer->getInfo()))
                 {
@@ -93,12 +91,12 @@ namespace djv
                 }
                 const OpenGL::OffscreenBufferBinding binding(p.offscreenBuffer);
 
-                if (!p.texture || (p.texture && data->getInfo() != p.texture->getInfo()))
+                if (!p.texture || (p.texture && data.getInfo() != p.texture->getInfo()))
                 {
-                    p.texture = OpenGL::Texture::create(data->getInfo());
+                    p.texture = OpenGL::Texture::create(data.getInfo());
                 }
                 p.texture->bind();
-                p.texture->copy(*data);
+                p.texture->copy(data);
 
                 p.shader->bind();
                 p.shader->setUniform("textureSampler", 0);
@@ -166,9 +164,7 @@ namespace djv
                     0, 0, info.size.x, info.size.y,
                     info.getGLFormat(),
                     info.getGLType(),
-                    out->getData());
-
-                return out;
+                    out.getData());
             }
 
 	    } // namespace Keycode

@@ -86,10 +86,9 @@ namespace djv
             if (!p.openGLContext->create())
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("Cannot create OpenGL context, found version ") <<
-                    p.openGLContext->format().majorVersion() << "." <<
-                    p.openGLContext->format().minorVersion();
-                throw Core::Error("djv::AV::System", ss.str());
+                ss << "djv::AV::System: " << DJV_TEXT("cannot create OpenGL context; found version") << " " <<
+                    p.openGLContext->format().majorVersion() << "." << p.openGLContext->format().minorVersion();
+                throw std::runtime_error(ss.str());
             }
 
             p.openGLContext->makeCurrent(p.offscreenSurface.data());
@@ -104,10 +103,9 @@ namespace djv
             if (!p.openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
             {
                 std::stringstream ss;
-                ss << DJV_TEXT("Cannot find OpenGL 3.3 functions, found version ") <<
-                    p.openGLContext->format().majorVersion() << "." <<
-                    p.openGLContext->format().minorVersion();
-                throw Core::Error("djv::AV::System", ss.str());
+                ss << "djv::AV::System: " << DJV_TEXT("cannot find OpenGL 3.3 functions; found version") << " " <<
+                    p.openGLContext->format().majorVersion() << "." << p.openGLContext->format().minorVersion();
+                throw std::runtime_error(ss.str());
             }
 
             p.openGLDebugLogger.reset(new QOpenGLDebugLogger);

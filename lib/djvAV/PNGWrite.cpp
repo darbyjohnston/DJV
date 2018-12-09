@@ -44,12 +44,6 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    std::string fileName;
-                    Pixel::Info info;
-                    FILE * f = nullptr;
-                    png_structp png = nullptr;
-                    png_infop pngInfo = nullptr;
-                    ErrorStruct pngError;
                     std::shared_ptr<Pixel::Convert> convert;
                 };
 
@@ -67,8 +61,24 @@ namespace djv
                     return out;
                 }
 
+                void Write::_start()
+                {
+                    if (auto context = _context.lock())
+                    {
+                        _p->convert = Pixel::Convert::create(context);
+                    }
+                }
+
                 namespace
                 {
+                    struct File
+                    {
+                        FILE * f = nullptr;
+                        png_structp png = nullptr;
+                        png_infop pngInfo = nullptr;
+                        ErrorStruct pngError;
+                    };
+
                     bool pngOpen(
                         FILE *              f,
                         png_structp         png,
@@ -110,90 +120,6 @@ namespace djv
                         return true;
                     }
 
-                } // namespace
-
-                void Write::_open(const std::string & fileName, const Info & info)
-                {
-                    DJV_PRIVATE_PTR();
-                    p.fileName = fileName;
-
-                    const auto & videoInfo = info.video;
-                    if (!videoInfo.size())
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot write: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
-                    Pixel::Type pixelType = Pixel::Type::None;
-                    switch (videoInfo[0].info.type)
-                    {
-                    case Pixel::Type::L_U8:
-                    case Pixel::Type::L_U16:
-                    case Pixel::Type::LA_U8:
-                    case Pixel::Type::LA_U16:
-                    case Pixel::Type::RGB_U8:
-                    case Pixel::Type::RGB_U16:
-                    case Pixel::Type::RGBA_U8:
-                    case Pixel::Type::RGBA_U16: pixelType = videoInfo[0].info.type; break;
-                    case Pixel::Type::L_U32:
-                    case Pixel::Type::L_F16:
-                    case Pixel::Type::L_F32:    pixelType = Pixel::Type::L_U16; break;
-                    case Pixel::Type::LA_U32:
-                    case Pixel::Type::LA_F16:
-                    case Pixel::Type::LA_F32:   pixelType = Pixel::Type::LA_U16; break;
-                    case Pixel::Type::RGB_U32:
-                    case Pixel::Type::RGB_F16:
-                    case Pixel::Type::RGB_F32:  pixelType = Pixel::Type::RGB_U16; break;
-                    case Pixel::Type::RGBA_U32:
-                    case Pixel::Type::RGBA_F16:
-                    case Pixel::Type::RGBA_F32: pixelType = Pixel::Type::RGBA_U16; break;
-                    default: break;
-                    }
-                    if (Pixel::Type::None == pixelType)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot write: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
-                    p.info = Pixel::Info(videoInfo[0].info.size, pixelType);
-
-                    p.png = png_create_write_struct(
-                        PNG_LIBPNG_VER_STRING,
-                        &p.pngError,
-                        djvPngError,
-                        djvPngWarning);
-                    if (!p.png)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName << ": " << p.pngError.msg;
-                        throw std::runtime_error(s.str());
-                    }
-                    p.f = Core::fopen(fileName.c_str(), "wb");
-                    if (!p.f)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
-                    if (!pngOpen(p.f, p.png, &p.pngInfo, p.info))
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName << ": " << p.pngError.msg;
-                        throw std::runtime_error(s.str());
-                    }
-                    if (Pixel::getBitDepth(p.info.type) > 8 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
-                    {
-                        png_set_swap(p.png);
-                    }
-
-                    if (auto context = _context.lock())
-                    {
-                        p.convert = Pixel::Convert::create(context);
-                    }
-                }
-
-                namespace
-                {
                     bool pngScanline(png_structp png, const uint8_t* in)
                     {
                         if (setjmp(png_jmpbuf(png)))
@@ -212,51 +138,94 @@ namespace djv
 
                 } // namespace
 
-                void Write::_write(const std::shared_ptr<Image> & image)
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image> & image)
                 {
-                    DJV_PRIVATE_PTR();
-                    if (auto context = _context.lock())
+                    Pixel::Type pixelType = Pixel::Type::None;
+                    switch (image->getType())
                     {
-                        std::shared_ptr<Pixel::Data> pixelData = image;
-                        if (pixelData->getInfo() != p.info)
-                        {
-                            pixelData = p.convert->process(pixelData, p.info);
-                        }
+                    case Pixel::Type::L_U8:
+                    case Pixel::Type::L_U16:
+                    case Pixel::Type::LA_U8:
+                    case Pixel::Type::LA_U16:
+                    case Pixel::Type::RGB_U8:
+                    case Pixel::Type::RGB_U16:
+                    case Pixel::Type::RGBA_U8:
+                    case Pixel::Type::RGBA_U16: pixelType = image->getType(); break;
+                    case Pixel::Type::L_U32:
+                    case Pixel::Type::L_F16:
+                    case Pixel::Type::L_F32:    pixelType = Pixel::Type::L_U16; break;
+                    case Pixel::Type::LA_U32:
+                    case Pixel::Type::LA_F16:
+                    case Pixel::Type::LA_F32:   pixelType = Pixel::Type::LA_U16; break;
+                    case Pixel::Type::RGB_U32:
+                    case Pixel::Type::RGB_F16:
+                    case Pixel::Type::RGB_F32:  pixelType = Pixel::Type::RGB_U16; break;
+                    case Pixel::Type::RGBA_U32:
+                    case Pixel::Type::RGBA_F16:
+                    case Pixel::Type::RGBA_F32: pixelType = Pixel::Type::RGBA_U16; break;
+                    default: break;
+                    }
+                    if (Pixel::Type::None == pixelType)
+                    {
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    const auto info = Pixel::Info(image->getSize(), pixelType);
 
-                        const auto & size = pixelData->getSize();
-                        for (int y = 0; y < size.y; ++y)
-                        {
-                            if (!pngScanline(p.png, pixelData->getData(y)))
-                            {
-                                std::stringstream s;
-                                s << pluginName << " cannot write: " << p.fileName << ": " << p.pngError.msg;
-                                throw std::runtime_error(s.str());
-                            }
-                        }
-                        if (!pngEnd(p.png, p.pngInfo))
+                    std::shared_ptr<Pixel::Data> pixelData = image;
+                    if (pixelData->getInfo() != info)
+                    {
+                        auto tmp = Pixel::Data::create(info);
+                        _p->convert->process(*pixelData, info, *tmp);
+                        pixelData = tmp;
+                    }
+
+                    File f;
+                    f.png = png_create_write_struct(
+                        PNG_LIBPNG_VER_STRING,
+                        &f.pngError,
+                        djvPngError,
+                        djvPngWarning);
+                    if (!f.png)
+                    {
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        throw std::runtime_error(s.str());
+                    }
+                    f.f = Core::fopen(fileName.c_str(), "wb");
+                    if (!f.f)
+                    {
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    if (!pngOpen(f.f, f.png, &f.pngInfo, info))
+                    {
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        throw std::runtime_error(s.str());
+                    }
+                    if (Pixel::getBitDepth(info.type) > 8 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
+                    {
+                        png_set_swap(f.png);
+                    }
+
+                    const auto & size = pixelData->getSize();
+                    for (int y = 0; y < size.y; ++y)
+                    {
+                        if (!pngScanline(f.png, pixelData->getData(y)))
                         {
                             std::stringstream s;
-                            s << pluginName << " cannot write: " << p.fileName << ": " << p.pngError.msg;
+                            s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName << ": " << f.pngError.msg;
                             throw std::runtime_error(s.str());
                         }
                     }
-                }
-
-                void Write::_close()
-                {
-                    DJV_PRIVATE_PTR();
-                    if (p.png || p.pngInfo)
+                    if (!pngEnd(f.png, f.pngInfo))
                     {
-                        png_destroy_write_struct(
-                            p.png ? &p.png : nullptr,
-                            p.pngInfo ? &p.pngInfo : nullptr);
-                        p.png = nullptr;
-                        p.pngInfo = nullptr;
-                    }
-                    if (p.f)
-                    {
-                        fclose(p.f);
-                        p.f = nullptr;
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName << ": " << f.pngError.msg;
+                        throw std::runtime_error(s.str());
                     }
                 }
 

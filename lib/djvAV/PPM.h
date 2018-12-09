@@ -88,20 +88,17 @@ namespace djv
                     Read();
 
                 public:
-                    ~Read();
-
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
                         const std::shared_ptr<Queue> &,
                         const std::shared_ptr<Core::Context> &);
 
                 protected:
-                    Info _open(const std::string &, const Speed &, Duration) override;
-                    std::shared_ptr<Image> _read() override;
-                    void _close() override;
+                    Info _readInfo(const std::string &) override;
+                    std::shared_ptr<Image> _readImage(const std::string &) override;
 
                 private:
-                    DJV_PRIVATE();
+                    Info _open(const std::string &, Core::FileIO &, Data &);
                 };
                 
                 class Write : public ISequenceWrite
@@ -123,9 +120,7 @@ namespace djv
 
                 protected:
                     void _start() override;
-                    void _open(const std::string & fileName, const Info &) override;
-                    void _write(const std::shared_ptr<Image> &) override;
-                    void _close() override;
+                    void _write(const std::string & fileName, const std::shared_ptr<Image> &) override;
                     void _exit() override;
 
                 private:

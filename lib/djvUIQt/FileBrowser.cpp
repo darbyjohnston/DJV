@@ -66,6 +66,8 @@ namespace djv
             _p->proxyModel->setSourceModel(_p->model);
 
             _p->listView = new QListView;
+            _p->listView->setIconSize(QSize(100, 100));
+            _p->listView->setUniformItemSizes(true);
             _p->listView->setDragDropMode(QAbstractItemView::DragOnly);
             _p->listView->setModel(_p->proxyModel);
 

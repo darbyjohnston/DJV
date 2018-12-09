@@ -31,9 +31,15 @@
 
 #include <djvUIQt/System.h>
 
+#include <djvAV/IO.h>
+#include <djvAV/IconSystem.h>
+#include <djvAV/Image.h>
+
+#include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/Timer.h>
 
 #include <QMimeData>
 #include <QPointer>
@@ -193,6 +199,15 @@ namespace djv
             std::vector<Core::FileInfo> fileInfoList;
             std::shared_ptr<Core::ListObserver<Core::FileInfo> > fileInfoObserver;
             QScopedPointer<FileBrowserHistory> history;
+            std::shared_ptr<AV::IconSystem> iconSystem;
+            struct Future
+            {
+                Core::FileInfo fileInfo;
+                std::future<std::shared_ptr<AV::Image> > future;
+            };
+            std::map<QPersistentModelIndex, Future> iconFutures;
+            Core::Cache<Core::FileInfo, QImage> icons;
+            int iconTimer = 0;
         };
 
         FileBrowserModel::FileBrowserModel(const std::shared_ptr<Core::Context> & context, QObject * parent) :
@@ -203,6 +218,7 @@ namespace djv
             _p->directoryModel = Core::DirectoryModel::create(context);
             _p->history.reset(new FileBrowserHistory);
             _p->history->setPath(_p->directoryModel->getPath()->get());
+            _p->iconSystem = context->getSystemT<AV::IconSystem>();
             connect(
                 _p->history.data(),
                 SIGNAL(pathChanged(const std::string &)),
@@ -223,6 +239,7 @@ namespace djv
                 _p->fileInfoList = list;
                 endResetModel();
             });
+            _p->iconTimer = startTimer(Core::Timer::getValue(Core::Timer::Value::Medium));
         }
 
         FileBrowserModel::~FileBrowserModel()
@@ -274,7 +291,30 @@ namespace djv
                         const auto & fileInfo = _p->fileInfoList[index.row()];
                         switch (fileInfo.getType())
                         {
-                        case Core::FileType::File: return system->getQStyle()->standardIcon(QStyle::SP_FileIcon);
+                        case Core::FileType::File:
+                        case Core::FileType::Sequence:
+                        {
+                            if (_p->icons.contains(fileInfo))
+                            {
+                                return _p->icons.get(fileInfo);
+                            }
+                            else if (auto io = context->getSystemT<AV::IO::System>())
+                            {
+                                if (io->canRead(fileInfo.getPath()))
+                                {
+                                    const auto persistentIndex = QPersistentModelIndex(index);
+                                    const auto j = _p->iconFutures.find(persistentIndex);
+                                    if (j == _p->iconFutures.end())
+                                    {
+                                        _p->iconFutures[persistentIndex].future = _p->iconSystem->getImage(
+                                            fileInfo.getPath(),
+                                            AV::Pixel::Info(glm::ivec2(100, 100), AV::Pixel::Type::RGBA_U8));
+                                        _p->iconFutures[persistentIndex].fileInfo = fileInfo;
+                                    }
+                                }
+                            }
+                            return system->getQStyle()->standardIcon(QStyle::SP_FileIcon);
+                        }
                         case Core::FileType::Directory:  return system->getQStyle()->standardIcon(QStyle::SP_DirIcon);
                         default: break;
                         }
@@ -346,6 +386,30 @@ namespace djv
         void FileBrowserModel::forward()
         {
             _p->history->forward();
+        }
+
+        void FileBrowserModel::timerEvent(QTimerEvent *)
+        {
+            auto i = _p->iconFutures.begin();
+            while (i != _p->iconFutures.end())
+            {
+                if (i->second.future.valid() &&
+                    i->second.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                {
+                    if (auto image = i->second.future.get())
+                    {
+                        _p->icons.add(
+                            i->second.fileInfo,
+                            QImage(image->getData(), image->getWidth(), image->getHeight(), QImage::Format_RGBA8888_Premultiplied));
+                        Q_EMIT dataChanged(i->first, i->first, QVector<int>() << Qt::DecorationRole);
+                    }
+                    i = _p->iconFutures.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
         }
 
     } // namespace UIQt

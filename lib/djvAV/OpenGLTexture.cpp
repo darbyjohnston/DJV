@@ -50,7 +50,7 @@ namespace djv
                 glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
                 glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
                 GLenum internalFormat = GL_RGBA;
-                const glm::ivec2 & size = _info.getSize();
+                const glm::ivec2 & size = _info.size;
                 glFuncs->glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
@@ -95,8 +95,8 @@ namespace djv
                 glFuncs->glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
 
                 glFuncs->glBindTexture(GL_TEXTURE_2D, _id);
-                glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, info.getLayout().getAlignment());
-                glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, info.getLayout().getEndian() != Memory::getEndian());
+                glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
 #if !defined(DJV_PLATFORM_IOS)
                 glFuncs->glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
                 glFuncs->glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
@@ -106,8 +106,8 @@ namespace djv
                     0,
                     0,
                     0,
-                    info.getWidth(),
-                    info.getHeight(),
+                    info.size.x,
+                    info.size.y,
                     info.getGLFormat(),
                     info.getGLType(),
                     0);
@@ -124,8 +124,8 @@ namespace djv
                 glFuncs->glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
 
                 glFuncs->glBindTexture(GL_TEXTURE_2D, _id);
-                glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, info.getLayout().getAlignment());
-                glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, info.getLayout().getEndian() != Memory::getEndian());
+                glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
 #if !defined(DJV_PLATFORM_IOS)
                 glFuncs->glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
                 glFuncs->glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
@@ -135,8 +135,8 @@ namespace djv
                     0,
                     pos.x,
                     pos.y,
-                    info.getWidth(),
-                    info.getHeight(),
+                    info.size.x,
+                    info.size.y,
                     info.getGLFormat(),
                     info.getGLType(),
                     0);

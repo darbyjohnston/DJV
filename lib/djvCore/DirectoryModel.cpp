@@ -63,7 +63,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.path = ValueSubject<Path>::create();
-            p.fileSequencesEnabled = ValueSubject<bool>::create(true);
+            p.fileSequencesEnabled = ValueSubject<bool>::create(false);
             p.fileInfos = ListSubject<FileInfo>::create();
             p.fileNames = ListSubject<std::string>::create();
             p.history = ListSubject<Path>::create();

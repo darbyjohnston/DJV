@@ -31,6 +31,8 @@
 
 #include <djvAV/IO.h>
 
+#include <djvCore/Frame.h>
+
 #include <QOpenGLDebugLogger>
 
 namespace djv
@@ -59,10 +61,13 @@ namespace djv
 
             protected:
                 virtual void _start() {};
-                virtual Info _open(const std::string & fileName, const Speed &, Duration) = 0;
-                virtual std::shared_ptr<Image> _read() = 0;
-                virtual void _close() = 0;
+                virtual Info _readInfo(const std::string & fileName) = 0;
+                virtual std::shared_ptr<Image> _readImage(const std::string & fileName) = 0;
                 virtual void _exit() {};
+
+                AV::Speed _speed;
+                Duration _duration = 0;
+                std::vector<Core::Frame::Number> _frames;
 
             private:
                 DJV_PRIVATE();
@@ -86,9 +91,7 @@ namespace djv
 
             protected:
                 virtual void _start() {};
-                virtual void _open(const std::string & fileName, const Info &) = 0;
-                virtual void _write(const std::shared_ptr<Image> &) = 0;
-                virtual void _close() = 0;
+                virtual void _write(const std::string & fileName, const std::shared_ptr<Image> &) = 0;
                 virtual void _exit() {};
 
                 void run() override;

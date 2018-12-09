@@ -52,9 +52,9 @@ namespace djv
                 glFuncs->glGenTextures(1, &_textureID);
                 if (!_textureID)
                 {
-                    throw Core::Error(
-                        "djv::AV::OpenGL::OffscreenBuffer",
-                        DJV_TEXT("Cannot create texture"));
+                    std::stringstream ss;
+                    ss << "djv::AV::OpenGL::OffscreenBuffer: " << DJV_TEXT("cannot create texture");
+                    throw std::runtime_error(ss.str());
                 }
                 glFuncs->glBindTexture(GL_TEXTURE_2D, _textureID);
                 glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -77,9 +77,9 @@ namespace djv
                 glFuncs->glGenFramebuffers(1, &_id);
                 if (!_id)
                 {
-                    throw Core::Error(
-                        "djv::AV::OpenGL::OffscreenBuffer",
-                        DJV_TEXT("Cannot create frame buffer"));
+                    std::stringstream ss;
+                    ss << "djv::AV::OpenGL::OffscreenBuffer: " << DJV_TEXT("cannot create frame buffer");
+                    throw std::runtime_error(ss.str());
                 }
                 const OffscreenBufferBinding binding(shared_from_this());
                 glFuncs->glFramebufferTexture2D(
@@ -91,9 +91,9 @@ namespace djv
                 GLenum error = glFuncs->glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if (error != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    throw Core::Error(
-                        "djv::AV::OpenGL::OffscreenBuffer",
-                        DJV_TEXT("Cannot iniitialize frame buffer"));
+                    std::stringstream ss;
+                    ss << "djv::AV::OpenGL::OffscreenBuffer: " << DJV_TEXT("cannot initialize frame buffer");
+                    throw std::runtime_error(ss.str());
                 }
             }
 

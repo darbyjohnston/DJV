@@ -33,29 +33,6 @@ namespace djv
 {
     namespace Core
     {
-        Error::Error()
-        {}
-
-        Error::Error(const std::string & context, const std::string & text) :
-            _context(context),
-            _text(text)
-        {}
-
-        const std::string & Error::getContext() const
-        {
-            return _context;
-        }
-
-        const std::string & Error::getText() const
-        {
-            return _text;
-        }
-
-        const char * Error::what() const noexcept
-        {
-            return _text.c_str();
-        }
-
         std::string format(const std::exception& e)
         {
             std::stringstream s;

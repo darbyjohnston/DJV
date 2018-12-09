@@ -64,29 +64,48 @@ namespace djv
                 const std::shared_ptr<Core::Context> & context)
             {
                 IRead::_init(fileName, queue, context);
-                IRead::_init(fileName, queue, context);
                 _p->thread = std::thread(
                     [this, fileName]
                 {
                     DJV_PRIVATE_PTR();
+                    p.running = true;
+
                     Core::FileInfo fileInfo(fileName);
                     fileInfo.evalSequence();
 
-                    AV::Speed speed;
-                    Duration duration = 0;
-                    std::vector<Core::Frame::Number> frames;
                     Core::Frame::Index frameIndex = Core::Frame::Invalid;
                     if (fileInfo.isSequenceValid())
                     {
-                        frames = Core::Frame::toFrames(fileInfo.getSequence());
-                        if (frames.size())
+                        _frames = Core::Frame::toFrames(fileInfo.getSequence());
+                        if (_frames.size())
                         {
                             frameIndex = 0;
-                            duration = speed.getDuration() * frames.size();
+                            _duration = _speed.getDuration() * _frames.size();
                         }
                     }
 
                     _start();
+
+                    Info info;
+                    Core::Frame::Number frameNumber = Core::Frame::Invalid;
+                    if (frameIndex != Core::Frame::Invalid)
+                    {
+                        frameNumber = Core::Frame::getFrame(_frames, frameIndex);
+                    }
+                    try
+                    {
+                        info = _readInfo(fileInfo.getFileName(frameNumber));
+                    }
+                    catch (const std::exception & e)
+                    {
+                        p.running = false;
+                        if (auto context = _context.lock())
+                        {
+                            context->log("djv::AV::IO::ISequenceRead", e.what(), Core::LogLevel::Error);
+                        }
+                    }
+                    p.infoPromise.set_value(info);
+                    
                     const auto timeout = Core::Timer::getValue(Core::Timer::Value::Fast);
                     while (_queue && p.running)
                     {
@@ -125,15 +144,15 @@ namespace djv
                                 Core::Frame::Number frameNumber = Core::Frame::Invalid;
                                 if (frameIndex != Core::Frame::Invalid)
                                 {
-                                    frameNumber = Core::Frame::getFrame(frames, frameIndex);
+                                    frameNumber = Core::Frame::getFrame(_frames, frameIndex);
                                     ++frameIndex;
                                 }
                                 auto fileName = fileInfo.getFileName(frameNumber);
 
                                 AVRational r;
-                                r.num = speed.getDuration();
-                                r.den = speed.getScale();
-                                pts = av_rescale_q(frameNumber * speed.getDuration(), r, FFmpeg::getTimeBaseQ());
+                                r.num = _speed.getDuration();
+                                r.den = _speed.getScale();
+                                pts = av_rescale_q(frameNumber * _speed.getDuration(), r, FFmpeg::getTimeBaseQ());
 
                                 if (auto context = _context.lock())
                                 {
@@ -142,19 +161,13 @@ namespace djv
                                     //context->log("djv::AV::IO::ISequenceRead", ss.str());
                                 }
 
-                                const auto info = _open(fileName, speed, duration);
-                                if (Core::Frame::Invalid == frameIndex || 0 == frameIndex)
-                                {
-                                    p.infoPromise.set_value(info);
-                                }
-                                image = _read();
-                                _close();
+                                image = _readImage(fileName);
                             }
-                            catch (const Core::Error & error)
+                            catch (const std::exception & e)
                             {
                                 if (auto context = _context.lock())
                                 {
-                                    context->log("djv::AV::IO::ISequenceRead", error.what(), Core::LogLevel::Error);
+                                    context->log("djv::AV::IO::ISequenceRead", e.what(), Core::LogLevel::Error);
                                 }
                             }
                             if (image)
@@ -162,10 +175,14 @@ namespace djv
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());
                                 _queue->addVideo(pts, image);
                             }
-                            if (Core::Frame::Invalid == frameIndex || frameIndex >= static_cast<Core::Frame::Index>(frames.size()))
+                            if (Core::Frame::Invalid == frameIndex || frameIndex >= static_cast<Core::Frame::Index>(_frames.size()))
                             {
                                 std::lock_guard<std::mutex> lock(_queue->getMutex());
                                 _queue->setFinished(true);
+                                if (_queue->hasCloseOnFinish())
+                                {
+                                    p.running = false;
+                                }
                             }
                         }
                     }
@@ -179,9 +196,11 @@ namespace djv
 
             ISequenceRead::~ISequenceRead()
             {
-                if (_p->thread.joinable())
+                DJV_PRIVATE_PTR();
+                p.running = false;
+                if (p.thread.joinable())
                 {
-                    _p->thread.join();
+                    p.thread.join();
                 }
             }
 
@@ -309,9 +328,7 @@ namespace djv
                                 //ss << "Writing: " << fileName;
                                 //context->log("djv::AV::IO::ISequenceWrite", ss.str());
 
-                                _open(fileName, p.info);
-                                _write(image);
-                                _close();
+                                _write(fileName, image);
                             }
                             catch (const std::exception & e)
                             {

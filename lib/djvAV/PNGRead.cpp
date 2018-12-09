@@ -40,10 +40,27 @@ namespace djv
         {
             namespace PNG
             {
-                struct Read::Private
+                struct Read::File
                 {
-                    std::string fileName;
-                    Pixel::Info info;
+                    ~File()
+                    {
+                        if (png || pngInfo || pngInfoEnd)
+                        {
+                            png_destroy_read_struct(
+                                png ? &png : nullptr,
+                                pngInfo ? &pngInfo : nullptr,
+                                pngInfoEnd ? &pngInfoEnd : nullptr);
+                            png = nullptr;
+                            pngInfo = nullptr;
+                            pngInfoEnd = nullptr;
+                        }
+                        if (f)
+                        {
+                            fclose(f);
+                            f = nullptr;
+                        }
+                    }
+
                     FILE * f = nullptr;
                     png_structp png = nullptr;
                     png_infop pngInfo = nullptr;
@@ -51,11 +68,7 @@ namespace djv
                     ErrorStruct pngError;
                 };
 
-                Read::Read() :
-                    _p(new Private)
-                {}
-
-                Read::~Read()
+                Read::Read()
                 {}
 
                 std::shared_ptr<Read> Read::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
@@ -112,69 +125,10 @@ namespace djv
 
                 } // namespace
 
-                Info Read::_open(const std::string& fileName, const Speed & speed, Duration duration)
+                Info Read::_readInfo(const std::string& fileName)
                 {
-                    DJV_PRIVATE_PTR();
-                    p.fileName = fileName;
-
-                    p.png = png_create_read_struct(
-                        PNG_LIBPNG_VER_STRING,
-                        &p.pngError,
-                        djvPngError,
-                        djvPngWarning);
-                    if (!p.png)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName << ": " << p.pngError.msg;
-                        throw std::runtime_error(s.str());
-                    }
-
-                    p.f = Core::fopen(fileName.c_str(), "rb");
-                    if (!p.f)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
-                    if (!pngOpen(p.f, p.png, &p.pngInfo, &p.pngInfoEnd))
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName << ": " << p.pngError.msg;
-                        throw std::runtime_error(s.str());
-                    }
-
-                    const glm::ivec2 size(
-                        png_get_image_width(p.png, p.pngInfo),
-                        png_get_image_height(p.png, p.pngInfo));
-                    int channels = png_get_channels(p.png, p.pngInfo);
-                    if (png_get_color_type(p.png, p.pngInfo) == PNG_COLOR_TYPE_PALETTE)
-                    {
-                        channels = 3;
-                    }
-                    if (png_get_valid(p.png, p.pngInfo, PNG_INFO_tRNS))
-                    {
-                        ++channels;
-                    }
-                    int bitDepth = png_get_bit_depth(p.png, p.pngInfo);
-                    if (bitDepth < 8)
-                    {
-                        bitDepth = 8;
-                    }
-                    Pixel::Type pixelType = Pixel::getIntType(channels, bitDepth);
-                    if (Pixel::Type::None == pixelType)
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
-                    p.info = Pixel::Info(size, pixelType);
-
-                    if (bitDepth >= 16 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
-                    {
-                        png_set_swap(p.png);
-                    }
-
-                    return Info(fileName, VideoInfo(p.info, speed, duration), AudioInfo());
+                    File f;
+                    return _open(fileName, f);
                 }
 
                 namespace
@@ -201,41 +155,88 @@ namespace djv
 
                 } // namespace
 
-                std::shared_ptr<Image> Read::_read()
+                std::shared_ptr<Image> Read::_readImage(const std::string & fileName)
                 {
-                    DJV_PRIVATE_PTR();
-                    auto out = Image::create(p.info);
-                    for (int y = 0; y < p.info.size.y; ++y)
+                    std::shared_ptr<Image> out;
+                    File f;
+                    const auto info = _open(fileName, f);
+                    if (info.video.size())
                     {
-                        if (!pngScanline(p.png, out->getData(y)))
+                        out = Image::create(info.video[0].info);
+                        for (int y = 0; y < info.video[0].info.size.y; ++y)
                         {
-                            std::stringstream s;
-                            s << pluginName << " cannot read: " << p.fileName << ": " << p.pngError.msg;
-                            throw std::runtime_error(s.str());
+                            if (!pngScanline(f.png, out->getData(y)))
+                            {
+                                std::stringstream s;
+                                s << pluginName << ": " << DJV_TEXT("cannot read") << ": " << fileName << ": " << f.pngError.msg;
+                                throw std::runtime_error(s.str());
+                            }
                         }
+                        pngEnd(f.png, f.pngInfoEnd);
                     }
-                    pngEnd(p.png, p.pngInfoEnd);
                     return out;
                 }
 
-                void Read::_close()
+                Info Read::_open(const std::string& fileName, File & f)
                 {
-                    DJV_PRIVATE_PTR();
-                    if (p.png || p.pngInfo || p.pngInfoEnd)
+                    f.png = png_create_read_struct(
+                        PNG_LIBPNG_VER_STRING,
+                        &f.pngError,
+                        djvPngError,
+                        djvPngWarning);
+                    if (!f.png)
                     {
-                        png_destroy_read_struct(
-                            p.png ? &p.png : nullptr,
-                            p.pngInfo ? &p.pngInfo : nullptr,
-                            p.pngInfoEnd ? &p.pngInfoEnd : nullptr);
-                        p.png = nullptr;
-                        p.pngInfo = nullptr;
-                        p.pngInfoEnd = nullptr;
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        throw std::runtime_error(s.str());
                     }
-                    if (p.f)
+
+                    f.f = Core::fopen(fileName.c_str(), "rb");
+                    if (!f.f)
                     {
-                        fclose(p.f);
-                        p.f = nullptr;
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        throw std::runtime_error(s.str());
                     }
+                    if (!pngOpen(f.f, f.png, &f.pngInfo, &f.pngInfoEnd))
+                    {
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        throw std::runtime_error(s.str());
+                    }
+
+                    const glm::ivec2 size(
+                        png_get_image_width(f.png, f.pngInfo),
+                        png_get_image_height(f.png, f.pngInfo));
+                    int channels = png_get_channels(f.png, f.pngInfo);
+                    if (png_get_color_type(f.png, f.pngInfo) == PNG_COLOR_TYPE_PALETTE)
+                    {
+                        channels = 3;
+                    }
+                    if (png_get_valid(f.png, f.pngInfo, PNG_INFO_tRNS))
+                    {
+                        ++channels;
+                    }
+                    int bitDepth = png_get_bit_depth(f.png, f.pngInfo);
+                    if (bitDepth < 8)
+                    {
+                        bitDepth = 8;
+                    }
+                    Pixel::Type pixelType = Pixel::getIntType(channels, bitDepth);
+                    if (Pixel::Type::None == pixelType)
+                    {
+                        std::stringstream s;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    auto info = Pixel::Info(size, pixelType);
+
+                    if (bitDepth >= 16 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
+                    {
+                        png_set_swap(f.png);
+                    }
+
+                    return Info(fileName, VideoInfo(info, _speed, _duration), AudioInfo());
                 }
 
             } // namespace PNG

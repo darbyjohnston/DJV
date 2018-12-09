@@ -44,9 +44,7 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    Pixel::Info info;
                     Data data = Data::First;
-                    Core::FileIO io;
                     std::shared_ptr<Pixel::Convert> convert;
                 };
 
@@ -74,23 +72,16 @@ namespace djv
                     }
                 }
                 
-                void Write::_open(const std::string & fileName, const Info & info)
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image> & image)
                 {
                     DJV_PRIVATE_PTR();
-                    const auto & videoInfo = info.video;
-                    if (!videoInfo.size())
-                    {
-                        std::stringstream s;
-                        s << pluginName << " cannot write: " << fileName;
-                        throw std::runtime_error(s.str());
-                    }
                     Pixel::Type pixelType = Pixel::Type::None;
-                    switch (videoInfo[0].info.type)
+                    switch (image->getType())
                     {
                     case Pixel::Type::L_U8:
                     case Pixel::Type::L_U16:
                     case Pixel::Type::RGB_U8:
-                    case Pixel::Type::RGB_U16:  pixelType = videoInfo[0].info.type; break;
+                    case Pixel::Type::RGB_U16:  pixelType = image->getType(); break;
                     case Pixel::Type::LA_U8:    pixelType = Pixel::Type::L_U8; break;
                     case Pixel::Type::L_U32:
                     case Pixel::Type::L_F16:
@@ -112,75 +103,65 @@ namespace djv
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << " cannot write: " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
                     layout.mirror.y = true;
                     layout.endian = p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
-                    p.info = Pixel::Info(videoInfo[0].info.size, pixelType, layout);
+                    Pixel::Info info(image->getSize(), pixelType, layout);
 
-                    p.io.open(fileName, Core::FileIO::Mode::Write);
-                }
-
-                void Write::_write(const std::shared_ptr<Image> & image)
-                {
-                    DJV_PRIVATE_PTR();
-                    if (auto context = _context.lock())
+                    std::shared_ptr<Pixel::Data> pixelData = image;
+                    if (pixelData->getInfo() != info)
                     {
-                        std::shared_ptr<Pixel::Data> pixelData = image;
-                        if (pixelData->getInfo() != p.info)
-                        {
-                            pixelData = p.convert->process(pixelData, p.info);
-                        }
-
-                        int ppmType = Data::ASCII == p.data ? 2 : 5;
-                        const size_t channelCount = Pixel::getChannelCount(p.info.type);
-                        if (3 == channelCount)
-                        {
-                            ++ppmType;
-                        }
-                        char magic[] = "P \n";
-                        magic[1] = '0' + ppmType;
-                        p.io.write(magic, 3);
-
-                        std::stringstream s;
-                        s << p.info.size.x << ' ' << p.info.size.y;
-                        p.io.write(s.str());
-                        p.io.writeU8('\n');
-                        const size_t bitDepth = Pixel::getBitDepth(p.info.type);
-                        const int maxValue = 8 == bitDepth ? 255 : 65535;
-                        s = std::stringstream();
-                        s << maxValue;
-                        p.io.write(s.str());
-                        p.io.writeU8('\n');
-
-                        switch (p.data)
-                        {
-                        case Data::ASCII:
-                        {
-                            std::vector<uint8_t> scanline(p.info.getScanlineByteCount());
-                            for (int y = 0; y < p.info.size.y; ++y)
-                            {
-                                const size_t size = writeASCII(
-                                    pixelData->getData(y),
-                                    reinterpret_cast<char*>(scanline.data()),
-                                    p.info.size.x * channelCount,
-                                    bitDepth);
-                                p.io.write(scanline.data(), size);
-                            }
-                            break;
-                        }
-                        case Data::Binary:
-                            p.io.write(pixelData->getData(), p.info.getDataByteCount());
-                            break;
-                        }
+                        auto tmp = Pixel::Data::create(info);
+                        p.convert->process(*pixelData, info, *tmp);
+                        pixelData = tmp;
                     }
-                }
 
-                void Write::_close()
-                {
-                    _p->io.close();
+                    int ppmType = Data::ASCII == p.data ? 2 : 5;
+                    const size_t channelCount = Pixel::getChannelCount(info.type);
+                    if (3 == channelCount)
+                    {
+                        ++ppmType;
+                    }
+                    char magic[] = "P \n";
+                    magic[1] = '0' + ppmType;
+                    Core::FileIO io;
+                    io.open(fileName, Core::FileIO::Mode::Write);
+                    io.write(magic, 3);
+
+                    std::stringstream s;
+                    s << info.size.x << ' ' << info.size.y;
+                    io.write(s.str());
+                    io.writeU8('\n');
+                    const size_t bitDepth = Pixel::getBitDepth(info.type);
+                    const int maxValue = 8 == bitDepth ? 255 : 65535;
+                    s = std::stringstream();
+                    s << maxValue;
+                    io.write(s.str());
+                    io.writeU8('\n');
+
+                    switch (p.data)
+                    {
+                    case Data::ASCII:
+                    {
+                        std::vector<uint8_t> scanline(info.getScanlineByteCount());
+                        for (int y = 0; y < info.size.y; ++y)
+                        {
+                            const size_t size = writeASCII(
+                                pixelData->getData(y),
+                                reinterpret_cast<char*>(scanline.data()),
+                                info.size.x * channelCount,
+                                bitDepth);
+                            io.write(scanline.data(), size);
+                        }
+                        break;
+                    }
+                    case Data::Binary:
+                        io.write(pixelData->getData(), info.getDataByteCount());
+                        break;
+                    }
                 }
 
                 void Write::_exit()

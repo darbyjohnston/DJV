@@ -131,7 +131,7 @@ namespace djv
             {
                 out = new QDockWidget("File Browser");
                 auto fileBrowser = new UIQt::FileBrowser(context);
-                fileBrowser->setPath("C:/Users/darby/Desktop");
+                fileBrowser->setPath("C:/Users/darby/Desktop/Seq/Single");
                 out->setWidget(fileBrowser);
                 p.dockWidgets.push_back(out);
                 connect(

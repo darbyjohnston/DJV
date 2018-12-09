@@ -126,9 +126,10 @@ namespace djv
             void backEnabled(bool);
             void forwardEnabled(bool);
 
-        private:
-            void _updateModel();
+        protected:
+            void timerEvent(QTimerEvent *) override;
 
+        private:
             DJV_PRIVATE();
         };
 

@@ -110,8 +110,8 @@ namespace djv
             if ((error = alGetError()) != AL_NO_ERROR)
             {
                 std::stringstream ss;
-                ss << "Cannot create OpenAL source: " << AV::Audio::getALErrorString(error);
-                throw Core::Error("djv::ViewLib::Media", ss.str());
+                ss << "djv::ViewLib::Media: " << DJV_TEXT("cannot create OpenAL source") << ": " << AV::Audio::getALErrorString(error);
+                throw std::runtime_error(ss.str());
             }
 
             p.alBuffers.resize(bufferCount);
@@ -119,8 +119,8 @@ namespace djv
             if ((error = alGetError()) != AL_NO_ERROR)
             {
                 std::stringstream ss;
-                ss << "Cannot create OpenAL buffers: " << AV::Audio::getALErrorString(error);
-                throw Core::Error("djv::ViewLib::Media", ss.str());
+                ss << "djv::ViewLib::Media: " << DJV_TEXT("cannot create OpenAL buffers") << ": " << AV::Audio::getALErrorString(error);
+                throw std::runtime_error(ss.str());
             }
 
             try
@@ -190,7 +190,7 @@ namespace djv
             catch (const std::exception & e)
             {
                 std::stringstream ss;
-                ss << "Cannot open " << fileName << ": " << e.what();
+                ss << "djv::ViewLib::Media: " << DJV_TEXT("cannot open") << ": " << fileName << ": " << e.what();
                 context->log("djv::ViewLib::Media", ss.str(), Core::LogLevel::Error);
             }
         }

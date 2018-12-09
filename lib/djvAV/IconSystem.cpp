@@ -31,10 +31,15 @@
 
 #include <djvAV/Image.h>
 #include <djvAV/IO.h>
+#include <djvAV/PixelProcess.h>
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/Timer.h>
+
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
+#include <QOpenGLDebugLogger>
 
 #include <atomic>
 #include <mutex>
@@ -85,6 +90,9 @@ namespace djv
 
                 ImageRequest(ImageRequest&& other) :
                     path(other.path),
+                    info(std::move(other.info)),
+                    queue(std::move(other.queue)),
+                    read(std::move(other.read)),
                     promise(std::move(other.promise))
                 {}
 
@@ -93,12 +101,16 @@ namespace djv
                     if (this != &other)
                     {
                         path = other.path;
+                        info = std::move(other.info);
+                        queue = std::move(other.queue);
+                        read = std::move(other.read);
                         promise = std::move(other.promise);
                     }
                     return *this;
                 }
 
                 Path path;
+                std::unique_ptr<Pixel::Info> info;
                 std::shared_ptr<IO::Queue> queue;
                 std::shared_ptr<IO::IRead> read;
                 std::promise<std::shared_ptr<Image> > promise;
@@ -121,9 +133,11 @@ namespace djv
             Cache<Path, std::shared_ptr<Image> > imageCache;
             std::mutex cacheMutex;
 
-            std::shared_ptr<Timer> statsTimer;
+            QScopedPointer<QOffscreenSurface> offscreenSurface;
+            QScopedPointer<QOpenGLContext> openGLContext;
+            QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
 
-            std::thread thread;
+            std::shared_ptr<Timer> statsTimer;
             std::atomic<bool> running;
         };
 
@@ -134,6 +148,25 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.infoCache.setMax(infoCacheMax);
             p.imageCache.setMax(imageCacheMax);
+
+            p.offscreenSurface.reset(new QOffscreenSurface);
+            QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
+            surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+            surfaceFormat.setSamples(1);
+            p.offscreenSurface->setFormat(surfaceFormat);
+            p.offscreenSurface->create();
+
+            p.openGLContext.reset(new QOpenGLContext);
+            p.openGLContext->setFormat(surfaceFormat);
+            p.openGLContext->create();
+            p.openGLContext->moveToThread(this);
+
+            p.openGLDebugLogger.reset(new QOpenGLDebugLogger);
+            connect(
+                p.openGLDebugLogger.data(),
+                &QOpenGLDebugLogger::messageLogged,
+                this,
+                &IconSystem::_debugLogMessage);
 
             p.statsTimer = Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -149,39 +182,7 @@ namespace djv
                 _log(s.str());
             });
 
-            p.running = true;
-            p.thread = std::thread(
-                [this]
-            {
-                DJV_PRIVATE_PTR();
-                const auto timeout = Core::Timer::getValue(Core::Timer::Value::Medium);
-                while (p.running)
-                {
-                    {
-                        std::unique_lock<std::mutex> lock(p.requestMutex);
-                        if (p.requestCV.wait_for(
-                            lock,
-                            std::chrono::milliseconds(timeout),
-                            [this]
-                        {
-                            DJV_PRIVATE_PTR();
-                            return p.infoQueue.size() || p.imageQueue.size();
-                        }))
-                        {
-                            p.newInfoRequests = std::move(p.infoQueue);
-                            p.newImageRequests = std::move(p.imageQueue);
-                        }
-                    }
-                    if (p.newInfoRequests.size() || p.pendingInfoRequests.size())
-                    {
-                        _handleInfoRequests();
-                    }
-                    if (p.newImageRequests.size() || p.pendingImageRequests.size())
-                    {
-                        _handleImageRequests();
-                    }
-                }
-            });
+            start();
         }
 
         IconSystem::IconSystem() :
@@ -190,10 +191,7 @@ namespace djv
 
         IconSystem::~IconSystem()
         {
-            if (_p->thread.joinable())
-            {
-                _p->thread.join();
-            }
+            wait();
         }
 
         std::shared_ptr<IconSystem> IconSystem::create(const std::shared_ptr<Context>& context)
@@ -227,6 +225,63 @@ namespace djv
             return future;
         }
 
+        std::future<std::shared_ptr<Image> > IconSystem::getImage(const Path& path, const Pixel::Info& info)
+        {
+            DJV_PRIVATE_PTR();
+            ImageRequest request;
+            request.path = path;
+            request.info.reset(new Pixel::Info(info));
+            auto future = request.promise.get_future();
+            std::unique_lock<std::mutex> lock(p.requestMutex);
+            p.imageQueue.push_back(std::move(request));
+            p.requestCV.notify_one();
+            return future;
+        }
+
+        void IconSystem::run()
+        {
+            DJV_PRIVATE_PTR();
+            p.running = true;
+            p.openGLContext->makeCurrent(p.offscreenSurface.data());
+            if (p.openGLContext->format().testOption(QSurfaceFormat::DebugContext))
+            {
+                p.openGLDebugLogger->initialize();
+                p.openGLDebugLogger->startLogging();
+            }
+            std::shared_ptr<Pixel::Convert> convert;
+            if (auto context = getContext().lock())
+            {
+                convert = Pixel::Convert::create(context);
+            }
+            const auto timeout = Core::Timer::getValue(Core::Timer::Value::Medium);
+            while (p.running)
+            {
+                {
+                    std::unique_lock<std::mutex> lock(p.requestMutex);
+                    if (p.requestCV.wait_for(
+                        lock,
+                        std::chrono::milliseconds(timeout),
+                        [this]
+                    {
+                        DJV_PRIVATE_PTR();
+                        return p.infoQueue.size() || p.imageQueue.size();
+                    }))
+                    {
+                        p.newInfoRequests = std::move(p.infoQueue);
+                        p.newImageRequests = std::move(p.imageQueue);
+                    }
+                }
+                if (p.newInfoRequests.size() || p.pendingInfoRequests.size())
+                {
+                    _handleInfoRequests();
+                }
+                if (p.newImageRequests.size() || p.pendingImageRequests.size())
+                {
+                    _handleImageRequests(convert);
+                }
+            }
+        }
+
         void IconSystem::_exit()
         {
             DJV_PRIVATE_PTR();
@@ -237,10 +292,7 @@ namespace djv
                 p.imageQueue.clear();
             }
             p.running = false;
-            if (_p->thread.joinable())
-            {
-                p.thread.join();
-            }
+            wait();
         }
 
         void IconSystem::_handleInfoRequests()
@@ -276,6 +328,7 @@ namespace djv
                         catch (const std::exception& e)
                         {
                             //! \todo Error handling?
+                            i.promise.set_value(Pixel::Info());
                             _log(e.what());
                         }
                     }
@@ -308,7 +361,7 @@ namespace djv
             }
         }
 
-        void IconSystem::_handleImageRequests()
+        void IconSystem::_handleImageRequests(const std::shared_ptr<Pixel::Convert> & convert)
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
@@ -333,13 +386,14 @@ namespace djv
                     {
                         try
                         {
-                            i.queue = IO::Queue::create();
+                            i.queue = IO::Queue::create(1, 0);
                             i.read = io->read(i.path, i.queue);
                             p.pendingImageRequests.push_back(std::move(i));
                         }
                         catch (const std::exception& e)
                         {
                             //! \todo Error handling?
+                            i.promise.set_value(nullptr);
                             _log(e.what());
                         }
                     }
@@ -360,6 +414,13 @@ namespace djv
                     }
                     if (image)
                     {
+                        if (i->info)
+                        {
+                            auto tmp = Image::create(*i->info);
+                            tmp->setTags(image->getTags());
+                            convert->process(*image, *i->info, *tmp);
+                            image = tmp;
+                        }
                         p.imageCache.add(i->path, image);
                         i->promise.set_value(image);
                         i = p.pendingImageRequests.erase(i);
@@ -369,6 +430,14 @@ namespace djv
                         ++i;
                     }
                 }
+            }
+        }
+
+        void IconSystem::_debugLogMessage(const QOpenGLDebugMessage & message)
+        {
+            if (auto context = getContext().lock())
+            {
+                context->log("djv::AV::IO::ISequenceWrite", message.message().toStdString());
             }
         }
 

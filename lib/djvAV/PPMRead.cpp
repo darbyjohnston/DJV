@@ -41,18 +41,7 @@ namespace djv
         {
             namespace PPM
             {
-                struct Read::Private
-                {
-                    Pixel::Info info;
-                    Data data = Data::First;
-                    Core::FileIO io;
-                };
-
-                Read::Read() :
-                    _p(new Private)
-                {}
-
-                Read::~Read()
+                Read::Read()
                 {}
 
                 std::shared_ptr<Read> Read::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
@@ -62,17 +51,53 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_open(const std::string& fileName, const Speed & speed, Duration duration)
+                Info Read::_readInfo(const std::string & fileName)
                 {
-                    DJV_PRIVATE_PTR();
-                    p.io.open(fileName, Core::FileIO::Mode::Read);
+                    Core::FileIO io;
+                    Data data = Data::First;
+                    return _open(fileName, io, data);
+                }
+
+                std::shared_ptr<Image> Read::_readImage(const std::string & fileName)
+                {
+                    std::shared_ptr<Image> out;
+                    Core::FileIO io;
+                    Data data = Data::First;
+                    const auto info = _open(fileName, io, data);
+                    if (info.video.size())
+                    {
+                        switch (data)
+                        {
+                        case Data::ASCII:
+                        {
+                            out = Image::create(info.video[0].info);
+                            const size_t channelCount = Pixel::getChannelCount(info.video[0].info.type);
+                            const size_t bitDepth = Pixel::getBitDepth(info.video[0].info.type);
+                            for (int y = 0; y < info.video[0].info.size.y; ++y)
+                            {
+                                readASCII(io, out->getData(y), info.video[0].info.size.x * channelCount, bitDepth);
+                            }
+                            break;
+                        }
+                        case Data::Binary:
+                            out = Image::create(info.video[0].info);
+                            io.read(out->getData(), info.video[0].info.getDataByteCount());
+                            break;
+                        }
+                    }
+                    return out;
+                }
+
+                Info Read::_open(const std::string & fileName, Core::FileIO & io, Data & data)
+                {
+                    io.open(fileName, Core::FileIO::Mode::Read);
 
                     char magic[] = { 0, 0, 0 };
-                    p.io.read(magic, 2);
+                    io.read(magic, 2);
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     switch (magic[1])
@@ -84,12 +109,12 @@ namespace djv
                     default:
                     {
                         std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     }
                     const int ppmType = magic[1] - '0';
-                    p.data = (2 == ppmType || 3 == ppmType) ? Data::ASCII : Data::Binary;
+                    data = (2 == ppmType || 3 == ppmType) ? Data::ASCII : Data::Binary;
 
                     size_t channelCount = 0;
                     switch (ppmType)
@@ -100,55 +125,25 @@ namespace djv
                     case 6: channelCount = 3; break;
                     }
                     char tmp[Core::String::cStringLength] = "";
-                    Core::FileIO::readWord(p.io, tmp, Core::String::cStringLength);
+                    Core::FileIO::readWord(io, tmp, Core::String::cStringLength);
                     const int w = std::stoi(tmp);
-                    Core::FileIO::readWord(p.io, tmp, Core::String::cStringLength);
+                    Core::FileIO::readWord(io, tmp, Core::String::cStringLength);
                     const int h = std::stoi(tmp);
-                    Core::FileIO::readWord(p.io, tmp, Core::String::cStringLength);
+                    Core::FileIO::readWord(io, tmp, Core::String::cStringLength);
                     const int maxValue = std::stoi(tmp);
                     const size_t bitDepth = maxValue < 256 ? 8 : 16;
                     const auto pixelType = Pixel::getIntType(channelCount, bitDepth);
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << " cannot open: " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
                     layout.mirror.y = true;
-                    layout.endian = p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
-                    p.info = Pixel::Info(w, h, pixelType, layout);
-                    return Info(fileName, VideoInfo(p.info, speed, duration), AudioInfo());
-                }
-
-                std::shared_ptr<Image> Read::_read()
-                {
-                    DJV_PRIVATE_PTR();
-                    std::shared_ptr<Image> out;
-                    switch (p.data)
-                    {
-                    case Data::ASCII:
-                    {
-                        out = Image::create(p.info);
-                        const size_t channelCount = Pixel::getChannelCount(p.info.type);
-                        const size_t bitDepth = Pixel::getBitDepth(p.info.type);
-                        for (int y = 0; y < p.info.size.y; ++y)
-                        {
-                            readASCII(p.io, out->getData(y), p.info.size.x * channelCount, bitDepth);
-                        }
-                        break;
-                    }
-                    case Data::Binary:
-                        out = Image::create(p.info);
-                        p.io.read(out->getData(), p.info.getDataByteCount());
-                        break;
-                    }
-                    return out;
-                }
-
-                void Read::_close()
-                {
-                    _p->io.close();
+                    layout.endian = data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
+                    auto info = Pixel::Info(w, h, pixelType, layout);
+                    return Info(fileName, VideoInfo(info, _speed, _duration), AudioInfo());
                 }
 
             } // namespace PPM

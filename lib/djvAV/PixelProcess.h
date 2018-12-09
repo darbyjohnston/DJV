@@ -60,7 +60,7 @@ namespace djv
                 static std::shared_ptr<Convert> create(const std::shared_ptr<Core::Context> &);
 
                 //! Note that this function requires an OpenGL context.
-                std::shared_ptr<Data> process(const std::shared_ptr<Data> &, const Info &);
+                void process(const Data &, const Info &, Data &);
 
             private:
                 DJV_PRIVATE();

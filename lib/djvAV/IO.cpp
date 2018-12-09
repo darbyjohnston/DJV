@@ -114,9 +114,11 @@ namespace djv
             Queue::Queue()
             {}
 
-            std::shared_ptr<Queue> Queue::create()
+            std::shared_ptr<Queue> Queue::create(size_t videoMax, size_t audioMax)
             {
                 auto out = std::shared_ptr<Queue>(new Queue);
+                out->_videoMax = videoMax;
+                out->_audioMax = audioMax;
                 return out;
             }
 

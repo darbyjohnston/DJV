@@ -83,17 +83,17 @@ namespace djv
             p.alDevice = alcOpenDevice(devices);
             if (!p.alDevice)
             {
-                throw Core::Error("djv::AV::AudioSystem", "Cannot open OpenAL device");
+                throw std::runtime_error("Cannot open OpenAL device");
             }
             p.alContext = alcCreateContext(p.alDevice, NULL);
             if (!p.alContext)
             {
-                throw Core::Error("djv::AV::AudioSystem", "Cannot create OpenAL context");
+                throw std::runtime_error("Cannot create OpenAL context");
             }
             ALCboolean r = alcMakeContextCurrent(p.alContext);
             if (AL_FALSE == r)
             {
-                throw Core::Error("djv::AV::AudioSystem", "Cannot make OpenAL context current");
+                throw std::runtime_error("Cannot make OpenAL context current");
             }
         }
 

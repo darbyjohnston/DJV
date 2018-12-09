@@ -31,6 +31,9 @@
 
 #include <djvCore/ISystem.h>
 
+#include <QOpenGLDebugLogger>
+#include <QThread>
+
 #include <future>
 
 namespace djv
@@ -45,13 +48,14 @@ namespace djv
     {
         namespace Pixel
         {
+            class Convert;
             class Info;
 
         } // namespace Pixel
 
         class Image;
 
-        class IconSystem : public Core::ISystem
+        class IconSystem : public QThread, public Core::ISystem
         {
             DJV_NON_COPYABLE(IconSystem);
 
@@ -66,13 +70,18 @@ namespace djv
 
             std::future<Pixel::Info> getInfo(const Core::Path&);
             std::future<std::shared_ptr<Image> > getImage(const Core::Path&);
+            std::future<std::shared_ptr<Image> > getImage(const Core::Path&, const Pixel::Info&);
 
         protected:
+            void run() override;
             void _exit() override;
+
+        private Q_SLOTS:
+            void _debugLogMessage(const QOpenGLDebugMessage &);
 
         private:
             void _handleInfoRequests();
-            void _handleImageRequests();
+            void _handleImageRequests(const std::shared_ptr<Pixel::Convert> &);
 
             DJV_PRIVATE();
         };

@@ -113,14 +113,13 @@ namespace djv
                 Queue();
 
             public:
-                static std::shared_ptr<Queue> create();
+                //! \todo [1.0 S] What are good defaults for these values?
+                static std::shared_ptr<Queue> create(size_t videoMax = 100, size_t audioMax = 100);
 
                 inline std::mutex & getMutex();
 
                 inline size_t getVideoMax() const;
                 inline size_t getAudioMax() const;
-                void setVideoMax(size_t);
-                void setAudioMax(size_t);
 
                 inline size_t getVideoCount() const;
                 inline size_t getAudioCount() const;
@@ -144,8 +143,8 @@ namespace djv
 
             private:
                 std::mutex _mutex;
-                size_t _videoMax = 100;
-                size_t _audioMax = 100;
+                size_t _videoMax = 0;
+                size_t _audioMax = 0;
                 std::list<VideoFrame> _video;
                 std::list<AudioFrame> _audio;
                 bool _finished = false;

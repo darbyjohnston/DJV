@@ -79,14 +79,14 @@ namespace djv
                 {
                     void djvPngError(png_structp in, png_const_charp msg)
                     {
-                        ErrorStruct* error = (ErrorStruct*)png_get_error_ptr(in);
+                        auto error = reinterpret_cast<ErrorStruct *>(png_get_error_ptr(in));
                         DJV_STRNCPY(error->msg, msg, Core::String::cStringLength);
                         longjmp(png_jmpbuf(in), 1);
                     }
 
                     void djvPngWarning(png_structp in, png_const_charp msg)
                     {
-                        ErrorStruct* error = (ErrorStruct*)png_get_error_ptr(in);
+                        auto error = reinterpret_cast<ErrorStruct*>(png_get_error_ptr(in));
                         DJV_STRNCPY(error->msg, msg, Core::String::cStringLength);
                         longjmp(png_jmpbuf(in), 1);
                     }

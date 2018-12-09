@@ -37,22 +37,6 @@ namespace djv
 {
     namespace Core
     {
-        class Error : public std::exception
-        {
-        public:
-            Error();
-            Error(const std::string & context, const std::string & text);
-
-            const std::string & getContext() const;
-            const std::string & getText() const;
-
-            const char * what() const noexcept override;
-            
-        private:
-            std::string _context;
-            std::string _text;
-        };
-
         std::string format(const std::exception&);
 
 #if defined(DJV_PLATFORM_WINDOWS)
