@@ -56,6 +56,9 @@ namespace djv
             //! - std::exception
             static std::shared_ptr<Context> create(int &, char **);
 
+            //! Get the command line arguments.
+            const std::vector<std::string> & getArgs() const;
+            
             //! Get the context name.
             const std::string& getName() const;
 

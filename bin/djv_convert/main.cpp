@@ -49,12 +49,9 @@ protected:
     void _init(int & argc, char ** argv)
     {
         Core::Context::_init(argc, argv);
-
-        if (argc != 3)
-        {
-            throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
-        }
-
+        
+        _parseArgs();
+        
         auto system = AV::System::create(shared_from_this());
         auto io = getSystemT<AV::IO::System>();
         const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
@@ -106,10 +103,52 @@ public:
     bool isRunning() const { return _write->isRunning(); }
     
 private:
-    std::shared_ptr<AV::IO::Queue> _queue;    
+    void _parseArgs()
+    {
+        auto args = getArgs();
+        auto i = args.begin();
+        while (i != args.end())
+        {
+            if ("-resize" == *i)
+            {
+                i = args.erase(i);
+                if (args.size() >= 2)
+                {
+                    glm::ivec2 resize;
+                    resize.x = std::stoi(*i);
+                    i = args.erase(i);
+                    resize.y = std::stoi(*i);
+                    i = args.erase(i);
+                    _resize.reset(new glm::ivec2(resize));
+                    std::cout << resize << std::endl;
+                }
+                else
+                {
+                    std::stringstream ss;
+                    ss << DJV_TEXT("Cannot parse option '-resize'");
+                    throw std::runtime_error(ss.str());
+                }
+            }
+            else
+            {
+                ++i;
+            }
+        }
+        if (args.size() != 3)
+        {
+            throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
+        }
+        _input = args[1];
+        _input = args[2];
+    }
+    
+    std::string _input;
+    std::string _output;
+    std::unique_ptr<glm::ivec2> _resize;
+    std::shared_ptr<AV::IO::Queue> _queue;
     std::shared_ptr<AV::IO::IRead> _read;
     std::shared_ptr<Core::Timer> _statsTimer;
-    std::shared_ptr<AV::IO::IWrite> _write;   
+    std::shared_ptr<AV::IO::IWrite> _write;
 };
 
 class Application : public QGuiApplication
@@ -122,6 +161,7 @@ public:
         _time = std::chrono::system_clock::now();
         _timer = startTimer(Core::Timer::getValue(Core::Timer::Value::Fast), Qt::PreciseTimer);
     }
+    
     ~Application()
     {
         _context->exit();

@@ -115,6 +115,11 @@ namespace djv
             return out;
         }
 
+        const std::vector<std::string> & Context::getArgs() const
+        {
+            return _p->args;
+        }
+           
         const std::string& Context::getName() const
         {
             return _p->name;
