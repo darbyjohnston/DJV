@@ -308,7 +308,7 @@ namespace djv
                                     {
                                         _p->iconFutures[persistentIndex].future = _p->iconSystem->getImage(
                                             fileInfo.getPath(),
-                                            AV::Pixel::Info(glm::ivec2(100, 100), AV::Pixel::Type::RGBA_U8));
+                                            AV::Pixel::Info(glm::ivec2(200, 200), AV::Pixel::Type::RGBA_U8));
                                         _p->iconFutures[persistentIndex].fileInfo = fileInfo;
                                     }
                                 }
@@ -321,6 +321,8 @@ namespace djv
                     }
                 }
                 break;
+            case Qt::SizeHintRole:
+                return QSize(200, 200);
             case Qt::EditRole:
                 return QString::fromStdString(_p->fileInfoList[index.row()].getFileName());
             default: break;
