@@ -58,13 +58,13 @@ namespace djv
             DJV_NON_COPYABLE(IconSystem);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>& context);
+            void _init(Core::Context *);
             IconSystem();
 
         public:
             virtual ~IconSystem();
 
-            static std::shared_ptr<IconSystem> create(const std::shared_ptr<Core::Context>& context);
+            static std::shared_ptr<IconSystem> create(Core::Context *);
 
             std::future<Pixel::Info> getInfo(const Core::Path&);
             std::future<std::shared_ptr<Image> > getImage(const Core::Path&);

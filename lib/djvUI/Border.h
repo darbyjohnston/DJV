@@ -42,13 +42,13 @@ namespace djv
             DJV_NON_COPYABLE(Border);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             Border();
 
         public:
             virtual ~Border();
 
-            static std::shared_ptr<Border> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Border> create(Core::Context *);
 
             MetricsRole getBorderSize() const;
             void setBorderSize(MetricsRole);

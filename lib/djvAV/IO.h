@@ -155,7 +155,7 @@ namespace djv
                 void _init(
                     const std::string & fileName,
                     const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &);
+                    Core::Context *);
                 IRead();
 
             public:
@@ -168,6 +168,7 @@ namespace djv
                 virtual void seek(Timestamp);
 
             protected:
+                Core::Context * _context = nullptr;
                 std::string _fileName;
                 std::shared_ptr<Queue> _queue;
             };
@@ -185,7 +186,7 @@ namespace djv
                     const std::string &,
                     const Info &,
                     const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &);
+                    Core::Context *);
                 IWrite();
 
             public:
@@ -194,6 +195,7 @@ namespace djv
                 virtual bool isRunning() const = 0;
 
             protected:
+                Core::Context * _context = nullptr;
                 std::string _fileName;
                 Info _info;
                 std::shared_ptr<Queue> _queue;
@@ -209,7 +211,7 @@ namespace djv
                     const std::string & pluginName,
                     const std::string & pluginInfo,
                     const std::set<std::string> & fileExtensions,
-                    const std::shared_ptr<Core::Context> &);
+                    Core::Context *);
                 IPlugin();
 
             public:
@@ -232,18 +234,17 @@ namespace djv
                 //! - std::exception
                 virtual std::shared_ptr<IRead> read(
                     const std::string & fileName,
-                    const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &) const { return nullptr; }
+                    const std::shared_ptr<Queue> &) const { return nullptr; }
 
                 //! Throws:
                 //! - std::exception
                 virtual std::shared_ptr<IWrite> write(
                     const std::string & fileName,
                     const Info &,
-                    const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &) const { return nullptr; }
+                    const std::shared_ptr<Queue> &) const { return nullptr; }
 
             protected:
+                Core::Context * _context = nullptr;
                 std::string _pluginName;
                 std::string _pluginInfo;
                 std::set<std::string> _fileExtensions;
@@ -255,13 +256,13 @@ namespace djv
                 DJV_NON_COPYABLE(System);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context> &);
+                void _init(Core::Context *);
                 System();
 
             public:
                 virtual ~System();
 
-                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
+                static std::shared_ptr<System> create(Core::Context *);
 
                 virtual picojson::value getOptions(const std::string & pluginName) const;
 
@@ -276,16 +277,14 @@ namespace djv
                 //! - std::exception
                 std::shared_ptr<IRead> read(
                     const std::string & fileName,
-                    const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &);
+                    const std::shared_ptr<Queue> &);
 
                 //! Throws:
                 //! - std::exception
                 std::shared_ptr<IWrite> write(
                     const std::string & fileName,
                     const Info &,
-                    const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &);
+                    const std::shared_ptr<Queue> &);
 
             private:
                 DJV_PRIVATE();

@@ -54,7 +54,7 @@ namespace djv
                 void _init(
                     const std::string & fileName,
                     const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &);
+                    Core::Context *);
                 ISequenceRead();
 
             public:
@@ -86,7 +86,7 @@ namespace djv
                     const std::string &,
                     const Info &,
                     const std::shared_ptr<Queue> &,
-                    const std::shared_ptr<Core::Context> &);
+                    Core::Context *);
                 ISequenceWrite();
 
             public:

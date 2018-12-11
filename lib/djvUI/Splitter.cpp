@@ -47,7 +47,7 @@ namespace djv
             std::function<void(float)> splitCallback;
         };
 
-        void Splitter::_init(const std::shared_ptr<Context>& context)
+        void Splitter::_init(Context * context)
         {
             IContainerWidget::_init(context);
             
@@ -62,7 +62,7 @@ namespace djv
         Splitter::~Splitter()
         {}
 
-        std::shared_ptr<Splitter> Splitter::create(Orientation orientation, const std::shared_ptr<Context>& context)
+        std::shared_ptr<Splitter> Splitter::create(Orientation orientation, Context * context)
         {
             auto out = std::shared_ptr<Splitter>(new Splitter);
             out->_init(context);

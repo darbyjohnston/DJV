@@ -64,7 +64,7 @@ namespace djv
             std::future<std::vector<AV::FontLine> > breakTextFuture;
         };
 
-        void TextBlock::_init(const std::shared_ptr<Context>& context)
+        void TextBlock::_init(Context * context)
         {
             Widget::_init(context);
             
@@ -78,14 +78,14 @@ namespace djv
         TextBlock::~TextBlock()
         {}
 
-        std::shared_ptr<TextBlock> TextBlock::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<TextBlock> TextBlock::create(Context * context)
         {
             auto out = std::shared_ptr<TextBlock>(new TextBlock);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<TextBlock> TextBlock::create(const std::string& text, const std::shared_ptr<Context>& context)
+        std::shared_ptr<TextBlock> TextBlock::create(const std::string& text, Context * context)
         {
             auto out = TextBlock::create(context);
             out->setText(text);

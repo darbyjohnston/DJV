@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/EventSystem.h>
+#include <djvCore/IEventSystem.h>
 
 struct GLFWwindow;
 
@@ -48,13 +48,13 @@ namespace djv
             DJV_NON_COPYABLE(EventSystem);
 
         protected:
-            void _init(GLFWwindow*, const std::shared_ptr<Core::Context>&);
+            void _init(GLFWwindow*, Core::Context *);
             EventSystem();
 
         public:
             virtual ~EventSystem();
 
-            static std::shared_ptr<EventSystem> create(GLFWwindow*, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<EventSystem> create(GLFWwindow*, Core::Context *);
 
         private:
             static void _pointerCallback(GLFWwindow*, double, double);

@@ -87,13 +87,13 @@ namespace djv
             DJV_NON_COPYABLE(FontSystem);
 
         protected:
-            void _init(const glm::vec2& dpi, const std::shared_ptr<Core::Context>& context);
+            void _init(const glm::vec2& dpi, Core::Context *);
             FontSystem();
 
         public:
             virtual ~FontSystem();
 
-            static std::shared_ptr<FontSystem> create(const glm::vec2& dpi, const std::shared_ptr<Core::Context>& context);
+            static std::shared_ptr<FontSystem> create(const glm::vec2& dpi, Core::Context *);
 
             std::future<std::map<std::string, std::string> > getFileNames();
             std::future<FontMetrics> getMetrics(const Font&);

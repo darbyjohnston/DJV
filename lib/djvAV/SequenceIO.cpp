@@ -61,24 +61,23 @@ namespace djv
             void ISequenceRead::_init(
                 const std::string & fileName,
                 const std::shared_ptr<Queue> & queue,
-                const std::shared_ptr<Core::Context> & context)
+                Context * context)
             {
                 IRead::_init(fileName, queue, context);
 
-                auto logSystemWeak = std::weak_ptr<Core::LogSystem>(std::dynamic_pointer_cast<Core::LogSystem>(context->getSystemT<Core::LogSystem>()));
                 _p->running = true;
                 _p->thread = std::thread(
-                    [this, fileName, logSystemWeak]
+                    [this, fileName, context]
                 {
                     DJV_PRIVATE_PTR();
                     try
                     {
-                        Core::FileInfo fileInfo(fileName);
+                        FileInfo fileInfo(fileName);
                         fileInfo.evalSequence();
-                        Core::Frame::Index frameIndex = Core::Frame::Invalid;
+                        Frame::Index frameIndex = Frame::Invalid;
                         if (fileInfo.isSequenceValid())
                         {
-                            _frames = Core::Frame::toFrames(fileInfo.getSequence());
+                            _frames = Frame::toFrames(fileInfo.getSequence());
                             if (_frames.size())
                             {
                                 frameIndex = 0;
@@ -86,14 +85,14 @@ namespace djv
                             }
                         }
 
-                        Core::Frame::Number frameNumber = Core::Frame::Invalid;
-                        if (frameIndex != Core::Frame::Invalid)
+                        Frame::Number frameNumber = Frame::Invalid;
+                        if (frameIndex != Frame::Invalid)
                         {
-                            frameNumber = Core::Frame::getFrame(_frames, frameIndex);
+                            frameNumber = Frame::getFrame(_frames, frameIndex);
                         }
                         p.infoPromise.set_value(_readInfo(fileInfo.getFileName(frameNumber)));
 
-                        const auto timeout = Core::Timer::getValue(Core::Timer::Value::Fast);
+                        const auto timeout = Timer::getValue(Timer::Value::Fast);
                         while (_queue && p.running)
                         {
                             bool read = false;
@@ -126,10 +125,10 @@ namespace djv
                             {
                                 std::shared_ptr<Image> image;
                                 Timestamp pts = 0;
-                                Core::Frame::Number frameNumber = Core::Frame::Invalid;
-                                if (frameIndex != Core::Frame::Invalid)
+                                Frame::Number frameNumber = Frame::Invalid;
+                                if (frameIndex != Frame::Invalid)
                                 {
-                                    frameNumber = Core::Frame::getFrame(_frames, frameIndex);
+                                    frameNumber = Frame::getFrame(_frames, frameIndex);
                                     ++frameIndex;
                                 }
                                 auto fileName = fileInfo.getFileName(frameNumber);
@@ -139,10 +138,10 @@ namespace djv
                                 r.den = _speed.getScale();
                                 pts = av_rescale_q(frameNumber * _speed.getDuration(), r, FFmpeg::getTimeBaseQ());
 
-                                /*if (auto logSystem = logSystemWeak.lock())
+                                /*if (auto logSystem = context->getSystemT<LogSystem>().lock())
                                 {
                                     std::stringstream ss;
-                                    ss << _fileName << ": Read frame: " << pts;
+                                    ss << _fileName << ": read frame " << pts;
                                     logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                                 }*/
 
@@ -153,7 +152,7 @@ namespace djv
                                     _queue->addVideo(pts, image);
                                 }
 
-                                if (Core::Frame::Invalid == frameIndex || frameIndex >= static_cast<Core::Frame::Index>(_frames.size()))
+                                if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
                                 {
                                     std::lock_guard<std::mutex> lock(_queue->getMutex());
                                     _queue->setFinished(true);
@@ -167,12 +166,12 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        if (auto logSystem = logSystemWeak.lock())
+                        p.infoPromise.set_value(Info());
+                        if (auto logSystem = context->getSystemT<LogSystem>().lock())
                         {
-                            logSystem->log("djv::AV::ISequenceWrite", e.what(), Core::LogLevel::Error);
+                            logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
                         }
                     }
-                    p.running = false;
                 });
             }
             
@@ -210,8 +209,8 @@ namespace djv
 
             struct ISequenceWrite::Private
             {
-                Core::FileInfo fileInfo;
-                Core::Frame::Number frameNumber = Core::Frame::Invalid;
+                FileInfo fileInfo;
+                Frame::Number frameNumber = Frame::Invalid;
                 std::thread thread;
                 std::atomic<bool> running;
             };
@@ -220,7 +219,7 @@ namespace djv
                 const std::string & fileName,
                 const Info & info,
                 const std::shared_ptr<Queue> & queue,
-                const std::shared_ptr<Core::Context> & context)
+                Context * context)
             {
                 IWrite::_init(fileName, info, queue, context);
 
@@ -243,42 +242,28 @@ namespace djv
                     }
                 }
 
-                auto contextWeak = std::weak_ptr<Context>(context);
-                auto logSystemWeak = std::weak_ptr<Core::LogSystem>(std::dynamic_pointer_cast<Core::LogSystem>(context->getSystemT<Core::LogSystem>()));
                 p.running = true;
                 p.thread = std::thread(
-                    [this, contextWeak, logSystemWeak]
+                    [this, context]
                 {
                     DJV_PRIVATE_PTR();
                     GLFWwindow * glfwWindow = nullptr;
                     try
                     {
-                        if (auto context = contextWeak.lock())
-                        {
-                            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-                            glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
-                        }
+                        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+                        glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
                         if (!glfwWindow)
                         {
                             std::stringstream ss;
-                            ss << "djv::AV::IconSystem: " << DJV_TEXT("Cannot create GLFW window");
+                            ss << DJV_TEXT("Cannot create GLFW window.");
                             throw std::runtime_error(ss.str());
                         }
                         glfwMakeContextCurrent(glfwWindow);
                         glbinding::initialize(glfwGetProcAddress);
 
-                        if (auto context = contextWeak.lock())
-                        {
-                            _convert = Pixel::Convert::create(context);
-                        }
-                        if (!_convert)
-                        {
-                            std::stringstream ss;
-                            ss << "djv::AV::IconSystem: " << DJV_TEXT("Cannot create pixel converter");
-                            throw std::runtime_error(ss.str());
-                        }
+                        _convert = Pixel::Convert::create(context);
 
-                        const auto timeout = Core::Timer::getValue(Core::Timer::Value::Fast);
+                        const auto timeout = Timer::getValue(Timer::Value::Fast);
                         while (p.running)
                         {
                             std::shared_ptr<Image> image;
@@ -300,17 +285,17 @@ namespace djv
                             if (image)
                             {
                                 const auto fileName = p.fileInfo.getFileName(p.frameNumber);
-                                if (p.frameNumber != Core::Frame::Invalid)
+                                if (p.frameNumber != Frame::Invalid)
                                 {
                                     ++p.frameNumber;
                                 }
 
-                                if (auto logSystem = logSystemWeak.lock())
+                                /*if (auto logSystem = context->getSystemT<LogSystem>().lock())
                                 {
                                     std::stringstream ss;
                                     ss << "Writing: " << fileName;
                                     logSystem->log("djv::AV::IO::ISequenceWrite", ss.str());
-                                }
+                                }*/
 
                                 _write(fileName, image);
                             }
@@ -324,9 +309,9 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        if (auto logSystem = logSystemWeak.lock())
+                        if (auto logSystem = context->getSystemT<LogSystem>().lock())
                         {
-                            logSystem->log("djv::AV::ISequenceWrite", e.what(), Core::LogLevel::Error);
+                            logSystem->log("djv::AV::ISequenceWrite", e.what(), LogLevel::Error);
                         }
                     }
                     if (glfwWindow)

@@ -39,36 +39,39 @@
 
 using namespace djv;
 
-class Context : public Core::Context
+class Application : public Core::Context
 {
-    DJV_NON_COPYABLE(Context);
+    DJV_NON_COPYABLE(Application);
 
 protected:
     void _init(int & argc, char ** argv)
     {
         Core::Context::_init(argc, argv);
                 
-        auto system = AV::System::create(shared_from_this());
-        auto io = getSystemT<AV::IO::System>();
-        const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
+        _avSystem = AV::System::create(this);
         _parseArgs();
 
-        _queue = AV::IO::Queue::create();
-        _read = io->read(argv[1], _queue, shared_from_this());
-        auto info = _read->getInfo().get();
-        auto & video = info.video;
-        if (!video.size())
+        AV::Duration duration = 0;
+        if (auto io = getSystemT<AV::IO::System>().lock())
         {
-            throw std::runtime_error(DJV_TEXT("Nothing to convert"));
+            _queue = AV::IO::Queue::create();
+            _read = io->read(argv[1], _queue);
+            auto info = _read->getInfo().get();
+            auto & video = info.video;
+            if (!video.size())
+            {
+                throw std::runtime_error(DJV_TEXT("Nothing to convert"));
+            }
+            auto & videoInfo = video[0];
+            if (_resize)
+            {
+                video[0].info.size = *_resize;
+            }
+            duration = videoInfo.duration;
+            _write = io->write(argv[2], info, _queue);
         }
-        auto & videoInfo = video[0];
-        if (_resize)
-        {
-            video[0].info.size = *_resize;
-        }
-        const AV::Duration duration = videoInfo.duration;
 
-        _statsTimer = Core::Timer::create(shared_from_this());
+        _statsTimer = Core::Timer::create(this);
         _statsTimer->setRepeating(true);
         _statsTimer->start(
             Core::Timer::getMilliseconds(Core::Timer::Value::Slow),
@@ -87,24 +90,31 @@ protected:
                 std::cout << (timestamp / static_cast<float>(duration) * 100.f) << "%" << std::endl;
             }
         });
-
-        _write = io->write(argv[2], info, _queue, shared_from_this());
     }
 
-    Context()
+    Application()
     {}
 
 public:
-    static std::shared_ptr<Context> create(int & argc, char ** argv)
+    static std::shared_ptr<Application> create(int & argc, char ** argv)
     {
-        auto out = std::shared_ptr<Context>(new Context);
+        auto out = std::shared_ptr<Application>(new Application);
         out->_init(argc, argv);
         return out;
     }
 
-    bool isRunning() const
+    int run()
     {
-        return _write->isRunning();
+        auto time = std::chrono::system_clock::now();
+        while (_write->isRunning())
+        {
+            const auto now = std::chrono::system_clock::now();
+            const std::chrono::duration<float> delta = now - time;
+            time = now;
+            const float dt = delta.count();
+            tick(dt);
+        }
+        return 0;
     }
     
 private:
@@ -149,36 +159,11 @@ private:
     std::string _input;
     std::string _output;
     std::unique_ptr<glm::ivec2> _resize;
+    std::shared_ptr<AV::System> _avSystem;
     std::shared_ptr<AV::IO::Queue> _queue;
     std::shared_ptr<AV::IO::IRead> _read;
     std::shared_ptr<Core::Timer> _statsTimer;
     std::shared_ptr<AV::IO::IWrite> _write;
-};
-
-class Application
-{
-public:
-    Application(int & argc, char ** argv)
-    {
-        _context = Context::create(argc, argv);
-    }
-    
-    int run()
-    {
-        auto time = std::chrono::system_clock::now();
-        while (_context->isRunning())
-        {
-            const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - time;
-            time = now;
-            const float dt = delta.count();
-            _context->tick(dt);
-        }
-        return 0;
-    }
-    
-private:
-    std::shared_ptr<Context> _context;
 };
 
 int main(int argc, char ** argv)
@@ -186,7 +171,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        return Application(argc, argv).run();
+        return Application::create(argc, argv)->run();
     }
     catch (const std::exception & e)
     {

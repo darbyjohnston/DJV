@@ -48,14 +48,14 @@ namespace djv
         class ISettings : public std::enable_shared_from_this<ISettings>
         {
         protected:
-            void _init(const std::string& name, const std::shared_ptr<Core::Context>&);
+            void _init(const std::string& name, Core::Context *);
 
         public:
             ISettings();
             virtual ~ISettings() = 0;
 
             // Get the context.
-            const std::weak_ptr<Core::Context> & getContext() const;
+            Core::Context * getContext() const;
 
             // Get the settings name.
             const std::string& getName() const;

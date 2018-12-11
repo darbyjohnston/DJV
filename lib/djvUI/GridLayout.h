@@ -58,13 +58,13 @@ namespace djv
             DJV_NON_COPYABLE(GridLayout);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             GridLayout();
 
         public:
             virtual ~GridLayout();
 
-            static std::shared_ptr<GridLayout> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<GridLayout> create(Core::Context *);
 
             void addWidget(const std::shared_ptr<Widget>&, const glm::ivec2&, GridLayoutStretch = GridLayoutStretch::None);
             void addWidget(const std::shared_ptr<Widget>&, int x, int y, GridLayoutStretch = GridLayoutStretch::None);

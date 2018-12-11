@@ -44,14 +44,14 @@ namespace djv
         class LogSystem : public ISystem
         {
             DJV_NON_COPYABLE(LogSystem);
-            void _init(const Path&, const std::shared_ptr<Context>&);
+            void _init(const Path&, Context *);
             LogSystem();
 
         public:
             virtual ~LogSystem();
             
             //! Create a new logging system.
-            static std::shared_ptr<LogSystem> create(const Path&, const std::shared_ptr<Context>&);
+            static std::shared_ptr<LogSystem> create(const Path&, Context *);
             
             //! Log a message.
             void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);

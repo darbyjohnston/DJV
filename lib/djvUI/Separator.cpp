@@ -43,7 +43,7 @@ namespace djv
             AV::Color color;
         };
 
-        void Separator::_init(const std::shared_ptr<Context>& context)
+        void Separator::_init(Context * context)
         {
             Widget::_init(context);
             
@@ -57,7 +57,7 @@ namespace djv
         Separator::~Separator()
         {}
 
-        std::shared_ptr<Separator> Separator::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Separator> Separator::create(Context * context)
         {
             auto out = std::shared_ptr<Separator>(new Separator);
             out->_init(context);

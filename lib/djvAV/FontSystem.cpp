@@ -161,12 +161,15 @@ namespace djv
             std::atomic<bool> running;
         };
 
-        void FontSystem::_init(const glm::vec2& dpi, const std::shared_ptr<Context>& context)
+        void FontSystem::_init(const glm::vec2& dpi, Context * context)
         {
             ISystem::_init("djv::AV::FontSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.fontPath = context->getSystemT<ResourceSystem>()->getPath(ResourcePath::FontsDirectory);
+            if (auto system = context->getSystemT<ResourceSystem>().lock())
+            {
+                p.fontPath = system->getPath(ResourcePath::FontsDirectory);
+            }
             p.measureCache.setMax(measureCacheMax);
             p.glyphCache.setMax(glyphCacheMax);
             p.dpi = dpi;
@@ -174,7 +177,7 @@ namespace djv
             p.statsTimer = Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Core::Timer::getMilliseconds(Core::Timer::Value::VerySlow),
+                Timer::getMilliseconds(Timer::Value::VerySlow),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
@@ -191,7 +194,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 _initFreeType();
-                const auto timeout = Core::Timer::getValue(Core::Timer::Value::Medium);
+                const auto timeout = Timer::getValue(Timer::Value::Medium);
                 while (p.running)
                 {
                     {
@@ -248,7 +251,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<FontSystem> FontSystem::create(const glm::vec2& dpi, const std::shared_ptr<Context>& context)
+        std::shared_ptr<FontSystem> FontSystem::create(const glm::vec2& dpi, Context * context)
         {
             auto out = std::shared_ptr<FontSystem>(new FontSystem);
             out->_init(dpi, context);
@@ -335,7 +338,7 @@ namespace djv
                 FT_Error ftError = FT_Init_FreeType(&p.ftLibrary);
                 if (ftError)
                 {
-                    throw std::runtime_error("Cannot initialize FreeType");
+                    throw std::runtime_error(DJV_TEXT("Cannot initialize FreeType."));
                 }
                 for (const auto& i : FileInfo::dirList(p.fontPath))
                 {
@@ -369,7 +372,7 @@ namespace djv
                 }
                 if (!p.fontFaces.size())
                 {
-                    throw std::runtime_error("Cannot find any fonts");
+                    throw std::runtime_error(DJV_TEXT("Cannot find any fonts."));
                 }
                 p.fontFileNamesPromise.set_value(p.fontFileNames);
             }

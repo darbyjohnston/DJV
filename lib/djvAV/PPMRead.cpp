@@ -33,6 +33,8 @@
 
 #include <djvCore/FileIO.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace AV
@@ -44,7 +46,7 @@ namespace djv
                 Read::Read()
                 {}
 
-                std::shared_ptr<Read> Read::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
+                std::shared_ptr<Read> Read::create(const std::string & fileName, const std::shared_ptr<Queue> & queue, Context * context)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_init(fileName, queue, context);
@@ -53,7 +55,7 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    Core::FileIO io;
+                    FileIO io;
                     Data data = Data::First;
                     return _open(fileName, io, data);
                 }
@@ -61,7 +63,7 @@ namespace djv
                 std::shared_ptr<Image> Read::_readImage(const std::string & fileName)
                 {
                     std::shared_ptr<Image> out;
-                    Core::FileIO io;
+                    FileIO io;
                     Data data = Data::First;
                     const auto info = _open(fileName, io, data);
                     if (info.video.size())
@@ -88,16 +90,16 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, Core::FileIO & io, Data & data)
+                Info Read::_open(const std::string & fileName, FileIO & io, Data & data)
                 {
-                    io.open(fileName, Core::FileIO::Mode::Read);
+                    io.open(fileName, FileIO::Mode::Read);
 
                     char magic[] = { 0, 0, 0 };
                     io.read(magic, 2);
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
+                        s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     switch (magic[1])
@@ -109,7 +111,7 @@ namespace djv
                     default:
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
+                        s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     }
@@ -124,24 +126,24 @@ namespace djv
                     case 3:
                     case 6: channelCount = 3; break;
                     }
-                    char tmp[Core::String::cStringLength] = "";
-                    Core::FileIO::readWord(io, tmp, Core::String::cStringLength);
+                    char tmp[String::cStringLength] = "";
+                    FileIO::readWord(io, tmp, String::cStringLength);
                     const int w = std::stoi(tmp);
-                    Core::FileIO::readWord(io, tmp, Core::String::cStringLength);
+                    FileIO::readWord(io, tmp, String::cStringLength);
                     const int h = std::stoi(tmp);
-                    Core::FileIO::readWord(io, tmp, Core::String::cStringLength);
+                    FileIO::readWord(io, tmp, String::cStringLength);
                     const int maxValue = std::stoi(tmp);
                     const size_t bitDepth = maxValue < 256 ? 8 : 16;
                     const auto pixelType = Pixel::getIntType(channelCount, bitDepth);
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
+                        s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
                     layout.mirror.y = true;
-                    layout.endian = data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
+                    layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Pixel::Info(w, h, pixelType, layout);
                     return Info(fileName, VideoInfo(info, _speed, _duration), AudioInfo());
                 }

@@ -59,7 +59,7 @@ namespace djv
             std::shared_ptr<DirectoryWatcher> directoryWatcher;
         };
 
-        void DirectoryModel::_init(const std::shared_ptr<Context>& context)
+        void DirectoryModel::_init(Context * context)
         {
             DJV_PRIVATE_PTR();
             p.path = ValueSubject<Path>::create();
@@ -91,14 +91,14 @@ namespace djv
         DirectoryModel::~DirectoryModel()
         {}
         
-        std::shared_ptr<DirectoryModel> DirectoryModel::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<DirectoryModel> DirectoryModel::create(Context * context)
         {
             auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<DirectoryModel> DirectoryModel::create(const Path& path, const std::shared_ptr<Context>& context)
+        std::shared_ptr<DirectoryModel> DirectoryModel::create(const Path& path, Context * context)
         {
             auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
             out->_init(context);

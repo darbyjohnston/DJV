@@ -56,13 +56,13 @@ namespace djv
             DJV_NON_COPYABLE(WindowSystem);
             
         protected:
-            void _init(GLFWwindow *, const std::shared_ptr<Core::Context>&);
+            void _init(GLFWwindow *, Core::Context *);
             WindowSystem();
 
         public:
             virtual ~WindowSystem();
 
-            static std::shared_ptr<WindowSystem> create(GLFWwindow *, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<WindowSystem> create(GLFWwindow *, Core::Context *);
 
         protected:
             void _addWindow(const std::shared_ptr<UI::Window>&) override;

@@ -49,14 +49,14 @@ namespace djv
         class TextSystem : public ISystem
         {
             DJV_NON_COPYABLE(TextSystem);
-            void _init(const std::shared_ptr<Context> &);
+            void _init(Context *);
             TextSystem();
 
         public:
             virtual ~TextSystem();
             
             //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(const std::shared_ptr<Context> &);
+            static std::shared_ptr<TextSystem> create(Context *);
 
             //! \name Language Locale
             ///@{

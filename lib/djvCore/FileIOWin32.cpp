@@ -49,42 +49,42 @@ namespace djv
             std::string getOpenError(const std::string& fileName)
             {
                 std::stringstream s;
-                s << "Cannot open file: " << fileName << ": " << getLastError();
+                s << DJV_TEXT("Cannot open file") << " '" << fileName << "'. " << getLastError();
                 return s.str();
             }
 
             std::string getCloseError(const std::string& fileName)
             {
                 std::stringstream s;
-                s << "Cannot close file: " << fileName << ": " << getLastError();
+                s << DJV_TEXT("Cannot close file") << " '" << fileName << "'. " << getLastError();
                 return s.str();
             }
             
             std::string getMemoryMapError(const std::string& fileName)
             {
                 std::stringstream s;
-                s << "Cannot map file: " << fileName << ": " << getLastError();
+                s << DJV_TEXT("Cannot map file") << " '" << fileName << "'. " << getLastError();
                 return s.str();
             }
 
             std::string getMemoryUnmapError(const std::string& fileName)
             {
                 std::stringstream s;
-                s << "Cannot unmap file: " << fileName << ": " << getLastError();
+                s << DJV_TEXT("Cannot unmap file") << " '" << fileName << "'. " << getLastError();
                 return s.str();
             }
 
             std::string getReadError(const std::string& fileName)
             {
                 std::stringstream s;
-                s << "Cannot read file: " << fileName << ": " << getLastError();
+                s << DJV_TEXT("Cannot read file") << " '" << fileName << "'. " << getLastError();
                 return s.str();
             }
 
             std::string getWriteError(const std::string& fileName)
             {
                 std::stringstream s;
-                s << "Cannot write file: " << fileName << ": " << getLastError();
+                s << DJV_TEXT("Cannot write file") << " '" << fileName << "'. " << getLastError();
                 return s.str();
             }
 

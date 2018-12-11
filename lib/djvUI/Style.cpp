@@ -190,7 +190,7 @@ namespace djv
             std::shared_ptr<MapObserver<std::string, FontMap> > fontsObserver;
         };
 
-        void Style::_init(const std::shared_ptr<Context>& context)
+        void Style::_init(Context * context)
         {
             ISystem::_init("djv::UI::Style", context);
 
@@ -218,28 +218,30 @@ namespace djv
                 }
             });
 
-            auto uiSystem = context->getSystemT<System>();
-            p.currentLocaleObserver = ValueObserver<std::string>::create(
-                uiSystem->getGeneralSettings()->getCurrentLocale(),
-                [weak](const std::string& value)
+            if (auto uiSystem = context->getSystemT<System>().lock())
             {
-                if (auto system = weak.lock())
+                p.currentLocaleObserver = ValueObserver<std::string>::create(
+                    uiSystem->getGeneralSettings()->getCurrentLocale(),
+                    [weak](const std::string& value)
                 {
-                    system->_p->currentLocale = value;
-                    system->_updateCurrentFont();
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->currentLocale = value;
+                        system->_updateCurrentFont();
+                    }
+                });
 
-            p.fontsObserver = MapObserver<std::string, FontMap>::create(
-                uiSystem->getFontSettings()->getFonts(),
-                [weak](const std::map<std::string, FontMap>& value)
-            {
-                if (auto system = weak.lock())
+                p.fontsObserver = MapObserver<std::string, FontMap>::create(
+                    uiSystem->getFontSettings()->getFonts(),
+                    [weak](const std::map<std::string, FontMap>& value)
                 {
-                    system->_p->fonts = value;
-                    system->_updateCurrentFont();
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->fonts = value;
+                        system->_updateCurrentFont();
+                    }
+                });
+            }
         }
 
         Style::Style() :
@@ -249,7 +251,7 @@ namespace djv
         Style::~Style()
         {}
 
-        std::shared_ptr<Style> Style::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Style> Style::create(Context * context)
         {
             auto out = std::shared_ptr<Style>(new Style);
             out->_init(context);

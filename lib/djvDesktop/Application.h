@@ -52,7 +52,7 @@ namespace djv
         public:
             virtual ~Application();
 
-            static std::shared_ptr<Application> create(int argc, char* argv[]);
+            static std::unique_ptr<Application> create(int argc, char* argv[]);
 
             int run();
             void stop();

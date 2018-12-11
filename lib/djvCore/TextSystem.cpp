@@ -86,14 +86,17 @@ namespace djv
             }
         } // namespace
 
-        void TextSystem::_init(const std::shared_ptr<Context> & context)
+        void TextSystem::_init(Context * context)
         {
             ISystem::_init("djv::Core::TextSystem", context);
 
             _p->currentLocaleSubject = ValueSubject<std::string>::create();
-            
-            auto resourceSystem = context->getSystemT<ResourceSystem>();
-            const auto path = resourceSystem->getPath(ResourcePath::TextDirectory);
+
+            Path path;
+            if (auto resourceSystem = context->getSystemT<ResourceSystem>().lock())
+            {
+                path = resourceSystem->getPath(ResourcePath::TextDirectory);
+            }
             _p->thread = std::thread(
                 [this, path]
             {
@@ -202,7 +205,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<TextSystem> TextSystem::create(const std::shared_ptr<Context> & context)
+        std::shared_ptr<TextSystem> TextSystem::create(Context * context)
         {
             auto out = std::shared_ptr<TextSystem>(new TextSystem);
             out->_init(context);
@@ -284,7 +287,7 @@ namespace djv
                     if (!error.empty())
                     {
                         std::stringstream s;
-                        s << "Error reading text file: " << path << ": " << error;
+                        s << DJV_TEXT("Error reading text file") << " '" << path << "'. " << error;
                         throw std::runtime_error(s.str());
                     }
 

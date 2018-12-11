@@ -54,7 +54,7 @@ namespace djv
             std::shared_ptr<ValueSubject<std::string> > currentMetricsName;
         };
 
-        void StyleSettings::_init(const std::shared_ptr<Context>& context)
+        void StyleSettings::_init(Context * context)
         {
             ISettings::_init("djv::UI::StyleSettings", context);
 
@@ -98,7 +98,7 @@ namespace djv
         StyleSettings::~StyleSettings()
         {}
 
-        std::shared_ptr<StyleSettings> StyleSettings::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<StyleSettings> StyleSettings::create(Context * context)
         {
             auto out = std::shared_ptr<StyleSettings>(new StyleSettings);
             out->_init(context);
@@ -125,9 +125,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.currentPaletteName->setIfChanged(name))
             {
-                if (auto context = getContext().lock())
+                if (auto style = getContext()->getSystemT<Style>().lock())
                 {
-                    context->getSystemT<Style>()->setPalette(p.palettes->getItem(name));
+                    style->setPalette(p.palettes->getItem(name));
                 }
             }
         }
@@ -152,9 +152,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.currentMetricsName->setIfChanged(name))
             {
-                if (auto context = getContext().lock())
+                if (auto style = getContext()->getSystemT<Style>().lock())
                 {
-                    context->getSystemT<Style>()->setMetrics(p.metrics->getItem(name));
+                    style->setMetrics(p.metrics->getItem(name));
                 }
             }
         }

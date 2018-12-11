@@ -32,6 +32,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/String.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace AV
@@ -43,7 +45,7 @@ namespace djv
                 Plugin::Plugin()
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Core::Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(Context * context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
@@ -56,19 +58,17 @@ namespace djv
 
                 std::shared_ptr<IRead> Plugin::read(
                     const std::string & fileName,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context) const
+                    const std::shared_ptr<Queue> & queue) const
                 {
-                    return Read::create(fileName, queue, context);
+                    return Read::create(fileName, queue, _context);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(
                     const std::string & fileName,
                     const Info & info,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context) const
+                    const std::shared_ptr<Queue> & queue) const
                 {
-                    return Write::create(fileName, info, queue, context);
+                    return Write::create(fileName, info, queue, _context);
                 }
 
                 extern "C"
@@ -76,14 +76,14 @@ namespace djv
                     void djvPngError(png_structp in, png_const_charp msg)
                     {
                         auto error = reinterpret_cast<ErrorStruct *>(png_get_error_ptr(in));
-                        DJV_STRNCPY(error->msg, msg, Core::String::cStringLength);
+                        DJV_STRNCPY(error->msg, msg, String::cStringLength);
                         longjmp(png_jmpbuf(in), 1);
                     }
 
                     void djvPngWarning(png_structp in, png_const_charp msg)
                     {
                         auto error = reinterpret_cast<ErrorStruct*>(png_get_error_ptr(in));
-                        DJV_STRNCPY(error->msg, msg, Core::String::cStringLength);
+                        DJV_STRNCPY(error->msg, msg, String::cStringLength);
                         longjmp(png_jmpbuf(in), 1);
                     }
 

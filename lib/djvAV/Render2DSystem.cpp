@@ -121,16 +121,16 @@ namespace djv
             
             struct Render
             {
-                Render(const std::shared_ptr<Core::Context>& context)
+                Render(Context * context)
                 {
                     Path shaderPath;
-                    if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                    if (auto resourceSystem = context->getSystemT<ResourceSystem>().lock())
                     {
                         shaderPath = resourceSystem->getPath(ResourcePath::ShadersDirectory);
                     }
                     shader = OpenGL::Shader::create(Shader::create(
-                        Path(shaderPath, "Render2DVertex.glsl"),
-                        Path(shaderPath, "Render2DFragment.glsl")));
+                        Path(shaderPath, "djvAVRender2DSystemVertex.glsl"),
+                        Path(shaderPath, "djvAVRender2DSystemFragment.glsl")));
 
                     GLint maxTextureSize = 0;
                     GLint maxTextureUnits = 0;
@@ -352,7 +352,7 @@ namespace djv
             std::chrono::time_point<std::chrono::system_clock> fpsTime = std::chrono::system_clock::now();
         };
 
-        void Render2DSystem::_init(const std::shared_ptr<Context>& context)
+        void Render2DSystem::_init(Context * context)
         {
             ISystem::_init("djv::AV::Render2DSystem", context);
 
@@ -397,7 +397,7 @@ namespace djv
         Render2DSystem::~Render2DSystem()
         {}
 
-        std::shared_ptr<Render2DSystem> Render2DSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Render2DSystem> Render2DSystem::create(Context * context)
         {
             auto out = std::shared_ptr<Render2DSystem>(new Render2DSystem);
             out->_init(context);

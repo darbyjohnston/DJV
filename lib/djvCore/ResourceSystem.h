@@ -50,14 +50,14 @@ namespace djv
         class ResourceSystem : public ISystem
         {
             DJV_NON_COPYABLE(ResourceSystem);
-            void _init(const std::string& argv0, const std::shared_ptr<Context>&);
+            void _init(const std::string& argv0, Context *);
             ResourceSystem();
             
         public:
             virtual ~ResourceSystem();
 
             // Create a resource system.
-            static std::shared_ptr<ResourceSystem> create(const std::string& argv0, const std::shared_ptr<Context>&);
+            static std::shared_ptr<ResourceSystem> create(const std::string& argv0, Context *);
 
             //! Get a resource path.
             Path getPath(ResourcePath) const;

@@ -41,12 +41,12 @@ namespace djv
 
         class RecentFilesModel : public std::enable_shared_from_this<RecentFilesModel>
         {
-            void _init(const std::shared_ptr<Context>&);
+            void _init(Context *);
 
             RecentFilesModel();
 
         public:
-            static std::shared_ptr<RecentFilesModel> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<RecentFilesModel> create(Context *);
 
             std::shared_ptr<IListSubject<FileInfo> > getFiles() const;
             void setFiles(std::vector<FileInfo>);

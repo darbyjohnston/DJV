@@ -36,16 +36,11 @@ namespace djv
 {
     namespace Core
     {
-        struct ISystem::Private
+        void ISystem::_init(const std::string & name, Context * context)
         {
-            std::string name;
-            std::weak_ptr<LogSystem> logSystem;
-        };
-        
-        void ISystem::_init(const std::string & name, const std::shared_ptr<Context> & context)
-        {
-            _p->name = name;
-            _p->logSystem = context->getSystemT<LogSystem>();
+            _context = context;
+            _name = name;
+            _logSystem = context->getSystemT<LogSystem>();
 
             std::stringstream s;
             s << name << " starting...";
@@ -53,24 +48,19 @@ namespace djv
 
             context->_addSystem(shared_from_this());
         }
-
-        ISystem::ISystem() :
-            _p(new Private)
-        {}
         
         ISystem::~ISystem()
-        {}
-
-        const std::string & ISystem::getName() const
         {
-            return _p->name;
+            std::stringstream s;
+            s << _name << " exiting...";
+            _log(s.str());
         }
 
         void ISystem::_log(const std::string& message, LogLevel level)
         {
-            if (auto logSystem = _p->logSystem.lock())
+            if (auto logSystem = _logSystem.lock())
             {
-                logSystem->log(_p->name, message, level);
+                logSystem->log(_name, message, level);
             }
         }
         

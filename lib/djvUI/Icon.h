@@ -47,14 +47,14 @@ namespace djv
             DJV_NON_COPYABLE(Icon);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             Icon();
 
         public:
             virtual ~Icon();
 
-            static std::shared_ptr<Icon> create(const std::shared_ptr<Core::Context>&);
-            static std::shared_ptr<Icon> create(const Core::Path&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Icon> create(Core::Context *);
+            static std::shared_ptr<Icon> create(const Core::Path&, Core::Context *);
 
             const Core::Path& getIcon() const;
             void setIcon(const Core::Path&);

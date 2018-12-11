@@ -34,6 +34,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace AV
@@ -45,7 +47,6 @@ namespace djv
                 struct Write::Private
                 {
                     Data data = Data::First;
-                    std::shared_ptr<Pixel::Convert> convert;
                 };
 
                 Write::Write(Data data) :
@@ -57,7 +58,7 @@ namespace djv
                 Write::~Write()
                 {}
 
-                std::shared_ptr<Write> Write::create(const std::string & fileName, const Info & info, Data data, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context)
+                std::shared_ptr<Write> Write::create(const std::string & fileName, const Info & info, Data data, const std::shared_ptr<Queue> & queue, Context * context)
                 {
                     auto out = std::shared_ptr<Write>(new Write(data));
                     out->_init(fileName, info, queue, context);
@@ -95,19 +96,19 @@ namespace djv
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("Cannot write") << ": " << fileName;
+                        s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
                     layout.mirror.y = true;
-                    layout.endian = p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
+                    layout.endian = p.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     Pixel::Info info(_pixelInfo.size, pixelType, layout);
 
                     std::shared_ptr<Pixel::Data> pixelData = image;
                     if (pixelData->getInfo() != info)
                     {
                         auto tmp = Pixel::Data::create(info);
-                        p.convert->process(*pixelData, info, *tmp);
+                        _convert->process(*pixelData, info, *tmp);
                         pixelData = tmp;
                     }
 
@@ -119,8 +120,8 @@ namespace djv
                     }
                     char magic[] = "P \n";
                     magic[1] = '0' + ppmType;
-                    Core::FileIO io;
-                    io.open(fileName, Core::FileIO::Mode::Write);
+                    FileIO io;
+                    io.open(fileName, FileIO::Mode::Write);
                     io.write(magic, 3);
 
                     std::stringstream s;

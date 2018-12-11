@@ -161,7 +161,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 
@@ -173,7 +173,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 
@@ -185,7 +185,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 

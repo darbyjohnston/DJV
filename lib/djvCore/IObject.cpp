@@ -47,8 +47,9 @@ namespace djv
 
         } // namespace
 
-        void IObject::_init(const std::string& className, const std::shared_ptr<Context>& context)
+        void IObject::_init(const std::string& className, Context * context)
         {
+            _context = context;
             _className = className;
             _resourceSystem = context->getSystemT<ResourceSystem>();
             _logSystem = context->getSystemT<LogSystem>();

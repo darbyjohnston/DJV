@@ -43,14 +43,14 @@ namespace djv
             DJV_NON_COPYABLE(ColorSwatch);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             ColorSwatch();
 
         public:
             virtual ~ColorSwatch();
 
-            static std::shared_ptr<ColorSwatch> create(const std::shared_ptr<Core::Context>&);
-            static std::shared_ptr<ColorSwatch> create(const AV::Color&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorSwatch> create(Core::Context *);
+            static std::shared_ptr<ColorSwatch> create(const AV::Color&, Core::Context *);
 
             const AV::Color& getColor() const;
             void setColor(const AV::Color&);

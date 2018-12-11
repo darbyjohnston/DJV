@@ -65,9 +65,9 @@ namespace djv
         {
             Context::_init(argc, argv);
 
-            _p->uiSystem = UI::System::create(shared_from_this());
+            _p->uiSystem = UI::System::create(this);
 
-            /*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -75,11 +75,13 @@ namespace djv
             _p->glfwWindow = glfwCreateWindow(1024, 768, getName().c_str(), NULL, NULL);
             if (!_p->glfwWindow)
             {
-                throw std::runtime_error("Cannot create GLFW window");
+                throw std::runtime_error("Cannot create GLFW window.");
             }
 
-            _p->eventSystem = EventSystem::create(_p->glfwWindow, shared_from_this());
-            _p->windowSystem = WindowSystem::create(_p->glfwWindow, shared_from_this());*/
+            _p->eventSystem = EventSystem::create(_p->glfwWindow, this);
+            _p->windowSystem = WindowSystem::create(_p->glfwWindow, this);
+
+            glfwShowWindow(_p->glfwWindow);
         }
         
         Application::Application() :
@@ -95,11 +97,11 @@ namespace djv
             }
         }
         
-        std::shared_ptr<Application> Application::create(int argc, char* argv[])
+        std::unique_ptr<Application> Application::create(int argc, char* argv[])
         {
-            auto out = std::shared_ptr<Application>(new Application);
+            auto out = std::unique_ptr<Application>(new Application);
             out->_init(argc, argv);
-            return out;
+            return std::move(out);
         }
         
         int Application::run()

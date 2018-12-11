@@ -67,7 +67,7 @@ namespace djv
             glm::vec2 pointerPos;
         };
 
-        void EventSystem::_init(GLFWwindow* glfwWindow, const std::shared_ptr<Context>& context)
+        void EventSystem::_init(GLFWwindow* glfwWindow, Context * context)
         {
             IEventSystem::_init("djv::Desktop::EventSystem", context);
 
@@ -84,7 +84,7 @@ namespace djv
         EventSystem::~EventSystem()
         {}
 
-        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow* glfwWindow, const std::shared_ptr<Context>& context)
+        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow* glfwWindow, Context * context)
         {
             auto out = std::shared_ptr<EventSystem>(new EventSystem);
             out->_init(glfwWindow, context);

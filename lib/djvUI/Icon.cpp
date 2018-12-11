@@ -55,7 +55,7 @@ namespace djv
             size_t hash = 0;
         };
 
-        void Icon::_init(const std::shared_ptr<Context>& context)
+        void Icon::_init(Context * context)
         {
             Widget::_init(context);
 
@@ -69,14 +69,14 @@ namespace djv
         Icon::~Icon()
         {}
 
-        std::shared_ptr<Icon> Icon::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Icon> Icon::create(Context * context)
         {
             auto out = std::shared_ptr<Icon>(new Icon);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Icon> Icon::create(const Path& path, const std::shared_ptr<Context>& context)
+        std::shared_ptr<Icon> Icon::create(const Path& path, Context * context)
         {
             auto out = Icon::create(context);
             out->setIcon(path);

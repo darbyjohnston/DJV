@@ -33,6 +33,8 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace AV
@@ -82,14 +84,14 @@ namespace djv
 
                 std::string getErrorString(int r)
                 {
-                    char buf[Core::String::cStringLength];
-                    av_strerror(r, buf, Core::String::cStringLength);
+                    char buf[String::cStringLength];
+                    av_strerror(r, buf, String::cStringLength);
                     return std::string(buf);
                 }
 
                 namespace
                 {
-                    std::weak_ptr<Core::LogSystem> _logSystem;
+                    std::weak_ptr<LogSystem> _logSystem;
 
                     void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
                     {
@@ -97,15 +99,15 @@ namespace djv
                             return;
                         if (auto logSystem = _logSystem.lock())
                         {
-                            char s[Core::String::cStringLength] = "";
-                            vsnprintf(s, Core::String::cStringLength, fmt, vl);
+                            char s[String::cStringLength] = "";
+                            vsnprintf(s, String::cStringLength, fmt, vl);
                             logSystem->log("djv::AV::IO::FFmpeg::Plugin", s);
                         }
                     }
 
                 } // namespace
 
-                void Plugin::_init(const std::shared_ptr<Core::Context>& context)
+                void Plugin::_init(Context * context)
                 {
                     IPlugin::_init(
                         pluginName,
@@ -113,7 +115,7 @@ namespace djv
                         fileExtensions,
                         context);
                         
-                    _logSystem = context->getSystemT<Core::LogSystem>();
+                    _logSystem = context->getSystemT<LogSystem>();
                     av_log_set_level(AV_LOG_ERROR);
                     av_log_set_callback(avLogCallback);
                 }
@@ -121,16 +123,16 @@ namespace djv
                 Plugin::Plugin()
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Core::Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(Context * context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(context);
                     return out;
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context) const
+                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<Queue> & queue) const
                 {
-                    return Read::create(fileName, queue, context);
+                    return Read::create(fileName, queue, _context);
                 }
 
             } // namespace FFmpeg

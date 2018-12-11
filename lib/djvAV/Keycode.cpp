@@ -64,7 +64,7 @@ namespace djv
 			    const auto pieces = Core::String::split(string, ':');
                 if (pieces.size() != 5)
                 {
-                    throw std::invalid_argument(DJV_TEXT("Cannot parse"));
+                    throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
                 }
                 id = std::stoi(pieces[0]);
                 type = std::stoi(pieces[1]);

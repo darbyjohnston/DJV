@@ -26,7 +26,6 @@ set(header
     DrivesModel.h
     Enum.h
     Event.h
-    EventSystem.h
     Error.h
     FileInfo.h
     FileInfoInline.h
@@ -37,9 +36,11 @@ set(header
     Frame.h
     FrameInline.h
     ICommand.h
+    IEventSystem.h
     IObject.h
     IObjectInline.h
     ISystem.h
+    ISystemInline.h
     ListObserver.h
     ListObserverInline.h
     LogSystem.h
@@ -81,12 +82,12 @@ set(source
     DirectoryModel.cpp
     DrivesModel.cpp
     Event.cpp
-    EventSystem.cpp
     Error.cpp
     FileIO.cpp
     FileInfo.cpp
     Frame.cpp
     ICommand.cpp
+    IEventSystem.cpp
     IObject.cpp
     ISystem.cpp
     LogSystem.cpp

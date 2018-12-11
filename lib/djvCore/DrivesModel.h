@@ -42,13 +42,13 @@ namespace djv
         class DrivesModel : public std::enable_shared_from_this<DrivesModel>
         {
             DJV_NON_COPYABLE(DrivesModel);
-            void _init(const std::shared_ptr<Context>&);
+            void _init(Context *);
             DrivesModel();
 
         public:
             virtual ~DrivesModel();
                 
-            static std::shared_ptr<DrivesModel> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<DrivesModel> create(Context *);
 
             std::shared_ptr<IListSubject<Path> > getDrives() const;
 

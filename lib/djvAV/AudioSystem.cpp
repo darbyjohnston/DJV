@@ -65,7 +65,7 @@ namespace djv
             ALCcontext * alContext = nullptr;
         };
 
-        void AudioSystem::_init(const std::shared_ptr<Core::Context> & context)
+        void AudioSystem::_init(Core::Context * context)
         {
             ISystem::_init("djv::AV::AudioSystem", context);
 
@@ -83,17 +83,17 @@ namespace djv
             p.alDevice = alcOpenDevice(devices);
             if (!p.alDevice)
             {
-                throw std::runtime_error("Cannot open OpenAL device");
+                throw std::runtime_error(DJV_TEXT("Cannot open OpenAL device."));
             }
             p.alContext = alcCreateContext(p.alDevice, NULL);
             if (!p.alContext)
             {
-                throw std::runtime_error("Cannot create OpenAL context");
+                throw std::runtime_error(DJV_TEXT("Cannot create OpenAL context."));
             }
             ALCboolean r = alcMakeContextCurrent(p.alContext);
             if (AL_FALSE == r)
             {
-                throw std::runtime_error("Cannot make OpenAL context current");
+                throw std::runtime_error(DJV_TEXT("Cannot make OpenAL context current."));
             }
         }
 
@@ -117,7 +117,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<Core::Context> & context)
+        std::shared_ptr<AudioSystem> AudioSystem::create(Core::Context * context)
         {
             auto out = std::shared_ptr<AudioSystem>(new AudioSystem);
             out->_init(context);

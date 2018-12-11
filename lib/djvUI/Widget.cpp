@@ -56,7 +56,7 @@ namespace djv
 {
     namespace UI
     {
-        void Widget::_init(const std::shared_ptr<Core::Context>& context)
+        void Widget::_init(Core::Context * context)
         {
             IObject::_init("djv::UI::Widget", context);
             
@@ -88,7 +88,7 @@ namespace djv
             return currentWidgetCount;
         }
 
-        std::shared_ptr<Widget> Widget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Widget> Widget::create(Context * context)
         {
             //! \bug It would be prefereable to use std::make_shared() here, but how can we do that
             //! with protected contructors?

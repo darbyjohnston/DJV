@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(Spacer);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             Spacer();
 
         public:
             virtual ~Spacer();
 
-            static std::shared_ptr<Spacer> create(Orientation, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Spacer> create(Orientation, Core::Context *);
 
             Orientation getOrientation() const;
             void setOrientation(Orientation);
@@ -72,7 +72,7 @@ namespace djv
             HorizontalSpacer();
 
         public:
-            static std::shared_ptr<HorizontalSpacer> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<HorizontalSpacer> create(Core::Context *);
         };
 
         //! This class provides a vertical spacer for use in layouts.
@@ -84,7 +84,7 @@ namespace djv
             VerticalSpacer();
 
         public:
-            static std::shared_ptr<VerticalSpacer> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<VerticalSpacer> create(Core::Context *);
         };
 
     } // namespace UI

@@ -45,13 +45,13 @@ namespace djv
             DJV_NON_COPYABLE(UndoStack);
 
         protected:
-            void _init(const std::shared_ptr<Context> &);
+            void _init(Context *);
             UndoStack();
 
         public:
             ~UndoStack();
 
-            static std::shared_ptr<UndoStack> create(const std::shared_ptr<Context> &);
+            static std::shared_ptr<UndoStack> create(Context *);
 
             const std::vector<std::shared_ptr<ICommand> > & getCommands() const;
             size_t getSize() const;

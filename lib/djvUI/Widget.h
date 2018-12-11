@@ -62,14 +62,14 @@ namespace djv
             DJV_NON_COPYABLE(Widget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             Widget();
 
         public:
             virtual ~Widget();
 
             //! Create a new widget.
-            static std::shared_ptr<Widget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Widget> create(Core::Context *);
 
             //! Get the number of widgets that currently exist.
             static size_t getCurrentWidgetCount();

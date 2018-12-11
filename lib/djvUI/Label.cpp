@@ -55,7 +55,7 @@ namespace djv
             std::future<glm::vec2> textSizeFuture;
         };
 
-        void Label::_init(const std::shared_ptr<Context>& context)
+        void Label::_init(Context * context)
         {
             Widget::_init(context);
             
@@ -69,14 +69,14 @@ namespace djv
         Label::~Label()
         {}
 
-        std::shared_ptr<Label> Label::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Label> Label::create(Context * context)
         {
             auto out = std::shared_ptr<Label>(new Label);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Label> Label::create(const std::string& text, const std::shared_ptr<Context>& context)
+        std::shared_ptr<Label> Label::create(const std::string& text, Context * context)
         {
             auto out = Label::create(context);
             out->setText(text);

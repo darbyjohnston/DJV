@@ -43,13 +43,13 @@ namespace djv
             DJV_NON_COPYABLE(FlowLayout);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             FlowLayout();
 
         public:
             virtual ~FlowLayout();
 
-            static std::shared_ptr<FlowLayout> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FlowLayout> create(Core::Context *);
 
             const Spacing& getSpacing() const;
             void setSpacing(const Spacing&);

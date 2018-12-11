@@ -31,6 +31,11 @@ namespace djv
 {
     namespace Core
     {
+        inline Context * IObject::getContext() const
+        {
+            return _context;
+        }
+
         inline const std::string& IObject::getClassName() const
         {
             return _className;

@@ -56,8 +56,8 @@ namespace djv
             std::map<LogLevel, std::string> labels =
             {
                 { LogLevel::Information, std::string() },
-                { LogLevel::Warning, "Warning" },
-                { LogLevel::Error, "ERROR" }
+                { LogLevel::Warning, "[Warning]" },
+                { LogLevel::Error, "[ERROR]" }
             };
 
             struct Message
@@ -92,7 +92,7 @@ namespace djv
             std::atomic<bool> running;
         };
 
-        void LogSystem::_init(const Path& path, const std::shared_ptr<Context>& context)
+        void LogSystem::_init(const Path& path, Context * context)
         {
             ISystem::_init(name, context);
 
@@ -163,7 +163,7 @@ namespace djv
             }
         }
         
-        std::shared_ptr<LogSystem> LogSystem::create(const Path& logFile, const std::shared_ptr<Context>& context)
+        std::shared_ptr<LogSystem> LogSystem::create(const Path& logFile, Context * context)
         {
             auto out = std::shared_ptr<LogSystem>(new LogSystem);
             out->_init(logFile, context);

@@ -38,7 +38,7 @@ namespace djv
         struct StackLayout::Private
         {};
 
-        void StackLayout::_init(const std::shared_ptr<Context>& context)
+        void StackLayout::_init(Context * context)
         {
             IContainerWidget::_init(context);
             
@@ -52,7 +52,7 @@ namespace djv
         StackLayout::~StackLayout()
         {}
 
-        std::shared_ptr<StackLayout> StackLayout::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<StackLayout> StackLayout::create(Context * context)
         {
             auto out = std::shared_ptr<StackLayout>(new StackLayout);
             out->_init(context);

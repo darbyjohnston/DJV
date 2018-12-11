@@ -36,17 +36,19 @@ namespace djv
     namespace Core
     {
         class Context;
+        class LogSystem;
         
         class ISystem : public std::enable_shared_from_this<ISystem>
         {
         protected:
-            void _init(const std::string & name, const std::shared_ptr<Context> &);
+            void _init(const std::string & name, Context *);
+            inline ISystem();
 
         public:
-            ISystem();
             virtual ~ISystem() = 0;
 
-            const std::string & getName() const;
+            inline Context * getContext() const;
+            inline const std::string & getName() const;
 
         protected:
             //! Override this function to do work each frame.
@@ -56,7 +58,9 @@ namespace djv
             void _log(const std::string& message, LogLevel = LogLevel::Information);
                         
         private:
-            DJV_PRIVATE();
+            Context * _context = nullptr;
+            std::string _name;
+            std::weak_ptr<LogSystem> _logSystem;
 
             friend class Context;
         };
@@ -64,3 +68,4 @@ namespace djv
     } // namespace Core
 } // namespace djv
 
+#include <djvCore/ISystemInline.h>

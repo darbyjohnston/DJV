@@ -161,8 +161,9 @@ namespace djv
             void IRead::_init(
                 const std::string & fileName,
                 const std::shared_ptr<Queue> & queue,
-                const std::shared_ptr<Core::Context> & context)
+                Context * context)
             {
+                _context = context;
                 _fileName = fileName;
                 _queue = queue;
             }
@@ -180,8 +181,9 @@ namespace djv
                 const std::string & fileName,
                 const Info & info,
                 const std::shared_ptr<Queue> & queue,
-                const std::shared_ptr<Core::Context> & context)
+                Context * context)
             {
+                _context = context;
                 _fileName = fileName;
                 _info = info;
                 _queue = queue;
@@ -197,8 +199,9 @@ namespace djv
                 const std::string & pluginName,
                 const std::string & pluginInfo,
                 const std::set<std::string> & fileExtensions,
-                const std::shared_ptr<Core::Context> & context)
+                Context * context)
             {
+                _context = context;
                 _pluginName = pluginName;
                 _pluginInfo = pluginInfo;
                 _fileExtensions = fileExtensions;
@@ -244,7 +247,7 @@ namespace djv
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
             };
 
-            void System::_init(const std::shared_ptr<Context> & context)
+            void System::_init(Context * context)
             {
                 ISystem::_init("djv::AV::IO::System", context);
 
@@ -297,7 +300,7 @@ namespace djv
             System::~System()
             {}
 
-            std::shared_ptr<System> System::create(const std::shared_ptr<Context> & context)
+            std::shared_ptr<System> System::create(Context * context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);
@@ -353,19 +356,18 @@ namespace djv
 
             std::shared_ptr<IRead> System::read(
                 const std::string & fileName,
-                const std::shared_ptr<Queue> & queue,
-                const std::shared_ptr<Core::Context> & context)
+                const std::shared_ptr<Queue> & queue)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileName))
                     {
-                        return i.second->read(fileName, queue, context);
+                        return i.second->read(fileName, queue);
                     }
                 }
                 std::stringstream s;
-                s << "Cannot read: " << fileName;
+                s << DJV_TEXT("Cannot read") << " '" << fileName << "'.";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }
@@ -373,19 +375,18 @@ namespace djv
             std::shared_ptr<IWrite> System::write(
                 const std::string & fileName,
                 const Info & info,
-                const std::shared_ptr<Queue> & queue,
-                const std::shared_ptr<Core::Context> & context)
+                const std::shared_ptr<Queue> & queue)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canWrite(fileName, info))
                     {
-                        return i.second->write(fileName, info, queue, context);
+                        return i.second->write(fileName, info, queue);
                     }
                 }
                 std::stringstream s;
-                s << "Cannot write: " << fileName;
+                s << DJV_TEXT("Cannot write") << " '" << fileName << "'.";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }

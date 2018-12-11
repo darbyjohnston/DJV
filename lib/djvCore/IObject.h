@@ -57,13 +57,14 @@ namespace djv
             DJV_NON_COPYABLE(IObject);
 
         protected:
-            void _init(const std::string& className, const std::shared_ptr<Core::Context>&);
+            void _init(const std::string& className, Context *);
 
             IObject();
 
         public:
             virtual ~IObject() = 0;
 
+            inline Context * getContext() const;
             inline const std::string& getClassName() const;
             inline const std::string& getName() const;
             void setName(const std::string&);
@@ -115,6 +116,7 @@ namespace djv
             template<typename T>
             inline static void _getFirstChildRecursiveT(const std::shared_ptr<IObject>&, std::shared_ptr<T>&);
 
+            Context * _context = nullptr;
             std::string _className;
             std::string _name;
             bool _firstTick = true;

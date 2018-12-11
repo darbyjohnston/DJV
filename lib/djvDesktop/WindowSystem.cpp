@@ -49,15 +49,13 @@ namespace djv
         struct WindowSystem::Private
         {
             GLFWwindow * glfwWindow = nullptr;
-            std::shared_ptr<AV::Render2DSystem> renderSystem;
         };
 
-        void WindowSystem::_init(GLFWwindow * glfwWindow, const std::shared_ptr<Context>& context)
+        void WindowSystem::_init(GLFWwindow * glfwWindow, Context * context)
         {
             IWindowSystem::_init("djv::Desktop::WindowSystem", context);
 
             _p->glfwWindow = glfwWindow;
-            _p->renderSystem = context->getSystemT<AV::Render2DSystem>();
         }
 
         WindowSystem::WindowSystem() :
@@ -67,7 +65,7 @@ namespace djv
         WindowSystem::~WindowSystem()
         {}
 
-        std::shared_ptr<WindowSystem> WindowSystem::create(GLFWwindow * glfwWindow, const std::shared_ptr<Context>& context)
+        std::shared_ptr<WindowSystem> WindowSystem::create(GLFWwindow * glfwWindow, Context * context)
         {
             auto out = std::shared_ptr<WindowSystem>(new WindowSystem);
             out->_init(glfwWindow, context);
@@ -86,12 +84,18 @@ namespace djv
 
         void WindowSystem::_pushClipRect(const Core::BBox2f & value)
         {
-            _p->renderSystem->pushClipRect(value);
+            if (auto system = getContext()->getSystemT<AV::Render2DSystem>().lock())
+            {
+                system->pushClipRect(value);
+            }
         }
 
         void WindowSystem::_popClipRect()
         {
-            _p->renderSystem->popClipRect();
+            if (auto system = getContext()->getSystemT<AV::Render2DSystem>().lock())
+            {
+                system->popClipRect();
+            }
         }
 
         void WindowSystem::_tick(float dt)
@@ -115,16 +119,19 @@ namespace djv
                 }
             }
 
-            _p->renderSystem->beginFrame(frameBufferSize);
-            for (const auto& i : windows)
+            if (auto system = getContext()->getSystemT<AV::Render2DSystem>().lock())
             {
-                if (i->isVisible())
+                system->beginFrame(frameBufferSize);
+                for (const auto& i : windows)
                 {
-                    PaintEvent paintEvent(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
-                    _paintRecursive(i, paintEvent);
+                    if (i->isVisible())
+                    {
+                        PaintEvent paintEvent(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
+                        _paintRecursive(i, paintEvent);
+                    }
                 }
+                system->endFrame();
             }
-            _p->renderSystem->endFrame();
         }
 
     } // namespace Desktop

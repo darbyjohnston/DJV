@@ -43,13 +43,13 @@ namespace djv
             DJV_NON_COPYABLE(GeneralSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             GeneralSettings();
 
         public:
             virtual ~GeneralSettings();
 
-            static std::shared_ptr<GeneralSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<GeneralSettings> create(Core::Context *);
 
             std::shared_ptr<Core::IValueSubject<std::string> > getCurrentLocale() const;
             void setCurrentLocale(const std::string&);

@@ -44,14 +44,14 @@ namespace djv
         class DirectoryModel : public std::enable_shared_from_this<DirectoryModel>
         {
             DJV_NON_COPYABLE(DirectoryModel);
-            void _init(const std::shared_ptr<Context>&);
+            void _init(Context *);
             DirectoryModel();
 
         public:
             ~DirectoryModel();
             
-            static std::shared_ptr<DirectoryModel> create(const std::shared_ptr<Context>&);
-            static std::shared_ptr<DirectoryModel> create(const Path&, const std::shared_ptr<Context>&);
+            static std::shared_ptr<DirectoryModel> create(Context *);
+            static std::shared_ptr<DirectoryModel> create(const Path&, Context *);
 
             std::shared_ptr<IValueSubject<Path> > getPath() const;
             void setPath(const Path&);

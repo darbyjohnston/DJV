@@ -40,17 +40,17 @@ namespace djv
         class ICommand
         {
         public:
-            ICommand(const std::string & name, const std::shared_ptr<Context> &);
+            ICommand(const std::string & name, Context *);
             virtual ~ICommand() = 0;
 
-            const std::weak_ptr<Context> & getContext() const;
+            Context * getContext() const;
             const std::string & getName() const;
 
             virtual void exec() = 0;
             virtual void undo() = 0;
 
         private:
-            std::weak_ptr<Context> _context;
+            Context * _context = nullptr;
             std::string _name;
         };
 

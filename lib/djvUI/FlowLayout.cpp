@@ -42,7 +42,7 @@ namespace djv
             Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
         };
 
-        void FlowLayout::_init(const std::shared_ptr<Context>& context)
+        void FlowLayout::_init(Context * context)
         {
             IContainerWidget::_init(context);
             
@@ -56,7 +56,7 @@ namespace djv
         FlowLayout::~FlowLayout()
         {}
 
-        std::shared_ptr<FlowLayout> FlowLayout::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FlowLayout> FlowLayout::create(Context * context)
         {
             auto out = std::shared_ptr<FlowLayout>(new FlowLayout);
             out->_init(context);

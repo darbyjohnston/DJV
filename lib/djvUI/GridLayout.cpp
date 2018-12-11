@@ -52,7 +52,7 @@ namespace djv
             Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
         };
         
-        void GridLayout::_init(const std::shared_ptr<Context>& context)
+        void GridLayout::_init(Context * context)
         {
             Widget::_init(context);
             
@@ -66,7 +66,7 @@ namespace djv
         GridLayout::~GridLayout()
         {}
 
-        std::shared_ptr<GridLayout> GridLayout::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<GridLayout> GridLayout::create(Context * context)
         {
             auto out = std::shared_ptr<GridLayout>(new GridLayout);
             out->_init(context);

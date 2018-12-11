@@ -119,8 +119,6 @@ namespace djv
 
         struct IconSystem::Private
         {
-            std::weak_ptr<Context> context;
-
             std::list<InfoRequest> infoQueue;
             std::list<ImageRequest> imageQueue;
             std::condition_variable requestCV;
@@ -139,11 +137,9 @@ namespace djv
             std::atomic<bool> running;
         };
 
-        void IconSystem::_init(const std::shared_ptr<Context>& context)
+        void IconSystem::_init(Context * context)
         {
             ISystem::_init("djv::AV::IconSystem", context);
-
-            _p->context = context;
 
             DJV_PRIVATE_PTR();
             p.infoCache.setMax(infoCacheMax);
@@ -163,40 +159,26 @@ namespace djv
                 _log(s.str());
             });
 
-            auto logSystemWeak = std::weak_ptr<Core::LogSystem>(std::dynamic_pointer_cast<Core::LogSystem>(context->getSystemT<LogSystem>()));
             p.running = true;
             p.thread = std::thread(
-                [this, logSystemWeak]
+                [this, context]
             {
                 DJV_PRIVATE_PTR();
                 GLFWwindow * glfwWindow = nullptr;
                 try
                 {
-                    if (auto context = _p->context.lock())
-                    {
-                        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-                        glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
-                    }
+                    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+                    glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
                     if (!glfwWindow)
                     {
                         std::stringstream ss;
-                        ss << "djv::AV::IconSystem: " << DJV_TEXT("Cannot create GLFW window");
+                        ss << DJV_TEXT("Cannot create GLFW window.");
                         throw std::runtime_error(ss.str());
                     }
                     glfwMakeContextCurrent(glfwWindow);
                     glbinding::initialize(glfwGetProcAddress);
 
-                    /*std::shared_ptr<Pixel::Convert> convert;
-                    if (auto context = _p->context.lock())
-                    {
-                        convert = Pixel::Convert::create(context);
-                    }
-                    if (!convert)
-                    {
-                        std::stringstream ss;
-                        ss << "djv::AV::IconSystem: " << DJV_TEXT("Cannot create pixel converter");
-                        throw std::runtime_error(ss.str());
-                    }
+                    auto convert = Pixel::Convert::create(context);
 
                     const auto timeout = Timer::getValue(Timer::Value::Medium);
                     while (p.running)
@@ -224,11 +206,11 @@ namespace djv
                         {
                             _handleImageRequests(convert);
                         }
-                    }*/
+                    }
                 }
                 catch (const std::exception & e)
                 {
-                    if (auto logSystem = logSystemWeak.lock())
+                    if (auto logSystem = context->getSystemT<LogSystem>().lock())
                     {
                         logSystem->log("djv::AV::IconSystem", e.what(), LogLevel::Error);
                     }
@@ -254,7 +236,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IconSystem> IconSystem::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<IconSystem> IconSystem::create(Context * context)
         {
             auto out = std::shared_ptr<IconSystem>(new IconSystem);
             out->_init(context);
@@ -322,14 +304,11 @@ namespace djv
                 {
                     try
                     {
-                        if (auto context = _p->context.lock())
+                        if (auto io = getContext()->getSystemT<IO::System>().lock())
                         {
-                            if (auto io = context->getSystemT<IO::System>())
-                            {
-                                i.read = io->read(i.path, nullptr, context);
-                                i.infoFuture = i.read->getInfo();
-                                p.pendingInfoRequests.push_back(std::move(i));
-                            }
+                            i.read = io->read(i.path, nullptr);
+                            i.infoFuture = i.read->getInfo();
+                            p.pendingInfoRequests.push_back(std::move(i));
                         }
                     }
                     catch (const std::exception& e)
@@ -390,14 +369,11 @@ namespace djv
                 {
                     try
                     {
-                        if (auto context = _p->context.lock())
+                        if (auto io = getContext()->getSystemT<IO::System>().lock())
                         {
-                            if (auto io = context->getSystemT<IO::System>())
-                            {
-                                i.queue = IO::Queue::create(1, 0);
-                                i.read = io->read(i.path, i.queue, context);
-                                p.pendingImageRequests.push_back(std::move(i));
-                            }
+                            i.queue = IO::Queue::create(1, 0);
+                            i.read = io->read(i.path, i.queue);
+                            p.pendingImageRequests.push_back(std::move(i));
                         }
                     }
                     catch (const std::exception& e)

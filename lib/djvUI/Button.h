@@ -108,15 +108,15 @@ namespace djv
             DJV_NON_COPYABLE(Button);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             Button();
 
         public:
             virtual ~Button();
 
-            static std::shared_ptr<Button> create(const std::shared_ptr<Core::Context>&);
-            static std::shared_ptr<Button> create(const Core::Path&, const std::shared_ptr<Core::Context>&);
-            static std::shared_ptr<Button> create(const Core::Path&, const std::string&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Button> create(Core::Context *);
+            static std::shared_ptr<Button> create(const Core::Path&, Core::Context *);
+            static std::shared_ptr<Button> create(const Core::Path&, const std::string&, Core::Context *);
 
             const Core::Path& getIcon() const;
             void setIcon(const Core::Path&);
@@ -156,14 +156,14 @@ namespace djv
             DJV_NON_COPYABLE(ListButton);
 
         protected:
-            void _init(const std::string& text, const std::shared_ptr<Core::Context>&);
+            void _init(const std::string& text, Core::Context *);
             ListButton();
 
         public:
             virtual ~ListButton();
 
-            static std::shared_ptr<ListButton> create(const std::shared_ptr<Core::Context>&);
-            static std::shared_ptr<ListButton> create(const std::string&, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ListButton> create(Core::Context *);
+            static std::shared_ptr<ListButton> create(const std::string&, Core::Context *);
 
             const std::string& getText() const;
             void setText(const std::string&);
@@ -196,13 +196,13 @@ namespace djv
             DJV_NON_COPYABLE(ToggleButton);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             ToggleButton();
 
         public:
             virtual ~ToggleButton();
 
-            static std::shared_ptr<ToggleButton> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ToggleButton> create(Core::Context *);
 
         protected:
             void _preLayoutEvent(Core::PreLayoutEvent&) override;

@@ -45,13 +45,13 @@ namespace djv
             DJV_NON_COPYABLE(System);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context> &);
+            void _init(Core::Context *);
             System();
 
         public:
             ~System() override;
 
-            static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
+            static std::shared_ptr<System> create(Core::Context *);
 
             const std::shared_ptr<GeneralSettings> getGeneralSettings() const;
             const std::shared_ptr<FontSettings> getFontSettings() const;

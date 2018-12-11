@@ -31,6 +31,10 @@
 
 #include <djvCore/Path.h>
 
+#include <chrono>
+#include <list>
+#include <mutex>
+
 namespace djv
 {
     namespace Core
@@ -38,7 +42,7 @@ namespace djv
         class ISystem;
         class UndoStack;
         
-        class Context : public std::enable_shared_from_this<Context>
+        class Context
         {
             DJV_NON_COPYABLE(Context);
 
@@ -51,7 +55,7 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            static std::shared_ptr<Context> create(int &, char **);
+            static std::unique_ptr<Context> create(int &, char **);
 
             //! Get the command line arguments.
             const std::vector<std::string> & getArgs() const;
@@ -66,15 +70,15 @@ namespace djv
             ///@{
 
             //! Get the systems.
-            const std::vector<std::shared_ptr<ISystem> > & getSystems() const;
+            std::vector<std::weak_ptr<ISystem> > getSystems();
 
             //! Get systems by type.
             template<typename T>
-            inline std::vector<std::shared_ptr<T> > getSystemsT() const;
+            inline std::vector<std::weak_ptr<T> > getSystemsT();
 
             //! Get a system by type.
             template<typename T>
-            inline std::shared_ptr<T> getSystemT() const;
+            inline std::weak_ptr<T> getSystemT();
 
             //! This function is called by the application to tick the systems.
             virtual void tick(float dt);
@@ -83,10 +87,19 @@ namespace djv
 
             const std::shared_ptr<UndoStack> & getUndoStack() const;
 
-        private:
-            void _addSystem(const std::shared_ptr<ISystem>&);
+        protected:
+            void _addSystem(const std::weak_ptr<ISystem>&);
 
-            DJV_PRIVATE();
+        private:
+            std::vector<std::string> _args;
+            std::string _name;
+            std::vector<std::weak_ptr<ISystem> > _systems;
+            std::mutex _systemsMutex;
+            std::vector<std::shared_ptr<ISystem> > _coreSystems;
+            std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
+            std::list<float> _fpsSamples;
+            float _fpsAverage = 0.f;
+            std::shared_ptr<UndoStack> _undoStack;
 
             friend class ISystem;
         };

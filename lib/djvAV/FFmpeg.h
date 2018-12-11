@@ -74,7 +74,7 @@ namespace djv
                     void _init(
                         const std::string & fileName,
                         const std::shared_ptr<Queue> &,
-                        const std::shared_ptr<Core::Context> &);
+                        Core::Context *);
                     Read();
 
                 public:
@@ -83,7 +83,7 @@ namespace djv
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
                         const std::shared_ptr<Queue> &,
-                        const std::shared_ptr<Core::Context> &);
+                        Core::Context *);
 
                     bool isRunning() const override;
 
@@ -103,17 +103,16 @@ namespace djv
                     DJV_NON_COPYABLE(Plugin);
 
                 protected:
-                    void _init(const std::shared_ptr<Core::Context>&);
+                    void _init(Core::Context *);
 
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
+                    static std::shared_ptr<Plugin> create(Core::Context *);
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,
-                        const std::shared_ptr<Queue> &,
-                        const std::shared_ptr<Core::Context> &) const override;
+                        const std::shared_ptr<Queue> &) const override;
                 };
 
             } // namespace FFmpeg

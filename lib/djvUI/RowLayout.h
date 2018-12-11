@@ -54,13 +54,13 @@ namespace djv
             DJV_NON_COPYABLE(RowLayout);
             
         protected:
-            void _init(Orientation, const std::shared_ptr<Core::Context>&);
+            void _init(Orientation, Core::Context *);
             RowLayout();
 
         public:
             virtual ~RowLayout();
 
-            static std::shared_ptr<RowLayout> create(Orientation, const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<RowLayout> create(Orientation, Core::Context *);
 
             void addWidget(const std::shared_ptr<Widget>&, RowLayoutStretch = RowLayoutStretch::None);
             void insertWidget(const std::shared_ptr<Widget>&, int index, RowLayoutStretch = RowLayoutStretch::None);
@@ -97,11 +97,11 @@ namespace djv
             DJV_NON_COPYABLE(HorizontalLayout);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             HorizontalLayout();
 
         public:
-            static std::shared_ptr<HorizontalLayout> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<HorizontalLayout> create(Core::Context *);
         };
 
         //! This class provides a layout that arranges it's children in a vertical row.
@@ -110,11 +110,11 @@ namespace djv
             DJV_NON_COPYABLE(VerticalLayout);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             VerticalLayout();
 
         public:
-            static std::shared_ptr<VerticalLayout> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<VerticalLayout> create(Core::Context *);
         };
 
     } // namespace UI

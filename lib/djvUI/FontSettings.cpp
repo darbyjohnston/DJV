@@ -42,7 +42,7 @@ namespace djv
             std::shared_ptr<MapSubject<std::string, FontMap> > fonts;
         };
 
-        void FontSettings::_init(const std::shared_ptr<Context>& context)
+        void FontSettings::_init(Context * context)
         {
             ISettings::_init("djv::UI::FontSettings", context);
 
@@ -83,7 +83,7 @@ namespace djv
         FontSettings::~FontSettings()
         {}
 
-        std::shared_ptr<FontSettings> FontSettings::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FontSettings> FontSettings::create(Context * context)
         {
             auto out = std::shared_ptr<FontSettings>(new FontSettings);
             out->_init(context);

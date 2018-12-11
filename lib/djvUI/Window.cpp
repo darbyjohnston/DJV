@@ -42,23 +42,20 @@ namespace djv
     {
         struct Window::Private
         {
-            std::weak_ptr<IWindowSystem> windowSystem;
             std::shared_ptr<StackLayout> layout;
         };
 
-        void Window::_init(const std::shared_ptr<Context>& context)
+        void Window::_init(Context * context)
         {
             IContainerWidget::_init(context);
             
-            _p->windowSystem = context->getSystemT<IWindowSystem>();
-
             setName("djv::UI::Window");
             setVisible(false);
 
             _p->layout = StackLayout::create(context);
             IContainerWidget::addWidget(_p->layout);
 
-            if (auto system = context->getSystemT<IWindowSystem>())
+            if (auto system = context->getSystemT<IWindowSystem>().lock())
             {
                 system->_addWindow(std::dynamic_pointer_cast<Window>(shared_from_this()));
             }
@@ -70,13 +67,13 @@ namespace djv
 
         Window::~Window()
         {
-            if (auto windowSystem = _p->windowSystem.lock())
+            if (auto system = getContext()->getSystemT<IWindowSystem>().lock())
             {
-                windowSystem->_removeWindow(std::dynamic_pointer_cast<Window>(shared_from_this()));
+                system->_removeWindow(std::dynamic_pointer_cast<Window>(shared_from_this()));
             }
         }
 
-        std::shared_ptr<Window> Window::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Window> Window::create(Context * context)
         {
             auto out = std::shared_ptr<Window>(new Window);
             out->_init(context);
@@ -100,9 +97,9 @@ namespace djv
 
         void Window::raiseToTop()
         {
-            if (auto windowSystem = _p->windowSystem.lock())
+            if (auto system = getContext()->getSystemT<IWindowSystem>().lock())
             {
-                windowSystem->raiseToTop(std::dynamic_pointer_cast<Window>(shared_from_this()));
+                system->raiseToTop(std::dynamic_pointer_cast<Window>(shared_from_this()));
             }
         }
 

@@ -46,7 +46,7 @@ namespace djv
             size_t hash = 0;
         };
 
-        void ImageWidget::_init(const std::shared_ptr<Context>& context)
+        void ImageWidget::_init(Context * context)
         {
             Widget::_init(context);
 
@@ -60,7 +60,7 @@ namespace djv
         ImageWidget::~ImageWidget()
         {}
 
-        std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ImageWidget> ImageWidget::create(Context * context)
         {
             auto out = std::shared_ptr<ImageWidget>(new ImageWidget);
             out->_init(context);

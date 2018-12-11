@@ -42,16 +42,16 @@ namespace djv
     {
         struct ISettings::Private
         {
-            std::weak_ptr<Context> context;
+            Context * context = nullptr;
             std::string name;
         };
 
-        void ISettings::_init(const std::string& name, const std::shared_ptr<Context>& context)
+        void ISettings::_init(const std::string& name, Context * context)
         {
             _p->context = context;
             _p->name = name;
 
-            if (auto system = context->getSystemT<SettingsSystem>())
+            if (auto system = context->getSystemT<SettingsSystem>().lock())
             {
                 system->_addSettings(shared_from_this());
             }
@@ -64,7 +64,7 @@ namespace djv
         ISettings::~ISettings()
         {}
 
-        const std::weak_ptr<Context> & ISettings::getContext() const
+        Context * ISettings::getContext() const
         {
             return _p->context;
         }
@@ -76,22 +76,19 @@ namespace djv
 
         void ISettings::_load()
         {
-            if (auto context = _p->context.lock())
+            if (auto system = _p->context->getSystemT<SettingsSystem>().lock())
             {
-                if (auto system = context->getSystemT<SettingsSystem>())
-                {
-                    system->_loadSettings(shared_from_this());
-                }
+                system->_loadSettings(shared_from_this());
             }
         }
 
         void ISettings::_readError(const std::string& value)
         {
-            if (auto context = _p->context.lock())
+            if (auto logSystem = _p->context->getSystemT<LogSystem>().lock())
             {
                 std::stringstream s;
                 s << "Error reading settings: " << _p->name << ": " << value;
-                context->getSystemT<Core::LogSystem>()->log("djv::UI::ISettings", s.str(), LogLevel::Error);
+                logSystem->log("djv::UI::ISettings", s.str(), LogLevel::Error);
             }
         }
 

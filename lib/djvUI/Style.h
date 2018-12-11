@@ -150,14 +150,14 @@ namespace djv
         class Style : public Core::ISystem
         {
             DJV_NON_COPYABLE(Style);
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             Style();
 
         public:
             virtual ~Style();
 
             //! Create a new style.
-            static std::shared_ptr<Style> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Style> create(Core::Context *);
 
             //! Get the style settings.
             const std::shared_ptr<StyleSettings>& getSettings() const;

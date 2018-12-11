@@ -50,11 +50,14 @@ namespace djv
             Path settingsPath;
         };
 
-        void SettingsSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void SettingsSystem::_init(Core::Context * context)
         {
             ISystem::_init("djv::UI::SettingsSystem", context);
-            _p->settingsPath = context->getSystemT<Core::ResourceSystem>()->getPath(ResourcePath::SettingsFile);
-            _readSettingsFile(_p->settingsPath, _p->json);
+            if (auto system = context->getSystemT<Core::ResourceSystem>().lock())
+            {
+                _p->settingsPath = system->getPath(ResourcePath::SettingsFile);
+                _readSettingsFile(_p->settingsPath, _p->json);
+            }
         }
 
         SettingsSystem::SettingsSystem() :
@@ -66,7 +69,7 @@ namespace djv
             _saveSettings();
         }
 
-        std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<SettingsSystem> SettingsSystem::create(Core::Context * context)
         {
             auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
             out->_init(context);
@@ -151,7 +154,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream s;
-                s << "Error reading settings: " << path << ": " << e.what();
+                s << DJV_TEXT("Error reading settings") << " '" << path << "'. " << e.what();
                 _log(s.str(), LogLevel::Error);
             }
         }
@@ -172,7 +175,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream s;
-                s << "Error writing settings: " << path << ": " << e.what();
+                s << DJV_TEXT("Error writing settings") << " '" << path << "'. " << e.what();
                 _log(s.str(), LogLevel::Error);
             }
         }

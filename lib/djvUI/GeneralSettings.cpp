@@ -42,18 +42,16 @@ namespace djv
     {
         struct GeneralSettings::Private
         {
-            std::weak_ptr<TextSystem> textSystem;
             std::shared_ptr<ValueSubject<std::string> > currentLocale;
         };
 
-        void GeneralSettings::_init(const std::shared_ptr<Context>& context)
+        void GeneralSettings::_init(Context * context)
         {
             ISettings::_init("Gp::UI::GeneralSettings", context);
-
-            auto textSystem = context->getSystemT<Core::TextSystem>();
-            _p->textSystem = textSystem;
-            _p->currentLocale = ValueSubject<std::string>::create(textSystem->getCurrentLocale());
-
+            if (auto textSystem = context->getSystemT<Core::TextSystem>().lock())
+            {
+                _p->currentLocale = ValueSubject<std::string>::create(textSystem->getCurrentLocale());
+            }
             _load();
         }
 
@@ -64,7 +62,7 @@ namespace djv
         GeneralSettings::~GeneralSettings()
         {}
 
-        std::shared_ptr<GeneralSettings> GeneralSettings::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<GeneralSettings> GeneralSettings::create(Context * context)
         {
             auto out = std::shared_ptr<GeneralSettings>(new GeneralSettings);
             out->_init(context);
@@ -80,7 +78,7 @@ namespace djv
         {
             if (_p->currentLocale->setIfChanged(value))
             {
-                if (auto textSystem = _p->textSystem.lock())
+                if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
                 {
                     textSystem->setCurrentLocale(value);
                 }

@@ -31,6 +31,8 @@
 
 #include <djvUI/System.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace Desktop
@@ -39,7 +41,7 @@ namespace djv
         {
         };
 
-        void System::_init(const std::shared_ptr<Core::Context> & context)
+        void System::_init(Context * context)
         {
             ISystem::_init("djv::Desktop::System", context);
             UI::System::create(context);
@@ -52,7 +54,7 @@ namespace djv
         System::~System()
         {}
 
-        std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
+        std::shared_ptr<System> System::create(Context * context)
         {
             auto out = std::shared_ptr<System>(new System);
             out->_init(context);

@@ -190,7 +190,7 @@ namespace djv
         else
         {
             std::stringstream ss;
-            ss << DJV_TEXT("Cannot parse: ") << s;
+            ss << DJV_TEXT("Cannot parse value") << " '" << s << "'.";
             throw std::invalid_argument(ss.str());
         }
         return os;

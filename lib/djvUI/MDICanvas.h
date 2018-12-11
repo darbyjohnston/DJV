@@ -42,13 +42,13 @@ namespace djv
                 DJV_NON_COPYABLE(Canvas);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context>&);
+                void _init(Core::Context *);
                 Canvas();
 
             public:
                 virtual ~Canvas();
 
-                static std::shared_ptr<Canvas> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Canvas> create(Core::Context *);
 
                 void addWidget(const std::shared_ptr<Widget>&, const glm::vec2& = glm::vec2());
                 void removeWidget(const std::shared_ptr<Widget>&);

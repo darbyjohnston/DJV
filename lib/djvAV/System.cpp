@@ -45,17 +45,19 @@
 
 #include <GLFW/glfw3.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace AV
     {
         namespace
         {
-            std::weak_ptr<Core::LogSystem> _logSystem;
+            std::weak_ptr<LogSystem> logSystemWeak;
 
             void glfwErrorCallback(int error, const char * description)
             {
-                if (auto logSystem = _logSystem.lock())
+                if (auto logSystem = logSystemWeak.lock())
                 {
                     logSystem->log("djv::AV::System", description);
                 }
@@ -67,11 +69,12 @@ namespace djv
         {
             glm::vec2 dpi;
             GLFWwindow * glfwWindow = nullptr;
+            std::vector<std::shared_ptr<ISystem> > avSystems;
         };
 
-        void System::_init(const std::shared_ptr<Core::Context> & context)
+        void System::_init(Context * context)
         {
-            Core::ISystem::_init("djv::AV::System", context);
+            ISystem::_init("djv::AV::System", context);
 
             DJV_PRIVATE_PTR();
 
@@ -81,9 +84,9 @@ namespace djv
             int glfwMinor = 0;
             int glfwRevision = 0;
             glfwGetVersion(&glfwMajor, &glfwMinor, &glfwRevision);
-            _logSystem = context->getSystemT<Core::LogSystem>();
-            if (auto logSystem = _logSystem.lock())
+            if (auto logSystem = context->getSystemT<LogSystem>().lock())
             {
+                logSystemWeak = logSystem;
                 std::stringstream ss;
                 ss << "GLFW version: " << glfwMajor << "." << glfwMinor << "." << glfwRevision;
                 logSystem->log("djv::AV::System", ss.str());
@@ -91,7 +94,7 @@ namespace djv
             if (!glfwInit())
             {
                 std::stringstream ss;
-                ss << "djv::AV::System: " << DJV_TEXT("Cannot initialize GLFW");
+                ss << DJV_TEXT("Cannot initialize GLFW.");
                 throw std::runtime_error(ss.str());
             }
 
@@ -103,7 +106,7 @@ namespace djv
                 glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
                 _p->dpi.x = mode->width / (mm.x / 25.4f);
                 _p->dpi.y = mode->height / (mm.y / 25.4f);
-                if (auto logSystem = _logSystem.lock())
+                if (auto logSystem = context->getSystemT<LogSystem>().lock())
                 {
                     std::stringstream ss;
                     ss << "Primary monitor size: " << mm << "mm\n";
@@ -123,10 +126,10 @@ namespace djv
             if (!p.glfwWindow)
             {
                 std::stringstream ss;
-                ss << "djv::AV::System: " << DJV_TEXT("Cannot create GLFW window");
+                ss << DJV_TEXT("Cannot create GLFW window.");
                 throw std::runtime_error(ss.str());
             }
-            if (auto logSystem = _logSystem.lock())
+            if (auto logSystem = context->getSystemT<LogSystem>().lock())
             {
                 int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
                 int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
@@ -139,11 +142,11 @@ namespace djv
             glbinding::initialize(glfwGetProcAddress);
 
             // Create the systems.
-            IO::System::create(context);
-            AudioSystem::create(context);
-            FontSystem::create(_p->dpi, context);
-            IconSystem::create(context);
-            /*Render2DSystem::create(context);*/
+            _p->avSystems.push_back(IO::System::create(context));
+            _p->avSystems.push_back(AudioSystem::create(context));
+            _p->avSystems.push_back(FontSystem::create(_p->dpi, context));
+            _p->avSystems.push_back(IconSystem::create(context));
+            _p->avSystems.push_back(Render2DSystem::create(context));
         }
 
         System::System() :
@@ -153,6 +156,10 @@ namespace djv
         System::~System()
         {
             DJV_PRIVATE_PTR();
+            while (p.avSystems.size())
+            {
+                p.avSystems.pop_back();
+            }
             if (p.glfwWindow)
             {
                 glfwDestroyWindow(p.glfwWindow);
@@ -160,7 +167,7 @@ namespace djv
             glfwTerminate();
         }
 
-        std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
+        std::shared_ptr<System> System::create(Context * context)
         {
             auto out = std::shared_ptr<System>(new System);
             out->_init(context);

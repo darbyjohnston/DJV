@@ -49,13 +49,13 @@ namespace djv
             DJV_NON_COPYABLE(FontSettings);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>& context);
+            void _init(Core::Context * context);
             FontSettings();
 
         public:
             virtual ~FontSettings();
 
-            static std::shared_ptr<FontSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FontSettings> create(Core::Context *);
 
             const std::shared_ptr<Core::MapSubject<std::string, FontMap> >& getFonts() const;
 

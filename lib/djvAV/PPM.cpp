@@ -33,6 +33,8 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/String.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace AV
@@ -59,22 +61,22 @@ namespace djv
                 namespace
                 {
                     template<typename T>
-                    void _readASCII(Core::FileIO& io, uint8_t* out, size_t size)
+                    void _readASCII(FileIO& io, uint8_t* out, size_t size)
                     {
-                        char tmp[Core::String::cStringLength] = "";
+                        char tmp[String::cStringLength] = "";
                         T* outP = reinterpret_cast<T*>(out);
                         for (int i = 0; i < size; ++i)
                         {
-                            Core::FileIO::readWord(io, tmp, Core::String::cStringLength);
+                            FileIO::readWord(io, tmp, String::cStringLength);
                             int value = 0;
-                            Core::String::fromString(tmp, Core::String::cStringLength, value);
+                            String::fromString(tmp, String::cStringLength, value);
                             outP[i] = value;
                         }
                     }
 
                 } // namespace
 
-                void readASCII(Core::FileIO& io, uint8_t* out, size_t size, size_t bitDepth)
+                void readASCII(FileIO& io, uint8_t* out, size_t size, size_t bitDepth)
                 {
                     switch (bitDepth)
                     {
@@ -127,7 +129,7 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Core::Context>& context)
+                std::shared_ptr<Plugin> Plugin::create(Context * context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
@@ -162,25 +164,23 @@ namespace djv
                     }
                     else
                     {
-                        throw std::invalid_argument("Cannot parse");
+                        throw std::invalid_argument("Cannot parse value.");
                     }
                 }
 
                 std::shared_ptr<IRead> Plugin::read(
                     const std::string & fileName,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context) const
+                    const std::shared_ptr<Queue> & queue) const
                 {
-                    return Read::create(fileName, queue, context);
+                    return Read::create(fileName, queue, _context);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(
                     const std::string & fileName,
                     const Info & info,
-                    const std::shared_ptr<Queue> & queue,
-                    const std::shared_ptr<Core::Context> & context) const
+                    const std::shared_ptr<Queue> & queue) const
                 {
-                    return Write::create(fileName, info, _p->data, queue, context);
+                    return Write::create(fileName, info, _p->data, queue, _context);
                 }
 
             } // namespace PPM

@@ -43,7 +43,7 @@ namespace djv
             MetricsRole swatchSize = MetricsRole::Swatch;
         };
 
-        void ColorSwatch::_init(const std::shared_ptr<Context>& context)
+        void ColorSwatch::_init(Context * context)
         {
             Widget::_init(context);
             
@@ -57,14 +57,14 @@ namespace djv
         ColorSwatch::~ColorSwatch()
         {}
 
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSwatch> ColorSwatch::create(Context * context)
         {
             auto out = std::shared_ptr<ColorSwatch>(new ColorSwatch);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(const AV::Color& color, const std::shared_ptr<Context>& context)
+        std::shared_ptr<ColorSwatch> ColorSwatch::create(const AV::Color& color, Context * context)
         {
             auto out = ColorSwatch::create(context);
             out->setColor(color);

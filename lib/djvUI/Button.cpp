@@ -527,7 +527,7 @@ namespace djv
             std::shared_ptr<HorizontalLayout> layout;
         };
 
-        void Button::_init(const std::shared_ptr<Context>& context)
+        void Button::_init(Context * context)
         {
             IButton::_init(context);
 
@@ -555,14 +555,14 @@ namespace djv
         Button::~Button()
         {}
 
-        std::shared_ptr<Button> Button::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Button> Button::create(Context * context)
         {
             auto out = std::shared_ptr<Button>(new Button);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Button> Button::create(const Path& icon, const std::shared_ptr<Context>& context)
+        std::shared_ptr<Button> Button::create(const Path& icon, Context * context)
         {
             auto out = std::shared_ptr<Button>(new Button);
             out->_init(context);
@@ -570,7 +570,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Button> Button::create(const Path& icon, const std::string& text, const std::shared_ptr<Context>& context)
+        std::shared_ptr<Button> Button::create(const Path& icon, const std::string& text, Context * context)
         {
             auto out = std::shared_ptr<Button>(new Button);
             out->_init(context);
@@ -704,7 +704,7 @@ namespace djv
             std::shared_ptr<StackLayout> layout;
         };
 
-        void ListButton::_init(const std::string& text, const std::shared_ptr<Context>& context)
+        void ListButton::_init(const std::string& text, Context * context)
         {
             IButton::_init(context);
             
@@ -726,14 +726,14 @@ namespace djv
         ListButton::~ListButton()
         {}
 
-        std::shared_ptr<ListButton> ListButton::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ListButton> ListButton::create(Context * context)
         {
             auto out = std::shared_ptr<ListButton>(new ListButton);
             out->_init(std::string(), context);
             return out;
         }
 
-        std::shared_ptr<ListButton> ListButton::create(const std::string& text, const std::shared_ptr<Context>& context)
+        std::shared_ptr<ListButton> ListButton::create(const std::string& text, Context * context)
         {
             auto out = std::shared_ptr<ListButton>(new ListButton);
             out->_init(text, context);
@@ -818,7 +818,7 @@ namespace djv
             float lineHeight = 0.f;
         };
 
-        void ToggleButton::_init(const std::shared_ptr<Context>& context)
+        void ToggleButton::_init(Context * context)
         {
             IButton::_init(context);
             
@@ -834,7 +834,7 @@ namespace djv
         ToggleButton::~ToggleButton()
         {}
 
-        std::shared_ptr<ToggleButton> ToggleButton::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ToggleButton> ToggleButton::create(Context * context)
         {
             auto out = std::shared_ptr<ToggleButton>(new ToggleButton);
             out->_init(context);

@@ -43,13 +43,13 @@ namespace djv
             DJV_NON_COPYABLE(Window);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             Window();
 
         public:
             virtual ~Window();
 
-            static std::shared_ptr<Window> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Window> create(Core::Context *);
 
             void addWidget(const std::shared_ptr<Widget>&) override;
             void removeWidget(const std::shared_ptr<Widget>&) override;

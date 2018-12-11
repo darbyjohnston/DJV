@@ -47,7 +47,7 @@ namespace djv
             std::shared_ptr<StackLayout> layout;
         };
 
-        void Border::_init(const std::shared_ptr<Context>& context)
+        void Border::_init(Context * context)
         {
             IContainerWidget::_init(context);
             
@@ -64,7 +64,7 @@ namespace djv
         Border::~Border()
         {}
 
-        std::shared_ptr<Border> Border::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Border> Border::create(Context * context)
         {
             auto out = std::shared_ptr<Border>(new Border);
             out->_init(context);

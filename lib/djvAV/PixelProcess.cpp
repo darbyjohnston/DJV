@@ -65,11 +65,11 @@ namespace djv
                 glm::mat4x4 mvp;
             };
 
-            void Convert::_init(const std::shared_ptr<Core::Context> & context)
+            void Convert::_init(Context * context)
             {
                 DJV_PRIVATE_PTR();
                 Path shaderPath;
-                if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                if (auto resourceSystem = context->getSystemT<ResourceSystem>().lock())
                 {
                     shaderPath = resourceSystem->getPath(Core::ResourcePath::ShadersDirectory);
                 }
@@ -85,7 +85,7 @@ namespace djv
             Convert::~Convert()
             {}
 
-            std::shared_ptr<Convert> Convert::create(const std::shared_ptr<Core::Context> & context)
+            std::shared_ptr<Convert> Convert::create(Context * context)
             {
                 auto out = std::shared_ptr<Convert>(new Convert);
                 out->_init(context);

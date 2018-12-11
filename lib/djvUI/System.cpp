@@ -37,27 +37,30 @@
 
 #include <djvAV/System.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace UI
     {
         struct System::Private
         {
+            std::vector<std::shared_ptr<ISystem> > uiSystems;
             std::shared_ptr<GeneralSettings> generalSettings;
             std::shared_ptr<FontSettings> fontSettings;
             std::shared_ptr<StyleSettings> styleSettings;
             std::shared_ptr<Style> style;
         };
 
-        void System::_init(const std::shared_ptr<Core::Context> & context)
+        void System::_init(Context * context)
         {
             ISystem::_init("djv::UI::System", context);
-            AV::System::create(context);
-            /*SettingsSystem::create(context);
+            _p->uiSystems.push_back(AV::System::create(context));
+            _p->uiSystems.push_back(SettingsSystem::create(context));
             _p->generalSettings = GeneralSettings::create(context);
             _p->fontSettings = FontSettings::create(context);
             _p->styleSettings = StyleSettings::create(context);
-            _p->style = Style::create(context);*/
+            _p->uiSystems.push_back(_p->style = Style::create(context));
         }
 
         System::System() :
@@ -65,9 +68,15 @@ namespace djv
         {}
 
         System::~System()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            while (p.uiSystems.size())
+            {
+                p.uiSystems.pop_back();
+            }
+        }
 
-        std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
+        std::shared_ptr<System> System::create(Context * context)
         {
             auto out = std::shared_ptr<System>(new System);
             out->_init(context);

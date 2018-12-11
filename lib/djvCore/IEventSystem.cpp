@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/EventSystem.h>
+#include <djvCore/IEventSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Event.h>
@@ -47,7 +47,7 @@ namespace djv
             std::shared_ptr<IObject> focus;
         };
 
-        void IEventSystem::_init(const std::string& systemName, const std::shared_ptr<Context>& context)
+        void IEventSystem::_init(const std::string& systemName, Context * context)
         {
             ISystem::_init(systemName, context);
             _p->textSystem = context->getSystemT<TextSystem>();

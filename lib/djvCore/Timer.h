@@ -45,12 +45,12 @@ namespace djv
         class Timer : public std::enable_shared_from_this<Timer>
         {
             DJV_NON_COPYABLE(Timer);
-            void _init(const std::shared_ptr<Context>&);
+            void _init(Context *);
             inline Timer();
 
         public:
             //! Create a new time.
-            static std::shared_ptr<Timer> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<Timer> create(Context *);
 
             //! \name Common Timer Values
             ///@{
@@ -105,14 +105,14 @@ namespace djv
         class TimerSystem : public ISystem
         {
             DJV_NON_COPYABLE(TimerSystem);
-            void _init(const std::shared_ptr<Context>&);
+            void _init(Context *);
             TimerSystem();
 
         public:
             virtual ~TimerSystem();
             
             //! Create a new timer system.
-            static std::shared_ptr<TimerSystem> create(const std::shared_ptr<Context>&);
+            static std::shared_ptr<TimerSystem> create(Context *);
 
         protected:
             void _tick(float dt) override;

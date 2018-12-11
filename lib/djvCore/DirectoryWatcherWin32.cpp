@@ -59,7 +59,7 @@ namespace djv
             std::shared_ptr<Timer> timer;
         };
 
-        void DirectoryWatcher::_init(const std::shared_ptr<Context>& context)
+        void DirectoryWatcher::_init(Context * context)
         {
             std::weak_ptr<LogSystem> logSystemWeak = context->getSystemT<LogSystem>();
             const auto timeout = Timer::getValue(Timer::Value::Medium);
@@ -99,7 +99,7 @@ namespace djv
                             if (auto logSystem = logSystemWeak.lock())
                             {
                                 std::stringstream s;
-                                s << "Error finding change notification for: " << path << ": " << getLastError();
+                                s << DJV_TEXT("Error finding change notification for" ) << " '" << path << "'. " << getLastError();
                                 logSystem->log("djv::Core::DirectoryWatcher", s.str(), LogLevel::Error);
                             }
                         }
@@ -171,7 +171,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<DirectoryWatcher> DirectoryWatcher::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<DirectoryWatcher> DirectoryWatcher::create(Context * context)
         {
             auto out = std::shared_ptr<DirectoryWatcher>(new DirectoryWatcher);
             out->_init(context);

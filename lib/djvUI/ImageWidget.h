@@ -47,13 +47,13 @@ namespace djv
             DJV_NON_COPYABLE(ImageWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             ImageWidget();
 
         public:
             virtual ~ImageWidget();
 
-            static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ImageWidget> create(Core::Context *);
 
             const std::shared_ptr<AV::Image>& getImage() const;
             void setImage(const std::shared_ptr<AV::Image>&, size_t hash);

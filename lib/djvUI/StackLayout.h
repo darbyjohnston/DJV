@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(StackLayout);
             
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            void _init(Core::Context *);
             StackLayout();
 
         public:
             virtual ~StackLayout();
 
-            static std::shared_ptr<StackLayout> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<StackLayout> create(Core::Context *);
 
             float getHeightForWidth(float) const override;
 

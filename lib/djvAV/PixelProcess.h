@@ -48,7 +48,7 @@ namespace djv
                 DJV_NON_COPYABLE(Convert);
 
             protected:
-                void _init(const std::shared_ptr<Core::Context> &);
+                void _init(Core::Context *);
                 Convert();
 
             public:
@@ -57,7 +57,7 @@ namespace djv
                 //! Note that this function requires an OpenGL context.
                 //! Throws:
                 //! - std::exception
-                static std::shared_ptr<Convert> create(const std::shared_ptr<Core::Context> &);
+                static std::shared_ptr<Convert> create(Core::Context *);
 
                 //! Note that this function requires an OpenGL context.
                 void process(const Data &, const Info &, Data &);
