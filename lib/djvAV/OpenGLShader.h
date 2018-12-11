@@ -79,9 +79,9 @@ namespace djv
 
             private:
                 std::shared_ptr<AV::Shader> _shader;
-                GLuint _vertex = 0;
-                GLuint _fragment = 0;
-                GLuint _program = 0;
+                gl::GLuint _vertex = 0;
+                gl::GLuint _fragment = 0;
+                gl::GLuint _program = 0;
             };
 
         } // namespace OpenGL

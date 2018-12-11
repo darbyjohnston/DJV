@@ -34,6 +34,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 
+using namespace gl;
+
 namespace djv
 {
     namespace AV
@@ -59,14 +61,6 @@ namespace djv
                     auto out = std::shared_ptr<Write>(new Write);
                     out->_init(fileName, info, queue, context);
                     return out;
-                }
-
-                void Write::_start()
-                {
-                    if (auto context = _context.lock())
-                    {
-                        _p->convert = Pixel::Convert::create(context);
-                    }
                 }
 
                 namespace
@@ -168,10 +162,10 @@ namespace djv
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot write") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
-                    const auto info = Pixel::Info(image->getSize(), pixelType);
+                    const auto info = Pixel::Info(_pixelInfo.size, pixelType);
 
                     std::shared_ptr<Pixel::Data> pixelData = image;
                     if (pixelData->getInfo() != info)
@@ -190,20 +184,20 @@ namespace djv
                     if (!f.png)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName << ": " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
                     f.f = Core::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     if (!pngOpen(f.f, f.png, &f.pngInfo, info))
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName << ": " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
                     if (Pixel::getBitDepth(info.type) > 8 && Core::Memory::Endian::LSB == Core::Memory::getEndian())
@@ -217,21 +211,16 @@ namespace djv
                         if (!pngScanline(f.png, pixelData->getData(y)))
                         {
                             std::stringstream s;
-                            s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName << ": " << f.pngError.msg;
+                            s << pluginName << ": " << DJV_TEXT("Cannot write") << ": " << fileName << ": " << f.pngError.msg;
                             throw std::runtime_error(s.str());
                         }
                     }
                     if (!pngEnd(f.png, f.pngInfo))
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName << ": " << f.pngError.msg;
+                        s << pluginName << ": " << DJV_TEXT("Cannot write") << ": " << fileName << ": " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
-                }
-
-                void Write::_exit()
-                {
-                    _p->convert.reset();
                 }
 
             } // namespace PNG

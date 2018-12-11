@@ -168,7 +168,7 @@ namespace djv
                             if (!pngScanline(f.png, out->getData(y)))
                             {
                                 std::stringstream s;
-                                s << pluginName << ": " << DJV_TEXT("cannot read") << ": " << fileName << ": " << f.pngError.msg;
+                                s << pluginName << ": " << DJV_TEXT("Cannot read") << ": " << fileName << ": " << f.pngError.msg;
                                 throw std::runtime_error(s.str());
                             }
                         }
@@ -187,7 +187,7 @@ namespace djv
                     if (!f.png)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName << ": " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
 
@@ -195,13 +195,13 @@ namespace djv
                     if (!f.f)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     if (!pngOpen(f.f, f.png, &f.pngInfo, &f.pngInfoEnd))
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName << ": " << f.pngError.msg;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName << ": " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
 
@@ -226,7 +226,7 @@ namespace djv
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     auto info = Pixel::Info(size, pixelType);

@@ -125,7 +125,7 @@ if(DJV_THIRD_PARTY)
     set(QT_SHARED_LIBS ON)
 endif()
 
-find_package(Qt5 REQUIRED)
+#find_package(Qt5 REQUIRED)
 
 #-------------------------------------------------------------------------------
 # Resources

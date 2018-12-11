@@ -42,28 +42,28 @@ namespace djv
             class Texture
             {
                 DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, GLint filter = GL_LINEAR);
+                void _init(const Pixel::Info &, gl::GLenum filter = gl::GL_LINEAR);
                 inline Texture();
 
             public:
                 ~Texture();
 
-                static std::shared_ptr<Texture> create(const Pixel::Info &, GLint filter = GL_LINEAR);
+                static std::shared_ptr<Texture> create(const Pixel::Info &, gl::GLenum filter = gl::GL_LINEAR);
 
                 inline const Pixel::Info & getInfo() const;
-                inline GLuint getID() const;
+                inline gl::GLuint getID() const;
 
                 void copy(const Pixel::Data &);
                 void copy(const Pixel::Data &, const glm::ivec2 &);
 
                 void bind();
 
-                static GLenum getInternalFormat(Pixel::Type);
+                static gl::GLenum getInternalFormat(Pixel::Type);
 
             private:
                 Pixel::Info _info;
-                GLuint _id = 0;
-                GLuint _pbo = 0;
+                gl::GLuint _id = 0;
+                gl::GLuint _pbo = 0;
             };
 
         } // namespace OpenGL

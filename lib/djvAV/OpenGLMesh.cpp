@@ -39,6 +39,8 @@
 
 using namespace djv::Core;
 
+using namespace gl;
+
 namespace djv
 {
     namespace AV
@@ -85,18 +87,16 @@ namespace djv
                 _size = size;
                 _vertexCount = vertexCount;
                 _type = type;
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenBuffers(1, &_vbo);
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(size * vertexCount * getVertexSize(type)), NULL, GL_DYNAMIC_DRAW);
+                glGenBuffers(1, &_vbo);
+                glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+                glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(size * vertexCount * getVertexSize(type)), NULL, GL_DYNAMIC_DRAW);
             }
 
             VBO::~VBO()
             {
                 if (_vbo)
                 {
-                    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                    glFuncs->glDeleteBuffers(1, &_vbo);
+                    glDeleteBuffers(1, &_vbo);
                     _vbo = 0;
                 }
             }
@@ -110,16 +110,14 @@ namespace djv
 
             void VBO::copy(const std::vector<uint8_t>& data)
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(data.size()), (void*)data.data());
+                glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+                glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
             void VBO::copy(const std::vector<uint8_t>& data, size_t offset)
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glFuncs->glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void*)data.data());
+                glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+                glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
             std::vector<uint8_t> VBO::convert(const TriangleMesh& mesh, VBOType type)
@@ -231,33 +229,32 @@ namespace djv
 
             void VAO::_init(VBOType type, GLuint vbo)
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenVertexArrays(1, &_vao);
-                glFuncs->glBindVertexArray(_vao);
-                glFuncs->glBindBuffer(GL_ARRAY_BUFFER, vbo);
+                glGenVertexArrays(1, &_vao);
+                glBindVertexArray(_vao);
+                glBindBuffer(GL_ARRAY_BUFFER, vbo);
                 const size_t vertexSize = getVertexSize(type);
                 switch (type)
                 {
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
-                    glFuncs->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
-                    glFuncs->glEnableVertexAttribArray(0);
-                    glFuncs->glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
-                    glFuncs->glEnableVertexAttribArray(1);
-                    glFuncs->glVertexAttribPointer(2, 4, GL_INT_2_10_10_10_REV, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)16);
-                    glFuncs->glEnableVertexAttribArray(2);
-                    glFuncs->glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)20);
-                    glFuncs->glEnableVertexAttribArray(3);
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
+                    glEnableVertexAttribArray(0);
+                    glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
+                    glEnableVertexAttribArray(1);
+                    glVertexAttribPointer(2, 4, GL_INT_2_10_10_10_REV, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)16);
+                    glEnableVertexAttribArray(2);
+                    glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)20);
+                    glEnableVertexAttribArray(3);
                     break;
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
-                    glFuncs->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
-                    glFuncs->glEnableVertexAttribArray(0);
-                    glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
-                    glFuncs->glEnableVertexAttribArray(1);
-                    glFuncs->glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)20);
-                    glFuncs->glEnableVertexAttribArray(2);
-                    glFuncs->glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)32);
-                    glFuncs->glEnableVertexAttribArray(3);
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
+                    glEnableVertexAttribArray(0);
+                    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
+                    glEnableVertexAttribArray(1);
+                    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)20);
+                    glEnableVertexAttribArray(2);
+                    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)32);
+                    glEnableVertexAttribArray(3);
                     break;
                 default: break;
                 }
@@ -267,8 +264,7 @@ namespace djv
             {
                 if (_vao)
                 {
-                    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                    glFuncs->glDeleteVertexArrays(1, &_vao);
+                    glDeleteVertexArrays(1, &_vao);
                     _vao = 0;
                 }
             }
@@ -282,14 +278,12 @@ namespace djv
 
             void VAO::bind()
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindVertexArray(_vao);
+                glBindVertexArray(_vao);
             }
 
             void VAO::draw(size_t offset, size_t size)
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glDrawArrays(GL_TRIANGLES, static_cast<GLsizei>(offset), static_cast<GLsizei>(size));
+                glDrawArrays(GL_TRIANGLES, static_cast<GLsizei>(offset), static_cast<GLsizei>(size));
             }
 
         } // namespace OpenGL

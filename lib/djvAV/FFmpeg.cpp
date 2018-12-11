@@ -30,6 +30,7 @@
 #include <djvAV/FFmpeg.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
 
 namespace djv
@@ -88,17 +89,17 @@ namespace djv
 
                 namespace
                 {
-                    std::weak_ptr<Core::Context> logContext;
+                    std::weak_ptr<Core::LogSystem> _logSystem;
 
                     void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
                     {
                         if (level > av_log_get_level())
                             return;
-                        if (auto context = logContext.lock())
+                        if (auto logSystem = _logSystem.lock())
                         {
                             char s[Core::String::cStringLength] = "";
                             vsnprintf(s, Core::String::cStringLength, fmt, vl);
-                            context->log("djv::AV::IO::FFmpeg::Plugin", s);
+                            logSystem->log("djv::AV::IO::FFmpeg::Plugin", s);
                         }
                     }
 
@@ -112,7 +113,7 @@ namespace djv
                         fileExtensions,
                         context);
                         
-                    logContext = context;
+                    _logSystem = context->getSystemT<Core::LogSystem>();
                     av_log_set_level(AV_LOG_ERROR);
                     av_log_set_callback(avLogCallback);
                 }
@@ -127,13 +128,9 @@ namespace djv
                     return out;
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<Queue> & queue) const
+                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<Queue> & queue, const std::shared_ptr<Core::Context> & context) const
                 {
-                    if (auto context = _context.lock())
-                    {
-                        return Read::create(fileName, queue, context);
-                    }
-                    return nullptr;
+                    return Read::create(fileName, queue, context);
                 }
 
             } // namespace FFmpeg

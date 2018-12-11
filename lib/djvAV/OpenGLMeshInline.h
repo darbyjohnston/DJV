@@ -51,7 +51,7 @@ namespace djv
                 return _type;
             }
 
-            inline GLuint VBO::getID() const
+            inline gl::GLuint VBO::getID() const
             {
                 return _vbo;
             }
@@ -59,7 +59,7 @@ namespace djv
             VAO::VAO()
             {}
 
-            inline GLuint VAO::getID() const
+            inline gl::GLuint VAO::getID() const
             {
                 return _vao;
             }

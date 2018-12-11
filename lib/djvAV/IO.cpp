@@ -163,7 +163,6 @@ namespace djv
                 const std::shared_ptr<Queue> & queue,
                 const std::shared_ptr<Core::Context> & context)
             {
-                _context = context;
                 _fileName = fileName;
                 _queue = queue;
             }
@@ -183,7 +182,6 @@ namespace djv
                 const std::shared_ptr<Queue> & queue,
                 const std::shared_ptr<Core::Context> & context)
             {
-                _context = context;
                 _fileName = fileName;
                 _info = info;
                 _queue = queue;
@@ -201,7 +199,6 @@ namespace djv
                 const std::set<std::string> & fileExtensions,
                 const std::shared_ptr<Core::Context> & context)
             {
-                _context = context;
                 _pluginName = pluginName;
                 _pluginInfo = pluginInfo;
                 _fileExtensions = fileExtensions;
@@ -356,14 +353,15 @@ namespace djv
 
             std::shared_ptr<IRead> System::read(
                 const std::string & fileName,
-                const std::shared_ptr<Queue> & queue)
+                const std::shared_ptr<Queue> & queue,
+                const std::shared_ptr<Core::Context> & context)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileName))
                     {
-                        return i.second->read(fileName, queue);
+                        return i.second->read(fileName, queue, context);
                     }
                 }
                 std::stringstream s;
@@ -375,26 +373,21 @@ namespace djv
             std::shared_ptr<IWrite> System::write(
                 const std::string & fileName,
                 const Info & info,
-                const std::shared_ptr<Queue> & queue)
+                const std::shared_ptr<Queue> & queue,
+                const std::shared_ptr<Core::Context> & context)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canWrite(fileName, info))
                     {
-                        return i.second->write(fileName, info, queue);
+                        return i.second->write(fileName, info, queue, context);
                     }
                 }
                 std::stringstream s;
                 s << "Cannot write: " << fileName;
                 throw std::runtime_error(s.str());
                 return nullptr;
-            }
-
-            void System::_exit()
-            {
-                ISystem::_exit();
-                _p->plugins.clear();
             }
 
         } // namespace IO

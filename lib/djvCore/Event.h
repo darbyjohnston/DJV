@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvCore/BBox.h>
 #include <djvCore/Enum.h>
 
 #include <glm/vec2.hpp>
@@ -45,11 +46,21 @@ namespace djv
         {
             Update,
             Locale,
+            PreLayout,
+            Layout,
+            Clip,
+            Paint,
             PointerEnter,
             PointerLeave,
             PointerMove,
             ButtonPress,
             ButtonRelease,
+            Scroll,
+            Drop,
+            KeyboardFocus,
+            KeyboardFocusLost,
+            Key,
+            Text,
 
             Count,
             First = Update
@@ -66,8 +77,13 @@ namespace djv
 
             EventType getEventType() const { return _eventType; }
 
+            bool isAccepted() const { return _accepted; }
+            void setAccepted(bool);
+            void accept();
+
         private:
             EventType _eventType;
+            bool _accepted = false;
         };
 
         class UpdateEvent : public IEvent
@@ -92,6 +108,42 @@ namespace djv
             std::string _locale;
         };
 
+        class PreLayoutEvent : public IEvent
+        {
+        public:
+            PreLayoutEvent();
+        };
+
+        class LayoutEvent : public IEvent
+        {
+        public:
+            LayoutEvent();
+        };
+
+        class ClipEvent : public IEvent
+        {
+        public:
+            ClipEvent(const BBox2f& clipRect);
+
+            const BBox2f& getClipRect() const;
+            void setClipRect(const BBox2f&);
+
+        private:
+            BBox2f _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+        };
+
+        class PaintEvent : public IEvent
+        {
+        public:
+            PaintEvent(const BBox2f& clipRect);
+
+            const BBox2f& getClipRect() const;
+            void setClipRect(const BBox2f&);
+
+        private:
+            BBox2f _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+        };
+
         typedef uint32_t PointerID;
 
         struct PointerInfo
@@ -108,13 +160,14 @@ namespace djv
         public:
             IPointerEvent(const PointerInfo&, EventType);
 
-            bool isAccepted() const { return _accepted; }
-            void setAccepted(bool);
+            bool isRejected() const { return _rejected; }
+            void setRejected(bool);
+            void reject();
 
             const PointerInfo& getPointerInfo() const { return _pointerInfo; }
 
         private:
-            bool _accepted = false;
+            bool _rejected = false;
             PointerInfo _pointerInfo;
         };
 
@@ -146,6 +199,64 @@ namespace djv
         {
         public:
             ButtonReleaseEvent(const PointerInfo&);
+        };
+
+        class ScrollEvent : public IPointerEvent
+        {
+        public:
+            ScrollEvent(const glm::vec2& scrollDelta, const PointerInfo&);
+
+            const glm::vec2& getScrollDelta() const { return _scrollDelta; }
+
+        private:
+            glm::vec2 _scrollDelta = glm::vec2(0.f, 0.f);
+        };
+
+        class DropEvent : public IPointerEvent
+        {
+        public:
+            DropEvent(const std::vector<std::string>&, const PointerInfo&);
+
+            const std::vector<std::string>& getDropPaths() const { return _dropPaths; }
+
+        private:
+            std::vector<std::string> _dropPaths;
+        };
+
+        class KeyboardFocusEvent : public IEvent
+        {
+        public:
+            KeyboardFocusEvent();
+        };
+
+        class KeyboardFocusLostEvent : public IEvent
+        {
+        public:
+            KeyboardFocusLostEvent();
+        };
+
+        class KeyEvent : public IPointerEvent
+        {
+        public:
+            KeyEvent(int32_t keyCode, uint16_t keyModifiers, const PointerInfo&);
+
+            int32_t getKeyCode() const { return _keyCode; }
+            uint16_t getKeyModifiers() const { return _keyModifiers; }
+
+        private:
+            int32_t _keyCode = 0;
+            uint16_t _keyModifiers = 0;
+        };
+
+        class TextEvent : public IEvent
+        {
+        public:
+            TextEvent(const std::string&);
+
+            const std::string& getText() const { return _text; }
+
+        private:
+            std::string _text;
         };
 
     } // namespace Core

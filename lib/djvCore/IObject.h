@@ -42,7 +42,9 @@ namespace djv
         class Context;
         class EnterEvent;
         class IEvent;
+        class IEventSystem;
         class LocaleEvent;
+        class LogSystem;
         class PointerEnterEvent;
         class PointerLeaveEvent;
         class PointerMoveEvent;
@@ -61,8 +63,6 @@ namespace djv
 
         public:
             virtual ~IObject() = 0;
-
-            inline std::weak_ptr<Core::Context> getContext() const;
 
             inline const std::string& getClassName() const;
             inline const std::string& getName() const;
@@ -103,8 +103,9 @@ namespace djv
             bool _eventFilter(IEvent&);
             virtual bool _eventFilter(const std::shared_ptr<IObject>&, IEvent&) { return false; }
 
-            std::shared_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
-            std::shared_ptr<TextSystem> _getTextSystem() const { return _textSystem; }
+            std::weak_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
+            std::weak_ptr<LogSystem> _getLogSystem() const { return _logSystem; }
+            std::weak_ptr<TextSystem> _getTextSystem() const { return _textSystem; }
 
             void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
 
@@ -114,7 +115,6 @@ namespace djv
             template<typename T>
             inline static void _getFirstChildRecursiveT(const std::shared_ptr<IObject>&, std::shared_ptr<T>&);
 
-            std::weak_ptr<Core::Context> _context;
             std::string _className;
             std::string _name;
             bool _firstTick = true;
@@ -123,8 +123,9 @@ namespace djv
             bool _enabled = true;
             bool _parentsEnabled = true;
             std::vector<std::weak_ptr<IObject> > _filters;
-            std::shared_ptr<ResourceSystem> _resourceSystem;
-            std::shared_ptr<TextSystem> _textSystem;
+            std::weak_ptr<ResourceSystem> _resourceSystem;
+            std::weak_ptr<LogSystem> _logSystem;
+            std::weak_ptr<TextSystem> _textSystem;
 
             friend class IEventSystem;
         };

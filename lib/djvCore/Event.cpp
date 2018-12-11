@@ -42,6 +42,16 @@ namespace djv
         IEvent::~IEvent()
         {}
 
+        void IEvent::setAccepted(bool value)
+        {
+            _accepted = value;
+        }
+
+        void IEvent::accept()
+        {
+            _accepted = true;
+        }
+
         UpdateEvent::UpdateEvent(float dt) :
             IEvent(EventType::Update),
             _dt(dt)
@@ -52,14 +62,57 @@ namespace djv
             _locale(locale)
         {}
 
+        PreLayoutEvent::PreLayoutEvent() :
+            IEvent(EventType::PreLayout)
+        {}
+
+        LayoutEvent::LayoutEvent() :
+            IEvent(EventType::Layout)
+        {}
+
+        ClipEvent::ClipEvent(const BBox2f& clipRect) :
+            IEvent(EventType::Clip),
+            _clipRect(clipRect)
+        {}
+
+        const BBox2f& ClipEvent::getClipRect() const
+        {
+            return _clipRect;
+        }
+
+        void ClipEvent::setClipRect(const BBox2f& value)
+        {
+            _clipRect = value;
+        }
+
+        PaintEvent::PaintEvent(const BBox2f& clipRect) :
+            IEvent(EventType::Paint),
+            _clipRect(clipRect)
+        {}
+
+        const BBox2f& PaintEvent::getClipRect() const
+        {
+            return _clipRect;
+        }
+
+        void PaintEvent::setClipRect(const BBox2f& value)
+        {
+            _clipRect = value;
+        }
+
         IPointerEvent::IPointerEvent(const PointerInfo& pointerInfo, EventType eventType) :
             IEvent(eventType),
             _pointerInfo(pointerInfo)
         {}
 
-        void IPointerEvent::setAccepted(bool value)
+        void IPointerEvent::setRejected(bool value)
         {
-            _accepted = value;
+            _rejected = value;
+        }
+
+        void IPointerEvent::reject()
+        {
+            _rejected = true;
         }
 
         PointerEnterEvent::PointerEnterEvent(const PointerInfo& pointerInfo) :
@@ -82,6 +135,35 @@ namespace djv
             IPointerEvent(pointerInfo, EventType::ButtonRelease)
         {}
 
+        ScrollEvent::ScrollEvent(const glm::vec2& scrollDelta, const PointerInfo& info) :
+            IPointerEvent(info, EventType::Scroll),
+            _scrollDelta(scrollDelta)
+        {}
+
+        DropEvent::DropEvent(const std::vector<std::string>& dropPaths, const PointerInfo& info) :
+            IPointerEvent(info, EventType::Drop),
+            _dropPaths(dropPaths)
+        {}
+
+        KeyboardFocusEvent::KeyboardFocusEvent() :
+            IEvent(EventType::KeyboardFocus)
+        {}
+
+        KeyboardFocusLostEvent::KeyboardFocusLostEvent() :
+            IEvent(EventType::KeyboardFocusLost)
+        {}
+
+        KeyEvent::KeyEvent(int32_t keyCode, uint16_t keyModifiers, const PointerInfo& info) :
+            IPointerEvent(info, EventType::Key),
+            _keyCode(keyCode),
+            _keyModifiers(keyModifiers)
+        {}
+
+        TextEvent::TextEvent(const std::string& text) :
+            IEvent(EventType::Text),
+            _text(text)
+        {}
+
     } // namespace Core
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
@@ -89,10 +171,20 @@ namespace djv
         EventType,
         DJV_TEXT("Update"),
         DJV_TEXT("Locale"),
-        DJV_TEXT("Pointer Enter"),
-        DJV_TEXT("Pointer Leave"),
-        DJV_TEXT("Pointer Move"),
-        DJV_TEXT("Button Press"),
-        DJV_TEXT("Button Release"));
+        DJV_TEXT("PreLayout"),
+        DJV_TEXT("Layout"),
+        DJV_TEXT("Clip"),
+        DJV_TEXT("Paint"),
+        DJV_TEXT("PointerEnter"),
+        DJV_TEXT("PointerLeave"),
+        DJV_TEXT("PointerMove"),
+        DJV_TEXT("ButtonPress"),
+        DJV_TEXT("ButtonRelease"),
+        DJV_TEXT("Scroll"),
+        DJV_TEXT("Drop"),
+        DJV_TEXT("KeyboardFocus"),
+        DJV_TEXT("KeyboardFocusLost"),
+        DJV_TEXT("Key"),
+        DJV_TEXT("Text"));
 
 } // namespace djv

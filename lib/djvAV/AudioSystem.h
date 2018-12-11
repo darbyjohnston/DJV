@@ -52,9 +52,6 @@ namespace djv
 
             ALCdevice * getALDevice() const;
             ALCcontext * getALContext() const;
-
-        protected:
-            void _exit() override;
             
         private:
             DJV_PRIVATE();

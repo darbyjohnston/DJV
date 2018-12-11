@@ -64,9 +64,6 @@ namespace djv
             
             ///@}
 
-        protected:
-            void _exit() override;
-
         private:
             void _writeMessages();
 

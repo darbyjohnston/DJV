@@ -40,6 +40,7 @@ namespace djv
     {
         struct IEventSystem::Private
         {
+            std::weak_ptr<TextSystem> textSystem;
             std::shared_ptr<IObject> rootObject;
             std::shared_ptr<IObject> hover;
             std::shared_ptr<IObject> grab;
@@ -49,6 +50,7 @@ namespace djv
         void IEventSystem::_init(const std::string& systemName, const std::shared_ptr<Context>& context)
         {
             ISystem::_init(systemName, context);
+            _p->textSystem = context->getSystemT<TextSystem>();
         }
 
         IEventSystem::IEventSystem() :
@@ -147,15 +149,12 @@ namespace djv
 
                 if (firstTick.size())
                 {
-                    if (auto context = getContext().lock())
+                    if (auto textSystem = _p->textSystem.lock())
                     {
-                        if (auto textSystem = context->getSystemT<TextSystem>())
+                        LocaleEvent localeEvent(textSystem->getCurrentLocale());
+                        for (auto& object : firstTick)
                         {
-                            LocaleEvent localeEvent(textSystem->getCurrentLocale());
-                            for (auto& object : firstTick)
-                            {
-                                object->_event(localeEvent);
-                            }
+                            object->_event(localeEvent);
                         }
                     }
                 }

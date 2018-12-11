@@ -55,15 +55,6 @@ namespace djv
             std::vector<std::string> args;
             std::string name;
             std::vector<std::shared_ptr<ISystem> > systems;
-            struct CoreSystems
-            {
-                std::shared_ptr<TimerSystem> timer;
-                std::shared_ptr<ResourceSystem> resource;
-                std::shared_ptr<LogSystem> log;
-                std::shared_ptr<TextSystem> text;
-                std::shared_ptr<AnimationSystem> animation;
-            };
-            std::unique_ptr<CoreSystems> coreSystems;
             std::chrono::time_point<std::chrono::system_clock> fpsTime = std::chrono::system_clock::now();
             std::list<float> fpsSamples;
             float fpsAverage = 0.f;
@@ -80,23 +71,23 @@ namespace djv
             _p->name = Path(argv0).getBaseName();
 
             // Create the core systems.
-            _p->coreSystems.reset(new Private::CoreSystems);
-            _p->coreSystems->timer = TimerSystem::create(shared_from_this());
-            _p->coreSystems->resource = ResourceSystem::create(argv0, shared_from_this());
-            _p->coreSystems->log = LogSystem::create(_p->coreSystems->resource->getPath(ResourcePath::LogFile), shared_from_this());
-            _p->coreSystems->text = TextSystem::create(shared_from_this());
-            _p->coreSystems->animation = AnimationSystem::create(shared_from_this());
+            TimerSystem::create(shared_from_this());
+            auto resourceSystem = ResourceSystem::create(argv0, shared_from_this());
+            auto logSystem = LogSystem::create(resourceSystem->getPath(ResourcePath::LogFile), shared_from_this());
+            TextSystem::create(shared_from_this());
+            AnimationSystem::create(shared_from_this());
 
             // Log information.
             std::stringstream s;
             s << "Application: " << _p->name << '\n';
             s << "System information: " << OS::getInformation() << '\n';
+            s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
             s << "Resource paths:" << '\n';
             for (auto path : getResourcePathEnums())
             {
-                s << "    " << path << ": " << _p->coreSystems->resource->getPath(path) << '\n';
+                s << "    " << path << ": " << resourceSystem->getPath(path) << '\n';
             }
-            log("djv::Core::Context", s.str());
+            logSystem->log("djv::Core::Context", s.str());
 
             _p->undoStack = UndoStack::create(shared_from_this());
         }
@@ -125,24 +116,6 @@ namespace djv
             return _p->name;
         }
 
-        void Context::exit()
-        {
-            std::stringstream s;
-            s << "Exiting: " << _p->name;
-            log("djv::Core::Context", s.str());
-
-            auto systems = _p->systems;
-            for (auto system = systems.rbegin(); system != systems.rend(); ++system)
-            {
-                (*system)->_exit();
-            }
-
-            //! \bug [1.0 S] It seems on OSX that the "Context::_p" pointer is getting
-            //! set to NULL before the pointers are getting reset. So
-            //! unfortunately we need to manually reset the pointer here?
-            _p->coreSystems.reset();
-        }
-
         float Context::getFpsAverage() const
         {
             return _p->fpsAverage;
@@ -153,51 +126,9 @@ namespace djv
             return _p->systems;
         }
 
-        const std::shared_ptr<ResourceSystem>& Context::getResourceSystem() const
-        {
-            return _p->coreSystems->resource;
-        }
-
-        const std::shared_ptr<LogSystem>& Context::getLogSystem() const
-        {
-            return _p->coreSystems->log;
-        }
-
-        const std::shared_ptr<TextSystem>& Context::getTextSystem() const
-        {
-            return _p->coreSystems->text;
-        }
-
-        Path Context::getResourcePath(ResourcePath value) const
-        {
-            return _p->coreSystems->resource->getPath(value);
-        }
-
-        Path Context::getResourcePath(ResourcePath value, const Path& fileName) const
-        {
-            Path path = getResourcePath(value);
-            path.append(fileName);
-            return path;
-        }
-
-        Path Context::getResourcePath(ResourcePath value, const std::string& fileName) const
-        {
-            Path path = getResourcePath(value);
-            path.append(fileName);
-            return path;
-        }
-
         const std::shared_ptr<UndoStack> & Context::getUndoStack() const
         {
             return _p->undoStack;
-        }
-
-        void Context::log(const std::string& prefix, const std::string& message, LogLevel level)
-        {
-            if (_p->coreSystems->log)
-            {
-                _p->coreSystems->log->log(prefix, message, level);
-            }
         }
 
         void Context::tick(float dt)
@@ -225,10 +156,13 @@ namespace djv
             {
                 if (logSystemOrder)
                 {
-                    std::stringstream s;
-                    s << "Tick system #" << count << ": " << system->getName();
-                    log("djv::Core::Context", s.str());
-                    ++count;
+                    if (auto logSystem = getSystemT<LogSystem>())
+                    {
+                        std::stringstream s;
+                        s << "Tick system #" << count << ": " << system->getName();
+                        logSystem->log("djv::Core::Context", s.str());
+                        ++count;
+                    }
                 }
                 system->_tick(dt);
             }

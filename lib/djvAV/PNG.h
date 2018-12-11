@@ -94,9 +94,7 @@ namespace djv
                         const std::shared_ptr<Core::Context> &);
 
                 protected:
-                    void _start() override;
                     void _write(const std::string & fileName, const std::shared_ptr<Image> &) override;
-                    void _exit() override;
 
                 private:
                     DJV_PRIVATE();
@@ -114,11 +112,13 @@ namespace djv
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,
-                        const std::shared_ptr<Queue> &) const override;
+                        const std::shared_ptr<Queue> &,
+                        const std::shared_ptr<Core::Context> &) const override;
                     std::shared_ptr<IWrite> write(
                         const std::string & fileName,
                         const Info &,
-                        const std::shared_ptr<Queue> &) const override;
+                        const std::shared_ptr<Queue> &,
+                        const std::shared_ptr<Core::Context> &) const override;
                 };
 
                 extern "C"

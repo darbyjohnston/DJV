@@ -63,7 +63,7 @@ namespace djv
 
             inline size_t getChannelCount(Type value)
             {
-                static const std::vector<GLenum> data =
+                static const std::vector<size_t> data =
                 {
                     0,
                     1, 1, 1, 1, 1,
@@ -77,7 +77,7 @@ namespace djv
 
             inline size_t getBitDepth(Type value)
             {
-                static const std::vector<GLenum> data =
+                static const std::vector<size_t> data =
                 {
                     0,
                     8, 16, 32, 16, 32,
@@ -91,7 +91,7 @@ namespace djv
 
             inline size_t getByteCount(Type value)
             {
-                static const std::vector<GLenum> data =
+                static const std::vector<size_t> data =
                 {
                     0,
                     1, 2, 4, 2, 4,
@@ -180,8 +180,9 @@ namespace djv
                 return Type::None;
             }
 
-            inline GLenum getGLFormat(Type value)
+            inline gl::GLenum getGLFormat(Type value)
             {
+                using namespace gl;
                 static const std::vector<GLenum> data =
                 {
                     GL_NONE,
@@ -215,8 +216,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline GLenum getGLType(Type value)
+            inline gl::GLenum getGLType(Type value)
             {
+                using namespace gl;
                 static const std::vector<GLenum> data =
                 {
                     GL_NONE,

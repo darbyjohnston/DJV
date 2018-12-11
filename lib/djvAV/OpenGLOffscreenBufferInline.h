@@ -41,12 +41,12 @@ namespace djv
                 return _info;
             }
 
-            inline GLuint OffscreenBuffer::getID() const
+            inline gl::GLuint OffscreenBuffer::getID() const
             {
                 return _id;
             }
 
-            inline GLuint OffscreenBuffer::getTextureID() const
+            inline gl::GLuint OffscreenBuffer::getTextureID() const
             {
                 return _textureID;
             }

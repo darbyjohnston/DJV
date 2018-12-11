@@ -34,103 +34,116 @@
 #include <djvAV/IconSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/OpenGL.h>
+#include <djvAV/Render2DSystem.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/OS.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
+#include <djvCore/Vector.h>
 
-#include <QGuiApplication>
-#include <QOffscreenSurface>
-#include <QOpenGLContext>
-#include <QOpenGLDebugLogger>
-#include <QScopedPointer>
-#include <QScreen>
+#include <GLFW/glfw3.h>
 
 namespace djv
 {
     namespace AV
     {
+        namespace
+        {
+            std::weak_ptr<Core::LogSystem> _logSystem;
+
+            void glfwErrorCallback(int error, const char * description)
+            {
+                if (auto logSystem = _logSystem.lock())
+                {
+                    logSystem->log("djv::AV::System", description);
+                }
+            }
+
+        } // namespace
+
         struct System::Private
         {
-            QScopedPointer<QOffscreenSurface> offscreenSurface;
-            QScopedPointer<QOpenGLContext> openGLContext;
-            QScopedPointer<QOpenGLDebugLogger> openGLDebugLogger;
+            glm::vec2 dpi;
+            GLFWwindow * glfwWindow = nullptr;
         };
 
         void System::_init(const std::shared_ptr<Core::Context> & context)
         {
             Core::ISystem::_init("djv::AV::System", context);
 
-            // Create the default OpenGL context.
-            QSurfaceFormat defaultFormat;
-            defaultFormat.setRenderableType(QSurfaceFormat::OpenGL);
-            defaultFormat.setMajorVersion(4);
-            defaultFormat.setMinorVersion(1);
-            defaultFormat.setProfile(QSurfaceFormat::CoreProfile);
-            //! \todo Document this environment variable.
-            if (!Core::OS::getEnv("DJV_OPENGL_DEBUG").empty())
-            {
-                defaultFormat.setOption(QSurfaceFormat::DebugContext);
-            }
-            QSurfaceFormat::setDefaultFormat(defaultFormat);
-
             DJV_PRIVATE_PTR();
-            p.offscreenSurface.reset(new QOffscreenSurface);
-            QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
-            surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
-            surfaceFormat.setSamples(1);
-            p.offscreenSurface->setFormat(surfaceFormat);
-            p.offscreenSurface->create();
-            p.openGLContext.reset(new QOpenGLContext);
-            p.openGLContext->setFormat(surfaceFormat);
-            if (!p.openGLContext->create())
+
+            // Initialize GLFW.
+            glfwSetErrorCallback(glfwErrorCallback);
+            int glfwMajor = 0;
+            int glfwMinor = 0;
+            int glfwRevision = 0;
+            glfwGetVersion(&glfwMajor, &glfwMinor, &glfwRevision);
+            _logSystem = context->getSystemT<Core::LogSystem>();
+            if (auto logSystem = _logSystem.lock())
             {
                 std::stringstream ss;
-                ss << "djv::AV::System: " << DJV_TEXT("cannot create OpenGL context; found version") << " " <<
-                    p.openGLContext->format().majorVersion() << "." << p.openGLContext->format().minorVersion();
+                ss << "GLFW version: " << glfwMajor << "." << glfwMinor << "." << glfwRevision;
+                logSystem->log("djv::AV::System", ss.str());
+            }
+            if (!glfwInit())
+            {
+                std::stringstream ss;
+                ss << "djv::AV::System: " << DJV_TEXT("Cannot initialize GLFW");
                 throw std::runtime_error(ss.str());
             }
 
-            p.openGLContext->makeCurrent(p.offscreenSurface.data());
-            std::stringstream ss;
-            ss << "OpenGL context valid = " << p.openGLContext->isValid();
-            _log(ss.str());
-            ss.str(std::string());
-            ss << "OpenGL version = " <<
-                p.openGLContext->format().majorVersion() << "." <<
-                p.openGLContext->format().minorVersion();
-            _log(ss.str());
-            if (!p.openGLContext->versionFunctions<QOpenGLFunctions_3_3_Core>())
+            // Get the primary monitor DPI.
+            if (auto primaryMonitor = glfwGetPrimaryMonitor())
             {
-                std::stringstream ss;
-                ss << "djv::AV::System: " << DJV_TEXT("cannot find OpenGL 3.3 functions; found version") << " " <<
-                    p.openGLContext->format().majorVersion() << "." << p.openGLContext->format().minorVersion();
-                throw std::runtime_error(ss.str());
+                const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
+                glm::ivec2 mm;
+                glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
+                _p->dpi.x = mode->width / (mm.x / 25.4f);
+                _p->dpi.y = mode->height / (mm.y / 25.4f);
+                if (auto logSystem = _logSystem.lock())
+                {
+                    std::stringstream ss;
+                    ss << "Primary monitor size: " << mm << "mm\n";
+                    ss << "Primary monitor DPI: " << _p->dpi;
+                    logSystem->log("djv::AV::System", ss.str());
+                    ss.str(std::string());
+                }
             }
 
-            p.openGLDebugLogger.reset(new QOpenGLDebugLogger);
-            QObject::connect(
-                p.openGLDebugLogger.data(),
-                &QOpenGLDebugLogger::messageLogged,
-                [this](const QOpenGLDebugMessage & message)
+            // Create an OpenGL context.
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+            p.glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
+            if (!p.glfwWindow)
             {
-                _log(message.message().toStdString());
-            });
-            if (p.openGLContext->format().testOption(QSurfaceFormat::DebugContext))
-            {
-                p.openGLDebugLogger->initialize();
-                p.openGLDebugLogger->startLogging();
+                std::stringstream ss;
+                ss << "djv::AV::System: " << DJV_TEXT("Cannot create GLFW window");
+                throw std::runtime_error(ss.str());
             }
+            if (auto logSystem = _logSystem.lock())
+            {
+                int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
+                int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
+                int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
+                std::stringstream ss;
+                ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
+                logSystem->log("Gp::Desktop::Application", ss.str());
+            }
+            glfwMakeContextCurrent(p.glfwWindow);
+            glbinding::initialize(glfwGetProcAddress);
 
             // Create the systems.
             IO::System::create(context);
             AudioSystem::create(context);
-            glm::vec2 dpi;
-            auto screen = qApp->primaryScreen();
-            dpi.x = screen->physicalDotsPerInchX();
-            dpi.y = screen->physicalDotsPerInchY();
-            FontSystem::create(dpi, context);
+            FontSystem::create(_p->dpi, context);
             IconSystem::create(context);
+            /*Render2DSystem::create(context);*/
         }
 
         System::System() :
@@ -138,7 +151,14 @@ namespace djv
         {}
 
         System::~System()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (p.glfwWindow)
+            {
+                glfwDestroyWindow(p.glfwWindow);
+            }
+            glfwTerminate();
+        }
 
         std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context> & context)
         {
@@ -147,15 +167,10 @@ namespace djv
             return out;
         }
 
-        QPointer<QOpenGLContext> System::openGLContext() const
-        {
-            return _p->openGLContext.data();
-        }
-
         void System::makeGLContextCurrent()
         {
             DJV_PRIVATE_PTR();
-            p.openGLContext->makeCurrent(p.offscreenSurface.data());
+            glfwMakeContextCurrent(p.glfwWindow);
         }
 
     } // namespace AV

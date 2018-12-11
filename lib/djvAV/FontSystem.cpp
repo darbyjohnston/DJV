@@ -32,6 +32,7 @@
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #include <ft2build.h>
@@ -134,6 +135,7 @@ namespace djv
         {
             glm::vec2 dpi = glm::vec2(0.f, 0.f);
             FT_Library ftLibrary = nullptr;
+            Path fontPath;
             std::map<std::string, std::string> fontFileNames;
             std::promise<std::map<std::string, std::string> > fontFileNamesPromise;
             std::map<std::string, FT_Face> fontFaces;
@@ -164,6 +166,7 @@ namespace djv
             ISystem::_init("djv::AV::FontSystem", context);
 
             DJV_PRIVATE_PTR();
+            p.fontPath = context->getSystemT<ResourceSystem>()->getPath(ResourcePath::FontsDirectory);
             p.measureCache.setMax(measureCacheMax);
             p.glyphCache.setMax(glyphCacheMax);
             p.dpi = dpi;
@@ -237,9 +240,11 @@ namespace djv
 
         FontSystem::~FontSystem()
         {
+            DJV_PRIVATE_PTR();
+            p.running = false;
             if (_p->thread.joinable())
             {
-                _p->thread.join();
+                p.thread.join();
             }
         }
 
@@ -322,24 +327,6 @@ namespace djv
             return future;
         }
 
-        void FontSystem::_exit()
-        {
-            DJV_PRIVATE_PTR();
-            ISystem::_exit();
-            {
-                std::unique_lock<std::mutex> lock(p.requestMutex);
-                p.metricsQueue.clear();
-                p.measureQueue.clear();
-                p.breakLinesQueue.clear();
-                p.glyphsQueue.clear();
-            }
-            p.running = false;
-            if (_p->thread.joinable())
-            {
-                p.thread.join();
-            }
-        }
-
         void FontSystem::_initFreeType()
         {
             DJV_PRIVATE_PTR();
@@ -350,35 +337,34 @@ namespace djv
                 {
                     throw std::runtime_error("Cannot initialize FreeType");
                 }
-                if (auto context = getContext().lock())
+                for (const auto& i : FileInfo::dirList(p.fontPath))
                 {
-                    for (const auto& i : FileInfo::dirList(context->getResourcePath(ResourcePath::FontsDirectory)))
+                    const std::string& fileName = i.getFileName();
+
+                    std::stringstream s;
+                    s << "Loading font: " << fileName;
+                    _log(s.str());
+
+                    FT_Face ftFace;
+                    ftError = FT_New_Face(p.ftLibrary, fileName.c_str(), 0, &ftFace);
+                    if (ftError)
                     {
-                        const std::string& fileName = i.getFileName();
-                        std::stringstream s;
-                        s << "Loading font: " << fileName;
+                        s = std::stringstream();
+                        s << "Cannot load font: " << fileName;
+                        _log(s.str(), LogLevel::Error);
+                    }
+                    else
+                    {
+                        s = std::stringstream();
+                        s << "    Family: " << ftFace->family_name << '\n';
+                        s << "    Style: " << ftFace->style_name << '\n';
+                        s << "    Number of glyphs: " << static_cast<int>(ftFace->num_glyphs) << '\n';
+                        s << "    Scalable: " << (FT_IS_SCALABLE(ftFace) ? "true" : "false") << '\n';
+                        s << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
                         _log(s.str());
-                        FT_Face ftFace;
-                        ftError = FT_New_Face(p.ftLibrary, fileName.c_str(), 0, &ftFace);
-                        if (ftError)
-                        {
-                            s = std::stringstream();
-                            s << "Cannot load font: " << fileName;
-                            _log(s.str(), LogLevel::Error);
-                        }
-                        else
-                        {
-                            s = std::stringstream();
-                            s << "    Family: " << ftFace->family_name << '\n';
-                            s << "    Style: " << ftFace->style_name << '\n';
-                            s << "    Number of glyphs: " << static_cast<int>(ftFace->num_glyphs) << '\n';
-                            s << "    Scalable: " << (FT_IS_SCALABLE(ftFace) ? "true" : "false") << '\n';
-                            s << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
-                            _log(s.str());
-                            const std::string& name = i.getPath().getBaseName();
-                            p.fontFileNames[name] = fileName;
-                            p.fontFaces[name] = ftFace;
-                        }
+                        const std::string& name = i.getPath().getBaseName();
+                        p.fontFileNames[name] = fileName;
+                        p.fontFaces[name] = ftFace;
                     }
                 }
                 if (!p.fontFaces.size())

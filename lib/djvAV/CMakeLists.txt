@@ -3,6 +3,8 @@ find_package(FFmpeg REQUIRED)
 find_package(IlmBase REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(GLFW REQUIRED)
+find_package(glbinding REQUIRED)
 
 find_package(PNG)
 
@@ -35,6 +37,7 @@ set(header
     PixelDataInline.h
     PixelInline.h
     PixelProcess.h
+    Render2DSystem.h
     SequenceIO.h
     Shader.h
     Shape.h
@@ -42,6 +45,7 @@ set(header
     SpeedInline.h
     System.h
     Tags.h
+    TextureCache.h
     Time.h
     Timecode.h
     TimecodeInline.h
@@ -68,12 +72,14 @@ set(source
     Pixel.cpp
     PixelData.cpp
     PixelProcess.cpp
+    Render2DSystem.cpp
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp
     Speed.cpp
     System.cpp
     Tags.cpp
+    TextureCache.cpp
     Time.cpp
     Timecode.cpp
     TriangleMesh.cpp)
@@ -91,7 +97,9 @@ endif()
 add_library(djvAV ${header} ${source})
 set(djvAVLibs
     djvCore
-    Qt5
+    #Qt5
+    glbinding
+    GLFW
     FreeType
     FFMPEG
     IlmBase

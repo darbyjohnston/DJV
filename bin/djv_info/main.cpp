@@ -90,7 +90,7 @@ private:
         {
             try
             {
-                auto read = _io->read(fileName, nullptr);
+                auto read = _io->read(fileName, nullptr, shared_from_this());
                 auto info = read->getInfo().get();
                 std::cout << fileName << std::endl;
                 size_t i = 0;
@@ -131,7 +131,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        Context::create(argc, argv)->exit();
+        Context::create(argc, argv);
     }
     catch (const std::exception & error)
     {

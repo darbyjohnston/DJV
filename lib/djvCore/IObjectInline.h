@@ -31,11 +31,6 @@ namespace djv
 {
     namespace Core
     {
-        inline std::weak_ptr<Core::Context> IObject::getContext() const
-        {
-            return _context;
-        }
-
         inline const std::string& IObject::getClassName() const
         {
             return _className;

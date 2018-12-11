@@ -1,9 +1,7 @@
 set(source
     main.cpp)
 
-QT5_WRAP_CPP(mocSource ${mocHeader})
-
-add_executable(djv_view ${header} ${source} ${mocSource} ${qmSource})
+add_executable(djv_view ${header} ${source})
 target_link_libraries(djv_view djvViewLib)
 set_target_properties(
     djv_view

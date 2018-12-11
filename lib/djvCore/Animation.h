@@ -129,7 +129,6 @@ namespace djv
 
         protected:
             void _tick(float dt) override;
-            void _exit() override;
 
         private:
             void _addAnimation(const std::weak_ptr<Animation>&);

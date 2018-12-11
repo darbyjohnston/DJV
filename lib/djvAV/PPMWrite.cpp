@@ -63,14 +63,6 @@ namespace djv
                     out->_init(fileName, info, queue, context);
                     return out;
                 }
-
-                void Write::_start()
-                {
-                    if (auto context = _context.lock())
-                    {
-                        _p->convert = Pixel::Convert::create(context);
-                    }
-                }
                 
                 void Write::_write(const std::string & fileName, const std::shared_ptr<Image> & image)
                 {
@@ -103,13 +95,13 @@ namespace djv
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot write") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot write") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
                     layout.mirror.y = true;
                     layout.endian = p.data != Data::ASCII ? Core::Memory::Endian::MSB : Core::Memory::getEndian();
-                    Pixel::Info info(image->getSize(), pixelType, layout);
+                    Pixel::Info info(_pixelInfo.size, pixelType, layout);
 
                     std::shared_ptr<Pixel::Data> pixelData = image;
                     if (pixelData->getInfo() != info)
@@ -162,11 +154,6 @@ namespace djv
                         io.write(pixelData->getData(), info.getDataByteCount());
                         break;
                     }
-                }
-
-                void Write::_exit()
-                {
-                    _p->convert.reset();
                 }
 
             } // namespace PPM

@@ -31,11 +31,6 @@
 
 #include <djvCore/ISystem.h>
 
-#include <QPointer>
-
-class QOpenGLContext;
-class QOpenGLDebugMessage;
-
 namespace djv
 {
     namespace AV
@@ -52,9 +47,6 @@ namespace djv
             ~System() override;
 
             static std::shared_ptr<System> create(const std::shared_ptr<Core::Context> &);
-
-            //! Get the default OpenGL context.
-            QPointer<QOpenGLContext> openGLContext() const;
 
             //! Make the default OpenGL context current.
             void makeGLContextCurrent();

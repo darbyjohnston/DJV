@@ -1,0 +1,78 @@
+set(header
+    Action.h
+    Border.h
+    Button.h
+    ColorSwatch.h
+    ContainerWidget.h
+    Enum.h
+    FlowLayout.h
+    FontSettings.h
+    FontSettingsInline.h
+    GeneralSettings.h
+    GridLayout.h
+    ISettings.h
+    ISettingsInline.h
+    IWindowSystem.h
+    Icon.h
+    ImageWidget.h
+    Label.h
+    MDICanvas.h
+    Margin.h
+    MarginInline.h
+    RowLayout.h
+    ScrollWidget.h
+    Separator.h
+    SettingsSystem.h
+    Shortcut.h
+    Spacer.h
+    Spacing.h
+    SpacingInline.h
+    Splitter.h
+    StackLayout.h
+    Style.h
+    StyleInline.h
+    StyleSettings.h
+    System.h
+    TextBlock.h
+    Widget.h
+    WidgetInline.h
+    Window.h)
+set(source
+    Action.cpp
+    Border.cpp
+    Button.cpp
+    ColorSwatch.cpp
+    ContainerWidget.cpp
+    Enum.cpp
+    FlowLayout.cpp
+    FontSettings.cpp
+    GeneralSettings.cpp
+    GridLayout.cpp
+    ISettings.cpp
+    IWindowSystem.cpp
+    Icon.cpp
+    ImageWidget.cpp
+    Label.cpp
+    #MDICanvas.cpp
+    #RowLayout.cpp
+    ScrollWidget.cpp
+    Separator.cpp
+    SettingsSystem.cpp
+    Shortcut.cpp
+    Spacer.cpp
+    Splitter.cpp
+    StackLayout.cpp
+    Style.cpp
+    StyleSettings.cpp
+    System.cpp
+    TextBlock.cpp
+    Widget.cpp
+    Window.cpp)
+
+add_library(djvUI ${header} ${source})
+target_link_libraries(djvUI djvAV)
+set_target_properties(
+    djvUI
+    PROPERTIES
+    FOLDER lib
+    CXX_STANDARD 11)

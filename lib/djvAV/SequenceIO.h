@@ -33,12 +33,16 @@
 
 #include <djvCore/Frame.h>
 
-#include <QOpenGLDebugLogger>
-
 namespace djv
 {
     namespace AV
     {
+        namespace Pixel
+        {
+            class Convert;
+
+        } // namespace
+
         namespace IO
         {
             //! This class provides an interface for reading sequences.
@@ -56,14 +60,13 @@ namespace djv
             public:
                 virtual ~ISequenceRead() override = 0;
 
+                bool isRunning() const override;
                 std::future<Info> getInfo() override;
                 void seek(Timestamp) override;
 
             protected:
-                virtual void _start() {};
                 virtual Info _readInfo(const std::string & fileName) = 0;
                 virtual std::shared_ptr<Image> _readImage(const std::string & fileName) = 0;
-                virtual void _exit() {};
 
                 AV::Speed _speed;
                 Duration _duration = 0;
@@ -89,15 +92,14 @@ namespace djv
             public:
                 virtual ~ISequenceWrite() override = 0;
 
+                bool isRunning() const override;
+
             protected:
-                virtual void _start() {};
                 virtual void _write(const std::string & fileName, const std::shared_ptr<Image> &) = 0;
-                virtual void _exit() {};
 
-                void run() override;
-
-            private Q_SLOTS:
-                void _debugLogMessage(const QOpenGLDebugMessage &);
+                Info _info;
+                Pixel::Info _pixelInfo;
+                std::shared_ptr<Pixel::Convert> _convert;
 
             private:
                 DJV_PRIVATE();

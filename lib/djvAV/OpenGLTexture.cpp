@@ -33,25 +33,26 @@
 
 using namespace djv::Core;
 
+using namespace gl;
+
 namespace djv
 {
     namespace AV
     {
         namespace OpenGL
         {
-            void Texture::_init(const Pixel::Info& info, GLint filter)
+            void Texture::_init(const Pixel::Info& info, GLenum filter)
             {
                 _info = info;
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glGenTextures(1, &_id);
-                glFuncs->glBindTexture(GL_TEXTURE_2D, _id);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+                glGenTextures(1, &_id);
+                glBindTexture(GL_TEXTURE_2D, _id);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
                 GLenum internalFormat = GL_RGBA;
                 const glm::ivec2 & size = _info.size;
-                glFuncs->glTexImage2D(
+                glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
                     internalFormat,
@@ -61,25 +62,24 @@ namespace djv
                     _info.getGLFormat(),
                     _info.getGLType(),
                     0);
-                glFuncs->glGenBuffers(1, &_pbo);
+                glGenBuffers(1, &_pbo);
             }
 
             Texture::~Texture()
             {
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
                 if (_id)
                 {
-                    glFuncs->glDeleteTextures(1, &_id);
+                    glDeleteTextures(1, &_id);
                     _id = 0;
                 }
                 if (_pbo)
                 {
-                    glFuncs->glDeleteBuffers(1, &_pbo);
+                    glDeleteBuffers(1, &_pbo);
                     _pbo = 0;
                 }
             }
 
-            std::shared_ptr<Texture> Texture::create(const Pixel::Info& info, GLint filter)
+            std::shared_ptr<Texture> Texture::create(const Pixel::Info& info, GLenum filter)
             {
                 auto out = std::shared_ptr<Texture>(new Texture);
                 out->_init(info, filter);
@@ -90,18 +90,17 @@ namespace djv
             {
                 const auto& info = data.getInfo();
 
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glFuncs->glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
 
-                glFuncs->glBindTexture(GL_TEXTURE_2D, _id);
-                glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
-                glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
+                glBindTexture(GL_TEXTURE_2D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
 #if !defined(DJV_PLATFORM_IOS)
-                glFuncs->glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-                glFuncs->glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+                glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+                glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
 #endif // DJV_PLATFORM_IOS
-                glFuncs->glTexSubImage2D(
+                glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
                     0,
@@ -112,25 +111,24 @@ namespace djv
                     info.getGLType(),
                     0);
 
-                glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
             }
 
             void Texture::copy(const Pixel::Data& data, const glm::ivec2& pos)
             {
                 const auto& info = data.getInfo();
 
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glFuncs->glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
 
-                glFuncs->glBindTexture(GL_TEXTURE_2D, _id);
-                glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
-                glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
+                glBindTexture(GL_TEXTURE_2D, _id);
+                glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
+                glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
 #if !defined(DJV_PLATFORM_IOS)
-                glFuncs->glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-                glFuncs->glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+                glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+                glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
 #endif // DJV_PLATFORM_IOS
-                glFuncs->glTexSubImage2D(
+                glTexSubImage2D(
                     GL_TEXTURE_2D,
                     0,
                     pos.x,
@@ -141,7 +139,7 @@ namespace djv
                     info.getGLType(),
                     0);
 
-                glFuncs->glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+                glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
             }
 
             void Texture::bind()
@@ -199,7 +197,7 @@ namespace djv
                     }
                     break;
                 }
-                return 0;
+                return GL_NONE;
             }
 
         } // namespace OpenGL

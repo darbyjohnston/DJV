@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Event.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 
@@ -48,9 +49,9 @@ namespace djv
 
         void IObject::_init(const std::string& className, const std::shared_ptr<Context>& context)
         {
-            _context = context;
             _className = className;
             _resourceSystem = context->getSystemT<ResourceSystem>();
+            _logSystem = context->getSystemT<LogSystem>();
             _textSystem = context->getSystemT<TextSystem>();
 
             ++currentObjectCount;
@@ -198,9 +199,9 @@ namespace djv
 
         void IObject::_log(const std::string& message, LogLevel level)
         {
-            if (auto context = _context.lock())
+            if (auto logSystem = _logSystem.lock())
             {
-                context->log(_className, message, level);
+                logSystem->log(_className, message, level);
             }
         }
 

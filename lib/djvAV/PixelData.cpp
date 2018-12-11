@@ -29,6 +29,8 @@
 
 #include <djvAV/PixelData.h>
 
+using namespace gl;
+
 namespace djv
 {
     namespace AV

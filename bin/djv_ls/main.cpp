@@ -97,7 +97,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        Context::create(argc, argv)->exit();
+        Context::create(argc, argv);
     }
     catch (const std::exception & error)
     {

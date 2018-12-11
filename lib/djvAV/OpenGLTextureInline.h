@@ -41,7 +41,7 @@ namespace djv
                 return _info;
             }
 
-            inline GLuint Texture::getID() const
+            inline gl::GLuint Texture::getID() const
             {
                 return _id;
             }

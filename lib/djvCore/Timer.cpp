@@ -166,12 +166,6 @@ namespace djv
             }
         }
 
-        void TimerSystem::_exit()
-        {
-            ISystem::_exit();
-            _p->timers.clear();
-        }
-
         void TimerSystem::_addTimer(const std::weak_ptr<Timer>& value)
         {
             _p->timers.push_back(value);

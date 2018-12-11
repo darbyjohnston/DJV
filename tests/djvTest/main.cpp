@@ -38,9 +38,6 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 
-#include <QApplication>
-#include <QScopedPointer>
-
 using namespace djv;
 
 int main(int argc, char ** argv)
@@ -48,7 +45,6 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        QApplication app(argc, argv);
         auto context = Core::Context::create(argc, argv);
 
         (new CoreTest::EnumTest(context))->run(argc, argv);
@@ -58,8 +54,6 @@ int main(int argc, char ** argv)
         (new AVTest::AudioTest(context))->run(argc, argv);
         (new AVTest::ColorTest(context))->run(argc, argv);
         (new AVTest::PixelTest(context))->run(argc, argv);
-
-        context->exit();
     }
     catch (const std::exception & error)
     {
@@ -67,4 +61,3 @@ int main(int argc, char ** argv)
     }
     return r;
 }
-

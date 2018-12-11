@@ -97,7 +97,7 @@ namespace djv
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     switch (magic[1])
@@ -109,7 +109,7 @@ namespace djv
                     default:
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     }
@@ -136,7 +136,7 @@ namespace djv
                     if (Pixel::Type::None == pixelType)
                     {
                         std::stringstream s;
-                        s << pluginName << ": " << DJV_TEXT("cannot open") << ": " << fileName;
+                        s << pluginName << ": " << DJV_TEXT("Cannot open") << ": " << fileName;
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;

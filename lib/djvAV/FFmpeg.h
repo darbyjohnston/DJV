@@ -85,6 +85,8 @@ namespace djv
                         const std::shared_ptr<Queue> &,
                         const std::shared_ptr<Core::Context> &);
 
+                    bool isRunning() const override;
+
                     std::future<Info> getInfo() override;
 
                     virtual void seek(Timestamp) override;
@@ -110,7 +112,8 @@ namespace djv
 
                     std::shared_ptr<IRead> read(
                         const std::string & fileName,
-                        const std::shared_ptr<Queue> &) const override;
+                        const std::shared_ptr<Queue> &,
+                        const std::shared_ptr<Core::Context> &) const override;
                 };
 
             } // namespace FFmpeg

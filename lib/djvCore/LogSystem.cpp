@@ -30,6 +30,7 @@
 #include <djvCore/LogSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/Error.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/OS.h>
 #include <djvCore/Path.h>
@@ -51,6 +52,13 @@ namespace djv
         namespace
         {
             const std::string name = "djv::Core::LogSystem";
+
+            std::map<LogLevel, std::string> labels =
+            {
+                { LogLevel::Information, std::string() },
+                { LogLevel::Warning, "Warning" },
+                { LogLevel::Error, "ERROR" }
+            };
 
             struct Message
             {
@@ -101,7 +109,7 @@ namespace djv
                 }
                 catch (const std::exception& e)
                 {
-                    std::cerr << name << ": " << e.what() << std::endl;
+                    std::cerr << Core::format(e) << std::endl;
                 }
 
                 p.consoleOutput = !OS::getEnv("DJV_LOG_CONSOLE").empty();
@@ -126,13 +134,13 @@ namespace djv
                     }
                     _writeMessages();
                 }
+                {
+                    std::unique_lock<std::mutex> lock(p.mutex);
+                    p.messages = std::move(p.queue);
+                }
+                _writeMessages();
                 try
                 {
-                    {
-                        std::unique_lock<std::mutex> lock(p.mutex);
-                        p.messages = std::move(p.queue);
-                    }
-                    _writeMessages();
                     p.io.close();
                 }
                 catch (const std::exception& e)
@@ -148,6 +156,7 @@ namespace djv
 
         LogSystem::~LogSystem()
         {
+            _p->running = false;
             if (_p->thread.joinable())
             {
                 _p->thread.join();
@@ -179,16 +188,6 @@ namespace djv
             _p->consoleOutput = value;
         }
 
-        void LogSystem::_exit()
-        {
-            ISystem::_exit();
-            _p->running = false;
-            if (_p->thread.joinable())
-            {
-                _p->thread.join();
-            }
-        }
-
         void LogSystem::_writeMessages()
         {
             DJV_PRIVATE_PTR();
@@ -208,12 +207,6 @@ namespace djv
                         s2 << std::right;
                         s2 << std::setw(32);
                         s2 << message.prefix << " | ";
-                        static std::map<LogLevel, std::string> labels =
-                        {
-                            { LogLevel::Information, std::string() },
-                        { LogLevel::Warning, "[Warning]" },
-                        { LogLevel::Error, "[ERROR]" }
-                        };
                         const auto& label = labels[message.level];
                         if (!label.empty())
                         {

@@ -36,9 +36,6 @@ namespace djv
     namespace Core
     {
         class ISystem;
-        class LogSystem;
-        class ResourceSystem;
-        class TextSystem;
         class UndoStack;
         
         class Context : public std::enable_shared_from_this<Context>
@@ -62,9 +59,6 @@ namespace djv
             //! Get the context name.
             const std::string& getName() const;
 
-            //! This should be called before destroying the context.
-            virtual void exit();
-
             //! Get the average FPS.
             float getFpsAverage() const;
 
@@ -84,26 +78,6 @@ namespace djv
 
             //! This function is called by the application to tick the systems.
             virtual void tick(float dt);
-
-            const std::shared_ptr<ResourceSystem>& getResourceSystem() const;
-            const std::shared_ptr<LogSystem>& getLogSystem() const;
-            const std::shared_ptr<TextSystem>& getTextSystem() const;
-
-            ///@}
-
-            //! \name Resources
-            ///@{
-
-            Path getResourcePath(ResourcePath) const;
-            Path getResourcePath(ResourcePath, const Path&) const;
-            Path getResourcePath(ResourcePath, const std::string&) const;
-
-            ///@}
-
-            //! \name Logging
-            ///@{
-
-            void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);
 
             ///@}
 

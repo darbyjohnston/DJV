@@ -39,8 +39,13 @@
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/ResourceSystem.h>
 
 #include <glm/gtc/matrix_transform.hpp>
+
+using namespace djv::Core;
+
+using namespace gl;
 
 namespace djv
 {
@@ -63,9 +68,14 @@ namespace djv
             void Convert::_init(const std::shared_ptr<Core::Context> & context)
             {
                 DJV_PRIVATE_PTR();
+                Path shaderPath;
+                if (auto resourceSystem = context->getSystemT<ResourceSystem>())
+                {
+                    shaderPath = resourceSystem->getPath(Core::ResourcePath::ShadersDirectory);
+                }
                 p.shader = AV::OpenGL::Shader::create(AV::Shader::create(
-                    context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelConvertVertex.glsl"),
-                    context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvAVPixelConvertFragment.glsl")));
+                    Path(shaderPath, "djvAVPixelConvertVertex.glsl"),
+                    Path(shaderPath, "djvAVPixelConvertFragment.glsl")));
             }
 
             Convert::Convert() :
@@ -151,16 +161,15 @@ namespace djv
                 }
                 p.vao->bind();
 
-                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-                glFuncs->glViewport(0, 0, info.size.x, info.size.y);
-                glFuncs->glClearColor(0.f, 0.f, 0.f, 0.f);
-                glFuncs->glClear(GL_COLOR_BUFFER_BIT);
-                glFuncs->glActiveTexture(GL_TEXTURE0);
+                glViewport(0, 0, info.size.x, info.size.y);
+                glClearColor(0.f, 0.f, 0.f, 0.f);
+                glClear(GL_COLOR_BUFFER_BIT);
+                glActiveTexture(GL_TEXTURE0);
 
                 p.vao->draw(0, 6);
 
-                glFuncs->glPixelStorei(GL_PACK_ALIGNMENT, 1);
-                glFuncs->glReadPixels(
+                glPixelStorei(GL_PACK_ALIGNMENT, 1);
+                glReadPixels(
                     0, 0, info.size.x, info.size.y,
                     info.getGLFormat(),
                     info.getGLType(),

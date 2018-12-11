@@ -37,9 +37,8 @@ namespace djv
     {
         namespace Audio
         {
-            class DataInfo
+            struct DataInfo
             {
-            public:
                 inline DataInfo();
                 DataInfo(size_t channelCount, Type, size_t sampleRate);
 

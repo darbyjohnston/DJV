@@ -37,8 +37,6 @@
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
 
-#include <QGuiApplication>
-
 using namespace djv;
 
 class Context : public Core::Context
@@ -56,7 +54,7 @@ protected:
         _parseArgs();
 
         _queue = AV::IO::Queue::create();
-        _read = io->read(argv[1], _queue);
+        _read = io->read(argv[1], _queue, shared_from_this());
         auto info = _read->getInfo().get();
         auto & video = info.video;
         if (!video.size())
@@ -90,7 +88,7 @@ protected:
             }
         });
 
-        _write = io->write(argv[2], info, _queue);
+        _write = io->write(argv[2], info, _queue, shared_from_this());
     }
 
     Context()
@@ -104,7 +102,10 @@ public:
         return out;
     }
 
-    bool isRunning() const { return _write->isRunning(); }
+    bool isRunning() const
+    {
+        return _write->isRunning();
+    }
     
 private:
     void _parseArgs()
@@ -154,43 +155,30 @@ private:
     std::shared_ptr<AV::IO::IWrite> _write;
 };
 
-class Application : public QGuiApplication
+class Application
 {
 public:
-    Application(int & argc, char ** argv) :
-        QGuiApplication(argc, argv)
+    Application(int & argc, char ** argv)
     {
         _context = Context::create(argc, argv);
-        _time = std::chrono::system_clock::now();
-        _timer = startTimer(static_cast<int>(Core::Timer::getValue(Core::Timer::Value::Fast)), Qt::PreciseTimer);
     }
     
-    ~Application() override
+    int run()
     {
-        _context->exit();
-    }
-    
-protected:
-    void timerEvent(QTimerEvent *) override
-    {
-        if (_context->isRunning())
+        auto time = std::chrono::system_clock::now();
+        while (_context->isRunning())
         {
             const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - _time;
-            _time = now;
+            const std::chrono::duration<float> delta = now - time;
+            time = now;
             const float dt = delta.count();
             _context->tick(dt);
         }
-        else
-        {
-            exit();
-        }
+        return 0;
     }
     
 private:
     std::shared_ptr<Context> _context;
-    std::chrono::time_point<std::chrono::system_clock> _time;
-    int _timer = 0;
 };
 
 int main(int argc, char ** argv)
@@ -198,7 +186,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        return Application(argc, argv).exec();
+        return Application(argc, argv).run();
     }
     catch (const std::exception & e)
     {

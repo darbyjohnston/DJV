@@ -1,0 +1,907 @@
+//------------------------------------------------------------------------------
+// Copyright (c) 2018 Darby Johnston
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// * Redistributions of source code must retain the above copyright notice,
+//   this list of conditions, and the following disclaimer.
+// * Redistributions in binary form must reproduce the above copyright notice,
+//   this list of conditions, and the following disclaimer in the documentation
+//   and/or other materials provided with the distribution.
+// * Neither the names of the copyright holders nor the names of any
+//   contributors may be used to endorse or promote products derived from this
+//   software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+//------------------------------------------------------------------------------
+
+#include <djvUI/ScrollWidget.h>
+
+#include <djvUI/Border.h>
+#include <djvUI/GridLayout.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
+#include <djvUI/Window.h>
+
+#include <djvCore/Math.h>
+
+#include <djvAV/Render2DSystem.h>
+
+#include <glm/geometric.hpp>
+
+#include <list>
+
+using namespace djv::Core;
+
+namespace
+{
+    //! \todo [1.0 S] Should this be configurable?
+    const float  scrollAreaMinimumSize      = 200.f; // The minimum scroll area size.
+    const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
+    const float  velocityDecay              = .99f;  // How quickly the velocity decays.
+    const float  velocityStopDelta          = 5.f;   // The minimum amount of movement to stop the velocity.
+    const size_t pointerAverageCount        = 5;     // The number of pointer samples to average.
+    const float  pointerAverageDecay        = .99f;  // How quickly the pointer samples decay.
+    const size_t pointerAverageDecayTimeout = 100;   // The timer resolution for pointer sample decay.
+    const float  scrollWheelMult            = 50.f;  // The scroll wheel multiplier.
+
+} // namespace
+
+namespace djv
+{
+    namespace UI
+    {
+        namespace
+        {
+            class ScrollBar : public Widget
+            {
+                DJV_NON_COPYABLE(ScrollBar);
+                
+            protected:
+                void _init(Orientation, const std::shared_ptr<Context>&);
+                ScrollBar();
+
+            public:
+                virtual ~ScrollBar();
+
+                static std::shared_ptr<ScrollBar> create(Orientation, const std::shared_ptr<Context>&);
+
+                void setViewSize(float);
+                void setContentsSize(float);
+
+                float getScrollPos() const;
+                void setScrollPos(float);
+                void setScrollPosCallback(const std::function<void(float)>&);
+
+            protected:
+                void _preLayoutEvent(PreLayoutEvent&) override;
+                void _paintEvent(PaintEvent&) override;
+                void _pointerEnterEvent(PointerEnterEvent&) override;
+                void _pointerLeaveEvent(PointerLeaveEvent&) override;
+                void _pointerMoveEvent(PointerMoveEvent&) override;
+                void _buttonPressEvent(ButtonPressEvent&) override;
+                void _buttonReleaseEvent(ButtonReleaseEvent&) override;
+
+            private:
+                float _valueToPos(float) const;
+                float _posToValue(float) const;
+
+                Orientation _orientation = Orientation::Vertical;
+                float _viewSize = 0.f;
+                float _contentsSize = 0.f;
+                float _scrollPos = 0.f;
+                std::function<void(float)> _scrollPosCallback;
+                std::map<uint32_t, bool> _hover;
+                uint32_t _pressedId = 0;
+                float _pressedPos = 0.f;
+                float _pressedScrollPos = 0.f;
+            };
+        
+            void ScrollBar::_init(Orientation orientation, const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+
+                setName("djv::UI::ScrollBar");
+                setPointerEnabled(true);
+
+                _orientation = orientation;
+            }
+
+            ScrollBar::ScrollBar()
+            {}
+
+            ScrollBar::~ScrollBar()
+            {}
+
+            std::shared_ptr<ScrollBar> ScrollBar::create(Orientation orientation, const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<ScrollBar>(new ScrollBar);
+                out->_init(orientation, context);
+                return out;
+            }
+
+            void ScrollBar::setViewSize(float value)
+            {
+                _viewSize = value;
+            }
+
+            void ScrollBar::setContentsSize(float value)
+            {
+                _contentsSize = value;
+            }
+
+            float ScrollBar::getScrollPos() const
+            {
+                return _scrollPos;
+            }
+
+            void ScrollBar::setScrollPos(float value)
+            {
+                _scrollPos = value;
+            }
+
+            void ScrollBar::setScrollPosCallback(const std::function<void(float)>& callback)
+            {
+                _scrollPosCallback = callback;
+            }
+
+            void ScrollBar::_preLayoutEvent(PreLayoutEvent&)
+            {
+                const auto style = _getStyle();
+
+                // Set the minimum size.
+                glm::vec2 size = glm::vec2(0.f, 0.f);
+                size += style->getMetric(MetricsRole::Margin) * 1.5f;
+                _setMinimumSize(size);
+            }
+
+            void ScrollBar::_paintEvent(PaintEvent& event)
+            {
+                auto renderSystem = _getRenderSystem();
+                const auto style = _getStyle();
+                const BBox2f& g = getGeometry();
+
+                // Draw the background.
+                renderSystem->setFillColor(style->getColor(ColorRole::Trough));
+                renderSystem->drawRectangle(g);
+
+                // Draw the scroll bar handle.
+                glm::vec2 pos = glm::vec2(0.f, 0.f);
+                glm::vec2 size = glm::vec2(0.f, 0.f);
+                switch (_orientation)
+                {
+                case Orientation::Horizontal:
+                    pos = glm::vec2(_valueToPos(_scrollPos), g.y());
+                    size = glm::vec2(_valueToPos(_scrollPos + _viewSize) - pos.x, g.h());
+                    break;
+                case Orientation::Vertical:
+                    pos = glm::vec2(g.x(), _valueToPos(_scrollPos));
+                    size = glm::vec2(g.w(), _valueToPos(_scrollPos + _viewSize) - pos.y);
+                    break;
+                default: break;
+                }
+                renderSystem->setFillColor(style->getColor(_pressedId ? ColorRole::Checked : ColorRole::Button));
+                renderSystem->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+
+                // Draw the hovered state.
+                bool hover = false;
+                for (const auto& h : _hover)
+                {
+                    hover |= h.second;
+                }
+                if (hover)
+                {
+                    renderSystem->setFillColor(style->getColor(ColorRole::Hover));
+                    renderSystem->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+                }
+            }
+
+            void ScrollBar::_pointerEnterEvent(PointerEnterEvent& event)
+            {
+                if (!event.isRejected())
+                {
+                    event.accept();
+
+                    _hover[event.getPointerInfo().id] = true;
+                }
+            }
+
+            void ScrollBar::_pointerLeaveEvent(PointerLeaveEvent& event)
+            {
+                event.accept();
+
+                auto i = _hover.find(event.getPointerInfo().id);
+                if (i != _hover.end())
+                {
+                    _hover.erase(i);
+                }
+            }
+
+            void ScrollBar::_pointerMoveEvent(PointerMoveEvent& event)
+            {
+                event.accept();
+
+                if (event.getPointerInfo().id == _pressedId)
+                {
+                    // Calculate the new scroll position.
+                    const auto& pos = event.getPointerInfo().projectedPos;
+                    float p = 0.f;
+                    switch (_orientation)
+                    {
+                    case Orientation::Horizontal:
+                        p = pos.x;
+                        break;
+                    case Orientation::Vertical:
+                        p = pos.y;
+                        break;
+                    default: break;
+                    }
+                    const float v = _posToValue(p) - _posToValue(_pressedPos);
+                    _scrollPos = Math::clamp(_pressedScrollPos + v, 0.f, _contentsSize - _viewSize);
+                    if (_scrollPosCallback)
+                    {
+                        _scrollPosCallback(_scrollPos);
+                    }
+                }
+            }
+
+            void ScrollBar::_buttonPressEvent(ButtonPressEvent& event)
+            {
+                if (_pressedId)
+                    return;
+
+                event.accept();
+
+                _pressedId = event.getPointerInfo().id;
+
+                // Calculate the new scroll position.
+                const auto& pos = event.getPointerInfo().projectedPos;
+                switch (_orientation)
+                {
+                case Orientation::Horizontal:
+                    _pressedPos = pos.x;
+                    break;
+                case Orientation::Vertical:
+                    _pressedPos = pos.y;
+                    break;
+                default: break;
+                }
+                const float v = _posToValue(_pressedPos);
+                const float jump = v < _scrollPos ? -_viewSize : (v > _scrollPos + _viewSize ? _viewSize : 0.f);
+                if (jump != 0)
+                {
+                    _scrollPos = Math::clamp(_scrollPos + jump, 0.f, _contentsSize - _viewSize);
+                    if (_scrollPosCallback)
+                    {
+                        _scrollPosCallback(_scrollPos);
+                    }
+                }
+
+                _pressedScrollPos = _scrollPos;
+            }
+
+            void ScrollBar::_buttonReleaseEvent(ButtonReleaseEvent& event)
+            {
+                if (event.getPointerInfo().id != _pressedId)
+                    return;
+
+                event.accept();
+
+                _pressedId = 0;
+            }
+
+            float ScrollBar::_valueToPos(float value) const
+            {
+                const auto style = _getStyle();
+                const BBox2f& g = getGeometry();
+                float out = 0.f;
+                const float v = std::min(value / (_contentsSize > 0 ? static_cast<float>(_contentsSize) : 1.f), 1.f);
+                switch (_orientation)
+                {
+                case Orientation::Horizontal:
+                    out = g.x() + g.w() * v;
+                    break;
+                case Orientation::Vertical:
+                    out = g.y() + g.h() * v;
+                    break;
+                default: break;
+                }
+                return out;
+            }
+
+            float ScrollBar::_posToValue(float value) const
+            {
+                const auto style = _getStyle();
+                const BBox2f& g = getGeometry();
+                float v = 0.f;
+                switch (_orientation)
+                {
+                case Orientation::Horizontal:
+                    v = (value - g.x()) / g.w();
+                    break;
+                case Orientation::Vertical:
+                    v = (value - g.y()) / g.h();
+                    break;
+                default: break;
+                }
+                return v * _contentsSize;
+            }
+
+            class ScrollArea : public IContainerWidget
+            {
+                DJV_NON_COPYABLE(ScrollArea);
+                
+            protected:
+                void _init(ScrollType, const std::shared_ptr<Context>&);
+                ScrollArea()
+                {}
+
+            public:
+                virtual ~ScrollArea()
+                {}
+
+                static std::shared_ptr<ScrollArea> create(ScrollType, const std::shared_ptr<Context>&);
+
+                ScrollType getScrollType() const { return _scrollType; }
+                void setScrollType(ScrollType);
+
+                const glm::vec2& getContentsSize() const { return _contentsSize; }
+
+                void setContentsSizeCallback(const std::function<void(const glm::vec2&)>&);
+
+                const glm::vec2& getScrollPos() const { return _scrollPos; }
+                void setScrollPos(const glm::vec2&);
+                void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
+
+            protected:
+                void _preLayoutEvent(PreLayoutEvent&) override;
+                void _layoutEvent(LayoutEvent&) override;
+                void _paintEvent(PaintEvent&) override;
+
+            private:
+                ScrollType _scrollType = ScrollType::Both;
+                glm::vec2 _contentsSize = glm::vec2(0.f, 0.f);
+                std::function<void(const glm::vec2&)> _contentsSizeCallback;
+                glm::vec2 _scrollPos = glm::vec2(0.f, 0.f);
+                std::function<void(const glm::vec2&)> _scrollPosCallback;
+            };
+
+            void ScrollArea::_init(ScrollType scrollType, const std::shared_ptr<Context>& context)
+            {
+                IContainerWidget::_init(context);
+
+                setName("djv::UI::ScrollArea");
+
+                _scrollType = scrollType;
+            }
+
+            std::shared_ptr<ScrollArea> ScrollArea::create(ScrollType scrollType, const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<ScrollArea>(new ScrollArea);
+                out->_init(scrollType, context);
+                return out;
+            }
+
+            void ScrollArea::setScrollType(ScrollType value)
+            {
+                _scrollType = value;
+            }
+
+            void ScrollArea::setContentsSizeCallback(const std::function<void(const glm::vec2&)>& callback)
+            {
+                _contentsSizeCallback = callback;
+            }
+
+            void ScrollArea::setScrollPos(const glm::vec2& value)
+            {
+                const BBox2f& g = getGeometry();
+                const glm::vec2 tmp(
+                    Math::clamp(value.x, 0.f, _contentsSize.x - g.w()),
+                    Math::clamp(value.y, 0.f, _contentsSize.y - g.h()));
+                //if (tmp == _scrollPos)
+                //    return;
+
+                _scrollPos = tmp;
+
+                if (_scrollPosCallback)
+                {
+                    _scrollPosCallback(_scrollPos);
+                }
+            }
+
+            void ScrollArea::setScrollPosCallback(const std::function<void(const glm::vec2&)>& callback)
+            {
+                _scrollPosCallback = callback;
+            }
+
+            void ScrollArea::_preLayoutEvent(PreLayoutEvent&)
+            {
+                // Set the minimum size.
+                glm::vec2 childrenMinimumSize = glm::vec2(0.f, 0.f);
+                for (const auto& child : getChildrenT<Widget>())
+                {
+                    if (child->isVisible())
+                    {
+                        childrenMinimumSize = glm::max(childrenMinimumSize, child->getMinimumSize());
+                    }
+                }
+                const auto style = _getStyle();
+                glm::vec2 size = glm::vec2(0.f, 0.f);
+                switch (_scrollType)
+                {
+                case ScrollType::Both:
+                    size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                    size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                    break;
+                case ScrollType::Horizontal:
+                    size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                    size.y = childrenMinimumSize.y;
+                    break;
+                case ScrollType::Vertical:
+                    size.x = childrenMinimumSize.x;
+                    size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                    break;
+                default: break;
+                }
+                _setMinimumSize(size);
+            }
+
+            void ScrollArea::_layoutEvent(LayoutEvent& event)
+            {
+                const BBox2f& g = getGeometry();
+                const float gw = g.w();
+                const float gh = g.h();
+
+                // Update the contents size.
+                glm::vec2 contentsSize = glm::vec2(0.f, 0.f);
+                for (const auto& child : getChildrenT<Widget>())
+                {
+                    if (child->isVisible())
+                    {
+                        const auto& ms = child->getMinimumSize();
+                        switch (_scrollType)
+                        {
+                        case ScrollType::Both:
+                            contentsSize = glm::max(contentsSize, ms);
+                            break;
+                        case ScrollType::Horizontal:
+                            contentsSize.x = std::max(contentsSize.x, ms.x);
+                            contentsSize.y = gh;
+                            break;
+                        case ScrollType::Vertical:
+                            contentsSize.x = gw;
+                            contentsSize.y = std::max(contentsSize.y, child->getHeightForWidth(gw));
+                            break;
+                        default: break;
+                        }
+                    }
+                }
+                if (contentsSize != _contentsSize)
+                {
+                    _contentsSize = contentsSize;
+                    if (_contentsSizeCallback)
+                    {
+                        _contentsSizeCallback(_contentsSize);
+                    }
+                }
+
+                // Update the scroll position.
+                const glm::vec2 scrollPos(
+                    Math::clamp(_scrollPos.x, 0.f, _contentsSize.x - gw),
+                    Math::clamp(_scrollPos.y, 0.f, _contentsSize.y - gh));
+                if (scrollPos != _scrollPos)
+                {
+                    _scrollPos = scrollPos;
+                    if (_scrollPosCallback)
+                    {
+                        _scrollPosCallback(_scrollPos);
+                    }
+                }
+
+                // Update the child geometry.
+                glm::vec2 pos = g.min;
+                pos -= _scrollPos;
+                for (const auto& child : getChildrenT<Widget>())
+                {
+                    switch (_scrollType)
+                    {
+                    case ScrollType::Both:
+                        child->setGeometry(BBox2f(pos.x, pos.y, _contentsSize.x, _contentsSize.y));
+                        break;
+                    case ScrollType::Horizontal:
+                        child->setGeometry(BBox2f(pos.x, pos.y, _contentsSize.x, gh));
+                        break;
+                    case ScrollType::Vertical:
+                        child->setGeometry(BBox2f(pos.x, pos.y, gw, _contentsSize.y));
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void ScrollArea::_paintEvent(PaintEvent& event)
+            {}
+
+        } // namespace
+        
+        struct ScrollWidget::Private
+        {
+            ScrollType scrollType = ScrollType::First;
+            std::shared_ptr<ScrollArea> scrollArea;
+            std::shared_ptr<Widget> scrollAreaSwipe;
+            std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
+            std::shared_ptr<Border> border;
+            uint32_t pointerId = 0;
+            glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
+            std::list<glm::vec2> pointerAverage;
+            std::shared_ptr<Timer> pointerAverageTimer;
+            glm::vec2 swipeVelocity = glm::vec2(0.f, 0.f);
+            std::shared_ptr<Timer> swipeTimer;
+        };
+
+        void ScrollWidget::_init(ScrollType scrollType, const std::shared_ptr<Context>& context)
+        {
+            IContainerWidget::_init(context);
+
+            setName("djv::UI::ScrollWidget");
+            setBackgroundRole(ColorRole::BackgroundScroll);
+
+            _p->scrollType = scrollType;
+
+            _p->scrollArea = ScrollArea::create(scrollType, context);
+            _p->scrollArea->installEventFilter(shared_from_this());
+
+            _p->scrollAreaSwipe = Widget::create(context);
+            //_p->scrollAreaSwipe->setBackgroundRole(ColorRole::Overlay);
+            _p->scrollAreaSwipe->setVisible(false);
+            _p->scrollAreaSwipe->installEventFilter(shared_from_this());
+
+            _p->scrollBars[Orientation::Horizontal] = ScrollBar::create(Orientation::Horizontal, context);
+            _p->scrollBars[Orientation::Vertical] = ScrollBar::create(Orientation::Vertical, context);
+
+            auto stackLayout = StackLayout::create(context);
+            stackLayout->addWidget(_p->scrollArea);
+            stackLayout->addWidget(_p->scrollAreaSwipe);
+            
+            auto layout = GridLayout::create(context);
+            layout->setSpacing(MetricsRole::None);
+            layout->addWidget(stackLayout, glm::ivec2(0, 0), GridLayoutStretch::Both);
+            layout->addWidget(_p->scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
+            layout->addWidget(_p->scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
+            
+            _p->border = Border::create(context);
+            _p->border->addWidget(layout);
+            IContainerWidget::addWidget(_p->border);
+
+            _updateScrollBars(glm::vec2(0.f, 0.f));
+
+            auto weak = std::weak_ptr<ScrollWidget>(std::dynamic_pointer_cast<ScrollWidget>(shared_from_this()));
+            _p->scrollArea->setScrollPosCallback(
+                [weak](const glm::vec2& value)
+            {
+                if (auto scroll = weak.lock())
+                {
+                    scroll->_p->scrollBars[Orientation::Horizontal]->setScrollPos(value.x);
+                    scroll->_p->scrollBars[Orientation::Vertical]->setScrollPos(value.y);
+
+                    const BBox2f& g = scroll->_p->scrollArea->getGeometry();
+                    const glm::vec2& contentsSize = scroll->_p->scrollArea->getContentsSize();
+                    if (value.x <= 0.f || value.x >= contentsSize.x - g.w())
+                    {
+                        scroll->_p->swipeVelocity.x = 0.f;
+                    }
+                    if (value.y <= 0.f || value.y >= contentsSize.y - g.h())
+                    {
+                        scroll->_p->swipeVelocity.y = 0.f;
+                    }
+                }
+            });
+
+            _p->scrollBars[Orientation::Horizontal]->setScrollPosCallback(
+                [weak](float value)
+            {
+                if (auto scroll = weak.lock())
+                {
+                    glm::vec2 scrollPos = scroll->_p->scrollArea->getScrollPos();
+                    scrollPos.x = value;
+                    scroll->_p->scrollArea->setScrollPos(scrollPos);
+                    scroll->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                }
+            });
+
+            _p->scrollBars[Orientation::Vertical]->setScrollPosCallback(
+                [weak](float value)
+            {
+                if (auto scroll = weak.lock())
+                {
+                    glm::vec2 scrollPos = scroll->_p->scrollArea->getScrollPos();
+                    scrollPos.y = value;
+                    scroll->_p->scrollArea->setScrollPos(scrollPos);
+                    scroll->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                }
+            });
+
+            _p->pointerAverageTimer = Timer::create(context);
+            _p->pointerAverageTimer->setRepeating(true);
+            _p->pointerAverageTimer->start(
+                std::chrono::milliseconds(pointerAverageDecayTimeout),
+                [weak](float value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    for (auto& i : widget->_p->pointerAverage)
+                    {
+                        i *= pointerAverageDecay;
+                    }
+                }
+            });
+
+            _p->swipeTimer = Timer::create(context);
+            _p->swipeTimer->setRepeating(true);
+            _p->swipeTimer->start(
+                std::chrono::milliseconds(velocityTimeout),
+                [weak](float value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->setScrollPos(widget->_p->scrollArea->getScrollPos() + widget->_p->swipeVelocity);
+                    widget->_p->swipeVelocity *= velocityDecay;
+                    const float v = glm::length(widget->_p->swipeVelocity);
+                    widget->_p->scrollAreaSwipe->setVisible(v > 1.f);
+                    if (v < 1.f)
+                    {
+                        widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                    }
+                }
+            });
+        }
+
+        ScrollWidget::ScrollWidget() :
+            _p(new Private)
+        {}
+
+        ScrollWidget::~ScrollWidget()
+        {}
+
+        std::shared_ptr<ScrollWidget> ScrollWidget::create(ScrollType scrollType, const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<ScrollWidget>(new ScrollWidget);
+            out->_init(scrollType, context);
+            return out;
+        }
+
+        ScrollType ScrollWidget::getScrollType() const
+        {
+            return _p->scrollArea->getScrollType();
+        }
+
+        void ScrollWidget::setScrollType(ScrollType value)
+        {
+            _p->scrollArea->setScrollType(value);
+        }
+
+        const glm::vec2& ScrollWidget::getScrollPos() const
+        {
+            return _p->scrollArea->getScrollPos();
+        }
+
+        void ScrollWidget::setScrollPos(const glm::vec2& value)
+        {
+            _p->scrollArea->setScrollPos(value);
+        }
+
+        bool ScrollWidget::hasBorder() const
+        {
+            return _p->border->getBorderSize() != MetricsRole::None;
+        }
+
+        void ScrollWidget::setBorder(bool value)
+        {
+            _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
+        }
+
+        void ScrollWidget::addWidget(const std::shared_ptr<Widget>& widget)
+        {
+            _p->scrollArea->addWidget(widget);
+        }
+
+        void ScrollWidget::removeWidget(const std::shared_ptr<Widget>& widget)
+        {
+            _p->scrollArea->removeWidget(widget);
+        }
+
+        void ScrollWidget::clearWidgets()
+        {
+            _p->scrollArea->clearWidgets();
+        }
+
+        void ScrollWidget::_preLayoutEvent(PreLayoutEvent&)
+        {
+            const auto style = _getStyle();
+            _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
+        }
+
+        void ScrollWidget::_layoutEvent(LayoutEvent&)
+        {
+            const auto style = _getStyle();
+            _p->border->setGeometry(getMargin().bbox(getGeometry(), style));
+            _updateScrollBars(_p->scrollArea->getContentsSize());
+        }
+
+        void ScrollWidget::_clipEvent(ClipEvent&)
+        {
+            if (isClipped())
+            {
+                _p->swipeVelocity = glm::vec2(0.f, 0.f);
+            }
+        }
+
+        void ScrollWidget::_scrollEvent(ScrollEvent& event)
+        {
+            event.accept();
+
+            setScrollPos(_p->scrollArea->getScrollPos() - event.getScrollDelta() * scrollWheelMult);
+        }
+
+        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
+        {
+            switch (event.getEventType())
+            {
+            case EventType::PointerEnter:
+                event.accept();
+                return true;
+            case EventType::PointerMove:
+            {
+                auto& pointerEvent = static_cast<PointerMoveEvent&>(event);
+                if (pointerEvent.getPointerInfo().id == _p->pointerId)
+                {
+                    pointerEvent.accept();
+                    const glm::vec2& pos = pointerEvent.getPointerInfo().projectedPos;
+                    const glm::vec2 delta = pos - _p->pointerPos;
+                    _p->pointerPos = pos;
+                    _addPointerSample(delta);
+                    _p->scrollArea->setScrollPos(_p->scrollArea->getScrollPos() + delta);
+                    if (!Math::haveSameSign(_p->swipeVelocity.x, delta.x))
+                    {
+                        _p->swipeVelocity.x = 0.f;
+                    }
+                    if (!Math::haveSameSign(_p->swipeVelocity.y, delta.y))
+                    {
+                        _p->swipeVelocity.y = 0.f;
+                    }
+                }
+                event.accept();
+                return true;
+            }
+            case EventType::ButtonPress:
+            {
+                auto& pointerEvent = static_cast<ButtonPressEvent&>(event);
+                if (!_p->pointerId)
+                {
+                    pointerEvent.accept();
+                    _p->pointerId = pointerEvent.getPointerInfo().id;
+                    _p->pointerPos = pointerEvent.getPointerInfo().projectedPos;
+                    _p->pointerAverage.clear();
+                    _p->scrollAreaSwipe->setVisible(true);
+                    return true;
+                }
+                break;
+            }
+            case EventType::ButtonRelease:
+            {
+                auto& pointerEvent = static_cast<ButtonReleaseEvent&>(event);
+                if (pointerEvent.getPointerInfo().id == _p->pointerId)
+                {
+                    pointerEvent.accept();
+                    _p->pointerId = 0;
+                    _p->pointerPos = pointerEvent.getPointerInfo().projectedPos;
+                    const auto delta = _getPointerAverage();
+                    if (glm::length(delta) < velocityStopDelta)
+                    {
+                        _p->swipeVelocity = glm::vec2(0.f, 0.f);
+                    }
+                    else
+                    {
+                        if (Math::haveSameSign(delta.x, _p->swipeVelocity.x))
+                        {
+                            _p->swipeVelocity.x += delta.x;
+                        }
+                        else
+                        {
+                            _p->swipeVelocity.x = delta.x;
+                        }
+                        if (Math::haveSameSign(delta.y, _p->swipeVelocity.y))
+                        {
+                            _p->swipeVelocity.y += delta.y;
+                        }
+                        else
+                        {
+                            _p->swipeVelocity.y = delta.y;
+                        }
+                    }
+                    return true;
+                }
+                break;
+            }
+            default: break;
+            }
+            return false;
+        }
+
+        void ScrollWidget::_updateScrollBars(const glm::vec2& value)
+        {
+            const BBox2f& g = _p->scrollArea->getGeometry();
+            const float w = g.w();
+            const float h = g.h();
+
+            std::map<ScrollType, bool> visible;
+            switch (_p->scrollType)
+            {
+            case ScrollType::Both:
+                visible[ScrollType::Horizontal] = visible[ScrollType::Vertical] = true;
+                break;
+            case ScrollType::Horizontal:
+                visible[ScrollType::Horizontal] = true;
+                break;
+            case ScrollType::Vertical:
+                visible[ScrollType::Vertical] = true;
+                break;
+            default: break;
+            }
+            visible[ScrollType::Horizontal] = visible[ScrollType::Horizontal] && (value.x > w);
+            visible[ScrollType::Vertical]   = visible[ScrollType::Vertical]   && (value.y > h);
+
+            _p->scrollBars[Orientation::Horizontal]->setViewSize(w);
+            _p->scrollBars[Orientation::Horizontal]->setContentsSize(value.x);
+            _p->scrollBars[Orientation::Horizontal]->setVisible(visible[ScrollType::Horizontal]);
+
+            _p->scrollBars[Orientation::Vertical]->setViewSize(h);
+            _p->scrollBars[Orientation::Vertical]->setContentsSize(value.y);
+            _p->scrollBars[Orientation::Vertical]->setVisible(visible[ScrollType::Vertical]);
+        }
+
+        void ScrollWidget::_addPointerSample(const glm::vec2& value)
+        {
+            _p->pointerAverage.push_back(value);
+            while (_p->pointerAverage.size() > pointerAverageCount)
+            {
+                _p->pointerAverage.pop_front();
+            }
+        }
+
+        glm::vec2 ScrollWidget::_getPointerAverage() const
+        {
+            glm::vec2 out = glm::vec2(0.f, 0.f);
+            if (_p->pointerAverage.size())
+            {
+                for (const auto & velocity : _p->pointerAverage)
+                {
+                    out += velocity;
+                }
+                out /= static_cast<float>(_p->pointerAverage.size());
+            }
+            return out;
+        }
+
+    } // namespace UI    
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        ScrollType,
+        DJV_TEXT("Both"),
+        DJV_TEXT("Horizontal"),
+        DJV_TEXT("Vertical"));
+
+} // namespace djv

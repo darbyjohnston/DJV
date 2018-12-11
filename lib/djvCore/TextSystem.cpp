@@ -33,6 +33,7 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/OS.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #include <condition_variable>
@@ -91,8 +92,10 @@ namespace djv
 
             _p->currentLocaleSubject = ValueSubject<std::string>::create();
             
+            auto resourceSystem = context->getSystemT<ResourceSystem>();
+            const auto path = resourceSystem->getPath(ResourcePath::TextDirectory);
             _p->thread = std::thread(
-                [this, context]
+                [this, path]
             {
                 DJV_PRIVATE_PTR();
                 std::unique_lock<std::mutex> lock(p.mutex);
@@ -130,7 +133,7 @@ namespace djv
                 // Find the .text files.
                 DirListOptions options;
                 options.glob = "*.text";
-                const std::vector<FileInfo> fileInfos = FileInfo::dirList(context->getResourcePath(ResourcePath::TextDirectory), options);
+                const auto fileInfos = FileInfo::dirList(path, options);
 
                 // Extract the locale names.
                 std::set<std::string> localeSet;
@@ -155,7 +158,7 @@ namespace djv
                 _log(s.str());
 
                 // Read the .text files.
-                _readText();
+                _readText(path);
             });
 
             _p->timer = Timer::create(context);
@@ -249,90 +252,78 @@ namespace djv
             return id;
         }
 
-        void TextSystem::_exit()
-        {
-            ISystem::_exit();
-            if (_p->thread.joinable())
-            {
-                _p->thread.join();
-            }
-        }
-
-        void TextSystem::_readText()
+        void TextSystem::_readText(const Path & path)
         {
             DJV_PRIVATE_PTR();
             p.text.clear();
-            if (auto context = getContext().lock())
+            _log("Reading text files:");
+            DirListOptions options;
+            options.glob = "*.text";
+            for (const auto & i : FileInfo::dirList(path, options))
             {
-                _log("Reading text files:");
-                DirListOptions options;
-                options.glob = "*.text";
-                for (const auto & i : FileInfo::dirList(context->getResourcePath(ResourcePath::TextDirectory), options))
+                _log(String::indent(1) + i.getPath().get());
+                try
                 {
-                    _log(String::indent(1) + i.getPath().get());
-                    try
+                    const auto & path = i.getPath();
+                    const auto & baseName = path.getBaseName();
+                    std::string locale;
+                    for (auto i = baseName.rbegin(); i != baseName.rend() && *i != '.'; ++i)
                     {
-                        const auto & path = i.getPath();
-                        const auto & baseName = path.getBaseName();
-                        std::string locale;
-                        for (auto i = baseName.rbegin(); i != baseName.rend() && *i != '.'; ++i)
-                        {
-                            locale.insert(locale.begin(), *i);
-                        }
+                        locale.insert(locale.begin(), *i);
+                    }
 
-                        FileIO fileIO;
-                        fileIO.open(path, FileIO::Mode::Read);
-                        const char* mmapP = reinterpret_cast<const char*>(fileIO.mmapP());
-                        const char* mmapEnd = reinterpret_cast<const char*>(fileIO.mmapEnd());
+                    FileIO fileIO;
+                    fileIO.open(path, FileIO::Mode::Read);
+                    const char* mmapP = reinterpret_cast<const char*>(fileIO.mmapP());
+                    const char* mmapEnd = reinterpret_cast<const char*>(fileIO.mmapEnd());
 
-                        // Parse the JSON.
-                        picojson::value v;
-                        std::string error;
-                        picojson::parse(v, mmapP, mmapEnd, &error);
-                        if (!error.empty())
-                        {
-                            std::stringstream s;
-                            s << "Error reading text file: " << path << ": " << error;
-                            throw std::runtime_error(s.str());
-                        }
+                    // Parse the JSON.
+                    picojson::value v;
+                    std::string error;
+                    picojson::parse(v, mmapP, mmapEnd, &error);
+                    if (!error.empty())
+                    {
+                        std::stringstream s;
+                        s << "Error reading text file: " << path << ": " << error;
+                        throw std::runtime_error(s.str());
+                    }
 
-                        if (v.is<picojson::array>())
+                    if (v.is<picojson::array>())
+                    {
+                        for (const auto & item : v.get<picojson::array>())
                         {
-                            for (const auto & item : v.get<picojson::array>())
+                            if (item.is<picojson::object>())
                             {
-                                if (item.is<picojson::object>())
+                                std::string id;
+                                std::string text;
+                                std::string description;
+                                const auto & obj = item.get<picojson::object>();
+                                for (auto i = obj.begin(); i != obj.end(); ++i)
                                 {
-                                    std::string id;
-                                    std::string text;
-                                    std::string description;
-                                    const auto & obj = item.get<picojson::object>();
-                                    for (auto i = obj.begin(); i != obj.end(); ++i)
+                                    if ("id" == i->first)
                                     {
-                                        if ("id" == i->first)
-                                        {
-                                            id = i->second.to_str();
-                                        }
-                                        else if ("text" == i->first)
-                                        {
-                                            text = i->second.to_str();
-                                        }
-                                        else if ("description" == i->first)
-                                        {
-                                            description = i->second.to_str();
-                                        }
+                                        id = i->second.to_str();
                                     }
-                                    if (!id.empty())
+                                    else if ("text" == i->first)
                                     {
-                                        p.text[locale][id] = text;
+                                        text = i->second.to_str();
                                     }
+                                    else if ("description" == i->first)
+                                    {
+                                        description = i->second.to_str();
+                                    }
+                                }
+                                if (!id.empty())
+                                {
+                                    p.text[locale][id] = text;
                                 }
                             }
                         }
                     }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
                 }
             }
         }

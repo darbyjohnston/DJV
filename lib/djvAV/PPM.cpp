@@ -166,25 +166,21 @@ namespace djv
                     }
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const std::shared_ptr<Queue> & queue) const
+                std::shared_ptr<IRead> Plugin::read(
+                    const std::string & fileName,
+                    const std::shared_ptr<Queue> & queue,
+                    const std::shared_ptr<Core::Context> & context) const
                 {
-                    if (auto context = _context.lock())
-                    {
-                        return Read::create(fileName, queue, context);
-                    }
-                    return nullptr;
+                    return Read::create(fileName, queue, context);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(
                     const std::string & fileName,
                     const Info & info,
-                    const std::shared_ptr<Queue> & queue) const
+                    const std::shared_ptr<Queue> & queue,
+                    const std::shared_ptr<Core::Context> & context) const
                 {
-                    if (auto context = _context.lock())
-                    {
-                        return Write::create(fileName, info, _p->data, queue, context);
-                    }
-                    return nullptr;
+                    return Write::create(fileName, info, _p->data, queue, context);
                 }
 
             } // namespace PPM

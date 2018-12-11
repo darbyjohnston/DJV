@@ -36,6 +36,7 @@
 #include <glm/vec2.hpp>
 
 #include <future>
+#include <map>
 
 namespace djv
 {
@@ -100,9 +101,6 @@ namespace djv
             std::future<glm::vec2> measure(const std::string& text, float maxLineWidth, const Font&);
             std::future<std::vector<FontLine> > breakLines(const std::string& text, float maxLineWidth, const Font&);
             std::future<std::vector<std::shared_ptr<FontGlyph> > > getGlyphs(const std::string& text, const Font&);
-
-        protected:
-            void _exit() override;
 
         private:
             void _initFreeType();

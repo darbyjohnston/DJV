@@ -29,6 +29,8 @@
 
 #include <djvAV/Color.h>
 
+using namespace gl;
+
 namespace djv
 {
     namespace AV

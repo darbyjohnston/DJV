@@ -39,6 +39,8 @@ namespace djv
 {
     namespace Core
     {
+        class Path;
+
         //! This class provides text and translations.
         //!
         //! The current locale is determined in this order:
@@ -75,11 +77,8 @@ namespace djv
 
             ///@}
 
-        protected:
-            void _exit() override;
-
         private:
-            void _readText();
+            void _readText(const Path &);
 
             DJV_PRIVATE();
         };

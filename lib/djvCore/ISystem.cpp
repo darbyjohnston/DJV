@@ -30,32 +30,26 @@
 #include <djvCore/ISystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 
 namespace djv
 {
     namespace Core
     {
-        namespace
-        {
-            size_t activeSystemCount = 0;
-
-        } // namespace
-
         struct ISystem::Private
         {
-            std::weak_ptr<Context> context;
             std::string name;
+            std::weak_ptr<LogSystem> logSystem;
         };
         
         void ISystem::_init(const std::string & name, const std::shared_ptr<Context> & context)
         {
-            _p->context = context;
             _p->name = name;
+            _p->logSystem = context->getSystemT<LogSystem>();
 
             std::stringstream s;
             s << name << " starting...";
             _log(s.str());
-            ++activeSystemCount;
 
             context->_addSystem(shared_from_this());
         }
@@ -67,29 +61,16 @@ namespace djv
         ISystem::~ISystem()
         {}
 
-        const std::weak_ptr<Context> & ISystem::getContext() const
-        {
-            return _p->context;
-        }
-
         const std::string & ISystem::getName() const
         {
             return _p->name;
         }
 
-        void ISystem::_exit()
-        {
-            std::stringstream s;
-            s << _p->name << " exiting...";
-            _log(s.str());
-            --activeSystemCount;
-        }
-
         void ISystem::_log(const std::string& message, LogLevel level)
         {
-            if (auto context = _p->context.lock())
+            if (auto logSystem = _p->logSystem.lock())
             {
-                context->log(_p->name, message, level);
+                logSystem->log(_p->name, message, level);
             }
         }
         

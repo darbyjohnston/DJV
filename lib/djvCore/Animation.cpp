@@ -197,12 +197,6 @@ namespace djv
             }
         }
 
-        void AnimationSystem::_exit()
-        {
-            ISystem::_exit();
-            _p->animations.clear();
-        }
-
         void AnimationSystem::_addAnimation(const std::weak_ptr<Animation>& value)
         {
             _p->animations.push_back(value);

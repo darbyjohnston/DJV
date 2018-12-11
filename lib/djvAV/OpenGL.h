@@ -29,4 +29,5 @@
 
 #pragma once
 
-#include <QOpenGLFunctions_3_3_Core>
+#include <glbinding/gl/gl.h>
+#include <glbinding/glbinding.h>

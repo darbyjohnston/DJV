@@ -41,11 +41,8 @@ namespace djv
     {
         namespace Pixel
         {
-            class Mirror
+            struct Mirror
             {
-                Q_GADGET
-
-            public:
                 inline Mirror();
                 inline Mirror(bool x, bool y);
 
@@ -56,27 +53,21 @@ namespace djv
                 inline bool operator != (const Mirror &) const;
             };
 
-            class Layout
+            struct Layout
             {
-                Q_GADGET
-
-            public:
                 inline Layout();
-                inline Layout(const Mirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
+                inline Layout(const Mirror &, gl::GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
                 Mirror mirror;
-                GLint alignment = 1;
+                gl::GLint alignment = 1;
                 Core::Memory::Endian endian = Core::Memory::getEndian();
 
                 inline bool operator == (const Layout &) const;
                 inline bool operator != (const Layout &) const;
             };
 
-            class Info
+            struct Info
             {
-                Q_GADGET
-
-            public:
                 inline Info();
                 inline Info(const glm::ivec2 &, Type, const Layout & = Layout());
                 inline Info(int width, int height, Type, const Layout & = Layout());
@@ -87,8 +78,8 @@ namespace djv
                 Layout layout;
 
                 inline float getAspectRatio() const;
-                inline GLenum getGLFormat() const;
-                inline GLenum getGLType() const;
+                inline gl::GLenum getGLFormat() const;
+                inline gl::GLenum getGLType() const;
                 inline bool isValid() const;
                 inline size_t getPixelByteCount() const;
                 inline size_t getScanlineByteCount() const;
@@ -100,7 +91,6 @@ namespace djv
 
             class Data
             {
-                Q_GADGET
                 DJV_NON_COPYABLE(Data);
 
             protected:
@@ -118,8 +108,8 @@ namespace djv
                 inline int getHeight() const;
                 inline float getAspectRatio() const;
                 inline Type getType() const;
-                inline GLenum getGLFormat() const;
-                inline GLenum getGLType() const;
+                inline gl::GLenum getGLFormat() const;
+                inline gl::GLenum getGLType() const;
                 inline const Layout & getLayout() const;
                 inline bool isValid() const;
                 inline size_t getPixelByteCount() const;
