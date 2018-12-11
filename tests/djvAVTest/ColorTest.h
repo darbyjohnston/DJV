@@ -36,7 +36,7 @@ namespace djv
         class ColorTest : public Test::ITest
         {
         public:
-            ColorTest(const std::shared_ptr<Core::Context> &);
+            ColorTest(Core::Context *);
             
             void run(int & argc, char ** argv) override;
         };

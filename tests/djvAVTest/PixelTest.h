@@ -36,7 +36,7 @@ namespace djv
         class PixelTest : public Test::ITest
         {
         public:
-            PixelTest(const std::shared_ptr<Core::Context> &);
+            PixelTest(Core::Context *);
             
             void run(int & argc, char ** argv) override;
         };

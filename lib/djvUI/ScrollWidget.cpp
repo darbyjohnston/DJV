@@ -159,52 +159,56 @@ namespace djv
 
             void ScrollBar::_preLayoutEvent(PreLayoutEvent&)
             {
-                const auto style = _getStyle();
-
-                // Set the minimum size.
-                glm::vec2 size = glm::vec2(0.f, 0.f);
-                size += style->getMetric(MetricsRole::Margin) * 1.5f;
-                _setMinimumSize(size);
+                if (auto style = _getStyle().lock())
+                {
+                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                    size += style->getMetric(MetricsRole::Margin) * 1.5f;
+                    _setMinimumSize(size);
+                }
             }
 
             void ScrollBar::_paintEvent(PaintEvent& event)
             {
-                auto renderSystem = _getRenderSystem();
-                const auto style = _getStyle();
-                const BBox2f& g = getGeometry();
-
-                // Draw the background.
-                renderSystem->setFillColor(style->getColor(ColorRole::Trough));
-                renderSystem->drawRectangle(g);
-
-                // Draw the scroll bar handle.
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
-                glm::vec2 size = glm::vec2(0.f, 0.f);
-                switch (_orientation)
+                if (auto render = _getRenderSystem().lock())
                 {
-                case Orientation::Horizontal:
-                    pos = glm::vec2(_valueToPos(_scrollPos), g.y());
-                    size = glm::vec2(_valueToPos(_scrollPos + _viewSize) - pos.x, g.h());
-                    break;
-                case Orientation::Vertical:
-                    pos = glm::vec2(g.x(), _valueToPos(_scrollPos));
-                    size = glm::vec2(g.w(), _valueToPos(_scrollPos + _viewSize) - pos.y);
-                    break;
-                default: break;
-                }
-                renderSystem->setFillColor(style->getColor(_pressedId ? ColorRole::Checked : ColorRole::Button));
-                renderSystem->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+                    if (auto style = _getStyle().lock())
+                    {
+                        const BBox2f& g = getGeometry();
 
-                // Draw the hovered state.
-                bool hover = false;
-                for (const auto& h : _hover)
-                {
-                    hover |= h.second;
-                }
-                if (hover)
-                {
-                    renderSystem->setFillColor(style->getColor(ColorRole::Hover));
-                    renderSystem->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+                        // Draw the background.
+                        render->setFillColor(style->getColor(ColorRole::Trough));
+                        render->drawRectangle(g);
+
+                        // Draw the scroll bar handle.
+                        glm::vec2 pos = glm::vec2(0.f, 0.f);
+                        glm::vec2 size = glm::vec2(0.f, 0.f);
+                        switch (_orientation)
+                        {
+                        case Orientation::Horizontal:
+                            pos = glm::vec2(_valueToPos(_scrollPos), g.y());
+                            size = glm::vec2(_valueToPos(_scrollPos + _viewSize) - pos.x, g.h());
+                            break;
+                        case Orientation::Vertical:
+                            pos = glm::vec2(g.x(), _valueToPos(_scrollPos));
+                            size = glm::vec2(g.w(), _valueToPos(_scrollPos + _viewSize) - pos.y);
+                            break;
+                        default: break;
+                        }
+                        render->setFillColor(style->getColor(_pressedId ? ColorRole::Checked : ColorRole::Button));
+                        render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+
+                        // Draw the hovered state.
+                        bool hover = false;
+                        for (const auto& h : _hover)
+                        {
+                            hover |= h.second;
+                        }
+                        if (hover)
+                        {
+                            render->setFillColor(style->getColor(ColorRole::Hover));
+                            render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
+                        }
+                    }
                 }
             }
 
@@ -428,34 +432,35 @@ namespace djv
 
             void ScrollArea::_preLayoutEvent(PreLayoutEvent&)
             {
-                // Set the minimum size.
-                glm::vec2 childrenMinimumSize = glm::vec2(0.f, 0.f);
-                for (const auto& child : getChildrenT<Widget>())
+                if (auto style = _getStyle().lock())
                 {
-                    if (child->isVisible())
+                    glm::vec2 childrenMinimumSize = glm::vec2(0.f, 0.f);
+                    for (const auto& child : getChildrenT<Widget>())
                     {
-                        childrenMinimumSize = glm::max(childrenMinimumSize, child->getMinimumSize());
+                        if (child->isVisible())
+                        {
+                            childrenMinimumSize = glm::max(childrenMinimumSize, child->getMinimumSize());
+                        }
                     }
+                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                    switch (_scrollType)
+                    {
+                    case ScrollType::Both:
+                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        break;
+                    case ScrollType::Horizontal:
+                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                        size.y = childrenMinimumSize.y;
+                        break;
+                    case ScrollType::Vertical:
+                        size.x = childrenMinimumSize.x;
+                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        break;
+                    default: break;
+                    }
+                    _setMinimumSize(size);
                 }
-                const auto style = _getStyle();
-                glm::vec2 size = glm::vec2(0.f, 0.f);
-                switch (_scrollType)
-                {
-                case ScrollType::Both:
-                    size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
-                    size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
-                    break;
-                case ScrollType::Horizontal:
-                    size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
-                    size.y = childrenMinimumSize.y;
-                    break;
-                case ScrollType::Vertical:
-                    size.x = childrenMinimumSize.x;
-                    size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
-                    break;
-                default: break;
-                }
-                _setMinimumSize(size);
             }
 
             void ScrollArea::_layoutEvent(LayoutEvent& event)
@@ -729,15 +734,19 @@ namespace djv
 
         void ScrollWidget::_preLayoutEvent(PreLayoutEvent&)
         {
-            const auto style = _getStyle();
-            _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
+            if (auto style = _getStyle().lock())
+            {
+                _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
+            }
         }
 
         void ScrollWidget::_layoutEvent(LayoutEvent&)
         {
-            const auto style = _getStyle();
-            _p->border->setGeometry(getMargin().bbox(getGeometry(), style));
-            _updateScrollBars(_p->scrollArea->getContentsSize());
+            if (auto style = _getStyle().lock())
+            {
+                _p->border->setGeometry(getMargin().bbox(getGeometry(), style));
+                _updateScrollBars(_p->scrollArea->getContentsSize());
+            }
         }
 
         void ScrollWidget::_clipEvent(ClipEvent&)

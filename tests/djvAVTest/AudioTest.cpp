@@ -35,7 +35,7 @@ namespace djv
 {
     namespace AVTest
     {
-        AudioTest::AudioTest(const std::shared_ptr<Core::Context> & context) :
+        AudioTest::AudioTest(Core::Context * context) :
             ITest("djv::AVTest::AudioTest", context)
         {}
         

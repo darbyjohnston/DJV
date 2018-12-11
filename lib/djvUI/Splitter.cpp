@@ -141,10 +141,11 @@ namespace djv
 
         void Splitter::_updateEvent(UpdateEvent&)
         {
-            const auto style = _getStyle();
-            const float m = style->getMetric(MetricsRole::Margin);
-
-            _p->splitterWidth = m * 1.5f;
+            if (auto style = _getStyle().lock())
+            {
+                const float m = style->getMetric(MetricsRole::Margin);
+                _p->splitterWidth = m * 1.5f;
+            }
         }
 
         void Splitter::_preLayoutEvent(PreLayoutEvent& event)
@@ -236,35 +237,39 @@ namespace djv
 
         void Splitter::_paintEvent(PaintEvent& event)
         {
-            auto renderSystem = _getRenderSystem();
-            const auto style = _getStyle();
-            const BBox2f& sg = _getSplitterGeometry();
+            if (auto render = _getRenderSystem().lock())
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& sg = _getSplitterGeometry();
 
-            // Draw the background.
-            const ColorRole colorRole = getBackgroundRole();
-            if (colorRole != ColorRole::None)
-            {
-                renderSystem->setFillColor(style->getColor(colorRole));
-                renderSystem->drawRectangle(sg);
-            }
+                    // Draw the background.
+                    const ColorRole colorRole = getBackgroundRole();
+                    if (colorRole != ColorRole::None)
+                    {
+                        render->setFillColor(style->getColor(colorRole));
+                        render->drawRectangle(sg);
+                    }
 
-            // Draw the pressed state.
-            if (_p->pressedId)
-            {
-                renderSystem->setFillColor(style->getColor(ColorRole::Checked));
-                renderSystem->drawRectangle(sg);
-            }
+                    // Draw the pressed state.
+                    if (_p->pressedId)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Checked));
+                        render->drawRectangle(sg);
+                    }
 
-            // Draw the hovered state.
-            bool hover = _p->pressedId;
-            for (const auto& h : _p->hover)
-            {
-                hover |= h.second;
-            }
-            if (hover)
-            {
-                renderSystem->setFillColor(style->getColor(ColorRole::Hover));
-                renderSystem->drawRectangle(sg);
+                    // Draw the hovered state.
+                    bool hover = _p->pressedId;
+                    for (const auto& h : _p->hover)
+                    {
+                        hover |= h.second;
+                    }
+                    if (hover)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Hover));
+                        render->drawRectangle(sg);
+                    }
+                }
             }
         }
 

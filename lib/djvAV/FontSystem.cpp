@@ -365,9 +365,8 @@ namespace djv
                         s << "    Scalable: " << (FT_IS_SCALABLE(ftFace) ? "true" : "false") << '\n';
                         s << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
                         _log(s.str());
-                        const std::string& name = i.getPath().getBaseName();
-                        p.fontFileNames[name] = fileName;
-                        p.fontFaces[name] = ftFace;
+                        p.fontFileNames[ftFace->family_name] = fileName;
+                        p.fontFaces[ftFace->family_name] = ftFace;
                     }
                 }
                 if (!p.fontFaces.size())

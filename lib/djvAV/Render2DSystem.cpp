@@ -513,8 +513,6 @@ namespace djv
                     triangle.v1 = TriangleMesh::Vertex(j * 4 + 2, j * 4 + 2);
                     triangle.v2 = TriangleMesh::Vertex(j * 4 + 3, j * 4 + 3);
                     mesh.triangles.push_back(triangle);
-                    ++j;
-
                     triangle.v0 = TriangleMesh::Vertex(j * 4 + 3, j * 4 + 3);
                     triangle.v1 = TriangleMesh::Vertex(j * 4 + 4, j * 4 + 4);
                     triangle.v2 = TriangleMesh::Vertex(j * 4 + 1, j * 4 + 1);

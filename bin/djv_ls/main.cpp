@@ -37,18 +37,21 @@
 
 using namespace djv;
 
-class Context : public Core::Context
+class Application : public Core::Context
 {
-    DJV_NON_COPYABLE(Context);
+    DJV_NON_COPYABLE(Application);
 
 protected:
     void _init(int & argc, char ** argv)
     {
         Core::Context::_init(argc, argv);
 
-        _io = AV::IO::System::create(shared_from_this());
+        _io = AV::IO::System::create(this);
 
-        const auto locale = getSystemT<Core::TextSystem>()->getCurrentLocale();
+        if (auto system = getSystemT<Core::TextSystem>().lock())
+        {
+            const auto locale = system->getCurrentLocale();
+        }
 
         for (int i = 1; i < argc; ++i)
         {
@@ -72,13 +75,13 @@ protected:
         }
     }
 
-    Context()
+    Application()
     {}
 
 public:
-    static std::shared_ptr<Context> create(int & argc, char ** argv)
+    static std::unique_ptr<Application> create(int & argc, char ** argv)
     {
-        auto out = std::shared_ptr<Context>(new Context);
+        auto out = std::unique_ptr<Application>(new Application);
         out->_init(argc, argv);
         return out;
     }
@@ -97,7 +100,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        Context::create(argc, argv);
+        Application::create(argc, argv);
     }
     catch (const std::exception & error)
     {

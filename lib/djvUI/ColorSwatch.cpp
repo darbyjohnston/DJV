@@ -93,22 +93,22 @@ namespace djv
 
         void ColorSwatch::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-            const float s = style->getMetric(_p->swatchSize);
-
-            // Set the minimum size.
-            _setMinimumSize(glm::vec2(s, s));
+            if (auto style = _getStyle().lock())
+            {
+                const float s = style->getMetric(_p->swatchSize);
+                _setMinimumSize(glm::vec2(s, s));
+            }
         }
 
         void ColorSwatch::_paintEvent(PaintEvent& event)
         {
             Widget::_paintEvent(event);
-
-            auto renderSystem = _getRenderSystem();
-            const BBox2f& g = getGeometry();
-
-            renderSystem->setFillColor(_p->color);
-            renderSystem->drawRectangle(g);
+            if (auto render = _getRenderSystem().lock())
+            {
+                const BBox2f& g = getGeometry();
+                render->setFillColor(_p->color);
+                render->drawRectangle(g);
+            }
         }
 
     } // namespace UI

@@ -322,11 +322,17 @@ namespace djv
         {
             if (_backgroundRole != ColorRole::None)
             {
-                const BBox2f& g = getMargin().bbox(getGeometry(), _style);
+                if (auto render = _renderSystem.lock())
+                {
+                    if (auto style = _style.lock())
+                    {
+                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
-                // Draw the background.
-                _renderSystem->setFillColor(_style->getColor(_backgroundRole));
-                _renderSystem->drawRectangle(g);
+                        // Draw the background.
+                        render->setFillColor(style->getColor(_backgroundRole));
+                        render->drawRectangle(g);
+                    }
+                }
             }
         }
 

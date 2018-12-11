@@ -37,7 +37,7 @@ namespace djv
 
     namespace CoreTest
     {
-        MemoryTest::MemoryTest(const std::shared_ptr<Core::Context> & context) :
+        MemoryTest::MemoryTest(Core::Context * context) :
             ITest("djv::CoreTest::MemoryTest", context)
         {}
         

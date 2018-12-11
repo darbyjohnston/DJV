@@ -62,39 +62,45 @@ namespace djv
         float StackLayout::getHeightForWidth(float value) const
         {
             float out = 0.f;
-            for (const auto& child : getChildrenT<Widget>())
+            if (auto style = _getStyle().lock())
             {
-                if (child->isVisible())
+                for (const auto& child : getChildrenT<Widget>())
                 {
-                    out = glm::max(out, child->getHeightForWidth(value));
+                    if (child->isVisible())
+                    {
+                        out = glm::max(out, child->getHeightForWidth(value));
+                    }
                 }
+                out += getMargin().getHeight(style);
             }
-            const auto style = _getStyle();
-            return out + getMargin().getHeight(style);
+            return out;
         }
 
         void StackLayout::_preLayoutEvent(PreLayoutEvent&)
         {
-            // Set the minimum size.
-            const auto style = _getStyle();
-            glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-            for (const auto& child : getChildrenT<Widget>())
+            if (auto style = _getStyle().lock())
             {
-                if (child->isVisible())
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                for (const auto& child : getChildrenT<Widget>())
                 {
-                    minimumSize = glm::max(minimumSize, child->getMinimumSize());
+                    if (child->isVisible())
+                    {
+                        minimumSize = glm::max(minimumSize, child->getMinimumSize());
+                    }
                 }
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
-            _setMinimumSize(minimumSize + getMargin().getSize(style));
         }
 
         void StackLayout::_layoutEvent(LayoutEvent&)
         {
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            for (const auto& child : getChildrenT<Widget>())
+            if (auto style = _getStyle().lock())
             {
-                child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                for (const auto& child : getChildrenT<Widget>())
+                {
+                    child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                }
             }
         }
 

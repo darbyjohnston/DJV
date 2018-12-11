@@ -112,6 +112,7 @@ namespace djv
         {
             _p->layout->setGeometry(getGeometry());
         }
+
         void Window::_pointerEnterEvent(Core::PointerEnterEvent& event)
         {
             event.accept();

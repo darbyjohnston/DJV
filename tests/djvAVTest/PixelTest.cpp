@@ -35,7 +35,7 @@ namespace djv
 {
     namespace AVTest
     {
-        PixelTest::PixelTest(const std::shared_ptr<Core::Context> & context) :
+        PixelTest::PixelTest(Core::Context * context) :
             ITest("djv::AVTest::PixelTest", context)
         {}
         

@@ -80,43 +80,48 @@ namespace djv
 
         void ImageWidget::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-            const float t = style->getMetric(UI::MetricsRole::Thumbnail);
-            _setMinimumSize(glm::vec2(t, t) + getMargin().getSize(style));
+            if (auto style = _getStyle().lock())
+            {
+                const float t = style->getMetric(UI::MetricsRole::Thumbnail);
+                _setMinimumSize(glm::vec2(t, t) + getMargin().getSize(style));
+            }
         }
 
         void ImageWidget::_paintEvent(PaintEvent& event)
         {
             Widget::_paintEvent(event);
-
-            auto renderSystem = _getRenderSystem();
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const glm::vec2 c = g.getCenter();
-
-            // Draw the image.
-            if (_p->image)
+            if (auto render = _getRenderSystem().lock())
             {
-                const glm::vec2& size = _p->image->getSize();
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
-                switch (getHAlign())
+                if (auto style = _getStyle().lock())
                 {
-                case HAlign::Center:
-                case HAlign::Fill:   pos.x = c.x - size.x / 2.f; break;
-                case HAlign::Left:   pos.x = g.min.x; break;
-                case HAlign::Right:  pos.x = g.max.x - size.x; break;
-                default: break;
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const glm::vec2 c = g.getCenter();
+
+                    // Draw the image.
+                    if (_p->image)
+                    {
+                        const glm::vec2& size = _p->image->getSize();
+                        glm::vec2 pos = glm::vec2(0.f, 0.f);
+                        switch (getHAlign())
+                        {
+                        case HAlign::Center:
+                        case HAlign::Fill:   pos.x = c.x - size.x / 2.f; break;
+                        case HAlign::Left:   pos.x = g.min.x; break;
+                        case HAlign::Right:  pos.x = g.max.x - size.x; break;
+                        default: break;
+                        }
+                        switch (getVAlign())
+                        {
+                        case VAlign::Center:
+                        case VAlign::Fill:   pos.y = c.y - size.y / 2.f; break;
+                        case VAlign::Top:    pos.y = g.min.y; break;
+                        case VAlign::Bottom: pos.y = g.max.y - size.y; break;
+                        default: break;
+                        }
+                        render->setFillColor(AV::Color(1.f, 1.f, 1.f));
+                        render->drawImage(_p->image, pos, true, _p->hash);
+                    }
                 }
-                switch (getVAlign())
-                {
-                case VAlign::Center:
-                case VAlign::Fill:   pos.y = c.y - size.y / 2.f; break;
-                case VAlign::Top:    pos.y = g.min.y; break;
-                case VAlign::Bottom: pos.y = g.max.y - size.y; break;
-                default: break;
-                }
-                renderSystem->setFillColor(AV::Color(1.f, 1.f, 1.f));
-                renderSystem->drawImage(_p->image, pos, true, _p->hash);
             }
         }
 

@@ -93,8 +93,11 @@ namespace djv
             if (value == _p->path)
                 return;
             _p->path = value;
-            _p->infoFuture = _getIconSystem()->getInfo(_p->path);
-            _p->imageFuture = _getIconSystem()->getImage(_p->path);
+            if (auto system = _getIconSystem().lock())
+            {
+                _p->infoFuture = system->getInfo(_p->path);
+                _p->imageFuture = system->getImage(_p->path);
+            }
             _p->hash = 0;
             Memory::hashCombine(_p->hash, _p->path.get());
         }
@@ -111,57 +114,62 @@ namespace djv
 
         void Icon::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-            if (_p->infoFuture.valid())
+            if (auto style = _getStyle().lock())
             {
-                _p->info = _p->infoFuture.get();
+                if (_p->infoFuture.valid())
+                {
+                    _p->info = _p->infoFuture.get();
+                }
+                _setMinimumSize(glm::vec2(_p->info.size) + getMargin().getSize(style));
             }
-            _setMinimumSize(glm::vec2(_p->info.size) + getMargin().getSize(style));
         }
 
         void Icon::_paintEvent(PaintEvent& event)
         {
             Widget::_paintEvent(event);
-
-            auto renderSystem = _getRenderSystem();
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const glm::vec2 c = g.getCenter();
-
-            // Draw the icon.
-            if (_p->imageFuture.valid())
+            if (auto render = _getRenderSystem().lock())
             {
-                _p->image = _p->imageFuture.get();
-            }
-            if (_p->image->isValid())
-            {
-                const glm::vec2& size = _p->info.size;
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
-                switch (getHAlign())
+                if (auto style = _getStyle().lock())
                 {
-                case HAlign::Center:
-                case HAlign::Fill:   pos.x = c.x - size.x / 2.f; break;
-                case HAlign::Left:   pos.x = g.min.x; break;
-                case HAlign::Right:  pos.x = g.max.x - size.x; break;
-                default: break;
-                }
-                switch (getVAlign())
-                {
-                case VAlign::Center:
-                case VAlign::Fill:   pos.y = c.y - size.y / 2.f; break;
-                case VAlign::Top:    pos.y = g.min.y; break;
-                case VAlign::Bottom: pos.y = g.max.y - size.y; break;
-                default: break;
-                }
-                if (_p->iconColorRole != ColorRole::None)
-                {
-                    renderSystem->setFillColor(style->getColor(_p->iconColorRole));
-                    renderSystem->drawFilledImage(_p->image, pos, false, _p->hash);
-                }
-                else
-                {
-                    renderSystem->setFillColor(AV::Color(1.f, 1.f, 1.f));
-                    renderSystem->drawImage(_p->image, pos, false, _p->hash);
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const glm::vec2 c = g.getCenter();
+
+                    // Draw the icon.
+                    if (_p->imageFuture.valid())
+                    {
+                        _p->image = _p->imageFuture.get();
+                    }
+                    if (_p->image->isValid())
+                    {
+                        const glm::vec2& size = _p->info.size;
+                        glm::vec2 pos = glm::vec2(0.f, 0.f);
+                        switch (getHAlign())
+                        {
+                        case HAlign::Center:
+                        case HAlign::Fill:   pos.x = c.x - size.x / 2.f; break;
+                        case HAlign::Left:   pos.x = g.min.x; break;
+                        case HAlign::Right:  pos.x = g.max.x - size.x; break;
+                        default: break;
+                        }
+                        switch (getVAlign())
+                        {
+                        case VAlign::Center:
+                        case VAlign::Fill:   pos.y = c.y - size.y / 2.f; break;
+                        case VAlign::Top:    pos.y = g.min.y; break;
+                        case VAlign::Bottom: pos.y = g.max.y - size.y; break;
+                        default: break;
+                        }
+                        if (_p->iconColorRole != ColorRole::None)
+                        {
+                            render->setFillColor(style->getColor(_p->iconColorRole));
+                            render->drawFilledImage(_p->image, pos, false, _p->hash);
+                        }
+                        else
+                        {
+                            render->setFillColor(AV::Color(1.f, 1.f, 1.f));
+                            render->drawImage(_p->image, pos, false, _p->hash);
+                        }
+                    }
                 }
             }
         }

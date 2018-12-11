@@ -28,6 +28,7 @@
 //------------------------------------------------------------------------------
 
 #include <djvDesktop/Application.h>
+#include <djvUI/Label.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -39,7 +40,13 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        Desktop::Application::create(argc, argv)->run();
+        auto app = Desktop::Application::create(argc, argv);
+        auto label = UI::Label::create(app.get());
+        label->setText("Hello world!");
+        auto window = UI::Window::create(app.get());
+        window->addWidget(label);
+        window->show();
+        return app->run();
     }
     catch (const std::exception & e)
     {

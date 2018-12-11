@@ -38,7 +38,7 @@ namespace djv
         class MemoryTest : public Test::ITest
         {
         public:
-            MemoryTest(const std::shared_ptr<Core::Context> &);
+            MemoryTest(Core::Context *);
             
             void run(int & argc, char ** argv) override;
         };

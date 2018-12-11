@@ -37,7 +37,7 @@ namespace djv
 
     namespace CoreTest
     {
-        EnumTest::EnumTest(const std::shared_ptr<Core::Context> & context) :
+        EnumTest::EnumTest(Core::Context * context) :
             ITest("djv::CoreTest::EnumTest", context)
         {}
         

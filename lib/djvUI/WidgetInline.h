@@ -96,22 +96,22 @@ namespace djv
             return _pointerEnabled;
         }
 
-        inline const std::shared_ptr<AV::IconSystem>& Widget::_getIconSystem() const
+        inline const std::weak_ptr<AV::IconSystem>& Widget::_getIconSystem() const
         {
             return _iconSystem;
         }
 
-        inline const std::shared_ptr<AV::FontSystem>& Widget::_getFontSystem() const
+        inline const std::weak_ptr<AV::FontSystem>& Widget::_getFontSystem() const
         {
             return _fontSystem;
         }
 
-        inline const std::shared_ptr<AV::Render2DSystem>& Widget::_getRenderSystem() const
+        inline const std::weak_ptr<AV::Render2DSystem>& Widget::_getRenderSystem() const
         {
             return _renderSystem;
         }
 
-        inline const std::shared_ptr<Style>& Widget::_getStyle() const
+        inline const std::weak_ptr<Style>& Widget::_getStyle() const
         {
             return _style;
         }

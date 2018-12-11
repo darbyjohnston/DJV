@@ -35,7 +35,7 @@ namespace djv
 {
     namespace CoreTest
     {
-        MathTest::MathTest(const std::shared_ptr<Core::Context> & context) :
+        MathTest::MathTest(Core::Context * context) :
             ITest("djv::CoreTest::MathTest", context)
         {}
         

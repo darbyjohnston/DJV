@@ -128,50 +128,61 @@ namespace djv
 
         float Border::getHeightForWidth(float value) const
         {
-            const auto style = _getStyle();
-            return _p->layout->getHeightForWidth(value) +
-                style->getMetric(_p->borderSize) * 2.f +
-                getMargin().getHeight(style);
+            float out = 0.f;
+            if (auto style = _getStyle().lock())
+            {
+                out = _p->layout->getHeightForWidth(value) +
+                    style->getMetric(_p->borderSize) * 2.f +
+                    getMargin().getHeight(style);
+            }
+            return out;
         }
 
         void Border::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-            _setMinimumSize(_p->layout->getMinimumSize() +
-                style->getMetric(_p->borderSize) * 2.f +
-                getMargin().getSize(style));
+            if (auto style = _getStyle().lock())
+            {
+                _setMinimumSize(_p->layout->getMinimumSize() +
+                    style->getMetric(_p->borderSize) * 2.f +
+                    getMargin().getSize(style));
+            }
         }
 
         void Border::_layoutEvent(LayoutEvent& event)
         {
-            const auto style = _getStyle();
-            const BBox2f g = getGeometry().margin(-style->getMetric(_p->borderSize));
-            _p->layout->setGeometry(getMargin().bbox(g, style));
+            if (auto style = _getStyle().lock())
+            {
+                const BBox2f g = getGeometry().margin(-style->getMetric(_p->borderSize));
+                _p->layout->setGeometry(getMargin().bbox(g, style));
+            }
         }
 
         void Border::_paintEvent(PaintEvent& event)
         {
             Widget::_paintEvent(event);
+            if (auto render = _getRenderSystem().lock())
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
-            auto renderSystem = _getRenderSystem();
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            
-            // Draw the border.
-            const float borderSize = style->getMetric(_p->borderSize);
-            renderSystem->setFillColor(style->getColor(_p->borderColor));
-            renderSystem->drawRectangle(BBox2f(
-                glm::vec2(g.min.x, g.min.y),
-                glm::vec2(g.max.x, g.min.y + borderSize)));
-            renderSystem->drawRectangle(BBox2f(
-                glm::vec2(g.min.x, g.max.y - borderSize),
-                glm::vec2(g.max.x, g.max.y)));
-            renderSystem->drawRectangle(BBox2f(
-                glm::vec2(g.min.x, g.min.y + borderSize),
-                glm::vec2(g.min.x + borderSize, g.max.y - borderSize)));
-            renderSystem->drawRectangle(BBox2f(
-                glm::vec2(g.max.x - borderSize, g.min.y + borderSize),
-                glm::vec2(g.max.x, g.max.y - borderSize)));
+                    // Draw the border.
+                    const float borderSize = style->getMetric(_p->borderSize);
+                    render->setFillColor(style->getColor(_p->borderColor));
+                    render->drawRectangle(BBox2f(
+                        glm::vec2(g.min.x, g.min.y),
+                        glm::vec2(g.max.x, g.min.y + borderSize)));
+                    render->drawRectangle(BBox2f(
+                        glm::vec2(g.min.x, g.max.y - borderSize),
+                        glm::vec2(g.max.x, g.max.y)));
+                    render->drawRectangle(BBox2f(
+                        glm::vec2(g.min.x, g.min.y + borderSize),
+                        glm::vec2(g.min.x + borderSize, g.max.y - borderSize)));
+                    render->drawRectangle(BBox2f(
+                        glm::vec2(g.max.x - borderSize, g.min.y + borderSize),
+                        glm::vec2(g.max.x, g.max.y - borderSize)));
+                }
+            }
         }
 
     } // namespace UI

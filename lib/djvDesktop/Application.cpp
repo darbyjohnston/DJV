@@ -65,21 +65,25 @@ namespace djv
         {
             Context::_init(argc, argv);
 
-            _p->uiSystem = UI::System::create(this);
+            DJV_PRIVATE_PTR();
+
+            p.uiSystem = UI::System::create(this);
 
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
-            _p->glfwWindow = glfwCreateWindow(1024, 768, getName().c_str(), NULL, NULL);
-            if (!_p->glfwWindow)
+            p.glfwWindow = glfwCreateWindow(1024, 768, getName().c_str(), NULL, NULL);
+            if (!p.glfwWindow)
             {
                 throw std::runtime_error("Cannot create GLFW window.");
             }
+            glfwMakeContextCurrent(p.glfwWindow);
+            glbinding::initialize(glfwGetProcAddress);
 
-            _p->eventSystem = EventSystem::create(_p->glfwWindow, this);
-            _p->windowSystem = WindowSystem::create(_p->glfwWindow, this);
+            p.eventSystem = EventSystem::create(p.glfwWindow, this);
+            p.windowSystem = WindowSystem::create(p.glfwWindow, this);
 
             glfwShowWindow(_p->glfwWindow);
         }

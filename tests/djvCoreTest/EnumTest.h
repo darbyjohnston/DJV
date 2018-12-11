@@ -38,7 +38,7 @@ namespace djv
         class EnumTest : public Test::ITest
         {
         public:
-            EnumTest(const std::shared_ptr<Core::Context> &);
+            EnumTest(Core::Context *);
             
             void run(int & argc, char ** argv) override;
         };

@@ -35,7 +35,7 @@ namespace djv
 {
     namespace AVTest
     {
-        ColorTest::ColorTest(const std::shared_ptr<Core::Context> & context) :
+        ColorTest::ColorTest(Core::Context * context) :
             ITest("djv::AVTest::ColorTest", context)
         {}
         

@@ -108,6 +108,8 @@ namespace djv
             for (const auto& i : windows)
             {
                 i->resize(frameBufferSize);
+                UpdateEvent updateEvent(dt);
+                _updateRecursive(i, updateEvent);
                 PreLayoutEvent preLayoutEvent;
                 _preLayoutRecursive(i, preLayoutEvent);
                 if (i->isVisible())

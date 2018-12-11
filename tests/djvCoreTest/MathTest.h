@@ -38,7 +38,7 @@ namespace djv
         class MathTest : public Test::ITest
         {
         public:
-            MathTest(const std::shared_ptr<Core::Context> &);
+            MathTest(Core::Context *);
             
             void run(int & argc, char ** argv) override;
         };

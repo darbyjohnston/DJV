@@ -159,97 +159,116 @@ namespace djv
 
         float TextBlock::getHeightForWidth(float value) const
         {
-            const auto style = _getStyle();
-            const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-            const auto fontSystem = _getFontSystem();
-            const float w = value - getMargin().getWidth(style);
-
-            size_t hash = 0;
-            Memory::hashCombine(hash, font.name);
-            Memory::hashCombine(hash, font.size);
-            Memory::hashCombine(hash, w);
-            if (!_p->heightForWidthHash || _p->heightForWidthHash != hash)
+            float out = 0.f;
+            if (auto style = _getStyle().lock())
             {
-                _p->heightForWidthHash = hash;
-                _p->heightForWidth = fontSystem->measure(_p->text, w, font).get().y;
+                if (auto fontSystem = _getFontSystem().lock())
+                {
+                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    const float w = value - getMargin().getWidth(style);
+
+                    size_t hash = 0;
+                    Memory::hashCombine(hash, font.name);
+                    Memory::hashCombine(hash, font.size);
+                    Memory::hashCombine(hash, w);
+                    if (!_p->heightForWidthHash || _p->heightForWidthHash != hash)
+                    {
+                        _p->heightForWidthHash = hash;
+                        _p->heightForWidth = fontSystem->measure(_p->text, w, font).get().y;
+                    }
+                }
+                out = _p->heightForWidth + getMargin().getHeight(style);
             }
-            return _p->heightForWidth + getMargin().getHeight(style);
+            return out;
         }
 
         void TextBlock::_updateEvent(UpdateEvent& event)
         {
-            const auto style = _getStyle();
-            const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-            const auto fontSystem = _getFontSystem();
-            const float w = _p->minimumWidth - getMargin().getWidth(style);
-
-            _p->fontMetricsFuture = fontSystem->getMetrics(font);
-
-            size_t hash = 0;
-            Memory::hashCombine(hash, font.name);
-            Memory::hashCombine(hash, font.size);
-            Memory::hashCombine(hash, w);
-            if (!_p->textSizeHash || _p->textSizeHash != hash)
+            if (auto style = _getStyle().lock())
             {
-                _p->textSizeHash = hash;
-                _p->textSizeFuture = fontSystem->measure(_p->text, w, font);
+                if (auto fontSystem = _getFontSystem().lock())
+                {
+                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    const float w = _p->minimumWidth - getMargin().getWidth(style);
+
+                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
+
+                    size_t hash = 0;
+                    Memory::hashCombine(hash, font.name);
+                    Memory::hashCombine(hash, font.size);
+                    Memory::hashCombine(hash, w);
+                    if (!_p->textSizeHash || _p->textSizeHash != hash)
+                    {
+                        _p->textSizeHash = hash;
+                        _p->textSizeFuture = fontSystem->measure(_p->text, w, font);
+                    }
+                }
             }
         }
 
         void TextBlock::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-            if (_p->textSizeFuture.valid())
+            if (auto style = _getStyle().lock())
             {
-                _p->textSize = _p->textSizeFuture.get();
+                if (_p->textSizeFuture.valid())
+                {
+                    _p->textSize = _p->textSizeFuture.get();
+                }
+                glm::vec2 size = _p->textSize;
+                size.x = std::max(size.x, _p->minimumWidth - getMargin().getWidth(style));
+                _setMinimumSize(size + getMargin().getSize(style));
             }
-            glm::vec2 size = _p->textSize;
-            size.x = std::max(size.x, _p->minimumWidth - getMargin().getWidth(style));
-            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void TextBlock::_layoutEvent(LayoutEvent& event)
         {
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-            const auto fontSystem = _getFontSystem();
-
-            size_t hash = 0;
-            Memory::hashCombine(hash, font.name);
-            Memory::hashCombine(hash, font.size);
-            Memory::hashCombine(hash, g.w());
-            if (!_p->breakTextHash || _p->breakTextHash != hash)
+            if (auto style = _getStyle().lock())
             {
-                _p->breakTextHash = hash;
-                _p->breakTextFuture = fontSystem->breakLines(_p->text, g.w(), font);
+                if (auto fontSystem = _getFontSystem().lock())
+                {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+
+                    size_t hash = 0;
+                    Memory::hashCombine(hash, font.name);
+                    Memory::hashCombine(hash, font.size);
+                    Memory::hashCombine(hash, g.w());
+                    if (!_p->breakTextHash || _p->breakTextHash != hash)
+                    {
+                        _p->breakTextHash = hash;
+                        _p->breakTextFuture = fontSystem->breakLines(_p->text, g.w(), font);
+                    }
+                }
             }
         }
 
         void TextBlock::_paintEvent(PaintEvent& event)
         {
             Widget::_paintEvent(event);
+            if (auto render = _getRenderSystem().lock())
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
-            auto renderSystem = _getRenderSystem();
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            
-            float ascender = 0.f;
-            if (_p->fontMetricsFuture.valid())
-            {
-                ascender = _p->fontMetricsFuture.get().ascender;
-            }
-            if (_p->breakTextFuture.valid())
-            {
-                _p->breakText = _p->breakTextFuture.get();
-            }
-            glm::vec2 pos = g.min;
-            renderSystem->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
-            renderSystem->setFillColor(style->getColor(_p->textColorRole));
-            for (const auto& line : _p->breakText)
-            {
-                renderSystem->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
-                pos.y += line.size.y;
+                    float ascender = 0.f;
+                    if (_p->fontMetricsFuture.valid())
+                    {
+                        ascender = _p->fontMetricsFuture.get().ascender;
+                    }
+                    if (_p->breakTextFuture.valid())
+                    {
+                        _p->breakText = _p->breakTextFuture.get();
+                    }
+                    glm::vec2 pos = g.min;
+                    render->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
+                    render->setFillColor(style->getColor(_p->textColorRole));
+                    for (const auto& line : _p->breakText)
+                    {
+                        render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
+                        pos.y += line.size.y;
+                    }
+                }
             }
         }
 

@@ -329,7 +329,7 @@ namespace djv
             }
             else
             {
-                i = _p->fonts.find("default");
+                i = _p->fonts.find("Default");
                 if (i != _p->fonts.end())
                 {
                     _p->currentFont = i->second;

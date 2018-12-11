@@ -35,7 +35,10 @@
 #include <djvUI/StyleSettings.h>
 #include <djvUI/Style.h>
 
+#include <djvAV/Render2DSystem.h>
 #include <djvAV/System.h>
+
+#include <djvCore/Context.h>
 
 using namespace djv::Core;
 
@@ -55,11 +58,14 @@ namespace djv
         void System::_init(Context * context)
         {
             ISystem::_init("djv::UI::System", context);
+            
             _p->uiSystems.push_back(AV::System::create(context));
             _p->uiSystems.push_back(SettingsSystem::create(context));
+            
             _p->generalSettings = GeneralSettings::create(context);
             _p->fontSettings = FontSettings::create(context);
             _p->styleSettings = StyleSettings::create(context);
+            
             _p->uiSystems.push_back(_p->style = Style::create(context));
         }
 

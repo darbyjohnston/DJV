@@ -145,10 +145,10 @@ namespace djv
             void setParent(const std::shared_ptr<IObject>&, int insert = -1) override;
 
         protected:
-            inline const std::shared_ptr<AV::IconSystem>& _getIconSystem() const;
-            inline const std::shared_ptr<AV::FontSystem>& _getFontSystem() const;
-            inline const std::shared_ptr<AV::Render2DSystem>& _getRenderSystem() const;
-            inline const std::shared_ptr<Style>& _getStyle() const;
+            inline const std::weak_ptr<AV::IconSystem>& _getIconSystem() const;
+            inline const std::weak_ptr<AV::FontSystem>& _getFontSystem() const;
+            inline const std::weak_ptr<AV::Render2DSystem>& _getRenderSystem() const;
+            inline const std::weak_ptr<Style>& _getStyle() const;
 
             void _setMinimumSize(const glm::vec2&);
 
@@ -181,10 +181,10 @@ namespace djv
             VAlign _vAlign = VAlign::Fill;
             ColorRole _backgroundRole = ColorRole::None;
             bool _pointerEnabled = false;
-            std::shared_ptr<AV::IconSystem> _iconSystem;
-            std::shared_ptr<AV::FontSystem> _fontSystem;
-            std::shared_ptr<AV::Render2DSystem> _renderSystem;
-            std::shared_ptr<Style> _style;
+            std::weak_ptr<AV::IconSystem> _iconSystem;
+            std::weak_ptr<AV::FontSystem> _fontSystem;
+            std::weak_ptr<AV::Render2DSystem> _renderSystem;
+            std::weak_ptr<Style> _style;
             std::vector<std::shared_ptr<Action> > _actions;
 
             friend class IWindowSystem;

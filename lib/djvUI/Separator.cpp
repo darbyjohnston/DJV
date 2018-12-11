@@ -66,25 +66,26 @@ namespace djv
 
         void Separator::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-            _p->width = style->getMetric(MetricsRole::Border);
-            _p->color = style->getColor(ColorRole::Border);
+            if (auto style = _getStyle().lock())
+            {
+                _p->width = style->getMetric(MetricsRole::Border);
+                _p->color = style->getColor(ColorRole::Border);
 
-            // Set the minimum size.
-            glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-            minimumSize += _p->width;
-            _setMinimumSize(minimumSize);
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                minimumSize += _p->width;
+                _setMinimumSize(minimumSize);
+            }
         }
 
         void Separator::_paintEvent(PaintEvent& event)
         {
             Widget::_paintEvent(event);
-
-            auto renderSystem = _getRenderSystem();
-            const BBox2f& g = getGeometry();
-
-            renderSystem->setFillColor(_p->color);
-            renderSystem->drawRectangle(g);
+            if (auto render = _getRenderSystem().lock())
+            {
+                const BBox2f& g = getGeometry();
+                render->setFillColor(_p->color);
+                render->drawRectangle(g);
+            }
         }
 
     } // namespace UI

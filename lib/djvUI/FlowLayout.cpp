@@ -75,89 +75,94 @@ namespace djv
 
         float FlowLayout::getHeightForWidth(float width) const
         {
-            const auto style = _getStyle();
-            const glm::vec2 s = _p->spacing.get(style);
-
-            glm::vec2 pos = glm::vec2(0.f, 0.f);
-            float h = 0.f;
-            const auto children = getChildrenT<Widget>();
-            const int childrenSize = static_cast<int>(children.size());
-            for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
+            float out = 0.f;
+            if (auto style = _getStyle().lock())
             {
-                const auto& ms = children[i]->getMinimumSize();
-                if (j && pos.x + ms.x > width - getMargin().getWidth(style))
-                {
-                    pos.x = 0.f;
-                    pos.y += h + s.y;
-                    h = ms.y;
-                    j = 0;
-                }
-                else
-                {
-                    h = std::max(h, ms.y);
-                }
-                pos.x += ms.x + s.x;
-            }
+                const glm::vec2 s = _p->spacing.get(style);
 
-            return pos.y + h + getMargin().getHeight(style);
+                glm::vec2 pos = glm::vec2(0.f, 0.f);
+                float h = 0.f;
+                const auto children = getChildrenT<Widget>();
+                const int childrenSize = static_cast<int>(children.size());
+                for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
+                {
+                    const auto& ms = children[i]->getMinimumSize();
+                    if (j && pos.x + ms.x > width - getMargin().getWidth(style))
+                    {
+                        pos.x = 0.f;
+                        pos.y += h + s.y;
+                        h = ms.y;
+                        j = 0;
+                    }
+                    else
+                    {
+                        h = std::max(h, ms.y);
+                    }
+                    pos.x += ms.x + s.x;
+                }
+                out = pos.y + h + getMargin().getHeight(style);
+            }
+            return out;
         }
 
         void FlowLayout::_preLayoutEvent(PreLayoutEvent&)
         {
-            const auto style = _getStyle();
-            
-            // Set the minimum size.
-            glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-            for (const auto& child : getChildrenT<Widget>())
+            if (auto style = _getStyle().lock())
             {
-                const auto& childMinimumSize = child->getMinimumSize();
-                minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
-                minimumSize.y += childMinimumSize.y;
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                for (const auto& child : getChildrenT<Widget>())
+                {
+                    const auto& childMinimumSize = child->getMinimumSize();
+                    minimumSize.x = std::max(minimumSize.x, childMinimumSize.x);
+                    minimumSize.y += childMinimumSize.y;
+                }
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
-            _setMinimumSize(minimumSize + getMargin().getSize(style));
         }
 
         void FlowLayout::_layoutEvent(LayoutEvent&)
         {
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const float gx = g.min.x;
-            const float gw = g.w();
-            const glm::vec2 s = _p->spacing.get(style);
-
-            glm::vec2 pos = g.min;
-            const auto children = getChildrenT<Widget>();
-            const int childrenSize = static_cast<int>(children.size());            
-            typedef std::pair<std::shared_ptr<Widget>, BBox2f> Pair;
-            std::map<int, std::vector<Pair> > rows;
-            for (int i = 0, j = 0, k = 0; i < childrenSize; ++i, ++j)
+            if (auto style = _getStyle().lock())
             {
-                const auto& childMinimumSize = children[i]->getMinimumSize();
-                if (j && pos.x + childMinimumSize.x > gx + gw)
-                {
-                    pos.x = gx;
-                    j = 0;
-                    ++k;
-                }
-                rows[k].push_back(std::make_pair(children[i], BBox2f(pos.x, pos.y, childMinimumSize.x, childMinimumSize.y)));
-                pos.x += childMinimumSize.x + s.x;
-            }
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float gx = g.min.x;
+                const float gw = g.w();
+                const glm::vec2 s = _p->spacing.get(style);
 
-            for (const auto& i : rows)
-            {
-                float h = 0.f;
-                for (auto j : i.second)
+                glm::vec2 pos = g.min;
+                const auto children = getChildrenT<Widget>();
+                const int childrenSize = static_cast<int>(children.size());
+                typedef std::pair<std::shared_ptr<Widget>, BBox2f> Pair;
+                std::map<int, std::vector<Pair> > rows;
+                for (int i = 0, j = 0, k = 0; i < childrenSize; ++i, ++j)
                 {
-                    h = std::max(h, j.second.h());
+                    const auto& childMinimumSize = children[i]->getMinimumSize();
+                    if (j && pos.x + childMinimumSize.x > gx + gw)
+                    {
+                        pos.x = gx;
+                        j = 0;
+                        ++k;
+                    }
+                    rows[k].push_back(std::make_pair(children[i], BBox2f(pos.x, pos.y, childMinimumSize.x, childMinimumSize.y)));
+                    pos.x += childMinimumSize.x + s.x;
                 }
-                for (auto j : i.second)
+
+                for (const auto& i : rows)
                 {
-                    BBox2f g = j.second;
-                    g.min.y = pos.y;
-                    g.max.y = pos.y + h;
-                    j.first->setGeometry(Widget::getAlign(g, j.first->getMinimumSize(), j.first->getHAlign(), j.first->getVAlign()));
+                    float h = 0.f;
+                    for (auto j : i.second)
+                    {
+                        h = std::max(h, j.second.h());
+                    }
+                    for (auto j : i.second)
+                    {
+                        BBox2f g = j.second;
+                        g.min.y = pos.y;
+                        g.max.y = pos.y + h;
+                        j.first->setGeometry(Widget::getAlign(g, j.first->getMinimumSize(), j.first->getHAlign(), j.first->getVAlign()));
+                    }
+                    pos.y += h + s.y;
                 }
-                pos.y += h + s.y;
             }
         }
 

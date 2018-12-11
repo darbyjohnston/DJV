@@ -58,7 +58,6 @@ namespace djv
         void Label::_init(Context * context)
         {
             Widget::_init(context);
-            
             setName("djv::UI::Label");
         }
         
@@ -155,88 +154,97 @@ namespace djv
 
         void Label::_updateEvent(UpdateEvent& event)
         {
-            const auto style = _getStyle();
-            const AV::Font font = style->getFont(_p->fontFace, _p->fontSizeRole);
-            const auto fontSystem = _getFontSystem();
-            _p->fontMetricsFuture = fontSystem->getMetrics(font);
-            _p->textSizeFuture = fontSystem->measure(_p->text, font);
+            if (auto style = _getStyle().lock())
+            {
+                if (auto fontSystem = _getFontSystem().lock())
+                {
+                    const AV::Font font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
+                    _p->textSizeFuture = fontSystem->measure(_p->text, font);
+                }
+            }
         }
 
         void Label::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-            _p->textSize = glm::ivec2(0, 0);
-            if (_p->textSizeFuture.valid())
+            if (auto style = _getStyle().lock())
             {
-                try
+                _p->textSize = glm::ivec2(0, 0);
+                if (_p->textSizeFuture.valid())
                 {
-                    _p->textSize = _p->textSizeFuture.get();
+                    try
+                    {
+                        _p->textSize = _p->textSizeFuture.get();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
                 }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
+                glm::vec2 size = _p->textSize;
+                size.x = std::max(size.x, _p->minimumWidth);
+                _setMinimumSize(size + getMargin().getSize(style));
             }
-            glm::vec2 size = _p->textSize;
-            size.x = std::max(size.x, _p->minimumWidth);
-            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void Label::_paintEvent(PaintEvent& event)
         {
             Widget::_paintEvent(event);
-
-            auto renderSystem = _getRenderSystem();
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const glm::vec2 c = g.getCenter();
-
-            renderSystem->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
-            glm::vec2 pos = g.min;
-            switch (_p->textHAlign)
+            if (auto render = _getRenderSystem().lock())
             {
-            case TextHAlign::Center:
-                pos.x = c.x - _p->textSize.x / 2.f;
-                break;
-            case TextHAlign::Left:
-                pos.x = g.min.x;
-                break;
-            case TextHAlign::Right:
-                pos.x = g.max.x - _p->textSize.x;
-                break;
-            default: break;
-            }
-            float ascender = 0.f;
-            if (_p->fontMetricsFuture.valid())
-            {
-                try
+                if (auto style = _getStyle().lock())
                 {
-                    ascender = _p->fontMetricsFuture.get().ascender;
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            switch (_p->textVAlign)
-            {
-            case TextVAlign::Center:
-                pos.y = c.y - _p->textSize.y / 2.f;
-                break;
-            case TextVAlign::Top:
-                pos.y = g.min.y;
-                break;
-            case TextVAlign::Bottom:
-                pos.y = g.max.y - _p->textSize.y;
-                break;
-            case TextVAlign::Baseline:
-                pos.y = c.y - ascender / 2.f;
-                break;
-            default: break;
-            }
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const glm::vec2 c = g.getCenter();
 
-            renderSystem->setFillColor(style->getColor(_p->textColorRole));
-            renderSystem->drawText(_p->text, glm::vec2(pos.x, pos.y + ascender));
+                    render->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
+                    glm::vec2 pos = g.min;
+                    switch (_p->textHAlign)
+                    {
+                    case TextHAlign::Center:
+                        pos.x = c.x - _p->textSize.x / 2.f;
+                        break;
+                    case TextHAlign::Left:
+                        pos.x = g.min.x;
+                        break;
+                    case TextHAlign::Right:
+                        pos.x = g.max.x - _p->textSize.x;
+                        break;
+                    default: break;
+                    }
+                    float ascender = 0.f;
+                    if (_p->fontMetricsFuture.valid())
+                    {
+                        try
+                        {
+                            ascender = _p->fontMetricsFuture.get().ascender;
+                        }
+                        catch (const std::exception& e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                    switch (_p->textVAlign)
+                    {
+                    case TextVAlign::Center:
+                        pos.y = c.y - _p->textSize.y / 2.f;
+                        break;
+                    case TextVAlign::Top:
+                        pos.y = g.min.y;
+                        break;
+                    case TextVAlign::Bottom:
+                        pos.y = g.max.y - _p->textSize.y;
+                        break;
+                    case TextVAlign::Baseline:
+                        pos.y = c.y - ascender / 2.f;
+                        break;
+                    default: break;
+                    }
+
+                    render->setFillColor(style->getColor(_p->textColorRole));
+                    render->drawText(_p->text, glm::vec2(pos.x, pos.y + ascender));
+                }
+            }
         }
 
     } // namespace UI

@@ -85,17 +85,17 @@ namespace djv
 
         void Spacer::_preLayoutEvent(PreLayoutEvent& event)
         {
-            const auto style = _getStyle();
-
-            // Set the minimum size.
-            glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-            switch (_p->orientation)
+            if (auto style = _getStyle().lock())
             {
-            case Orientation::Horizontal: minimumSize.x = style->getMetric(_p->spacerSize); break;
-            case Orientation::Vertical:   minimumSize.y = style->getMetric(_p->spacerSize); break;
-            default: break;
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                switch (_p->orientation)
+                {
+                case Orientation::Horizontal: minimumSize.x = style->getMetric(_p->spacerSize); break;
+                case Orientation::Vertical:   minimumSize.y = style->getMetric(_p->spacerSize); break;
+                default: break;
+                }
+                _setMinimumSize(minimumSize);
             }
-            _setMinimumSize(minimumSize);
         }
 
         HorizontalSpacer::HorizontalSpacer()

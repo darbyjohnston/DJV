@@ -86,6 +86,15 @@ namespace djv
         void IWindowSystem::_popClipRect()
         {}
 
+        void IWindowSystem::_updateRecursive(const std::shared_ptr<UI::Widget>& widget, UpdateEvent& event)
+        {
+            for (const auto& child : widget->getChildrenT<UI::Widget>())
+            {
+                _updateRecursive(child, event);
+            }
+            widget->_event(event);
+        }
+
         void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, PreLayoutEvent& event)
         {
             for (const auto& child : widget->getChildrenT<UI::Widget>())

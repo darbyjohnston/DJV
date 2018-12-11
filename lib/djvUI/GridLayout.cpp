@@ -173,312 +173,321 @@ namespace djv
         float GridLayout::getHeightForWidth(float value) const
         {
             float out = 0.f;
-
-            // Get the child sizes.
-            const glm::ivec2 gridSize = getGridSize();
-            for (int y = 0; y < gridSize.y; ++y)
+            if (auto style = _getStyle().lock())
             {
-                float heightForWidth = 0.f;
-                for (int x = 0; x < gridSize.x; ++x)
+                // Get the child sizes.
+                const glm::ivec2 gridSize = getGridSize();
+                for (int y = 0; y < gridSize.y; ++y)
                 {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    float heightForWidth = 0.f;
+                    for (int x = 0; x < gridSize.x; ++x)
                     {
-                        if (i->second->isVisible())
+                        const auto i = _p->widgets.find(glm::ivec2(x, y));
+                        if (i != _p->widgets.end())
                         {
-                            heightForWidth = std::max(i->second->getHeightForWidth(value), heightForWidth);
+                            if (i->second->isVisible())
+                            {
+                                heightForWidth = std::max(i->second->getHeightForWidth(value), heightForWidth);
+                            }
                         }
                     }
+                    out += heightForWidth;
                 }
-                out += heightForWidth;
-            }
 
-            // Adjust for spacing.
-            const auto style = _getStyle();
-            const glm::vec2 s = _p->spacing.get(style);
-            if (gridSize.y)
-            {
-                out += s.y * (gridSize.y - 1);
-            }
+                // Adjust for spacing.
+                const glm::vec2 s = _p->spacing.get(style);
+                if (gridSize.y)
+                {
+                    out += s.y * (gridSize.y - 1);
+                }
 
-            return out + getMargin().getHeight(style);
+                out += getMargin().getHeight(style);
+            }
+            return out;
         }
 
         void GridLayout::_preLayoutEvent(PreLayoutEvent&)
         {
-            const auto style = _getStyle();
-            
-            // Get the child sizes.
-            glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-            const glm::ivec2 gridSize = getGridSize();
-            for (int x = 0; x < gridSize.x; ++x)
+            if (auto style = _getStyle().lock())
             {
-                float minimumSizeMax = 0.f;
-                for (int y = 0; y < gridSize.y; ++y)
-                {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
-                    {
-                        if (i->second->isVisible())
-                        {
-                            minimumSizeMax = std::max(i->second->getMinimumSize().x, minimumSizeMax);
-                        }
-                    }
-                }
-                minimumSize.x += minimumSizeMax;
-            }
-            for (int y = 0; y < gridSize.y; ++y)
-            {
-                float minimumSizeMax = 0.f;
+                // Get the child sizes.
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                const glm::ivec2 gridSize = getGridSize();
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    float minimumSizeMax = 0.f;
+                    for (int y = 0; y < gridSize.y; ++y)
                     {
-                        if (i->second->isVisible())
+                        const auto i = _p->widgets.find(glm::ivec2(x, y));
+                        if (i != _p->widgets.end())
                         {
-                            minimumSizeMax = std::max(i->second->getMinimumSize().y, minimumSizeMax);
+                            if (i->second->isVisible())
+                            {
+                                minimumSizeMax = std::max(i->second->getMinimumSize().x, minimumSizeMax);
+                            }
                         }
                     }
+                    minimumSize.x += minimumSizeMax;
                 }
-                minimumSize.y += minimumSizeMax;
-            }
+                for (int y = 0; y < gridSize.y; ++y)
+                {
+                    float minimumSizeMax = 0.f;
+                    for (int x = 0; x < gridSize.x; ++x)
+                    {
+                        const auto i = _p->widgets.find(glm::ivec2(x, y));
+                        if (i != _p->widgets.end())
+                        {
+                            if (i->second->isVisible())
+                            {
+                                minimumSizeMax = std::max(i->second->getMinimumSize().y, minimumSizeMax);
+                            }
+                        }
+                    }
+                    minimumSize.y += minimumSizeMax;
+                }
 
-            // Adjust for spacing.
-            const glm::vec2 s = _p->spacing.get(style);
-            if (gridSize.x)
-            {
-                minimumSize.x += s.x * (gridSize.x - 1);
-            }
-            if (gridSize.y)
-            {
-                minimumSize.y += s.y * (gridSize.y - 1);
-            }
+                // Adjust for spacing.
+                const glm::vec2 s = _p->spacing.get(style);
+                if (gridSize.x)
+                {
+                    minimumSize.x += s.x * (gridSize.x - 1);
+                }
+                if (gridSize.y)
+                {
+                    minimumSize.y += s.y * (gridSize.y - 1);
+                }
 
-            _setMinimumSize(minimumSize + getMargin().getSize(style));
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
+            }
         }
 
         void GridLayout::_layoutEvent(LayoutEvent& event)
         {
-            const BBox2f& g = getGeometry();
-            const float gw = g.w();
-            const float gh = g.h();
+            if (auto style = _getStyle().lock())
+            {
+                const BBox2f& g = getGeometry();
+                const float gw = g.w();
+                const float gh = g.h();
 
-            // Get the child sizes.
-            glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-            std::map<Orientation, std::vector<float> > minimumSizes;
-            std::map<Orientation, std::vector<bool> > expandList;
-            std::map<Orientation, size_t> expandCount =
-            {
-                { Orientation::Horizontal, 0 },
-                { Orientation::Vertical,   0 }
-            };
-            const glm::ivec2 gridSize = getGridSize();
-            for (int x = 0; x < gridSize.x; ++x)
-            {
-                float minimumSizeMax = 0.f;
-                bool expand = false;
-                for (int y = 0; y < gridSize.y; ++y)
+                // Get the child sizes.
+                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                std::map<Orientation, std::vector<float> > minimumSizes;
+                std::map<Orientation, std::vector<bool> > expandList;
+                std::map<Orientation, size_t> expandCount =
                 {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    { Orientation::Horizontal, 0 },
+                    { Orientation::Vertical,   0 }
+                };
+                const glm::ivec2 gridSize = getGridSize();
+                for (int x = 0; x < gridSize.x; ++x)
+                {
+                    float minimumSizeMax = 0.f;
+                    bool expand = false;
+                    for (int y = 0; y < gridSize.y; ++y)
                     {
-                        if (i->second->isVisible())
+                        const auto i = _p->widgets.find(glm::ivec2(x, y));
+                        if (i != _p->widgets.end())
                         {
-                            minimumSizeMax = std::max(i->second->getMinimumSize().x, minimumSizeMax);
-                            switch (_p->stretch[i->first])
+                            if (i->second->isVisible())
                             {
-                            case GridLayoutStretch::Both:
-                            case GridLayoutStretch::Horizontal: expand = true; break;
-                            default: break;
+                                minimumSizeMax = std::max(i->second->getMinimumSize().x, minimumSizeMax);
+                                switch (_p->stretch[i->first])
+                                {
+                                case GridLayoutStretch::Both:
+                                case GridLayoutStretch::Horizontal: expand = true; break;
+                                default: break;
+                                }
                             }
                         }
                     }
-                }
-                expandList[Orientation::Horizontal].push_back(expand);
-                if (expand)
-                {
-                    minimumSizes[Orientation::Horizontal].push_back(0.f);
-                    ++expandCount[Orientation::Horizontal];
-                }
-                else
-                {
-                    minimumSize.x += minimumSizeMax;
-                    minimumSizes[Orientation::Horizontal].push_back(minimumSizeMax);
-                }
-            }
-            for (int y = 0; y < gridSize.y; ++y)
-            {
-                float minimumSizeMax = 0.f;
-                bool expand = false;
-                for (int x = 0; x < gridSize.x; ++x)
-                {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    expandList[Orientation::Horizontal].push_back(expand);
+                    if (expand)
                     {
-                        if (i->second->isVisible())
-                        {
-                            minimumSizeMax = std::max(i->second->getHeightForWidth(gw), minimumSizeMax);
-                            switch (_p->stretch[i->first])
-                            {
-                            case GridLayoutStretch::Both:
-                            case GridLayoutStretch::Vertical: expand = true; break;
-                            default: break;
-                            }
-                        }
+                        minimumSizes[Orientation::Horizontal].push_back(0.f);
+                        ++expandCount[Orientation::Horizontal];
                     }
-                }
-                expandList[Orientation::Vertical].push_back(expand);
-                if (expand)
-                {
-                    minimumSizes[Orientation::Vertical].push_back(0.f);
-                    ++expandCount[Orientation::Vertical];
-                }
-                else
-                {
-                    minimumSize.y += minimumSizeMax;
-                    minimumSizes[Orientation::Vertical].push_back(minimumSizeMax);
-                }
-            }
-
-            // Adjust for spacing.
-            const auto style = _getStyle();
-            const glm::vec2 s = _p->spacing.get(style);
-            if (gridSize.x)
-            {
-                minimumSize.x += s.x * (gridSize.x - 1);
-            }
-            if (gridSize.y)
-            {
-                minimumSize.y += s.y * (gridSize.y - 1);
-            }
-
-            // Calculate the geometry.
-            std::map<std::shared_ptr<Widget>, BBox2f> childrenGeometry;
-            glm::vec2 pos(g.min.x + getMargin().get(Side::Left, style), g.min.y + getMargin().get(Side::Top, style));
-            for (int x = 0; x < gridSize.x; ++x)
-            {
-                float w = 0.f;
-                if (expandList[Orientation::Horizontal][x])
-                {
-                    w = (gw - getMargin().getWidth(style) - minimumSize.x) / static_cast<float>(expandCount[Orientation::Horizontal]);
-                }
-                else
-                {
-                    w = minimumSizes[Orientation::Horizontal][x];
+                    else
+                    {
+                        minimumSize.x += minimumSizeMax;
+                        minimumSizes[Orientation::Horizontal].push_back(minimumSizeMax);
+                    }
                 }
                 for (int y = 0; y < gridSize.y; ++y)
                 {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    float minimumSizeMax = 0.f;
+                    bool expand = false;
+                    for (int x = 0; x < gridSize.x; ++x)
                     {
-                        if (i->second->isVisible())
+                        const auto i = _p->widgets.find(glm::ivec2(x, y));
+                        if (i != _p->widgets.end())
                         {
-                            childrenGeometry[i->second] = BBox2f(pos.x, 0.f, w, 0.f);
+                            if (i->second->isVisible())
+                            {
+                                minimumSizeMax = std::max(i->second->getHeightForWidth(gw), minimumSizeMax);
+                                switch (_p->stretch[i->first])
+                                {
+                                case GridLayoutStretch::Both:
+                                case GridLayoutStretch::Vertical: expand = true; break;
+                                default: break;
+                                }
+                            }
                         }
                     }
+                    expandList[Orientation::Vertical].push_back(expand);
+                    if (expand)
+                    {
+                        minimumSizes[Orientation::Vertical].push_back(0.f);
+                        ++expandCount[Orientation::Vertical];
+                    }
+                    else
+                    {
+                        minimumSize.y += minimumSizeMax;
+                        minimumSizes[Orientation::Vertical].push_back(minimumSizeMax);
+                    }
                 }
-                pos.x += w + s.x;
-            }
-            for (int y = 0; y < gridSize.y; ++y)
-            {
-                float h = 0.f;
-                if (expandList[Orientation::Vertical][y])
+
+                // Adjust for spacing.
+                const glm::vec2 s = _p->spacing.get(style);
+                if (gridSize.x)
                 {
-                    h = (gh - getMargin().getHeight(style) - minimumSize.y) / static_cast<float>(expandCount[Orientation::Vertical]);
+                    minimumSize.x += s.x * (gridSize.x - 1);
                 }
-                else
+                if (gridSize.y)
                 {
-                    h = minimumSizes[Orientation::Vertical][y];
+                    minimumSize.y += s.y * (gridSize.y - 1);
                 }
+
+                // Calculate the geometry.
+                std::map<std::shared_ptr<Widget>, BBox2f> childrenGeometry;
+                glm::vec2 pos(g.min.x + getMargin().get(Side::Left, style), g.min.y + getMargin().get(Side::Top, style));
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    float w = 0.f;
+                    if (expandList[Orientation::Horizontal][x])
                     {
-                        if (i->second->isVisible())
+                        w = (gw - getMargin().getWidth(style) - minimumSize.x) / static_cast<float>(expandCount[Orientation::Horizontal]);
+                    }
+                    else
+                    {
+                        w = minimumSizes[Orientation::Horizontal][x];
+                    }
+                    for (int y = 0; y < gridSize.y; ++y)
+                    {
+                        const auto i = _p->widgets.find(glm::ivec2(x, y));
+                        if (i != _p->widgets.end())
                         {
-                            const BBox2f bbox = childrenGeometry[i->second];
-                            childrenGeometry[i->second] = BBox2f(bbox.x(), pos.y, bbox.w(), h);
+                            if (i->second->isVisible())
+                            {
+                                childrenGeometry[i->second] = BBox2f(pos.x, 0.f, w, 0.f);
+                            }
                         }
                     }
+                    pos.x += w + s.x;
                 }
-                pos.y += h + s.y;
-            }
+                for (int y = 0; y < gridSize.y; ++y)
+                {
+                    float h = 0.f;
+                    if (expandList[Orientation::Vertical][y])
+                    {
+                        h = (gh - getMargin().getHeight(style) - minimumSize.y) / static_cast<float>(expandCount[Orientation::Vertical]);
+                    }
+                    else
+                    {
+                        h = minimumSizes[Orientation::Vertical][y];
+                    }
+                    for (int x = 0; x < gridSize.x; ++x)
+                    {
+                        const auto i = _p->widgets.find(glm::ivec2(x, y));
+                        if (i != _p->widgets.end())
+                        {
+                            if (i->second->isVisible())
+                            {
+                                const BBox2f bbox = childrenGeometry[i->second];
+                                childrenGeometry[i->second] = BBox2f(bbox.x(), pos.y, bbox.w(), h);
+                            }
+                        }
+                    }
+                    pos.y += h + s.y;
+                }
 
-            // Set the child geometry.
-            for (const auto& widget : _p->widgets)
-            {
-                const auto& child = widget.second;
-                child->setGeometry(Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                // Set the child geometry.
+                for (const auto& widget : _p->widgets)
+                {
+                    const auto& child = widget.second;
+                    child->setGeometry(Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                }
             }
         }
 
         void GridLayout::_paintEvent(PaintEvent& event)
         {
-            auto renderSystem = _getRenderSystem();
-            const auto style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-
-            const auto bg = getBackgroundRole();
-            if (bg != ColorRole::None)
+            if (auto render = _getRenderSystem().lock())
             {
-                renderSystem->setFillColor(style->getColor(bg));
-                renderSystem->drawRectangle(g);
-            }
-
-            std::map<int, BBox2f> rowGeom;
-            const glm::ivec2 gridSize = getGridSize();
-            for (int y = 0; y < gridSize.y; ++y)
-            {
-                for (int x = 0; x < gridSize.x; ++x)
+                if (auto style = _getStyle().lock())
                 {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+
+                    const auto bg = getBackgroundRole();
+                    if (bg != ColorRole::None)
                     {
-                        if (i->second->isVisible())
+                        render->setFillColor(style->getColor(bg));
+                        render->drawRectangle(g);
+                    }
+
+                    std::map<int, BBox2f> rowGeom;
+                    const glm::ivec2 gridSize = getGridSize();
+                    for (int y = 0; y < gridSize.y; ++y)
+                    {
+                        for (int x = 0; x < gridSize.x; ++x)
                         {
-                            const BBox2f& g1 = i->second->getGeometry();
-                            rowGeom[y] = BBox2f(g.min.x, g1.min.y, g.w(), g1.h());
-                            break;
+                            const auto i = _p->widgets.find(glm::ivec2(x, y));
+                            if (i != _p->widgets.end())
+                            {
+                                if (i->second->isVisible())
+                                {
+                                    const BBox2f& g1 = i->second->getGeometry();
+                                    rowGeom[y] = BBox2f(g.min.x, g1.min.y, g.w(), g1.h());
+                                    break;
+                                }
+                            }
                         }
                     }
-                }
-            }
-            for (auto i : rowGeom)
-            {
-                const auto j = _p->rowBackgroundRoles.find(i.first);
-                if (j != _p->rowBackgroundRoles.end())
-                {
-                    renderSystem->setFillColor(style->getColor(j->second));
-                    renderSystem->drawRectangle(i.second);
-                }
-            }
-
-            std::map<int, BBox2f> columnGeom;
-            for (int x = 0; x < gridSize.x; ++x)
-            {
-                for (int y = 0; y < gridSize.y; ++y)
-                {
-                    const auto i = _p->widgets.find(glm::ivec2(x, y));
-                    if (i != _p->widgets.end())
+                    for (auto i : rowGeom)
                     {
-                        if (i->second->isVisible())
+                        const auto j = _p->rowBackgroundRoles.find(i.first);
+                        if (j != _p->rowBackgroundRoles.end())
                         {
-                            const BBox2f& g1 = i->second->getGeometry();
-                            columnGeom[y] = BBox2f(g1.min.x, g.min.y, g1.w(), g.h());
-                            break;
+                            render->setFillColor(style->getColor(j->second));
+                            render->drawRectangle(i.second);
                         }
                     }
-                }
-            }
-            for (auto i : columnGeom)
-            {
-                const auto j = _p->columnBackgroundRoles.find(i.first);
-                if (j != _p->columnBackgroundRoles.end())
-                {
-                    renderSystem->setFillColor(style->getColor(j->second));
-                    renderSystem->drawRectangle(i.second);
+
+                    std::map<int, BBox2f> columnGeom;
+                    for (int x = 0; x < gridSize.x; ++x)
+                    {
+                        for (int y = 0; y < gridSize.y; ++y)
+                        {
+                            const auto i = _p->widgets.find(glm::ivec2(x, y));
+                            if (i != _p->widgets.end())
+                            {
+                                if (i->second->isVisible())
+                                {
+                                    const BBox2f& g1 = i->second->getGeometry();
+                                    columnGeom[y] = BBox2f(g1.min.x, g.min.y, g1.w(), g.h());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    for (auto i : columnGeom)
+                    {
+                        const auto j = _p->columnBackgroundRoles.find(i.first);
+                        if (j != _p->columnBackgroundRoles.end())
+                        {
+                            render->setFillColor(style->getColor(j->second));
+                            render->drawRectangle(i.second);
+                        }
+                    }
                 }
             }
         }

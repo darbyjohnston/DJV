@@ -89,7 +89,7 @@ namespace djv
                 _type = type;
                 glGenBuffers(1, &_vbo);
                 glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(size * vertexCount * getVertexSize(type)), NULL, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(_size * _vertexCount * getVertexSize(type)), NULL, GL_DYNAMIC_DRAW);
             }
 
             VBO::~VBO()

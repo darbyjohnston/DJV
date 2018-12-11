@@ -44,10 +44,10 @@ namespace djv
         class ITest
         {
         public:
-            ITest(const std::string & name, const std::shared_ptr<Core::Context> &);            
+            ITest(const std::string & name, Core::Context *);            
             virtual ~ITest() = 0;
 
-            const std::weak_ptr<Core::Context> & getContext() const;
+            Core::Context * getContext() const;
             const std::string & getName() const;
             
             virtual void run(int & argc, char ** argv) = 0;
