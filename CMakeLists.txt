@@ -19,15 +19,18 @@ project(
 
 # Set the platform we are building for.
 if(APPLE)
+    set(DJV_PLATFORM_OSX TRUE)
     add_definitions(-DDJV_PLATFORM_OSX)
 elseif(UNIX)
     string(COMPARE EQUAL ${CMAKE_SYSTEM_NAME} Linux _TMP)
     if(_TMP)
+        set(DJV_PLATFORM_LINUX TRUE)
         add_definitions(-DDJV_PLATFORM_LINUX)
         set(CMAKE_C_FLAGS -fPIC)
         set(CMAKE_CXX_FLAGS -fPIC)
     endif()
 elseif(WIN32)
+    set(DJV_PLATFORM_WINDOWS TRUE)
     add_definitions(-DDJV_PLATFORM_WINDOWS)
 endif()
 
