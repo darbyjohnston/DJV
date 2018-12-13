@@ -46,7 +46,7 @@ namespace djv
                 Type   type = Audio::Type::None;
                 size_t sampleRate = 0;
                 
-                inline bool DataInfo::isValid() const;
+                inline bool isValid() const;
 
                 bool operator == (const DataInfo &) const;
                 bool operator != (const DataInfo &) const;

@@ -96,15 +96,14 @@ endif()
 
 add_library(djvAV ${header} ${source})
 set(djvAVLibs
-    djvCore
-    #Qt5
     glbinding
     GLFW
     FreeType
     FFMPEG
     IlmBase
     OpenAL
-    OpenGL::GL)
+    OpenGL::GL
+    djvCore)
 if(PNG_FOUND)
     set(djvAVLibs ${djvAVLibs} PNG)
 endif()

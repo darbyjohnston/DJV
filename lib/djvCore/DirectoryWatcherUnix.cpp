@@ -190,7 +190,7 @@ namespace djv
             std::function<void(void)> callback;
         };
 
-        void DirectoryWatcher::_init(const std::shared_ptr<Context>& context)
+        void DirectoryWatcher::_init(Context * context)
         {
             _p->running = true;
             
@@ -284,7 +284,7 @@ namespace djv
             }
         }
         
-        std::shared_ptr<DirectoryWatcher> DirectoryWatcher::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<DirectoryWatcher> DirectoryWatcher::create(Context * context)
         {
             auto out = std::shared_ptr<DirectoryWatcher>(new DirectoryWatcher);
             out->_init(context);
