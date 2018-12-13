@@ -102,28 +102,15 @@ set(LIBRARIES
     FFMPEG
     IlmBase
     OpenAL
-    OpenGL::GL)
-if(APPLE)
-    find_library(CORE_VIDEO CoreVideo)
-    find_library(IO_KIT IOKit)
-    find_library(COCOA Cocoa)
-    find_library(CARBON Carbon)
-    set(LIBRARIES
-        ${LIBRARIES}
-        ${CORE_VIDEO}
-        ${IO_KIT}
-        ${COCOA}
-        ${CARBON})
-endif()
-set(djvAVLibs
-    ${LIBRARIES}
+    OpenGL::GL
     djvCore)
 if(PNG_FOUND)
-    set(djvAVLibs ${djvAVLibs} PNG)
+    set(LIBRARIES ${LIBRARIES} PNG)
 endif()
-target_link_libraries(djvAV ${djvAVLibs})
+target_link_libraries(djvAV ${LIBRARIES})
 set_target_properties(
     djvAV
     PROPERTIES
     FOLDER lib
     CXX_STANDARD 11)
+
