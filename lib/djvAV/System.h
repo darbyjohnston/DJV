@@ -31,6 +31,8 @@
 
 #include <djvCore/ISystem.h>
 
+struct GLFWwindow;
+
 namespace djv
 {
     namespace AV
@@ -47,6 +49,9 @@ namespace djv
             ~System() override;
 
             static std::shared_ptr<System> create(Core::Context *);
+
+            //! Get the default GLFW window.
+            GLFWwindow * getGLFWWindow() const;
 
             //! Make the default OpenGL context current.
             void makeGLContextCurrent();

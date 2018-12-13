@@ -32,7 +32,6 @@
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #include <ft2build.h>
@@ -166,10 +165,7 @@ namespace djv
             ISystem::_init("djv::AV::FontSystem", context);
 
             DJV_PRIVATE_PTR();
-            if (auto system = context->getSystemT<ResourceSystem>().lock())
-            {
-                p.fontPath = system->getPath(ResourcePath::FontsDirectory);
-            }
+            p.fontPath = context->getPath(ResourcePath::FontsDirectory);
             p.measureCache.setMax(measureCacheMax);
             p.glyphCache.setMax(glyphCacheMax);
             p.dpi = dpi;

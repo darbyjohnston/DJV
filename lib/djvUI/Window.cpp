@@ -51,6 +51,7 @@ namespace djv
             
             setName("djv::UI::Window");
             setVisible(false);
+            setBackgroundRole(ColorRole::Background);
 
             _p->layout = StackLayout::create(context);
             IContainerWidget::addWidget(_p->layout);

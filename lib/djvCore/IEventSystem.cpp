@@ -96,12 +96,22 @@ namespace djv
                     {
                         PointerLeaveEvent leaveEvent(info);
                         p.hover->_event(leaveEvent);
+                        {
+                            std::stringstream ss;
+                            ss << "Leave: " << p.hover->getName();
+                            getContext()->log("djv::Core::IEventSystem", ss.str());
+                        }
                     }
                     p.hover = hover;
                     if (p.hover)
                     {
                         PointerEnterEvent enterEvent(info);
                         p.hover->_event(enterEvent);
+                        {
+                            std::stringstream ss;
+                            ss << "Enter: " << p.hover->getName();
+                            getContext()->log("djv::Core::IEventSystem", ss.str());
+                        }
                     }
                 }
             }
@@ -205,6 +215,20 @@ namespace djv
                     _hover(child, event, hover);
                 }
             }
+            /*
+            for (const auto& child : object->_children)
+            {
+                _hover(child, event, hover);
+            }
+            if (!event.isAccepted())
+            {
+                object->_event(event);
+                if (event.isAccepted())
+                {
+                    hover = object;
+                }
+            }
+            */
         }
 
     } // namespace Core

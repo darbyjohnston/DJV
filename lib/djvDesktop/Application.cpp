@@ -38,14 +38,17 @@
 #include <djvAV/FontSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/IconSystem.h>
-#include <djvAV/OpenGL.h>
-#include <djvAV/Render2DSystem.h>
+#include <djvAV/System.h>
+
+#include <djvCore/OS.h>
 
 #include <GLFW/glfw3.h>
 
 #include <chrono>
 
 using namespace djv::Core;
+
+using namespace gl;
 
 namespace djv
 {
@@ -54,38 +57,25 @@ namespace djv
         struct Application::Private
         {
             bool running = false;
-            GLFWwindow* glfwWindow = nullptr;
-            glm::ivec2 dpi;
+            std::shared_ptr<UI::System> uiSystem;
+            GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<EventSystem> eventSystem;
             std::shared_ptr<WindowSystem> windowSystem;
-            std::shared_ptr<UI::System> uiSystem;
         };
 
         void Application::_init(int argc, char* argv[])
         {
             Context::_init(argc, argv);
-
             DJV_PRIVATE_PTR();
-
             p.uiSystem = UI::System::create(this);
-
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
-            p.glfwWindow = glfwCreateWindow(1024, 768, getName().c_str(), NULL, NULL);
-            if (!p.glfwWindow)
+            if (auto avSystem = getSystemT<AV::System>().lock())
             {
-                throw std::runtime_error("Cannot create GLFW window.");
+                p.glfwWindow = avSystem->getGLFWWindow();
+                p.eventSystem = EventSystem::create(p.glfwWindow, this);
+                p.windowSystem = WindowSystem::create(p.glfwWindow, this);
+                glfwSetWindowSize(p.glfwWindow, 1024, 768);
+                glfwShowWindow(p.glfwWindow);
             }
-            glfwMakeContextCurrent(p.glfwWindow);
-            glbinding::initialize(glfwGetProcAddress);
-
-            p.eventSystem = EventSystem::create(p.glfwWindow, this);
-            p.windowSystem = WindowSystem::create(p.glfwWindow, this);
-
-            glfwShowWindow(_p->glfwWindow);
         }
         
         Application::Application() :
@@ -93,13 +83,7 @@ namespace djv
         {}
         
         Application::~Application()
-        {
-            if (_p->glfwWindow)
-            {
-                glfwDestroyWindow(_p->glfwWindow);
-                _p->glfwWindow = nullptr;
-            }
-        }
+        {}
         
         std::unique_ptr<Application> Application::create(int argc, char* argv[])
         {
@@ -110,20 +94,25 @@ namespace djv
         
         int Application::run()
         {
-            _p->running = true;
+            DJV_PRIVATE_PTR();
+            p.running = true;
             auto time = std::chrono::system_clock::now();
-            while (_p->running && _p->glfwWindow && !glfwWindowShouldClose(_p->glfwWindow))
+            while (p.running && p.glfwWindow && !glfwWindowShouldClose(p.glfwWindow))
             {
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<float> delta = now - time;
                 const float dt = delta.count();
                 glm::ivec2 frameBufferSize(0, 0);
-                glfwGetFramebufferSize(_p->glfwWindow, &frameBufferSize.x, &frameBufferSize.y);
-                glViewport(0, 0, static_cast<GLint>(frameBufferSize.x), static_cast<GLint>(frameBufferSize.y));
-                glClearColor(0.f, 0.f, 0.f, 0.f);
+                glfwGetFramebufferSize(p.glfwWindow, &frameBufferSize.x, &frameBufferSize.y);
+                gl::glViewport(
+                    0,
+                    0,
+                    GLsizei(frameBufferSize.x),
+                    GLsizei(frameBufferSize.y));
+                gl::glClearColor(0.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
                 tick(dt);
-                glfwSwapBuffers(_p->glfwWindow);
+                glfwSwapBuffers(p.glfwWindow);
                 glfwPollEvents();
             }
             return 0;
@@ -132,11 +121,6 @@ namespace djv
         void Application::stop()
         {
             _p->running = false;
-        }
-
-        GLFWwindow* Application::getGLFWWindow() const
-        {
-            return _p->glfwWindow;
         }
 
     } // namespace Desktop

@@ -41,7 +41,7 @@ namespace djv
         class ISystem : public std::enable_shared_from_this<ISystem>
         {
         protected:
-            void _init(const std::string & name, Context *);
+            void _init(const std::string & name, Context *, bool logSystemInit = true);
             inline ISystem();
 
         public:
@@ -60,6 +60,7 @@ namespace djv
         private:
             Context * _context = nullptr;
             std::string _name;
+            bool _logSystemInit = true;
             std::weak_ptr<LogSystem> _logSystem;
 
             friend class Context;

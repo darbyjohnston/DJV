@@ -32,15 +32,10 @@ namespace djv
     namespace Core
     {
         template<typename T>
-        inline std::vector<std::weak_ptr<T> > Context::getSystemsT()
+        inline std::vector<std::weak_ptr<T> > Context::getSystemsT() const
         {
-            std::vector<std::weak_ptr<ISystem> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
             std::vector<std::weak_ptr<T> > out;
-            for (auto i : systems)
+            for (auto i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
                 {
@@ -51,15 +46,9 @@ namespace djv
         }
 
         template<typename T>
-        inline std::weak_ptr<T> Context::getSystemT()
+        inline std::weak_ptr<T> Context::getSystemT() const
         {
-            std::vector<std::weak_ptr<ISystem> > systems;
-            {
-                std::lock_guard<std::mutex> lock(_systemsMutex);
-                systems = _systems;
-            }
-            std::vector<std::weak_ptr<T> > out;
-            for (auto i : systems)
+            for (auto i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i.lock()))
                 {
@@ -67,6 +56,16 @@ namespace djv
                 }
             }
             return std::weak_ptr<T>();
+        }
+
+        inline std::shared_ptr<ResourceSystem> Context::getResourceSystem() const
+        {
+            return _resourceSystem;
+        }
+
+        inline std::shared_ptr<LogSystem> Context::getLogSystem() const
+        {
+            return _logSystem;
         }
 
     } // namespace Core

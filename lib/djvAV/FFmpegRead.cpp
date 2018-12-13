@@ -30,7 +30,6 @@
 #include <djvAV/FFmpeg.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
 
@@ -88,11 +87,10 @@ namespace djv
                         try
                         {
                             // Open the file.
-                            if (auto logSystem = context->getSystemT<LogSystem>().lock())
                             {
                                 std::stringstream ss;
                                 ss << "Reading file: " << fileName << std::endl;
-                                logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
+                                context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                             }
                             int r = avformat_open_input(
                                 &p.avFormatContext,
@@ -214,14 +212,13 @@ namespace djv
                                 const Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
                                 p.videoInfo = VideoInfo(pixelDataInfo, speed, duration);
                                 info.setVideo(p.videoInfo);
-                                if (auto logSystem = context->getSystemT<LogSystem>().lock())
                                 {
                                     std::stringstream ss;
                                     ss << fileName << ": image size " << pixelDataInfo.size << std::endl;
                                     ss << fileName << ": pixel type " << pixelDataInfo.type << std::endl;
                                     ss << fileName << ": duration " << duration << std::endl;
                                     ss << fileName << ": speed " << speed << std::endl;
-                                    logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
+                                    context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                 }
                             }
 
@@ -323,11 +320,10 @@ namespace djv
                                 {
                                     if (seek != -1)
                                     {
-                                        /*if (auto logSystem = context->getSystemT<LogSystem>().lock())
-                                        {
+                                        /*{
                                             std::stringstream ss;
                                             ss << fileName << ": seek " << seek;
-                                            logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
+                                            context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                         }*/
                                         if (av_seek_frame(
                                             p.avFormatContext,
@@ -416,11 +412,10 @@ namespace djv
                                 }
                                 catch (const std::exception &)
                                 {
-                                    if (auto logSystem = context->getSystemT<LogSystem>().lock())
                                     {
                                         std::stringstream ss;
                                         ss << fileName << ": finished";
-                                        logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
+                                        context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                     }
                                     av_packet_unref(&packet);
                                     {
@@ -437,10 +432,7 @@ namespace djv
                         catch (const std::exception & e)
                         {
                             p.infoPromise.set_value(Info());
-                            if (auto logSystem = context->getSystemT<LogSystem>().lock())
-                            {
-                                logSystem->log("djvAV::IO::FFmpeg::Read", e.what(), LogLevel::Error);
-                            }
+                            context->log("djvAV::IO::FFmpeg::Read", e.what(), LogLevel::Error);
                         }
                     });
                 }

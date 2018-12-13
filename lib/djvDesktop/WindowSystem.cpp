@@ -29,7 +29,7 @@
 
 #include <djvDesktop/WindowSystem.h>
 
-#include <djvDesktop/Application.h>
+#include <djvDesktop/EventSystem.h>
 
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
@@ -46,9 +46,16 @@ namespace djv
 {
     namespace Desktop
     {
+        namespace
+        {
+            class RootObject : public IObject {};
+
+        } // namespace
+
         struct WindowSystem::Private
         {
             GLFWwindow * glfwWindow = nullptr;
+            std::shared_ptr<RootObject> rootObject;
         };
 
         void WindowSystem::_init(GLFWwindow * glfwWindow, Context * context)
@@ -56,6 +63,12 @@ namespace djv
             IWindowSystem::_init("djv::Desktop::WindowSystem", context);
 
             _p->glfwWindow = glfwWindow;
+
+            _p->rootObject = std::shared_ptr<RootObject>(new RootObject);
+            if (auto eventSystem = context->getSystemT<EventSystem>().lock())
+            {
+                eventSystem->setRootObject(_p->rootObject);
+            }
         }
 
         WindowSystem::WindowSystem() :
@@ -74,6 +87,7 @@ namespace djv
 
         void WindowSystem::_addWindow(const std::shared_ptr<UI::Window>& value)
         {
+            value->setParent(_p->rootObject);
             IWindowSystem::_addWindow(value);
         }
 

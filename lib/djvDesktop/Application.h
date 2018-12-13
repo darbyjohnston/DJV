@@ -35,8 +35,6 @@
 
 #include <functional>
 
-struct GLFWwindow;
-
 namespace djv
 {
     namespace Desktop
@@ -56,8 +54,6 @@ namespace djv
 
             int run();
             void stop();
-
-            GLFWwindow* getGLFWWindow() const;
 
         private:
             struct Private;

@@ -94,7 +94,7 @@ namespace djv
 
         void LogSystem::_init(const Path& path, Context * context)
         {
-            ISystem::_init(name, context);
+            ISystem::_init(name, context, false);
 
             _p->path = path;
 

@@ -35,7 +35,7 @@
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
+#include <djvCore/OS.h>
 #include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
@@ -167,7 +167,15 @@ namespace djv
                 GLFWwindow * glfwWindow = nullptr;
                 try
                 {
+                    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+                    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+                    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+                    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
                     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+                    if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
+                    {
+                        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+                    }
                     glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
                     if (!glfwWindow)
                     {
@@ -210,10 +218,7 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    if (auto logSystem = context->getSystemT<LogSystem>().lock())
-                    {
-                        logSystem->log("djv::AV::IconSystem", e.what(), LogLevel::Error);
-                    }
+                    context->log("djv::AV::IconSystem", e.what(), LogLevel::Error);
                 }
                 if (glfwWindow)
                 {

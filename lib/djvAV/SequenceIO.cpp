@@ -34,7 +34,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/LogSystem.h>
+#include <djvCore/OS.h>
 #include <djvCore/Path.h>
 #include <djvCore/String.h>
 #include <djvCore/Timer.h>
@@ -138,11 +138,10 @@ namespace djv
                                 r.den = _speed.getScale();
                                 pts = av_rescale_q(frameNumber * _speed.getDuration(), r, FFmpeg::getTimeBaseQ());
 
-                                /*if (auto logSystem = context->getSystemT<LogSystem>().lock())
-                                {
+                                /*{
                                     std::stringstream ss;
                                     ss << _fileName << ": read frame " << pts;
-                                    logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
+                                    context->log("djv::AV::IO::ISequenceRead", ss.str());
                                 }*/
 
                                 image = _readImage(fileName);
@@ -167,10 +166,7 @@ namespace djv
                     catch (const std::exception & e)
                     {
                         p.infoPromise.set_value(Info());
-                        if (auto logSystem = context->getSystemT<LogSystem>().lock())
-                        {
-                            logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
-                        }
+                        context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
                     }
                 });
             }
@@ -250,7 +246,15 @@ namespace djv
                     GLFWwindow * glfwWindow = nullptr;
                     try
                     {
+                        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+                        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+                        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+                        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
                         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+                        if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
+                        {
+                            glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+                        }
                         glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
                         if (!glfwWindow)
                         {
@@ -290,11 +294,10 @@ namespace djv
                                     ++p.frameNumber;
                                 }
 
-                                /*if (auto logSystem = context->getSystemT<LogSystem>().lock())
-                                {
+                                /*{
                                     std::stringstream ss;
                                     ss << "Writing: " << fileName;
-                                    logSystem->log("djv::AV::IO::ISequenceWrite", ss.str());
+                                    context->log("djv::AV::IO::ISequenceWrite", ss.str());
                                 }*/
 
                                 _write(fileName, image);
@@ -309,10 +312,7 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        if (auto logSystem = context->getSystemT<LogSystem>().lock())
-                        {
-                            logSystem->log("djv::AV::ISequenceWrite", e.what(), LogLevel::Error);
-                        }
+                        context->log("djv::AV::ISequenceWrite", e.what(), LogLevel::Error);
                     }
                     if (glfwWindow)
                     {

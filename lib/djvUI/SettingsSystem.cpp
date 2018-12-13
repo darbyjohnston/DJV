@@ -35,7 +35,6 @@
 #include <djvCore/Error.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/ResourceSystem.h>
 
 using namespace djv::Core;
 
@@ -53,11 +52,8 @@ namespace djv
         void SettingsSystem::_init(Core::Context * context)
         {
             ISystem::_init("djv::UI::SettingsSystem", context);
-            if (auto system = context->getSystemT<Core::ResourceSystem>().lock())
-            {
-                _p->settingsPath = system->getPath(ResourcePath::SettingsFile);
-                _readSettingsFile(_p->settingsPath, _p->json);
-            }
+            _p->settingsPath = context->getPath(ResourcePath::SettingsFile);
+            _readSettingsFile(_p->settingsPath, _p->json);
         }
 
         SettingsSystem::SettingsSystem() :

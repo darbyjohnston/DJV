@@ -47,6 +47,8 @@
 
 using namespace djv::Core;
 
+using namespace gl;
+
 namespace djv
 {
     namespace AV
@@ -60,6 +62,21 @@ namespace djv
                 if (auto logSystem = logSystemWeak.lock())
                 {
                     logSystem->log("djv::AV::System", description);
+                }
+            }
+
+            void APIENTRY glDebugOutput(
+                gl::GLenum source,
+                gl::GLenum type,
+                GLuint id,
+                gl::GLenum severity,
+                GLsizei length,
+                const GLchar * message,
+                const void * userParam)
+            {
+                if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
+                {
+                    log->log("djv::AV::System", message);
                 }
             }
 
@@ -78,18 +95,18 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
+            logSystemWeak = context->getSystemT<LogSystem>();
+
             // Initialize GLFW.
             glfwSetErrorCallback(glfwErrorCallback);
             int glfwMajor = 0;
             int glfwMinor = 0;
             int glfwRevision = 0;
             glfwGetVersion(&glfwMajor, &glfwMinor, &glfwRevision);
-            if (auto logSystem = context->getSystemT<LogSystem>().lock())
             {
-                logSystemWeak = logSystem;
                 std::stringstream ss;
                 ss << "GLFW version: " << glfwMajor << "." << glfwMinor << "." << glfwRevision;
-                logSystem->log("djv::AV::System", ss.str());
+                context->log("djv::AV::System", ss.str());
             }
             if (!glfwInit())
             {
@@ -106,22 +123,25 @@ namespace djv
                 glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
                 _p->dpi.x = mode->width / (mm.x / 25.4f);
                 _p->dpi.y = mode->height / (mm.y / 25.4f);
-                if (auto logSystem = context->getSystemT<LogSystem>().lock())
                 {
                     std::stringstream ss;
                     ss << "Primary monitor size: " << mm << "mm\n";
                     ss << "Primary monitor DPI: " << _p->dpi;
-                    logSystem->log("djv::AV::System", ss.str());
+                    context->log("djv::AV::System", ss.str());
                     ss.str(std::string());
                 }
             }
 
             // Create an OpenGL context.
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+            if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
+            {
+                glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+            }
             p.glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
@@ -129,17 +149,31 @@ namespace djv
                 ss << DJV_TEXT("Cannot create GLFW window.");
                 throw std::runtime_error(ss.str());
             }
-            if (auto logSystem = context->getSystemT<LogSystem>().lock())
             {
                 int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
                 int glMinor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MINOR);
                 int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                 std::stringstream ss;
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
-                logSystem->log("Gp::Desktop::Application", ss.str());
+                context->log("Gp::Desktop::Application", ss.str());
             }
             glfwMakeContextCurrent(p.glfwWindow);
             glbinding::initialize(glfwGetProcAddress);
+            GLint flags = 0;
+            glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+            if (flags & static_cast<GLint>(GL_CONTEXT_FLAG_DEBUG_BIT))
+            {
+                glEnable(GL_DEBUG_OUTPUT);
+                glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+                glDebugMessageCallback(glDebugOutput, context);
+                glDebugMessageControl(
+                    static_cast<gl::GLenum>(GL_DONT_CARE),
+                    static_cast<gl::GLenum>(GL_DONT_CARE),
+                    static_cast<gl::GLenum>(GL_DONT_CARE),
+                    0,
+                    nullptr,
+                    GL_TRUE);
+            }
 
             // Create the systems.
             _p->avSystems.push_back(IO::System::create(context));
@@ -172,6 +206,11 @@ namespace djv
             auto out = std::shared_ptr<System>(new System);
             out->_init(context);
             return out;
+        }
+
+        GLFWwindow* System::getGLFWWindow() const
+        {
+            return _p->glfwWindow;
         }
 
         void System::makeGLContextCurrent()

@@ -1,1 +1,1 @@
-add_subdirectory(DesktopWindow)
+add_subdirectory(HelloWorldDesktop)

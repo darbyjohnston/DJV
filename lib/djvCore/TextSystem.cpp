@@ -33,7 +33,6 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/OS.h>
-#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #include <condition_variable>
@@ -92,11 +91,7 @@ namespace djv
 
             _p->currentLocaleSubject = ValueSubject<std::string>::create();
 
-            Path path;
-            if (auto resourceSystem = context->getSystemT<ResourceSystem>().lock())
-            {
-                path = resourceSystem->getPath(ResourcePath::TextDirectory);
-            }
+            const auto path = context->getPath(ResourcePath::TextDirectory);
             _p->thread = std::thread(
                 [this, path]
             {

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "MDICanvas.h"
+#include <djvUI/MDICanvas.h>
 
 #include <djvUI/Button.h>
 #include <djvUI/Icon.h>
@@ -56,7 +56,7 @@ namespace djv
                     {}
 
                 public:
-                    static std::shared_ptr<CanvasWidget> create(const std::shared_ptr<Context>& context)
+                    static std::shared_ptr<CanvasWidget> create(Context * context)
                     {
                         auto out = std::shared_ptr<CanvasWidget>(new CanvasWidget);
                         out->_init(context);
@@ -91,7 +91,7 @@ namespace djv
                 glm::vec2 pressedOffset;
             };
 
-            void Canvas::_init(const std::shared_ptr<Context>& context)
+            void Canvas::_init(Context * context)
             {
                 Widget::_init(context);
 
@@ -114,7 +114,7 @@ namespace djv
             Canvas::~Canvas()
             {}
 
-            std::shared_ptr<Canvas> Canvas::create(const std::shared_ptr<Context>& context)
+            std::shared_ptr<Canvas> Canvas::create(Context * context)
             {
                 auto out = std::shared_ptr<Canvas>(new Canvas);
                 out->_init(context);
@@ -123,57 +123,55 @@ namespace djv
 
             void Canvas::addWidget(const std::shared_ptr<Widget>& value, const glm::vec2& pos)
             {
-                if (auto context = getContext().lock())
+                auto context = getContext();
+                auto closeButton = Button::create(context);
+                closeButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
+
+                auto titleBar = HorizontalLayout::create(context);
+                titleBar->setBackgroundRole(ColorRole::BackgroundHeader);
+                titleBar->addExpander();
+                titleBar->addWidget(closeButton);
+
+                auto resizeHandle = Icon::create(context);
+                resizeHandle->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
+                resizeHandle->setIconColorRole(ColorRole::ForegroundDim);
+
+                auto bottomBar = HorizontalLayout::create(context);
+                bottomBar->setBackgroundRole(ColorRole::BackgroundHeader);
+                bottomBar->addExpander();
+                bottomBar->addWidget(resizeHandle);
+
+                auto layout = VerticalLayout::create(context);
+                layout->setSpacing(MetricsRole::None);
+                layout->addWidget(titleBar);
+                layout->addWidget(value, RowLayoutStretch::Expand);
+                layout->addWidget(bottomBar);
+                layout->setParent(_p->canvasWidget);
+                layout->move(pos);
+
+                titleBar->installEventFilter(shared_from_this());
+                bottomBar->installEventFilter(shared_from_this());
+                resizeHandle->installEventFilter(shared_from_this());
+
+                _p->windows[layout] = pos;
+                _p->layoutInit.insert(layout);
+                _p->widgetToWindow[value] = layout;
+                _p->titleBarToWindow[titleBar] = layout;
+                _p->bottomBarToWindow[bottomBar] = layout;
+                _p->resizeHandleToWindow[resizeHandle] = layout;
+                _p->windowToTitleBar[layout] = titleBar;
+                _p->windowToBottomBar[layout] = bottomBar;
+                _p->windowToResizeHandle[layout] = resizeHandle;
+
+                auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
+                closeButton->setClickedCallback(
+                    [weak, value]
                 {
-                    auto closeButton = Button::create(context);
-                    closeButton->setIcon(context->getResourcePath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
-
-                    auto titleBar = HorizontalLayout::create(context);
-                    titleBar->setBackgroundRole(ColorRole::BackgroundHeader);
-                    titleBar->addExpander();
-                    titleBar->addWidget(closeButton);
-
-                    auto resizeHandle = Icon::create(context);
-                    resizeHandle->setIcon(context->getResourcePath(ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
-                    resizeHandle->setIconColorRole(ColorRole::ForegroundDim);
-
-                    auto bottomBar = HorizontalLayout::create(context);
-                    bottomBar->setBackgroundRole(ColorRole::BackgroundHeader);
-                    bottomBar->addExpander();
-                    bottomBar->addWidget(resizeHandle);
-
-                    auto layout = VerticalLayout::create(context);
-                    layout->setSpacing(MetricsRole::None);
-                    layout->addWidget(titleBar);
-                    layout->addWidget(value, RowLayoutStretch::Expand);
-                    layout->addWidget(bottomBar);
-                    layout->setParent(_p->canvasWidget);
-                    layout->move(pos);
-
-                    titleBar->installEventFilter(shared_from_this());
-                    bottomBar->installEventFilter(shared_from_this());
-                    resizeHandle->installEventFilter(shared_from_this());
-
-                    _p->windows[layout] = pos;
-                    _p->layoutInit.insert(layout);
-                    _p->widgetToWindow[value] = layout;
-                    _p->titleBarToWindow[titleBar] = layout;
-                    _p->bottomBarToWindow[bottomBar] = layout;
-                    _p->resizeHandleToWindow[resizeHandle] = layout;
-                    _p->windowToTitleBar[layout] = titleBar;
-                    _p->windowToBottomBar[layout] = bottomBar;
-                    _p->windowToResizeHandle[layout] = resizeHandle;
-
-                    auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
-                    closeButton->setClickedCallback(
-                        [weak, value]
+                    if (auto canvas = weak.lock())
                     {
-                        if (auto canvas = weak.lock())
-                        {
-                            canvas->removeWidget(value);
-                        }
-                    });
-                }
+                        canvas->removeWidget(value);
+                    }
+                });
             }
 
             void Canvas::removeWidget(const std::shared_ptr<Widget>& value)
@@ -300,46 +298,48 @@ namespace djv
                     PointerMoveEvent& pointerMoveEvent = static_cast<PointerMoveEvent&>(event);
                     if (pointerMoveEvent.getPointerInfo().id == _p->pressed)
                     {
-                        auto style = _getStyle();
-                        const float shadow = style->getMetric(MetricsRole::Shadow);
-                        const BBox2f& canvasGeometry = _p->canvasWidget->getGeometry();
-                        const auto titleBarToWindow = _p->titleBarToWindow.find(object);
-                        const auto bottomBarToWindow = _p->bottomBarToWindow.find(object);
-                        const auto resizeHandleToWindow = _p->resizeHandleToWindow.find(object);
-                        if (titleBarToWindow != _p->titleBarToWindow.end())
+                        if (auto style = _getStyle().lock())
                         {
-                            const auto window = _p->windows.find(titleBarToWindow->second);
-                            if (window != _p->windows.end())
+                            const float shadow = style->getMetric(MetricsRole::Shadow);
+                            const BBox2f& canvasGeometry = _p->canvasWidget->getGeometry();
+                            const auto titleBarToWindow = _p->titleBarToWindow.find(object);
+                            const auto bottomBarToWindow = _p->bottomBarToWindow.find(object);
+                            const auto resizeHandleToWindow = _p->resizeHandleToWindow.find(object);
+                            if (titleBarToWindow != _p->titleBarToWindow.end())
                             {
-                                event.accept();
-                                const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
-                                window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
-                                window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
+                                const auto window = _p->windows.find(titleBarToWindow->second);
+                                if (window != _p->windows.end())
+                                {
+                                    event.accept();
+                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
+                                    window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
+                                    window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
+                                }
                             }
-                        }
-                        else if (bottomBarToWindow != _p->bottomBarToWindow.end())
-                        {
-                            const auto window = _p->windows.find(bottomBarToWindow->second);
-                            if (window != _p->windows.end())
+                            else if (bottomBarToWindow != _p->bottomBarToWindow.end())
                             {
-                                event.accept();
-                                const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
-                                window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
-                                window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
+                                const auto window = _p->windows.find(bottomBarToWindow->second);
+                                if (window != _p->windows.end())
+                                {
+                                    event.accept();
+                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
+                                    window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
+                                    window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
+                                }
                             }
-                        }
-                        else if (resizeHandleToWindow != _p->resizeHandleToWindow.end())
-                        {
-                            const auto window = _p->windows.find(resizeHandleToWindow->second);
-                            if (window != _p->windows.end())
+                            else if (resizeHandleToWindow != _p->resizeHandleToWindow.end())
                             {
-                                event.accept();
-                                const glm::vec2 min = window->first->getMinimumSize();
-                                const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
-                                glm::vec2 pos2;
-                                pos2.x = Math::clamp(pos.x, window->second.x + min.x, canvasGeometry.w() + shadow);
-                                pos2.y = Math::clamp(pos.y, window->second.y + min.y, canvasGeometry.h() + shadow);
-                                window->first->resize(pos2 - window->first->getGeometry().min + canvasGeometry.min);
+                                const auto window = _p->windows.find(resizeHandleToWindow->second);
+                                if (window != _p->windows.end())
+                                {
+                                    event.accept();
+                                    const glm::vec2 min = window->first->getMinimumSize();
+                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
+                                    glm::vec2 pos2;
+                                    pos2.x = Math::clamp(pos.x, window->second.x + min.x, canvasGeometry.w() + shadow);
+                                    pos2.y = Math::clamp(pos.y, window->second.y + min.y, canvasGeometry.h() + shadow);
+                                    window->first->resize(pos2 - window->first->getGeometry().min + canvasGeometry.min);
+                                }
                             }
                         }
                     }

@@ -32,7 +32,6 @@
 #include <djvUI/SettingsSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/LogSystem.h>
 
 using namespace djv::Core;
 
@@ -84,12 +83,9 @@ namespace djv
 
         void ISettings::_readError(const std::string& value)
         {
-            if (auto logSystem = _p->context->getSystemT<LogSystem>().lock())
-            {
-                std::stringstream s;
-                s << "Error reading settings: " << _p->name << ": " << value;
-                logSystem->log("djv::UI::ISettings", s.str(), LogLevel::Error);
-            }
+            std::stringstream s;
+            s << "Error reading settings: " << _p->name << ": " << value;
+            _p->context->log("djv::UI::ISettings", s.str(), LogLevel::Error);
         }
 
     } // namespace UI

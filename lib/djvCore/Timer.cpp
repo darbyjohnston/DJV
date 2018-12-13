@@ -120,7 +120,7 @@ namespace djv
 
         void TimerSystem::_init(Context * context)
         {
-            ISystem::_init("djv::Core::TimerSystem", context);
+            ISystem::_init("djv::Core::TimerSystem", context, false);
         }
         
         TimerSystem::TimerSystem() :

@@ -53,8 +53,8 @@ set(source
     Icon.cpp
     ImageWidget.cpp
     Label.cpp
-    #MDICanvas.cpp
-    #RowLayout.cpp
+    MDICanvas.cpp
+    RowLayout.cpp
     ScrollWidget.cpp
     Separator.cpp
     SettingsSystem.cpp

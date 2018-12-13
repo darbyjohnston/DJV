@@ -36,31 +36,38 @@ namespace djv
 {
     namespace Core
     {
-        void ISystem::_init(const std::string & name, Context * context)
+        void ISystem::_init(const std::string & name, Context * context, bool logSystemInit)
         {
             _context = context;
             _name = name;
+            _logSystemInit = logSystemInit;
             _logSystem = context->getSystemT<LogSystem>();
 
-            std::stringstream s;
-            s << name << " starting...";
-            _log(s.str());
+            if (_logSystemInit)
+            {
+                std::stringstream s;
+                s << name << " starting...";
+                _log(s.str());
+            }
 
             context->_addSystem(shared_from_this());
         }
         
         ISystem::~ISystem()
         {
-            std::stringstream s;
-            s << _name << " exiting...";
-            _log(s.str());
+            if (_logSystemInit)
+            {
+                std::stringstream s;
+                s << _name << " exiting...";
+                _log(s.str());
+            }
         }
 
         void ISystem::_log(const std::string& message, LogLevel level)
         {
-            if (auto logSystem = _logSystem.lock())
+            if (_logSystemInit)
             {
-                logSystem->log(_name, message, level);
+                _context->log(_name, message, level);
             }
         }
         

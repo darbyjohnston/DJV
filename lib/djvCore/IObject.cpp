@@ -200,10 +200,7 @@ namespace djv
 
         void IObject::_log(const std::string& message, LogLevel level)
         {
-            if (auto logSystem = _logSystem.lock())
-            {
-                logSystem->log(_className, message, level);
-            }
+            _context->log(_className, message, level);
         }
 
     } // namespace Core

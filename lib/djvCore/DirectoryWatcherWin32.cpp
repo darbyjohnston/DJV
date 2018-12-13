@@ -31,7 +31,6 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
-#include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
 #include <atomic>
@@ -61,10 +60,9 @@ namespace djv
 
         void DirectoryWatcher::_init(Context * context)
         {
-            std::weak_ptr<LogSystem> logSystemWeak = context->getSystemT<LogSystem>();
             const auto timeout = Timer::getValue(Timer::Value::Medium);
             _p->thread = std::thread(
-                [this, logSystemWeak, timeout]
+                [this, timeout, context]
             {
                 DJV_PRIVATE_PTR();
                 Path path;
@@ -96,12 +94,9 @@ namespace djv
                             FILE_NOTIFY_CHANGE_LAST_WRITE);
                         if (INVALID_HANDLE_VALUE == changeHandle)
                         {
-                            if (auto logSystem = logSystemWeak.lock())
-                            {
-                                std::stringstream s;
-                                s << DJV_TEXT("Error finding change notification for" ) << " '" << path << "'. " << getLastError();
-                                logSystem->log("djv::Core::DirectoryWatcher", s.str(), LogLevel::Error);
-                            }
+                            std::stringstream s;
+                            s << DJV_TEXT("Error finding change notification for" ) << " '" << path << "'. " << getLastError();
+                            context->log("djv::Core::DirectoryWatcher", s.str(), LogLevel::Error);
                         }
                     }
 

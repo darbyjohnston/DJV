@@ -39,7 +39,6 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Range.h>
-#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -123,11 +122,7 @@ namespace djv
             {
                 Render(Context * context)
                 {
-                    Path shaderPath;
-                    if (auto resourceSystem = context->getSystemT<ResourceSystem>().lock())
-                    {
-                        shaderPath = resourceSystem->getPath(ResourcePath::ShadersDirectory);
-                    }
+                    const auto shaderPath = context->getPath(ResourcePath::ShadersDirectory);
                     shader = OpenGL::Shader::create(Shader::create(
                         Path(shaderPath, "djvAVRender2DSystemVertex.glsl"),
                         Path(shaderPath, "djvAVRender2DSystemFragment.glsl")));
@@ -493,7 +488,7 @@ namespace djv
             }
 
             TriangleMesh mesh;
-            size_t j = 0;
+            size_t quadsCount = 0;
             for (auto& data : renderData)
             {
                 const BBox2f bbox = flip(data.bbox, _p->size);
@@ -509,28 +504,28 @@ namespace djv
                     mesh.t.push_back(glm::vec2(data.textureU.min, data.textureV.max));
 
                     TriangleMesh::Triangle triangle;
-                    triangle.v0 = TriangleMesh::Vertex(j * 4 + 1, j * 4 + 1);
-                    triangle.v1 = TriangleMesh::Vertex(j * 4 + 2, j * 4 + 2);
-                    triangle.v2 = TriangleMesh::Vertex(j * 4 + 3, j * 4 + 3);
+                    triangle.v0 = TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
+                    triangle.v1 = TriangleMesh::Vertex(quadsCount * 4 + 2, quadsCount * 4 + 2);
+                    triangle.v2 = TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
                     mesh.triangles.push_back(triangle);
-                    triangle.v0 = TriangleMesh::Vertex(j * 4 + 3, j * 4 + 3);
-                    triangle.v1 = TriangleMesh::Vertex(j * 4 + 4, j * 4 + 4);
-                    triangle.v2 = TriangleMesh::Vertex(j * 4 + 1, j * 4 + 1);
+                    triangle.v0 = TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
+                    triangle.v1 = TriangleMesh::Vertex(quadsCount * 4 + 4, quadsCount * 4 + 4);
+                    triangle.v2 = TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
                     mesh.triangles.push_back(triangle);
-                    ++j;
+                    ++quadsCount;
                 }
             }
 
             glViewport(
                 static_cast<GLint>(_p->render->viewport.min.x),
                 static_cast<GLint>(_p->render->viewport.min.y),
-                static_cast<GLint>(_p->render->viewport.w()),
-                static_cast<GLint>(_p->render->viewport.h()));
+                static_cast<GLsizei>(_p->render->viewport.w()),
+                static_cast<GLsizei>(_p->render->viewport.h()));
             glScissor(
                 static_cast<GLint>(_p->render->viewport.min.x),
                 static_cast<GLint>(_p->render->viewport.min.y),
-                static_cast<GLint>(_p->render->viewport.w()),
-                static_cast<GLint>(_p->render->viewport.h()));
+                static_cast<GLsizei>(_p->render->viewport.w()),
+                static_cast<GLsizei>(_p->render->viewport.h()));
             glClearColor(0.f, 0.f, 0.f, 0.f);
             glClear(GL_COLOR_BUFFER_BIT);
             //glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
@@ -561,7 +556,7 @@ namespace djv
                 glBindTexture(GL_TEXTURE_2D, dynamicTextures[j]);
             }
 
-            auto vbo = OpenGL::VBO::create(j, 3, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+            auto vbo = OpenGL::VBO::create(quadsCount * 2, 3, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
             vbo->copy(OpenGL::VBO::convert(mesh, vbo->getType()));
             auto vao = OpenGL::VAO::create(vbo->getType(), vbo->getID());
             vao->bind();
@@ -573,13 +568,13 @@ namespace djv
                 glScissor(
                     static_cast<GLint>(clipRect.min.x),
                     static_cast<GLint>(clipRect.min.y),
-                    static_cast<GLint>(clipRect.w()),
-                    static_cast<GLint>(clipRect.h()));
+                    static_cast<GLsizei>(clipRect.w()),
+                    static_cast<GLsizei>(clipRect.h()));
                 _p->render->shader->setUniform("pixelFormat", static_cast<int>(data.pixelFormat));
                 _p->render->shader->setUniform("colorMode", static_cast<int>(data.colorMode));
                 _p->render->shader->setUniform("color", data.color);
                 _p->render->shader->setUniform("textureSampler", data.texture);
-                vao->draw(i, 1);
+                vao->draw(i * 6, 6);
             }
 
             //glPopAttrib();
