@@ -229,6 +229,7 @@ namespace djv
                     case GL_RG: renderData.pixelFormat = PixelFormat::LA; break;
                     case GL_RGB: renderData.pixelFormat = PixelFormat::RGB; break;
                     case GL_RGBA: renderData.pixelFormat = PixelFormat::RGBA; break;
+                    default: break;
                     }
                     renderData.colorMode = colorMode;
                     renderData.color = color;

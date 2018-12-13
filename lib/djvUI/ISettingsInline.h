@@ -41,9 +41,9 @@ namespace djv
                 {
                     fromJSON(i->second, out);
                 }
-                catch (const std::exception&)
+                catch (const std::exception& e)
                 {
-                    _readError(name);
+                    _readError(name, e.what());
                 }
             }
         }
@@ -60,9 +60,9 @@ namespace djv
                     fromJSON(i->second, v);
                     out->setIfChanged(v);
                 }
-                catch (const std::exception&)
+                catch (const std::exception& e)
                 {
-                    _readError(name);
+                    _readError(name, e.what());
                 }
             }
         }
@@ -79,9 +79,9 @@ namespace djv
                     fromJSON(i->second, v);
                     out->setIfChanged(v);
                 }
-                catch (const std::exception&)
+                catch (const std::exception& e)
                 {
-                    _readError(name);
+                    _readError(name, e.what());
                 }
             }
         }
@@ -98,9 +98,9 @@ namespace djv
                     fromJSON(i->second, v);
                     out->setIfChanged(v);
                 }
-                catch (const std::exception&)
+                catch (const std::exception& e)
                 {
-                    _readError(name);
+                    _readError(name, e.what());
                 }
             }
         }

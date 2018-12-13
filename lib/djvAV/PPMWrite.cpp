@@ -154,6 +154,7 @@ namespace djv
                     case Data::Binary:
                         io.write(pixelData->getData(), info.getDataByteCount());
                         break;
+                    default: break;
                     }
                 }
 

@@ -29,14 +29,13 @@
 
 #pragma once
 
-#include <djvUI/FontSettings.h>
+#include <djvUI/Font.h>
 
 #include <djvAV/Color.h>
 #include <djvAV/FontSystem.h>
 
 #include <djvCore/Enum.h>
 #include <djvCore/ISystem.h>
-#include <djvCore/PicoJSON.h>
 
 #include <glm/vec2.hpp>
 
@@ -201,29 +200,7 @@ namespace djv
 
     } // namespace UI
 
-    template<>
-    inline picojson::value toJSON<UI::Palette>(const UI::Palette&);
-    template<>
-    inline picojson::value toJSON<std::string, UI::Palette>(const std::map<std::string, UI::Palette>&);
-    template<>
-    inline picojson::value toJSON<UI::Metrics>(const UI::Metrics&);
-    template<>
-    inline picojson::value toJSON<std::string, UI::Metrics>(const std::map<std::string, UI::Metrics>&);
-
-    //! Throws:
-    //! - std::exception
-    template<>
-    inline void fromJSON<UI::Palette>(const picojson::value&, UI::Palette&);
-    template<>
-    inline void fromJSON<std::string, UI::Palette>(const picojson::value&, std::map<std::string, UI::Palette>&);
-    template<>
-    inline void fromJSON<UI::Metrics>(const picojson::value&, UI::Metrics&);
-    template<>
-    inline void fromJSON<std::string, UI::Metrics>(const picojson::value&, std::map<std::string, UI::Metrics>&);
-
     DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
     DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
 
 } // namespace djv
-
-#include <djvUI/StyleInline.h>

@@ -6,6 +6,7 @@ set(header
     ContainerWidget.h
     Enum.h
     FlowLayout.h
+    Font.h
     FontSettings.h
     FontSettingsInline.h
     GeneralSettings.h
@@ -30,7 +31,8 @@ set(header
     Splitter.h
     StackLayout.h
     Style.h
-    StyleInline.h
+    StyleJSON.h
+    StyleJSONInline.h
     StyleSettings.h
     System.h
     TextBlock.h

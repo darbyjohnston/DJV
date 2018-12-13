@@ -29,11 +29,12 @@
 
 #include <djvUI/StyleSettings.h>
 
+#include <djvUI/StyleJSON.h>
+
 #include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
-#include <djvCore/PicoJSON.h>
 #include <djvCore/TextSystem.h>
 
 //#pragma optimize("", off)

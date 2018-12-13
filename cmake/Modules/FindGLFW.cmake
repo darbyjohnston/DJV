@@ -21,6 +21,12 @@ set(GLFW_INCLUDE_DIRS ${GLFW_INCLUDE_DIR})
 find_library(GLFW_LIBRARY NAMES glfw3)
 set(GLFW_LIBRARIES ${GLFW_LIBRARY})
 
+if (DJV_PLATFORM_LINUX)
+    find_package(X11 REQUIRED)
+    set(GLFW_LIBRARIES ${GLFW_LIBRARIES} ${X11_LIBRARIES})
+    set(GLFW_INCLUDE_DIRS ${GLFW_INCLUDE_DIRS} ${X11_INCLUDE_DIR})
+endif()
+
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
     GLFW

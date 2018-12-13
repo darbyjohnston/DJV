@@ -132,6 +132,7 @@ namespace djv
             Cache<Path, std::shared_ptr<Image> > imageCache;
             std::mutex cacheMutex;
 
+            GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<Timer> statsTimer;
             std::thread thread;
             std::atomic<bool> running;
@@ -144,6 +145,23 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.infoCache.setMax(infoCacheMax);
             p.imageCache.setMax(imageCacheMax);
+
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+            if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
+            {
+                glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+            }
+            p.glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
+            if (!p.glfwWindow)
+            {
+                std::stringstream ss;
+                ss << DJV_TEXT("Cannot create GLFW window.");
+                throw std::runtime_error(ss.str());
+            }
 
             p.statsTimer = Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -167,23 +185,7 @@ namespace djv
                 GLFWwindow * glfwWindow = nullptr;
                 try
                 {
-                    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-                    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-                    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-                    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-                    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-                    if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
-                    {
-                        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-                    }
-                    glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
-                    if (!glfwWindow)
-                    {
-                        std::stringstream ss;
-                        ss << DJV_TEXT("Cannot create GLFW window.");
-                        throw std::runtime_error(ss.str());
-                    }
-                    glfwMakeContextCurrent(glfwWindow);
+                    glfwMakeContextCurrent(p.glfwWindow);
                     glbinding::initialize(glfwGetProcAddress);
 
                     auto convert = Pixel::Convert::create(context);
@@ -220,10 +222,6 @@ namespace djv
                 {
                     context->log("djv::AV::IconSystem", e.what(), LogLevel::Error);
                 }
-                if (glfwWindow)
-                {
-                    glfwDestroyWindow(glfwWindow);
-                }
             });
         }
 
@@ -238,6 +236,10 @@ namespace djv
             if (p.thread.joinable())
             {
                 p.thread.join();
+            }
+            if (p.glfwWindow)
+            {
+                glfwDestroyWindow(p.glfwWindow);
             }
         }
 

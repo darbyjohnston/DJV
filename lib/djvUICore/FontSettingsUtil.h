@@ -29,56 +29,25 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
-#include <djvUI/Font.h>
-#include <djvUI/ISettings.h>
+#include <djvUICore/FontSettings.h>
 
-#include <djvCore/Enum.h>
-#include <djvCore/MapObserver.h>
 #include <djvCore/PicoJSON.h>
 
 namespace djv
 {
-    namespace UI
-    {
-        //! This class provides font settings.
-        class FontSettings : public ISettings
-        {
-            DJV_NON_COPYABLE(FontSettings);
-
-        protected:
-            void _init(Core::Context * context);
-            FontSettings();
-
-        public:
-            virtual ~FontSettings();
-
-            static std::shared_ptr<FontSettings> create(Core::Context *);
-
-            const std::shared_ptr<Core::MapSubject<std::string, FontMap> >& getFonts() const;
-
-            void load(const picojson::value&) override;
-            picojson::value save() override;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace UI
-
     template<>
-    inline picojson::value toJSON<UI::FontMap>(const std::map<UI::FontFace, std::string> &);
+    inline picojson::value toJSON<UICore::FontMap>(const UICore::FontMap&);
     template<>
-    inline picojson::value toJSON<std::map<std::string, UI::FontMap> >(const std::map<std::string, UI::FontMap>&);
+    inline picojson::value toJSON<std::string, UICore::FontMap>(const std::map<std::string, UICore::FontMap>&);
 
     //! Throws:
     //! - std::exception
     template<>
-    inline void fromJSON<UI::FontMap>(const picojson::value&, std::map<UI::FontFace, std::string>&);
+    inline void fromJSON<UICore::FontMap>(const picojson::value&, UICore::FontMap&);
     template<>
-    inline void fromJSON<std::map<std::string, UI::FontMap> >(const picojson::value&, std::map<std::string, UI::FontMap>&);
+    inline void fromJSON<std::string, UICore::FontMap>(const picojson::value&, std::map<std::string, UICore::FontMap>&);
 
 } // namespace djv
 
-#include <djvUI/FontSettingsInline.h>
+#include <djvUICore/FontSettingsUtilInline.h>
 

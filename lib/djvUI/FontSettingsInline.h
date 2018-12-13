@@ -30,7 +30,7 @@
 namespace djv
 {
     template<>
-    inline picojson::value toJSON<UI::FontMap>(const UI::FontMap& value)
+    inline picojson::value toJSON<UI::FontMap>(const std::map<UI::FontFace, std::string>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
@@ -43,7 +43,7 @@ namespace djv
     }
 
     template<>
-    inline picojson::value toJSON<std::string, UI::FontMap>(const std::map<std::string, UI::FontMap>& value)
+    inline picojson::value toJSON<std::map<std::string, UI::FontMap> >(const std::map<std::string, UI::FontMap>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
@@ -54,7 +54,7 @@ namespace djv
     }
 
     template<>
-    inline void fromJSON<UI::FontMap>(const picojson::value& value, UI::FontMap& out)
+    inline void fromJSON<UI::FontMap>(const picojson::value& value, std::map<UI::FontFace, std::string>& out)
     {
         if (value.is<picojson::object>())
         {
@@ -75,7 +75,7 @@ namespace djv
     }
 
     template<>
-    inline void fromJSON<std::string, UI::FontMap>(const picojson::value& value, std::map<std::string, UI::FontMap>& out)
+    inline void fromJSON<std::map<std::string, UI::FontMap> >(const picojson::value& value, std::map<std::string, UI::FontMap>& out)
     {
         if (value.is<picojson::object>())
         {

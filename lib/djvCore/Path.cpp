@@ -300,10 +300,18 @@ namespace djv
 
     } // namespace Core
 
-    std::ostream& operator << (std::ostream& s, const Core::Path& value)
+    std::ostream& operator << (std::ostream& os, const Core::Path& value)
     {
-        s << value.get();
-        return s;
+        os << value.get();
+        return os;
+    }
+    
+    std::istream& operator >> (std::istream& is, Core::Path& value)
+    {
+        std::string s;
+        is >> s;
+        value = Core::Path(s);
+        return is;
     }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(

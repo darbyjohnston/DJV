@@ -30,7 +30,6 @@
 #pragma once
 
 #include <djvCore/Enum.h>
-#include <djvCore/PicoJSON.h>
 
 namespace djv
 {
@@ -201,17 +200,10 @@ namespace djv
 
     } // namespace Core
 
-    template<>
-    inline picojson::value toJSON<Core::Path>(const Core::Path&);
-
-    //! Throws:
-    //! - std::exception
-    template<>
-    inline void fromJSON<Core::Path>(const picojson::value&, Core::Path&);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::ResourcePath);
 
     std::ostream& operator << (std::ostream&, const Core::Path&);
-
-    DJV_ENUM_SERIALIZE_HELPERS(Core::ResourcePath);
+    std::istream& operator >> (std::istream&, Core::Path&);
 
 } // namespace djv
 

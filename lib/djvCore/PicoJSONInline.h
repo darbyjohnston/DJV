@@ -37,13 +37,15 @@ namespace djv
         return picojson::value(ss.str());
     }
 
-    template<typename T>
+    /*template<typename T>
     inline picojson::value toJSON(const std::vector<T>& value)
     {
         picojson::value out(picojson::array_type, true);
         for (const auto& i : value)
         {
-            out.get<picojson::array>().push_back(toJSON(i));
+            std::stringstream ss;
+            ss << i;
+            out.get<picojson::array>().push_back(picojson::value(ss.str()));
         }
         return out;
     }
@@ -56,10 +58,12 @@ namespace djv
         {
             std::stringstream ss;
             ss << i.first;
-            out.get<picojson::object>()[ss.str()] = toJSON(i.second);
+            std::stringstream ss2;
+            ss2 << i.second;
+            out.get<picojson::object>()[ss.str()] = picojson::value(ss2.str());
         }
         return out;
-    }
+    }/*
 
     template<typename T>
     inline void fromJSON(const picojson::value& value, T & out)
@@ -71,11 +75,11 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 
-    template<typename T>
+    /*template<typename T>
     inline void fromJSON(const picojson::value& value, std::vector<T>& out)
     {
         if (value.is<picojson::array>())
@@ -83,13 +87,21 @@ namespace djv
             for (const auto& i : value.get<picojson::array>())
             {
                 T value;
-                fromJSON(i, value);
+                if (i.is<std::string>())
+                {
+                    std::stringstream ss(i.get<std::string>());
+                    ss >> value;
+                }
+                else
+                {
+                    throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+                }
                 out.push_back(value);
             }
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 
@@ -103,15 +115,25 @@ namespace djv
                 T key;
                 std::stringstream ss(i.first);
                 ss >> key;
+                
                 U value;
-                fromJSON(i.second, value);
+                if (i.second.is<std::string>())
+                {
+                    std::stringstream ss(i.second.get<std::string>());
+                    ss >> value;
+                }
+                else
+                {
+                    throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+                }
+                
                 out[key] = value;
             }
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
-        }
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+        }*/
     }
 
 } // namespace djv

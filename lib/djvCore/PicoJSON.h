@@ -56,40 +56,39 @@ namespace djv
     void fromJSON(const picojson::value&, float&);
     void fromJSON(const picojson::value&, std::string&);
 
-    //! Convert a value to JSON. This function needs an overload of toString(const T&).
+    //! Convert a value to JSON using stream operators.
     template<typename T>
     inline picojson::value toJSON(const T&);
 
     //! Convert a vector of values to JSON. This function needs an overload of toJSON(const T&).
-    template<typename T>
-    inline picojson::value toJSON(const std::vector<T>&);
+    //template<typename T>
+    //inline picojson::value toJSON(const std::vector<T>&);
 
-    //! Convert a map of values to JSON. This function needs an overload of toString(constT&) and toJSON(const U&).
-    template<typename T, typename U>
-    inline picojson::value toJSON(const std::map<T, U>&);
+    //! Convert a map of values to JSON. This function needs an overload of toJSON(const U&).
+    //template<typename T, typename U>
+    //inline picojson::value toJSON(const std::map<T, U>&);
 
-    //! Convert JSON to a value. This function needs an overload of fromString(const std::string&, T&);
+    //! Convert JSON to a value using stream operators.
     //!
     //! Throws:
     //! - Error
     template<typename T>
     inline void fromJSON(const picojson::value&, T&);
 
-    //! Convert JSON to a vector of values. This function needs an overload of fromJSON(const picojson::value&, T&);
+    //! Convert JSON to a vector of values. This function needs an overload of
+    //! fromJSON(const picojson::value&, T&);
     //!
     //! Throws:
     //! - std::exception
-    template<typename T>
-    inline void fromJSON(const picojson::value&, std::vector<T>&);
+    //template<typename T>
+    //inline void fromJSON(const picojson::value&, std::vector<T>&);
 
-    //! Convert JSON to a map of values. This function needs an overload of fromString(const picojson::value&, T&)
-    //! and fromJSON(const picojson::value&, U&);
+    //! Convert JSON to a map of values. This function needs an overload of
+    //! fromJSON(const picojson::value&, U&);
     //!
     //! Throws:
     //! - std::exception
-    template<typename T, typename U>
-    inline void fromJSON(const picojson::value&, std::map<T, U>&);
+    //template<typename T, typename U>
+    //inline void fromJSON(const picojson::value&, std::map<T, U>&);
 
 } // namespace djv
-
-#include <djvCore/PicoJSONInline.h>

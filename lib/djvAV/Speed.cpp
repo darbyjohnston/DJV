@@ -71,7 +71,7 @@ namespace djv
             for (size_t i = 0; i < static_cast<size_t>(FPS::Count); ++i)
             {
                 const FPS fps = static_cast<FPS>(i);
-                if (abs(value - speedToFloat(fps)) < .001f)
+                if (fabs(value - speedToFloat(fps)) < .001f)
                 {
                     return fps;
                 }

@@ -29,6 +29,7 @@
 
 #include <djvUI/Style.h>
 
+#include <djvUI/FontSettings.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/StyleSettings.h>
 #include <djvUI/System.h>

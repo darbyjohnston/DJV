@@ -85,6 +85,7 @@ namespace djv
                             out = Image::create(info.video[0].info);
                             io.read(out->getData(), info.video[0].info.getDataByteCount());
                             break;
+                        default: break;
                         }
                     }
                     return out;

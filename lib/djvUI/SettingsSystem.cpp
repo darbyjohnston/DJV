@@ -150,7 +150,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream s;
-                s << DJV_TEXT("Error reading settings") << " '" << path << "'. " << e.what();
+                s << DJV_TEXT("Cannot read settings") << " '" << path << "'. " << e.what();
                 _log(s.str(), LogLevel::Error);
             }
         }
@@ -171,7 +171,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream s;
-                s << DJV_TEXT("Error writing settings") << " '" << path << "'. " << e.what();
+                s << DJV_TEXT("Cannot write settings") << " '" << path << "'. " << e.what();
                 _log(s.str(), LogLevel::Error);
             }
         }

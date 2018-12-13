@@ -134,7 +134,7 @@ namespace djv
 
             // Create an OpenGL context.
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -155,7 +155,7 @@ namespace djv
                 int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                 std::stringstream ss;
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
-                context->log("Gp::Desktop::Application", ss.str());
+                context->log("djv::AV::System", ss.str());
             }
             glfwMakeContextCurrent(p.glfwWindow);
             glbinding::initialize(glfwGetProcAddress);

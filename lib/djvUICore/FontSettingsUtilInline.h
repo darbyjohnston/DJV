@@ -27,36 +27,70 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <sstream>
+
 namespace djv
 {
     template<>
-    inline picojson::value toJSON<Core::FileInfo>(const Core::FileInfo& value)
+    inline picojson::value toJSON<UICore::FontMap>(const UICore::FontMap& value)
     {
-        picojson::value out(picojson::array_type, true);
-        out.get<picojson::array>().push_back(toJSON(value.getPath()));
-        out.get<picojson::array>().push_back(toJSON(value.getType()));
+        picojson::value out(picojson::object_type, true);
+        for (const auto& i : value)
+        {
+            std::stringstream ss;
+            ss << i.first;
+            out.get<picojson::object>()[ss.str()] = picojson::value(i.second);
+        }
         return out;
     }
 
     template<>
-    inline void fromJSON<Core::FileInfo>(const picojson::value& value, Core::FileInfo& out)
+    inline picojson::value toJSON<std::string, UICore::FontMap>(const std::map<std::string, UICore::FontMap>& value)
     {
-        if (value.is<picojson::array>() && 2 == value.get<picojson::array>().size())
+        picojson::value out(picojson::object_type, true);
+        for (const auto& i : value)
         {
-            Core::Path path;
-            fromJSON(value.get<picojson::array>()[0], path);
-            out.setPath(path);
-            Core::FileType fileType = Core::FileType::First;
-            fromJSON(value.get<picojson::array>()[1], fileType);
-            if (Core::FileType::Sequence == fileType)
+            out.get<picojson::object>()[i.first] = toJSON(i.second);
+        }
+        return out;
+    }
+
+    template<>
+    inline void fromJSON<UICore::FontMap>(const picojson::value& value, UICore::FontMap& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
             {
-                out.evalSequence();
+                UICore::FontFace v = UICore::FontFace::First;
+                std::stringstream ss(i.first);
+                ss >> v;
+                std::string s;
+                fromJSON(i.second, s);
+                out[v] = s;
             }
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
+            throw std::invalid_argument("Cannot parse");
+        }
+    }
+
+    template<>
+    inline void fromJSON<std::string, UICore::FontMap>(const picojson::value& value, std::map<std::string, UICore::FontMap>& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                fromJSON(i.second, out[i.first]);
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("Cannot parse");
         }
     }
 
 } // namespace djv
+

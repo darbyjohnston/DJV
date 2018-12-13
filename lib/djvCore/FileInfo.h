@@ -175,10 +175,10 @@ namespace djv
         };
     } // namespace Core
 
-    std::ostream& operator << (std::ostream&, const Core::FileInfo&);
-    
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileType);
 
+    std::ostream& operator << (std::ostream&, const Core::FileInfo&);
+    
 } // namespace djv
 
 #include <djvCore/FileInfoInline.h>

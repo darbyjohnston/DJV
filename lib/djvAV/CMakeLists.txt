@@ -95,14 +95,28 @@ if(PNG_FOUND)
 endif()
 
 add_library(djvAV ${header} ${source})
-set(djvAVLibs
+set(LIBRARIES
     glbinding
     GLFW
     FreeType
     FFMPEG
     IlmBase
     OpenAL
-    OpenGL::GL
+    OpenGL::GL)
+if(APPLE)
+    find_library(CORE_VIDEO CoreVideo)
+    find_library(IO_KIT IOKit)
+    find_library(COCOA Cocoa)
+    find_library(CARBON Carbon)
+    set(LIBRARIES
+        ${LIBRARIES}
+        ${CORE_VIDEO}
+        ${IO_KIT}
+        ${COCOA}
+        ${CARBON})
+endif()
+set(djvAVLibs
+    ${LIBRARIES}
     djvCore)
 if(PNG_FOUND)
     set(djvAVLibs ${djvAVLibs} PNG)

@@ -81,10 +81,10 @@ namespace djv
             }
         }
 
-        void ISettings::_readError(const std::string& value)
+        void ISettings::_readError(const std::string& value, const std::string& what)
         {
             std::stringstream s;
-            s << "Error reading settings: " << _p->name << ": " << value;
+            s << "Cannot read settings '" << value << "'. " << what;
             _p->context->log("djv::UI::ISettings", s.str(), LogLevel::Error);
         }
 

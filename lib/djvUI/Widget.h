@@ -152,23 +152,20 @@ namespace djv
 
             void _setMinimumSize(const glm::vec2&);
 
-            void _event(Core::IEvent&) override;
-            virtual void _updateEvent(Core::UpdateEvent&) {}
             virtual void _preLayoutEvent(Core::PreLayoutEvent&) {}
             virtual void _layoutEvent(Core::LayoutEvent&) {}
             virtual void _clipEvent(Core::ClipEvent&) {}
             virtual void _paintEvent(Core::PaintEvent&);
-            virtual void _pointerEnterEvent(Core::PointerEnterEvent&);
-            virtual void _pointerLeaveEvent(Core::PointerLeaveEvent&) {}
-            virtual void _pointerMoveEvent(Core::PointerMoveEvent&);
-            virtual void _buttonPressEvent(Core::ButtonPressEvent&) {}
-            virtual void _buttonReleaseEvent(Core::ButtonReleaseEvent&) {}
             virtual void _scrollEvent(Core::ScrollEvent&) {}
             virtual void _dropEvent(Core::DropEvent&) {}
             virtual void _keyboardFocusEvent(Core::KeyboardFocusEvent&) {}
             virtual void _keyboardFocusLostEvent(Core::KeyboardFocusLostEvent&) {}
             virtual void _keyEvent(Core::KeyEvent&);
             virtual void _textEvent(Core::TextEvent&) {}
+
+            void _event(Core::IEvent&) override;
+            void _pointerEnterEvent(Core::PointerEnterEvent&) override;
+            void _pointerMoveEvent(Core::PointerMoveEvent&) override;
 
         private:
             bool _visible = true;

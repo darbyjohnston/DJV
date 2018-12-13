@@ -83,7 +83,7 @@ namespace djv
             inline void _write(const std::string& name, const T&, picojson::object&);
 
         private:
-            void _readError(const std::string&);
+            void _readError(const std::string& name, const std::string& what);
 
             DJV_PRIVATE();
         };

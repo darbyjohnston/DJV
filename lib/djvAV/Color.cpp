@@ -178,6 +178,7 @@ namespace djv
             os << " " << p->r << " " << p->g << " " << p->b;
             break;
         }
+        default: break;
         }
         return os;
     }
@@ -249,6 +250,7 @@ namespace djv
             p->b = tmp;
             break;
         }
+        default: break;
         }
         return is;
     }

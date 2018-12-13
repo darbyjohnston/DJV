@@ -39,7 +39,9 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << role;
-                object.get<picojson::object>()[ss.str()] = picojson::value(toJSON(value.getColor(role)));
+                std::stringstream ss2;
+                ss2 << value.getColor(role);
+                object.get<picojson::object>()[ss.str()] = picojson::value(ss2.str());
             }
             out.get<picojson::object>()["Roles"] = object;
         }
@@ -47,7 +49,7 @@ namespace djv
     }
 
     template<>
-    inline picojson::value toJSON<std::string, UI::Palette>(const std::map<std::string, UI::Palette>& value)
+    inline picojson::value toJSON<std::map<std::string, UI::Palette> >(const std::map<std::string, UI::Palette>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
@@ -76,7 +78,7 @@ namespace djv
     }
 
     template<>
-    inline picojson::value toJSON<std::string, UI::Metrics>(const std::map<std::string, UI::Metrics>& value)
+    inline picojson::value toJSON<std::map<std::string, UI::Metrics> >(const std::map<std::string, UI::Metrics>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
@@ -95,23 +97,42 @@ namespace djv
             {
                 if ("Roles" == i.first)
                 {
-                    std::map<UI::ColorRole, AV::Color> value;
-                    fromJSON(i.second, value);
-                    for (const auto& i : value)
+                    if (i.second.is<picojson::object>())
                     {
-                        out.setColor(i.first, i.second);
+                        for (const auto& j : i.second.get<picojson::object>())
+                        {
+                            UI::ColorRole role = UI::ColorRole::First;
+                            std::stringstream ss(j.first);
+                            ss >> role;
+                            if (j.second.is<std::string>())
+                            {
+                                AV::Color color;
+                                std::stringstream ss2;
+                                ss2.str(j.second.get<std::string>());
+                                ss2 >> color;
+                                out.setColor(role, color);
+                            }
+                            else
+                            {
+                                throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
                     }
                 }
             }
         }
         else
         {
-            throw std::invalid_argument("Cannot parse");
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 
     template<>
-    inline void fromJSON<std::string, UI::Palette>(const picojson::value& value, std::map<std::string, UI::Palette>& out)
+    inline void fromJSON<std::map<std::string, UI::Palette> >(const picojson::value& value, std::map<std::string, UI::Palette>& out)
     {
         if (value.is<picojson::object>())
         {
@@ -122,7 +143,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument("Cannot parse");
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 
@@ -148,13 +169,13 @@ namespace djv
                             }
                             else
                             {
-                                throw std::invalid_argument("Cannot parse");
+                                throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
                             }
                         }
                     }
                     else
                     {
-                        throw std::invalid_argument("Cannot parse");
+                        throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
                     }
                 }
                 else if ("Scale" == i.first)
@@ -165,19 +186,19 @@ namespace djv
                     }
                     else
                     {
-                        throw std::invalid_argument("Cannot parse");
+                        throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
                     }
                 }
             }
         }
         else
         {
-            throw std::invalid_argument("Cannot parse");
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 
     template<>
-    inline void fromJSON<std::string, UI::Metrics>(const picojson::value& value, std::map<std::string, UI::Metrics>& out)
+    inline void fromJSON<std::map<std::string, UI::Metrics> >(const picojson::value& value, std::map<std::string, UI::Metrics>& out)
     {
         if (value.is<picojson::object>())
         {
@@ -188,7 +209,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument("Cannot parse");
+            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
         }
     }
 

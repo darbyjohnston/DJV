@@ -33,6 +33,7 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/OS.h>
+#include <djvCore/PicoJSON.h>
 #include <djvCore/Timer.h>
 
 #include <condition_variable>

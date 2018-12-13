@@ -191,5 +191,5 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::ButtonType);
     DJV_ENUM_SERIALIZE_HELPERS(UI::FontFace);
 
-} // namespace Gp
+} // namespace djv
 

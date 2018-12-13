@@ -160,6 +160,7 @@ namespace djv
                     case GL_HALF_FLOAT: return  GL_R16F;
 #endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_R32F;
+                    default: break;
                     }
                     break;
                 case GL_RG:
@@ -171,6 +172,7 @@ namespace djv
                     case GL_HALF_FLOAT: return  GL_RG16F;
 #endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_RG32F;
+                    default: break;
                     }
                     break;
                 case GL_RGB:
@@ -183,6 +185,7 @@ namespace djv
                     case GL_HALF_FLOAT: return  GL_RGB16F;
 #endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_RGB32F;
+                    default: break;
                     }
                     break;
                 case GL_RGBA:
@@ -194,8 +197,10 @@ namespace djv
                     case GL_HALF_FLOAT: return  GL_RGBA16F;
 #endif // DJV_PLATFORM_IOS
                     case GL_FLOAT: return GL_RGBA32F;
+                    default: break;
                     }
                     break;
+                default: break;
                 }
                 return GL_NONE;
             }

@@ -29,19 +29,32 @@
 
 #pragma once
 
-#include <djvCore/FileInfo.h>
+#include <djvUI/Style.h>
+
 #include <djvCore/PicoJSON.h>
 
 namespace djv
 {
     template<>
-    inline picojson::value toJSON<Core::FileInfo>(const Core::FileInfo&);
+    inline picojson::value toJSON<UI::Palette>(const UI::Palette&);
+    template<>
+    inline picojson::value toJSON<std::map<std::string, UI::Palette> >(const std::map<std::string, UI::Palette>&);
+    template<>
+    inline picojson::value toJSON<UI::Metrics>(const UI::Metrics&);
+    template<>
+    inline picojson::value toJSON<std::map<std::string, UI::Metrics> >(const std::map<std::string, UI::Metrics>&);
 
     //! Throws:
     //! - std::exception
     template<>
-    inline void fromJSON<Core::FileInfo>(const picojson::value&, Core::FileInfo&);
+    inline void fromJSON<UI::Palette>(const picojson::value&, UI::Palette&);
+    template<>
+    inline void fromJSON<std::map<std::string, UI::Palette> >(const picojson::value&, std::map<std::string, UI::Palette>&);
+    template<>
+    inline void fromJSON<UI::Metrics>(const picojson::value&, UI::Metrics&);
+    template<>
+    inline void fromJSON<std::map<std::string, UI::Metrics> >(const picojson::value&, std::map<std::string, UI::Metrics>&);
 
 } // namespace djv
 
-#include <djvCore/FileInfoUtilInline.h>
+#include <djvUI/StyleJSONInline.h>

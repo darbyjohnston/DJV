@@ -98,26 +98,6 @@ namespace djv
         }
 
     } // namespace Core
-
-    template<>
-    inline picojson::value toJSON<Core::Path>(const Core::Path& value)
-    {
-        return picojson::value(value.get());
-    }
-
-    template<>
-    inline void fromJSON<Core::Path>(const picojson::value& value, Core::Path& out)
-    {
-        if (value.is<std::string>())
-        {
-            out.set(value.get<std::string>());
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse"));
-        }
-    }
-    
 } // namespace djv
 
 namespace std
