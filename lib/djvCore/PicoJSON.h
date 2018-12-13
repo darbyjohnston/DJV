@@ -56,39 +56,16 @@ namespace djv
     void fromJSON(const picojson::value&, float&);
     void fromJSON(const picojson::value&, std::string&);
 
-    //! Convert a value to JSON using stream operators.
+    //! Convert a value to JSON.
     template<typename T>
     inline picojson::value toJSON(const T&);
 
-    //! Convert a vector of values to JSON. This function needs an overload of toJSON(const T&).
-    //template<typename T>
-    //inline picojson::value toJSON(const std::vector<T>&);
-
-    //! Convert a map of values to JSON. This function needs an overload of toJSON(const U&).
-    //template<typename T, typename U>
-    //inline picojson::value toJSON(const std::map<T, U>&);
-
-    //! Convert JSON to a value using stream operators.
+    //! Convert JSON to a value.
     //!
     //! Throws:
     //! - Error
     template<typename T>
     inline void fromJSON(const picojson::value&, T&);
 
-    //! Convert JSON to a vector of values. This function needs an overload of
-    //! fromJSON(const picojson::value&, T&);
-    //!
-    //! Throws:
-    //! - std::exception
-    //template<typename T>
-    //inline void fromJSON(const picojson::value&, std::vector<T>&);
-
-    //! Convert JSON to a map of values. This function needs an overload of
-    //! fromJSON(const picojson::value&, U&);
-    //!
-    //! Throws:
-    //! - std::exception
-    //template<typename T, typename U>
-    //inline void fromJSON(const picojson::value&, std::map<T, U>&);
-
 } // namespace djv
+

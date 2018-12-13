@@ -45,7 +45,6 @@ set(header
     Path.h
     PathInline.h
     PicoJSON.h
-    PicoJSONInline.h
     Range.h
     RangeInline.h
     Ray.h
