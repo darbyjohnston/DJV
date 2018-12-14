@@ -271,7 +271,7 @@ namespace djv
                     render->setFillColor(style->getColor(_p->textColorRole));
                     for (const auto& line : _p->breakText)
                     {
-                        if (pos.y >= _p->clipRect.min.y && pos.y + line.size.y <= _p->clipRect.max.y)
+                        if (pos.y + line.size.y >= _p->clipRect.min.y && pos.y <= _p->clipRect.max.y)
                         {
                             render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
                         }

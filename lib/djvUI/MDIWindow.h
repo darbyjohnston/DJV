@@ -35,50 +35,43 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a splitter widget.
-        //!
-        //! \bug Add support for more than two child widgets.
-        class Splitter : public IContainerWidget
+        namespace MDI
         {
-            DJV_NON_COPYABLE(Splitter);
+            class Canvas;
+            
+            class Window : public IContainerWidget
+            {
+                DJV_NON_COPYABLE(Window);
 
-        protected:
-            void _init(Core::Context *);
-            Splitter();
+            protected:
+                void _init(Core::Context *);
+                Window();
 
-        public:
-            virtual ~Splitter();
+            public:
+                virtual ~Window();
 
-            static std::shared_ptr<Splitter> create(Orientation, Core::Context *);
-
-            Orientation getOrientation() const;
-            void setOrientation(Orientation);
-
-            float getSplit() const;
-            void setSplit(float);
-            void setSplitCallback(const std::function<void(float)>&);
-
-            float getHeightForWidth(float) const override;
-            void updateEvent(Core::UpdateEvent&) override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
-            void pointerEnterEvent(Core::PointerEnterEvent&) override;
-            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
-            void pointerMoveEvent(Core::PointerMoveEvent&) override;
-            void buttonPressEvent(Core::ButtonPressEvent&) override;
-            void buttonReleaseEvent(Core::ButtonReleaseEvent&) override;
-
-        private:
-            float _valueToPos(float) const;
-            float _posToValue(float) const;
-            Core::BBox2f _getSplitterGeometry() const;
-            Core::BBox2f _getHandleGeometry() const;
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
+                static std::shared_ptr<Window> create(Core::Context *);
+                
+                const std::string & getTitle() const;
+                void setTitle(const std::string &);
+                
+                std::shared_ptr<Widget> getTitleBar() const;
+                std::shared_ptr<Widget> getBottomBar() const;
+                std::shared_ptr<Widget> getResizeHandle() const;
+                
+                void setClosedCallback(const std::function<void(void)> &);
+                
+                virtual void addWidget(const std::shared_ptr<Widget>&);
+                virtual void removeWidget(const std::shared_ptr<Widget>&);
+                virtual void clearWidgets();
+                
+                void preLayoutEvent(Core::PreLayoutEvent&) override;
+                void layoutEvent(Core::LayoutEvent&) override;
+            
+            private:
+                DJV_PRIVATE();
+            };
+            
+        } // namespace MDI
     } // namespace UI
 } // namespace djv
-

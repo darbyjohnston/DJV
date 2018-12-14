@@ -586,6 +586,7 @@ namespace djv
             layout->addWidget(_p->scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
             
             _p->border = Border::create(context);
+            _p->border->setBorderSize(MetricsRole::None);
             _p->border->addWidget(layout);
             IContainerWidget::addWidget(_p->border);
 

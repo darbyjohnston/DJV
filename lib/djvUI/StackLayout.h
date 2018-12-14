@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/ContainerWidget.h>
+#include <djvUI/IContainerWidget.h>
 
 namespace djv
 {

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ContainerWidget.h>
+#include <djvUI/IContainerWidget.h>
 
 using namespace djv::Core;
 

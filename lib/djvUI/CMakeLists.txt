@@ -3,7 +3,6 @@ set(header
     Border.h
     Button.h
     ColorSwatch.h
-    ContainerWidget.h
     Enum.h
     FlowLayout.h
     Font.h
@@ -11,6 +10,7 @@ set(header
     FontSettingsInline.h
     GeneralSettings.h
     GridLayout.h
+    IContainerWidget.h
     ISettings.h
     ISettingsInline.h
     IWindowSystem.h
@@ -18,6 +18,7 @@ set(header
     ImageWidget.h
     Label.h
     MDICanvas.h
+    MDIWindow.h
     Margin.h
     MarginInline.h
     RowLayout.h
@@ -44,18 +45,19 @@ set(source
     Border.cpp
     Button.cpp
     ColorSwatch.cpp
-    ContainerWidget.cpp
     Enum.cpp
     FlowLayout.cpp
     FontSettings.cpp
     GeneralSettings.cpp
     GridLayout.cpp
+    IContainerWidget.cpp
     ISettings.cpp
     IWindowSystem.cpp
     Icon.cpp
     ImageWidget.cpp
     Label.cpp
     MDICanvas.cpp
+    MDIWindow.cpp
     RowLayout.cpp
     ScrollWidget.cpp
     Separator.cpp

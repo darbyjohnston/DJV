@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/IContainerWidget.h>
 
 namespace djv
 {
@@ -37,6 +37,8 @@ namespace djv
     {
         namespace MDI
         {
+            class Window;
+            
             class Canvas : public Widget
             {
                 DJV_NON_COPYABLE(Canvas);
@@ -50,7 +52,7 @@ namespace djv
 
                 static std::shared_ptr<Canvas> create(Core::Context *);
 
-                void addWidget(const std::shared_ptr<Widget>&, const glm::vec2& = glm::vec2());
+                std::shared_ptr<Window> addWidget(const std::string & title, const std::shared_ptr<Widget>&, const glm::vec2& = glm::vec2());
                 void removeWidget(const std::shared_ptr<Widget>&);
                 void clearWidgets();
 

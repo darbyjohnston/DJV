@@ -50,7 +50,7 @@ int main(int argc, char ** argv)
         auto canvas = UI::MDI::Canvas::create(app.get());
 
         glm::vec2 pos(100.f, 100.f);
-        for (size_t i = 0; i < 1; ++i, pos.x += 100.f, pos.y += 100.f)
+        for (size_t i = 0; i < 3; ++i, pos.x += 100.f, pos.y += 100.f)
         {
             auto textBlock = UI::TextBlock::create(app.get());
             textBlock->setText(Core::String::getRandomText(100));
@@ -59,7 +59,7 @@ int main(int argc, char ** argv)
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
             scrollWidget->addWidget(textBlock);
 
-            canvas->addWidget(scrollWidget);
+            canvas->addWidget("Window", scrollWidget, pos);
         }
 
         auto window = UI::Window::create(app.get());

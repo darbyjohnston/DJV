@@ -31,6 +31,8 @@
 
 #include <djvUI/Button.h>
 #include <djvUI/Icon.h>
+#include <djvUI/Label.h>
+#include <djvUI/MDIWindow.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/StackLayout.h>
@@ -128,54 +130,34 @@ namespace djv
                 return out;
             }
 
-            void Canvas::addWidget(const std::shared_ptr<Widget>& value, const glm::vec2& pos)
+            std::shared_ptr<Window> Canvas::addWidget(const std::string & title, const std::shared_ptr<Widget>& value, const glm::vec2& pos)
             {
                 auto context = getContext();
-                auto closeButton = Button::create(context);
-                closeButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
+                auto window = MDI::Window::create(context);
+                window->setTitle(title);
+                window->addWidget(value);
+                window->setParent(_p->canvasWidget);
+                window->move(pos);
 
-                auto titleBar = HorizontalLayout::create(context);
-                titleBar->setClassName("djv::UI::MDI::TitleBar");
-                titleBar->setPointerEnabled(true);
-                titleBar->setBackgroundRole(ColorRole::BackgroundHeader);
-                titleBar->addExpander();
-                titleBar->addWidget(closeButton);
-
-                auto resizeHandle = Icon::create(context);
-                resizeHandle->setPointerEnabled(true);
-                resizeHandle->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
-                resizeHandle->setIconColorRole(ColorRole::ForegroundDim);
-
-                auto bottomBar = HorizontalLayout::create(context);
-                bottomBar->setPointerEnabled(true);
-                bottomBar->setBackgroundRole(ColorRole::BackgroundHeader);
-                bottomBar->addExpander();
-                bottomBar->addWidget(resizeHandle);
-
-                auto layout = VerticalLayout::create(context);
-                layout->setSpacing(MetricsRole::None);
-                layout->addWidget(titleBar);
-                layout->addWidget(value, RowLayoutStretch::Expand);
-                layout->addWidget(bottomBar);
-                layout->setParent(_p->canvasWidget);
-                layout->move(pos);
-
+                auto titleBar = window->getTitleBar();
+                auto bottomBar = window->getBottomBar();
+                auto resizeHandle = window->getResizeHandle();
                 titleBar->installEventFilter(shared_from_this());
                 bottomBar->installEventFilter(shared_from_this());
                 resizeHandle->installEventFilter(shared_from_this());
 
-                _p->windows[layout] = pos;
-                _p->layoutInit.insert(layout);
-                _p->widgetToWindow[value] = layout;
-                _p->titleBarToWindow[titleBar] = layout;
-                _p->bottomBarToWindow[bottomBar] = layout;
-                _p->resizeHandleToWindow[resizeHandle] = layout;
-                _p->windowToTitleBar[layout] = titleBar;
-                _p->windowToBottomBar[layout] = bottomBar;
-                _p->windowToResizeHandle[layout] = resizeHandle;
+                _p->windows[window] = pos;
+                _p->layoutInit.insert(window);
+                _p->widgetToWindow[value] = window;
+                _p->titleBarToWindow[titleBar] = window;
+                _p->bottomBarToWindow[bottomBar] = window;
+                _p->resizeHandleToWindow[resizeHandle] = window;
+                _p->windowToTitleBar[window] = titleBar;
+                _p->windowToBottomBar[window] = bottomBar;
+                _p->windowToResizeHandle[window] = resizeHandle;
 
                 auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
-                closeButton->setClickedCallback(
+                window->setClosedCallback(
                     [weak, value]
                 {
                     if (auto canvas = weak.lock())
@@ -183,6 +165,8 @@ namespace djv
                         canvas->removeWidget(value);
                     }
                 });
+                
+                return window;
             }
 
             void Canvas::removeWidget(const std::shared_ptr<Widget>& value)

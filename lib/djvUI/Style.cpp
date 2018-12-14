@@ -64,7 +64,7 @@ namespace djv
             p.colors[ColorRole::Foreground]        = AV::Color( .9f,  .9f,  .9f);
             p.colors[ColorRole::ForegroundDim]     = AV::Color( .7f,  .7f,  .7f);
             p.colors[ColorRole::Border]            = AV::Color( .16f, .19f, .22f);
-            p.colors[ColorRole::Trough]            = AV::Color( .1f,  .1f,  .1f);
+            p.colors[ColorRole::Trough]            = AV::Color( .15f, .15f, .15f);
             p.colors[ColorRole::Button]            = AV::Color( .27f, .3f,  .33f);
             p.colors[ColorRole::Checked]           = AV::Color( .2f,  .4f,  .7f);
             p.colors[ColorRole::CheckedForeground] = AV::Color( .9f,  .9f,  .9f);
