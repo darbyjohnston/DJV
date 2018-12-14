@@ -59,7 +59,7 @@ namespace djv
         {
             Widget::_init(context);
 
-            setName("djv::UI::Icon");
+            setClassName("djv::UI::Icon");
         }
 
         Icon::Icon() :
@@ -116,7 +116,8 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                if (_p->infoFuture.valid())
+                if (_p->infoFuture.valid() &&
+                    _p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
                     try
                     {
@@ -125,7 +126,7 @@ namespace djv
                     catch (const std::exception & e)
                     {
                         _p->info = AV::Pixel::Info();
-                        _log(e.what());
+                        _log(e.what(), LogLevel::Error);
                     }
                 }
                 _setMinimumSize(glm::vec2(_p->info.size) + getMargin().getSize(style));
@@ -152,7 +153,7 @@ namespace djv
                         catch (const std::exception & e)
                         {
                             _p->image = nullptr;
-                            _log(e.what());
+                            _log(e.what(), LogLevel::Error);
                         }
                     }
                     if (_p->image && _p->image->isValid())

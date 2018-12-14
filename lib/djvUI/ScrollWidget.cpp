@@ -113,7 +113,7 @@ namespace djv
             {
                 Widget::_init(context);
 
-                setName("djv::UI::ScrollBar");
+                setClassName("djv::UI::ScrollBar");
                 setPointerEnabled(true);
 
                 _orientation = orientation;
@@ -385,7 +385,7 @@ namespace djv
             {
                 IContainerWidget::_init(context);
 
-                setName("djv::UI::ScrollArea");
+                setClassName("djv::UI::ScrollArea");
 
                 _scrollType = scrollType;
             }
@@ -559,7 +559,7 @@ namespace djv
         {
             IContainerWidget::_init(context);
 
-            setName("djv::UI::ScrollWidget");
+            setClassName("djv::UI::ScrollWidget");
             setBackgroundRole(ColorRole::BackgroundScroll);
 
             _p->scrollType = scrollType;

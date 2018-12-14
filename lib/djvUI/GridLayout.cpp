@@ -56,7 +56,7 @@ namespace djv
         {
             Widget::_init(context);
             
-            setName("djv::UI::GridLayout");
+            setClassName("djv::UI::GridLayout");
         }
 
         GridLayout::GridLayout() :

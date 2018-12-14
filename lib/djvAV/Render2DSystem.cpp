@@ -272,7 +272,6 @@ namespace djv
                     float x = 0.f;
                     float y = 0.f;
                     const auto glyphs = glyphsFuture.get();
-                    //out.reserve(out.size() + glyphs.size());
                     const size_t outSize = out.size();
                     out.resize(out.size() + glyphs.size());
                     auto it = out.begin() + outSize;
@@ -300,15 +299,6 @@ namespace djv
                                 render.glyphTextureIds[hash] = id;
                             }
 
-                            /*RenderData renderData;
-                            renderData.bbox = bbox;
-                            renderData.clipRect = clipRect;
-                            renderData.colorMode = colorMode;
-                            renderData.color = color;
-                            renderData.texture = static_cast<GLint>(item.texture);
-                            renderData.textureU = item.textureU;
-                            renderData.textureV = item.textureV;
-                            out.push_back(std::move(renderData));*/
                             it->bbox = bbox;
                             it->clipRect = clipRect;
                             it->colorMode = colorMode;

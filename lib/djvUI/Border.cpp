@@ -51,7 +51,7 @@ namespace djv
         {
             IContainerWidget::_init(context);
             
-            setName("djv::UI::Border");
+            setClassName("djv::UI::Border");
 
             _p->layout = StackLayout::create(context);
             IContainerWidget::addWidget(_p->layout);

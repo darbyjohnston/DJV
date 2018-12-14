@@ -47,7 +47,7 @@ namespace djv
         {
             Widget::_init(context);
             
-            setName("djv::UI::ColorSwatch");
+            setClassName("djv::UI::ColorSwatch");
         }
         
         ColorSwatch::ColorSwatch() :

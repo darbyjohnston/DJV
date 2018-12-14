@@ -155,9 +155,10 @@ namespace djv
             virtual void keyEvent(Core::KeyEvent&);
             virtual void textEvent(Core::TextEvent&) {}
 
-            void event(Core::IEvent&) override;
             void pointerEnterEvent(Core::PointerEnterEvent&) override;
+            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
             void pointerMoveEvent(Core::PointerMoveEvent&) override;
+            bool event(Core::IEvent&) override;
 
         protected:
             inline const std::weak_ptr<AV::IconSystem>& _getIconSystem() const;

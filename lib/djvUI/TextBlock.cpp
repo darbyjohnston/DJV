@@ -69,7 +69,7 @@ namespace djv
         {
             Widget::_init(context);
             
-            setName("djv::UI::TextBlock");
+            setClassName("djv::UI::TextBlock");
         }
         
         TextBlock::TextBlock() :

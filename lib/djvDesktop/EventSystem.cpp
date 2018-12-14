@@ -102,42 +102,43 @@ namespace djv
             }
             else if (auto windowSystem = getContext()->getSystemT<WindowSystem>().lock())
             {
-                std::shared_ptr<UI::Widget> widget;
+                std::shared_ptr<UI::Widget> hover;
                 for (const auto& window : windowSystem->getWindows())
                 {
                     if (window->isVisible() && window->getGeometry().contains(info.pos))
                     {
-                        widget = _underPointer(window, info.pos);
+                        _hover(window, moveEvent, hover);
                         break;
                     }
                 }
-                if (widget)
+                /*if (hover)
                 {
-                    std::shared_ptr<UI::Widget> hover;
-                    _hover(widget, moveEvent, hover);
-                    if (hover != p.hover)
+                    std::stringstream ss;
+                    ss << "Hover: " << hover->getClassName();
+                    getContext()->log("djv::Core::IEventSystem", ss.str());
+                }*/
+                if (hover != p.hover)
+                {
+                    if (p.hover)
                     {
-                        if (p.hover)
-                        {
-                            PointerLeaveEvent leaveEvent(info);
-                            p.hover->event(leaveEvent);
-                            /*{
-                                std::stringstream ss;
-                                ss << "Leave: " << p.hover->getName();
-                                getContext()->log("djv::Core::IEventSystem", ss.str());
-                            }*/
-                        }
-                        p.hover = hover;
-                        if (p.hover)
-                        {
-                            PointerEnterEvent enterEvent(info);
-                            p.hover->event(enterEvent);
-                            /*{
-                                std::stringstream ss;
-                                ss << "Enter: " << p.hover->getName();
-                                getContext()->log("djv::Core::IEventSystem", ss.str());
-                            }*/
-                        }
+                        PointerLeaveEvent leaveEvent(info);
+                        p.hover->event(leaveEvent);
+                        /*{
+                            std::stringstream ss;
+                            ss << "Leave: " << p.hover->getClassName();
+                            getContext()->log("djv::Core::IEventSystem", ss.str());
+                        }*/
+                    }
+                    p.hover = hover;
+                    if (p.hover)
+                    {
+                        PointerEnterEvent enterEvent(info);
+                        p.hover->event(enterEvent);
+                        /*{
+                            std::stringstream ss;
+                            ss << "Enter: " << p.hover->getClassName();
+                            getContext()->log("djv::Core::IEventSystem", ss.str());
+                        }*/
                     }
                 }
             }
@@ -170,14 +171,25 @@ namespace djv
 
         void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, PointerMoveEvent& event, std::shared_ptr<UI::Widget>& hover)
         {
-            widget->event(event);
-            if (event.isAccepted())
+            const auto children = widget->getChildrenT<UI::Widget>();
+            for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
-                hover = widget;
+                if ((*i)->isVisible() &&
+                    !(*i)->isClipped() &&
+                    (*i)->isEnabled() &&
+                    (*i)->getGeometry().contains(event.getPointerInfo().projectedPos))
+                {
+                    _hover(*i, event, hover);
+                    break;
+                }
             }
-            else if (auto parent = std::dynamic_pointer_cast<UI::Widget>(widget->getParent().lock()))
+            if (!event.isAccepted())
             {
-                _hover(parent, event, hover);
+                widget->event(event);
+                if (event.isAccepted())
+                {
+                    hover = widget;
+                }
             }
         }
 
@@ -236,21 +248,6 @@ namespace djv
             {
                 list.push_back(paths[i]);
             }
-        }
-
-        std::shared_ptr<UI::Widget> EventSystem::_underPointer(const std::shared_ptr<UI::Widget>& widget, const glm::vec2& pos)
-        {
-            std::shared_ptr<UI::Widget> out = widget;
-            const auto children = widget->getChildrenT<UI::Widget>();
-            for (auto i = children.rbegin(); i != children.rend(); ++i)
-            {
-                if ((*i)->isVisible() && !(*i)->isClipped() && (*i)->isEnabled() && (*i)->getGeometry().contains(pos))
-                {
-                    out = _underPointer(*i, pos);
-                    break;
-                }
-            }
-            return out;
         }
 
     } // namespace Desktop

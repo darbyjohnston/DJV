@@ -63,7 +63,6 @@ namespace djv
             void _buttonPress(const Core::PointerInfo&);
             void _buttonRelease(const Core::PointerInfo&);
             void _hover(const std::shared_ptr<UI::Widget>&, Core::PointerMoveEvent&, std::shared_ptr<UI::Widget>&);
-            static std::shared_ptr<UI::Widget> _underPointer(const std::shared_ptr<UI::Widget>&, const glm::vec2&);
 
             static void _pointerCallback(GLFWwindow*, double, double);
             static void _buttonCallback(GLFWwindow*, int button, int action, int mods);

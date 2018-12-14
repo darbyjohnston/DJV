@@ -42,7 +42,7 @@ namespace djv
         {
             IContainerWidget::_init(context);
             
-            setName("djv::UI::StackLayout");
+            setClassName("djv::UI::StackLayout");
         }
         
         StackLayout::StackLayout() :

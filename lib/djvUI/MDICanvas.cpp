@@ -52,6 +52,13 @@ namespace djv
                     DJV_NON_COPYABLE(CanvasWidget);
 
                 protected:
+                    void _init(Context * context)
+                    {
+                        Widget::_init(context);
+                        
+                        setClassName("djv::UI::MDI::CanvasWidget");
+                    }
+
                     CanvasWidget()
                     {}
 
@@ -95,7 +102,7 @@ namespace djv
             {
                 Widget::_init(context);
 
-                setName("djv::UI::MDI::Canvas");
+                setClassName("djv::UI::MDI::Canvas");
 
                 _p->canvasWidget = CanvasWidget::create(context);
 
@@ -128,15 +135,19 @@ namespace djv
                 closeButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
 
                 auto titleBar = HorizontalLayout::create(context);
+                titleBar->setClassName("djv::UI::MDI::TitleBar");
+                titleBar->setPointerEnabled(true);
                 titleBar->setBackgroundRole(ColorRole::BackgroundHeader);
                 titleBar->addExpander();
                 titleBar->addWidget(closeButton);
 
                 auto resizeHandle = Icon::create(context);
+                resizeHandle->setPointerEnabled(true);
                 resizeHandle->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
                 resizeHandle->setIconColorRole(ColorRole::ForegroundDim);
 
                 auto bottomBar = HorizontalLayout::create(context);
+                bottomBar->setPointerEnabled(true);
                 bottomBar->setBackgroundRole(ColorRole::BackgroundHeader);
                 bottomBar->addExpander();
                 bottomBar->addWidget(resizeHandle);
@@ -281,21 +292,17 @@ namespace djv
             
             bool Canvas::eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
             {
+                /*{
+                    std::stringstream ss;
+                    ss << event.getEventType();
+                    _log(ss.str());
+                }*/
                 switch (event.getEventType())
                 {
-                case EventType::PointerEnter:
-                {
-                    event.accept();
-                    return true;
-                }
-                case EventType::PointerLeave:
-                {
-                    event.accept();
-                    return true;
-                }
                 case EventType::PointerMove:
                 {
                     PointerMoveEvent& pointerMoveEvent = static_cast<PointerMoveEvent&>(event);
+                    pointerMoveEvent.accept();
                     if (pointerMoveEvent.getPointerInfo().id == _p->pressed)
                     {
                         if (auto style = _getStyle().lock())
@@ -310,7 +317,6 @@ namespace djv
                                 const auto window = _p->windows.find(titleBarToWindow->second);
                                 if (window != _p->windows.end())
                                 {
-                                    event.accept();
                                     const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
                                     window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
                                     window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
@@ -321,7 +327,6 @@ namespace djv
                                 const auto window = _p->windows.find(bottomBarToWindow->second);
                                 if (window != _p->windows.end())
                                 {
-                                    event.accept();
                                     const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
                                     window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
                                     window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
@@ -332,7 +337,6 @@ namespace djv
                                 const auto window = _p->windows.find(resizeHandleToWindow->second);
                                 if (window != _p->windows.end())
                                 {
-                                    event.accept();
                                     const glm::vec2 min = window->first->getMinimumSize();
                                     const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
                                     glm::vec2 pos2;

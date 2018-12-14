@@ -46,7 +46,7 @@ namespace djv
         {
             IContainerWidget::_init(context);
             
-            setName("djv::UI::FlowLayout");
+            setClassName("djv::UI::FlowLayout");
         }
         
         FlowLayout::FlowLayout() :

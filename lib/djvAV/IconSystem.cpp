@@ -63,6 +63,8 @@ namespace djv
 
                 InfoRequest(InfoRequest&& other) :
                     path(other.path),
+                    read(std::move(other.read)),
+                    infoFuture(std::move(other.infoFuture)),
                     promise(std::move(other.promise))
                 {}
 
@@ -71,6 +73,8 @@ namespace djv
                     if (this != &other)
                     {
                         path = other.path;
+                        read = std::move(other.read);
+                        infoFuture = std::move(other.infoFuture);
                         promise = std::move(other.promise);
                     }
                     return *this;
@@ -290,6 +294,7 @@ namespace djv
         void IconSystem::_handleInfoRequests()
         {
             DJV_PRIVATE_PTR();
+
             // Process new requests.
             for (auto & i : p.newInfoRequests)
             {
@@ -323,9 +328,9 @@ namespace djv
                         }
                         catch (const std::exception & e)
                         {
-                            _log(e.what());
+                            _log(e.what(), LogLevel::Error);
                         }
-                        _log(e.what());
+                        _log(e.what(), LogLevel::Error);
                     }
                 }
             }
@@ -338,15 +343,30 @@ namespace djv
                 if (i->infoFuture.valid() &&
                     i->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
-                    Pixel::Info info;
-                    auto ioInfo = i->infoFuture.get();
-                    auto & videoInfo = ioInfo.video;
-                    if (videoInfo.size())
+                    try
                     {
-                        info = videoInfo[0].info;
+                        Pixel::Info info;
+                        const auto ioInfo = i->infoFuture.get();
+                        const auto & videoInfo = ioInfo.video;
+                        if (videoInfo.size())
+                        {
+                            info = videoInfo[0].info;
+                        }
+                        p.infoCache.add(i->path, info);
+                        i->promise.set_value(info);
                     }
-                    p.infoCache.add(i->path, info);
-                    i->promise.set_value(info);
+                    catch (const std::exception & e)
+                    {
+                        try
+                        {
+                            i->promise.set_exception(std::current_exception());
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                        _log(e.what(), LogLevel::Error);
+                    }
                     i = p.pendingInfoRequests.erase(i);
                 }
                 else
@@ -391,9 +411,9 @@ namespace djv
                         }
                         catch (const std::exception & e)
                         {
-                            _log(e.what());
+                            _log(e.what(), LogLevel::Error);
                         }
-                        _log(e.what());
+                        _log(e.what(), LogLevel::Error);
                     }
                 }
             }

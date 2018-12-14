@@ -58,8 +58,10 @@ namespace djv
     {
         void Widget::_init(Core::Context * context)
         {
-            IObject::_init("djv::UI::Widget", context);
+            IObject::_init(context);
             
+            setClassName("djv::UI::Widget");
+
             /*context->log("djv::UI::Widget", "Widget::Widget");
             context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(currentWidgetCount));*/
             ++currentWidgetCount;
@@ -254,68 +256,56 @@ namespace djv
             _minimumSize = value;
         }
 
-        void Widget::event(IEvent& event)
+        bool Widget::event(IEvent& event)
         {
-            switch (event.getEventType())
+            bool out = IObject::event(event);
+            if (!out)
             {
-            case EventType::Update:
-                updateEvent(static_cast<UpdateEvent&>(event));
-                break;
-            case EventType::PreLayout:
-                preLayoutEvent(static_cast<PreLayoutEvent&>(event));
-                break;
-            case EventType::Layout:
-                layoutEvent(static_cast<LayoutEvent&>(event));
-                break;
-            case EventType::Clip:
-            {
-                auto& clipEvent = static_cast<ClipEvent&>(event);
-                if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+                switch (event.getEventType())
                 {
-                    _parentsVisible = parent->isVisible(true);
-                    _clipped = !clipEvent.getClipRect().isValid() || !_visible || !parent->_visible || !parent->_parentsVisible;
+                case EventType::PreLayout:
+                    preLayoutEvent(static_cast<PreLayoutEvent&>(event));
+                    break;
+                case EventType::Layout:
+                    layoutEvent(static_cast<LayoutEvent&>(event));
+                    break;
+                case EventType::Clip:
+                {
+                    auto& clipEvent = static_cast<ClipEvent&>(event);
+                    if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+                    {
+                        _parentsVisible = parent->isVisible(true);
+                        _clipped = !clipEvent.getClipRect().isValid() || !_visible || !parent->_visible || !parent->_parentsVisible;
+                    }
+                    this->clipEvent(clipEvent);
+                    break;
                 }
-                this->clipEvent(clipEvent);
-                break;
+                case EventType::Paint:
+                    paintEvent(static_cast<PaintEvent&>(event));
+                    break;
+                case EventType::Scroll:
+                    scrollEvent(static_cast<ScrollEvent&>(event));
+                    break;
+                case EventType::Drop:
+                    dropEvent(static_cast<DropEvent&>(event));
+                    break;
+                case EventType::KeyboardFocus:
+                    keyboardFocusEvent(static_cast<KeyboardFocusEvent&>(event));
+                    break;
+                case EventType::KeyboardFocusLost:
+                    keyboardFocusLostEvent(static_cast<KeyboardFocusLostEvent&>(event));
+                    break;
+                case EventType::Key:
+                    keyEvent(static_cast<KeyEvent&>(event));
+                    break;
+                case EventType::Text:
+                    textEvent(static_cast<TextEvent&>(event));
+                    break;
+                default: break;
+                }
+                out = event.isAccepted();
             }
-            case EventType::Paint:
-                paintEvent(static_cast<PaintEvent&>(event));
-                break;
-            case EventType::PointerEnter:
-                pointerEnterEvent(static_cast<PointerEnterEvent&>(event));
-                break;
-            case EventType::PointerLeave:
-                pointerLeaveEvent(static_cast<PointerLeaveEvent&>(event));
-                break;
-            case EventType::PointerMove:
-                pointerMoveEvent(static_cast<PointerMoveEvent&>(event));
-                break;
-            case EventType::ButtonPress:
-                buttonPressEvent(static_cast<ButtonPressEvent&>(event));
-                break;
-            case EventType::ButtonRelease:
-                buttonReleaseEvent(static_cast<ButtonReleaseEvent&>(event));
-                break;
-            case EventType::Scroll:
-                scrollEvent(static_cast<ScrollEvent&>(event));
-                break;
-            case EventType::Drop:
-                dropEvent(static_cast<DropEvent&>(event));
-                break;
-            case EventType::KeyboardFocus:
-                keyboardFocusEvent(static_cast<KeyboardFocusEvent&>(event));
-                break;
-            case EventType::KeyboardFocusLost:
-                keyboardFocusLostEvent(static_cast<KeyboardFocusLostEvent&>(event));
-                break;
-            case EventType::Key:
-                keyEvent(static_cast<KeyEvent&>(event));
-                break;
-            case EventType::Text:
-                textEvent(static_cast<TextEvent&>(event));
-                break;
-            default: break;
-            }
+            return out;
         }
 
         void Widget::paintEvent(PaintEvent& event)
@@ -339,6 +329,14 @@ namespace djv
         void Widget::pointerEnterEvent(PointerEnterEvent& event)
         {
             if (_pointerEnabled && !event.isRejected())
+            {
+                event.accept();
+            }
+        }
+
+        void Widget::pointerLeaveEvent(PointerLeaveEvent& event)
+        {
+            if (_pointerEnabled)
             {
                 event.accept();
             }

@@ -537,7 +537,7 @@ namespace djv
         {
             IButton::_init(context);
 
-            setName("Gp::UI::Button");
+            setClassName("Gp::UI::Button");
 
             _p->icon = Icon::create(context);
             _p->icon->setVAlign(VAlign::Center);
@@ -717,7 +717,7 @@ namespace djv
         {
             IButton::_init(context);
             
-            setName("Gp::UI::ListButton");
+            setClassName("Gp::UI::ListButton");
 
             _p->label = Label::create(text, context);
             _p->label->setMargin(MetricsRole::Margin);
@@ -831,7 +831,7 @@ namespace djv
         {
             IButton::_init(context);
             
-            setName("Gp::UI::ToggleButton");
+            setClassName("Gp::UI::ToggleButton");
             setButtonType(ButtonType::Toggle);
             setBackgroundRole(ColorRole::Button);
         }

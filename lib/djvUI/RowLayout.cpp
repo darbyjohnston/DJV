@@ -55,7 +55,7 @@ namespace djv
 
             _p->orientation = orientation;
             
-            setName("djv::UI::RowLayout");
+            setClassName("djv::UI::RowLayout");
         }
 
         RowLayout::RowLayout() :

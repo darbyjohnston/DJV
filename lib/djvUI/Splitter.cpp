@@ -51,7 +51,7 @@ namespace djv
         {
             IContainerWidget::_init(context);
             
-            setName("djv::UI::Splitter");
+            setClassName("djv::UI::Splitter");
             setPointerEnabled(true);
         }
         

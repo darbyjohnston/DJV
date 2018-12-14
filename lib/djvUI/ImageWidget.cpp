@@ -50,7 +50,7 @@ namespace djv
         {
             Widget::_init(context);
 
-            setName("djv::UI::ImageWidget");
+            setClassName("djv::UI::ImageWidget");
         }
 
         ImageWidget::ImageWidget() :

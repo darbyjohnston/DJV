@@ -47,10 +47,9 @@ namespace djv
 
         } // namespace
 
-        void IObject::_init(const std::string& className, Context * context)
+        void IObject::_init(Context * context)
         {
             _context = context;
-            _className = className;
             _resourceSystem = context->getSystemT<ResourceSystem>();
             _logSystem = context->getSystemT<LogSystem>();
             _textSystem = context->getSystemT<TextSystem>();
@@ -64,6 +63,11 @@ namespace djv
         IObject::~IObject()
         {
             --currentObjectCount;
+        }
+
+        void IObject::setClassName(const std::string& name)
+        {
+            _className = name;
         }
 
         void IObject::setName(const std::string& name)
@@ -154,9 +158,10 @@ namespace djv
             }
         }
 
-        void IObject::event(IEvent& event)
+        bool IObject::event(IEvent& event)
         {
-            if (!eventFilter(event))
+            bool out = eventFilter(event);
+            if (!out)
             {
                 switch (event.getEventType())
                 {
@@ -169,7 +174,9 @@ namespace djv
                 case EventType::ButtonRelease: buttonReleaseEvent(static_cast<ButtonReleaseEvent&>(event)); break;
                 default: break;
                 }
+                out = event.isAccepted();
             }
+            return out;
         }
 
         bool IObject::eventFilter(IEvent& event)

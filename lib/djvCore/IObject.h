@@ -56,7 +56,7 @@ namespace djv
             DJV_NON_COPYABLE(IObject);
 
         protected:
-            void _init(const std::string& className, Context *);
+            void _init(Context *);
 
             IObject();
 
@@ -66,6 +66,7 @@ namespace djv
             inline Context * getContext() const;
             inline const std::string& getClassName() const;
             inline const std::string& getName() const;
+            void setClassName(const std::string&);
             void setName(const std::string&);
 
             inline const std::weak_ptr<IObject>& getParent() const;
@@ -97,7 +98,7 @@ namespace djv
             virtual void pointerMoveEvent(PointerMoveEvent&) {}
             virtual void buttonPressEvent(ButtonPressEvent&) {}
             virtual void buttonReleaseEvent(ButtonReleaseEvent&) {}
-            virtual void event(IEvent&);
+            virtual bool event(IEvent&);
             
             bool eventFilter(IEvent&);
             virtual bool eventFilter(const std::shared_ptr<IObject>&, IEvent&) { return false; }

@@ -49,7 +49,7 @@ namespace djv
         {
             IContainerWidget::_init(context);
             
-            setName("djv::UI::Window");
+            setClassName("djv::UI::Window");
             setVisible(false);
             setBackgroundRole(ColorRole::Background);
 

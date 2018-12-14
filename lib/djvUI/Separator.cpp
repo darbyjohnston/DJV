@@ -47,7 +47,7 @@ namespace djv
         {
             Widget::_init(context);
             
-            setName("djv::UI::Separator");
+            setClassName("djv::UI::Separator");
         }
         
         Separator::Separator() :
