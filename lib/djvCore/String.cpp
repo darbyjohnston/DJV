@@ -419,6 +419,13 @@ namespace djv
                 return fishes;
             }
 
+            const std::string& getRandomSentence()
+            {
+                const std::vector<std::string>& data = getTestSentences();
+                const size_t size = data.size();
+                return data[Math::getRandom(static_cast<int>(size) - 1)];
+            }
+
             std::vector<std::string> getRandomSentences(size_t value)
             {
                 const std::vector<std::string>& data = getTestSentences();
@@ -430,34 +437,23 @@ namespace djv
                 return out;
             }
 
-            const std::string& getRandomSentence()
+            std::string getRandomText(size_t sentenceCount)
             {
                 const std::vector<std::string>& data = getTestSentences();
-                const size_t size = data.size();
-                return data[Math::getRandom(static_cast<int>(size) - 1)];
-            }
-
-            std::string getRandomText(size_t lineCount)
-            {
-                const std::vector<std::string>& data = getTestSentences();
-                int paragraphLineCount = Math::getRandom(2, 5);
-                std::string out;
-                for (size_t i = 0, j = 0; i < lineCount; ++i, ++j)
+                std::vector<std::string> out;
+                size_t i = 0;
+                while (i < sentenceCount)
                 {
-                    if (j < paragraphLineCount)
+                    std::vector<std::string> paragraph;
+                    size_t paragraphLineCount = Math::getRandom(2, 5);
+                    for (size_t j = 0; j < paragraphLineCount && i < sentenceCount; ++j, ++i)
                     {
                         const std::string& sentence = Math::getRandom(data);
-                        out.insert(out.end(), sentence.begin(), sentence.end());
+                        paragraph.push_back(sentence);
                     }
-                    else
-                    {
-                        paragraphLineCount = Math::getRandom(2, 5);
-                        out.push_back('\n');
-                        out.push_back('\n');
-                        j = 0;
-                    }
+                    out.push_back(String::join(paragraph, " "));
                 }
-                return out;
+                return String::join(out, "\n\n");
             }
 
         } // namespace String

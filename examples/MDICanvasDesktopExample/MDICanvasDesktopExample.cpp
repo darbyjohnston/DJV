@@ -29,11 +29,14 @@
 
 #include <djvDesktop/Application.h>
 
-#include <djvUI/Label.h>
-#include <djvUI/RowLayout.h>
+#include <djvUI/MDICanvas.h>
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/Splitter.h>
+#include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/String.h>
 
 using namespace djv;
 
@@ -44,12 +47,23 @@ int main(int argc, char ** argv)
     {
         auto app = Desktop::Application::create(argc, argv);
 
-        auto label = UI::Label::create(app.get());
-        label->setFontSizeRole(UI::MetricsRole::FontExtraLarge);
-        label->setText("Hello world!");
+        auto canvas = UI::MDI::Canvas::create(app.get());
+
+        glm::vec2 pos(100.f, 100.f);
+        for (size_t i = 0; i < 10; ++i, pos.x += 100.f, pos.y += 100.f)
+        {
+            auto textBlock = UI::TextBlock::create(app.get());
+            textBlock->setText(Core::String::getRandomText(100));
+            textBlock->setMargin(UI::MetricsRole::Margin);
+
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
+            scrollWidget->addWidget(textBlock);
+
+            canvas->addWidget(scrollWidget);
+        }
 
         auto window = UI::Window::create(app.get());
-        window->addWidget(label);
+        window->addWidget(canvas);
         window->show();
 
         return app->run();

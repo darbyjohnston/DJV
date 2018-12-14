@@ -73,6 +73,7 @@ namespace djv
             float _valueToPos(float) const;
             float _posToValue(float) const;
             Core::BBox2f _getSplitterGeometry() const;
+            Core::BBox2f _getHandleGeometry() const;
 
             struct Private;
             std::unique_ptr<Private> _p;

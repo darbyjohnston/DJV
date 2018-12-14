@@ -64,109 +64,126 @@ namespace djv
                 Context * context)
             {
                 IRead::_init(fileName, queue, context);
-
                 _p->running = true;
                 _p->thread = std::thread(
                     [this, fileName, context]
                 {
                     DJV_PRIVATE_PTR();
+                    FileInfo fileInfo(fileName);
+                    fileInfo.evalSequence();
+                    Frame::Index frameIndex = Frame::Invalid;
+                    if (fileInfo.isSequenceValid())
+                    {
+                        _frames = Frame::toFrames(fileInfo.getSequence());
+                        if (_frames.size())
+                        {
+                            frameIndex = 0;
+                            _duration = _speed.getDuration() * _frames.size();
+                        }
+                    }
+
+                    Frame::Number frameNumber = Frame::Invalid;
+                    if (frameIndex != Frame::Invalid)
+                    {
+                        frameNumber = Frame::getFrame(_frames, frameIndex);
+                    }
+                    Info info;
                     try
                     {
-                        FileInfo fileInfo(fileName);
-                        fileInfo.evalSequence();
-                        Frame::Index frameIndex = Frame::Invalid;
-                        if (fileInfo.isSequenceValid())
-                        {
-                            _frames = Frame::toFrames(fileInfo.getSequence());
-                            if (_frames.size())
-                            {
-                                frameIndex = 0;
-                                _duration = _speed.getDuration() * _frames.size();
-                            }
-                        }
-
-                        Frame::Number frameNumber = Frame::Invalid;
-                        if (frameIndex != Frame::Invalid)
-                        {
-                            frameNumber = Frame::getFrame(_frames, frameIndex);
-                        }
-                        p.infoPromise.set_value(_readInfo(fileInfo.getFileName(frameNumber)));
-
-                        const auto timeout = Timer::getValue(Timer::Value::Fast);
-                        while (_queue && p.running)
-                        {
-                            bool read = false;
-                            Timestamp seek = -1;
-                            {
-                                std::unique_lock<std::mutex> lock(_queue->getMutex());
-                                if (p.queueCV.wait_for(
-                                    lock,
-                                    std::chrono::milliseconds(timeout),
-                                    [this]
-                                {
-                                    return (_queue->getVideoCount() < _queue->getVideoMax()) || _p->seek != -1;
-                                }))
-                                {
-                                    read = true;
-                                    if (p.seek != -1)
-                                    {
-                                        seek = p.seek;
-                                        p.seek = -1;
-                                        _queue->setFinished(false);
-                                        _queue->clear();
-                                    }
-                                }
-                            }
-                            if (seek != -1)
-                            {
-                                //! \todo File sequence seeking?
-                            }
-                            if (read)
-                            {
-                                std::shared_ptr<Image> image;
-                                Timestamp pts = 0;
-                                Frame::Number frameNumber = Frame::Invalid;
-                                if (frameIndex != Frame::Invalid)
-                                {
-                                    frameNumber = Frame::getFrame(_frames, frameIndex);
-                                    ++frameIndex;
-                                }
-                                auto fileName = fileInfo.getFileName(frameNumber);
-
-                                AVRational r;
-                                r.num = _speed.getDuration();
-                                r.den = _speed.getScale();
-                                pts = av_rescale_q(frameNumber * _speed.getDuration(), r, FFmpeg::getTimeBaseQ());
-
-                                /*{
-                                    std::stringstream ss;
-                                    ss << _fileName << ": read frame " << pts;
-                                    context->log("djv::AV::IO::ISequenceRead", ss.str());
-                                }*/
-
-                                image = _readImage(fileName);
-
-                                {
-                                    std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                    _queue->addVideo(pts, image);
-                                }
-
-                                if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
-                                {
-                                    std::lock_guard<std::mutex> lock(_queue->getMutex());
-                                    _queue->setFinished(true);
-                                    if (_queue->hasCloseOnFinish())
-                                    {
-                                        p.running = false;
-                                    }
-                                }
-                            }
-                        }
+                        info = _readInfo(fileInfo.getFileName(frameNumber));
+                        p.infoPromise.set_value(info);
                     }
                     catch (const std::exception & e)
                     {
-                        p.infoPromise.set_value(Info());
+                        p.running = false;
+                        try
+                        {
+                            p.infoPromise.set_exception(std::current_exception());
+                        }
+                        catch (const std::exception & e)
+                        {
+                            context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                        }
                         context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                    }
+
+                    const auto timeout = Timer::getValue(Timer::Value::Fast);
+                    while (_queue && p.running)
+                    {
+                        bool read = false;
+                        Timestamp seek = -1;
+                        {
+                            std::unique_lock<std::mutex> lock(_queue->getMutex());
+                            if (p.queueCV.wait_for(
+                                lock,
+                                std::chrono::milliseconds(timeout),
+                                [this]
+                            {
+                                return (_queue->getVideoCount() < _queue->getVideoMax()) || _p->seek != -1;
+                            }))
+                            {
+                                read = true;
+                                if (p.seek != -1)
+                                {
+                                    seek = p.seek;
+                                    p.seek = -1;
+                                    _queue->setFinished(false);
+                                    _queue->clear();
+                                }
+                            }
+                        }
+                        if (seek != -1)
+                        {
+                            //! \todo File sequence seeking?
+                        }
+                        if (read)
+                        {
+                            std::shared_ptr<Image> image;
+                            Timestamp pts = 0;
+                            Frame::Number frameNumber = Frame::Invalid;
+                            if (frameIndex != Frame::Invalid)
+                            {
+                                frameNumber = Frame::getFrame(_frames, frameIndex);
+                                ++frameIndex;
+                            }
+                            auto fileName = fileInfo.getFileName(frameNumber);
+
+                            AVRational r;
+                            r.num = _speed.getDuration();
+                            r.den = _speed.getScale();
+                            pts = av_rescale_q(frameNumber * _speed.getDuration(), r, FFmpeg::getTimeBaseQ());
+
+                            /*{
+                                std::stringstream ss;
+                                ss << _fileName << ": read frame " << pts;
+                                context->log("djv::AV::IO::ISequenceRead", ss.str());
+                            }*/
+
+                            try
+                            {
+                                image = _readImage(fileName);
+                            }
+                            catch (const std::exception & e)
+                            {
+                                context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                            }
+
+                            if (image)
+                            {
+                                std::lock_guard<std::mutex> lock(_queue->getMutex());
+                                _queue->addVideo(pts, image);
+                            }
+
+                            if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
+                            {
+                                std::lock_guard<std::mutex> lock(_queue->getMutex());
+                                _queue->setFinished(true);
+                                if (_queue->hasCloseOnFinish())
+                                {
+                                    p.running = false;
+                                }
+                            }
+                        }
                     }
                 });
             }

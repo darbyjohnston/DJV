@@ -118,7 +118,15 @@ namespace djv
             {
                 if (_p->infoFuture.valid())
                 {
-                    _p->info = _p->infoFuture.get();
+                    try
+                    {
+                        _p->info = _p->infoFuture.get();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _p->info = AV::Pixel::Info();
+                        _log(e.what());
+                    }
                 }
                 _setMinimumSize(glm::vec2(_p->info.size) + getMargin().getSize(style));
             }
@@ -137,9 +145,17 @@ namespace djv
                     // Draw the icon.
                     if (_p->imageFuture.valid())
                     {
-                        _p->image = _p->imageFuture.get();
+                        try
+                        {
+                            _p->image = _p->imageFuture.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _p->image = nullptr;
+                            _log(e.what());
+                        }
                     }
-                    if (_p->image->isValid())
+                    if (_p->image && _p->image->isValid())
                     {
                         const glm::vec2& size = _p->info.size;
                         glm::vec2 pos = glm::vec2(0.f, 0.f);

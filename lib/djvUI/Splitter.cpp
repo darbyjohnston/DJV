@@ -242,6 +242,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f& sg = _getSplitterGeometry();
+                    const BBox2f& hg = _getHandleGeometry();
 
                     // Draw the background.
                     const ColorRole colorRole = getBackgroundRole();
@@ -255,7 +256,7 @@ namespace djv
                     if (_p->pressedId)
                     {
                         render->setFillColor(style->getColor(ColorRole::Checked));
-                        render->drawRectangle(sg);
+                        render->drawRectangle(hg);
                     }
 
                     // Draw the hovered state.
@@ -267,7 +268,7 @@ namespace djv
                     if (hover)
                     {
                         render->setFillColor(style->getColor(ColorRole::Hover));
-                        render->drawRectangle(sg);
+                        render->drawRectangle(hg);
                     }
                 }
             }
@@ -396,6 +397,35 @@ namespace djv
                 out.max.x = g.max.x;
                 out.max.y = out.min.y + _p->splitterWidth;
                 break;
+            default: break;
+            }
+            return out;
+        }
+
+        BBox2f Splitter::_getHandleGeometry() const
+        {
+            BBox2f out;
+            const BBox2f& g = _getSplitterGeometry();
+            switch (_p->orientation)
+            {
+            case Orientation::Horizontal:
+            {
+                const float w = g.w();
+                out.min.x = g.min.x + w / 4.f;
+                out.min.y = g.min.y;
+                out.max.x = g.max.x - w / 4.f;
+                out.max.y = g.max.y;
+                break;
+            }
+            case Orientation::Vertical:
+            {
+                const float h = g.h();
+                out.min.x = g.min.x;
+                out.min.y = g.min.y + h / 4.f;
+                out.max.x = g.max.x;
+                out.max.y = g.max.y - h / 4.f;
+                break;
+            }
             default: break;
             }
             return out;

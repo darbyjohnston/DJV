@@ -307,21 +307,24 @@ namespace djv
                 {
                     i.promise.set_value(info);
                 }
-                else
+                else if (auto io = getContext()->getSystemT<IO::System>().lock())
                 {
                     try
                     {
-                        if (auto io = getContext()->getSystemT<IO::System>().lock())
-                        {
-                            i.read = io->read(i.path, nullptr);
-                            i.infoFuture = i.read->getInfo();
-                            p.pendingInfoRequests.push_back(std::move(i));
-                        }
+                        i.read = io->read(i.path, nullptr);
+                        i.infoFuture = i.read->getInfo();
+                        p.pendingInfoRequests.push_back(std::move(i));
                     }
                     catch (const std::exception& e)
                     {
-                        //! \todo Error handling?
-                        i.promise.set_value(Pixel::Info());
+                        try
+                        {
+                            i.promise.set_exception(std::current_exception());
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what());
+                        }
                         _log(e.what());
                     }
                 }
@@ -372,21 +375,24 @@ namespace djv
                 {
                     i.promise.set_value(image);
                 }
-                else
+                else if (auto io = getContext()->getSystemT<IO::System>().lock())
                 {
                     try
                     {
-                        if (auto io = getContext()->getSystemT<IO::System>().lock())
-                        {
-                            i.queue = IO::Queue::create(1, 0);
-                            i.read = io->read(i.path, i.queue);
-                            p.pendingImageRequests.push_back(std::move(i));
-                        }
+                        i.queue = IO::Queue::create(1, 0);
+                        i.read = io->read(i.path, i.queue);
+                        p.pendingImageRequests.push_back(std::move(i));
                     }
                     catch (const std::exception& e)
                     {
-                        //! \todo Error handling?
-                        i.promise.set_value(nullptr);
+                        try
+                        {
+                            i.promise.set_exception(std::current_exception());
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what());
+                        }
                         _log(e.what());
                     }
                 }

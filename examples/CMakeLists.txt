@@ -1,2 +1,3 @@
 add_subdirectory(HelloWorldDesktopExample)
+add_subdirectory(MDICanvasDesktopExample)
 add_subdirectory(SplitterDesktopExample)

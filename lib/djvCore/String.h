@@ -117,9 +117,9 @@ namespace djv
             const std::string & getRandomName();
 
             const std::vector<std::string> & getTestSentences();
-            std::vector<std::string> getRandomSentences(size_t);
             const std::string & getRandomSentence();
-            std::string getRandomText(size_t lineCount);
+            std::vector<std::string> getRandomSentences(size_t);
+            std::string getRandomText(size_t sentenceCount);
 
             ///@}
 

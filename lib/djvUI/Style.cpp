@@ -140,10 +140,10 @@ namespace djv
             p.metrics[MetricsRole::Drag]                =  20.f;
             p.metrics[MetricsRole::Icon]                =  25.f;
             p.metrics[MetricsRole::IconLarge]           = 100.f;
-            p.metrics[MetricsRole::FontSmall]           =  16.f;
-            p.metrics[MetricsRole::FontMedium]          =  18.f;
-            p.metrics[MetricsRole::FontLarge]           =  28.f;
-            p.metrics[MetricsRole::FontExtraLarge]      =  72.f;
+            p.metrics[MetricsRole::FontSmall]           =   9.f;
+            p.metrics[MetricsRole::FontMedium]          =  12.f;
+            p.metrics[MetricsRole::FontLarge]           =  24.f;
+            p.metrics[MetricsRole::FontExtraLarge]      =  48.f;
             p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
             p.metrics[MetricsRole::Swatch]              =  40.f;
             p.metrics[MetricsRole::Thumbnail]           = 300.f;

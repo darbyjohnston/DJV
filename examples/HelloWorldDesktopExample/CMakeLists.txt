@@ -1,5 +1,4 @@
-set(source
-    HelloWorldDesktopExample.cpp)
+set(source HelloWorldDesktopExample.cpp)
 
 add_executable(HelloWorldDesktopExample ${header} ${source})
 target_link_libraries(HelloWorldDesktopExample djvDesktop)

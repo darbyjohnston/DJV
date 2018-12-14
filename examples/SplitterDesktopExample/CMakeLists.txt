@@ -1,5 +1,4 @@
-set(source
-    SplitterDesktopExample.cpp)
+set(source SplitterDesktopExample.cpp)
 
 add_executable(SplitterDesktopExample ${header} ${source})
 target_link_libraries(SplitterDesktopExample djvDesktop)
