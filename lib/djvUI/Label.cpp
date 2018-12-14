@@ -152,7 +152,7 @@ namespace djv
             _p->minimumWidth = value;
         }
 
-        void Label::_updateEvent(UpdateEvent& event)
+        void Label::updateEvent(UpdateEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -165,7 +165,7 @@ namespace djv
             }
         }
 
-        void Label::_preLayoutEvent(PreLayoutEvent& event)
+        void Label::preLayoutEvent(PreLayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -187,9 +187,9 @@ namespace djv
             }
         }
 
-        void Label::_paintEvent(PaintEvent& event)
+        void Label::paintEvent(PaintEvent& event)
         {
-            Widget::_paintEvent(event);
+            Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())

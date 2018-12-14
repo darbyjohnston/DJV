@@ -68,10 +68,9 @@ namespace djv
 
             float getHeightForWidth(float) const override;
 
-        protected:
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _layoutEvent(Core::LayoutEvent&) override;
-            void _paintEvent(Core::PaintEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
 
         private:
             struct Private;

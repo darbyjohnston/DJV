@@ -123,6 +123,119 @@ namespace djv
             _p->checkedCallback = callback;
         }
 
+        void IButton::paintEvent(PaintEvent& event)
+        {
+            Widget::paintEvent(event);
+            if (auto render = _getRenderSystem().lock())
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& g = getGeometry();
+
+                    // Draw the toggled state.
+                    if (_isToggled())
+                    {
+                        render->setFillColor(style->getColor(_p->checkedColorRole));
+                        render->drawRectangle(g);
+                    }
+
+                    // Draw the hovered state.
+                    if (_isHovered())
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Hover));
+                        render->drawRectangle(g);
+                    }
+                }
+            }
+        }
+
+        void IButton::pointerEnterEvent(PointerEnterEvent& event)
+        {
+            event.accept();
+
+            const auto id = event.getPointerInfo().id;
+            _p->pointerState[id].hover = true;
+            _p->pointerState[id].inside = true;
+        }
+
+        void IButton::pointerLeaveEvent(PointerLeaveEvent& event)
+        {
+            event.accept();
+
+            const auto id = event.getPointerInfo().id;
+            const auto i = _p->pointerState.find(id);
+            if (i != _p->pointerState.end())
+            {
+                _p->pointerState.erase(i);
+            }
+        }
+
+        void IButton::pointerMoveEvent(PointerMoveEvent& event)
+        {
+            event.accept();
+
+            const auto id = event.getPointerInfo().id;
+            const auto& pos = event.getPointerInfo().projectedPos;
+            _p->pointerState[id].inside = getGeometry().contains(pos);
+
+            if (id == _p->pressedId)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const float distance = glm::length(pos - _p->pressedPos);
+                    const bool accepted = _p->canRejectPressed ? distance < style->getMetric(MetricsRole::Drag) : true;
+                    event.setAccepted(accepted);
+                    if (!accepted)
+                    {
+                        _p->pressedId = 0;
+                    }
+                }
+            }
+        }
+
+        void IButton::buttonPressEvent(ButtonPressEvent& event)
+        {
+            if (_p->pressedId)
+                return;
+
+            event.accept();
+
+            _p->pressedId = event.getPointerInfo().id;
+            _p->pressedPos = event.getPointerInfo().projectedPos;
+        }
+
+        void IButton::buttonReleaseEvent(ButtonReleaseEvent& event)
+        {
+            const auto id = event.getPointerInfo().id;
+            if (id != _p->pressedId)
+                return;
+
+            event.accept();
+
+            _p->pressedId = 0;
+
+            if (_p->pointerState[id].inside)
+            {
+                _doClickedCallback();
+
+                switch (_p->buttonType)
+                {
+                case ButtonType::Toggle:
+                    _p->checked = !_p->checked;
+                    _doCheckedCallback(_p->checked);
+                    break;
+                case ButtonType::Radio:
+                    if (!_p->checked)
+                    {
+                        _p->checked = true;
+                        _doCheckedCallback(_p->checked);
+                    }
+                    break;
+                default: break;
+                }
+            }
+        }
+
         bool IButton::_isToggled() const
         {
             bool out = false;
@@ -194,119 +307,6 @@ namespace djv
             if (_p->checkedCallback)
             {
                 _p->checkedCallback(value);
-            }
-        }
-
-        void IButton::_paintEvent(PaintEvent& event)
-        {
-            Widget::_paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
-            {
-                if (auto style = _getStyle().lock())
-                {
-                    const BBox2f& g = getGeometry();
-
-                    // Draw the toggled state.
-                    if (_isToggled())
-                    {
-                        render->setFillColor(style->getColor(_p->checkedColorRole));
-                        render->drawRectangle(g);
-                    }
-
-                    // Draw the hovered state.
-                    if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hover));
-                        render->drawRectangle(g);
-                    }
-                }
-            }
-        }
-
-        void IButton::_pointerEnterEvent(PointerEnterEvent& event)
-        {
-            event.accept();
-
-            const auto id = event.getPointerInfo().id;
-            _p->pointerState[id].hover  = true;
-            _p->pointerState[id].inside = true;
-        }
-
-        void IButton::_pointerLeaveEvent(PointerLeaveEvent& event)
-        {
-            event.accept();
-
-            const auto id = event.getPointerInfo().id;
-            const auto i = _p->pointerState.find(id);
-            if (i != _p->pointerState.end())
-            {
-                _p->pointerState.erase(i);
-            }
-        }
-
-        void IButton::_pointerMoveEvent(PointerMoveEvent& event)
-        {
-            event.accept();
-
-            const auto id = event.getPointerInfo().id;
-            const auto& pos = event.getPointerInfo().projectedPos;
-            _p->pointerState[id].inside = getGeometry().contains(pos);
-
-            if (id == _p->pressedId)
-            {
-                if (auto style = _getStyle().lock())
-                {
-                    const float distance = glm::length(pos - _p->pressedPos);
-                    const bool accepted = _p->canRejectPressed ? distance < style ->getMetric(MetricsRole::Drag) : true;
-                    event.setAccepted(accepted);
-                    if (!accepted)
-                    {
-                        _p->pressedId = 0;
-                    }
-                }
-            }
-        }
-
-        void IButton::_buttonPressEvent(ButtonPressEvent& event)
-        {
-            if (_p->pressedId)
-                return;
-
-            event.accept();
-
-            _p->pressedId  = event.getPointerInfo().id;
-            _p->pressedPos = event.getPointerInfo().projectedPos;
-        }
-
-        void IButton::_buttonReleaseEvent(ButtonReleaseEvent& event)
-        {
-            const auto id = event.getPointerInfo().id;
-            if (id != _p->pressedId)
-                return;
-
-            event.accept();
-
-            _p->pressedId = 0;
-
-            if (_p->pointerState[id].inside)
-            {
-                _doClickedCallback();
-
-                switch (_p->buttonType)
-                {
-                case ButtonType::Toggle:
-                    _p->checked = !_p->checked;
-                    _doCheckedCallback(_p->checked);
-                    break;
-                case ButtonType::Radio:
-                    if (!_p->checked)
-                    {
-                        _p->checked = true;
-                        _doCheckedCallback(_p->checked);
-                    }
-                    break;
-                default: break;
-                }
             }
         }
 
@@ -662,7 +662,7 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void Button::_updateEvent(UpdateEvent& event)
+        void Button::updateEvent(UpdateEvent& event)
         {
             const auto style = _getStyle();
             const bool enabled = isEnabled(true);
@@ -671,19 +671,19 @@ namespace djv
             _p->label->setTextColorRole(fg);
         }
 
-        void Button::_preLayoutEvent(PreLayoutEvent& event)
+        void Button::preLayoutEvent(PreLayoutEvent& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void Button::_layoutEvent(LayoutEvent&)
+        void Button::layoutEvent(LayoutEvent&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void Button::_paintEvent(PaintEvent& event)
+        void Button::paintEvent(PaintEvent& event)
         {
-            Widget::_paintEvent(event);
+            Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())
@@ -805,19 +805,19 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void ListButton::_updateEvent(UpdateEvent& event)
+        void ListButton::updateEvent(UpdateEvent& event)
         {
-            IButton::_updateEvent(event);
+            IButton::updateEvent(event);
 
             _p->label->setTextColorRole(_isToggled() ? ColorRole::CheckedForeground : ColorRole::Foreground);
         }
 
-        void ListButton::_preLayoutEvent(PreLayoutEvent& event)
+        void ListButton::preLayoutEvent(PreLayoutEvent& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ListButton::_layoutEvent(LayoutEvent&)
+        void ListButton::layoutEvent(LayoutEvent&)
         {
             _p->layout->setGeometry(getGeometry());
         }
@@ -850,7 +850,7 @@ namespace djv
             return out;
         }
 
-        void ToggleButton::_preLayoutEvent(PreLayoutEvent& event)
+        void ToggleButton::preLayoutEvent(PreLayoutEvent& event)
         {
             if (auto fontSystem = _getFontSystem().lock())
             {
@@ -871,8 +871,9 @@ namespace djv
             }
         }
 
-        void ToggleButton::_paintEvent(PaintEvent& event)
+        void ToggleButton::paintEvent(PaintEvent& event)
         {
+            Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())

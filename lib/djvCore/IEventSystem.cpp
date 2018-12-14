@@ -42,9 +42,6 @@ namespace djv
         {
             std::weak_ptr<TextSystem> textSystem;
             std::shared_ptr<IObject> rootObject;
-            std::shared_ptr<IObject> hover;
-            std::shared_ptr<IObject> grab;
-            std::shared_ptr<IObject> focus;
         };
 
         void IEventSystem::_init(const std::string& systemName, Context * context)
@@ -78,70 +75,6 @@ namespace djv
             }
         }
 
-        void IEventSystem::_pointerMove(const PointerInfo& info)
-        {
-            DJV_PRIVATE_PTR();
-            PointerMoveEvent moveEvent(info);
-            if (p.grab)
-            {
-                p.grab->_event(moveEvent);
-            }
-            else if (p.rootObject)
-            {
-                std::shared_ptr<IObject> hover;
-                _hover(p.rootObject, moveEvent, hover);
-                if (hover != p.hover)
-                {
-                    if (p.hover)
-                    {
-                        PointerLeaveEvent leaveEvent(info);
-                        p.hover->_event(leaveEvent);
-                        {
-                            std::stringstream ss;
-                            ss << "Leave: " << p.hover->getName();
-                            getContext()->log("djv::Core::IEventSystem", ss.str());
-                        }
-                    }
-                    p.hover = hover;
-                    if (p.hover)
-                    {
-                        PointerEnterEvent enterEvent(info);
-                        p.hover->_event(enterEvent);
-                        {
-                            std::stringstream ss;
-                            ss << "Enter: " << p.hover->getName();
-                            getContext()->log("djv::Core::IEventSystem", ss.str());
-                        }
-                    }
-                }
-            }
-        }
-
-        void IEventSystem::_buttonPress(const PointerInfo& info)
-        {
-            DJV_PRIVATE_PTR();
-            ButtonPressEvent event(info);
-            if (p.hover)
-            {
-                p.hover->_event(event);
-                if (event.isAccepted())
-                {
-                    p.grab = p.hover;
-                }
-            }
-        }
-
-        void IEventSystem::_buttonRelease(const PointerInfo& info)
-        {
-            DJV_PRIVATE_PTR();
-            ButtonReleaseEvent event(info);
-            if (p.grab)
-            {
-                p.grab->_event(event);
-                p.grab = nullptr;
-            }
-        }
-
         void IEventSystem::_tick(float dt)
         {
             DJV_PRIVATE_PTR();
@@ -164,7 +97,7 @@ namespace djv
                         LocaleEvent localeEvent(textSystem->getCurrentLocale());
                         for (auto& object : firstTick)
                         {
-                            object->_event(localeEvent);
+                            object->event(localeEvent);
                         }
                     }
                 }
@@ -185,7 +118,7 @@ namespace djv
 
         void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, UpdateEvent& event)
         {
-            object->_event(event);
+            object->event(event);
             for (const auto& child : object->_children)
             {
                 _updateRecursive(child, event);
@@ -194,41 +127,11 @@ namespace djv
        
         void IEventSystem::_localeRecursive(const std::shared_ptr<IObject>& object, LocaleEvent& event)
         {
-            object->_event(event);
+            object->event(event);
             for (const auto& child : object->_children)
             {
                 _localeRecursive(child, event);
             }
-        }
-
-        void IEventSystem::_hover(const std::shared_ptr<IObject>& object, PointerMoveEvent& event, std::shared_ptr<IObject>& hover)
-        {
-            object->_event(event);
-            if (event.isAccepted())
-            {
-                hover = object;
-            }
-            else
-            {
-                for (const auto& child : object->_children)
-                {
-                    _hover(child, event, hover);
-                }
-            }
-            /*
-            for (const auto& child : object->_children)
-            {
-                _hover(child, event, hover);
-            }
-            if (!event.isAccepted())
-            {
-                object->_event(event);
-                if (event.isAccepted())
-                {
-                    hover = object;
-                }
-            }
-            */
         }
 
     } // namespace Core

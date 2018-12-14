@@ -50,10 +50,8 @@ namespace djv
             static std::shared_ptr<StackLayout> create(Core::Context *);
 
             float getHeightForWidth(float) const override;
-
-        protected:
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _layoutEvent(Core::LayoutEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
 
         private:
             struct Private;

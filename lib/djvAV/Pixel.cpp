@@ -496,7 +496,7 @@ namespace djv
             void convert(const void * in, Type inType, void * out, Type outType, size_t size)
             {
                 typedef std::function<void(const void *, void *, size_t)> Function;
-                std::map<Type, std::map<Type, Function> > functions =
+                static const std::map<Type, std::map<Type, Function> > functions =
                 {
 #define CONVERT_MAP(A) \
                     { \

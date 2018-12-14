@@ -49,9 +49,8 @@ namespace djv
 
             static std::shared_ptr<Separator> create(Core::Context *);
 
-        protected:
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _paintEvent(Core::PaintEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
 
         private:
             struct Private;

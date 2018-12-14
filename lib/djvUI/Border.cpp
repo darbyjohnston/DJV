@@ -138,7 +138,7 @@ namespace djv
             return out;
         }
 
-        void Border::_preLayoutEvent(PreLayoutEvent& event)
+        void Border::preLayoutEvent(PreLayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -148,7 +148,7 @@ namespace djv
             }
         }
 
-        void Border::_layoutEvent(LayoutEvent& event)
+        void Border::layoutEvent(LayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -157,9 +157,9 @@ namespace djv
             }
         }
 
-        void Border::_paintEvent(PaintEvent& event)
+        void Border::paintEvent(PaintEvent& event)
         {
-            Widget::_paintEvent(event);
+            Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())

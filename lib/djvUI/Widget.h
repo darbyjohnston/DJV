@@ -144,6 +144,21 @@ namespace djv
 
             void setParent(const std::shared_ptr<IObject>&, int insert = -1) override;
 
+            virtual void preLayoutEvent(Core::PreLayoutEvent&) {}
+            virtual void layoutEvent(Core::LayoutEvent&) {}
+            virtual void clipEvent(Core::ClipEvent&) {}
+            virtual void paintEvent(Core::PaintEvent&);
+            virtual void scrollEvent(Core::ScrollEvent&) {}
+            virtual void dropEvent(Core::DropEvent&) {}
+            virtual void keyboardFocusEvent(Core::KeyboardFocusEvent&) {}
+            virtual void keyboardFocusLostEvent(Core::KeyboardFocusLostEvent&) {}
+            virtual void keyEvent(Core::KeyEvent&);
+            virtual void textEvent(Core::TextEvent&) {}
+
+            void event(Core::IEvent&) override;
+            void pointerEnterEvent(Core::PointerEnterEvent&) override;
+            void pointerMoveEvent(Core::PointerMoveEvent&) override;
+
         protected:
             inline const std::weak_ptr<AV::IconSystem>& _getIconSystem() const;
             inline const std::weak_ptr<AV::FontSystem>& _getFontSystem() const;
@@ -151,21 +166,6 @@ namespace djv
             inline const std::weak_ptr<Style>& _getStyle() const;
 
             void _setMinimumSize(const glm::vec2&);
-
-            virtual void _preLayoutEvent(Core::PreLayoutEvent&) {}
-            virtual void _layoutEvent(Core::LayoutEvent&) {}
-            virtual void _clipEvent(Core::ClipEvent&) {}
-            virtual void _paintEvent(Core::PaintEvent&);
-            virtual void _scrollEvent(Core::ScrollEvent&) {}
-            virtual void _dropEvent(Core::DropEvent&) {}
-            virtual void _keyboardFocusEvent(Core::KeyboardFocusEvent&) {}
-            virtual void _keyboardFocusLostEvent(Core::KeyboardFocusLostEvent&) {}
-            virtual void _keyEvent(Core::KeyEvent&);
-            virtual void _textEvent(Core::TextEvent&) {}
-
-            void _event(Core::IEvent&) override;
-            void _pointerEnterEvent(Core::PointerEnterEvent&) override;
-            void _pointerMoveEvent(Core::PointerMoveEvent&) override;
 
         private:
             bool _visible = true;

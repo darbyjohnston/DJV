@@ -58,9 +58,8 @@ namespace djv
             const std::shared_ptr<AV::Image>& getImage() const;
             void setImage(const std::shared_ptr<AV::Image>&, size_t hash);
             
-        protected:
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _paintEvent(Core::PaintEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
 
         private:
             struct Private;

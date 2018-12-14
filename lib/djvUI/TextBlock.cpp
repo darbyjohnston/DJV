@@ -62,6 +62,7 @@ namespace djv
             std::vector<AV::FontLine> breakText;
             size_t breakTextHash = 0;
             std::future<std::vector<AV::FontLine> > breakTextFuture;
+            BBox2f clipRect;
         };
 
         void TextBlock::_init(Context * context)
@@ -182,7 +183,7 @@ namespace djv
             return out;
         }
 
-        void TextBlock::_updateEvent(UpdateEvent& event)
+        void TextBlock::updateEvent(UpdateEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -206,7 +207,7 @@ namespace djv
             }
         }
 
-        void TextBlock::_preLayoutEvent(PreLayoutEvent& event)
+        void TextBlock::preLayoutEvent(PreLayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -220,7 +221,7 @@ namespace djv
             }
         }
 
-        void TextBlock::_layoutEvent(LayoutEvent& event)
+        void TextBlock::layoutEvent(LayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -242,9 +243,14 @@ namespace djv
             }
         }
 
-        void TextBlock::_paintEvent(PaintEvent& event)
+        void TextBlock::clipEvent(ClipEvent& event)
         {
-            Widget::_paintEvent(event);
+            _p->clipRect = event.getClipRect();
+        }
+
+        void TextBlock::paintEvent(PaintEvent& event)
+        {
+            Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())
@@ -265,7 +271,10 @@ namespace djv
                     render->setFillColor(style->getColor(_p->textColorRole));
                     for (const auto& line : _p->breakText)
                     {
-                        render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
+                        if (pos.y >= _p->clipRect.min.y && pos.y + line.size.y <= _p->clipRect.max.y)
+                        {
+                            render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
+                        }
                         pos.y += line.size.y;
                     }
                 }

@@ -59,17 +59,15 @@ namespace djv
             void setSplitCallback(const std::function<void(float)>&);
 
             float getHeightForWidth(float) const override;
-
-        protected:
-            void _updateEvent(Core::UpdateEvent&) override;
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _layoutEvent(Core::LayoutEvent&) override;
-            void _paintEvent(Core::PaintEvent&) override;
-            void _pointerEnterEvent(Core::PointerEnterEvent&) override;
-            void _pointerLeaveEvent(Core::PointerLeaveEvent&) override;
-            void _pointerMoveEvent(Core::PointerMoveEvent&) override;
-            void _buttonPressEvent(Core::ButtonPressEvent&) override;
-            void _buttonReleaseEvent(Core::ButtonReleaseEvent&) override;
+            void updateEvent(Core::UpdateEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
+            void pointerEnterEvent(Core::PointerEnterEvent&) override;
+            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
+            void pointerMoveEvent(Core::PointerMoveEvent&) override;
+            void buttonPressEvent(Core::ButtonPressEvent&) override;
+            void buttonReleaseEvent(Core::ButtonReleaseEvent&) override;
 
         private:
             float _valueToPos(float) const;

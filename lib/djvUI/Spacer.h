@@ -55,8 +55,7 @@ namespace djv
             MetricsRole getSpacerSize() const;
             void setSpacerSize(MetricsRole);
 
-        protected:
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
 
         private:
             struct Private;

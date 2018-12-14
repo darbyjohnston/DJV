@@ -92,7 +92,7 @@ namespace djv
             {
                 _updateRecursive(child, event);
             }
-            widget->_event(event);
+            widget->event(event);
         }
 
         void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, PreLayoutEvent& event)
@@ -101,14 +101,14 @@ namespace djv
             {
                 _preLayoutRecursive(child, event);
             }
-            widget->_event(event);
+            widget->event(event);
         }
 
         void IWindowSystem::_layoutRecursive(const std::shared_ptr<UI::Widget>& widget, LayoutEvent& event)
         {
             if (widget->isVisible())
             {
-                widget->_event(event);
+                widget->event(event);
                 for (const auto& child : widget->getChildrenT<UI::Widget>())
                 {
                     _layoutRecursive(child, event);
@@ -118,7 +118,7 @@ namespace djv
 
         void IWindowSystem::_clipRecursive(const std::shared_ptr<UI::Widget>& widget, ClipEvent& event)
         {
-            widget->_event(event);
+            widget->event(event);
             const BBox2f clipRect = event.getClipRect();
             for (const auto& child : widget->getChildrenT<UI::Widget>())
             {
@@ -134,7 +134,7 @@ namespace djv
             {
                 const BBox2f clipRect = event.getClipRect();
                 _pushClipRect(clipRect);
-                widget->_event(event);
+                widget->event(event);
                 for (const auto& child : widget->getChildrenT<UI::Widget>())
                 {
                     event.setClipRect(clipRect.intersect(child->getGeometry()));

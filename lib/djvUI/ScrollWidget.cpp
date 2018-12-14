@@ -86,13 +86,13 @@ namespace djv
                 void setScrollPosCallback(const std::function<void(float)>&);
 
             protected:
-                void _preLayoutEvent(PreLayoutEvent&) override;
-                void _paintEvent(PaintEvent&) override;
-                void _pointerEnterEvent(PointerEnterEvent&) override;
-                void _pointerLeaveEvent(PointerLeaveEvent&) override;
-                void _pointerMoveEvent(PointerMoveEvent&) override;
-                void _buttonPressEvent(ButtonPressEvent&) override;
-                void _buttonReleaseEvent(ButtonReleaseEvent&) override;
+                void preLayoutEvent(PreLayoutEvent&) override;
+                void paintEvent(PaintEvent&) override;
+                void pointerEnterEvent(PointerEnterEvent&) override;
+                void pointerLeaveEvent(PointerLeaveEvent&) override;
+                void pointerMoveEvent(PointerMoveEvent&) override;
+                void buttonPressEvent(ButtonPressEvent&) override;
+                void buttonReleaseEvent(ButtonReleaseEvent&) override;
 
             private:
                 float _valueToPos(float) const;
@@ -157,7 +157,7 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
-            void ScrollBar::_preLayoutEvent(PreLayoutEvent&)
+            void ScrollBar::preLayoutEvent(PreLayoutEvent&)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -167,8 +167,9 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_paintEvent(PaintEvent& event)
+            void ScrollBar::paintEvent(PaintEvent& event)
             {
+                Widget::paintEvent(event);
                 if (auto render = _getRenderSystem().lock())
                 {
                     if (auto style = _getStyle().lock())
@@ -212,7 +213,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_pointerEnterEvent(PointerEnterEvent& event)
+            void ScrollBar::pointerEnterEvent(PointerEnterEvent& event)
             {
                 if (!event.isRejected())
                 {
@@ -222,7 +223,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_pointerLeaveEvent(PointerLeaveEvent& event)
+            void ScrollBar::pointerLeaveEvent(PointerLeaveEvent& event)
             {
                 event.accept();
 
@@ -233,7 +234,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_pointerMoveEvent(PointerMoveEvent& event)
+            void ScrollBar::pointerMoveEvent(PointerMoveEvent& event)
             {
                 event.accept();
 
@@ -261,7 +262,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_buttonPressEvent(ButtonPressEvent& event)
+            void ScrollBar::buttonPressEvent(ButtonPressEvent& event)
             {
                 if (_pressedId)
                     return;
@@ -296,13 +297,11 @@ namespace djv
                 _pressedScrollPos = _scrollPos;
             }
 
-            void ScrollBar::_buttonReleaseEvent(ButtonReleaseEvent& event)
+            void ScrollBar::buttonReleaseEvent(ButtonReleaseEvent& event)
             {
                 if (event.getPointerInfo().id != _pressedId)
                     return;
-
                 event.accept();
-
                 _pressedId = 0;
             }
 
@@ -370,9 +369,9 @@ namespace djv
                 void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
 
             protected:
-                void _preLayoutEvent(PreLayoutEvent&) override;
-                void _layoutEvent(LayoutEvent&) override;
-                void _paintEvent(PaintEvent&) override;
+                void preLayoutEvent(PreLayoutEvent&) override;
+                void layoutEvent(LayoutEvent&) override;
+                void paintEvent(PaintEvent&) override;
 
             private:
                 ScrollType _scrollType = ScrollType::Both;
@@ -430,7 +429,7 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
-            void ScrollArea::_preLayoutEvent(PreLayoutEvent&)
+            void ScrollArea::preLayoutEvent(PreLayoutEvent&)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -463,7 +462,7 @@ namespace djv
                 }
             }
 
-            void ScrollArea::_layoutEvent(LayoutEvent& event)
+            void ScrollArea::layoutEvent(LayoutEvent& event)
             {
                 const BBox2f& g = getGeometry();
                 const float gw = g.w();
@@ -536,7 +535,7 @@ namespace djv
                 }
             }
 
-            void ScrollArea::_paintEvent(PaintEvent& event)
+            void ScrollArea::paintEvent(PaintEvent& event)
             {}
 
         } // namespace
@@ -732,7 +731,7 @@ namespace djv
             _p->scrollArea->clearWidgets();
         }
 
-        void ScrollWidget::_preLayoutEvent(PreLayoutEvent&)
+        void ScrollWidget::preLayoutEvent(PreLayoutEvent&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -740,7 +739,7 @@ namespace djv
             }
         }
 
-        void ScrollWidget::_layoutEvent(LayoutEvent&)
+        void ScrollWidget::layoutEvent(LayoutEvent&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -749,7 +748,7 @@ namespace djv
             }
         }
 
-        void ScrollWidget::_clipEvent(ClipEvent&)
+        void ScrollWidget::clipEvent(ClipEvent&)
         {
             if (isClipped())
             {
@@ -757,14 +756,14 @@ namespace djv
             }
         }
 
-        void ScrollWidget::_scrollEvent(ScrollEvent& event)
+        void ScrollWidget::scrollEvent(ScrollEvent& event)
         {
             event.accept();
 
             setScrollPos(_p->scrollArea->getScrollPos() - event.getScrollDelta() * scrollWheelMult);
         }
 
-        bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
+        bool ScrollWidget::eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
         {
             switch (event.getEventType())
             {

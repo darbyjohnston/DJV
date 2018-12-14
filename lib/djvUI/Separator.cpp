@@ -64,7 +64,7 @@ namespace djv
             return out;
         }
 
-        void Separator::_preLayoutEvent(PreLayoutEvent& event)
+        void Separator::preLayoutEvent(PreLayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -77,9 +77,9 @@ namespace djv
             }
         }
 
-        void Separator::_paintEvent(PaintEvent& event)
+        void Separator::paintEvent(PaintEvent& event)
         {
-            Widget::_paintEvent(event);
+            Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 const BBox2f& g = getGeometry();

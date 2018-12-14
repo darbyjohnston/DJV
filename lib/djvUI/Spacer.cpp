@@ -83,7 +83,7 @@ namespace djv
             _p->spacerSize = value;
         }
 
-        void Spacer::_preLayoutEvent(PreLayoutEvent& event)
+        void Spacer::preLayoutEvent(PreLayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {

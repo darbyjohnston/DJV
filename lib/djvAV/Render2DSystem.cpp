@@ -113,7 +113,7 @@ namespace djv
                 ColorMode colorMode = ColorMode::SolidColor;
                 Color color = Color(1.f, 1.f, 1.f);
 
-                virtual std::vector<RenderData> getRenderData() = 0;
+                virtual void getRenderData(std::vector<RenderData> &) = 0;
             };
 
             Primitive::~Primitive() {}
@@ -165,16 +165,14 @@ namespace djv
 
                 BBox2f rect = BBox2f(0.f, 0.f, 0.f, 0.f);
 
-                std::vector<RenderData> getRenderData() override
+                void getRenderData(std::vector<RenderData> & out) override
                 {
-                    std::vector<RenderData> out;
                     RenderData data;
                     data.bbox = rect;
                     data.clipRect = clipRect;
                     data.colorMode = colorMode;
                     data.color = color;
-                    out.push_back(data);
-                    return out;
+                    out.push_back(std::move(data));
                 }
             };
 
@@ -189,16 +187,14 @@ namespace djv
                 }
 
                 size_t hash = 0;
-                std::shared_ptr<Pixel::Data> data;
+                std::shared_ptr<Pixel::Data> pixelData;
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 PixelFormat pixelFormat = PixelFormat::RGBA;
                 bool dynamic = true;
                 std::shared_ptr<TextureCache> textureCache;
 
-                std::vector<RenderData> getRenderData() override
+                void getRenderData(std::vector<RenderData> & out) override
                 {
-                    std::vector<RenderData> out;
-
                     TextureCacheItem item;
                     if (hash)
                     {
@@ -210,52 +206,51 @@ namespace djv
                         }
                         if (!textureCache->getItem(id, item))
                         {
-                            id = textureCache->addItem(data, item);
+                            id = textureCache->addItem(pixelData, item);
                             render.imageTextureIds[hash] = id;
                         }
                     }
                     else
                     {
-                        textureCache->addItem(data, item);
+                        textureCache->addItem(pixelData, item);
                     }
 
-                    RenderData renderData;
-                    renderData.bbox = BBox2f(pos.x, pos.y, static_cast<float>(item.size.x), static_cast<float>(item.size.y));
-                    renderData.clipRect = clipRect;
-                    const auto& info = data->getInfo();
+                    RenderData data;
+                    data.bbox = BBox2f(pos.x, pos.y, static_cast<float>(item.size.x), static_cast<float>(item.size.y));
+                    data.clipRect = clipRect;
+                    const auto& info = pixelData->getInfo();
                     switch (info.getGLFormat())
                     {
-                    case GL_RED: renderData.pixelFormat = PixelFormat::L; break;
-                    case GL_RG: renderData.pixelFormat = PixelFormat::LA; break;
-                    case GL_RGB: renderData.pixelFormat = PixelFormat::RGB; break;
-                    case GL_RGBA: renderData.pixelFormat = PixelFormat::RGBA; break;
+                    case GL_RED:  data.pixelFormat = PixelFormat::L;    break;
+                    case GL_RG:   data.pixelFormat = PixelFormat::LA;   break;
+                    case GL_RGB:  data.pixelFormat = PixelFormat::RGB;  break;
+                    case GL_RGBA: data.pixelFormat = PixelFormat::RGBA; break;
                     default: break;
                     }
-                    renderData.colorMode = colorMode;
-                    renderData.color = color;
-                    renderData.texture =
+                    data.colorMode = colorMode;
+                    data.color = color;
+                    data.texture =
                         static_cast<GLint>((dynamic ? render.staticTextureCache->getTextureCount() : 0) +
                         item.texture);
                     if (info.layout.mirror.x)
                     {
-                        renderData.textureU.min = item.textureU.max;
-                        renderData.textureU.max = item.textureU.min;
+                        data.textureU.min = item.textureU.max;
+                        data.textureU.max = item.textureU.min;
                     }
                     else
                     {
-                        renderData.textureU = item.textureU;
+                        data.textureU = item.textureU;
                     }
                     if (info.layout.mirror.y)
                     {
-                        renderData.textureV = item.textureV;
+                        data.textureV = item.textureV;
                     }
                     else
                     {
-                        renderData.textureV.min = item.textureV.max;
-                        renderData.textureV.max = item.textureV.min;
+                        data.textureV.min = item.textureV.max;
+                        data.textureV.max = item.textureV.min;
                     }
-                    out.push_back(renderData);
-                    return out;
+                    out.push_back(std::move(data));
                 }
             };
 
@@ -272,12 +267,15 @@ namespace djv
                 std::future<std::vector<std::shared_ptr<FontGlyph> > > glyphsFuture;
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
 
-                std::vector<RenderData> getRenderData() override
+                void getRenderData(std::vector<RenderData> & out) override
                 {
-                    std::vector<RenderData> out;
                     float x = 0.f;
                     float y = 0.f;
                     const auto glyphs = glyphsFuture.get();
+                    //out.reserve(out.size() + glyphs.size());
+                    const size_t outSize = out.size();
+                    out.resize(out.size() + glyphs.size());
+                    auto it = out.begin() + outSize;
                     for (const auto& glyph : glyphs)
                     {
                         const glm::vec2& size = glyph->pixelData->getSize();
@@ -302,7 +300,7 @@ namespace djv
                                 render.glyphTextureIds[hash] = id;
                             }
 
-                            RenderData renderData;
+                            /*RenderData renderData;
                             renderData.bbox = bbox;
                             renderData.clipRect = clipRect;
                             renderData.colorMode = colorMode;
@@ -310,11 +308,19 @@ namespace djv
                             renderData.texture = static_cast<GLint>(item.texture);
                             renderData.textureU = item.textureU;
                             renderData.textureV = item.textureV;
-                            out.push_back(renderData);
+                            out.push_back(std::move(renderData));*/
+                            it->bbox = bbox;
+                            it->clipRect = clipRect;
+                            it->colorMode = colorMode;
+                            it->color = color;
+                            it->texture = static_cast<GLint>(item.texture);
+                            it->textureU = item.textureU;
+                            it->textureV = item.textureV;
+                            ++it;
                         }
                         x += glyph->advance;
                     }
-                    return out;
+                    out.resize(it - out.begin());
                 }
             };
 
@@ -438,7 +444,7 @@ namespace djv
         {
             auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*_p->render, dynamic));
             primitive->hash = hash;
-            primitive->data = data;
+            primitive->pixelData = data;
             primitive->pos = pos;
             primitive->clipRect = _p->currentClipRect;
             primitive->colorMode = ColorMode::ColorAndTexture;
@@ -450,7 +456,7 @@ namespace djv
         {
             auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*_p->render, dynamic));
             primitive->hash = hash;
-            primitive->data = data;
+            primitive->pixelData = data;
             primitive->pos = pos;
             primitive->clipRect = _p->currentClipRect;
             primitive->colorMode = ColorMode::ColorWithTextureAlpha;
@@ -484,11 +490,13 @@ namespace djv
             std::vector<RenderData> renderData;
             for (auto& primitive : _p->render->primitives)
             {
-                const auto primitiveRenderData = primitive->getRenderData();
-                renderData.insert(renderData.end(), primitiveRenderData.begin(), primitiveRenderData.end());
+                primitive->getRenderData(renderData);
             }
 
             TriangleMesh mesh;
+            mesh.v.reserve(renderData.size() * 4);
+            mesh.t.reserve(renderData.size() * 4);
+            mesh.triangles.reserve(renderData.size() * 2);
             size_t quadsCount = 0;
             for (auto& data : renderData)
             {
@@ -508,11 +516,12 @@ namespace djv
                     triangle.v0 = TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
                     triangle.v1 = TriangleMesh::Vertex(quadsCount * 4 + 2, quadsCount * 4 + 2);
                     triangle.v2 = TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
-                    mesh.triangles.push_back(triangle);
+                    mesh.triangles.push_back(std::move(triangle));
+                    TriangleMesh::Triangle triangle2;
                     triangle.v0 = TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
                     triangle.v1 = TriangleMesh::Vertex(quadsCount * 4 + 4, quadsCount * 4 + 4);
                     triangle.v2 = TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
-                    mesh.triangles.push_back(triangle);
+                    mesh.triangles.push_back(std::move(triangle));
                     ++quadsCount;
                 }
             }
@@ -561,6 +570,11 @@ namespace djv
             vbo->copy(OpenGL::VBO::convert(mesh, vbo->getType()));
             auto vao = OpenGL::VAO::create(vbo->getType(), vbo->getID());
             vao->bind();
+
+            auto pixelFormat = static_cast<PixelFormat>(0);
+            auto colorMode = static_cast<ColorMode>(0);
+            AV::Color color;
+            GLint texture = 0;
             for (size_t i = 0; i < renderData.size(); ++i)
             {
                 const auto& data = renderData[i];
@@ -571,10 +585,26 @@ namespace djv
                     static_cast<GLint>(clipRect.min.y),
                     static_cast<GLsizei>(clipRect.w()),
                     static_cast<GLsizei>(clipRect.h()));
-                _p->render->shader->setUniform("pixelFormat", static_cast<int>(data.pixelFormat));
-                _p->render->shader->setUniform("colorMode", static_cast<int>(data.colorMode));
-                _p->render->shader->setUniform("color", data.color);
-                _p->render->shader->setUniform("textureSampler", data.texture);
+                if (i == 0 || data.pixelFormat != pixelFormat)
+                {
+                    pixelFormat = data.pixelFormat;
+                    _p->render->shader->setUniform("pixelFormat", static_cast<int>(data.pixelFormat));
+                }
+                if (i == 0 || data.colorMode != colorMode)
+                {
+                    colorMode = data.colorMode;
+                    _p->render->shader->setUniform("colorMode", static_cast<int>(data.colorMode));
+                }
+                if (i == 0 || data.color != color)
+                {
+                    color = data.color;
+                    _p->render->shader->setUniform("color", data.color);
+                }
+                if (i == 0 || data.texture != texture)
+                {
+                    texture = data.texture;
+                    _p->render->shader->setUniform("textureSampler", data.texture);
+                }
                 vao->draw(i * 6, 6);
             }
 

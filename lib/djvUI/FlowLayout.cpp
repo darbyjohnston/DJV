@@ -105,7 +105,7 @@ namespace djv
             return out;
         }
 
-        void FlowLayout::_preLayoutEvent(PreLayoutEvent&)
+        void FlowLayout::preLayoutEvent(PreLayoutEvent&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -120,7 +120,7 @@ namespace djv
             }
         }
 
-        void FlowLayout::_layoutEvent(LayoutEvent&)
+        void FlowLayout::layoutEvent(LayoutEvent&)
         {
             if (auto style = _getStyle().lock())
             {

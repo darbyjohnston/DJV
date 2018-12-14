@@ -35,11 +35,12 @@ namespace djv
 {
     namespace Core
     {
+        struct PointerInfo;
+
         class IObject;
         class LocaleEvent;
         class PointerMoveEvent;
         class UpdateEvent;
-        struct PointerInfo;
 
         class IEventSystem : public ISystem
         {
@@ -57,9 +58,6 @@ namespace djv
 
         protected:
             void _locale(LocaleEvent&);
-            void _pointerMove(const PointerInfo&);
-            void _buttonPress(const PointerInfo&);
-            void _buttonRelease(const PointerInfo&);
 
             void _tick(float dt) override;
 
@@ -67,7 +65,6 @@ namespace djv
             void _getFirstTick(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<IObject> >&);
             void _updateRecursive(const std::shared_ptr<IObject>&, UpdateEvent&);
             void _localeRecursive(const std::shared_ptr<IObject>&, LocaleEvent&);
-            void _hover(const std::shared_ptr<IObject>&, PointerMoveEvent&, std::shared_ptr<IObject>&);
 
             DJV_PRIVATE();
         };

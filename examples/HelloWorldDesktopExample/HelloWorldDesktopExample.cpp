@@ -27,49 +27,46 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvDesktop/Application.h>
 
-#include <djvUI/Widget.h>
+#include <djvUI/Button.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/Window.h>
 
-namespace djv
+#include <djvCore/Error.h>
+
+using namespace djv;
+
+int main(int argc, char ** argv)
 {
-    namespace Core
+    int r = 0;
+    try
     {
-        class Path;
+        auto app = Desktop::Application::create(argc, argv);
 
-    } // namespace Core
+        auto button1 = UI::Button::create(app.get());
+        button1->setFontSizeRole(UI::MetricsRole::FontExtraLarge);
+        button1->setText("Hello");
 
-    namespace UI
+        auto button2 = UI::Button::create(app.get());
+        button2->setFontSizeRole(UI::MetricsRole::FontExtraLarge);
+        button2->setText("world!");
+
+        auto layout = UI::HorizontalLayout::create(app.get());
+        layout->setHAlign(UI::HAlign::Center);
+        layout->setVAlign(UI::VAlign::Center);
+        layout->addWidget(button1);
+        layout->addWidget(button2);
+
+        auto window = UI::Window::create(app.get());
+        window->addWidget(layout);
+        window->show();
+
+        return app->run();
+    }
+    catch (const std::exception & e)
     {
-        //! This class provides a widget that displays an icon.
-        class Icon : public Widget
-        {
-            DJV_NON_COPYABLE(Icon);
-
-        protected:
-            void _init(Core::Context *);
-            Icon();
-
-        public:
-            virtual ~Icon();
-
-            static std::shared_ptr<Icon> create(Core::Context *);
-            static std::shared_ptr<Icon> create(const Core::Path&, Core::Context *);
-
-            const Core::Path& getIcon() const;
-            void setIcon(const Core::Path&);
-            
-            ColorRole getIconColorRole() const;
-            void setIconColorRole(ColorRole);
-
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
-
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-    } // namespace UI
-} // namespace djv
-
+        std::cout << Core::format(e) << std::endl;
+    }
+    return r;
+}

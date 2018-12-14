@@ -1,1 +1,2 @@
-add_subdirectory(HelloWorldDesktop)
+add_subdirectory(HelloWorldDesktopExample)
+add_subdirectory(SplitterDesktopExample)

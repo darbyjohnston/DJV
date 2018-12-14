@@ -154,25 +154,25 @@ namespace djv
             }
         }
 
-        void IObject::_event(IEvent& event)
+        void IObject::event(IEvent& event)
         {
-            if (!_eventFilter(event))
+            if (!eventFilter(event))
             {
                 switch (event.getEventType())
                 {
-                case EventType::Update: _updateEvent(static_cast<UpdateEvent&>(event)); break;
-                case EventType::Locale: _localeEvent(static_cast<LocaleEvent&>(event)); break;
-                case EventType::PointerEnter: _pointerEnterEvent(static_cast<PointerEnterEvent&>(event)); break;
-                case EventType::PointerLeave: _pointerLeaveEvent(static_cast<PointerLeaveEvent&>(event)); break;
-                case EventType::PointerMove: _pointerMoveEvent(static_cast<PointerMoveEvent&>(event)); break;
-                case EventType::ButtonPress: _buttonPressEvent(static_cast<ButtonPressEvent&>(event)); break;
-                case EventType::ButtonRelease: _buttonReleaseEvent(static_cast<ButtonReleaseEvent&>(event)); break;
+                case EventType::Update: updateEvent(static_cast<UpdateEvent&>(event)); break;
+                case EventType::Locale: localeEvent(static_cast<LocaleEvent&>(event)); break;
+                case EventType::PointerEnter: pointerEnterEvent(static_cast<PointerEnterEvent&>(event)); break;
+                case EventType::PointerLeave: pointerLeaveEvent(static_cast<PointerLeaveEvent&>(event)); break;
+                case EventType::PointerMove: pointerMoveEvent(static_cast<PointerMoveEvent&>(event)); break;
+                case EventType::ButtonPress:  buttonPressEvent(static_cast<ButtonPressEvent&>(event)); break;
+                case EventType::ButtonRelease: buttonReleaseEvent(static_cast<ButtonReleaseEvent&>(event)); break;
                 default: break;
                 }
             }
         }
 
-        bool IObject::_eventFilter(IEvent& event)
+        bool IObject::eventFilter(IEvent& event)
         {
             bool filtered = false;
             std::vector<std::weak_ptr<IObject> > zombies;
@@ -180,7 +180,7 @@ namespace djv
             {
                 if (auto object = filter.lock())
                 {
-                    if (object->_eventFilter(shared_from_this(), event))
+                    if (object->eventFilter(shared_from_this(), event))
                     {
                         filtered = true;
                         break;

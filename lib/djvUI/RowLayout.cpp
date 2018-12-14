@@ -200,7 +200,7 @@ namespace djv
             return out;
         }
 
-        void RowLayout::_preLayoutEvent(PreLayoutEvent&)
+        void RowLayout::preLayoutEvent(PreLayoutEvent&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -249,7 +249,7 @@ namespace djv
             }
         }
 
-        void RowLayout::_layoutEvent(LayoutEvent& event)
+        void RowLayout::layoutEvent(LayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {

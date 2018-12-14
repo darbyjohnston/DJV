@@ -28,10 +28,14 @@
 //------------------------------------------------------------------------------
 
 #include <djvDesktop/Application.h>
-#include <djvUI/Button.h>
+
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/Splitter.h>
+#include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/String.h>
 
 using namespace djv;
 
@@ -41,12 +45,29 @@ int main(int argc, char ** argv)
     try
     {
         auto app = Desktop::Application::create(argc, argv);
-        auto button = UI::Button::create(app.get());
-        button->setFontSizeRole(UI::MetricsRole::FontExtraLarge);
-        button->setText("Hello world!");
+
+        auto textBlock1 = UI::TextBlock::create(app.get());
+        textBlock1->setText(Core::String::getRandomText(100));
+        textBlock1->setMargin(UI::MetricsRole::Margin);
+
+        auto textBlock2 = UI::TextBlock::create(app.get());
+        textBlock2->setText(Core::String::getRandomText(100));
+        textBlock2->setMargin(UI::MetricsRole::Margin);
+
+        auto scrollWidget1 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
+        scrollWidget1->addWidget(textBlock1);
+
+        auto scrollWidget2 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
+        scrollWidget2->addWidget(textBlock2);
+
+        auto splitter = UI::Splitter::create(UI::Orientation::Horizontal, app.get());
+        splitter->addWidget(scrollWidget1);
+        splitter->addWidget(scrollWidget2);
+
         auto window = UI::Window::create(app.get());
-        window->addWidget(button);
+        window->addWidget(splitter);
         window->show();
+
         return app->run();
     }
     catch (const std::exception & e)

@@ -254,18 +254,18 @@ namespace djv
             _minimumSize = value;
         }
 
-        void Widget::_event(IEvent& event)
+        void Widget::event(IEvent& event)
         {
             switch (event.getEventType())
             {
             case EventType::Update:
-                _updateEvent(static_cast<UpdateEvent&>(event));
+                updateEvent(static_cast<UpdateEvent&>(event));
                 break;
             case EventType::PreLayout:
-                _preLayoutEvent(static_cast<PreLayoutEvent&>(event));
+                preLayoutEvent(static_cast<PreLayoutEvent&>(event));
                 break;
             case EventType::Layout:
-                _layoutEvent(static_cast<LayoutEvent&>(event));
+                layoutEvent(static_cast<LayoutEvent&>(event));
                 break;
             case EventType::Clip:
             {
@@ -275,50 +275,50 @@ namespace djv
                     _parentsVisible = parent->isVisible(true);
                     _clipped = !clipEvent.getClipRect().isValid() || !_visible || !parent->_visible || !parent->_parentsVisible;
                 }
-                _clipEvent(clipEvent);
+                this->clipEvent(clipEvent);
                 break;
             }
             case EventType::Paint:
-                _paintEvent(static_cast<PaintEvent&>(event));
+                paintEvent(static_cast<PaintEvent&>(event));
                 break;
             case EventType::PointerEnter:
-                _pointerEnterEvent(static_cast<PointerEnterEvent&>(event));
+                pointerEnterEvent(static_cast<PointerEnterEvent&>(event));
                 break;
             case EventType::PointerLeave:
-                _pointerLeaveEvent(static_cast<PointerLeaveEvent&>(event));
+                pointerLeaveEvent(static_cast<PointerLeaveEvent&>(event));
                 break;
             case EventType::PointerMove:
-                _pointerMoveEvent(static_cast<PointerMoveEvent&>(event));
+                pointerMoveEvent(static_cast<PointerMoveEvent&>(event));
                 break;
             case EventType::ButtonPress:
-                _buttonPressEvent(static_cast<ButtonPressEvent&>(event));
+                buttonPressEvent(static_cast<ButtonPressEvent&>(event));
                 break;
             case EventType::ButtonRelease:
-                _buttonReleaseEvent(static_cast<ButtonReleaseEvent&>(event));
+                buttonReleaseEvent(static_cast<ButtonReleaseEvent&>(event));
                 break;
             case EventType::Scroll:
-                _scrollEvent(static_cast<ScrollEvent&>(event));
+                scrollEvent(static_cast<ScrollEvent&>(event));
                 break;
             case EventType::Drop:
-                _dropEvent(static_cast<DropEvent&>(event));
+                dropEvent(static_cast<DropEvent&>(event));
                 break;
             case EventType::KeyboardFocus:
-                _keyboardFocusEvent(static_cast<KeyboardFocusEvent&>(event));
+                keyboardFocusEvent(static_cast<KeyboardFocusEvent&>(event));
                 break;
             case EventType::KeyboardFocusLost:
-                _keyboardFocusLostEvent(static_cast<KeyboardFocusLostEvent&>(event));
+                keyboardFocusLostEvent(static_cast<KeyboardFocusLostEvent&>(event));
                 break;
             case EventType::Key:
-                _keyEvent(static_cast<KeyEvent&>(event));
+                keyEvent(static_cast<KeyEvent&>(event));
                 break;
             case EventType::Text:
-                _textEvent(static_cast<TextEvent&>(event));
+                textEvent(static_cast<TextEvent&>(event));
                 break;
             default: break;
             }
         }
 
-        void Widget::_paintEvent(PaintEvent& event)
+        void Widget::paintEvent(PaintEvent& event)
         {
             if (_backgroundRole != ColorRole::None)
             {
@@ -336,7 +336,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerEnterEvent(PointerEnterEvent& event)
+        void Widget::pointerEnterEvent(PointerEnterEvent& event)
         {
             if (_pointerEnabled && !event.isRejected())
             {
@@ -344,7 +344,7 @@ namespace djv
             }
         }
 
-        void Widget::_pointerMoveEvent(PointerMoveEvent& event)
+        void Widget::pointerMoveEvent(PointerMoveEvent& event)
         {
             if (_pointerEnabled)
             {
@@ -352,7 +352,7 @@ namespace djv
             }
         }
 
-        void Widget::_keyEvent(KeyEvent& event)
+        void Widget::keyEvent(KeyEvent& event)
         {
             if (isEnabled())
             {

@@ -42,7 +42,6 @@ namespace djv
         class Context;
         class EnterEvent;
         class IEvent;
-        class IEventSystem;
         class LocaleEvent;
         class LogSystem;
         class PointerEnterEvent;
@@ -91,19 +90,19 @@ namespace djv
             void installEventFilter(const std::weak_ptr<IObject>&);
             void removeEventFilter(const std::weak_ptr<IObject>&);
 
-        protected:
-            virtual void _updateEvent(UpdateEvent&) {}
-            virtual void _localeEvent(LocaleEvent&) {}
-            virtual void _pointerEnterEvent(PointerEnterEvent&) {}
-            virtual void _pointerLeaveEvent(PointerLeaveEvent&) {}
-            virtual void _pointerMoveEvent(PointerMoveEvent&) {}
-            virtual void _buttonPressEvent(ButtonPressEvent&) {}
-            virtual void _buttonReleaseEvent(ButtonReleaseEvent&) {}
-            virtual void _event(IEvent&);
+            virtual void updateEvent(UpdateEvent&) {}
+            virtual void localeEvent(LocaleEvent&) {}
+            virtual void pointerEnterEvent(PointerEnterEvent&) {}
+            virtual void pointerLeaveEvent(PointerLeaveEvent&) {}
+            virtual void pointerMoveEvent(PointerMoveEvent&) {}
+            virtual void buttonPressEvent(ButtonPressEvent&) {}
+            virtual void buttonReleaseEvent(ButtonReleaseEvent&) {}
+            virtual void event(IEvent&);
             
-            bool _eventFilter(IEvent&);
-            virtual bool _eventFilter(const std::shared_ptr<IObject>&, IEvent&) { return false; }
+            bool eventFilter(IEvent&);
+            virtual bool eventFilter(const std::shared_ptr<IObject>&, IEvent&) { return false; }
 
+        protected:
             std::weak_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
             std::weak_ptr<LogSystem> _getLogSystem() const { return _logSystem; }
             std::weak_ptr<TextSystem> _getTextSystem() const { return _textSystem; }

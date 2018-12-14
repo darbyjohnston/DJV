@@ -78,7 +78,7 @@ namespace djv
             _p->hash = hash;
         }
 
-        void ImageWidget::_preLayoutEvent(PreLayoutEvent& event)
+        void ImageWidget::preLayoutEvent(PreLayoutEvent& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -87,9 +87,9 @@ namespace djv
             }
         }
 
-        void ImageWidget::_paintEvent(PaintEvent& event)
+        void ImageWidget::paintEvent(PaintEvent& event)
         {
-            Widget::_paintEvent(event);
+            Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())

@@ -69,12 +69,11 @@ namespace djv
             void setMinimumWidth(float);
 
             float getHeightForWidth(float) const override;
-
-        protected:
-            void _updateEvent(Core::UpdateEvent&) override;
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _layoutEvent(Core::LayoutEvent&) override;
-            void _paintEvent(Core::PaintEvent&) override;
+            void updateEvent(Core::UpdateEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+            void clipEvent(Core::ClipEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
 
         private:
             struct Private;

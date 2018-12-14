@@ -46,6 +46,13 @@ namespace djv
             void setClickedCallback(const std::function<void(void)>&);
             void setCheckedCallback(const std::function<void(bool)>&);
 
+            void paintEvent(Core::PaintEvent&) override;
+            void pointerEnterEvent(Core::PointerEnterEvent&) override;
+            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
+            void pointerMoveEvent(Core::PointerMoveEvent&) override;
+            void buttonPressEvent(Core::ButtonPressEvent&) override;
+            void buttonReleaseEvent(Core::ButtonReleaseEvent&) override;
+
         protected:
             bool _isToggled() const;
             bool _isHovered() const;
@@ -55,13 +62,6 @@ namespace djv
 
             virtual void _doClickedCallback();
             virtual void _doCheckedCallback(bool);
-
-            void _paintEvent(Core::PaintEvent&) override;
-            void _pointerEnterEvent(Core::PointerEnterEvent&) override;
-            void _pointerLeaveEvent(Core::PointerLeaveEvent&) override;
-            void _pointerMoveEvent(Core::PointerMoveEvent&) override;
-            void _buttonPressEvent(Core::ButtonPressEvent&) override;
-            void _buttonReleaseEvent(Core::ButtonReleaseEvent&) override;
 
             struct Private;
             std::unique_ptr<Private> _p;
@@ -139,11 +139,10 @@ namespace djv
 
             float getHeightForWidth(float) const override;
 
-        protected:
-            void _updateEvent(Core::UpdateEvent&) override;
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _layoutEvent(Core::LayoutEvent&) override;
-            void _paintEvent(Core::PaintEvent&) override;
+            void updateEvent(Core::UpdateEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
 
         private:
             struct Private;
@@ -180,10 +179,9 @@ namespace djv
 
             float getHeightForWidth(float) const override;
 
-        protected:
-            void _updateEvent(Core::UpdateEvent&) override;
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _layoutEvent(Core::LayoutEvent&) override;
+            void updateEvent(Core::UpdateEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
 
         private:
             struct Private;
@@ -204,9 +202,8 @@ namespace djv
 
             static std::shared_ptr<ToggleButton> create(Core::Context *);
 
-        protected:
-            void _preLayoutEvent(Core::PreLayoutEvent&) override;
-            void _paintEvent(Core::PaintEvent&) override;
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
 
         private:
             struct Private;

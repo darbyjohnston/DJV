@@ -64,7 +64,7 @@ namespace djv
                     }
 
                 protected:
-                    void _preLayoutEvent(PreLayoutEvent&) override
+                    void preLayoutEvent(PreLayoutEvent&) override
                     {
                         _setMinimumSize(glm::vec2(2000.f, 2000.f));
                     }
@@ -251,13 +251,13 @@ namespace djv
                 _p->windowToResizeHandle.clear();
             }
 
-            void Canvas::_preLayoutEvent(PreLayoutEvent&)
+            void Canvas::preLayoutEvent(PreLayoutEvent&)
             {
                 //_setMinimumSize(_p->scrollWidget->getMinimumSize());
                 _setMinimumSize(_p->stackLayout->getMinimumSize());
             }
 
-            void Canvas::_layoutEvent(LayoutEvent&)
+            void Canvas::layoutEvent(LayoutEvent&)
             {
                 //_p->scrollWidget->setGeometry(getGeometry());
                 _p->stackLayout->setGeometry(getGeometry());
@@ -279,7 +279,7 @@ namespace djv
                 }
             }
             
-            bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
+            bool Canvas::eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
             {
                 switch (event.getEventType())
                 {

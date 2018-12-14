@@ -29,11 +29,16 @@
 
 #include <djvDesktop/EventSystem.h>
 
+#include <djvDesktop/WindowSystem.h>
+
+#include <djvUI/Widget.h>
+#include <djvUI/Window.h>
+
+#include <djvCore/Context.h>
 #include <djvCore/Event.h>
+#include <djvCore/IObject.h>
 
 #include <GLFW/glfw3.h>
-
-#include <glm/vec2.hpp>
 
 #include <sstream>
 
@@ -65,6 +70,9 @@ namespace djv
         struct EventSystem::Private
         {
             glm::vec2 pointerPos;
+            std::shared_ptr<IObject> hover;
+            std::shared_ptr<IObject> grab;
+            std::shared_ptr<IObject> focus;
         };
 
         void EventSystem::_init(GLFWwindow* glfwWindow, Context * context)
@@ -83,6 +91,95 @@ namespace djv
 
         EventSystem::~EventSystem()
         {}
+
+        void EventSystem::_pointerMove(const PointerInfo& info)
+        {
+            DJV_PRIVATE_PTR();
+            PointerMoveEvent moveEvent(info);
+            if (p.grab)
+            {
+                p.grab->event(moveEvent);
+            }
+            else if (auto windowSystem = getContext()->getSystemT<WindowSystem>().lock())
+            {
+                std::shared_ptr<UI::Widget> widget;
+                for (const auto& window : windowSystem->getWindows())
+                {
+                    if (window->isVisible() && window->getGeometry().contains(info.pos))
+                    {
+                        widget = _underPointer(window, info.pos);
+                        break;
+                    }
+                }
+                if (widget)
+                {
+                    std::shared_ptr<UI::Widget> hover;
+                    _hover(widget, moveEvent, hover);
+                    if (hover != p.hover)
+                    {
+                        if (p.hover)
+                        {
+                            PointerLeaveEvent leaveEvent(info);
+                            p.hover->event(leaveEvent);
+                            /*{
+                                std::stringstream ss;
+                                ss << "Leave: " << p.hover->getName();
+                                getContext()->log("djv::Core::IEventSystem", ss.str());
+                            }*/
+                        }
+                        p.hover = hover;
+                        if (p.hover)
+                        {
+                            PointerEnterEvent enterEvent(info);
+                            p.hover->event(enterEvent);
+                            /*{
+                                std::stringstream ss;
+                                ss << "Enter: " << p.hover->getName();
+                                getContext()->log("djv::Core::IEventSystem", ss.str());
+                            }*/
+                        }
+                    }
+                }
+            }
+        }
+
+        void EventSystem::_buttonPress(const PointerInfo& info)
+        {
+            DJV_PRIVATE_PTR();
+            ButtonPressEvent event(info);
+            if (p.hover)
+            {
+                p.hover->event(event);
+                if (event.isAccepted())
+                {
+                    p.grab = p.hover;
+                }
+            }
+        }
+
+        void EventSystem::_buttonRelease(const PointerInfo& info)
+        {
+            DJV_PRIVATE_PTR();
+            ButtonReleaseEvent event(info);
+            if (p.grab)
+            {
+                p.grab->event(event);
+                p.grab = nullptr;
+            }
+        }
+
+        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, PointerMoveEvent& event, std::shared_ptr<UI::Widget>& hover)
+        {
+            widget->event(event);
+            if (event.isAccepted())
+            {
+                hover = widget;
+            }
+            else if (auto parent = std::dynamic_pointer_cast<UI::Widget>(widget->getParent().lock()))
+            {
+                _hover(parent, event, hover);
+            }
+        }
 
         std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow* glfwWindow, Context * context)
         {
@@ -103,6 +200,7 @@ namespace djv
             info.dir.x = 0.f;
             info.dir.y = 0.f;
             info.dir.z = 1.f;
+            info.projectedPos = info.pos;
             system->_pointerMove(info);
         }
 
@@ -117,6 +215,7 @@ namespace djv
             info.dir.x = 0.f;
             info.dir.y = 0.f;
             info.dir.z = 1.f;
+            info.projectedPos = info.pos;
             info.button = fromGLFWPointerButton(button);
             switch (action)
             {
@@ -137,6 +236,21 @@ namespace djv
             {
                 list.push_back(paths[i]);
             }
+        }
+
+        std::shared_ptr<UI::Widget> EventSystem::_underPointer(const std::shared_ptr<UI::Widget>& widget, const glm::vec2& pos)
+        {
+            std::shared_ptr<UI::Widget> out = widget;
+            const auto children = widget->getChildrenT<UI::Widget>();
+            for (auto i = children.rbegin(); i != children.rend(); ++i)
+            {
+                if ((*i)->isVisible() && !(*i)->isClipped() && (*i)->isEnabled() && (*i)->getGeometry().contains(pos))
+                {
+                    out = _underPointer(*i, pos);
+                    break;
+                }
+            }
+            return out;
         }
 
     } // namespace Desktop

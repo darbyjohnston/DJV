@@ -54,10 +54,9 @@ namespace djv
                 void removeWidget(const std::shared_ptr<Widget>&);
                 void clearWidgets();
 
-            protected:
-                void _preLayoutEvent(Core::PreLayoutEvent&) override;
-                void _layoutEvent(Core::LayoutEvent&) override;
-                bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::IEvent&) override;
+                void preLayoutEvent(Core::PreLayoutEvent&) override;
+                void layoutEvent(Core::LayoutEvent&) override;
+                bool eventFilter(const std::shared_ptr<Core::IObject>&, Core::IEvent&) override;
 
             private:
                 void _clampWindows();
