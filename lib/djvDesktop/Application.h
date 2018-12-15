@@ -31,10 +31,6 @@
 
 #include <djvCore/Context.h>
 
-#include <glm/vec2.hpp>
-
-#include <functional>
-
 namespace djv
 {
     namespace Desktop

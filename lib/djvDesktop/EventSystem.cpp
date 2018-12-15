@@ -70,6 +70,7 @@ namespace djv
         struct EventSystem::Private
         {
             glm::vec2 pointerPos;
+            std::shared_ptr<IObject> window;
             std::shared_ptr<IObject> hover;
             std::shared_ptr<IObject> grab;
             std::shared_ptr<IObject> focus;
@@ -92,6 +93,13 @@ namespace djv
         EventSystem::~EventSystem()
         {}
 
+        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow* glfwWindow, Context * context)
+        {
+            auto out = std::shared_ptr<EventSystem>(new EventSystem);
+            out->_init(glfwWindow, context);
+            return out;
+        }
+
         void EventSystem::_pointerMove(const PointerInfo& info)
         {
             DJV_PRIVATE_PTR();
@@ -107,6 +115,7 @@ namespace djv
                 {
                     if (window->isVisible() && window->getGeometry().contains(info.pos))
                     {
+                        _p->window = window;
                         _hover(window, moveEvent, hover);
                         break;
                     }
@@ -193,11 +202,23 @@ namespace djv
             }
         }
 
-        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow* glfwWindow, Context * context)
+        void EventSystem::_drop(const std::vector<std::string> & list, const Core::PointerInfo& info)
         {
-            auto out = std::shared_ptr<EventSystem>(new EventSystem);
-            out->_init(glfwWindow, context);
-            return out;
+            DJV_PRIVATE_PTR();
+            if (p.window && p.hover)
+            {
+                DropEvent event(list, info);
+                auto widget = p.hover;
+                while (widget)
+                {
+                    widget->event(event);
+                    if (event.isAccepted())
+                    {
+                        break;
+                    }
+                    widget = widget->getParent().lock();
+                }
+            }
         }
 
         void EventSystem::_pointerCallback(GLFWwindow* window, double x, double y)
@@ -248,6 +269,16 @@ namespace djv
             {
                 list.push_back(paths[i]);
             }
+            PointerInfo info;
+            info.id = pointerID;
+            info.pos.x = system->_p->pointerPos.x;
+            info.pos.y = system->_p->pointerPos.y;
+            info.pos.z = 0.f;
+            info.dir.x = 0.f;
+            info.dir.y = 0.f;
+            info.dir.z = 1.f;
+            info.projectedPos = info.pos;
+            system->_drop(list, info);
         }
 
     } // namespace Desktop

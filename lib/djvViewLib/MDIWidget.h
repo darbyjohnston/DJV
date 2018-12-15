@@ -27,22 +27,36 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/Application.h>
+#pragma once
 
-#include <djvCore/Error.h>
+#include <djvUI/Widget.h>
 
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application::create(argc, argv)->run();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << Core::format(error) << std::endl;
-    }
-    return r;
-}
+        class Media;
+
+        class MDIWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(MDIWidget);
+
+        protected:
+            void _init(const std::shared_ptr<Media> &, Core::Context *);
+            MDIWidget();
+
+        public:
+            ~MDIWidget() override;
+
+            static std::shared_ptr<MDIWidget> create(const std::shared_ptr<Media> &, Core::Context *);
+
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+

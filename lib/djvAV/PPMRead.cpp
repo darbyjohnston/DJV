@@ -143,7 +143,6 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
-                    layout.mirror.y = true;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Pixel::Info(w, h, pixelType, layout);
                     return Info(fileName, VideoInfo(info, _speed, _duration), AudioInfo());

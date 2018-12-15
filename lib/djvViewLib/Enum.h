@@ -31,32 +31,22 @@
 
 #include <djvCore/Core.h>
 
-#include <QMetaType>
-
 namespace djv
 {
     namespace ViewLib
     {
-        class Enum
+        enum class WindowState
         {
-            Q_GADGET
+            Normal,
+            Maximized,
+            Minimized
+        };
 
-        public:
-            enum class WindowState
-            {
-                Normal,
-                Maximized,
-                Minimized
-            };
-            Q_ENUM(WindowState);
-
-            enum class Playback
-            {
-                Stop,
-                Forward,
-                Reverse
-            };
-            Q_ENUM(Playback);
+        enum class Playback
+        {
+            Stop,
+            Forward,
+            Reverse
         };
 
     } // namespace ViewLib

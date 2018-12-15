@@ -29,26 +29,27 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
-
-#include <QMainWindow>
+#include <djvUI/Window.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Context;
-        class Workspace;
-
-        class MainWindow : public QMainWindow
+        class MainWindow : public UI::Window
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(MainWindow);
+
+        protected:
+            void _init(Core::Context *);
+            MainWindow();
 
         public:
-            MainWindow(const std::shared_ptr<Context> &);
             ~MainWindow() override;
 
-            QMenu * createPopupMenu() override;
+            static std::shared_ptr<MainWindow> create(Core::Context *);
+
+        protected:
+            void dropEvent(Core::DropEvent&) override;
 
         private:
             DJV_PRIVATE();

@@ -29,14 +29,13 @@
 
 #include <djvViewLib/MainWindow.h>
 
-#include <djvViewLib/Context.h>
-#include <djvViewLib/ToolObject.h>
-#include <djvViewLib/WorkspaceObject.h>
+#include <djvViewLib/MDIWidget.h>
+#include <djvViewLib/Media.h>
 
-#include <QDockWidget>
-#include <QLayout>
-#include <QMenu>
-#include <QMenuBar>
+#include <djvUI/ImageWidget.h>
+#include <djvUI/MDICanvas.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
@@ -44,107 +43,40 @@ namespace djv
     {
         struct MainWindow::Private
         {
-            std::weak_ptr<Context> context;
+            std::shared_ptr<UI::MDI::Canvas> canvas;
         };
         
-        MainWindow::MainWindow(const std::shared_ptr<Context> & context) :
-            _p(new Private)
+        void MainWindow::_init(Core::Context * context)
         {
-            _p->context = context;
+            Window::_init(context);
 
-            std::map<std::string, QPointer<QMenu> > menus;
-            for (auto i : context->getObjects())
-            {
-                if (auto viewObject = qobject_cast<IViewObject *>(i))
-                {
-                    if (auto menu = viewObject->createContextMenu())
-                    {
-                        menus[viewObject->getContextMenuSortKey()] = menu;
-                    }
-                }
-            }
-            for (auto i : menus)
-            {
-                menuBar()->addMenu(i.second);
-            }
-
-            auto workspaceObject = context->getObjectT<WorkspaceObject>();
-            setCentralWidget(workspaceObject->createWorkspaceTabs());
-
-            struct DockWidget
-            {
-                QPointer<IViewObject> object;
-                QPointer<QDockWidget> widget;
-                Qt::DockWidgetArea area;
-                bool visible = false;
-            };
-            std::map<std::string, DockWidget> dockWidgetMap;
-            std::map<std::string, DockWidget> toolDockWidgetMap;
-            for (auto i : context->getObjects())
-            {
-                if (auto toolObject = qobject_cast<IToolObject *>(i))
-                {
-                    if (auto dockWidget = toolObject->createDockWidget())
-                    {
-                        const auto & key = toolObject->getDockWidgetSortKey();
-                        toolDockWidgetMap[key].object = toolObject;
-                        toolDockWidgetMap[key].widget = dockWidget;
-                        toolDockWidgetMap[key].area = toolObject->getDockWidgetArea();
-                        toolDockWidgetMap[key].visible = toolObject->isDockWidgetVisible();
-                    }
-                }
-                else if (auto viewObject = qobject_cast<IViewObject *>(i))
-                {
-                    if (auto dockWidget = viewObject->createDockWidget())
-                    {
-                        const auto & key = viewObject->getDockWidgetSortKey();
-                        dockWidgetMap[key].object = viewObject;
-                        dockWidgetMap[key].widget = dockWidget;
-                        dockWidgetMap[key].area = viewObject->getDockWidgetArea();
-                        dockWidgetMap[key].visible = viewObject->isDockWidgetVisible();
-                    }
-                }
-            }
-            for (auto i : dockWidgetMap)
-            {
-                addDockWidget(i.second.area, i.second.widget);
-                i.second.widget->setVisible(i.second.visible);
-            }
-            auto toolObject = context->getObjectT<ToolObject>();
-            for (auto i : toolDockWidgetMap)
-            {
-                addDockWidget(i.second.area, i.second.widget);
-                i.second.widget->setVisible(i.second.visible);
-                toolObject->addDockWidget(qobject_cast<IToolObject *>(i.second.object.data()), i.second.widget);
-            }
+            _p->canvas = UI::MDI::Canvas::create(context);
+            addWidget(_p->canvas);
         }
-        
+
+        MainWindow::MainWindow() :
+            _p(new Private)
+        {}
+
         MainWindow::~MainWindow()
         {}
-        
-        QMenu * MainWindow::createPopupMenu()
+
+        std::shared_ptr<MainWindow> MainWindow::create(Core::Context * context)
         {
-            QMenu * out = nullptr;
-            if (auto context = _p->context.lock())
-            {
-                auto out = new QMenu;
-                std::map<std::string, QPointer<QMenu> > map;
-                for (auto i : context->getObjects())
-                {
-                    if (auto viewObject = qobject_cast<IViewObject *>(i))
-                    {
-                        if (auto menu = viewObject->createContextMenu())
-                        {
-                            map[viewObject->getContextMenuSortKey()] = menu;
-                        }
-                    }
-                }
-                for (auto i : map)
-                {
-                    out->addMenu(i.second);
-                }
-            }
+            auto out = std::shared_ptr<MainWindow>(new MainWindow);
+            out->_init(context);
             return out;
+        }
+
+        void MainWindow::dropEvent(Core::DropEvent& event)
+        {
+            glm::vec2 pos = event.getPointerInfo().projectedPos;
+            for (const auto & i : event.getDropPaths())
+            {
+                auto media = Media::create(i, getContext());
+                auto widget = MDIWidget::create(media, getContext());
+                _p->canvas->addWidget(Path(i).getFileName(), widget, pos);
+            }
         }
         
     } // namespace ViewLib

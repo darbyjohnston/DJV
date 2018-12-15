@@ -29,29 +29,24 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
-
-#include <QApplication>
-
-class QFileInfo;
+#include <djvDesktop/Application.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Context;
-        class MainWindow;
-
-        class Application : public QApplication
+        class Application : public Desktop::Application
         {
-            Q_OBJECT
-
-        public:
-            Application(int &, char **);
-            ~Application() override;
+            DJV_NON_COPYABLE(Application);
 
         protected:
-            void timerEvent(QTimerEvent *) override;
+            void _init(int &, char **);
+            Application();
+
+        public:
+            ~Application() override;
+
+            static std::shared_ptr<Application> create(int &, char **);
 
         private:
             DJV_PRIVATE();

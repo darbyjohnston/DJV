@@ -59,6 +59,7 @@ namespace djv
                         Widget::_init(context);
                         
                         setClassName("djv::UI::MDI::CanvasWidget");
+                        setBackgroundRole(ColorRole::BackgroundScroll);
                     }
 
                     CanvasWidget()

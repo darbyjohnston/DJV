@@ -27,22 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/Application.h>
+#pragma once
 
-#include <djvCore/Error.h>
+#include <djvViewLib/Enum.h>
 
-using namespace djv;
+#include <djvUI/Widget.h>
 
-int main(int argc, char ** argv)
+#include <djvCore/ValueObserver.h>
+
+namespace djv
 {
-    int r = 0;
-    try
+    namespace ViewLib
     {
-        r = ViewLib::Application::create(argc, argv)->run();
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << Core::format(error) << std::endl;
-    }
-    return r;
-}
+        class PlaybackWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(PlaybackWidget);
+
+        protected:
+            void _init(Core::Context *);
+            PlaybackWidget();
+
+        public:
+            ~PlaybackWidget() override;
+
+            static std::shared_ptr<PlaybackWidget> create(Core::Context *);
+
+            std::shared_ptr<Core::IValueSubject<Playback> > getPlayback() const;
+            void setPlayback(Playback);
+
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+
+        private:
+            void _updateWidget();
+
+            DJV_PRIVATE();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+

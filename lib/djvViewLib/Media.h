@@ -38,28 +38,32 @@
 
 namespace djv
 {
-    namespace ViewLib
+    namespace Core
     {
         class Context;
 
+    } // namespace Core
+
+    namespace ViewLib
+    {
         class Media : public std::enable_shared_from_this<Media>
         {
             DJV_NON_COPYABLE(Media);
 
         protected:
-            void _init(const std::string &, const std::shared_ptr<Context> &);
+            void _init(const std::string &, Core::Context *);
             Media();
 
         public:
             ~Media();
 
-            static std::shared_ptr<Media> create(const std::string &, std::shared_ptr<Context> &);
+            static std::shared_ptr<Media> create(const std::string &, Core::Context *);
 
             const std::string & getFileName() const;
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > getInfo() const;
             std::shared_ptr<Core::IValueSubject<AV::Duration> > getDuration() const;
             std::shared_ptr<Core::IValueSubject<AV::Timestamp> > getCurrentTime() const;
-            std::shared_ptr<Core::IValueSubject<Enum::Playback> > getPlayback() const;
+            std::shared_ptr<Core::IValueSubject<Playback> > getPlayback() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image> > > getCurrentImage() const;
 
             std::shared_ptr<Core::IValueSubject<size_t> > getVideoQueueMax() const;
@@ -69,7 +73,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<size_t> > getALUnqueuedBuffers() const;
 
             void setCurrentTime(AV::Timestamp);
-            void setPlayback(Enum::Playback);
+            void setPlayback(Playback);
 
         private:
             DJV_PRIVATE();

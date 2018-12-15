@@ -59,6 +59,7 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::MDI::Window");
+                setBackgroundRole(ColorRole::Background);
 
                 auto closeButton = Button::create(context);
                 closeButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));

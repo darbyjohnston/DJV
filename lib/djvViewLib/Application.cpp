@@ -29,10 +29,7 @@
 
 #include <djvViewLib/Application.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
-
-#include <djvCore/Timer.h>
 
 namespace djv
 {
@@ -40,40 +37,29 @@ namespace djv
     {
         struct Application::Private
         {
-            std::shared_ptr<Context> context;
-            QScopedPointer<MainWindow> mainWindow;
-            std::chrono::time_point<std::chrono::system_clock> time;
-            int timer = 0;
+            std::shared_ptr<MainWindow> mainWindow;
         };
         
-        Application::Application(int & argc, char ** argv) :
-            QApplication(argc, argv),
-            _p(new Private)
+        void Application::_init(int & argc, char ** argv)
         {
+            Desktop::Application::_init(argc, argv);
             DJV_PRIVATE_PTR();
-            p.context = Context::create(argc, argv);
-            
-            p.mainWindow.reset(new MainWindow(p.context));
-            p.mainWindow->resize(800, 600);
+            p.mainWindow = MainWindow::create(this);
             p.mainWindow->show();
-
-            p.time = std::chrono::system_clock::now();
-            p.timer = startTimer(Core::Timer::getValue(Core::Timer::Value::Fast), Qt::PreciseTimer);
         }
-        
+
+        Application::Application() :
+            _p(new Private)
+        {}
+
         Application::~Application()
-        {
-            _p->context->exit();
-        }
+        {}
 
-        void Application::timerEvent(QTimerEvent * event)
+        std::shared_ptr<Application> Application::create(int & argc, char ** argv)
         {
-            DJV_PRIVATE_PTR();
-            const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - p.time;
-            p.time = now;
-            const float dt = delta.count();
-            p.context->tick(dt);
+            auto out = std::shared_ptr<Application>(new Application);
+            out->_init(argc, argv);
+            return out;
         }
 
     } // namespace ViewLib

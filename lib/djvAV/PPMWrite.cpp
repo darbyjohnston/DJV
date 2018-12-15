@@ -100,7 +100,6 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
                     Pixel::Layout layout;
-                    layout.mirror.y = true;
                     layout.endian = p.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     Pixel::Info info(_pixelInfo.size, pixelType, layout);
 
