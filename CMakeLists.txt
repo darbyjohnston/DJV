@@ -115,7 +115,6 @@ if(DJV_THIRD_PARTY)
     set(IlmBase_ROOT ${DJV_THIRD_PARTY})
     set(OpenEXR_ROOT ${DJV_THIRD_PARTY})
     set(FFmpeg_ROOT ${DJV_THIRD_PARTY})    
-    set(Qt5_ROOT ${DJV_THIRD_PARTY})
     
     set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(OPENAL_SHARED_LIBS ON)
@@ -125,10 +124,7 @@ if(DJV_THIRD_PARTY)
     set(ILMBASE_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(OPENEXR_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(FFMPEG_SHARED_LIBS ON)
-    set(QT_SHARED_LIBS ON)
 endif()
-
-#find_package(Qt5 REQUIRED)
 
 #-------------------------------------------------------------------------------
 # Resources

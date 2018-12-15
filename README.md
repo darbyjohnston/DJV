@@ -36,7 +36,6 @@ Libraries:
 * [OpenGL 3.3](https://www.opengl.org)
 * [GLM 0.9.9](https://glm.g-truc.net/0.9.9/index.html)
 * [IlmBase 2.3](http://www.openexr.com/downloads.html)
-* [Qt 5.6.3](https://download.qt.io/archive/qt/5.6/5.6.3/single)
 
 Optional libraries:
 * [libjpeg v9b](https://www.ijg.org)
