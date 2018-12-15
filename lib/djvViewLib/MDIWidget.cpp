@@ -31,6 +31,7 @@
 
 #include <djvViewLib/Media.h>
 #include <djvViewLib/PlaybackWidget.h>
+#include <djvViewLib/TimelineSlider.h>
 
 #include <djvUI/ImageWidget.h>
 #include <djvUI/RowLayout.h>
@@ -49,9 +50,14 @@ namespace djv
             std::shared_ptr<Media> media;
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<PlaybackWidget> playbackWidget;
+            std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<AV::Duration> > durationObserver;
+            std::shared_ptr<ValueObserver<AV::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
+            std::shared_ptr<ValueObserver<AV::Timestamp> > currentTimeObserver2;
         };
         
         void MDIWidget::_init(const std::shared_ptr<Media> & media, Context * context)
@@ -63,6 +69,7 @@ namespace djv
 
             p.imageWidget = UI::ImageWidget::create(context);
             p.playbackWidget = PlaybackWidget::create(context);
+            p.timelineSlider = TimelineSlider::create(context);
 
             p.layout = UI::StackLayout::create(context);
             p.layout->addWidget(p.imageWidget);
@@ -72,7 +79,7 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setBackgroundRole(UI::ColorRole::Overlay);
             hLayout->addWidget(p.playbackWidget);
-            hLayout->addExpander();
+            hLayout->addWidget(p.timelineSlider, UI::RowLayoutStretch::Expand);
             vLayout->addWidget(hLayout);
             p.layout->addWidget(vLayout);
             p.layout->setParent(shared_from_this());
@@ -88,12 +95,44 @@ namespace djv
                 p.imageWidget->setImage(image, hash);
             });
 
+            p.durationObserver = ValueObserver<AV::Duration>::create(
+                media->getDuration(),
+                [this](AV::Duration value)
+            {
+                DJV_PRIVATE_PTR();
+                p.timelineSlider->setDuration(value);
+            });
+
+            p.currentTimeObserver = ValueObserver<AV::Timestamp>::create(
+                media->getCurrentTime(),
+                [this](AV::Timestamp value)
+            {
+                DJV_PRIVATE_PTR();
+                p.timelineSlider->setCurrentTime(value);
+            });
+
             p.playbackObserver = ValueObserver<Playback>::create(
+                media->getPlayback(),
+                [this](Playback value)
+            {
+                DJV_PRIVATE_PTR();
+                p.playbackWidget->setPlayback(value);
+            });
+
+            p.playbackObserver2 = ValueObserver<Playback>::create(
                 p.playbackWidget->getPlayback(),
                 [this](Playback value)
             {
                 DJV_PRIVATE_PTR();
                 p.media->setPlayback(value);
+            });
+
+            p.currentTimeObserver2 = ValueObserver<AV::Timestamp>::create(
+                p.timelineSlider->getCurrentTime(),
+                [this](AV::Timestamp value)
+            {
+                DJV_PRIVATE_PTR();
+                p.media->setCurrentTime(value);
             });
         }
 

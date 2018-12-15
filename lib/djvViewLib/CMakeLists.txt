@@ -18,7 +18,7 @@ set(header
     Media.h
     #PlaybackObject.h
     PlaybackWidget.h
-    #TimelineSlider.h
+    TimelineSlider.h
     #TimelineWidget.h
     #ToolObject.h
     #ViewObject.h
@@ -46,7 +46,7 @@ set(source
     Media.cpp
     #PlaybackObject.cpp
     PlaybackWidget.cpp
-    #TimelineSlider.cpp
+    TimelineSlider.cpp
     #TimelineWidget.cpp
     #ToolObject.cpp
     #ViewObject.cpp

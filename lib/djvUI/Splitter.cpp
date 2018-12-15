@@ -279,7 +279,6 @@ namespace djv
             if (!event.isRejected())
             {
                 event.accept();
-
                 _p->hover[event.getPointerInfo().id] = _getSplitterGeometry().contains(event.getPointerInfo().projectedPos);
             }
         }
@@ -287,7 +286,6 @@ namespace djv
         void Splitter::pointerLeaveEvent(PointerLeaveEvent& event)
         {
             event.accept();
-
             auto i = _p->hover.find(event.getPointerInfo().id);
             if (i != _p->hover.end())
             {
@@ -331,7 +329,6 @@ namespace djv
             if (_p->hover[id])
             {
                 event.accept();
-
                 _p->pressedId = id;
             }
         }

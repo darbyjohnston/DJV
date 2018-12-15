@@ -29,12 +29,11 @@
 
 #include <djvViewLib/TimelineSlider.h>
 
-#include <djvViewLib/Context.h>
+#include <djvAV/Render2DSystem.h>
 
 #include <djvCore/Math.h>
 
-#include <QMouseEvent>
-#include <QPainter>
+using namespace djv::Core;
 
 namespace djv
 {
@@ -42,75 +41,145 @@ namespace djv
     {
         struct TimelineSlider::Private
         {
-            std::weak_ptr<Context> context;
             AV::Duration duration = 0;
-            AV::Timestamp currentTime = 0;
-            bool mousePressed = false;
+            std::shared_ptr<ValueSubject<AV::Timestamp> > currentTime;
+            std::map<uint32_t, bool> hover;
+            uint32_t pressedId = 0;
         };
 
-        TimelineSlider::TimelineSlider(const std::shared_ptr<Context> & context, QWidget * parent) :
-            QWidget(parent),
-            _p(new Private)
+        void TimelineSlider::_init(Context * context)
         {
-            _p->context = context;
-            setBackgroundRole(QPalette::Base);
-            setAutoFillBackground(true);
+            Widget::_init(context);
+
+            setClassName("djv::ViewLib::TimelineSlider");
+            setPointerEnabled(true);
+
+            DJV_PRIVATE_PTR();
+            p.currentTime = ValueSubject<AV::Timestamp>::create();
         }
+
+        TimelineSlider::TimelineSlider() :
+            _p(new Private)
+        {}
 
         TimelineSlider::~TimelineSlider()
         {}
 
+        std::shared_ptr<TimelineSlider> TimelineSlider::create(Core::Context * context)
+        {
+            auto out = std::shared_ptr<TimelineSlider>(new TimelineSlider);
+            out->_init(context);
+            return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<AV::Timestamp> > TimelineSlider::getCurrentTime() const
+        {
+            return _p->currentTime;
+        }
+
         void TimelineSlider::setDuration(AV::Duration value)
         {
-            if (value == _p->duration)
-                return;
             _p->duration = value;
-            update();
         }
 
         void TimelineSlider::setCurrentTime(AV::Timestamp value)
         {
-            if (value == _p->currentTime)
-                return;
-            _p->currentTime = value;
-            update();
-            Q_EMIT currentTimeChanged(value);
+            _p->currentTime->setIfChanged(value);
         }
 
-        void TimelineSlider::paintEvent(QPaintEvent * event)
-        {
-            QWidget::paintEvent(event);
-            QPainter painter(this);
-            const int w = width();
-            const int h = height();
-            const int x = _p->currentTime / static_cast<double>(_p->duration) * (w - 1);
-            painter.setPen(palette().color(QPalette::Foreground));
-            painter.drawLine(x, 0, x, h - 1);
-        }
+        void TimelineSlider::preLayoutEvent(PreLayoutEvent& event)
+        {}
 
-        void TimelineSlider::mousePressEvent(QMouseEvent * event)
-        {
-            _p->mousePressed = true;
-            Q_EMIT currentTimeChanged(_posToTime(event->pos().x()));
-        }
+        void TimelineSlider::layoutEvent(LayoutEvent& event)
+        {}
 
-        void TimelineSlider::mouseReleaseEvent(QMouseEvent * event)
+        void TimelineSlider::paintEvent(PaintEvent& event)
         {
-            _p->mousePressed = false;
-        }
-
-        void TimelineSlider::mouseMoveEvent(QMouseEvent * event)
-        {
-            if (_p->mousePressed)
+            if (auto render = _getRenderSystem().lock())
             {
-                Q_EMIT currentTimeChanged(_posToTime(event->pos().x()));
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& hg = _getHandleGeometry();
+                    render->setFillColor(style->getColor(UI::ColorRole::Foreground));
+                    render->drawRectangle(hg);
+                }
             }
+        }
+
+        void TimelineSlider::pointerEnterEvent(PointerEnterEvent& event)
+        {
+            if (!event.isRejected())
+            {
+                event.accept();
+                _p->hover[event.getPointerInfo().id] = true;
+            }
+        }
+
+        void TimelineSlider::pointerLeaveEvent(PointerLeaveEvent& event)
+        {
+            event.accept();
+            auto i = _p->hover.find(event.getPointerInfo().id);
+            if (i != _p->hover.end())
+            {
+                _p->hover.erase(i);
+            }
+        }
+
+        void TimelineSlider::pointerMoveEvent(PointerMoveEvent& event)
+        {
+            const auto id = event.getPointerInfo().id;
+            const auto& pos = event.getPointerInfo().projectedPos;
+            const BBox2f& g = getGeometry();
+            _p->hover[id] = g.contains(pos);
+            if (_p->hover[id] || _p->pressedId)
+            {
+                event.accept();
+            }
+            if (_p->pressedId)
+            {
+                _p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x)));
+            }
+        }
+
+        void TimelineSlider::buttonPressEvent(ButtonPressEvent& event)
+        {
+            if (_p->pressedId)
+                return;
+            const auto id = event.getPointerInfo().id;
+            const auto& pos = event.getPointerInfo().projectedPos;
+            const BBox2f& g = getGeometry();
+            if (_p->hover[id])
+            {
+                event.accept();
+                _p->pressedId = id;
+                _p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x)));
+            }
+        }
+
+        void TimelineSlider::buttonReleaseEvent(ButtonReleaseEvent& event)
+        {
+            if (event.getPointerInfo().id != _p->pressedId)
+                return;
+            event.accept();
+            _p->pressedId = 0;
         }
 
         int64_t TimelineSlider::_posToTime(int value) const
         {
-            const double v = value / static_cast<double>(width() - 1);
-            return Core::Math::clamp(static_cast<int64_t>(v * _p->duration), static_cast<int64_t>(0), _p->duration - 1);
+            const double v = value / static_cast<double>(getGeometry().w());
+            return _p->duration ?
+                Core::Math::clamp(static_cast<int64_t>(v * (_p->duration - 1)), static_cast<int64_t>(0), _p->duration - 1) :
+                0;
+        }
+
+        BBox2f TimelineSlider::_getHandleGeometry() const
+        {
+            BBox2f out;
+            const BBox2f& g = getGeometry();
+            const float w = g.w();
+            const float h = g.h();
+            const float x = _p->currentTime->get() / static_cast<float>(_p->duration) * (w - 1);
+            return BBox2f(g.min.x + x, g.min.y, 1.f, g.h());
         }
 
     } // namespace ViewLib

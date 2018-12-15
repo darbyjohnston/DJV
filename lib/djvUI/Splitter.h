@@ -63,6 +63,7 @@ namespace djv
             void preLayoutEvent(Core::PreLayoutEvent&) override;
             void layoutEvent(Core::LayoutEvent&) override;
             void paintEvent(Core::PaintEvent&) override;
+
             void pointerEnterEvent(Core::PointerEnterEvent&) override;
             void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
             void pointerMoveEvent(Core::PointerMoveEvent&) override;

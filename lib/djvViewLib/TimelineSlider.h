@@ -29,41 +29,51 @@
 
 #pragma once
 
+#include <djvViewLib/Enum.h>
+
+#include <djvUI/Widget.h>
+
 #include <djvAV/Time.h>
 
-#include <QWidget>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Context;
-
-        class TimelineSlider : public QWidget
+        class TimelineSlider : public UI::Widget
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(TimelineSlider);
+
+        protected:
+            void _init(Core::Context *);
+            TimelineSlider();
 
         public:
-            TimelineSlider(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
             ~TimelineSlider() override;
 
-        public Q_SLOTS:
+            static std::shared_ptr<TimelineSlider> create(Core::Context *);
+
+            std::shared_ptr<Core::IValueSubject<AV::Timestamp> > getCurrentTime() const;
+
             void setDuration(AV::Duration);
             void setCurrentTime(AV::Timestamp);
 
-        Q_SIGNALS:
-            void currentTimeChanged(AV::Timestamp);
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
 
-        protected:
-            void paintEvent(QPaintEvent *) override;
-            void mousePressEvent(QMouseEvent *) override;
-            void mouseReleaseEvent(QMouseEvent *) override;
-            void mouseMoveEvent(QMouseEvent *) override;
+            void pointerEnterEvent(Core::PointerEnterEvent&) override;
+            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
+            void pointerMoveEvent(Core::PointerMoveEvent&) override;
+            void buttonPressEvent(Core::ButtonPressEvent&) override;
+            void buttonReleaseEvent(Core::ButtonReleaseEvent&) override;
 
         private:
-            DJV_PRIVATE();
-
             AV::Timestamp _posToTime(int) const;
+            Core::BBox2f _getHandleGeometry() const;
+
+            DJV_PRIVATE();
         };
 
     } // namespace ViewLib
