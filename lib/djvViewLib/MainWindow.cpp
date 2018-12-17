@@ -79,6 +79,7 @@ namespace djv
                 auto media = Media::create(i, getContext());
                 auto window = MDIWindow::create(media, getContext());
                 window->setTitle(Path(i).getFileName());
+                window->resize(glm::vec2(500.f, 300.f));
                 auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
                 auto weakWindow = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(window));
                 window->setClosedCallback(

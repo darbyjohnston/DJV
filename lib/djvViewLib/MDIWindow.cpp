@@ -70,7 +70,7 @@ namespace djv
         
         void MDIWindow::_init(const std::shared_ptr<Media> & media, Context * context)
         {
-            Widget::_init(context);
+            IWindow::_init(context);
 
             DJV_PRIVATE_PTR();
             p.media = media;
@@ -79,15 +79,14 @@ namespace djv
             p.playbackWidget = PlaybackWidget::create(context);
             p.timelineSlider = TimelineSlider::create(context);
 
-            auto closeButton = UI::Button::create(context);
-            closeButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
-
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
+            auto closeButton = UI::Button::create(context);
+            closeButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
+
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setClassName("djv::UI::MDI::TitleBar");
-            p.titleBar->setPointerEnabled(true);
             p.titleBar->setBackgroundRole(UI::ColorRole::Overlay);
             p.titleBar->addWidget(p.titleLabel);
             p.titleBar->addExpander();
@@ -100,7 +99,6 @@ namespace djv
             p.resizeHandle->setVAlign(UI::VAlign::Bottom);
 
             p.bottomBar = UI::HorizontalLayout::create(context);
-            p.bottomBar->setPointerEnabled(true);
             p.bottomBar->setBackgroundRole(UI::ColorRole::Overlay);
             p.bottomBar->addWidget(p.playbackWidget);
             p.bottomBar->addWidget(p.timelineSlider, UI::RowLayoutStretch::Expand);
@@ -115,7 +113,7 @@ namespace djv
             vLayout->addExpander();
             vLayout->addWidget(p.bottomBar);
             p.layout->addWidget(vLayout);
-            p.layout->setParent(shared_from_this());
+            IContainerWidget::addWidget(p.layout);
 
             auto weak = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(shared_from_this()));
             closeButton->setClickedCallback(
@@ -223,17 +221,12 @@ namespace djv
             _p->closedCallback = value;
         }
 
-        std::shared_ptr<UI::Widget> MDIWindow::getTitleBar() const
+        std::shared_ptr<UI::Widget> MDIWindow::getMoveHandle()
         {
-            return _p->titleBar;
+            return std::dynamic_pointer_cast<Widget>(shared_from_this());
         }
 
-        std::shared_ptr<UI::Widget> MDIWindow::getBottomBar() const
-        {
-            return _p->bottomBar;
-        }
-
-        std::shared_ptr<UI::Widget> MDIWindow::getResizeHandle() const
+        std::shared_ptr<UI::Widget> MDIWindow::getResizeHandle()
         {
             return _p->resizeHandle;
         }

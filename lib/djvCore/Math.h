@@ -117,7 +117,10 @@ namespace djv
             inline const T & getRandom(const std::vector<T> &);
 
             //! Seed the random value generator.
-            void setRandomSeed(unsigned int = 0);
+            void setRandomSeed(unsigned int);
+
+            //! Seed the random value generator with the current time.
+            void setRandomSeed();
 
             ///@}
 

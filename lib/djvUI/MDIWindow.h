@@ -47,9 +47,8 @@ namespace djv
             public:
                 virtual ~IWindow() = 0;
                 
-                virtual std::shared_ptr<Widget> getTitleBar() const = 0;
-                virtual std::shared_ptr<Widget> getBottomBar() const = 0;
-                virtual std::shared_ptr<Widget> getResizeHandle() const = 0;
+                virtual std::shared_ptr<Widget> getMoveHandle() = 0;
+                virtual std::shared_ptr<Widget> getResizeHandle() = 0;
             };
             
         } // namespace MDI

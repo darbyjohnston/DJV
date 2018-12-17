@@ -55,9 +55,8 @@ namespace djv
 
             void setClosedCallback(const std::function<void(void)> &);
 
-            std::shared_ptr<UI::Widget> getTitleBar() const override;
-            std::shared_ptr<UI::Widget> getBottomBar() const override;
-            std::shared_ptr<UI::Widget> getResizeHandle() const override;
+            std::shared_ptr<UI::Widget> getMoveHandle() override;
+            std::shared_ptr<UI::Widget> getResizeHandle() override;
 
             void preLayoutEvent(Core::PreLayoutEvent&) override;
             void layoutEvent(Core::LayoutEvent&) override;

@@ -88,12 +88,9 @@ namespace djv
                 //std::shared_ptr<ScrollWidget> scrollWidget;
                 std::shared_ptr<StackLayout> stackLayout;
                 std::map<std::shared_ptr<Widget>, glm::vec2> windows;
-                std::set<std::shared_ptr<Widget> > layoutInit;
-                std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > titleBarToWindow;
-                std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > bottomBarToWindow;
+                std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > moveHandleToWindow;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > resizeHandleToWindow;
-                std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > windowToTitleBar;
-                std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > windowToBottomBar;
+                std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > windowToMoveHandle;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > windowToResizeHandle;
                 uint32_t pressed = 0;
                 glm::vec2 pressedPos;
@@ -135,20 +132,15 @@ namespace djv
                 window->setParent(_p->canvasWidget);
                 window->move(pos);
 
-                auto titleBar = window->getTitleBar();
-                auto bottomBar = window->getBottomBar();
+                auto moveHandle = window->getMoveHandle();
                 auto resizeHandle = window->getResizeHandle();
-                titleBar->installEventFilter(shared_from_this());
-                bottomBar->installEventFilter(shared_from_this());
+                moveHandle->installEventFilter(shared_from_this());
                 resizeHandle->installEventFilter(shared_from_this());
 
                 _p->windows[window] = pos;
-                _p->layoutInit.insert(window);
-                _p->titleBarToWindow[titleBar] = window;
-                _p->bottomBarToWindow[bottomBar] = window;
+                _p->moveHandleToWindow[moveHandle] = window;
                 _p->resizeHandleToWindow[resizeHandle] = window;
-                _p->windowToTitleBar[window] = titleBar;
-                _p->windowToBottomBar[window] = bottomBar;
+                _p->windowToMoveHandle[window] = moveHandle;
                 _p->windowToResizeHandle[window] = resizeHandle;
             }
 
@@ -162,34 +154,15 @@ namespace djv
                     }
                 }
                 {
-                    const auto j = _p->layoutInit.find(window);
-                    if (j != _p->layoutInit.end())
+                    const auto j = _p->windowToMoveHandle.find(window);
+                    if (j != _p->windowToMoveHandle.end())
                     {
-                        _p->layoutInit.erase(j);
-                    }
-                }
-                {
-                    const auto j = _p->windowToTitleBar.find(window);
-                    if (j != _p->windowToTitleBar.end())
-                    {
-                        const auto k = _p->titleBarToWindow.find(j->second);
-                        if (k != _p->titleBarToWindow.end())
+                        const auto k = _p->moveHandleToWindow.find(j->second);
+                        if (k != _p->moveHandleToWindow.end())
                         {
-                            _p->titleBarToWindow.erase(k);
+                            _p->moveHandleToWindow.erase(k);
                         }
-                        _p->windowToTitleBar.erase(j);
-                    }
-                }
-                {
-                    const auto j = _p->windowToBottomBar.find(window);
-                    if (j != _p->windowToBottomBar.end())
-                    {
-                        const auto k = _p->bottomBarToWindow.find(j->second);
-                        if (k != _p->bottomBarToWindow.end())
-                        {
-                            _p->bottomBarToWindow.erase(k);
-                        }
-                        _p->windowToBottomBar.erase(j);
+                        _p->windowToMoveHandle.erase(j);
                     }
                 }
                 {
@@ -213,12 +186,9 @@ namespace djv
                 {
                     i->setParent(nullptr);
                 }
-                _p->layoutInit.clear();
-                _p->titleBarToWindow.clear();
-                _p->bottomBarToWindow.clear();
+                _p->moveHandleToWindow.clear();
                 _p->resizeHandleToWindow.clear();
-                _p->windowToTitleBar.clear();
-                _p->windowToBottomBar.clear();
+                _p->windowToMoveHandle.clear();
                 _p->windowToResizeHandle.clear();
             }
 
@@ -232,14 +202,6 @@ namespace djv
             {
                 //_p->scrollWidget->setGeometry(getGeometry());
                 _p->stackLayout->setGeometry(getGeometry());
-
-                for (auto& i : _p->layoutInit)
-                {
-                    const glm::vec2& size = i->getMinimumSize();
-                    i->resize(size);
-                }
-                _p->layoutInit.clear();
-
                 const BBox2f& g = _p->canvasWidget->getGeometry();
                 {
                     for (auto& i : _p->windows)
@@ -269,22 +231,11 @@ namespace djv
                         {
                             const float shadow = style->getMetric(MetricsRole::Shadow);
                             const BBox2f& canvasGeometry = _p->canvasWidget->getGeometry();
-                            const auto titleBarToWindow = _p->titleBarToWindow.find(object);
-                            const auto bottomBarToWindow = _p->bottomBarToWindow.find(object);
+                            const auto moveHandleToWindow = _p->moveHandleToWindow.find(object);
                             const auto resizeHandleToWindow = _p->resizeHandleToWindow.find(object);
-                            if (titleBarToWindow != _p->titleBarToWindow.end())
+                            if (moveHandleToWindow != _p->moveHandleToWindow.end())
                             {
-                                const auto window = _p->windows.find(titleBarToWindow->second);
-                                if (window != _p->windows.end())
-                                {
-                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
-                                    window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
-                                    window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
-                                }
-                            }
-                            else if (bottomBarToWindow != _p->bottomBarToWindow.end())
-                            {
-                                const auto window = _p->windows.find(bottomBarToWindow->second);
+                                const auto window = _p->windows.find(moveHandleToWindow->second);
                                 if (window != _p->windows.end())
                                 {
                                     const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
@@ -314,21 +265,12 @@ namespace djv
                     ButtonPressEvent& buttonPressEvent = static_cast<ButtonPressEvent&>(event);
                     if (!_p->pressed)
                     {
-                        if (_p->titleBarToWindow.find(object) != _p->titleBarToWindow.end())
+                        if (_p->moveHandleToWindow.find(object) != _p->moveHandleToWindow.end())
                         {
                             event.accept();
                             _p->pressed = buttonPressEvent.getPointerInfo().id;
                             _p->pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            auto window = _p->titleBarToWindow[object];
-                            window->raiseToTop();
-                            _p->pressedOffset = window->getGeometry().min - _p->pressedPos;
-                        }
-                        else if (_p->bottomBarToWindow.find(object) != _p->bottomBarToWindow.end())
-                        {
-                            event.accept();
-                            _p->pressed = buttonPressEvent.getPointerInfo().id;
-                            _p->pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            auto window = _p->bottomBarToWindow[object];
+                            auto window = _p->moveHandleToWindow[object];
                             window->raiseToTop();
                             _p->pressedOffset = window->getGeometry().min - _p->pressedPos;
                         }

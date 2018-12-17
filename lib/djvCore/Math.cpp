@@ -29,6 +29,8 @@
 
 #include <djvCore/Math.h>
 
+#include <ctime>
+
 #include <stdlib.h>
 
 namespace djv
@@ -67,6 +69,11 @@ namespace djv
             void setRandomSeed(unsigned int value)
             {
                 srand(value);
+            }
+
+            void setRandomSeed()
+            {
+                srand(std::time(0));
             }
 
         } // namespace Math
