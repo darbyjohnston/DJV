@@ -445,16 +445,16 @@ namespace djv
                     switch (_scrollType)
                     {
                     case ScrollType::Both:
-                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
-                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        size.x = std::max(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                        size.y = std::max(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
                         break;
                     case ScrollType::Horizontal:
-                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                        size.x = std::max(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
                         size.y = childrenMinimumSize.y;
                         break;
                     case ScrollType::Vertical:
                         size.x = childrenMinimumSize.x;
-                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        size.y = std::max(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
                         break;
                     default: break;
                     }

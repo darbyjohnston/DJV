@@ -34,6 +34,7 @@
 
 #include <djvUI/ImageWidget.h>
 #include <djvUI/MDICanvas.h>
+#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -46,6 +47,7 @@ namespace djv
         struct MainWindow::Private
         {
             std::shared_ptr<UI::MDI::Canvas> canvas;
+            std::shared_ptr<UI::ScrollWidget> scrollWidget;
         };
         
         void MainWindow::_init(Core::Context * context)
@@ -53,7 +55,11 @@ namespace djv
             Window::_init(context);
 
             _p->canvas = UI::MDI::Canvas::create(context);
-            addWidget(_p->canvas);
+            _p->canvas->setCanvasSize(glm::vec2(8192, 8192));
+
+            _p->scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
+            _p->scrollWidget->addWidget(_p->canvas);
+            addWidget(_p->scrollWidget);
         }
 
         MainWindow::MainWindow() :

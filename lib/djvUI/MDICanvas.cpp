@@ -73,11 +73,24 @@ namespace djv
                         return out;
                     }
 
+                    const glm::vec2 & getCanvasSize() const
+                    {
+                        return _canvasSize;
+                    }
+
+                    void setCanvasSize(const glm::vec2 & size)
+                    {
+                        _canvasSize = size;
+                    }
+
                 protected:
                     void preLayoutEvent(PreLayoutEvent&) override
                     {
-                        _setMinimumSize(glm::vec2(2000.f, 2000.f));
+                        _setMinimumSize(_canvasSize);
                     }
+
+                private:
+                    glm::vec2 _canvasSize = glm::vec2(2000.f, 2000.f);
                 };
 
             } // namespace
@@ -125,6 +138,16 @@ namespace djv
                 auto out = std::shared_ptr<Canvas>(new Canvas);
                 out->_init(context);
                 return out;
+            }
+
+            const glm::vec2 & Canvas::getCanvasSize() const
+            {
+                return _p->canvasWidget->getCanvasSize();
+            }
+
+            void Canvas::setCanvasSize(const glm::vec2 & size)
+            {
+                _p->canvasWidget->setCanvasSize(size);
             }
 
             void Canvas::addWindow(const std::shared_ptr<IWindow>& window, const glm::vec2& pos)

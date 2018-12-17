@@ -52,6 +52,9 @@ namespace djv
 
                 static std::shared_ptr<Canvas> create(Core::Context *);
 
+                const glm::vec2 & getCanvasSize() const;
+                void setCanvasSize(const glm::vec2 &);
+
                 void addWindow(const std::shared_ptr<IWindow>&, const glm::vec2& = glm::vec2());
                 void removeWindow(const std::shared_ptr<IWindow>&);
                 void clearWindows();
