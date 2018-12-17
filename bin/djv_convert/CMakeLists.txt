@@ -1,5 +1,4 @@
-set(source
-    main.cpp)
+set(source main.cpp)
 
 add_executable(djv_convert ${header} ${source})
 target_link_libraries(djv_convert djvAV)
@@ -8,3 +7,7 @@ set_target_properties(
     PROPERTIES
     FOLDER bin
     CXX_STANDARD 11)
+
+install(
+    TARGETS djv_convert
+    RUNTIME DESTINATION ${DJV_INSTALL_BIN})

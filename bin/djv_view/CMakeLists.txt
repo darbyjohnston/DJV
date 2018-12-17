@@ -7,3 +7,7 @@ set_target_properties(
     PROPERTIES
     FOLDER bin
     CXX_STANDARD 11)
+
+install(
+    TARGETS djv_view
+    RUNTIME DESTINATION ${DJV_INSTALL_BIN})
