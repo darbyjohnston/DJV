@@ -37,7 +37,7 @@ namespace djv
     {
         namespace MDI
         {
-            class Window;
+            class IWindow;
             
             class Canvas : public Widget
             {
@@ -52,9 +52,9 @@ namespace djv
 
                 static std::shared_ptr<Canvas> create(Core::Context *);
 
-                std::shared_ptr<Window> addWidget(const std::string & title, const std::shared_ptr<Widget>&, const glm::vec2& = glm::vec2());
-                void removeWidget(const std::shared_ptr<Widget>&);
-                void clearWidgets();
+                void addWindow(const std::shared_ptr<IWindow>&, const glm::vec2& = glm::vec2());
+                void removeWindow(const std::shared_ptr<IWindow>&);
+                void clearWindows();
 
                 void preLayoutEvent(Core::PreLayoutEvent&) override;
                 void layoutEvent(Core::LayoutEvent&) override;

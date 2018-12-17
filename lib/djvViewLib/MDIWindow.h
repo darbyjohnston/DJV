@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/MDIWindow.h>
 
 namespace djv
 {
@@ -37,18 +37,27 @@ namespace djv
     {
         class Media;
 
-        class MDIWidget : public UI::Widget
+        class MDIWindow : public UI::MDI::IWindow
         {
-            DJV_NON_COPYABLE(MDIWidget);
+            DJV_NON_COPYABLE(MDIWindow);
 
         protected:
             void _init(const std::shared_ptr<Media> &, Core::Context *);
-            MDIWidget();
+            MDIWindow();
 
         public:
-            ~MDIWidget() override;
+            ~MDIWindow() override;
 
-            static std::shared_ptr<MDIWidget> create(const std::shared_ptr<Media> &, Core::Context *);
+            static std::shared_ptr<MDIWindow> create(const std::shared_ptr<Media> &, Core::Context *);
+
+            const std::string & getTitle() const;
+            void setTitle(const std::string &);
+
+            void setClosedCallback(const std::function<void(void)> &);
+
+            std::shared_ptr<UI::Widget> getTitleBar() const override;
+            std::shared_ptr<UI::Widget> getBottomBar() const override;
+            std::shared_ptr<UI::Widget> getResizeHandle() const override;
 
             void preLayoutEvent(Core::PreLayoutEvent&) override;
             void layoutEvent(Core::LayoutEvent&) override;

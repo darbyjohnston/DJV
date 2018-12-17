@@ -37,39 +37,19 @@ namespace djv
     {
         namespace MDI
         {
-            class Canvas;
-            
-            class Window : public IContainerWidget
+            class IWindow : public IContainerWidget
             {
-                DJV_NON_COPYABLE(Window);
+                DJV_NON_COPYABLE(IWindow);
 
             protected:
-                void _init(Core::Context *);
-                Window();
+                IWindow();
 
             public:
-                virtual ~Window();
-
-                static std::shared_ptr<Window> create(Core::Context *);
+                virtual ~IWindow() = 0;
                 
-                const std::string & getTitle() const;
-                void setTitle(const std::string &);
-                
-                std::shared_ptr<Widget> getTitleBar() const;
-                std::shared_ptr<Widget> getBottomBar() const;
-                std::shared_ptr<Widget> getResizeHandle() const;
-                
-                void setClosedCallback(const std::function<void(void)> &);
-                
-                virtual void addWidget(const std::shared_ptr<Widget>&);
-                virtual void removeWidget(const std::shared_ptr<Widget>&);
-                virtual void clearWidgets();
-                
-                void preLayoutEvent(Core::PreLayoutEvent&) override;
-                void layoutEvent(Core::LayoutEvent&) override;
-            
-            private:
-                DJV_PRIVATE();
+                virtual std::shared_ptr<Widget> getTitleBar() const = 0;
+                virtual std::shared_ptr<Widget> getBottomBar() const = 0;
+                virtual std::shared_ptr<Widget> getResizeHandle() const = 0;
             };
             
         } // namespace MDI

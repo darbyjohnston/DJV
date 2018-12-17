@@ -29,11 +29,13 @@
 
 #include <djvViewLib/MainWindow.h>
 
-#include <djvViewLib/MDIWidget.h>
+#include <djvViewLib/MDIWindow.h>
 #include <djvViewLib/Media.h>
 
 #include <djvUI/ImageWidget.h>
 #include <djvUI/MDICanvas.h>
+
+#include <djvCore/FileInfo.h>
 
 using namespace djv::Core;
 
@@ -73,9 +75,24 @@ namespace djv
             glm::vec2 pos = event.getPointerInfo().projectedPos;
             for (const auto & i : event.getDropPaths())
             {
+                //auto media = Media::create(FileInfo::getFileSequence(i), getContext());
                 auto media = Media::create(i, getContext());
-                auto widget = MDIWidget::create(media, getContext());
-                _p->canvas->addWidget(Path(i).getFileName(), widget, pos);
+                auto window = MDIWindow::create(media, getContext());
+                window->setTitle(Path(i).getFileName());
+                auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+                auto weakWindow = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(window));
+                window->setClosedCallback(
+                    [weak, weakWindow]
+                {
+                    if (auto mainWindow = weak.lock())
+                    {
+                        if (auto window = weakWindow.lock())
+                        {
+                            mainWindow->_p->canvas->removeWindow(window);
+                        }
+                    }
+                });
+                _p->canvas->addWindow(window, pos);
             }
         }
         

@@ -13,7 +13,7 @@ set(header
     #ImageView.h
     #InfoTool.h
     #MagnifyTool.h
-    MDIWidget.h
+    MDIWindow.h
     MainWindow.h
     Media.h
     #PlaybackObject.h
@@ -41,7 +41,7 @@ set(source
     #ImageView.cpp
     #InfoTool.cpp
     #MagnifyTool.cpp
-    MDIWidget.cpp
+    MDIWindow.cpp
     MainWindow.cpp
     Media.cpp
     #PlaybackObject.cpp

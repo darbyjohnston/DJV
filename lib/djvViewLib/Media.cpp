@@ -71,6 +71,7 @@ namespace djv
             std::shared_ptr<AV::IO::IRead> read;
             std::future<AV::IO::Info> infoFuture;
             std::shared_ptr<Timer> infoTimer;
+            std::chrono::system_clock::time_point startTime;
             ALuint alSource = 0;
             std::vector<ALuint> alBuffers;
             int64_t queuedBytes = 0;
@@ -133,7 +134,7 @@ namespace djv
                     const auto timeout = Timer::getMilliseconds(Timer::Value::Fast);
                     p.infoTimer->start(
                         timeout,
-                        [this](float)
+                        [this, fileName](float)
                     {
                         DJV_PRIVATE_PTR();
                         if (p.infoFuture.valid() &&
@@ -153,6 +154,11 @@ namespace djv
                             {
                                 p.audioInfo = audio[0];
                                 duration = std::max(duration, audio[0].duration);
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << fileName << " duration: " << duration;
+                                p.context->log("djv::ViewLib::Media", ss.str());
                             }
                             p.info->setIfChanged(info);
                             p.duration->setIfChanged(duration);
@@ -278,7 +284,7 @@ namespace djv
                     p.read->seek(value);
                 }
                 setPlayback(Playback::Stop);
-                p.timeOffset = p.currentTime->get();
+                p.timeOffset = value;
                 _timeUpdate();
             }
         }
@@ -299,6 +305,7 @@ namespace djv
             case Playback::Forward:
             {
                 _timeUpdate();
+                p.startTime = std::chrono::system_clock::now();
                 p.playbackTimer->start(
                     Timer::getMilliseconds(Timer::Value::Fast),
                     [this](float)
@@ -314,15 +321,37 @@ namespace djv
                         {
                             alSourcePlay(p.alSource);
                         }*/
-                        ALint offset = 0;
-                        alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
+                        AV::Timestamp pts = 0;
                         AVRational r;
-                        r.num = 1;
-                        r.den = static_cast<int>(p.audioInfo.info.sampleRate);
-                        auto time = p.timeOffset + av_rescale_q(
-                            (p.queuedBytes + offset) / AV::Audio::getByteCount(p.audioInfo.info.type),
-                            r,
-                            AV::IO::FFmpeg::getTimeBaseQ());
+                        AV::Timestamp time = 0;
+                        if (p.audioInfo.info.isValid())
+                        {
+                            ALint offset = 0;
+                            alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
+                            pts = (p.queuedBytes + offset) / AV::Audio::getByteCount(p.audioInfo.info.type);
+                            r.num = 1;
+                            r.den = static_cast<int>(p.audioInfo.info.sampleRate);
+                            time = p.timeOffset + av_rescale_q(pts, r, AV::IO::FFmpeg::getTimeBaseQ());
+                            /*{
+                                std::stringstream ss;
+                                ss << "audio time = " << time;
+                                p.context->log("djv::ViewLib::Media", ss.str());
+                            }*/
+                        }
+                        else
+                        {
+                            const auto now = std::chrono::system_clock::now();
+                            const std::chrono::duration<double> delta = now - p.startTime;
+                            auto pts = static_cast<AV::Timestamp>(delta.count() * p.videoInfo.speed.getScale() / p.videoInfo.speed.getDuration());
+                            r.num = p.videoInfo.speed.getDuration();
+                            r.den = p.videoInfo.speed.getScale();
+                            time = p.timeOffset + av_rescale_q(pts, r, AV::IO::FFmpeg::getTimeBaseQ());
+                            /*{
+                                std::stringstream ss;
+                                ss << "video time = " << time;
+                                p.context->log("djv::ViewLib::Media", ss.str());
+                            }*/
+                        }
                         p.currentTime->setIfChanged(time);
                         _timeUpdate();
                         break;

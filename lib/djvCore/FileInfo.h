@@ -90,7 +90,6 @@ namespace djv
         //! "render.0001-0100.exr".
         //!
         //! Note the file sequences return information for the entire sequence.
-        //!
         class FileInfo
         {
         public:

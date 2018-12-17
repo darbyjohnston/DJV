@@ -58,7 +58,7 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const int textureCacheSize = 4096;
+            const int textureCacheSize = 8192;
             const size_t statsTimeout = 10000;
 
             enum class PixelFormat

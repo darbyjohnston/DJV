@@ -89,7 +89,6 @@ namespace djv
                 std::shared_ptr<StackLayout> stackLayout;
                 std::map<std::shared_ptr<Widget>, glm::vec2> windows;
                 std::set<std::shared_ptr<Widget> > layoutInit;
-                std::map<std::shared_ptr<Widget>, std::shared_ptr<Widget> > widgetToWindow;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > titleBarToWindow;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > bottomBarToWindow;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > resizeHandleToWindow;
@@ -131,12 +130,8 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Window> Canvas::addWidget(const std::string & title, const std::shared_ptr<Widget>& value, const glm::vec2& pos)
+            void Canvas::addWindow(const std::shared_ptr<IWindow>& window, const glm::vec2& pos)
             {
-                auto context = getContext();
-                auto window = MDI::Window::create(context);
-                window->setTitle(title);
-                window->addWidget(value);
                 window->setParent(_p->canvasWidget);
                 window->move(pos);
 
@@ -149,96 +144,76 @@ namespace djv
 
                 _p->windows[window] = pos;
                 _p->layoutInit.insert(window);
-                _p->widgetToWindow[value] = window;
                 _p->titleBarToWindow[titleBar] = window;
                 _p->bottomBarToWindow[bottomBar] = window;
                 _p->resizeHandleToWindow[resizeHandle] = window;
                 _p->windowToTitleBar[window] = titleBar;
                 _p->windowToBottomBar[window] = bottomBar;
                 _p->windowToResizeHandle[window] = resizeHandle;
-
-                auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
-                window->setClosedCallback(
-                    [weak, value]
-                {
-                    if (auto canvas = weak.lock())
-                    {
-                        canvas->removeWidget(value);
-                    }
-                });
-                
-                return window;
             }
 
-            void Canvas::removeWidget(const std::shared_ptr<Widget>& value)
+            void Canvas::removeWindow(const std::shared_ptr<IWindow>& window)
             {
-                const auto i = _p->widgetToWindow.find(value);
-                if (i != _p->widgetToWindow.end())
                 {
+                    const auto j = _p->windows.find(window);
+                    if (j != _p->windows.end())
                     {
-                        const auto j = _p->windows.find(i->second);
-                        if (j != _p->windows.end())
-                        {
-                            _p->windows.erase(j);
-                        }
+                        _p->windows.erase(j);
                     }
-                    {
-                        const auto j = _p->layoutInit.find(i->second);
-                        if (j != _p->layoutInit.end())
-                        {
-                            _p->layoutInit.erase(j);
-                        }
-                    }
-                    {
-                        const auto j = _p->windowToTitleBar.find(i->second);
-                        if (j != _p->windowToTitleBar.end())
-                        {
-                            const auto k = _p->titleBarToWindow.find(j->second);
-                            if (k != _p->titleBarToWindow.end())
-                            {
-                                _p->titleBarToWindow.erase(k);
-                            }
-                            _p->windowToTitleBar.erase(j);
-                        }
-                    }
-                    {
-                        const auto j = _p->windowToBottomBar.find(i->second);
-                        if (j != _p->windowToBottomBar.end())
-                        {
-                            const auto k = _p->bottomBarToWindow.find(j->second);
-                            if (k != _p->bottomBarToWindow.end())
-                            {
-                                _p->bottomBarToWindow.erase(k);
-                            }
-                            _p->windowToBottomBar.erase(j);
-                        }
-                    }
-                    {
-                        const auto j = _p->windowToResizeHandle.find(i->second);
-                        if (j != _p->windowToResizeHandle.end())
-                        {
-                            const auto k = _p->resizeHandleToWindow.find(j->second);
-                            if (k != _p->resizeHandleToWindow.end())
-                            {
-                                _p->resizeHandleToWindow.erase(k);
-                            }
-                            _p->windowToResizeHandle.erase(j);
-                        }
-                    }
-                    i->first->setParent(nullptr);
-                    i->second->setParent(nullptr);
-                    _p->widgetToWindow.erase(i);
                 }
+                {
+                    const auto j = _p->layoutInit.find(window);
+                    if (j != _p->layoutInit.end())
+                    {
+                        _p->layoutInit.erase(j);
+                    }
+                }
+                {
+                    const auto j = _p->windowToTitleBar.find(window);
+                    if (j != _p->windowToTitleBar.end())
+                    {
+                        const auto k = _p->titleBarToWindow.find(j->second);
+                        if (k != _p->titleBarToWindow.end())
+                        {
+                            _p->titleBarToWindow.erase(k);
+                        }
+                        _p->windowToTitleBar.erase(j);
+                    }
+                }
+                {
+                    const auto j = _p->windowToBottomBar.find(window);
+                    if (j != _p->windowToBottomBar.end())
+                    {
+                        const auto k = _p->bottomBarToWindow.find(j->second);
+                        if (k != _p->bottomBarToWindow.end())
+                        {
+                            _p->bottomBarToWindow.erase(k);
+                        }
+                        _p->windowToBottomBar.erase(j);
+                    }
+                }
+                {
+                    const auto j = _p->windowToResizeHandle.find(window);
+                    if (j != _p->windowToResizeHandle.end())
+                    {
+                        const auto k = _p->resizeHandleToWindow.find(j->second);
+                        if (k != _p->resizeHandleToWindow.end())
+                        {
+                            _p->resizeHandleToWindow.erase(k);
+                        }
+                        _p->windowToResizeHandle.erase(j);
+                    }
+                }
+                window->setParent(nullptr);
             }
 
-            void Canvas::clearWidgets()
+            void Canvas::clearWindows()
             {
                 for (auto i : _p->canvasWidget->getChildrenT<Widget>())
                 {
                     i->setParent(nullptr);
                 }
                 _p->layoutInit.clear();
-                _p->widgetToWindow.clear();
                 _p->titleBarToWindow.clear();
                 _p->bottomBarToWindow.clear();
                 _p->resizeHandleToWindow.clear();
