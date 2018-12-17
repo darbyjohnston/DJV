@@ -74,18 +74,22 @@ set(images
     "images/index.png"
     "images/logo-filmreel.png")
 set(legal
+    ../LICENSE.txt
     ../LICENSE_CMake.txt
     ../LICENSE_FFmpeg.txt
+    ../LICENSE_FreeType.txt
+    ../LICENSE_GLFW.md
     ../LICENSE_GLM.txt
-    ../LICENSE_libjpeg.txt
-    ../LICENSE_libpng.txt
-    ../LICENSE_libtiff.txt
     ../LICENSE_OFL.txt
     ../LICENSE_OpenAL.txt
     ../LICENSE_OpenEXR.txt
-    ../LICENSE_Qt.txt
-    ../LICENSE.txt
-    ../LICENSE_zlib.txt)
+    ../LICENSE_dr_libs.txt
+    ../LICENSE_glbinding.txt
+    ../LICENSE_libjpeg.txt
+    ../LICENSE_libpng.txt
+    ../LICENSE_libtiff.txt
+    ../LICENSE_zlib.txt
+    ../README.md)
 
 file(COPY ${html} DESTINATION ${DJV_BUILD_DIR}/doc)
 file(COPY ${images} DESTINATION ${DJV_BUILD_DIR}/doc/images)
