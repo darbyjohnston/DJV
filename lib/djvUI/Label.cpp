@@ -241,7 +241,7 @@ namespace djv
                     default: break;
                     }
 
-                    render->setFillColor(style->getColor(_p->textColorRole));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
                     render->drawText(_p->text, glm::vec2(pos.x, pos.y + ascender));
                 }
             }

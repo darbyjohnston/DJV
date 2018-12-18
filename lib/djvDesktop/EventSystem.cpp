@@ -69,11 +69,12 @@ namespace djv
 
         struct EventSystem::Private
         {
-            glm::vec2 pointerPos;
+            PointerInfo pointerInfo;
             std::shared_ptr<IObject> window;
             std::shared_ptr<IObject> hover;
             std::shared_ptr<IObject> grab;
             std::shared_ptr<IObject> focus;
+            std::shared_ptr<IObject> keyGrab;
         };
 
         void EventSystem::_init(GLFWwindow* glfwWindow, Context * context)
@@ -83,6 +84,7 @@ namespace djv
             glfwSetWindowUserPointer(glfwWindow, this);
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
+            glfwSetKeyCallback(glfwWindow, _keyCallback);
             glfwSetDropCallback(glfwWindow, _dropCallback);
         }
 
@@ -100,10 +102,11 @@ namespace djv
             return out;
         }
 
-        void EventSystem::_pointerMove(const PointerInfo& info)
+        void EventSystem::_tick(float dt)
         {
+            IEventSystem::_tick(dt);
             DJV_PRIVATE_PTR();
-            PointerMoveEvent moveEvent(info);
+            PointerMoveEvent moveEvent(_p->pointerInfo);
             if (p.grab)
             {
                 p.grab->event(moveEvent);
@@ -113,7 +116,7 @@ namespace djv
                 std::shared_ptr<UI::Widget> hover;
                 for (const auto& window : windowSystem->getWindows())
                 {
-                    if (window->isVisible() && window->getGeometry().contains(info.pos))
+                    if (window->isVisible() && window->getGeometry().contains(_p->pointerInfo.projectedPos))
                     {
                         _p->window = window;
                         _hover(window, moveEvent, hover);
@@ -130,7 +133,7 @@ namespace djv
                 {
                     if (p.hover)
                     {
-                        PointerLeaveEvent leaveEvent(info);
+                        PointerLeaveEvent leaveEvent(_p->pointerInfo);
                         p.hover->event(leaveEvent);
                         /*{
                             std::stringstream ss;
@@ -141,7 +144,7 @@ namespace djv
                     p.hover = hover;
                     if (p.hover)
                     {
-                        PointerEnterEvent enterEvent(info);
+                        PointerEnterEvent enterEvent(_p->pointerInfo);
                         p.hover->event(enterEvent);
                         /*{
                             std::stringstream ss;
@@ -153,9 +156,17 @@ namespace djv
             }
         }
 
-        void EventSystem::_buttonPress(const PointerInfo& info)
+        void EventSystem::_pointerMove(const PointerInfo& info)
         {
             DJV_PRIVATE_PTR();
+            _p->pointerInfo = info;
+        }
+
+        void EventSystem::_buttonPress(int button)
+        {
+            DJV_PRIVATE_PTR();
+            auto info = _p->pointerInfo;
+            info.button = button;
             ButtonPressEvent event(info);
             if (p.hover)
             {
@@ -167,14 +178,79 @@ namespace djv
             }
         }
 
-        void EventSystem::_buttonRelease(const PointerInfo& info)
+        void EventSystem::_buttonRelease(int button)
         {
             DJV_PRIVATE_PTR();
+            auto info = _p->pointerInfo;
+            info.button = button;
             ButtonReleaseEvent event(info);
             if (p.grab)
             {
                 p.grab->event(event);
                 p.grab = nullptr;
+            }
+        }
+
+        void EventSystem::_keyPress(int key, int mods)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.window && p.hover)
+            {
+                KeyPressEvent event(key, mods, _p->pointerInfo);
+                auto widget = p.hover;
+                while (widget)
+                {
+                    widget->event(event);
+                    if (event.isAccepted())
+                    {
+                        p.keyGrab = widget;
+                        break;
+                    }
+                    widget = widget->getParent().lock();
+                }
+            }
+        }
+
+        void EventSystem::_keyRelease(int key, int mods)
+        {
+            DJV_PRIVATE_PTR();
+            KeyReleaseEvent event(key, mods, _p->pointerInfo);
+            if (p.keyGrab)
+            {
+                p.keyGrab->event(event);
+                p.keyGrab = nullptr;
+            }
+            else
+            {
+                auto widget = p.hover;
+                while (widget)
+                {
+                    widget->event(event);
+                    if (event.isAccepted())
+                    {
+                        break;
+                    }
+                    widget = widget->getParent().lock();
+                }
+            }
+        }
+
+        void EventSystem::_drop(const std::vector<std::string> & list)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.window && p.hover)
+            {
+                DropEvent event(list, _p->pointerInfo);
+                auto widget = p.hover;
+                while (widget)
+                {
+                    widget->event(event);
+                    if (event.isAccepted())
+                    {
+                        break;
+                    }
+                    widget = widget->getParent().lock();
+                }
             }
         }
 
@@ -202,33 +278,13 @@ namespace djv
             }
         }
 
-        void EventSystem::_drop(const std::vector<std::string> & list, const Core::PointerInfo& info)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.window && p.hover)
-            {
-                DropEvent event(list, info);
-                auto widget = p.hover;
-                while (widget)
-                {
-                    widget->event(event);
-                    if (event.isAccepted())
-                    {
-                        break;
-                    }
-                    widget = widget->getParent().lock();
-                }
-            }
-        }
-
         void EventSystem::_pointerCallback(GLFWwindow* window, double x, double y)
         {
             EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
-            system->_p->pointerPos = glm::vec2(static_cast<float>(x), static_cast<float>(y));
             PointerInfo info;
             info.id = pointerID;
-            info.pos.x = system->_p->pointerPos.x;
-            info.pos.y = system->_p->pointerPos.y;
+            info.pos.x = static_cast<float>(x);
+            info.pos.y = static_cast<float>(y);
             info.pos.z = 0.f;
             info.dir.x = 0.f;
             info.dir.y = 0.f;
@@ -240,24 +296,24 @@ namespace djv
         void EventSystem::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
         {
             EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
-            PointerInfo info;
-            info.id = pointerID;
-            info.pos.x = system->_p->pointerPos.x;
-            info.pos.y = system->_p->pointerPos.y;
-            info.pos.z = 0.f;
-            info.dir.x = 0.f;
-            info.dir.y = 0.f;
-            info.dir.z = 1.f;
-            info.projectedPos = info.pos;
-            info.button = fromGLFWPointerButton(button);
             switch (action)
             {
             case GLFW_PRESS:
-                system->_buttonPress(info);
+                system->_buttonPress(fromGLFWPointerButton(button));
                 break;
             case GLFW_RELEASE:
-                system->_buttonRelease(info);
+                system->_buttonRelease(fromGLFWPointerButton(button));
                 break;
+            }
+        }
+
+        void EventSystem::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+        {
+            EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
+            switch (action)
+            {
+            case GLFW_PRESS: system->_keyPress(key, mods); break;
+            case GLFW_RELEASE: system->_keyRelease(key, mods); break;
             }
         }
 
@@ -269,16 +325,7 @@ namespace djv
             {
                 list.push_back(paths[i]);
             }
-            PointerInfo info;
-            info.id = pointerID;
-            info.pos.x = system->_p->pointerPos.x;
-            info.pos.y = system->_p->pointerPos.y;
-            info.pos.z = 0.f;
-            info.dir.x = 0.f;
-            info.dir.y = 0.f;
-            info.dir.z = 1.f;
-            info.projectedPos = info.pos;
-            system->_drop(list, info);
+            system->_drop(list);
         }
 
     } // namespace Desktop

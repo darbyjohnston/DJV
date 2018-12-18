@@ -75,6 +75,41 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
+            inline DataType getDataType(Type value)
+            {
+                static const std::vector<DataType> data =
+                {
+                    DataType::None,
+
+                    DataType::U8,
+                    DataType::U16,
+                    DataType::U32,
+                    DataType::F16,
+                    DataType::F32,
+
+                    DataType::U8,
+                    DataType::U16,
+                    DataType::U32,
+                    DataType::F16,
+                    DataType::F32,
+
+                    DataType::U8,
+                    DataType::U10,
+                    DataType::U16,
+                    DataType::U32,
+                    DataType::F16,
+                    DataType::F32,
+
+                    DataType::U8,
+                    DataType::U16,
+                    DataType::U32,
+                    DataType::F16,
+                    DataType::F32
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
             inline size_t getBitDepth(Type value)
             {
                 static const std::vector<size_t> data =

@@ -82,9 +82,11 @@ namespace djv
 
             inline bool isVisible(bool parents = false) const;
             inline bool isClipped() const;
-            void setVisible(bool);
+            inline float getOpacity(bool parents = false) const;
+            virtual void setVisible(bool);
             void show();
             void hide();
+            void setOpacity(float);
 
             ///@}
 
@@ -152,7 +154,8 @@ namespace djv
             virtual void dropEvent(Core::DropEvent&) {}
             virtual void keyboardFocusEvent(Core::KeyboardFocusEvent&) {}
             virtual void keyboardFocusLostEvent(Core::KeyboardFocusLostEvent&) {}
-            virtual void keyEvent(Core::KeyEvent&);
+            virtual void keyPressEvent(Core::KeyPressEvent&);
+            virtual void keyReleaseEvent(Core::KeyReleaseEvent&) {}
             virtual void textEvent(Core::TextEvent&) {}
 
             void pointerEnterEvent(Core::PointerEnterEvent&) override;
@@ -166,12 +169,16 @@ namespace djv
             inline const std::weak_ptr<AV::Render2DSystem>& _getRenderSystem() const;
             inline const std::weak_ptr<Style>& _getStyle() const;
 
+            AV::Color _getColorWithOpacity(const AV::Color &) const;
+
             void _setMinimumSize(const glm::vec2&);
 
         private:
             bool _visible = true;
             bool _parentsVisible = true;
             bool _clipped = false;
+            float _opacity = 1.f;
+            float _parentsOpacity = 1.f;
             Core::BBox2f _geometry = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
             glm::vec2 _minimumSize = glm::vec2(0.f, 0.f);
             Margin _margin;

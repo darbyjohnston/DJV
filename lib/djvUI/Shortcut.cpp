@@ -62,19 +62,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Shortcut> Shortcut::create(int keyCode)
+        std::shared_ptr<Shortcut> Shortcut::create(int key)
         {
             auto out = std::shared_ptr<Shortcut>(new Shortcut);
             out->_init();
-            out->setShortcutKey(keyCode);
+            out->setShortcutKey(key);
             return out;
         }
 
-        std::shared_ptr<Shortcut> Shortcut::create(int keyCode, int modifiers)
+        std::shared_ptr<Shortcut> Shortcut::create(int key, int modifiers)
         {
             auto out = std::shared_ptr<Shortcut>(new Shortcut);
             out->_init();
-            out->setShortcutKey(keyCode);
+            out->setShortcutKey(key);
             out->setShortcutModifiers(modifiers);
             return out;
         }

@@ -268,7 +268,7 @@ namespace djv
                     }
                     glm::vec2 pos = g.min;
                     render->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
-                    render->setFillColor(style->getColor(_p->textColorRole));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
                     for (const auto& line : _p->breakText)
                     {
                         if (pos.y + line.size.y >= _p->clipRect.min.y && pos.y <= _p->clipRect.max.y)

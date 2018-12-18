@@ -54,11 +54,11 @@ namespace djv
             virtual ~Shortcut();
 
             static std::shared_ptr<Shortcut> create();
-            static std::shared_ptr<Shortcut> create(int keyCode);
-            static std::shared_ptr<Shortcut> create(int keyCode, int modifiers);
+            static std::shared_ptr<Shortcut> create(int key);
+            static std::shared_ptr<Shortcut> create(int key, int modifiers);
 
             std::shared_ptr<Core::IValueSubject<int> > getShortcutKey() const;
-            void setShortcutKey(int keyCode);
+            void setShortcutKey(int key);
 
             std::shared_ptr<Core::IValueSubject<int> > getShortcutModifiers() const;
             void setShortcutModifiers(int);

@@ -59,7 +59,8 @@ namespace djv
             Drop,
             KeyboardFocus,
             KeyboardFocusLost,
-            Key,
+            KeyPress,
+            KeyRelease,
             Text,
 
             Count,
@@ -157,8 +158,11 @@ namespace djv
 
         class IPointerEvent : public IEvent
         {
-        public:
+        protected:
             IPointerEvent(const PointerInfo&, EventType);
+
+        public:
+            ~IPointerEvent() override = 0;
 
             bool isRejected() const { return _rejected; }
             void setRejected(bool);
@@ -235,17 +239,32 @@ namespace djv
             KeyboardFocusLostEvent();
         };
 
-        class KeyEvent : public IPointerEvent
+        class IKeyEvent : public IPointerEvent
         {
-        public:
-            KeyEvent(int32_t keyCode, uint16_t keyModifiers, const PointerInfo&);
+        protected:
+            IKeyEvent(int key, int keyModifiers, const PointerInfo&, EventType);
 
-            int32_t getKeyCode() const { return _keyCode; }
-            uint16_t getKeyModifiers() const { return _keyModifiers; }
+        public:
+            ~IKeyEvent() override = 0;
+
+            int getKey() const { return _key; }
+            int getKeyModifiers() const { return _keyModifiers; }
 
         private:
-            int32_t _keyCode = 0;
-            uint16_t _keyModifiers = 0;
+            int _key = 0;
+            int _keyModifiers = 0;
+        };
+
+        class KeyPressEvent : public IKeyEvent
+        {
+        public:
+            KeyPressEvent(int key, int keyModifiers, const PointerInfo&);
+        };
+
+        class KeyReleaseEvent : public IKeyEvent
+        {
+        public:
+            KeyReleaseEvent(int key, int keyModifiers, const PointerInfo&);
         };
 
         class TextEvent : public IEvent

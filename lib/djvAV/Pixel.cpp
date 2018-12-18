@@ -596,5 +596,16 @@ namespace djv
         DJV_TEXT("RGBA_F16"),
         DJV_TEXT("RGBA_F32"));
 
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Pixel,
+        DataType,
+        DJV_TEXT("None"),
+        DJV_TEXT("U8"),
+        DJV_TEXT("U10"),
+        DJV_TEXT("U16"),
+        DJV_TEXT("U32"),
+        DJV_TEXT("F16"),
+        DJV_TEXT("F32"));
+
 } // namespace djv
 

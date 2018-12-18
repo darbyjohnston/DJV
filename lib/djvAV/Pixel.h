@@ -77,6 +77,21 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
+            enum class DataType
+            {
+                None,
+                U8,
+                U10,
+                U16,
+                U32,
+                F16,
+                F32,
+
+                Count,
+                First = None
+            };
+            DJV_ENUM_HELPERS(DataType);
+
             typedef uint8_t   U8_T;
             typedef uint16_t U10_T;
             typedef uint16_t U16_T;
@@ -118,6 +133,7 @@ namespace djv
 #endif
 
             inline size_t getChannelCount(Type);
+            inline DataType getDataType(Type);
             inline size_t getBitDepth(Type);
             inline size_t getByteCount(Type);
 

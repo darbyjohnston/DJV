@@ -38,20 +38,32 @@ namespace djv
         class Color
         {
         public:
-            Color();
-            Color(Pixel::Type);
-            Color(int r, int g, int b, int a = Pixel::U8Max);
-            Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a = Pixel::F32Max);
+            inline Color();
+            inline Color(Pixel::Type);
+            inline Color(int r, int g, int b, int a = Pixel::U8Max);
+            inline Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a = Pixel::F32Max);
 
             inline Pixel::Type getType() const;
             inline bool isValid() const;
 
-            void zero();
-
-            Color convert(Pixel::Type) const;
+            inline Pixel::U8_T  getU8 (size_t channel) const;
+            inline Pixel::U10_T getU10(size_t channel) const;
+            inline Pixel::U16_T getU16(size_t channel) const;
+            inline Pixel::U32_T getU32(size_t channel) const;
+            inline Pixel::F16_T getF16(size_t channel) const;
+            inline Pixel::F32_T getF32(size_t channel) const;
+            inline void setU8 (Pixel::U8_T,  size_t channel);
+            inline void setU10(Pixel::U10_T, size_t channel);
+            inline void setU16(Pixel::U16_T, size_t channel);
+            inline void setU32(Pixel::U32_T, size_t channel);
+            inline void setF16(Pixel::F16_T, size_t channel);
+            inline void setF32(Pixel::F32_T, size_t channel);
 
             inline const uint8_t * getData() const;
             inline uint8_t * getData();
+
+            void zero();
+            Color convert(Pixel::Type) const;
 
             bool operator == (const Color &) const;
             bool operator != (const Color &) const;

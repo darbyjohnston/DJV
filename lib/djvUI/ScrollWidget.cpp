@@ -177,7 +177,7 @@ namespace djv
                         const BBox2f& g = getGeometry();
 
                         // Draw the background.
-                        render->setFillColor(style->getColor(ColorRole::Trough));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
                         render->drawRectangle(g);
 
                         // Draw the scroll bar handle.
@@ -195,7 +195,7 @@ namespace djv
                             break;
                         default: break;
                         }
-                        render->setFillColor(style->getColor(_pressedId ? ColorRole::Checked : ColorRole::Button));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(_pressedId ? ColorRole::Checked : ColorRole::Button)));
                         render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
 
                         // Draw the hovered state.
@@ -206,7 +206,7 @@ namespace djv
                         }
                         if (hover)
                         {
-                            render->setFillColor(style->getColor(ColorRole::Hover));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
                             render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
                         }
                     }
@@ -778,17 +778,20 @@ namespace djv
                 {
                     pointerEvent.accept();
                     const glm::vec2& pos = pointerEvent.getPointerInfo().projectedPos;
-                    const glm::vec2 delta = pos - _p->pointerPos;
-                    _p->pointerPos = pos;
-                    _addPointerSample(delta);
-                    _p->scrollArea->setScrollPos(_p->scrollArea->getScrollPos() + delta);
-                    if (!Math::haveSameSign(_p->swipeVelocity.x, delta.x))
+                    if (pos != _p->pointerPos)
                     {
-                        _p->swipeVelocity.x = 0.f;
-                    }
-                    if (!Math::haveSameSign(_p->swipeVelocity.y, delta.y))
-                    {
-                        _p->swipeVelocity.y = 0.f;
+                        const glm::vec2 delta = pos - _p->pointerPos;
+                        _p->pointerPos = pos;
+                        _addPointerSample(delta);
+                        _p->scrollArea->setScrollPos(_p->scrollArea->getScrollPos() + delta);
+                        if (!Math::haveSameSign(_p->swipeVelocity.x, delta.x))
+                        {
+                            _p->swipeVelocity.x = 0.f;
+                        }
+                        if (!Math::haveSameSign(_p->swipeVelocity.y, delta.y))
+                        {
+                            _p->swipeVelocity.y = 0.f;
+                        }
                     }
                 }
                 event.accept();

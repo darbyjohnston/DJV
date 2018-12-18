@@ -29,14 +29,20 @@
 
 #include <djvViewLib/MainWindow.h>
 
+#include <djvViewLib/Application.h>
 #include <djvViewLib/MDIWindow.h>
 #include <djvViewLib/Media.h>
 
+#include <djvUI/Action.h>
+#include <djvUI/Dialog.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/Shortcut.h>
 
 #include <djvCore/FileInfo.h>
+
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -60,6 +66,32 @@ namespace djv
             _p->scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             _p->scrollWidget->addWidget(_p->canvas);
             addWidget(_p->scrollWidget);
+
+            auto exitShortcut = UI::Shortcut::create(GLFW_KEY_Q, GLFW_MOD_CONTROL);
+            auto exitAction = UI::Action::create();
+            exitAction->setShortcut(exitShortcut);
+            addAction(exitAction);
+
+            auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            exitShortcut->setCallback(
+                [weak, context]
+            {
+                if (auto mainWindow = weak.lock())
+                {
+                    UI::confirmationDialog(
+                        DJV_TEXT("Are you sure you want to exit?"),
+                        DJV_TEXT("Yes"),
+                        DJV_TEXT("No"),
+                        mainWindow,
+                        [context](bool value)
+                    {
+                        if (value)
+                        {
+                            dynamic_cast<Application *>(context)->exit();
+                        }
+                    });
+                }
+            });
         }
 
         MainWindow::MainWindow() :

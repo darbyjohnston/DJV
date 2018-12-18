@@ -3,6 +3,7 @@ set(header
     Border.h
     Button.h
     ColorSwatch.h
+    Dialog.h
     Enum.h
     FlowLayout.h
     Font.h
@@ -45,6 +46,7 @@ set(source
     Border.cpp
     Button.cpp
     ColorSwatch.cpp
+    Dialog.cpp
     Enum.cpp
     FlowLayout.cpp
     FontSettings.cpp

@@ -43,32 +43,26 @@ namespace djv
         {
             {
                 auto u8 = AV::Color(AV::Pixel::Type::L_U8);
-                auto u8p = reinterpret_cast<AV::Pixel::U8_T *>(u8.getData());
-                u8p[0] = 255;
+                u8.setU8(255, 0);
                 const auto u16 = u8.convert(AV::Pixel::Type::L_U16);
-                const auto u16p = reinterpret_cast<const AV::Pixel::U16_T *>(u16.getData());
                 std::stringstream ss;
-                ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "U16 = " << u16p[0];
+                ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "U16 = " << u16.getU16(0);
                 _print(ss.str());
             }
             {
                 auto u8 = AV::Color(AV::Pixel::Type::L_U8);
-                auto u8p = reinterpret_cast<AV::Pixel::U8_T *>(u8.getData());
-                u8p[0] = 255;
+                u8.setU8(255, 0);
                 const auto u10 = u8.convert(AV::Pixel::Type::RGB_U10);
-                const auto u10p = reinterpret_cast<const AV::Pixel::U10_S *>(u10.getData());
                 std::stringstream ss;
-                ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "U10 = " << u10p->r << ", " << u10p->g << ", " << u10p->b;
+                ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "U10 = " << u10.getU10(0) << ", " << u10.getU10(1) << ", " << u10.getU10(2);
                 _print(ss.str());
             }
             {
                 auto u8 = AV::Color(AV::Pixel::Type::L_U8);
-                auto u8p = reinterpret_cast<AV::Pixel::U8_T *>(u8.getData());
-                u8p[0] = 255;
+                u8.setU8(255, 0);
                 const auto f32 = u8.convert(AV::Pixel::Type::L_F32);
-                const auto f32p = reinterpret_cast<const AV::Pixel::F32_T *>(f32.getData());
                 std::stringstream ss;
-                ss << "U8 = " << static_cast<int>(u8p[0]) << ", " << "F32 = " << f32p[0];
+                ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "F32 = " << f32.getF32(0);
                 _print(ss.str());
             }
             {
@@ -87,21 +81,18 @@ namespace djv
                 AV::Color out;
                 ss >> out;
                 DJV_ASSERT(in == out);
-
                 _print(ss.str());
             }
             {
                 AV::Color in(AV::Pixel::Type::RGB_U10);
-                auto * p = reinterpret_cast<AV::Pixel::U10_S *>(in.getData());
-                p->r = 0;
-                p->g = 511;
-                p->b = 1023;
+                in.setU10(0, 0);
+                in.setU10(511, 1);
+                in.setU10(1023, 2);
                 std::stringstream ss;
                 ss << in;
                 AV::Color out;
                 ss >> out;
                 DJV_ASSERT(in == out);
-
                 _print(ss.str());
             }
         }

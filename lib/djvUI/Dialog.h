@@ -27,66 +27,65 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/Separator.h>
+#pragma once
 
-#include <djvAV/Render2DSystem.h>
-
-using namespace djv::Core;
+#include <djvUI/IContainerWidget.h>
+#include <djvUI/Margin.h>
 
 namespace djv
 {
     namespace UI
     {
-        struct Separator::Private
+        class Window;
+
+        //! This class provides a dialog widget.
+        class Dialog : public IContainerWidget
         {
-            float width = 0.f;
-            AV::Color color;
+            DJV_NON_COPYABLE(Dialog);
+
+        protected:
+            void _init(Core::Context *);
+            Dialog();
+
+        public:
+            virtual ~Dialog();
+
+            static std::shared_ptr<Dialog> create(Core::Context *);
+
+            void close();
+
+            void addWidget(const std::shared_ptr<Widget>&) override;
+            void removeWidget(const std::shared_ptr<Widget>&) override;
+            void clearWidgets() override;
+
+            void setVisible(bool) override;
+
+            float getHeightForWidth(float) const override;
+
+            void preLayoutEvent(Core::PreLayoutEvent&) override;
+            void layoutEvent(Core::LayoutEvent&) override;
+
+            void buttonPressEvent(Core::ButtonPressEvent&) override;
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
         };
 
-        void Separator::_init(Context * context)
-        {
-            Widget::_init(context);
-            
-            setClassName("djv::UI::Separator");
-        }
-        
-        Separator::Separator() :
-            _p(new Private)
-        {}
+        //! Show a message dialog.
+        void messageDialog(
+            const std::string & text,
+            const std::string & closeText,
+            const std::shared_ptr<Window> & window);
 
-        Separator::~Separator()
-        {}
-
-        std::shared_ptr<Separator> Separator::create(Context * context)
-        {
-            auto out = std::shared_ptr<Separator>(new Separator);
-            out->_init(context);
-            return out;
-        }
-
-        void Separator::preLayoutEvent(PreLayoutEvent& event)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                _p->width = style->getMetric(MetricsRole::Border);
-                _p->color = style->getColor(ColorRole::Border);
-
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                minimumSize += _p->width;
-                _setMinimumSize(minimumSize);
-            }
-        }
-
-        void Separator::paintEvent(PaintEvent& event)
-        {
-            Widget::paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
-            {
-                const BBox2f& g = getGeometry();
-                render->setFillColor(_getColorWithOpacity(_p->color));
-                render->drawRectangle(g);
-            }
-        }
+        //! Show a confirmation dialog.
+        void confirmationDialog(
+            const std::string & text,
+            const std::string & acceptText,
+            const std::string & cancelText,
+            const std::shared_ptr<Window> & window,
+            const std::function<void(bool)> & callback);
 
     } // namespace UI
 } // namespace djv
+

@@ -121,6 +121,11 @@ namespace djv
             _visible = value;
         }
 
+        void Widget::setOpacity(float value)
+        {
+            _opacity = value;
+        }
+
         void Widget::show()
         {
             setVisible(true);
@@ -251,6 +256,13 @@ namespace djv
             }
         }
 
+        AV::Color Widget::_getColorWithOpacity(const AV::Color & value) const
+        {
+            auto out = value.convert(AV::Pixel::Type::RGBA_F32);
+            out.setF32(out.getF32(3) * getOpacity(true), 3);
+            return out;
+        }
+
         void Widget::_setMinimumSize(const glm::vec2& value)
         {
             _minimumSize = value;
@@ -274,8 +286,15 @@ namespace djv
                     auto& clipEvent = static_cast<ClipEvent&>(event);
                     if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                     {
-                        _parentsVisible = parent->isVisible(true);
+                        _parentsVisible = parent->_visible && parent->_parentsVisible;
                         _clipped = !clipEvent.getClipRect().isValid() || !_visible || !parent->_visible || !parent->_parentsVisible;
+                        _parentsOpacity = parent->_opacity * parent->_parentsOpacity;
+                    }
+                    else
+                    {
+                        _parentsVisible = true;
+                        _clipped = false;
+                        _parentsOpacity = 1.f;
                     }
                     this->clipEvent(clipEvent);
                     break;
@@ -295,8 +314,11 @@ namespace djv
                 case EventType::KeyboardFocusLost:
                     keyboardFocusLostEvent(static_cast<KeyboardFocusLostEvent&>(event));
                     break;
-                case EventType::Key:
-                    keyEvent(static_cast<KeyEvent&>(event));
+                case EventType::KeyPress:
+                    keyPressEvent(static_cast<KeyPressEvent&>(event));
+                    break;
+                case EventType::KeyRelease:
+                    keyReleaseEvent(static_cast<KeyReleaseEvent&>(event));
                     break;
                 case EventType::Text:
                     textEvent(static_cast<TextEvent&>(event));
@@ -316,11 +338,8 @@ namespace djv
                 {
                     if (auto style = _style.lock())
                     {
-                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
-
-                        // Draw the background.
-                        render->setFillColor(style->getColor(_backgroundRole));
-                        render->drawRectangle(g);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(_backgroundRole)));
+                        render->drawRectangle(getGeometry());
                     }
                 }
             }
@@ -350,7 +369,7 @@ namespace djv
             }
         }
 
-        void Widget::keyEvent(KeyEvent& event)
+        void Widget::keyPressEvent(KeyPressEvent& event)
         {
             if (isEnabled())
             {
@@ -376,10 +395,10 @@ namespace djv
 
                 for (const auto& i : actions)
                 {
-                    const int keyCode = i->getShortcut()->getShortcutKey()->get();
+                    const int key = i->getShortcut()->getShortcutKey()->get();
                     const int modifiers = i->getShortcut()->getShortcutModifiers()->get();
-                    if ((keyCode == event.getKeyCode() && event.getKeyModifiers() & modifiers) ||
-                        (keyCode == event.getKeyCode() && modifiers == 0 && event.getKeyModifiers() == 0))
+                    if ((key == event.getKey() && event.getKeyModifiers() & modifiers) ||
+                        (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
                     {
                         event.accept();
                         i->getShortcut()->doCallback();

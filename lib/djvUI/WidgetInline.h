@@ -41,6 +41,11 @@ namespace djv
             return _clipped;
         }
 
+        inline float Widget::getOpacity(bool parents) const
+        {
+            return parents ? (_opacity * _parentsOpacity) : _opacity;
+        }
+
         inline const glm::vec2& Widget::getMinimumSize() const
         {
             return _minimumSize;

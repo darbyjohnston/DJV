@@ -37,38 +37,6 @@ namespace djv
 {
     namespace AV
     {
-        Color::Color() :
-            _type(Pixel::Type::None)
-        {}
-
-        Color::Color(Pixel::Type type) :
-            _type(type),
-            _data(Pixel::getByteCount(type))
-        {
-            zero();
-        }
-
-        Color::Color(int r, int g, int b, int a) :
-            _type(Pixel::Type::RGBA_U8),
-            _data(Pixel::getByteCount(Pixel::Type::RGBA_U8))
-        {
-            _data[0] = r;
-            _data[1] = g;
-            _data[2] = b;
-            _data[3] = a;
-        }
-
-        Color::Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a) :
-            _type(Pixel::Type::RGBA_F32),
-            _data(Pixel::getByteCount(Pixel::Type::RGBA_F32))
-        {
-            float * p = reinterpret_cast<float *>(_data.data());
-            p[0] = r;
-            p[1] = g;
-            p[2] = b;
-            p[3] = a;
-        }
-
         void Color::zero()
         {
             memset(_data.data(), 0, Pixel::getByteCount(_type));
@@ -100,15 +68,14 @@ namespace djv
         const auto type = value.getType();
         os << type;
         const size_t channelCount = AV::Pixel::getChannelCount(type);
-        switch (AV::Pixel::getGLType(type))
+        switch (AV::Pixel::getDataType(type))
         {
-        case GL_UNSIGNED_BYTE:
+        case AV::Pixel::DataType::U8:
         {
             os << " ";
-            const auto * p = reinterpret_cast<const AV::Pixel::U8_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                os << static_cast<int>(p[i]);
+                os << static_cast<uint32_t>(value.getU8(i));
                 if (i < channelCount - 1)
                 {
                     os << " ";
@@ -116,13 +83,12 @@ namespace djv
             }
             break;
         }
-        case GL_UNSIGNED_SHORT:
+        case AV::Pixel::DataType::U10:
         {
             os << " ";
-            const auto * p = reinterpret_cast<const AV::Pixel::U16_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                os << p[i];
+                os << value.getU10(i);
                 if (i < channelCount - 1)
                 {
                     os << " ";
@@ -130,13 +96,12 @@ namespace djv
             }
             break;
         }
-        case GL_UNSIGNED_INT:
+        case AV::Pixel::DataType::U16:
         {
             os << " ";
-            const auto * p = reinterpret_cast<const AV::Pixel::U32_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                os << p[i];
+                os << value.getU16(i);
                 if (i < channelCount - 1)
                 {
                     os << " ";
@@ -144,13 +109,12 @@ namespace djv
             }
             break;
         }
-        case GL_HALF_FLOAT:
+        case AV::Pixel::DataType::U32:
         {
             os << " ";
-            const auto * p = reinterpret_cast<const AV::Pixel::F16_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                os << p[i];
+                os << value.getU32(i);
                 if (i < channelCount - 1)
                 {
                     os << " ";
@@ -158,13 +122,12 @@ namespace djv
             }
             break;
         }
-        case GL_FLOAT:
+        case AV::Pixel::DataType::F16:
         {
             os << " ";
-            const auto * p = reinterpret_cast<const AV::Pixel::F32_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                os << p[i];
+                os << value.getF16(i);
                 if (i < channelCount - 1)
                 {
                     os << " ";
@@ -172,10 +135,17 @@ namespace djv
             }
             break;
         }
-        case GL_UNSIGNED_INT_10_10_10_2:
+        case AV::Pixel::DataType::F32:
         {
-            const auto * p = reinterpret_cast<const AV::Pixel::U10_S *>(value.getData());
-            os << " " << p->r << " " << p->g << " " << p->b;
+            os << " ";
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                os << value.getF32(i);
+                if (i < channelCount - 1)
+                {
+                    os << " ";
+                }
+            }
             break;
         }
         default: break;
@@ -189,65 +159,66 @@ namespace djv
         is >> type;
         value = AV::Color(type);
         const size_t channelCount = AV::Pixel::getChannelCount(type);
-        switch (AV::Pixel::getGLType(type))
+        switch (AV::Pixel::getDataType(type))
         {
-        case GL_UNSIGNED_BYTE:
+        case AV::Pixel::DataType::U8:
         {
-            auto * p = reinterpret_cast<AV::Pixel::U8_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                int tmp = 0;
+                uint32_t tmp = 0;
                 is >> tmp;
-                p[i] = tmp;
+                value.setU8(tmp, i);
             }
             break;
         }
-        case GL_UNSIGNED_SHORT:
+        case AV::Pixel::DataType::U10:
         {
-            auto * p = reinterpret_cast<AV::Pixel::U16_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                is >> p[i];
+                AV::Pixel::U10_T tmp = 0;
+                is >> tmp;
+                value.setU10(tmp, i);
             }
             break;
         }
-        case GL_UNSIGNED_INT:
+        case AV::Pixel::DataType::U16:
         {
-            auto * p = reinterpret_cast<AV::Pixel::U32_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                is >> p[i];
+                AV::Pixel::U16_T tmp = 0;
+                is >> tmp;
+                value.setU16(tmp, i);
             }
             break;
         }
-        case GL_HALF_FLOAT:
+        case AV::Pixel::DataType::U32:
         {
-            auto * p = reinterpret_cast<AV::Pixel::F16_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                is >> p[i];
+                AV::Pixel::U32_T tmp = 0;
+                is >> tmp;
+                value.setU32(tmp, i);
             }
             break;
         }
-        case GL_FLOAT:
+        case AV::Pixel::DataType::F16:
         {
-            auto * p = reinterpret_cast<AV::Pixel::F32_T *>(value.getData());
             for (size_t i = 0; i < channelCount; ++i)
             {
-                is >> p[i];
+                AV::Pixel::F16_T tmp = 0.f;
+                is >> tmp;
+                value.setF16(tmp, i);
             }
             break;
         }
-        case GL_UNSIGNED_INT_10_10_10_2:
+        case AV::Pixel::DataType::F32:
         {
-            auto * p = reinterpret_cast<AV::Pixel::U10_S *>(value.getData());
-            int tmp = 0;
-            is >> tmp;
-            p->r = tmp;
-            is >> tmp;
-            p->g = tmp;
-            is >> tmp;
-            p->b = tmp;
+            for (size_t i = 0; i < channelCount; ++i)
+            {
+                AV::Pixel::F32_T tmp = 0.f;
+                is >> tmp;
+                value.setF32(tmp, i);
+            }
             break;
         }
         default: break;

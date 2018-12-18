@@ -47,6 +47,7 @@ namespace djv
             void setCheckedCallback(const std::function<void(bool)>&);
 
             void paintEvent(Core::PaintEvent&) override;
+
             void pointerEnterEvent(Core::PointerEnterEvent&) override;
             void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
             void pointerMoveEvent(Core::PointerMoveEvent&) override;

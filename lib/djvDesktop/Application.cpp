@@ -118,7 +118,7 @@ namespace djv
             return 0;
         }
 
-        void Application::stop()
+        void Application::exit()
         {
             _p->running = false;
         }

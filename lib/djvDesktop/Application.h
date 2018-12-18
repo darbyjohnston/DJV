@@ -49,7 +49,7 @@ namespace djv
             static std::unique_ptr<Application> create(int argc, char* argv[]);
 
             int run();
-            void stop();
+            void exit();
 
         private:
             struct Private;

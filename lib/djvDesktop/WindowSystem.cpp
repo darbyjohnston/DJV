@@ -122,14 +122,18 @@ namespace djv
             for (const auto& i : windows)
             {
                 i->resize(frameBufferSize);
+
                 UpdateEvent updateEvent(dt);
                 _updateRecursive(i, updateEvent);
+
                 PreLayoutEvent preLayoutEvent;
                 _preLayoutRecursive(i, preLayoutEvent);
+
                 if (i->isVisible())
                 {
                     LayoutEvent layoutEvent;
                     _layoutRecursive(i, layoutEvent);
+
                     ClipEvent clipEvent(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
                     _clipRecursive(i, clipEvent);
                 }

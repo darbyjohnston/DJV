@@ -105,6 +105,9 @@ namespace djv
             _pointerInfo(pointerInfo)
         {}
 
+        IPointerEvent::~IPointerEvent()
+        {}
+
         void IPointerEvent::setRejected(bool value)
         {
             _rejected = value;
@@ -153,10 +156,21 @@ namespace djv
             IEvent(EventType::KeyboardFocusLost)
         {}
 
-        KeyEvent::KeyEvent(int32_t keyCode, uint16_t keyModifiers, const PointerInfo& info) :
-            IPointerEvent(info, EventType::Key),
-            _keyCode(keyCode),
+        IKeyEvent::IKeyEvent(int key, int keyModifiers, const PointerInfo& info, EventType eventType) :
+            IPointerEvent(info, eventType),
+            _key(key),
             _keyModifiers(keyModifiers)
+        {}
+
+        IKeyEvent::~IKeyEvent()
+        {}
+
+        KeyPressEvent::KeyPressEvent(int key, int keyModifiers, const PointerInfo& info) :
+            IKeyEvent(key, keyModifiers, info, EventType::KeyPress)
+        {}
+        
+        KeyReleaseEvent::KeyReleaseEvent(int key, int keyModifiers, const PointerInfo& info) :
+            IKeyEvent(key, keyModifiers, info, EventType::KeyRelease)
         {}
 
         TextEvent::TextEvent(const std::string& text) :

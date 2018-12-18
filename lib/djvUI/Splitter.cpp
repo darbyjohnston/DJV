@@ -248,14 +248,14 @@ namespace djv
                     const ColorRole colorRole = getBackgroundRole();
                     if (colorRole != ColorRole::None)
                     {
-                        render->setFillColor(style->getColor(colorRole));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(colorRole)));
                         render->drawRectangle(sg);
                     }
 
                     // Draw the pressed state.
                     if (_p->pressedId)
                     {
-                        render->setFillColor(style->getColor(ColorRole::Checked));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Checked)));
                         render->drawRectangle(hg);
                     }
 
@@ -267,7 +267,7 @@ namespace djv
                     }
                     if (hover)
                     {
-                        render->setFillColor(style->getColor(ColorRole::Hover));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
                         render->drawRectangle(hg);
                     }
                 }

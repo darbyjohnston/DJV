@@ -106,7 +106,7 @@ namespace djv
             if (auto render = _getRenderSystem().lock())
             {
                 const BBox2f& g = getGeometry();
-                render->setFillColor(_p->color);
+                render->setFillColor(_getColorWithOpacity(_p->color));
                 render->drawRectangle(g);
             }
         }

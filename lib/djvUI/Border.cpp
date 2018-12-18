@@ -168,7 +168,7 @@ namespace djv
 
                     // Draw the border.
                     const float borderSize = style->getMetric(_p->borderSize);
-                    render->setFillColor(style->getColor(_p->borderColor));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(_p->borderColor)));
                     render->drawRectangle(BBox2f(
                         glm::vec2(g.min.x, g.min.y),
                         glm::vec2(g.max.x, g.min.y + borderSize)));

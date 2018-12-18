@@ -118,7 +118,7 @@ namespace djv
                         case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                         default: break;
                         }
-                        render->setFillColor(AV::Color(1.f, 1.f, 1.f));
+                        render->setFillColor(AV::Color(1.f, 1.f, 1.f, getOpacity(true)));
                         render->drawImage(_p->image, pos, true, _p->hash);
                     }
                 }
