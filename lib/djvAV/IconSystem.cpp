@@ -272,8 +272,10 @@ namespace djv
             ImageRequest request;
             request.path = path;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.imageQueue.push_back(std::move(request));
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.imageQueue.push_back(std::move(request));
+            }
             p.requestCV.notify_one();
             return future;
         }
@@ -285,8 +287,10 @@ namespace djv
             request.path = path;
             request.info.reset(new Pixel::Info(info));
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.imageQueue.push_back(std::move(request));
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.imageQueue.push_back(std::move(request));
+            }
             p.requestCV.notify_one();
             return future;
         }

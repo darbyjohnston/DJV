@@ -173,8 +173,10 @@ namespace djv
         void LogSystem::log(const std::string& prefix, const std::string& message, LogLevel level)
         {
             DJV_PRIVATE_PTR();
-            std::unique_lock<std::mutex> lock(p.mutex);
-            p.queue.push_back(Message(prefix, message, level));
+            {
+                std::unique_lock<std::mutex> lock(p.mutex);
+                p.queue.push_back(Message(prefix, message, level));
+            }
             p.queueCV.notify_one();
         }
 

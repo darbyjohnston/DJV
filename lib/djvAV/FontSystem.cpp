@@ -158,6 +158,8 @@ namespace djv
             std::shared_ptr<Timer> statsTimer;
             std::thread thread;
             std::atomic<bool> running;
+
+            glm::vec2 getGlyphSize(djv_char_t, const Font &, const FT_Face &);
         };
 
         void FontSystem::_init(const glm::vec2& dpi, Context * context)
@@ -177,7 +179,7 @@ namespace djv
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
-                std::lock_guard<std::mutex>(p.cacheMutex);
+                std::lock_guard<std::mutex> lock(p.cacheMutex);
                 std::stringstream s;
                 s << "Measure cache: " << p.measureCache.getPercentageUsed() << "%\n";
                 s << "Glyph cache: " << p.glyphCache.getPercentageUsed() << "%";
@@ -266,8 +268,10 @@ namespace djv
             MetricsRequest request;
             request.font = font;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.metricsQueue.push_back(std::move(request));
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.metricsQueue.push_back(std::move(request));
+            }
             p.requestCV.notify_one();
             return future;
         }
@@ -279,8 +283,10 @@ namespace djv
             request.text = text;
             request.font = font;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.measureQueue.push_back(std::move(request));
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.measureQueue.push_back(std::move(request));
+            }
             p.requestCV.notify_one();
             return future;
         }
@@ -293,8 +299,10 @@ namespace djv
             request.font = font;
             request.maxLineWidth = maxLineWidth;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.measureQueue.push_back(std::move(request));
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.measureQueue.push_back(std::move(request));
+            }
             p.requestCV.notify_one();
             return future;
         }
@@ -307,8 +315,10 @@ namespace djv
             request.font = font;
             request.maxLineWidth = maxLineWidth;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.breakLinesQueue.push_back(std::move(request));
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.breakLinesQueue.push_back(std::move(request));
+            }
             p.requestCV.notify_one();
             return future;
         }
@@ -320,8 +330,10 @@ namespace djv
             request.text = text;
             request.font = font;
             auto future = request.promise.get_future();
-            std::unique_lock<std::mutex> lock(p.requestMutex);
-            p.glyphsQueue.push_back(std::move(request));
+            {
+                std::unique_lock<std::mutex> lock(p.requestMutex);
+                p.glyphsQueue.push_back(std::move(request));
+            }
             p.requestCV.notify_one();
             return future;
         }
@@ -436,42 +448,44 @@ namespace djv
                         const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
                         glm::vec2 size = glm::vec2(0.f, 0.f);
                         glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
-                        for (const auto& c : utf32)
+                        auto breakLine = utf32.end();
+                        float breakLineX = 0.f;
+                        for (auto i = utf32.begin(); i != utf32.end(); ++i)
                         {
-                            glm::vec2 glyphSize(0.f, 0.f);
+                            const auto glyphSize = p.getGlyphSize(*i, request.font, font->second);
+                            if ('\n' == *i)
                             {
-                                const auto hash = getFontGlyphHash(c, request.font);
-                                std::lock_guard<std::mutex>(p.cacheMutex);
-                                if (p.measureCache.contains(hash))
-                                {
-                                    glyphSize = p.measureCache.get(hash);
-                                }
-                                else if (FT_UInt ftGlyphIndex = FT_Get_Char_Index(font->second, c))
-                                {
-                                    ftError = FT_Load_Glyph(font->second, ftGlyphIndex, FT_LOAD_DEFAULT);
-                                    if (ftError)
-                                    {
-                                        continue;
-                                    }
-                                    FT_Glyph ftGlyph;
-                                    ftError = FT_Get_Glyph(font->second->glyph, &ftGlyph);
-                                    if (ftError)
-                                    {
-                                        continue;
-                                    }
-                                    glyphSize.x = font->second->glyph->advance.x / 64.f;
-                                    glyphSize.y = font->second->glyph->metrics.height / 64.f;
-                                    p.measureCache.add(hash, glyphSize);
-                                    FT_Done_Glyph(ftGlyph);
-                                }
-                            }
-                            if ((pos.x > 0 && pos.x + glyphSize.x > request.maxLineWidth) || '\n' == c)
-                            {
-                                size.x = request.maxLineWidth;
-                                pos.x = 0;
+                                size.x = std::max(size.x, pos.x);
                                 pos.y += font->second->size->metrics.height / 64.f;
+                                pos.x = 0.f;
                             }
-                            pos.x += glyphSize.x;
+                            else if (pos.x > 0.f && pos.x + (*i != ' ' ? glyphSize.x : 0) >= request.maxLineWidth)
+                            {
+                                if (breakLine != utf32.end())
+                                {
+                                    i = breakLine;
+                                    breakLine = utf32.end();
+                                    pos.x = breakLineX;
+                                    size.x = std::max(size.x, pos.x);
+                                    pos.y += font->second->size->metrics.height / 64.f;
+                                    pos.x = 0.f;
+                                }
+                                else
+                                {
+                                    size.x = std::max(size.x, pos.x);
+                                    pos.y += font->second->size->metrics.height / 64.f;
+                                    pos.x = glyphSize.x;
+                                }
+                            }
+                            else
+                            {
+                                if (' ' == *i && i != utf32.begin())
+                                {
+                                    breakLine = i;
+                                    breakLineX = pos.x;
+                                }
+                                pos.x += glyphSize.x;
+                            }
                         }
                         size.x = std::max(size.x, pos.x);
                         size.y = pos.y;
@@ -499,54 +513,59 @@ namespace djv
                     if (!ftError)
                     {
                         const std::basic_string<djv_char_t> utf32 = p.utf32.from_bytes(request.text);
-                        std::basic_string<djv_char_t> line;
                         std::vector<FontLine> lines;
                         glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
-                        for (const auto& c : utf32)
+                        auto lineBegin = utf32.begin();
+                        auto breakLine = utf32.end();
+                        auto i = utf32.begin();
+                        for (; i != utf32.end(); ++i)
                         {
-                            glm::vec2 glyphSize(0.f, 0.f);
-                            {
-                                const auto hash = getFontGlyphHash(c, request.font);
-                                std::lock_guard<std::mutex>(p.cacheMutex);
-                                if (p.measureCache.contains(hash))
-                                {
-                                    glyphSize = p.measureCache.get(hash);
-                                }
-                                else if (FT_UInt ftGlyphIndex = FT_Get_Char_Index(font->second, c))
-                                {
-                                    ftError = FT_Load_Glyph(font->second, ftGlyphIndex, FT_LOAD_DEFAULT);
-                                    if (ftError)
-                                    {
-                                        continue;
-                                    }
-                                    FT_Glyph ftGlyph;
-                                    ftError = FT_Get_Glyph(font->second->glyph, &ftGlyph);
-                                    if (ftError)
-                                    {
-                                        continue;
-                                    }
-                                    glyphSize.x = font->second->glyph->advance.x / 64.f;
-                                    glyphSize.y = font->second->glyph->metrics.height / 64.f;
-                                    p.measureCache.add(hash, glyphSize);
-                                    FT_Done_Glyph(ftGlyph);
-                                }
-                            }
-                            if ((pos.x > 0 && pos.x + glyphSize.x > request.maxLineWidth) || '\n' == c)
+                            const auto glyphSize = p.getGlyphSize(*i, request.font, font->second);
+                            if ('\n' == *i)
                             {
                                 lines.push_back(FontLine(
-                                    p.utf32.to_bytes(line),
+                                    p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                     glm::vec2(request.maxLineWidth, font->second->size->metrics.height / 64.f)));
-                                line.clear();
-                                pos.x = 0;
                                 pos.y += font->second->size->metrics.height / 64.f;
+                                pos.x = 0.f;
+                                lineBegin = i;
                             }
-                            line.push_back(c);
-                            pos.x += glyphSize.x;
+                            else if (pos.x > 0.f && pos.x + (*i != ' ' ? glyphSize.x : 0) >= request.maxLineWidth)
+                            {
+                                if (breakLine != utf32.end())
+                                {
+                                    i = breakLine;
+                                    breakLine = utf32.end();
+                                    lines.push_back(FontLine(
+                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                        glm::vec2(request.maxLineWidth, font->second->size->metrics.height / 64.f)));
+                                    pos.y += font->second->size->metrics.height / 64.f;
+                                    pos.x = 0.f;
+                                    lineBegin = i + 1;
+                                }
+                                else
+                                {
+                                    lines.push_back(FontLine(
+                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                        glm::vec2(request.maxLineWidth, font->second->size->metrics.height / 64.f)));
+                                    pos.y += font->second->size->metrics.height / 64.f;
+                                    pos.x = glyphSize.x;
+                                    lineBegin = i;
+                                }
+                            }
+                            else
+                            {
+                                if (' ' == *i && i != utf32.begin())
+                                {
+                                    breakLine = i;
+                                }
+                                pos.x += glyphSize.x;
+                            }
                         }
-                        if (line.size())
+                        if (i != lineBegin)
                         {
                             lines.push_back(FontLine(
-                                p.utf32.to_bytes(line),
+                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                 glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                         }
                         request.promise.set_value(lines);
@@ -580,48 +599,58 @@ namespace djv
                             std::shared_ptr<FontGlyph> glyph;
                             {
                                 const auto hash = getFontGlyphHash(c, request.font);
-                                std::lock_guard<std::mutex>(p.cacheMutex);
-                                if (p.glyphCache.contains(hash))
+                                bool inCache = false;
                                 {
-                                    glyph = p.glyphCache.get(hash);
+                                    std::lock_guard<std::mutex> lock(p.cacheMutex);
+                                    if (p.glyphCache.contains(hash))
+                                    {
+                                        inCache = true;
+                                        glyph = p.glyphCache.get(hash);
+                                    }
                                 }
-                                else if (FT_UInt ftGlyphIndex = FT_Get_Char_Index(font->second, c))
+                                if (!inCache)
                                 {
-                                    ftError = FT_Load_Glyph(font->second, ftGlyphIndex, FT_LOAD_RENDER);
-                                    if (ftError)
+                                    if (auto ftGlyphIndex = FT_Get_Char_Index(font->second, c))
                                     {
-                                        continue;
-                                    }
-                                    FT_Glyph ftGlyph;
-                                    ftError = FT_Get_Glyph(font->second->glyph, &ftGlyph);
-                                    if (ftError)
-                                    {
-                                        continue;
-                                    }
-                                    FT_Vector v;
-                                    v.x = 0;
-                                    v.y = 0;
-                                    ftError = FT_Glyph_To_Bitmap(&ftGlyph, FT_RENDER_MODE_NORMAL, &v, 0);
-                                    if (ftError)
-                                    {
+                                        ftError = FT_Load_Glyph(font->second, ftGlyphIndex, FT_LOAD_RENDER);
+                                        if (ftError)
+                                        {
+                                            continue;
+                                        }
+                                        FT_Glyph ftGlyph;
+                                        ftError = FT_Get_Glyph(font->second->glyph, &ftGlyph);
+                                        if (ftError)
+                                        {
+                                            continue;
+                                        }
+                                        FT_Vector v;
+                                        v.x = 0;
+                                        v.y = 0;
+                                        ftError = FT_Glyph_To_Bitmap(&ftGlyph, FT_RENDER_MODE_NORMAL, &v, 0);
+                                        if (ftError)
+                                        {
+                                            FT_Done_Glyph(ftGlyph);
+                                            continue;
+                                        }
+                                        FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
+                                        glyph = std::shared_ptr<FontGlyph>(new FontGlyph);
+                                        glyph->code = c;
+                                        glyph->font = request.font;
+                                        Pixel::Info info = Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8);
+                                        auto data = Pixel::Data::create(Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8));
+                                        for (int y = 0; y < info.size.y; ++y)
+                                        {
+                                            memcpy(data->getData(info.size.y - 1 - y), bitmap->bitmap.buffer + y * info.size.x, info.size.x);
+                                        }
+                                        glyph->pixelData = data;
+                                        glyph->offset = glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top);
+                                        glyph->advance = font->second->glyph->advance.x / 64.f;
+                                        {
+                                            std::lock_guard<std::mutex> lock(p.cacheMutex);
+                                            p.glyphCache.add(hash, glyph);
+                                        }
                                         FT_Done_Glyph(ftGlyph);
-                                        continue;
                                     }
-                                    FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
-                                    glyph = std::shared_ptr<FontGlyph>(new FontGlyph);
-                                    glyph->code = c;
-                                    glyph->font = request.font;
-                                    Pixel::Info info = Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8);
-                                    auto data = Pixel::Data::create(Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8));
-                                    for (int y = 0; y < info.size.y; ++y)
-                                    {
-                                        memcpy(data->getData(info.size.y - 1 - y), bitmap->bitmap.buffer + y * info.size.x, info.size.x);
-                                    }
-                                    glyph->pixelData = data;
-                                    glyph->offset = glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top);
-                                    glyph->advance = font->second->glyph->advance.x / 64.f;
-                                    p.glyphCache.add(hash, glyph);
-                                    FT_Done_Glyph(ftGlyph);
                                 }
                             }
                             if (glyph)
@@ -634,6 +663,44 @@ namespace djv
                 }
             }
             p.glyphsRequests.clear();
+        }
+
+        glm::vec2 FontSystem::Private::getGlyphSize(djv_char_t c, const Font & font, const FT_Face & face)
+        {
+            glm::vec2 out(0.f, 0.f);
+            const auto hash = getFontGlyphHash(c, font);
+            bool inCache = false;
+            {
+                std::lock_guard<std::mutex> lock(cacheMutex);
+                if (measureCache.contains(hash))
+                {
+                    inCache = true;
+                    out = measureCache.get(hash);
+                }
+            }
+            if (!inCache)
+            {
+                if (auto ftGlyphIndex = FT_Get_Char_Index(face, c))
+                {
+                    FT_Error ftError = FT_Load_Glyph(face, ftGlyphIndex, FT_LOAD_DEFAULT);
+                    if (!ftError)
+                    {
+                        FT_Glyph ftGlyph;
+                        ftError = FT_Get_Glyph(face->glyph, &ftGlyph);
+                        if (!ftError)
+                        {
+                            out.x = face->glyph->advance.x / 64.f;
+                            out.y = face->glyph->metrics.height / 64.f;
+                            FT_Done_Glyph(ftGlyph);
+                            {
+                                std::lock_guard<std::mutex> lock(cacheMutex);
+                                measureCache.add(hash, out);
+                            }
+                        }
+                    }
+                }
+            }
+            return out;
         }
 
     } // namespace AV

@@ -470,7 +470,10 @@ namespace djv
                 void Read::seek(Timestamp value)
                 {
                     DJV_PRIVATE_PTR();
-                    p.seek = value;
+                    {
+                        std::lock_guard<std::mutex> lock(_queue->getMutex());
+                        p.seek = value;
+                    }
                     p.queueCV.notify_one();
                 }
 

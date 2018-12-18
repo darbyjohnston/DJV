@@ -228,8 +228,10 @@ namespace djv
             void ISequenceRead::seek(Timestamp value)
             {
                 DJV_PRIVATE_PTR();
-                std::lock_guard<std::mutex> lock(_queue->getMutex());
-                p.seek = value;
+                {
+                    std::lock_guard<std::mutex> lock(_queue->getMutex());
+                    p.seek = value;
+                }
                 p.queueCV.notify_one();
             }
 
