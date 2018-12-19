@@ -31,13 +31,12 @@
 #include <djvAV/PixelData.h>
 
 #include <djvCore/Range.h>
+#include <djvCore/UID.h>
 
 namespace djv
 {
     namespace AV
     {
-        typedef uint64_t TextureCacheID;
-
         struct TextureCacheItem
         {
             glm::ivec2 size;
@@ -59,8 +58,8 @@ namespace djv
             Pixel::Type getTexturePixel() const;
             std::vector<gl::GLuint> getTextures() const;
 
-            bool getItem(TextureCacheID, TextureCacheItem&);
-            TextureCacheID addItem(const std::shared_ptr<Pixel::Data>&, TextureCacheItem&);
+            bool getItem(Core::UID, TextureCacheItem&);
+            Core::UID addItem(const std::shared_ptr<Pixel::Data>&, TextureCacheItem&);
 
             float getPercentageUsed() const;
 

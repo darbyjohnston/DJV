@@ -54,7 +54,7 @@ namespace djv
             BoxPackingNode(int border);
             ~BoxPackingNode();
 
-            TextureCacheID id = 0;
+            UID uid = 0;
             uint64_t timestamp = 0;
 
             BBox2i bbox;
@@ -63,7 +63,7 @@ namespace djv
             BoxPackingNode* children[2] = { nullptr, nullptr };
 
             bool isBranch() const { return children[0]; }
-            bool isOccupied() const { return id != 0; }
+            bool isOccupied() const { return uid != 0; }
 
             BoxPackingNode* insert(const std::shared_ptr<Pixel::Data>&);
         };
@@ -145,7 +145,7 @@ namespace djv
             int border = 0;
             std::vector<std::shared_ptr<OpenGL::Texture> > textures;
             std::vector<BoxPackingNode*> boxPackingNodes;
-            std::map<TextureCacheID, BoxPackingNode*> cache;
+            std::map<UID, BoxPackingNode*> cache;
         };
 
         TextureCache::TextureCache(size_t textureCount, int textureSize, Pixel::Type texturePixel, GLenum filter, int border) :
@@ -203,9 +203,9 @@ namespace djv
             return out;
         }
 
-        bool TextureCache::getItem(TextureCacheID id, TextureCacheItem& out)
+        bool TextureCache::getItem(UID uid, TextureCacheItem& out)
         {
-            const auto& i = _p->cache.find(id);
+            const auto& i = _p->cache.find(uid);
             if (i != _p->cache.end())
             {
                 _toTextureCacheItem(i->second, out);
@@ -214,20 +214,20 @@ namespace djv
             return false;
         }
 
-        TextureCacheID TextureCache::addItem(const std::shared_ptr<Pixel::Data>& data, TextureCacheItem& out)
+        UID TextureCache::addItem(const std::shared_ptr<Pixel::Data>& data, TextureCacheItem& out)
         {
-            static TextureCacheID _id = 0;
+            static UID _uid = 0;
 
             for (size_t i = 0; i < _p->textureCount; ++i)
             {
                 if (auto node = _p->boxPackingNodes[i]->insert(data))
                 {
                     // The data has been added to the cache.
-                    node->id = ++_id;
+                    node->uid = ++_uid;
                     _p->textures[node->texture]->copy(*data, node->bbox.min + _p->border);
-                    _p->cache[node->id] = node;
+                    _p->cache[node->uid] = node;
                     _toTextureCacheItem(node, out);
-                    return node->id;
+                    return node->uid;
                 }
             }
 
@@ -258,11 +258,11 @@ namespace djv
                             old->children[i] = nullptr;
                         }
                     }
-                    old->id = 0;
+                    old->uid = 0;
                     old->timestamp = ++_timestamp;
                     if (auto node = old->insert(data))
                     {
-                        node->id = ++_id;
+                        node->uid = ++_uid;
 
                         //! \todo [1.0 M] Do we need to zero out the old data?
                         //auto zero = Image::Data::create(Image::Info(data->getSize() + _p->border * 2, _p->texturePixel));
@@ -270,10 +270,10 @@ namespace djv
                         //_p->textures[node->texture]->copy(zero, node->bbox.min);
 
                         _p->textures[node->texture]->copy(*data, node->bbox.min + _p->border);
-                        _p->cache[node->id] = node;
+                        _p->cache[node->uid] = node;
                         _toTextureCacheItem(node, out);
 
-                        return node->id;
+                        return node->uid;
                     }
                 }
             }
@@ -337,10 +337,10 @@ namespace djv
 
         void TextureCache::_removeFromCache(BoxPackingNode* node)
         {
-            auto i = _p->cache.find(node->id);
+            auto i = _p->cache.find(node->uid);
             if (i != _p->cache.end())
             {
-                node->id = 0;
+                node->uid = 0;
                 _p->cache.erase(i);
             }
             if (node->isBranch())
