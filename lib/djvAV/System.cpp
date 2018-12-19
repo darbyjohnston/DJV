@@ -84,7 +84,7 @@ namespace djv
 
         struct System::Private
         {
-            glm::vec2 dpi;
+            glm::vec2 dpi = glm::vec2(90.f, 90.f);
             GLFWwindow * glfwWindow = nullptr;
             std::vector<std::shared_ptr<ISystem> > avSystems;
         };
@@ -121,10 +121,14 @@ namespace djv
                 const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
                 glm::ivec2 mm;
                 glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
-                _p->dpi.x = mode->width / (mm.x / 25.4f);
-                _p->dpi.y = mode->height / (mm.y / 25.4f);
+                if (mm.x > 0 && mm.y > 0)
+                {
+                    _p->dpi.x = mode->width / (mm.x / 25.4f);
+                    _p->dpi.y = mode->height / (mm.y / 25.4f);
+                }
                 {
                     std::stringstream ss;
+                    ss << "Primary monitor resolution: " << mode->width << " " << mode->height << "\n";
                     ss << "Primary monitor size: " << mm << "mm\n";
                     ss << "Primary monitor DPI: " << _p->dpi;
                     context->log("djv::AV::System", ss.str());

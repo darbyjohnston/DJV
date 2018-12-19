@@ -58,7 +58,8 @@ namespace djv
         namespace
         {
             //! \todo [1.0 S] Should this be configurable?
-            const int textureCacheSize = 8192;
+            const size_t textureCacheSize = 8192;
+            const size_t textureCacheCount = 4;
             const size_t statsTimeout = 10000;
 
             enum class PixelFormat
@@ -127,20 +128,33 @@ namespace djv
                         Path(shaderPath, "djvAVRender2DSystemVertex.glsl"),
                         Path(shaderPath, "djvAVRender2DSystemFragment.glsl")));
 
-                    GLint maxTextureSize = 0;
                     GLint maxTextureUnits = 0;
-                    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
+                    GLint maxTextureSize = 0;
                     glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
-
+                    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
+                    {
+                        std::stringstream ss;
+                        ss << "Maximum OpenGL texture units: " << maxTextureUnits << std::endl;
+                        ss << "Maximum OpenGL texture size: " << maxTextureSize << std::endl;
+                        context->log("djv::AV::Render2DSystem", ss.str());
+                    }
+                    const size_t _textureCacheCount = std::min(size_t(maxTextureUnits), textureCacheCount);
+                    const size_t _textureCacheSize = std::min(size_t(maxTextureSize), textureCacheSize);
+                    {
+                        std::stringstream ss;
+                        ss << "Texture cache count: " << _textureCacheCount << std::endl;
+                        ss << "Texture cache size: " << _textureCacheSize << std::endl;
+                        context->log("djv::AV::Render2DSystem", ss.str());
+                    }
                     staticTextureCache.reset(new TextureCache(
-                        maxTextureUnits / 2,
-                        std::min(maxTextureSize, textureCacheSize),
+                        _textureCacheCount,
+                        _textureCacheSize,
                         Pixel::Type::RGBA_U8,
                         GL_NEAREST,
                         0));
                     dynamicTextureCache.reset(new TextureCache(
-                        maxTextureUnits / 2,
-                        std::min(maxTextureSize, textureCacheSize),
+                        _textureCacheCount,
+                        _textureCacheSize,
                         Pixel::Type::RGBA_U8,
                         GL_NEAREST,
                         0));
