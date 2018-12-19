@@ -41,6 +41,7 @@
 #include <djvUI/StackLayout.h>
 
 #include <djvCore/Memory.h>
+#include <djvCore/UID.h>
 
 using namespace djv::Core;
 
@@ -134,10 +135,7 @@ namespace djv
             {
                 if (auto window = weak.lock())
                 {
-                    size_t hash = 0;
-                    Memory::hashCombine(hash, window->_p->media->getFileName());
-                    Memory::hashCombine(hash, window->_p->media->getCurrentTime()->get());
-                    window->_p->imageWidget->setImage(image, hash);
+                    window->_p->imageWidget->setImage(image, createUID());
                 }
             });
 

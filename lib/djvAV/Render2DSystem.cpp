@@ -117,7 +117,8 @@ namespace djv
                 virtual void getRenderData(std::vector<RenderData> &) = 0;
             };
 
-            Primitive::~Primitive() {}
+            Primitive::~Primitive()
+            {}
             
             struct Render
             {
@@ -165,8 +166,10 @@ namespace djv
                 std::shared_ptr<OpenGL::Shader> shader;
                 std::shared_ptr<TextureCache> staticTextureCache;
                 std::shared_ptr<TextureCache> dynamicTextureCache;
-                std::map<size_t, uint64_t> imageTextureIds;
-                std::map<FontGlyphHash, uint64_t> glyphTextureIds;
+                std::shared_ptr<TextureCache> glyphTextureCache;
+                std::map<UID, uint64_t> staticTextureIDs;
+                std::map<UID, uint64_t> dynamicTextureIDs;
+                std::map<UID, uint64_t> glyphTextureIDs;
             };
 
             struct RectanglePrimitive : public Primitive
@@ -200,7 +203,7 @@ namespace djv
                     type = PrimitiveType::Image;
                 }
 
-                size_t hash = 0;
+                UID uid = 0;
                 std::shared_ptr<Pixel::Data> pixelData;
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
                 PixelFormat pixelFormat = PixelFormat::RGBA;
@@ -210,18 +213,18 @@ namespace djv
                 void getRenderData(std::vector<RenderData> & out) override
                 {
                     TextureCacheItem item;
-                    if (hash)
+                    if (uid)
                     {
                         uint64_t id = 0;
-                        const auto i = render.imageTextureIds.find(hash);
-                        if (i != render.imageTextureIds.end())
+                        auto & textureIDs = dynamic ? render.dynamicTextureIDs : render.staticTextureIDs;
+                        const auto i = textureIDs.find(uid);
+                        if (i != textureIDs.end())
                         {
                             id = i->second;
                         }
                         if (!textureCache->getItem(id, item))
                         {
-                            id = textureCache->addItem(pixelData, item);
-                            render.imageTextureIds[hash] = id;
+                            textureIDs[uid] = textureCache->addItem(pixelData, item);
                         }
                     }
                     else
@@ -299,10 +302,10 @@ namespace djv
                             size.y);
                         if (bbox.intersects(render.viewport))
                         {
-                            const FontGlyphHash hash = getFontGlyphHash(glyph->code, font);
+                            const auto uid = getFontGlyphUID(glyph->code, font);
                             uint64_t id = 0;
-                            const auto i = render.glyphTextureIds.find(hash);
-                            if (i != render.glyphTextureIds.end())
+                            const auto i = render.glyphTextureIDs.find(uid);
+                            if (i != render.glyphTextureIDs.end())
                             {
                                 id = i->second;
                             }
@@ -310,7 +313,7 @@ namespace djv
                             if (!render.staticTextureCache->getItem(id, item))
                             {
                                 id = render.staticTextureCache->addItem(glyph->pixelData, item);
-                                render.glyphTextureIds[hash] = id;
+                                render.glyphTextureIDs[uid] = id;
                             }
 
                             it->bbox = bbox;
@@ -444,10 +447,10 @@ namespace djv
             _p->render->primitives.push_back(std::move(primitive));
         }
 
-        void Render2DSystem::drawImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, size_t hash)
+        void Render2DSystem::drawImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
         {
             auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*_p->render, dynamic));
-            primitive->hash = hash;
+            primitive->uid = uid;
             primitive->pixelData = data;
             primitive->pos = pos;
             primitive->clipRect = _p->currentClipRect;
@@ -456,10 +459,10 @@ namespace djv
             _p->render->primitives.push_back(std::move(primitive));
         }
 
-        void Render2DSystem::drawFilledImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, size_t hash)
+        void Render2DSystem::drawFilledImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
         {
             auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*_p->render, dynamic));
-            primitive->hash = hash;
+            primitive->uid = uid;
             primitive->pixelData = data;
             primitive->pos = pos;
             primitive->clipRect = _p->currentClipRect;
@@ -502,7 +505,9 @@ namespace djv
             mesh.t.reserve(renderData.size() * 4);
             mesh.triangles.reserve(renderData.size() * 2);
             size_t quadsCount = 0;
-            for (auto& data : renderData)
+            std::vector<const RenderData *> clippedRenderData;
+            clippedRenderData.reserve(renderData.size());
+            for (const auto& data : renderData)
             {
                 const BBox2f bbox = flip(data.bbox, _p->size);
                 if (bbox.intersects(_p->render->viewport))
@@ -527,6 +532,8 @@ namespace djv
                     triangle.v2 = TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
                     mesh.triangles.push_back(std::move(triangle));
                     ++quadsCount;
+
+                    clippedRenderData.push_back(&data);
                 }
             }
 
@@ -579,35 +586,35 @@ namespace djv
             auto colorMode = static_cast<ColorMode>(0);
             AV::Color color;
             GLint texture = 0;
-            for (size_t i = 0; i < renderData.size(); ++i)
+            for (size_t i = 0; i < clippedRenderData.size(); ++i)
             {
-                const auto& data = renderData[i];
+                const auto * data = clippedRenderData[i];
                 //! \todo [1.0 M] Should we do our own clipping?
-                const BBox2f clipRect = flip(data.clipRect, _p->size);
+                const BBox2f clipRect = flip(data->clipRect, _p->size);
                 glScissor(
                     static_cast<GLint>(clipRect.min.x),
                     static_cast<GLint>(clipRect.min.y),
                     static_cast<GLsizei>(clipRect.w()),
                     static_cast<GLsizei>(clipRect.h()));
-                if (i == 0 || data.pixelFormat != pixelFormat)
+                if (i == 0 || data->pixelFormat != pixelFormat)
                 {
-                    pixelFormat = data.pixelFormat;
-                    _p->render->shader->setUniform("pixelFormat", static_cast<int>(data.pixelFormat));
+                    pixelFormat = data->pixelFormat;
+                    _p->render->shader->setUniform("pixelFormat", static_cast<int>(data->pixelFormat));
                 }
-                if (i == 0 || data.colorMode != colorMode)
+                if (i == 0 || data->colorMode != colorMode)
                 {
-                    colorMode = data.colorMode;
-                    _p->render->shader->setUniform("colorMode", static_cast<int>(data.colorMode));
+                    colorMode = data->colorMode;
+                    _p->render->shader->setUniform("colorMode", static_cast<int>(data->colorMode));
                 }
-                if (i == 0 || data.color != color)
+                if (i == 0 || data->color != color)
                 {
-                    color = data.color;
-                    _p->render->shader->setUniform("color", data.color);
+                    color = data->color;
+                    _p->render->shader->setUniform("color", data->color);
                 }
-                if (i == 0 || data.texture != texture)
+                if (i == 0 || data->texture != texture)
                 {
-                    texture = data.texture;
-                    _p->render->shader->setUniform("textureSampler", data.texture);
+                    texture = data->texture;
+                    _p->render->shader->setUniform("textureSampler", data->texture);
                 }
                 vao->draw(i * 6, 6);
             }

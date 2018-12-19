@@ -157,11 +157,23 @@ namespace djv
             size(size)
         {}
 
-        FontGlyphHash getFontGlyphHash(uint32_t code, const Font & font)
+        UID getFontGlyphUID(uint32_t code, const Font & font)
         {
-            FontGlyphHash out = 0;
-            Memory::hashCombine(out, code);
-            Memory::hashCombine(out, font.hash);
+            static std::map<size_t, UID> map;
+            size_t hash = 0;
+            Memory::hashCombine(hash, code);
+            Memory::hashCombine(hash, font.hash);
+            UID out = 0;
+            const auto i = map.find(hash);
+            if (i != map.end())
+            {
+                out = i->second;
+            }
+            else
+            {
+                out = createUID();
+                map[hash] = out;
+            }
             return out;
         }
 
@@ -187,10 +199,10 @@ namespace djv
 
             std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
             //! \todo [1.0 S] The Cache class provides an upper limit but using a map is much faster.
-            //Cache<FontGlyphHash, glm::vec2> measureCache;
-            //Cache<FontGlyphHash, std::shared_ptr<FontGlyph> > glyphCache;
-            std::map<FontGlyphHash, glm::vec2> measureCache;
-            std::map<FontGlyphHash, std::shared_ptr<FontGlyph> > glyphCache;
+            //Cache<UID, glm::vec2> measureCache;
+            //Cache<UID, std::shared_ptr<FontGlyph> > glyphCache;
+            std::map<UID, glm::vec2> measureCache;
+            std::map<UID, std::shared_ptr<FontGlyph> > glyphCache;
             std::mutex cacheMutex;
 
             std::shared_ptr<Timer> statsTimer;
@@ -646,16 +658,16 @@ namespace djv
                     for (const auto& c : utf32)
                     {
                         std::shared_ptr<FontGlyph> glyph;
-                        const auto hash = getFontGlyphHash(c, request.font);
+                        const auto uid = getFontGlyphUID(c, request.font);
                         bool inCache = false;
                         {
                             std::lock_guard<std::mutex> lock(p.cacheMutex);
-                            /*if (p.glyphCache.contains(hash))
+                            /*if (p.glyphCache.contains(uid))
                             {
                                 inCache = true;
-                                glyph = p.glyphCache.get(hash);
+                                glyph = p.glyphCache.get(uid);
                             }*/
-                            const auto i = p.glyphCache.find(hash);
+                            const auto i = p.glyphCache.find(uid);
                             if (i != p.glyphCache.end())
                             {
                                 inCache = true;
@@ -710,8 +722,8 @@ namespace djv
                                 glyph->advance = font->second->glyph->advance.x / 64.f;
                                 {
                                     std::lock_guard<std::mutex> lock(p.cacheMutex);
-                                    //p.glyphCache.add(hash, glyph);
-                                    p.glyphCache[hash] = glyph;
+                                    //p.glyphCache.add(uid, glyph);
+                                    p.glyphCache[uid] = glyph;
                                 }
                                 FT_Done_Glyph(ftGlyph);
                             }
@@ -734,15 +746,15 @@ namespace djv
             std::lock_guard<std::mutex> lock(cacheMutex);
             for (const auto & c : s)
             {
-                const auto hash = getFontGlyphHash(c, font);
+                const auto uid = getFontGlyphUID(c, font);
                 glm::vec2 size;
                 bool inCache = false;
-                /*if (measureCache.contains(hash))
+                /*if (measureCache.contains(uid))
                 {
                     inCache = true;
-                    size = measureCache.get(hash);
+                    size = measureCache.get(uid);
                 }*/
-                const auto i = measureCache.find(hash);
+                const auto i = measureCache.find(uid);
                 if (i != measureCache.end())
                 {
                     inCache = true;
@@ -762,8 +774,8 @@ namespace djv
                                 size.x = face->glyph->advance.x / 64.f;
                                 size.y = face->glyph->metrics.height / 64.f;
                                 FT_Done_Glyph(ftGlyph);
-                                //measureCache.add(hash, size);
-                                measureCache[hash] = size;
+                                //measureCache.add(uid, size);
+                                measureCache[uid] = size;
                             }
                         }
                     }

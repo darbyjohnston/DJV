@@ -27,72 +27,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvAV/FontSystem.h>
-
-#include <djvCore/BBox.h>
-#include <djvCore/ISystem.h>
-#include <djvCore/Range.h>
 #include <djvCore/UID.h>
-
-#include <mutex>
 
 namespace djv
 {
     namespace Core
     {
-        class Path;
-    
+        uint64_t createUID()
+        {
+            static uint64_t uid = 0;
+            ++uid;
+            return uid;
+        }
+
     } // namespace Core
-
-    namespace AV
-    {
-        class Color;
-
-        namespace Pixel
-        {
-            class Data;
-
-        } // namespace Pixel
-
-        class Render2DSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(Render2DSystem);
-
-        protected:
-            void _init(Core::Context *);
-            Render2DSystem();
-
-        public:
-            ~Render2DSystem();
-
-            static std::shared_ptr<Render2DSystem> create(Core::Context *);
-
-            void beginFrame(const glm::ivec2&);
-
-            void pushClipRect(const Core::BBox2f&);
-            void popClipRect();
-
-            void setFillColor(const Color&);
-
-            void drawRectangle(const Core::BBox2f&);
-
-            void drawImage(const std::shared_ptr<Pixel::Data>&, const glm::vec2&, bool dynamic, Core::UID);
-            void drawFilledImage(const std::shared_ptr<Pixel::Data>&, const glm::vec2&, bool dynamic, Core::UID);
-
-            void setCurrentFont(const Font&);
-            void drawText(const std::string&, const glm::vec2&, size_t maxLineWidth = 0);
-
-            void endFrame();
-
-        private:
-            void _updateCurrentClipRect();
-
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-    } // namespace AV
 } // namespace djv
-

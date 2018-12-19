@@ -32,6 +32,7 @@
 #include <djvAV/PixelData.h>
 
 #include <djvCore/ISystem.h>
+#include <djvCore/UID.h>
 
 #include <glm/vec2.hpp>
 
@@ -75,10 +76,10 @@ namespace djv
             std::shared_ptr<Pixel::Data> pixelData;
             glm::vec2 offset = glm::vec2(0.f, 0.f);
             float advance = 0.f;
+            size_t hash = 0;
         };
 
-        typedef size_t FontGlyphHash;
-        FontGlyphHash getFontGlyphHash(uint32_t, const Font&);
+        Core::UID getFontGlyphUID(uint32_t, const Font&);
 
         //! This class provides a font system.
         class FontSystem : public Core::ISystem

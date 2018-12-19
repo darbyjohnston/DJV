@@ -47,12 +47,12 @@ int main(int argc, char ** argv)
         auto app = Desktop::Application::create(argc, argv);
 
         auto textBlock1 = UI::TextBlock::create(app.get());
-        textBlock1->setText(Core::String::getRandomText(1000));
+        textBlock1->setText(Core::String::getRandomText(100));
         textBlock1->setFontSizeRole(UI::MetricsRole::FontLarge);
         textBlock1->setMargin(UI::MetricsRole::Margin);
 
         auto textBlock2 = UI::TextBlock::create(app.get());
-        textBlock2->setText(Core::String::getRandomText(1000));
+        textBlock2->setText(Core::String::getRandomText(100));
         textBlock2->setFontSizeRole(UI::MetricsRole::FontLarge);
         textBlock2->setMargin(UI::MetricsRole::Margin);
 

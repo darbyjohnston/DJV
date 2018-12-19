@@ -37,6 +37,7 @@
 #include <djvAV/Render2DSystem.h>
 
 #include <djvCore/Path.h>
+#include <djvCore/UID.h>
 
 using namespace djv::Core;
 
@@ -52,7 +53,7 @@ namespace djv
             std::future<std::shared_ptr<AV::Image> > imageFuture;
             AV::Pixel::Info info;
             std::shared_ptr<AV::Image> image;
-            size_t hash = 0;
+            size_t uid = 0;
         };
 
         void Icon::_init(Context * context)
@@ -98,8 +99,7 @@ namespace djv
                 _p->infoFuture = system->getInfo(_p->path);
                 _p->imageFuture = system->getImage(_p->path);
             }
-            _p->hash = 0;
-            Memory::hashCombine(_p->hash, _p->path.get());
+            _p->uid = createUID();
         }
 
         ColorRole Icon::getIconColorRole() const
@@ -179,12 +179,12 @@ namespace djv
                         if (_p->iconColorRole != ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(_p->iconColorRole)));
-                            render->drawFilledImage(_p->image, pos, false, _p->hash);
+                            render->drawFilledImage(_p->image, pos, false, _p->uid);
                         }
                         else
                         {
                             render->setFillColor(_getColorWithOpacity(AV::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(_p->image, pos, false, _p->hash);
+                            render->drawImage(_p->image, pos, false, _p->uid);
                         }
                     }
                 }

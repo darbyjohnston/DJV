@@ -58,6 +58,7 @@ set(header
     TimeInline.h
     Timer.h
     TimerInline.h
+    UID.h
     UndoStack.h
     ValueObserver.h
     ValueObserverInline.h
@@ -90,6 +91,7 @@ set(source
     TextSystem.cpp
     Time.cpp
     Timer.cpp
+    UID.cpp
     UndoStack.cpp)
 if (WIN32)
     set(source
