@@ -89,7 +89,7 @@ namespace djv
                             // Open the file.
                             {
                                 std::stringstream ss;
-                                ss << "Reading file: " << fileName << std::endl;
+                                ss << "Reading file: " << fileName;
                                 context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                             }
                             int r = avformat_open_input(
@@ -213,10 +213,10 @@ namespace djv
                                 info.setVideo(p.videoInfo);
                                 {
                                     std::stringstream ss;
-                                    ss << fileName << ": image size " << pixelDataInfo.size << std::endl;
-                                    ss << fileName << ": pixel type " << pixelDataInfo.type << std::endl;
-                                    ss << fileName << ": duration " << duration << std::endl;
-                                    ss << fileName << ": speed " << speed << std::endl;
+                                    ss << fileName << ": image size " << pixelDataInfo.size << "\n";
+                                    ss << fileName << ": pixel type " << pixelDataInfo.type << "\n";
+                                    ss << fileName << ": duration " << duration << "\n";
+                                    ss << fileName << ": speed " << speed << "\n";
                                     context->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                 }
                             }

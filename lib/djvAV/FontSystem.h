@@ -49,6 +49,7 @@ namespace djv
 
             std::string name;
             float size = 0.f;
+            size_t hash = 0;
         };
 
         struct FontMetrics
@@ -80,8 +81,6 @@ namespace djv
         FontGlyphHash getFontGlyphHash(uint32_t, const Font&);
 
         //! This class provides a font system.
-        //!
-        //! \todo [1.0 M]  Implement better line breaking.
         class FontSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(FontSystem);

@@ -134,16 +134,16 @@ namespace djv
                     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
                     {
                         std::stringstream ss;
-                        ss << "Maximum OpenGL texture units: " << maxTextureUnits << std::endl;
-                        ss << "Maximum OpenGL texture size: " << maxTextureSize << std::endl;
+                        ss << "Maximum OpenGL texture units: " << maxTextureUnits << "\n";
+                        ss << "Maximum OpenGL texture size: " << maxTextureSize;
                         context->log("djv::AV::Render2DSystem", ss.str());
                     }
                     const size_t _textureCacheCount = std::min(size_t(maxTextureUnits), textureCacheCount);
-                    const size_t _textureCacheSize = std::min(size_t(maxTextureSize), textureCacheSize);
+                    const int _textureCacheSize = std::min(maxTextureSize, int(textureCacheSize));
                     {
                         std::stringstream ss;
-                        ss << "Texture cache count: " << _textureCacheCount << std::endl;
-                        ss << "Texture cache size: " << _textureCacheSize << std::endl;
+                        ss << "Texture cache count: " << _textureCacheCount << "\n";
+                        ss << "Texture cache size: " << _textureCacheSize;
                         context->log("djv::AV::Render2DSystem", ss.str());
                     }
                     staticTextureCache.reset(new TextureCache(
