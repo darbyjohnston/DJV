@@ -59,13 +59,13 @@ namespace djv
             void clearWidgets() override;
 
             void setVisible(bool) override;
-
             float getHeightForWidth(float) const override;
-
             void preLayoutEvent(Core::PreLayoutEvent&) override;
             void layoutEvent(Core::LayoutEvent&) override;
 
             void buttonPressEvent(Core::ButtonPressEvent&) override;
+            void keyPressEvent(Core::KeyPressEvent&) override;
+            void keyReleaseEvent(Core::KeyReleaseEvent&) override;
 
         private:
             struct Private;
