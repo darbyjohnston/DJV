@@ -49,7 +49,7 @@ namespace djv
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
             ColorRole textColorRole = ColorRole::Foreground;
-            FontFace fontFace = FontFace::First;
+            std::string fontFace = AV::FontInfo::defaultFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             std::future<AV::FontMetrics> fontMetricsFuture;
             AV::FontMetrics fontMetrics;
@@ -58,9 +58,9 @@ namespace djv
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             size_t textSizeHash = 0;
             std::future<glm::vec2> textSizeFuture;
-            std::vector<AV::FontLine> breakText;
+            std::vector<AV::TextLine> breakText;
             size_t breakTextHash = 0;
-            std::future<std::vector<AV::FontLine> > breakTextFuture;
+            std::future<std::vector<AV::TextLine> > breakTextFuture;
             BBox2f clipRect;
         };
 
@@ -125,7 +125,7 @@ namespace djv
             _p->textColorRole = value;
         }
 
-        FontFace TextBlock::getFontFace() const
+        const std::string & TextBlock::getFontFace() const
         {
             return _p->fontFace;
         }
@@ -135,7 +135,7 @@ namespace djv
             return _p->fontSizeRole;
         }
 
-        void TextBlock::setFontFace(FontFace value)
+        void TextBlock::setFontFace(const std::string & value)
         {
             _p->fontFace = value;
         }
@@ -156,7 +156,8 @@ namespace djv
                     const float w = value - getMargin().getWidth(style);
 
                     size_t hash = 0;
-                    Memory::hashCombine(hash, font.name);
+                    Memory::hashCombine(hash, font.family);
+                    Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
                     Memory::hashCombine(hash, w);
                     if (!_p->heightForWidthHash || _p->heightForWidthHash != hash)
@@ -182,7 +183,8 @@ namespace djv
                     _p->fontMetricsFuture = fontSystem->getMetrics(font);
 
                     size_t hash = 0;
-                    Memory::hashCombine(hash, font.name);
+                    Memory::hashCombine(hash, font.family);
+                    Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
                     Memory::hashCombine(hash, g.w());
                     if (!_p->textSizeHash || _p->textSizeHash != hash)
@@ -218,7 +220,8 @@ namespace djv
                     const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
 
                     size_t hash = 0;
-                    Memory::hashCombine(hash, font.name);
+                    Memory::hashCombine(hash, font.family);
+                    Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
                     Memory::hashCombine(hash, g.w());
                     if (!_p->breakTextHash || _p->breakTextHash != hash)

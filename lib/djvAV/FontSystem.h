@@ -43,16 +43,21 @@ namespace djv
 {
     namespace AV
     {
-        struct Font
+        //! This class provides font information.
+        struct FontInfo
         {
-            Font();
-            Font(const std::string& name, float size);
+            FontInfo();
+            FontInfo(const std::string & family, const std::string & face, float size);
 
-            std::string name;
+            std::string family = defaultFamily;
+            std::string face = defaultFace;
             float size = 0.f;
-            size_t hash = 0; //! \todo This is going to cause trouble at some point.
+
+            static const std::string defaultFamily;
+            static const std::string defaultFace;
         };
 
+        //! This struct provides font metrics.
         struct FontMetrics
         {
             float ascender = 0.f;
@@ -60,26 +65,67 @@ namespace djv
             float lineHeight = 0.f;
         };
 
-        struct FontLine
+        //! This struct provides a line of text.
+        //!
+        //! \todo Instead of copying the text should we use indices instead?
+        struct TextLine
         {
-            FontLine();
-            FontLine(const std::string& text, const glm::vec2&);
+            TextLine();
+            TextLine(const std::string& text, const glm::vec2&);
 
             std::string text;
             glm::vec2 size = glm::vec2(0.f, 0.f);
         };
 
-        struct FontGlyph
+        //! This class provides font glyph information.
+        class FontGlyphInfo
         {
-            uint32_t code = 0;
-            Font font;
-            std::shared_ptr<Pixel::Data> pixelData;
-            glm::vec2 offset = glm::vec2(0.f, 0.f);
-            float advance = 0.f;
-            size_t hash = 0;
+        public:
+            FontGlyphInfo();
+            FontGlyphInfo(uint32_t code, const FontInfo &);
+
+            inline uint32_t getCode() const;
+            inline const FontInfo & getFontInfo() const;
+            inline Core::UID getUID() const;
+
+        private:
+            uint32_t _code = 0;
+            FontInfo _fontInfo;
+            Core::UID _uid = 0;
         };
 
-        Core::UID getFontGlyphUID(uint32_t, const Font&);
+        //! This class provides a font glyph.
+        class FontGlyph
+        {
+            DJV_NON_COPYABLE(FontGlyph);
+
+        protected:
+            void _init(
+                const FontGlyphInfo &,
+                const std::shared_ptr<Pixel::Data> &,
+                const glm::vec2 & offset,
+                float advance);
+
+            FontGlyph();
+
+        public:
+            static std::shared_ptr<FontGlyph> create(
+                const FontGlyphInfo &,
+                const std::shared_ptr<Pixel::Data> &,
+                const glm::vec2 & offset,
+                float advance);
+
+            inline const FontGlyphInfo & getInfo() const;
+            inline const std::shared_ptr<Pixel::Data> & getPixelData() const;
+            inline glm::vec2 getOffset() const;
+            inline float getAdvance() const;
+
+        private:
+            FontGlyphInfo _info;
+            std::shared_ptr<Pixel::Data> _pixelData;
+            glm::vec2 _offset = glm::vec2(0.f, 0.f);
+            float _advance = 0.f;
+        };
 
         //! This class provides a font system.
         class FontSystem : public Core::ISystem
@@ -88,6 +134,7 @@ namespace djv
 
         protected:
             void _init(const glm::vec2& dpi, Core::Context *);
+
             FontSystem();
 
         public:
@@ -95,12 +142,23 @@ namespace djv
 
             static std::shared_ptr<FontSystem> create(const glm::vec2& dpi, Core::Context *);
 
-            std::future<std::map<std::string, std::string> > getFileNames();
-            std::future<FontMetrics> getMetrics(const Font&);
-            std::future<glm::vec2> measure(const std::string& text, const Font&);
-            std::future<glm::vec2> measure(const std::string& text, float maxLineWidth, const Font&);
-            std::future<std::vector<FontLine> > breakLines(const std::string& text, float maxLineWidth, const Font&);
-            std::future<std::vector<std::shared_ptr<FontGlyph> > > getGlyphs(const std::string& text, const Font&);
+            //! Get the font family and file names.
+            std::future<std::map<std::string, std::string> > getFontNames();
+
+            //! Get font metrics.
+            std::future<FontMetrics> getMetrics(const FontInfo&);
+
+            //! Measure the size of text.
+            std::future<glm::vec2> measure(const std::string& text, const FontInfo&);
+
+            //! Measure the size of text with word wrapping.
+            std::future<glm::vec2> measure(const std::string& text, float maxLineWidth, const FontInfo&);
+
+            //! Break text into lines for word wrapping.
+            std::future<std::vector<TextLine> > breakLines(const std::string& text, float maxLineWidth, const FontInfo&);
+
+            //! Get font glyphs.
+            std::future<std::vector<std::shared_ptr<FontGlyph> > > getGlyphs(const std::string& text, const FontInfo&);
 
         private:
             void _initFreeType();
@@ -115,3 +173,5 @@ namespace djv
 
     } // namespace AV
 } // namespace djv
+
+#include <djvAV/FontSystemInline.h>

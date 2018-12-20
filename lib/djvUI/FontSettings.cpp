@@ -51,26 +51,26 @@ namespace djv
             p.fonts->setItem(
                 "Default",
                 {
-                    { FontFace::Regular, "Noto Sans" },
-                    { FontFace::Bold, "Noto Sans" }
+                    { "Regular", "Noto Sans" },
+                    { "Bold", "Noto Sans" }
                 });
             p.fonts->setItem(
                 "ja",
                 {
-                    { FontFace::Regular, "Noto Sans CJKjp" },
-                    { FontFace::Bold, "Noto Sans CJKjp" }
+                    { "Regular", "Noto Sans CJKjp" },
+                    { "Bold", "Noto Sans CJKjp" }
                 });
             p.fonts->setItem(
                 "ko",
                 {
-                    { FontFace::Regular, "Noto SansCJKkr" },
-                    { FontFace::Bold, "Noto SansCJKkr" }
+                    { "Regular", "Noto SansCJKkr" },
+                    { "Bold", "Noto SansCJKkr" }
                 });
             p.fonts->setItem(
                 "zh",
                 {
-                    { FontFace::Regular, "Noto Sans CJKsc" },
-                    { FontFace::Bold, "Noto Sans CJKsc" }
+                    { "Regular", "Noto Sans CJKsc" },
+                    { "Bold", "Noto Sans CJKsc" }
                 });
 
             _load();

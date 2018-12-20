@@ -29,15 +29,10 @@
 
 #include <djvDesktop/Application.h>
 
-#include <djvUI/Button.h>
 #include <djvUI/Label.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
-#include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
-#include <djvCore/String.h>
 
 using namespace djv;
 
@@ -48,29 +43,12 @@ int main(int argc, char ** argv)
     {
         auto app = Desktop::Application::create(argc, argv);
 
-        //auto label = UI::Label::create(app.get());
-        //label->setFontSizeRole(UI::MetricsRole::FontExtraLarge);
-        //label->setText("Hello world!");
-        auto textBlock = UI::TextBlock::create(app.get());
-        textBlock->setText(Core::String::getRandomText(1));
-        textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
-        textBlock->setBackgroundRole(UI::ColorRole::Border);
-
-        auto button = UI::Button::create(app.get());
-        button->setText("Button");
-
-        auto layout = UI::StackLayout::create(app.get());
-        auto vLayout = UI::VerticalLayout::create(app.get());
-        vLayout->setBackgroundRole(UI::ColorRole::Button);
-        vLayout->setHAlign(UI::HAlign::Center);
-        vLayout->setVAlign(UI::VAlign::Center);
-        vLayout->addWidget(textBlock);
-        vLayout->addWidget(button);
-        layout->addWidget(vLayout);
+        auto label = UI::Label::create(app.get());
+        label->setFontSizeRole(UI::MetricsRole::FontExtraLarge);
+        label->setText("Hello world!");
 
         auto window = UI::Window::create(app.get());
-        //window->addWidget(label);
-        window->addWidget(layout);
+        window->addWidget(label);
         window->show();
 
         return app->run();

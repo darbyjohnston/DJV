@@ -1,7 +1,7 @@
 set(header
     Action.h
     Border.h
-    Button.h
+    ButtonGroup.h
     ColorSwatch.h
     Dialog.h
     Enum.h
@@ -11,6 +11,7 @@ set(header
     FontSettingsInline.h
     GeneralSettings.h
     GridLayout.h
+    IButton.h
     IContainerWidget.h
     ISettings.h
     ISettingsInline.h
@@ -18,10 +19,12 @@ set(header
     Icon.h
     ImageWidget.h
     Label.h
+    ListButton.h
     MDICanvas.h
     MDIWindow.h
     Margin.h
     MarginInline.h
+    PushButton.h
     RowLayout.h
     ScrollWidget.h
     Separator.h
@@ -38,13 +41,15 @@ set(header
     StyleSettings.h
     System.h
     TextBlock.h
+    ToggleButton.h
+    ToolButton.h
     Widget.h
     WidgetInline.h
     Window.h)
 set(source
     Action.cpp
     Border.cpp
-    Button.cpp
+    ButtonGroup.cpp
     ColorSwatch.cpp
     Dialog.cpp
     Enum.cpp
@@ -52,14 +57,17 @@ set(source
     FontSettings.cpp
     GeneralSettings.cpp
     GridLayout.cpp
+    IButton.cpp
     IContainerWidget.cpp
     ISettings.cpp
     IWindowSystem.cpp
     Icon.cpp
     ImageWidget.cpp
     Label.cpp
+    ListButton.cpp
     MDICanvas.cpp
     MDIWindow.cpp
+    PushButton.cpp
     RowLayout.cpp
     ScrollWidget.cpp
     Separator.cpp
@@ -72,6 +80,8 @@ set(source
     StyleSettings.cpp
     System.cpp
     TextBlock.cpp
+    ToggleButton.cpp
+    ToolButton.cpp
     Widget.cpp
     Window.cpp)
 

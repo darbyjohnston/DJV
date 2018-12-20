@@ -104,7 +104,7 @@ namespace djv
             //! \name Text
             ///@{
 
-            void setCurrentFont(const Font&);
+            void setCurrentFont(const FontInfo&);
 
             void drawText(
                 const std::string & text,

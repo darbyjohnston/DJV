@@ -280,7 +280,7 @@ namespace djv
                 }
 
                 std::string text;
-                Font font;
+                FontInfo fontInfo;
                 std::future<std::vector<std::shared_ptr<FontGlyph> > > glyphsFuture;
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
 
@@ -294,15 +294,16 @@ namespace djv
                     auto it = out.begin() + outSize;
                     for (const auto& glyph : glyphs)
                     {
-                        const glm::vec2& size = glyph->pixelData->getSize();
+                        const glm::vec2& size = glyph->getPixelData()->getSize();
+                        const glm::vec2& offset = glyph->getOffset();
                         BBox2f bbox(
-                            pos.x + x + glyph->offset.x,
-                            pos.y + y - glyph->offset.y,
+                            pos.x + x + offset.x,
+                            pos.y + y - offset.y,
                             size.x,
                             size.y);
                         if (bbox.intersects(render.viewport))
                         {
-                            const auto uid = getFontGlyphUID(glyph->code, font);
+                            const auto uid = glyph->getInfo().getUID();
                             uint64_t id = 0;
                             const auto i = render.glyphTextureIDs.find(uid);
                             if (i != render.glyphTextureIDs.end())
@@ -312,7 +313,7 @@ namespace djv
                             TextureCacheItem item;
                             if (!render.staticTextureCache->getItem(id, item))
                             {
-                                id = render.staticTextureCache->addItem(glyph->pixelData, item);
+                                id = render.staticTextureCache->addItem(glyph->getPixelData(), item);
                                 render.glyphTextureIDs[uid] = id;
                             }
 
@@ -325,7 +326,7 @@ namespace djv
                             it->textureV = item.textureV;
                             ++it;
                         }
-                        x += glyph->advance;
+                        x += glyph->getAdvance();
                     }
                     out.resize(it - out.begin());
                 }
@@ -350,7 +351,7 @@ namespace djv
             BBox2f currentClipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
             Color fillColor = Color(1.f, 1.f, 1.f);
             std::weak_ptr<FontSystem> fontSystem;
-            Font currentFont;
+            FontInfo currentFont;
             FontMetrics currentFontMetrics;
 
             std::unique_ptr<Render> render;
@@ -626,7 +627,7 @@ namespace djv
             p.render->primitives.push_back(std::move(primitive));
         }
 
-        void Render2DSystem::setCurrentFont(const Font& value)
+        void Render2DSystem::setCurrentFont(const FontInfo& value)
         {
             DJV_PRIVATE_PTR();
             p.currentFont = value;
@@ -639,7 +640,7 @@ namespace djv
             {
                 auto primitive = std::unique_ptr<TextPrimitive>(new TextPrimitive(*p.render));
                 primitive->text = value;
-                primitive->font = p.currentFont;
+                primitive->fontInfo = p.currentFont;
                 primitive->pos = pos;
                 primitive->glyphsFuture = fontSystem->getGlyphs(value, p.currentFont);
                 primitive->clipRect = p.currentClipRect;

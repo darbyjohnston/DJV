@@ -27,66 +27,44 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvUI/Widget.h>
-
 namespace djv
 {
-    namespace UI
+    namespace AV
     {
-        //! This class provides a label.
-        class Label : public Widget
+        inline uint32_t FontGlyphInfo::getCode() const
         {
-            DJV_NON_COPYABLE(Label);
-            
-        protected:
-            void _init(Core::Context *);
-            Label();
+            return _code;
+        }
 
-        public:
-            virtual ~Label();
+        inline const FontInfo & FontGlyphInfo::getFontInfo() const
+        {
+            return _fontInfo;
+        }
 
-            //! \name Label Creation
-            ///@{
+        inline Core::UID FontGlyphInfo::getUID() const
+        {
+            return _uid;
+        }
 
-            static std::shared_ptr<Label> create(Core::Context *);
-            static std::shared_ptr<Label> create(const std::string&, Core::Context *);
+        inline const FontGlyphInfo & FontGlyph::getInfo() const
+        {
+            return _info;
+        }
 
-            ///@}
+        inline const std::shared_ptr<Pixel::Data> & FontGlyph::getPixelData() const
+        {
+            return _pixelData;
+        }
 
-            //! \name Label Text
-            ///@{
+        inline glm::vec2 FontGlyph::getOffset() const
+        {
+            return _offset;
+        }
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+        inline float FontGlyph::getAdvance() const
+        {
+            return _advance;
+        }
 
-            TextHAlign getTextHAlign() const;
-            TextVAlign getTextVAlign() const;
-            void setTextHAlign(TextHAlign);
-            void setTextVAlign(TextVAlign);
-
-            ColorRole getTextColorRole() const;
-            void setTextColorRole(ColorRole);
-
-            const std::string & getFontFace() const;
-            MetricsRole getFontSizeRole() const;
-            void setFontFace(const std::string &);
-            void setFontSizeRole(MetricsRole);
-
-            float getMinimumWidth() const;
-            void setMinimumWidth(float);
-
-            ///@}
-
-            void updateEvent(Core::UpdateEvent&) override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
-
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-    } // namespace UI
+    } // namespace AV
 } // namespace djv

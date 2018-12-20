@@ -67,14 +67,14 @@ namespace djv
     } // namespace UI
 
     template<>
-    inline picojson::value toJSON<UI::FontMap>(const std::map<UI::FontFace, std::string> &);
+    inline picojson::value toJSON<UI::FontMap>(const std::map<std::string, std::string> &);
     template<>
     inline picojson::value toJSON<std::map<std::string, UI::FontMap> >(const std::map<std::string, UI::FontMap>&);
 
     //! Throws:
     //! - std::exception
     template<>
-    inline void fromJSON<UI::FontMap>(const picojson::value&, std::map<UI::FontFace, std::string>&);
+    inline void fromJSON<UI::FontMap>(const picojson::value&, std::map<std::string, std::string>&);
     template<>
     inline void fromJSON<std::map<std::string, UI::FontMap> >(const picojson::value&, std::map<std::string, UI::FontMap>&);
 

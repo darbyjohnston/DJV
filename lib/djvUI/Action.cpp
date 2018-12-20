@@ -46,7 +46,7 @@ namespace djv
             std::shared_ptr<ValueSubject<Path> > icon;
             std::shared_ptr<ValueSubject<MetricsRole> > iconSizeRole;
             std::shared_ptr<ValueSubject<std::string> > text;
-            std::shared_ptr<ValueSubject<FontFace> > fontFace;
+            std::shared_ptr<ValueSubject<std::string> > fontFace;
             std::shared_ptr<ValueSubject<MetricsRole> > fontSizeRole;
             std::shared_ptr<Shortcut> shortcut;
             std::shared_ptr<ValueSubject<bool> > enabled;
@@ -63,7 +63,7 @@ namespace djv
             _p->icon = ValueSubject<Path>::create();
             _p->iconSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::Icon);
             _p->text = ValueSubject<std::string>::create();
-            _p->fontFace = ValueSubject<FontFace>::create(FontFace::First);
+            _p->fontFace = ValueSubject<std::string>::create(AV::FontInfo::defaultFace);
             _p->fontSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::FontMedium);
             _p->enabled = ValueSubject<bool>::create(true);
             _p->hAlign = ValueSubject<HAlign>::create(HAlign::Fill);
@@ -134,7 +134,7 @@ namespace djv
             _p->text->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IValueSubject<FontFace> > Action::getFontFace() const
+        std::shared_ptr<Core::IValueSubject<std::string> > Action::getFontFace() const
         {
             return _p->fontFace;
         }
@@ -144,7 +144,7 @@ namespace djv
             return _p->fontSizeRole;
         }
 
-        void Action::setFontFace(FontFace value)
+        void Action::setFontFace(const std::string & value)
         {
             _p->fontFace->setIfChanged(value);
         }

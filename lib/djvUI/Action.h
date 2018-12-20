@@ -76,9 +76,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::string> > getText() const;
             void setText(const std::string&);
 
-            std::shared_ptr<Core::IValueSubject<FontFace> > getFontFace() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > getFontFace() const;
             std::shared_ptr<Core::IValueSubject<MetricsRole> > getFontSizeRole() const;
-            void setFontFace(FontFace);
+            void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
 
             const std::shared_ptr<Shortcut>& getShortcut() const;

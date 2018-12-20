@@ -52,11 +52,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.playback = ValueSubject<Playback>::create();
 
-            auto stopButton = UI::Button::create(context);
+            auto stopButton = UI::ToolButton::create(context);
             stopButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconPlaybackStop90DPI.png"));
-            auto forwardButton = UI::Button::create(context);
+            auto forwardButton = UI::ToolButton::create(context);
             forwardButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconPlaybackForward90DPI.png"));
-            auto reverseButton = UI::Button::create(context);
+            auto reverseButton = UI::ToolButton::create(context);
             reverseButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
 
             p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);

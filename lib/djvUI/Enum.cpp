@@ -125,11 +125,5 @@ namespace djv
         DJV_TEXT("Toggle"),
         DJV_TEXT("Radio"));
 
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI,
-        FontFace,
-        DJV_TEXT("Regular"),
-        DJV_TEXT("Bold"));
-
 } // namespace djv
 

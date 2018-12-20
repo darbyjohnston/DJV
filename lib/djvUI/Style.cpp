@@ -130,7 +130,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.metrics[MetricsRole::None]                =   0.f;
-            p.metrics[MetricsRole::Border]              =   2.f;
+            p.metrics[MetricsRole::Border]              =   1.f;
             p.metrics[MetricsRole::Margin]              =  10.f;
             p.metrics[MetricsRole::MarginSmall]         =   5.f;
             p.metrics[MetricsRole::MarginLarge]         =  40.f;
@@ -148,8 +148,8 @@ namespace djv
             p.metrics[MetricsRole::Swatch]              =  40.f;
             p.metrics[MetricsRole::Thumbnail]           = 300.f;
             p.metrics[MetricsRole::Shadow]              =  20.f;
-            p.metrics[MetricsRole::TextColumn]          =  200.f;
-            p.metrics[MetricsRole::Dialog]              =  400.f;
+            p.metrics[MetricsRole::TextColumn]          = 200.f;
+            p.metrics[MetricsRole::Dialog]              = 400.f;
         }
 
         float Metrics::getMetric(MetricsRole role) const
@@ -311,13 +311,13 @@ namespace djv
             _p->dpi = value;
         }
 
-        AV::Font Style::getFont(FontFace fontFace, MetricsRole metricsRole) const
+        AV::FontInfo Style::getFont(const std::string & face, MetricsRole metricsRole) const
         {
-            AV::Font out;
-            const auto i = _p->currentFont.find(fontFace);
+            AV::FontInfo out;
+            const auto i = _p->currentFont.find(face);
             if (i != _p->currentFont.end())
             {
-                out = AV::Font(i->second, getMetric(metricsRole));
+                out = AV::FontInfo(i->second, i->first, getMetric(metricsRole));
             }
             return out;
         }

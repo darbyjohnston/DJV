@@ -31,7 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Border.h>
-#include <djvUI/Button.h>
+#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Separator.h>
 #include <djvUI/Shortcut.h>
@@ -175,20 +175,22 @@ namespace djv
 
         namespace
         {
-            class DialogWidget : public Border
+            class DialogWidget : public IContainerWidget
             {
                 DJV_NON_COPYABLE(DialogWidget);
 
             protected:
                 void _init(Context * context)
                 {
-                    Border::_init(context);
+                    Widget::_init(context);
                     
-                    setBorderColorRole(ColorRole::Button);
                     setBackgroundRole(ColorRole::Background);
                     setHAlign(HAlign::Center);
                     setVAlign(VAlign::Center);
-                    setInsideMargin(MetricsRole::Margin);
+                    
+                    _layout = StackLayout::create(context);
+                    _layout->setMargin(MetricsRole::Margin);
+                    IContainerWidget::addWidget(_layout);
                 }
 
                 DialogWidget()
@@ -202,16 +204,44 @@ namespace djv
                     return out;
                 }
 
-                void preLayoutEvent(Core::PreLayoutEvent& event) override
+                void addWidget(const std::shared_ptr<Widget>& value) override
                 {
-                    Border::preLayoutEvent(event);
+                    _layout->addWidget(value);
+                }
+
+                void removeWidget(const std::shared_ptr<Widget>& value) override
+                {
+                    _layout->removeWidget(value);
+
+                }
+
+                void clearWidgets() override
+                {
+                    _layout->clearWidgets();
+                }
+
+                float getHeightForWidth(float value) const override
+                {
+                    return _layout->getHeightForWidth(value);
+                }
+
+                void preLayoutEvent(Core::PreLayoutEvent&) override
+                {
                     if (auto style = _getStyle().lock())
                     {
                         const auto size = style->getMetric(MetricsRole::Dialog);
-                        const auto borderSize = getMinimumSize();
-                        _setMinimumSize(glm::vec2(std::max(size, borderSize.x), borderSize.y));
+                        const auto layoutSize = _layout->getMinimumSize();
+                        _setMinimumSize(glm::vec2(std::max(size, layoutSize.x), layoutSize.y));
                     }
                 }
+
+                void layoutEvent(Core::LayoutEvent&) override
+                {
+                    _layout->setGeometry(getGeometry());
+                }
+
+            private:
+                std::shared_ptr<StackLayout> _layout;
             };
 
         } // namespace
@@ -228,7 +258,7 @@ namespace djv
             textBlock->setTextHAlign(TextHAlign::Center);
             textBlock->setMargin(MetricsRole::Margin);
 
-            auto closeButton = Button::create(context);
+            auto closeButton = PushButton::create(context);
             closeButton->setText(closeText);
             
             auto layout = VerticalLayout::create(context);
@@ -238,12 +268,11 @@ namespace djv
             layout->addWidget(textBlock);
             layout->addWidget(closeButton);
             
-            //auto dialogWidget = DialogWidget::create(context);
-            //dialogWidget->addWidget(layout);
+            auto dialogWidget = DialogWidget::create(context);
+            dialogWidget->addWidget(layout);
 
             auto dialog = Dialog::create(context);
-            //dialog->addWidget(dialogWidget);
-            dialog->addWidget(layout);
+            dialog->addWidget(dialogWidget);
             window->addWidget(dialog);
 
             dialog->show();
@@ -269,13 +298,11 @@ namespace djv
             textBlock->setTextHAlign(TextHAlign::Center);
             textBlock->setMargin(MetricsRole::Margin);
 
-            auto acceptButton = Button::create(context);
+            auto acceptButton = PushButton::create(context);
             acceptButton->setText(acceptText);
-            acceptButton->setFontFace(FontFace::Bold);
 
-            auto cancelButton = Button::create(context);
+            auto cancelButton = PushButton::create(context);
             cancelButton->setText(cancelText);
-            cancelButton->setFontFace(FontFace::Bold);
 
             auto layout = VerticalLayout::create(context);
             layout->addWidget(textBlock);

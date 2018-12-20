@@ -29,13 +29,13 @@
 
 #include <djvUI/MDICanvas.h>
 
-#include <djvUI/Button.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDIWindow.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <set>
 

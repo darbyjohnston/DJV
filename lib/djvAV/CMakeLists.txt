@@ -19,6 +19,7 @@ set(header
     FFmpeg.h
     FFmpegInline.h
     FontSystem.h
+    FontSystemInline.h
     IO.h
     IOInline.h
     IconSystem.h

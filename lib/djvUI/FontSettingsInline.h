@@ -30,7 +30,7 @@
 namespace djv
 {
     template<>
-    inline picojson::value toJSON<UI::FontMap>(const std::map<UI::FontFace, std::string>& value)
+    inline picojson::value toJSON<UI::FontMap>(const std::map<std::string, std::string>& value)
     {
         picojson::value out(picojson::object_type, true);
         for (const auto& i : value)
@@ -54,23 +54,20 @@ namespace djv
     }
 
     template<>
-    inline void fromJSON<UI::FontMap>(const picojson::value& value, std::map<UI::FontFace, std::string>& out)
+    inline void fromJSON<UI::FontMap>(const picojson::value& value, std::map<std::string, std::string>& out)
     {
         if (value.is<picojson::object>())
         {
             for (const auto& i : value.get<picojson::object>())
             {
-                UI::FontFace v = UI::FontFace::First;
-                std::stringstream ss(i.first);
-                ss >> v;
                 std::string s;
                 fromJSON(i.second, s);
-                out[v] = s;
+                out[i.first] = s;
             }
         }
         else
         {
-            throw std::invalid_argument("Cannot parse");
+            throw std::invalid_argument("Cannot parse value.");
         }
     }
 
@@ -86,7 +83,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument("Cannot parse");
+            throw std::invalid_argument("Cannot parse value.");
         }
     }
 

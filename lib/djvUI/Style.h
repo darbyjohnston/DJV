@@ -190,7 +190,7 @@ namespace djv
             //! \name Fonts
             ///@{
 
-            AV::Font getFont(FontFace, MetricsRole) const;
+            AV::FontInfo getFont(const std::string &, MetricsRole) const;
 
             ///@}
 

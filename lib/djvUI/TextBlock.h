@@ -60,9 +60,9 @@ namespace djv
             ColorRole getTextColorRole() const;
             void setTextColorRole(ColorRole);
 
-            FontFace getFontFace() const;
+            const std::string & getFontFace() const;
             MetricsRole getFontSizeRole() const;
-            void setFontFace(FontFace);
+            void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
 
             float getHeightForWidth(float) const override;

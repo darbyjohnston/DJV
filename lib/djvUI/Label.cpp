@@ -47,7 +47,7 @@ namespace djv
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
             ColorRole textColorRole = ColorRole::Foreground;
-            FontFace fontFace = FontFace::First;
+            std::string fontFace = AV::FontInfo::defaultFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             float minimumWidth = 0.f;
             std::future<AV::FontMetrics> fontMetricsFuture;
@@ -122,7 +122,7 @@ namespace djv
             _p->textColorRole = value;
         }
 
-        FontFace Label::getFontFace() const
+        const std::string & Label::getFontFace() const
         {
             return _p->fontFace;
         }
@@ -132,7 +132,7 @@ namespace djv
             return _p->fontSizeRole;
         }
 
-        void Label::setFontFace(FontFace value)
+        void Label::setFontFace(const std::string & value)
         {
             _p->fontFace = value;
         }
@@ -158,7 +158,7 @@ namespace djv
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
-                    const AV::Font font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
                     _p->fontMetricsFuture = fontSystem->getMetrics(font);
                     _p->textSizeFuture = fontSystem->measure(_p->text, font);
                 }

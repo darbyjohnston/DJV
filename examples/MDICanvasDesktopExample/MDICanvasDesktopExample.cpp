@@ -29,7 +29,6 @@
 
 #include <djvDesktop/Application.h>
 
-#include <djvUI/Button.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
@@ -39,6 +38,7 @@
 #include <djvUI/Splitter.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/TextBlock.h>
+#include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -66,7 +66,7 @@ public:
     void layoutEvent(Core::LayoutEvent&) override;
 
 private:
-    std::shared_ptr<UI::Button> _closeButton;
+    std::shared_ptr<UI::ToolButton> _closeButton;
     std::shared_ptr<UI::Icon> _resizeHandle;
     std::shared_ptr<UI::VerticalLayout> _layout;
     std::function<void(void)> _closedCallback;
@@ -82,7 +82,7 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     titleLabel->setText(title);
     titleLabel->setMargin(UI::MetricsRole::Margin);
 
-    _closeButton = UI::Button::create(context);
+    _closeButton = UI::ToolButton::create(context);
     _closeButton->setIcon(context->getPath(Core::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
 
     auto titleBar = UI::HorizontalLayout::create(context);

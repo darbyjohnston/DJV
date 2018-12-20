@@ -166,17 +166,6 @@ namespace djv
         };
         DJV_ENUM_HELPERS(ButtonType);
 
-        //! This enumeration provides font faces.
-        enum class FontFace
-        {
-            Regular,
-            Bold,
-
-            Count,
-            First = Regular
-        };
-        DJV_ENUM_HELPERS(FontFace);
-
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
@@ -189,7 +178,6 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::SelectionType);
     DJV_ENUM_SERIALIZE_HELPERS(UI::SortOrder);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ButtonType);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::FontFace);
 
 } // namespace djv
 

@@ -29,16 +29,15 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
-
 #include <map>
+#include <string>
 
 namespace djv
 {
     namespace UI
     {
         //! This map provides font faces and their associated fonts.
-        typedef std::map<FontFace, std::string> FontMap;
+        typedef std::map<std::string, std::string> FontMap;
         
     } // namespace UI
 } // namespace djv
