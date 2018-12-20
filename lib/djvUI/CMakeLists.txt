@@ -24,6 +24,8 @@ set(header
     MDIWindow.h
     Margin.h
     MarginInline.h
+    Menu.h
+    MenuBar.h
     PushButton.h
     RowLayout.h
     ScrollWidget.h
@@ -34,12 +36,16 @@ set(header
     Spacing.h
     SpacingInline.h
     Splitter.h
+    SoloLayout.h
     StackLayout.h
     Style.h
     StyleJSON.h
     StyleJSONInline.h
     StyleSettings.h
     System.h
+    TabBar.h
+    TabButton.h
+    TabWidget.h
     TextBlock.h
     ToggleButton.h
     ToolButton.h
@@ -65,6 +71,8 @@ set(source
     ImageWidget.cpp
     Label.cpp
     ListButton.cpp
+    Menu.cpp
+    MenuBar.cpp
     MDICanvas.cpp
     MDIWindow.cpp
     PushButton.cpp
@@ -75,10 +83,14 @@ set(source
     Shortcut.cpp
     Spacer.cpp
     Splitter.cpp
+    SoloLayout.cpp
     StackLayout.cpp
     Style.cpp
     StyleSettings.cpp
     System.cpp
+    TabBar.cpp
+    TabButton.cpp
+    TabWidget.cpp
     TextBlock.cpp
     ToggleButton.cpp
     ToolButton.cpp

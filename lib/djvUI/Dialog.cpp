@@ -30,7 +30,6 @@
 #include <djvUI/Dialog.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Border.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Separator.h>
@@ -238,9 +237,6 @@ namespace djv
             textBlock->setTextHAlign(TextHAlign::Center);
             textBlock->setMargin(MetricsRole::Margin);
 
-            auto textBorder = Border::create(context);
-            textBorder->addWidget(textBlock);
-
             auto closeButton = PushButton::create(context);
             closeButton->setText(closeText);
             
@@ -248,7 +244,7 @@ namespace djv
             layout->setBackgroundRole(ColorRole::Background);
             layout->setMargin(MetricsRole::Margin);
             layout->setVAlign(VAlign::Center);
-            layout->addWidget(textBorder);
+            layout->addWidget(textBlock);
             layout->addWidget(closeButton);
             
             auto dialogWidget = DialogWidget::create(context);
@@ -281,9 +277,6 @@ namespace djv
             textBlock->setTextHAlign(TextHAlign::Center);
             textBlock->setMargin(MetricsRole::Margin);
 
-            auto textBorder = Border::create(context);
-            textBorder->addWidget(textBlock);
-
             auto acceptButton = PushButton::create(context);
             acceptButton->setText(acceptText);
 
@@ -291,7 +284,7 @@ namespace djv
             cancelButton->setText(cancelText);
 
             auto layout = VerticalLayout::create(context);
-            layout->addWidget(textBorder);
+            layout->addWidget(textBlock);
             auto hLayout = HorizontalLayout::create(context);
             hLayout->setHAlign(HAlign::Center);
             hLayout->addWidget(acceptButton);

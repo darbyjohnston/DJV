@@ -118,7 +118,7 @@ namespace djv
                     const BBox2f& g = getGeometry();
 
                     // Draw the toggled state.
-                    if (_isToggled())
+                    if (_isToggled() && _p->checkedColorRole != ColorRole::None)
                     {
                         render->setFillColor(_getColorWithOpacity(style->getColor(_p->checkedColorRole)));
                         render->drawRectangle(g);

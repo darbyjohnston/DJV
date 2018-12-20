@@ -37,8 +37,12 @@
 #include <djvUI/Dialog.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/MDICanvas.h>
+#include <djvUI/Menu.h>
+#include <djvUI/MenuBar.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/TabWidget.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -52,20 +56,35 @@ namespace djv
     {
         struct MainWindow::Private
         {
-            std::shared_ptr<UI::MDI::Canvas> canvas;
-            std::shared_ptr<UI::ScrollWidget> scrollWidget;
+            std::shared_ptr<UI::MenuBar> menuBar;
+            std::shared_ptr<UI::TabWidget> tabWidget;
+            //std::shared_ptr<UI::MDI::Canvas> canvas;
+            //std::shared_ptr<UI::ScrollWidget> scrollWidget;
         };
         
         void MainWindow::_init(Core::Context * context)
         {
             Window::_init(context);
 
-            _p->canvas = UI::MDI::Canvas::create(context);
-            _p->canvas->setCanvasSize(glm::vec2(8192, 8192));
+            auto fileMenu = UI::Menu::create("File", context);
 
-            _p->scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            _p->scrollWidget->addWidget(_p->canvas);
-            addWidget(_p->scrollWidget);
+            _p->menuBar = UI::MenuBar::create(context);
+            _p->menuBar->addMenu(fileMenu);
+
+            _p->tabWidget = UI::TabWidget::create(context);
+
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addWidget(_p->menuBar);
+            layout->addSeparator();
+            layout->addWidget(_p->tabWidget, UI::RowLayoutStretch::Expand);
+            addWidget(layout);
+
+            //_p->canvas = UI::MDI::Canvas::create(context);
+            //_p->canvas->setCanvasSize(glm::vec2(8192, 8192));
+            //_p->scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
+            //_p->scrollWidget->addWidget(_p->canvas);
+            //addWidget(_p->scrollWidget);
 
             auto exitShortcut = UI::Shortcut::create(GLFW_KEY_Q, GLFW_MOD_CONTROL);
             auto exitAction = UI::Action::create();
@@ -110,7 +129,6 @@ namespace djv
 
         void MainWindow::dropEvent(Core::DropEvent& event)
         {
-            glm::vec2 pos = event.getPointerInfo().projectedPos;
             for (const auto & i : event.getDropPaths())
             {
                 //auto media = Media::create(FileInfo::getFileSequence(i), getContext());
@@ -127,11 +145,11 @@ namespace djv
                     {
                         if (auto window = weakWindow.lock())
                         {
-                            mainWindow->_p->canvas->removeWindow(window);
+                            mainWindow->_p->tabWidget->removeWidget(window);
                         }
                     }
                 });
-                _p->canvas->addWindow(window, pos);
+                _p->tabWidget->addWidget(Path(i).getFileName(), window);
             }
         }
         

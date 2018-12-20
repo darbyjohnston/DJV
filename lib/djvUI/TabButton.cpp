@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/ListButton.h>
+#include <djvUI/TabButton.h>
 
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -43,17 +43,17 @@ namespace djv
 {
     namespace UI
     {
-        struct ListButton::Private
+        struct TabButton::Private
         {
             std::shared_ptr<Label> label;
             std::shared_ptr<StackLayout> layout;
         };
 
-        void ListButton::_init(const std::string& text, Context * context)
+        void TabButton::_init(const std::string& text, Context * context)
         {
             IButton::_init(context);
             
-            setClassName("Gp::UI::ListButton");
+            setClassName("Gp::UI::TabButton");
 
             _p->label = Label::create(text, context);
             _p->label->setMargin(MetricsRole::Margin);
@@ -64,108 +64,112 @@ namespace djv
             _p->layout->setParent(shared_from_this());
         }
 
-        ListButton::ListButton() :
+        TabButton::TabButton() :
             _p(new Private)
         {}
 
-        ListButton::~ListButton()
+        TabButton::~TabButton()
         {}
 
-        std::shared_ptr<ListButton> ListButton::create(Context * context)
+        std::shared_ptr<TabButton> TabButton::create(const std::string& text, Context * context)
         {
-            auto out = std::shared_ptr<ListButton>(new ListButton);
-            out->_init(std::string(), context);
-            return out;
-        }
-
-        std::shared_ptr<ListButton> ListButton::create(const std::string& text, Context * context)
-        {
-            auto out = std::shared_ptr<ListButton>(new ListButton);
+            auto out = std::shared_ptr<TabButton>(new TabButton);
             out->_init(text, context);
             return out;
         }
 
-        const std::string& ListButton::getText() const
+        const std::string& TabButton::getText() const
         {
             return _p->label->getText();
         }
 
-        void ListButton::setText(const std::string& value)
+        void TabButton::setText(const std::string& value)
         {
             _p->label->setText(value);
             _p->label->setVisible(!value.empty());
         }
 
-        TextHAlign ListButton::getTextHAlign() const
+        TextHAlign TabButton::getTextHAlign() const
         {
             return _p->label->getTextHAlign();
         }
         
-        TextVAlign ListButton::getTextVAlign() const
+        TextVAlign TabButton::getTextVAlign() const
         {
             return _p->label->getTextVAlign();
         }
         
-        void ListButton::setTextHAlign(TextHAlign value)
+        void TabButton::setTextHAlign(TextHAlign value)
         {
             _p->label->setTextHAlign(value);
         }
         
-        void ListButton::setTextVAlign(TextVAlign value)
+        void TabButton::setTextVAlign(TextVAlign value)
         {
             _p->label->setTextVAlign(value);
         }
 
-        ColorRole ListButton::getTextColorRole() const
-        {
-            return _p->label->getTextColorRole();
-        }
-
-        void ListButton::setTextColorRole(ColorRole value)
-        {
-            _p->label->setTextColorRole(value);
-        }
-
-        const std::string & ListButton::getFontFace() const
+        const std::string & TabButton::getFontFace() const
         {
             return _p->label->getFontFace();
         }
 
-        MetricsRole ListButton::getFontSizeRole() const
+        MetricsRole TabButton::getFontSizeRole() const
         {
             return _p->label->getFontSizeRole();
         }
 
-        void ListButton::setFontFace(const std::string & value)
+        void TabButton::setFontFace(const std::string & value)
         {
             _p->label->setFontFace(value);
         }
 
-        void ListButton::setFontSizeRole(MetricsRole value)
+        void TabButton::setFontSizeRole(MetricsRole value)
         {
             _p->label->setFontSizeRole(value);
         }
 
-        float ListButton::getHeightForWidth(float value) const
+        float TabButton::getHeightForWidth(float value) const
         {
             return _p->layout->getHeightForWidth(value);
         }
 
-        void ListButton::updateEvent(UpdateEvent& event)
-        {
-            IButton::updateEvent(event);
-
-            _p->label->setTextColorRole(_isToggled() ? ColorRole::CheckedForeground : ColorRole::Foreground);
-        }
-
-        void ListButton::preLayoutEvent(PreLayoutEvent& event)
+        void TabButton::preLayoutEvent(PreLayoutEvent& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ListButton::layoutEvent(LayoutEvent&)
+        void TabButton::layoutEvent(LayoutEvent&)
         {
             _p->layout->setGeometry(getGeometry());
+        }
+
+        void TabButton::paintEvent(Core::PaintEvent& event)
+        {
+            if (auto render = _getRenderSystem().lock())
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& g = getGeometry();
+
+                    // Draw the toggled state.
+                    render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border)));
+                    render->drawRectangle(g);
+
+                    // Draw the hovered state.
+                    if (_isHovered() && !_isToggled())
+                    {
+                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
+                        render->drawRectangle(g);
+                    }
+                }
+            }
+        }
+
+        void TabButton::updateEvent(UpdateEvent& event)
+        {
+            IButton::updateEvent(event);
+            _p->label->setTextColorRole(_isToggled() ? ColorRole::Foreground : ColorRole::ForegroundDim);
         }
 
     } // namespace UI

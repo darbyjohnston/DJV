@@ -11,20 +11,19 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a button widget for use in lists.
-        class ListButton : public IButton
+        //! This class provides a button for tab widgets.
+        class TabButton : public IButton
         {
-            DJV_NON_COPYABLE(ListButton);
+            DJV_NON_COPYABLE(TabButton);
 
         protected:
             void _init(const std::string& text, Core::Context *);
-            ListButton();
+            TabButton();
 
         public:
-            virtual ~ListButton();
+            virtual ~TabButton();
 
-            static std::shared_ptr<ListButton> create(Core::Context *);
-            static std::shared_ptr<ListButton> create(const std::string&, Core::Context *);
+            static std::shared_ptr<TabButton> create(const std::string&, Core::Context *);
 
             const std::string& getText() const;
             void setText(const std::string&);
@@ -34,19 +33,17 @@ namespace djv
             void setTextHAlign(TextHAlign);
             void setTextVAlign(TextVAlign);
 
-            ColorRole getTextColorRole() const;
-            void setTextColorRole(ColorRole);
-
             const std::string & getFontFace() const;
             MetricsRole getFontSizeRole() const;
             void setFontFace(const std::string &);
             void setFontSizeRole(MetricsRole);
 
             float getHeightForWidth(float) const override;
-
-            void updateEvent(Core::UpdateEvent&) override;
             void preLayoutEvent(Core::PreLayoutEvent&) override;
             void layoutEvent(Core::LayoutEvent&) override;
+            void paintEvent(Core::PaintEvent&) override;
+
+            void updateEvent(Core::UpdateEvent&) override;
 
         private:
             struct Private;
