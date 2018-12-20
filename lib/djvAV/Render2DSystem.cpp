@@ -295,7 +295,7 @@ namespace djv
                     for (const auto& glyph : glyphs)
                     {
                         const glm::vec2& size = glyph->pixelData->getSize();
-                        const BBox2f bbox(
+                        BBox2f bbox(
                             pos.x + x + glyph->offset.x,
                             pos.y + y - glyph->offset.y,
                             size.x,
@@ -359,40 +359,45 @@ namespace djv
             std::shared_ptr<Timer> fpsTimer;
             std::vector<float> fpsSamples;
             std::chrono::time_point<std::chrono::system_clock> fpsTime = std::chrono::system_clock::now();
+
+            void updateCurrentClipRect();
         };
 
         void Render2DSystem::_init(Context * context)
         {
             ISystem::_init("djv::AV::Render2DSystem", context);
 
-            _p->fontSystem = context->getSystemT<FontSystem>();
+            DJV_PRIVATE_PTR();
+            p.fontSystem = context->getSystemT<FontSystem>();
 
-            _p->render.reset(new Render(context));
+            p.render.reset(new Render(context));
 
-            _p->statsTimer = Timer::create(context);
-            _p->statsTimer->setRepeating(true);
-            _p->statsTimer->start(
+            p.statsTimer = Timer::create(context);
+            p.statsTimer->setRepeating(true);
+            p.statsTimer->start(
                 std::chrono::milliseconds(statsTimeout),
                 [this](float)
             {
+                DJV_PRIVATE_PTR();
                 std::stringstream s;
-                s << "Static texture cache: " << _p->render->staticTextureCache->getPercentageUsed() << "%\n";
-                s << "Dynamic texture cache: " << _p->render->dynamicTextureCache->getPercentageUsed() << "%";
+                s << "Static texture cache: " << p.render->staticTextureCache->getPercentageUsed() << "%\n";
+                s << "Dynamic texture cache: " << p.render->dynamicTextureCache->getPercentageUsed() << "%";
                 _log(s.str());
             });
 
-            _p->fpsTimer = Timer::create(context);
-            _p->fpsTimer->setRepeating(true);
-            _p->fpsTimer->start(
+            p.fpsTimer = Timer::create(context);
+            p.fpsTimer->setRepeating(true);
+            p.fpsTimer->start(
                 std::chrono::milliseconds(10000),
                 [this](float)
             {
+                DJV_PRIVATE_PTR();
                 float average = 1.f;
-                for (const auto& i : _p->fpsSamples)
+                for (const auto& i : p.fpsSamples)
                 {
                     average += i;
                 }
-                average /= static_cast<float>(_p->fpsSamples.size());
+                average /= static_cast<float>(p.fpsSamples.size());
                 std::stringstream s;
                 s << "FPS: " << average;
                 _log(s.str());
@@ -415,87 +420,17 @@ namespace djv
 
         void Render2DSystem::beginFrame(const glm::ivec2& size)
         {
-            _p->size = size;
-            _p->currentClipRect = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
-            _p->render->viewport = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
-        }
-
-        void Render2DSystem::pushClipRect(const BBox2f& value)
-        {
-            _p->clipRects.push_back(value);
-            _updateCurrentClipRect();
-        }
-
-        void Render2DSystem::popClipRect()
-        {
-            _p->clipRects.pop_back();
-            _updateCurrentClipRect();
-        }
-
-        void Render2DSystem::setFillColor(const Color& value)
-        {
-            _p->fillColor = value;
-        }
-
-        void Render2DSystem::drawRectangle(const BBox2f& value)
-        {
-            auto primitive = std::unique_ptr<RectanglePrimitive>(new RectanglePrimitive(*_p->render));
-            primitive->rect = value;
-            primitive->clipRect = _p->currentClipRect;
-            primitive->colorMode = ColorMode::SolidColor;
-            primitive->color = _p->fillColor;
-            _p->render->primitives.push_back(std::move(primitive));
-        }
-
-        void Render2DSystem::drawImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
-        {
-            auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*_p->render, dynamic));
-            primitive->uid = uid;
-            primitive->pixelData = data;
-            primitive->pos = pos;
-            primitive->clipRect = _p->currentClipRect;
-            primitive->colorMode = ColorMode::ColorAndTexture;
-            primitive->color = _p->fillColor;
-            _p->render->primitives.push_back(std::move(primitive));
-        }
-
-        void Render2DSystem::drawFilledImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
-        {
-            auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*_p->render, dynamic));
-            primitive->uid = uid;
-            primitive->pixelData = data;
-            primitive->pos = pos;
-            primitive->clipRect = _p->currentClipRect;
-            primitive->colorMode = ColorMode::ColorWithTextureAlpha;
-            primitive->color = _p->fillColor;
-            _p->render->primitives.push_back(std::move(primitive));
-        }
-
-        void Render2DSystem::setCurrentFont(const Font& value)
-        {
-            _p->currentFont = value;
-        }
-
-        void Render2DSystem::drawText(const std::string& value, const glm::vec2& pos, size_t maxLineWidth)
-        {
-            if (auto fontSystem = _p->fontSystem.lock())
-            {
-                auto primitive = std::unique_ptr<TextPrimitive>(new TextPrimitive(*_p->render));
-                primitive->text = value;
-                primitive->font = _p->currentFont;
-                primitive->pos = pos;
-                primitive->glyphsFuture = fontSystem->getGlyphs(value, _p->currentFont);
-                primitive->clipRect = _p->currentClipRect;
-                primitive->colorMode = ColorMode::ColorWithTextureAlpha;
-                primitive->color = _p->fillColor;
-                _p->render->primitives.push_back(std::move(primitive));
-            }
+            DJV_PRIVATE_PTR();
+            p.size = size;
+            p.currentClipRect = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
+            p.render->viewport = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
         }
 
         void Render2DSystem::endFrame()
         {
+            DJV_PRIVATE_PTR();
             std::vector<RenderData> renderData;
-            for (auto& primitive : _p->render->primitives)
+            for (auto& primitive : p.render->primitives)
             {
                 primitive->getRenderData(renderData);
             }
@@ -509,8 +444,8 @@ namespace djv
             clippedRenderData.reserve(renderData.size());
             for (const auto& data : renderData)
             {
-                const BBox2f bbox = flip(data.bbox, _p->size);
-                if (bbox.intersects(_p->render->viewport))
+                const BBox2f bbox = flip(data.bbox, p.size);
+                if (bbox.intersects(p.render->viewport))
                 {
                     mesh.v.push_back(glm::vec3(floorf(bbox.min.x), floorf(bbox.min.y), 0.f));
                     mesh.v.push_back(glm::vec3(floorf(bbox.max.x), floorf(bbox.min.y), 0.f));
@@ -538,15 +473,15 @@ namespace djv
             }
 
             glViewport(
-                static_cast<GLint>(_p->render->viewport.min.x),
-                static_cast<GLint>(_p->render->viewport.min.y),
-                static_cast<GLsizei>(_p->render->viewport.w()),
-                static_cast<GLsizei>(_p->render->viewport.h()));
+                static_cast<GLint>(p.render->viewport.min.x),
+                static_cast<GLint>(p.render->viewport.min.y),
+                static_cast<GLsizei>(p.render->viewport.w()),
+                static_cast<GLsizei>(p.render->viewport.h()));
             glScissor(
-                static_cast<GLint>(_p->render->viewport.min.x),
-                static_cast<GLint>(_p->render->viewport.min.y),
-                static_cast<GLsizei>(_p->render->viewport.w()),
-                static_cast<GLsizei>(_p->render->viewport.h()));
+                static_cast<GLint>(p.render->viewport.min.x),
+                static_cast<GLint>(p.render->viewport.min.y),
+                static_cast<GLsizei>(p.render->viewport.w()),
+                static_cast<GLsizei>(p.render->viewport.h()));
             glClearColor(0.f, 0.f, 0.f, 0.f);
             glClear(GL_COLOR_BUFFER_BIT);
             //glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
@@ -554,23 +489,23 @@ namespace djv
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            _p->render->shader->bind();
+            p.render->shader->bind();
             const auto viewMatrix = glm::ortho(
-                _p->render->viewport.min.x,
-                _p->render->viewport.max.x,
-                _p->render->viewport.min.y,
-                _p->render->viewport.max.y,
+                p.render->viewport.min.x,
+                p.render->viewport.max.x,
+                p.render->viewport.min.y,
+                p.render->viewport.max.y,
                 -1.f, 1.f);
-            _p->render->shader->setUniform("transform.mvp", viewMatrix);
+            p.render->shader->setUniform("transform.mvp", viewMatrix);
 
-            const auto& staticTextures = _p->render->staticTextureCache->getTextures();
+            const auto& staticTextures = p.render->staticTextureCache->getTextures();
             size_t i = 0;
             for (; i < staticTextures.size(); ++i)
             {
                 glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + i));
                 glBindTexture(GL_TEXTURE_2D, staticTextures[i]);
             }
-            const auto& dynamicTextures = _p->render->dynamicTextureCache->getTextures();
+            const auto& dynamicTextures = p.render->dynamicTextureCache->getTextures();
             for (size_t j = 0; j < dynamicTextures.size(); ++i, ++j)
             {
                 glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + i));
@@ -590,7 +525,7 @@ namespace djv
             {
                 const auto * data = clippedRenderData[i];
                 //! \todo [1.0 M] Should we do our own clipping?
-                const BBox2f clipRect = flip(data->clipRect, _p->size);
+                const BBox2f clipRect = flip(data->clipRect, p.size);
                 glScissor(
                     static_cast<GLint>(clipRect.min.x),
                     static_cast<GLint>(clipRect.min.y),
@@ -599,22 +534,22 @@ namespace djv
                 if (i == 0 || data->pixelFormat != pixelFormat)
                 {
                     pixelFormat = data->pixelFormat;
-                    _p->render->shader->setUniform("pixelFormat", static_cast<int>(data->pixelFormat));
+                    p.render->shader->setUniform("pixelFormat", static_cast<int>(data->pixelFormat));
                 }
                 if (i == 0 || data->colorMode != colorMode)
                 {
                     colorMode = data->colorMode;
-                    _p->render->shader->setUniform("colorMode", static_cast<int>(data->colorMode));
+                    p.render->shader->setUniform("colorMode", static_cast<int>(data->colorMode));
                 }
                 if (i == 0 || data->color != color)
                 {
                     color = data->color;
-                    _p->render->shader->setUniform("color", data->color);
+                    p.render->shader->setUniform("color", data->color);
                 }
                 if (i == 0 || data->texture != texture)
                 {
                     texture = data->texture;
-                    _p->render->shader->setUniform("textureSampler", data->texture);
+                    p.render->shader->setUniform("textureSampler", data->texture);
                 }
                 vao->draw(i * 6, 6);
             }
@@ -622,26 +557,106 @@ namespace djv
             //glPopAttrib();
 
             const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - _p->fpsTime;
-            _p->fpsTime = now;
-            _p->fpsSamples.push_back(1.f / delta.count());
-            while (_p->fpsSamples.size() > 10)
+            const std::chrono::duration<float> delta = now - p.fpsTime;
+            p.fpsTime = now;
+            p.fpsSamples.push_back(1.f / delta.count());
+            while (p.fpsSamples.size() > 10)
             {
-                _p->fpsSamples.erase(_p->fpsSamples.begin());
+                p.fpsSamples.erase(p.fpsSamples.begin());
             }
 
-            _p->clipRects.clear();
-            _p->render->primitives.clear();
+            p.clipRects.clear();
+            p.render->primitives.clear();
         }
 
-        void Render2DSystem::_updateCurrentClipRect()
+        void Render2DSystem::pushClipRect(const BBox2f& value)
         {
-            BBox2f clipRect = BBox2f(0.f, 0.f, static_cast<float>(_p->size.x), static_cast<float>(_p->size.y));
-            for (const auto& i : _p->clipRects)
+            DJV_PRIVATE_PTR();
+            p.clipRects.push_back(value);
+            p.updateCurrentClipRect();
+        }
+
+        void Render2DSystem::popClipRect()
+        {
+            DJV_PRIVATE_PTR();
+            p.clipRects.pop_back();
+            p.updateCurrentClipRect();
+        }
+
+        void Render2DSystem::setFillColor(const Color& value)
+        {
+            DJV_PRIVATE_PTR();
+            p.fillColor = value;
+        }
+
+        void Render2DSystem::drawRectangle(const BBox2f& value)
+        {
+            DJV_PRIVATE_PTR();
+            auto primitive = std::unique_ptr<RectanglePrimitive>(new RectanglePrimitive(*p.render));
+            primitive->rect = value;
+            primitive->clipRect = p.currentClipRect;
+            primitive->colorMode = ColorMode::SolidColor;
+            primitive->color = p.fillColor;
+            p.render->primitives.push_back(std::move(primitive));
+        }
+
+        void Render2DSystem::drawImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
+        {
+            DJV_PRIVATE_PTR();
+            auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, dynamic));
+            primitive->uid = uid;
+            primitive->pixelData = data;
+            primitive->pos = pos;
+            primitive->clipRect = p.currentClipRect;
+            primitive->colorMode = ColorMode::ColorAndTexture;
+            primitive->color = p.fillColor;
+            p.render->primitives.push_back(std::move(primitive));
+        }
+
+        void Render2DSystem::drawFilledImage(const std::shared_ptr<Pixel::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
+        {
+            DJV_PRIVATE_PTR();
+            auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, dynamic));
+            primitive->uid = uid;
+            primitive->pixelData = data;
+            primitive->pos = pos;
+            primitive->clipRect = p.currentClipRect;
+            primitive->colorMode = ColorMode::ColorWithTextureAlpha;
+            primitive->color = p.fillColor;
+            p.render->primitives.push_back(std::move(primitive));
+        }
+
+        void Render2DSystem::setCurrentFont(const Font& value)
+        {
+            DJV_PRIVATE_PTR();
+            p.currentFont = value;
+        }
+
+        void Render2DSystem::drawText(const std::string& value, const glm::vec2& pos, size_t maxLineWidth)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto fontSystem = p.fontSystem.lock())
+            {
+                auto primitive = std::unique_ptr<TextPrimitive>(new TextPrimitive(*p.render));
+                primitive->text = value;
+                primitive->font = p.currentFont;
+                primitive->pos = pos;
+                primitive->glyphsFuture = fontSystem->getGlyphs(value, p.currentFont);
+                primitive->clipRect = p.currentClipRect;
+                primitive->colorMode = ColorMode::ColorWithTextureAlpha;
+                primitive->color = p.fillColor;
+                p.render->primitives.push_back(std::move(primitive));
+            }
+        }
+
+        void Render2DSystem::Private::updateCurrentClipRect()
+        {
+            BBox2f clipRect = BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y));
+            for (const auto& i : clipRects)
             {
                 clipRect = clipRect.intersect(i);
             }
-            _p->currentClipRect = clipRect;
+            currentClipRect = clipRect;
         }
 
     } // namespace AV

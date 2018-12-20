@@ -70,25 +70,50 @@ namespace djv
             static std::shared_ptr<Render2DSystem> create(Core::Context *);
 
             void beginFrame(const glm::ivec2&);
+            void endFrame();
 
             void pushClipRect(const Core::BBox2f&);
             void popClipRect();
 
             void setFillColor(const Color&);
 
+            //! \name Primitives
+            ///@{
+
             void drawRectangle(const Core::BBox2f&);
 
-            void drawImage(const std::shared_ptr<Pixel::Data>&, const glm::vec2&, bool dynamic, Core::UID);
-            void drawFilledImage(const std::shared_ptr<Pixel::Data>&, const glm::vec2&, bool dynamic, Core::UID);
+            ///@}
+
+            //! \name Images
+            ///@{
+
+            void drawImage(
+                const std::shared_ptr<Pixel::Data>&,
+                const glm::vec2&,
+                bool dynamic,
+                Core::UID);
+
+            void drawFilledImage(
+                const std::shared_ptr<Pixel::Data>&,
+                const glm::vec2&,
+                bool dynamic,
+                Core::UID);
+
+            ///@}
+
+            //! \name Text
+            ///@{
 
             void setCurrentFont(const Font&);
-            void drawText(const std::string&, const glm::vec2&, size_t maxLineWidth = 0);
 
-            void endFrame();
+            void drawText(
+                const std::string & text,
+                const glm::vec2 & position,
+                size_t maxLineWidth = 0);
+
+            ///@}
 
         private:
-            void _updateCurrentClipRect();
-
             struct Private;
             std::unique_ptr<Private> _p;
         };

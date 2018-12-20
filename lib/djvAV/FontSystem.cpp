@@ -512,8 +512,8 @@ namespace djv
                         if (isNewline(*i))
                         {
                             size.x = std::max(size.x, pos.x);
-                            pos.y += font->second->size->metrics.height / 64.f;
                             pos.x = 0.f;
+                            pos.y += font->second->size->metrics.height / 64.f;
                         }
                         else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? glyphSize.x : 0) >= request.maxLineWidth)
                         {
@@ -521,16 +521,15 @@ namespace djv
                             {
                                 i = breakLine;
                                 breakLine = utf32.end();
-                                pos.x = breakLineX;
-                                size.x = std::max(size.x, pos.x);
-                                pos.y += font->second->size->metrics.height / 64.f;
+                                size.x = std::max(size.x, breakLineX);
                                 pos.x = 0.f;
+                                pos.y += font->second->size->metrics.height / 64.f;
                             }
                             else
                             {
                                 size.x = std::max(size.x, pos.x);
-                                pos.y += font->second->size->metrics.height / 64.f;
                                 pos.x = glyphSize.x;
+                                pos.y += font->second->size->metrics.height / 64.f;
                             }
                         }
                         else
@@ -575,6 +574,7 @@ namespace djv
                     glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
                     auto lineBegin = utf32Begin;
                     auto breakLine = utf32.end();
+                    float breakLineX = 0.f;
                     const auto glyphSizes = p.getGlyphSizes(utf32, request.font, font->second);
                     auto i = utf32.begin();
                     for (; i != utf32.end(); ++i)
@@ -584,9 +584,9 @@ namespace djv
                         {
                             lines.push_back(FontLine(
                                 p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                glm::vec2(request.maxLineWidth, font->second->size->metrics.height / 64.f)));
-                            pos.y += font->second->size->metrics.height / 64.f;
+                                glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                             pos.x = 0.f;
+                            pos.y += font->second->size->metrics.height / 64.f;
                             lineBegin = i;
                         }
                         else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? glyphSize.x : 0) >= request.maxLineWidth)
@@ -597,18 +597,18 @@ namespace djv
                                 breakLine = utf32.end();
                                 lines.push_back(FontLine(
                                     p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                    glm::vec2(request.maxLineWidth, font->second->size->metrics.height / 64.f)));
-                                pos.y += font->second->size->metrics.height / 64.f;
+                                    glm::vec2(breakLineX, font->second->size->metrics.height / 64.f)));
                                 pos.x = 0.f;
+                                pos.y += font->second->size->metrics.height / 64.f;
                                 lineBegin = i + 1;
                             }
                             else
                             {
                                 lines.push_back(FontLine(
                                     p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                    glm::vec2(request.maxLineWidth, font->second->size->metrics.height / 64.f)));
-                                pos.y += font->second->size->metrics.height / 64.f;
+                                    glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
                                 pos.x = glyphSize.x;
+                                pos.y += font->second->size->metrics.height / 64.f;
                                 lineBegin = i;
                             }
                         }
@@ -617,6 +617,7 @@ namespace djv
                             if (isSpace(*i) && i != utf32.begin())
                             {
                                 breakLine = i;
+                                breakLineX = pos.x;
                             }
                             pos.x += glyphSize.x;
                         }

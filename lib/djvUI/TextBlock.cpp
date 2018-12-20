@@ -256,6 +256,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    const glm::vec2 c = g.getCenter();
 
                     float ascender = 0.f;
                     if (_p->fontMetricsFuture.valid())
@@ -273,6 +274,16 @@ namespace djv
                     {
                         if (pos.y + line.size.y >= _p->clipRect.min.y && pos.y <= _p->clipRect.max.y)
                         {
+                            switch (_p->textHAlign)
+                            {
+                            case TextHAlign::Center:
+                                pos.x = c.x - line.size.x / 2.f;
+                                break;
+                            case TextHAlign::Right:
+                                pos.x = g.max.x - line.size.x;
+                                break;
+                            default: break;
+                            }
                             render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
                         }
                         pos.y += line.size.y;

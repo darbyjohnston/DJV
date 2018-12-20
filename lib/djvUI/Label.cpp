@@ -204,9 +204,6 @@ namespace djv
                     case TextHAlign::Center:
                         pos.x = c.x - _p->textSize.x / 2.f;
                         break;
-                    case TextHAlign::Left:
-                        pos.x = g.min.x;
-                        break;
                     case TextHAlign::Right:
                         pos.x = g.max.x - _p->textSize.x;
                         break;

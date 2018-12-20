@@ -223,6 +223,7 @@ namespace djv
             auto textBlock = TextBlock::create(context);
             textBlock->setText(text);
             textBlock->setMargin(MetricsRole::MarginLarge);
+            textBlock->setTextHAlign(TextHAlign::Center);
 
             auto acceptButton = Button::create(context);
             acceptButton->setText(acceptText);
