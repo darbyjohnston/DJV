@@ -29,9 +29,11 @@
 
 #include <djvUI/MenuBar.h>
 
-#include <djvUI/ListButton.h>
+#include <djvUI/IButton.h>
+#include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
 
 using namespace djv::Core;
 
@@ -39,6 +41,89 @@ namespace djv
 {
     namespace UI
     {
+        namespace
+        {
+            class MenuBarButton : public IButton
+            {
+                DJV_NON_COPYABLE(MenuBarButton);
+
+            protected:
+                void _init(const std::string& text, Core::Context *);
+                MenuBarButton();
+
+            public:
+                virtual ~MenuBarButton();
+
+                static std::shared_ptr<MenuBarButton> create(const std::string&, Core::Context *);
+
+                const std::string& getText() const;
+                void setText(const std::string&);
+
+                float getHeightForWidth(float) const override;
+                void preLayoutEvent(Core::PreLayoutEvent&) override;
+                void layoutEvent(Core::LayoutEvent&) override;
+
+            private:
+                std::shared_ptr<Label> _label;
+                std::shared_ptr<StackLayout> _layout;
+            };
+
+            void MenuBarButton::_init(const std::string& text, Context * context)
+            {
+                IButton::_init(context);
+
+                setClassName("Gp::UI::MenuBarButton");
+
+                _label = Label::create(text, context);
+                _label->setMargin(Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                _label->setVisible(!text.empty());
+
+                _layout = StackLayout::create(context);
+                _layout->addWidget(_label);
+                _layout->setParent(shared_from_this());
+            }
+
+            MenuBarButton::MenuBarButton()
+            {}
+
+            MenuBarButton::~MenuBarButton()
+            {}
+
+            std::shared_ptr<MenuBarButton> MenuBarButton::create(const std::string& text, Context * context)
+            {
+                auto out = std::shared_ptr<MenuBarButton>(new MenuBarButton);
+                out->_init(text, context);
+                return out;
+            }
+
+            const std::string& MenuBarButton::getText() const
+            {
+                return _label->getText();
+            }
+
+            void MenuBarButton::setText(const std::string& value)
+            {
+                _label->setText(value);
+                _label->setVisible(!value.empty());
+            }
+
+            float MenuBarButton::getHeightForWidth(float value) const
+            {
+                return _layout->getHeightForWidth(value);
+            }
+
+            void MenuBarButton::preLayoutEvent(PreLayoutEvent& event)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void MenuBarButton::layoutEvent(LayoutEvent&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+        } // namespace
+
         struct MenuBar::Private
         {
             std::vector<std::shared_ptr<Menu> > menus;
@@ -73,7 +158,7 @@ namespace djv
         void MenuBar::addMenu(const std::shared_ptr<Menu> & menu)
         {
             _p->menus.push_back(menu);
-            auto button = ListButton::create(menu->getText(), getContext());
+            auto button = MenuBarButton::create(menu->getText(), getContext());
             _p->layout->addWidget(button);
         }
 

@@ -30,8 +30,12 @@
 #include <djvUI/TabBar.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/IButton.h>
+#include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/TabButton.h>
+#include <djvUI/StackLayout.h>
+
+#include <djvAV/Render2DSystem.h>
 
 using namespace djv::Core;
 
@@ -39,6 +43,118 @@ namespace djv
 {
     namespace UI
     {
+        namespace
+        {
+            class TabBarButton : public IButton
+            {
+                DJV_NON_COPYABLE(TabBarButton);
+
+            protected:
+                void _init(const std::string& text, Core::Context *);
+                TabBarButton();
+
+            public:
+                virtual ~TabBarButton();
+
+                static std::shared_ptr<TabBarButton> create(const std::string&, Core::Context *);
+
+                const std::string& getText() const;
+                void setText(const std::string&);
+
+                float getHeightForWidth(float) const override;
+                void preLayoutEvent(Core::PreLayoutEvent&) override;
+                void layoutEvent(Core::LayoutEvent&) override;
+                void paintEvent(Core::PaintEvent&) override;
+
+                void updateEvent(Core::UpdateEvent&) override;
+
+            private:
+                std::shared_ptr<Label> _label;
+                std::shared_ptr<StackLayout> _layout;
+            };
+
+            void TabBarButton::_init(const std::string& text, Context * context)
+            {
+                IButton::_init(context);
+
+                setClassName("Gp::UI::TabBarButton");
+
+                _label = Label::create(text, context);
+                _label->setMargin(Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+
+                _layout = StackLayout::create(context);
+                _layout->addWidget(_label);
+                _layout->setParent(shared_from_this());
+            }
+
+            TabBarButton::TabBarButton()
+            {}
+
+            TabBarButton::~TabBarButton()
+            {}
+
+            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string& text, Context * context)
+            {
+                auto out = std::shared_ptr<TabBarButton>(new TabBarButton);
+                out->_init(text, context);
+                return out;
+            }
+
+            const std::string& TabBarButton::getText() const
+            {
+                return _label->getText();
+            }
+
+            void TabBarButton::setText(const std::string& value)
+            {
+                _label->setText(value);
+            }
+
+            float TabBarButton::getHeightForWidth(float value) const
+            {
+                return _layout->getHeightForWidth(value);
+            }
+
+            void TabBarButton::preLayoutEvent(PreLayoutEvent& event)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void TabBarButton::layoutEvent(LayoutEvent&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void TabBarButton::paintEvent(Core::PaintEvent& event)
+            {
+                if (auto render = _getRenderSystem().lock())
+                {
+                    if (auto style = _getStyle().lock())
+                    {
+                        const BBox2f& g = getGeometry();
+
+                        // Draw the toggled state.
+                        render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border)));
+                        render->drawRectangle(g);
+
+                        // Draw the hovered state.
+                        if (_isHovered() && !_isToggled())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
+                            render->drawRectangle(g);
+                        }
+                    }
+                }
+            }
+
+            void TabBarButton::updateEvent(UpdateEvent& event)
+            {
+                IButton::updateEvent(event);
+                _label->setTextColorRole(_isToggled() ? ColorRole::Foreground : ColorRole::ForegroundDim);
+            }
+
+        } // namespace
+
         struct TabBar::Private
         {
             std::shared_ptr<ButtonGroup> buttonGroup;
@@ -89,7 +205,7 @@ namespace djv
 
         void TabBar::addTab(const std::string & text)
         {
-            auto button = TabButton::create(text, getContext());
+            auto button = TabBarButton::create(text, getContext());
             _p->buttonGroup->addButton(button);
             _p->layout->addWidget(button);
         }

@@ -44,7 +44,6 @@ set(header
     StyleSettings.h
     System.h
     TabBar.h
-    TabButton.h
     TabWidget.h
     TextBlock.h
     ToggleButton.h
@@ -89,7 +88,6 @@ set(source
     StyleSettings.cpp
     System.cpp
     TabBar.cpp
-    TabButton.cpp
     TabWidget.cpp
     TextBlock.cpp
     ToggleButton.cpp
