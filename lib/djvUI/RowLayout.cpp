@@ -353,7 +353,15 @@ namespace djv
                             switch (_p->stretch[child])
                             {
                             case RowLayoutStretch::None:
-                                cellSize = child->getHeightForWidth(gw);
+                                switch (child->getHAlign())
+                                {
+                                case HAlign::Fill:
+                                    cellSize = child->getHeightForWidth(gw);
+                                    break;
+                                default:
+                                    cellSize = child->getHeightForWidth(child->getMinimumSize().x);
+                                    break;
+                                }                                
                                 break;
                             case RowLayoutStretch::Expand:
                                 cellSize = (gh - minimumSize.y) / static_cast<float>(expandCount);
@@ -361,7 +369,8 @@ namespace djv
                             default: break;
                             }
                             const BBox2f cellGeometry(pos.x, pos.y, gw, cellSize);
-                            child->setGeometry(Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                            const BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            child->setGeometry(childGeometry);
                             pos.y += cellGeometry.h() + s.y;
                         }
                     }

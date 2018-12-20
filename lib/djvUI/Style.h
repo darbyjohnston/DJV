@@ -91,6 +91,8 @@ namespace djv
             Swatch,
             Thumbnail,
             Shadow,
+            TextColumn,
+            Dialog,
 
             Count,
             First = Border

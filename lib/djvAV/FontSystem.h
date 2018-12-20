@@ -50,7 +50,7 @@ namespace djv
 
             std::string name;
             float size = 0.f;
-            size_t hash = 0;
+            size_t hash = 0; //! \todo This is going to cause trouble at some point.
         };
 
         struct FontMetrics

@@ -51,7 +51,6 @@ namespace djv
             ColorRole textColorRole = ColorRole::Foreground;
             FontFace fontFace = FontFace::First;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
-            float minimumWidth = 200.f;
             std::future<AV::FontMetrics> fontMetricsFuture;
             AV::FontMetrics fontMetrics;
             float heightForWidth = 0.f;
@@ -146,18 +145,6 @@ namespace djv
             _p->fontSizeRole = value;
         }
 
-        float TextBlock::getMinimumWidth() const
-        {
-            return _p->minimumWidth;
-        }
-
-        void TextBlock::setMinimumWidth(float value)
-        {
-            _p->minimumWidth = value;
-            _p->textSizeHash = 0;
-            _p->breakTextHash = 0;
-        }
-
         float TextBlock::getHeightForWidth(float value) const
         {
             float out = 0.f;
@@ -189,19 +176,19 @@ namespace djv
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-                    const float w = _p->minimumWidth - getMargin().getWidth(style);
 
                     _p->fontMetricsFuture = fontSystem->getMetrics(font);
 
                     size_t hash = 0;
                     Memory::hashCombine(hash, font.name);
                     Memory::hashCombine(hash, font.size);
-                    Memory::hashCombine(hash, w);
+                    Memory::hashCombine(hash, g.w());
                     if (!_p->textSizeHash || _p->textSizeHash != hash)
                     {
                         _p->textSizeHash = hash;
-                        _p->textSizeFuture = fontSystem->measure(_p->text, w, font);
+                        _p->textSizeFuture = fontSystem->measure(_p->text, g.w(), font);
                     }
                 }
             }
@@ -216,7 +203,7 @@ namespace djv
                     _p->textSize = _p->textSizeFuture.get();
                 }
                 glm::vec2 size = _p->textSize;
-                size.x = std::max(size.x, _p->minimumWidth - getMargin().getWidth(style));
+                size.x = std::max(size.x, style->getMetric(MetricsRole::TextColumn) - getMargin().getWidth(style));
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }

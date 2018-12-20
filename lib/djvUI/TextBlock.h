@@ -65,9 +65,6 @@ namespace djv
             void setFontFace(FontFace);
             void setFontSizeRole(MetricsRole);
 
-            float getMinimumWidth() const;
-            void setMinimumWidth(float);
-
             float getHeightForWidth(float) const override;
             void updateEvent(Core::UpdateEvent&) override;
             void preLayoutEvent(Core::PreLayoutEvent&) override;

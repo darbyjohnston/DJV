@@ -148,6 +148,8 @@ namespace djv
             p.metrics[MetricsRole::Swatch]              =  40.f;
             p.metrics[MetricsRole::Thumbnail]           = 300.f;
             p.metrics[MetricsRole::Shadow]              =  20.f;
+            p.metrics[MetricsRole::TextColumn]          =  200.f;
+            p.metrics[MetricsRole::Dialog]              =  400.f;
         }
 
         float Metrics::getMetric(MetricsRole role) const
@@ -315,8 +317,7 @@ namespace djv
             const auto i = _p->currentFont.find(fontFace);
             if (i != _p->currentFont.end())
             {
-                out.name = i->second;
-                out.size = getMetric(metricsRole);
+                out = AV::Font(i->second, getMetric(metricsRole));
             }
             return out;
         }
@@ -380,7 +381,9 @@ namespace djv
         DJV_TEXT("FontExtraExtraLarge"),
         DJV_TEXT("Swatch"),
         DJV_TEXT("Thumbnail"),
-        DJV_TEXT("Shadow"));
+        DJV_TEXT("Shadow"),
+        DJV_TEXT("TextColumn"),
+        DJV_TEXT("Dialog"));
 
 } // namespace djv
 

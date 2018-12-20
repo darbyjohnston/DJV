@@ -67,7 +67,6 @@ namespace djv
             void clearWidgets() override;
 
             float getHeightForWidth(float) const override;
-
             void preLayoutEvent(Core::PreLayoutEvent&) override;
             void layoutEvent(Core::LayoutEvent&) override;
             void paintEvent(Core::PaintEvent&) override;

@@ -30,6 +30,7 @@
 #include <djvUI/Dialog.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/Border.h>
 #include <djvUI/Button.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Separator.h>
@@ -159,10 +160,7 @@ namespace djv
 
         void Dialog::preLayoutEvent(PreLayoutEvent& event)
         {
-            if (auto style = _getStyle().lock())
-            {
-                _setMinimumSize(_p->layout->getMinimumSize());
-            }
+            _setMinimumSize(_p->layout->getMinimumSize());
         }
 
         void Dialog::layoutEvent(LayoutEvent& event)
@@ -175,6 +173,49 @@ namespace djv
             close();
         }
 
+        namespace
+        {
+            class DialogWidget : public Border
+            {
+                DJV_NON_COPYABLE(DialogWidget);
+
+            protected:
+                void _init(Context * context)
+                {
+                    Border::_init(context);
+                    
+                    setBorderColorRole(ColorRole::Button);
+                    setBackgroundRole(ColorRole::Background);
+                    setHAlign(HAlign::Center);
+                    setVAlign(VAlign::Center);
+                    setInsideMargin(MetricsRole::Margin);
+                }
+
+                DialogWidget()
+                {}
+
+            public:
+                static std::shared_ptr<DialogWidget> create(Context * context)
+                {
+                    auto out = std::shared_ptr<DialogWidget>(new DialogWidget);
+                    out->_init(context);
+                    return out;
+                }
+
+                void preLayoutEvent(Core::PreLayoutEvent& event) override
+                {
+                    Border::preLayoutEvent(event);
+                    if (auto style = _getStyle().lock())
+                    {
+                        const auto size = style->getMetric(MetricsRole::Dialog);
+                        const auto borderSize = getMinimumSize();
+                        _setMinimumSize(glm::vec2(std::max(size, borderSize.x), borderSize.y));
+                    }
+                }
+            };
+
+        } // namespace
+
         void messageDialog(
             const std::string & text,
             const std::string & closeText,
@@ -184,21 +225,24 @@ namespace djv
 
             auto textBlock = TextBlock::create(context);
             textBlock->setText(text);
-            textBlock->setMargin(MetricsRole::MarginLarge);
+            textBlock->setTextHAlign(TextHAlign::Center);
+            textBlock->setMargin(MetricsRole::Margin);
 
             auto closeButton = Button::create(context);
             closeButton->setText(closeText);
             
             auto layout = VerticalLayout::create(context);
-            layout->setSpacing(MetricsRole::None);
             layout->setBackgroundRole(ColorRole::Background);
-            layout->setHAlign(HAlign::Center);
+            layout->setMargin(MetricsRole::Margin);
             layout->setVAlign(VAlign::Center);
             layout->addWidget(textBlock);
-            layout->addWidget(Separator::create(context));
             layout->addWidget(closeButton);
             
+            //auto dialogWidget = DialogWidget::create(context);
+            //dialogWidget->addWidget(layout);
+
             auto dialog = Dialog::create(context);
+            //dialog->addWidget(dialogWidget);
             dialog->addWidget(layout);
             window->addWidget(dialog);
 
@@ -222,31 +266,30 @@ namespace djv
 
             auto textBlock = TextBlock::create(context);
             textBlock->setText(text);
-            textBlock->setMargin(MetricsRole::MarginLarge);
             textBlock->setTextHAlign(TextHAlign::Center);
+            textBlock->setMargin(MetricsRole::Margin);
 
             auto acceptButton = Button::create(context);
             acceptButton->setText(acceptText);
+            acceptButton->setFontFace(FontFace::Bold);
 
             auto cancelButton = Button::create(context);
             cancelButton->setText(cancelText);
+            cancelButton->setFontFace(FontFace::Bold);
 
             auto layout = VerticalLayout::create(context);
-            layout->setSpacing(MetricsRole::None);
-            layout->setBackgroundRole(ColorRole::Background);
-            layout->setHAlign(HAlign::Center);
-            layout->setVAlign(VAlign::Center);
             layout->addWidget(textBlock);
-            layout->addWidget(Separator::create(context));
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->setSpacing(MetricsRole::None);
-            hLayout->addWidget(acceptButton, RowLayoutStretch::Expand);
-            hLayout->addWidget(Separator::create(context));
-            hLayout->addWidget(cancelButton, RowLayoutStretch::Expand);
+            hLayout->setHAlign(HAlign::Center);
+            hLayout->addWidget(acceptButton);
+            hLayout->addWidget(cancelButton);
             layout->addWidget(hLayout);
 
+            auto dialogWidget = DialogWidget::create(context);
+            dialogWidget->addWidget(layout);
+
             auto dialog = Dialog::create(context);
-            dialog->addWidget(layout);
+            dialog->addWidget(dialogWidget);
             window->addWidget(dialog);
 
             dialog->show();
