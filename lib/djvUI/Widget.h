@@ -44,10 +44,15 @@ namespace djv
 {
     namespace AV
     {
-        class FontSystem;
         class IconSystem;
         class Render2DSystem;
     
+        namespace Font
+        {
+            class System;
+
+        } // namespace Font
+
     } // namespace AV
 
     namespace UI
@@ -144,28 +149,28 @@ namespace djv
 
             ///@}
 
+            virtual void preLayoutEvent(Core::Event::PreLayout&) {}
+            virtual void layoutEvent(Core::Event::Layout&) {}
+            virtual void clipEvent(Core::Event::Clip&) {}
+            virtual void paintEvent(Core::Event::Paint&);
+            virtual void scrollEvent(Core::Event::Scroll&) {}
+            virtual void dropEvent(Core::Event::Drop&) {}
+            virtual void keyboardFocusEvent(Core::Event::KeyboardFocus&) {}
+            virtual void keyboardFocusLostEvent(Core::Event::KeyboardFocusLost&) {}
+            virtual void keyPressEvent(Core::Event::KeyPress&);
+            virtual void keyReleaseEvent(Core::Event::KeyRelease&) {}
+            virtual void textEvent(Core::Event::Text&) {}
+
+            void pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void pointerMoveEvent(Core::Event::PointerMove&) override;
+            bool event(Core::Event::IEvent&) override;
+
             void setParent(const std::shared_ptr<IObject>&, int insert = -1) override;
-
-            virtual void preLayoutEvent(Core::PreLayoutEvent&) {}
-            virtual void layoutEvent(Core::LayoutEvent&) {}
-            virtual void clipEvent(Core::ClipEvent&) {}
-            virtual void paintEvent(Core::PaintEvent&);
-            virtual void scrollEvent(Core::ScrollEvent&) {}
-            virtual void dropEvent(Core::DropEvent&) {}
-            virtual void keyboardFocusEvent(Core::KeyboardFocusEvent&) {}
-            virtual void keyboardFocusLostEvent(Core::KeyboardFocusLostEvent&) {}
-            virtual void keyPressEvent(Core::KeyPressEvent&);
-            virtual void keyReleaseEvent(Core::KeyReleaseEvent&) {}
-            virtual void textEvent(Core::TextEvent&) {}
-
-            void pointerEnterEvent(Core::PointerEnterEvent&) override;
-            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
-            void pointerMoveEvent(Core::PointerMoveEvent&) override;
-            bool event(Core::IEvent&) override;
 
         protected:
             inline const std::weak_ptr<AV::IconSystem>& _getIconSystem() const;
-            inline const std::weak_ptr<AV::FontSystem>& _getFontSystem() const;
+            inline const std::weak_ptr<AV::Font::System>& _getFontSystem() const;
             inline const std::weak_ptr<AV::Render2DSystem>& _getRenderSystem() const;
             inline const std::weak_ptr<Style>& _getStyle() const;
 
@@ -187,7 +192,7 @@ namespace djv
             ColorRole _backgroundRole = ColorRole::None;
             bool _pointerEnabled = false;
             std::weak_ptr<AV::IconSystem> _iconSystem;
-            std::weak_ptr<AV::FontSystem> _fontSystem;
+            std::weak_ptr<AV::Font::System> _fontSystem;
             std::weak_ptr<AV::Render2DSystem> _renderSystem;
             std::weak_ptr<Style> _style;
             std::vector<std::shared_ptr<Action> > _actions;

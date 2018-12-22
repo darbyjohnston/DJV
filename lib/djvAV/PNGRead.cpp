@@ -193,7 +193,7 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-                    f.f = Core::fopen(fileName.c_str(), "rb");
+                    f.f = FileSystem::fopen(fileName.c_str(), "rb");
                     if (!f.f)
                     {
                         std::stringstream s;

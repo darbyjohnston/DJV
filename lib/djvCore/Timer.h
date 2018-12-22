@@ -39,95 +39,98 @@ namespace djv
 {
     namespace Core
     {
-        class TimerSystem;
-
-        //! This class provides a timer.
-        class Timer : public std::enable_shared_from_this<Timer>
+        namespace Time
         {
-            DJV_NON_COPYABLE(Timer);
-            void _init(Context *);
-            inline Timer();
+            class TimerSystem;
 
-        public:
-            //! Create a new time.
-            static std::shared_ptr<Timer> create(Context *);
-
-            //! \name Common Timer Values
-            ///@{
-            
-            enum class Value
+            //! This class provides a timer.
+            class Timer : public std::enable_shared_from_this<Timer>
             {
-                VerySlow,
-                Slow,
-                Medium,
-                Fast,
-                VeryFast,
-                
-                Count,
-                First = VerySlow
+                DJV_NON_COPYABLE(Timer);
+                void _init(Context *);
+                inline Timer();
+
+            public:
+                //! Create a new time.
+                static std::shared_ptr<Timer> create(Context *);
+
+                //! \name Common Timer Values
+                ///@{
+
+                enum class Value
+                {
+                    VerySlow,
+                    Slow,
+                    Medium,
+                    Fast,
+                    VeryFast,
+
+                    Count,
+                    First = VerySlow
+                };
+                DJV_ENUM_HELPERS(Value);
+                static size_t getValue(Value);
+                static std::chrono::milliseconds getMilliseconds(Value);
+
+                ///@}
+
+                //! \name Timer Options
+                ///@{
+
+                inline bool isRepeating() const;
+                void setRepeating(bool);
+
+                ///@}
+
+                //! Is the timer active?
+                inline bool isActive() const;
+
+                //! Start the timer.
+                void start(std::chrono::milliseconds, const std::function<void(float)>&);
+
+                //! Stop the timer.
+                void stop();
+
+            private:
+                void _tick(float dt);
+
+                bool _repeating = false;
+                bool _active = false;
+                std::chrono::milliseconds _timeout;
+                std::function<void(float)> _callback;
+                std::chrono::time_point<std::chrono::system_clock> _start;
+
+                friend class TimerSystem;
             };
-            DJV_ENUM_HELPERS(Value);
-            static size_t getValue(Value);
-            static std::chrono::milliseconds getMilliseconds(Value);
-            
-            ///@}
 
-            //! \name Timer Options
-            ///@{
-            
-            inline bool isRepeating() const;
-            void setRepeating(bool);
-            
-            ///@}
+            //! This class provides a timer system.
+            class TimerSystem : public ISystem
+            {
+                DJV_NON_COPYABLE(TimerSystem);
+                void _init(Context *);
+                TimerSystem();
 
-            //! Is the timer active?
-            inline bool isActive() const;
-            
-            //! Start the timer.
-            void start(std::chrono::milliseconds, const std::function<void(float)>&);
-            
-            //! Stop the timer.
-            void stop();
+            public:
+                virtual ~TimerSystem();
 
-        private:
-            void _tick(float dt);
+                //! Create a new timer system.
+                static std::shared_ptr<TimerSystem> create(Context *);
 
-            bool _repeating = false;
-            bool _active = false;
-            std::chrono::milliseconds _timeout;
-            std::function<void(float)> _callback;
-            std::chrono::time_point<std::chrono::system_clock> _start;
+            protected:
+                void _tick(float dt) override;
 
-            friend class TimerSystem;
-        };
+            private:
+                void _addTimer(const std::weak_ptr<Timer>&);
 
-        //! This class provides a timer system.
-        class TimerSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(TimerSystem);
-            void _init(Context *);
-            TimerSystem();
+                DJV_PRIVATE();
 
-        public:
-            virtual ~TimerSystem();
-            
-            //! Create a new timer system.
-            static std::shared_ptr<TimerSystem> create(Context *);
+                friend class Timer;
+            };
 
-        protected:
-            void _tick(float dt) override;
-
-        private:
-            void _addTimer(const std::weak_ptr<Timer>&);
-
-            DJV_PRIVATE();
-
-            friend class Timer;
-        };
-
+        } // namespace Time
     } // namespace Core
     
-    DJV_ENUM_SERIALIZE_HELPERS(Core::Timer::Value);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Time::Timer::Value);
     
 } // namespace djv
 

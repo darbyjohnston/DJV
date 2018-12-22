@@ -67,7 +67,7 @@ namespace djv
             ++currentWidgetCount;
 
             _iconSystem = context->getSystemT<AV::IconSystem>();
-            _fontSystem = context->getSystemT<AV::FontSystem>();
+            _fontSystem = context->getSystemT<AV::Font::System>();
             _renderSystem = context->getSystemT<AV::Render2DSystem>();
             _style = context->getSystemT<Style>();
         }
@@ -246,44 +246,22 @@ namespace djv
             _actions.clear();
         }
 
-        void Widget::setParent(const std::shared_ptr<IObject>& value, int insert)
-        {
-            IObject::setParent(value, insert);
-            
-            if (!value)
-            {
-                _clipped = true;
-            }
-        }
-
-        AV::Color Widget::_getColorWithOpacity(const AV::Color & value) const
-        {
-            auto out = value.convert(AV::Pixel::Type::RGBA_F32);
-            out.setF32(out.getF32(3) * getOpacity(true), 3);
-            return out;
-        }
-
-        void Widget::_setMinimumSize(const glm::vec2& value)
-        {
-            _minimumSize = value;
-        }
-
-        bool Widget::event(IEvent& event)
+        bool Widget::event(Event::IEvent& event)
         {
             bool out = IObject::event(event);
             if (!out)
             {
                 switch (event.getEventType())
                 {
-                case EventType::PreLayout:
-                    preLayoutEvent(static_cast<PreLayoutEvent&>(event));
+                case Event::Type::PreLayout:
+                    preLayoutEvent(static_cast<Event::PreLayout&>(event));
                     break;
-                case EventType::Layout:
-                    layoutEvent(static_cast<LayoutEvent&>(event));
+                case Event::Type::Layout:
+                    layoutEvent(static_cast<Event::Layout&>(event));
                     break;
-                case EventType::Clip:
+                case Event::Type::Clip:
                 {
-                    auto& clipEvent = static_cast<ClipEvent&>(event);
+                    auto& clipEvent = static_cast<Event::Clip&>(event);
                     if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                     {
                         _parentsVisible = parent->_visible && parent->_parentsVisible;
@@ -299,29 +277,29 @@ namespace djv
                     this->clipEvent(clipEvent);
                     break;
                 }
-                case EventType::Paint:
-                    paintEvent(static_cast<PaintEvent&>(event));
+                case Event::Type::Paint:
+                    paintEvent(static_cast<Event::Paint&>(event));
                     break;
-                case EventType::Scroll:
-                    scrollEvent(static_cast<ScrollEvent&>(event));
+                case Event::Type::Scroll:
+                    scrollEvent(static_cast<Event::Scroll&>(event));
                     break;
-                case EventType::Drop:
-                    dropEvent(static_cast<DropEvent&>(event));
+                case Event::Type::Drop:
+                    dropEvent(static_cast<Event::Drop&>(event));
                     break;
-                case EventType::KeyboardFocus:
-                    keyboardFocusEvent(static_cast<KeyboardFocusEvent&>(event));
+                case Event::Type::KeyboardFocus:
+                    keyboardFocusEvent(static_cast<Event::KeyboardFocus&>(event));
                     break;
-                case EventType::KeyboardFocusLost:
-                    keyboardFocusLostEvent(static_cast<KeyboardFocusLostEvent&>(event));
+                case Event::Type::KeyboardFocusLost:
+                    keyboardFocusLostEvent(static_cast<Event::KeyboardFocusLost&>(event));
                     break;
-                case EventType::KeyPress:
-                    keyPressEvent(static_cast<KeyPressEvent&>(event));
+                case Event::Type::KeyPress:
+                    keyPressEvent(static_cast<Event::KeyPress&>(event));
                     break;
-                case EventType::KeyRelease:
-                    keyReleaseEvent(static_cast<KeyReleaseEvent&>(event));
+                case Event::Type::KeyRelease:
+                    keyReleaseEvent(static_cast<Event::KeyRelease&>(event));
                     break;
-                case EventType::Text:
-                    textEvent(static_cast<TextEvent&>(event));
+                case Event::Type::Text:
+                    textEvent(static_cast<Event::Text&>(event));
                     break;
                 default: break;
                 }
@@ -330,7 +308,7 @@ namespace djv
             return out;
         }
 
-        void Widget::paintEvent(PaintEvent& event)
+        void Widget::paintEvent(Event::Paint& event)
         {
             if (_backgroundRole != ColorRole::None)
             {
@@ -345,7 +323,7 @@ namespace djv
             }
         }
 
-        void Widget::pointerEnterEvent(PointerEnterEvent& event)
+        void Widget::pointerEnterEvent(Event::PointerEnter& event)
         {
             if (_pointerEnabled && !event.isRejected())
             {
@@ -353,7 +331,7 @@ namespace djv
             }
         }
 
-        void Widget::pointerLeaveEvent(PointerLeaveEvent& event)
+        void Widget::pointerLeaveEvent(Event::PointerLeave& event)
         {
             if (_pointerEnabled)
             {
@@ -361,7 +339,7 @@ namespace djv
             }
         }
 
-        void Widget::pointerMoveEvent(PointerMoveEvent& event)
+        void Widget::pointerMoveEvent(Event::PointerMove& event)
         {
             if (_pointerEnabled)
             {
@@ -369,7 +347,7 @@ namespace djv
             }
         }
 
-        void Widget::keyPressEvent(KeyPressEvent& event)
+        void Widget::keyPressEvent(Event::KeyPress& event)
         {
             if (isEnabled())
             {
@@ -406,6 +384,27 @@ namespace djv
                     }
                 }
             }
+        }
+
+        void Widget::setParent(const std::shared_ptr<IObject>& value, int insert)
+        {
+            IObject::setParent(value, insert);
+            if (!value)
+            {
+                _clipped = true;
+            }
+        }
+
+        AV::Color Widget::_getColorWithOpacity(const AV::Color & value) const
+        {
+            auto out = value.convert(AV::Pixel::Type::RGBA_F32);
+            out.setF32(out.getF32(3) * getOpacity(true), 3);
+            return out;
+        }
+
+        void Widget::_setMinimumSize(const glm::vec2& value)
+        {
+            _minimumSize = value;
         }
 
     } // namespace UI

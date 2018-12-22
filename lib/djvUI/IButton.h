@@ -34,13 +34,13 @@ namespace djv
             void setClickedCallback(const std::function<void(void)>&);
             void setCheckedCallback(const std::function<void(bool)>&);
 
-            void paintEvent(Core::PaintEvent&) override;
+            void paintEvent(Core::Event::Paint&) override;
 
-            void pointerEnterEvent(Core::PointerEnterEvent&) override;
-            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
-            void pointerMoveEvent(Core::PointerMoveEvent&) override;
-            void buttonPressEvent(Core::ButtonPressEvent&) override;
-            void buttonReleaseEvent(Core::ButtonReleaseEvent&) override;
+            void pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void pointerMoveEvent(Core::Event::PointerMove&) override;
+            void buttonPressEvent(Core::Event::ButtonPress&) override;
+            void buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
         protected:
             bool _isToggled() const;

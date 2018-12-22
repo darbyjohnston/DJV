@@ -37,6 +37,7 @@ namespace djv
     {
         class Context;
 
+        //! This class provides the interface for commands.
         class ICommand
         {
         public:

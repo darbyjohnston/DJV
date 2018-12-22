@@ -123,19 +123,19 @@ namespace djv
             {
                 i->resize(frameBufferSize);
 
-                UpdateEvent updateEvent(dt);
-                _updateRecursive(i, updateEvent);
+                Event::Update update(dt);
+                _updateRecursive(i, update);
 
-                PreLayoutEvent preLayoutEvent;
-                _preLayoutRecursive(i, preLayoutEvent);
+                Event::PreLayout preLayout;
+                _preLayoutRecursive(i, preLayout);
 
                 if (i->isVisible())
                 {
-                    LayoutEvent layoutEvent;
-                    _layoutRecursive(i, layoutEvent);
+                    Event::Layout layout;
+                    _layoutRecursive(i, layout);
 
-                    ClipEvent clipEvent(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
-                    _clipRecursive(i, clipEvent);
+                    Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
+                    _clipRecursive(i, clip);
                 }
             }
 
@@ -146,7 +146,7 @@ namespace djv
                 {
                     if (i->isVisible())
                     {
-                        PaintEvent paintEvent(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
+                        Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
                         _paintRecursive(i, paintEvent);
                     }
                 }

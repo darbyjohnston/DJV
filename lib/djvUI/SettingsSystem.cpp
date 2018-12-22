@@ -46,13 +46,13 @@ namespace djv
         {
             std::map<std::string, picojson::value> json;
             std::map<std::string, std::shared_ptr<ISettings> > settings;
-            Path settingsPath;
+            FileSystem::Path settingsPath;
         };
 
         void SettingsSystem::_init(Core::Context * context)
         {
             ISystem::_init("djv::UI::SettingsSystem", context);
-            _p->settingsPath = context->getPath(ResourcePath::SettingsFile);
+            _p->settingsPath = context->getPath(FileSystem::ResourcePath::SettingsFile);
             _readSettingsFile(_p->settingsPath, _p->json);
         }
 
@@ -114,18 +114,18 @@ namespace djv
             _writeSettingsFile(_p->settingsPath, object);
         }
 
-        void SettingsSystem::_readSettingsFile(const Path& path, std::map<std::string, picojson::value>& out)
+        void SettingsSystem::_readSettingsFile(const FileSystem::Path& path, std::map<std::string, picojson::value>& out)
         {
             try
             {
-                if (FileInfo(path).doesExist())
+                if (FileSystem::FileInfo(path).doesExist())
                 {
                     std::stringstream s;
                     s << "Reading settings: " << path;
                     _log(s.str());
 
-                    FileIO fileIO;
-                    fileIO.open(path, FileIO::Mode::Read);
+                    FileSystem::FileIO fileIO;
+                    fileIO.open(path, FileSystem::FileIO::Mode::Read);
                     const char* p = reinterpret_cast<const char*>(fileIO.mmapP());
                     const char* end = reinterpret_cast<const char*>(fileIO.mmapEnd());
 
@@ -155,7 +155,7 @@ namespace djv
             }
         }
 
-        void SettingsSystem::_writeSettingsFile(const Path& path, const picojson::value& value)
+        void SettingsSystem::_writeSettingsFile(const FileSystem::Path& path, const picojson::value& value)
         {
             try
             {
@@ -163,8 +163,8 @@ namespace djv
                 s << "Writing settings: " << path;
                 _log(s.str());
 
-                FileIO fileIO;
-                fileIO.open(path, FileIO::Mode::Write);
+                FileSystem::FileIO fileIO;
+                fileIO.open(path, FileSystem::FileIO::Mode::Write);
                 PicoJSON::write(value, fileIO);
                 fileIO.write("\n");
             }

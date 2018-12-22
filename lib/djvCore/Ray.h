@@ -37,6 +37,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides ray functionality.
         namespace Ray
         {
             //! This struct provides a 3-dimensional ray.

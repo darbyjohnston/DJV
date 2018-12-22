@@ -37,11 +37,16 @@ namespace djv
 {
     namespace Core
     {
-        class FileIO;
+        namespace FileSystem
+        {
+            class FileIO;
 
+        } // namespace FileSystem
+
+        //! This namespace provides JSON functionality.
         namespace PicoJSON
         {
-            void write(const picojson::value&, FileIO&, size_t indent = 0, bool continueLine = false);
+            void write(const picojson::value&, FileSystem::FileIO&, size_t indent = 0, bool continueLine = false);
 
         } // namespace PicoJSON
     } // namespace Core

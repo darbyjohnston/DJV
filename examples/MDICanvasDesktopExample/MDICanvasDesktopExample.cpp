@@ -62,8 +62,8 @@ public:
     std::shared_ptr<Widget> getMoveHandle() override;
     std::shared_ptr<Widget> getResizeHandle() override;
 
-    void preLayoutEvent(Core::PreLayoutEvent&) override;
-    void layoutEvent(Core::LayoutEvent&) override;
+    void preLayoutEvent(Core::Event::PreLayout&) override;
+    void layoutEvent(Core::Event::Layout&) override;
 
 private:
     std::shared_ptr<UI::ToolButton> _closeButton;
@@ -83,7 +83,7 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     titleLabel->setMargin(UI::MetricsRole::Margin);
 
     _closeButton = UI::ToolButton::create(context);
-    _closeButton->setIcon(context->getPath(Core::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
+    _closeButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
 
     auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
@@ -100,7 +100,7 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
 
     _resizeHandle = UI::Icon::create(context);
     _resizeHandle->setPointerEnabled(true);
-    _resizeHandle->setIcon(context->getPath(Core::ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
+    _resizeHandle->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
     _resizeHandle->setHAlign(UI::HAlign::Right);
     _resizeHandle->setVAlign(UI::VAlign::Bottom);
 
@@ -141,12 +141,12 @@ std::shared_ptr<UI::Widget> MDIWindow::getResizeHandle()
     return _resizeHandle;
 }
 
-void MDIWindow::preLayoutEvent(Core::PreLayoutEvent&)
+void MDIWindow::preLayoutEvent(Core::Event::PreLayout&)
 {
     _setMinimumSize(_layout->getMinimumSize());
 }
 
-void MDIWindow::layoutEvent(Core::LayoutEvent&)
+void MDIWindow::layoutEvent(Core::Event::Layout&)
 {
     _layout->setGeometry(getGeometry());
 }
@@ -186,7 +186,7 @@ int main(int argc, char ** argv)
     }
     catch (const std::exception & e)
     {
-        std::cout << Core::format(e) << std::endl;
+        std::cout << Core::Error::format(e) << std::endl;
     }
     return r;
 }

@@ -48,6 +48,7 @@ namespace djv
 {
     namespace AV
     {
+        //! This namespace provides I/O functionality.
         namespace IO
         {
             //! This class provides video I/O information.

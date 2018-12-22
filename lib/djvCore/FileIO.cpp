@@ -33,140 +33,144 @@ namespace djv
 {
     namespace Core
     {
-        FileIO::FileIO(FileIO&& other) :
-            _f(other._f),
-            _fileName(std::move(other._fileName)),
-            _mode(other._mode),
-            _pos(other._pos),
-            _size(other._size),
-            _endian(other._endian),
-            _mmap(other._mmap),
-            _mmapStart(other._mmapStart),
-            _mmapEnd(other._mmapEnd),
-            _mmapP(other._mmapP)
-        {}
-
-        FileIO::~FileIO()
+        namespace FileSystem
         {
-            try
-            {
-                close();
-            }
-            catch (const std::exception&)
+            FileIO::FileIO(FileIO&& other) :
+                _f(other._f),
+                _fileName(std::move(other._fileName)),
+                _mode(other._mode),
+                _pos(other._pos),
+                _size(other._size),
+                _endian(other._endian),
+                _mmap(other._mmap),
+                _mmapStart(other._mmapStart),
+                _mmapEnd(other._mmapEnd),
+                _mmapP(other._mmapP)
             {}
-        }
 
-        FileIO& FileIO::operator = (FileIO&& other)
-        {
-            if (this != &other)
+            FileIO::~FileIO()
             {
-                _f = other._f;
-                _fileName = std::move(other._fileName);
-                _mode = other._mode;
-                _pos = other._pos;
-                _size = other._size;
-                _endian = other._endian;
-                _mmap = other._mmap;
-                _mmapStart = other._mmapStart;
-                _mmapEnd = other._mmapEnd;
-                _mmapP = other._mmapP;
-            }
-            return *this;
-        }
-
-        void FileIO::readContents(FileIO& fileIO, std::string& out)
-        {
-            const uint8_t* p = fileIO.mmapP();
-            const uint8_t* end = fileIO.mmapEnd();
-            out = std::string(reinterpret_cast<const char*>(p), end - p);
-        }
-
-        void FileIO::readWord(FileIO& io, char* out, size_t maxLen)
-        {
-            DJV_ASSERT(maxLen);
-            out[0] = 0;
-            enum class Parse
-            {
-                End,
-                Word,
-                Comment
-            };
-            Parse parse = Parse::Word;
-            size_t i = 0;
-            while (parse != Parse::End)
-            {
-                // Get the next character.
-                uint8_t c;
-                io.read(&c, 1);
-
-                switch (c)
+                try
                 {
-                case '#':
-                    // Start of a comment.
-                    parse = Parse::Comment;
-                    break;
-                case '\0':
-                case '\n':
-                case '\r':
-                    // End of a comment or word.
-                    parse = Parse::Word;
-                case ' ':
-                case '\t':
-                    if (out[0])
-                    {
-                        parse = Parse::End;
-                    }
-                    break;
-                default:
-                    // Add the character to the word.
-                    if (Parse::Word == parse && i < (maxLen - 1))
-                    {
-                        out[i++] = c;
-                    }
-                    break;
+                    close();
+                }
+                catch (const std::exception&)
+                {
                 }
             }
-            out[i] = 0;
-        }
 
-        void FileIO::readLine(FileIO& io, char* out, size_t maxLen)
-        {
-            DJV_ASSERT(maxLen);
-            size_t i = 0;
-            if (!io.isEOF())
+            FileIO& FileIO::operator = (FileIO&& other)
             {
-                char c = 0;
-                do
+                if (this != &other)
                 {
-                    io.read(&c, 1);
-                    if (
-                        c != '\n' &&
-                        c != '\r')
-                    {
-                        out[i++] = c;
-                    }
-                } while (
-                    c != '\n' &&
-                    c != '\r' &&
-                    !io.isEOF() &&
-                    i < (maxLen - 1));
+                    _f = other._f;
+                    _fileName = std::move(other._fileName);
+                    _mode = other._mode;
+                    _pos = other._pos;
+                    _size = other._size;
+                    _endian = other._endian;
+                    _mmap = other._mmap;
+                    _mmapStart = other._mmapStart;
+                    _mmapEnd = other._mmapEnd;
+                    _mmapP = other._mmapP;
+                }
+                return *this;
             }
-            out[i] = 0;
-        }
 
-        std::vector<std::string> FileIO::readLines(const std::string& fileName)
-        {
-            std::vector<std::string> out;
-            FileIO io;
-            io.open(fileName, FileIO::Mode::Read);
-            while (!io.isEOF())
+            void FileIO::readContents(FileIO& fileIO, std::string& out)
             {
-                char buf[String::cStringLength] = "";
-                readLine(io, buf, String::cStringLength);
-                out.push_back(buf);
+                const uint8_t* p = fileIO.mmapP();
+                const uint8_t* end = fileIO.mmapEnd();
+                out = std::string(reinterpret_cast<const char*>(p), end - p);
             }
-            return out;
-        }
 
+            void FileIO::readWord(FileIO& io, char* out, size_t maxLen)
+            {
+                DJV_ASSERT(maxLen);
+                out[0] = 0;
+                enum class Parse
+                {
+                    End,
+                    Word,
+                    Comment
+                };
+                Parse parse = Parse::Word;
+                size_t i = 0;
+                while (parse != Parse::End)
+                {
+                    // Get the next character.
+                    uint8_t c;
+                    io.read(&c, 1);
+
+                    switch (c)
+                    {
+                    case '#':
+                        // Start of a comment.
+                        parse = Parse::Comment;
+                        break;
+                    case '\0':
+                    case '\n':
+                    case '\r':
+                        // End of a comment or word.
+                        parse = Parse::Word;
+                    case ' ':
+                    case '\t':
+                        if (out[0])
+                        {
+                            parse = Parse::End;
+                        }
+                        break;
+                    default:
+                        // Add the character to the word.
+                        if (Parse::Word == parse && i < (maxLen - 1))
+                        {
+                            out[i++] = c;
+                        }
+                        break;
+                    }
+                }
+                out[i] = 0;
+            }
+
+            void FileIO::readLine(FileIO& io, char* out, size_t maxLen)
+            {
+                DJV_ASSERT(maxLen);
+                size_t i = 0;
+                if (!io.isEOF())
+                {
+                    char c = 0;
+                    do
+                    {
+                        io.read(&c, 1);
+                        if (
+                            c != '\n' &&
+                            c != '\r')
+                        {
+                            out[i++] = c;
+                        }
+                    } while (
+                        c != '\n' &&
+                        c != '\r' &&
+                        !io.isEOF() &&
+                        i < (maxLen - 1));
+                }
+                out[i] = 0;
+            }
+
+            std::vector<std::string> FileIO::readLines(const std::string& fileName)
+            {
+                std::vector<std::string> out;
+                FileIO io;
+                io.open(fileName, FileIO::Mode::Read);
+                while (!io.isEOF())
+                {
+                    char buf[String::cStringLength] = "";
+                    readLine(io, buf, String::cStringLength);
+                    out.push_back(buf);
+                }
+                return out;
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv

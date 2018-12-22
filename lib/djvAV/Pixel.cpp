@@ -567,7 +567,7 @@ namespace djv
                 }
             }
 
-        } // namespace Image
+        } // namespace Pixel
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(

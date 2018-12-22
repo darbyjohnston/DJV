@@ -29,8 +29,9 @@
 
 #include <djvViewLib/PlaybackWidget.h>
 
-#include <djvUI/Button.h>
+#include <djvUI/ButtonGroup.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -53,11 +54,11 @@ namespace djv
             p.playback = ValueSubject<Playback>::create();
 
             auto stopButton = UI::ToolButton::create(context);
-            stopButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconPlaybackStop90DPI.png"));
+            stopButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackStop90DPI.png"));
             auto forwardButton = UI::ToolButton::create(context);
-            forwardButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconPlaybackForward90DPI.png"));
+            forwardButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackForward90DPI.png"));
             auto reverseButton = UI::ToolButton::create(context);
-            reverseButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
+            reverseButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
 
             p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             p.buttonGroup->addButton(stopButton);
@@ -107,12 +108,12 @@ namespace djv
             }
         }
 
-        void PlaybackWidget::preLayoutEvent(PreLayoutEvent& event)
+        void PlaybackWidget::preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void PlaybackWidget::layoutEvent(LayoutEvent&)
+        void PlaybackWidget::layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }

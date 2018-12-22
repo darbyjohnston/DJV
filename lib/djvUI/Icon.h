@@ -35,8 +35,11 @@ namespace djv
 {
     namespace Core
     {
-        class Path;
+        namespace FileSystem
+        {
+            class Path;
 
+        } // namespace FileSystem
     } // namespace Core
 
     namespace UI
@@ -54,16 +57,16 @@ namespace djv
             virtual ~Icon();
 
             static std::shared_ptr<Icon> create(Core::Context *);
-            static std::shared_ptr<Icon> create(const Core::Path&, Core::Context *);
+            static std::shared_ptr<Icon> create(const Core::FileSystem::Path&, Core::Context *);
 
-            const Core::Path& getIcon() const;
-            void setIcon(const Core::Path&);
+            const Core::FileSystem::Path& getIcon() const;
+            void setIcon(const Core::FileSystem::Path&);
             
             ColorRole getIconColorRole() const;
             void setIconColorRole(ColorRole);
 
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void paintEvent(Core::Event::Paint&) override;
 
         private:
             struct Private;

@@ -31,13 +31,15 @@
 
 #include <djvAV/OpenGL.h>
 
-#include <djvCore/Core.h>
-
 namespace djv
 {
     namespace AV
     {
-        struct TriangleMesh;
+        namespace Mesh
+        {
+            struct TriangleMesh;
+
+        } // namespace Mesh
 
         namespace OpenGL
         {
@@ -52,8 +54,10 @@ namespace djv
                 First = Pos3_F32_UV_U16_Normal_U10
             };
 
-            size_t getVertexSize(VBOType);
+            //! Get the VBO type byte count.
+            size_t getVertexByteCount(VBOType);
 
+            //! This class provides an OpenGL vertex buffer object.
             class VBO
             {
                 DJV_NON_COPYABLE(VBO);
@@ -73,7 +77,7 @@ namespace djv
                 void copy(const std::vector<uint8_t>&);
                 void copy(const std::vector<uint8_t>&, size_t offset);
 
-                static std::vector<uint8_t> convert(const TriangleMesh&, VBOType);
+                static std::vector<uint8_t> convert(const Mesh::TriangleMesh&, VBOType);
 
             private:
                 size_t _size = 0;
@@ -82,6 +86,7 @@ namespace djv
                 gl::GLuint _vbo = 0;
             };
 
+            //! This class provides an OpenGL vertex array object.
             class VAO
             {
                 DJV_NON_COPYABLE(VAO);

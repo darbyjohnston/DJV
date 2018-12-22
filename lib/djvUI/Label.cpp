@@ -47,10 +47,10 @@ namespace djv
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
             ColorRole textColorRole = ColorRole::Foreground;
-            std::string fontFace = AV::FontInfo::defaultFace;
+            std::string fontFace = AV::Font::Info::defaultFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             float minimumWidth = 0.f;
-            std::future<AV::FontMetrics> fontMetricsFuture;
+            std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             std::future<glm::vec2> textSizeFuture;
         };
@@ -152,7 +152,7 @@ namespace djv
             _p->minimumWidth = value;
         }
 
-        void Label::updateEvent(UpdateEvent& event)
+        void Label::updateEvent(Event::Update& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -165,7 +165,7 @@ namespace djv
             }
         }
 
-        void Label::preLayoutEvent(PreLayoutEvent& event)
+        void Label::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -187,7 +187,7 @@ namespace djv
             }
         }
 
-        void Label::paintEvent(PaintEvent& event)
+        void Label::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

@@ -67,7 +67,7 @@ namespace djv
 
             } // namespace
 
-            size_t getVertexSize(VBOType value)
+            size_t getVertexByteCount(VBOType value)
             {
                 switch (value)
                 {
@@ -89,7 +89,7 @@ namespace djv
                 _type = type;
                 glGenBuffers(1, &_vbo);
                 glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(_size * _vertexCount * getVertexSize(type)), NULL, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(_size * _vertexCount * getVertexByteCount(type)), NULL, GL_DYNAMIC_DRAW);
             }
 
             VBO::~VBO()
@@ -120,15 +120,15 @@ namespace djv
                 glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
-            std::vector<uint8_t> VBO::convert(const TriangleMesh& mesh, VBOType type)
+            std::vector<uint8_t> VBO::convert(const Mesh::TriangleMesh& mesh, VBOType type)
             {
                 const size_t size = mesh.triangles.size();
-                const size_t vertexSize = getVertexSize(type);
-                std::vector<uint8_t> out(size * 3 * vertexSize);
+                const size_t vertexByteCount = getVertexByteCount(type);
+                std::vector<uint8_t> out(size * 3 * vertexByteCount);
                 uint8_t* p = out.data();
                 for (size_t i = 0; i < size; ++i)
                 {
-                    const TriangleMesh::Vertex* vertices[] =
+                    const Mesh::TriangleMesh::Vertex* vertices[] =
                     {
                         &mesh.triangles[i].v0,
                         &mesh.triangles[i].v1,
@@ -232,28 +232,28 @@ namespace djv
                 glGenVertexArrays(1, &_vao);
                 glBindVertexArray(_vao);
                 glBindBuffer(GL_ARRAY_BUFFER, vbo);
-                const size_t vertexSize = getVertexSize(type);
+                const size_t vertexByteCount = getVertexByteCount(type);
                 switch (type)
                 {
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
                 case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
-                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);
-                    glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
+                    glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)12);
                     glEnableVertexAttribArray(1);
-                    glVertexAttribPointer(2, 4, GL_INT_2_10_10_10_REV, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)16);
+                    glVertexAttribPointer(2, 4, GL_INT_2_10_10_10_REV, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)16);
                     glEnableVertexAttribArray(2);
-                    glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexSize), (GLvoid*)20);
+                    glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)20);
                     glEnableVertexAttribArray(3);
                     break;
                 case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
-                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)0);
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
                     glEnableVertexAttribArray(0);
-                    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)12);
+                    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)12);
                     glEnableVertexAttribArray(1);
-                    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)20);
+                    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)20);
                     glEnableVertexAttribArray(2);
-                    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexSize), (GLvoid*)32);
+                    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)32);
                     glEnableVertexAttribArray(3);
                     break;
                 default: break;

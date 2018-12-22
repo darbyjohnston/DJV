@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvAV/AV.h>
+
 #include <djvCore/Enum.h>
 
 #include <AL/al.h>
@@ -40,6 +42,7 @@ namespace djv
 {
     namespace AV
     {
+        //! This namespace provides audio functionality.
         namespace Audio
         {
             //! This enumeration provides the audio data types.

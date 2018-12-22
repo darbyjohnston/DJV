@@ -34,7 +34,6 @@
 #include <djvUI/StyleSettings.h>
 #include <djvUI/System.h>
 
-#include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
@@ -311,13 +310,13 @@ namespace djv
             _p->dpi = value;
         }
 
-        AV::FontInfo Style::getFont(const std::string & face, MetricsRole metricsRole) const
+        AV::Font::Info Style::getFont(const std::string & face, MetricsRole metricsRole) const
         {
-            AV::FontInfo out;
+            AV::Font::Info out;
             const auto i = _p->currentFont.find(face);
             if (i != _p->currentFont.end())
             {
-                out = AV::FontInfo(i->second, i->first, getMetric(metricsRole));
+                out = AV::Font::Info(i->second, i->first, getMetric(metricsRole));
             }
             return out;
         }

@@ -40,12 +40,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        class Path;
-    
-    } // namespace Core
-
     namespace AV
     {
         class Color;
@@ -104,7 +98,7 @@ namespace djv
             //! \name Text
             ///@{
 
-            void setCurrentFont(const FontInfo&);
+            void setCurrentFont(const Font::Info&);
 
             void drawText(
                 const std::string & text,

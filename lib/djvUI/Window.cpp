@@ -104,27 +104,27 @@ namespace djv
             }
         }
 
-        void Window::preLayoutEvent(PreLayoutEvent&)
+        void Window::preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void Window::layoutEvent(LayoutEvent&)
+        void Window::layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void Window::pointerEnterEvent(Core::PointerEnterEvent& event)
+        void Window::pointerEnterEvent(Core::Event::PointerEnter& event)
         {
             event.accept();
         }
 
-        void Window::pointerLeaveEvent(Core::PointerLeaveEvent& event)
+        void Window::pointerLeaveEvent(Core::Event::PointerLeave& event)
         {
             event.accept();
         }
 
-        void Window::pointerMoveEvent(Core::PointerMoveEvent& event)
+        void Window::pointerMoveEvent(Core::Event::PointerMove& event)
         {
             event.accept();
         }

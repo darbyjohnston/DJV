@@ -33,6 +33,7 @@
 
 namespace djv
 {
+    //! This namespace provides confidence tests for the Core library.
     namespace CoreTest
     {
         class EnumTest : public Test::ITest

@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
     }
     catch (const std::exception & error)
     {
-        std::cout << Core::format(error) << std::endl;
+        std::cout << Core::Error::format(error) << std::endl;
     }
     return r;
 }

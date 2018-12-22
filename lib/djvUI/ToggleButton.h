@@ -25,8 +25,8 @@ namespace djv
 
             static std::shared_ptr<ToggleButton> create(Core::Context *);
 
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void paintEvent(Core::Event::Paint&) override;
 
         private:
             struct Private;

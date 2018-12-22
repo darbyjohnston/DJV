@@ -35,168 +35,171 @@ namespace djv
 {
     namespace Core
     {
-        const std::string& getFilePermissionsLabel(int in)
+        namespace FileSystem
         {
-            static const std::vector<std::string> data =
+            const std::string& getFilePermissionsLabel(int in)
             {
-                "",
-                "r",
-                "w",
-                "rw",
-                "x",
-                "rx",
-                "wx",
-                "rwx"
-            };
-            return data[in];
-        }
-
-        void FileInfo::_init()
-        {
-            _exists      = false;
-            _type        = FileType::File;
-            _size        = 0;
-            _user        = 0;
-            _permissions = 0;
-            _time        = 0;
-        }
-
-        FileInfo::FileInfo()
-        {
-            _init();
-        }
-
-        FileInfo::FileInfo(const Path& path, bool stat)
-        {
-            _init();
-
-            setPath(path, stat);
-        }
-
-        FileInfo::FileInfo(const std::string& path, bool stat)
-        {
-            _init();
-
-            setPath(path, stat);
-        }
-
-        std::string FileInfo::getFileName(Frame::Number frame, bool path) const
-        {
-            std::stringstream s;
-            const bool isRoot = std::string(1, Path::getCurrentPathSeparator()) == _path.get();
-            if (isRoot)
-            {
-                s << _path;
+                static const std::vector<std::string> data =
+                {
+                    "",
+                    "r",
+                    "w",
+                    "rw",
+                    "x",
+                    "rx",
+                    "wx",
+                    "rwx"
+                };
+                return data[in];
             }
-            else
+
+            void FileInfo::_init()
             {
-                if (path)
+                _exists = false;
+                _type = FileType::File;
+                _size = 0;
+                _user = 0;
+                _permissions = 0;
+                _time = 0;
+            }
+
+            FileInfo::FileInfo()
+            {
+                _init();
+            }
+
+            FileInfo::FileInfo(const Path& path, bool stat)
+            {
+                _init();
+
+                setPath(path, stat);
+            }
+
+            FileInfo::FileInfo(const std::string& path, bool stat)
+            {
+                _init();
+
+                setPath(path, stat);
+            }
+
+            std::string FileInfo::getFileName(Frame::Number frame, bool path) const
+            {
+                std::stringstream s;
+                const bool isRoot = std::string(1, Path::getCurrentPathSeparator()) == _path.get();
+                if (isRoot)
                 {
-                    s << _path.getDirectoryName();
-                }
-                s << _path.getBaseName();
-                if (FileType::Sequence == _type && _sequence.ranges.size() && frame != Frame::Invalid)
-                {
-                    s << Frame::toString(frame, _sequence.pad);
-                }
-                else if (FileType::Sequence == _type && _sequence.ranges.size())
-                {
-                    s << _sequence;
+                    s << _path;
                 }
                 else
                 {
-                    s << _path.getNumber();
-                }
-                s << _path.getExtension();
-            }
-            return s.str();
-        }
-
-        void FileInfo::setPath(const Path& value, bool stat)
-        {
-            _init();
-
-            _path        = value;
-            _exists      = false;
-            _type        = FileType::File;
-            _size        = 0;
-            _user        = 0;
-            _permissions = 0;
-            _time        = 0;
-            _sequence    = Frame::Sequence();
-
-            // Get information from the file system.
-            if (stat)
-            {
-                this->stat();
-            }
-        }
-
-        void FileInfo::setPath(const std::string& value, bool stat)
-        {
-            setPath(Path(value), stat);
-        }
-
-        void FileInfo::setSequence(const Frame::Sequence& in)
-        {
-            _sequence = in;
-            std::stringstream s;
-            s << _sequence;
-            _path.setNumber(s.str());
-        }
-
-        void FileInfo::evalSequence()
-        {
-            if (FileType::File == _type)
-            {
-                try
-                {
-                    std::stringstream s(_path.getNumber());
-                    s >> _sequence;
-                    if (_sequence.ranges.size())
+                    if (path)
                     {
-                        _type = FileType::Sequence;
+                        s << _path.getDirectoryName();
+                    }
+                    s << _path.getBaseName();
+                    if (FileType::Sequence == _type && _sequence.ranges.size() && frame != Frame::Invalid)
+                    {
+                        s << Frame::toString(frame, _sequence.pad);
+                    }
+                    else if (FileType::Sequence == _type && _sequence.ranges.size())
+                    {
+                        s << _sequence;
+                    }
+                    else
+                    {
+                        s << _path.getNumber();
+                    }
+                    s << _path.getExtension();
+                }
+                return s.str();
+            }
+
+            void FileInfo::setPath(const Path& value, bool stat)
+            {
+                _init();
+
+                _path = value;
+                _exists = false;
+                _type = FileType::File;
+                _size = 0;
+                _user = 0;
+                _permissions = 0;
+                _time = 0;
+                _sequence = Frame::Sequence();
+
+                // Get information from the file system.
+                if (stat)
+                {
+                    this->stat();
+                }
+            }
+
+            void FileInfo::setPath(const std::string& value, bool stat)
+            {
+                setPath(Path(value), stat);
+            }
+
+            void FileInfo::setSequence(const Frame::Sequence& in)
+            {
+                _sequence = in;
+                std::stringstream s;
+                s << _sequence;
+                _path.setNumber(s.str());
+            }
+
+            void FileInfo::evalSequence()
+            {
+                if (FileType::File == _type)
+                {
+                    try
+                    {
+                        std::stringstream s(_path.getNumber());
+                        s >> _sequence;
+                        if (_sequence.ranges.size())
+                        {
+                            _type = FileType::Sequence;
+                        }
+                    }
+                    catch (const std::exception&)
+                    {
+                        _sequence = Frame::Sequence();
                     }
                 }
-                catch (const std::exception&)
-                {
-                    _sequence = Frame::Sequence();
-                }
             }
-        }
 
-        void FileInfo::sortSequence()
-        {
-            _sequence.sort();
-            std::stringstream s;
-            s << _sequence;
-            _path.setNumber(s.str());
-        }
-
-        FileInfo FileInfo::getFileSequence(const Path& path)
-        {
-            DirListOptions options;
-            options.fileSequencesEnabled = true;
-            for (const auto& fileInfo : dirList(path.getDirectoryName(), options))
+            void FileInfo::sortSequence()
             {
-                if (fileInfo.sequenceContains(path))
-                {
-                    return fileInfo;
-                }
+                _sequence.sort();
+                std::stringstream s;
+                s << _sequence;
+                _path.setNumber(s.str());
             }
-            return FileInfo(path);
-        }
 
+            FileInfo FileInfo::getFileSequence(const Path& path)
+            {
+                DirListOptions options;
+                options.fileSequencesEnabled = true;
+                for (const auto& fileInfo : dirList(path.getDirectoryName(), options))
+                {
+                    if (fileInfo.sequenceContains(path))
+                    {
+                        return fileInfo;
+                    }
+                }
+                return FileInfo(path);
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 
-    std::ostream& operator << (std::ostream& s, const Core::FileInfo& value)
+    std::ostream& operator << (std::ostream& s, const Core::FileSystem::FileInfo& value)
     {
         s << value.getPath();
         return s;
     }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core,
+        Core::FileSystem,
         FileType,
         DJV_TEXT("File"),
         DJV_TEXT("Sequence"),

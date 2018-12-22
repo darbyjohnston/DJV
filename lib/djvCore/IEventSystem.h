@@ -35,39 +35,43 @@ namespace djv
 {
     namespace Core
     {
-        struct PointerInfo;
-
         class IObject;
-        class LocaleEvent;
-        class PointerMoveEvent;
-        class UpdateEvent;
 
-        class IEventSystem : public ISystem
+        namespace Event
         {
-            DJV_NON_COPYABLE(IEventSystem);
+            struct PointerInfo;
 
-        protected:
-            void _init(const std::string& systemName, Context *);
-            IEventSystem();
+            class Locale;
+            class PointerMove;
+            class Update;
 
-        public:
-            virtual ~IEventSystem() = 0;
+            class IEventSystem : public ISystem
+            {
+                DJV_NON_COPYABLE(IEventSystem);
 
-            const std::shared_ptr<IObject>& getRootObject() const;
-            void setRootObject(const std::shared_ptr<IObject>&);
+            protected:
+                void _init(const std::string& systemName, Context *);
+                IEventSystem();
 
-        protected:
-            void _locale(LocaleEvent&);
+            public:
+                virtual ~IEventSystem() = 0;
 
-            void _tick(float dt) override;
+                const std::shared_ptr<IObject>& getRootObject() const;
+                void setRootObject(const std::shared_ptr<IObject>&);
 
-        private:
-            void _getFirstTick(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<IObject> >&);
-            void _updateRecursive(const std::shared_ptr<IObject>&, UpdateEvent&);
-            void _localeRecursive(const std::shared_ptr<IObject>&, LocaleEvent&);
+            protected:
+                void _locale(Locale&);
 
-            DJV_PRIVATE();
-        };
+                void _tick(float dt) override;
 
+            private:
+                void _getFirstTick(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<IObject> >&);
+                void _updateRecursive(const std::shared_ptr<IObject>&, Update&);
+                void _localeRecursive(const std::shared_ptr<IObject>&, Locale&);
+
+                DJV_PRIVATE();
+            };
+
+        } // namespace Event
     } // namespace Core
 } // namespace djv

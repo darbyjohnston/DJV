@@ -43,7 +43,7 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<ButtonType> > buttonType;
             std::shared_ptr<ValueSubject<bool> > checked;
-            std::shared_ptr<ValueSubject<Path> > icon;
+            std::shared_ptr<ValueSubject<FileSystem::Path> > icon;
             std::shared_ptr<ValueSubject<MetricsRole> > iconSizeRole;
             std::shared_ptr<ValueSubject<std::string> > text;
             std::shared_ptr<ValueSubject<std::string> > fontFace;
@@ -60,10 +60,10 @@ namespace djv
         {
             _p->buttonType = ValueSubject<ButtonType>::create(ButtonType::Push);
             _p->checked = ValueSubject<bool>::create(false);
-            _p->icon = ValueSubject<Path>::create();
+            _p->icon = ValueSubject<FileSystem::Path>::create();
             _p->iconSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::Icon);
             _p->text = ValueSubject<std::string>::create();
-            _p->fontFace = ValueSubject<std::string>::create(AV::FontInfo::defaultFace);
+            _p->fontFace = ValueSubject<std::string>::create(AV::Font::Info::defaultFace);
             _p->fontSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::FontMedium);
             _p->enabled = ValueSubject<bool>::create(true);
             _p->hAlign = ValueSubject<HAlign>::create(HAlign::Fill);
@@ -104,7 +104,7 @@ namespace djv
             _p->checked->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<Path> > Action::getIcon() const
+        std::shared_ptr<IValueSubject<FileSystem::Path> > Action::getIcon() const
         {
             return _p->icon;
         }
@@ -119,7 +119,7 @@ namespace djv
             _p->iconSizeRole->setIfChanged(value);
         }
 
-        void Action::setIcon(const Path& value)
+        void Action::setIcon(const FileSystem::Path& value)
         {
             _p->icon->setIfChanged(value);
         }

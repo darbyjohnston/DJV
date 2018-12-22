@@ -29,13 +29,10 @@
 
 #pragma once
 
-#include <djvUI/Font.h>
+#include <djvUI/Enum.h>
 
 #include <djvAV/Color.h>
 #include <djvAV/FontSystem.h>
-
-#include <djvCore/Enum.h>
-#include <djvCore/ISystem.h>
 
 #include <glm/vec2.hpp>
 
@@ -190,7 +187,7 @@ namespace djv
             //! \name Fonts
             ///@{
 
-            AV::FontInfo getFont(const std::string &, MetricsRole) const;
+            AV::Font::Info getFont(const std::string &, MetricsRole) const;
 
             ///@}
 

@@ -86,7 +86,7 @@ namespace djv
         void IWindowSystem::_popClipRect()
         {}
 
-        void IWindowSystem::_updateRecursive(const std::shared_ptr<UI::Widget>& widget, UpdateEvent& event)
+        void IWindowSystem::_updateRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Update& event)
         {
             for (const auto& child : widget->getChildrenT<UI::Widget>())
             {
@@ -95,7 +95,7 @@ namespace djv
             widget->event(event);
         }
 
-        void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, PreLayoutEvent& event)
+        void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::PreLayout& event)
         {
             for (const auto& child : widget->getChildrenT<UI::Widget>())
             {
@@ -104,7 +104,7 @@ namespace djv
             widget->event(event);
         }
 
-        void IWindowSystem::_layoutRecursive(const std::shared_ptr<UI::Widget>& widget, LayoutEvent& event)
+        void IWindowSystem::_layoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Layout& event)
         {
             if (widget->isVisible())
             {
@@ -116,7 +116,7 @@ namespace djv
             }
         }
 
-        void IWindowSystem::_clipRecursive(const std::shared_ptr<UI::Widget>& widget, ClipEvent& event)
+        void IWindowSystem::_clipRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Clip& event)
         {
             widget->event(event);
             const BBox2f clipRect = event.getClipRect();
@@ -128,7 +128,7 @@ namespace djv
             event.setClipRect(clipRect);
         }
 
-        void IWindowSystem::_paintRecursive(const std::shared_ptr<UI::Widget>& widget, PaintEvent& event)
+        void IWindowSystem::_paintRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Paint& event)
         {
             if (widget->isVisible() && !widget->isClipped())
             {

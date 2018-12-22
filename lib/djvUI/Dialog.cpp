@@ -30,6 +30,7 @@
 #include <djvUI/Dialog.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Separator.h>
@@ -51,138 +52,6 @@ namespace djv
 {
     namespace UI
     {
-        struct Dialog::Private
-        {
-            std::shared_ptr<StackLayout> layout;
-            std::shared_ptr<Animation> fadeAnimation;
-        };
-
-        void Dialog::_init(Context * context)
-        {
-            IContainerWidget::_init(context);
-            
-            setClassName("djv::UI::Dialog");
-            setVisible(false);
-            setOpacity(0.f);
-            setBackgroundRole(ColorRole::Overlay);
-            setPointerEnabled(true);
-
-            auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);
-            auto closeAction = Action::create();
-            closeAction->setShortcut(closeShortcut);
-            addAction(closeAction);
-
-            _p->layout = StackLayout::create(context);
-            IContainerWidget::addWidget(_p->layout);
-
-            _p->fadeAnimation = Animation::create(context);
-
-            auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
-            closeShortcut->setCallback(
-                [weak]
-            {
-                if (auto dialog = weak.lock())
-                {
-                    dialog->close();
-                }
-            });
-        }
-
-        Dialog::Dialog() :
-            _p(new Private)
-        {}
-
-        Dialog::~Dialog()
-        {}
-
-        std::shared_ptr<Dialog> Dialog::create(Context * context)
-        {
-            auto out = std::shared_ptr<Dialog>(new Dialog);
-            out->_init(context);
-            return out;
-        }
-
-        void Dialog::close()
-        {
-            if (auto window = getWindow().lock())
-            {
-                window->removeWidget(std::dynamic_pointer_cast<Widget>(shared_from_this()));
-            }
-        }
-
-        void Dialog::addWidget(const std::shared_ptr<Widget>& value)
-        {
-            _p->layout->addWidget(value);
-        }
-
-        void Dialog::removeWidget(const std::shared_ptr<Widget>& value)
-        {
-            _p->layout->removeWidget(value);
-        }
-
-        void Dialog::clearWidgets()
-        {
-            _p->layout->clearWidgets();
-        }
-
-        void Dialog::setVisible(bool value)
-        {
-            IContainerWidget::setVisible(value);
-            if (value && _p->fadeAnimation)
-            {
-                auto weak = std::weak_ptr<Dialog>(std::dynamic_pointer_cast<Dialog>(shared_from_this()));
-                _p->fadeAnimation->start(
-                    getOpacity(),
-                    1.f,
-                    std::chrono::milliseconds(100),
-                    [weak](float value)
-                {
-                    if (auto dialog = weak.lock())
-                    {
-                        dialog->setOpacity(value);
-                    }
-                },
-                    [weak](float value)
-                {
-                    if (auto dialog = weak.lock())
-                    {
-                        dialog->setOpacity(value);
-                    }
-                });
-            }
-        }
-
-        float Dialog::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
-
-        void Dialog::preLayoutEvent(PreLayoutEvent& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void Dialog::layoutEvent(LayoutEvent& event)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void Dialog::buttonPressEvent(ButtonPressEvent&)
-        {
-            close();
-        }
-
-        void Dialog::keyPressEvent(Core::KeyPressEvent& event)
-        {
-            Widget::keyPressEvent(event);
-            event.accept();
-        }
-
-        void Dialog::keyReleaseEvent(Core::KeyReleaseEvent& event)
-        {
-            event.accept();
-        }
-
         namespace
         {
             class DialogWidget : public StackLayout
@@ -211,7 +80,7 @@ namespace djv
                     return out;
                 }
 
-                void preLayoutEvent(Core::PreLayoutEvent& event) override
+                void preLayoutEvent(Event::PreLayout& event) override
                 {
                     StackLayout::preLayoutEvent(event);
                     if (auto style = _getStyle().lock())
@@ -239,27 +108,33 @@ namespace djv
 
             auto closeButton = PushButton::create(context);
             closeButton->setText(closeText);
-            
+
             auto layout = VerticalLayout::create(context);
             layout->setBackgroundRole(ColorRole::Background);
             layout->setMargin(MetricsRole::Margin);
             layout->setVAlign(VAlign::Center);
             layout->addWidget(textBlock);
             layout->addWidget(closeButton);
-            
+
             auto dialogWidget = DialogWidget::create(context);
             dialogWidget->addWidget(layout);
 
-            auto dialog = Dialog::create(context);
-            dialog->addWidget(dialogWidget);
-            window->addWidget(dialog);
+            auto overlay = Overlay::create(context);
+            overlay->setBackgroundRole(ColorRole::Overlay);
+            overlay->addWidget(dialogWidget);
+            window->addWidget(overlay);
 
-            dialog->show();
+            overlay->show();
 
             closeButton->setClickedCallback(
-                [dialog]
+                [overlay]
             {
-                dialog->close();
+                overlay->close();
+            });
+            overlay->setCloseCallback(
+                [window, overlay]
+            {
+                window->removeWidget(overlay);
             });
         }
 
@@ -294,23 +169,29 @@ namespace djv
             auto dialogWidget = DialogWidget::create(context);
             dialogWidget->addWidget(layout);
 
-            auto dialog = Dialog::create(context);
-            dialog->addWidget(dialogWidget);
-            window->addWidget(dialog);
+            auto overlay = Overlay::create(context);
+            overlay->setBackgroundRole(ColorRole::Overlay);
+            overlay->addWidget(dialogWidget);
+            window->addWidget(overlay);
 
-            dialog->show();
+            overlay->show();
 
             acceptButton->setClickedCallback(
-                [dialog, callback]
+                [overlay, callback]
             {
-                dialog->close();
+                overlay->close();
                 callback(true);
             });
             cancelButton->setClickedCallback(
-                [dialog, callback]
+                [overlay, callback]
             {
-                dialog->close();
+                overlay->close();
                 callback(false);
+            });
+            overlay->setCloseCallback(
+                [window, overlay]
+            {
+                window->removeWidget(overlay);
             });
         }
 

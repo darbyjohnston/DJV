@@ -67,9 +67,72 @@ namespace djv
             Window::_init(context);
 
             auto fileMenu = UI::Menu::create("File", context);
+            auto action = UI::Action::create();
+            action->setText("Open");
+            fileMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Reload");
+            fileMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Close");
+            fileMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Export");
+            fileMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Exit");
+            fileMenu->addAction(action);
+
+            auto windowMenu = UI::Menu::create("Window", context);
+            action = UI::Action::create();
+            action->setText("New Tab");
+            windowMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Close Tab");
+            windowMenu->addAction(action);
+
+            auto viewMenu = UI::Menu::create("View", context);
+            action = UI::Action::create();
+            action->setText("Zoom In");
+            viewMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Zoom Out");
+            viewMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Reset Zoom");
+            viewMenu->addAction(action);
+
+            auto playbackMenu = UI::Menu::create("Playback", context);
+            action = UI::Action::create();
+            action->setText("Stop");
+            playbackMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Forward");
+            playbackMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Reverse");
+            playbackMenu->addAction(action);
+
+            auto toolsMenu = UI::Menu::create("Tools", context);
+            action = UI::Action::create();
+            action->setText("Magnify");
+            toolsMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Color Picker");
+            toolsMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Histogram");
+            toolsMenu->addAction(action);
+            action = UI::Action::create();
+            action->setText("Information");
+            toolsMenu->addAction(action);
 
             _p->menuBar = UI::MenuBar::create(context);
             _p->menuBar->addMenu(fileMenu);
+            _p->menuBar->addMenu(windowMenu);
+            _p->menuBar->addMenu(viewMenu);
+            _p->menuBar->addMenu(playbackMenu);
+            _p->menuBar->addMenu(toolsMenu);
 
             _p->tabWidget = UI::TabWidget::create(context);
 
@@ -127,14 +190,15 @@ namespace djv
             return out;
         }
 
-        void MainWindow::dropEvent(Core::DropEvent& event)
+        void MainWindow::dropEvent(Core::Event::Drop& event)
         {
             for (const auto & i : event.getDropPaths())
             {
                 //auto media = Media::create(FileInfo::getFileSequence(i), getContext());
                 auto media = Media::create(i, getContext());
                 auto window = MDIWindow::create(media, getContext());
-                window->setTitle(Path(i).getFileName());
+                const auto title = FileSystem::Path(i).getFileName();
+                window->setTitle(title);
                 window->resize(glm::vec2(500.f, 300.f));
                 auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
                 auto weakWindow = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(window));
@@ -149,7 +213,7 @@ namespace djv
                         }
                     }
                 });
-                _p->tabWidget->addWidget(Path(i).getFileName(), window);
+                _p->tabWidget->addWidget(title, window);
             }
         }
         

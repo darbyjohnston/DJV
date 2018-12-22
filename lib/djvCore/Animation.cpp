@@ -40,176 +40,179 @@ namespace djv
 {
     namespace Core
     {
-        AnimationFunction getAnimationFunction(AnimationType value)
+        namespace Animation
         {
-            static const std::vector<AnimationFunction> data =
+            Function getFunction(Type value)
             {
-                [](float t) { return t; },
-                [](float t) { return powf(t, 2.f); },
-                [](float t) { return powf(t, .5f); },
-                [](float t) { return Math::smoothStep(t, 0.f, 1.f); },
-                [](float t)
-            {
-                return (sinf(t * Math::pi2 - Math::pi / 2.f) + 1.f) * .5f;
-            }
-            };
-            DJV_ASSERT(data.size() == static_cast<size_t>(AnimationType::Count));
-            return data[static_cast<size_t>(value)];
-        }
-        
-        void Animation::_init(Context * context)
-        {
-            _function = getAnimationFunction(_type);
-            if (auto system = context->getSystemT<AnimationSystem>().lock())
-            {
-                system->_addAnimation(shared_from_this());
-            }
-        }
-
-        std::shared_ptr<Animation> Animation::create(Context * context)
-        {
-            auto out = std::shared_ptr<Animation>(new Animation);
-            out->_init(context);
-            return out;
-        }
-
-        void Animation::setType(AnimationType type)
-        {
-            _type     = type;
-            _function = getAnimationFunction(_type);
-        }
-        
-        void Animation::setRepeating(bool value)
-        {
-            _repeating = value;
-        }
-
-        void Animation::start(
-            float                     begin,
-            float                     end,
-            std::chrono::milliseconds timeout,
-            const Callback&           callback,
-            const Callback&           endCallback)
-        {
-            /*if (_active && _endCallback)
-            {
-                _endCallback(_end);
-            }*/
-
-            _active = true;
-            _begin = begin;
-            _end = end;
-            _timeout = timeout;
-            _callback = callback;
-            _endCallback = endCallback;
-            _start = std::chrono::system_clock::now();
-        }
-
-        void Animation::_tick(float dt)
-        {
-            if (_active)
-            {
-                const auto now = std::chrono::system_clock::now();
-                const auto diff = std::chrono::duration<float>(now - _start);
-
-                const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_timeout).count(), 0.f, 1.f);
-
-                float v = 0.f;
-                if (_begin < _end)
+                static const std::vector<Function> data =
                 {
-                    v = Math::lerp(_function(t), _begin, _end);
+                    [](float t) { return t; },
+                    [](float t) { return powf(t, 2.f); },
+                    [](float t) { return powf(t, .5f); },
+                    [](float t) { return Math::smoothStep(t, 0.f, 1.f); },
+                    [](float t)
+                {
+                    return (sinf(t * Math::pi2 - Math::pi / 2.f) + 1.f) * .5f;
                 }
-                else
-                {
-                    v = Math::lerp(_function(1.f - t), _end, _begin);
-                }
-                _callback(v);
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
+                return data[static_cast<size_t>(value)];
+            }
 
-                if (now > (_start + _timeout))
+            void Animation::_init(Context * context)
+            {
+                _function = getFunction(_type);
+                if (auto system = context->getSystemT<System>().lock())
                 {
-                    if (_callback)
+                    system->_addAnimation(shared_from_this());
+                }
+            }
+
+            std::shared_ptr<Animation> Animation::create(Context * context)
+            {
+                auto out = std::shared_ptr<Animation>(new Animation);
+                out->_init(context);
+                return out;
+            }
+
+            void Animation::setType(Type type)
+            {
+                _type = type;
+                _function = getFunction(_type);
+            }
+
+            void Animation::setRepeating(bool value)
+            {
+                _repeating = value;
+            }
+
+            void Animation::start(
+                float                     begin,
+                float                     end,
+                std::chrono::milliseconds timeout,
+                const Callback&           callback,
+                const Callback&           endCallback)
+            {
+                /*if (_active && _endCallback)
+                {
+                    _endCallback(_end);
+                }*/
+
+                _active = true;
+                _begin = begin;
+                _end = end;
+                _timeout = timeout;
+                _callback = callback;
+                _endCallback = endCallback;
+                _start = std::chrono::system_clock::now();
+            }
+
+            void Animation::_tick(float dt)
+            {
+                if (_active)
+                {
+                    const auto now = std::chrono::system_clock::now();
+                    const auto diff = std::chrono::duration<float>(now - _start);
+
+                    const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_timeout).count(), 0.f, 1.f);
+
+                    float v = 0.f;
+                    if (_begin < _end)
                     {
-                        if (_endCallback)
+                        v = Math::lerp(_function(t), _begin, _end);
+                    }
+                    else
+                    {
+                        v = Math::lerp(_function(1.f - t), _end, _begin);
+                    }
+                    _callback(v);
+
+                    if (now > (_start + _timeout))
+                    {
+                        if (_callback)
                         {
-                            _endCallback(_end);
+                            if (_endCallback)
+                            {
+                                _endCallback(_end);
+                            }
+                            _active = false;
                         }
-                        _active = false;
-                    }
 
-                    if (_repeating)
+                        if (_repeating)
+                        {
+                            _active = true;
+                            _start = now;
+                        }
+                    }
+                }
+            }
+
+            struct System::Private
+            {
+                std::vector<std::weak_ptr<Animation> > animations;
+            };
+
+            void System::_init(Context * context)
+            {
+                ISystem::_init("djv::Core::Animation::System", context);
+            }
+
+            System::System() :
+                _p(new Private)
+            {}
+
+            System::~System()
+            {}
+
+            std::shared_ptr<System> System::create(Context * context)
+            {
+                auto out = std::shared_ptr<System>(new System);
+                out->_init(context);
+                return out;
+            }
+
+            void System::_tick(float dt)
+            {
+                DJV_PRIVATE_PTR();
+                std::vector<std::weak_ptr<Animation> > zombies;
+                for (const auto& a : p.animations)
+                {
+                    if (auto animation = a.lock())
                     {
-                        _active = true;
-                        _start = now;
+                        animation->_tick(dt);
+                    }
+                    else
+                    {
+                        zombies.push_back(a);
+                    }
+                }
+                for (const auto& zombie : zombies)
+                {
+                    const auto i = std::find_if(
+                        p.animations.begin(),
+                        p.animations.end(),
+                        [zombie](const std::weak_ptr<Animation>& other)
+                    {
+                        return zombie.lock() == other.lock();
+                    });
+                    if (i != p.animations.end())
+                    {
+                        p.animations.erase(i);
                     }
                 }
             }
-        }
 
-        struct AnimationSystem::Private
-        {
-            std::vector<std::weak_ptr<Animation> > animations;
-        };
-
-        void AnimationSystem::_init(Context * context)
-        {
-            ISystem::_init("djv::Core::AnimationSystem", context);
-        }
-        
-        AnimationSystem::AnimationSystem() :
-            _p(new Private)
-        {}
-        
-        AnimationSystem::~AnimationSystem()
-        {}
-
-        std::shared_ptr<AnimationSystem> AnimationSystem::create(Context * context)
-        {
-            auto out = std::shared_ptr<AnimationSystem>(new AnimationSystem);
-            out->_init(context);
-            return out;
-        }
-
-        void AnimationSystem::_tick(float dt)
-        {
-            DJV_PRIVATE_PTR();
-            std::vector<std::weak_ptr<Animation> > zombies;
-            for (const auto& a : p.animations)
+            void System::_addAnimation(const std::weak_ptr<Animation>& value)
             {
-                if (auto animation = a.lock())
-                {
-                    animation->_tick(dt);
-                }
-                else
-                {
-                    zombies.push_back(a);
-                }
+                _p->animations.push_back(value);
             }
-            for (const auto& zombie : zombies)
-            {
-                const auto i = std::find_if(
-                    p.animations.begin(),
-                    p.animations.end(),
-                    [zombie](const std::weak_ptr<Animation>& other)
-                {
-                    return zombie.lock() == other.lock();
-                });
-                if (i != p.animations.end())
-                {
-                    p.animations.erase(i);
-                }
-            }
-        }
 
-        void AnimationSystem::_addAnimation(const std::weak_ptr<Animation>& value)
-        {
-            _p->animations.push_back(value);
-        }
-
+        } // namespace Animation
     } // namespace Core
     
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core,
-        AnimationType,
+        Core::Animation,
+        Type,
         DJV_TEXT("Linear"),
         DJV_TEXT("Ease In"),
         DJV_TEXT("Ease Out"),

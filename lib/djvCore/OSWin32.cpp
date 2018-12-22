@@ -170,9 +170,9 @@ namespace djv
                 return std::string(tmp);
             }
 
-            Path getPath(DirectoryShortcut value)
+            FileSystem::Path getPath(DirectoryShortcut value)
             {
-                Path out;
+                FileSystem::Path out;
                 KNOWNFOLDERID id;
                 switch (value)
                 {
@@ -186,7 +186,7 @@ namespace djv
                 HRESULT result = SHGetKnownFolderPath(id, 0, NULL, &path);
                 if (S_OK == result && path)
                 {
-                    out = Path(String::fromWide(path));
+                    out = FileSystem::Path(String::fromWide(path));
                 }
                 CoTaskMemFree(path);
                 return out;

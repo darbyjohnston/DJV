@@ -37,8 +37,11 @@ namespace djv
 {
     namespace Core
     {
-        class Path;
+        namespace FileSystem
+        {
+            class Path;
 
+        } // namespace FileSystem
     } // namespace Core
 
     namespace UI
@@ -67,8 +70,8 @@ namespace djv
             void _loadSettings(const std::shared_ptr<ISettings>&);
             void _saveSettings();
 
-            void _readSettingsFile(const Core::Path&, std::map<std::string, picojson::value>&);
-            void _writeSettingsFile(const Core::Path&, const picojson::value&);
+            void _readSettingsFile(const Core::FileSystem::Path&, std::map<std::string, picojson::value>&);
+            void _writeSettingsFile(const Core::FileSystem::Path&, const picojson::value&);
 
             DJV_PRIVATE();
 

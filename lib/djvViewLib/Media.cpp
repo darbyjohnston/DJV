@@ -66,18 +66,18 @@ namespace djv
             std::shared_ptr<ValueSubject<size_t> > audioQueueCount;
             std::shared_ptr<ValueSubject<size_t> > alUnqueuedBuffers;
             std::shared_ptr<AV::IO::Queue> queue;
-            std::shared_ptr<Timer> queueTimer;
+            std::shared_ptr<Time::Timer> queueTimer;
             std::condition_variable queueCV;
             std::shared_ptr<AV::IO::IRead> read;
             std::future<AV::IO::Info> infoFuture;
-            std::shared_ptr<Timer> infoTimer;
+            std::shared_ptr<Time::Timer> infoTimer;
             std::chrono::system_clock::time_point startTime;
             ALuint alSource = 0;
             std::vector<ALuint> alBuffers;
             int64_t queuedBytes = 0;
             AV::Timestamp timeOffset = 0;
-            std::shared_ptr<Timer> playbackTimer;
-            std::shared_ptr<Timer> debugTimer;
+            std::shared_ptr<Time::Timer> playbackTimer;
+            std::shared_ptr<Time::Timer> debugTimer;
         };
 
         void Media::_init(const std::string & fileName, Context * context)
@@ -97,13 +97,13 @@ namespace djv
             p.alUnqueuedBuffers = ValueSubject<size_t>::create();
             p.queue = AV::IO::Queue::create();
             p.queue->setCloseOnFinish(false);
-            p.queueTimer = Timer::create(context);
+            p.queueTimer = Time::Timer::create(context);
             p.queueTimer->setRepeating(true);
-            p.infoTimer = Timer::create(context);
+            p.infoTimer = Time::Timer::create(context);
             p.infoTimer->setRepeating(true);
-            p.playbackTimer = Timer::create(context);
+            p.playbackTimer = Time::Timer::create(context);
             p.playbackTimer->setRepeating(true);
-            p.debugTimer = Timer::create(context);
+            p.debugTimer = Time::Timer::create(context);
             p.debugTimer->setRepeating(true);
 
             alGetError();
@@ -131,7 +131,7 @@ namespace djv
                 {
                     p.read = io->read(fileName, p.queue);
                     p.infoFuture = p.read->getInfo();
-                    const auto timeout = Timer::getMilliseconds(Timer::Value::Fast);
+                    const auto timeout = Time::Timer::getMilliseconds(Time::Timer::Value::Fast);
                     p.infoTimer->start(
                         timeout,
                         [this, fileName](float)
@@ -184,7 +184,7 @@ namespace djv
                     });
 
                     p.debugTimer->start(
-                        Timer::getMilliseconds(Timer::Value::Slow),
+                        Time::Timer::getMilliseconds(Time::Timer::Value::Slow),
                         [this](float)
                     {
                         DJV_PRIVATE_PTR();
@@ -307,7 +307,7 @@ namespace djv
                 _timeUpdate();
                 p.startTime = std::chrono::system_clock::now();
                 p.playbackTimer->start(
-                    Timer::getMilliseconds(Timer::Value::Fast),
+                    Time::Timer::getMilliseconds(Time::Timer::Value::Fast),
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();

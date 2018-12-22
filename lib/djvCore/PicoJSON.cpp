@@ -56,7 +56,7 @@ namespace djv
 
             } // namespace
 
-            void write(const picojson::value& value, FileIO& fileIO, size_t indent, bool continueLine)
+            void write(const picojson::value& value, FileSystem::FileIO& fileIO, size_t indent, bool continueLine)
             {
                 if (value.is<picojson::object>())
                 {

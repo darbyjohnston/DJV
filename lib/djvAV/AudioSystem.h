@@ -37,25 +37,27 @@ namespace djv
 {
     namespace AV
     {
-        class AudioSystem : public Core::ISystem
+        namespace Audio
         {
-            DJV_NON_COPYABLE(AudioSystem);
+            class System : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(System);
 
-        protected:
-            void _init(Core::Context *);
-            AudioSystem();
+            protected:
+                void _init(Core::Context *);
+                System();
 
-        public:
-            ~AudioSystem() override;
+            public:
+                ~System() override;
+                static std::shared_ptr<System> create(Core::Context *);
 
-            static std::shared_ptr<AudioSystem> create(Core::Context *);
+                ALCdevice * getALDevice() const;
+                ALCcontext * getALContext() const;
 
-            ALCdevice * getALDevice() const;
-            ALCcontext * getALContext() const;
-            
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
+        } // namespace Audio
     } // namespace AV
 } // namespace djv

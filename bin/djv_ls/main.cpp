@@ -37,74 +37,82 @@
 
 using namespace djv;
 
-class Application : public Core::Context
+namespace djv
 {
-    DJV_NON_COPYABLE(Application);
-
-protected:
-    void _init(int & argc, char ** argv)
+    //! This namespace provides functionality for djv_ls.
+    namespace ls
     {
-        Core::Context::_init(argc, argv);
-
-        _io = AV::IO::System::create(this);
-
-        if (auto system = getSystemT<Core::TextSystem>().lock())
+        class Application : public Core::Context
         {
-            const auto locale = system->getCurrentLocale();
-        }
+            DJV_NON_COPYABLE(Application);
 
-        for (int i = 1; i < argc; ++i)
-        {
-            const Core::FileInfo fileInfo(argv[i]);
-            switch (fileInfo.getType())
+        protected:
+            void _init(int & argc, char ** argv)
             {
-            case Core::FileType::File: _print(fileInfo); break;
-            case Core::FileType::Directory:
-            {
-                std::cout << fileInfo.getPath() << ":" << std::endl;
-                Core::DirListOptions options;
-                options.fileSequencesEnabled = true;
-                for (const auto & i : Core::FileInfo::dirList(fileInfo.getPath(), options))
+                Core::Context::_init(argc, argv);
+
+                _io = AV::IO::System::create(this);
+
+                if (auto system = getSystemT<Core::TextSystem>().lock())
                 {
-                    _print(i);
+                    const auto locale = system->getCurrentLocale();
                 }
-                break;
+
+                for (int i = 1; i < argc; ++i)
+                {
+                    const Core::FileSystem::FileInfo fileInfo(argv[i]);
+                    switch (fileInfo.getType())
+                    {
+                    case Core::FileSystem::FileType::File: _print(fileInfo); break;
+                    case Core::FileSystem::FileType::Directory:
+                    {
+                        std::cout << fileInfo.getPath() << ":" << std::endl;
+                        Core::FileSystem::DirListOptions options;
+                        options.fileSequencesEnabled = true;
+                        for (const auto & i : Core::FileSystem::FileInfo::dirList(fileInfo.getPath(), options))
+                        {
+                            _print(i);
+                        }
+                        break;
+                    }
+                    default: break;
+                    }
+                }
             }
-            default: break;
+
+            Application()
+            {}
+
+        public:
+            static std::unique_ptr<Application> create(int & argc, char ** argv)
+            {
+                auto out = std::unique_ptr<Application>(new Application);
+                out->_init(argc, argv);
+                return out;
             }
-        }
-    }
 
-    Application()
-    {}
+        private:
+            void _print(const std::string & fileName)
+            {
+                std::cout << fileName << std::endl;
+            }
 
-public:
-    static std::unique_ptr<Application> create(int & argc, char ** argv)
-    {
-        auto out = std::unique_ptr<Application>(new Application);
-        out->_init(argc, argv);
-        return out;
-    }
+            std::shared_ptr<AV::IO::System> _io;
+        };
 
-private:
-    void _print(const std::string & fileName)
-    {
-        std::cout << fileName << std::endl;
-    }
-
-    std::shared_ptr<AV::IO::System> _io;
-};
+    } // namespace ls
+} // namespace djv
 
 int main(int argc, char ** argv)
 {
     int r = 0;
     try
     {
-        Application::create(argc, argv);
+        ls::Application::create(argc, argv);
     }
     catch (const std::exception & error)
     {
-        std::cout << Core::format(error) << std::endl;
+        std::cout << Core::Error::format(error) << std::endl;
     }
     return r;
 }

@@ -51,258 +51,261 @@ namespace djv
 {
     namespace Core
     {
-        void FileIO::open(const std::string& fileName, Mode mode)
+        namespace FileSystem
         {
-            close();
-
-            // Open the file.
-            int openFlags = 0;
-            int openMode  = 0;
-            switch (mode)
+            void FileIO::open(const std::string& fileName, Mode mode)
             {
-            case Mode::Read:
-                openFlags = O_RDONLY;
-                break;
-            case Mode::Write:
-                openFlags = O_WRONLY | O_CREAT | O_TRUNC;
-                openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-                break;
-            case Mode::ReadWrite:
-                openFlags = O_RDWR | O_CREAT | O_TRUNC;
-                openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-                break;
-            default: break;
-            }
-            _f = ::open(fileName.c_str(), openFlags, openMode);
-            if (-1 == _f)
-            {
-                std::stringstream s;
-                s << "Cannot open file: " << fileName;
-                throw std::runtime_error(s.str());
-            }
+                close();
 
-            // Stat the file.
-            _STAT info;
-            memset(&info, 0, sizeof(_STAT));
-            if (_STAT_FNC(fileName.c_str(), &info) != 0)
-            {
-                std::stringstream s;
-                s << "Cannot stat file: " << fileName;
-                throw std::runtime_error(s.str());
-            }
-
-            _fileName = fileName;
-            _mode     = mode;
-            _pos      = 0;
-            _size     = info.st_size;
-
-            // Memory mapping.
-            if (Mode::Read == _mode && _size > 0)
-            {
-                _mmap = mmap(0, _size, PROT_READ, MAP_SHARED, _f, 0);
-                if (_mmap == (void *) - 1)
+                // Open the file.
+                int openFlags = 0;
+                int openMode  = 0;
+                switch (mode)
+                {
+                case Mode::Read:
+                    openFlags = O_RDONLY;
+                    break;
+                case Mode::Write:
+                    openFlags = O_WRONLY | O_CREAT | O_TRUNC;
+                    openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+                    break;
+                case Mode::ReadWrite:
+                    openFlags = O_RDWR | O_CREAT | O_TRUNC;
+                    openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+                    break;
+                default: break;
+                }
+                _f = ::open(fileName.c_str(), openFlags, openMode);
+                if (-1 == _f)
                 {
                     std::stringstream s;
-                    s << "Cannot map file: " << _fileName;
+                    s << "Cannot open file: " << fileName;
                     throw std::runtime_error(s.str());
                 }
 
-                _mmapStart = reinterpret_cast<const uint8_t *>(_mmap);
-                _mmapEnd   = _mmapStart + _size;
-                _mmapP     = _mmapStart;
-            }
-        }
-        
-        void FileIO::openTempFile(const std::string& fileName)
-        {
-            close();
-
-            // Open the file.
-            const std::string s = fileName + ".XXXXXX";
-            const size_t size = s.size();
-            std::vector<char> buf(size + 1);
-            memcpy(buf.data(), s.c_str(), size);
-            buf[size] = 0;
-            _f = mkstemp(buf.data());
-            if (-1 == _f)
-            {
-                std::stringstream s;
-                s << "Cannot open file: " << fileName;
-                throw std::runtime_error(s.str());
-            }
-
-            // Stat the file.
-            _STAT info;
-            memset(&info, 0, sizeof(_STAT));
-            if (_STAT_FNC(buf.data(), &info) != 0)
-            {
-                std::stringstream s;
-                s << "Cannot stat file: " << fileName;
-                throw std::runtime_error(s.str());
-            }
-            _fileName = std::string(buf.data());
-            _mode     = Mode::ReadWrite;
-            _pos      = 0;
-            _size     = info.st_size;
-        }
-
-        void FileIO::close()
-        {
-            if (_mmap != (void *) - 1)
-            {
-                int r = munmap(_mmap, _size);
-
-                if (-1 == r)
-                {
-                    //! \bug [1.0 S] Add error code.
-                }
-
-                _mmap = (void *)-1;
-            }
-            _mmapStart = 0;
-            _mmapEnd   = 0;
-
-            if (_f != -1)
-            {
-                int r = ::close(_f);
-
-                if (-1 == r)
-                {
-                    //! \bug [1.0 S] Add error code.
-                }
-
-                _f = -1;
-            }
-
-            _pos  = 0;
-            _size = 0;
-            _mode = static_cast<Mode>(0);
-        }
-
-        void FileIO::read(void* in, size_t size, size_t wordSize)
-        {
-            switch (_mode)
-            {
-            case Mode::Read:
-            {
-                const uint8_t* mmapP = _mmapP + size * wordSize;
-                if (mmapP > _mmapEnd)
+                // Stat the file.
+                _STAT info;
+                memset(&info, 0, sizeof(_STAT));
+                if (_STAT_FNC(fileName.c_str(), &info) != 0)
                 {
                     std::stringstream s;
-                    s << "Cannot read file: " << _fileName;
+                    s << "Cannot stat file: " << fileName;
                     throw std::runtime_error(s.str());
                 }
+
+                _fileName = fileName;
+                _mode     = mode;
+                _pos      = 0;
+                _size     = info.st_size;
+
+                // Memory mapping.
+                if (Mode::Read == _mode && _size > 0)
+                {
+                    _mmap = mmap(0, _size, PROT_READ, MAP_SHARED, _f, 0);
+                    if (_mmap == (void *) - 1)
+                    {
+                        std::stringstream s;
+                        s << "Cannot map file: " << _fileName;
+                        throw std::runtime_error(s.str());
+                    }
+
+                    _mmapStart = reinterpret_cast<const uint8_t *>(_mmap);
+                    _mmapEnd   = _mmapStart + _size;
+                    _mmapP     = _mmapStart;
+                }
+            }
+            
+            void FileIO::openTempFile(const std::string& fileName)
+            {
+                close();
+
+                // Open the file.
+                const std::string s = fileName + ".XXXXXX";
+                const size_t size = s.size();
+                std::vector<char> buf(size + 1);
+                memcpy(buf.data(), s.c_str(), size);
+                buf[size] = 0;
+                _f = mkstemp(buf.data());
+                if (-1 == _f)
+                {
+                    std::stringstream s;
+                    s << "Cannot open file: " << fileName;
+                    throw std::runtime_error(s.str());
+                }
+
+                // Stat the file.
+                _STAT info;
+                memset(&info, 0, sizeof(_STAT));
+                if (_STAT_FNC(buf.data(), &info) != 0)
+                {
+                    std::stringstream s;
+                    s << "Cannot stat file: " << fileName;
+                    throw std::runtime_error(s.str());
+                }
+                _fileName = std::string(buf.data());
+                _mode     = Mode::ReadWrite;
+                _pos      = 0;
+                _size     = info.st_size;
+            }
+
+            void FileIO::close()
+            {
+                if (_mmap != (void *) - 1)
+                {
+                    int r = munmap(_mmap, _size);
+
+                    if (-1 == r)
+                    {
+                        //! \bug [1.0 S] Add error code.
+                    }
+
+                    _mmap = (void *)-1;
+                }
+                _mmapStart = 0;
+                _mmapEnd   = 0;
+
+                if (_f != -1)
+                {
+                    int r = ::close(_f);
+
+                    if (-1 == r)
+                    {
+                        //! \bug [1.0 S] Add error code.
+                    }
+
+                    _f = -1;
+                }
+
+                _pos  = 0;
+                _size = 0;
+                _mode = static_cast<Mode>(0);
+            }
+
+            void FileIO::read(void* in, size_t size, size_t wordSize)
+            {
+                switch (_mode)
+                {
+                case Mode::Read:
+                {
+                    const uint8_t* mmapP = _mmapP + size * wordSize;
+                    if (mmapP > _mmapEnd)
+                    {
+                        std::stringstream s;
+                        s << "Cannot read file: " << _fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    if (_endian && wordSize > 1)
+                    {
+                        Memory::endian(_mmapP, in, size, wordSize);
+                    }
+                    else
+                    {
+                        memcpy(in, _mmapP, size * wordSize);
+                    }
+                    _mmapP = mmapP;
+                    break;
+                }
+                case Mode::ReadWrite:
+                {
+                    const size_t r = ::read(_f, in, size * wordSize);
+                    if (r != size * wordSize)
+                    {
+                        std::stringstream s;
+                        s << "Cannot read file: " << _fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    if (_endian && wordSize > 1)
+                    {
+                        Memory::endian(in, size, wordSize);
+                    }
+                    break;
+                }
+                default: break;
+                }
+
+                _pos += size * wordSize;
+            }
+
+            void FileIO::write(const void* in, size_t size, size_t wordSize)
+            {
+                uint8_t* inP = (uint8_t*)in;
+
+                std::vector<uint8_t> tmp;
                 if (_endian && wordSize > 1)
                 {
-                    Memory::endian(_mmapP, in, size, wordSize);
+                    tmp.resize(size * wordSize);
+                    inP = tmp.data();
+                    Memory::endian(in, inP, size, wordSize);
                 }
-                else
-                {
-                    memcpy(in, _mmapP, size * wordSize);
-                }
-                _mmapP = mmapP;
-                break;
-            }
-            case Mode::ReadWrite:
-            {
-                const size_t r = ::read(_f, in, size * wordSize);
-                if (r != size * wordSize)
-                {
-                    std::stringstream s;
-                    s << "Cannot read file: " << _fileName;
-                    throw std::runtime_error(s.str());
-                }
-                if (_endian && wordSize > 1)
-                {
-                    Memory::endian(in, size, wordSize);
-                }
-                break;
-            }
-            default: break;
-            }
 
-            _pos += size * wordSize;
-        }
-
-        void FileIO::write(const void* in, size_t size, size_t wordSize)
-        {
-            uint8_t* inP = (uint8_t*)in;
-
-            std::vector<uint8_t> tmp;
-            if (_endian && wordSize > 1)
-            {
-                tmp.resize(size * wordSize);
-                inP = tmp.data();
-                Memory::endian(in, inP, size, wordSize);
-            }
-
-            if (::write(_f, inP, size * wordSize) == -1)
-            {
-                std::stringstream s;
-                s << "Cannot write file: " << _fileName;
-                throw std::runtime_error(s.str());
-            }
-
-            _pos += size * wordSize;
-            _size = std::max(_pos, _size);
-        }
-
-        void FileIO::setPos(size_t in)
-        {
-            _setPos(in, false);
-        }
-
-        void FileIO::seek(size_t in)
-        {
-            _setPos(in, true);
-        }
-
-        void FileIO::setEndian(bool in)
-        {
-            _endian = in;
-        }
-
-        void FileIO::_setPos(size_t in, bool seek)
-        {
-            switch (_mode)
-            {
-            case Mode::Read:
-                if (!seek)
-                {
-                    _mmapP = reinterpret_cast<const uint8_t*>(_mmapStart) + in;
-                }
-                else
-                {
-                    _mmapP += in;
-                }
-                if (_mmapP > _mmapEnd)
-                {
-                    std::stringstream s;
-                    s << "Cannot read file: " << _fileName;
-                    throw std::runtime_error(s.str());
-                }
-                break;
-            case Mode::Write:
-            case Mode::ReadWrite:
-                if (::lseek(_f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
+                if (::write(_f, inP, size * wordSize) == -1)
                 {
                     std::stringstream s;
                     s << "Cannot write file: " << _fileName;
                     throw std::runtime_error(s.str());
                 }
-                break;
-            default: break;
+
+                _pos += size * wordSize;
+                _size = std::max(_pos, _size);
             }
 
-            if (!seek)
+            void FileIO::setPos(size_t in)
             {
-                _pos = in;
+                _setPos(in, false);
             }
-            else
-            {
-                _pos += in;
-            }
-        }
 
+            void FileIO::seek(size_t in)
+            {
+                _setPos(in, true);
+            }
+
+            void FileIO::setEndian(bool in)
+            {
+                _endian = in;
+            }
+
+            void FileIO::_setPos(size_t in, bool seek)
+            {
+                switch (_mode)
+                {
+                case Mode::Read:
+                    if (!seek)
+                    {
+                        _mmapP = reinterpret_cast<const uint8_t*>(_mmapStart) + in;
+                    }
+                    else
+                    {
+                        _mmapP += in;
+                    }
+                    if (_mmapP > _mmapEnd)
+                    {
+                        std::stringstream s;
+                        s << "Cannot read file: " << _fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    break;
+                case Mode::Write:
+                case Mode::ReadWrite:
+                    if (::lseek(_f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
+                    {
+                        std::stringstream s;
+                        s << "Cannot write file: " << _fileName;
+                        throw std::runtime_error(s.str());
+                    }
+                    break;
+                default: break;
+                }
+
+                if (!seek)
+                {
+                    _pos = in;
+                }
+                else
+                {
+                    _pos += in;
+                }
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv

@@ -31,24 +31,27 @@ namespace djv
 {
     namespace Core
     {
-        inline Animation::Animation()
-        {}
+        namespace Animation
+        {
+            inline Animation::Animation()
+            {}
 
-        inline AnimationType Animation::getType() const
-        {
-            return _type;
-        }
+            inline Type Animation::getType() const
+            {
+                return _type;
+            }
 
-        inline bool Animation::isRepeating() const
-        {
-            return _repeating;
-        }
-        
-        inline bool Animation::isActive() const
-        {
-            return _active;
-        }
-    
+            inline bool Animation::isRepeating() const
+            {
+                return _repeating;
+            }
+
+            inline bool Animation::isActive() const
+            {
+                return _active;
+            }
+
+        } // namespace Animation
     } // namespace Core
 } // namespace djv
 

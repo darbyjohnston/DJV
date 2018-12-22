@@ -37,6 +37,7 @@
 
 namespace djv
 {
+    //! This namespace provides core functionality.
     namespace Core
     {
         //! This enumeration provides the log levels.

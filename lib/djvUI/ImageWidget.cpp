@@ -78,7 +78,7 @@ namespace djv
             _p->uid = uid;
         }
 
-        void ImageWidget::preLayoutEvent(PreLayoutEvent& event)
+        void ImageWidget::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -87,7 +87,7 @@ namespace djv
             }
         }
 
-        void ImageWidget::paintEvent(PaintEvent& event)
+        void ImageWidget::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

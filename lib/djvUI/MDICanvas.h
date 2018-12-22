@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This namespace provides multiple document interface (MDI) functionality.
         namespace MDI
         {
             class IWindow;
@@ -59,9 +60,9 @@ namespace djv
                 void removeWindow(const std::shared_ptr<IWindow>&);
                 void clearWindows();
 
-                void preLayoutEvent(Core::PreLayoutEvent&) override;
-                void layoutEvent(Core::LayoutEvent&) override;
-                bool eventFilter(const std::shared_ptr<Core::IObject>&, Core::IEvent&) override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
+                bool eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::IEvent&) override;
 
             private:
                 void _clampWindows();

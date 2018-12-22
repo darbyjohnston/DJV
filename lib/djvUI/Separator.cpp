@@ -64,7 +64,7 @@ namespace djv
             return out;
         }
 
-        void Separator::preLayoutEvent(PreLayoutEvent& event)
+        void Separator::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -77,7 +77,7 @@ namespace djv
             }
         }
 
-        void Separator::paintEvent(PaintEvent& event)
+        void Separator::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

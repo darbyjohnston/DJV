@@ -49,18 +49,18 @@ namespace djv
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
             ColorRole textColorRole = ColorRole::Foreground;
-            std::string fontFace = AV::FontInfo::defaultFace;
+            std::string fontFace = AV::Font::Info::defaultFace;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
-            std::future<AV::FontMetrics> fontMetricsFuture;
-            AV::FontMetrics fontMetrics;
+            std::future<AV::Font::Metrics> fontMetricsFuture;
+            AV::Font::Metrics fontMetrics;
             float heightForWidth = 0.f;
             size_t heightForWidthHash = 0;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             size_t textSizeHash = 0;
             std::future<glm::vec2> textSizeFuture;
-            std::vector<AV::TextLine> breakText;
+            std::vector<AV::Font::TextLine> breakText;
             size_t breakTextHash = 0;
-            std::future<std::vector<AV::TextLine> > breakTextFuture;
+            std::future<std::vector<AV::Font::TextLine> > breakTextFuture;
             BBox2f clipRect;
         };
 
@@ -171,7 +171,7 @@ namespace djv
             return out;
         }
 
-        void TextBlock::updateEvent(UpdateEvent& event)
+        void TextBlock::updateEvent(Event::Update& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -196,7 +196,7 @@ namespace djv
             }
         }
 
-        void TextBlock::preLayoutEvent(PreLayoutEvent& event)
+        void TextBlock::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -210,7 +210,7 @@ namespace djv
             }
         }
 
-        void TextBlock::layoutEvent(LayoutEvent& event)
+        void TextBlock::layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -233,12 +233,12 @@ namespace djv
             }
         }
 
-        void TextBlock::clipEvent(ClipEvent& event)
+        void TextBlock::clipEvent(Event::Clip& event)
         {
             _p->clipRect = event.getClipRect();
         }
 
-        void TextBlock::paintEvent(PaintEvent& event)
+        void TextBlock::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

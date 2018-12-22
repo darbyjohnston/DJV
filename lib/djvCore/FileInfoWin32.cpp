@@ -45,99 +45,106 @@ namespace djv
 {
     namespace Core
     {
-        bool FileInfo::stat()
+        namespace FileSystem
         {
-            _init();
-
-            _STAT info;
-            memset(&info, 0, sizeof(_STAT));
-
-            if (_STAT_FNC(_path.get().c_str(), &info) != 0)
+            bool FileInfo::stat()
             {
-                std::string err;
-                char tmp[String::cStringLength] = "";
-                strerror_s(tmp, String::cStringLength, errno);
-                err = tmp;
-                return false;
-            }
+                _init();
 
-            _exists      = true;
-            _size        = info.st_size;
-            _user        = info.st_uid;
-            _permissions = 0;
-            _time        = info.st_mtime;
-            _type        = FileType::File;
-            _permissions = 0;
+                _STAT info;
+                memset(&info, 0, sizeof(_STAT));
 
-            if (info.st_mode & _S_IFDIR)
-            {
-                _type = FileType::Directory;
-            }
-            _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read)  : 0;
-            _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
-            _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec)  : 0;
-
-            return true;
-        }
-
-        std::vector<FileInfo> FileInfo::dirList(const Path& value, const DirListOptions& options)
-        {
-            std::vector<FileInfo> out;
-            if (!value.isEmpty())
-            {
-                // Prepare the path.
-                const std::string& path = value.get();
-                TCHAR pathBuf[MAX_PATH];
-                size_t size = std::min(path.size(), static_cast<size_t>(MAX_PATH - options.glob.size() - 2));
-                memcpy(pathBuf, path.c_str(), size);
-                pathBuf[size++] = Path::getCurrentPathSeparator();
-                for (size_t i = 0; i < options.glob.size(); ++i)
+                if (_STAT_FNC(_path.get().c_str(), &info) != 0)
                 {
-                    pathBuf[size++] = options.glob[i];
+                    std::string err;
+                    char tmp[String::cStringLength] = "";
+                    strerror_s(tmp, String::cStringLength, errno);
+                    err = tmp;
+                    return false;
                 }
-                pathBuf[size++] = 0;
 
-                // List the directory contents.
-                WIN32_FIND_DATA ffd;
-                HANDLE hFind = FindFirstFile(pathBuf, &ffd);
-                if (hFind != INVALID_HANDLE_VALUE)
+                _exists = true;
+                _size = info.st_size;
+                _user = info.st_uid;
+                _permissions = 0;
+                _time = info.st_mtime;
+                _type = FileType::File;
+                _permissions = 0;
+
+                if (info.st_mode & _S_IFDIR)
                 {
-                    do
+                    _type = FileType::Directory;
+                }
+                _permissions |= (info.st_mode & _S_IREAD) ? static_cast<int>(FilePermissions::Read) : 0;
+                _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
+                _permissions |= (info.st_mode & _S_IEXEC) ? static_cast<int>(FilePermissions::Exec) : 0;
+
+                return true;
+            }
+
+            std::vector<FileInfo> FileInfo::dirList(const Path& value, const DirListOptions& options)
+            {
+                std::vector<FileInfo> out;
+                if (!value.isEmpty())
+                {
+                    // Prepare the path.
+                    const std::string& path = value.get();
+                    TCHAR pathBuf[MAX_PATH];
+                    size_t size = std::min(path.size(), static_cast<size_t>(MAX_PATH - options.glob.size() - 2));
+                    memcpy(pathBuf, path.c_str(), size);
+                    pathBuf[size++] = Path::getCurrentPathSeparator();
+                    for (size_t i = 0; i < options.glob.size(); ++i)
                     {
-                        const std::string fileName(ffd.cFileName);
+                        pathBuf[size++] = options.glob[i];
+                    }
+                    pathBuf[size++] = 0;
 
-                        bool filter = false;
-                        if (ffd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
+                    // List the directory contents.
+                    WIN32_FIND_DATA ffd;
+                    HANDLE hFind = FindFirstFile(pathBuf, &ffd);
+                    if (hFind != INVALID_HANDLE_VALUE)
+                    {
+                        do
                         {
-                            filter = true;
-                        }
-                        if (fileName.size() == 1 && '.' == fileName[0])
-                        {
-                            filter = true;
-                        }
-                        if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
-                        {
-                            filter = true;
-                        }
+                            const std::string fileName(ffd.cFileName);
 
-                        if (!filter)
-                        {
-                            FileInfo fileInfo(Path(value, fileName));
-                            if (options.fileSequencesEnabled)
+                            bool filter = false;
+                            if (ffd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
                             {
-                                fileInfo.evalSequence();
-                                if (fileInfo.isSequenceValid())
+                                filter = true;
+                            }
+                            if (fileName.size() == 1 && '.' == fileName[0])
+                            {
+                                filter = true;
+                            }
+                            if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
+                            {
+                                filter = true;
+                            }
+
+                            if (!filter)
+                            {
+                                FileInfo fileInfo(Path(value, fileName));
+                                if (options.fileSequencesEnabled)
                                 {
-                                    const size_t size = out.size();
-                                    size_t i = 0;
-                                    for (; i < size; ++i)
+                                    fileInfo.evalSequence();
+                                    if (fileInfo.isSequenceValid())
                                     {
-                                        if (out[i].addToSequence(fileInfo))
+                                        const size_t size = out.size();
+                                        size_t i = 0;
+                                        for (; i < size; ++i)
                                         {
-                                            break;
+                                            if (out[i].addToSequence(fileInfo))
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        if (size == i)
+                                        {
+                                            out.push_back(fileInfo);
                                         }
                                     }
-                                    if (size == i)
+                                    else
                                     {
                                         out.push_back(fileInfo);
                                     }
@@ -147,26 +154,21 @@ namespace djv
                                     out.push_back(fileInfo);
                                 }
                             }
-                            else
-                            {
-                                out.push_back(fileInfo);
-                            }
+                        } while (FindNextFile(hFind, &ffd) != 0);
+                        FindClose(hFind);
+                    }
+
+                    for (auto& i : out)
+                    {
+                        if (i.isSequenceValid())
+                        {
+                            i.sortSequence();
                         }
                     }
-                        while (FindNextFile(hFind, &ffd) != 0);
-                    FindClose(hFind);
                 }
-
-                for (auto& i : out)
-                {
-                    if (i.isSequenceValid())
-                    {
-                        i.sortSequence();
-                    }
-                }
+                return out;
             }
-            return out;
-        }
 
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv

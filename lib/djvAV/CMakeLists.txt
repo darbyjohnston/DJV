@@ -9,6 +9,7 @@ find_package(glbinding REQUIRED)
 find_package(PNG)
 
 set(header
+    AV.h
     Audio.h
     AudioData.h
     AudioDataInline.h
@@ -34,10 +35,10 @@ set(header
     OpenGLTextureInline.h
     PPM.h
     Pixel.h
+    PixelConvert.h
     PixelData.h
     PixelDataInline.h
     PixelInline.h
-    PixelProcess.h
     Render2DSystem.h
     SequenceIO.h
     Shader.h
@@ -71,8 +72,8 @@ set(source
     PPMRead.cpp
     PPMWrite.cpp
     Pixel.cpp
+    PixelConvert.cpp
     PixelData.cpp
-    PixelProcess.cpp
     Render2DSystem.cpp
     SequenceIO.cpp
     Shape.cpp

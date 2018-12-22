@@ -41,186 +41,189 @@ namespace djv
 {
     namespace Core
     {
-        //! This class provides file I/O.
-        class FileIO
+        namespace FileSystem
         {
-            DJV_NON_COPYABLE(FileIO);
-
-        public:
-            inline FileIO();
-            FileIO(FileIO&&);
-            ~FileIO();
-            FileIO& operator = (FileIO&&);
-
-            enum class Mode
+            //! This class provides file I/O.
+            class FileIO
             {
-                Read,
-                Write,
-                ReadWrite,
-                
-                Count,
-                First = Read
-            };
-            
-            //! Open the file.
-            //! Throws:
-            //! - std::exception
-            void open(const std::string& fileName, Mode);
-            
-            //! Open a temporary file.
-            //! Throws:
-            //! - std::exception
-            void openTempFile(const std::string& fileName);
-            
-            //! Close the file.
-            //! Throws:
-            //! - std::exception
-            void close();
+                DJV_NON_COPYABLE(FileIO);
 
-            //! Get whether the file is open.
-            inline bool isOpen() const;
+            public:
+                inline FileIO();
+                FileIO(FileIO&&);
+                ~FileIO();
+                FileIO& operator = (FileIO&&);
 
-            //! Get the file name.
-            inline const std::string& getFileName() const;
-            
-            //! Get the file size.
-            inline size_t getSize() const;
-            
-            //! \name File Position
-            ///@{
-            
-            inline size_t getPos() const;
-            void setPos(size_t);
-            void seek(size_t);
+                enum class Mode
+                {
+                    Read,
+                    Write,
+                    ReadWrite,
 
-            //! Get whether the file position is EOF.
-            inline bool isEOF() const;
+                    Count,
+                    First = Read
+                };
 
-            ///@}
+                //! Open the file.
+                //! Throws:
+                //! - std::exception
+                void open(const std::string& fileName, Mode);
 
-            //! \name File Read
-            //! Throws:
-            //! - std::exception
-            ///@{
+                //! Open a temporary file.
+                //! Throws:
+                //! - std::exception
+                void openTempFile(const std::string& fileName);
 
-            void read(void*, size_t, size_t wordSize = 1);
+                //! Close the file.
+                //! Throws:
+                //! - std::exception
+                void close();
 
-            inline void read8(int8_t*, size_t = 1);
-            inline void readU8(uint8_t*, size_t = 1);
-            inline void read16(int16_t*, size_t = 1);
-            inline void readU16(uint16_t*, size_t = 1);
-            inline void read32(int32_t*, size_t = 1);
-            inline void readU32(uint32_t*, size_t = 1);
-            inline void readF32(float*, size_t = 1);
+                //! Get whether the file is open.
+                inline bool isOpen() const;
 
-            ///@}
+                //! Get the file name.
+                inline const std::string& getFileName() const;
 
-            //! \name File Write
-            //! Throws:
-            //! - std::exception
-            ///@{
-            
-            void write(const void*, size_t, size_t wordSize = 1);
-            
-            inline void write8(const int8_t*, size_t);
-            inline void writeU8(const uint8_t*, size_t);
-            inline void write16(const int16_t*, size_t);
-            inline void writeU16(const uint16_t*, size_t);
-            inline void write32(const int32_t*, size_t);
-            inline void writeU32(const uint32_t*, size_t);
-            inline void writeF32(const float*, size_t);
+                //! Get the file size.
+                inline size_t getSize() const;
 
-            inline void write8(int8_t);
-            inline void writeU8(uint8_t);
-            inline void write16(int16_t);
-            inline void writeU16(uint16_t);
-            inline void write32(int32_t);
-            inline void writeU32(uint32_t);
-            inline void writeF32(float);
+                //! \name File Position
+                ///@{
 
-            inline void write(const std::string&);
+                inline size_t getPos() const;
+                void setPos(size_t);
+                void seek(size_t);
 
-            ///@}
-            
-            //! \name File Memory Mapping
-            ///@{
-            
-            //! Get the current memory-map position.
-            inline const uint8_t* mmapP() const;
+                //! Get whether the file position is EOF.
+                inline bool isEOF() const;
 
-            //! Get a pointer to the end of the memory-map.
-            inline const uint8_t* mmapEnd() const;
-            
-            ///@}
+                ///@}
 
-            //! \name File Endian
-            ///@{
-            
-            //! Get whether automatic endian conversion is performed.
-            inline bool getEndian() const;
-            
-            //! Set whether automatic endian conversion is performed.
-            void setEndian(bool);
-            
-            ///@}
+                //! \name File Read
+                //! Throws:
+                //! - std::exception
+                ///@{
 
-            //! \name File Utilities
-            ///@{
+                void read(void*, size_t, size_t wordSize = 1);
 
-            //! Read the contents from a file.
-            //! Throws:
-            //! - std::exception
-            static void readContents(FileIO&, std::string&);
+                inline void read8(int8_t*, size_t = 1);
+                inline void readU8(uint8_t*, size_t = 1);
+                inline void read16(int16_t*, size_t = 1);
+                inline void readU16(uint16_t*, size_t = 1);
+                inline void read32(int32_t*, size_t = 1);
+                inline void readU32(uint32_t*, size_t = 1);
+                inline void readF32(float*, size_t = 1);
 
-            //! Read a word from a file.
-            //! Throws:
-            //! - std::exception
-            static void readWord(FileIO&, char*, size_t maxLen = String::cStringLength);
+                ///@}
 
-            //! Read a line from a file.
-            //! Throws:
-            //! - std::exception
-            //! \todo Should we handle comments like readWord()?
-            static void readLine(FileIO&, char*, size_t maxLen = String::cStringLength);
+                //! \name File Write
+                //! Throws:
+                //! - std::exception
+                ///@{
 
-            //! Read all the lines from a file.
-            //! Throws:
-            //! - std::exception
-            static std::vector<std::string> readLines(const std::string& fileName);
+                void write(const void*, size_t, size_t wordSize = 1);
 
-            ///@}
+                inline void write8(const int8_t*, size_t);
+                inline void writeU8(const uint8_t*, size_t);
+                inline void write16(const int16_t*, size_t);
+                inline void writeU16(const uint16_t*, size_t);
+                inline void write32(const int32_t*, size_t);
+                inline void writeU32(const uint32_t*, size_t);
+                inline void writeF32(const float*, size_t);
 
-        private:
-            void _setPos(size_t, bool seek);
+                inline void write8(int8_t);
+                inline void writeU8(uint8_t);
+                inline void write16(int16_t);
+                inline void writeU16(uint16_t);
+                inline void write32(int32_t);
+                inline void writeU32(uint32_t);
+                inline void writeF32(float);
+
+                inline void write(const std::string&);
+
+                ///@}
+
+                //! \name File Memory Mapping
+                ///@{
+
+                //! Get the current memory-map position.
+                inline const uint8_t* mmapP() const;
+
+                //! Get a pointer to the end of the memory-map.
+                inline const uint8_t* mmapEnd() const;
+
+                ///@}
+
+                //! \name File Endian
+                ///@{
+
+                //! Get whether automatic endian conversion is performed.
+                inline bool getEndian() const;
+
+                //! Set whether automatic endian conversion is performed.
+                void setEndian(bool);
+
+                ///@}
+
+                //! \name File Utilities
+                ///@{
+
+                //! Read the contents from a file.
+                //! Throws:
+                //! - std::exception
+                static void readContents(FileIO&, std::string&);
+
+                //! Read a word from a file.
+                //! Throws:
+                //! - std::exception
+                static void readWord(FileIO&, char*, size_t maxLen = String::cStringLength);
+
+                //! Read a line from a file.
+                //! Throws:
+                //! - std::exception
+                //! \todo Should we handle comments like readWord()?
+                static void readLine(FileIO&, char*, size_t maxLen = String::cStringLength);
+
+                //! Read all the lines from a file.
+                //! Throws:
+                //! - std::exception
+                static std::vector<std::string> readLines(const std::string& fileName);
+
+                ///@}
+
+            private:
+                void _setPos(size_t, bool seek);
 
 #if defined(DJV_PLATFORM_WINDOWS)
-            HANDLE         _f         = INVALID_HANDLE_VALUE;
-            std::string    _fileName;
-            Mode           _mode      = Mode::First;
-            size_t         _pos       = 0;
-            size_t         _size      = 0;
-            bool           _endian    = false;
-            void*          _mmap      = nullptr;
-            const uint8_t* _mmapStart = nullptr;
-            const uint8_t* _mmapEnd   = nullptr;
-            const uint8_t* _mmapP     = nullptr;
+                HANDLE         _f = INVALID_HANDLE_VALUE;
+                std::string    _fileName;
+                Mode           _mode = Mode::First;
+                size_t         _pos = 0;
+                size_t         _size = 0;
+                bool           _endian = false;
+                void*          _mmap = nullptr;
+                const uint8_t* _mmapStart = nullptr;
+                const uint8_t* _mmapEnd = nullptr;
+                const uint8_t* _mmapP = nullptr;
 #else // DJV_PLATFORM_WINDOWS
-            int            _f         = -1;
-            std::string    _fileName;
-            Mode           _mode      = Mode::First;
-            size_t         _pos       = 0;
-            size_t         _size      = 0;
-            bool           _endian    = false;
-            void*          _mmap      = (void *)-1;
-            const uint8_t* _mmapStart = nullptr;
-            const uint8_t* _mmapEnd   = nullptr;
-            const uint8_t* _mmapP     = nullptr;
+                int            _f = -1;
+                std::string    _fileName;
+                Mode           _mode = Mode::First;
+                size_t         _pos = 0;
+                size_t         _size = 0;
+                bool           _endian = false;
+                void*          _mmap = (void *)-1;
+                const uint8_t* _mmapStart = nullptr;
+                const uint8_t* _mmapEnd = nullptr;
+                const uint8_t* _mmapP = nullptr;
 #endif //DJV_PLATFORM_WINDOWS
-        };
+            };
 
-        //! This function provides a wrapper for fopen().
-        FILE* fopen(const std::string& fileName, const std::string& mode);
+            //! This function provides a wrapper for fopen().
+            FILE* fopen(const std::string& fileName, const std::string& mode);
 
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

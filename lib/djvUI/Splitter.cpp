@@ -139,7 +139,7 @@ namespace djv
             return out;
         }
 
-        void Splitter::updateEvent(UpdateEvent&)
+        void Splitter::updateEvent(Event::Update&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -148,7 +148,7 @@ namespace djv
             }
         }
 
-        void Splitter::preLayoutEvent(PreLayoutEvent& event)
+        void Splitter::preLayoutEvent(Event::PreLayout& event)
         {
             // Get the child sizes.
             glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
@@ -187,7 +187,7 @@ namespace djv
             _setMinimumSize(minimumSize);
         }
 
-        void Splitter::layoutEvent(LayoutEvent& event)
+        void Splitter::layoutEvent(Event::Layout& event)
         {
             const auto style = _getStyle();
             const BBox2f& g = getGeometry();
@@ -235,7 +235,7 @@ namespace djv
             }
         }
 
-        void Splitter::paintEvent(PaintEvent& event)
+        void Splitter::paintEvent(Event::Paint& event)
         {
             if (auto render = _getRenderSystem().lock())
             {
@@ -274,7 +274,7 @@ namespace djv
             }
         }
 
-        void Splitter::pointerEnterEvent(PointerEnterEvent& event)
+        void Splitter::pointerEnterEvent(Event::PointerEnter& event)
         {
             if (!event.isRejected())
             {
@@ -283,7 +283,7 @@ namespace djv
             }
         }
 
-        void Splitter::pointerLeaveEvent(PointerLeaveEvent& event)
+        void Splitter::pointerLeaveEvent(Event::PointerLeave& event)
         {
             event.accept();
             auto i = _p->hover.find(event.getPointerInfo().id);
@@ -293,7 +293,7 @@ namespace djv
             }
         }
 
-        void Splitter::pointerMoveEvent(PointerMoveEvent& event)
+        void Splitter::pointerMoveEvent(Event::PointerMove& event)
         {
             const auto id = event.getPointerInfo().id;
             const auto& pos = event.getPointerInfo().projectedPos;
@@ -321,7 +321,7 @@ namespace djv
             }
         }
 
-        void Splitter::buttonPressEvent(ButtonPressEvent& event)
+        void Splitter::buttonPressEvent(Event::ButtonPress& event)
         {
             if (_p->pressedId)
                 return;
@@ -333,7 +333,7 @@ namespace djv
             }
         }
 
-        void Splitter::buttonReleaseEvent(ButtonReleaseEvent& event)
+        void Splitter::buttonReleaseEvent(Event::ButtonRelease& event)
         {
             if (event.getPointerInfo().id != _p->pressedId)
                 return;

@@ -41,8 +41,10 @@ namespace djv
 {
     namespace AV
     {
+        //! This namespace provides image pixel functionality.
         namespace Pixel
         {
+            //! This enumeration provides the pixel types.
             enum class Type
             {
                 None,
@@ -77,6 +79,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
+            //! This enumeration provides the pixel data types.
             enum class DataType
             {
                 None,
@@ -112,6 +115,7 @@ namespace djv
             const F32_T F32Min = 0.f;
             const F32_T F32Max = 1.f;
 
+            //! This struct provides 10-bit MSB pixel data.
             struct U10_S_MSB
             {
                 uint32_t r : 10, g : 10, b : 10, pad : 2;
@@ -119,6 +123,7 @@ namespace djv
                 inline bool operator == (const U10_S_MSB &) const;
                 inline bool operator != (const U10_S_MSB &) const;
             };
+            //! This struct provides 10-bit LSB pixel data.
             struct U10_S_LSB
             {
                 uint32_t pad : 2, b : 10, g : 10, r : 10;
@@ -187,7 +192,7 @@ namespace djv
 
             void convert(const void *, Type, void *, Type, size_t);
 
-        } // namespace Image
+        } // namespace Pixel
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Pixel::Type);

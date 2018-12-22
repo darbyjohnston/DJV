@@ -36,6 +36,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides spacing information.
         class Spacing
         {
         public:

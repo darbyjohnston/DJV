@@ -81,8 +81,8 @@ namespace djv
             void setStretch(const std::shared_ptr<Widget>&, RowLayoutStretch);
             
             float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void layoutEvent(Core::Event::Layout&) override;
 
         private:
             struct Private;

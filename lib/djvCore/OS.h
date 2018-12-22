@@ -35,8 +35,13 @@ namespace djv
 {
     namespace Core
     {
-        class Path;
+        namespace FileSystem
+        {
+            class Path;
 
+        } // namespace FileSystem
+
+        //! This namespace provides operating system functionality.
         namespace OS
         {
             //! Get operating system information.
@@ -72,7 +77,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(DirectoryShortcut);
 
-            Path getPath(DirectoryShortcut);
+            FileSystem::Path getPath(DirectoryShortcut);
 
             ///@}
             

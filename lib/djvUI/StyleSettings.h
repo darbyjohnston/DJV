@@ -37,12 +37,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        class Animation;
-    
-    } // namespace Core
-    
     namespace UI
     {
         //! This class provides the style settings.

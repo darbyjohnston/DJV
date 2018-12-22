@@ -75,21 +75,18 @@ namespace djv
         void RowLayout::addWidget(const std::shared_ptr<Widget>& value, RowLayoutStretch stretch)
         {
             value->setParent(shared_from_this());
-
             _p->stretch[value] = stretch;
         }
 
         void RowLayout::insertWidget(const std::shared_ptr<Widget>& value, int index, RowLayoutStretch stretch)
         {
             value->setParent(shared_from_this(), index);
-
             _p->stretch[value] = stretch;
         }
 
         void RowLayout::removeWidget(const std::shared_ptr<Widget>& value)
         {
             value->setParent(nullptr);
-
             const auto i = _p->stretch.find(value);
             if (i != _p->stretch.end())
             {
@@ -104,7 +101,6 @@ namespace djv
             {
                 child->setParent(nullptr);
             }
-            
             _p->stretch.clear();
         }
 
@@ -200,7 +196,7 @@ namespace djv
             return out;
         }
 
-        void RowLayout::preLayoutEvent(PreLayoutEvent&)
+        void RowLayout::preLayoutEvent(Event::PreLayout&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -249,7 +245,7 @@ namespace djv
             }
         }
 
-        void RowLayout::layoutEvent(LayoutEvent& event)
+        void RowLayout::layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {

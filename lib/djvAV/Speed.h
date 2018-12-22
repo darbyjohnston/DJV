@@ -29,12 +29,15 @@
 
 #pragma once
 
+#include <djvAV/AV.h>
+
 #include <djvCore/Enum.h>
 
 namespace djv
 {
     namespace AV
     {
+        //! This class provides speed information.
         class Speed
         {
         public:

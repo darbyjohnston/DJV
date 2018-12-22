@@ -47,7 +47,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This plugin provides FFmpeg image and audio I/O.
+            //! This namespace provides FFmpeg image and audio I/O.
             //!
             //! References:
             //! - https://ffmpeg.org

@@ -29,48 +29,15 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
-#include <djvUI/Margin.h>
+#include <djvUI/UI.h>
+
+#include <functional>
 
 namespace djv
 {
     namespace UI
     {
         class Window;
-
-        //! This class provides a dialog widget.
-        class Dialog : public IContainerWidget
-        {
-            DJV_NON_COPYABLE(Dialog);
-
-        protected:
-            void _init(Core::Context *);
-            Dialog();
-
-        public:
-            virtual ~Dialog();
-
-            static std::shared_ptr<Dialog> create(Core::Context *);
-
-            void close();
-
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
-            void clearWidgets() override;
-
-            void setVisible(bool) override;
-            float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
-
-            void buttonPressEvent(Core::ButtonPressEvent&) override;
-            void keyPressEvent(Core::KeyPressEvent&) override;
-            void keyReleaseEvent(Core::KeyReleaseEvent&) override;
-
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
 
         //! Show a message dialog.
         void messageDialog(

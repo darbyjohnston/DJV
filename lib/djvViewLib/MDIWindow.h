@@ -58,8 +58,8 @@ namespace djv
             std::shared_ptr<UI::Widget> getMoveHandle() override;
             std::shared_ptr<UI::Widget> getResizeHandle() override;
 
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void layoutEvent(Core::Event::Layout&) override;
 
         private:
             DJV_PRIVATE();

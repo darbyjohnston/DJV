@@ -81,8 +81,8 @@ namespace djv
 
         struct LogSystem::Private
         {
-            Path path;
-            FileIO io;
+            FileSystem::Path path;
+            FileSystem::FileIO io;
             std::atomic<bool> consoleOutput;
             std::list<Message> queue;
             std::condition_variable queueCV;
@@ -92,7 +92,7 @@ namespace djv
             std::atomic<bool> running;
         };
 
-        void LogSystem::_init(const Path& path, Context * context)
+        void LogSystem::_init(const FileSystem::Path& path, Context * context)
         {
             ISystem::_init(name, context, false);
 
@@ -105,11 +105,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 try
                 {
-                    p.io.open(p.path, FileIO::Mode::Write);
+                    p.io.open(p.path, FileSystem::FileIO::Mode::Write);
                 }
                 catch (const std::exception& e)
                 {
-                    std::cerr << Core::format(e) << std::endl;
+                    std::cerr << Error::format(e) << std::endl;
                 }
 
                 p.consoleOutput = !OS::getEnv("DJV_LOG_CONSOLE").empty();
@@ -118,7 +118,7 @@ namespace djv
                 s << "Path: " << p.path;
                 log("djv::Core::LogSystem", s.str());
 
-                const auto timeout = Timer::getValue(Timer::Value::Medium);
+                const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
                 while (p.running)
                 {
                     {
@@ -163,7 +163,7 @@ namespace djv
             }
         }
         
-        std::shared_ptr<LogSystem> LogSystem::create(const Path& logFile, Context * context)
+        std::shared_ptr<LogSystem> LogSystem::create(const FileSystem::Path& logFile, Context * context)
         {
             auto out = std::shared_ptr<LogSystem>(new LogSystem);
             out->_init(logFile, context);

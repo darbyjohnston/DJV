@@ -60,7 +60,6 @@ namespace djv
             //! \todo [1.0 S] Should this be configurable?
             const size_t textureCacheSize = 8192;
             const size_t textureCacheCount = 4;
-            const size_t statsTimeout = 10000;
 
             enum class PixelFormat
             {
@@ -86,8 +85,8 @@ namespace djv
                 Color color = Color(1.f, 1.f, 1.f);
 
                 GLint texture = 0;
-                FloatRange textureU;
-                FloatRange textureV;
+                Range::FloatRange textureU;
+                Range::FloatRange textureV;
             };
 
             enum class PrimitiveType
@@ -124,10 +123,10 @@ namespace djv
             {
                 Render(Context * context)
                 {
-                    const auto shaderPath = context->getPath(ResourcePath::ShadersDirectory);
+                    const auto shaderPath = context->getPath(FileSystem::ResourcePath::ShadersDirectory);
                     shader = OpenGL::Shader::create(Shader::create(
-                        Path(shaderPath, "djvAVRender2DSystemVertex.glsl"),
-                        Path(shaderPath, "djvAVRender2DSystemFragment.glsl")));
+                        FileSystem::Path(shaderPath, "djvAVRender2DSystemVertex.glsl"),
+                        FileSystem::Path(shaderPath, "djvAVRender2DSystemFragment.glsl")));
 
                     GLint maxTextureUnits = 0;
                     GLint maxTextureSize = 0;
@@ -280,8 +279,8 @@ namespace djv
                 }
 
                 std::string text;
-                FontInfo fontInfo;
-                std::future<std::vector<std::shared_ptr<FontGlyph> > > glyphsFuture;
+                Font::Info fontInfo;
+                std::future<std::vector<std::shared_ptr<Font::Glyph> > > glyphsFuture;
                 glm::vec2 pos = glm::vec2(0.f, 0.f);
 
                 void getRenderData(std::vector<RenderData> & out) override
@@ -350,14 +349,14 @@ namespace djv
             std::list<BBox2f> clipRects;
             BBox2f currentClipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
             Color fillColor = Color(1.f, 1.f, 1.f);
-            std::weak_ptr<FontSystem> fontSystem;
-            FontInfo currentFont;
-            FontMetrics currentFontMetrics;
+            std::weak_ptr<Font::System> fontSystem;
+            Font::Info currentFont;
+            Font::Metrics currentFontMetrics;
 
             std::unique_ptr<Render> render;
 
-            std::shared_ptr<Timer> statsTimer;
-            std::shared_ptr<Timer> fpsTimer;
+            std::shared_ptr<Time::Timer> statsTimer;
+            std::shared_ptr<Time::Timer> fpsTimer;
             std::vector<float> fpsSamples;
             std::chrono::time_point<std::chrono::system_clock> fpsTime = std::chrono::system_clock::now();
 
@@ -369,14 +368,14 @@ namespace djv
             ISystem::_init("djv::AV::Render2DSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.fontSystem = context->getSystemT<FontSystem>();
+            p.fontSystem = context->getSystemT<Font::System>();
 
             p.render.reset(new Render(context));
 
-            p.statsTimer = Timer::create(context);
+            p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                std::chrono::milliseconds(statsTimeout),
+                Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
@@ -386,10 +385,10 @@ namespace djv
                 _log(s.str());
             });
 
-            p.fpsTimer = Timer::create(context);
+            p.fpsTimer = Time::Timer::create(context);
             p.fpsTimer->setRepeating(true);
             p.fpsTimer->start(
-                std::chrono::milliseconds(10000),
+                Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
@@ -436,7 +435,7 @@ namespace djv
                 primitive->getRenderData(renderData);
             }
 
-            TriangleMesh mesh;
+            Mesh::TriangleMesh mesh;
             mesh.v.reserve(renderData.size() * 4);
             mesh.t.reserve(renderData.size() * 4);
             mesh.triangles.reserve(renderData.size() * 2);
@@ -457,15 +456,15 @@ namespace djv
                     mesh.t.push_back(glm::vec2(data.textureU.max, data.textureV.max));
                     mesh.t.push_back(glm::vec2(data.textureU.min, data.textureV.max));
 
-                    TriangleMesh::Triangle triangle;
-                    triangle.v0 = TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
-                    triangle.v1 = TriangleMesh::Vertex(quadsCount * 4 + 2, quadsCount * 4 + 2);
-                    triangle.v2 = TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
+                    Mesh::TriangleMesh::Triangle triangle;
+                    triangle.v0 = Mesh::TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
+                    triangle.v1 = Mesh::TriangleMesh::Vertex(quadsCount * 4 + 2, quadsCount * 4 + 2);
+                    triangle.v2 = Mesh::TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
                     mesh.triangles.push_back(std::move(triangle));
-                    TriangleMesh::Triangle triangle2;
-                    triangle.v0 = TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
-                    triangle.v1 = TriangleMesh::Vertex(quadsCount * 4 + 4, quadsCount * 4 + 4);
-                    triangle.v2 = TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
+                    Mesh::TriangleMesh::Triangle triangle2;
+                    triangle.v0 = Mesh::TriangleMesh::Vertex(quadsCount * 4 + 3, quadsCount * 4 + 3);
+                    triangle.v1 = Mesh::TriangleMesh::Vertex(quadsCount * 4 + 4, quadsCount * 4 + 4);
+                    triangle.v2 = Mesh::TriangleMesh::Vertex(quadsCount * 4 + 1, quadsCount * 4 + 1);
                     mesh.triangles.push_back(std::move(triangle));
                     ++quadsCount;
 
@@ -627,7 +626,7 @@ namespace djv
             p.render->primitives.push_back(std::move(primitive));
         }
 
-        void Render2DSystem::setCurrentFont(const FontInfo& value)
+        void Render2DSystem::setCurrentFont(const Font::Info& value)
         {
             DJV_PRIVATE_PTR();
             p.currentFont = value;

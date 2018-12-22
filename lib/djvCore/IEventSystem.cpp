@@ -38,102 +38,105 @@ namespace djv
 {
     namespace Core
     {
-        struct IEventSystem::Private
+        namespace Event
         {
-            std::weak_ptr<TextSystem> textSystem;
-            std::shared_ptr<IObject> rootObject;
-        };
-
-        void IEventSystem::_init(const std::string& systemName, Context * context)
-        {
-            ISystem::_init(systemName, context);
-            _p->textSystem = context->getSystemT<TextSystem>();
-        }
-
-        IEventSystem::IEventSystem() :
-            _p(new Private)
-        {}
-
-        IEventSystem::~IEventSystem()
-        {}
-
-        const std::shared_ptr<IObject>& IEventSystem::getRootObject() const
-        {
-            return _p->rootObject;
-        }
-
-        void IEventSystem::setRootObject(const std::shared_ptr<IObject>& value)
-        {
-            _p->rootObject = value;
-        }
-
-        void IEventSystem::_locale(LocaleEvent& event)
-        {
-            if (_p->rootObject)
+            struct IEventSystem::Private
             {
-                _localeRecursive(_p->rootObject, event);
+                std::weak_ptr<TextSystem> textSystem;
+                std::shared_ptr<IObject> rootObject;
+            };
+
+            void IEventSystem::_init(const std::string& systemName, Context * context)
+            {
+                ISystem::_init(systemName, context);
+                _p->textSystem = context->getSystemT<TextSystem>();
             }
-        }
 
-        void IEventSystem::_tick(float dt)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.rootObject)
+            IEventSystem::IEventSystem() :
+                _p(new Private)
+            {}
+
+            IEventSystem::~IEventSystem()
+            {}
+
+            const std::shared_ptr<IObject>& IEventSystem::getRootObject() const
             {
-                std::vector<std::shared_ptr<IObject> > firstTick;
-                _getFirstTick(p.rootObject, firstTick);
-                for (auto& object : firstTick)
+                return _p->rootObject;
+            }
+
+            void IEventSystem::setRootObject(const std::shared_ptr<IObject>& value)
+            {
+                _p->rootObject = value;
+            }
+
+            void IEventSystem::_locale(Locale& event)
+            {
+                if (_p->rootObject)
                 {
-                    object->_firstTick = false;
+                    _localeRecursive(_p->rootObject, event);
                 }
+            }
 
-                UpdateEvent updateEvent(dt);
-                _updateRecursive(p.rootObject, updateEvent);
-
-                if (firstTick.size())
+            void IEventSystem::_tick(float dt)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.rootObject)
                 {
-                    if (auto textSystem = _p->textSystem.lock())
+                    std::vector<std::shared_ptr<IObject> > firstTick;
+                    _getFirstTick(p.rootObject, firstTick);
+                    for (auto& object : firstTick)
                     {
-                        LocaleEvent localeEvent(textSystem->getCurrentLocale());
-                        for (auto& object : firstTick)
+                        object->_firstTick = false;
+                    }
+
+                    Update update(dt);
+                    _updateRecursive(p.rootObject, update);
+
+                    if (firstTick.size())
+                    {
+                        if (auto textSystem = _p->textSystem.lock())
                         {
-                            object->event(localeEvent);
+                            Locale locale(textSystem->getCurrentLocale());
+                            for (auto& object : firstTick)
+                            {
+                                object->event(locale);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        void IEventSystem::_getFirstTick(const std::shared_ptr<IObject>& object, std::vector<std::shared_ptr<IObject> >& out)
-        {
-            if (object->_firstTick)
+            void IEventSystem::_getFirstTick(const std::shared_ptr<IObject>& object, std::vector<std::shared_ptr<IObject> >& out)
             {
-                out.push_back(object);
+                if (object->_firstTick)
+                {
+                    out.push_back(object);
+                }
+                for (const auto& child : object->_children)
+                {
+                    _getFirstTick(child, out);
+                }
             }
-            for (const auto& child : object->_children)
-            {
-                _getFirstTick(child, out);
-            }
-        }
 
-        void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, UpdateEvent& event)
-        {
-            object->event(event);
-            for (const auto& child : object->_children)
+            void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
             {
-                _updateRecursive(child, event);
+                object->event(event);
+                for (const auto& child : object->_children)
+                {
+                    _updateRecursive(child, event);
+                }
             }
-        }
-       
-        void IEventSystem::_localeRecursive(const std::shared_ptr<IObject>& object, LocaleEvent& event)
-        {
-            object->event(event);
-            for (const auto& child : object->_children)
-            {
-                _localeRecursive(child, event);
-            }
-        }
 
+            void IEventSystem::_localeRecursive(const std::shared_ptr<IObject>& object, Locale& event)
+            {
+                object->event(event);
+                for (const auto& child : object->_children)
+                {
+                    _localeRecursive(child, event);
+                }
+            }
+
+        } // namespace Event
     } // namespace Core
 } // namespace djv
 

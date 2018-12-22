@@ -37,28 +37,32 @@ namespace djv
     namespace Core
     {
         class Context;
-        class FileInfo;
 
-        class RecentFilesModel : public std::enable_shared_from_this<RecentFilesModel>
+        namespace FileSystem
         {
-            void _init(Context *);
+            class FileInfo;
 
-            RecentFilesModel();
+            class RecentFilesModel : public std::enable_shared_from_this<RecentFilesModel>
+            {
+                void _init(Context *);
 
-        public:
-            static std::shared_ptr<RecentFilesModel> create(Context *);
+                RecentFilesModel();
 
-            std::shared_ptr<IListSubject<FileInfo> > getFiles() const;
-            void setFiles(std::vector<FileInfo>);
-            void addFile(const FileInfo&);
+            public:
+                static std::shared_ptr<RecentFilesModel> create(Context *);
 
-            std::shared_ptr<IValueSubject<size_t> > getFilesMax() const;
-            void setFilesMax(size_t);
+                std::shared_ptr<IListSubject<FileInfo> > getFiles() const;
+                void setFiles(std::vector<FileInfo>);
+                void addFile(const FileInfo&);
 
-        private:
-            DJV_PRIVATE();
-        };
+                std::shared_ptr<IValueSubject<size_t> > getFilesMax() const;
+                void setFilesMax(size_t);
 
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

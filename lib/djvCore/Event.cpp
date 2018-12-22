@@ -35,154 +35,157 @@ namespace djv
 {
     namespace Core
     {
-        IEvent::IEvent(EventType eventType) :
-            _eventType(eventType)
-        {}
-
-        IEvent::~IEvent()
-        {}
-
-        void IEvent::setAccepted(bool value)
+        namespace Event
         {
-            _accepted = value;
-        }
+            IEvent::IEvent(Type type) :
+                _eventType(type)
+            {}
 
-        void IEvent::accept()
-        {
-            _accepted = true;
-        }
+            IEvent::~IEvent()
+            {}
 
-        UpdateEvent::UpdateEvent(float dt) :
-            IEvent(EventType::Update),
-            _dt(dt)
-        {}
+            void IEvent::setAccepted(bool value)
+            {
+                _accepted = value;
+            }
 
-        LocaleEvent::LocaleEvent(const std::string& locale) :
-            IEvent(EventType::Locale),
-            _locale(locale)
-        {}
+            void IEvent::accept()
+            {
+                _accepted = true;
+            }
 
-        PreLayoutEvent::PreLayoutEvent() :
-            IEvent(EventType::PreLayout)
-        {}
+            Update::Update(float dt) :
+                IEvent(Type::Update),
+                _dt(dt)
+            {}
 
-        LayoutEvent::LayoutEvent() :
-            IEvent(EventType::Layout)
-        {}
+            Locale::Locale(const std::string& locale) :
+                IEvent(Type::Locale),
+                _locale(locale)
+            {}
 
-        ClipEvent::ClipEvent(const BBox2f& clipRect) :
-            IEvent(EventType::Clip),
-            _clipRect(clipRect)
-        {}
+            PreLayout::PreLayout() :
+                IEvent(Type::PreLayout)
+            {}
 
-        const BBox2f& ClipEvent::getClipRect() const
-        {
-            return _clipRect;
-        }
+            Layout::Layout() :
+                IEvent(Type::Layout)
+            {}
 
-        void ClipEvent::setClipRect(const BBox2f& value)
-        {
-            _clipRect = value;
-        }
+            Clip::Clip(const BBox2f& clipRect) :
+                IEvent(Type::Clip),
+                _clipRect(clipRect)
+            {}
 
-        PaintEvent::PaintEvent(const BBox2f& clipRect) :
-            IEvent(EventType::Paint),
-            _clipRect(clipRect)
-        {}
+            const BBox2f& Clip::getClipRect() const
+            {
+                return _clipRect;
+            }
 
-        const BBox2f& PaintEvent::getClipRect() const
-        {
-            return _clipRect;
-        }
+            void Clip::setClipRect(const BBox2f& value)
+            {
+                _clipRect = value;
+            }
 
-        void PaintEvent::setClipRect(const BBox2f& value)
-        {
-            _clipRect = value;
-        }
+            Paint::Paint(const BBox2f& clipRect) :
+                IEvent(Type::Paint),
+                _clipRect(clipRect)
+            {}
 
-        IPointerEvent::IPointerEvent(const PointerInfo& pointerInfo, EventType eventType) :
-            IEvent(eventType),
-            _pointerInfo(pointerInfo)
-        {}
+            const BBox2f& Paint::getClipRect() const
+            {
+                return _clipRect;
+            }
 
-        IPointerEvent::~IPointerEvent()
-        {}
+            void Paint::setClipRect(const BBox2f& value)
+            {
+                _clipRect = value;
+            }
 
-        void IPointerEvent::setRejected(bool value)
-        {
-            _rejected = value;
-        }
+            IPointer::IPointer(const PointerInfo& pointerInfo, Type type) :
+                IEvent(type),
+                _pointerInfo(pointerInfo)
+            {}
 
-        void IPointerEvent::reject()
-        {
-            _rejected = true;
-        }
+            IPointer::~IPointer()
+            {}
 
-        PointerEnterEvent::PointerEnterEvent(const PointerInfo& pointerInfo) :
-            IPointerEvent(pointerInfo, EventType::PointerEnter)
-        {}
+            void IPointer::setRejected(bool value)
+            {
+                _rejected = value;
+            }
 
-        PointerLeaveEvent::PointerLeaveEvent(const PointerInfo& pointerInfo) :
-            IPointerEvent(pointerInfo, EventType::PointerLeave)
-        {}
+            void IPointer::reject()
+            {
+                _rejected = true;
+            }
 
-        PointerMoveEvent::PointerMoveEvent(const PointerInfo& pointerInfo) :
-            IPointerEvent(pointerInfo, EventType::PointerMove)
-        {}
+            PointerEnter::PointerEnter(const PointerInfo& pointerInfo) :
+                IPointer(pointerInfo, Type::PointerEnter)
+            {}
 
-        ButtonPressEvent::ButtonPressEvent(const PointerInfo& pointerInfo) :
-            IPointerEvent(pointerInfo, EventType::ButtonPress)
-        {}
+            PointerLeave::PointerLeave(const PointerInfo& pointerInfo) :
+                IPointer(pointerInfo, Type::PointerLeave)
+            {}
 
-        ButtonReleaseEvent::ButtonReleaseEvent(const PointerInfo& pointerInfo) :
-            IPointerEvent(pointerInfo, EventType::ButtonRelease)
-        {}
+            PointerMove::PointerMove(const PointerInfo& pointerInfo) :
+                IPointer(pointerInfo, Type::PointerMove)
+            {}
 
-        ScrollEvent::ScrollEvent(const glm::vec2& scrollDelta, const PointerInfo& info) :
-            IPointerEvent(info, EventType::Scroll),
-            _scrollDelta(scrollDelta)
-        {}
+            ButtonPress::ButtonPress(const PointerInfo& pointerInfo) :
+                IPointer(pointerInfo, Type::ButtonPress)
+            {}
 
-        DropEvent::DropEvent(const std::vector<std::string>& dropPaths, const PointerInfo& info) :
-            IPointerEvent(info, EventType::Drop),
-            _dropPaths(dropPaths)
-        {}
+            ButtonRelease::ButtonRelease(const PointerInfo& pointerInfo) :
+                IPointer(pointerInfo, Type::ButtonRelease)
+            {}
 
-        KeyboardFocusEvent::KeyboardFocusEvent() :
-            IEvent(EventType::KeyboardFocus)
-        {}
+            Scroll::Scroll(const glm::vec2& scrollDelta, const PointerInfo& info) :
+                IPointer(info, Type::Scroll),
+                _scrollDelta(scrollDelta)
+            {}
 
-        KeyboardFocusLostEvent::KeyboardFocusLostEvent() :
-            IEvent(EventType::KeyboardFocusLost)
-        {}
+            Drop::Drop(const std::vector<std::string>& dropPaths, const PointerInfo& info) :
+                IPointer(info, Type::Drop),
+                _dropPaths(dropPaths)
+            {}
 
-        IKeyEvent::IKeyEvent(int key, int keyModifiers, const PointerInfo& info, EventType eventType) :
-            IPointerEvent(info, eventType),
-            _key(key),
-            _keyModifiers(keyModifiers)
-        {}
+            KeyboardFocus::KeyboardFocus() :
+                IEvent(Type::KeyboardFocus)
+            {}
 
-        IKeyEvent::~IKeyEvent()
-        {}
+            KeyboardFocusLost::KeyboardFocusLost() :
+                IEvent(Type::KeyboardFocusLost)
+            {}
 
-        KeyPressEvent::KeyPressEvent(int key, int keyModifiers, const PointerInfo& info) :
-            IKeyEvent(key, keyModifiers, info, EventType::KeyPress)
-        {}
-        
-        KeyReleaseEvent::KeyReleaseEvent(int key, int keyModifiers, const PointerInfo& info) :
-            IKeyEvent(key, keyModifiers, info, EventType::KeyRelease)
-        {}
+            IKey::IKey(int key, int keyModifiers, const PointerInfo& info, Type type) :
+                IPointer(info, type),
+                _key(key),
+                _keyModifiers(keyModifiers)
+            {}
 
-        TextEvent::TextEvent(const std::string& text) :
-            IEvent(EventType::Text),
-            _text(text)
-        {}
+            IKey::~IKey()
+            {}
 
+            KeyPress::KeyPress(int key, int keyModifiers, const PointerInfo& info) :
+                IKey(key, keyModifiers, info, Type::KeyPress)
+            {}
+
+            KeyRelease::KeyRelease(int key, int keyModifiers, const PointerInfo& info) :
+                IKey(key, keyModifiers, info, Type::KeyRelease)
+            {}
+
+            Text::Text(const std::string& text) :
+                IEvent(Type::Text),
+                _text(text)
+            {}
+
+        } // namespace Event
     } // namespace Core
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core,
-        EventType,
+        Core::Event,
+        Type,
         DJV_TEXT("Update"),
         DJV_TEXT("Locale"),
         DJV_TEXT("PreLayout"),

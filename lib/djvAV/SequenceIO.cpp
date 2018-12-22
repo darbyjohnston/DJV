@@ -30,7 +30,7 @@
 #include <djvAV/SequenceIO.h>
 
 #include <djvAV/FFmpeg.h>
-#include <djvAV/PixelProcess.h>
+#include <djvAV/PixelConvert.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -69,7 +69,7 @@ namespace djv
                     [this, fileName, context]
                 {
                     DJV_PRIVATE_PTR();
-                    FileInfo fileInfo(fileName);
+                    FileSystem::FileInfo fileInfo(fileName);
                     fileInfo.evalSequence();
                     Frame::Index frameIndex = Frame::Invalid;
                     if (fileInfo.isSequenceValid())
@@ -110,7 +110,7 @@ namespace djv
                         context->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
                     }
 
-                    const auto timeout = Timer::getValue(Timer::Value::Fast);
+                    const auto timeout = Time::Timer::getValue(Time::Timer::Value::Fast);
                     while (_queue && p.running)
                     {
                         bool read = false;
@@ -237,7 +237,7 @@ namespace djv
 
             struct ISequenceWrite::Private
             {
-                FileInfo fileInfo;
+                FileSystem::FileInfo fileInfo;
                 Frame::Number frameNumber = Frame::Invalid;
                 GLFWwindow * glfwWindow = nullptr;
                 std::thread thread;
@@ -300,7 +300,7 @@ namespace djv
 
                         _convert = Pixel::Convert::create(context);
 
-                        const auto timeout = Timer::getValue(Timer::Value::Fast);
+                        const auto timeout = Time::Timer::getValue(Time::Timer::Value::Fast);
                         while (p.running)
                         {
                             std::shared_ptr<Image> image;

@@ -21,6 +21,7 @@ set(header
     TimelineSlider.h
     #TimelineWidget.h
     #ToolObject.h
+    ViewLib.h
     #ViewObject.h
     #WindowObject.h
     #WorkspaceObject.h

@@ -31,40 +31,43 @@ namespace djv
 {
     namespace AV
     {
-        inline uint32_t FontGlyphInfo::getCode() const
+        namespace Font
         {
-            return _code;
-        }
+            inline uint32_t GlyphInfo::getCode() const
+            {
+                return _code;
+            }
 
-        inline const FontInfo & FontGlyphInfo::getFontInfo() const
-        {
-            return _fontInfo;
-        }
+            inline const Info & GlyphInfo::getInfo() const
+            {
+                return _info;
+            }
 
-        inline Core::UID FontGlyphInfo::getUID() const
-        {
-            return _uid;
-        }
+            inline Core::UID GlyphInfo::getUID() const
+            {
+                return _uid;
+            }
 
-        inline const FontGlyphInfo & FontGlyph::getInfo() const
-        {
-            return _info;
-        }
+            inline const GlyphInfo & Glyph::getInfo() const
+            {
+                return _info;
+            }
 
-        inline const std::shared_ptr<Pixel::Data> & FontGlyph::getPixelData() const
-        {
-            return _pixelData;
-        }
+            inline const std::shared_ptr<Pixel::Data> & Glyph::getPixelData() const
+            {
+                return _pixelData;
+            }
 
-        inline glm::vec2 FontGlyph::getOffset() const
-        {
-            return _offset;
-        }
+            inline glm::vec2 Glyph::getOffset() const
+            {
+                return _offset;
+            }
 
-        inline float FontGlyph::getAdvance() const
-        {
-            return _advance;
-        }
+            inline float Glyph::getAdvance() const
+            {
+                return _advance;
+            }
 
+        } // namespace Font
     } // namespace AV
 } // namespace djv

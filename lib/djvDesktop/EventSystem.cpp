@@ -50,7 +50,7 @@ namespace djv
     {
         namespace
         {
-            const PointerID pointerID = 1;
+            const Event::PointerID pointerID = 1;
 
             int fromGLFWPointerButton(int value)
             {
@@ -69,7 +69,7 @@ namespace djv
 
         struct EventSystem::Private
         {
-            PointerInfo pointerInfo;
+            Event::PointerInfo pointerInfo;
             std::shared_ptr<IObject> window;
             std::shared_ptr<IObject> hover;
             std::shared_ptr<IObject> grab;
@@ -106,7 +106,7 @@ namespace djv
         {
             IEventSystem::_tick(dt);
             DJV_PRIVATE_PTR();
-            PointerMoveEvent moveEvent(_p->pointerInfo);
+            Event::PointerMove moveEvent(_p->pointerInfo);
             if (p.grab)
             {
                 p.grab->event(moveEvent);
@@ -127,36 +127,36 @@ namespace djv
                 {
                     std::stringstream ss;
                     ss << "Hover: " << hover->getClassName();
-                    getContext()->log("djv::Core::IEventSystem", ss.str());
+                    getContext()->log("djv::Desktop::EventSystem", ss.str());
                 }*/
                 if (hover != p.hover)
                 {
                     if (p.hover)
                     {
-                        PointerLeaveEvent leaveEvent(_p->pointerInfo);
+                        Event::PointerLeave leaveEvent(_p->pointerInfo);
                         p.hover->event(leaveEvent);
                         /*{
                             std::stringstream ss;
                             ss << "Leave: " << p.hover->getClassName();
-                            getContext()->log("djv::Core::IEventSystem", ss.str());
+                            getContext()->log("djv::Desktop::EventSystem", ss.str());
                         }*/
                     }
                     p.hover = hover;
                     if (p.hover)
                     {
-                        PointerEnterEvent enterEvent(_p->pointerInfo);
+                        Event::PointerEnter enterEvent(_p->pointerInfo);
                         p.hover->event(enterEvent);
                         /*{
                             std::stringstream ss;
                             ss << "Enter: " << p.hover->getClassName();
-                            getContext()->log("djv::Core::IEventSystem", ss.str());
+                            getContext()->log("djv::Desktop::EventSystem", ss.str());
                         }*/
                     }
                 }
             }
         }
 
-        void EventSystem::_pointerMove(const PointerInfo& info)
+        void EventSystem::_pointerMove(const Event::PointerInfo& info)
         {
             DJV_PRIVATE_PTR();
             _p->pointerInfo = info;
@@ -167,7 +167,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto info = _p->pointerInfo;
             info.button = button;
-            ButtonPressEvent event(info);
+            Event::ButtonPress event(info);
             if (p.hover)
             {
                 p.hover->event(event);
@@ -183,7 +183,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto info = _p->pointerInfo;
             info.button = button;
-            ButtonReleaseEvent event(info);
+            Event::ButtonRelease event(info);
             if (p.grab)
             {
                 p.grab->event(event);
@@ -196,7 +196,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.window && p.hover)
             {
-                KeyPressEvent event(key, mods, _p->pointerInfo);
+                Event::KeyPress event(key, mods, _p->pointerInfo);
                 auto widget = p.hover;
                 while (widget)
                 {
@@ -214,7 +214,7 @@ namespace djv
         void EventSystem::_keyRelease(int key, int mods)
         {
             DJV_PRIVATE_PTR();
-            KeyReleaseEvent event(key, mods, _p->pointerInfo);
+            Event::KeyRelease event(key, mods, _p->pointerInfo);
             if (p.keyGrab)
             {
                 p.keyGrab->event(event);
@@ -240,7 +240,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.window && p.hover)
             {
-                DropEvent event(list, _p->pointerInfo);
+                Event::Drop event(list, _p->pointerInfo);
                 auto widget = p.hover;
                 while (widget)
                 {
@@ -254,7 +254,7 @@ namespace djv
             }
         }
 
-        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, PointerMoveEvent& event, std::shared_ptr<UI::Widget>& hover)
+        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<UI::Widget>& hover)
         {
             const auto children = widget->getChildrenT<UI::Widget>();
             for (auto i = children.rbegin(); i != children.rend(); ++i)
@@ -281,7 +281,7 @@ namespace djv
         void EventSystem::_pointerCallback(GLFWwindow* window, double x, double y)
         {
             EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
-            PointerInfo info;
+            Event::PointerInfo info;
             info.id = pointerID;
             info.pos.x = static_cast<float>(x);
             info.pos.y = static_cast<float>(y);

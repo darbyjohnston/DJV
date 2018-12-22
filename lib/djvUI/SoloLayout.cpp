@@ -106,7 +106,7 @@ namespace djv
             return out;
         }
 
-        void SoloLayout::preLayoutEvent(PreLayoutEvent&)
+        void SoloLayout::preLayoutEvent(Event::PreLayout&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -122,7 +122,7 @@ namespace djv
             }
         }
 
-        void SoloLayout::layoutEvent(LayoutEvent&)
+        void SoloLayout::layoutEvent(Event::Layout&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -134,7 +134,7 @@ namespace djv
             }
         }
 
-        void SoloLayout::updateEvent(UpdateEvent& event)
+        void SoloLayout::updateEvent(Event::Update& event)
         {
             int index = 0;
             for (const auto& child : getChildrenT<Widget>())

@@ -37,6 +37,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides bounding box functionality.
         namespace BBox
         {
             //! This struct provides an axis aligned bounding box.

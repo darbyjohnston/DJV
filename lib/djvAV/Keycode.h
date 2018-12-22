@@ -29,12 +29,13 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvAV/AV.h>
 
 namespace djv
 {
     namespace AV
     {
+        //! This namespace provides keycode functionality.
 	    namespace Keycode
 	    {
 	        //! \name Conversion

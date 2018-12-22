@@ -35,87 +35,90 @@ namespace djv
 {
     namespace Core
     {
-        namespace
+        namespace FileSystem
         {
-            const size_t filesMaxDefault = 10;
-
-        } // namespace
-
-        struct RecentFilesModel::Private
-        {
-            std::shared_ptr<ListSubject<FileInfo> > files;
-            std::shared_ptr<ValueSubject<size_t> > filesMax;
-        };
-
-        void RecentFilesModel::_init(Context * context)
-        {
-            _p->files = ListSubject<FileInfo>::create();
-            _p->filesMax = ValueSubject<size_t>::create(filesMaxDefault);
-        }
-
-        RecentFilesModel::RecentFilesModel() :
-            _p(new Private)
-        {}
-
-        std::shared_ptr<RecentFilesModel> RecentFilesModel::create(Context * context)
-        {
-            auto out = std::shared_ptr<RecentFilesModel>(new RecentFilesModel);
-            out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<IListSubject<FileInfo> > RecentFilesModel::getFiles() const
-        {
-            return _p->files;
-        }
-
-        void RecentFilesModel::setFiles(std::vector<FileInfo> value)
-        {
-            while (value.size() > _p->filesMax->get())
+            namespace
             {
-                value.pop_back();
+                const size_t filesMaxDefault = 10;
+
+            } // namespace
+
+            struct RecentFilesModel::Private
+            {
+                std::shared_ptr<ListSubject<FileInfo> > files;
+                std::shared_ptr<ValueSubject<size_t> > filesMax;
+            };
+
+            void RecentFilesModel::_init(Context * context)
+            {
+                _p->files = ListSubject<FileInfo>::create();
+                _p->filesMax = ValueSubject<size_t>::create(filesMaxDefault);
             }
-            _p->files->setIfChanged(value);
-        }
 
-        void RecentFilesModel::addFile(const FileInfo& value)
-        {
-            DJV_PRIVATE_PTR();
-            std::vector<FileInfo> list = p.files->get();
-            auto i = std::find(list.begin(), list.end(), value);
-            if (i != list.end())
+            RecentFilesModel::RecentFilesModel() :
+                _p(new Private)
+            {}
+
+            std::shared_ptr<RecentFilesModel> RecentFilesModel::create(Context * context)
             {
-                list.erase(i);
+                auto out = std::shared_ptr<RecentFilesModel>(new RecentFilesModel);
+                out->_init(context);
+                return out;
             }
-            list.insert(list.begin(), value);
-            while (list.size() > p.filesMax->get())
+
+            std::shared_ptr<IListSubject<FileInfo> > RecentFilesModel::getFiles() const
             {
-                list.pop_back();
+                return _p->files;
             }
-            p.files->setIfChanged(list);
-        }
 
-        std::shared_ptr<IValueSubject<size_t> > RecentFilesModel::getFilesMax() const
-        {
-            return _p->filesMax;
-        }
-
-        void RecentFilesModel::setFilesMax(size_t value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.filesMax->get())
-                return;
-            p.filesMax->setIfChanged(value);
-            if (p.files->getSize() > value)
+            void RecentFilesModel::setFiles(std::vector<FileInfo> value)
             {
+                while (value.size() > _p->filesMax->get())
+                {
+                    value.pop_back();
+                }
+                _p->files->setIfChanged(value);
+            }
+
+            void RecentFilesModel::addFile(const FileInfo& value)
+            {
+                DJV_PRIVATE_PTR();
                 std::vector<FileInfo> list = p.files->get();
-                while (list.size() > value)
+                auto i = std::find(list.begin(), list.end(), value);
+                if (i != list.end())
+                {
+                    list.erase(i);
+                }
+                list.insert(list.begin(), value);
+                while (list.size() > p.filesMax->get())
                 {
                     list.pop_back();
                 }
                 p.files->setIfChanged(list);
             }
-        }
 
+            std::shared_ptr<IValueSubject<size_t> > RecentFilesModel::getFilesMax() const
+            {
+                return _p->filesMax;
+            }
+
+            void RecentFilesModel::setFilesMax(size_t value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.filesMax->get())
+                    return;
+                p.filesMax->setIfChanged(value);
+                if (p.files->getSize() > value)
+                {
+                    std::vector<FileInfo> list = p.files->get();
+                    while (list.size() > value)
+                    {
+                        list.pop_back();
+                    }
+                    p.files->setIfChanged(list);
+                }
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv

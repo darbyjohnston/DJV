@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/PixelProcess.h>
+#include <djvAV/PixelConvert.h>
 
 #include <djvAV/OpenGLMesh.h>
 #include <djvAV/OpenGLOffscreenBuffer.h>
@@ -67,10 +67,10 @@ namespace djv
             void Convert::_init(Context * context)
             {
                 DJV_PRIVATE_PTR();
-                const auto shaderPath = context->getPath(Core::ResourcePath::ShadersDirectory);
+                const auto shaderPath = context->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
                 p.shader = AV::OpenGL::Shader::create(AV::Shader::create(
-                    Path(shaderPath, "djvAVPixelConvertVertex.glsl"),
-                    Path(shaderPath, "djvAVPixelConvertFragment.glsl")));
+                    FileSystem::Path(shaderPath, "djvAVPixelConvertVertex.glsl"),
+                    FileSystem::Path(shaderPath, "djvAVPixelConvertFragment.glsl")));
             }
 
             Convert::Convert() :
@@ -130,7 +130,7 @@ namespace djv
                 {
                     p.mirror = info.layout.mirror;
                     AV::Shape::Square square;
-                    AV::TriangleMesh mesh;
+                    AV::Mesh::TriangleMesh mesh;
                     square.triangulate(mesh);
                     if (p.mirror.x)
                     {

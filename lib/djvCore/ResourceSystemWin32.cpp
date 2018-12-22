@@ -39,14 +39,14 @@ namespace djv
 {
     namespace Core
     {
-        Path ResourceSystem::_getDocumentsPath()
+        FileSystem::Path ResourceSystem::_getDocumentsPath()
         {
-            Path out;
+            FileSystem::Path out;
             CHAR buf[MAX_PATH];
             HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, buf);
             if (S_OK == result)
             {
-                out = Path(buf);
+                out = FileSystem::Path(buf);
             }
             return out;
         }

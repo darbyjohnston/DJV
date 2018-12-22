@@ -37,36 +37,39 @@ namespace djv
 {
     namespace Core
     {
-        //! This class provides a cache.
-        //!
-        //! \todo [1.0 M] Return an interator from get() instead of a value.
-        template<typename T, typename U>
-        class Cache
+        namespace Memory
         {
-        public:
-            inline size_t getMax() const;
-            inline void setMax(size_t);
+            //! This class provides a cache.
+            //!
+            //! \todo [1.0 M] Return an interator from get() instead of a value.
+            template<typename T, typename U>
+            class Cache
+            {
+            public:
+                inline size_t getMax() const;
+                inline void setMax(size_t);
 
-            inline size_t getSize() const;
-            inline bool contains(const T& key) const;
-            inline const U& get(const T& key) const;
-            inline void add(const T& key, const U& value);
-            inline void clear();
+                inline size_t getSize() const;
+                inline bool contains(const T& key) const;
+                inline const U& get(const T& key) const;
+                inline void add(const T& key, const U& value);
+                inline void clear();
 
-            inline float getPercentageUsed() const;
+                inline float getPercentageUsed() const;
 
-            inline std::vector<T> getKeys() const;
-            inline std::vector<U> getValues() const;
+                inline std::vector<T> getKeys() const;
+                inline std::vector<U> getValues() const;
 
-        private:
-            void _updateMax();
+            private:
+                void _updateMax();
 
-            size_t _max = 10000;
-            mutable std::map<T, std::pair<U, uint64_t> > _map;
-            mutable std::map<uint64_t, T> _lru;
-            mutable uint64_t _counter = 0;
-        };
+                size_t _max = 10000;
+                mutable std::map<T, std::pair<U, uint64_t> > _map;
+                mutable std::map<uint64_t, T> _lru;
+                mutable uint64_t _counter = 0;
+            };
 
+        } // namespace Memory
     } // namespace Core
 } // namesapce djv
 

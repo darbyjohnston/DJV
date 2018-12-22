@@ -35,6 +35,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides memory functionality.
         namespace Memory
         {
             const uint64_t kilobyte = 1024; //!< The number of bytes in a kilobyte

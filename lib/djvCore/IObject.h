@@ -37,19 +37,25 @@ namespace djv
 {
     namespace Core
     {
-        class ButtonPressEvent;
-        class ButtonReleaseEvent;
         class Context;
-        class EnterEvent;
-        class IEvent;
-        class LocaleEvent;
         class LogSystem;
-        class PointerEnterEvent;
-        class PointerLeaveEvent;
-        class PointerMoveEvent;
         class ResourceSystem;
         class TextSystem;
-        class UpdateEvent;
+
+        namespace Event
+        {
+            class ButtonPress;
+            class ButtonRelease;
+            class Enter;
+            class IEvent;
+            class IEventSystem;
+            class Locale;
+            class PointerEnter;
+            class PointerLeave;
+            class PointerMove;
+            class Update;
+
+        } // namespace Event
 
         class IObject : public std::enable_shared_from_this<IObject>
         {
@@ -91,17 +97,17 @@ namespace djv
             void installEventFilter(const std::weak_ptr<IObject>&);
             void removeEventFilter(const std::weak_ptr<IObject>&);
 
-            virtual void updateEvent(UpdateEvent&) {}
-            virtual void localeEvent(LocaleEvent&) {}
-            virtual void pointerEnterEvent(PointerEnterEvent&) {}
-            virtual void pointerLeaveEvent(PointerLeaveEvent&) {}
-            virtual void pointerMoveEvent(PointerMoveEvent&) {}
-            virtual void buttonPressEvent(ButtonPressEvent&) {}
-            virtual void buttonReleaseEvent(ButtonReleaseEvent&) {}
-            virtual bool event(IEvent&);
+            virtual void updateEvent(Event::Update&) {}
+            virtual void localeEvent(Event::Locale&) {}
+            virtual void pointerEnterEvent(Event::PointerEnter&) {}
+            virtual void pointerLeaveEvent(Event::PointerLeave&) {}
+            virtual void pointerMoveEvent(Event::PointerMove&) {}
+            virtual void buttonPressEvent(Event::ButtonPress&) {}
+            virtual void buttonReleaseEvent(Event::ButtonRelease&) {}
+            virtual bool event(Event::IEvent&);
             
-            bool eventFilter(IEvent&);
-            virtual bool eventFilter(const std::shared_ptr<IObject>&, IEvent&) { return false; }
+            bool eventFilter(Event::IEvent&);
+            virtual bool eventFilter(const std::shared_ptr<IObject>&, Event::IEvent&) { return false; }
 
         protected:
             std::weak_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
@@ -129,7 +135,7 @@ namespace djv
             std::weak_ptr<LogSystem> _logSystem;
             std::weak_ptr<TextSystem> _textSystem;
 
-            friend class IEventSystem;
+            friend class Event::IEventSystem;
         };
 
     } // namespace Core

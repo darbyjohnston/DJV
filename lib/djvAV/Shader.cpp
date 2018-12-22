@@ -52,17 +52,17 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Shader> Shader::create(const Path & vertex, const Path & fragment)
+        std::shared_ptr<Shader> Shader::create(const FileSystem::Path & vertex, const FileSystem::Path & fragment)
         {
             auto out = std::shared_ptr<Shader>(new Shader);
             try
             {
-                FileIO fileIO;
-                fileIO.open(vertex, FileIO::Mode::Read);
-                FileIO::readContents(fileIO, out->_vertex.second);
+                FileSystem::FileIO fileIO;
+                fileIO.open(vertex, FileSystem::FileIO::Mode::Read);
+                FileSystem::FileIO::readContents(fileIO, out->_vertex.second);
                 out->_vertex.first = vertex.get();
-                fileIO.open(fragment, FileIO::Mode::Read);
-                FileIO::readContents(fileIO, out->_fragment.second);
+                fileIO.open(fragment, FileSystem::FileIO::Mode::Read);
+                FileSystem::FileIO::readContents(fileIO, out->_fragment.second);
                 out->_fragment.first = fragment.get();
             }
             catch (const std::exception& e)

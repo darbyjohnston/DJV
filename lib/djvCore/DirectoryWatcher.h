@@ -39,31 +39,35 @@ namespace djv
     namespace Core
     {
         class Context;
-        class Path;
 
-        //! This class provides functionality for watching directory changes.
-        //!
-        //! \bug What do we do about changes to the directory path (like deletion or moving)?
-        class DirectoryWatcher : public std::enable_shared_from_this<DirectoryWatcher>
+        namespace FileSystem
         {
-            DJV_NON_COPYABLE(DirectoryWatcher);
-            void _init(Context *);
-            DirectoryWatcher();
+            class Path;
 
-        public:
-            ~DirectoryWatcher();
+            //! This class provides functionality for watching directory changes.
+            //!
+            //! \bug What do we do about changes to the directory path (like deletion or moving)?
+            class DirectoryWatcher : public std::enable_shared_from_this<DirectoryWatcher>
+            {
+                DJV_NON_COPYABLE(DirectoryWatcher);
+                void _init(Context *);
+                DirectoryWatcher();
 
-            static std::shared_ptr<DirectoryWatcher> create(Context *);
+            public:
+                ~DirectoryWatcher();
 
-            const Path & getPath() const;
-            void setPath(const Path &);
+                static std::shared_ptr<DirectoryWatcher> create(Context *);
 
-            void setCallback(const std::function<void(void)> &);
+                const Path & getPath() const;
+                void setPath(const Path &);
 
-        private:
-            DJV_PRIVATE();
-        };
+                void setCallback(const std::function<void(void)> &);
 
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

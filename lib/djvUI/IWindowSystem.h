@@ -60,11 +60,11 @@ namespace djv
             virtual void _pushClipRect(const Core::BBox2f &);
             virtual void _popClipRect();
 
-            void _updateRecursive(const std::shared_ptr<UI::Widget>&, Core::UpdateEvent&);
-            void _preLayoutRecursive(const std::shared_ptr<UI::Widget>&, Core::PreLayoutEvent&);
-            void _layoutRecursive(const std::shared_ptr<UI::Widget>&, Core::LayoutEvent&);
-            void _clipRecursive(const std::shared_ptr<UI::Widget>&, Core::ClipEvent&);
-            void _paintRecursive(const std::shared_ptr<UI::Widget>&, Core::PaintEvent&);
+            void _updateRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::Update&);
+            void _preLayoutRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::PreLayout&);
+            void _layoutRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::Layout&);
+            void _clipRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::Clip&);
+            void _paintRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::Paint&);
 
         private:
             struct Private;

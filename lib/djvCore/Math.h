@@ -42,6 +42,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides math functionality.
         namespace Math
         {
             static const float pi = 3.14159265359f;

@@ -29,39 +29,49 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvAV/AV.h>
 
 namespace djv
 {
     namespace AV
     {
-        struct TriangleMesh;
+        namespace Mesh
+        {
+            struct TriangleMesh;
 
+        } // namespace Mesh
+
+        //! This namespace provides geometric shapes functionality.
         namespace Shape
         {
+            //! This class provides the interface for shapes.
             class IShape
             {
             public:
                 virtual ~IShape() = 0;
 
-                virtual void triangulate(TriangleMesh&) const = 0;
+                virtual void triangulate(Mesh::TriangleMesh&) const = 0;
             };
 
-            struct Square : IShape
+            //! This class provides a square shape.
+            class Square : IShape
             {
+            public:
                 Square(float radius = .5f);
 
                 float getRadius() const { return _radius; }
                 void setRadius(float);
 
-                void triangulate(TriangleMesh&) const override;
+                void triangulate(Mesh::TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
             };
 
-            struct Circle : IShape
+            //! This class provides a circle shape.
+            class Circle : IShape
             {
+            public:
                 Circle(float radius = .5f, size_t resolution = 10);
 
                 float getRadius() const { return _radius; }
@@ -69,28 +79,32 @@ namespace djv
                 void setRadius(float);
                 void setResolution(size_t);
 
-                void triangulate(TriangleMesh&) const override;
+                void triangulate(Mesh::TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
                 size_t _resolution = 10;
             };
 
-            struct Cube : IShape
+            //! This class provides a cube shape.
+            class Cube : IShape
             {
+            public:
                 Cube(float radius = .5f);
 
                 float getRadius() const { return _radius; }
                 void setRadius(float);
 
-                void triangulate(TriangleMesh&) const override;
+                void triangulate(Mesh::TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
             };
 
-            struct Sphere : IShape
+            //! This class provides a sphere shape.
+            class Sphere : IShape
             {
+            public:
                 typedef std::pair<size_t, size_t> Resolution;
                 typedef std::pair<float, float> Span;
 
@@ -107,7 +121,7 @@ namespace djv
                 void setVSpan(const Span&);
                 void setTextureSpan(bool);
 
-                void triangulate(TriangleMesh&) const override;
+                void triangulate(Mesh::TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
@@ -117,8 +131,10 @@ namespace djv
                 bool _textureSpan = true;
             };
 
-            struct Cylinder : IShape
+            //! This class provides a cylinder shape.
+            class Cylinder : IShape
             {
+            public:
                 typedef std::pair<float, float> Span;
 
                 Cylinder(float radius = .5f, float length = 1.f, size_t resolution = 100);
@@ -136,7 +152,7 @@ namespace djv
                 void setSpan(const Span&);
                 void setTextureSpan(bool);
 
-                void triangulate(TriangleMesh&) const override;
+                void triangulate(Mesh::TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;

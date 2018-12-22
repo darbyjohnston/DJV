@@ -37,103 +37,106 @@ namespace djv
 {
     namespace AV
     {
-        namespace
+        namespace Audio
         {
-            std::vector<std::string> split(const ALCchar * value)
+            namespace
             {
-                std::vector<std::string> out;
-                for (const ALCchar * p = value, *p2 = value; p2; ++p2)
+                std::vector<std::string> split(const ALCchar * value)
                 {
-                    if (!*p2)
+                    std::vector<std::string> out;
+                    for (const ALCchar * p = value, *p2 = value; p2; ++p2)
                     {
-                        if (p2 > value && !*(p2 - 1))
+                        if (!*p2)
                         {
-                            break;
+                            if (p2 > value && !*(p2 - 1))
+                            {
+                                break;
+                            }
+                            out.push_back(std::string(p, p2 - p));
+                            p = p2;
                         }
-                        out.push_back(std::string(p, p2 - p));
-                        p = p2;
                     }
+                    return out;
                 }
+
+            } // namespace
+
+            struct System::Private
+            {
+                ALCdevice * alDevice = nullptr;
+                ALCcontext * alContext = nullptr;
+            };
+
+            void System::_init(Core::Context * context)
+            {
+                ISystem::_init("djv::AV::Audio::System", context);
+
+                //! \todo [2.0 S] Make this configurable.
+                Core::OS::setEnv("ALSOFT_LOGLEVEL", "0");
+
+                const ALCchar * devices = NULL;
+                ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
+                if (AL_TRUE == alEnum)
+                {
+                    devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
+                }
+
+                DJV_PRIVATE_PTR();
+                p.alDevice = alcOpenDevice(devices);
+                if (!p.alDevice)
+                {
+                    throw std::runtime_error(DJV_TEXT("Cannot open OpenAL device."));
+                }
+                p.alContext = alcCreateContext(p.alDevice, NULL);
+                if (!p.alContext)
+                {
+                    throw std::runtime_error(DJV_TEXT("Cannot create OpenAL context."));
+                }
+                ALCboolean r = alcMakeContextCurrent(p.alContext);
+                if (AL_FALSE == r)
+                {
+                    throw std::runtime_error(DJV_TEXT("Cannot make OpenAL context current."));
+                }
+            }
+
+            System::System() :
+                _p(new Private)
+            {}
+
+            System::~System()
+            {
+                alcMakeContextCurrent(NULL);
+                DJV_PRIVATE_PTR();
+                if (p.alContext)
+                {
+                    alcDestroyContext(p.alContext);
+                    p.alContext = nullptr;
+                }
+                if (p.alDevice)
+                {
+                    alcCloseDevice(p.alDevice);
+                    p.alDevice = nullptr;
+                }
+            }
+
+            std::shared_ptr<System> System::create(Core::Context * context)
+            {
+                auto out = std::shared_ptr<System>(new System);
+                out->_init(context);
                 return out;
             }
 
-        } // namespace
-
-        struct AudioSystem::Private
-        {
-            ALCdevice * alDevice = nullptr;
-            ALCcontext * alContext = nullptr;
-        };
-
-        void AudioSystem::_init(Core::Context * context)
-        {
-            ISystem::_init("djv::AV::AudioSystem", context);
-
-            //! \todo [2.0 S] Make this configurable.
-            Core::OS::setEnv("ALSOFT_LOGLEVEL", "0");
-
-            const ALCchar * devices = NULL;
-            ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
-            if (AL_TRUE == alEnum)
+            ALCdevice * System::getALDevice() const
             {
-                devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
+                return _p->alDevice;
             }
 
-            DJV_PRIVATE_PTR();
-            p.alDevice = alcOpenDevice(devices);
-            if (!p.alDevice)
+            ALCcontext * System::getALContext() const
             {
-                throw std::runtime_error(DJV_TEXT("Cannot open OpenAL device."));
+                return _p->alContext;
             }
-            p.alContext = alcCreateContext(p.alDevice, NULL);
-            if (!p.alContext)
-            {
-                throw std::runtime_error(DJV_TEXT("Cannot create OpenAL context."));
-            }
-            ALCboolean r = alcMakeContextCurrent(p.alContext);
-            if (AL_FALSE == r)
-            {
-                throw std::runtime_error(DJV_TEXT("Cannot make OpenAL context current."));
-            }
-        }
 
-        AudioSystem::AudioSystem() :
-            _p(new Private)
-        {}
-
-        AudioSystem::~AudioSystem()
-        {
-            alcMakeContextCurrent(NULL);
-            DJV_PRIVATE_PTR();
-            if (p.alContext)
-            {
-                alcDestroyContext(p.alContext);
-                p.alContext = nullptr;
-            }
-            if (p.alDevice)
-            {
-                alcCloseDevice(p.alDevice);
-                p.alDevice = nullptr;
-            }
-        }
-
-        std::shared_ptr<AudioSystem> AudioSystem::create(Core::Context * context)
-        {
-            auto out = std::shared_ptr<AudioSystem>(new AudioSystem);
-            out->_init(context);
-            return out;
-        }
-
-        ALCdevice * AudioSystem::getALDevice() const
-        {
-            return _p->alDevice;
-        }
-
-        ALCcontext * AudioSystem::getALContext() const
-        {
-            return _p->alContext;
-        }
-        
+        } // namespace Audio
     } // namespace AV
 } // namespace djv
 

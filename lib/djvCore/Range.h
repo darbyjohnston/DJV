@@ -35,6 +35,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides number range functionality.
         namespace Range
         {
             //! This class provides a range of numbers.
@@ -76,11 +77,13 @@ namespace djv
                 inline bool operator  < (const tRange<T>&) const;
             };
 
+            //! This typedef provides an integer range.
+            typedef Range::tRange<int> IntRange;
+
+            //! This typedef provides a floating point range.
+            typedef Range::tRange<float> FloatRange;
+
         } // namespace Range
-
-        typedef Range::tRange<int> IntRange;
-        typedef Range::tRange<float> FloatRange;
-
     } // namespace Core
 
     template<typename T>

@@ -37,111 +37,120 @@
 
 using namespace djv;
 
-class Application : public Core::Context
+
+namespace djv
 {
-    DJV_NON_COPYABLE(Application);
-
-protected:
-    void _init(int & argc, char ** argv)
+    //! This namespace provides functionality for djv_info.
+    namespace info
     {
-        Core::Context::_init(argc, argv);
-
-        _io = AV::IO::System::create(this);
-
-        if (auto system = getSystemT<Core::TextSystem>().lock())
+        class Application : public Core::Context
         {
-            const auto locale = system->getCurrentLocale();
-        }
+            DJV_NON_COPYABLE(Application);
 
-        for (int i = 1; i < argc; ++i)
-        {
-            const Core::FileInfo fileInfo(argv[i]);
-            switch (fileInfo.getType())
+        protected:
+            void _init(int & argc, char ** argv)
             {
-            case Core::FileType::File: _print(fileInfo); break;
-            case Core::FileType::Directory:
-            {
-                std::cout << fileInfo.getPath() << ":" << std::endl;
-                Core::DirListOptions options;
-                options.fileSequencesEnabled = true;
-                for (const auto & i : Core::FileInfo::dirList(fileInfo.getPath(), options))
+                Core::Context::_init(argc, argv);
+
+                _io = AV::IO::System::create(this);
+
+                if (auto system = getSystemT<Core::TextSystem>().lock())
                 {
-                    _print(i);
+                    const auto locale = system->getCurrentLocale();
                 }
-                break;
-            }
-            default: break;
-            }
-        }
-    }
 
-    Application()
-    {}
-
-public:
-    virtual ~Application()
-    {}
-
-    static std::unique_ptr<Application> create(int & argc, char ** argv)
-    {
-        auto out = std::unique_ptr<Application>(new Application);
-        out->_init(argc, argv);
-        return std::move(out);
-    }
-
-private:
-    void _print(const std::string & fileName)
-    {
-        if (_io->canRead(fileName))
-        {
-            try
-            {
-                auto read = _io->read(fileName, nullptr);
-                auto info = read->getInfo().get();
-                std::cout << fileName << std::endl;
-                size_t i = 0;
-                for (const auto & video : info.video)
+                for (int i = 1; i < argc; ++i)
                 {
-                    std::cout << "    Video track " << i << ":" << std::endl;
-                    std::cout << "        Name: " << video.info.name << std::endl;
-                    std::cout << "        Size: " << video.info.size << std::endl;
-                    std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
-                    std::cout << "        Type: " << video.info.type << std::endl;
-                    std::cout << "        Speed: " << AV::Speed::speedToFloat(video.speed) << std::endl;
-                    std::cout << "        Duration: " << AV::timestampToSeconds(video.duration) << std::endl;
-                    ++i;
-                }
-                i = 0;
-                for (const auto & audio : info.audio)
-                {
-                    std::cout << "    Audio track " << i << ":" << std::endl;
-                    std::cout << "        Channels: " << audio.info.channelCount << std::endl;
-                    std::cout << "        Type: " << audio.info.type << std::endl;
-                    std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
-                    std::cout << "        Duration: " << AV::timestampToSeconds(audio.duration) << std::endl;
-                    ++i;
+                    const Core::FileSystem::FileInfo fileInfo(argv[i]);
+                    switch (fileInfo.getType())
+                    {
+                    case Core::FileSystem::FileType::File: _print(fileInfo); break;
+                    case Core::FileSystem::FileType::Directory:
+                    {
+                        std::cout << fileInfo.getPath() << ":" << std::endl;
+                        Core::FileSystem::DirListOptions options;
+                        options.fileSequencesEnabled = true;
+                        for (const auto & i : Core::FileSystem::FileInfo::dirList(fileInfo.getPath(), options))
+                        {
+                            _print(i);
+                        }
+                        break;
+                    }
+                    default: break;
+                    }
                 }
             }
-            catch (const std::exception & e)
-            {
-                std::cout << Core::format(e) << std::endl;
-            }
-        }
-    }
 
-    std::shared_ptr<AV::IO::System> _io;
-};
+            Application()
+            {}
+
+        public:
+            virtual ~Application()
+            {}
+
+            static std::unique_ptr<Application> create(int & argc, char ** argv)
+            {
+                auto out = std::unique_ptr<Application>(new Application);
+                out->_init(argc, argv);
+                return std::move(out);
+            }
+
+        private:
+            void _print(const std::string & fileName)
+            {
+                if (_io->canRead(fileName))
+                {
+                    try
+                    {
+                        auto read = _io->read(fileName, nullptr);
+                        auto info = read->getInfo().get();
+                        std::cout << fileName << std::endl;
+                        size_t i = 0;
+                        for (const auto & video : info.video)
+                        {
+                            std::cout << "    Video track " << i << ":" << std::endl;
+                            std::cout << "        Name: " << video.info.name << std::endl;
+                            std::cout << "        Size: " << video.info.size << std::endl;
+                            std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
+                            std::cout << "        Type: " << video.info.type << std::endl;
+                            std::cout << "        Speed: " << AV::Speed::speedToFloat(video.speed) << std::endl;
+                            std::cout << "        Duration: " << AV::timestampToSeconds(video.duration) << std::endl;
+                            ++i;
+                        }
+                        i = 0;
+                        for (const auto & audio : info.audio)
+                        {
+                            std::cout << "    Audio track " << i << ":" << std::endl;
+                            std::cout << "        Channels: " << audio.info.channelCount << std::endl;
+                            std::cout << "        Type: " << audio.info.type << std::endl;
+                            std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
+                            std::cout << "        Duration: " << AV::timestampToSeconds(audio.duration) << std::endl;
+                            ++i;
+                        }
+                    }
+                    catch (const std::exception & e)
+                    {
+                        std::cout << Core::Error::format(e) << std::endl;
+                    }
+                }
+            }
+
+            std::shared_ptr<AV::IO::System> _io;
+        };
+
+    } // namespace info
+} // namespace djv
 
 int main(int argc, char ** argv)
 {
     int r = 0;
     try
     {
-        Application::create(argc, argv);
+        info::Application::create(argc, argv);
     }
     catch (const std::exception & error)
     {
-        std::cout << Core::format(error) << std::endl;
+        std::cout << Core::Error::format(error) << std::endl;
     }
     return r;
 }

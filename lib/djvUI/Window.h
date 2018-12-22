@@ -57,11 +57,11 @@ namespace djv
             
             void raiseToTop() override;
 
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
-            void pointerEnterEvent(Core::PointerEnterEvent&) override;
-            void pointerLeaveEvent(Core::PointerLeaveEvent&) override;
-            void pointerMoveEvent(Core::PointerMoveEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void layoutEvent(Core::Event::Layout&) override;
+            void pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void pointerMoveEvent(Core::Event::PointerMove&) override;
 
         private:
             struct Private;

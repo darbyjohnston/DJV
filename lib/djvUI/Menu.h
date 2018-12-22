@@ -29,14 +29,25 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/Enum.h>
+
+#include <djvCore/BBox.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        class Context;
+    
+    } // namespace Core
+
     namespace UI
     {
+        class Action;
+        class Window;
+
         //! This class provides a menu widget.
-        class Menu : public Widget
+        class Menu : public std::enable_shared_from_this<Menu>
         {
             DJV_NON_COPYABLE(Menu);
 
@@ -51,9 +62,10 @@ namespace djv
 
             const std::string& getText() const;
 
-            float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
+            void addAction(const std::shared_ptr<Action> &);
+
+            void show(const std::shared_ptr<Window> &, const Core::BBox2f &, Orientation);
+            void hide();
 
         private:
             struct Private;

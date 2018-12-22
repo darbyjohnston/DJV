@@ -39,7 +39,11 @@ namespace djv
 {
     namespace Core
     {
-        class Path;
+        namespace FileSystem
+        {
+            class Path;
+        
+        } // namespace FileSystem
 
         //! This class provides text and translations.
         //!
@@ -78,7 +82,7 @@ namespace djv
             ///@}
 
         private:
-            void _readText(const Path &);
+            void _readText(const FileSystem::Path &);
 
             DJV_PRIVATE();
         };

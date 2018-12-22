@@ -29,18 +29,22 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvAV/AV.h>
 
 namespace djv
 {
     namespace Core
     {
-        class Path;
+        namespace FileSystem
+        {
+            class Path;
 
+        } // namespace FileSystem
     } // namespace Core
 
     namespace AV
     {
+        //! This class provides shader source code.
         class Shader
         {
             DJV_NON_COPYABLE(Shader);
@@ -55,7 +59,7 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            static std::shared_ptr<Shader> create(const Core::Path & vertex,  const Core::Path & fragment);
+            static std::shared_ptr<Shader> create(const Core::FileSystem::Path & vertex,  const Core::FileSystem::Path & fragment);
 
             const std::string & getVertexName() const;
             const std::string & getVertexSource() const;

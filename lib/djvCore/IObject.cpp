@@ -158,20 +158,20 @@ namespace djv
             }
         }
 
-        bool IObject::event(IEvent& event)
+        bool IObject::event(Event::IEvent& event)
         {
             bool out = eventFilter(event);
             if (!out)
             {
                 switch (event.getEventType())
                 {
-                case EventType::Update: updateEvent(static_cast<UpdateEvent&>(event)); break;
-                case EventType::Locale: localeEvent(static_cast<LocaleEvent&>(event)); break;
-                case EventType::PointerEnter: pointerEnterEvent(static_cast<PointerEnterEvent&>(event)); break;
-                case EventType::PointerLeave: pointerLeaveEvent(static_cast<PointerLeaveEvent&>(event)); break;
-                case EventType::PointerMove: pointerMoveEvent(static_cast<PointerMoveEvent&>(event)); break;
-                case EventType::ButtonPress:  buttonPressEvent(static_cast<ButtonPressEvent&>(event)); break;
-                case EventType::ButtonRelease: buttonReleaseEvent(static_cast<ButtonReleaseEvent&>(event)); break;
+                case Event::Type::Update:        updateEvent(static_cast<Event::Update&>(event));               break;
+                case Event::Type::Locale:        localeEvent(static_cast<Event::Locale&>(event));               break;
+                case Event::Type::PointerEnter:  pointerEnterEvent(static_cast<Event::PointerEnter&>(event));   break;
+                case Event::Type::PointerLeave:  pointerLeaveEvent(static_cast<Event::PointerLeave&>(event));   break;
+                case Event::Type::PointerMove:   pointerMoveEvent(static_cast<Event::PointerMove&>(event));     break;
+                case Event::Type::ButtonPress:   buttonPressEvent(static_cast<Event::ButtonPress&>(event));     break;
+                case Event::Type::ButtonRelease: buttonReleaseEvent(static_cast<Event::ButtonRelease&>(event)); break;
                 default: break;
                 }
                 out = event.isAccepted();
@@ -179,7 +179,7 @@ namespace djv
             return out;
         }
 
-        bool IObject::eventFilter(IEvent& event)
+        bool IObject::eventFilter(Event::IEvent& event)
         {
             bool filtered = false;
             std::vector<std::weak_ptr<IObject> > zombies;

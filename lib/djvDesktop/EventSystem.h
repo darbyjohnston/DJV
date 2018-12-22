@@ -45,7 +45,7 @@ namespace djv
 
     namespace Desktop
     {
-        class EventSystem : public Core::IEventSystem
+        class EventSystem : public Core::Event::IEventSystem
         {
             DJV_NON_COPYABLE(EventSystem);
 
@@ -62,14 +62,14 @@ namespace djv
             void _tick(float dt) override;
 
         private:
-            void _pointerMove(const Core::PointerInfo&);
+            void _pointerMove(const Core::Event::PointerInfo&);
             void _buttonPress(int);
             void _buttonRelease(int);
             void _keyPress(int key, int mods);
             void _keyRelease(int key, int mods);
             void _drop(const std::vector<std::string> &);
 
-            void _hover(const std::shared_ptr<UI::Widget>&, Core::PointerMoveEvent&, std::shared_ptr<UI::Widget>&);
+            void _hover(const std::shared_ptr<UI::Widget>&, Core::Event::PointerMove&, std::shared_ptr<UI::Widget>&);
 
             static void _pointerCallback(GLFWwindow*, double, double);
             static void _buttonCallback(GLFWwindow*, int button, int action, int mods);

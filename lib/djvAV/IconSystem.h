@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvAV/AV.h>
+
 #include <djvCore/ISystem.h>
 
 #include <future>
@@ -37,8 +39,11 @@ namespace djv
 {
     namespace Core
     {
-        class Path;
-    
+        namespace FileSystem
+        {
+            class Path;
+
+        } // namespace FileSystem
     } // namespace Core
 
     namespace AV
@@ -66,9 +71,9 @@ namespace djv
 
             static std::shared_ptr<IconSystem> create(Core::Context *);
 
-            std::future<Pixel::Info> getInfo(const Core::Path&);
-            std::future<std::shared_ptr<Image> > getImage(const Core::Path&);
-            std::future<std::shared_ptr<Image> > getImage(const Core::Path&, const Pixel::Info&);
+            std::future<Pixel::Info> getInfo(const Core::FileSystem::Path&);
+            std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&);
+            std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const Pixel::Info&);
 
         private:
             void _handleInfoRequests();

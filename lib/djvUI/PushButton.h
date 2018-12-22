@@ -11,15 +11,12 @@ namespace djv
 {
     namespace Core
     {
-        class Path;
+        namespace FileSystem
+        {
+            class Path;
 
+        } // namespace FileSystem
     } // namespace Core
-
-    namespace Image
-    {
-        class Data;
-    
-    } // namespace Image
 
     namespace UI
     {
@@ -37,10 +34,10 @@ namespace djv
 
             static std::shared_ptr<PushButton> create(Core::Context *);
             static std::shared_ptr<PushButton> create(const std::string&, Core::Context *);
-            static std::shared_ptr<PushButton> create(const std::string&, const Core::Path& icon, Core::Context *);
+            static std::shared_ptr<PushButton> create(const std::string&, const Core::FileSystem::Path& icon, Core::Context *);
 
-            const Core::Path& getIcon() const;
-            void setIcon(const Core::Path&);
+            const Core::FileSystem::Path& getIcon() const;
+            void setIcon(const Core::FileSystem::Path&);
 
             const std::string& getText() const;
             void setText(const std::string&);
@@ -60,10 +57,10 @@ namespace djv
 
             float getHeightForWidth(float) const override;
 
-            void updateEvent(Core::UpdateEvent&) override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
+            void updateEvent(Core::Event::Update&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void layoutEvent(Core::Event::Layout&) override;
+            void paintEvent(Core::Event::Paint&) override;
 
         private:
             struct Private;

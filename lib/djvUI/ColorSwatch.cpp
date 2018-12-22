@@ -91,7 +91,7 @@ namespace djv
             _p->swatchSize = value;
         }
 
-        void ColorSwatch::preLayoutEvent(PreLayoutEvent& event)
+        void ColorSwatch::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -100,7 +100,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::paintEvent(PaintEvent& event)
+        void ColorSwatch::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

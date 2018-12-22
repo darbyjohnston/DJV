@@ -35,6 +35,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides frame number functionality.
         namespace Frame
         {
             //! This type represents a frame number.

@@ -108,12 +108,12 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void TabWidget::preLayoutEvent(PreLayoutEvent& event)
+        void TabWidget::preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void TabWidget::layoutEvent(LayoutEvent& event)
+        void TabWidget::layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {

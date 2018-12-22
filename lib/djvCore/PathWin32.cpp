@@ -40,48 +40,51 @@ namespace djv
 {
     namespace Core
     {
-        void Path::mkdir(const Path& value)
+        namespace FileSystem
         {
-            if (_mkdir(value.get().c_str()) != 0)
+            void Path::mkdir(const Path& value)
             {
-                std::stringstream s;
-                s << DJV_TEXT("Cannot create directory") << " '" << value << "'.";
-                throw std::invalid_argument(s.str());
+                if (_mkdir(value.get().c_str()) != 0)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("Cannot create directory") << " '" << value << "'.";
+                    throw std::invalid_argument(s.str());
+                }
             }
-        }
 
-        Path Path::getAbsolute(const Path& value)
-        {
-            char buf[MAX_PATH];
-            if (!::_fullpath(buf, value._value.c_str(), MAX_PATH))
+            Path Path::getAbsolute(const Path& value)
             {
-                buf[0] = 0;
+                char buf[MAX_PATH];
+                if (!::_fullpath(buf, value._value.c_str(), MAX_PATH))
+                {
+                    buf[0] = 0;
+                }
+                return Path(buf);
             }
-            return Path(buf);
-        }
 
-        Path Path::getCWD()
-        {
-            char buf[MAX_PATH];
-            if (!::_getcwd(buf, MAX_PATH))
+            Path Path::getCWD()
             {
-                buf[0] = 0;
+                char buf[MAX_PATH];
+                if (!::_getcwd(buf, MAX_PATH))
+                {
+                    buf[0] = 0;
+                }
+                return Path(buf);
             }
-            return Path(buf);
-        }
 
-        Path Path::getTemp()
-        {
-            Path out;
-            TCHAR buf[MAX_PATH];
-            DWORD r = GetTempPath(MAX_PATH, buf);
-            if (r && r < MAX_PATH)
+            Path Path::getTemp()
             {
-                out.set(buf);
+                Path out;
+                TCHAR buf[MAX_PATH];
+                DWORD r = GetTempPath(MAX_PATH, buf);
+                if (r && r < MAX_PATH)
+                {
+                    out.set(buf);
+                }
+                return out;
             }
-            return out;
-        }
 
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

@@ -36,6 +36,7 @@ namespace djv
 {
     namespace AV
     {
+        //! This class provides an image.
         class Image : public Pixel::Data
         {
             DJV_NON_COPYABLE(Image);

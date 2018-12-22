@@ -87,13 +87,13 @@ namespace djv
             _p->currentTime->setIfChanged(value);
         }
 
-        void TimelineSlider::preLayoutEvent(PreLayoutEvent& event)
+        void TimelineSlider::preLayoutEvent(Event::PreLayout& event)
         {}
 
-        void TimelineSlider::layoutEvent(LayoutEvent& event)
+        void TimelineSlider::layoutEvent(Event::Layout& event)
         {}
 
-        void TimelineSlider::paintEvent(PaintEvent& event)
+        void TimelineSlider::paintEvent(Event::Paint& event)
         {
             if (auto render = _getRenderSystem().lock())
             {
@@ -106,7 +106,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::pointerEnterEvent(PointerEnterEvent& event)
+        void TimelineSlider::pointerEnterEvent(Event::PointerEnter& event)
         {
             if (!event.isRejected())
             {
@@ -115,7 +115,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::pointerLeaveEvent(PointerLeaveEvent& event)
+        void TimelineSlider::pointerLeaveEvent(Event::PointerLeave& event)
         {
             event.accept();
             auto i = _p->hover.find(event.getPointerInfo().id);
@@ -125,7 +125,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::pointerMoveEvent(PointerMoveEvent& event)
+        void TimelineSlider::pointerMoveEvent(Event::PointerMove& event)
         {
             const auto id = event.getPointerInfo().id;
             const auto& pos = event.getPointerInfo().projectedPos;
@@ -141,7 +141,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::buttonPressEvent(ButtonPressEvent& event)
+        void TimelineSlider::buttonPressEvent(Event::ButtonPress& event)
         {
             if (_p->pressedId)
                 return;
@@ -156,7 +156,7 @@ namespace djv
             }
         }
 
-        void TimelineSlider::buttonReleaseEvent(ButtonReleaseEvent& event)
+        void TimelineSlider::buttonReleaseEvent(Event::ButtonRelease& event)
         {
             if (event.getPointerInfo().id != _p->pressedId)
                 return;

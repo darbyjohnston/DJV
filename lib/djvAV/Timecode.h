@@ -35,6 +35,7 @@ namespace djv
 {
     namespace AV
     {
+        //! This namespace provides timecode functionality.
 	    namespace Timecode
 	    {
 	        //! \name Timecode Conversion

@@ -6,7 +6,6 @@ set(header
     Dialog.h
     Enum.h
     FlowLayout.h
-    Font.h
     FontSettings.h
     FontSettingsInline.h
     GeneralSettings.h
@@ -26,6 +25,7 @@ set(header
     MarginInline.h
     Menu.h
     MenuBar.h
+    Overlay.h
     PushButton.h
     RowLayout.h
     ScrollWidget.h
@@ -48,6 +48,7 @@ set(header
     TextBlock.h
     ToggleButton.h
     ToolButton.h
+    UI.h
     Widget.h
     WidgetInline.h
     Window.h)
@@ -74,6 +75,7 @@ set(source
     MenuBar.cpp
     MDICanvas.cpp
     MDIWindow.cpp
+    Overlay.cpp
     PushButton.cpp
     RowLayout.cpp
     ScrollWidget.cpp

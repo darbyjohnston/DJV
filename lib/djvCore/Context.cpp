@@ -38,6 +38,10 @@
 #include <djvCore/Timer.h>
 #include <djvCore/UndoStack.h>
 
+#include <chrono>
+#include <list>
+#include <mutex>
+
 namespace
 {
     const size_t fpsSamplesCount = 100;
@@ -48,38 +52,56 @@ namespace djv
 {
     namespace Core
     {
+        struct Context::Private
+        {
+            std::vector<std::string> args;
+            std::string name;
+            std::vector<std::weak_ptr<ISystem> > systems;
+            std::shared_ptr<Time::TimerSystem> timerSystem;
+            std::shared_ptr<ResourceSystem> resourceSystem;
+            std::shared_ptr<LogSystem> logSystem;
+            std::shared_ptr<TextSystem> textSystem;
+            std::shared_ptr<Animation::System> animationSystem;
+            std::chrono::time_point<std::chrono::system_clock> fpsTime = std::chrono::system_clock::now();
+            std::list<float> fpsSamples;
+            float fpsAverage = 0.f;
+            std::shared_ptr<UndoStack> undoStack;
+        };
+
         void Context::_init(int & argc, char ** argv)
         {
+            DJV_PRIVATE_PTR();
             for (int i = 0; i < argc; ++i)
             {
-                _args.push_back(argv[i]);
+                p.args.push_back(argv[i]);
             }
             const std::string argv0 = argc ? argv[0] : std::string();
-            _name = Path(argv0).getBaseName();
+            p.name = FileSystem::Path(argv0).getBaseName();
 
             // Create the core systems.
-            _timerSystem = TimerSystem::create(this);
-            _resourceSystem = ResourceSystem::create(argv0, this);
-            _logSystem = LogSystem::create(_resourceSystem->getPath(ResourcePath::LogFile), this);
-            _textSystem = TextSystem::create(this);
-            _animationSystem = AnimationSystem::create(this);
+            p.timerSystem = Time::TimerSystem::create(this);
+            p.resourceSystem = ResourceSystem::create(argv0, this);
+            p.logSystem = LogSystem::create(p.resourceSystem->getPath(FileSystem::ResourcePath::LogFile), this);
+            p.textSystem = TextSystem::create(this);
+            p.animationSystem = Animation::System::create(this);
 
             // Log information.
             std::stringstream s;
-            s << "Application: " << _name << '\n';
+            s << "Application: " << p.name << '\n';
             s << "System information: " << OS::getInformation() << '\n';
             s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
             s << "Resource paths:" << '\n';
-            for (auto path : getResourcePathEnums())
+            for (auto path : FileSystem::getResourcePathEnums())
             {
-                s << "    " << path << ": " << _resourceSystem->getPath(path) << '\n';
+                s << "    " << path << ": " << p.resourceSystem->getPath(path) << '\n';
             }
-            _logSystem->log("djv::Core::Context", s.str());
+            p.logSystem->log("djv::Core::Context", s.str());
 
-            _undoStack = UndoStack::create(this);
+            p.undoStack = UndoStack::create(this);
         }
 
-        Context::Context()
+        Context::Context() :
+            _p(new Private)
         {}
 
         Context::~Context()
@@ -94,65 +116,66 @@ namespace djv
 
         const std::vector<std::string> & Context::getArgs() const
         {
-            return _args;
+            return _p->args;
         }
            
         const std::string& Context::getName() const
         {
-            return _name;
+            return _p->name;
         }
 
         float Context::getFpsAverage() const
         {
-            return _fpsAverage;
+            return _p->fpsAverage;
         }
 
         const std::vector<std::weak_ptr<ISystem> > & Context::getSystems() const
         {
-            return _systems;
+            return _p->systems;
         }
 
         void Context::log(const std::string& prefix, const std::string& message, LogLevel level)
         {
-            _logSystem->log(prefix, message, level);
+            _p->logSystem->log(prefix, message, level);
         }
 
-        Path Context::getPath(ResourcePath value) const
+        FileSystem::Path Context::getPath(FileSystem::ResourcePath value) const
         {
-            return _resourceSystem->getPath(value);
+            return _p->resourceSystem->getPath(value);
         }
 
-        Path Context::getPath(ResourcePath value, const std::string & fileName) const
+        FileSystem::Path Context::getPath(FileSystem::ResourcePath value, const std::string & fileName) const
         {
-            return Path(_resourceSystem->getPath(value), fileName);
+            return FileSystem::Path(_p->resourceSystem->getPath(value), fileName);
         }
 
         const std::shared_ptr<UndoStack> & Context::getUndoStack() const
         {
-            return _undoStack;
+            return _p->undoStack;
         }
 
         void Context::tick(float dt)
         {
+            DJV_PRIVATE_PTR();
             const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - _fpsTime;
-            _fpsTime = now;
-            _fpsSamples.push_front(1.f / delta.count());
-            while (_fpsSamples.size() > fpsSamplesCount)
+            const std::chrono::duration<float> delta = now - p.fpsTime;
+            p.fpsTime = now;
+            p.fpsSamples.push_front(1.f / delta.count());
+            while (p.fpsSamples.size() > fpsSamplesCount)
             {
-                _fpsSamples.pop_back();
+                p.fpsSamples.pop_back();
             }
-            _fpsAverage = 0.f;
-            for (auto i : _fpsSamples)
+            p.fpsAverage = 0.f;
+            for (auto i : p.fpsSamples)
             {
-                _fpsAverage += i;
+                p.fpsAverage += i;
             }
-            _fpsAverage /= static_cast<float>(_fpsSamples.size());
-            //std::cout << "fps = " << _fpsAverage << std::endl;
+            p.fpsAverage /= static_cast<float>(p.fpsSamples.size());
+            //std::cout << "fps = " << p.fpsAverage << std::endl;
 
             static bool logSystemOrder = true;
             size_t count = 0;
-            for (const auto & i : _systems)
+            for (const auto & i : p.systems)
             {
                 if (auto system = i.lock())
                 {
@@ -172,9 +195,19 @@ namespace djv
             logSystemOrder = false;
         }
 
+        std::shared_ptr<ResourceSystem> Context::getResourceSystem() const
+        {
+            return _p->resourceSystem;
+        }
+
+        std::shared_ptr<LogSystem> Context::getLogSystem() const
+        {
+            return _p->logSystem;
+        }
+
         void Context::_addSystem(const std::weak_ptr<ISystem>& system)
         {
-            _systems.push_back(system);
+            _p->systems.push_back(system);
         }
 
     } // namespace ViewExperiment

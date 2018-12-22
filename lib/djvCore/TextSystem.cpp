@@ -59,7 +59,7 @@ namespace djv
 
             std::thread thread;
             std::mutex mutex;
-            std::shared_ptr<Timer> timer;
+            std::shared_ptr<Time::Timer> timer;
         };
 
         namespace
@@ -90,10 +90,11 @@ namespace djv
         {
             ISystem::_init("djv::Core::TextSystem", context);
 
-            _p->currentLocaleSubject = ValueSubject<std::string>::create();
+            DJV_PRIVATE_PTR();
+            p.currentLocaleSubject = ValueSubject<std::string>::create();
 
-            const auto path = context->getPath(ResourcePath::TextDirectory);
-            _p->thread = std::thread(
+            const auto path = context->getPath(FileSystem::ResourcePath::TextDirectory);
+            p.thread = std::thread(
                 [this, path]
             {
                 DJV_PRIVATE_PTR();
@@ -130,15 +131,15 @@ namespace djv
                 _log(s.str());
 
                 // Find the .text files.
-                DirListOptions options;
+                FileSystem::DirListOptions options;
                 options.glob = "*.text";
-                const auto fileInfos = FileInfo::dirList(path, options);
+                const auto fileInfos = FileSystem::FileInfo::dirList(path, options);
 
                 // Extract the locale names.
                 std::set<std::string> localeSet;
                 for (const auto & fileInfo : fileInfos)
                 {
-                    std::string temp = Path(fileInfo.getPath().getBaseName()).getExtension();
+                    std::string temp = FileSystem::Path(fileInfo.getPath().getBaseName()).getExtension();
                     if (temp.size() && '.' == temp[0])
                     {
                         temp.erase(temp.begin());
@@ -160,10 +161,10 @@ namespace djv
                 _readText(path);
             });
 
-            _p->timer = Timer::create(context);
-            _p->timer->setRepeating(true);
-            _p->timer->start(
-                Timer::getMilliseconds(Timer::Value::Medium),
+            p.timer = Time::Timer::create(context);
+            p.timer->setRepeating(true);
+            p.timer->start(
+                Time::Timer::getMilliseconds(Time::Timer::Value::Medium),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
@@ -195,9 +196,10 @@ namespace djv
 
         TextSystem::~TextSystem()
         {
-            if (_p->thread.joinable())
+            DJV_PRIVATE_PTR();
+            if (p.thread.joinable())
             {
-                _p->thread.join();
+                p.thread.join();
             }
         }
 
@@ -251,14 +253,14 @@ namespace djv
             return id;
         }
 
-        void TextSystem::_readText(const Path & path)
+        void TextSystem::_readText(const FileSystem::Path & path)
         {
             DJV_PRIVATE_PTR();
             p.text.clear();
             _log("Reading text files:");
-            DirListOptions options;
+            FileSystem::DirListOptions options;
             options.glob = "*.text";
-            for (const auto & i : FileInfo::dirList(path, options))
+            for (const auto & i : FileSystem::FileInfo::dirList(path, options))
             {
                 _log(String::indent(1) + i.getPath().get());
                 try
@@ -271,8 +273,8 @@ namespace djv
                         locale.insert(locale.begin(), *i);
                     }
 
-                    FileIO fileIO;
-                    fileIO.open(path, FileIO::Mode::Read);
+                    FileSystem::FileIO fileIO;
+                    fileIO.open(path, FileSystem::FileIO::Mode::Read);
                     const char* mmapP = reinterpret_cast<const char*>(fileIO.mmapP());
                     const char* mmapEnd = reinterpret_cast<const char*>(fileIO.mmapEnd());
 

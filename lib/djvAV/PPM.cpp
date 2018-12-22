@@ -61,13 +61,13 @@ namespace djv
                 namespace
                 {
                     template<typename T>
-                    void _readASCII(FileIO& io, uint8_t* out, size_t size)
+                    void _readASCII(FileSystem::FileIO& io, uint8_t* out, size_t size)
                     {
                         char tmp[String::cStringLength] = "";
                         T* outP = reinterpret_cast<T*>(out);
                         for (int i = 0; i < size; ++i)
                         {
-                            FileIO::readWord(io, tmp, String::cStringLength);
+                            FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
                             int value = 0;
                             String::fromString(tmp, String::cStringLength, value);
                             outP[i] = value;
@@ -76,7 +76,7 @@ namespace djv
 
                 } // namespace
 
-                void readASCII(FileIO& io, uint8_t* out, size_t size, size_t bitDepth)
+                void readASCII(FileSystem::FileIO& io, uint8_t* out, size_t size, size_t bitDepth)
                 {
                     switch (bitDepth)
                     {

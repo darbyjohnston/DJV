@@ -41,7 +41,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This plugin provides Portable Network Graphics (PNG) image I/O.
+            //! This namespace provides Portable Network Graphics (PNG) image I/O.
             //!
             //! References:
             //! - http://www.libpng.org
@@ -50,6 +50,7 @@ namespace djv
                 static const std::string pluginName = "PNG";
                 static const std::set<std::string> fileExtensions = { ".png" };
 
+                //! This struct provides a PNG error message.
                 struct ErrorStruct
                 {
                     char msg[Core::String::cStringLength];

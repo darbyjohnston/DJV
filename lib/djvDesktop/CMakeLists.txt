@@ -1,5 +1,6 @@
 set(header
     Application.h
+    Desktop.h
     EventSystem.h
     System.h
     WindowSystem.h)

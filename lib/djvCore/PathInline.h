@@ -33,76 +33,79 @@ namespace djv
 {
     namespace Core
     {
-        inline bool Path::isPathSeparator(char c)
+        namespace FileSystem
         {
-            return '/' == c || '\\' == c;
-        }
+            inline bool Path::isPathSeparator(char c)
+            {
+                return '/' == c || '\\' == c;
+            }
 
-        inline bool Path::isDigit(char c)
-        {
-            return
-                '0' == c ||
-                '1' == c ||
-                '2' == c ||
-                '3' == c ||
-                '4' == c ||
-                '5' == c ||
-                '6' == c ||
-                '7' == c ||
-                '8' == c ||
-                '9' == c;
-        }
+            inline bool Path::isDigit(char c)
+            {
+                return
+                    '0' == c ||
+                    '1' == c ||
+                    '2' == c ||
+                    '3' == c ||
+                    '4' == c ||
+                    '5' == c ||
+                    '6' == c ||
+                    '7' == c ||
+                    '8' == c ||
+                    '9' == c;
+            }
 
-        inline bool Path::isSequence(char c)
-        {
-            return isDigit(c) || isSequenceSeparator(c) || '#' == c;
-        }
+            inline bool Path::isSequence(char c)
+            {
+                return isDigit(c) || isSequenceSeparator(c) || '#' == c;
+            }
 
-        inline bool Path::isSequenceSeparator(char c)
-        {
-            return '-' == c || ',' == c;
-        }
-        
-        inline char Path::getPathSeparator(PathSeparator value)
-        {
-            return PathSeparator::Unix == value ? '/' : '\\';
-        }
+            inline bool Path::isSequenceSeparator(char c)
+            {
+                return '-' == c || ',' == c;
+            }
 
-        char Path::getCurrentPathSeparator()
-        {
+            inline char Path::getPathSeparator(PathSeparator value)
+            {
+                return PathSeparator::Unix == value ? '/' : '\\';
+            }
+
+            char Path::getCurrentPathSeparator()
+            {
 #if defined(DJV_PLATFORM_WINDOWS)
-            return getPathSeparator(PathSeparator::Windows);
+                return getPathSeparator(PathSeparator::Windows);
 #else
-            return getPathSeparator(PathSeparator::Unix);
+                return getPathSeparator(PathSeparator::Unix);
 #endif // DJV_PLATFORM_WINDOWS
-        }
-        
-        inline bool Path::operator == (const Path& other) const
-        {
-            return other._value == _value;
-        }
+            }
 
-        inline bool Path::operator != (const Path& other) const
-        {
-            return !(*this == other);
-        }
+            inline bool Path::operator == (const Path& other) const
+            {
+                return other._value == _value;
+            }
 
-        inline bool Path::operator < (const Path& other) const
-        {
-            return _value.compare(other._value) < 0;
-        }
+            inline bool Path::operator != (const Path& other) const
+            {
+                return !(*this == other);
+            }
 
-        inline Path::operator std::string () const
-        {
-            return _value;
-        }
+            inline bool Path::operator < (const Path& other) const
+            {
+                return _value.compare(other._value) < 0;
+            }
 
+            inline Path::operator std::string() const
+            {
+                return _value;
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 
 namespace std
 {
-    inline std::size_t hash<djv::Core::Path>::operator() (const djv::Core::Path& value) const noexcept
+    inline std::size_t hash<djv::Core::FileSystem::Path>::operator() (const djv::Core::FileSystem::Path& value) const noexcept
     {
         size_t hash = 0;
         djv::Core::Memory::hashCombine<std::string>(hash, value.get());

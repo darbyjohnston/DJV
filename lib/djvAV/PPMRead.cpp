@@ -55,7 +55,7 @@ namespace djv
 
                 Info Read::_readInfo(const std::string & fileName)
                 {
-                    FileIO io;
+                    FileSystem::FileIO io;
                     Data data = Data::First;
                     return _open(fileName, io, data);
                 }
@@ -63,7 +63,7 @@ namespace djv
                 std::shared_ptr<Image> Read::_readImage(const std::string & fileName)
                 {
                     std::shared_ptr<Image> out;
-                    FileIO io;
+                    FileSystem::FileIO io;
                     Data data = Data::First;
                     const auto info = _open(fileName, io, data);
                     if (info.video.size())
@@ -91,9 +91,9 @@ namespace djv
                     return out;
                 }
 
-                Info Read::_open(const std::string & fileName, FileIO & io, Data & data)
+                Info Read::_open(const std::string & fileName, FileSystem::FileIO & io, Data & data)
                 {
-                    io.open(fileName, FileIO::Mode::Read);
+                    io.open(fileName, FileSystem::FileIO::Mode::Read);
 
                     char magic[] = { 0, 0, 0 };
                     io.read(magic, 2);
@@ -128,11 +128,11 @@ namespace djv
                     case 6: channelCount = 3; break;
                     }
                     char tmp[String::cStringLength] = "";
-                    FileIO::readWord(io, tmp, String::cStringLength);
+                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
                     const int w = std::stoi(tmp);
-                    FileIO::readWord(io, tmp, String::cStringLength);
+                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
                     const int h = std::stoi(tmp);
-                    FileIO::readWord(io, tmp, String::cStringLength);
+                    FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
                     const int maxValue = std::stoi(tmp);
                     const size_t bitDepth = maxValue < 256 ? 8 : 16;
                     const auto pixelType = Pixel::getIntType(channelCount, bitDepth);

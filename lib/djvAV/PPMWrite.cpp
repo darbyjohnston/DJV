@@ -29,7 +29,7 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvAV/PixelProcess.h>
+#include <djvAV/PixelConvert.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
@@ -119,8 +119,8 @@ namespace djv
                     }
                     char magic[] = "P \n";
                     magic[1] = '0' + ppmType;
-                    FileIO io;
-                    io.open(fileName, FileIO::Mode::Write);
+                    FileSystem::FileIO io;
+                    io.open(fileName, FileSystem::FileIO::Mode::Write);
                     io.write(magic, 3);
 
                     std::stringstream s;

@@ -38,189 +38,192 @@
 
 namespace djv
 {
-    namespace
-    {
-        //! \todo [1.0 S] Should this be configurable?
-        const size_t historyMax = 10;
-
-    } // namespace
-
     namespace Core
     {
-        struct DirectoryModel::Private
+        namespace FileSystem
         {
-            std::shared_ptr<ValueSubject<Path> > path;
-            std::shared_ptr<ValueSubject<bool> > fileSequencesEnabled;
-            std::shared_ptr<ListSubject<FileInfo> > fileInfos;
-            std::shared_ptr<ListSubject<std::string> > fileNames;
-            std::shared_ptr<ListSubject<Path> > history;
-            std::future<std::pair<std::vector<FileInfo>, std::vector<std::string> > > future;
-            std::shared_ptr<Timer> futureTimer;
-            std::shared_ptr<DirectoryWatcher> directoryWatcher;
-        };
-
-        void DirectoryModel::_init(Context * context)
-        {
-            DJV_PRIVATE_PTR();
-            p.path = ValueSubject<Path>::create();
-            p.fileSequencesEnabled = ValueSubject<bool>::create(false);
-            p.fileInfos = ListSubject<FileInfo>::create();
-            p.fileNames = ListSubject<std::string>::create();
-            p.history = ListSubject<Path>::create();
-
-            p.futureTimer = Timer::create(context);
-            p.futureTimer->setRepeating(true);
-
-            p.directoryWatcher = DirectoryWatcher::create(context);
-
-            auto weak = std::weak_ptr<DirectoryModel>(shared_from_this());
-            p.directoryWatcher->setCallback(
-                [weak]
+            namespace
             {
-                if (auto model = weak.lock())
-                {
-                    model->reload();
-                }
-            });
-        }
+                //! \todo [1.0 S] Should this be configurable?
+                const size_t historyMax = 10;
 
-        DirectoryModel::DirectoryModel() :
-            _p(new Private)
-        {}
+            } // namespace
 
-        DirectoryModel::~DirectoryModel()
-        {}
-        
-        std::shared_ptr<DirectoryModel> DirectoryModel::create(Context * context)
-        {
-            auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
-            out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<DirectoryModel> DirectoryModel::create(const Path& path, Context * context)
-        {
-            auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
-            out->_init(context);
-            out->setPath(path);
-            return out;
-        }
-
-        std::shared_ptr<IValueSubject<Path> > DirectoryModel::getPath() const
-        {
-            return _p->path;
-        }
-
-        void DirectoryModel::setPath(const Path& value)
-        {
-            DJV_PRIVATE_PTR();
-            const auto& path = p.path->get();
-            if (value == path)
-                return;
-            if (!path.isEmpty())
+            struct DirectoryModel::Private
             {
-                std::vector<Path> history = p.history->get();
-                if (history.size())
+                std::shared_ptr<ValueSubject<Path> > path;
+                std::shared_ptr<ValueSubject<bool> > fileSequencesEnabled;
+                std::shared_ptr<ListSubject<FileInfo> > fileInfos;
+                std::shared_ptr<ListSubject<std::string> > fileNames;
+                std::shared_ptr<ListSubject<Path> > history;
+                std::future<std::pair<std::vector<FileInfo>, std::vector<std::string> > > future;
+                std::shared_ptr<Time::Timer> futureTimer;
+                std::shared_ptr<DirectoryWatcher> directoryWatcher;
+            };
+
+            void DirectoryModel::_init(Context * context)
+            {
+                DJV_PRIVATE_PTR();
+                p.path = ValueSubject<Path>::create();
+                p.fileSequencesEnabled = ValueSubject<bool>::create(false);
+                p.fileInfos = ListSubject<FileInfo>::create();
+                p.fileNames = ListSubject<std::string>::create();
+                p.history = ListSubject<Path>::create();
+
+                p.futureTimer = Time::Timer::create(context);
+                p.futureTimer->setRepeating(true);
+
+                p.directoryWatcher = DirectoryWatcher::create(context);
+
+                auto weak = std::weak_ptr<DirectoryModel>(shared_from_this());
+                p.directoryWatcher->setCallback(
+                    [weak]
                 {
-                    if (path != history[0])
+                    if (auto model = weak.lock())
                     {
-                        history.insert(history.begin(), path);
+                        model->reload();
                     }
-                }
-                else
-                {
-                    history.push_back(path);
-                }
-                while (history.size() > historyMax)
-                {
-                    history.pop_back();
-                }
-                p.history->setIfChanged(history);
+                });
             }
-            p.path->setIfChanged(value);            
-            _updatePath();
-        }
 
-        std::shared_ptr<IValueSubject<bool> > DirectoryModel::getFileSequencesEnabled() const
-        {
-            return _p->fileSequencesEnabled;
-        }
+            DirectoryModel::DirectoryModel() :
+                _p(new Private)
+            {}
 
-        void DirectoryModel::setFileSequencesEnabled(bool value)
-        {
-            if (_p->fileSequencesEnabled->setIfChanged(value))
+            DirectoryModel::~DirectoryModel()
+            {}
+
+            std::shared_ptr<DirectoryModel> DirectoryModel::create(Context * context)
+            {
+                auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
+                out->_init(context);
+                return out;
+            }
+
+            std::shared_ptr<DirectoryModel> DirectoryModel::create(const Path& path, Context * context)
+            {
+                auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
+                out->_init(context);
+                out->setPath(path);
+                return out;
+            }
+
+            std::shared_ptr<IValueSubject<Path> > DirectoryModel::getPath() const
+            {
+                return _p->path;
+            }
+
+            void DirectoryModel::setPath(const Path& value)
+            {
+                DJV_PRIVATE_PTR();
+                const auto& path = p.path->get();
+                if (value == path)
+                    return;
+                if (!path.isEmpty())
+                {
+                    std::vector<Path> history = p.history->get();
+                    if (history.size())
+                    {
+                        if (path != history[0])
+                        {
+                            history.insert(history.begin(), path);
+                        }
+                    }
+                    else
+                    {
+                        history.push_back(path);
+                    }
+                    while (history.size() > historyMax)
+                    {
+                        history.pop_back();
+                    }
+                    p.history->setIfChanged(history);
+                }
+                p.path->setIfChanged(value);
+                _updatePath();
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::getFileSequencesEnabled() const
+            {
+                return _p->fileSequencesEnabled;
+            }
+
+            void DirectoryModel::setFileSequencesEnabled(bool value)
+            {
+                if (_p->fileSequencesEnabled->setIfChanged(value))
+                {
+                    _updatePath();
+                }
+            }
+
+            std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::getFileInfoList() const
+            {
+                return _p->fileInfos;
+            }
+
+            std::shared_ptr<IListSubject<std::string> > DirectoryModel::getFileNames() const
+            {
+                return _p->fileNames;
+            }
+
+            std::shared_ptr<IListSubject<Path> > DirectoryModel::getHistory() const
+            {
+                return _p->history;
+            }
+
+            void DirectoryModel::reload()
             {
                 _updatePath();
             }
-        }
 
-        std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::getFileInfoList() const
-        {
-            return _p->fileInfos;
-        }
-
-        std::shared_ptr<IListSubject<std::string> > DirectoryModel::getFileNames() const
-        {
-            return _p->fileNames;
-        }
-
-        std::shared_ptr<IListSubject<Path> > DirectoryModel::getHistory() const
-        {
-            return _p->history;
-        }
-
-        void DirectoryModel::reload()
-        {
-            _updatePath();
-        }
-
-        void DirectoryModel::cdUp()
-        {
-            auto path = _p->path->get();
-            if (path.cdUp())
+            void DirectoryModel::cdUp()
             {
-                setPath(path);
-            }
-        }
-
-        void DirectoryModel::_updatePath()
-        {
-            DJV_PRIVATE_PTR();
-            const Path path = p.path->get();
-            const bool fileSequencesEnabled = p.fileSequencesEnabled->get();
-            p.future = std::async(
-                std::launch::async,
-                [path, fileSequencesEnabled]
-            {
-                std::pair<std::vector<FileInfo>, std::vector<std::string> > out;
-                DirListOptions options;
-                options.fileSequencesEnabled = fileSequencesEnabled;
-                out.first = FileInfo::dirList(path, options);
-                for (const auto& fileInfo : out.first)
+                auto path = _p->path->get();
+                if (path.cdUp())
                 {
-                    out.second.push_back(fileInfo.getFileName(-1, false));
+                    setPath(path);
                 }
-                return out;
-            });
+            }
 
-            p.futureTimer->start(
-                Timer::getMilliseconds(Timer::Value::Medium),
-                [this](float)
+            void DirectoryModel::_updatePath()
             {
                 DJV_PRIVATE_PTR();
-                if (p.future.valid() &&
-                    p.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                const Path path = p.path->get();
+                const bool fileSequencesEnabled = p.fileSequencesEnabled->get();
+                p.future = std::async(
+                    std::launch::async,
+                    [path, fileSequencesEnabled]
                 {
-                    p.futureTimer->stop();
+                    std::pair<std::vector<FileInfo>, std::vector<std::string> > out;
+                    DirListOptions options;
+                    options.fileSequencesEnabled = fileSequencesEnabled;
+                    out.first = FileInfo::dirList(path, options);
+                    for (const auto& fileInfo : out.first)
+                    {
+                        out.second.push_back(fileInfo.getFileName(-1, false));
+                    }
+                    return out;
+                });
 
-                    const auto& out = p.future.get();
-                    p.fileInfos->setIfChanged(out.first);
-                    p.fileNames->setIfChanged(out.second);
-                }
-            });
+                p.futureTimer->start(
+                    Time::Timer::getMilliseconds(Time::Timer::Value::Medium),
+                    [this](float)
+                {
+                    DJV_PRIVATE_PTR();
+                    if (p.future.valid() &&
+                        p.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        p.futureTimer->stop();
 
-            p.directoryWatcher->setPath(p.path->get());
-        }
+                        const auto& out = p.future.get();
+                        p.fileInfos->setIfChanged(out.first);
+                        p.fileNames->setIfChanged(out.second);
+                    }
+                });
 
+                p.directoryWatcher->setPath(p.path->get());
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv

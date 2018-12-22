@@ -38,8 +38,6 @@ namespace djv
 {
     namespace Core
     {
-        class Path;
-
         //! This class provides the location of resources.
         //!
         //! By default the application root is used for bundled resources. This
@@ -60,10 +58,10 @@ namespace djv
             static std::shared_ptr<ResourceSystem> create(const std::string& argv0, Context *);
 
             //! Get a resource path.
-            Path getPath(ResourcePath) const;
+            FileSystem::Path getPath(FileSystem::ResourcePath) const;
 
         private:
-            static Path _getDocumentsPath();
+            static FileSystem::Path _getDocumentsPath();
 
             DJV_PRIVATE();
         };

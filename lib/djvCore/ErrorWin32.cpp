@@ -39,23 +39,26 @@ namespace djv
 {
     namespace Core
     {
-        std::string getLastError()
+        namespace Error
         {
-            const DWORD dw = GetLastError();
-            TCHAR buf[String::cStringLength];
-            FormatMessage(
-                FORMAT_MESSAGE_FROM_SYSTEM |
-                FORMAT_MESSAGE_IGNORE_INSERTS,
-                NULL,
-                dw,
-                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                buf,
-                String::cStringLength,
-                NULL);
-            std::string out = std::string(buf, lstrlen(buf));
-            String::removeTrailingNewline(out);
-            return out;
-        }
+            std::string getLastError()
+            {
+                const DWORD dw = GetLastError();
+                TCHAR buf[String::cStringLength];
+                FormatMessage(
+                    FORMAT_MESSAGE_FROM_SYSTEM |
+                    FORMAT_MESSAGE_IGNORE_INSERTS,
+                    NULL,
+                    dw,
+                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                    buf,
+                    String::cStringLength,
+                    NULL);
+                std::string out = std::string(buf, lstrlen(buf));
+                String::removeTrailingNewline(out);
+                return out;
+            }
 
+        } // namespace Error
     } // namespace Core
 } // namespace djv

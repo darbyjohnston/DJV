@@ -66,11 +66,11 @@ namespace djv
             void setFontSizeRole(MetricsRole);
 
             float getHeightForWidth(float) const override;
-            void updateEvent(Core::UpdateEvent&) override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
-            void clipEvent(Core::ClipEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
+            void updateEvent(Core::Event::Update&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void layoutEvent(Core::Event::Layout&) override;
+            void clipEvent(Core::Event::Clip&) override;
+            void paintEvent(Core::Event::Paint&) override;
 
         private:
             struct Private;

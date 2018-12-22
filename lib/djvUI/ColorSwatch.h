@@ -58,8 +58,8 @@ namespace djv
             MetricsRole getSwatchSize() const;
             void setSwatchSize(MetricsRole);
 
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void paintEvent(Core::PaintEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void paintEvent(Core::Event::Paint&) override;
 
         private:
             struct Private;

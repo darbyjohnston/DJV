@@ -37,20 +37,23 @@ namespace djv
 {
     namespace Core
     {
-        std::vector<Path> DrivesModel::_getDrives()
+        namespace FileSystem
         {
-            std::vector<Path> out;
-#if defined(DJV_PLATFORM_OSX)
-            for (const auto& fileInfo : FileInfo::dirList(Path("/Volumes")))
+            std::vector<Path> DrivesModel::_getDrives()
             {
-                out.push_back(fileInfo.getPath());
-            }
+                std::vector<Path> out;
+#if defined(DJV_PLATFORM_OSX)
+                for (const auto& fileInfo : FileInfo::dirList(Path("/Volumes")))
+                {
+                    out.push_back(fileInfo.getPath());
+                }
 #elif defined(DJV_PLATFORM_LINUX)
-            out.push_back(Path("/"));
+                out.push_back(Path("/"));
 #endif // DJV_PLATFORM_OSX
-            return out;
-        }
+                return out;
+            }
 
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

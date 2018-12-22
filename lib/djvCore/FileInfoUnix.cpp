@@ -50,96 +50,103 @@ namespace djv
 {
     namespace Core
     {
-        bool FileInfo::stat()
+        namespace FileSystem
         {
-            _init();
-
-            _STAT info;
-            memset(&info, 0, sizeof(_STAT));
-
-            if (_STAT_FNC(_path.get().c_str(), &info) != 0)
+            bool FileInfo::stat()
             {
-                std::string err;
-                return false;
-            }
+                _init();
 
-            _exists      = true;
-            _size        = info.st_size;
-            _user        = info.st_uid;
-            _permissions = 0;
-            _time        = info.st_mtime;
-            _type        = FileType::File;
-            _permissions = 0;
+                _STAT info;
+                memset(&info, 0, sizeof(_STAT));
 
-            if (S_ISDIR(info.st_mode))
-            {
-                _type = FileType::Directory;
-            }
-            _permissions |= (info.st_mode & S_IRUSR) ? static_cast<int>(FilePermissions::Read)  : 0;
-            _permissions |= (info.st_mode & S_IWUSR) ? static_cast<int>(FilePermissions::Write) : 0;
-            _permissions |= (info.st_mode & S_IXUSR) ? static_cast<int>(FilePermissions::Exec)  : 0;
-
-            return true;
-        }
-
-        std::vector<FileInfo> FileInfo::dirList(const Path& value, const DirListOptions& options)
-        {
-            std::vector<FileInfo> out;
-            
-            // List the directory contents.
-            /*if (auto dir = opendir(path.c_str()))
-            {
-                dirent* de = nullptr;
-                while ((de = readdir(dir)))
+                if (_STAT_FNC(_path.get().c_str(), &info) != 0)
                 {
-                    if (1 == de->d_namlen && '.' == de->d_name[0])
-                        ;
-                    else if (2 == de->d_namlen && '.' == de->d_name[0] && '.' == de->d_name[1])
-                        ;
-                    else
-                    {
-                        out.emplace_back(Path(value, std::string(de->d_name, de->d_namlen)));
-                    }
+                    std::string err;
+                    return false;
                 }
-                closedir(dir);
-            }*/
 
-            glob_t g;
-            if (::glob(Path(value, options.glob).get().c_str(), 0, nullptr, &g) == 0)
-            {
-                for (size_t i = 0; i < g.gl_pathc; ++i)
+                _exists      = true;
+                _size        = info.st_size;
+                _user        = info.st_uid;
+                _permissions = 0;
+                _time        = info.st_mtime;
+                _type        = FileType::File;
+                _permissions = 0;
+
+                if (S_ISDIR(info.st_mode))
                 {
-                    FileInfo fileInfo(Path(g.gl_pathv[i]));
-                    
-                    const std::string fileName = fileInfo.getFileName(-1, false);
-                    
-                    bool filter = false;
-                    if (fileName.size() == 1 && '.' == fileName[0])
-                    {
-                        filter = true;
-                    }
-                    if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
-                    {
-                        filter = true;
-                    }
+                    _type = FileType::Directory;
+                }
+                _permissions |= (info.st_mode & S_IRUSR) ? static_cast<int>(FilePermissions::Read)  : 0;
+                _permissions |= (info.st_mode & S_IWUSR) ? static_cast<int>(FilePermissions::Write) : 0;
+                _permissions |= (info.st_mode & S_IXUSR) ? static_cast<int>(FilePermissions::Exec)  : 0;
 
-                    if (!filter)
+                return true;
+            }
+
+            std::vector<FileInfo> FileInfo::dirList(const Path& value, const DirListOptions& options)
+            {
+                std::vector<FileInfo> out;
+                
+                // List the directory contents.
+                /*if (auto dir = opendir(path.c_str()))
+                {
+                    dirent* de = nullptr;
+                    while ((de = readdir(dir)))
                     {
-                        if (options.fileSequencesEnabled)
+                        if (1 == de->d_namlen && '.' == de->d_name[0])
+                            ;
+                        else if (2 == de->d_namlen && '.' == de->d_name[0] && '.' == de->d_name[1])
+                            ;
+                        else
                         {
-                            fileInfo.evalSequence();
-                            if (fileInfo.isSequenceValid())
+                            out.emplace_back(Path(value, std::string(de->d_name, de->d_namlen)));
+                        }
+                    }
+                    closedir(dir);
+                }*/
+
+                glob_t g;
+                if (::glob(Path(value, options.glob).get().c_str(), 0, nullptr, &g) == 0)
+                {
+                    for (size_t i = 0; i < g.gl_pathc; ++i)
+                    {
+                        FileInfo fileInfo(Path(g.gl_pathv[i]));
+                        
+                        const std::string fileName = fileInfo.getFileName(-1, false);
+                        
+                        bool filter = false;
+                        if (fileName.size() == 1 && '.' == fileName[0])
+                        {
+                            filter = true;
+                        }
+                        if (fileName.size() == 2 && '.' == fileName[0] && '.' == fileName[1])
+                        {
+                            filter = true;
+                        }
+
+                        if (!filter)
+                        {
+                            if (options.fileSequencesEnabled)
                             {
-                                const size_t size = out.size();
-                                size_t i = 0;
-                                for (; i < size; ++i)
+                                fileInfo.evalSequence();
+                                if (fileInfo.isSequenceValid())
                                 {
-                                    if (out[i].addToSequence(fileInfo))
+                                    const size_t size = out.size();
+                                    size_t i = 0;
+                                    for (; i < size; ++i)
                                     {
-                                        break;
+                                        if (out[i].addToSequence(fileInfo))
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    if (size == i)
+                                    {
+                                        out.push_back(fileInfo);
                                     }
                                 }
-                                if (size == i)
+                                else
                                 {
                                     out.push_back(fileInfo);
                                 }
@@ -149,31 +156,27 @@ namespace djv
                                 out.push_back(fileInfo);
                             }
                         }
-                        else
-                        {
-                            out.push_back(fileInfo);
-                        }
                     }
                 }
-            }
-            globfree(&g);
-            
-            for (auto& i : out)
-            {
-                if (i.isSequenceValid())
+                globfree(&g);
+                
+                for (auto& i : out)
                 {
-                    i.sortSequence();
+                    if (i.isSequenceValid())
+                    {
+                        i.sortSequence();
+                    }
                 }
+
+                return out;
             }
 
-            return out;
-        }
+            FILE* fopen(const std::string& fileName, const std::string& mode)
+            {
+                return ::fopen(fileName.c_str(), mode.c_str());
+            }
 
-        FILE* fopen(const std::string& fileName, const std::string& mode)
-        {
-            return ::fopen(fileName.c_str(), mode.c_str());
-        }
-
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

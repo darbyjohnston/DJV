@@ -35,184 +35,187 @@ namespace djv
 {
     namespace Core
     {
-        //! This enumeration provides the OS specific path separators.
-        enum class PathSeparator
+        namespace FileSystem
         {
-            Unix,
-            Windows
-        };
+            //! This enumeration provides the OS specific path separators.
+            enum class PathSeparator
+            {
+                Unix,
+                Windows
+            };
 
-        //! This enumeration provides resource paths.
-        enum class ResourcePath
-        {
-            Application,
-            LogFile,
-            SettingsFile,
-            AudioDirectory,
-            FontsDirectory,
-            IconsDirectory,
-            ImagesDirectory,
-            ModelsDirectory,
-            ShadersDirectory,
-            TextDirectory,
+            //! This enumeration provides resource paths.
+            enum class ResourcePath
+            {
+                Application,
+                LogFile,
+                SettingsFile,
+                AudioDirectory,
+                FontsDirectory,
+                IconsDirectory,
+                ImagesDirectory,
+                ModelsDirectory,
+                ShadersDirectory,
+                TextDirectory,
 
-            Count,
-            First = Application
-        };
-        DJV_ENUM_HELPERS(ResourcePath);
+                Count,
+                First = Application
+            };
+            DJV_ENUM_HELPERS(ResourcePath);
 
-        //! This class provides a file system path.
-        //!
-        //! Paths are broken into components that represent the directory name,
-        //! file name, base name, number, and extension.
-	    //!
-	    //! Example path: <code>/scratch/render.exr</code>
-	    //!
-	    //! - directory name = /scratch/
-	    //! - file name      = render.exr
-	    //! - base name      = render
-	    //! - number         =
-	    //! - frame padding  = 0
-	    //! - extension      = .exr
-	    //!
-	    //! Example path: <code>/scratch/render.1-100.exr</code>
-	    //!
-	    //! - directory name = /scratch/
-        //! - file name      = render.1-100.exr
-	    //! - base name      = render.
-	    //! - number         = 1-100
-	    //! - frame padding  = 0
-	    //! - extension      = .exr
-	    //!
-	    //! Example path: <code>/scratch/render.0001-0100.exr</code>
-	    //!
-	    //! - directory name = /scratch/
-        //! - file name      = render.0001-0100.exr
-	    //! - base name      = render.
-	    //! - number         = 0001-0100
-	    //! - frame padding  = 4
-	    //! - extension      = .exr
-        //!
-        class Path
-        {
-        public:
-            Path();
-            Path(const std::string&);
-            Path(const Path&, const std::string&);
-            Path(const std::string&, const std::string&);
+            //! This class provides a file system path.
+            //!
+            //! Paths are broken into components that represent the directory name,
+            //! file name, base name, number, and extension.
+            //!
+            //! Example path: <code>/scratch/render.exr</code>
+            //!
+            //! - directory name = /scratch/
+            //! - file name      = render.exr
+            //! - base name      = render
+            //! - number         =
+            //! - frame padding  = 0
+            //! - extension      = .exr
+            //!
+            //! Example path: <code>/scratch/render.1-100.exr</code>
+            //!
+            //! - directory name = /scratch/
+            //! - file name      = render.1-100.exr
+            //! - base name      = render.
+            //! - number         = 1-100
+            //! - frame padding  = 0
+            //! - extension      = .exr
+            //!
+            //! Example path: <code>/scratch/render.0001-0100.exr</code>
+            //!
+            //! - directory name = /scratch/
+            //! - file name      = render.0001-0100.exr
+            //! - base name      = render.
+            //! - number         = 0001-0100
+            //! - frame padding  = 4
+            //! - extension      = .exr
+            //!
+            class Path
+            {
+            public:
+                Path();
+                Path(const std::string&);
+                Path(const Path&, const std::string&);
+                Path(const std::string&, const std::string&);
 
-            //! \name Path
-            ///@{
-            
-            const std::string& get() const { return _value; }
-            void set(std::string);
-            void append(const std::string&);
+                //! \name Path
+                ///@{
 
-            bool isEmpty() const { return _value.empty(); }
-            bool isRoot() const;
+                const std::string& get() const { return _value; }
+                void set(std::string);
+                void append(const std::string&);
 
-            //! Go up a directory.
-            bool cdUp();
+                bool isEmpty() const { return _value.empty(); }
+                bool isRoot() const;
 
-            ///@}
-            
-            //! \name Path Components
-            ///@{
-            
-            const std::string& getDirectoryName() const { return _directoryName; }
-            const std::string& getFileName() const { return _fileName; }
-            const std::string& getBaseName() const { return _baseName; }
-            const std::string& getNumber() const { return _number; }
-            const std::string& getExtension() const { return _extension; }
-            void setDirectoryName(const std::string&);
-            void setFileName(const std::string&);
-            void setBaseName(const std::string&);
-            void setNumber(const std::string&);
-            void setExtension(const std::string&);
-            
-            ///@}
-            
-            //! \name Path Utilities
-            ///@{
-            
-            inline static bool isPathSeparator(char);
-            inline static bool isDigit(char);
-            inline static bool isSequence(char);
-            inline static bool isSequenceSeparator(char);
+                //! Go up a directory.
+                bool cdUp();
 
-            //! Get the path separator.
-            inline static char getPathSeparator(PathSeparator);
+                ///@}
 
-            //! Get the current path separator.
-            inline static char getCurrentPathSeparator();
+                //! \name Path Components
+                ///@{
 
-            //! Remove a trailing path separator.
-            static void removeTrailingSeparator(std::string&);
+                const std::string& getDirectoryName() const { return _directoryName; }
+                const std::string& getFileName() const { return _fileName; }
+                const std::string& getBaseName() const { return _baseName; }
+                const std::string& getNumber() const { return _number; }
+                const std::string& getExtension() const { return _extension; }
+                void setDirectoryName(const std::string&);
+                void setFileName(const std::string&);
+                void setBaseName(const std::string&);
+                void setNumber(const std::string&);
+                void setExtension(const std::string&);
 
-            //! Split a path into components.
-            static void split(
-                const std::string& in,
-                std::string&       directoryName,
-                std::string&       baseName,
-                std::string&       number,
-                std::string&       extension);
+                ///@}
 
-            //! Split a directory path into sub-directories.
-            //! For example: "var/tmp" -> { "var", "tmp" }
-            static std::vector<std::string> splitDir(const std::string&);
-            
-            //! Join a list of sub-directories into a directory path.
-            //! For example: var, tmp -> var/tmp
-            static std::string joinDirs(const std::vector<std::string>&, char separator = getCurrentPathSeparator());
+                //! \name Path Utilities
+                ///@{
 
-            //! Create a directory.
-            //! Throws:
-            //! - std::exception
-            static void mkdir(const Path&);
+                inline static bool isPathSeparator(char);
+                inline static bool isDigit(char);
+                inline static bool isSequence(char);
+                inline static bool isSequenceSeparator(char);
 
-            //! Get the absolute path.
-            //! Throws:
-            //! - std::exception
-            static Path getAbsolute(const Path&);
-            
-            //! Get the current working directory path.
-            static Path getCWD();
+                //! Get the path separator.
+                inline static char getPathSeparator(PathSeparator);
 
-            //! Get the temp file path.
-            static Path getTemp();
-            
-            ///@}
+                //! Get the current path separator.
+                inline static char getCurrentPathSeparator();
 
-            inline bool operator == (const Path&) const;
-            inline bool operator != (const Path&) const;
-            inline bool operator < (const Path&) const;
+                //! Remove a trailing path separator.
+                static void removeTrailingSeparator(std::string&);
 
-            inline operator std::string () const;
-            
-        private:
-            std::string _value;
-            std::string _directoryName;
-            std::string _fileName;
-            std::string _baseName;
-            std::string _number;
-            std::string _extension;
-        };
+                //! Split a path into components.
+                static void split(
+                    const std::string& in,
+                    std::string&       directoryName,
+                    std::string&       baseName,
+                    std::string&       number,
+                    std::string&       extension);
 
+                //! Split a directory path into sub-directories.
+                //! For example: "var/tmp" -> { "var", "tmp" }
+                static std::vector<std::string> splitDir(const std::string&);
+
+                //! Join a list of sub-directories into a directory path.
+                //! For example: var, tmp -> var/tmp
+                static std::string joinDirs(const std::vector<std::string>&, char separator = getCurrentPathSeparator());
+
+                //! Create a directory.
+                //! Throws:
+                //! - std::exception
+                static void mkdir(const Path&);
+
+                //! Get the absolute path.
+                //! Throws:
+                //! - std::exception
+                static Path getAbsolute(const Path&);
+
+                //! Get the current working directory path.
+                static Path getCWD();
+
+                //! Get the temp file path.
+                static Path getTemp();
+
+                ///@}
+
+                inline bool operator == (const Path&) const;
+                inline bool operator != (const Path&) const;
+                inline bool operator < (const Path&) const;
+
+                inline operator std::string() const;
+
+            private:
+                std::string _value;
+                std::string _directoryName;
+                std::string _fileName;
+                std::string _baseName;
+                std::string _number;
+                std::string _extension;
+            };
+
+        } // namespace FileSystem
     } // namespace Core
 
-    DJV_ENUM_SERIALIZE_HELPERS(Core::ResourcePath);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::ResourcePath);
 
-    std::ostream& operator << (std::ostream&, const Core::Path&);
-    std::istream& operator >> (std::istream&, Core::Path&);
+    std::ostream& operator << (std::ostream&, const Core::FileSystem::Path&);
+    std::istream& operator >> (std::istream&, Core::FileSystem::Path&);
 
 } // namespace djv
 
 namespace std
 {
     template<>
-    struct hash<djv::Core::Path>
+    struct hash<djv::Core::FileSystem::Path>
     {
-        inline std::size_t operator() (const djv::Core::Path&) const noexcept;
+        inline std::size_t operator() (const djv::Core::FileSystem::Path&) const noexcept;
     };
 
 } // namespace std

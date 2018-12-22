@@ -38,9 +38,11 @@ namespace djv
         class Context;
         
     } // namespace Core
-    
+
+        //! This namespace provides confidence test functionality.
     namespace Test
     {
+        //! This class provides an interface for confidence tests.
         class ITest
         {
         public:

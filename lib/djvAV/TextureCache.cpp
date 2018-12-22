@@ -47,6 +47,8 @@ namespace djv
 
         } // namespace
 
+        //! This struct provides the nodes used for box packing.
+        //!
         //! References:
         //! - http://blackpawn.com/texts/lightmaps/
         struct TextureCache::BoxPackingNode
@@ -327,10 +329,10 @@ namespace djv
         {
             out.size = node->bbox.getSize();
             out.texture = node->texture;
-            out.textureU = FloatRange(
+            out.textureU = Range::FloatRange(
                 (node->bbox.min.x + _p->border) / static_cast<float>(_p->textureSize),
                 (node->bbox.max.x - _p->border + 1) / static_cast<float>(_p->textureSize));
-            out.textureV = FloatRange(
+            out.textureV = Range::FloatRange(
                 (node->bbox.min.y + _p->border) / static_cast<float>(_p->textureSize),
                 (node->bbox.max.y - _p->border + 1) / static_cast<float>(_p->textureSize));
         }

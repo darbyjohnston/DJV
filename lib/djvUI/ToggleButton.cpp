@@ -72,7 +72,7 @@ namespace djv
             return out;
         }
 
-        void ToggleButton::preLayoutEvent(PreLayoutEvent& event)
+        void ToggleButton::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto fontSystem = _getFontSystem().lock())
             {
@@ -81,7 +81,7 @@ namespace djv
                     const float m = style->getMetric(MetricsRole::Margin);
 
                     // Use the font size to determine the size of the button.
-                    const auto fontMetrics = fontSystem->getMetrics(style->getFont(AV::FontInfo::defaultFace, MetricsRole::FontMedium)).get();
+                    const auto fontMetrics = fontSystem->getMetrics(style->getFont(AV::Font::Info::defaultFace, MetricsRole::FontMedium)).get();
                     _p->lineHeight = static_cast<float>(fontMetrics.lineHeight);
 
                     // Set the minimum size.
@@ -93,7 +93,7 @@ namespace djv
             }
         }
 
-        void ToggleButton::paintEvent(PaintEvent& event)
+        void ToggleButton::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

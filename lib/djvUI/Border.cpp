@@ -42,7 +42,6 @@ namespace djv
         struct Border::Private
         {
             MetricsRole borderSize = MetricsRole::Border;
-            MetricsRole borderRounded = MetricsRole::None;
             ColorRole borderColor = ColorRole::Border;
             std::shared_ptr<StackLayout> layout;
         };
@@ -79,16 +78,6 @@ namespace djv
         void Border::setBorderSize(MetricsRole value)
         {
             _p->borderSize = value;
-        }
-        
-        MetricsRole Border::getBorderRounded() const
-        {
-            return _p->borderRounded;
-        }
-        
-        void Border::setBorderRounded(MetricsRole value)
-        {
-            _p->borderRounded = value;
         }
         
         ColorRole Border::getBorderColorRole() const
@@ -138,7 +127,7 @@ namespace djv
             return out;
         }
 
-        void Border::preLayoutEvent(PreLayoutEvent& event)
+        void Border::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -148,7 +137,7 @@ namespace djv
             }
         }
 
-        void Border::layoutEvent(LayoutEvent& event)
+        void Border::layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -157,7 +146,7 @@ namespace djv
             }
         }
 
-        void Border::paintEvent(PaintEvent& event)
+        void Border::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

@@ -30,7 +30,6 @@
 #pragma once
 
 #include <djvUI/Enum.h>
-#include <djvUI/Font.h>
 #include <djvUI/ISettings.h>
 
 #include <djvCore/Enum.h>
@@ -41,6 +40,9 @@ namespace djv
 {
     namespace UI
     {
+        //! This typedef provides font faces and their associated fonts.
+        typedef std::map<std::string, std::string> FontMap;
+
         //! This class provides font settings.
         class FontSettings : public ISettings
         {
@@ -52,7 +54,6 @@ namespace djv
 
         public:
             virtual ~FontSettings();
-
             static std::shared_ptr<FontSettings> create(Core::Context *);
 
             const std::shared_ptr<Core::MapSubject<std::string, FontMap> >& getFonts() const;

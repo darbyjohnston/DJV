@@ -35,6 +35,7 @@ namespace djv
 {
     namespace AV
     {
+        //! This class provides a color.
         class Color
         {
         public:

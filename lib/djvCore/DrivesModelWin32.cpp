@@ -41,34 +41,37 @@ namespace djv
 {
     namespace Core
     {
-        std::vector<Path> DrivesModel::_getDrives()
+        namespace FileSystem
         {
-            std::vector<Path> out;
-            DWORD result = GetLogicalDriveStrings(0, NULL);
-            if (result)
+            std::vector<Path> DrivesModel::_getDrives()
             {
-                TCHAR* buf = new TCHAR[result];
-                result = GetLogicalDriveStrings(result, buf);
+                std::vector<Path> out;
+                DWORD result = GetLogicalDriveStrings(0, NULL);
                 if (result)
                 {
-                    for (TCHAR* p = buf, *end = buf + result; p < end && *p; ++p)
+                    TCHAR* buf = new TCHAR[result];
+                    result = GetLogicalDriveStrings(result, buf);
+                    if (result)
                     {
-                        TCHAR* p2 = p;
-                        for (; p2 < end && *p2 && *p2 != '\\'; ++p2)
-                            ;
-                        out.push_back(std::string(p, p2 - p));
-                        if ('\\' == *p2)
+                        for (TCHAR* p = buf, *end = buf + result; p < end && *p; ++p)
                         {
-                            p2++;
+                            TCHAR* p2 = p;
+                            for (; p2 < end && *p2 && *p2 != '\\'; ++p2)
+                                ;
+                            out.push_back(std::string(p, p2 - p));
+                            if ('\\' == *p2)
+                            {
+                                p2++;
+                            }
+                            p = p2;
                         }
-                        p = p2;
                     }
+                    delete[] buf;
                 }
-                delete[] buf;
+                return out;
             }
-            return out;
-        }
 
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

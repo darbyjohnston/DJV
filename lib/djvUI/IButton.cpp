@@ -108,7 +108,7 @@ namespace djv
             _p->checkedCallback = callback;
         }
 
-        void IButton::paintEvent(PaintEvent& event)
+        void IButton::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())
@@ -134,7 +134,7 @@ namespace djv
             }
         }
 
-        void IButton::pointerEnterEvent(PointerEnterEvent& event)
+        void IButton::pointerEnterEvent(Event::PointerEnter& event)
         {
             event.accept();
 
@@ -143,7 +143,7 @@ namespace djv
             _p->pointerState[id].inside = true;
         }
 
-        void IButton::pointerLeaveEvent(PointerLeaveEvent& event)
+        void IButton::pointerLeaveEvent(Event::PointerLeave& event)
         {
             event.accept();
 
@@ -155,7 +155,7 @@ namespace djv
             }
         }
 
-        void IButton::pointerMoveEvent(PointerMoveEvent& event)
+        void IButton::pointerMoveEvent(Event::PointerMove& event)
         {
             event.accept();
 
@@ -178,31 +178,25 @@ namespace djv
             }
         }
 
-        void IButton::buttonPressEvent(ButtonPressEvent& event)
+        void IButton::buttonPressEvent(Event::ButtonPress& event)
         {
             if (_p->pressedId)
                 return;
-
             event.accept();
-
             _p->pressedId = event.getPointerInfo().id;
             _p->pressedPos = event.getPointerInfo().projectedPos;
         }
 
-        void IButton::buttonReleaseEvent(ButtonReleaseEvent& event)
+        void IButton::buttonReleaseEvent(Event::ButtonRelease& event)
         {
             const auto id = event.getPointerInfo().id;
             if (id != _p->pressedId)
                 return;
-
             event.accept();
-
             _p->pressedId = 0;
-
             if (_p->pointerState[id].inside)
             {
                 _doClickedCallback();
-
                 switch (_p->buttonType)
                 {
                 case ButtonType::Toggle:

@@ -33,107 +33,110 @@ namespace djv
 {
     namespace Core
     {
-        template<typename T, typename U>
-        inline size_t Cache<T, U>::getMax() const
+        namespace Memory
         {
-            return _max;
-        }
-
-        template<typename T, typename U>
-        inline void Cache<T, U>::setMax(size_t value)
-        {
-            _max = value;
-            _updateMax();
-        }
-
-        template<typename T, typename U>
-        inline size_t Cache<T, U>::getSize() const
-        {
-            return _map.size();
-        }
-
-        template<typename T, typename U>
-        inline bool Cache<T, U>::contains(const T& key) const
-        {
-            return _map.find(key) != _map.end();
-        }
-
-        template<typename T, typename U>
-        inline const U& Cache<T, U>::get(const T& key) const
-        {
-            auto i = _map.find(key);
-            const auto k = _lru.find(i->second.second);
-            _lru.erase(k);
-            const uint64_t c = _counter++;
-            _lru[c] = key;
-            i->second.second = c;
-            return i->second.first;
-        }
-
-        template<typename T, typename U>
-        inline void Cache<T, U>::add(const T& key, const U& value)
-        {
-            const auto i = _map.find(key);
-            if (i != _map.end())
+            template<typename T, typename U>
+            inline size_t Cache<T, U>::getMax() const
             {
-                const auto j = _lru.find(i->second.second);
-                if (j != _lru.end())
+                return _max;
+            }
+
+            template<typename T, typename U>
+            inline void Cache<T, U>::setMax(size_t value)
+            {
+                _max = value;
+                _updateMax();
+            }
+
+            template<typename T, typename U>
+            inline size_t Cache<T, U>::getSize() const
+            {
+                return _map.size();
+            }
+
+            template<typename T, typename U>
+            inline bool Cache<T, U>::contains(const T& key) const
+            {
+                return _map.find(key) != _map.end();
+            }
+
+            template<typename T, typename U>
+            inline const U& Cache<T, U>::get(const T& key) const
+            {
+                auto i = _map.find(key);
+                const auto k = _lru.find(i->second.second);
+                _lru.erase(k);
+                const uint64_t c = _counter++;
+                _lru[c] = key;
+                i->second.second = c;
+                return i->second.first;
+            }
+
+            template<typename T, typename U>
+            inline void Cache<T, U>::add(const T& key, const U& value)
+            {
+                const auto i = _map.find(key);
+                if (i != _map.end())
                 {
-                    _lru.erase(j);
+                    const auto j = _lru.find(i->second.second);
+                    if (j != _lru.end())
+                    {
+                        _lru.erase(j);
+                    }
+                }
+                const uint64_t c = _counter++;
+                _map[key] = std::make_pair(value, c);
+                _lru[c] = key;
+                _updateMax();
+            }
+
+            template<typename T, typename U>
+            inline void Cache<T, U>::clear()
+            {
+                _map.clear();
+                _lru.clear();
+            }
+
+            template<typename T, typename U>
+            inline float Cache<T, U>::getPercentageUsed() const
+            {
+                return _map.size() / static_cast<float>(_max) * 100.f;
+            }
+
+            template<typename T, typename U>
+            inline std::vector<T> Cache<T, U>::getKeys() const
+            {
+                std::vector<T> out;
+                for (const auto& i : _map)
+                {
+                    out.push_back(i.first);
+                }
+                return out;
+            }
+
+            template<typename T, typename U>
+            inline std::vector<U> Cache<T, U>::getValues() const
+            {
+                std::vector<U> out;
+                for (const auto& i : _map)
+                {
+                    out.push_back(i.second.first);
+                }
+                return out;
+            }
+
+            template<typename T, typename U>
+            inline void Cache<T, U>::_updateMax()
+            {
+                while (_lru.size() > _max)
+                {
+                    const auto i = _map.find(_lru.begin()->second);
+                    _map.erase(i);
+                    _lru.erase(_lru.begin());
                 }
             }
-            const uint64_t c = _counter++;
-            _map[key] = std::make_pair(value, c);
-            _lru[c] = key;
-            _updateMax();
-        }
 
-        template<typename T, typename U>
-        inline void Cache<T, U>::clear()
-        {
-            _map.clear();
-            _lru.clear();
-        }
-
-        template<typename T, typename U>
-        inline float Cache<T, U>::getPercentageUsed() const
-        {
-            return _map.size() / static_cast<float>(_max) * 100.f;
-        }
-
-        template<typename T, typename U>
-        inline std::vector<T> Cache<T, U>::getKeys() const
-        {
-            std::vector<T> out;
-            for (const auto& i : _map)
-            {
-                out.push_back(i.first);
-            }
-            return out;
-        }
-
-        template<typename T, typename U>
-        inline std::vector<U> Cache<T, U>::getValues() const
-        {
-            std::vector<U> out;
-            for (const auto& i : _map)
-            {
-                out.push_back(i.second.first);
-            }
-            return out;
-        }
-
-        template<typename T, typename U>
-        inline void Cache<T, U>::_updateMax()
-        {
-            while (_lru.size() > _max)
-            {
-                const auto i = _map.find(_lru.begin()->second);
-                _map.erase(i);
-                _lru.erase(_lru.begin());
-            }
-        }
-
+        } // namespace Memory
     } // namespace Core
 } // namespace djv
 

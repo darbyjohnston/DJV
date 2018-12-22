@@ -41,6 +41,7 @@ namespace djv
     {
         namespace Pixel
         {
+            //! This struct provides information about mirroring the image.
             struct Mirror
             {
                 inline Mirror();
@@ -53,6 +54,7 @@ namespace djv
                 inline bool operator != (const Mirror &) const;
             };
 
+            //! This struct provides information about the data layout.
             struct Layout
             {
                 inline Layout();
@@ -66,6 +68,7 @@ namespace djv
                 inline bool operator != (const Layout &) const;
             };
 
+            //! This struct provides pixel data information.
             struct Info
             {
                 inline Info();
@@ -89,6 +92,7 @@ namespace djv
                 inline bool operator != (const Info &) const;
             };
 
+            //! This struct provides pixel data.
             class Data
             {
                 DJV_NON_COPYABLE(Data);

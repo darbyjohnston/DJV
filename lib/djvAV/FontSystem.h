@@ -43,134 +43,138 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides font information.
-        struct FontInfo
+        //! This namespace provides font functionality.
+        namespace Font
         {
-            FontInfo();
-            FontInfo(const std::string & family, const std::string & face, float size);
+            //! This class provides font information.
+            struct Info
+            {
+                Info();
+                Info(const std::string & family, const std::string & face, float size);
 
-            std::string family = defaultFamily;
-            std::string face = defaultFace;
-            float size = 0.f;
+                std::string family = defaultFamily;
+                std::string face = defaultFace;
+                float size = 0.f;
 
-            static const std::string defaultFamily;
-            static const std::string defaultFace;
-        };
+                static const std::string defaultFamily;
+                static const std::string defaultFace;
+            };
 
-        //! This struct provides font metrics.
-        struct FontMetrics
-        {
-            float ascender = 0.f;
-            float descender = 0.f;
-            float lineHeight = 0.f;
-        };
+            //! This struct provides font metrics.
+            struct Metrics
+            {
+                float ascender = 0.f;
+                float descender = 0.f;
+                float lineHeight = 0.f;
+            };
 
-        //! This struct provides a line of text.
-        //!
-        //! \todo Instead of copying the text should we use indices instead?
-        struct TextLine
-        {
-            TextLine();
-            TextLine(const std::string& text, const glm::vec2&);
+            //! This struct provides a line of text.
+            //!
+            //! \todo Instead of copying the text should we use indices instead?
+            struct TextLine
+            {
+                TextLine();
+                TextLine(const std::string& text, const glm::vec2&);
 
-            std::string text;
-            glm::vec2 size = glm::vec2(0.f, 0.f);
-        };
+                std::string text;
+                glm::vec2 size = glm::vec2(0.f, 0.f);
+            };
 
-        //! This class provides font glyph information.
-        class FontGlyphInfo
-        {
-        public:
-            FontGlyphInfo();
-            FontGlyphInfo(uint32_t code, const FontInfo &);
+            //! This class provides font glyph information.
+            class GlyphInfo
+            {
+            public:
+                GlyphInfo();
+                GlyphInfo(uint32_t code, const Info &);
 
-            inline uint32_t getCode() const;
-            inline const FontInfo & getFontInfo() const;
-            inline Core::UID getUID() const;
+                inline uint32_t getCode() const;
+                inline const Info & getInfo() const;
+                inline Core::UID getUID() const;
 
-        private:
-            uint32_t _code = 0;
-            FontInfo _fontInfo;
-            Core::UID _uid = 0;
-        };
+            private:
+                uint32_t _code = 0;
+                Info _info;
+                Core::UID _uid = 0;
+            };
 
-        //! This class provides a font glyph.
-        class FontGlyph
-        {
-            DJV_NON_COPYABLE(FontGlyph);
+            //! This class provides a font glyph.
+            class Glyph
+            {
+                DJV_NON_COPYABLE(Glyph);
 
-        protected:
-            void _init(
-                const FontGlyphInfo &,
-                const std::shared_ptr<Pixel::Data> &,
-                const glm::vec2 & offset,
-                float advance);
+            protected:
+                void _init(
+                    const GlyphInfo &,
+                    const std::shared_ptr<Pixel::Data> &,
+                    const glm::vec2 & offset,
+                    float advance);
 
-            FontGlyph();
+                Glyph();
 
-        public:
-            static std::shared_ptr<FontGlyph> create(
-                const FontGlyphInfo &,
-                const std::shared_ptr<Pixel::Data> &,
-                const glm::vec2 & offset,
-                float advance);
+            public:
+                static std::shared_ptr<Glyph> create(
+                    const GlyphInfo &,
+                    const std::shared_ptr<Pixel::Data> &,
+                    const glm::vec2 & offset,
+                    float advance);
 
-            inline const FontGlyphInfo & getInfo() const;
-            inline const std::shared_ptr<Pixel::Data> & getPixelData() const;
-            inline glm::vec2 getOffset() const;
-            inline float getAdvance() const;
+                inline const GlyphInfo & getInfo() const;
+                inline const std::shared_ptr<Pixel::Data> & getPixelData() const;
+                inline glm::vec2 getOffset() const;
+                inline float getAdvance() const;
 
-        private:
-            FontGlyphInfo _info;
-            std::shared_ptr<Pixel::Data> _pixelData;
-            glm::vec2 _offset = glm::vec2(0.f, 0.f);
-            float _advance = 0.f;
-        };
+            private:
+                GlyphInfo _info;
+                std::shared_ptr<Pixel::Data> _pixelData;
+                glm::vec2 _offset = glm::vec2(0.f, 0.f);
+                float _advance = 0.f;
+            };
 
-        //! This class provides a font system.
-        class FontSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(FontSystem);
+            //! This class provides a font system.
+            class System : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(System);
 
-        protected:
-            void _init(const glm::vec2& dpi, Core::Context *);
+            protected:
+                void _init(const glm::vec2& dpi, Core::Context *);
 
-            FontSystem();
+                System();
 
-        public:
-            virtual ~FontSystem();
+            public:
+                virtual ~System();
 
-            static std::shared_ptr<FontSystem> create(const glm::vec2& dpi, Core::Context *);
+                static std::shared_ptr<System> create(const glm::vec2& dpi, Core::Context *);
 
-            //! Get the font family and file names.
-            std::future<std::map<std::string, std::string> > getFontNames();
+                //! Get the font family and file names.
+                std::future<std::map<std::string, std::string> > getFontNames();
 
-            //! Get font metrics.
-            std::future<FontMetrics> getMetrics(const FontInfo&);
+                //! Get font metrics.
+                std::future<Metrics> getMetrics(const Info&);
 
-            //! Measure the size of text.
-            std::future<glm::vec2> measure(const std::string& text, const FontInfo&);
+                //! Measure the size of text.
+                std::future<glm::vec2> measure(const std::string& text, const Info&);
 
-            //! Measure the size of text with word wrapping.
-            std::future<glm::vec2> measure(const std::string& text, float maxLineWidth, const FontInfo&);
+                //! Measure the size of text with word wrapping.
+                std::future<glm::vec2> measure(const std::string& text, float maxLineWidth, const Info&);
 
-            //! Break text into lines for word wrapping.
-            std::future<std::vector<TextLine> > breakLines(const std::string& text, float maxLineWidth, const FontInfo&);
+                //! Break text into lines for word wrapping.
+                std::future<std::vector<TextLine> > breakLines(const std::string& text, float maxLineWidth, const Info&);
 
-            //! Get font glyphs.
-            std::future<std::vector<std::shared_ptr<FontGlyph> > > getGlyphs(const std::string& text, const FontInfo&);
+                //! Get font glyphs.
+                std::future<std::vector<std::shared_ptr<Glyph> > > getGlyphs(const std::string& text, const Info&);
 
-        private:
-            void _initFreeType();
-            void _delFreeType();
-            void _handleMetricsRequests();
-            void _handleMeasureRequests();
-            void _handleBreakLinesRequests();
-            void _handleGlyphsRequests();
+            private:
+                void _initFreeType();
+                void _delFreeType();
+                void _handleMetricsRequests();
+                void _handleMeasureRequests();
+                void _handleBreakLinesRequests();
+                void _handleGlyphsRequests();
 
-            DJV_PRIVATE();
-        };
+                DJV_PRIVATE();
+            };
 
+        } // namespace Font
     } // namespace AV
 } // namespace djv
 

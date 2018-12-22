@@ -37,6 +37,7 @@ namespace djv
     {
         namespace Audio
         {
+            //! This struct provides audio data information.
             struct DataInfo
             {
                 inline DataInfo();
@@ -52,6 +53,7 @@ namespace djv
                 bool operator != (const DataInfo &) const;
             };
 
+            //! This struct provides audio data.
             class Data
             {
                 DJV_NON_COPYABLE(Data);

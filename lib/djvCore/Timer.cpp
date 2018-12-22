@@ -37,147 +37,150 @@ namespace djv
 {
     namespace Core
     {
-        void Timer::_init(Context * context)
+        namespace Time
         {
-            if (auto system = context->getSystemT<TimerSystem>().lock())
+            void Timer::_init(Context * context)
             {
-                system->_addTimer(shared_from_this());
-            }
-        }
-
-        std::shared_ptr<Timer> Timer::create(Context * context)
-        {
-            auto out = std::shared_ptr<Timer>(new Timer);
-            out->_init(context);
-            return out;
-        }
-        
-        size_t Timer::getValue(Value value)
-        {
-            static const std::vector<size_t> data =
-            {
-                10000,
-                1000,
-                100,
-                10,
-                1
-            };
-            DJV_ASSERT(data.size() == static_cast<size_t>(Value::Count));
-            return data[static_cast<size_t>(value)];
-        }
-        
-        std::chrono::milliseconds Timer::getMilliseconds(Value value)
-        {
-            return std::chrono::milliseconds(getValue(value));
-        }
-
-        void Timer::setRepeating(bool value)
-        {
-            _repeating = value;
-        }
-
-        void Timer::start(std::chrono::milliseconds value, const std::function<void(float)>& callback)
-        {
-            _active   = true;
-            _timeout  = value;
-            _callback = callback;
-            _start    = std::chrono::system_clock::now();
-        }
-
-        void Timer::stop()
-        {
-            _active = false;
-        }
-
-        void Timer::_tick(float dt)
-        {
-            if (_active)
-            {
-                const auto now = std::chrono::system_clock::now();
-                if (now >= (_start + _timeout))
+                if (auto system = context->getSystemT<TimerSystem>().lock())
                 {
-                    if (_callback)
+                    system->_addTimer(shared_from_this());
+                }
+            }
+
+            std::shared_ptr<Timer> Timer::create(Context * context)
+            {
+                auto out = std::shared_ptr<Timer>(new Timer);
+                out->_init(context);
+                return out;
+            }
+
+            size_t Timer::getValue(Value value)
+            {
+                static const std::vector<size_t> data =
+                {
+                    10000,
+                    1000,
+                    100,
+                    10,
+                    1
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(Value::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            std::chrono::milliseconds Timer::getMilliseconds(Value value)
+            {
+                return std::chrono::milliseconds(getValue(value));
+            }
+
+            void Timer::setRepeating(bool value)
+            {
+                _repeating = value;
+            }
+
+            void Timer::start(std::chrono::milliseconds value, const std::function<void(float)>& callback)
+            {
+                _active = true;
+                _timeout = value;
+                _callback = callback;
+                _start = std::chrono::system_clock::now();
+            }
+
+            void Timer::stop()
+            {
+                _active = false;
+            }
+
+            void Timer::_tick(float dt)
+            {
+                if (_active)
+                {
+                    const auto now = std::chrono::system_clock::now();
+                    if (now >= (_start + _timeout))
                     {
-                        const std::chrono::duration<float> delta = now - _start;
-                        _callback(delta.count());
+                        if (_callback)
+                        {
+                            const std::chrono::duration<float> delta = now - _start;
+                            _callback(delta.count());
+                        }
+                        if (_repeating)
+                        {
+                            _start = now;
+                        }
+                        else
+                        {
+                            _active = false;
+                        }
                     }
-                    if (_repeating)
+                }
+            }
+
+            struct TimerSystem::Private
+            {
+                std::vector<std::weak_ptr<Timer> > timers;
+            };
+
+            void TimerSystem::_init(Context * context)
+            {
+                ISystem::_init("djv::Core::TimerSystem", context, false);
+            }
+
+            TimerSystem::TimerSystem() :
+                _p(new Private)
+            {}
+
+            TimerSystem::~TimerSystem()
+            {}
+
+            std::shared_ptr<TimerSystem> TimerSystem::create(Context * context)
+            {
+                auto out = std::shared_ptr<TimerSystem>(new TimerSystem);
+                out->_init(context);
+                return out;
+            }
+
+            void TimerSystem::_tick(float dt)
+            {
+                DJV_PRIVATE_PTR();
+                std::vector<std::weak_ptr<Timer> > zombies;
+                auto timers = p.timers;
+                for (const auto& t : timers)
+                {
+                    if (auto timer = t.lock())
                     {
-                        _start = now;
+                        timer->_tick(dt);
                     }
                     else
                     {
-                        _active = false;
+                        zombies.push_back(t);
+                    }
+                }
+                for (const auto& zombie : zombies)
+                {
+                    const auto i = std::find_if(
+                        p.timers.begin(),
+                        p.timers.end(),
+                        [zombie](const std::weak_ptr<Timer>& other)
+                    {
+                        return zombie.lock() == other.lock();
+                    });
+                    if (i != p.timers.end())
+                    {
+                        p.timers.erase(i);
                     }
                 }
             }
-        }
 
-        struct TimerSystem::Private
-        {
-            std::vector<std::weak_ptr<Timer> > timers;
-        };
-
-        void TimerSystem::_init(Context * context)
-        {
-            ISystem::_init("djv::Core::TimerSystem", context, false);
-        }
-        
-        TimerSystem::TimerSystem() :
-            _p(new Private)
-        {}
-
-        TimerSystem::~TimerSystem()
-        {}
-
-        std::shared_ptr<TimerSystem> TimerSystem::create(Context * context)
-        {
-            auto out = std::shared_ptr<TimerSystem>(new TimerSystem);
-            out->_init(context);
-            return out;
-        }
-
-        void TimerSystem::_tick(float dt)
-        {
-            DJV_PRIVATE_PTR();
-            std::vector<std::weak_ptr<Timer> > zombies;
-            auto timers = p.timers;
-            for (const auto& t : timers)
+            void TimerSystem::_addTimer(const std::weak_ptr<Timer>& value)
             {
-                if (auto timer = t.lock())
-                {
-                    timer->_tick(dt);
-                }
-                else
-                {
-                    zombies.push_back(t);
-                }
+                _p->timers.push_back(value);
             }
-            for (const auto& zombie : zombies)
-            {
-                const auto i = std::find_if(
-                    p.timers.begin(),
-                    p.timers.end(),
-                    [zombie](const std::weak_ptr<Timer>& other)
-                {
-                    return zombie.lock() == other.lock();
-                });
-                if (i != p.timers.end())
-                {
-                    p.timers.erase(i);
-                }
-            }
-        }
 
-        void TimerSystem::_addTimer(const std::weak_ptr<Timer>& value)
-        {
-            _p->timers.push_back(value);
-        }
-
+        } // namespace Time
     } // namespace Core
     
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        Core::Timer,
+        Core::Time::Timer,
         Value,
         DJV_TEXT("Slow"),
         DJV_TEXT("Medium"),

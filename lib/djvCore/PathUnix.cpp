@@ -47,76 +47,79 @@ namespace djv
 {
     namespace Core
     {
-        void Path::mkdir(const Path& value)
+        namespace FileSystem
         {
-            if (::mkdir(value.get().c_str(), S_IRWXU) != 0)
+            void Path::mkdir(const Path& value)
             {
-                std::stringstream s;
-                s << "Cannot create directory: " << value;
-                throw std::runtime_error(s.str());
-            }
-        }
-        
-        Path Path::getAbsolute(const Path& value)
-        {
-            char buf[PATH_MAX];
-            if (!realpath(value._value.c_str(), buf))
-            {
-                buf[0] = 0;
-                switch (errno)
+                if (::mkdir(value.get().c_str(), S_IRWXU) != 0)
                 {
-                case EACCES:       throw std::runtime_error("Permission denied"); break;
-                case EINVAL:       throw std::runtime_error("Invalid path"); break;
-                case EIO:          throw std::runtime_error("File system I/O error"); break;
-                case ELOOP:        throw std::runtime_error("Too many sumbolic links"); break;
-                case ENAMETOOLONG: throw std::runtime_error("Path too long"); break;
-                case ENOENT:       throw std::runtime_error("Path does not exist"); break;
-                case ENOTDIR:      throw std::runtime_error("Path is not a directory"); break;
+                    std::stringstream s;
+                    s << "Cannot create directory: " << value;
+                    throw std::runtime_error(s.str());
                 }
             }
-            return Path(buf);
-        }
-
-        Path Path::getCWD()
-        {
-            char buf[PATH_MAX];
-            if (!getcwd(buf, PATH_MAX))
+            
+            Path Path::getAbsolute(const Path& value)
             {
-                buf[0] = 0;
-            }
-            return Path(buf);
-        }
-
-        Path Path::getTemp()
-        {
-            Path out;
-            char* env = nullptr;
-            if ((env = getenv("TEMP")))
-            {
-                out.set(env);
-            }
-            else if ((env = getenv("TMP")))
-            {
-                out.set(env);
-            }
-            else if ((env = getenv("TMPDIR")))
-            {
-                out.set(env);
-            }
-            else
-            {
-                for (const auto& path : { "/tmp", "/var/tmp", "/usr/tmp" })
+                char buf[PATH_MAX];
+                if (!realpath(value._value.c_str(), buf))
                 {
-                    if (FileInfo(std::string(path)).doesExist())
+                    buf[0] = 0;
+                    switch (errno)
                     {
-                        out.set(path);
-                        break;
+                    case EACCES:       throw std::runtime_error("Permission denied"); break;
+                    case EINVAL:       throw std::runtime_error("Invalid path"); break;
+                    case EIO:          throw std::runtime_error("File system I/O error"); break;
+                    case ELOOP:        throw std::runtime_error("Too many sumbolic links"); break;
+                    case ENAMETOOLONG: throw std::runtime_error("Path too long"); break;
+                    case ENOENT:       throw std::runtime_error("Path does not exist"); break;
+                    case ENOTDIR:      throw std::runtime_error("Path is not a directory"); break;
                     }
                 }
+                return Path(buf);
             }
-            return out;
-        }
 
+            Path Path::getCWD()
+            {
+                char buf[PATH_MAX];
+                if (!getcwd(buf, PATH_MAX))
+                {
+                    buf[0] = 0;
+                }
+                return Path(buf);
+            }
+
+            Path Path::getTemp()
+            {
+                Path out;
+                char* env = nullptr;
+                if ((env = getenv("TEMP")))
+                {
+                    out.set(env);
+                }
+                else if ((env = getenv("TMP")))
+                {
+                    out.set(env);
+                }
+                else if ((env = getenv("TMPDIR")))
+                {
+                    out.set(env);
+                }
+                else
+                {
+                    for (const auto& path : { "/tmp", "/var/tmp", "/usr/tmp" })
+                    {
+                        if (FileInfo(std::string(path)).doesExist())
+                        {
+                            out.set(path);
+                            break;
+                        }
+                    }
+                }
+                return out;
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

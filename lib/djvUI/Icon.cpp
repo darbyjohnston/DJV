@@ -47,7 +47,7 @@ namespace djv
     {
         struct Icon::Private
         {
-            Path path;
+            FileSystem::Path path;
             ColorRole iconColorRole = ColorRole::Foreground;
             std::future<AV::Pixel::Info> infoFuture;
             std::future<std::shared_ptr<AV::Image> > imageFuture;
@@ -77,19 +77,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Icon> Icon::create(const Path& path, Context * context)
+        std::shared_ptr<Icon> Icon::create(const FileSystem::Path& path, Context * context)
         {
             auto out = Icon::create(context);
             out->setIcon(path);
             return out;
         }
 
-        const Path& Icon::getIcon() const
+        const FileSystem::Path& Icon::getIcon() const
         {
             return _p->path;
         }
 
-        void Icon::setIcon(const Path& value)
+        void Icon::setIcon(const FileSystem::Path& value)
         {
             if (value == _p->path)
                 return;
@@ -112,7 +112,7 @@ namespace djv
             _p->iconColorRole = value;
         }
 
-        void Icon::preLayoutEvent(PreLayoutEvent& event)
+        void Icon::preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -133,7 +133,7 @@ namespace djv
             }
         }
 
-        void Icon::paintEvent(PaintEvent& event)
+        void Icon::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

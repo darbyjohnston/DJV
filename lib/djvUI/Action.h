@@ -34,14 +34,15 @@
 
 #include <djvCore/ValueObserver.h>
 
-#include <memory>
-
 namespace djv
 {
     namespace Core
     {
-        class Path;
-    
+        namespace FileSystem
+        {
+            class Path;
+
+        } // namespace FileSystem
     } // namespace Core
 
     namespace UI
@@ -68,9 +69,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > isChecked() const;
             void setChecked(bool);
 
-            std::shared_ptr<Core::IValueSubject<Core::Path> > getIcon() const;
+            std::shared_ptr<Core::IValueSubject<Core::FileSystem::Path> > getIcon() const;
             std::shared_ptr<Core::IValueSubject<MetricsRole> > getIconSizeRole() const;
-            void setIcon(const Core::Path&);
+            void setIcon(const Core::FileSystem::Path&);
             void setIconSizeRole(MetricsRole);
 
             std::shared_ptr<Core::IValueSubject<std::string> > getText() const;

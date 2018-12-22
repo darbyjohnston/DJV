@@ -64,7 +64,7 @@ namespace djv
                 gl::GLint _restore = 0;
             };
 
-            //! This class provides a wrapped for automatically binding and unbinding an
+            //! This class provides a wrapper for automatically binding and unbinding an
             //! OpenGL offscreen buffer.
             class OffscreenBufferBinding
             {

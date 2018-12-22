@@ -42,141 +42,146 @@ namespace djv
 {
     namespace Core
     {
-        //! This enumeration provides file types.
-        enum class FileType
+        //! This namespace provides file system functionality.
+        namespace FileSystem
         {
-            File,      //!< Regular file
-            Sequence,  //!< File sequence
-            Directory, //!< Directory
+            //! This enumeration provides file types.
+            enum class FileType
+            {
+                File,      //!< Regular file
+                Sequence,  //!< File sequence
+                Directory, //!< Directory
 
-            Count,
-            First = File
-        };
-        DJV_ENUM_HELPERS(FileType);
+                Count,
+                First = File
+            };
+            DJV_ENUM_HELPERS(FileType);
 
-        //! This enumeration provides the file permissions.
-        enum class FilePermissions
-        {
-            Read  = 1, //!< Readable
-            Write = 2, //!< Writable
-            Exec  = 4, //!< Executable
+            //! This enumeration provides the file permissions.
+            enum class FilePermissions
+            {
+                Read = 1, //!< Readable
+                Write = 2, //!< Writable
+                Exec = 4, //!< Executable
 
-            Count = 3
-        };
-        const std::string& getFilePermissionsLabel(int);
+                Count = 3
+            };
+            const std::string& getFilePermissionsLabel(int);
 
-        //! This struct provides list options.
-        struct DirListOptions
-        {
-            DirListOptions() {}
-            bool fileSequencesEnabled = false;
-            std::string glob = "*";
-        };
+            //! This struct provides list options.
+            struct DirListOptions
+            {
+                DirListOptions() {}
+                bool fileSequencesEnabled = false;
+                std::string glob = "*";
+            };
 
-        //! This class provides information about files and file sequences.
-        //!
-        //! A file sequence is a list of file names that share a common name and
-        //! have frame numbers. File sequences are used to store animation or movie
-        //! footage where each frame is an individual file.
-        //!
-        //! A file sequence is expressed as a file name with a start and end frame
-        //! separated with a dash ('-'), for example "render.1-100.exr". Multiple
-        //! start and end frames and individual frames are separated with a comma
-        //! (','), for example "render.1-10,20-30,33,35,37.exr". File sequences
-        //! are always sorted in ascending order and frame numbers are always
-        //! positive.
-        //!
-        //! File sequences may also have frames with padded zeroes, for example
-        //! "render.0001-0100.exr".
-        //!
-        //! Note the file sequences return information for the entire sequence.
-        class FileInfo
-        {
-        public:
-            FileInfo();
-            FileInfo(const Path&, bool stat = true);
-            FileInfo(const std::string&, bool stat = true);
+            //! This class provides information about files and file sequences.
+            //!
+            //! A file sequence is a list of file names that share a common name and
+            //! have frame numbers. File sequences are used to store animation or movie
+            //! footage where each frame is an individual file.
+            //!
+            //! A file sequence is expressed as a file name with a start and end frame
+            //! separated with a dash ('-'), for example "render.1-100.exr". Multiple
+            //! start and end frames and individual frames are separated with a comma
+            //! (','), for example "render.1-10,20-30,33,35,37.exr". File sequences
+            //! are always sorted in ascending order and frame numbers are always
+            //! positive.
+            //!
+            //! File sequences may also have frames with padded zeroes, for example
+            //! "render.0001-0100.exr".
+            //!
+            //! Note the file sequences return information for the entire sequence.
+            class FileInfo
+            {
+            public:
+                FileInfo();
+                FileInfo(const Path&, bool stat = true);
+                FileInfo(const std::string&, bool stat = true);
 
-            //! \name File Path
-            ///@{
-            
-            const Path& getPath() const { return _path; }
-            bool isEmpty() const { return _path.isEmpty(); }
-            void setPath(const Path&, bool stat = true);
-            void setPath(const std::string&, bool stat = true);
-            
-            ///@}
+                //! \name File Path
+                ///@{
 
-            //! Get the file name.
-            //! \param frame Specify a frame number or -1 for the entire sequence.
-            //! \param path Include the path in the file name.
-            std::string getFileName(Frame::Number = Frame::Invalid, bool path = true) const;
+                const Path& getPath() const { return _path; }
+                bool isEmpty() const { return _path.isEmpty(); }
+                void setPath(const Path&, bool stat = true);
+                void setPath(const std::string&, bool stat = true);
 
-            //! Get whether this file exists.
-            inline bool doesExist() const;
+                ///@}
 
-            //! \name File Information
-            ///@{
-            
-            inline FileType getType() const;
-            inline uint64_t getSize() const;
-            inline uid_t getUser() const;
-            inline int getPermissions() const;
-            inline time_t getTime() const;
+                //! Get the file name.
+                //! \param frame Specify a frame number or -1 for the entire sequence.
+                //! \param path Include the path in the file name.
+                std::string getFileName(Frame::Number = Frame::Invalid, bool path = true) const;
 
-            //! Get information from the file system.
-            bool stat();
-            
-            ///@}
+                //! Get whether this file exists.
+                inline bool doesExist() const;
 
-            //! \name File Sequence
-            ///@{
-            
-            const Frame::Sequence& getSequence() const { return _sequence; }
-            void setSequence(const Frame::Sequence&);
-            void evalSequence();
-            void sortSequence();
-            inline bool isSequenceValid() const;
-            inline bool isSequenceWildcard() const;
-            inline bool sequenceContains(const FileInfo&) const;
-            inline bool addToSequence(const FileInfo&);
-            
-            ///@}
-            
-            //! \name File Utilities
-            ///@{
+                //! \name File Information
+                ///@{
 
-            //! Get the contents of the given directory.
-            static std::vector<FileInfo> dirList(const Path&, const DirListOptions& = DirListOptions());
+                inline FileType getType() const;
+                inline uint64_t getSize() const;
+                inline uid_t getUser() const;
+                inline int getPermissions() const;
+                inline time_t getTime() const;
 
-            //! Get the file sequence for the given file.
-            static FileInfo getFileSequence(const Path&);
+                //! Get information from the file system.
+                bool stat();
 
-            ///@}
+                ///@}
 
-            inline bool operator == (const FileInfo&) const;
-            inline bool operator != (const FileInfo&) const;
-            inline bool operator < (const FileInfo&) const;
+                //! \name File Sequence
+                ///@{
 
-            inline operator std::string() const;
+                const Frame::Sequence& getSequence() const { return _sequence; }
+                void setSequence(const Frame::Sequence&);
+                void evalSequence();
+                void sortSequence();
+                inline bool isSequenceValid() const;
+                inline bool isSequenceWildcard() const;
+                inline bool sequenceContains(const FileInfo&) const;
+                inline bool addToSequence(const FileInfo&);
 
-        private:
-            void _init();
+                ///@}
 
-            Path            _path;
-            bool            _exists = false;
-            FileType        _type = FileType::File;
-            uint64_t        _size = 0;
-            uid_t           _user = 0;
-            int             _permissions = 0;
-            time_t          _time = 0;
-            Frame::Sequence _sequence;
-        };
-    } // namespace Core
+                //! \name File Utilities
+                ///@{
 
-    DJV_ENUM_SERIALIZE_HELPERS(Core::FileType);
+                //! Get the contents of the given directory.
+                static std::vector<FileInfo> dirList(const Path&, const DirListOptions& = DirListOptions());
 
-    std::ostream& operator << (std::ostream&, const Core::FileInfo&);
+                //! Get the file sequence for the given file.
+                static FileInfo getFileSequence(const Path&);
+
+                ///@}
+
+                inline bool operator == (const FileInfo&) const;
+                inline bool operator != (const FileInfo&) const;
+                inline bool operator < (const FileInfo&) const;
+
+                inline operator std::string() const;
+
+            private:
+                void _init();
+
+                Path            _path;
+                bool            _exists = false;
+                FileType        _type = FileType::File;
+                uint64_t        _size = 0;
+                uid_t           _user = 0;
+                int             _permissions = 0;
+                time_t          _time = 0;
+                Frame::Sequence _sequence;
+            };
+        } // namespace Core
+
+    } // namespace FileSystem
+
+    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
+
+    std::ostream& operator << (std::ostream&, const Core::FileSystem::FileInfo&);
     
 } // namespace djv
 

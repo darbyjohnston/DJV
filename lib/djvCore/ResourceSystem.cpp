@@ -35,6 +35,8 @@
 
 #include <iostream>
 
+using namespace djv::Core::FileSystem;
+
 namespace djv
 {
     namespace Core

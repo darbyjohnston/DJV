@@ -42,80 +42,83 @@ namespace djv
 {
     namespace Core
     {
-        struct DrivesModel::Private
+        namespace FileSystem
         {
-            std::vector<Path> drives;
-            std::shared_ptr<ListSubject<Path> > drivesSubject;
-            std::mutex mutex;
-            std::thread thread;
-            std::atomic<bool> running;
-            std::shared_ptr<Timer> timer;
-        };
-            
-        void DrivesModel::_init(Context * context)
-        {
-            DJV_PRIVATE_PTR();
-            
-            p.drivesSubject = ListSubject<Path>::create();
-                
-            p.running = true;
-            const auto timeout = Timer::getValue(Timer::Value::Medium);
-            p.thread = std::thread(
-                [this, timeout]
+            struct DrivesModel::Private
+            {
+                std::vector<Path> drives;
+                std::shared_ptr<ListSubject<Path> > drivesSubject;
+                std::mutex mutex;
+                std::thread thread;
+                std::atomic<bool> running;
+                std::shared_ptr<Time::Timer> timer;
+            };
+
+            void DrivesModel::_init(Context * context)
             {
                 DJV_PRIVATE_PTR();
-                while (p.running)
+
+                p.drivesSubject = ListSubject<Path>::create();
+
+                p.running = true;
+                const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
+                p.thread = std::thread(
+                    [this, timeout]
                 {
-                    const std::vector<Path> drives = _getDrives();
+                    DJV_PRIVATE_PTR();
+                    while (p.running)
+                    {
+                        const std::vector<Path> drives = _getDrives();
+                        {
+                            std::lock_guard<std::mutex> lock(p.mutex);
+                            p.drives = drives;
+                        }
+                        std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
+                    }
+                });
+
+                p.timer = Time::Timer::create(context);
+                p.timer->setRepeating(true);
+                p.timer->start(
+                    std::chrono::milliseconds(timeout),
+                    [this](float)
+                {
+                    DJV_PRIVATE_PTR();
+                    std::vector<Path> drives;
                     {
                         std::lock_guard<std::mutex> lock(p.mutex);
-                        p.drives = drives;
+                        drives = p.drives;
                     }
-                    std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
-                }
-            });
-
-            p.timer = Timer::create(context);
-            p.timer->setRepeating(true);
-            p.timer->start(
-                std::chrono::milliseconds(timeout),
-                [this](float)
-            {
-                DJV_PRIVATE_PTR();
-                std::vector<Path> drives;
-                {
-                    std::lock_guard<std::mutex> lock(p.mutex);
-                    drives = p.drives;
-                }
-                p.drivesSubject->setIfChanged(drives);
-            });
-        }
-
-        DrivesModel::DrivesModel() :
-            _p(new Private)
-        {}
-
-        DrivesModel::~DrivesModel()
-        {
-            _p->running = false;
-            if (_p->thread.joinable())
-            {
-                _p->thread.join();
+                    p.drivesSubject->setIfChanged(drives);
+                });
             }
-        }
 
-        std::shared_ptr<DrivesModel> DrivesModel::create(Context * context)
-        {
-            auto out = std::shared_ptr<DrivesModel>(new DrivesModel);
-            out->_init(context);
-            return out;
-        }
+            DrivesModel::DrivesModel() :
+                _p(new Private)
+            {}
 
-        std::shared_ptr<IListSubject<Path> > DrivesModel::getDrives() const
-        {
-            return _p->drivesSubject;
-        }
+            DrivesModel::~DrivesModel()
+            {
+                _p->running = false;
+                if (_p->thread.joinable())
+                {
+                    _p->thread.join();
+                }
+            }
 
+            std::shared_ptr<DrivesModel> DrivesModel::create(Context * context)
+            {
+                auto out = std::shared_ptr<DrivesModel>(new DrivesModel);
+                out->_init(context);
+                return out;
+            }
+
+            std::shared_ptr<IListSubject<Path> > DrivesModel::getDrives() const
+            {
+                return _p->drivesSubject;
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

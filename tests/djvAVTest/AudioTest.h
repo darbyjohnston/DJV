@@ -31,6 +31,7 @@
 
 namespace djv
 {
+    //! This namespace provides confidence tests for the AV library.
     namespace AVTest
     {
         class AudioTest : public Test::ITest

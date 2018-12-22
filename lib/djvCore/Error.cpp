@@ -33,12 +33,15 @@ namespace djv
 {
     namespace Core
     {
-        std::string format(const std::exception& e)
+        namespace Error
         {
-            std::stringstream s;
-            s << "ERROR: " << e.what();
-            return s.str();
-        }
-        
+            std::string format(const std::exception& e)
+            {
+                std::stringstream s;
+                s << "ERROR: " << e.what();
+                return s.str();
+            }
+
+        } // namespace Error
     } // namespace Core
 } // namespace djv

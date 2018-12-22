@@ -86,13 +86,13 @@ namespace djv
                 void setScrollPosCallback(const std::function<void(float)>&);
 
             protected:
-                void preLayoutEvent(PreLayoutEvent&) override;
-                void paintEvent(PaintEvent&) override;
-                void pointerEnterEvent(PointerEnterEvent&) override;
-                void pointerLeaveEvent(PointerLeaveEvent&) override;
-                void pointerMoveEvent(PointerMoveEvent&) override;
-                void buttonPressEvent(ButtonPressEvent&) override;
-                void buttonReleaseEvent(ButtonReleaseEvent&) override;
+                void preLayoutEvent(Event::PreLayout&) override;
+                void paintEvent(Event::Paint&) override;
+                void pointerEnterEvent(Event::PointerEnter&) override;
+                void pointerLeaveEvent(Event::PointerLeave&) override;
+                void pointerMoveEvent(Event::PointerMove&) override;
+                void buttonPressEvent(Event::ButtonPress&) override;
+                void buttonReleaseEvent(Event::ButtonRelease&) override;
 
             private:
                 float _valueToPos(float) const;
@@ -157,7 +157,7 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
-            void ScrollBar::preLayoutEvent(PreLayoutEvent&)
+            void ScrollBar::preLayoutEvent(Event::PreLayout&)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -167,7 +167,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::paintEvent(PaintEvent& event)
+            void ScrollBar::paintEvent(Event::Paint& event)
             {
                 Widget::paintEvent(event);
                 if (auto render = _getRenderSystem().lock())
@@ -213,7 +213,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::pointerEnterEvent(PointerEnterEvent& event)
+            void ScrollBar::pointerEnterEvent(Event::PointerEnter& event)
             {
                 if (!event.isRejected())
                 {
@@ -223,7 +223,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::pointerLeaveEvent(PointerLeaveEvent& event)
+            void ScrollBar::pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
 
@@ -234,7 +234,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::pointerMoveEvent(PointerMoveEvent& event)
+            void ScrollBar::pointerMoveEvent(Event::PointerMove& event)
             {
                 event.accept();
 
@@ -262,7 +262,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::buttonPressEvent(ButtonPressEvent& event)
+            void ScrollBar::buttonPressEvent(Event::ButtonPress& event)
             {
                 if (_pressedId)
                     return;
@@ -297,7 +297,7 @@ namespace djv
                 _pressedScrollPos = _scrollPos;
             }
 
-            void ScrollBar::buttonReleaseEvent(ButtonReleaseEvent& event)
+            void ScrollBar::buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 if (event.getPointerInfo().id != _pressedId)
                     return;
@@ -369,9 +369,9 @@ namespace djv
                 void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
 
             protected:
-                void preLayoutEvent(PreLayoutEvent&) override;
-                void layoutEvent(LayoutEvent&) override;
-                void paintEvent(PaintEvent&) override;
+                void preLayoutEvent(Event::PreLayout&) override;
+                void layoutEvent(Event::Layout&) override;
+                void paintEvent(Event::Paint&) override;
 
             private:
                 ScrollType _scrollType = ScrollType::Both;
@@ -429,7 +429,7 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
-            void ScrollArea::preLayoutEvent(PreLayoutEvent&)
+            void ScrollArea::preLayoutEvent(Event::PreLayout&)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -462,7 +462,7 @@ namespace djv
                 }
             }
 
-            void ScrollArea::layoutEvent(LayoutEvent& event)
+            void ScrollArea::layoutEvent(Event::Layout& event)
             {
                 const BBox2f& g = getGeometry();
                 const float gw = g.w();
@@ -535,7 +535,7 @@ namespace djv
                 }
             }
 
-            void ScrollArea::paintEvent(PaintEvent& event)
+            void ScrollArea::paintEvent(Event::Paint& event)
             {}
 
         } // namespace
@@ -550,9 +550,9 @@ namespace djv
             uint32_t pointerId = 0;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
             std::list<glm::vec2> pointerAverage;
-            std::shared_ptr<Timer> pointerAverageTimer;
+            std::shared_ptr<Time::Timer> pointerAverageTimer;
             glm::vec2 swipeVelocity = glm::vec2(0.f, 0.f);
-            std::shared_ptr<Timer> swipeTimer;
+            std::shared_ptr<Time::Timer> swipeTimer;
         };
 
         void ScrollWidget::_init(ScrollType scrollType, Context * context)
@@ -638,7 +638,7 @@ namespace djv
                 }
             });
 
-            _p->pointerAverageTimer = Timer::create(context);
+            _p->pointerAverageTimer = Time::Timer::create(context);
             _p->pointerAverageTimer->setRepeating(true);
             _p->pointerAverageTimer->start(
                 std::chrono::milliseconds(pointerAverageDecayTimeout),
@@ -653,7 +653,7 @@ namespace djv
                 }
             });
 
-            _p->swipeTimer = Timer::create(context);
+            _p->swipeTimer = Time::Timer::create(context);
             _p->swipeTimer->setRepeating(true);
             _p->swipeTimer->start(
                 std::chrono::milliseconds(velocityTimeout),
@@ -732,7 +732,7 @@ namespace djv
             _p->scrollArea->clearWidgets();
         }
 
-        void ScrollWidget::preLayoutEvent(PreLayoutEvent&)
+        void ScrollWidget::preLayoutEvent(Event::PreLayout&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -740,7 +740,7 @@ namespace djv
             }
         }
 
-        void ScrollWidget::layoutEvent(LayoutEvent&)
+        void ScrollWidget::layoutEvent(Event::Layout&)
         {
             if (auto style = _getStyle().lock())
             {
@@ -749,7 +749,7 @@ namespace djv
             }
         }
 
-        void ScrollWidget::clipEvent(ClipEvent&)
+        void ScrollWidget::clipEvent(Event::Clip&)
         {
             if (isClipped())
             {
@@ -757,23 +757,23 @@ namespace djv
             }
         }
 
-        void ScrollWidget::scrollEvent(ScrollEvent& event)
+        void ScrollWidget::scrollEvent(Event::Scroll& event)
         {
             event.accept();
 
             setScrollPos(_p->scrollArea->getScrollPos() - event.getScrollDelta() * scrollWheelMult);
         }
 
-        bool ScrollWidget::eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
+        bool ScrollWidget::eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
         {
             switch (event.getEventType())
             {
-            case EventType::PointerEnter:
+            case Event::Type::PointerEnter:
                 event.accept();
                 return true;
-            case EventType::PointerMove:
+            case Event::Type::PointerMove:
             {
-                auto& pointerEvent = static_cast<PointerMoveEvent&>(event);
+                auto& pointerEvent = static_cast<Event::PointerMove&>(event);
                 if (pointerEvent.getPointerInfo().id == _p->pointerId)
                 {
                     pointerEvent.accept();
@@ -797,9 +797,9 @@ namespace djv
                 event.accept();
                 return true;
             }
-            case EventType::ButtonPress:
+            case Event::Type::ButtonPress:
             {
-                auto& pointerEvent = static_cast<ButtonPressEvent&>(event);
+                auto& pointerEvent = static_cast<Event::ButtonPress&>(event);
                 if (!_p->pointerId)
                 {
                     pointerEvent.accept();
@@ -811,9 +811,9 @@ namespace djv
                 }
                 break;
             }
-            case EventType::ButtonRelease:
+            case Event::Type::ButtonRelease:
             {
-                auto& pointerEvent = static_cast<ButtonReleaseEvent&>(event);
+                auto& pointerEvent = static_cast<Event::ButtonRelease&>(event);
                 if (pointerEvent.getPointerInfo().id == _p->pointerId)
                 {
                     pointerEvent.accept();

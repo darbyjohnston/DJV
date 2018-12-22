@@ -31,115 +31,118 @@ namespace djv
 {
     namespace Core
     {
-        inline bool FileInfo::doesExist() const
+        namespace FileSystem
         {
-            return _exists;
-        }
-
-        inline FileType FileInfo::getType() const
-        {
-            return _type;
-        }
-
-        inline uint64_t FileInfo::getSize() const
-        {
-            return _size;
-        }
-
-        inline uid_t FileInfo::getUser() const
-        {
-            return _user;
-        }
-
-        inline int FileInfo::getPermissions() const
-        {
-            return _permissions;
-        }
-
-        inline time_t FileInfo::getTime() const
-        {
-            return _time;
-        }
-
-        inline bool FileInfo::isSequenceValid() const
-        {
-            return
-                _type != FileType::Directory &&
-                !_path.getNumber().empty() &&
-                _sequence.ranges.size();
-        }
-
-        inline bool FileInfo::isSequenceWildcard() const
-        {
-            return
-                _type != FileType::Directory &&
-                "#" == _path.getNumber();
-        }
-
-        inline bool FileInfo::sequenceContains(const FileInfo& value) const
-        {
-            if (!isSequenceValid())
-                return false;
-            if (_path.getNumber().empty())
-                return false;
-            if (_path.getExtension() != value._path.getExtension())
-                return false;
-            if (_path.getBaseName() != value._path.getBaseName())
-                return false;
-            return true;
-        }
-
-        inline bool FileInfo::addToSequence(const FileInfo& value)
-        {
-            if (sequenceContains(value))
+            inline bool FileInfo::doesExist() const
             {
-                for (const auto& range : value._sequence.ranges)
-                {
-                    _sequence.ranges.push_back(range);
-                }
-                if (value._sequence.pad > _sequence.pad)
-                {
-                    _sequence.pad = value._sequence.pad;
-                }
-                _size += value._size;
-                if (value._user > _user)
-                {
-                    _user = value._user;
-                }
-                if (value._time > _time)
-                {
-                    _time = value._time;
-                }
+                return _exists;
+            }
+
+            inline FileType FileInfo::getType() const
+            {
+                return _type;
+            }
+
+            inline uint64_t FileInfo::getSize() const
+            {
+                return _size;
+            }
+
+            inline uid_t FileInfo::getUser() const
+            {
+                return _user;
+            }
+
+            inline int FileInfo::getPermissions() const
+            {
+                return _permissions;
+            }
+
+            inline time_t FileInfo::getTime() const
+            {
+                return _time;
+            }
+
+            inline bool FileInfo::isSequenceValid() const
+            {
+                return
+                    _type != FileType::Directory &&
+                    !_path.getNumber().empty() &&
+                    _sequence.ranges.size();
+            }
+
+            inline bool FileInfo::isSequenceWildcard() const
+            {
+                return
+                    _type != FileType::Directory &&
+                    "#" == _path.getNumber();
+            }
+
+            inline bool FileInfo::sequenceContains(const FileInfo& value) const
+            {
+                if (!isSequenceValid())
+                    return false;
+                if (_path.getNumber().empty())
+                    return false;
+                if (_path.getExtension() != value._path.getExtension())
+                    return false;
+                if (_path.getBaseName() != value._path.getBaseName())
+                    return false;
                 return true;
             }
-            return false;
-        }
 
-        inline bool FileInfo::operator == (const FileInfo& in) const
-        {
-            return
-                in._path == _path        &&
-                in._type == _type        &&
-                in._size == _size        &&
-                in._user == _user        &&
-                in._permissions == _permissions &&
-                in._time == _time;
-        }
+            inline bool FileInfo::addToSequence(const FileInfo& value)
+            {
+                if (sequenceContains(value))
+                {
+                    for (const auto& range : value._sequence.ranges)
+                    {
+                        _sequence.ranges.push_back(range);
+                    }
+                    if (value._sequence.pad > _sequence.pad)
+                    {
+                        _sequence.pad = value._sequence.pad;
+                    }
+                    _size += value._size;
+                    if (value._user > _user)
+                    {
+                        _user = value._user;
+                    }
+                    if (value._time > _time)
+                    {
+                        _time = value._time;
+                    }
+                    return true;
+                }
+                return false;
+            }
 
-        inline bool FileInfo::operator != (const FileInfo& in) const
-        {
-            return !(in == *this);
-        }
+            inline bool FileInfo::operator == (const FileInfo& in) const
+            {
+                return
+                    in._path == _path &&
+                    in._type == _type &&
+                    in._size == _size &&
+                    in._user == _user &&
+                    in._permissions == _permissions &&
+                    in._time == _time;
+            }
 
-        inline bool FileInfo::operator < (const FileInfo& in) const
-        {
-            return in._path.get() < _path.get();
-        }
+            inline bool FileInfo::operator != (const FileInfo& in) const
+            {
+                return !(in == *this);
+            }
 
-        inline FileInfo::operator std::string() const
-        {
-            return _path;
-        }
+            inline bool FileInfo::operator < (const FileInfo& in) const
+            {
+                return in._path.get() < _path.get();
+            }
 
+            inline FileInfo::operator std::string() const
+            {
+                return _path;
+            }
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv

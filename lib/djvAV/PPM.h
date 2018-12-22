@@ -39,7 +39,7 @@ namespace djv
     {
         namespace IO
         {
-            //! This plugin provides NetPBM image I/O.
+            //! This namespace provides NetPBM image I/O.
             //!
             //! References:
             //! - Netpbm, "PPM Format Specification"
@@ -68,10 +68,10 @@ namespace djv
 
                 //! Read ASCII data.
                 void readASCII(
-                    Core::FileIO& io,
-                    uint8_t*      out,
-                    size_t        size,
-                    size_t        componentSize);
+                    Core::FileSystem::FileIO& io,
+                    uint8_t*                  out,
+                    size_t                    size,
+                    size_t                    componentSize);
 
                 //! Save ASCII data.
                 size_t writeASCII(
@@ -98,7 +98,7 @@ namespace djv
                     std::shared_ptr<Image> _readImage(const std::string &) override;
 
                 private:
-                    Info _open(const std::string &, Core::FileIO &, Data &);
+                    Info _open(const std::string &, Core::FileSystem::FileIO &, Data &);
                 };
                 
                 class Write : public ISequenceWrite

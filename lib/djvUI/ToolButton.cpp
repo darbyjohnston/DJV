@@ -80,7 +80,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<ToolButton> ToolButton::create(const Path& icon, Context * context)
+        std::shared_ptr<ToolButton> ToolButton::create(const FileSystem::Path& icon, Context * context)
         {
             auto out = std::shared_ptr<ToolButton>(new ToolButton);
             out->_init(context);
@@ -88,12 +88,12 @@ namespace djv
             return out;
         }
 
-        const Path& ToolButton::getIcon() const
+        const FileSystem::Path& ToolButton::getIcon() const
         {
             return _p->icon->getIcon();
         }
 
-        void ToolButton::setIcon(const Path& value)
+        void ToolButton::setIcon(const FileSystem::Path& value)
         {
             _p->icon->setIcon(value);
             _p->icon->setVisible(!value.isEmpty());
@@ -114,7 +114,7 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void ToolButton::updateEvent(UpdateEvent& event)
+        void ToolButton::updateEvent(Event::Update& event)
         {
             const auto style = _getStyle();
             const bool enabled = isEnabled(true);
@@ -122,17 +122,17 @@ namespace djv
             _p->icon->setIconColorRole(fg);
         }
 
-        void ToolButton::preLayoutEvent(PreLayoutEvent& event)
+        void ToolButton::preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void ToolButton::layoutEvent(LayoutEvent&)
+        void ToolButton::layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void ToolButton::paintEvent(PaintEvent& event)
+        void ToolButton::paintEvent(Event::Paint& event)
         {
             Widget::paintEvent(event);
             if (auto render = _getRenderSystem().lock())

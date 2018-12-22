@@ -36,27 +36,31 @@ namespace djv
     namespace Core
     {
         class Context;
-        class Path;
 
-        //! This class provides a list of the file system drives.
-        class DrivesModel : public std::enable_shared_from_this<DrivesModel>
+        namespace FileSystem
         {
-            DJV_NON_COPYABLE(DrivesModel);
-            void _init(Context *);
-            DrivesModel();
+            class Path;
 
-        public:
-            virtual ~DrivesModel();
-                
-            static std::shared_ptr<DrivesModel> create(Context *);
+            //! This class provides a list of the file system drives.
+            class DrivesModel : public std::enable_shared_from_this<DrivesModel>
+            {
+                DJV_NON_COPYABLE(DrivesModel);
+                void _init(Context *);
+                DrivesModel();
 
-            std::shared_ptr<IListSubject<Path> > getDrives() const;
+            public:
+                virtual ~DrivesModel();
 
-        private:
-            static std::vector<Path> _getDrives();
+                static std::shared_ptr<DrivesModel> create(Context *);
 
-            DJV_PRIVATE();
-        };
+                std::shared_ptr<IListSubject<Path> > getDrives() const;
 
+            private:
+                static std::vector<Path> _getDrives();
+
+                DJV_PRIVATE();
+            };
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv

@@ -31,23 +31,16 @@
 
 #include <djvCore/Path.h>
 
-#include <chrono>
-#include <list>
-#include <mutex>
-
 namespace djv
 {
     namespace Core
     {
-        class AnimationSystem;
         class ISystem;
         class LogSystem;
         class ResourceSystem;
-        class TextSystem;
-        class TimerSystem;
         class UndoStack;
-        
 
+        //! This class provides core functionality.
         class Context
         {
             DJV_NON_COPYABLE(Context);
@@ -86,14 +79,14 @@ namespace djv
             template<typename T>
             inline std::weak_ptr<T> getSystemT() const;
 
-            //! This function needs to be called by the application to tick the systems.
+            //! This function needs to be called by the application's event loop.
             virtual void tick(float dt);
 
             //! Get the resource system.
-            inline std::shared_ptr<ResourceSystem> getResourceSystem() const;
+            std::shared_ptr<ResourceSystem> getResourceSystem() const;
 
             //! Get the log system.
-            inline std::shared_ptr<LogSystem> getLogSystem() const;
+            std::shared_ptr<LogSystem> getLogSystem() const;
 
             //! \name Utilities
             ///@{
@@ -102,10 +95,10 @@ namespace djv
             void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);
 
             //! Convenience function got getting a resource path.
-            Path getPath(ResourcePath) const;
+            FileSystem::Path getPath(FileSystem::ResourcePath) const;
 
             //! Convenience function got getting a resource path.
-            Path getPath(ResourcePath, const std::string &) const;
+            FileSystem::Path getPath(FileSystem::ResourcePath, const std::string &) const;
 
             ///@}
 
@@ -115,18 +108,7 @@ namespace djv
             void _addSystem(const std::weak_ptr<ISystem>&);
 
         private:
-            std::vector<std::string> _args;
-            std::string _name;
-            std::vector<std::weak_ptr<ISystem> > _systems;
-            std::shared_ptr<TimerSystem> _timerSystem;
-            std::shared_ptr<ResourceSystem> _resourceSystem;
-            std::shared_ptr<LogSystem> _logSystem;
-            std::shared_ptr<TextSystem> _textSystem;
-            std::shared_ptr<AnimationSystem> _animationSystem;
-            std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
-            std::list<float> _fpsSamples;
-            float _fpsAverage = 0.f;
-            std::shared_ptr<UndoStack> _undoStack;
+            DJV_PRIVATE();
 
             friend class ISystem;
         };

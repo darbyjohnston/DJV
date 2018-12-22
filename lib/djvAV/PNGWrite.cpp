@@ -29,7 +29,7 @@
 
 #include <djvAV/PNG.h>
 
-#include <djvAV/PixelProcess.h>
+#include <djvAV/PixelConvert.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
@@ -188,7 +188,7 @@ namespace djv
                         s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "': " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
-                    f.f = Core::fopen(fileName.c_str(), "wb");
+                    f.f = FileSystem::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
                         std::stringstream s;

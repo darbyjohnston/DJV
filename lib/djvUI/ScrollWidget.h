@@ -80,11 +80,11 @@ namespace djv
             void removeWidget(const std::shared_ptr<Widget>&) override;
             void clearWidgets() override;
 
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
-            void clipEvent(Core::ClipEvent&) override;
-            void scrollEvent(Core::ScrollEvent&) override;
-            bool eventFilter(const std::shared_ptr<IObject>&, Core::IEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void layoutEvent(Core::Event::Layout&) override;
+            void clipEvent(Core::Event::Clip&) override;
+            void scrollEvent(Core::Event::Scroll&) override;
+            bool eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
 
         private:
             void _updateScrollBars(const glm::vec2&);

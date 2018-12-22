@@ -39,109 +39,117 @@ namespace djv
 {
     namespace Core
     {
-        class AnimationSystem;
-
-        //! This enumeration provides animation types.
-        enum class AnimationType
+        //! This namespace provides animation functionality.
+        namespace Animation
         {
-            Linear,
-            EaseIn,
-            EaseOut,
-            SmoothStep,
-            Sine,
+            class System;
 
-            Count,
-            First = Linear,
-            Last = Sine
-        };
-        DJV_ENUM_HELPERS(AnimationType);
-        typedef std::function<float(float)> AnimationFunction;
-        AnimationFunction getAnimationFunction(AnimationType);
+            //! This enumeration provides the animation types.
+            enum class Type
+            {
+                Linear,
+                EaseIn,
+                EaseOut,
+                SmoothStep,
+                Sine,
 
-        //! This class provides an animated value.
-        class Animation : public std::enable_shared_from_this<Animation>
-        {
-            DJV_NON_COPYABLE(Animation);
-            void _init(Context *);
-            inline Animation();
-            
-        public:            
-            //! Create a new animation.
-            static std::shared_ptr<Animation> create(Context *);
-            
-            //! \name Animation Type
-            ///@{
+                Count,
+                First = Linear,
+                Last = Sine
+            };
+            DJV_ENUM_HELPERS(Type);
 
-            inline AnimationType getType() const;
-            void setType(AnimationType);
+            //! This typedef provides an animation function.
+            typedef std::function<float(float)> Function;
 
-            ///@}
+            //! Get an animation function.
+            Function getFunction(Type);
 
-            //! \name Animation Options
-            ///@{
+            //! This class provides an animated value.
+            class Animation : public std::enable_shared_from_this<Animation>
+            {
+                DJV_NON_COPYABLE(Animation);
+                void _init(Context *);
+                inline Animation();
 
-            inline bool isRepeating() const;
-            void setRepeating(bool);
+            public:
+                //! Create a new animation.
+                static std::shared_ptr<Animation> create(Context *);
 
-            ///@}
+                //! \name Animation Type
+                ///@{
 
-            //! Get whether the animation is active.
-            inline bool isActive() const;
+                inline Type getType() const;
+                void setType(Type);
 
-            typedef std::function<void(float)> Callback;
-            
-            //! Start the animation.
-            void start(
-                float                     begin,
-                float                     end,
-                std::chrono::milliseconds timeout,
-                const Callback&           callback,
-                const Callback&           endCallback = nullptr);
+                ///@}
 
-        private:
-            void _tick(float dt);
+                //! \name Animation Options
+                ///@{
 
-            AnimationType _type = AnimationType::Linear;
-            AnimationFunction _function;
-            bool _repeating = false;
-            bool _active = false;
-            float _begin = 0.f;
-            float _end = 0.f;
-            std::chrono::milliseconds _timeout;
-            Callback _callback;
-            Callback _endCallback;
-            std::chrono::time_point<std::chrono::system_clock> _start;
+                inline bool isRepeating() const;
+                void setRepeating(bool);
 
-            friend class AnimationSystem;
-        };
+                ///@}
 
-        //! This class provides an animation system.
-        class AnimationSystem : public ISystem
-        {
-            DJV_NON_COPYABLE(AnimationSystem);
-            void _init(Context *);
-            AnimationSystem();
-            
-        public:
-            virtual ~AnimationSystem();
-            
-            static std::shared_ptr<AnimationSystem> create(Context *);
+                //! Get whether the animation is active.
+                inline bool isActive() const;
 
-        protected:
-            void _tick(float dt) override;
+                typedef std::function<void(float)> Callback;
 
-        private:
-            void _addAnimation(const std::weak_ptr<Animation>&);
+                //! Start the animation.
+                void start(
+                    float                     begin,
+                    float                     end,
+                    std::chrono::milliseconds timeout,
+                    const Callback&           callback,
+                    const Callback&           endCallback = nullptr);
 
-            DJV_PRIVATE();
+            private:
+                void _tick(float dt);
 
-            friend class Animation;
-        };
+                Type _type = Type::Linear;
+                Function _function;
+                bool _repeating = false;
+                bool _active = false;
+                float _begin = 0.f;
+                float _end = 0.f;
+                std::chrono::milliseconds _timeout;
+                Callback _callback;
+                Callback _endCallback;
+                std::chrono::time_point<std::chrono::system_clock> _start;
 
+                friend class System;
+            };
+
+            //! This class provides an animation system.
+            class System : public ISystem
+            {
+                DJV_NON_COPYABLE(System);
+                void _init(Context *);
+                System();
+
+            public:
+                virtual ~System();
+
+                static std::shared_ptr<System> create(Context *);
+
+            protected:
+                void _tick(float dt) override;
+
+            private:
+                void _addAnimation(const std::weak_ptr<Animation>&);
+
+                DJV_PRIVATE();
+
+                friend class Animation;
+            };
+
+        } // namespace Animation
     } // namespace Core
 
-    DJV_ENUM_SERIALIZE_HELPERS(Core::AnimationType);
-    DJV_ENUM_SERIALIZE_HELPERS(Core::AnimationType);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Animation::Type);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Animation::Type);
 
 } // namespace djv
 

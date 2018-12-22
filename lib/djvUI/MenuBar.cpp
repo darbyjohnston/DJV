@@ -60,8 +60,8 @@ namespace djv
                 void setText(const std::string&);
 
                 float getHeightForWidth(float) const override;
-                void preLayoutEvent(Core::PreLayoutEvent&) override;
-                void layoutEvent(Core::LayoutEvent&) override;
+                void preLayoutEvent(Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
 
             private:
                 std::shared_ptr<Label> _label;
@@ -112,12 +112,12 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void MenuBarButton::preLayoutEvent(PreLayoutEvent& event)
+            void MenuBarButton::preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void MenuBarButton::layoutEvent(LayoutEvent&)
+            void MenuBarButton::layoutEvent(Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
@@ -128,6 +128,7 @@ namespace djv
         {
             std::vector<std::shared_ptr<Menu> > menus;
             std::shared_ptr<HorizontalLayout> layout;
+            std::map<std::shared_ptr<Menu>, std::shared_ptr<MenuBarButton> > menusToButtons;
         };
 
         void MenuBar::_init(Context * context)
@@ -159,7 +160,25 @@ namespace djv
         {
             _p->menus.push_back(menu);
             auto button = MenuBarButton::create(menu->getText(), getContext());
+            button->setButtonType(ButtonType::Toggle);
             _p->layout->addWidget(button);
+            _p->menusToButtons[menu] = button;
+            auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
+            button->setCheckedCallback(
+                [menu, button](bool value)
+            {
+                if (auto window = button->getWindow().lock())
+                {
+                    if (value)
+                    {
+                        menu->show(window, button->getGeometry(), Orientation::Vertical);
+                    }
+                    else
+                    {
+                        menu->hide();
+                    }
+                }
+            });
         }
 
         float MenuBar::getHeightForWidth(float value) const
@@ -167,12 +186,12 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void MenuBar::preLayoutEvent(PreLayoutEvent& event)
+        void MenuBar::preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MenuBar::layoutEvent(LayoutEvent& event)
+        void MenuBar::layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {

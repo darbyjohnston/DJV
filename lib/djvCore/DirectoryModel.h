@@ -37,42 +37,46 @@ namespace djv
     namespace Core
     {
         class Context;
-        class FileInfo;
-        class Path;
 
-        //! This class provides a directory model.
-        class DirectoryModel : public std::enable_shared_from_this<DirectoryModel>
+        namespace FileSystem
         {
-            DJV_NON_COPYABLE(DirectoryModel);
-            void _init(Context *);
-            DirectoryModel();
+            class FileInfo;
+            class Path;
 
-        public:
-            ~DirectoryModel();
-            
-            static std::shared_ptr<DirectoryModel> create(Context *);
-            static std::shared_ptr<DirectoryModel> create(const Path&, Context *);
+            //! This class provides a directory model.
+            class DirectoryModel : public std::enable_shared_from_this<DirectoryModel>
+            {
+                DJV_NON_COPYABLE(DirectoryModel);
+                void _init(Context *);
+                DirectoryModel();
 
-            std::shared_ptr<IValueSubject<Path> > getPath() const;
-            void setPath(const Path&);
+            public:
+                ~DirectoryModel();
 
-            std::shared_ptr<IValueSubject<bool> > getFileSequencesEnabled() const;
-            void setFileSequencesEnabled(bool);
+                static std::shared_ptr<DirectoryModel> create(Context *);
+                static std::shared_ptr<DirectoryModel> create(const Path&, Context *);
 
-            std::shared_ptr<IListSubject<FileInfo> > getFileInfoList() const;
-            std::shared_ptr<IListSubject<std::string> > getFileNames() const;
-            std::shared_ptr<IListSubject<Path> > getHistory() const;
+                std::shared_ptr<IValueSubject<Path> > getPath() const;
+                void setPath(const Path&);
 
-            void reload();
+                std::shared_ptr<IValueSubject<bool> > getFileSequencesEnabled() const;
+                void setFileSequencesEnabled(bool);
 
-            void cdUp();
+                std::shared_ptr<IListSubject<FileInfo> > getFileInfoList() const;
+                std::shared_ptr<IListSubject<std::string> > getFileNames() const;
+                std::shared_ptr<IListSubject<Path> > getHistory() const;
 
-        private:
-            void _updatePath();
+                void reload();
 
-            DJV_PRIVATE();
-        };
+                void cdUp();
 
+            private:
+                void _updatePath();
+
+                DJV_PRIVATE();
+            };
+
+        } // namespace FileSystem
     } // namespace Core
 } // namespace djv
 

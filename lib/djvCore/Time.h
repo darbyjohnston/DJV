@@ -35,6 +35,7 @@ namespace djv
 {
     namespace Core
     {
+        //! This namespace provides time functionality.
 	    namespace Time
 	    {
             //! \name Time Conversion

@@ -217,7 +217,7 @@ namespace djv
             {
                 bool checkExtension(const std::string & value, const std::set<std::string> & extensions)
                 {
-                    std::string extension = Path(value).getExtension();
+                    std::string extension = FileSystem::Path(value).getExtension();
                     std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
                     return std::find(extensions.begin(), extensions.end(), extension) != extensions.end();
                 }

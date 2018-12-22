@@ -31,19 +31,22 @@ namespace djv
 {
     namespace Core
     {
-        inline Timer::Timer()
-        {}
-
-        inline bool Timer::isRepeating() const
+        namespace Time
         {
-            return _repeating;
-        }
+            inline Timer::Timer()
+            {}
 
-        inline bool Timer::isActive() const
-        {
-            return _active;
-        }
-    
+            inline bool Timer::isRepeating() const
+            {
+                return _repeating;
+            }
+
+            inline bool Timer::isActive() const
+            {
+                return _active;
+            }
+
+        } // namespace Time
     } // namespace Core
 } // namespace djv
 

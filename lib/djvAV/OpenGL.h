@@ -29,5 +29,18 @@
 
 #pragma once
 
+#include <djvAV/AV.h>
+
 #include <glbinding/gl/gl.h>
 #include <glbinding/glbinding.h>
+
+namespace djv
+{
+    namespace AV
+    {
+        //! This namespace provides OpenGL functionality.
+        namespace OpenGL
+        {
+        } // namespace OpenGL
+    } // namespace AV
+} // namespace djv

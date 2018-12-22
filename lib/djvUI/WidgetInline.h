@@ -106,7 +106,7 @@ namespace djv
             return _iconSystem;
         }
 
-        inline const std::weak_ptr<AV::FontSystem>& Widget::_getFontSystem() const
+        inline const std::weak_ptr<AV::Font::System>& Widget::_getFontSystem() const
         {
             return _fontSystem;
         }

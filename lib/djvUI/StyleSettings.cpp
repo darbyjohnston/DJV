@@ -31,7 +31,6 @@
 
 #include <djvUI/StyleJSON.h>
 
-#include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>

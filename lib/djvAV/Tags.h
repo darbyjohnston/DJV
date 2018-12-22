@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvAV/AV.h>
 
 #include <map>
 
@@ -37,6 +37,7 @@ namespace djv
 {
     namespace AV
     {
+        //! This class provides string tags.
         class Tags
         {
         public:

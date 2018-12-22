@@ -96,7 +96,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<PushButton> PushButton::create(const std::string& text, const Path& icon, Context * context)
+        std::shared_ptr<PushButton> PushButton::create(const std::string& text, const FileSystem::Path& icon, Context * context)
         {
             auto out = std::shared_ptr<PushButton>(new PushButton);
             out->_init(context);
@@ -105,12 +105,12 @@ namespace djv
             return out;
         }
 
-        const Path& PushButton::getIcon() const
+        const FileSystem::Path& PushButton::getIcon() const
         {
             return _p->icon->getIcon();
         }
 
-        void PushButton::setIcon(const Path& value)
+        void PushButton::setIcon(const FileSystem::Path& value)
         {
             _p->icon->setIcon(value);
             _p->icon->setVisible(!value.isEmpty());
@@ -182,7 +182,7 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void PushButton::updateEvent(UpdateEvent& event)
+        void PushButton::updateEvent(Event::Update& event)
         {
             const auto style = _getStyle();
             const bool enabled = isEnabled(true);
@@ -191,17 +191,17 @@ namespace djv
             _p->label->setTextColorRole(fg);
         }
 
-        void PushButton::preLayoutEvent(PreLayoutEvent& event)
+        void PushButton::preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void PushButton::layoutEvent(LayoutEvent&)
+        void PushButton::layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }
 
-        void PushButton::paintEvent(PaintEvent& event)
+        void PushButton::paintEvent(Event::Paint& event)
         {
             if (auto render = _getRenderSystem().lock())
             {

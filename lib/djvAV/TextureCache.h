@@ -37,14 +37,16 @@ namespace djv
 {
     namespace AV
     {
+        //! This struct provides information about a texture cache item.
         struct TextureCacheItem
         {
             glm::ivec2 size;
             gl::GLuint texture = 0;
-            Core::FloatRange textureU;
-            Core::FloatRange textureV;
+            Core::Range::FloatRange textureU;
+            Core::Range::FloatRange textureV;
         };
 
+        //! This class provides a texture cache.
         class TextureCache
         {
             DJV_NON_COPYABLE(TextureCache);

@@ -33,12 +33,12 @@
 #include <djvViewLib/PlaybackWidget.h>
 #include <djvViewLib/TimelineSlider.h>
 
-#include <djvUI/Button.h>
 #include <djvUI/Icon.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/Memory.h>
 #include <djvCore/UID.h>
@@ -84,7 +84,7 @@ namespace djv
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
 
             auto closeButton = UI::ToolButton::create(context);
-            closeButton->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
+            closeButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setClassName("djv::UI::MDI::TitleBar");
@@ -95,7 +95,7 @@ namespace djv
 
             p.resizeHandle = UI::Icon::create(context);
             p.resizeHandle->setPointerEnabled(true);
-            p.resizeHandle->setIcon(context->getPath(ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
+            p.resizeHandle->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
             p.resizeHandle->setHAlign(UI::HAlign::Right);
             p.resizeHandle->setVAlign(UI::VAlign::Bottom);
 
@@ -229,12 +229,12 @@ namespace djv
             return _p->resizeHandle;
         }
 
-        void MDIWindow::preLayoutEvent(PreLayoutEvent& event)
+        void MDIWindow::preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MDIWindow::layoutEvent(LayoutEvent&)
+        void MDIWindow::layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }

@@ -57,10 +57,10 @@ namespace djv
             void removeWidget(const std::shared_ptr<Widget>&) override;
 
             float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::PreLayoutEvent&) override;
-            void layoutEvent(Core::LayoutEvent&) override;
+            void preLayoutEvent(Core::Event::PreLayout&) override;
+            void layoutEvent(Core::Event::Layout&) override;
 
-            void updateEvent(Core::UpdateEvent&) override;
+            void updateEvent(Core::Event::Update&) override;
 
         private:
             struct Private;

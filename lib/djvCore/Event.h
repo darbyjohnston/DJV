@@ -41,245 +41,271 @@ namespace djv
     {
         class IObject;
 
-        //! This enumeration provides the event types.
-        enum class EventType
+        //! This namespace provides event system functionality.
+        namespace Event
         {
-            Update,
-            Locale,
-            PreLayout,
-            Layout,
-            Clip,
-            Paint,
-            PointerEnter,
-            PointerLeave,
-            PointerMove,
-            ButtonPress,
-            ButtonRelease,
-            Scroll,
-            Drop,
-            KeyboardFocus,
-            KeyboardFocusLost,
-            KeyPress,
-            KeyRelease,
-            Text,
+            //! This enumeration provides the event types.
+            enum class Type
+            {
+                Update,
+                Locale,
+                PreLayout,
+                Layout,
+                Clip,
+                Paint,
+                PointerEnter,
+                PointerLeave,
+                PointerMove,
+                ButtonPress,
+                ButtonRelease,
+                Scroll,
+                Drop,
+                KeyboardFocus,
+                KeyboardFocusLost,
+                KeyPress,
+                KeyRelease,
+                Text,
 
-            Count,
-            First = Update
-        };
-        DJV_ENUM_HELPERS(EventType);
+                Count,
+                First = Update
+            };
+            DJV_ENUM_HELPERS(Type);
 
-        class IEvent
-        {
-        protected:
-            IEvent(EventType);
+            //! This class provides the interface for events.
+            class IEvent
+            {
+            protected:
+                IEvent(Type);
 
-        public:
-            virtual ~IEvent() = 0;
+            public:
+                virtual ~IEvent() = 0;
 
-            EventType getEventType() const { return _eventType; }
+                Type getEventType() const { return _eventType; }
 
-            bool isAccepted() const { return _accepted; }
-            void setAccepted(bool);
-            void accept();
+                bool isAccepted() const { return _accepted; }
+                void setAccepted(bool);
+                void accept();
 
-        private:
-            EventType _eventType;
-            bool _accepted = false;
-        };
+            private:
+                Type _eventType;
+                bool _accepted = false;
+            };
 
-        class UpdateEvent : public IEvent
-        {
-        public:
-            UpdateEvent(float dt);
+            //! This class provides an update event.
+            class Update : public IEvent
+            {
+            public:
+                Update(float dt);
 
-            float getDeltaTime() const { return _dt; }
+                float getDeltaTime() const { return _dt; }
 
-        private:
-            float _dt = 0.f;
-        };
+            private:
+                float _dt = 0.f;
+            };
 
-        class LocaleEvent : public IEvent
-        {
-        public:
-            LocaleEvent(const std::string&);
+            //! This class provides a locale event.
+            class Locale : public IEvent
+            {
+            public:
+                Locale(const std::string&);
 
-            const std::string& getLocale() const { return _locale; }
+                const std::string& getLocale() const { return _locale; }
 
-        private:
-            std::string _locale;
-        };
+            private:
+                std::string _locale;
+            };
 
-        class PreLayoutEvent : public IEvent
-        {
-        public:
-            PreLayoutEvent();
-        };
+            //! This class provides an event to prepare for layout.
+            class PreLayout : public IEvent
+            {
+            public:
+                PreLayout();
+            };
 
-        class LayoutEvent : public IEvent
-        {
-        public:
-            LayoutEvent();
-        };
+            class Layout : public IEvent
+            {
+            public:
+                Layout();
+            };
 
-        class ClipEvent : public IEvent
-        {
-        public:
-            ClipEvent(const BBox2f& clipRect);
+            //! This class provides a clip event.
+            class Clip : public IEvent
+            {
+            public:
+                Clip(const BBox2f& clipRect);
 
-            const BBox2f& getClipRect() const;
-            void setClipRect(const BBox2f&);
+                const BBox2f& getClipRect() const;
+                void setClipRect(const BBox2f&);
 
-        private:
-            BBox2f _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
-        };
+            private:
+                BBox2f _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+            };
 
-        class PaintEvent : public IEvent
-        {
-        public:
-            PaintEvent(const BBox2f& clipRect);
+            //! This class provides a paint event.
+            class Paint : public IEvent
+            {
+            public:
+                Paint(const BBox2f& clipRect);
 
-            const BBox2f& getClipRect() const;
-            void setClipRect(const BBox2f&);
+                const BBox2f& getClipRect() const;
+                void setClipRect(const BBox2f&);
 
-        private:
-            BBox2f _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
-        };
+            private:
+                BBox2f _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+            };
 
-        typedef uint32_t PointerID;
+            //! This typedef provides a pointer ID.
+            typedef uint32_t PointerID;
 
-        struct PointerInfo
-        {
-            PointerID id = 0;
-            glm::vec3 pos;
-            glm::vec3 dir;
-            glm::vec2 projectedPos;
-            int button = 0;
-        };
+            //! This struct provides information about the pointer.
+            struct PointerInfo
+            {
+                PointerID id = 0;
+                glm::vec3 pos;
+                glm::vec3 dir;
+                glm::vec2 projectedPos;
+                int button = 0;
+            };
 
-        class IPointerEvent : public IEvent
-        {
-        protected:
-            IPointerEvent(const PointerInfo&, EventType);
+            //! This class provides the interface for pointer events.
+            class IPointer : public IEvent
+            {
+            protected:
+                IPointer(const PointerInfo&, Type);
 
-        public:
-            ~IPointerEvent() override = 0;
+            public:
+                ~IPointer() override = 0;
 
-            bool isRejected() const { return _rejected; }
-            void setRejected(bool);
-            void reject();
+                bool isRejected() const { return _rejected; }
+                void setRejected(bool);
+                void reject();
 
-            const PointerInfo& getPointerInfo() const { return _pointerInfo; }
+                const PointerInfo& getPointerInfo() const { return _pointerInfo; }
 
-        private:
-            bool _rejected = false;
-            PointerInfo _pointerInfo;
-        };
+            private:
+                bool _rejected = false;
+                PointerInfo _pointerInfo;
+            };
 
-        class PointerEnterEvent : public IPointerEvent
-        {
-        public:
-            PointerEnterEvent(const PointerInfo&);
-        };
+            //! This class provides a pointer enter event.
+            class PointerEnter : public IPointer
+            {
+            public:
+                PointerEnter(const PointerInfo&);
+            };
 
-        class PointerLeaveEvent : public IPointerEvent
-        {
-        public:
-            PointerLeaveEvent(const PointerInfo&);
-        };
+            //! This class provides a pointer leave event.
+            class PointerLeave : public IPointer
+            {
+            public:
+                PointerLeave(const PointerInfo&);
+            };
 
-        class PointerMoveEvent : public IPointerEvent
-        {
-        public:
-            PointerMoveEvent(const PointerInfo&);
-        };
+            //! This class provides a pointer move event.
+            class PointerMove : public IPointer
+            {
+            public:
+                PointerMove(const PointerInfo&);
+            };
 
-        class ButtonPressEvent : public IPointerEvent
-        {
-        public:
-            ButtonPressEvent(const PointerInfo&);
-        };
+            //! This class provides a button press event.
+            class ButtonPress : public IPointer
+            {
+            public:
+                ButtonPress(const PointerInfo&);
+            };
 
-        class ButtonReleaseEvent : public IPointerEvent
-        {
-        public:
-            ButtonReleaseEvent(const PointerInfo&);
-        };
+            //! This class provides a button release event.
+            class ButtonRelease : public IPointer
+            {
+            public:
+                ButtonRelease(const PointerInfo&);
+            };
 
-        class ScrollEvent : public IPointerEvent
-        {
-        public:
-            ScrollEvent(const glm::vec2& scrollDelta, const PointerInfo&);
+            //! This class provides a scroll event.
+            class Scroll : public IPointer
+            {
+            public:
+                Scroll(const glm::vec2& scrollDelta, const PointerInfo&);
 
-            const glm::vec2& getScrollDelta() const { return _scrollDelta; }
+                const glm::vec2& getScrollDelta() const { return _scrollDelta; }
 
-        private:
-            glm::vec2 _scrollDelta = glm::vec2(0.f, 0.f);
-        };
+            private:
+                glm::vec2 _scrollDelta = glm::vec2(0.f, 0.f);
+            };
 
-        class DropEvent : public IPointerEvent
-        {
-        public:
-            DropEvent(const std::vector<std::string>&, const PointerInfo&);
+            //! This class provides a drag and drop event.
+            class Drop : public IPointer
+            {
+            public:
+                Drop(const std::vector<std::string>&, const PointerInfo&);
 
-            const std::vector<std::string>& getDropPaths() const { return _dropPaths; }
+                const std::vector<std::string>& getDropPaths() const { return _dropPaths; }
 
-        private:
-            std::vector<std::string> _dropPaths;
-        };
+            private:
+                std::vector<std::string> _dropPaths;
+            };
 
-        class KeyboardFocusEvent : public IEvent
-        {
-        public:
-            KeyboardFocusEvent();
-        };
+            //! This class provides a keyboard focus event.
+            class KeyboardFocus : public IEvent
+            {
+            public:
+                KeyboardFocus();
+            };
 
-        class KeyboardFocusLostEvent : public IEvent
-        {
-        public:
-            KeyboardFocusLostEvent();
-        };
+            //! This class provides a keyboard focus lost event.
+            class KeyboardFocusLost : public IEvent
+            {
+            public:
+                KeyboardFocusLost();
+            };
 
-        class IKeyEvent : public IPointerEvent
-        {
-        protected:
-            IKeyEvent(int key, int keyModifiers, const PointerInfo&, EventType);
+            //! This class provides the interface for key events.
+            class IKey : public IPointer
+            {
+            protected:
+                IKey(int key, int keyModifiers, const PointerInfo&, Type);
 
-        public:
-            ~IKeyEvent() override = 0;
+            public:
+                ~IKey() override = 0;
 
-            int getKey() const { return _key; }
-            int getKeyModifiers() const { return _keyModifiers; }
+                int getKey() const { return _key; }
+                int getKeyModifiers() const { return _keyModifiers; }
 
-        private:
-            int _key = 0;
-            int _keyModifiers = 0;
-        };
+            private:
+                int _key = 0;
+                int _keyModifiers = 0;
+            };
 
-        class KeyPressEvent : public IKeyEvent
-        {
-        public:
-            KeyPressEvent(int key, int keyModifiers, const PointerInfo&);
-        };
+            //! This class provides a key press event.
+            class KeyPress : public IKey
+            {
+            public:
+                KeyPress(int key, int keyModifiers, const PointerInfo&);
+            };
 
-        class KeyReleaseEvent : public IKeyEvent
-        {
-        public:
-            KeyReleaseEvent(int key, int keyModifiers, const PointerInfo&);
-        };
+            //! This class provides a key release event.
+            class KeyRelease : public IKey
+            {
+            public:
+                KeyRelease(int key, int keyModifiers, const PointerInfo&);
+            };
 
-        class TextEvent : public IEvent
-        {
-        public:
-            TextEvent(const std::string&);
+            //! This class provides a text entry event.
+            class Text : public IEvent
+            {
+            public:
+                Text(const std::string&);
 
-            const std::string& getText() const { return _text; }
+                const std::string& getText() const { return _text; }
 
-        private:
-            std::string _text;
-        };
+            private:
+                std::string _text;
+            };
 
+        } // namespace Event
     } // namespace Core
 
-    DJV_ENUM_SERIALIZE_HELPERS(Core::EventType);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Event::Type);
 
 } // namespace djv

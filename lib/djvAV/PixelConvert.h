@@ -43,6 +43,7 @@ namespace djv
     {
 	    namespace Pixel
 	    {
+            //! This class provides pixel data conversion.
             class Convert
             {
                 DJV_NON_COPYABLE(Convert);

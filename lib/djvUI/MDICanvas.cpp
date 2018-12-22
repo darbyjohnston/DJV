@@ -84,7 +84,7 @@ namespace djv
                     }
 
                 protected:
-                    void preLayoutEvent(PreLayoutEvent&) override
+                    void preLayoutEvent(Event::PreLayout&) override
                     {
                         _setMinimumSize(_canvasSize);
                     }
@@ -215,13 +215,13 @@ namespace djv
                 _p->windowToResizeHandle.clear();
             }
 
-            void Canvas::preLayoutEvent(PreLayoutEvent&)
+            void Canvas::preLayoutEvent(Event::PreLayout&)
             {
                 //_setMinimumSize(_p->scrollWidget->getMinimumSize());
                 _setMinimumSize(_p->stackLayout->getMinimumSize());
             }
 
-            void Canvas::layoutEvent(LayoutEvent&)
+            void Canvas::layoutEvent(Event::Layout&)
             {
                 //_p->scrollWidget->setGeometry(getGeometry());
                 _p->stackLayout->setGeometry(getGeometry());
@@ -235,7 +235,7 @@ namespace djv
                 }
             }
             
-            bool Canvas::eventFilter(const std::shared_ptr<IObject>& object, IEvent& event)
+            bool Canvas::eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
             {
                 /*{
                     std::stringstream ss;
@@ -244,9 +244,9 @@ namespace djv
                 }*/
                 switch (event.getEventType())
                 {
-                case EventType::PointerMove:
+                case Event::Type::PointerMove:
                 {
-                    PointerMoveEvent& pointerMoveEvent = static_cast<PointerMoveEvent&>(event);
+                    Event::PointerMove& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
                     pointerMoveEvent.accept();
                     if (pointerMoveEvent.getPointerInfo().id == _p->pressed)
                     {
@@ -283,9 +283,9 @@ namespace djv
                     }
                     return true;
                 }
-                case EventType::ButtonPress:
+                case Event::Type::ButtonPress:
                 {
-                    ButtonPressEvent& buttonPressEvent = static_cast<ButtonPressEvent&>(event);
+                    Event::ButtonPress& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
                     if (!_p->pressed)
                     {
                         if (_p->moveHandleToWindow.find(object) != _p->moveHandleToWindow.end())
@@ -309,9 +309,9 @@ namespace djv
                     }
                     return true;
                 }
-                case EventType::ButtonRelease:
+                case Event::Type::ButtonRelease:
                 {
-                    ButtonReleaseEvent& buttonReleaseEvent = static_cast<ButtonReleaseEvent&>(event);
+                    Event::ButtonRelease& buttonReleaseEvent = static_cast<Event::ButtonRelease&>(event);
                     if (_p->pressed == buttonReleaseEvent.getPointerInfo().id)
                     {
                         event.accept();

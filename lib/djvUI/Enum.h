@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvUI/UI.h>
+
 #include <djvCore/Enum.h>
 
 namespace djv
@@ -38,7 +40,7 @@ namespace djv
     //! \todo [1.0 XL] Add menus.
     //! \todo [1.0 L] Add a color picker.
     //! \todo [1.0 L] Add keyboard navigation.
-    //! \todo [1.0 L] Add UI audio.
+    //! \todo [1.0 L] Add audio FX.
     namespace UI
     {
         //! This enumeration provides orientations.

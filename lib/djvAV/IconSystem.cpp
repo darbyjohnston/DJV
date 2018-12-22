@@ -31,7 +31,7 @@
 
 #include <djvAV/Image.h>
 #include <djvAV/IO.h>
-#include <djvAV/PixelProcess.h>
+#include <djvAV/PixelConvert.h>
 
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
@@ -80,7 +80,7 @@ namespace djv
                     return *this;
                 }
 
-                Path path;
+                FileSystem::Path path;
                 std::shared_ptr<IO::IRead> read;
                 std::future<IO::Info> infoFuture;
                 std::promise<Pixel::Info> promise;
@@ -112,7 +112,7 @@ namespace djv
                     return *this;
                 }
 
-                Path path;
+                FileSystem::Path path;
                 std::unique_ptr<Pixel::Info> info;
                 std::shared_ptr<IO::Queue> queue;
                 std::shared_ptr<IO::IRead> read;
@@ -132,12 +132,12 @@ namespace djv
             std::list<ImageRequest> newImageRequests;
             std::list<ImageRequest> pendingImageRequests;
 
-            Cache<Path, Pixel::Info> infoCache;
-            Cache<Path, std::shared_ptr<Image> > imageCache;
+            Memory::Cache<FileSystem::Path, Pixel::Info> infoCache;
+            Memory::Cache<FileSystem::Path, std::shared_ptr<Image> > imageCache;
             std::mutex cacheMutex;
 
             GLFWwindow * glfwWindow = nullptr;
-            std::shared_ptr<Timer> statsTimer;
+            std::shared_ptr<Time::Timer> statsTimer;
             std::thread thread;
             std::atomic<bool> running;
         };
@@ -167,10 +167,10 @@ namespace djv
                 throw std::runtime_error(ss.str());
             }
 
-            p.statsTimer = Timer::create(context);
+            p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Timer::getMilliseconds(Timer::Value::VerySlow),
+                Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
@@ -194,7 +194,7 @@ namespace djv
 
                     auto convert = Pixel::Convert::create(context);
 
-                    const auto timeout = Timer::getValue(Timer::Value::Medium);
+                    const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
                     while (p.running)
                     {
                         {
@@ -254,7 +254,7 @@ namespace djv
             return out;
         }
 
-        std::future<Pixel::Info> IconSystem::getInfo(const Path& path)
+        std::future<Pixel::Info> IconSystem::getInfo(const FileSystem::Path& path)
         {
             DJV_PRIVATE_PTR();
             InfoRequest request;
@@ -266,7 +266,7 @@ namespace djv
             return future;
         }
 
-        std::future<std::shared_ptr<Image> > IconSystem::getImage(const Path& path)
+        std::future<std::shared_ptr<Image> > IconSystem::getImage(const FileSystem::Path& path)
         {
             DJV_PRIVATE_PTR();
             ImageRequest request;
@@ -280,7 +280,7 @@ namespace djv
             return future;
         }
 
-        std::future<std::shared_ptr<Image> > IconSystem::getImage(const Path& path, const Pixel::Info& info)
+        std::future<std::shared_ptr<Image> > IconSystem::getImage(const FileSystem::Path& path, const Pixel::Info& info)
         {
             DJV_PRIVATE_PTR();
             ImageRequest request;

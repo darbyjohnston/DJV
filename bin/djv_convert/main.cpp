@@ -39,143 +39,152 @@
 
 using namespace djv;
 
-class Application : public Core::Context
+
+namespace djv
 {
-    DJV_NON_COPYABLE(Application);
-
-protected:
-    void _init(int & argc, char ** argv)
+    //! This namespace provides functionality for djv_convert.
+    namespace convert
     {
-        Core::Context::_init(argc, argv);
-                
-        _avSystem = AV::System::create(this);
-        _parseArgs();
-
-        AV::Duration duration = 0;
-        if (auto io = getSystemT<AV::IO::System>().lock())
+        class Application : public Core::Context
         {
-            _queue = AV::IO::Queue::create();
-            _read = io->read(argv[1], _queue);
-            auto info = _read->getInfo().get();
-            auto & video = info.video;
-            if (!video.size())
-            {
-                throw std::runtime_error(DJV_TEXT("Nothing to convert"));
-            }
-            auto & videoInfo = video[0];
-            if (_resize)
-            {
-                video[0].info.size = *_resize;
-            }
-            duration = videoInfo.duration;
-            _write = io->write(argv[2], info, _queue);
-        }
+            DJV_NON_COPYABLE(Application);
 
-        _statsTimer = Core::Timer::create(this);
-        _statsTimer->setRepeating(true);
-        _statsTimer->start(
-            Core::Timer::getMilliseconds(Core::Timer::Value::Slow),
-            [this, duration](float)
-        {
-            AV::Timestamp timestamp = 0;
+        protected:
+            void _init(int & argc, char ** argv)
             {
-                std::lock_guard<std::mutex> lock(_queue->getMutex());
-                if (_queue->hasVideo())
+                Core::Context::_init(argc, argv);
+
+                _avSystem = AV::System::create(this);
+                _parseArgs();
+
+                AV::Duration duration = 0;
+                if (auto io = getSystemT<AV::IO::System>().lock())
                 {
-                    timestamp = _queue->getVideo().first;
+                    _queue = AV::IO::Queue::create();
+                    _read = io->read(argv[1], _queue);
+                    auto info = _read->getInfo().get();
+                    auto & video = info.video;
+                    if (!video.size())
+                    {
+                        throw std::runtime_error(DJV_TEXT("Nothing to convert"));
+                    }
+                    auto & videoInfo = video[0];
+                    if (_resize)
+                    {
+                        video[0].info.size = *_resize;
+                    }
+                    duration = videoInfo.duration;
+                    _write = io->write(argv[2], info, _queue);
                 }
-            }
-            if (timestamp && duration)
-            {
-                std::cout << (timestamp / static_cast<float>(duration) * 100.f) << "%" << std::endl;
-            }
-        });
-    }
 
-    Application()
-    {}
-
-public:
-    static std::shared_ptr<Application> create(int & argc, char ** argv)
-    {
-        auto out = std::shared_ptr<Application>(new Application);
-        out->_init(argc, argv);
-        return out;
-    }
-
-    int run()
-    {
-        auto time = std::chrono::system_clock::now();
-        while (_write->isRunning())
-        {
-            const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - time;
-            time = now;
-            const float dt = delta.count();
-            tick(dt);
-        }
-        return 0;
-    }
-    
-private:
-    void _parseArgs()
-    {
-        auto args = getArgs();
-        auto i = args.begin();
-        while (i != args.end())
-        {
-            if ("-resize" == *i)
-            {
-                i = args.erase(i);
-                if (args.size() >= 2)
+                _statsTimer = Core::Time::Timer::create(this);
+                _statsTimer->setRepeating(true);
+                _statsTimer->start(
+                    Core::Time::Timer::getMilliseconds(Core::Time::Timer::Value::Slow),
+                    [this, duration](float)
                 {
-                    glm::ivec2 resize;
-                    resize.x = std::stoi(*i);
-                    i = args.erase(i);
-                    resize.y = std::stoi(*i);
-                    i = args.erase(i);
-                    _resize.reset(new glm::ivec2(resize));
-                }
-                else
-                {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("Cannot parse option '-resize'");
-                    throw std::runtime_error(ss.str());
-                }
+                    AV::Timestamp timestamp = 0;
+                    {
+                        std::lock_guard<std::mutex> lock(_queue->getMutex());
+                        if (_queue->hasVideo())
+                        {
+                            timestamp = _queue->getVideo().first;
+                        }
+                    }
+                    if (timestamp && duration)
+                    {
+                        std::cout << (timestamp / static_cast<float>(duration) * 100.f) << "%" << std::endl;
+                    }
+                });
             }
-            else
+
+            Application()
+            {}
+
+        public:
+            static std::shared_ptr<Application> create(int & argc, char ** argv)
             {
-                ++i;
+                auto out = std::shared_ptr<Application>(new Application);
+                out->_init(argc, argv);
+                return out;
             }
-        }
-        if (args.size() != 3)
-        {
-            throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
-        }
-        _input = args[1];
-        _input = args[2];
-    }
-    
-    std::string _input;
-    std::string _output;
-    std::unique_ptr<glm::ivec2> _resize;
-    std::shared_ptr<AV::System> _avSystem;
-    std::shared_ptr<AV::IO::Queue> _queue;
-    std::shared_ptr<AV::IO::IRead> _read;
-    std::shared_ptr<Core::Timer> _statsTimer;
-    std::shared_ptr<AV::IO::IWrite> _write;
-};
+
+            int run()
+            {
+                auto time = std::chrono::system_clock::now();
+                while (_write->isRunning())
+                {
+                    const auto now = std::chrono::system_clock::now();
+                    const std::chrono::duration<float> delta = now - time;
+                    time = now;
+                    const float dt = delta.count();
+                    tick(dt);
+                }
+                return 0;
+            }
+
+        private:
+            void _parseArgs()
+            {
+                auto args = getArgs();
+                auto i = args.begin();
+                while (i != args.end())
+                {
+                    if ("-resize" == *i)
+                    {
+                        i = args.erase(i);
+                        if (args.size() >= 2)
+                        {
+                            glm::ivec2 resize;
+                            resize.x = std::stoi(*i);
+                            i = args.erase(i);
+                            resize.y = std::stoi(*i);
+                            i = args.erase(i);
+                            _resize.reset(new glm::ivec2(resize));
+                        }
+                        else
+                        {
+                            std::stringstream ss;
+                            ss << DJV_TEXT("Cannot parse option '-resize'");
+                            throw std::runtime_error(ss.str());
+                        }
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
+                if (args.size() != 3)
+                {
+                    throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
+                }
+                _input = args[1];
+                _input = args[2];
+            }
+
+            std::string _input;
+            std::string _output;
+            std::unique_ptr<glm::ivec2> _resize;
+            std::shared_ptr<AV::System> _avSystem;
+            std::shared_ptr<AV::IO::Queue> _queue;
+            std::shared_ptr<AV::IO::IRead> _read;
+            std::shared_ptr<Core::Time::Timer> _statsTimer;
+            std::shared_ptr<AV::IO::IWrite> _write;
+        };
+
+    } // namespace convert
+} // namespace djv
 
 int main(int argc, char ** argv)
 {
     int r = 0;
     try
     {
-        return Application::create(argc, argv)->run();
+        return convert::Application::create(argc, argv)->run();
     }
     catch (const std::exception & e)
     {
-        std::cout << Core::format(e) << std::endl;
+        std::cout << Core::Error::format(e) << std::endl;
     }
     return r;
 }
