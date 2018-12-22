@@ -29,6 +29,14 @@
 
 #include <djvCore/Time.h>
 
+#include <djvCore/String.h>
+
+extern "C"
+{
+#include <libavcodec/avcodec.h>
+
+} // extern "C"
+
 #include <iomanip>
 
 namespace djv
@@ -37,6 +45,16 @@ namespace djv
     {
 	    namespace Time
 	    {
+            double timestampToSeconds(Timestamp value)
+            {
+                return value / static_cast<double>(AV_TIME_BASE);
+            }
+
+            Timestamp secondsToTimestamp(double value)
+            {
+                return static_cast<Timestamp>(value * static_cast<double>(AV_TIME_BASE));
+            }
+
 		    std::string getLabel(float value)
 		    {
 			    int   hour   = 0;
@@ -51,6 +69,91 @@ namespace djv
 			    s << std::setfill('0') << std::setw(2) << static_cast<int>(second);
 			    return s.str();
 		    }
+
+            std::string keycodeToString(
+                int id,
+                int type,
+                int prefix,
+                int count,
+                int offset)
+            {
+                std::vector<std::string> list;
+                list.push_back(std::to_string(id));
+                list.push_back(std::to_string(type));
+                list.push_back(std::to_string(prefix));
+                list.push_back(std::to_string(count));
+                list.push_back(std::to_string(offset));
+                return String::join(list, ':');
+            }
+
+            void stringToKeycode(
+                const std::string& string,
+                int&               id,
+                int&               type,
+                int&               prefix,
+                int&               count,
+                int&               offset)
+            {
+                const auto pieces = String::split(string, ':');
+                if (pieces.size() != 5)
+                {
+                    throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+                }
+                id = std::stoi(pieces[0]);
+                type = std::stoi(pieces[1]);
+                prefix = std::stoi(pieces[2]);
+                count = std::stoi(pieces[3]);
+                offset = std::stoi(pieces[4]);
+            }
+
+            std::string timecodeToString(uint32_t in)
+            {
+                int hour = 0;
+                int minute = 0;
+                int second = 0;
+                int frame = 0;
+                timecodeToTime(in, hour, minute, second, frame);
+
+                std::stringstream s;
+                s << std::setfill('0') << std::setw(2) << hour;
+                s << std::setw(0) << ":";
+                s << std::setfill('0') << std::setw(2) << minute;
+                s << std::setw(0) << ":";
+                s << std::setfill('0') << std::setw(2) << second;
+                s << std::setw(0) << ":";
+                s << std::setfill('0') << std::setw(2) << frame;
+                return s.str();
+            }
+
+            void stringToTimecode(const std::string& in, uint32_t& out, bool* ok)
+            {
+                if (ok)
+                {
+                    *ok = true;
+                }
+
+                int hour = 0;
+                int minute = 0;
+                int second = 0;
+                int frame = 0;
+
+                const auto pieces = String::split(in, ':');
+                if (pieces.size() != 4 && ok)
+                {
+                    *ok = false;
+                }
+
+                int i = 0;
+                switch (pieces.size())
+                {
+                case 4: hour = std::stoi(pieces[i]); ++i;
+                case 3: minute = std::stoi(pieces[i]); ++i;
+                case 2: second = std::stoi(pieces[i]); ++i;
+                case 1: frame = std::stoi(pieces[i]); ++i;
+                }
+
+                out = timeToTimecode(hour, minute, second, frame);
+            }
 
 	    } // namespace Time
 	} // namespace Core

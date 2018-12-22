@@ -106,7 +106,7 @@ namespace djv
                             ss >> role;
                             if (j.second.is<std::string>())
                             {
-                                AV::Color color;
+                                AV::Image::Color color;
                                 std::stringstream ss2;
                                 ss2.str(j.second.get<std::string>());
                                 ss2 >> color;

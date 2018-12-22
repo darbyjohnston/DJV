@@ -33,7 +33,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 
-#include <djvAV/PixelData.h>
 #include <djvAV/Render2DSystem.h>
 
 //#pragma optimize("", off)

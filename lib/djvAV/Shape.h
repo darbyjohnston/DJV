@@ -35,22 +35,17 @@ namespace djv
 {
     namespace AV
     {
-        namespace Mesh
+        namespace Geom
         {
             struct TriangleMesh;
 
-        } // namespace Mesh
-
-        //! This namespace provides geometric shapes functionality.
-        namespace Shape
-        {
             //! This class provides the interface for shapes.
             class IShape
             {
             public:
                 virtual ~IShape() = 0;
 
-                virtual void triangulate(Mesh::TriangleMesh&) const = 0;
+                virtual void triangulate(TriangleMesh&) const = 0;
             };
 
             //! This class provides a square shape.
@@ -62,7 +57,7 @@ namespace djv
                 float getRadius() const { return _radius; }
                 void setRadius(float);
 
-                void triangulate(Mesh::TriangleMesh&) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
@@ -79,7 +74,7 @@ namespace djv
                 void setRadius(float);
                 void setResolution(size_t);
 
-                void triangulate(Mesh::TriangleMesh&) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
@@ -95,7 +90,7 @@ namespace djv
                 float getRadius() const { return _radius; }
                 void setRadius(float);
 
-                void triangulate(Mesh::TriangleMesh&) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
@@ -121,7 +116,7 @@ namespace djv
                 void setVSpan(const Span&);
                 void setTextureSpan(bool);
 
-                void triangulate(Mesh::TriangleMesh&) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
@@ -152,7 +147,7 @@ namespace djv
                 void setSpan(const Span&);
                 void setTextureSpan(bool);
 
-                void triangulate(Mesh::TriangleMesh&) const override;
+                void triangulate(TriangleMesh&) const override;
 
             private:
                 float _radius = .5f;
@@ -163,7 +158,7 @@ namespace djv
                 bool _textureSpan = true;
             };
 
-        } // namespace Shape
+        } // namespace Geom
     } // namespace AV
 } // namespace djv
 

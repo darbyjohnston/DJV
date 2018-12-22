@@ -29,7 +29,7 @@
 
 #include <djvAV/PNG.h>
 
-#include <djvAV/PixelConvert.h>
+#include <djvAV/ImageConvert.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
@@ -78,7 +78,7 @@ namespace djv
                         FILE *              f,
                         png_structp         png,
                         png_infop *         pngInfo,
-                        const Pixel::Info & info)
+                        const Image::Info & info)
                     {
                         if (setjmp(png_jmpbuf(png)))
                         {
@@ -106,7 +106,7 @@ namespace djv
                             *pngInfo,
                             info.size.x,
                             info.size.y,
-                            static_cast<int>(Pixel::getBitDepth(info.type)),
+                            static_cast<int>(Image::getBitDepth(info.type)),
                             colorType,
                             PNG_INTERLACE_NONE,
                             PNG_COMPRESSION_TYPE_DEFAULT,
@@ -133,47 +133,47 @@ namespace djv
 
                 } // namespace
 
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image> & image)
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
-                    Pixel::Type pixelType = Pixel::Type::None;
+                    Image::Type imageType = Image::Type::None;
                     switch (image->getType())
                     {
-                    case Pixel::Type::L_U8:
-                    case Pixel::Type::L_U16:
-                    case Pixel::Type::LA_U8:
-                    case Pixel::Type::LA_U16:
-                    case Pixel::Type::RGB_U8:
-                    case Pixel::Type::RGB_U16:
-                    case Pixel::Type::RGBA_U8:
-                    case Pixel::Type::RGBA_U16: pixelType = image->getType(); break;
-                    case Pixel::Type::L_U32:
-                    case Pixel::Type::L_F16:
-                    case Pixel::Type::L_F32:    pixelType = Pixel::Type::L_U16; break;
-                    case Pixel::Type::LA_U32:
-                    case Pixel::Type::LA_F16:
-                    case Pixel::Type::LA_F32:   pixelType = Pixel::Type::LA_U16; break;
-                    case Pixel::Type::RGB_U32:
-                    case Pixel::Type::RGB_F16:
-                    case Pixel::Type::RGB_F32:  pixelType = Pixel::Type::RGB_U16; break;
-                    case Pixel::Type::RGBA_U32:
-                    case Pixel::Type::RGBA_F16:
-                    case Pixel::Type::RGBA_F32: pixelType = Pixel::Type::RGBA_U16; break;
+                    case Image::Type::L_U8:
+                    case Image::Type::L_U16:
+                    case Image::Type::LA_U8:
+                    case Image::Type::LA_U16:
+                    case Image::Type::RGB_U8:
+                    case Image::Type::RGB_U16:
+                    case Image::Type::RGBA_U8:
+                    case Image::Type::RGBA_U16: imageType = image->getType(); break;
+                    case Image::Type::L_U32:
+                    case Image::Type::L_F16:
+                    case Image::Type::L_F32:    imageType = Image::Type::L_U16; break;
+                    case Image::Type::LA_U32:
+                    case Image::Type::LA_F16:
+                    case Image::Type::LA_F32:   imageType = Image::Type::LA_U16; break;
+                    case Image::Type::RGB_U32:
+                    case Image::Type::RGB_F16:
+                    case Image::Type::RGB_F32:  imageType = Image::Type::RGB_U16; break;
+                    case Image::Type::RGBA_U32:
+                    case Image::Type::RGBA_F16:
+                    case Image::Type::RGBA_F32: imageType = Image::Type::RGBA_U16; break;
                     default: break;
                     }
-                    if (Pixel::Type::None == pixelType)
+                    if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
                         s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
-                    const auto info = Pixel::Info(_pixelInfo.size, pixelType);
+                    const auto info = Image::Info(_imageInfo.size, imageType);
 
-                    std::shared_ptr<Pixel::Data> pixelData = image;
-                    if (pixelData->getInfo() != info)
+                    std::shared_ptr<Image::Data> imageData = image;
+                    if (imageData->getInfo() != info)
                     {
-                        auto tmp = Pixel::Data::create(info);
-                        _convert->process(*pixelData, info, *tmp);
-                        pixelData = tmp;
+                        auto tmp = Image::Data::create(info);
+                        _convert->process(*imageData, info, *tmp);
+                        imageData = tmp;
                     }
 
                     File f;
@@ -201,15 +201,15 @@ namespace djv
                         s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "': " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
-                    if (Pixel::getBitDepth(info.type) > 8 && Memory::Endian::LSB == Memory::getEndian())
+                    if (Image::getBitDepth(info.type) > 8 && Memory::Endian::LSB == Memory::getEndian())
                     {
                         png_set_swap(f.png);
                     }
 
-                    const auto & size = pixelData->getSize();
+                    const auto & size = imageData->getSize();
                     for (int y = 0; y < size.y; ++y)
                     {
-                        if (!pngScanline(f.png, pixelData->getData(y)))
+                        if (!pngScanline(f.png, imageData->getData(y)))
                         {
                             std::stringstream s;
                             s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "': " << f.pngError.msg;

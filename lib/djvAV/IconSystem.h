@@ -48,39 +48,38 @@ namespace djv
 
     namespace AV
     {
-        namespace Pixel
+        namespace Image
         {
             struct Info;
 
             class Convert;
+            class Image;
 
-        } // namespace Pixel
+            //! This class provides an icon system.
+            class IconSystem : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(IconSystem);
 
-        class Image;
+            protected:
+                void _init(Core::Context *);
+                IconSystem();
 
-        class IconSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(IconSystem);
+            public:
+                virtual ~IconSystem();
 
-        protected:
-            void _init(Core::Context *);
-            IconSystem();
+                static std::shared_ptr<IconSystem> create(Core::Context *);
 
-        public:
-            virtual ~IconSystem();
+                std::future<Info> getInfo(const Core::FileSystem::Path&);
+                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&);
+                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const Info&);
 
-            static std::shared_ptr<IconSystem> create(Core::Context *);
+            private:
+                void _handleInfoRequests();
+                void _handleImageRequests(const std::shared_ptr<Convert> &);
 
-            std::future<Pixel::Info> getInfo(const Core::FileSystem::Path&);
-            std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&);
-            std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const Pixel::Info&);
+                DJV_PRIVATE();
+            };
 
-        private:
-            void _handleInfoRequests();
-            void _handleImageRequests(const std::shared_ptr<Pixel::Convert> &);
-
-            DJV_PRIVATE();
-        };
-
+        } // namespace Image
     } // namespace AV
 } // namespace djv

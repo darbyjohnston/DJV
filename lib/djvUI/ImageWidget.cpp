@@ -42,7 +42,7 @@ namespace djv
     {
         struct ImageWidget::Private
         {
-            std::shared_ptr<AV::Image> image;
+            std::shared_ptr<AV::Image::Image> image;
             UID uid = 0;
         };
 
@@ -67,12 +67,12 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<AV::Image>& ImageWidget::getImage() const
+        const std::shared_ptr<AV::Image::Image>& ImageWidget::getImage() const
         {
             return _p->image;
         }
 
-        void ImageWidget::setImage(const std::shared_ptr<AV::Image>& value, UID uid)
+        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value, UID uid)
         {
             _p->image = value;
             _p->uid = uid;
@@ -118,7 +118,7 @@ namespace djv
                         case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                         default: break;
                         }
-                        render->setFillColor(AV::Color(1.f, 1.f, 1.f, getOpacity(true)));
+                        render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
                         render->drawImage(_p->image, pos, true, _p->uid);
                     }
                 }

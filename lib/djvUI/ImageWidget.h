@@ -35,8 +35,11 @@ namespace djv
 {
     namespace AV
     {
-        class Image;
+        namespace Image
+        {
+            class Image;
 
+        } // namespace Image
     } // namespace AV
 
     namespace UI
@@ -55,8 +58,8 @@ namespace djv
 
             static std::shared_ptr<ImageWidget> create(Core::Context *);
 
-            const std::shared_ptr<AV::Image>& getImage() const;
-            void setImage(const std::shared_ptr<AV::Image>&, size_t hash);
+            const std::shared_ptr<AV::Image::Image>& getImage() const;
+            void setImage(const std::shared_ptr<AV::Image::Image>&, size_t hash);
             
             void preLayoutEvent(Core::Event::PreLayout&) override;
             void paintEvent(Core::Event::Paint&) override;

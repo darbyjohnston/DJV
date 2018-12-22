@@ -1,3 +1,4 @@
+find_package(FFmpeg REQUIRED)
 find_package(GLM REQUIRED)
 find_package(PicoJSON REQUIRED)
 find_package(Threads REQUIRED)
@@ -51,6 +52,8 @@ set(header
     RayInline.h
     RecentFilesModel.h
     ResourceSystem.h
+    Speed.h
+    SpeedInline.h
     String.h
     StringInline.h
     TextSystem.h
@@ -87,6 +90,7 @@ set(source
     ResourceSystem.cpp
     Path.cpp
     PicoJSON.cpp
+    Speed.cpp
     String.cpp
     TextSystem.cpp
     Time.cpp
@@ -118,6 +122,7 @@ endif()
 
 add_library(djvCore ${header} ${source})
 set(LIBRARIES
+    FFMPEG
     GLM
     PicoJSON
     Threads::Threads

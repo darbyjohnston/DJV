@@ -89,11 +89,11 @@ namespace djv
 
                     std::future<Info> getInfo() override;
 
-                    virtual void seek(Timestamp) override;
+                    virtual void seek(Core::Time::Timestamp) override;
 
                 private:
-                    Timestamp _decodeVideo(AVPacket *, bool seek = false);
-                    Timestamp _decodeAudio(AVPacket *, bool seek = false);
+                    Core::Time::Timestamp _decodeVideo(AVPacket *, bool seek = false);
+                    Core::Time::Timestamp _decodeAudio(AVPacket *, bool seek = false);
 
                     DJV_PRIVATE();
                 };

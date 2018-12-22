@@ -33,7 +33,6 @@
 
 #include <djvAV/IconSystem.h>
 #include <djvAV/Image.h>
-#include <djvAV/PixelData.h>
 #include <djvAV/Render2DSystem.h>
 
 #include <djvCore/Path.h>
@@ -49,10 +48,10 @@ namespace djv
         {
             FileSystem::Path path;
             ColorRole iconColorRole = ColorRole::Foreground;
-            std::future<AV::Pixel::Info> infoFuture;
-            std::future<std::shared_ptr<AV::Image> > imageFuture;
-            AV::Pixel::Info info;
-            std::shared_ptr<AV::Image> image;
+            std::future<AV::Image::Info> infoFuture;
+            std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
+            AV::Image::Info info;
+            std::shared_ptr<AV::Image::Image> image;
             size_t uid = 0;
         };
 
@@ -125,7 +124,7 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        _p->info = AV::Pixel::Info();
+                        _p->info = AV::Image::Info();
                         _log(e.what(), LogLevel::Error);
                     }
                 }
@@ -183,7 +182,7 @@ namespace djv
                         }
                         else
                         {
-                            render->setFillColor(_getColorWithOpacity(AV::Color(1.f, 1.f, 1.f)));
+                            render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
                             render->drawImage(_p->image, pos, false, _p->uid);
                         }
                     }

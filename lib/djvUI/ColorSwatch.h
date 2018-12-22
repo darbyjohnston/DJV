@@ -50,10 +50,10 @@ namespace djv
             virtual ~ColorSwatch();
 
             static std::shared_ptr<ColorSwatch> create(Core::Context *);
-            static std::shared_ptr<ColorSwatch> create(const AV::Color&, Core::Context *);
+            static std::shared_ptr<ColorSwatch> create(const AV::Image::Color&, Core::Context *);
 
-            const AV::Color& getColor() const;
-            void setColor(const AV::Color&);
+            const AV::Image::Color& getColor() const;
+            void setColor(const AV::Image::Color&);
 
             MetricsRole getSwatchSize() const;
             void setSwatchSize(MetricsRole);

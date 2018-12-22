@@ -105,8 +105,8 @@ namespace djv
             ~Palette();
             Palette& operator = (const Palette&);
 
-            const AV::Color& getColor(ColorRole) const;
-            void setColor(ColorRole, const AV::Color&);
+            const AV::Image::Color& getColor(ColorRole) const;
+            void setColor(ColorRole, const AV::Image::Color&);
 
             bool operator == (const Palette&) const;
 
@@ -164,7 +164,7 @@ namespace djv
             ///@{
             
             const Palette & getPalette() const;
-            const AV::Color & getColor(ColorRole) const;
+            const AV::Image::Color & getColor(ColorRole) const;
             void setPalette(const Palette &);
 
             ///@}

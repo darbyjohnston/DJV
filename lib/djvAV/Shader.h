@@ -44,32 +44,35 @@ namespace djv
 
     namespace AV
     {
-        //! This class provides shader source code.
-        class Shader
+        namespace Render
         {
-            DJV_NON_COPYABLE(Shader);
+            //! This class provides shader source code.
+            class Shader
+            {
+                DJV_NON_COPYABLE(Shader);
 
-        protected:
-            Shader();
+            protected:
+                Shader();
 
-        public:
-            ~Shader();
+            public:
+                ~Shader();
 
-            static std::shared_ptr<Shader> create(const std::string & vertex, const std::string & fragment);
+                static std::shared_ptr<Shader> create(const std::string & vertex, const std::string & fragment);
 
-            //! Throws:
-            //! - std::exception
-            static std::shared_ptr<Shader> create(const Core::FileSystem::Path & vertex,  const Core::FileSystem::Path & fragment);
+                //! Throws:
+                //! - std::exception
+                static std::shared_ptr<Shader> create(const Core::FileSystem::Path & vertex, const Core::FileSystem::Path & fragment);
 
-            const std::string & getVertexName() const;
-            const std::string & getVertexSource() const;
-            const std::string & getFragmentName() const;
-            const std::string & getFragmentSource() const;
+                const std::string & getVertexName() const;
+                const std::string & getVertexSource() const;
+                const std::string & getFragmentName() const;
+                const std::string & getFragmentSource() const;
 
-        private:
-            std::pair<std::string, std::string> _vertex;
-            std::pair<std::string, std::string> _fragment;
-        };
+            private:
+                std::pair<std::string, std::string> _vertex;
+                std::pair<std::string, std::string> _fragment;
+            };
 
+        } // namespace Render
     } // namespace AV
 } // namespace djv

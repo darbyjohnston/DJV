@@ -27,42 +27,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvAV/Speed.h>
-
 namespace djv
 {
-    namespace AV
+    namespace Core
     {
-        //! This namespace provides timecode functionality.
-	    namespace Timecode
-	    {
-	        //! \name Timecode Conversion
-	        ///@{
-	        
-		    inline void toTime(
-			    uint32_t,
-			    int& hour,
-			    int& minute,
-			    int& second,
-			    int& frame);
-		    inline uint32_t fromTime(
-			    int hour,
-			    int minute,
-			    int second,
-			    int frame);
+        namespace Time
+        {
+            inline int Speed::getScale() const
+            {
+                return _scale;
+            }
 
-		    inline int64_t toFrame(uint32_t timecode, const Speed&);
-		    inline uint32_t fromFrame(int64_t frame, const Speed&);
+            inline int Speed::getDuration() const
+            {
+                return _duration;
+            }
 
-		    std::string toString(uint32_t);
-		    void fromString(const std::string&, uint32_t&, bool* ok = nullptr);
-		    
-		    ///@}
-            
-	    } // namespace Timecode
-	} // namespace AV
+            inline bool Speed::isValid() const
+            {
+                return _scale != 0 && _duration != 0;
+            }
+
+        } // namespace Time
+    } // namespace Core
 } // namespace djv
-
-#include <djvAV/TimecodeInline.h>

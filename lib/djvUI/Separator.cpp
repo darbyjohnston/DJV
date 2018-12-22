@@ -40,7 +40,7 @@ namespace djv
         struct Separator::Private
         {
             float width = 0.f;
-            AV::Color color;
+            AV::Image::Color color;
         };
 
         void Separator::_init(Context * context)

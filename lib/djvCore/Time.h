@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Speed.h>
 
 namespace djv
 {
@@ -38,9 +38,20 @@ namespace djv
         //! This namespace provides time functionality.
 	    namespace Time
 	    {
+            class Speed;
+
+            //! This typedef provides a timestamp.
+            typedef int64_t Timestamp;
+
+            //! This typedef provides a duration.
+            typedef int64_t Duration;
+
             //! \name Time Conversion
             ///@{
             
+            double timestampToSeconds(Timestamp);
+            Timestamp secondsToTimestamp(double);
+
 		    inline void secondsToTime(
 			    float,
 			    int&   hours,
@@ -50,7 +61,52 @@ namespace djv
 		    std::string getLabel(float seconds);
 		    
 		    ///@}
-            
+
+            //! \name Keycode
+            ///@{
+
+            std::string keycodeToString(
+                int id,
+                int type,
+                int prefix,
+                int count,
+                int offset);
+
+            //! Throws:
+            //! - std::exception
+            void stringToKeycode(
+                const std::string&,
+                int& id,
+                int& type,
+                int& prefix,
+                int& count,
+                int& offset);
+
+            ///@}
+
+            //! \name Timecode
+            ///@{
+
+            inline void timecodeToTime(
+                uint32_t,
+                int& hour,
+                int& minute,
+                int& second,
+                int& frame);
+            inline uint32_t timeToTimecode(
+                int hour,
+                int minute,
+                int second,
+                int frame);
+
+            inline int64_t timecodeToFrame(uint32_t timecode, const Speed&);
+            inline uint32_t frameToTimecode(int64_t frame, const Speed&);
+
+            std::string timecodeToString(uint32_t);
+            void stringToTimecode(const std::string&, uint32_t&, bool* ok = nullptr);
+
+            ///@}
+
 	    } // namespace Time
 	} // namespace Core
 } // namespace djv

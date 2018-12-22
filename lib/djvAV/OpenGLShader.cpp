@@ -45,7 +45,7 @@ namespace djv
     {
         namespace OpenGL
         {
-            void Shader::_init(const std::shared_ptr<AV::Shader> & shader)
+            void Shader::_init(const std::shared_ptr<Render::Shader> & shader)
             {
                 _shader = shader;
 
@@ -125,7 +125,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Shader> Shader::create(const std::shared_ptr<AV::Shader> & shader)
+            std::shared_ptr<Shader> Shader::create(const std::shared_ptr<Render::Shader> & shader)
             {
                 auto out = std::shared_ptr<Shader>(new Shader);
                 out->_init(shader);
@@ -174,10 +174,10 @@ namespace djv
                 glUniformMatrix4fv(loc, 1, GL_FALSE, &value[0][0]);
             }
 
-            void Shader::setUniform(const std::string& name, const Color & value)
+            void Shader::setUniform(const std::string& name, const Image::Color & value)
             {
                 const GLint loc = glGetUniformLocation(_program, name.c_str());
-                auto color = value.convert(Pixel::Type::RGBA_F32);
+                auto color = value.convert(Image::Type::RGBA_F32);
                 glUniform4fv(loc, 1, reinterpret_cast<const GLfloat *>(color.getData()));
             }
 

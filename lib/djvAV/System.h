@@ -39,6 +39,7 @@ namespace djv
 {
     namespace AV
     {
+        //! This class provides an AV system.
         class System : public Core::ISystem
         {
             DJV_NON_COPYABLE(System);

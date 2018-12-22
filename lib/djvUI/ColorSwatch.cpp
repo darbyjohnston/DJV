@@ -39,7 +39,7 @@ namespace djv
     {
         struct ColorSwatch::Private
         {
-            AV::Color color;
+            AV::Image::Color color;
             MetricsRole swatchSize = MetricsRole::Swatch;
         };
 
@@ -64,19 +64,19 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(const AV::Color& color, Context * context)
+        std::shared_ptr<ColorSwatch> ColorSwatch::create(const AV::Image::Color& color, Context * context)
         {
             auto out = ColorSwatch::create(context);
             out->setColor(color);
             return out;
         }
 
-        const AV::Color& ColorSwatch::getColor() const
+        const AV::Image::Color& ColorSwatch::getColor() const
         {
             return _p->color;
         }
 
-        void ColorSwatch::setColor(const AV::Color& value)
+        void ColorSwatch::setColor(const AV::Image::Color& value)
         {
             _p->color = value;
         }

@@ -37,7 +37,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Pixel
+        namespace Image
         {
             namespace
             {
@@ -567,11 +567,11 @@ namespace djv
                 }
             }
 
-        } // namespace Pixel
+        } // namespace Image
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::Pixel,
+        AV::Image,
         Type,
         DJV_TEXT("None"),
         DJV_TEXT("L_U8"),
@@ -597,7 +597,7 @@ namespace djv
         DJV_TEXT("RGBA_F32"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::Pixel,
+        AV::Image,
         DataType,
         DJV_TEXT("None"),
         DJV_TEXT("U8"),

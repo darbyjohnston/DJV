@@ -31,7 +31,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Pixel
+        namespace Image
         {
             inline Mirror::Mirror()
             {}
@@ -92,12 +92,12 @@ namespace djv
 
             inline gl::GLenum Info::getGLFormat() const
             {
-                return Pixel::getGLFormat(type);
+                return AV::Image::getGLFormat(type);
             }
 
             inline gl::GLenum Info::getGLType() const
             {
-                return Pixel::getGLType(type);
+                return AV::Image::getGLType(type);
             }
 
             inline bool Info::isValid() const
@@ -107,12 +107,12 @@ namespace djv
 
             inline size_t Info::getPixelByteCount() const
             {
-                return Pixel::getByteCount(type);
+                return AV::Image::getByteCount(type);
             }
 
             inline size_t Info::getScanlineByteCount() const
             {
-                const size_t byteCount = size.x * Pixel::getByteCount(type);
+                const size_t byteCount = size.x * AV::Image::getByteCount(type);
                 const size_t q = byteCount / layout.alignment * layout.alignment;
                 const size_t r = byteCount - q;
                 return q + (r ? layout.alignment : 0);
@@ -234,6 +234,6 @@ namespace djv
                 return _data + y * _scanlineByteCount + x * _pixelByteCount;
             }
 
-        } // namespace Pixel
+        } // namespace Image
     } // namespace AV
 } // namespace djv

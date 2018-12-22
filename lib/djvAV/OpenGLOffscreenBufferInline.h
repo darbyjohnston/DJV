@@ -36,7 +36,7 @@ namespace djv
             inline OffscreenBuffer::OffscreenBuffer()
             {}
             
-            inline const Pixel::Info & OffscreenBuffer::getInfo() const
+            inline const Image::Info & OffscreenBuffer::getInfo() const
             {
                 return _info;
             }

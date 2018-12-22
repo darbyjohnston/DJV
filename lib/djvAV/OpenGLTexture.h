@@ -29,8 +29,8 @@
 
 #pragma once
 
+#include <djvAV/ImageData.h>
 #include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
 
 namespace djv
 {
@@ -42,26 +42,26 @@ namespace djv
             class Texture
             {
                 DJV_NON_COPYABLE(Texture);
-                void _init(const Pixel::Info &, gl::GLenum filter = gl::GL_LINEAR);
+                void _init(const Image::Info &, gl::GLenum filter = gl::GL_LINEAR);
                 inline Texture();
 
             public:
                 ~Texture();
 
-                static std::shared_ptr<Texture> create(const Pixel::Info &, gl::GLenum filter = gl::GL_LINEAR);
+                static std::shared_ptr<Texture> create(const Image::Info &, gl::GLenum filter = gl::GL_LINEAR);
 
-                inline const Pixel::Info & getInfo() const;
+                inline const Image::Info & getInfo() const;
                 inline gl::GLuint getID() const;
 
-                void copy(const Pixel::Data &);
-                void copy(const Pixel::Data &, const glm::ivec2 &);
+                void copy(const Image::Data &);
+                void copy(const Image::Data &, const glm::ivec2 &);
 
                 void bind();
 
-                static gl::GLenum getInternalFormat(Pixel::Type);
+                static gl::GLenum getInternalFormat(Image::Type);
 
             private:
-                Pixel::Info _info;
+                Image::Info _info;
                 gl::GLuint _id = 0;
                 gl::GLuint _pbo = 0;
             };

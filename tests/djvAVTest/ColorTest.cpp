@@ -42,55 +42,55 @@ namespace djv
         void ColorTest::run(int & argc, char ** argv)
         {
             {
-                auto u8 = AV::Color(AV::Pixel::Type::L_U8);
+                auto u8 = AV::Image::Color(AV::Image::Type::L_U8);
                 u8.setU8(255, 0);
-                const auto u16 = u8.convert(AV::Pixel::Type::L_U16);
+                const auto u16 = u8.convert(AV::Image::Type::L_U16);
                 std::stringstream ss;
                 ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "U16 = " << u16.getU16(0);
                 _print(ss.str());
             }
             {
-                auto u8 = AV::Color(AV::Pixel::Type::L_U8);
+                auto u8 = AV::Image::Color(AV::Image::Type::L_U8);
                 u8.setU8(255, 0);
-                const auto u10 = u8.convert(AV::Pixel::Type::RGB_U10);
+                const auto u10 = u8.convert(AV::Image::Type::RGB_U10);
                 std::stringstream ss;
                 ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "U10 = " << u10.getU10(0) << ", " << u10.getU10(1) << ", " << u10.getU10(2);
                 _print(ss.str());
             }
             {
-                auto u8 = AV::Color(AV::Pixel::Type::L_U8);
+                auto u8 = AV::Image::Color(AV::Image::Type::L_U8);
                 u8.setU8(255, 0);
-                const auto f32 = u8.convert(AV::Pixel::Type::L_F32);
+                const auto f32 = u8.convert(AV::Image::Type::L_F32);
                 std::stringstream ss;
                 ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "F32 = " << f32.getF32(0);
                 _print(ss.str());
             }
             {
-                for (size_t i = 1; i < static_cast<size_t>(AV::Pixel::Type::Count); ++i)
+                for (size_t i = 1; i < static_cast<size_t>(AV::Image::Type::Count); ++i)
                 {
-                    for (size_t j = 1; j < static_cast<size_t>(AV::Pixel::Type::Count); ++j)
+                    for (size_t j = 1; j < static_cast<size_t>(AV::Image::Type::Count); ++j)
                     {
-                        AV::Color(static_cast<AV::Pixel::Type>(i)).convert(static_cast<AV::Pixel::Type>(j));
+                        AV::Image::Color(static_cast<AV::Image::Type>(i)).convert(static_cast<AV::Image::Type>(j));
                     }
                 }
             }
             {
-                AV::Color in(0, 127, 255);
+                AV::Image::Color in(0, 127, 255);
                 std::stringstream ss;
                 ss << in;
-                AV::Color out;
+                AV::Image::Color out;
                 ss >> out;
                 DJV_ASSERT(in == out);
                 _print(ss.str());
             }
             {
-                AV::Color in(AV::Pixel::Type::RGB_U10);
+                AV::Image::Color in(AV::Image::Type::RGB_U10);
                 in.setU10(0, 0);
                 in.setU10(511, 1);
                 in.setU10(1023, 2);
                 std::stringstream ss;
                 ss << in;
-                AV::Color out;
+                AV::Image::Color out;
                 ss >> out;
                 DJV_ASSERT(in == out);
                 _print(ss.str());

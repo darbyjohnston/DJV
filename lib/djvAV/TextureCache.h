@@ -27,8 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvAV/ImageData.h>
 #include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
 
 #include <djvCore/Range.h>
 #include <djvCore/UID.h>
@@ -37,45 +37,48 @@ namespace djv
 {
     namespace AV
     {
-        //! This struct provides information about a texture cache item.
-        struct TextureCacheItem
+        namespace Render
         {
-            glm::ivec2 size;
-            gl::GLuint texture = 0;
-            Core::Range::FloatRange textureU;
-            Core::Range::FloatRange textureV;
-        };
+            //! This struct provides information about a texture cache item.
+            struct TextureCacheItem
+            {
+                glm::ivec2 size;
+                gl::GLuint texture = 0;
+                Core::Range::FloatRange textureU;
+                Core::Range::FloatRange textureV;
+            };
 
-        //! This class provides a texture cache.
-        class TextureCache
-        {
-            DJV_NON_COPYABLE(TextureCache);
+            //! This class provides a texture cache.
+            class TextureCache
+            {
+                DJV_NON_COPYABLE(TextureCache);
 
-        public:
-            TextureCache(size_t textureCount, int textureSize, Pixel::Type, gl::GLenum filter = gl::GL_LINEAR, int border = 1);
-            ~TextureCache();
+            public:
+                TextureCache(size_t textureCount, int textureSize, Image::Type, gl::GLenum filter = gl::GL_LINEAR, int border = 1);
+                ~TextureCache();
 
-            size_t getTextureCount() const;
-            int getTextureSize() const;
-            Pixel::Type getTexturePixel() const;
-            std::vector<gl::GLuint> getTextures() const;
+                size_t getTextureCount() const;
+                int getTextureSize() const;
+                Image::Type getTextureType() const;
+                std::vector<gl::GLuint> getTextures() const;
 
-            bool getItem(Core::UID, TextureCacheItem&);
-            Core::UID addItem(const std::shared_ptr<Pixel::Data>&, TextureCacheItem&);
+                bool getItem(Core::UID, TextureCacheItem&);
+                Core::UID addItem(const std::shared_ptr<Image::Data>&, TextureCacheItem&);
 
-            float getPercentageUsed() const;
+                float getPercentageUsed() const;
 
-        private:
-            struct BoxPackingNode;
+            private:
+                struct BoxPackingNode;
 
-            void _getAllNodes(BoxPackingNode*, std::vector<BoxPackingNode*>&);
-            void _getLeafNodes(const BoxPackingNode*, std::vector<const BoxPackingNode*>&) const;
-            void _toTextureCacheItem(const BoxPackingNode*, TextureCacheItem&);
-            void _removeFromCache(BoxPackingNode*);
+                void _getAllNodes(BoxPackingNode*, std::vector<BoxPackingNode*>&);
+                void _getLeafNodes(const BoxPackingNode*, std::vector<const BoxPackingNode*>&) const;
+                void _toTextureCacheItem(const BoxPackingNode*, TextureCacheItem&);
+                void _removeFromCache(BoxPackingNode*);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Render
     } // namespace AV
 } // namespace djv

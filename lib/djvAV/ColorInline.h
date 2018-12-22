@@ -31,131 +31,134 @@ namespace djv
 {
     namespace AV
     {
-        inline Color::Color() :
-            _type(Pixel::Type::None)
-        {}
-
-        inline Color::Color(Pixel::Type type) :
-            _type(type),
-            _data(Pixel::getByteCount(_type))
+        namespace Image
         {
-            zero();
-        }
+            inline Color::Color() :
+                _type(Type::None)
+            {}
 
-        inline Color::Color(int r, int g, int b, int a) :
-            _type(Pixel::Type::RGBA_U8),
-            _data(Pixel::getByteCount(_type))
-        {
-            auto p = reinterpret_cast<Pixel::U8_T *>(_data.data());
-            p[0] = r;
-            p[1] = g;
-            p[2] = b;
-            p[3] = a;
-        }
-
-        inline Color::Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a) :
-            _type(Pixel::Type::RGBA_F32),
-            _data(Pixel::getByteCount(_type))
-        {
-            auto p = reinterpret_cast<Pixel::F32_T *>(_data.data());
-            p[0] = r;
-            p[1] = g;
-            p[2] = b;
-            p[3] = a;
-        }
-
-        inline Pixel::Type Color::getType() const
-        {
-            return _type;
-        }
-
-        inline bool Color::isValid() const
-        {
-            return _type != Pixel::Type::None;
-        }
-
-        inline Pixel::U8_T Color::getU8(size_t channel) const
-        {
-            return reinterpret_cast<const Pixel::U8_T *>(_data.data())[channel];
-        }
-
-        inline Pixel::U10_T Color::getU10(size_t channel) const
-        {
-            auto p = reinterpret_cast<const Pixel::U10_S *>(_data.data());
-            switch (channel)
+            inline Color::Color(Type type) :
+                _type(type),
+                _data(getByteCount(_type))
             {
-            case 0: return p->r;
-            case 1: return p->g;
-            case 2: return p->b;
+                zero();
             }
-            return 0;
-        }
 
-        inline Pixel::U16_T Color::getU16(size_t channel) const
-        {
-            return reinterpret_cast<const Pixel::U16_T *>(_data.data())[channel];
-        }
-
-        inline Pixel::U32_T Color::getU32(size_t channel) const
-        {
-            return reinterpret_cast<const Pixel::U32_T *>(_data.data())[channel];
-        }
-
-        inline Pixel::F16_T Color::getF16(size_t channel) const
-        {
-            return reinterpret_cast<const Pixel::F16_T *>(_data.data())[channel];
-        }
-
-        inline Pixel::F32_T Color::getF32(size_t channel) const
-        {
-            return reinterpret_cast<const Pixel::F32_T *>(_data.data())[channel];
-        }
-
-        inline void Color::setU8(Pixel::U8_T value, size_t channel)
-        {
-            reinterpret_cast<Pixel::U8_T *>(_data.data())[channel] = value;
-        }
-
-        inline void Color::setU10(Pixel::U10_T value, size_t channel)
-        {
-            auto p = reinterpret_cast<Pixel::U10_S *>(_data.data());
-            switch (channel)
+            inline Color::Color(int r, int g, int b, int a) :
+                _type(Type::RGBA_U8),
+                _data(getByteCount(_type))
             {
-            case 0: p->r = value; break;
-            case 1: p->g = value; break;
-            case 2: p->b = value; break;
+                auto p = reinterpret_cast<U8_T *>(_data.data());
+                p[0] = r;
+                p[1] = g;
+                p[2] = b;
+                p[3] = a;
             }
-        }
 
-        inline void Color::setU16(Pixel::U16_T value, size_t channel)
-        {
-            reinterpret_cast<Pixel::U16_T *>(_data.data())[channel] = value;
-        }
+            inline Color::Color(F32_T r, F32_T g, F32_T b, F32_T a) :
+                _type(Type::RGBA_F32),
+                _data(getByteCount(_type))
+            {
+                auto p = reinterpret_cast<F32_T *>(_data.data());
+                p[0] = r;
+                p[1] = g;
+                p[2] = b;
+                p[3] = a;
+            }
 
-        inline void Color::setU32(Pixel::U32_T value, size_t channel)
-        {
-            reinterpret_cast<Pixel::U32_T *>(_data.data())[channel] = value;
-        }
+            inline Type Color::getType() const
+            {
+                return _type;
+            }
 
-        inline void Color::setF16(Pixel::F16_T value, size_t channel)
-        {
-            reinterpret_cast<Pixel::F16_T *>(_data.data())[channel] = value;
-        }
+            inline bool Color::isValid() const
+            {
+                return _type != Type::None;
+            }
 
-        inline void Color::setF32(Pixel::F32_T value, size_t channel)
-        {
-            reinterpret_cast<Pixel::F32_T *>(_data.data())[channel] = value;
-        }
+            inline U8_T Color::getU8(size_t channel) const
+            {
+                return reinterpret_cast<const U8_T *>(_data.data())[channel];
+            }
 
-        inline const uint8_t * Color::getData() const
-        {
-            return _data.data();
-        }
+            inline U10_T Color::getU10(size_t channel) const
+            {
+                auto p = reinterpret_cast<const U10_S *>(_data.data());
+                switch (channel)
+                {
+                case 0: return p->r;
+                case 1: return p->g;
+                case 2: return p->b;
+                }
+                return 0;
+            }
 
-        inline uint8_t * Color::getData()
-        {
-            return _data.data();
-        }
+            inline U16_T Color::getU16(size_t channel) const
+            {
+                return reinterpret_cast<const U16_T *>(_data.data())[channel];
+            }
 
+            inline U32_T Color::getU32(size_t channel) const
+            {
+                return reinterpret_cast<const U32_T *>(_data.data())[channel];
+            }
+
+            inline F16_T Color::getF16(size_t channel) const
+            {
+                return reinterpret_cast<const F16_T *>(_data.data())[channel];
+            }
+
+            inline F32_T Color::getF32(size_t channel) const
+            {
+                return reinterpret_cast<const F32_T *>(_data.data())[channel];
+            }
+
+            inline void Color::setU8(U8_T value, size_t channel)
+            {
+                reinterpret_cast<U8_T *>(_data.data())[channel] = value;
+            }
+
+            inline void Color::setU10(U10_T value, size_t channel)
+            {
+                auto p = reinterpret_cast<U10_S *>(_data.data());
+                switch (channel)
+                {
+                case 0: p->r = value; break;
+                case 1: p->g = value; break;
+                case 2: p->b = value; break;
+                }
+            }
+
+            inline void Color::setU16(U16_T value, size_t channel)
+            {
+                reinterpret_cast<U16_T *>(_data.data())[channel] = value;
+            }
+
+            inline void Color::setU32(U32_T value, size_t channel)
+            {
+                reinterpret_cast<U32_T *>(_data.data())[channel] = value;
+            }
+
+            inline void Color::setF16(F16_T value, size_t channel)
+            {
+                reinterpret_cast<F16_T *>(_data.data())[channel] = value;
+            }
+
+            inline void Color::setF32(F32_T value, size_t channel)
+            {
+                reinterpret_cast<F32_T *>(_data.data())[channel] = value;
+            }
+
+            inline const uint8_t * Color::getData() const
+            {
+                return _data.data();
+            }
+
+            inline uint8_t * Color::getData()
+            {
+                return _data.data();
+            }
+
+        } // namespace Image
     } // namespace AV
 } // namespace djv

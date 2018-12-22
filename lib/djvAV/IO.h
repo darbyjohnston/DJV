@@ -31,13 +31,13 @@
 
 #include <djvAV/AudioData.h>
 #include <djvAV/Image.h>
-#include <djvAV/Speed.h>
 #include <djvAV/Tags.h>
-#include <djvAV/Time.h>
 
 #include <djvCore/Error.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/PicoJSON.h>
+#include <djvCore/Speed.h>
+#include <djvCore/Time.h>
 
 #include <future>
 #include <mutex>
@@ -55,11 +55,14 @@ namespace djv
             struct VideoInfo
             {
                 VideoInfo();
-                VideoInfo(const Pixel::Info &, const Speed & = Speed(), Duration duration = 0);
+                VideoInfo(
+                    const Image::Info &,
+                    const Core::Time::Speed & = Core::Time::Speed(),
+                    Core::Time::Duration duration = 0);
 
-                Pixel::Info info;
-                Speed speed;
-                Duration duration = 0;
+                Image::Info info;
+                Core::Time::Speed speed;
+                Core::Time::Duration duration = 0;
 
                 bool operator == (const VideoInfo &) const;
             };
@@ -68,10 +71,10 @@ namespace djv
             struct AudioInfo
             {
                 AudioInfo();
-                AudioInfo(const Audio::DataInfo &, Duration duration = 0);
+                AudioInfo(const Audio::DataInfo &, Core::Time::Duration duration = 0);
 
                 Audio::DataInfo info;
-                Duration duration = 0;
+                Core::Time::Duration duration = 0;
 
                 bool operator == (const AudioInfo &) const;
             };
@@ -95,10 +98,10 @@ namespace djv
             };
 
             //! This typedef provides a video I/O frame.
-            typedef std::pair<Timestamp, std::shared_ptr<Image> > VideoFrame;
+            typedef std::pair<Core::Time::Timestamp, std::shared_ptr<Image::Image> > VideoFrame;
 
             //! This typedef provides an audio I/O frame.
-            typedef std::pair<Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
+            typedef std::pair<Core::Time::Timestamp, std::shared_ptr<Audio::Data> > AudioFrame;
 
             //! This class provides a queue for video and audio I/O frames.
             class Queue : public std::enable_shared_from_this<Queue>
@@ -122,8 +125,8 @@ namespace djv
                 inline bool hasVideo() const;
                 inline bool hasAudio() const;
 
-                void addVideo(Timestamp, const std::shared_ptr<Image> &);
-                void addAudio(Timestamp, const std::shared_ptr<Audio::Data> &);
+                void addVideo(Core::Time::Timestamp, const std::shared_ptr<Image::Image> &);
+                void addAudio(Core::Time::Timestamp, const std::shared_ptr<Audio::Data> &);
 
                 inline VideoFrame getVideo() const;
                 inline AudioFrame getAudio() const;
@@ -166,7 +169,7 @@ namespace djv
 
                 virtual std::future<Info> getInfo() = 0;
 
-                virtual void seek(Timestamp);
+                virtual void seek(Core::Time::Timestamp);
 
             protected:
                 Core::Context * _context = nullptr;

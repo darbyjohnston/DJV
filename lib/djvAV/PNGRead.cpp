@@ -157,14 +157,14 @@ namespace djv
 
                 } // namespace
 
-                std::shared_ptr<Image> Read::_readImage(const std::string & fileName)
+                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    std::shared_ptr<Image> out;
+                    std::shared_ptr<Image::Image> out;
                     File f;
                     const auto info = _open(fileName, f);
                     if (info.video.size())
                     {
-                        out = Image::create(info.video[0].info);
+                        out = Image::Image::create(info.video[0].info);
                         for (int y = 0; y < info.video[0].info.size.y; ++y)
                         {
                             if (!pngScanline(f.png, out->getData(y)))
@@ -224,14 +224,14 @@ namespace djv
                     {
                         bitDepth = 8;
                     }
-                    Pixel::Type pixelType = Pixel::getIntType(channels, bitDepth);
-                    if (Pixel::Type::None == pixelType)
+                    Image::Type imageType = Image::getIntType(channels, bitDepth);
+                    if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
                         s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
-                    auto info = Pixel::Info(size, pixelType);
+                    auto info = Image::Info(size, imageType);
 
                     if (bitDepth >= 16 && Memory::Endian::LSB == Memory::getEndian())
                     {

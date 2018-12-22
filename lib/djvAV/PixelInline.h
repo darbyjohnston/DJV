@@ -33,7 +33,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Pixel
+        namespace Image
         {
             inline bool U10_S_MSB::operator == (const U10_S_MSB& value) const
             {
@@ -491,6 +491,6 @@ namespace djv
                 out = in;
             }
 
-        } // namespace Pixel
+        } // namespace Image
     } // namespace AV
 } // namespace djv

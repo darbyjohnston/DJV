@@ -35,49 +35,52 @@ namespace djv
 {
     namespace AV
     {
-        //! This class provides a color.
-        class Color
+        namespace Image
         {
-        public:
-            inline Color();
-            inline Color(Pixel::Type);
-            inline Color(int r, int g, int b, int a = Pixel::U8Max);
-            inline Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a = Pixel::F32Max);
+            //! This class provides a color.
+            class Color
+            {
+            public:
+                inline Color();
+                inline Color(Type);
+                inline Color(int r, int g, int b, int a = U8Max);
+                inline Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
 
-            inline Pixel::Type getType() const;
-            inline bool isValid() const;
+                inline Type getType() const;
+                inline bool isValid() const;
 
-            inline Pixel::U8_T  getU8 (size_t channel) const;
-            inline Pixel::U10_T getU10(size_t channel) const;
-            inline Pixel::U16_T getU16(size_t channel) const;
-            inline Pixel::U32_T getU32(size_t channel) const;
-            inline Pixel::F16_T getF16(size_t channel) const;
-            inline Pixel::F32_T getF32(size_t channel) const;
-            inline void setU8 (Pixel::U8_T,  size_t channel);
-            inline void setU10(Pixel::U10_T, size_t channel);
-            inline void setU16(Pixel::U16_T, size_t channel);
-            inline void setU32(Pixel::U32_T, size_t channel);
-            inline void setF16(Pixel::F16_T, size_t channel);
-            inline void setF32(Pixel::F32_T, size_t channel);
+                inline U8_T  getU8(size_t channel) const;
+                inline U10_T getU10(size_t channel) const;
+                inline U16_T getU16(size_t channel) const;
+                inline U32_T getU32(size_t channel) const;
+                inline F16_T getF16(size_t channel) const;
+                inline F32_T getF32(size_t channel) const;
+                inline void setU8(U8_T, size_t channel);
+                inline void setU10(U10_T, size_t channel);
+                inline void setU16(U16_T, size_t channel);
+                inline void setU32(U32_T, size_t channel);
+                inline void setF16(F16_T, size_t channel);
+                inline void setF32(F32_T, size_t channel);
 
-            inline const uint8_t * getData() const;
-            inline uint8_t * getData();
+                inline const uint8_t * getData() const;
+                inline uint8_t * getData();
 
-            void zero();
-            Color convert(Pixel::Type) const;
+                void zero();
+                Color convert(Type) const;
 
-            bool operator == (const Color &) const;
-            bool operator != (const Color &) const;
+                bool operator == (const Color &) const;
+                bool operator != (const Color &) const;
 
-        private:
-            Pixel::Type _type = Pixel::Type::None;
-            std::vector<uint8_t> _data;
-        };
+            private:
+                Type _type = Type::None;
+                std::vector<uint8_t> _data;
+            };
 
+        } // namespace Image
     } // namespace AV
 
-    std::ostream & operator << (std::ostream &, const AV::Color &);
-    std::istream & operator >> (std::istream &, AV::Color &);
+    std::ostream & operator << (std::ostream &, const AV::Image::Color &);
+    std::istream & operator >> (std::istream &, AV::Image::Color &);
 
 } // namespace djv
 

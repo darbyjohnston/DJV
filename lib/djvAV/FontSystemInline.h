@@ -53,9 +53,9 @@ namespace djv
                 return _info;
             }
 
-            inline const std::shared_ptr<Pixel::Data> & Glyph::getPixelData() const
+            inline const std::shared_ptr<Image::Data> & Glyph::getImageData() const
             {
-                return _pixelData;
+                return _imageData;
             }
 
             inline glm::vec2 Glyph::getOffset() const

@@ -45,7 +45,7 @@ namespace djv
     {
         namespace OpenGL
         {
-            void OffscreenBuffer::_init(const Pixel::Info& info)
+            void OffscreenBuffer::_init(const Image::Info& info)
             {
                 _info = info;
 
@@ -112,7 +112,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(const Pixel::Info& info)
+            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(const Image::Info& info)
             {
                 auto out = std::shared_ptr<OffscreenBuffer>(new OffscreenBuffer);
                 out->_init(info);

@@ -42,76 +42,79 @@ namespace djv
 {
     namespace AV
     {
-        class Color;
-
-        namespace Pixel
+        namespace Image
         {
+            class Color;
             class Data;
 
-        } // namespace Pixel
+        } // namespace Image
 
-        class Render2DSystem : public Core::ISystem
+        //! This namespace provides rendering functionality.
+        namespace Render
         {
-            DJV_NON_COPYABLE(Render2DSystem);
+            class Render2DSystem : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(Render2DSystem);
 
-        protected:
-            void _init(Core::Context *);
-            Render2DSystem();
+            protected:
+                void _init(Core::Context *);
+                Render2DSystem();
 
-        public:
-            ~Render2DSystem();
+            public:
+                ~Render2DSystem();
 
-            static std::shared_ptr<Render2DSystem> create(Core::Context *);
+                static std::shared_ptr<Render2DSystem> create(Core::Context *);
 
-            void beginFrame(const glm::ivec2&);
-            void endFrame();
+                void beginFrame(const glm::ivec2&);
+                void endFrame();
 
-            void pushClipRect(const Core::BBox2f&);
-            void popClipRect();
+                void pushClipRect(const Core::BBox2f&);
+                void popClipRect();
 
-            void setFillColor(const Color&);
+                void setFillColor(const Image::Color&);
 
-            //! \name Primitives
-            ///@{
+                //! \name Primitives
+                ///@{
 
-            void drawRectangle(const Core::BBox2f&);
+                void drawRectangle(const Core::BBox2f&);
 
-            ///@}
+                ///@}
 
-            //! \name Images
-            ///@{
+                //! \name Images
+                ///@{
 
-            void drawImage(
-                const std::shared_ptr<Pixel::Data>&,
-                const glm::vec2&,
-                bool dynamic,
-                Core::UID);
+                void drawImage(
+                    const std::shared_ptr<Image::Data>&,
+                    const glm::vec2&,
+                    bool dynamic,
+                    Core::UID);
 
-            void drawFilledImage(
-                const std::shared_ptr<Pixel::Data>&,
-                const glm::vec2&,
-                bool dynamic,
-                Core::UID);
+                void drawFilledImage(
+                    const std::shared_ptr<Image::Data>&,
+                    const glm::vec2&,
+                    bool dynamic,
+                    Core::UID);
 
-            ///@}
+                ///@}
 
-            //! \name Text
-            ///@{
+                //! \name Text
+                ///@{
 
-            void setCurrentFont(const Font::Info&);
+                void setCurrentFont(const Font::Info&);
 
-            void drawText(
-                const std::string & text,
-                const glm::vec2 & position,
-                size_t maxLineWidth = 0);
+                void drawText(
+                    const std::string & text,
+                    const glm::vec2 & position,
+                    size_t maxLineWidth = 0);
 
-            ///@}
+                ///@}
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Render
     } // namespace AV
 } // namespace djv
 

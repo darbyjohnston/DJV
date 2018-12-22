@@ -36,7 +36,7 @@ namespace djv
             inline Texture::Texture()
             {}
 
-            inline const Pixel::Info & Texture::getInfo() const
+            inline const Image::Info & Texture::getInfo() const
             {
                 return _info;
             }

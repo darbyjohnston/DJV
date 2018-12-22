@@ -33,7 +33,7 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvAV/Time.h>
+#include <djvCore/Time.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -54,10 +54,10 @@ namespace djv
 
             static std::shared_ptr<TimelineSlider> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<AV::Timestamp> > getCurrentTime() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > getCurrentTime() const;
 
-            void setDuration(AV::Duration);
-            void setCurrentTime(AV::Timestamp);
+            void setDuration(Core::Time::Duration);
+            void setCurrentTime(Core::Time::Timestamp);
 
             void preLayoutEvent(Core::Event::PreLayout&) override;
             void layoutEvent(Core::Event::Layout&) override;
@@ -70,7 +70,7 @@ namespace djv
             void buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
         private:
-            AV::Timestamp _posToTime(int) const;
+            Core::Time::Timestamp _posToTime(int) const;
             Core::BBox2f _getHandleGeometry() const;
 
             DJV_PRIVATE();

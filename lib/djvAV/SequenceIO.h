@@ -37,7 +37,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Pixel
+        namespace Image
         {
             class Convert;
 
@@ -62,14 +62,14 @@ namespace djv
 
                 bool isRunning() const override;
                 std::future<Info> getInfo() override;
-                void seek(Timestamp) override;
+                void seek(Core::Time::Timestamp) override;
 
             protected:
                 virtual Info _readInfo(const std::string & fileName) = 0;
-                virtual std::shared_ptr<Image> _readImage(const std::string & fileName) = 0;
+                virtual std::shared_ptr<Image::Image> _readImage(const std::string & fileName) = 0;
 
-                AV::Speed _speed;
-                Duration _duration = 0;
+                Core::Time::Speed _speed;
+                Core::Time::Duration _duration = 0;
                 std::vector<Core::Frame::Number> _frames;
 
             private:
@@ -95,11 +95,11 @@ namespace djv
                 bool isRunning() const override;
 
             protected:
-                virtual void _write(const std::string & fileName, const std::shared_ptr<Image> &) = 0;
+                virtual void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) = 0;
 
                 Info _info;
-                Pixel::Info _pixelInfo;
-                std::shared_ptr<Pixel::Convert> _convert;
+                Image::Info _imageInfo;
+                std::shared_ptr<Image::Convert> _convert;
 
             private:
                 DJV_PRIVATE();

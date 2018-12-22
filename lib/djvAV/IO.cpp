@@ -50,7 +50,7 @@ namespace djv
             VideoInfo::VideoInfo()
             {}
 
-            VideoInfo::VideoInfo(const Pixel::Info & info, const Speed & speed, Duration duration) :
+            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, Time::Duration duration) :
                 info(info),
                 speed(speed),
                 duration(duration)
@@ -64,7 +64,7 @@ namespace djv
             AudioInfo::AudioInfo()
             {}
 
-            AudioInfo::AudioInfo(const Audio::DataInfo & info, Duration duration) :
+            AudioInfo::AudioInfo(const Audio::DataInfo & info, Time::Duration duration) :
                 info(info),
                 duration(duration)
             {}
@@ -122,12 +122,12 @@ namespace djv
                 return out;
             }
 
-            void Queue::addVideo(Timestamp ts, const std::shared_ptr<Image> & data)
+            void Queue::addVideo(Time::Timestamp ts, const std::shared_ptr<Image::Image> & data)
             {
                 _video.push_back(std::make_pair(ts, data));
             }
 
-            void Queue::addAudio(Timestamp ts, const std::shared_ptr<Audio::Data> & data)
+            void Queue::addAudio(Time::Timestamp ts, const std::shared_ptr<Audio::Data> & data)
             {
                 _audio.push_back(std::make_pair(ts, data));
             }
@@ -174,7 +174,7 @@ namespace djv
             IRead::~IRead()
             {}
 
-            void IRead::seek(Timestamp)
+            void IRead::seek(Time::Timestamp)
             {}
 
             void IWrite::_init(

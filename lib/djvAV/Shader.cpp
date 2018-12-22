@@ -38,61 +38,64 @@ namespace djv
 {
     namespace AV
     {
-        Shader::Shader()
-        {}
-
-        Shader::~Shader()
-        {}
-
-        std::shared_ptr<Shader> Shader::create(const std::string & vertex, const std::string & fragment)
+        namespace Render
         {
-            auto out = std::shared_ptr<Shader>(new Shader);
-            out->_vertex.second = vertex;
-            out->_fragment.second = fragment;
-            return out;
-        }
+            Shader::Shader()
+            {}
 
-        std::shared_ptr<Shader> Shader::create(const FileSystem::Path & vertex, const FileSystem::Path & fragment)
-        {
-            auto out = std::shared_ptr<Shader>(new Shader);
-            try
+            Shader::~Shader()
+            {}
+
+            std::shared_ptr<Shader> Shader::create(const std::string & vertex, const std::string & fragment)
             {
-                FileSystem::FileIO fileIO;
-                fileIO.open(vertex, FileSystem::FileIO::Mode::Read);
-                FileSystem::FileIO::readContents(fileIO, out->_vertex.second);
-                out->_vertex.first = vertex.get();
-                fileIO.open(fragment, FileSystem::FileIO::Mode::Read);
-                FileSystem::FileIO::readContents(fileIO, out->_fragment.second);
-                out->_fragment.first = fragment.get();
+                auto out = std::shared_ptr<Shader>(new Shader);
+                out->_vertex.second = vertex;
+                out->_fragment.second = fragment;
+                return out;
             }
-            catch (const std::exception& e)
+
+            std::shared_ptr<Shader> Shader::create(const FileSystem::Path & vertex, const FileSystem::Path & fragment)
             {
-                std::stringstream s;
-                s << DJV_TEXT("Cannot create shader") << ". " << e.what();
-                throw std::runtime_error(s.str());
+                auto out = std::shared_ptr<Shader>(new Shader);
+                try
+                {
+                    FileSystem::FileIO fileIO;
+                    fileIO.open(vertex, FileSystem::FileIO::Mode::Read);
+                    FileSystem::FileIO::readContents(fileIO, out->_vertex.second);
+                    out->_vertex.first = vertex.get();
+                    fileIO.open(fragment, FileSystem::FileIO::Mode::Read);
+                    FileSystem::FileIO::readContents(fileIO, out->_fragment.second);
+                    out->_fragment.first = fragment.get();
+                }
+                catch (const std::exception& e)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("Cannot create shader") << ". " << e.what();
+                    throw std::runtime_error(s.str());
+                }
+                return out;
             }
-            return out;
-        }
 
-        const std::string& Shader::getVertexName() const
-        {
-            return _vertex.first;
-        }
+            const std::string& Shader::getVertexName() const
+            {
+                return _vertex.first;
+            }
 
-        const std::string& Shader::getVertexSource() const
-        {
-            return _vertex.second;
-        }
+            const std::string& Shader::getVertexSource() const
+            {
+                return _vertex.second;
+            }
 
-        const std::string& Shader::getFragmentName() const
-        {
-            return _fragment.first;
-        }
+            const std::string& Shader::getFragmentName() const
+            {
+                return _fragment.first;
+            }
 
-        const std::string& Shader::getFragmentSource() const
-        {
-            return _fragment.second;
-        }
+            const std::string& Shader::getFragmentSource() const
+            {
+                return _fragment.second;
+            }
 
+        } // namespace Render
     } // namespace AV
 } // namespace djv

@@ -37,7 +37,6 @@
 
 using namespace djv;
 
-
 namespace djv
 {
     //! This namespace provides functionality for djv_info.
@@ -113,8 +112,8 @@ namespace djv
                             std::cout << "        Size: " << video.info.size << std::endl;
                             std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
                             std::cout << "        Type: " << video.info.type << std::endl;
-                            std::cout << "        Speed: " << AV::Speed::speedToFloat(video.speed) << std::endl;
-                            std::cout << "        Duration: " << AV::timestampToSeconds(video.duration) << std::endl;
+                            std::cout << "        Speed: " << Core::Time::Speed::speedToFloat(video.speed) << std::endl;
+                            std::cout << "        Duration: " << Core::Time::timestampToSeconds(video.duration) << std::endl;
                             ++i;
                         }
                         i = 0;
@@ -124,7 +123,7 @@ namespace djv
                             std::cout << "        Channels: " << audio.info.channelCount << std::endl;
                             std::cout << "        Type: " << audio.info.type << std::endl;
                             std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
-                            std::cout << "        Duration: " << AV::timestampToSeconds(audio.duration) << std::endl;
+                            std::cout << "        Duration: " << Core::Time::timestampToSeconds(audio.duration) << std::endl;
                             ++i;
                         }
                     }

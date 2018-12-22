@@ -49,28 +49,28 @@ namespace djv
     {
         struct Palette::Private
         {
-            std::map<ColorRole, AV::Color> colors;
+            std::map<ColorRole, AV::Image::Color> colors;
         };
 
         Palette::Palette() :
             _p(new Private)
         {
             DJV_PRIVATE_PTR();
-            p.colors[ColorRole::None]              = AV::Color();
-            p.colors[ColorRole::Background]        = AV::Color( .2f,  .21f, .23f);
-            p.colors[ColorRole::BackgroundHeader]  = AV::Color( .1f,  .1f,  .1f);
-            p.colors[ColorRole::BackgroundScroll]  = AV::Color( .15f, .16f, .18f);
-            p.colors[ColorRole::Foreground]        = AV::Color( .9f,  .9f,  .9f);
-            p.colors[ColorRole::ForegroundDim]     = AV::Color( .7f,  .7f,  .7f);
-            p.colors[ColorRole::Border]            = AV::Color( .11f, .14f, .17f);
-            p.colors[ColorRole::Trough]            = AV::Color( .15f, .15f, .15f);
-            p.colors[ColorRole::Button]            = AV::Color( .27f, .3f,  .33f);
-            p.colors[ColorRole::Checked]           = AV::Color( .2f,  .4f,  .7f);
-            p.colors[ColorRole::CheckedForeground] = AV::Color( .9f,  .9f,  .9f);
-            p.colors[ColorRole::Hover]             = AV::Color(1.f,  1.f,  1.f, .1f);
-            p.colors[ColorRole::Disabled]          = AV::Color( .3f,  .3f,  .3f);
-            p.colors[ColorRole::Overlay]           = AV::Color(0.f,  0.f,  0.f, .5f);
-            p.colors[ColorRole::Shadow]            = AV::Color(0.f,  0.f,  0.f, .2f);
+            p.colors[ColorRole::None]              = AV::Image::Color();
+            p.colors[ColorRole::Background]        = AV::Image::Color( .2f,  .21f, .23f);
+            p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color( .1f,  .1f,  .1f);
+            p.colors[ColorRole::BackgroundScroll]  = AV::Image::Color( .15f, .16f, .18f);
+            p.colors[ColorRole::Foreground]        = AV::Image::Color( .9f,  .9f,  .9f);
+            p.colors[ColorRole::ForegroundDim]     = AV::Image::Color( .7f,  .7f,  .7f);
+            p.colors[ColorRole::Border]            = AV::Image::Color( .11f, .14f, .17f);
+            p.colors[ColorRole::Trough]            = AV::Image::Color( .15f, .15f, .15f);
+            p.colors[ColorRole::Button]            = AV::Image::Color( .27f, .3f,  .33f);
+            p.colors[ColorRole::Checked]           = AV::Image::Color( .2f,  .4f,  .7f);
+            p.colors[ColorRole::CheckedForeground] = AV::Image::Color( .9f,  .9f,  .9f);
+            p.colors[ColorRole::Hover]             = AV::Image::Color(1.f,  1.f,  1.f, .1f);
+            p.colors[ColorRole::Disabled]          = AV::Image::Color( .3f,  .3f,  .3f);
+            p.colors[ColorRole::Overlay]           = AV::Image::Color(0.f,  0.f,  0.f, .5f);
+            p.colors[ColorRole::Shadow]            = AV::Image::Color(0.f,  0.f,  0.f, .2f);
         }
 
         Palette::Palette(const Palette& other) :
@@ -88,12 +88,12 @@ namespace djv
             return *this;
         }
 
-        const AV::Color & Palette::getColor(ColorRole value) const
+        const AV::Image::Color & Palette::getColor(ColorRole value) const
         {
             return _p->colors.at(value);
         }
 
-        void Palette::setColor(ColorRole role, const AV::Color & value)
+        void Palette::setColor(ColorRole role, const AV::Image::Color & value)
         {
             _p->colors[role] = value;
         }
@@ -270,7 +270,7 @@ namespace djv
             return _p->palette;
         }
 
-        const AV::Color& Style::getColor(ColorRole role) const
+        const AV::Image::Color& Style::getColor(ColorRole role) const
         {
             return _p->palette.getColor(role);
         }

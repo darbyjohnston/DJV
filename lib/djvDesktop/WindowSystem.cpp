@@ -98,7 +98,7 @@ namespace djv
 
         void WindowSystem::_pushClipRect(const Core::BBox2f & value)
         {
-            if (auto system = getContext()->getSystemT<AV::Render2DSystem>().lock())
+            if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
             {
                 system->pushClipRect(value);
             }
@@ -106,7 +106,7 @@ namespace djv
 
         void WindowSystem::_popClipRect()
         {
-            if (auto system = getContext()->getSystemT<AV::Render2DSystem>().lock())
+            if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
             {
                 system->popClipRect();
             }
@@ -139,7 +139,7 @@ namespace djv
                 }
             }
 
-            if (auto system = getContext()->getSystemT<AV::Render2DSystem>().lock())
+            if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
             {
                 system->beginFrame(frameBufferSize);
                 for (const auto& i : windows)

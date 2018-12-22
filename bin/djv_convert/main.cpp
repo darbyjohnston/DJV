@@ -52,12 +52,12 @@ namespace djv
         protected:
             void _init(int & argc, char ** argv)
             {
-                Core::Context::_init(argc, argv);
+                Context::_init(argc, argv);
 
                 _avSystem = AV::System::create(this);
                 _parseArgs();
 
-                AV::Duration duration = 0;
+                Core::Time::Duration duration = 0;
                 if (auto io = getSystemT<AV::IO::System>().lock())
                 {
                     _queue = AV::IO::Queue::create();
@@ -83,7 +83,7 @@ namespace djv
                     Core::Time::Timer::getMilliseconds(Core::Time::Timer::Value::Slow),
                     [this, duration](float)
                 {
-                    AV::Timestamp timestamp = 0;
+                    Core::Time::Timestamp timestamp = 0;
                     {
                         std::lock_guard<std::mutex> lock(_queue->getMutex());
                         if (_queue->hasVideo())

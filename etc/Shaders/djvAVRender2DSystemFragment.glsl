@@ -33,7 +33,7 @@ out vec4 FragColor;
 
 in vec2 Texture;
 
-uniform int pixelFormat;
+uniform int imageFormat;
 uniform int colorMode;
 uniform vec4 color;
 uniform sampler2D textureSampler;
@@ -41,7 +41,7 @@ uniform sampler2D textureSampler;
 void main()
 {
     vec4 t = texture(textureSampler, Texture);
-    switch (pixelFormat)
+    switch (imageFormat)
     {
     case 0:
         t.g = t.r;

@@ -37,40 +37,43 @@ namespace djv
 {
     namespace AV
     {
-        void Color::zero()
+        namespace Image
         {
-            memset(_data.data(), 0, Pixel::getByteCount(_type));
-        }
+            void Color::zero()
+            {
+                memset(_data.data(), 0, getByteCount(_type));
+            }
 
-        Color Color::convert(Pixel::Type type) const
-        {
-            auto out = Color(type);
-            Pixel::convert(_data.data(), _type, out._data.data(), type, 1);
-            return out;
-        }
+            Color Color::convert(Type type) const
+            {
+                auto out = Color(type);
+                Image::convert(_data.data(), _type, out._data.data(), type, 1);
+                return out;
+            }
 
-        bool Color::operator == (const Color & other) const
-        {
-            return
-                _type == other._type &&
-                0 == memcmp(_data.data(), other._data.data(), Pixel::getByteCount(_type));
-        }
+            bool Color::operator == (const Color & other) const
+            {
+                return
+                    _type == other._type &&
+                    0 == memcmp(_data.data(), other._data.data(), getByteCount(_type));
+            }
 
-        bool Color::operator != (const Color & other) const
-        {
-            return !(*this == other);
-        }
+            bool Color::operator != (const Color & other) const
+            {
+                return !(*this == other);
+            }
 
+        } // namepsace Image
     } // namespace AV
 
-    std::ostream & operator << (std::ostream & os, const AV::Color & value)
+    std::ostream & operator << (std::ostream & os, const AV::Image::Color & value)
     {
         const auto type = value.getType();
         os << type;
-        const size_t channelCount = AV::Pixel::getChannelCount(type);
-        switch (AV::Pixel::getDataType(type))
+        const size_t channelCount = AV::Image::getChannelCount(type);
+        switch (AV::Image::getDataType(type))
         {
-        case AV::Pixel::DataType::U8:
+        case AV::Image::DataType::U8:
         {
             os << " ";
             for (size_t i = 0; i < channelCount; ++i)
@@ -83,7 +86,7 @@ namespace djv
             }
             break;
         }
-        case AV::Pixel::DataType::U10:
+        case AV::Image::DataType::U10:
         {
             os << " ";
             for (size_t i = 0; i < channelCount; ++i)
@@ -96,7 +99,7 @@ namespace djv
             }
             break;
         }
-        case AV::Pixel::DataType::U16:
+        case AV::Image::DataType::U16:
         {
             os << " ";
             for (size_t i = 0; i < channelCount; ++i)
@@ -109,7 +112,7 @@ namespace djv
             }
             break;
         }
-        case AV::Pixel::DataType::U32:
+        case AV::Image::DataType::U32:
         {
             os << " ";
             for (size_t i = 0; i < channelCount; ++i)
@@ -122,7 +125,7 @@ namespace djv
             }
             break;
         }
-        case AV::Pixel::DataType::F16:
+        case AV::Image::DataType::F16:
         {
             os << " ";
             for (size_t i = 0; i < channelCount; ++i)
@@ -135,7 +138,7 @@ namespace djv
             }
             break;
         }
-        case AV::Pixel::DataType::F32:
+        case AV::Image::DataType::F32:
         {
             os << " ";
             for (size_t i = 0; i < channelCount; ++i)
@@ -153,15 +156,15 @@ namespace djv
         return os;
     }
 
-    std::istream & operator >> (std::istream & is, AV::Color & value)
+    std::istream & operator >> (std::istream & is, AV::Image::Color & value)
     {
-        AV::Pixel::Type type = AV::Pixel::Type::None;
+        AV::Image::Type type = AV::Image::Type::None;
         is >> type;
-        value = AV::Color(type);
-        const size_t channelCount = AV::Pixel::getChannelCount(type);
-        switch (AV::Pixel::getDataType(type))
+        value = AV::Image::Color(type);
+        const size_t channelCount = AV::Image::getChannelCount(type);
+        switch (AV::Image::getDataType(type))
         {
-        case AV::Pixel::DataType::U8:
+        case AV::Image::DataType::U8:
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
@@ -171,51 +174,51 @@ namespace djv
             }
             break;
         }
-        case AV::Pixel::DataType::U10:
+        case AV::Image::DataType::U10:
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
-                AV::Pixel::U10_T tmp = 0;
+                AV::Image::U10_T tmp = 0;
                 is >> tmp;
                 value.setU10(tmp, i);
             }
             break;
         }
-        case AV::Pixel::DataType::U16:
+        case AV::Image::DataType::U16:
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
-                AV::Pixel::U16_T tmp = 0;
+                AV::Image::U16_T tmp = 0;
                 is >> tmp;
                 value.setU16(tmp, i);
             }
             break;
         }
-        case AV::Pixel::DataType::U32:
+        case AV::Image::DataType::U32:
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
-                AV::Pixel::U32_T tmp = 0;
+                AV::Image::U32_T tmp = 0;
                 is >> tmp;
                 value.setU32(tmp, i);
             }
             break;
         }
-        case AV::Pixel::DataType::F16:
+        case AV::Image::DataType::F16:
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
-                AV::Pixel::F16_T tmp = 0.f;
+                AV::Image::F16_T tmp = 0.f;
                 is >> tmp;
                 value.setF16(tmp, i);
             }
             break;
         }
-        case AV::Pixel::DataType::F32:
+        case AV::Image::DataType::F32:
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
-                AV::Pixel::F32_T tmp = 0.f;
+                AV::Image::F32_T tmp = 0.f;
                 is >> tmp;
                 value.setF32(tmp, i);
             }

@@ -61,12 +61,12 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> bottomBar;
             std::shared_ptr<UI::StackLayout> layout;
             std::function<void(void)> closedCallback;
-            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::Duration> > durationObserver;
-            std::shared_ptr<ValueObserver<AV::Timestamp> > currentTimeObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
+            std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
-            std::shared_ptr<ValueObserver<AV::Timestamp> > currentTimeObserver2;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
         };
         
         void MDIWindow::_init(const std::shared_ptr<Media> & media, Context * context)
@@ -129,9 +129,9 @@ namespace djv
                 }
             });
 
-            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image> >::create(
+            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
                 media->getCurrentImage(),
-                [weak](const std::shared_ptr<AV::Image> & image)
+                [weak](const std::shared_ptr<AV::Image::Image> & image)
             {
                 if (auto window = weak.lock())
                 {
@@ -139,9 +139,9 @@ namespace djv
                 }
             });
 
-            p.durationObserver = ValueObserver<AV::Duration>::create(
+            p.durationObserver = ValueObserver<Time::Duration>::create(
                 media->getDuration(),
-                [weak](AV::Duration value)
+                [weak](Time::Duration value)
             {
                 if (auto window = weak.lock())
                 {
@@ -149,9 +149,9 @@ namespace djv
                 }
             });
 
-            p.currentTimeObserver = ValueObserver<AV::Timestamp>::create(
+            p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
                 media->getCurrentTime(),
-                [weak](AV::Timestamp value)
+                [weak](Time::Timestamp value)
             {
                 if (auto window = weak.lock())
                 {
@@ -179,9 +179,9 @@ namespace djv
                 }
             });
 
-            p.currentTimeObserver2 = ValueObserver<AV::Timestamp>::create(
+            p.currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
                 p.timelineSlider->getCurrentTime(),
-                [weak](AV::Timestamp value)
+                [weak](Time::Timestamp value)
             {
                 if (auto window = weak.lock())
                 {

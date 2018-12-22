@@ -45,8 +45,17 @@ namespace djv
 
     namespace AV
     {
-        class Color;
-        class Shader;
+        namespace Image
+        {
+            class Color;
+
+        } // namespace Image
+
+        namespace Render
+        {
+            class Shader;
+
+        } // namespace Render
 
         namespace OpenGL
         {
@@ -54,7 +63,7 @@ namespace djv
             class Shader
             {
                 DJV_NON_COPYABLE(Shader);
-                void _init(const std::shared_ptr<AV::Shader> &);
+                void _init(const std::shared_ptr<Render::Shader> &);
                 Shader();
 
             public:
@@ -62,7 +71,7 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                static std::shared_ptr<Shader> create(const std::shared_ptr<AV::Shader> &);
+                static std::shared_ptr<Shader> create(const std::shared_ptr<Render::Shader> &);
 
                 void setUniform(const std::string&, int);
                 void setUniform(const std::string&, float);
@@ -71,12 +80,12 @@ namespace djv
                 void setUniform(const std::string&, const glm::vec4 &);
                 void setUniform(const std::string&, const glm::mat3x3 &);
                 void setUniform(const std::string&, const glm::mat4x4 &);
-                void setUniform(const std::string&, const Color &);
+                void setUniform(const std::string&, const Image::Color &);
 
                 void bind();
 
             private:
-                std::shared_ptr<AV::Shader> _shader;
+                std::shared_ptr<Render::Shader> _shader;
                 gl::GLuint _vertex = 0;
                 gl::GLuint _fragment = 0;
                 gl::GLuint _program = 0;

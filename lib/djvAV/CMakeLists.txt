@@ -1,5 +1,4 @@
 find_package(FreeType REQUIRED)
-find_package(FFmpeg REQUIRED)
 find_package(IlmBase REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -25,7 +24,9 @@ set(header
     IOInline.h
     IconSystem.h
     Image.h
-    Keycode.h
+    ImageConvert.h
+    ImageData.h
+    ImageDataInline.h
     OpenGL.h
     OpenGLMesh.h
     OpenGLMeshInline.h
@@ -35,22 +36,14 @@ set(header
     OpenGLTextureInline.h
     PPM.h
     Pixel.h
-    PixelConvert.h
-    PixelData.h
-    PixelDataInline.h
     PixelInline.h
     Render2DSystem.h
     SequenceIO.h
     Shader.h
     Shape.h
-    Speed.h
-    SpeedInline.h
     System.h
     Tags.h
     TextureCache.h
-    Time.h
-    Timecode.h
-    TimecodeInline.h
     TriangleMesh.h)
 set(source
     Audio.cpp
@@ -63,7 +56,8 @@ set(source
     IO.cpp
     IconSystem.cpp
     Image.cpp
-    Keycode.cpp
+    ImageConvert.cpp
+    ImageData.cpp
     OpenGLMesh.cpp
     OpenGLOffscreenBuffer.cpp
     OpenGLShader.cpp
@@ -72,18 +66,13 @@ set(source
     PPMRead.cpp
     PPMWrite.cpp
     Pixel.cpp
-    PixelConvert.cpp
-    PixelData.cpp
     Render2DSystem.cpp
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp
-    Speed.cpp
     System.cpp
     Tags.cpp
     TextureCache.cpp
-    Time.cpp
-    Timecode.cpp
     TriangleMesh.cpp)
 if(PNG_FOUND)
     set(header
@@ -101,7 +90,6 @@ set(LIBRARIES
     glbinding
     GLFW
     FreeType
-    FFMPEG
     IlmBase
     OpenAL
     OpenGL::GL

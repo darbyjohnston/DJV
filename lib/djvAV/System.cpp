@@ -183,8 +183,8 @@ namespace djv
             _p->avSystems.push_back(IO::System::create(context));
             _p->avSystems.push_back(Audio::System::create(context));
             _p->avSystems.push_back(Font::System::create(_p->dpi, context));
-            _p->avSystems.push_back(IconSystem::create(context));
-            _p->avSystems.push_back(Render2DSystem::create(context));
+            _p->avSystems.push_back(Image::IconSystem::create(context));
+            _p->avSystems.push_back(Render::Render2DSystem::create(context));
         }
 
         System::System() :

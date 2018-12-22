@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/PixelData.h>
+#include <djvAV/ImageData.h>
 
 using namespace gl;
 
@@ -35,7 +35,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Pixel
+        namespace Image
         {
             void Data::_init(const Info & info)
             {
@@ -95,7 +95,7 @@ namespace djv
                 return false;
             }
 
-        } // namespace Pixel
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 

@@ -30,7 +30,7 @@
 #include <djvAV/SequenceIO.h>
 
 #include <djvAV/FFmpeg.h>
-#include <djvAV/PixelConvert.h>
+#include <djvAV/ImageConvert.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -53,7 +53,7 @@ namespace djv
             {
                 std::promise<Info> infoPromise;
                 std::condition_variable queueCV;
-                Timestamp seek = -1;
+                Time::Timestamp seek = -1;
                 std::thread thread;
                 std::atomic<bool> running;
             };
@@ -114,7 +114,7 @@ namespace djv
                     while (_queue && p.running)
                     {
                         bool read = false;
-                        Timestamp seek = -1;
+                        Time::Timestamp seek = -1;
                         {
                             std::unique_lock<std::mutex> lock(_queue->getMutex());
                             if (p.queueCV.wait_for(
@@ -152,8 +152,8 @@ namespace djv
                         }
                         if (read)
                         {
-                            std::shared_ptr<Image> image;
-                            Timestamp pts = 0;
+                            std::shared_ptr<Image::Image> image;
+                            Time::Timestamp pts = 0;
                             Frame::Number frameNumber = Frame::Invalid;
                             if (frameIndex != Frame::Invalid)
                             {
@@ -225,7 +225,7 @@ namespace djv
                 return _p->infoPromise.get_future();
             }
 
-            void ISequenceRead::seek(Timestamp value)
+            void ISequenceRead::seek(Time::Timestamp value)
             {
                 DJV_PRIVATE_PTR();
                 {
@@ -255,7 +255,7 @@ namespace djv
                 _info = info;
                 if (_info.video.size())
                 {
-                    _pixelInfo = _info.video[0].info;
+                    _imageInfo = _info.video[0].info;
                 }
 
                 DJV_PRIVATE_PTR();
@@ -298,12 +298,12 @@ namespace djv
                         glfwMakeContextCurrent(p.glfwWindow);
                         glbinding::initialize(glfwGetProcAddress);
 
-                        _convert = Pixel::Convert::create(context);
+                        _convert = Image::Convert::create(context);
 
                         const auto timeout = Time::Timer::getValue(Time::Timer::Value::Fast);
                         while (p.running)
                         {
-                            std::shared_ptr<Image> image;
+                            std::shared_ptr<Image::Image> image;
                             {
                                 std::unique_lock<std::mutex> lock(_queue->getMutex(), std::try_to_lock);
                                 if (lock.owns_lock())

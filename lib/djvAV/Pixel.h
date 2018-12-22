@@ -41,10 +41,10 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides image pixel functionality.
-        namespace Pixel
+        //! This namespace provides image functionality.
+        namespace Image
         {
-            //! This enumeration provides the pixel types.
+            //! This enumeration provides the image types.
             enum class Type
             {
                 None,
@@ -79,7 +79,7 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
-            //! This enumeration provides the pixel data types.
+            //! This enumeration provides the image data types.
             enum class DataType
             {
                 None,
@@ -192,10 +192,10 @@ namespace djv
 
             void convert(const void *, Type, void *, Type, size_t);
 
-        } // namespace Pixel
+        } // namespace Image
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Pixel::Type);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Type);
 
 } // namespace djv
 

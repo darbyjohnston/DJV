@@ -30,7 +30,7 @@
 #pragma once
 
 #include <djvAV/OpenGL.h>
-#include <djvAV/PixelData.h>
+#include <djvAV/ImageData.h>
 
 namespace djv
 {
@@ -42,15 +42,15 @@ namespace djv
             class OffscreenBuffer : public std::enable_shared_from_this<OffscreenBuffer>
             {
                 DJV_NON_COPYABLE(OffscreenBuffer);
-                void _init(const Pixel::Info &);
+                void _init(const Image::Info &);
                 inline OffscreenBuffer();
 
             public:
                 ~OffscreenBuffer();
 
-                static std::shared_ptr<OffscreenBuffer> create(const Pixel::Info &);
+                static std::shared_ptr<OffscreenBuffer> create(const Image::Info &);
 
-                inline const Pixel::Info & getInfo() const;
+                inline const Image::Info & getInfo() const;
                 inline gl::GLuint getID() const;
                 inline gl::GLuint getTextureID() const;
 
@@ -58,7 +58,7 @@ namespace djv
                 void unbind();
 
             private:
-                Pixel::Info _info;
+                Image::Info _info;
                 gl::GLuint _id = 0;
                 gl::GLuint _textureID = 0;
                 gl::GLint _restore = 0;

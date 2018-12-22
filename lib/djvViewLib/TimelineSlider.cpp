@@ -41,8 +41,8 @@ namespace djv
     {
         struct TimelineSlider::Private
         {
-            AV::Duration duration = 0;
-            std::shared_ptr<ValueSubject<AV::Timestamp> > currentTime;
+            Time::Duration duration = 0;
+            std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             std::map<uint32_t, bool> hover;
             uint32_t pressedId = 0;
         };
@@ -55,7 +55,7 @@ namespace djv
             setPointerEnabled(true);
 
             DJV_PRIVATE_PTR();
-            p.currentTime = ValueSubject<AV::Timestamp>::create();
+            p.currentTime = ValueSubject<Time::Timestamp>::create();
         }
 
         TimelineSlider::TimelineSlider() :
@@ -72,17 +72,17 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<AV::Timestamp> > TimelineSlider::getCurrentTime() const
+        std::shared_ptr<Core::IValueSubject<Time::Timestamp> > TimelineSlider::getCurrentTime() const
         {
             return _p->currentTime;
         }
 
-        void TimelineSlider::setDuration(AV::Duration value)
+        void TimelineSlider::setDuration(Time::Duration value)
         {
             _p->duration = value;
         }
 
-        void TimelineSlider::setCurrentTime(AV::Timestamp value)
+        void TimelineSlider::setCurrentTime(Time::Timestamp value)
         {
             _p->currentTime->setIfChanged(value);
         }

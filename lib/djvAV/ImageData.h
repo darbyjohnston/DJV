@@ -39,7 +39,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Pixel
+        namespace Image
         {
             //! This struct provides information about mirroring the image.
             struct Mirror
@@ -68,7 +68,7 @@ namespace djv
                 inline bool operator != (const Layout &) const;
             };
 
-            //! This struct provides pixel data information.
+            //! This struct provides image data information.
             struct Info
             {
                 inline Info();
@@ -92,7 +92,7 @@ namespace djv
                 inline bool operator != (const Info &) const;
             };
 
-            //! This struct provides pixel data.
+            //! This struct provides image data.
             class Data
             {
                 DJV_NON_COPYABLE(Data);
@@ -141,8 +141,8 @@ namespace djv
                 const uint8_t * _p = nullptr;
             };
 
-        } // namespace Pixel
+        } // namespace Image
     } // namespace AV
 } // namespace djv
 
-#include <djvAV/PixelDataInline.h>
+#include <djvAV/ImageDataInline.h>

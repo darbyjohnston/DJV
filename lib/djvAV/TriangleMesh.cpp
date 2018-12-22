@@ -37,7 +37,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Mesh
+        namespace Geom
         {
             bool TriangleMesh::Vertex::operator == (const TriangleMesh::Vertex& other) const
             {
@@ -380,6 +380,6 @@ namespace djv
                 TriangleMesh::calcNormals(mesh);
             }
 
-        } // namespace Mesh
+        } // namespace Geom
     } // namespace AV
 } // namespace djv

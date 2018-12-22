@@ -29,17 +29,44 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvAV/ImageData.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        class Context;
+
+    } // namespace Core
+
     namespace AV
     {
-        typedef int64_t Timestamp;
-        typedef int64_t Duration;
+	    namespace Image
+	    {
+            //! This class provides image data conversion.
+            class Convert
+            {
+                DJV_NON_COPYABLE(Convert);
 
-        double timestampToSeconds(Timestamp);
-        Timestamp secondsToTimestamp(double);
+            protected:
+                void _init(Core::Context *);
+                Convert();
 
-    } // namespace AV
+            public:
+                ~Convert();
+
+                //! Note that this function requires an OpenGL context.
+                //! Throws:
+                //! - std::exception
+                static std::shared_ptr<Convert> create(Core::Context *);
+
+                //! Note that this function requires an OpenGL context.
+                void process(const Data &, const Info &, Data &);
+
+            private:
+                DJV_PRIVATE();
+            };
+
+	    } // namespace Image
+	} // namespace AV
 } // namespace djv

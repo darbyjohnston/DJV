@@ -120,7 +120,7 @@ namespace djv
                 glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(data.size()), (void*)data.data());
             }
 
-            std::vector<uint8_t> VBO::convert(const Mesh::TriangleMesh& mesh, VBOType type)
+            std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type)
             {
                 const size_t size = mesh.triangles.size();
                 const size_t vertexByteCount = getVertexByteCount(type);
@@ -128,7 +128,7 @@ namespace djv
                 uint8_t* p = out.data();
                 for (size_t i = 0; i < size; ++i)
                 {
-                    const Mesh::TriangleMesh::Vertex* vertices[] =
+                    const Geom::TriangleMesh::Vertex* vertices[] =
                     {
                         &mesh.triangles[i].v0,
                         &mesh.triangles[i].v1,

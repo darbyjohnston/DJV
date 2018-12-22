@@ -187,12 +187,12 @@ namespace djv
 
             void Glyph::_init(
                 const GlyphInfo & info,
-                const std::shared_ptr<Pixel::Data> & pixelData,
+                const std::shared_ptr<Image::Data> & imageData,
                 const glm::vec2 & offset,
                 float advance)
             {
                 _info = info;
-                _pixelData = pixelData;
+                _imageData = imageData;
                 _offset = offset;
                 _advance = advance;
             }
@@ -202,12 +202,12 @@ namespace djv
 
             std::shared_ptr<Glyph> Glyph::create(
                 const GlyphInfo & info,
-                const std::shared_ptr<Pixel::Data> & pixelData,
+                const std::shared_ptr<Image::Data> & imageData,
                 const glm::vec2 & offset,
                 float advance)
             {
                 auto out = std::shared_ptr<Glyph>(new Glyph);
-                out->_init(info, pixelData, offset, advance);
+                out->_init(info, imageData, offset, advance);
                 return out;
             }
 
@@ -761,15 +761,15 @@ namespace djv
                                             continue;
                                         }
                                         FT_BitmapGlyph bitmap = (FT_BitmapGlyph)ftGlyph;
-                                        Pixel::Info info = Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8);
-                                        auto pixelData = Pixel::Data::create(Pixel::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Pixel::Type::L_U8));
+                                        Image::Info info = Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8);
+                                        auto imageData = Image::Data::create(Image::Info(bitmap->bitmap.width, bitmap->bitmap.rows, Image::Type::L_U8));
                                         for (int y = 0; y < info.size.y; ++y)
                                         {
-                                            memcpy(pixelData->getData(info.size.y - 1 - y), bitmap->bitmap.buffer + y * bitmap->bitmap.pitch, info.size.x);
+                                            memcpy(imageData->getData(info.size.y - 1 - y), bitmap->bitmap.buffer + y * bitmap->bitmap.pitch, info.size.x);
                                         }
                                         glyph = Glyph::create(
                                             GlyphInfo(c, request.info),
-                                            pixelData,
+                                            imageData,
                                             glm::vec2(font->second->glyph->bitmap_left, font->second->glyph->bitmap_top),
                                             font->second->glyph->advance.x / 64.f);
                                         {

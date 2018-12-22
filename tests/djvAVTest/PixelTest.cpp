@@ -41,10 +41,10 @@ namespace djv
         
 #define CONVERT(A, MIN, MAX, B) \
     { \
-        auto bMin = static_cast<AV::Pixel::B##_T>(0); \
-        auto bMax = static_cast<AV::Pixel::B##_T>(0); \
-        AV::Pixel::convert_##A##_##B(MIN, bMin); \
-        AV::Pixel::convert_##A##_##B(MAX, bMax); \
+        auto bMin = static_cast<AV::Image::B##_T>(0); \
+        auto bMax = static_cast<AV::Image::B##_T>(0); \
+        AV::Image::convert_##A##_##B(MIN, bMin); \
+        AV::Image::convert_##A##_##B(MAX, bMax); \
         std::stringstream ss; \
         ss << "    " << #B << " " << static_cast<int64_t>(bMin) << " " << static_cast<int64_t>(bMax); \
         _print(ss.str()); \
@@ -54,71 +54,71 @@ namespace djv
         {
             {
                 std::stringstream ss;
-                ss << AV::Pixel::Type::RGBA_U8;
+                ss << AV::Image::Type::RGBA_U8;
                 DJV_ASSERT("RGBA_U8" == ss.str());
-                AV::Pixel::Type type;
+                AV::Image::Type type;
                 ss >> type;
-                DJV_ASSERT(AV::Pixel::Type::RGBA_U8 == type);
+                DJV_ASSERT(AV::Image::Type::RGBA_U8 == type);
             }
             {
                 std::stringstream ss;
-                ss << "U8 " << static_cast<int64_t>(AV::Pixel::U8Min) << " " << static_cast<int64_t>(AV::Pixel::U8Max) << " =";
+                ss << "U8 " << static_cast<int64_t>(AV::Image::U8Min) << " " << static_cast<int64_t>(AV::Image::U8Max) << " =";
                 _print(ss.str());
-                CONVERT(U8, AV::Pixel::U8Min, AV::Pixel::U8Max, U10);
-                CONVERT(U8, AV::Pixel::U8Min, AV::Pixel::U8Max, U16);
-                CONVERT(U8, AV::Pixel::U8Min, AV::Pixel::U8Max, U32);
-                CONVERT(U8, AV::Pixel::U8Min, AV::Pixel::U8Max, F16);
-                CONVERT(U8, AV::Pixel::U8Min, AV::Pixel::U8Max, F32);
+                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, U10);
+                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, U16);
+                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, U32);
+                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, F16);
+                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, F32);
             }
             {
                 std::stringstream ss;
-                ss << "U10 " << static_cast<int64_t>(AV::Pixel::U10Min) << " " << static_cast<int64_t>(AV::Pixel::U10Max) << " =";
+                ss << "U10 " << static_cast<int64_t>(AV::Image::U10Min) << " " << static_cast<int64_t>(AV::Image::U10Max) << " =";
                 _print(ss.str());
-                CONVERT(U10, AV::Pixel::U10Min, AV::Pixel::U10Max, U8);
-                CONVERT(U10, AV::Pixel::U10Min, AV::Pixel::U10Max, U16);
-                CONVERT(U10, AV::Pixel::U10Min, AV::Pixel::U10Max, U32);
-                CONVERT(U10, AV::Pixel::U10Min, AV::Pixel::U10Max, F16);
-                CONVERT(U10, AV::Pixel::U10Min, AV::Pixel::U10Max, F32);
+                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, U8);
+                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, U16);
+                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, U32);
+                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, F16);
+                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, F32);
             }
             {
                 std::stringstream ss;
-                ss << "U16 " << static_cast<int64_t>(AV::Pixel::U16Min) << " " << static_cast<int64_t>(AV::Pixel::U16Max) << " =";
+                ss << "U16 " << static_cast<int64_t>(AV::Image::U16Min) << " " << static_cast<int64_t>(AV::Image::U16Max) << " =";
                 _print(ss.str());
-                CONVERT(U16, AV::Pixel::U16Min, AV::Pixel::U16Max, U8);
-                CONVERT(U16, AV::Pixel::U16Min, AV::Pixel::U16Max, U10);
-                CONVERT(U16, AV::Pixel::U16Min, AV::Pixel::U16Max, U32);
-                CONVERT(U16, AV::Pixel::U16Min, AV::Pixel::U16Max, F16);
-                CONVERT(U16, AV::Pixel::U16Min, AV::Pixel::U16Max, F32);
+                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, U8);
+                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, U10);
+                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, U32);
+                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, F16);
+                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, F32);
             }
             {
                 std::stringstream ss;
-                ss << "U32 " << static_cast<int64_t>(AV::Pixel::U32Min) << " " << static_cast<int64_t>(AV::Pixel::U32Max) << " =";
+                ss << "U32 " << static_cast<int64_t>(AV::Image::U32Min) << " " << static_cast<int64_t>(AV::Image::U32Max) << " =";
                 _print(ss.str());
-                CONVERT(U32, AV::Pixel::U32Min, AV::Pixel::U32Max, U8);
-                CONVERT(U32, AV::Pixel::U32Min, AV::Pixel::U32Max, U10);
-                CONVERT(U32, AV::Pixel::U32Min, AV::Pixel::U32Max, U16);
-                CONVERT(U32, AV::Pixel::U32Min, AV::Pixel::U32Max, F16);
-                CONVERT(U32, AV::Pixel::U32Min, AV::Pixel::U32Max, F32);
+                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, U8);
+                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, U10);
+                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, U16);
+                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, F16);
+                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, F32);
             }
             {
                 std::stringstream ss;
-                ss << "F16 " << static_cast<int64_t>(AV::Pixel::F16Min) << " " << static_cast<int64_t>(AV::Pixel::F16Max) << " =";
+                ss << "F16 " << static_cast<int64_t>(AV::Image::F16Min) << " " << static_cast<int64_t>(AV::Image::F16Max) << " =";
                 _print(ss.str());
-                CONVERT(F16, AV::Pixel::F16Min, AV::Pixel::F16Max, U8);
-                CONVERT(F16, AV::Pixel::F16Min, AV::Pixel::F16Max, U10);
-                CONVERT(F16, AV::Pixel::F16Min, AV::Pixel::F16Max, U16);
-                CONVERT(F16, AV::Pixel::F16Min, AV::Pixel::F16Max, U32);
-                CONVERT(F16, AV::Pixel::F16Min, AV::Pixel::F16Max, F32);
+                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U8);
+                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U10);
+                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U16);
+                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U32);
+                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, F32);
             }
             {
                 std::stringstream ss;
-                ss << "F32 " << static_cast<int64_t>(AV::Pixel::F32Min) << " " << static_cast<int64_t>(AV::Pixel::F32Max) << " =";
+                ss << "F32 " << static_cast<int64_t>(AV::Image::F32Min) << " " << static_cast<int64_t>(AV::Image::F32Max) << " =";
                 _print(ss.str());
-                CONVERT(F32, AV::Pixel::F32Min, AV::Pixel::F32Max, U8);
-                CONVERT(F32, AV::Pixel::F32Min, AV::Pixel::F32Max, U10);
-                CONVERT(F32, AV::Pixel::F32Min, AV::Pixel::F32Max, U16);
-                CONVERT(F32, AV::Pixel::F32Min, AV::Pixel::F32Max, U32);
-                CONVERT(F32, AV::Pixel::F32Min, AV::Pixel::F32Max, F16);
+                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U8);
+                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U10);
+                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U16);
+                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U32);
+                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, F16);
             }
         }
         

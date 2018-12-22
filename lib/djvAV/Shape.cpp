@@ -39,7 +39,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Shape
+        namespace Geom
         {
             IShape::~IShape()
             {}
@@ -58,7 +58,7 @@ namespace djv
                 const size_t offset = 1;
             }
 
-            void Square::triangulate(Mesh::TriangleMesh& mesh) const
+            void Square::triangulate(TriangleMesh& mesh) const
             {
                 mesh.clear();
 
@@ -72,7 +72,7 @@ namespace djv
                 mesh.t.push_back(glm::vec3(1.f, 1.f, 0.f));
                 mesh.t.push_back(glm::vec3(0.f, 1.f, 0.f));
 
-                Mesh::TriangleMesh::Triangle triangle;
+                TriangleMesh::Triangle triangle;
                 triangle.v0.v = triangle.v0.t = 0 + offset;
                 triangle.v1.v = triangle.v1.t = 1 + offset;
                 triangle.v2.v = triangle.v2.t = 2 + offset;
@@ -83,7 +83,7 @@ namespace djv
                 triangle.v2.v = triangle.v2.t = 0 + offset;
                 mesh.triangles.push_back(triangle);
 
-                Mesh::TriangleMesh::calcNormals(mesh);
+                TriangleMesh::calcNormals(mesh);
             }
 
             Circle::Circle(float radius, size_t resolution) :
@@ -102,7 +102,7 @@ namespace djv
                 _resolution = std::max(value, size_t(3));
             }
 
-            void Circle::triangulate(Mesh::TriangleMesh& mesh) const
+            void Circle::triangulate(TriangleMesh& mesh) const
             {
                 mesh.clear();
 
@@ -115,7 +115,7 @@ namespace djv
                     mesh.t.push_back(glm::vec3((c + 1.f) / 2.f, (s + 1.f) / 2.f, 0.f));
                 }
 
-                Mesh::TriangleMesh::Triangle triangle;
+                TriangleMesh::Triangle triangle;
                 const size_t resolutionMinusOne = static_cast<size_t>(_resolution - 1);
                 for (size_t i = 1; i < resolutionMinusOne; ++i)
                 {
@@ -125,7 +125,7 @@ namespace djv
                     mesh.triangles.push_back(triangle);
                 }
 
-                Mesh::TriangleMesh::calcNormals(mesh);
+                TriangleMesh::calcNormals(mesh);
             }
 
             Cube::Cube(float radius) :
@@ -137,7 +137,7 @@ namespace djv
                 _radius = value;
             }
 
-            void Cube::triangulate(Mesh::TriangleMesh& mesh) const
+            void Cube::triangulate(TriangleMesh& mesh) const
             {
                 mesh.clear();
 
@@ -156,7 +156,7 @@ namespace djv
                 mesh.t.push_back(glm::vec3(0.f, 0.f, 0.f));
 
                 // Back
-                Mesh::TriangleMesh::Triangle a, b;
+                TriangleMesh::Triangle a, b;
                 a.v0.v = 0 + offset;
                 a.v1.v = 3 + offset;
                 a.v2.v = 2 + offset;
@@ -222,7 +222,7 @@ namespace djv
                 b.v2.v = 1 + offset;
                 mesh.triangles.push_back(b);
 
-                Mesh::TriangleMesh::calcNormals(mesh);
+                TriangleMesh::calcNormals(mesh);
             }
 
             Sphere::Sphere(float radius, const Resolution& resolution) :
@@ -257,7 +257,7 @@ namespace djv
                 _textureSpan = value;
             }
 
-            void Sphere::triangulate(Mesh::TriangleMesh& mesh) const
+            void Sphere::triangulate(TriangleMesh& mesh) const
             {
                 mesh.clear();
 
@@ -286,7 +286,7 @@ namespace djv
                     }
                 }
 
-                Mesh::TriangleMesh::Triangle triangle;
+                TriangleMesh::Triangle triangle;
                 for (size_t v = 0; v < _resolution.second; ++v)
                 {
                     for (size_t u = 0; u < _resolution.first; ++u)
@@ -304,7 +304,7 @@ namespace djv
                     }
                 }
 
-                Mesh::TriangleMesh::calcNormals(mesh);
+                TriangleMesh::calcNormals(mesh);
             }
 
             Cylinder::Cylinder(float radius, float length, size_t resolution) :
@@ -339,7 +339,7 @@ namespace djv
                 _capped = value;
             }
 
-            void Cylinder::triangulate(Mesh::TriangleMesh& mesh) const
+            void Cylinder::triangulate(TriangleMesh& mesh) const
             {
                 mesh.clear();
 
@@ -372,7 +372,7 @@ namespace djv
                     }
                 }
 
-                Mesh::TriangleMesh::Triangle triangle;
+                TriangleMesh::Triangle triangle;
                 for (size_t i = 0; i < _resolution; ++i)
                 {
                     triangle.v0.v = triangle.v0.t = i * 2 + 0 + offset;
@@ -400,9 +400,9 @@ namespace djv
                     }
                 }
 
-                Mesh::TriangleMesh::calcNormals(mesh);
+                TriangleMesh::calcNormals(mesh);
             }
 
-        } // namespace Shape
+        } // namespace Geom
     } // namespace AV
 } // namespace djv

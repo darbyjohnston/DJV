@@ -60,9 +60,9 @@ namespace djv
                     return _open(fileName, io, data);
                 }
 
-                std::shared_ptr<Image> Read::_readImage(const std::string & fileName)
+                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    std::shared_ptr<Image> out;
+                    std::shared_ptr<Image::Image> out;
                     FileSystem::FileIO io;
                     Data data = Data::First;
                     const auto info = _open(fileName, io, data);
@@ -72,9 +72,9 @@ namespace djv
                         {
                         case Data::ASCII:
                         {
-                            out = Image::create(info.video[0].info);
-                            const size_t channelCount = Pixel::getChannelCount(info.video[0].info.type);
-                            const size_t bitDepth = Pixel::getBitDepth(info.video[0].info.type);
+                            out = Image::Image::create(info.video[0].info);
+                            const size_t channelCount = Image::getChannelCount(info.video[0].info.type);
+                            const size_t bitDepth = Image::getBitDepth(info.video[0].info.type);
                             for (int y = 0; y < info.video[0].info.size.y; ++y)
                             {
                                 readASCII(io, out->getData(y), info.video[0].info.size.x * channelCount, bitDepth);
@@ -82,7 +82,7 @@ namespace djv
                             break;
                         }
                         case Data::Binary:
-                            out = Image::create(info.video[0].info);
+                            out = Image::Image::create(info.video[0].info);
                             io.read(out->getData(), info.video[0].info.getDataByteCount());
                             break;
                         default: break;
@@ -135,16 +135,16 @@ namespace djv
                     FileSystem::FileIO::readWord(io, tmp, String::cStringLength);
                     const int maxValue = std::stoi(tmp);
                     const size_t bitDepth = maxValue < 256 ? 8 : 16;
-                    const auto pixelType = Pixel::getIntType(channelCount, bitDepth);
-                    if (Pixel::Type::None == pixelType)
+                    const auto imageType = Image::getIntType(channelCount, bitDepth);
+                    if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
                         s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
-                    Pixel::Layout layout;
+                    Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
-                    auto info = Pixel::Info(w, h, pixelType, layout);
+                    auto info = Image::Info(w, h, imageType, layout);
                     return Info(fileName, VideoInfo(info, _speed, _duration), AudioInfo());
                 }
 

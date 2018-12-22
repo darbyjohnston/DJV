@@ -35,8 +35,8 @@ namespace djv
 {
     namespace AV
     {
-        //! This namespace provides mesh functionality.
-        namespace Mesh
+        //! This namespace provides geometry functionality.
+        namespace Geom
         {
             //! This struct provides a triangle mesh.
             struct TriangleMesh
@@ -138,6 +138,6 @@ namespace djv
                 ///@}
             };
 
-        } // namespace Mesh
+        } // namespace Geom
     } // namespace AV
 } // namespace djv

@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/PixelConvert.h>
+#include <djvAV/ImageConvert.h>
 
 #include <djvAV/OpenGLMesh.h>
 #include <djvAV/OpenGLOffscreenBuffer.h>
@@ -50,12 +50,12 @@ namespace djv
 {
     namespace AV
     {
-	    namespace Pixel
+	    namespace Image
 	    {
             struct Convert::Private
             {
                 glm::ivec2 size;
-                AV::Pixel::Mirror mirror;
+                Mirror mirror;
                 std::shared_ptr<OpenGL::OffscreenBuffer> offscreenBuffer;
                 std::shared_ptr<AV::OpenGL::Texture> texture;
                 std::shared_ptr<AV::OpenGL::VBO> vbo;
@@ -68,9 +68,9 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto shaderPath = context->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
-                p.shader = AV::OpenGL::Shader::create(AV::Shader::create(
-                    FileSystem::Path(shaderPath, "djvAVPixelConvertVertex.glsl"),
-                    FileSystem::Path(shaderPath, "djvAVPixelConvertFragment.glsl")));
+                p.shader = AV::OpenGL::Shader::create(Render::Shader::create(
+                    FileSystem::Path(shaderPath, "djvAVImageConvertVertex.glsl"),
+                    FileSystem::Path(shaderPath, "djvAVImageConvertFragment.glsl")));
             }
 
             Convert::Convert() :
@@ -129,8 +129,8 @@ namespace djv
                 if (!p.vbo || (p.vbo && info.layout.mirror != p.mirror))
                 {
                     p.mirror = info.layout.mirror;
-                    AV::Shape::Square square;
-                    AV::Mesh::TriangleMesh mesh;
+                    AV::Geom::Square square;
+                    AV::Geom::TriangleMesh mesh;
                     square.triangulate(mesh);
                     if (p.mirror.x)
                     {
@@ -171,6 +171,6 @@ namespace djv
                     out.getData());
             }
 
-	    } // namespace Keycode
+	    } // namespace Image
 	} // namespace AV
 } // namespace djv

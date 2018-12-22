@@ -29,73 +29,74 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
-
 #include <djvCore/Enum.h>
 
 namespace djv
 {
-    namespace AV
+    namespace Core
     {
-        //! This class provides speed information.
-        class Speed
+        namespace Time
         {
-        public:
-            enum class FPS
+            //! This class provides speed information.
+            class Speed
             {
-                _1,
-                _3,
-                _6,
-                _12,
-                _15,
-                _16,
-                _18,
-                _23_976,
-                _24,
-                _25,
-                _29_97,
-                _30,
-                _50,
-                _59_94,
-                _60,
-                _120,
+            public:
+                enum class FPS
+                {
+                    _1,
+                    _3,
+                    _6,
+                    _12,
+                    _15,
+                    _16,
+                    _18,
+                    _23_976,
+                    _24,
+                    _25,
+                    _29_97,
+                    _30,
+                    _50,
+                    _59_94,
+                    _60,
+                    _120,
 
-                Count
+                    Count
+                };
+                DJV_ENUM_HELPERS(FPS);
+
+                Speed();
+                Speed(int scale, int duration = 1);
+                Speed(FPS);
+
+                inline int getScale() const;
+                inline int getDuration() const;
+                inline bool isValid() const;
+
+                static float speedToFloat(const Speed &);
+                static Speed floatToSpeed(float);
+
+                static FPS getDefaultSpeed();
+                static FPS getGlobalSpeed();
+                static void setGlobalSpeed(FPS);
+
+                bool operator == (const Speed &) const;
+                bool operator != (const Speed &) const;
+
+            private:
+                void _set(FPS);
+
+                int _scale = 0;
+                int _duration = 0;
             };
-            DJV_ENUM_HELPERS(FPS);
 
-            Speed();
-            Speed(int scale, int duration = 1);
-            Speed(FPS);
+        } // namespace Time
+    } // namespace Core
 
-            inline int getScale() const;
-            inline int getDuration() const;
-            inline bool isValid() const;
+    DJV_ENUM_SERIALIZE_HELPERS(Core::Time::Speed::FPS);
 
-            static float speedToFloat(const Speed &);
-            static Speed floatToSpeed(float);
-
-            static FPS getDefaultSpeed();
-            static FPS getGlobalSpeed();
-            static void setGlobalSpeed(FPS);
-
-            bool operator == (const Speed &) const;
-            bool operator != (const Speed &) const;
-
-        private:
-            void _set(FPS);
-
-            int _scale = 0;
-            int _duration = 0;
-        };
-
-    } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Speed::FPS);
-
-    std::ostream& operator << (std::ostream &, const AV::Speed &);
-    std::istream& operator >> (std::istream &, AV::Speed &);
+    std::ostream& operator << (std::ostream &, const Core::Time::Speed &);
+    std::istream& operator >> (std::istream &, Core::Time::Speed &);
 
 } // namespace djv
 
-#include <djvAV/SpeedInline.h>
+#include <djvCore/SpeedInline.h>

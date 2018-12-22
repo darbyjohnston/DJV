@@ -29,7 +29,7 @@
 
 #include <djvAV/PPM.h>
 
-#include <djvAV/PixelConvert.h>
+#include <djvAV/ImageConvert.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
@@ -65,54 +65,54 @@ namespace djv
                     return out;
                 }
                 
-                void Write::_write(const std::string & fileName, const std::shared_ptr<Image> & image)
+                void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
                     DJV_PRIVATE_PTR();
-                    Pixel::Type pixelType = Pixel::Type::None;
+                    Image::Type imageType = Image::Type::None;
                     switch (image->getType())
                     {
-                    case Pixel::Type::L_U8:
-                    case Pixel::Type::L_U16:
-                    case Pixel::Type::RGB_U8:
-                    case Pixel::Type::RGB_U16:  pixelType = image->getType(); break;
-                    case Pixel::Type::LA_U8:    pixelType = Pixel::Type::L_U8; break;
-                    case Pixel::Type::L_U32:
-                    case Pixel::Type::L_F16:
-                    case Pixel::Type::L_F32:
-                    case Pixel::Type::LA_U16:
-                    case Pixel::Type::LA_U32:
-                    case Pixel::Type::LA_F16:
-                    case Pixel::Type::LA_F32:   pixelType = Pixel::Type::L_U16; break;
-                    case Pixel::Type::RGB_U32:
-                    case Pixel::Type::RGB_F16:
-                    case Pixel::Type::RGB_F32:  pixelType = Pixel::Type::RGB_U16; break;
-                    case Pixel::Type::RGBA_U8:  pixelType = Pixel::Type::RGB_U8; break;
-                    case Pixel::Type::RGBA_U16:
-                    case Pixel::Type::RGBA_U32:
-                    case Pixel::Type::RGBA_F16:
-                    case Pixel::Type::RGBA_F32: pixelType = Pixel::Type::RGB_U16; break;
+                    case Image::Type::L_U8:
+                    case Image::Type::L_U16:
+                    case Image::Type::RGB_U8:
+                    case Image::Type::RGB_U16:  imageType = image->getType(); break;
+                    case Image::Type::LA_U8:    imageType = Image::Type::L_U8; break;
+                    case Image::Type::L_U32:
+                    case Image::Type::L_F16:
+                    case Image::Type::L_F32:
+                    case Image::Type::LA_U16:
+                    case Image::Type::LA_U32:
+                    case Image::Type::LA_F16:
+                    case Image::Type::LA_F32:   imageType = Image::Type::L_U16; break;
+                    case Image::Type::RGB_U32:
+                    case Image::Type::RGB_F16:
+                    case Image::Type::RGB_F32:  imageType = Image::Type::RGB_U16; break;
+                    case Image::Type::RGBA_U8:  imageType = Image::Type::RGB_U8; break;
+                    case Image::Type::RGBA_U16:
+                    case Image::Type::RGBA_U32:
+                    case Image::Type::RGBA_F16:
+                    case Image::Type::RGBA_F32: imageType = Image::Type::RGB_U16; break;
                     default: break;
                     }
-                    if (Pixel::Type::None == pixelType)
+                    if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
                         s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
-                    Pixel::Layout layout;
+                    Image::Layout layout;
                     layout.endian = p.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
-                    Pixel::Info info(_pixelInfo.size, pixelType, layout);
+                    Image::Info info(_imageInfo.size, imageType, layout);
 
-                    std::shared_ptr<Pixel::Data> pixelData = image;
-                    if (pixelData->getInfo() != info)
+                    std::shared_ptr<Image::Data> imageData = image;
+                    if (imageData->getInfo() != info)
                     {
-                        auto tmp = Pixel::Data::create(info);
-                        _convert->process(*pixelData, info, *tmp);
-                        pixelData = tmp;
+                        auto tmp = Image::Data::create(info);
+                        _convert->process(*imageData, info, *tmp);
+                        imageData = tmp;
                     }
 
                     int ppmType = Data::ASCII == p.data ? 2 : 5;
-                    const size_t channelCount = Pixel::getChannelCount(info.type);
+                    const size_t channelCount = Image::getChannelCount(info.type);
                     if (3 == channelCount)
                     {
                         ++ppmType;
@@ -127,7 +127,7 @@ namespace djv
                     s << info.size.x << ' ' << info.size.y;
                     io.write(s.str());
                     io.writeU8('\n');
-                    const size_t bitDepth = Pixel::getBitDepth(info.type);
+                    const size_t bitDepth = Image::getBitDepth(info.type);
                     const int maxValue = 8 == bitDepth ? 255 : 65535;
                     s = std::stringstream();
                     s << maxValue;
@@ -142,7 +142,7 @@ namespace djv
                         for (int y = 0; y < info.size.y; ++y)
                         {
                             const size_t size = writeASCII(
-                                pixelData->getData(y),
+                                imageData->getData(y),
                                 reinterpret_cast<char*>(scanline.data()),
                                 info.size.x * channelCount,
                                 bitDepth);
@@ -151,7 +151,7 @@ namespace djv
                         break;
                     }
                     case Data::Binary:
-                        io.write(pixelData->getData(), info.getDataByteCount());
+                        io.write(imageData->getData(), info.getDataByteCount());
                         break;
                     default: break;
                     }

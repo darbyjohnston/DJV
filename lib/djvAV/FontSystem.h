@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/PixelData.h>
+#include <djvAV/ImageData.h>
 
 #include <djvCore/ISystem.h>
 #include <djvCore/UID.h>
@@ -105,7 +105,7 @@ namespace djv
             protected:
                 void _init(
                     const GlyphInfo &,
-                    const std::shared_ptr<Pixel::Data> &,
+                    const std::shared_ptr<Image::Data> &,
                     const glm::vec2 & offset,
                     float advance);
 
@@ -114,18 +114,18 @@ namespace djv
             public:
                 static std::shared_ptr<Glyph> create(
                     const GlyphInfo &,
-                    const std::shared_ptr<Pixel::Data> &,
+                    const std::shared_ptr<Image::Data> &,
                     const glm::vec2 & offset,
                     float advance);
 
                 inline const GlyphInfo & getInfo() const;
-                inline const std::shared_ptr<Pixel::Data> & getPixelData() const;
+                inline const std::shared_ptr<Image::Data> & getImageData() const;
                 inline glm::vec2 getOffset() const;
                 inline float getAdvance() const;
 
             private:
                 GlyphInfo _info;
-                std::shared_ptr<Pixel::Data> _pixelData;
+                std::shared_ptr<Image::Data> _imageData;
                 glm::vec2 _offset = glm::vec2(0.f, 0.f);
                 float _advance = 0.f;
             };

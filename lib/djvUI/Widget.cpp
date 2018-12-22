@@ -66,9 +66,9 @@ namespace djv
             context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(currentWidgetCount));*/
             ++currentWidgetCount;
 
-            _iconSystem = context->getSystemT<AV::IconSystem>();
+            _iconSystem = context->getSystemT<AV::Image::IconSystem>();
             _fontSystem = context->getSystemT<AV::Font::System>();
-            _renderSystem = context->getSystemT<AV::Render2DSystem>();
+            _renderSystem = context->getSystemT<AV::Render::Render2DSystem>();
             _style = context->getSystemT<Style>();
         }
 
@@ -395,9 +395,9 @@ namespace djv
             }
         }
 
-        AV::Color Widget::_getColorWithOpacity(const AV::Color & value) const
+        AV::Image::Color Widget::_getColorWithOpacity(const AV::Image::Color & value) const
         {
-            auto out = value.convert(AV::Pixel::Type::RGBA_F32);
+            auto out = value.convert(AV::Image::Type::RGBA_F32);
             out.setF32(out.getF32(3) * getOpacity(true), 3);
             return out;
         }
