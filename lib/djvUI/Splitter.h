@@ -29,57 +29,60 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides a splitter widget.
-        //!
-        //! \bug Add support for more than two child widgets.
-        class Splitter : public IContainerWidget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(Splitter);
+            //! This class provides a splitter widget.
+            //!
+            //! \bug Add support for more than two child widgets.
+            class Splitter : public IContainer
+            {
+                DJV_NON_COPYABLE(Splitter);
 
-        protected:
-            void _init(Core::Context *);
-            Splitter();
+            protected:
+                void _init(Core::Context *);
+                Splitter();
 
-        public:
-            virtual ~Splitter();
+            public:
+                virtual ~Splitter();
 
-            static std::shared_ptr<Splitter> create(Orientation, Core::Context *);
+                static std::shared_ptr<Splitter> create(Orientation, Core::Context *);
 
-            Orientation getOrientation() const;
-            void setOrientation(Orientation);
+                Orientation getOrientation() const;
+                void setOrientation(Orientation);
 
-            float getSplit() const;
-            void setSplit(float);
-            void setSplitCallback(const std::function<void(float)>&);
+                float getSplit() const;
+                void setSplit(float);
+                void setSplitCallback(const std::function<void(float)>&);
 
-            float getHeightForWidth(float) const override;
-            void updateEvent(Core::Event::Update&) override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
-            void paintEvent(Core::Event::Paint&) override;
+                float getHeightForWidth(float) const override;
+                void updateEvent(Core::Event::Update&) override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
+                void paintEvent(Core::Event::Paint&) override;
 
-            void pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void pointerMoveEvent(Core::Event::PointerMove&) override;
-            void buttonPressEvent(Core::Event::ButtonPress&) override;
-            void buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+                void pointerEnterEvent(Core::Event::PointerEnter&) override;
+                void pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void pointerMoveEvent(Core::Event::PointerMove&) override;
+                void buttonPressEvent(Core::Event::ButtonPress&) override;
+                void buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
-        private:
-            float _valueToPos(float) const;
-            float _posToValue(float) const;
-            Core::BBox2f _getSplitterGeometry() const;
-            Core::BBox2f _getHandleGeometry() const;
+            private:
+                float _valueToPos(float) const;
+                float _posToValue(float) const;
+                Core::BBox2f _getSplitterGeometry() const;
+                Core::BBox2f _getHandleGeometry() const;
 
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
 

@@ -44,195 +44,198 @@ namespace djv
 {
     namespace UI
     {
-        struct PushButton::Private
+        namespace Button
         {
-            std::shared_ptr<Icon> icon;
-            std::shared_ptr<Label> label;
-            std::shared_ptr<HorizontalLayout> layout;
-        };
-
-        void PushButton::_init(Context * context)
-        {
-            IButton::_init(context);
-
-            setClassName("Gp::UI::PushButton");
-            setBackgroundRole(ColorRole::Button);
-
-            _p->icon = Icon::create(context);
-            _p->icon->setVAlign(VAlign::Center);
-            _p->icon->hide();
-
-            _p->label = Label::create(context);
-            _p->label->hide();
-
-            _p->layout = HorizontalLayout::create(context);
-            _p->layout->setMargin(Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
-            _p->layout->addWidget(_p->icon);
-            _p->layout->addWidget(_p->label, RowLayoutStretch::Expand);
-            _p->layout->setParent(shared_from_this());
-
-        }
-
-        PushButton::PushButton() :
-            _p(new Private)
-        {}
-
-        PushButton::~PushButton()
-        {}
-
-        std::shared_ptr<PushButton> PushButton::create(Context * context)
-        {
-            auto out = std::shared_ptr<PushButton>(new PushButton);
-            out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<PushButton> PushButton::create(const std::string& text, Context * context)
-        {
-            auto out = std::shared_ptr<PushButton>(new PushButton);
-            out->_init(context);
-            out->setText(text);
-            return out;
-        }
-
-        std::shared_ptr<PushButton> PushButton::create(const std::string& text, const FileSystem::Path& icon, Context * context)
-        {
-            auto out = std::shared_ptr<PushButton>(new PushButton);
-            out->_init(context);
-            out->setIcon(icon);
-            out->setText(text);
-            return out;
-        }
-
-        const FileSystem::Path& PushButton::getIcon() const
-        {
-            return _p->icon->getIcon();
-        }
-
-        void PushButton::setIcon(const FileSystem::Path& value)
-        {
-            _p->icon->setIcon(value);
-            _p->icon->setVisible(!value.isEmpty());
-        }
-
-        const std::string& PushButton::getText() const
-        {
-            return _p->label->getText();
-        }
-
-        void PushButton::setText(const std::string& value)
-        {
-            _p->label->setText(value);
-            _p->label->setVisible(!value.empty());
-        }
-
-        TextHAlign PushButton::getTextHAlign() const
-        {
-            return _p->label->getTextHAlign();
-        }
-
-        TextVAlign PushButton::getTextVAlign() const
-        {
-            return _p->label->getTextVAlign();
-        }
-
-        void PushButton::setTextHAlign(TextHAlign value)
-        {
-            _p->label->setTextHAlign(value);
-        }
-
-        void PushButton::setTextVAlign(TextVAlign value)
-        {
-            _p->label->setTextVAlign(value);
-        }
-
-        const std::string & PushButton::getFontFace() const
-        {
-            return _p->label->getFontFace();
-        }
-
-        MetricsRole PushButton::getFontSizeRole() const
-        {
-            return _p->label->getFontSizeRole();
-        }
-
-        void PushButton::setFontFace(const std::string & value)
-        {
-            _p->label->setFontFace(value);
-        }
-
-        void PushButton::setFontSizeRole(MetricsRole value)
-        {
-            _p->label->setFontSizeRole(value);
-        }
-
-        const Margin& PushButton::getInsideMargin() const
-        {
-            return _p->layout->getMargin();
-        }
-
-        void PushButton::setInsideMargin(const Margin& value)
-        {
-            _p->layout->setMargin(value);
-        }
-
-        float PushButton::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
-
-        void PushButton::updateEvent(Event::Update& event)
-        {
-            const auto style = _getStyle();
-            const bool enabled = isEnabled(true);
-            const ColorRole fg = !enabled ? ColorRole::Disabled : (_isToggled() ? ColorRole::CheckedForeground : ColorRole::Foreground);
-            _p->icon->setIconColorRole(fg);
-            _p->label->setTextColorRole(fg);
-        }
-
-        void PushButton::preLayoutEvent(Event::PreLayout& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void PushButton::layoutEvent(Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void PushButton::paintEvent(Event::Paint& event)
-        {
-            if (auto render = _getRenderSystem().lock())
+            struct Push::Private
             {
-                if (auto style = _getStyle().lock())
+                std::shared_ptr<Icon> icon;
+                std::shared_ptr<Label> label;
+                std::shared_ptr<Layout::HorizontalLayout> layout;
+            };
+
+            void Push::_init(Context * context)
+            {
+                IButton::_init(context);
+
+                setClassName("Gp::UI::Button::Push");
+                setBackgroundRole(Style::ColorRole::Button);
+
+                _p->icon = Icon::create(context);
+                _p->icon->setVAlign(VAlign::Center);
+                _p->icon->hide();
+
+                _p->label = Label::create(context);
+                _p->label->hide();
+
+                _p->layout = Layout::HorizontalLayout::create(context);
+                _p->layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                _p->layout->addWidget(_p->icon);
+                _p->layout->addWidget(_p->label, Layout::RowStretch::Expand);
+                _p->layout->setParent(shared_from_this());
+
+            }
+
+            Push::Push() :
+                _p(new Private)
+            {}
+
+            Push::~Push()
+            {}
+
+            std::shared_ptr<Push> Push::create(Context * context)
+            {
+                auto out = std::shared_ptr<Push>(new Push);
+                out->_init(context);
+                return out;
+            }
+
+            std::shared_ptr<Push> Push::create(const std::string& text, Context * context)
+            {
+                auto out = std::shared_ptr<Push>(new Push);
+                out->_init(context);
+                out->setText(text);
+                return out;
+            }
+
+            std::shared_ptr<Push> Push::create(const std::string& text, const FileSystem::Path& icon, Context * context)
+            {
+                auto out = std::shared_ptr<Push>(new Push);
+                out->_init(context);
+                out->setIcon(icon);
+                out->setText(text);
+                return out;
+            }
+
+            const FileSystem::Path& Push::getIcon() const
+            {
+                return _p->icon->getIcon();
+            }
+
+            void Push::setIcon(const FileSystem::Path& value)
+            {
+                _p->icon->setIcon(value);
+                _p->icon->setVisible(!value.isEmpty());
+            }
+
+            const std::string& Push::getText() const
+            {
+                return _p->label->getText();
+            }
+
+            void Push::setText(const std::string& value)
+            {
+                _p->label->setText(value);
+                _p->label->setVisible(!value.empty());
+            }
+
+            TextHAlign Push::getTextHAlign() const
+            {
+                return _p->label->getTextHAlign();
+            }
+
+            TextVAlign Push::getTextVAlign() const
+            {
+                return _p->label->getTextVAlign();
+            }
+
+            void Push::setTextHAlign(TextHAlign value)
+            {
+                _p->label->setTextHAlign(value);
+            }
+
+            void Push::setTextVAlign(TextVAlign value)
+            {
+                _p->label->setTextVAlign(value);
+            }
+
+            const std::string & Push::getFontFace() const
+            {
+                return _p->label->getFontFace();
+            }
+
+            Style::MetricsRole Push::getFontSizeRole() const
+            {
+                return _p->label->getFontSizeRole();
+            }
+
+            void Push::setFontFace(const std::string & value)
+            {
+                _p->label->setFontFace(value);
+            }
+
+            void Push::setFontSizeRole(Style::MetricsRole value)
+            {
+                _p->label->setFontSizeRole(value);
+            }
+
+            const Layout::Margin& Push::getInsideMargin() const
+            {
+                return _p->layout->getMargin();
+            }
+
+            void Push::setInsideMargin(const Layout::Margin& value)
+            {
+                _p->layout->setMargin(value);
+            }
+
+            float Push::getHeightForWidth(float value) const
+            {
+                return _p->layout->getHeightForWidth(value);
+            }
+
+            void Push::updateEvent(Event::Update& event)
+            {
+                const auto style = _getStyle();
+                const bool enabled = isEnabled(true);
+                const Style::ColorRole fg = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                _p->icon->setIconColorRole(fg);
+                _p->label->setTextColorRole(fg);
+            }
+
+            void Push::preLayoutEvent(Event::PreLayout& event)
+            {
+                _setMinimumSize(_p->layout->getMinimumSize());
+            }
+
+            void Push::layoutEvent(Event::Layout&)
+            {
+                _p->layout->setGeometry(getGeometry());
+            }
+
+            void Push::paintEvent(Event::Paint& event)
+            {
+                if (auto render = _getRenderSystem().lock())
                 {
-                    const BBox2f& g = getGeometry();
-                    const float b = style->getMetric(MetricsRole::Border);
-
-                    // Draw the border.
-                    render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Border)));
-                    render->drawRectangle(g);
-
-                    // Draw the background.
-                    render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
-                    render->drawRectangle(g.margin(-b));
-
-                    // Draw the toggled state.
-                    if (_isToggled())
+                    if (auto style = _getStyle().lock())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
-                        render->drawRectangle(g.margin(-b));
-                    }
+                        const BBox2f& g = getGeometry();
+                        const float b = style->getMetric(Style::MetricsRole::Border);
 
-                    // Draw the hovered state.
-                    if (_isHovered())
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
+                        // Draw the border.
+                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Border)));
+                        render->drawRectangle(g);
+
+                        // Draw the background.
+                        render->setFillColor(_getColorWithOpacity(style->getColor(getBackgroundRole())));
                         render->drawRectangle(g.margin(-b));
+
+                        // Draw the toggled state.
+                        if (_isToggled())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
+                            render->drawRectangle(g.margin(-b));
+                        }
+
+                        // Draw the hovered state.
+                        if (_isHovered())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            render->drawRectangle(g.margin(-b));
+                        }
                     }
                 }
             }
-        }
 
+        } // namespace Button
     } // namespace UI
 } // namespace Gp

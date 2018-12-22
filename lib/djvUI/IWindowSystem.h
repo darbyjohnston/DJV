@@ -39,6 +39,7 @@ namespace djv
         class Widget;
         class Window;
 
+        //! This class provides a window system interface.
         class IWindowSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(IWindowSystem);

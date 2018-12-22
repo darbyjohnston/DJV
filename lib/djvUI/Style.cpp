@@ -47,301 +47,299 @@ namespace djv
 {
     namespace UI
     {
-        struct Palette::Private
+        namespace Style
         {
-            std::map<ColorRole, AV::Image::Color> colors;
-        };
-
-        Palette::Palette() :
-            _p(new Private)
-        {
-            DJV_PRIVATE_PTR();
-            p.colors[ColorRole::None]              = AV::Image::Color();
-            p.colors[ColorRole::Background]        = AV::Image::Color( .2f,  .21f, .23f);
-            p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color( .1f,  .1f,  .1f);
-            p.colors[ColorRole::BackgroundScroll]  = AV::Image::Color( .15f, .16f, .18f);
-            p.colors[ColorRole::Foreground]        = AV::Image::Color( .9f,  .9f,  .9f);
-            p.colors[ColorRole::ForegroundDim]     = AV::Image::Color( .7f,  .7f,  .7f);
-            p.colors[ColorRole::Border]            = AV::Image::Color( .11f, .14f, .17f);
-            p.colors[ColorRole::Trough]            = AV::Image::Color( .15f, .15f, .15f);
-            p.colors[ColorRole::Button]            = AV::Image::Color( .27f, .3f,  .33f);
-            p.colors[ColorRole::Checked]           = AV::Image::Color( .2f,  .4f,  .7f);
-            p.colors[ColorRole::CheckedForeground] = AV::Image::Color( .9f,  .9f,  .9f);
-            p.colors[ColorRole::Hover]             = AV::Image::Color(1.f,  1.f,  1.f, .1f);
-            p.colors[ColorRole::Disabled]          = AV::Image::Color( .3f,  .3f,  .3f);
-            p.colors[ColorRole::Overlay]           = AV::Image::Color(0.f,  0.f,  0.f, .5f);
-            p.colors[ColorRole::Shadow]            = AV::Image::Color(0.f,  0.f,  0.f, .2f);
-        }
-
-        Palette::Palette(const Palette& other) :
-            _p(new Private)
-        {
-            *_p = *other._p;
-        }
-
-        Palette::~Palette()
-        {}
-
-        Palette& Palette::operator = (const Palette& other)
-        {
-            *_p = *other._p;
-            return *this;
-        }
-
-        const AV::Image::Color & Palette::getColor(ColorRole value) const
-        {
-            return _p->colors.at(value);
-        }
-
-        void Palette::setColor(ColorRole role, const AV::Image::Color & value)
-        {
-            _p->colors[role] = value;
-        }
-
-        bool Palette::operator == (const Palette& other) const
-        {
-            return _p->colors == other._p->colors;
-        }
-
-        struct Metrics::Private
-        {
-            std::map<MetricsRole, float> metrics;
-            float scale = 1.f;
-        };
-
-        Metrics::Metrics(const Metrics& other) :
-            _p(new Private)
-        {
-            *_p = *other._p;
-        }
-
-        Metrics::~Metrics()
-        {}
-
-        Metrics& Metrics::operator = (const Metrics& other)
-        {
-            *_p = *other._p;
-            return *this;
-        }
-
-        Metrics::Metrics() :
-            _p(new Private)
-        {
-            DJV_PRIVATE_PTR();
-            p.metrics[MetricsRole::None]                =   0.f;
-            p.metrics[MetricsRole::Border]              =   1.f;
-            p.metrics[MetricsRole::Margin]              =  10.f;
-            p.metrics[MetricsRole::MarginSmall]         =   5.f;
-            p.metrics[MetricsRole::MarginLarge]         =  40.f;
-            p.metrics[MetricsRole::Spacing]             =  10.f;
-            p.metrics[MetricsRole::SpacingSmall]        =   5.f;
-            p.metrics[MetricsRole::SpacingLarge]        =  40.f;
-            p.metrics[MetricsRole::Drag]                =  20.f;
-            p.metrics[MetricsRole::Icon]                =  25.f;
-            p.metrics[MetricsRole::IconLarge]           = 100.f;
-            p.metrics[MetricsRole::FontSmall]           =   9.f;
-            p.metrics[MetricsRole::FontMedium]          =  12.f;
-            p.metrics[MetricsRole::FontLarge]           =  24.f;
-            p.metrics[MetricsRole::FontExtraLarge]      =  48.f;
-            p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
-            p.metrics[MetricsRole::Swatch]              =  40.f;
-            p.metrics[MetricsRole::Thumbnail]           = 300.f;
-            p.metrics[MetricsRole::Shadow]              =  20.f;
-            p.metrics[MetricsRole::TextColumn]          = 200.f;
-            p.metrics[MetricsRole::Dialog]              = 400.f;
-        }
-
-        float Metrics::getMetric(MetricsRole role) const
-        {
-            return _p->metrics.at(role);
-        }
-
-        void Metrics::setMetric(MetricsRole role, float value)
-        {
-            _p->metrics[role] = value;
-        }
-
-        float Metrics::getScale() const
-        {
-            return _p->scale;
-        }
-
-        void Metrics::setScale(float value)
-        {
-            _p->scale = value;
-        }
-
-        bool Metrics::operator == (const Metrics& other) const
-        {
-            DJV_PRIVATE_PTR();
-            return p.metrics == other._p->metrics && p.scale == other._p->scale;
-        }
-
-        struct Style::Private
-        {
-            std::shared_ptr<StyleSettings> settings;
-            Palette palette;
-            glm::vec2 dpi = glm::vec2(0.f, 0.f);
-            Metrics metrics;
-            std::string currentLocale;
-            std::map<std::string, FontMap> fonts;
-            FontMap currentFont;
-            std::shared_ptr<ValueObserver<Palette> > paletteObserver;
-            std::shared_ptr<ValueObserver<Metrics> > metricsObserver;
-            std::shared_ptr<ValueObserver<std::string> > currentLocaleObserver;
-            std::shared_ptr<MapObserver<std::string, FontMap> > fontsObserver;
-        };
-
-        void Style::_init(Context * context)
-        {
-            ISystem::_init("djv::UI::Style", context);
-
-            DJV_PRIVATE_PTR();
-            p.settings = StyleSettings::create(context);
-
-            auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
-            p.paletteObserver = ValueObserver<Palette>::create(
-                p.settings->getCurrentPalette(),
-                [weak](const Palette value)
+            struct Palette::Private
             {
-                if (auto style = weak.lock())
-                {
-                    style->_p->palette = value;
-                }
-            });
+                std::map<ColorRole, AV::Image::Color> colors;
+            };
 
-            p.metricsObserver = ValueObserver<Metrics>::create(
-                p.settings->getCurrentMetrics(),
-                [weak](const Metrics& value)
+            Palette::Palette() :
+                _p(new Private)
             {
-                if (auto style = weak.lock())
-                {
-                    style->_p->metrics = value;
-                }
-            });
+                DJV_PRIVATE_PTR();
+                p.colors[ColorRole::None] = AV::Image::Color();
+                p.colors[ColorRole::Background] = AV::Image::Color(.2f, .21f, .23f);
+                p.colors[ColorRole::BackgroundHeader] = AV::Image::Color(.1f, .1f, .1f);
+                p.colors[ColorRole::BackgroundScroll] = AV::Image::Color(.15f, .16f, .18f);
+                p.colors[ColorRole::Foreground] = AV::Image::Color(.9f, .9f, .9f);
+                p.colors[ColorRole::ForegroundDim] = AV::Image::Color(.7f, .7f, .7f);
+                p.colors[ColorRole::Border] = AV::Image::Color(.11f, .14f, .17f);
+                p.colors[ColorRole::Trough] = AV::Image::Color(.15f, .15f, .15f);
+                p.colors[ColorRole::Button] = AV::Image::Color(.27f, .3f, .33f);
+                p.colors[ColorRole::Checked] = AV::Image::Color(.2f, .4f, .7f);
+                p.colors[ColorRole::CheckedForeground] = AV::Image::Color(.9f, .9f, .9f);
+                p.colors[ColorRole::Hover] = AV::Image::Color(1.f, 1.f, 1.f, .1f);
+                p.colors[ColorRole::Disabled] = AV::Image::Color(.3f, .3f, .3f);
+                p.colors[ColorRole::Overlay] = AV::Image::Color(0.f, 0.f, 0.f, .5f);
+                p.colors[ColorRole::Shadow] = AV::Image::Color(0.f, 0.f, 0.f, .2f);
+            }
 
-            if (auto uiSystem = context->getSystemT<System>().lock())
+            Palette::Palette(const Palette& other) :
+                _p(new Private)
             {
-                p.currentLocaleObserver = ValueObserver<std::string>::create(
-                    uiSystem->getGeneralSettings()->getCurrentLocale(),
-                    [weak](const std::string& value)
+                *_p = *other._p;
+            }
+
+            Palette::~Palette()
+            {}
+
+            Palette& Palette::operator = (const Palette& other)
+            {
+                *_p = *other._p;
+                return *this;
+            }
+
+            const AV::Image::Color & Palette::getColor(ColorRole value) const
+            {
+                return _p->colors.at(value);
+            }
+
+            void Palette::setColor(ColorRole role, const AV::Image::Color & value)
+            {
+                _p->colors[role] = value;
+            }
+
+            bool Palette::operator == (const Palette& other) const
+            {
+                return _p->colors == other._p->colors;
+            }
+
+            struct Metrics::Private
+            {
+                std::map<MetricsRole, float> metrics;
+                float scale = 1.f;
+            };
+
+            Metrics::Metrics(const Metrics& other) :
+                _p(new Private)
+            {
+                *_p = *other._p;
+            }
+
+            Metrics::~Metrics()
+            {}
+
+            Metrics& Metrics::operator = (const Metrics& other)
+            {
+                *_p = *other._p;
+                return *this;
+            }
+
+            Metrics::Metrics() :
+                _p(new Private)
+            {
+                DJV_PRIVATE_PTR();
+                p.metrics[MetricsRole::None] = 0.f;
+                p.metrics[MetricsRole::Border] = 1.f;
+                p.metrics[MetricsRole::Margin] = 10.f;
+                p.metrics[MetricsRole::MarginSmall] = 5.f;
+                p.metrics[MetricsRole::MarginLarge] = 40.f;
+                p.metrics[MetricsRole::Spacing] = 10.f;
+                p.metrics[MetricsRole::SpacingSmall] = 5.f;
+                p.metrics[MetricsRole::SpacingLarge] = 40.f;
+                p.metrics[MetricsRole::Drag] = 20.f;
+                p.metrics[MetricsRole::Icon] = 25.f;
+                p.metrics[MetricsRole::IconLarge] = 100.f;
+                p.metrics[MetricsRole::FontSmall] = 9.f;
+                p.metrics[MetricsRole::FontMedium] = 12.f;
+                p.metrics[MetricsRole::FontLarge] = 24.f;
+                p.metrics[MetricsRole::FontExtraLarge] = 48.f;
+                p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
+                p.metrics[MetricsRole::Swatch] = 40.f;
+                p.metrics[MetricsRole::Thumbnail] = 300.f;
+                p.metrics[MetricsRole::Shadow] = 20.f;
+                p.metrics[MetricsRole::TextColumn] = 200.f;
+                p.metrics[MetricsRole::Dialog] = 400.f;
+            }
+
+            float Metrics::getMetric(MetricsRole role) const
+            {
+                return _p->metrics.at(role);
+            }
+
+            void Metrics::setMetric(MetricsRole role, float value)
+            {
+                _p->metrics[role] = value;
+            }
+
+            float Metrics::getScale() const
+            {
+                return _p->scale;
+            }
+
+            void Metrics::setScale(float value)
+            {
+                _p->scale = value;
+            }
+
+            bool Metrics::operator == (const Metrics& other) const
+            {
+                DJV_PRIVATE_PTR();
+                return p.metrics == other._p->metrics && p.scale == other._p->scale;
+            }
+
+            struct Style::Private
+            {
+                std::shared_ptr<Settings::Style> settings;
+                Palette palette;
+                glm::vec2 dpi = glm::vec2(0.f, 0.f);
+                Metrics metrics;
+                std::string currentLocale;
+                std::map<std::string, Settings::FontMap> fonts;
+                Settings::FontMap currentFont;
+                std::shared_ptr<ValueObserver<Palette> > paletteObserver;
+                std::shared_ptr<ValueObserver<Metrics> > metricsObserver;
+                std::shared_ptr<ValueObserver<std::string> > currentLocaleObserver;
+                std::shared_ptr<MapObserver<std::string, Settings::FontMap> > fontsObserver;
+            };
+
+            void Style::_init(Context * context)
+            {
+                ISystem::_init("djv::UI::Style::Style", context);
+
+                DJV_PRIVATE_PTR();
+                p.settings = Settings::Style::create(context);
+
+                auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
+                p.paletteObserver = ValueObserver<Palette>::create(
+                    p.settings->getCurrentPalette(),
+                    [weak](const Palette value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto style = weak.lock())
                     {
-                        system->_p->currentLocale = value;
-                        system->_updateCurrentFont();
+                        style->_p->palette = value;
                     }
                 });
 
-                p.fontsObserver = MapObserver<std::string, FontMap>::create(
-                    uiSystem->getFontSettings()->getFonts(),
-                    [weak](const std::map<std::string, FontMap>& value)
+                p.metricsObserver = ValueObserver<Metrics>::create(
+                    p.settings->getCurrentMetrics(),
+                    [weak](const Metrics& value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto style = weak.lock())
                     {
-                        system->_p->fonts = value;
-                        system->_updateCurrentFont();
+                        style->_p->metrics = value;
                     }
                 });
+
+                if (auto uiSystem = context->getSystemT<System>().lock())
+                {
+                    p.currentLocaleObserver = ValueObserver<std::string>::create(
+                        uiSystem->getGeneralSettings()->getCurrentLocale(),
+                        [weak](const std::string& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->currentLocale = value;
+                            system->_updateCurrentFont();
+                        }
+                    });
+
+                    p.fontsObserver = MapObserver<std::string, Settings::FontMap>::create(
+                        uiSystem->getFontSettings()->getFonts(),
+                        [weak](const std::map<std::string, Settings::FontMap>& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->fonts = value;
+                            system->_updateCurrentFont();
+                        }
+                    });
+                }
             }
-        }
 
-        Style::Style() :
-            _p(new Private)
-        {}
+            Style::Style() :
+                _p(new Private)
+            {}
 
-        Style::~Style()
-        {}
+            Style::~Style()
+            {}
 
-        std::shared_ptr<Style> Style::create(Context * context)
-        {
-            auto out = std::shared_ptr<Style>(new Style);
-            out->_init(context);
-            return out;
-        }
-
-        const std::shared_ptr<StyleSettings>& Style::getSettings() const
-        {
-            return _p->settings;
-        }
-
-        const Palette& Style::getPalette() const
-        {
-            return _p->palette;
-        }
-
-        const AV::Image::Color& Style::getColor(ColorRole role) const
-        {
-            return _p->palette.getColor(role);
-        }
-
-        void Style::setPalette(const Palette& value)
-        {
-            _p->palette = value;
-        }
-
-        float Style::getMetric(MetricsRole role) const
-        {
-            return _p->metrics.getMetric(role) * _p->metrics.getScale();
-        }
-
-        void Style::setMetrics(const Metrics& value)
-        {
-            _p->metrics = value;
-        }
-
-        float Style::getScale() const
-        {
-            return _p->metrics.getScale();
-        }
-
-        void Style::setScale(float value)
-        {
-            _p->metrics.setScale(value);
-        }
-
-        const glm::vec2& Style::getDPI() const
-        {
-            return _p->dpi;
-        }
-
-        void Style::setDPI(const glm::vec2& value)
-        {
-            _p->dpi = value;
-        }
-
-        AV::Font::Info Style::getFont(const std::string & face, MetricsRole metricsRole) const
-        {
-            AV::Font::Info out;
-            const auto i = _p->currentFont.find(face);
-            if (i != _p->currentFont.end())
+            std::shared_ptr<Style> Style::create(Context * context)
             {
-                out = AV::Font::Info(i->second, i->first, getMetric(metricsRole));
+                auto out = std::shared_ptr<Style>(new Style);
+                out->_init(context);
+                return out;
             }
-            return out;
-        }
 
-        void Style::_updateCurrentFont()
-        {
-            auto i = _p->fonts.find(_p->currentLocale);
-            if (i != _p->fonts.end())
+            const Palette& Style::getPalette() const
             {
-                _p->currentFont = i->second;
+                return _p->palette;
             }
-            else
+
+            const AV::Image::Color& Style::getColor(ColorRole role) const
             {
-                i = _p->fonts.find("Default");
+                return _p->palette.getColor(role);
+            }
+
+            void Style::setPalette(const Palette& value)
+            {
+                _p->palette = value;
+            }
+
+            float Style::getMetric(MetricsRole role) const
+            {
+                return _p->metrics.getMetric(role) * _p->metrics.getScale();
+            }
+
+            void Style::setMetrics(const Metrics& value)
+            {
+                _p->metrics = value;
+            }
+
+            float Style::getScale() const
+            {
+                return _p->metrics.getScale();
+            }
+
+            void Style::setScale(float value)
+            {
+                _p->metrics.setScale(value);
+            }
+
+            const glm::vec2& Style::getDPI() const
+            {
+                return _p->dpi;
+            }
+
+            void Style::setDPI(const glm::vec2& value)
+            {
+                _p->dpi = value;
+            }
+
+            AV::Font::Info Style::getFont(const std::string & face, MetricsRole metricsRole) const
+            {
+                AV::Font::Info out;
+                const auto i = _p->currentFont.find(face);
+                if (i != _p->currentFont.end())
+                {
+                    out = AV::Font::Info(i->second, i->first, getMetric(metricsRole));
+                }
+                return out;
+            }
+
+            void Style::_updateCurrentFont()
+            {
+                auto i = _p->fonts.find(_p->currentLocale);
                 if (i != _p->fonts.end())
                 {
                     _p->currentFont = i->second;
                 }
+                else
+                {
+                    i = _p->fonts.find("Default");
+                    if (i != _p->fonts.end())
+                    {
+                        _p->currentFont = i->second;
+                    }
+                }
             }
-        }
 
+        } // namespace Style
     } // namespace UI
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI,
+        UI::Style,
         ColorRole,
         DJV_TEXT("None"),
         DJV_TEXT("Background"),
@@ -360,7 +358,7 @@ namespace djv
         DJV_TEXT("Shadow"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI,
+        UI::Style,
         MetricsRole,
         DJV_TEXT("None"),
         DJV_TEXT("Border"),

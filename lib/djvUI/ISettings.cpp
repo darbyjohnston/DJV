@@ -39,54 +39,57 @@ namespace djv
 {
     namespace UI
     {
-        struct ISettings::Private
+        namespace Settings
         {
-            Context * context = nullptr;
-            std::string name;
-        };
-
-        void ISettings::_init(const std::string& name, Context * context)
-        {
-            _p->context = context;
-            _p->name = name;
-
-            if (auto system = context->getSystemT<SettingsSystem>().lock())
+            struct ISettings::Private
             {
-                system->_addSettings(shared_from_this());
-            }
-        }
+                Context * context = nullptr;
+                std::string name;
+            };
 
-        ISettings::ISettings() :
-            _p(new Private)
-        {}
-
-        ISettings::~ISettings()
-        {}
-
-        Context * ISettings::getContext() const
-        {
-            return _p->context;
-        }
-
-        const std::string& ISettings::getName() const
-        {
-            return _p->name;
-        }
-
-        void ISettings::_load()
-        {
-            if (auto system = _p->context->getSystemT<SettingsSystem>().lock())
+            void ISettings::_init(const std::string& name, Context * context)
             {
-                system->_loadSettings(shared_from_this());
+                _p->context = context;
+                _p->name = name;
+
+                if (auto system = context->getSystemT<System>().lock())
+                {
+                    system->_addSettings(shared_from_this());
+                }
             }
-        }
 
-        void ISettings::_readError(const std::string& value, const std::string& what)
-        {
-            std::stringstream s;
-            s << "Cannot read settings '" << value << "'. " << what;
-            _p->context->log("djv::UI::ISettings", s.str(), LogLevel::Error);
-        }
+            ISettings::ISettings() :
+                _p(new Private)
+            {}
 
+            ISettings::~ISettings()
+            {}
+
+            Context * ISettings::getContext() const
+            {
+                return _p->context;
+            }
+
+            const std::string& ISettings::getName() const
+            {
+                return _p->name;
+            }
+
+            void ISettings::_load()
+            {
+                if (auto system = _p->context->getSystemT<System>().lock())
+                {
+                    system->_loadSettings(shared_from_this());
+                }
+            }
+
+            void ISettings::_readError(const std::string& value, const std::string& what)
+            {
+                std::stringstream s;
+                s << "Cannot read settings '" << value << "'. " << what;
+                _p->context->log("djv::UI::Settings::ISettings", s.str(), LogLevel::Error);
+            }
+
+        } // namespace Settings
     } // namespace UI
 } // namespace djv

@@ -35,11 +35,20 @@ namespace djv
 {
     namespace UI
     {
-        class GeneralSettings;
-        class FontSettings;
-        class Style;
-        class StyleSettings;
+        namespace Settings
+        {
+            class General;
+            class Font;
 
+        } // namespace Settings
+
+        namespace Style
+        {
+            class Style;
+
+        } // namespace Style
+
+        //! This class provides a UI system.
         class System : public Core::ISystem
         {
             DJV_NON_COPYABLE(System);
@@ -53,10 +62,9 @@ namespace djv
 
             static std::shared_ptr<System> create(Core::Context *);
 
-            const std::shared_ptr<GeneralSettings> getGeneralSettings() const;
-            const std::shared_ptr<FontSettings> getFontSettings() const;
-            const std::shared_ptr<StyleSettings> getStyleSettings() const;
-            const std::shared_ptr<Style> getStyle() const;
+            const std::shared_ptr<Settings::General> getGeneralSettings() const;
+            const std::shared_ptr<Settings::Font> getFontSettings() const;
+            const std::shared_ptr<Style::Style> getStyle() const;
 
         private:
             DJV_PRIVATE();

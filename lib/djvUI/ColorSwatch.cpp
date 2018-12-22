@@ -40,7 +40,7 @@ namespace djv
         struct ColorSwatch::Private
         {
             AV::Image::Color color;
-            MetricsRole swatchSize = MetricsRole::Swatch;
+            Style::MetricsRole swatchSize = Style::MetricsRole::Swatch;
         };
 
         void ColorSwatch::_init(Context * context)
@@ -81,12 +81,12 @@ namespace djv
             _p->color = value;
         }
 
-        MetricsRole ColorSwatch::getSwatchSize() const
+        Style::MetricsRole ColorSwatch::getSwatchSize() const
         {
             return _p->swatchSize;
         }
 
-        void ColorSwatch::setSwatchSize(MetricsRole value)
+        void ColorSwatch::setSwatchSize(Style::MetricsRole value)
         {
             _p->swatchSize = value;
         }

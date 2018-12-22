@@ -39,221 +39,224 @@ namespace djv
 {
     namespace UI
     {
-        struct ButtonGroup::Private
+        namespace Button
         {
-            std::vector<std::shared_ptr<IButton> > buttons;
-            ButtonType buttonType = ButtonType::Push;
-            std::function<void(int)> clickedCallback;
-            std::function<void(int, bool)> checkedCallback;
-            std::function<void(int)> radioCallback;
-        };
-
-        ButtonGroup::ButtonGroup() :
-            _p(new Private)
-        {}
-
-        ButtonGroup::~ButtonGroup()
-        {
-            clearButtons();
-        }
-
-        std::shared_ptr<ButtonGroup> ButtonGroup::create(ButtonType buttonType)
-        {
-            auto out = std::shared_ptr<ButtonGroup>(new ButtonGroup);
-            out->setButtonType(buttonType);
-            return out;
-        }
-
-        const std::vector<std::shared_ptr<IButton> >& ButtonGroup::getButtons() const
-        {
-            return _p->buttons;
-        }
-
-        size_t ButtonGroup::getButtonCount() const
-        {
-            return _p->buttons.size();
-        }
-
-        int ButtonGroup::getButtonIndex(const std::shared_ptr<IButton>& value) const
-        {
-            const auto i = std::find(_p->buttons.begin(), _p->buttons.end(), value);
-            if (i != _p->buttons.end())
+            struct Group::Private
             {
-                return static_cast<int>(i - _p->buttons.begin());
+                std::vector<std::shared_ptr<IButton> > buttons;
+                ButtonType buttonType = ButtonType::Push;
+                std::function<void(int)> clickedCallback;
+                std::function<void(int, bool)> checkedCallback;
+                std::function<void(int)> radioCallback;
+            };
+
+            Group::Group() :
+                _p(new Private)
+            {}
+
+            Group::~Group()
+            {
+                clearButtons();
             }
-            return -1;
-        }
-        
-        void ButtonGroup::addButton(const std::shared_ptr<IButton>& button)
-        {
-            button->setButtonType(_p->buttonType);
 
-            if (ButtonType::Radio == _p->buttonType)
+            std::shared_ptr<Group> Group::create(ButtonType buttonType)
             {
-                size_t i = 0;
-                for (; i < _p->buttons.size(); ++i)
+                auto out = std::shared_ptr<Group>(new Group);
+                out->setButtonType(buttonType);
+                return out;
+            }
+
+            const std::vector<std::shared_ptr<IButton> >& Group::getButtons() const
+            {
+                return _p->buttons;
+            }
+
+            size_t Group::getButtonCount() const
+            {
+                return _p->buttons.size();
+            }
+
+            int Group::getButtonIndex(const std::shared_ptr<IButton>& value) const
+            {
+                const auto i = std::find(_p->buttons.begin(), _p->buttons.end(), value);
+                if (i != _p->buttons.end())
+                {
+                    return static_cast<int>(i - _p->buttons.begin());
+                }
+                return -1;
+            }
+
+            void Group::addButton(const std::shared_ptr<IButton>& button)
+            {
+                button->setButtonType(_p->buttonType);
+
+                if (ButtonType::Radio == _p->buttonType)
+                {
+                    size_t i = 0;
+                    for (; i < _p->buttons.size(); ++i)
+                    {
+                        if (_p->buttons[i]->isChecked())
+                        {
+                            break;
+                        }
+                    }
+                    if (i == _p->buttons.size())
+                    {
+                        button->setChecked(true);
+                    }
+                }
+
+                auto weak = std::weak_ptr<Group>(std::dynamic_pointer_cast<Group>(shared_from_this()));
+                button->setClickedCallback(
+                    [weak, button]
+                {
+                    if (auto group = weak.lock())
+                    {
+                        const auto i = std::find(group->_p->buttons.begin(), group->_p->buttons.end(), button);
+                        if (i != group->_p->buttons.end())
+                        {
+                            if (group->_p->clickedCallback)
+                            {
+                                const int index = static_cast<int>(i - group->_p->buttons.begin());
+                                group->_p->clickedCallback(index);
+                            }
+                        }
+                    }
+                });
+
+                button->setCheckedCallback(
+                    [weak, button](bool value)
+                {
+                    if (auto group = weak.lock())
+                    {
+                        const auto i = std::find(group->_p->buttons.begin(), group->_p->buttons.end(), button);
+                        if (i != group->_p->buttons.end())
+                        {
+                            const int index = static_cast<int>(i - group->_p->buttons.begin());
+                            if (ButtonType::Radio == group->_p->buttonType)
+                            {
+                                for (size_t i = 0; i < group->_p->buttons.size(); ++i)
+                                {
+                                    group->_p->buttons[i]->setChecked(i == index);
+                                }
+
+                                if (value && group->_p->radioCallback)
+                                {
+                                    group->_p->radioCallback(index);
+                                }
+                            }
+
+                            if (group->_p->checkedCallback)
+                            {
+                                group->_p->checkedCallback(index, true);
+                            }
+                        }
+                    }
+                });
+
+                _p->buttons.push_back(button);
+            }
+
+            void Group::removeButton(const std::shared_ptr<IButton>& button)
+            {
+                const auto i = std::find(_p->buttons.begin(), _p->buttons.end(), button);
+                if (i != _p->buttons.end())
+                {
+                    (*i)->setClickedCallback(nullptr);
+                    (*i)->setCheckedCallback(nullptr);
+                    _p->buttons.erase(i);
+                }
+            }
+
+            void Group::clearButtons()
+            {
+                auto buttons = _p->buttons;
+                for (const auto& button : buttons)
+                {
+                    button->setClickedCallback(nullptr);
+                    button->setCheckedCallback(nullptr);
+                }
+                _p->buttons.clear();
+            }
+
+            ButtonType Group::getButtonType() const
+            {
+                return _p->buttonType;
+            }
+
+            void Group::setButtonType(ButtonType value)
+            {
+                _p->buttonType = value;
+
+                for (size_t i = 0; i < _p->buttons.size(); ++i)
+                {
+                    _p->buttons[i]->setButtonType(value);
+                }
+
+                if (ButtonType::Radio == _p->buttonType)
+                {
+                    setChecked(0);
+                }
+            }
+
+            int Group::getChecked() const
+            {
+                for (size_t i = 0; i < _p->buttons.size(); ++i)
                 {
                     if (_p->buttons[i]->isChecked())
                     {
-                        break;
+                        return static_cast<int>(i);
                     }
                 }
-                if (i == _p->buttons.size())
-                {
-                    button->setChecked(true);
-                }
+                return -1;
             }
 
-            auto weak = std::weak_ptr<ButtonGroup>(std::dynamic_pointer_cast<ButtonGroup>(shared_from_this()));
-            button->setClickedCallback(
-                [weak, button]
+            void Group::setChecked(int index, bool value)
             {
-                if (auto group = weak.lock())
+                if (index >= 0 && index < static_cast<int>(_p->buttons.size()))
                 {
-                    const auto i = std::find(group->_p->buttons.begin(), group->_p->buttons.end(), button);
-                    if (i != group->_p->buttons.end())
+                    if (_p->buttons[index]->isChecked() != value)
                     {
-                        if (group->_p->clickedCallback)
+                        if (ButtonType::Radio == _p->buttonType)
                         {
-                            const int index = static_cast<int>(i - group->_p->buttons.begin());
-                            group->_p->clickedCallback(index);
-                        }
-                    }
-                }
-            });
-
-            button->setCheckedCallback(
-                [weak, button](bool value)
-            {
-                if (auto group = weak.lock())
-                {
-                    const auto i = std::find(group->_p->buttons.begin(), group->_p->buttons.end(), button);
-                    if (i != group->_p->buttons.end())
-                    {
-                        const int index = static_cast<int>(i - group->_p->buttons.begin());
-                        if (ButtonType::Radio == group->_p->buttonType)
-                        {
-                            for (size_t i = 0; i < group->_p->buttons.size(); ++i)
+                            for (size_t i = 0; i < _p->buttons.size(); ++i)
                             {
-                                group->_p->buttons[i]->setChecked(i == index);
+                                _p->buttons[i]->setChecked(i == index);
                             }
 
-                            if (value && group->_p->radioCallback)
+                            if (_p->radioCallback)
                             {
-                                group->_p->radioCallback(index);
+                                _p->radioCallback(index);
                             }
                         }
-
-                        if (group->_p->checkedCallback)
+                        else
                         {
-                            group->_p->checkedCallback(index, true);
+                            _p->buttons[index]->setChecked(value);
+                        }
+
+                        if (_p->checkedCallback)
+                        {
+                            _p->checkedCallback(index, value);
                         }
                     }
                 }
-            });
-
-            _p->buttons.push_back(button);
-        }
-
-        void ButtonGroup::removeButton(const std::shared_ptr<IButton>& button)
-        {
-            const auto i = std::find(_p->buttons.begin(), _p->buttons.end(), button);
-            if (i != _p->buttons.end())
-            {
-                (*i)->setClickedCallback(nullptr);
-                (*i)->setCheckedCallback(nullptr);
-                _p->buttons.erase(i);
-            }
-        }
-
-        void ButtonGroup::clearButtons()
-        {
-            auto buttons = _p->buttons;
-            for (const auto& button : buttons)
-            {
-                button->setClickedCallback(nullptr);
-                button->setCheckedCallback(nullptr);
-            }
-            _p->buttons.clear();
-        }
-
-        ButtonType ButtonGroup::getButtonType() const
-        {
-            return _p->buttonType;
-        }
-
-        void ButtonGroup::setButtonType(ButtonType value)
-        {
-            _p->buttonType = value;
-
-            for (size_t i = 0; i < _p->buttons.size(); ++i)
-            {
-                _p->buttons[i]->setButtonType(value);
             }
 
-            if (ButtonType::Radio == _p->buttonType)
+            void Group::setClickedCallback(const std::function<void(int)>& callback)
             {
-                setChecked(0);
+                _p->clickedCallback = callback;
             }
-        }
 
-        int ButtonGroup::getChecked() const
-        {
-            for (size_t i = 0; i < _p->buttons.size(); ++i)
+            void Group::setCheckedCallback(const std::function<void(int, bool)>& callback)
             {
-                if (_p->buttons[i]->isChecked())
-                {
-                    return static_cast<int>(i);
-                }
+                _p->checkedCallback = callback;
             }
-            return -1;
-        }
 
-        void ButtonGroup::setChecked(int index, bool value)
-        {
-            if (index >= 0 && index < static_cast<int>(_p->buttons.size()))
+            void Group::setRadioCallback(const std::function<void(int)>& callback)
             {
-                if (_p->buttons[index]->isChecked() != value)
-                {
-                    if (ButtonType::Radio == _p->buttonType)
-                    {
-                        for (size_t i = 0; i < _p->buttons.size(); ++i)
-                        {
-                            _p->buttons[i]->setChecked(i == index);
-                        }
-
-                        if (_p->radioCallback)
-                        {
-                            _p->radioCallback(index);
-                        }
-                    }
-                    else
-                    {
-                        _p->buttons[index]->setChecked(value);
-                    }
-
-                    if (_p->checkedCallback)
-                    {
-                        _p->checkedCallback(index, value);
-                    }
-                }
+                _p->radioCallback = callback;
             }
-        }
 
-        void ButtonGroup::setClickedCallback(const std::function<void(int)>& callback)
-        {
-            _p->clickedCallback = callback;
-        }
-
-        void ButtonGroup::setCheckedCallback(const std::function<void(int, bool)>& callback)
-        {
-            _p->checkedCallback = callback;
-        }
-
-        void ButtonGroup::setRadioCallback(const std::function<void(int)>& callback)
-        {
-            _p->radioCallback = callback;
-        }
-
+        } // namespace Button
     } // namespace UI
 } // namespace Gp

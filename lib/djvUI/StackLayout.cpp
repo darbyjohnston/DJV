@@ -35,74 +35,77 @@ namespace djv
 {
     namespace UI
     {
-        struct StackLayout::Private
-        {};
-
-        void StackLayout::_init(Context * context)
+        namespace Layout
         {
-            IContainerWidget::_init(context);
-            
-            setClassName("djv::UI::StackLayout");
-        }
-        
-        StackLayout::StackLayout() :
-            _p(new Private)
-        {}
+            struct Stack::Private
+            {};
 
-        StackLayout::~StackLayout()
-        {}
-
-        std::shared_ptr<StackLayout> StackLayout::create(Context * context)
-        {
-            auto out = std::shared_ptr<StackLayout>(new StackLayout);
-            out->_init(context);
-            return out;
-        }
-
-        float StackLayout::getHeightForWidth(float value) const
-        {
-            float out = 0.f;
-            if (auto style = _getStyle().lock())
+            void Stack::_init(Context * context)
             {
-                for (const auto& child : getChildrenT<Widget>())
+                IContainer::_init(context);
+
+                setClassName("djv::UI::Layout::Stack");
+            }
+
+            Stack::Stack() :
+                _p(new Private)
+            {}
+
+            Stack::~Stack()
+            {}
+
+            std::shared_ptr<Stack> Stack::create(Context * context)
+            {
+                auto out = std::shared_ptr<Stack>(new Stack);
+                out->_init(context);
+                return out;
+            }
+
+            float Stack::getHeightForWidth(float value) const
+            {
+                float out = 0.f;
+                if (auto style = _getStyle().lock())
                 {
-                    if (child->isVisible())
+                    for (const auto& child : getChildrenT<Widget>())
                     {
-                        out = glm::max(out, child->getHeightForWidth(value));
+                        if (child->isVisible())
+                        {
+                            out = glm::max(out, child->getHeightForWidth(value));
+                        }
+                    }
+                    out += getMargin().getHeight(style);
+                }
+                return out;
+            }
+
+            void Stack::preLayoutEvent(Event::PreLayout&)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                    for (const auto& child : getChildrenT<Widget>())
+                    {
+                        if (child->isVisible())
+                        {
+                            minimumSize = glm::max(minimumSize, child->getMinimumSize());
+                        }
+                    }
+                    _setMinimumSize(minimumSize + getMargin().getSize(style));
+                }
+            }
+
+            void Stack::layoutEvent(Event::Layout&)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    for (const auto& child : getChildrenT<Widget>())
+                    {
+                        child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
                     }
                 }
-                out += getMargin().getHeight(style);
             }
-            return out;
-        }
 
-        void StackLayout::preLayoutEvent(Event::PreLayout&)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                for (const auto& child : getChildrenT<Widget>())
-                {
-                    if (child->isVisible())
-                    {
-                        minimumSize = glm::max(minimumSize, child->getMinimumSize());
-                    }
-                }
-                _setMinimumSize(minimumSize + getMargin().getSize(style));
-            }
-        }
-
-        void StackLayout::layoutEvent(Event::Layout&)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                for (const auto& child : getChildrenT<Widget>())
-                {
-                    child->setGeometry(Widget::getAlign(g, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
-                }
-            }
-        }
-
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

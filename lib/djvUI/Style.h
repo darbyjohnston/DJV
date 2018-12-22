@@ -42,164 +42,168 @@ namespace djv
     {
         class StyleSettings;
 
-        //! This enumeration provides the color roles.
-        enum class ColorRole
+        //! This namespace provides styling.
+        namespace Style
         {
-            None,
-            Background,
-            BackgroundHeader,
-            BackgroundScroll,
-            Foreground,
-            ForegroundDim,
-            Border,
-            Trough,
-            Button,
-            Checked,
-            CheckedForeground,
-            Hover,
-            Disabled,
-            Overlay,
-            Shadow,
+            //! This enumeration provides the color roles.
+            enum class ColorRole
+            {
+                None,
+                Background,
+                BackgroundHeader,
+                BackgroundScroll,
+                Foreground,
+                ForegroundDim,
+                Border,
+                Trough,
+                Button,
+                Checked,
+                CheckedForeground,
+                Hover,
+                Disabled,
+                Overlay,
+                Shadow,
 
-            Count,
-            First = None
-        };
-        DJV_ENUM_HELPERS(ColorRole);
+                Count,
+                First = None
+            };
+            DJV_ENUM_HELPERS(ColorRole);
 
-        //! This enumeration provides the metrics roles.
-        enum class MetricsRole
-        {
-            None,
-            Border,
-            Margin,
-            MarginSmall,
-            MarginLarge,
-            Spacing,
-            SpacingSmall,
-            SpacingLarge,
-            Drag,
-            Icon,
-            IconLarge,
-            FontSmall,
-            FontMedium,
-            FontLarge,
-            FontExtraLarge,
-            FontExtraExtraLarge,
-            Swatch,
-            Thumbnail,
-            Shadow,
-            TextColumn,
-            Dialog,
+            //! This enumeration provides the metrics roles.
+            enum class MetricsRole
+            {
+                None,
+                Border,
+                Margin,
+                MarginSmall,
+                MarginLarge,
+                Spacing,
+                SpacingSmall,
+                SpacingLarge,
+                Drag,
+                Icon,
+                IconLarge,
+                FontSmall,
+                FontMedium,
+                FontLarge,
+                FontExtraLarge,
+                FontExtraExtraLarge,
+                Swatch,
+                Thumbnail,
+                Shadow,
+                TextColumn,
+                Dialog,
 
-            Count,
-            First = Border
-        };
-        DJV_ENUM_HELPERS(MetricsRole);
+                Count,
+                First = Border
+            };
+            DJV_ENUM_HELPERS(MetricsRole);
 
-        //! This class provides a color palette.
-        class Palette
-        {
-        public:
-            Palette();
-            Palette(const Palette&);
-            ~Palette();
-            Palette& operator = (const Palette&);
+            //! This class provides a color palette.
+            class Palette
+            {
+            public:
+                Palette();
+                Palette(const Palette&);
+                ~Palette();
+                Palette& operator = (const Palette&);
 
-            const AV::Image::Color& getColor(ColorRole) const;
-            void setColor(ColorRole, const AV::Image::Color&);
+                const AV::Image::Color& getColor(ColorRole) const;
+                void setColor(ColorRole, const AV::Image::Color&);
 
-            bool operator == (const Palette&) const;
+                bool operator == (const Palette&) const;
 
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
-        //! This class provides size metrics.
-        class Metrics
-        {
-        public:
-            Metrics();
-            Metrics(const Metrics&);
-            ~Metrics();
-            Metrics& operator = (const Metrics&);
+            //! This class provides size metrics.
+            class Metrics
+            {
+            public:
+                Metrics();
+                Metrics(const Metrics&);
+                ~Metrics();
+                Metrics& operator = (const Metrics&);
 
-            //! Get a metric role. Note that this returns the unscaled value.
-            float getMetric(MetricsRole role) const;
-            void setMetric(MetricsRole, float);
+                //! Get a metric role. Note that this returns the unscaled value.
+                float getMetric(MetricsRole role) const;
+                void setMetric(MetricsRole, float);
 
-            float getScale() const;
-            void setScale(float);
+                float getScale() const;
+                void setScale(float);
 
-            bool operator == (const Metrics&) const;
+                bool operator == (const Metrics&) const;
 
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
-        //! This struct provides text metrics.
-        struct TextMetrics
-        {
-            float ascender   = 0.f;
-            float descender  = 0.f;
-            float lineHeight = 0.f;
-        };
+            //! This struct provides text metrics.
+            struct TextMetrics
+            {
+                float ascender = 0.f;
+                float descender = 0.f;
+                float lineHeight = 0.f;
+            };
 
-        //! This class provides the UI style.
-        class Style : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(Style);
-            void _init(Core::Context *);
-            Style();
+            //! This class provides the UI style.
+            class Style : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(Style);
+                void _init(Core::Context *);
+                Style();
 
-        public:
-            virtual ~Style();
+            public:
+                virtual ~Style();
 
-            //! Create a new style.
-            static std::shared_ptr<Style> create(Core::Context *);
+                //! Create a new style.
+                static std::shared_ptr<Style> create(Core::Context *);
 
-            //! Get the style settings.
-            const std::shared_ptr<StyleSettings>& getSettings() const;
+                //! Get the style settings.
+                const std::shared_ptr<StyleSettings>& getSettings() const;
 
-            //! \name Color Palette
-            ///@{
-            
-            const Palette & getPalette() const;
-            const AV::Image::Color & getColor(ColorRole) const;
-            void setPalette(const Palette &);
+                //! \name Color Palette
+                ///@{
 
-            ///@}
+                const Palette & getPalette() const;
+                const AV::Image::Color & getColor(ColorRole) const;
+                void setPalette(const Palette &);
 
-            //! \name Size Metrics
-            ///@{
-            
-            //! Get a metric role. Note that this returns the scaled value.
-            float getMetric(MetricsRole) const;
-            void setMetrics(const Metrics&);
+                ///@}
 
-            float getScale() const;
-            void setScale(float);
+                //! \name Size Metrics
+                ///@{
 
-            const glm::vec2& getDPI() const;
-            void setDPI(const glm::vec2&);
+                //! Get a metric role. Note that this returns the scaled value.
+                float getMetric(MetricsRole) const;
+                void setMetrics(const Metrics&);
 
-            ///@}
+                float getScale() const;
+                void setScale(float);
 
-            //! \name Fonts
-            ///@{
+                const glm::vec2& getDPI() const;
+                void setDPI(const glm::vec2&);
 
-            AV::Font::Info getFont(const std::string &, MetricsRole) const;
+                ///@}
 
-            ///@}
+                //! \name Fonts
+                ///@{
 
-        private:
-            void _updateCurrentFont();
+                AV::Font::Info getFont(const std::string &, MetricsRole) const;
 
-            DJV_PRIVATE();
-        };
+                ///@}
 
+            private:
+                void _updateCurrentFont();
+
+                DJV_PRIVATE();
+            };
+
+        } // namespace Style
     } // namespace UI
 
-    DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Style::ColorRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Style::MetricsRole);
 
 } // namespace djv

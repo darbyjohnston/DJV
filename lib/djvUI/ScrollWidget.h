@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 #include <djvUI/Margin.h>
 
 #include <djvCore/Range.h>
@@ -54,10 +54,10 @@ namespace djv
         //! This class provides a scroll widget.
         //!
         //! \bug [1.0 M] Add a minimum scroll bar handle size.
-        class ScrollWidget : public IContainerWidget
+        class ScrollWidget : public Layout::IContainer
         {
             DJV_NON_COPYABLE(ScrollWidget);
-            
+
         protected:
             void _init(ScrollType, Core::Context *);
             ScrollWidget();

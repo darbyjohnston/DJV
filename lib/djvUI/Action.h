@@ -70,17 +70,17 @@ namespace djv
             void setChecked(bool);
 
             std::shared_ptr<Core::IValueSubject<Core::FileSystem::Path> > getIcon() const;
-            std::shared_ptr<Core::IValueSubject<MetricsRole> > getIconSizeRole() const;
+            std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > getIconSizeRole() const;
             void setIcon(const Core::FileSystem::Path&);
-            void setIconSizeRole(MetricsRole);
+            void setIconSizeRole(Style::MetricsRole);
 
             std::shared_ptr<Core::IValueSubject<std::string> > getText() const;
             void setText(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<std::string> > getFontFace() const;
-            std::shared_ptr<Core::IValueSubject<MetricsRole> > getFontSizeRole() const;
+            std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > getFontSizeRole() const;
             void setFontFace(const std::string &);
-            void setFontSizeRole(MetricsRole);
+            void setFontSizeRole(Style::MetricsRole);
 
             const std::shared_ptr<Shortcut>& getShortcut() const;
             void setShortcut(const std::shared_ptr<Shortcut>&);

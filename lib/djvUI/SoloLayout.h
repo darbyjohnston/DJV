@@ -29,43 +29,44 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides a layout that shows a single child at a time.
-        class SoloLayout : public IContainerWidget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(SoloLayout);
-            
-        protected:
-            void _init(Core::Context *);
+            //! This class provides a layout that shows a single child at a time.
+            class Solo : public IContainer
+            {
+                DJV_NON_COPYABLE(Solo);
 
-            SoloLayout();
+            protected:
+                void _init(Core::Context *);
+                Solo();
 
-        public:
-            virtual ~SoloLayout();
+            public:
+                ~Solo() override;
+                static std::shared_ptr<Solo> create(Core::Context *);
 
-            static std::shared_ptr<SoloLayout> create(Core::Context *);
+                int getCurrentIndex() const;
+                void setCurrentIndex(int);
 
-            int getCurrentIndex() const;
-            void setCurrentIndex(int);
+                void addWidget(const std::shared_ptr<Widget>&) override;
+                void removeWidget(const std::shared_ptr<Widget>&) override;
 
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
+                float getHeightForWidth(float) const override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
 
-            float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
+                void updateEvent(Core::Event::Update&) override;
 
-            void updateEvent(Core::Event::Update&) override;
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

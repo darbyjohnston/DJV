@@ -42,139 +42,142 @@ namespace djv
 {
     namespace UI
     {
-        struct SettingsSystem::Private
+        namespace Settings
         {
-            std::map<std::string, picojson::value> json;
-            std::map<std::string, std::shared_ptr<ISettings> > settings;
-            FileSystem::Path settingsPath;
-        };
-
-        void SettingsSystem::_init(Core::Context * context)
-        {
-            ISystem::_init("djv::UI::SettingsSystem", context);
-            _p->settingsPath = context->getPath(FileSystem::ResourcePath::SettingsFile);
-            _readSettingsFile(_p->settingsPath, _p->json);
-        }
-
-        SettingsSystem::SettingsSystem() :
-            _p(new Private)
-        {}
-
-        SettingsSystem::~SettingsSystem()
-        {
-            _saveSettings();
-        }
-
-        std::shared_ptr<SettingsSystem> SettingsSystem::create(Core::Context * context)
-        {
-            auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
-            out->_init(context);
-            return out;
-        }
-
-        void SettingsSystem::_addSettings(const std::shared_ptr<ISettings>& value)
-        {
-            _p->settings[value->getName()] = value;
-        }
-
-        void SettingsSystem::_removeSettings(const std::shared_ptr<ISettings>& value)
-        {
-            const auto i = _p->settings.find(value->getName());
-            if (i != _p->settings.end())
+            struct System::Private
             {
-                _p->settings.erase(i);
-            }
-        }
+                std::map<std::string, picojson::value> json;
+                std::map<std::string, std::shared_ptr<ISettings> > settings;
+                FileSystem::Path settingsPath;
+            };
 
-        void SettingsSystem::_loadSettings(const std::shared_ptr<ISettings>& settings)
-        {
-            std::stringstream s;
-            s << "Loading settings: " << settings->getName();
-            _log(s.str());
-
-            picojson::value json;
-            auto i = _p->json.find(settings->getName());
-            if (i != _p->json.end())
+            void System::_init(Core::Context * context)
             {
-                settings->load(i->second);
-            }
-        }
-
-        void SettingsSystem::_saveSettings()
-        {
-            picojson::value object(picojson::object_type, true);
-
-            // Serialize the settings.
-            for (const auto& settings : _p->settings)
-            {
-                object.get<picojson::object>()[settings.second->getName()] = settings.second->save();
+                ISystem::_init("djv::UI::Settings::System", context);
+                _p->settingsPath = context->getPath(FileSystem::ResourcePath::SettingsFile);
+                _readSettingsFile(_p->settingsPath, _p->json);
             }
 
-            // Write the JSON to disk.
-            _writeSettingsFile(_p->settingsPath, object);
-        }
+            System::System() :
+                _p(new Private)
+            {}
 
-        void SettingsSystem::_readSettingsFile(const FileSystem::Path& path, std::map<std::string, picojson::value>& out)
-        {
-            try
+            System::~System()
             {
-                if (FileSystem::FileInfo(path).doesExist())
+                _saveSettings();
+            }
+
+            std::shared_ptr<System> System::create(Core::Context * context)
+            {
+                auto out = std::shared_ptr<System>(new System);
+                out->_init(context);
+                return out;
+            }
+
+            void System::_addSettings(const std::shared_ptr<ISettings>& value)
+            {
+                _p->settings[value->getName()] = value;
+            }
+
+            void System::_removeSettings(const std::shared_ptr<ISettings>& value)
+            {
+                const auto i = _p->settings.find(value->getName());
+                if (i != _p->settings.end())
                 {
-                    std::stringstream s;
-                    s << "Reading settings: " << path;
-                    _log(s.str());
+                    _p->settings.erase(i);
+                }
+            }
 
-                    FileSystem::FileIO fileIO;
-                    fileIO.open(path, FileSystem::FileIO::Mode::Read);
-                    const char* p = reinterpret_cast<const char*>(fileIO.mmapP());
-                    const char* end = reinterpret_cast<const char*>(fileIO.mmapEnd());
+            void System::_loadSettings(const std::shared_ptr<ISettings>& settings)
+            {
+                std::stringstream s;
+                s << "Loading settings: " << settings->getName();
+                _log(s.str());
 
-                    picojson::value v;
-                    std::string error;
-                    picojson::parse(v, p, end, &error);
-                    if (!error.empty())
+                picojson::value json;
+                auto i = _p->json.find(settings->getName());
+                if (i != _p->json.end())
+                {
+                    settings->load(i->second);
+                }
+            }
+
+            void System::_saveSettings()
+            {
+                picojson::value object(picojson::object_type, true);
+
+                // Serialize the settings.
+                for (const auto& settings : _p->settings)
+                {
+                    object.get<picojson::object>()[settings.second->getName()] = settings.second->save();
+                }
+
+                // Write the JSON to disk.
+                _writeSettingsFile(_p->settingsPath, object);
+            }
+
+            void System::_readSettingsFile(const FileSystem::Path& path, std::map<std::string, picojson::value>& out)
+            {
+                try
+                {
+                    if (FileSystem::FileInfo(path).doesExist())
                     {
-                        throw std::runtime_error(error);
-                    }
+                        std::stringstream s;
+                        s << "Reading settings: " << path;
+                        _log(s.str());
 
-                    if (v.is<picojson::object>())
-                    {
-                        const auto& object = v.get<picojson::object>();
-                        for (const auto& value : object)
+                        FileSystem::FileIO fileIO;
+                        fileIO.open(path, FileSystem::FileIO::Mode::Read);
+                        const char* p = reinterpret_cast<const char*>(fileIO.mmapP());
+                        const char* end = reinterpret_cast<const char*>(fileIO.mmapEnd());
+
+                        picojson::value v;
+                        std::string error;
+                        picojson::parse(v, p, end, &error);
+                        if (!error.empty())
                         {
-                            out[value.first] = value.second;
+                            throw std::runtime_error(error);
+                        }
+
+                        if (v.is<picojson::object>())
+                        {
+                            const auto& object = v.get<picojson::object>();
+                            for (const auto& value : object)
+                            {
+                                out[value.first] = value.second;
+                            }
                         }
                     }
                 }
+                catch (const std::exception& e)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("Cannot read settings") << " '" << path << "'. " << e.what();
+                    _log(s.str(), LogLevel::Error);
+                }
             }
-            catch (const std::exception& e)
-            {
-                std::stringstream s;
-                s << DJV_TEXT("Cannot read settings") << " '" << path << "'. " << e.what();
-                _log(s.str(), LogLevel::Error);
-            }
-        }
 
-        void SettingsSystem::_writeSettingsFile(const FileSystem::Path& path, const picojson::value& value)
-        {
-            try
+            void System::_writeSettingsFile(const FileSystem::Path& path, const picojson::value& value)
             {
-                std::stringstream s;
-                s << "Writing settings: " << path;
-                _log(s.str());
+                try
+                {
+                    std::stringstream s;
+                    s << "Writing settings: " << path;
+                    _log(s.str());
 
-                FileSystem::FileIO fileIO;
-                fileIO.open(path, FileSystem::FileIO::Mode::Write);
-                PicoJSON::write(value, fileIO);
-                fileIO.write("\n");
+                    FileSystem::FileIO fileIO;
+                    fileIO.open(path, FileSystem::FileIO::Mode::Write);
+                    PicoJSON::write(value, fileIO);
+                    fileIO.write("\n");
+                }
+                catch (const std::exception& e)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("Cannot write settings") << " '" << path << "'. " << e.what();
+                    _log(s.str(), LogLevel::Error);
+                }
             }
-            catch (const std::exception& e)
-            {
-                std::stringstream s;
-                s << DJV_TEXT("Cannot write settings") << " '" << path << "'. " << e.what();
-                _log(s.str(), LogLevel::Error);
-            }
-        }
 
+        } // namespace Settings
     } // namespace UI
 } // namespace djv

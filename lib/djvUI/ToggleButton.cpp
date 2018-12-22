@@ -33,121 +33,124 @@
 
 using namespace djv::Core;
 
-namespace
-{
-    const float toggleWidth  = 2.2f;
-    const float toggleHeight = 1.2f;
-
-} // namespace
-
 namespace djv
 {
     namespace UI
     {
-        struct ToggleButton::Private
+        namespace Button
         {
-            float lineHeight = 0.f;
-        };
-
-        void ToggleButton::_init(Context * context)
-        {
-            IButton::_init(context);
-            
-            setClassName("Gp::UI::ToggleButton");
-            setButtonType(ButtonType::Toggle);
-            setBackgroundRole(ColorRole::Button);
-        }
-
-        ToggleButton::ToggleButton() :
-            _p(new Private)
-        {}
-
-        ToggleButton::~ToggleButton()
-        {}
-
-        std::shared_ptr<ToggleButton> ToggleButton::create(Context * context)
-        {
-            auto out = std::shared_ptr<ToggleButton>(new ToggleButton);
-            out->_init(context);
-            return out;
-        }
-
-        void ToggleButton::preLayoutEvent(Event::PreLayout& event)
-        {
-            if (auto fontSystem = _getFontSystem().lock())
+            namespace
             {
-                if (auto style = _getStyle().lock())
+                const float toggleWidth = 2.2f;
+                const float toggleHeight = 1.2f;
+
+            } // namespace
+
+            struct Toggle::Private
+            {
+                float lineHeight = 0.f;
+            };
+
+            void Toggle::_init(Context * context)
+            {
+                IButton::_init(context);
+
+                setClassName("Gp::UI::Button::Toggle");
+                setButtonType(ButtonType::Toggle);
+                setBackgroundRole(Style::ColorRole::Button);
+            }
+
+            Toggle::Toggle() :
+                _p(new Private)
+            {}
+
+            Toggle::~Toggle()
+            {}
+
+            std::shared_ptr<Toggle> Toggle::create(Context * context)
+            {
+                auto out = std::shared_ptr<Toggle>(new Toggle);
+                out->_init(context);
+                return out;
+            }
+
+            void Toggle::preLayoutEvent(Event::PreLayout& event)
+            {
+                if (auto fontSystem = _getFontSystem().lock())
                 {
-                    const float m = style->getMetric(MetricsRole::Margin);
+                    if (auto style = _getStyle().lock())
+                    {
+                        const float m = style->getMetric(Style::MetricsRole::Margin);
 
-                    // Use the font size to determine the size of the button.
-                    const auto fontMetrics = fontSystem->getMetrics(style->getFont(AV::Font::Info::defaultFace, MetricsRole::FontMedium)).get();
-                    _p->lineHeight = static_cast<float>(fontMetrics.lineHeight);
+                        // Use the font size to determine the size of the button.
+                        const auto fontMetrics = fontSystem->getMetrics(style->getFont(AV::Font::Info::defaultFace, Style::MetricsRole::FontMedium)).get();
+                        _p->lineHeight = static_cast<float>(fontMetrics.lineHeight);
 
-                    // Set the minimum size.
-                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    minimumSize.x = _p->lineHeight * toggleWidth + m * 2.f;
-                    minimumSize.y = _p->lineHeight + m * 2.f;
-                    _setMinimumSize(minimumSize);
+                        // Set the minimum size.
+                        glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                        minimumSize.x = _p->lineHeight * toggleWidth + m * 2.f;
+                        minimumSize.y = _p->lineHeight + m * 2.f;
+                        _setMinimumSize(minimumSize);
+                    }
                 }
             }
-        }
 
-        void ToggleButton::paintEvent(Event::Paint& event)
-        {
-            Widget::paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
+            void Toggle::paintEvent(Event::Paint& event)
             {
-                if (auto style = _getStyle().lock())
+                Widget::paintEvent(event);
+                if (auto render = _getRenderSystem().lock())
                 {
-                    const float b = style->getMetric(MetricsRole::Border);
-                    const float m = style->getMetric(MetricsRole::Margin);
-                    const BBox2f& g = getGeometry();
-                    const glm::vec2 c = g.getCenter();
-
-                    BBox2f g1;
-                    g1.min.x = c.x - (_p->lineHeight * toggleWidth) / 2.f;
-                    g1.min.y = c.y - (_p->lineHeight * toggleHeight) / 2.f;
-                    g1.max.x = g1.min.x + _p->lineHeight * toggleWidth;
-                    g1.max.y = g1.min.y + _p->lineHeight * toggleHeight;
-
-                    // Draw the background.
-                    BBox2f g2 = g1.margin(-b / 2.f);
-                    /*nvg.beginPath();
-                    nvg.roundedRect(g2, g2.h() / 2.f);
-                    nvg.fillColor(style->getColor(ColorRole::Trough));
-                    nvg.fill();
-                    nvg.strokeColor(style->getColor(ColorRole::Border));
-                    nvg.stroke();*/
-
-                    // Draw the button handle.
-                    glm::vec2 pos = glm::vec2(0.f, 0.f);
-                    if (isChecked())
+                    if (auto style = _getStyle().lock())
                     {
-                        pos.x = g1.max.x - g1.h() / 2.f;
-                        pos.y = g1.min.y + g1.h() / 2.f;
-                    }
-                    else
-                    {
-                        pos.x = g1.min.x + g1.h() / 2.f;
-                        pos.y = g1.min.y + g1.h() / 2.f;
-                    }
-                    /*nvg.beginPath();
-                    nvg.circle(pos, g1.h() / 2.f);
-                    nvg.fillColor(style->getColor(isChecked() ? getCheckedColorRole() : ColorRole::Button));
-                    nvg.fill();*/
+                        const float b = style->getMetric(Style::MetricsRole::Border);
+                        const float m = style->getMetric(Style::MetricsRole::Margin);
+                        const BBox2f& g = getGeometry();
+                        const glm::vec2 c = g.getCenter();
 
-                    // Draw the hovered state.
-                    /*if (_isHovered())
-                    {
-                        nvg.beginPath();
-                        nvg.circle(pos, g1.h() / 2.f);
-                        nvg.fillColor(style->getColor(ColorRole::Hover));
+                        BBox2f g1;
+                        g1.min.x = c.x - (_p->lineHeight * toggleWidth) / 2.f;
+                        g1.min.y = c.y - (_p->lineHeight * toggleHeight) / 2.f;
+                        g1.max.x = g1.min.x + _p->lineHeight * toggleWidth;
+                        g1.max.y = g1.min.y + _p->lineHeight * toggleHeight;
+
+                        // Draw the background.
+                        BBox2f g2 = g1.margin(-b / 2.f);
+                        /*nvg.beginPath();
+                        nvg.roundedRect(g2, g2.h() / 2.f);
+                        nvg.fillColor(style->getColor(ColorRole::Trough));
                         nvg.fill();
-                    }*/
+                        nvg.strokeColor(style->getColor(ColorRole::Border));
+                        nvg.stroke();*/
+
+                        // Draw the button handle.
+                        glm::vec2 pos = glm::vec2(0.f, 0.f);
+                        if (isChecked())
+                        {
+                            pos.x = g1.max.x - g1.h() / 2.f;
+                            pos.y = g1.min.y + g1.h() / 2.f;
+                        }
+                        else
+                        {
+                            pos.x = g1.min.x + g1.h() / 2.f;
+                            pos.y = g1.min.y + g1.h() / 2.f;
+                        }
+                        /*nvg.beginPath();
+                        nvg.circle(pos, g1.h() / 2.f);
+                        nvg.fillColor(style->getColor(isChecked() ? getCheckedColorRole() : ColorRole::Button));
+                        nvg.fill();*/
+
+                        // Draw the hovered state.
+                        /*if (_isHovered())
+                        {
+                            nvg.beginPath();
+                            nvg.circle(pos, g1.h() / 2.f);
+                            nvg.fillColor(style->getColor(ColorRole::Hover));
+                            nvg.fill();
+                        }*/
+                    }
                 }
             }
-        }
 
+        } // namespace Button
     } // namespace UI
 } // namespace Gp

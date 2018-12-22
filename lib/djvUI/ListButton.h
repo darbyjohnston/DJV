@@ -11,47 +11,50 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a button widget for use in lists.
-        class ListButton : public IButton
+        namespace Button
         {
-            DJV_NON_COPYABLE(ListButton);
+            //! This class provides a button widget for use in lists.
+            class List : public IButton
+            {
+                DJV_NON_COPYABLE(List);
 
-        protected:
-            void _init(const std::string& text, Core::Context *);
-            ListButton();
+            protected:
+                void _init(const std::string& text, Core::Context *);
+                List();
 
-        public:
-            virtual ~ListButton();
+            public:
+                virtual ~List();
 
-            static std::shared_ptr<ListButton> create(Core::Context *);
-            static std::shared_ptr<ListButton> create(const std::string&, Core::Context *);
+                static std::shared_ptr<List> create(Core::Context *);
+                static std::shared_ptr<List> create(const std::string&, Core::Context *);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+                const std::string& getText() const;
+                void setText(const std::string&);
 
-            TextHAlign getTextHAlign() const;
-            TextVAlign getTextVAlign() const;
-            void setTextHAlign(TextHAlign);
-            void setTextVAlign(TextVAlign);
+                TextHAlign getTextHAlign() const;
+                TextVAlign getTextVAlign() const;
+                void setTextHAlign(TextHAlign);
+                void setTextVAlign(TextVAlign);
 
-            ColorRole getTextColorRole() const;
-            void setTextColorRole(ColorRole);
+                Style::ColorRole getTextColorRole() const;
+                void setTextColorRole(Style::ColorRole);
 
-            const std::string & getFontFace() const;
-            MetricsRole getFontSizeRole() const;
-            void setFontFace(const std::string &);
-            void setFontSizeRole(MetricsRole);
+                const std::string & getFontFace() const;
+                Style::MetricsRole getFontSizeRole() const;
+                void setFontFace(const std::string &);
+                void setFontSizeRole(Style::MetricsRole);
 
-            float getHeightForWidth(float) const override;
+                float getHeightForWidth(float) const override;
 
-            void updateEvent(Core::Event::Update&) override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
+                void updateEvent(Core::Event::Update&) override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Button
     } // namespace UI
 } // namespace djv

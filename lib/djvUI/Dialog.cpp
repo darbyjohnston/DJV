@@ -52,148 +52,151 @@ namespace djv
 {
     namespace UI
     {
-        namespace
+        namespace Dialog
         {
-            class DialogWidget : public StackLayout
+            namespace
             {
-                DJV_NON_COPYABLE(DialogWidget);
-
-            protected:
-                void _init(Context * context)
+                class DialogWidget : public Layout::Stack
                 {
-                    StackLayout::_init(context);
-                    
-                    setBackgroundRole(ColorRole::Background);
-                    setHAlign(HAlign::Center);
-                    setVAlign(VAlign::Center);
-                    setMargin(MetricsRole::Margin);
-                }
+                    DJV_NON_COPYABLE(DialogWidget);
 
-                DialogWidget()
-                {}
-
-            public:
-                static std::shared_ptr<DialogWidget> create(Context * context)
-                {
-                    auto out = std::shared_ptr<DialogWidget>(new DialogWidget);
-                    out->_init(context);
-                    return out;
-                }
-
-                void preLayoutEvent(Event::PreLayout& event) override
-                {
-                    StackLayout::preLayoutEvent(event);
-                    if (auto style = _getStyle().lock())
+                protected:
+                    void _init(Context * context)
                     {
-                        const auto size = style->getMetric(MetricsRole::Dialog);
-                        const auto minimumSize = getMinimumSize();
-                        _setMinimumSize(glm::vec2(std::max(size, minimumSize.x), minimumSize.y));
+                        Stack::_init(context);
+
+                        setBackgroundRole(Style::ColorRole::Background);
+                        setHAlign(HAlign::Center);
+                        setVAlign(VAlign::Center);
+                        setMargin(Style::MetricsRole::Margin);
                     }
-                }
-            };
 
-        } // namespace
+                    DialogWidget()
+                    {}
 
-        void messageDialog(
-            const std::string & text,
-            const std::string & closeText,
-            const std::shared_ptr<Window> & window)
-        {
-            auto context = window->getContext();
+                public:
+                    static std::shared_ptr<DialogWidget> create(Context * context)
+                    {
+                        auto out = std::shared_ptr<DialogWidget>(new DialogWidget);
+                        out->_init(context);
+                        return out;
+                    }
 
-            auto textBlock = TextBlock::create(context);
-            textBlock->setText(text);
-            textBlock->setTextHAlign(TextHAlign::Center);
-            textBlock->setMargin(MetricsRole::Margin);
+                    void preLayoutEvent(Event::PreLayout& event) override
+                    {
+                        Stack::preLayoutEvent(event);
+                        if (auto style = _getStyle().lock())
+                        {
+                            const auto size = style->getMetric(Style::MetricsRole::Dialog);
+                            const auto minimumSize = getMinimumSize();
+                            _setMinimumSize(glm::vec2(std::max(size, minimumSize.x), minimumSize.y));
+                        }
+                    }
+                };
 
-            auto closeButton = PushButton::create(context);
-            closeButton->setText(closeText);
+            } // namespace
 
-            auto layout = VerticalLayout::create(context);
-            layout->setBackgroundRole(ColorRole::Background);
-            layout->setMargin(MetricsRole::Margin);
-            layout->setVAlign(VAlign::Center);
-            layout->addWidget(textBlock);
-            layout->addWidget(closeButton);
-
-            auto dialogWidget = DialogWidget::create(context);
-            dialogWidget->addWidget(layout);
-
-            auto overlay = Overlay::create(context);
-            overlay->setBackgroundRole(ColorRole::Overlay);
-            overlay->addWidget(dialogWidget);
-            window->addWidget(overlay);
-
-            overlay->show();
-
-            closeButton->setClickedCallback(
-                [overlay]
+            void message(
+                const std::string & text,
+                const std::string & closeText,
+                const std::shared_ptr<Window> & window)
             {
-                overlay->close();
-            });
-            overlay->setCloseCallback(
-                [window, overlay]
+                auto context = window->getContext();
+
+                auto textBlock = TextBlock::create(context);
+                textBlock->setText(text);
+                textBlock->setTextHAlign(TextHAlign::Center);
+                textBlock->setMargin(Style::MetricsRole::Margin);
+
+                auto closeButton = Button::Push::create(context);
+                closeButton->setText(closeText);
+
+                auto layout = Layout::VerticalLayout::create(context);
+                layout->setBackgroundRole(Style::ColorRole::Background);
+                layout->setMargin(Style::MetricsRole::Margin);
+                layout->setVAlign(VAlign::Center);
+                layout->addWidget(textBlock);
+                layout->addWidget(closeButton);
+
+                auto dialogWidget = DialogWidget::create(context);
+                dialogWidget->addWidget(layout);
+
+                auto overlay = Layout::Overlay::create(context);
+                overlay->setBackgroundRole(Style::ColorRole::Overlay);
+                overlay->addWidget(dialogWidget);
+                window->addWidget(overlay);
+
+                overlay->show();
+
+                closeButton->setClickedCallback(
+                    [overlay]
+                {
+                    overlay->close();
+                });
+                overlay->setCloseCallback(
+                    [window, overlay]
+                {
+                    window->removeWidget(overlay);
+                });
+            }
+
+            void confirmation(
+                const std::string & text,
+                const std::string & acceptText,
+                const std::string & cancelText,
+                const std::shared_ptr<Window> & window,
+                const std::function<void(bool)> & callback)
             {
-                window->removeWidget(overlay);
-            });
-        }
+                auto context = window->getContext();
 
-        void confirmationDialog(
-            const std::string & text,
-            const std::string & acceptText,
-            const std::string & cancelText,
-            const std::shared_ptr<Window> & window,
-            const std::function<void(bool)> & callback)
-        {
-            auto context = window->getContext();
+                auto textBlock = TextBlock::create(context);
+                textBlock->setText(text);
+                textBlock->setTextHAlign(TextHAlign::Center);
+                textBlock->setMargin(Style::MetricsRole::Margin);
 
-            auto textBlock = TextBlock::create(context);
-            textBlock->setText(text);
-            textBlock->setTextHAlign(TextHAlign::Center);
-            textBlock->setMargin(MetricsRole::Margin);
+                auto acceptButton = Button::Push::create(context);
+                acceptButton->setText(acceptText);
 
-            auto acceptButton = PushButton::create(context);
-            acceptButton->setText(acceptText);
+                auto cancelButton = Button::Push::create(context);
+                cancelButton->setText(cancelText);
 
-            auto cancelButton = PushButton::create(context);
-            cancelButton->setText(cancelText);
+                auto layout = Layout::VerticalLayout::create(context);
+                layout->addWidget(textBlock);
+                auto hLayout = Layout::HorizontalLayout::create(context);
+                hLayout->setHAlign(HAlign::Center);
+                hLayout->addWidget(acceptButton);
+                hLayout->addWidget(cancelButton);
+                layout->addWidget(hLayout);
 
-            auto layout = VerticalLayout::create(context);
-            layout->addWidget(textBlock);
-            auto hLayout = HorizontalLayout::create(context);
-            hLayout->setHAlign(HAlign::Center);
-            hLayout->addWidget(acceptButton);
-            hLayout->addWidget(cancelButton);
-            layout->addWidget(hLayout);
+                auto dialogWidget = DialogWidget::create(context);
+                dialogWidget->addWidget(layout);
 
-            auto dialogWidget = DialogWidget::create(context);
-            dialogWidget->addWidget(layout);
+                auto overlay = Layout::Overlay::create(context);
+                overlay->setBackgroundRole(Style::ColorRole::Overlay);
+                overlay->addWidget(dialogWidget);
+                window->addWidget(overlay);
 
-            auto overlay = Overlay::create(context);
-            overlay->setBackgroundRole(ColorRole::Overlay);
-            overlay->addWidget(dialogWidget);
-            window->addWidget(overlay);
+                overlay->show();
 
-            overlay->show();
+                acceptButton->setClickedCallback(
+                    [overlay, callback]
+                {
+                    overlay->close();
+                    callback(true);
+                });
+                cancelButton->setClickedCallback(
+                    [overlay, callback]
+                {
+                    overlay->close();
+                    callback(false);
+                });
+                overlay->setCloseCallback(
+                    [window, overlay]
+                {
+                    window->removeWidget(overlay);
+                });
+            }
 
-            acceptButton->setClickedCallback(
-                [overlay, callback]
-            {
-                overlay->close();
-                callback(true);
-            });
-            cancelButton->setClickedCallback(
-                [overlay, callback]
-            {
-                overlay->close();
-                callback(false);
-            });
-            overlay->setCloseCallback(
-                [window, overlay]
-            {
-                window->removeWidget(overlay);
-            });
-        }
-
+        } // namespace Dialog
     } // namespace UI
 } // namespace djv

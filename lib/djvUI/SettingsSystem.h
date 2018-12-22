@@ -46,37 +46,40 @@ namespace djv
 
     namespace UI
     {
-        class ISettings;
-
-        //! This class provides a system for saving and restoring user settings.
-        //!
-        //! \bug How can we merge settings changes from multiple application instances?
-        class SettingsSystem : public Core::ISystem
+        namespace Settings
         {
-            DJV_NON_COPYABLE(SettingsSystem);
-            void _init(Core::Context *);
-            SettingsSystem();
+            class ISettings;
 
-        public:
-            virtual ~SettingsSystem();
+            //! This class provides a system for saving and restoring user settings.
+            //!
+            //! \bug How can we merge settings changes from multiple application instances?
+            class System : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(System);
+                void _init(Core::Context *);
+                System();
 
-            //! Create a new settings system.
-            static std::shared_ptr<SettingsSystem> create(Core::Context *);
+            public:
+                virtual ~System();
 
-        private:
-            void _addSettings(const std::shared_ptr<ISettings>&);
-            void _removeSettings(const std::shared_ptr<ISettings>&);
+                //! Create a new settings system.
+                static std::shared_ptr<System> create(Core::Context *);
 
-            void _loadSettings(const std::shared_ptr<ISettings>&);
-            void _saveSettings();
+            private:
+                void _addSettings(const std::shared_ptr<ISettings>&);
+                void _removeSettings(const std::shared_ptr<ISettings>&);
 
-            void _readSettingsFile(const Core::FileSystem::Path&, std::map<std::string, picojson::value>&);
-            void _writeSettingsFile(const Core::FileSystem::Path&, const picojson::value&);
+                void _loadSettings(const std::shared_ptr<ISettings>&);
+                void _saveSettings();
 
-            DJV_PRIVATE();
+                void _readSettingsFile(const Core::FileSystem::Path&, std::map<std::string, picojson::value>&);
+                void _writeSettingsFile(const Core::FileSystem::Path&, const picojson::value&);
 
-            friend class ISettings;
-        };
+                DJV_PRIVATE();
 
+                friend class ISettings;
+            };
+
+        } // namespace Settings
     } // namespace UI
 } // namespace djv

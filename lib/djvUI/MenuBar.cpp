@@ -43,7 +43,7 @@ namespace djv
     {
         namespace
         {
-            class MenuBarButton : public IButton
+            class MenuBarButton : public Button::IButton
             {
                 DJV_NON_COPYABLE(MenuBarButton);
 
@@ -65,7 +65,7 @@ namespace djv
 
             private:
                 std::shared_ptr<Label> _label;
-                std::shared_ptr<StackLayout> _layout;
+                std::shared_ptr<Layout::Stack> _layout;
             };
 
             void MenuBarButton::_init(const std::string& text, Context * context)
@@ -75,10 +75,10 @@ namespace djv
                 setClassName("Gp::UI::MenuBarButton");
 
                 _label = Label::create(text, context);
-                _label->setMargin(Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                _label->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 _label->setVisible(!text.empty());
 
-                _layout = StackLayout::create(context);
+                _layout = Layout::Stack::create(context);
                 _layout->addWidget(_label);
                 _layout->setParent(shared_from_this());
             }
@@ -127,7 +127,7 @@ namespace djv
         struct MenuBar::Private
         {
             std::vector<std::shared_ptr<Menu> > menus;
-            std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<Layout::HorizontalLayout> layout;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<MenuBarButton> > menusToButtons;
         };
 
@@ -137,8 +137,8 @@ namespace djv
             
             setClassName("djv::UI::MenuBar");
 
-            _p->layout = HorizontalLayout::create(context);
-            _p->layout->setSpacing(MetricsRole::None);
+            _p->layout = Layout::HorizontalLayout::create(context);
+            _p->layout->setSpacing(Style::MetricsRole::None);
             _p->layout->setParent(shared_from_this());
         }
 

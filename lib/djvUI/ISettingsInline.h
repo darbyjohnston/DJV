@@ -31,85 +31,88 @@ namespace djv
 {
     namespace UI
     {
-        template<typename T>
-        inline void ISettings::_read(const std::string& name, const picojson::object& object, T& out)
+        namespace Settings
         {
-            const auto i = object.find(name);
-            if (i != object.end())
+            template<typename T>
+            inline void ISettings::_read(const std::string& name, const picojson::object& object, T& out)
             {
-                try
+                const auto i = object.find(name);
+                if (i != object.end())
                 {
-                    fromJSON(i->second, out);
-                }
-                catch (const std::exception& e)
-                {
-                    _readError(name, e.what());
+                    try
+                    {
+                        fromJSON(i->second, out);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _readError(name, e.what());
+                    }
                 }
             }
-        }
 
-        template<typename T>
-        inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::ValueSubject<T> >& out)
-        {
-            const auto i = object.find(name);
-            if (i != object.end())
+            template<typename T>
+            inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::ValueSubject<T> >& out)
             {
-                try
+                const auto i = object.find(name);
+                if (i != object.end())
                 {
-                    T v;
-                    fromJSON(i->second, v);
-                    out->setIfChanged(v);
-                }
-                catch (const std::exception& e)
-                {
-                    _readError(name, e.what());
+                    try
+                    {
+                        T v;
+                        fromJSON(i->second, v);
+                        out->setIfChanged(v);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _readError(name, e.what());
+                    }
                 }
             }
-        }
 
-        template<typename T>
-        inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::ListSubject<T> >& out)
-        {
-            const auto i = object.find(name);
-            if (i != object.end())
+            template<typename T>
+            inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::ListSubject<T> >& out)
             {
-                try
+                const auto i = object.find(name);
+                if (i != object.end())
                 {
-                    std::vector<T> v;
-                    fromJSON(i->second, v);
-                    out->setIfChanged(v);
-                }
-                catch (const std::exception& e)
-                {
-                    _readError(name, e.what());
+                    try
+                    {
+                        std::vector<T> v;
+                        fromJSON(i->second, v);
+                        out->setIfChanged(v);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _readError(name, e.what());
+                    }
                 }
             }
-        }
 
-        template<typename T, typename U>
-        inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::MapSubject<T, U> >& out)
-        {
-            const auto i = object.find(name);
-            if (i != object.end())
+            template<typename T, typename U>
+            inline void ISettings::_read(const std::string& name, const picojson::object& object, std::shared_ptr<Core::MapSubject<T, U> >& out)
             {
-                try
+                const auto i = object.find(name);
+                if (i != object.end())
                 {
-                    std::map<T, U> v;
-                    fromJSON(i->second, v);
-                    out->setIfChanged(v);
-                }
-                catch (const std::exception& e)
-                {
-                    _readError(name, e.what());
+                    try
+                    {
+                        std::map<T, U> v;
+                        fromJSON(i->second, v);
+                        out->setIfChanged(v);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _readError(name, e.what());
+                    }
                 }
             }
-        }
 
-        template<typename T>
-        inline void ISettings::_write(const std::string& name, const T& value, picojson::object& out)
-        {
-            out[name] = toJSON(value);
-        }
+            template<typename T>
+            inline void ISettings::_write(const std::string& name, const T& value, picojson::object& out)
+            {
+                out[name] = toJSON(value);
+            }
 
+        } // namespace Settings
     } // namespace UI
 } // namespace djv

@@ -42,8 +42,8 @@ namespace djv
         struct PlaybackWidget::Private
         {
             std::shared_ptr<ValueSubject<Playback> > playback;
-            std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::shared_ptr<UI::HorizontalLayout> layout;
+            std::shared_ptr<UI::Button::Group> buttonGroup;
+            std::shared_ptr<UI::Layout::HorizontalLayout> layout;
         };
         
         void PlaybackWidget::_init(Context * context)
@@ -53,20 +53,20 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.playback = ValueSubject<Playback>::create();
 
-            auto stopButton = UI::ToolButton::create(context);
+            auto stopButton = UI::Button::Tool::create(context);
             stopButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackStop90DPI.png"));
-            auto forwardButton = UI::ToolButton::create(context);
+            auto forwardButton = UI::Button::Tool::create(context);
             forwardButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackForward90DPI.png"));
-            auto reverseButton = UI::ToolButton::create(context);
+            auto reverseButton = UI::Button::Tool::create(context);
             reverseButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
 
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            p.buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
             p.buttonGroup->addButton(stopButton);
             p.buttonGroup->addButton(forwardButton);
             p.buttonGroup->addButton(reverseButton);
 
-            p.layout = UI::HorizontalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout = UI::Layout::HorizontalLayout::create(context);
+            p.layout->setSpacing(UI::Style::MetricsRole::None);
             p.layout->addWidget(reverseButton);
             p.layout->addWidget(stopButton);
             p.layout->addWidget(forwardButton);

@@ -46,9 +46,9 @@ namespace djv
             std::string text;
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
-            ColorRole textColorRole = ColorRole::Foreground;
+            Style::ColorRole textColorRole = Style::ColorRole::Foreground;
             std::string fontFace = AV::Font::Info::defaultFace;
-            MetricsRole fontSizeRole = MetricsRole::FontMedium;
+            Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
             float minimumWidth = 0.f;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
@@ -112,12 +112,12 @@ namespace djv
             _p->textVAlign = value;
         }
             
-        ColorRole Label::getTextColorRole() const
+        Style::ColorRole Label::getTextColorRole() const
         {
             return _p->textColorRole;
         }
 
-        void Label::setTextColorRole(ColorRole value)
+        void Label::setTextColorRole(Style::ColorRole value)
         {
             _p->textColorRole = value;
         }
@@ -127,7 +127,7 @@ namespace djv
             return _p->fontFace;
         }
 
-        MetricsRole Label::getFontSizeRole() const
+        Style::MetricsRole Label::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -137,7 +137,7 @@ namespace djv
             _p->fontFace = value;
         }
 
-        void Label::setFontSizeRole(MetricsRole value)
+        void Label::setFontSizeRole(Style::MetricsRole value)
         {
             _p->fontSizeRole = value;
         }

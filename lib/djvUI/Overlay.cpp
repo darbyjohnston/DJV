@@ -45,195 +45,198 @@ namespace djv
 {
     namespace UI
     {
-        struct Overlay::Private
+        namespace Layout
         {
-            bool capturePointer = true;
-            bool captureKeyboard = true;
-            bool fadeIn = true;
-            std::shared_ptr<StackLayout> layout;
-            std::shared_ptr<Animation::Animation> fadeAnimation;
-            std::function<void(void)> closeCallback;
-        };
-
-        void Overlay::_init(Context * context)
-        {
-            IContainerWidget::_init(context);
-            
-            setClassName("djv::UI::Overlay");
-            setVisible(false);
-            setOpacity(0.f);
-            setBackgroundRole(ColorRole::Overlay);
-            setPointerEnabled(_p->capturePointer);
-
-            auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);
-            auto closeAction = Action::create();
-            closeAction->setShortcut(closeShortcut);
-            addAction(closeAction);
-
-            _p->layout = StackLayout::create(context);
-            IContainerWidget::addWidget(_p->layout);
-
-            _p->fadeAnimation = Animation::Animation::create(context);
-
-            auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
-            closeShortcut->setCallback(
-                [weak]
+            struct Overlay::Private
             {
-                if (auto overlay = weak.lock())
-                {
-                    overlay->close();
-                }
-            });
-        }
+                bool capturePointer = true;
+                bool captureKeyboard = true;
+                bool fadeIn = true;
+                std::shared_ptr<Stack> layout;
+                std::shared_ptr<Animation::Animation> fadeAnimation;
+                std::function<void(void)> closeCallback;
+            };
 
-        Overlay::Overlay() :
-            _p(new Private)
-        {}
-
-        Overlay::~Overlay()
-        {}
-
-        std::shared_ptr<Overlay> Overlay::create(Context * context)
-        {
-            auto out = std::shared_ptr<Overlay>(new Overlay);
-            out->_init(context);
-            return out;
-        }
-
-        bool Overlay::hasCapturePointer() const
-        {
-            return _p->capturePointer;
-        }
-
-        bool Overlay::hasCaptureKeyboard() const
-        {
-            return _p->captureKeyboard;
-        }
-
-        void Overlay::setCapturePointer(bool value)
-        {
-            _p->capturePointer = value;
-            setPointerEnabled(value);
-        }
-
-        void Overlay::setCaptureKeyboard(bool value)
-        {
-            _p->captureKeyboard = value;
-        }
-
-        bool Overlay::hasFadeIn() const
-        {
-            return _p->fadeIn;
-        }
-
-        void Overlay::setFadeIn(bool value)
-        {
-            _p->fadeIn = value;
-        }
-
-        void Overlay::close()
-        {
-            if (_p->closeCallback)
+            void Overlay::_init(Context * context)
             {
-                _p->closeCallback();
-            }
-        }
+                IContainer::_init(context);
 
-        void Overlay::setCloseCallback(const std::function<void(void)> & callback)
-        {
-            _p->closeCallback = callback;
-        }
-
-        void Overlay::addWidget(const std::shared_ptr<Widget>& value)
-        {
-            _p->layout->addWidget(value);
-        }
-
-        void Overlay::removeWidget(const std::shared_ptr<Widget>& value)
-        {
-            _p->layout->removeWidget(value);
-        }
-
-        void Overlay::clearWidgets()
-        {
-            _p->layout->clearWidgets();
-        }
-
-        void Overlay::setVisible(bool value)
-        {
-            IContainerWidget::setVisible(value);
-            if (_p->fadeIn && _p->fadeAnimation)
-            {
+                setClassName("djv::UI::Layout::Overlay");
+                setVisible(false);
                 setOpacity(0.f);
-                if (value)
+                setBackgroundRole(Style::ColorRole::Overlay);
+                setPointerEnabled(_p->capturePointer);
+
+                auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);
+                auto closeAction = Action::create();
+                closeAction->setShortcut(closeShortcut);
+                addAction(closeAction);
+
+                _p->layout = Stack::create(context);
+                IContainer::addWidget(_p->layout);
+
+                _p->fadeAnimation = Animation::Animation::create(context);
+
+                auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
+                closeShortcut->setCallback(
+                    [weak]
                 {
-                    auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
-                    _p->fadeAnimation->start(
-                        getOpacity(),
-                        1.f,
-                        std::chrono::milliseconds(100),
-                        [weak](float value)
+                    if (auto overlay = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setOpacity(value);
-                        }
-                    },
-                        [weak](float value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setOpacity(value);
-                        }
-                    });
+                        overlay->close();
+                    }
+                });
+            }
+
+            Overlay::Overlay() :
+                _p(new Private)
+            {}
+
+            Overlay::~Overlay()
+            {}
+
+            std::shared_ptr<Overlay> Overlay::create(Context * context)
+            {
+                auto out = std::shared_ptr<Overlay>(new Overlay);
+                out->_init(context);
+                return out;
+            }
+
+            bool Overlay::hasCapturePointer() const
+            {
+                return _p->capturePointer;
+            }
+
+            bool Overlay::hasCaptureKeyboard() const
+            {
+                return _p->captureKeyboard;
+            }
+
+            void Overlay::setCapturePointer(bool value)
+            {
+                _p->capturePointer = value;
+                setPointerEnabled(value);
+            }
+
+            void Overlay::setCaptureKeyboard(bool value)
+            {
+                _p->captureKeyboard = value;
+            }
+
+            bool Overlay::hasFadeIn() const
+            {
+                return _p->fadeIn;
+            }
+
+            void Overlay::setFadeIn(bool value)
+            {
+                _p->fadeIn = value;
+            }
+
+            void Overlay::close()
+            {
+                if (_p->closeCallback)
+                {
+                    _p->closeCallback();
                 }
             }
-            else
+
+            void Overlay::setCloseCallback(const std::function<void(void)> & callback)
             {
-                setOpacity(1.f);
+                _p->closeCallback = callback;
             }
-        }
 
-        float Overlay::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
-
-        void Overlay::preLayoutEvent(Event::PreLayout& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void Overlay::layoutEvent(Event::Layout& event)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void Overlay::buttonPressEvent(Event::ButtonPress& event)
-        {
-            if (_p->capturePointer)
+            void Overlay::addWidget(const std::shared_ptr<Widget>& value)
             {
-                event.accept();
-                close();
+                _p->layout->addWidget(value);
             }
-        }
 
-        void Overlay::keyPressEvent(Event::KeyPress& event)
-        {
-            Widget::keyPressEvent(event);
-            if (_p->captureKeyboard)
+            void Overlay::removeWidget(const std::shared_ptr<Widget>& value)
             {
-                event.accept();
+                _p->layout->removeWidget(value);
             }
-        }
 
-        void Overlay::keyReleaseEvent(Event::KeyRelease& event)
-        {
-            if (_p->captureKeyboard)
+            void Overlay::clearWidgets()
             {
-                event.accept();
+                _p->layout->clearWidgets();
             }
-        }
 
+            void Overlay::setVisible(bool value)
+            {
+                IContainer::setVisible(value);
+                if (_p->fadeIn && _p->fadeAnimation)
+                {
+                    setOpacity(0.f);
+                    if (value)
+                    {
+                        auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
+                        _p->fadeAnimation->start(
+                            getOpacity(),
+                            1.f,
+                            std::chrono::milliseconds(100),
+                            [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setOpacity(value);
+                            }
+                        },
+                            [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setOpacity(value);
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    setOpacity(1.f);
+                }
+            }
+
+            float Overlay::getHeightForWidth(float value) const
+            {
+                return _p->layout->getHeightForWidth(value);
+            }
+
+            void Overlay::preLayoutEvent(Event::PreLayout& event)
+            {
+                _setMinimumSize(_p->layout->getMinimumSize());
+            }
+
+            void Overlay::layoutEvent(Event::Layout& event)
+            {
+                _p->layout->setGeometry(getGeometry());
+            }
+
+            void Overlay::buttonPressEvent(Event::ButtonPress& event)
+            {
+                if (_p->capturePointer)
+                {
+                    event.accept();
+                    close();
+                }
+            }
+
+            void Overlay::keyPressEvent(Event::KeyPress& event)
+            {
+                Widget::keyPressEvent(event);
+                if (_p->captureKeyboard)
+                {
+                    event.accept();
+                }
+            }
+
+            void Overlay::keyReleaseEvent(Event::KeyRelease& event)
+            {
+                if (_p->captureKeyboard)
+                {
+                    event.accept();
+                }
+            }
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

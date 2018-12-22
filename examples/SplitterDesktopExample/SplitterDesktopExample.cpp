@@ -48,13 +48,13 @@ int main(int argc, char ** argv)
 
         auto textBlock1 = UI::TextBlock::create(app.get());
         textBlock1->setText(Core::String::getRandomText(100));
-        textBlock1->setFontSizeRole(UI::MetricsRole::FontLarge);
-        textBlock1->setMargin(UI::MetricsRole::Margin);
+        textBlock1->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+        textBlock1->setMargin(UI::Style::MetricsRole::Margin);
 
         auto textBlock2 = UI::TextBlock::create(app.get());
         textBlock2->setText(Core::String::getRandomText(100));
-        textBlock2->setFontSizeRole(UI::MetricsRole::FontLarge);
-        textBlock2->setMargin(UI::MetricsRole::Margin);
+        textBlock2->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+        textBlock2->setMargin(UI::Style::MetricsRole::Margin);
 
         auto scrollWidget1 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
         scrollWidget1->addWidget(textBlock1);
@@ -62,7 +62,7 @@ int main(int argc, char ** argv)
         auto scrollWidget2 = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
         scrollWidget2->addWidget(textBlock2);
 
-        auto splitter = UI::Splitter::create(UI::Orientation::Horizontal, app.get());
+        auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app.get());
         splitter->addWidget(scrollWidget1);
         splitter->addWidget(scrollWidget2);
 

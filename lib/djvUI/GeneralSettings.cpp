@@ -40,68 +40,71 @@ namespace djv
 {
     namespace UI
     {
-        struct GeneralSettings::Private
+        namespace Settings
         {
-            std::shared_ptr<ValueSubject<std::string> > currentLocale;
-        };
-
-        void GeneralSettings::_init(Context * context)
-        {
-            ISettings::_init("Gp::UI::GeneralSettings", context);
-            if (auto textSystem = context->getSystemT<Core::TextSystem>().lock())
+            struct General::Private
             {
-                _p->currentLocale = ValueSubject<std::string>::create(textSystem->getCurrentLocale());
-            }
-            _load();
-        }
+                std::shared_ptr<ValueSubject<std::string> > currentLocale;
+            };
 
-        GeneralSettings::GeneralSettings() :
-            _p(new Private)
-        {}
-
-        GeneralSettings::~GeneralSettings()
-        {}
-
-        std::shared_ptr<GeneralSettings> GeneralSettings::create(Context * context)
-        {
-            auto out = std::shared_ptr<GeneralSettings>(new GeneralSettings);
-            out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<IValueSubject<std::string> > GeneralSettings::getCurrentLocale() const
-        {
-            return _p->currentLocale;
-        }
-
-        void GeneralSettings::setCurrentLocale(const std::string& value)
-        {
-            if (_p->currentLocale->setIfChanged(value))
+            void General::_init(Context * context)
             {
-                if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
+                ISettings::_init("Gp::UI::Settings::General", context);
+                if (auto textSystem = context->getSystemT<Core::TextSystem>().lock())
                 {
-                    textSystem->setCurrentLocale(value);
+                    _p->currentLocale = ValueSubject<std::string>::create(textSystem->getCurrentLocale());
+                }
+                _load();
+            }
+
+            General::General() :
+                _p(new Private)
+            {}
+
+            General::~General()
+            {}
+
+            std::shared_ptr<General> General::create(Context * context)
+            {
+                auto out = std::shared_ptr<General>(new General);
+                out->_init(context);
+                return out;
+            }
+
+            std::shared_ptr<IValueSubject<std::string> > General::getCurrentLocale() const
+            {
+                return _p->currentLocale;
+            }
+
+            void General::setCurrentLocale(const std::string& value)
+            {
+                if (_p->currentLocale->setIfChanged(value))
+                {
+                    if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
+                    {
+                        textSystem->setCurrentLocale(value);
+                    }
                 }
             }
-        }
 
-        void GeneralSettings::load(const picojson::value& value)
-        {
-            if (value.is<picojson::object>())
+            void General::load(const picojson::value& value)
             {
-                const auto& object = value.get<picojson::object>();
-                _read("CurrentLocale", object, _p->currentLocale);
+                if (value.is<picojson::object>())
+                {
+                    const auto& object = value.get<picojson::object>();
+                    _read("CurrentLocale", object, _p->currentLocale);
+                }
             }
-        }
 
-        picojson::value GeneralSettings::save()
-        {
-            picojson::value out(picojson::object_type, true);
-            auto& object = out.get<picojson::object>();
-            _write("CurrentLocale", _p->currentLocale->get(), object);
-            return out;
-        }
+            picojson::value General::save()
+            {
+                picojson::value out(picojson::object_type, true);
+                auto& object = out.get<picojson::object>();
+                _write("CurrentLocale", _p->currentLocale->get(), object);
+                return out;
+            }
 
+        } // namespace Settings
     } // namespace UI
 } // namespace djv
 

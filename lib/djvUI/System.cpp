@@ -49,10 +49,9 @@ namespace djv
         struct System::Private
         {
             std::vector<std::shared_ptr<ISystem> > uiSystems;
-            std::shared_ptr<GeneralSettings> generalSettings;
-            std::shared_ptr<FontSettings> fontSettings;
-            std::shared_ptr<StyleSettings> styleSettings;
-            std::shared_ptr<Style> style;
+            std::shared_ptr<Settings::General> generalSettings;
+            std::shared_ptr<Settings::Font> fontSettings;
+            std::shared_ptr<Style::Style> style;
         };
 
         void System::_init(Context * context)
@@ -60,13 +59,12 @@ namespace djv
             ISystem::_init("djv::UI::System", context);
             
             _p->uiSystems.push_back(AV::System::create(context));
-            _p->uiSystems.push_back(SettingsSystem::create(context));
+            _p->uiSystems.push_back(Settings::System::create(context));
             
-            _p->generalSettings = GeneralSettings::create(context);
-            _p->fontSettings = FontSettings::create(context);
-            _p->styleSettings = StyleSettings::create(context);
+            _p->generalSettings = Settings::General::create(context);
+            _p->fontSettings = Settings::Font::create(context);
             
-            _p->uiSystems.push_back(_p->style = Style::create(context));
+            _p->uiSystems.push_back(_p->style = Style::Style::create(context));
         }
 
         System::System() :
@@ -89,22 +87,17 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<GeneralSettings> System::getGeneralSettings() const
+        const std::shared_ptr<Settings::General> System::getGeneralSettings() const
         {
             return _p->generalSettings;
         }
 
-        const std::shared_ptr<FontSettings> System::getFontSettings() const
+        const std::shared_ptr<Settings::Font> System::getFontSettings() const
         {
             return _p->fontSettings;
         }
 
-        const std::shared_ptr<StyleSettings> System::getStyleSettings() const
-        {
-            return _p->styleSettings;
-        }
-
-        const std::shared_ptr<Style> System::getStyle() const
+        const std::shared_ptr<Style::Style> System::getStyle() const
         {
             return _p->style;
         }

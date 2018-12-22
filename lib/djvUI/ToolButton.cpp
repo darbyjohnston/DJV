@@ -43,119 +43,122 @@ namespace djv
 {
     namespace UI
     {
-        struct ToolButton::Private
+        namespace Button
         {
-            std::shared_ptr<Icon> icon;
-            std::shared_ptr<StackLayout> layout;
-        };
-
-        void ToolButton::_init(Context * context)
-        {
-            IButton::_init(context);
-
-            setClassName("Gp::UI::ToolButton");
-
-            _p->icon = Icon::create(context);
-            _p->icon->setVAlign(VAlign::Center);
-            _p->icon->hide();
-
-            _p->layout = StackLayout::create(context);
-            _p->layout->setMargin(MetricsRole::Margin);
-            _p->layout->addWidget(_p->icon);
-            _p->layout->setParent(shared_from_this());
-        }
-
-        ToolButton::ToolButton() :
-            _p(new Private)
-        {}
-
-        ToolButton::~ToolButton()
-        {}
-
-        std::shared_ptr<ToolButton> ToolButton::create(Context * context)
-        {
-            auto out = std::shared_ptr<ToolButton>(new ToolButton);
-            out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<ToolButton> ToolButton::create(const FileSystem::Path& icon, Context * context)
-        {
-            auto out = std::shared_ptr<ToolButton>(new ToolButton);
-            out->_init(context);
-            out->setIcon(icon);
-            return out;
-        }
-
-        const FileSystem::Path& ToolButton::getIcon() const
-        {
-            return _p->icon->getIcon();
-        }
-
-        void ToolButton::setIcon(const FileSystem::Path& value)
-        {
-            _p->icon->setIcon(value);
-            _p->icon->setVisible(!value.isEmpty());
-        }
-
-        const Margin& ToolButton::getInsideMargin() const
-        {
-            return _p->layout->getMargin();
-        }
-
-        void ToolButton::setInsideMargin(const Margin& value)
-        {
-            _p->layout->setMargin(value);
-        }
-
-        float ToolButton::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
-
-        void ToolButton::updateEvent(Event::Update& event)
-        {
-            const auto style = _getStyle();
-            const bool enabled = isEnabled(true);
-            const ColorRole fg = !enabled ? ColorRole::Disabled : (_isToggled() ? ColorRole::CheckedForeground : ColorRole::Foreground);
-            _p->icon->setIconColorRole(fg);
-        }
-
-        void ToolButton::preLayoutEvent(Event::PreLayout& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
-
-        void ToolButton::layoutEvent(Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
-
-        void ToolButton::paintEvent(Event::Paint& event)
-        {
-            Widget::paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
+            struct Tool::Private
             {
-                if (auto style = _getStyle().lock())
+                std::shared_ptr<Icon> icon;
+                std::shared_ptr<Layout::Stack> layout;
+            };
+
+            void Tool::_init(Context * context)
+            {
+                IButton::_init(context);
+
+                setClassName("Gp::UI::Button::Tool");
+
+                _p->icon = Icon::create(context);
+                _p->icon->setVAlign(VAlign::Center);
+                _p->icon->hide();
+
+                _p->layout = Layout::Stack::create(context);
+                _p->layout->setMargin(Style::MetricsRole::Margin);
+                _p->layout->addWidget(_p->icon);
+                _p->layout->setParent(shared_from_this());
+            }
+
+            Tool::Tool() :
+                _p(new Private)
+            {}
+
+            Tool::~Tool()
+            {}
+
+            std::shared_ptr<Tool> Tool::create(Context * context)
+            {
+                auto out = std::shared_ptr<Tool>(new Tool);
+                out->_init(context);
+                return out;
+            }
+
+            std::shared_ptr<Tool> Tool::create(const FileSystem::Path& icon, Context * context)
+            {
+                auto out = std::shared_ptr<Tool>(new Tool);
+                out->_init(context);
+                out->setIcon(icon);
+                return out;
+            }
+
+            const FileSystem::Path& Tool::getIcon() const
+            {
+                return _p->icon->getIcon();
+            }
+
+            void Tool::setIcon(const FileSystem::Path& value)
+            {
+                _p->icon->setIcon(value);
+                _p->icon->setVisible(!value.isEmpty());
+            }
+
+            const Layout::Margin& Tool::getInsideMargin() const
+            {
+                return _p->layout->getMargin();
+            }
+
+            void Tool::setInsideMargin(const Layout::Margin& value)
+            {
+                _p->layout->setMargin(value);
+            }
+
+            float Tool::getHeightForWidth(float value) const
+            {
+                return _p->layout->getHeightForWidth(value);
+            }
+
+            void Tool::updateEvent(Event::Update& event)
+            {
+                const auto style = _getStyle();
+                const bool enabled = isEnabled(true);
+                const Style::ColorRole fg = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                _p->icon->setIconColorRole(fg);
+            }
+
+            void Tool::preLayoutEvent(Event::PreLayout& event)
+            {
+                _setMinimumSize(_p->layout->getMinimumSize());
+            }
+
+            void Tool::layoutEvent(Event::Layout&)
+            {
+                _p->layout->setGeometry(getGeometry());
+            }
+
+            void Tool::paintEvent(Event::Paint& event)
+            {
+                Widget::paintEvent(event);
+                if (auto render = _getRenderSystem().lock())
                 {
-                    const BBox2f& g = getGeometry();
-
-                    // Draw the toggled state.
-                    if (_isToggled())
+                    if (auto style = _getStyle().lock())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
-                        render->drawRectangle(g);
-                    }
+                        const BBox2f& g = getGeometry();
 
-                    // Draw the hovered state.
-                    if (_isHovered())
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
-                        render->drawRectangle(g);
+                        // Draw the toggled state.
+                        if (_isToggled())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(getCheckedColorRole())));
+                            render->drawRectangle(g);
+                        }
+
+                        // Draw the hovered state.
+                        if (_isHovered())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            render->drawRectangle(g);
+                        }
                     }
                 }
             }
-        }
 
+        } // namespace Button
     } // namespace UI
 } // namespace Gp

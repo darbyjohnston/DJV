@@ -47,7 +47,7 @@ namespace djv
         struct Icon::Private
         {
             FileSystem::Path path;
-            ColorRole iconColorRole = ColorRole::Foreground;
+            Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
             std::future<AV::Image::Info> infoFuture;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             AV::Image::Info info;
@@ -101,12 +101,12 @@ namespace djv
             _p->uid = createUID();
         }
 
-        ColorRole Icon::getIconColorRole() const
+        Style::ColorRole Icon::getIconColorRole() const
         {
             return _p->iconColorRole;
         }
 
-        void Icon::setIconColorRole(ColorRole value)
+        void Icon::setIconColorRole(Style::ColorRole value)
         {
             _p->iconColorRole = value;
         }
@@ -175,7 +175,7 @@ namespace djv
                         case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                         default: break;
                         }
-                        if (_p->iconColorRole != ColorRole::None)
+                        if (_p->iconColorRole != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(_p->iconColorRole)));
                             render->drawFilledImage(_p->image, pos, false, _p->uid);

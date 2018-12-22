@@ -35,27 +35,30 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a widget that draw a separator.
-        class Separator : public Widget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(Separator);
+            //! This class provides a widget that draw a separator.
+            class Separator : public Widget
+            {
+                DJV_NON_COPYABLE(Separator);
 
-        protected:
-            void _init(Core::Context *);
-            Separator();
+            protected:
+                void _init(Core::Context *);
+                Separator();
 
-        public:
-            virtual ~Separator();
+            public:
+                virtual ~Separator();
 
-            static std::shared_ptr<Separator> create(Core::Context *);
+                static std::shared_ptr<Separator> create(Core::Context *);
 
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void paintEvent(Core::Event::Paint&) override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void paintEvent(Core::Event::Paint&) override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-        
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

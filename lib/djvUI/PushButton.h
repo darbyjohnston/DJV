@@ -20,52 +20,55 @@ namespace djv
 
     namespace UI
     {
-        //! This class provides a push button widget.
-        class PushButton : public IButton
+        namespace Button
         {
-            DJV_NON_COPYABLE(PushButton);
+            //! This class provides a push button widget.
+            class Push : public IButton
+            {
+                DJV_NON_COPYABLE(Push);
 
-        protected:
-            void _init(Core::Context *);
-            PushButton();
+            protected:
+                void _init(Core::Context *);
+                Push();
 
-        public:
-            virtual ~PushButton();
+            public:
+                virtual ~Push();
 
-            static std::shared_ptr<PushButton> create(Core::Context *);
-            static std::shared_ptr<PushButton> create(const std::string&, Core::Context *);
-            static std::shared_ptr<PushButton> create(const std::string&, const Core::FileSystem::Path& icon, Core::Context *);
+                static std::shared_ptr<Push> create(Core::Context *);
+                static std::shared_ptr<Push> create(const std::string&, Core::Context *);
+                static std::shared_ptr<Push> create(const std::string&, const Core::FileSystem::Path& icon, Core::Context *);
 
-            const Core::FileSystem::Path& getIcon() const;
-            void setIcon(const Core::FileSystem::Path&);
+                const Core::FileSystem::Path& getIcon() const;
+                void setIcon(const Core::FileSystem::Path&);
 
-            const std::string& getText() const;
-            void setText(const std::string&);
+                const std::string& getText() const;
+                void setText(const std::string&);
 
-            TextHAlign getTextHAlign() const;
-            TextVAlign getTextVAlign() const;
-            void setTextHAlign(TextHAlign);
-            void setTextVAlign(TextVAlign);
+                TextHAlign getTextHAlign() const;
+                TextVAlign getTextVAlign() const;
+                void setTextHAlign(TextHAlign);
+                void setTextVAlign(TextVAlign);
 
-            const std::string & getFontFace() const;
-            MetricsRole getFontSizeRole() const;
-            void setFontFace(const std::string &);
-            void setFontSizeRole(MetricsRole);
+                const std::string & getFontFace() const;
+                Style::MetricsRole getFontSizeRole() const;
+                void setFontFace(const std::string &);
+                void setFontSizeRole(Style::MetricsRole);
 
-            const Margin& getInsideMargin() const;
-            void setInsideMargin(const Margin&);
+                const Layout::Margin& getInsideMargin() const;
+                void setInsideMargin(const Layout::Margin&);
 
-            float getHeightForWidth(float) const override;
+                float getHeightForWidth(float) const override;
 
-            void updateEvent(Core::Event::Update&) override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
-            void paintEvent(Core::Event::Paint&) override;
+                void updateEvent(Core::Event::Update&) override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
+                void paintEvent(Core::Event::Paint&) override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Button
     } // namespace UI
 } // namespace djv

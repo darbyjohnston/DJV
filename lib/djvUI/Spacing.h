@@ -36,29 +36,36 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides spacing information.
-        class Spacing
+        namespace Layout
         {
-        public:
-            inline Spacing();
-            inline Spacing(MetricsRole);
-            inline Spacing(MetricsRole horizontal, MetricsRole vertical);
+            //! This class provides spacing information.
+            class Spacing
+            {
+            public:
+                inline Spacing();
+                inline Spacing(Style::MetricsRole);
+                inline Spacing(Style::MetricsRole horizontal, Style::MetricsRole vertical);
 
-            inline void set(MetricsRole);
-            inline void set(MetricsRole horizontal, MetricsRole vertical);
+                inline void set(Style::MetricsRole);
+                inline void set(Style::MetricsRole horizontal, Style::MetricsRole vertical);
 
-            inline glm::vec2 get(const std::shared_ptr<Style>&) const;
-            inline float get(Orientation, const std::shared_ptr<Style>&) const;
+                inline glm::vec2 get(const std::shared_ptr<Style::Style>&) const;
+                inline float get(Orientation, const std::shared_ptr<Style::Style>&) const;
 
-            inline MetricsRole operator [] (Orientation) const;
-            inline MetricsRole& operator [] (Orientation);
+                inline Style::MetricsRole operator [] (Orientation) const;
+                inline Style::MetricsRole& operator [] (Orientation);
 
-            inline bool operator == (const Spacing&) const;
+                inline bool operator == (const Spacing&) const;
 
-        private:
-            MetricsRole _value[2] = { MetricsRole::None, MetricsRole::None };
-        };
+            private:
+                Style::MetricsRole _value[2] =
+                {
+                    Style::MetricsRole::None,
+                    Style::MetricsRole::None
+                };
+            };
 
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
 

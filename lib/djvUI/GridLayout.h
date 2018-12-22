@@ -37,66 +37,69 @@ namespace djv
 {
     namespace UI
     {
-        //! This enumeration provides how widgets use space in a layout.
-        enum class GridLayoutStretch
+        namespace Layout
         {
-            None,
-            Horizontal,
-            Vertical,
-            Both,
-            
-            Count,
-            First = None
-        };
-        DJV_ENUM_HELPERS(GridLayoutStretch);
-        
-        //! This class provides layout that arranges it's children in a grid.
-        //!
-        //! \todo Add the ability for child widgets to span multiple rows and columns.
-        class GridLayout : public Widget
-        {
-            DJV_NON_COPYABLE(GridLayout);
-            
-        protected:
-            void _init(Core::Context *);
-            GridLayout();
+            //! This enumeration provides how widgets use space in a layout.
+            enum class GridStretch
+            {
+                None,
+                Horizontal,
+                Vertical,
+                Both,
 
-        public:
-            virtual ~GridLayout();
+                Count,
+                First = None
+            };
+            DJV_ENUM_HELPERS(GridStretch);
 
-            static std::shared_ptr<GridLayout> create(Core::Context *);
+            //! This class provides layout that arranges it's children in a grid.
+            //!
+            //! \todo Add the ability for child widgets to span multiple rows and columns.
+            class Grid : public Widget
+            {
+                DJV_NON_COPYABLE(Grid);
 
-            void addWidget(const std::shared_ptr<Widget>&, const glm::ivec2&, GridLayoutStretch = GridLayoutStretch::None);
-            void addWidget(const std::shared_ptr<Widget>&, int x, int y, GridLayoutStretch = GridLayoutStretch::None);
-            void removeWidget(const std::shared_ptr<Widget>&);
-            void clearWidgets();
+            protected:
+                void _init(Core::Context *);
+                Grid();
 
-            glm::ivec2 getGridSize() const;
+            public:
+                virtual ~Grid();
 
-            const Spacing& getSpacing() const;
-            void setSpacing(const Spacing&);
-            
-            GridLayoutStretch getStretch(const std::shared_ptr<Widget>&) const;
-            void setStretch(const std::shared_ptr<Widget>&, GridLayoutStretch);
+                static std::shared_ptr<Grid> create(Core::Context *);
 
-            void setRowBackgroundRole(int, ColorRole);
-            void setColumnBackgroundRole(int, ColorRole);
+                void addWidget(const std::shared_ptr<Widget>&, const glm::ivec2&, GridStretch = GridStretch::None);
+                void addWidget(const std::shared_ptr<Widget>&, int x, int y, GridStretch = GridStretch::None);
+                void removeWidget(const std::shared_ptr<Widget>&);
+                void clearWidgets();
 
-            float getHeightForWidth(float) const override;
+                glm::ivec2 getGridSize() const;
 
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
-            void paintEvent(Core::Event::Paint&) override;
+                const Spacing& getSpacing() const;
+                void setSpacing(const Spacing&);
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                GridStretch getStretch(const std::shared_ptr<Widget>&) const;
+                void setStretch(const std::shared_ptr<Widget>&, GridStretch);
 
+                void setRowBackgroundRole(int, Style::ColorRole);
+                void setColumnBackgroundRole(int, Style::ColorRole);
+
+                float getHeightForWidth(float) const override;
+
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
+                void paintEvent(Core::Event::Paint&) override;
+
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+        } // namespace Layout
     } // namespace UI
 
-    DJV_ENUM_SERIALIZE_HELPERS(UI::GridLayoutStretch);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::GridLayoutStretch);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::GridStretch);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::GridStretch);
 
 } // namespace Gp
 

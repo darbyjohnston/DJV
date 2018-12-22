@@ -38,33 +38,42 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides margins.
-        class Margin
+        namespace Layout
         {
-        public:
-            inline Margin();
-            inline Margin(MetricsRole);
-            inline Margin(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
+            //! This class provides margins.
+            class Margin
+            {
+            public:
+                inline Margin();
+                inline Margin(Style::MetricsRole);
+                inline Margin(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom);
 
-            inline void set(MetricsRole);
-            inline void set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
+                inline void set(Style::MetricsRole);
+                inline void set(Style::MetricsRole left, Style::MetricsRole right, Style::MetricsRole top, Style::MetricsRole bottom);
 
-            inline float get(Side, const std::shared_ptr<Style>&) const;
-            inline glm::vec2 getSize(const std::shared_ptr<Style>&) const;
-            inline float getWidth(const std::shared_ptr<Style>&) const;
-            inline float getHeight(const std::shared_ptr<Style>&) const;
+                inline float get(Side, const std::shared_ptr<Style::Style>&) const;
+                inline glm::vec2 getSize(const std::shared_ptr<Style::Style>&) const;
+                inline float getWidth(const std::shared_ptr<Style::Style>&) const;
+                inline float getHeight(const std::shared_ptr<Style::Style>&) const;
 
-            inline Core::BBox2f bbox(const Core::BBox2f&, const std::shared_ptr<Style>&) const;
+                inline Core::BBox2f bbox(const Core::BBox2f&, const std::shared_ptr<Style::Style>&) const;
 
-            inline MetricsRole operator [] (Side) const;
-            inline MetricsRole& operator [] (Side);
-            
-            inline bool operator == (const Margin&) const;
-                    
-        private:
-            MetricsRole _value[4] = { MetricsRole::None, MetricsRole::None, MetricsRole::None, MetricsRole::None };
-        };
+                inline Style::MetricsRole operator [] (Side) const;
+                inline Style::MetricsRole& operator [] (Side);
 
+                inline bool operator == (const Margin&) const;
+
+            private:
+                Style::MetricsRole _value[4] =
+                {
+                    Style::MetricsRole::None,
+                    Style::MetricsRole::None,
+                    Style::MetricsRole::None,
+                    Style::MetricsRole::None
+                };
+            };
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
 

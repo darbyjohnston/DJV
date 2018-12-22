@@ -44,148 +44,151 @@ namespace djv
 {
     namespace UI
     {
-        struct StyleSettings::Private
+        namespace Settings
         {
-            std::shared_ptr<MapSubject<std::string, Palette> > palettes;
-            std::shared_ptr<ValueSubject<Palette> > currentPalette;
-            std::shared_ptr<ValueSubject<std::string> > currentPaletteName;
-            std::shared_ptr<MapSubject<std::string, Metrics> > metrics;
-            std::shared_ptr<ValueSubject<Metrics> > currentMetrics;
-            std::shared_ptr<ValueSubject<std::string> > currentMetricsName;
-        };
-
-        void StyleSettings::_init(Context * context)
-        {
-            ISettings::_init("djv::UI::StyleSettings", context);
-
-            std::map<std::string, Palette> palettes;
-            palettes[DJV_TEXT("Default")] = Palette();
-            auto palette = Palette();
-            palette.setColor(ColorRole::Background, AV::Image::Color(1.f, 1.f, 1.f));
-            palette.setColor(ColorRole::Foreground, AV::Image::Color(.1f, .1f, .1f));
-            palette.setColor(ColorRole::Trough, AV::Image::Color(.9f, .9f, .9f));
-            palette.setColor(ColorRole::Button, AV::Image::Color(.8f, .8f, .8f));
-            palette.setColor(ColorRole::Checked, AV::Image::Color(.3f, .5f, .8f));
-            palette.setColor(ColorRole::CheckedForeground, AV::Image::Color(1.f, 1.f, 1.f));
-            palette.setColor(ColorRole::Hover, AV::Image::Color(0.f, 0.f, 0.f, .05f));
-            palette.setColor(ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f));
-            palette.setColor(ColorRole::Border, AV::Image::Color(.9f, .9f, .9f));
-            palettes[DJV_TEXT("Light")] = palette;
-
-            std::map<std::string, Metrics> metrics;
-            auto m = Metrics();
-            m.setScale(1.f);
-            metrics[DJV_TEXT("Default")] = m;
-            m = Metrics();
-            m.setScale(2.f);
-            metrics[DJV_TEXT("Large")] = m;
-
-            DJV_PRIVATE_PTR();
-            p.palettes = MapSubject<std::string, Palette>::create(palettes);
-            p.currentPalette = ValueSubject<Palette>::create(palettes["Default"]);
-            p.currentPaletteName = ValueSubject<std::string>::create("Default");
-            p.metrics = MapSubject<std::string, Metrics>::create(metrics);
-            p.currentMetrics = ValueSubject<Metrics>::create(metrics["Default"]);
-            p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Default"));
-
-            _load();
-        }
-
-        StyleSettings::StyleSettings() :
-            _p(new Private)
-        {}
-
-        StyleSettings::~StyleSettings()
-        {}
-
-        std::shared_ptr<StyleSettings> StyleSettings::create(Context * context)
-        {
-            auto out = std::shared_ptr<StyleSettings>(new StyleSettings);
-            out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<IMapSubject<std::string, Palette> > StyleSettings::getPalettes() const
-        {
-            return _p->palettes;
-        }
-
-        std::shared_ptr<IValueSubject<Palette> > StyleSettings::getCurrentPalette() const
-        {
-            return _p->currentPalette;
-        }
-
-        std::shared_ptr<IValueSubject<std::string> > StyleSettings::getCurrentPaletteName() const
-        {
-            return _p->currentPaletteName;
-        }
-
-        void StyleSettings::setCurrentPalette(const std::string& name)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.currentPaletteName->setIfChanged(name))
+            struct Style::Private
             {
-                if (auto style = getContext()->getSystemT<Style>().lock())
-                {
-                    style->setPalette(p.palettes->getItem(name));
-                }
-            }
-        }
+                std::shared_ptr<MapSubject<std::string, UI::Style::Palette> > palettes;
+                std::shared_ptr<ValueSubject<UI::Style::Palette> > currentPalette;
+                std::shared_ptr<ValueSubject<std::string> > currentPaletteName;
+                std::shared_ptr<MapSubject<std::string, UI::Style::Metrics> > metrics;
+                std::shared_ptr<ValueSubject<UI::Style::Metrics> > currentMetrics;
+                std::shared_ptr<ValueSubject<std::string> > currentMetricsName;
+            };
 
-        std::shared_ptr<IMapSubject<std::string, Metrics> > StyleSettings::getMetrics() const
-        {
-            return _p->metrics;
-        }
-
-        std::shared_ptr<IValueSubject<Metrics> > StyleSettings::getCurrentMetrics() const
-        {
-            return _p->currentMetrics;
-        }
-
-        std::shared_ptr<IValueSubject<std::string> > StyleSettings::getCurrentMetricsName() const
-        {
-            return _p->currentMetricsName;
-        }
-
-        void StyleSettings::setCurrentMetrics(const std::string& name)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.currentMetricsName->setIfChanged(name))
+            void Style::_init(Context * context)
             {
-                if (auto style = getContext()->getSystemT<Style>().lock())
-                {
-                    style->setMetrics(p.metrics->getItem(name));
-                }
-            }
-        }
+                ISettings::_init("djv::UI::Settings::Style", context);
 
-        void StyleSettings::load(const picojson::value& value)
-        {
-            if (value.is<picojson::object>())
+                std::map<std::string, UI::Style::Palette> palettes;
+                palettes[DJV_TEXT("Default")] = UI::Style::Palette();
+                auto palette = UI::Style::Palette();
+                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(1.f, 1.f, 1.f));
+                palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(.1f, .1f, .1f));
+                palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(.9f, .9f, .9f));
+                palette.setColor(UI::Style::ColorRole::Button, AV::Image::Color(.8f, .8f, .8f));
+                palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(.3f, .5f, .8f));
+                palette.setColor(UI::Style::ColorRole::CheckedForeground, AV::Image::Color(1.f, 1.f, 1.f));
+                palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(0.f, 0.f, 0.f, .05f));
+                palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f));
+                palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(.9f, .9f, .9f));
+                palettes[DJV_TEXT("Light")] = palette;
+
+                std::map<std::string, UI::Style::Metrics> metrics;
+                auto m = UI::Style::Metrics();
+                m.setScale(1.f);
+                metrics[DJV_TEXT("Default")] = m;
+                m = UI::Style::Metrics();
+                m.setScale(2.f);
+                metrics[DJV_TEXT("Large")] = m;
+
+                DJV_PRIVATE_PTR();
+                p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
+                p.currentPalette = ValueSubject<UI::Style::Palette>::create(palettes["Default"]);
+                p.currentPaletteName = ValueSubject<std::string>::create("Default");
+                p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metrics);
+                p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metrics["Default"]);
+                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Default"));
+
+                _load();
+            }
+
+            Style::Style() :
+                _p(new Private)
+            {}
+
+            Style::~Style()
+            {}
+
+            std::shared_ptr<Style> Style::create(Context * context)
+            {
+                auto out = std::shared_ptr<Style>(new Style);
+                out->_init(context);
+                return out;
+            }
+
+            std::shared_ptr<IMapSubject<std::string, UI::Style::Palette> > Style::getPalettes() const
+            {
+                return _p->palettes;
+            }
+
+            std::shared_ptr<IValueSubject<UI::Style::Palette> > Style::getCurrentPalette() const
+            {
+                return _p->currentPalette;
+            }
+
+            std::shared_ptr<IValueSubject<std::string> > Style::getCurrentPaletteName() const
+            {
+                return _p->currentPaletteName;
+            }
+
+            void Style::setCurrentPalette(const std::string& name)
             {
                 DJV_PRIVATE_PTR();
-                const auto& object = value.get<picojson::object>();
-                _read("Palettes", object, p.palettes);
-                _read("CurrentPalette", object, p.currentPaletteName);
-                p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
-                _read("Metrics", object, p.metrics);
-                _read("CurrentMetrics", object, p.currentMetricsName);
-                p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
+                if (p.currentPaletteName->setIfChanged(name))
+                {
+                    if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
+                    {
+                        style->setPalette(p.palettes->getItem(name));
+                    }
+                }
             }
-        }
 
-        picojson::value StyleSettings::save()
-        {
-            DJV_PRIVATE_PTR();
-            picojson::value out(picojson::object_type, true);
-            auto& object = out.get<picojson::object>();
-            _write("Palettes", p.palettes->get(), object);
-            _write("CurrentPalette", p.currentPaletteName->get(), object);
-            _write("Metrics", p.metrics->get(), object);
-            _write("CurrentMetrics", p.currentMetricsName->get(), object);
-            return out;
-        }
+            std::shared_ptr<IMapSubject<std::string, UI::Style::Metrics> > Style::getMetrics() const
+            {
+                return _p->metrics;
+            }
 
+            std::shared_ptr<IValueSubject<UI::Style::Metrics> > Style::getCurrentMetrics() const
+            {
+                return _p->currentMetrics;
+            }
+
+            std::shared_ptr<IValueSubject<std::string> > Style::getCurrentMetricsName() const
+            {
+                return _p->currentMetricsName;
+            }
+
+            void Style::setCurrentMetrics(const std::string& name)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.currentMetricsName->setIfChanged(name))
+                {
+                    if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
+                    {
+                        style->setMetrics(p.metrics->getItem(name));
+                    }
+                }
+            }
+
+            void Style::load(const picojson::value& value)
+            {
+                if (value.is<picojson::object>())
+                {
+                    DJV_PRIVATE_PTR();
+                    const auto& object = value.get<picojson::object>();
+                    _read("Palettes", object, p.palettes);
+                    _read("CurrentPalette", object, p.currentPaletteName);
+                    p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
+                    _read("Metrics", object, p.metrics);
+                    _read("CurrentMetrics", object, p.currentMetricsName);
+                    p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
+                }
+            }
+
+            picojson::value Style::save()
+            {
+                DJV_PRIVATE_PTR();
+                picojson::value out(picojson::object_type, true);
+                auto& object = out.get<picojson::object>();
+                _write("Palettes", p.palettes->get(), object);
+                _write("CurrentPalette", p.currentPaletteName->get(), object);
+                _write("Metrics", p.metrics->get(), object);
+                _write("CurrentMetrics", p.currentMetricsName->get(), object);
+                return out;
+            }
+
+        } // namespace Settings
     } // namespace UI
 } // namespace djv
 

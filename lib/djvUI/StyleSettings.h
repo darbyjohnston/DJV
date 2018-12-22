@@ -39,37 +39,40 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides the style settings.
-        class StyleSettings : public ISettings
+        namespace Settings
         {
-            DJV_NON_COPYABLE(StyleSettings);
+            //! This class provides the style settings.
+            class Style : public ISettings
+            {
+                DJV_NON_COPYABLE(Style);
 
-        protected:
-            void _init(Core::Context * context);
+            protected:
+                void _init(Core::Context * context);
 
-            StyleSettings();
+                Style();
 
-        public:
-            virtual ~StyleSettings();
+            public:
+                virtual ~Style();
 
-            static std::shared_ptr<StyleSettings> create(Core::Context *);
+                static std::shared_ptr<Style> create(Core::Context *);
 
-            std::shared_ptr<Core::IMapSubject<std::string, Palette> > getPalettes() const;
-            std::shared_ptr<Core::IValueSubject<Palette> > getCurrentPalette() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentPaletteName() const;
-            void setCurrentPalette(const std::string&);
+                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Palette> > getPalettes() const;
+                std::shared_ptr<Core::IValueSubject<UI::Style::Palette> > getCurrentPalette() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > getCurrentPaletteName() const;
+                void setCurrentPalette(const std::string&);
 
-            std::shared_ptr<Core::IMapSubject<std::string, Metrics> > getMetrics() const;
-            std::shared_ptr<Core::IValueSubject<Metrics> > getCurrentMetrics() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentMetricsName() const;
-            void setCurrentMetrics(const std::string&);
+                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Metrics> > getMetrics() const;
+                std::shared_ptr<Core::IValueSubject<UI::Style::Metrics> > getCurrentMetrics() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > getCurrentMetricsName() const;
+                void setCurrentMetrics(const std::string&);
 
-            void load(const picojson::value&) override;
-            picojson::value save() override;
+                void load(const picojson::value&) override;
+                picojson::value save() override;
 
-        private:
-            DJV_PRIVATE();
-        };
+            private:
+                DJV_PRIVATE();
+            };
 
+        } // namespace Settings
     } // namespace UI
 } // namespace djv

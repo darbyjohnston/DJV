@@ -13,42 +13,45 @@ namespace djv
 {
     namespace UI
     {
-        class IButton;
-
-        //! This class manages a group of buttons.
-        class ButtonGroup : public std::enable_shared_from_this<ButtonGroup>
+        namespace Button
         {
-            DJV_NON_COPYABLE(ButtonGroup);
+            class IButton;
 
-        protected:
-            ButtonGroup();
+            //! This class manages a group of buttons.
+            class Group : public std::enable_shared_from_this<Group>
+            {
+                DJV_NON_COPYABLE(Group);
 
-        public:
-            ~ButtonGroup();
+            protected:
+                Group();
 
-            static std::shared_ptr<ButtonGroup> create(ButtonType);
+            public:
+                ~Group();
 
-            const std::vector<std::shared_ptr<IButton> >& getButtons() const;
-            size_t getButtonCount() const;
-            int getButtonIndex(const std::shared_ptr<IButton>&) const;
-            void addButton(const std::shared_ptr<IButton>&);
-            void removeButton(const std::shared_ptr<IButton>&);
-            void clearButtons();
+                static std::shared_ptr<Group> create(ButtonType);
 
-            ButtonType getButtonType() const;
-            void setButtonType(ButtonType);
+                const std::vector<std::shared_ptr<IButton> >& getButtons() const;
+                size_t getButtonCount() const;
+                int getButtonIndex(const std::shared_ptr<IButton>&) const;
+                void addButton(const std::shared_ptr<IButton>&);
+                void removeButton(const std::shared_ptr<IButton>&);
+                void clearButtons();
 
-            int getChecked() const;
-            void setChecked(int, bool = true);
+                ButtonType getButtonType() const;
+                void setButtonType(ButtonType);
 
-            void setClickedCallback(const std::function<void(int)>&);
-            void setCheckedCallback(const std::function<void(int, bool)>&);
-            void setRadioCallback(const std::function<void(int)>&);
+                int getChecked() const;
+                void setChecked(int, bool = true);
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                void setClickedCallback(const std::function<void(int)>&);
+                void setCheckedCallback(const std::function<void(int, bool)>&);
+                void setRadioCallback(const std::function<void(int)>&);
 
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+        } // namespace Button
     } // namespace UI
 } // namespace djv

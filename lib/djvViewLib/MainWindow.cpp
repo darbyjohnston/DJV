@@ -136,11 +136,11 @@ namespace djv
 
             _p->tabWidget = UI::TabWidget::create(context);
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            auto layout = UI::Layout::VerticalLayout::create(context);
+            layout->setSpacing(UI::Style::MetricsRole::None);
             layout->addWidget(_p->menuBar);
             layout->addSeparator();
-            layout->addWidget(_p->tabWidget, UI::RowLayoutStretch::Expand);
+            layout->addWidget(_p->tabWidget, UI::Layout::RowStretch::Expand);
             addWidget(layout);
 
             //_p->canvas = UI::MDI::Canvas::create(context);
@@ -160,7 +160,7 @@ namespace djv
             {
                 if (auto mainWindow = weak.lock())
                 {
-                    UI::confirmationDialog(
+                    UI::Dialog::confirmation(
                         DJV_TEXT("Are you sure you want to exit?"),
                         DJV_TEXT("Yes"),
                         DJV_TEXT("No"),

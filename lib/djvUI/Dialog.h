@@ -39,20 +39,24 @@ namespace djv
     {
         class Window;
 
-        //! Show a message dialog.
-        void messageDialog(
-            const std::string & text,
-            const std::string & closeText,
-            const std::shared_ptr<Window> & window);
+        //! This namespace provides dialogs.
+        namespace Dialog
+        {
+            //! Show a message dialog.
+            void message(
+                const std::string & text,
+                const std::string & closeText,
+                const std::shared_ptr<Window> & window);
 
-        //! Show a confirmation dialog.
-        void confirmationDialog(
-            const std::string & text,
-            const std::string & acceptText,
-            const std::string & cancelText,
-            const std::shared_ptr<Window> & window,
-            const std::function<void(bool)> & callback);
+            //! Show a confirmation dialog.
+            void confirmation(
+                const std::string & text,
+                const std::string & acceptText,
+                const std::string & cancelText,
+                const std::shared_ptr<Window> & window,
+                const std::function<void(bool)> & callback);
 
+        } // namespace Dialog
     } // namespace UI
 } // namespace djv
 

@@ -37,87 +37,90 @@ namespace djv
 {
     namespace UI
     {
-        //! This enumeration provides how widgets use space in a layout.
-        enum class RowLayoutStretch
+        namespace Layout
         {
-            None,
-            Expand,
-            
-            Count,
-            First = None
-        };
-        DJV_ENUM_HELPERS(RowLayoutStretch);
-        
-        //! This class provides a layout that arranges it's children in a row.
-        class RowLayout : public Widget
-        {
-            DJV_NON_COPYABLE(RowLayout);
-            
-        protected:
-            void _init(Orientation, Core::Context *);
-            RowLayout();
+            //! This enumeration provides how widgets use space in a layout.
+            enum class RowStretch
+            {
+                None,
+                Expand,
 
-        public:
-            virtual ~RowLayout();
+                Count,
+                First = None
+            };
+            DJV_ENUM_HELPERS(RowStretch);
 
-            static std::shared_ptr<RowLayout> create(Orientation, Core::Context *);
+            //! This class provides a layout that arranges it's children in a row.
+            class Row : public Widget
+            {
+                DJV_NON_COPYABLE(Row);
 
-            void addWidget(const std::shared_ptr<Widget>&, RowLayoutStretch = RowLayoutStretch::None);
-            void insertWidget(const std::shared_ptr<Widget>&, int index, RowLayoutStretch = RowLayoutStretch::None);
-            void removeWidget(const std::shared_ptr<Widget>&);
-            void clearWidgets();
-            
-            void addSeparator();
-            void addSpacer();
-            void addExpander();
+            protected:
+                void _init(Orientation, Core::Context *);
+                Row();
 
-            Orientation getOrientation() const;
-            void setOrientation(Orientation);
+            public:
+                virtual ~Row();
 
-            const Spacing& getSpacing() const;
-            void setSpacing(const Spacing&);
-            
-            RowLayoutStretch getStretch(const std::shared_ptr<Widget>&) const;
-            void setStretch(const std::shared_ptr<Widget>&, RowLayoutStretch);
-            
-            float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
+                static std::shared_ptr<Row> create(Orientation, Core::Context *);
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                void addWidget(const std::shared_ptr<Widget>&, RowStretch = RowStretch::None);
+                void insertWidget(const std::shared_ptr<Widget>&, int index, RowStretch = RowStretch::None);
+                void removeWidget(const std::shared_ptr<Widget>&);
+                void clearWidgets();
 
-        //! This class provides a layout that arranges it's children in a horizontal row.
-        class HorizontalLayout : public RowLayout
-        {
-            DJV_NON_COPYABLE(HorizontalLayout);
+                void addSeparator();
+                void addSpacer();
+                void addExpander();
 
-        protected:
-            void _init(Core::Context *);
-            HorizontalLayout();
+                Orientation getOrientation() const;
+                void setOrientation(Orientation);
 
-        public:
-            static std::shared_ptr<HorizontalLayout> create(Core::Context *);
-        };
+                const Spacing& getSpacing() const;
+                void setSpacing(const Spacing&);
 
-        //! This class provides a layout that arranges it's children in a vertical row.
-        class VerticalLayout : public RowLayout
-        {
-            DJV_NON_COPYABLE(VerticalLayout);
+                RowStretch getStretch(const std::shared_ptr<Widget>&) const;
+                void setStretch(const std::shared_ptr<Widget>&, RowStretch);
 
-        protected:
-            void _init(Core::Context *);
-            VerticalLayout();
+                float getHeightForWidth(float) const override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
 
-        public:
-            static std::shared_ptr<VerticalLayout> create(Core::Context *);
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+            //! This class provides a layout that arranges it's children in a horizontal row.
+            class HorizontalLayout : public Row
+            {
+                DJV_NON_COPYABLE(HorizontalLayout);
+
+            protected:
+                void _init(Core::Context *);
+                HorizontalLayout();
+
+            public:
+                static std::shared_ptr<HorizontalLayout> create(Core::Context *);
+            };
+
+            //! This class provides a layout that arranges it's children in a vertical row.
+            class VerticalLayout : public Row
+            {
+                DJV_NON_COPYABLE(VerticalLayout);
+
+            protected:
+                void _init(Core::Context *);
+                VerticalLayout();
+
+            public:
+                static std::shared_ptr<VerticalLayout> create(Core::Context *);
+            };
+
+        } // namespace Layout
     } // namespace UI
 
-    DJV_ENUM_SERIALIZE_HELPERS(UI::RowLayoutStretch);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::RowLayoutStretch);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Layout::RowStretch);
 
 } // namespace Gp

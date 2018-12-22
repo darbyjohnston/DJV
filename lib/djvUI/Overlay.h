@@ -29,54 +29,57 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides an overlay widget for capturing pointer and key events.
-        class Overlay : public IContainerWidget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(Overlay);
+            //! This class provides an overlay widget for capturing pointer and key events.
+            class Overlay : public IContainer
+            {
+                DJV_NON_COPYABLE(Overlay);
 
-        protected:
-            void _init(Core::Context *);
-            Overlay();
+            protected:
+                void _init(Core::Context *);
+                Overlay();
 
-        public:
-            virtual ~Overlay();
-            static std::shared_ptr<Overlay> create(Core::Context *);
+            public:
+                virtual ~Overlay();
+                static std::shared_ptr<Overlay> create(Core::Context *);
 
-            bool hasCapturePointer() const;
-            bool hasCaptureKeyboard() const;
-            void setCapturePointer(bool);
-            void setCaptureKeyboard(bool);
+                bool hasCapturePointer() const;
+                bool hasCaptureKeyboard() const;
+                void setCapturePointer(bool);
+                void setCaptureKeyboard(bool);
 
-            bool hasFadeIn() const;
-            void setFadeIn(bool);
+                bool hasFadeIn() const;
+                void setFadeIn(bool);
 
-            void close();
-            void setCloseCallback(const std::function<void(void)> &);
+                void close();
+                void setCloseCallback(const std::function<void(void)> &);
 
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
-            void clearWidgets() override;
+                void addWidget(const std::shared_ptr<Widget>&) override;
+                void removeWidget(const std::shared_ptr<Widget>&) override;
+                void clearWidgets() override;
 
-            void setVisible(bool) override;
-            float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
+                void setVisible(bool) override;
+                float getHeightForWidth(float) const override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
 
-            void buttonPressEvent(Core::Event::ButtonPress&) override;
-            void keyPressEvent(Core::Event::KeyPress&) override;
-            void keyReleaseEvent(Core::Event::KeyRelease&) override;
+                void buttonPressEvent(Core::Event::ButtonPress&) override;
+                void keyPressEvent(Core::Event::KeyPress&) override;
+                void keyReleaseEvent(Core::Event::KeyRelease&) override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
 

@@ -35,90 +35,93 @@ namespace djv
 {
     namespace UI
     {
-        struct Spacer::Private
+        namespace Layout
         {
-            Orientation orientation = Orientation::First;
-            MetricsRole spacerSize = MetricsRole::Spacing;
-        };
-
-        void Spacer::_init(Context * context)
-        {
-            Widget::_init(context);
-            
-            setClassName("djv::UI::Spacer");
-        }
-        
-        Spacer::Spacer() :
-            _p(new Private)
-        {}
-
-        Spacer::~Spacer()
-        {}
-
-        std::shared_ptr<Spacer> Spacer::create(Orientation orientation, Context * context)
-        {
-            auto out = std::shared_ptr<Spacer>(new Spacer);
-            out->_init(context);
-            out->setOrientation(orientation);
-            return out;
-        }
-
-        Orientation Spacer::getOrientation() const
-        {
-            return _p->orientation;
-        }
-
-        void Spacer::setOrientation(Orientation value)
-        {
-            _p->orientation = value;
-        }
-
-        MetricsRole Spacer::getSpacerSize() const
-        {
-            return _p->spacerSize;
-        }
-
-        void Spacer::setSpacerSize(MetricsRole value)
-        {
-            _p->spacerSize = value;
-        }
-
-        void Spacer::preLayoutEvent(Event::PreLayout& event)
-        {
-            if (auto style = _getStyle().lock())
+            struct Spacer::Private
             {
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                switch (_p->orientation)
-                {
-                case Orientation::Horizontal: minimumSize.x = style->getMetric(_p->spacerSize); break;
-                case Orientation::Vertical:   minimumSize.y = style->getMetric(_p->spacerSize); break;
-                default: break;
-                }
-                _setMinimumSize(minimumSize);
+                Orientation orientation = Orientation::First;
+                Style::MetricsRole spacerSize = Style::MetricsRole::Spacing;
+            };
+
+            void Spacer::_init(Context * context)
+            {
+                Widget::_init(context);
+
+                setClassName("djv::UI::Layout::Spacer");
             }
-        }
 
-        HorizontalSpacer::HorizontalSpacer()
-        {}
+            Spacer::Spacer() :
+                _p(new Private)
+            {}
 
-        std::shared_ptr<HorizontalSpacer> HorizontalSpacer::create(Context * context)
-        {
-            auto out = std::shared_ptr<HorizontalSpacer>(new HorizontalSpacer);
-            out->_init(context);
-            out->setOrientation(Orientation::Horizontal);
-            return out;
-        }
+            Spacer::~Spacer()
+            {}
 
-        VerticalSpacer::VerticalSpacer()
-        {}
+            std::shared_ptr<Spacer> Spacer::create(Orientation orientation, Context * context)
+            {
+                auto out = std::shared_ptr<Spacer>(new Spacer);
+                out->_init(context);
+                out->setOrientation(orientation);
+                return out;
+            }
 
-        std::shared_ptr<VerticalSpacer> VerticalSpacer::create(Context * context)
-        {
-            auto out = std::shared_ptr<VerticalSpacer>(new VerticalSpacer);
-            out->_init(context);
-            out->setOrientation(Orientation::Vertical);
-            return out;
-        }
+            Orientation Spacer::getOrientation() const
+            {
+                return _p->orientation;
+            }
 
+            void Spacer::setOrientation(Orientation value)
+            {
+                _p->orientation = value;
+            }
+
+            Style::MetricsRole Spacer::getSpacerSize() const
+            {
+                return _p->spacerSize;
+            }
+
+            void Spacer::setSpacerSize(Style::MetricsRole value)
+            {
+                _p->spacerSize = value;
+            }
+
+            void Spacer::preLayoutEvent(Event::PreLayout& event)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                    switch (_p->orientation)
+                    {
+                    case Orientation::Horizontal: minimumSize.x = style->getMetric(_p->spacerSize); break;
+                    case Orientation::Vertical:   minimumSize.y = style->getMetric(_p->spacerSize); break;
+                    default: break;
+                    }
+                    _setMinimumSize(minimumSize);
+                }
+            }
+
+            HorizontalSpacer::HorizontalSpacer()
+            {}
+
+            std::shared_ptr<HorizontalSpacer> HorizontalSpacer::create(Context * context)
+            {
+                auto out = std::shared_ptr<HorizontalSpacer>(new HorizontalSpacer);
+                out->_init(context);
+                out->setOrientation(Orientation::Horizontal);
+                return out;
+            }
+
+            VerticalSpacer::VerticalSpacer()
+            {}
+
+            std::shared_ptr<VerticalSpacer> VerticalSpacer::create(Context * context)
+            {
+                auto out = std::shared_ptr<VerticalSpacer>(new VerticalSpacer);
+                out->_init(context);
+                out->setOrientation(Orientation::Vertical);
+                return out;
+            }
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

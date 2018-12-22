@@ -76,7 +76,7 @@ namespace djv
             return getMinimumSize().y;
         }
 
-        inline const Margin& Widget::getMargin() const
+        inline const Layout::Margin& Widget::getMargin() const
         {
             return _margin;
         }
@@ -91,7 +91,7 @@ namespace djv
             return _vAlign;
         }
 
-        inline ColorRole Widget::getBackgroundRole() const
+        inline Style::ColorRole Widget::getBackgroundRole() const
         {
             return _backgroundRole;
         }
@@ -116,7 +116,7 @@ namespace djv
             return _renderSystem;
         }
 
-        inline const std::weak_ptr<Style>& Widget::_getStyle() const
+        inline const std::weak_ptr<Style::Style>& Widget::_getStyle() const
         {
             return _style;
         }

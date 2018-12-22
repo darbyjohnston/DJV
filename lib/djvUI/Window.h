@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
@@ -38,7 +38,7 @@ namespace djv
         class IWindowSystem;
 
         //! This class provides a top-level window.
-        class Window : public IContainerWidget
+        class Window : public Layout::IContainer
         {
             DJV_NON_COPYABLE(Window);
             

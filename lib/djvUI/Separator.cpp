@@ -37,56 +37,59 @@ namespace djv
 {
     namespace UI
     {
-        struct Separator::Private
+        namespace Layout
         {
-            float width = 0.f;
-            AV::Image::Color color;
-        };
-
-        void Separator::_init(Context * context)
-        {
-            Widget::_init(context);
-            
-            setClassName("djv::UI::Separator");
-        }
-        
-        Separator::Separator() :
-            _p(new Private)
-        {}
-
-        Separator::~Separator()
-        {}
-
-        std::shared_ptr<Separator> Separator::create(Context * context)
-        {
-            auto out = std::shared_ptr<Separator>(new Separator);
-            out->_init(context);
-            return out;
-        }
-
-        void Separator::preLayoutEvent(Event::PreLayout& event)
-        {
-            if (auto style = _getStyle().lock())
+            struct Separator::Private
             {
-                _p->width = style->getMetric(MetricsRole::Border);
-                _p->color = style->getColor(ColorRole::Border);
+                float width = 0.f;
+                AV::Image::Color color;
+            };
 
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                minimumSize += _p->width;
-                _setMinimumSize(minimumSize);
-            }
-        }
-
-        void Separator::paintEvent(Event::Paint& event)
-        {
-            Widget::paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
+            void Separator::_init(Context * context)
             {
-                const BBox2f& g = getGeometry();
-                render->setFillColor(_getColorWithOpacity(_p->color));
-                render->drawRectangle(g);
-            }
-        }
+                Widget::_init(context);
 
+                setClassName("djv::UI::Layout::Separator");
+            }
+
+            Separator::Separator() :
+                _p(new Private)
+            {}
+
+            Separator::~Separator()
+            {}
+
+            std::shared_ptr<Separator> Separator::create(Context * context)
+            {
+                auto out = std::shared_ptr<Separator>(new Separator);
+                out->_init(context);
+                return out;
+            }
+
+            void Separator::preLayoutEvent(Event::PreLayout& event)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    _p->width = style->getMetric(Style::MetricsRole::Border);
+                    _p->color = style->getColor(Style::ColorRole::Border);
+
+                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                    minimumSize += _p->width;
+                    _setMinimumSize(minimumSize);
+                }
+            }
+
+            void Separator::paintEvent(Event::Paint& event)
+            {
+                Widget::paintEvent(event);
+                if (auto render = _getRenderSystem().lock())
+                {
+                    const BBox2f& g = getGeometry();
+                    render->setFillColor(_getColorWithOpacity(_p->color));
+                    render->drawRectangle(g);
+                }
+            }
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

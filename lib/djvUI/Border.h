@@ -29,49 +29,52 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides a widget that draws a border.
-        class Border : public IContainerWidget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(Border);
+            //! This class provides a widget that draws a border.
+            class Border : public IContainer
+            {
+                DJV_NON_COPYABLE(Border);
 
-        protected:
-            void _init(Core::Context *);
-            Border();
+            protected:
+                void _init(Core::Context *);
+                Border();
 
-        public:
-            virtual ~Border();
+            public:
+                virtual ~Border();
 
-            static std::shared_ptr<Border> create(Core::Context *);
+                static std::shared_ptr<Border> create(Core::Context *);
 
-            MetricsRole getBorderSize() const;
-            void setBorderSize(MetricsRole);
-            
-            ColorRole getBorderColorRole() const;
-            void setBorderColorRole(ColorRole);
+                Style::MetricsRole getBorderSize() const;
+                void setBorderSize(Style::MetricsRole);
 
-            const Margin& getInsideMargin() const;
-            void setInsideMargin(const Margin&);
+                Style::ColorRole getBorderColorRole() const;
+                void setBorderColorRole(Style::ColorRole);
 
-            void addWidget(const std::shared_ptr<Widget>&) override;
-            void removeWidget(const std::shared_ptr<Widget>&) override;
-            void clearWidgets() override;
+                const Margin& getInsideMargin() const;
+                void setInsideMargin(const Margin&);
 
-            float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
-            void paintEvent(Core::Event::Paint&) override;
+                void addWidget(const std::shared_ptr<Widget>&) override;
+                void removeWidget(const std::shared_ptr<Widget>&) override;
+                void clearWidgets() override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                float getHeightForWidth(float) const override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
+                void paintEvent(Core::Event::Paint&) override;
 
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
 

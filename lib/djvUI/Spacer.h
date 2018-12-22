@@ -35,56 +35,59 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a spacer for use in layouts.
-        class Spacer : public Widget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(Spacer);
+            //! This class provides a spacer for use in layouts.
+            class Spacer : public Widget
+            {
+                DJV_NON_COPYABLE(Spacer);
 
-        protected:
-            void _init(Core::Context *);
-            Spacer();
+            protected:
+                void _init(Core::Context *);
+                Spacer();
 
-        public:
-            virtual ~Spacer();
+            public:
+                virtual ~Spacer();
 
-            static std::shared_ptr<Spacer> create(Orientation, Core::Context *);
+                static std::shared_ptr<Spacer> create(Orientation, Core::Context *);
 
-            Orientation getOrientation() const;
-            void setOrientation(Orientation);
+                Orientation getOrientation() const;
+                void setOrientation(Orientation);
 
-            MetricsRole getSpacerSize() const;
-            void setSpacerSize(MetricsRole);
+                Style::MetricsRole getSpacerSize() const;
+                void setSpacerSize(Style::MetricsRole);
 
-            void preLayoutEvent(Core::Event::PreLayout&) override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
-        //! This class provides a horizontal spacer for use in layouts.
-        class HorizontalSpacer : public Spacer
-        {
-            DJV_NON_COPYABLE(HorizontalSpacer);
+            //! This class provides a horizontal spacer for use in layouts.
+            class HorizontalSpacer : public Spacer
+            {
+                DJV_NON_COPYABLE(HorizontalSpacer);
 
-        protected:
-            HorizontalSpacer();
+            protected:
+                HorizontalSpacer();
 
-        public:
-            static std::shared_ptr<HorizontalSpacer> create(Core::Context *);
-        };
+            public:
+                static std::shared_ptr<HorizontalSpacer> create(Core::Context *);
+            };
 
-        //! This class provides a vertical spacer for use in layouts.
-        class VerticalSpacer : public Spacer
-        {
-            DJV_NON_COPYABLE(VerticalSpacer);
+            //! This class provides a vertical spacer for use in layouts.
+            class VerticalSpacer : public Spacer
+            {
+                DJV_NON_COPYABLE(VerticalSpacer);
 
-        protected:
-            VerticalSpacer();
+            protected:
+                VerticalSpacer();
 
-        public:
-            static std::shared_ptr<VerticalSpacer> create(Core::Context *);
-        };
+            public:
+                static std::shared_ptr<VerticalSpacer> create(Core::Context *);
+            };
 
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

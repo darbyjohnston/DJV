@@ -69,7 +69,7 @@ namespace djv
             _iconSystem = context->getSystemT<AV::Image::IconSystem>();
             _fontSystem = context->getSystemT<AV::Font::System>();
             _renderSystem = context->getSystemT<AV::Render::Render2DSystem>();
-            _style = context->getSystemT<Style>();
+            _style = context->getSystemT<Style::Style>();
         }
 
         Widget::Widget()
@@ -153,7 +153,7 @@ namespace djv
             setGeometry(BBox2f(_geometry.min, _geometry.min + value));
         }
 
-        void Widget::setMargin(const Margin& value)
+        void Widget::setMargin(const Layout::Margin& value)
         {
             _margin = value;
         }
@@ -217,7 +217,7 @@ namespace djv
             return BBox2f(x, y, w, h);
         }
 
-        void Widget::setBackgroundRole(ColorRole value)
+        void Widget::setBackgroundRole(Style::ColorRole value)
         {
             _backgroundRole = value;
         }
@@ -310,7 +310,7 @@ namespace djv
 
         void Widget::paintEvent(Event::Paint& event)
         {
-            if (_backgroundRole != ColorRole::None)
+            if (_backgroundRole != Style::ColorRole::None)
             {
                 if (auto render = _renderSystem.lock())
                 {

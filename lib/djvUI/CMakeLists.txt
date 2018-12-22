@@ -11,7 +11,7 @@ set(header
     GeneralSettings.h
     GridLayout.h
     IButton.h
-    IContainerWidget.h
+    IContainer.h
     ISettings.h
     ISettingsInline.h
     IWindowSystem.h
@@ -64,7 +64,7 @@ set(source
     GeneralSettings.cpp
     GridLayout.cpp
     IButton.cpp
-    IContainerWidget.cpp
+    IContainer.cpp
     ISettings.cpp
     IWindowSystem.cpp
     Icon.cpp

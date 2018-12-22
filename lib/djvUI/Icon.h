@@ -62,8 +62,8 @@ namespace djv
             const Core::FileSystem::Path& getIcon() const;
             void setIcon(const Core::FileSystem::Path&);
             
-            ColorRole getIconColorRole() const;
-            void setIconColorRole(ColorRole);
+            Style::ColorRole getIconColorRole() const;
+            void setIconColorRole(Style::ColorRole);
 
             void preLayoutEvent(Core::Event::PreLayout&) override;
             void paintEvent(Core::Event::Paint&) override;

@@ -100,7 +100,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     const BBox2f& hg = _getHandleGeometry();
-                    render->setFillColor(_getColorWithOpacity(style->getColor(UI::ColorRole::Foreground)));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(UI::Style::ColorRole::Foreground)));
                     render->drawRectangle(hg);
                 }
             }

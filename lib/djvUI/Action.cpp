@@ -44,10 +44,10 @@ namespace djv
             std::shared_ptr<ValueSubject<ButtonType> > buttonType;
             std::shared_ptr<ValueSubject<bool> > checked;
             std::shared_ptr<ValueSubject<FileSystem::Path> > icon;
-            std::shared_ptr<ValueSubject<MetricsRole> > iconSizeRole;
+            std::shared_ptr<ValueSubject<Style::MetricsRole> > iconSizeRole;
             std::shared_ptr<ValueSubject<std::string> > text;
             std::shared_ptr<ValueSubject<std::string> > fontFace;
-            std::shared_ptr<ValueSubject<MetricsRole> > fontSizeRole;
+            std::shared_ptr<ValueSubject<Style::MetricsRole> > fontSizeRole;
             std::shared_ptr<Shortcut> shortcut;
             std::shared_ptr<ValueSubject<bool> > enabled;
             std::shared_ptr<ValueSubject<HAlign> > hAlign;
@@ -61,10 +61,10 @@ namespace djv
             _p->buttonType = ValueSubject<ButtonType>::create(ButtonType::Push);
             _p->checked = ValueSubject<bool>::create(false);
             _p->icon = ValueSubject<FileSystem::Path>::create();
-            _p->iconSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::Icon);
+            _p->iconSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::Icon);
             _p->text = ValueSubject<std::string>::create();
             _p->fontFace = ValueSubject<std::string>::create(AV::Font::Info::defaultFace);
-            _p->fontSizeRole = ValueSubject<MetricsRole>::create(MetricsRole::FontMedium);
+            _p->fontSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::FontMedium);
             _p->enabled = ValueSubject<bool>::create(true);
             _p->hAlign = ValueSubject<HAlign>::create(HAlign::Fill);
             _p->vAlign = ValueSubject<VAlign>::create(VAlign::Fill);
@@ -109,12 +109,12 @@ namespace djv
             return _p->icon;
         }
 
-        std::shared_ptr<IValueSubject<MetricsRole> > Action::getIconSizeRole() const
+        std::shared_ptr<IValueSubject<Style::MetricsRole> > Action::getIconSizeRole() const
         {
             return _p->iconSizeRole;
         }
 
-        void Action::setIconSizeRole(MetricsRole value)
+        void Action::setIconSizeRole(Style::MetricsRole value)
         {
             _p->iconSizeRole->setIfChanged(value);
         }
@@ -139,7 +139,7 @@ namespace djv
             return _p->fontFace;
         }
 
-        std::shared_ptr<Core::IValueSubject<MetricsRole> > Action::getFontSizeRole() const
+        std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > Action::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -149,7 +149,7 @@ namespace djv
             _p->fontFace->setIfChanged(value);
         }
 
-        void Action::setFontSizeRole(MetricsRole value)
+        void Action::setFontSizeRole(Style::MetricsRole value)
         {
             _p->fontSizeRole->setIfChanged(value);
         }

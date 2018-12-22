@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
@@ -37,7 +37,7 @@ namespace djv
     {
         namespace MDI
         {
-            class IWindow : public IContainerWidget
+            class IWindow : public Layout::IContainer
             {
                 DJV_NON_COPYABLE(IWindow);
 

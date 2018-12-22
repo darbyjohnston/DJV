@@ -37,30 +37,33 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides general UI settings.
-        class GeneralSettings : public ISettings
+        namespace Settings
         {
-            DJV_NON_COPYABLE(GeneralSettings);
+            //! This class provides general UI settings.
+            class General : public ISettings
+            {
+                DJV_NON_COPYABLE(General);
 
-        protected:
-            void _init(Core::Context *);
-            GeneralSettings();
+            protected:
+                void _init(Core::Context *);
+                General();
 
-        public:
-            virtual ~GeneralSettings();
+            public:
+                virtual ~General();
 
-            static std::shared_ptr<GeneralSettings> create(Core::Context *);
+                static std::shared_ptr<General> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > getCurrentLocale() const;
-            void setCurrentLocale(const std::string&);
+                std::shared_ptr<Core::IValueSubject<std::string> > getCurrentLocale() const;
+                void setCurrentLocale(const std::string&);
 
-            void load(const picojson::value&) override;
-            picojson::value save() override;
+                void load(const picojson::value&) override;
+                picojson::value save() override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Settings
     } // namespace UI
 } // namespace djv

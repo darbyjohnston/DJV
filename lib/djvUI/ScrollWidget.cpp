@@ -162,7 +162,7 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 size = glm::vec2(0.f, 0.f);
-                    size += style->getMetric(MetricsRole::Margin) * 1.5f;
+                    size += style->getMetric(Style::MetricsRole::Margin) * 1.5f;
                     _setMinimumSize(size);
                 }
             }
@@ -177,7 +177,7 @@ namespace djv
                         const BBox2f& g = getGeometry();
 
                         // Draw the background.
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Trough)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Trough)));
                         render->drawRectangle(g);
 
                         // Draw the scroll bar handle.
@@ -195,7 +195,7 @@ namespace djv
                             break;
                         default: break;
                         }
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_pressedId ? ColorRole::Checked : ColorRole::Button)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(_pressedId ? Style::ColorRole::Checked : Style::ColorRole::Button)));
                         render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
 
                         // Draw the hovered state.
@@ -206,7 +206,7 @@ namespace djv
                         }
                         if (hover)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
                             render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
                         }
                     }
@@ -342,7 +342,7 @@ namespace djv
                 return v * _contentsSize;
             }
 
-            class ScrollArea : public IContainerWidget
+            class ScrollArea : public Layout::IContainer
             {
                 DJV_NON_COPYABLE(ScrollArea);
                 
@@ -383,7 +383,7 @@ namespace djv
 
             void ScrollArea::_init(ScrollType scrollType, Context * context)
             {
-                IContainerWidget::_init(context);
+                IContainer::_init(context);
 
                 setClassName("djv::UI::ScrollArea");
 
@@ -546,7 +546,7 @@ namespace djv
             std::shared_ptr<ScrollArea> scrollArea;
             std::shared_ptr<Widget> scrollAreaSwipe;
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
-            std::shared_ptr<Border> border;
+            std::shared_ptr<Layout::Border> border;
             uint32_t pointerId = 0;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
             std::list<glm::vec2> pointerAverage;
@@ -557,10 +557,10 @@ namespace djv
 
         void ScrollWidget::_init(ScrollType scrollType, Context * context)
         {
-            IContainerWidget::_init(context);
+            IContainer::_init(context);
 
             setClassName("djv::UI::ScrollWidget");
-            setBackgroundRole(ColorRole::BackgroundScroll);
+            setBackgroundRole(Style::ColorRole::BackgroundScroll);
 
             _p->scrollType = scrollType;
 
@@ -575,20 +575,20 @@ namespace djv
             _p->scrollBars[Orientation::Horizontal] = ScrollBar::create(Orientation::Horizontal, context);
             _p->scrollBars[Orientation::Vertical] = ScrollBar::create(Orientation::Vertical, context);
 
-            auto stackLayout = StackLayout::create(context);
+            auto stackLayout = Layout::Stack::create(context);
             stackLayout->addWidget(_p->scrollArea);
             stackLayout->addWidget(_p->scrollAreaSwipe);
             
-            auto layout = GridLayout::create(context);
-            layout->setSpacing(MetricsRole::None);
-            layout->addWidget(stackLayout, glm::ivec2(0, 0), GridLayoutStretch::Both);
+            auto layout = Layout::Grid::create(context);
+            layout->setSpacing(Style::MetricsRole::None);
+            layout->addWidget(stackLayout, glm::ivec2(0, 0), Layout::GridStretch::Both);
             layout->addWidget(_p->scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
             layout->addWidget(_p->scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
             
-            _p->border = Border::create(context);
-            _p->border->setBorderSize(MetricsRole::None);
+            _p->border = Layout::Border::create(context);
+            _p->border->setBorderSize(Style::MetricsRole::None);
             _p->border->addWidget(layout);
-            IContainerWidget::addWidget(_p->border);
+            IContainer::addWidget(_p->border);
 
             _updateScrollBars(glm::vec2(0.f, 0.f));
 
@@ -709,12 +709,12 @@ namespace djv
 
         bool ScrollWidget::hasBorder() const
         {
-            return _p->border->getBorderSize() != MetricsRole::None;
+            return _p->border->getBorderSize() != Style::MetricsRole::None;
         }
 
         void ScrollWidget::setBorder(bool value)
         {
-            _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
+            _p->border->setBorderSize(value ? Style::MetricsRole::Border : Style::MetricsRole::None);
         }
 
         void ScrollWidget::addWidget(const std::shared_ptr<Widget>& widget)

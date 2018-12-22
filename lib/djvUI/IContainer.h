@@ -27,38 +27,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/IContainerWidget.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace UI
     {
-        IContainerWidget::IContainerWidget()
-        {}
-
-        IContainerWidget::~IContainerWidget()
-        {}
-
-        void IContainerWidget::addWidget(const std::shared_ptr<Widget>& value)
+        //! This namespace provides layouts.
+        namespace Layout
         {
-            value->setParent(shared_from_this());
-        }
-
-        void IContainerWidget::removeWidget(const std::shared_ptr<Widget>& value)
-        {
-            value->setParent(nullptr);
-        }
-
-        void IContainerWidget::clearWidgets()
-        {
-            auto children = getChildren();
-            for (auto& child : children)
+            //! This class provides an interface for widgets that can contain other widgets.
+            class IContainer : public Widget
             {
-                child->setParent(nullptr);
-            }
-        }
+                DJV_NON_COPYABLE(IContainer);
 
+            protected:
+                IContainer();
+
+            public:
+                virtual ~IContainer() = 0;
+
+                virtual void addWidget(const std::shared_ptr<Widget>&);
+                virtual void removeWidget(const std::shared_ptr<Widget>&);
+                virtual void clearWidgets();
+            };
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
+

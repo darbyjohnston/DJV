@@ -82,7 +82,7 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                const float t = style->getMetric(UI::MetricsRole::Thumbnail);
+                const float t = style->getMetric(UI::Style::MetricsRole::Thumbnail);
                 _setMinimumSize(glm::vec2(t, t) + getMargin().getSize(style));
             }
         }

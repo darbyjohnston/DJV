@@ -43,130 +43,133 @@ namespace djv
 {
     namespace UI
     {
-        struct ListButton::Private
+        namespace Button
         {
-            std::shared_ptr<Label> label;
-            std::shared_ptr<StackLayout> layout;
-        };
+            struct List::Private
+            {
+                std::shared_ptr<Label> label;
+                std::shared_ptr<Layout::Stack> layout;
+            };
 
-        void ListButton::_init(const std::string& text, Context * context)
-        {
-            IButton::_init(context);
-            
-            setClassName("Gp::UI::ListButton");
+            void List::_init(const std::string& text, Context * context)
+            {
+                IButton::_init(context);
 
-            _p->label = Label::create(text, context);
-            _p->label->setMargin(MetricsRole::Margin);
-            _p->label->setVisible(!text.empty());
-            
-            _p->layout = StackLayout::create(context);
-            _p->layout->addWidget(_p->label);
-            _p->layout->setParent(shared_from_this());
-        }
+                setClassName("Gp::UI::Button::List");
 
-        ListButton::ListButton() :
-            _p(new Private)
-        {}
+                _p->label = Label::create(text, context);
+                _p->label->setMargin(Style::MetricsRole::Margin);
+                _p->label->setVisible(!text.empty());
 
-        ListButton::~ListButton()
-        {}
+                _p->layout = Layout::Stack::create(context);
+                _p->layout->addWidget(_p->label);
+                _p->layout->setParent(shared_from_this());
+            }
 
-        std::shared_ptr<ListButton> ListButton::create(Context * context)
-        {
-            auto out = std::shared_ptr<ListButton>(new ListButton);
-            out->_init(std::string(), context);
-            return out;
-        }
+            List::List() :
+                _p(new Private)
+            {}
 
-        std::shared_ptr<ListButton> ListButton::create(const std::string& text, Context * context)
-        {
-            auto out = std::shared_ptr<ListButton>(new ListButton);
-            out->_init(text, context);
-            return out;
-        }
+            List::~List()
+            {}
 
-        const std::string& ListButton::getText() const
-        {
-            return _p->label->getText();
-        }
+            std::shared_ptr<List> List::create(Context * context)
+            {
+                auto out = std::shared_ptr<List>(new List);
+                out->_init(std::string(), context);
+                return out;
+            }
 
-        void ListButton::setText(const std::string& value)
-        {
-            _p->label->setText(value);
-            _p->label->setVisible(!value.empty());
-        }
+            std::shared_ptr<List> List::create(const std::string& text, Context * context)
+            {
+                auto out = std::shared_ptr<List>(new List);
+                out->_init(text, context);
+                return out;
+            }
 
-        TextHAlign ListButton::getTextHAlign() const
-        {
-            return _p->label->getTextHAlign();
-        }
-        
-        TextVAlign ListButton::getTextVAlign() const
-        {
-            return _p->label->getTextVAlign();
-        }
-        
-        void ListButton::setTextHAlign(TextHAlign value)
-        {
-            _p->label->setTextHAlign(value);
-        }
-        
-        void ListButton::setTextVAlign(TextVAlign value)
-        {
-            _p->label->setTextVAlign(value);
-        }
+            const std::string& List::getText() const
+            {
+                return _p->label->getText();
+            }
 
-        ColorRole ListButton::getTextColorRole() const
-        {
-            return _p->label->getTextColorRole();
-        }
+            void List::setText(const std::string& value)
+            {
+                _p->label->setText(value);
+                _p->label->setVisible(!value.empty());
+            }
 
-        void ListButton::setTextColorRole(ColorRole value)
-        {
-            _p->label->setTextColorRole(value);
-        }
+            TextHAlign List::getTextHAlign() const
+            {
+                return _p->label->getTextHAlign();
+            }
 
-        const std::string & ListButton::getFontFace() const
-        {
-            return _p->label->getFontFace();
-        }
+            TextVAlign List::getTextVAlign() const
+            {
+                return _p->label->getTextVAlign();
+            }
 
-        MetricsRole ListButton::getFontSizeRole() const
-        {
-            return _p->label->getFontSizeRole();
-        }
+            void List::setTextHAlign(TextHAlign value)
+            {
+                _p->label->setTextHAlign(value);
+            }
 
-        void ListButton::setFontFace(const std::string & value)
-        {
-            _p->label->setFontFace(value);
-        }
+            void List::setTextVAlign(TextVAlign value)
+            {
+                _p->label->setTextVAlign(value);
+            }
 
-        void ListButton::setFontSizeRole(MetricsRole value)
-        {
-            _p->label->setFontSizeRole(value);
-        }
+            Style::ColorRole List::getTextColorRole() const
+            {
+                return _p->label->getTextColorRole();
+            }
 
-        float ListButton::getHeightForWidth(float value) const
-        {
-            return _p->layout->getHeightForWidth(value);
-        }
+            void List::setTextColorRole(Style::ColorRole value)
+            {
+                _p->label->setTextColorRole(value);
+            }
 
-        void ListButton::updateEvent(Event::Update& event)
-        {
-            IButton::updateEvent(event);
+            const std::string & List::getFontFace() const
+            {
+                return _p->label->getFontFace();
+            }
 
-            _p->label->setTextColorRole(_isToggled() ? ColorRole::CheckedForeground : ColorRole::Foreground);
-        }
+            Style::MetricsRole List::getFontSizeRole() const
+            {
+                return _p->label->getFontSizeRole();
+            }
 
-        void ListButton::preLayoutEvent(Event::PreLayout& event)
-        {
-            _setMinimumSize(_p->layout->getMinimumSize());
-        }
+            void List::setFontFace(const std::string & value)
+            {
+                _p->label->setFontFace(value);
+            }
 
-        void ListButton::layoutEvent(Event::Layout&)
-        {
-            _p->layout->setGeometry(getGeometry());
-        }
+            void List::setFontSizeRole(Style::MetricsRole value)
+            {
+                _p->label->setFontSizeRole(value);
+            }
 
+            float List::getHeightForWidth(float value) const
+            {
+                return _p->layout->getHeightForWidth(value);
+            }
+
+            void List::updateEvent(Event::Update& event)
+            {
+                IButton::updateEvent(event);
+
+                _p->label->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+            }
+
+            void List::preLayoutEvent(Event::PreLayout& event)
+            {
+                _setMinimumSize(_p->layout->getMinimumSize());
+            }
+
+            void List::layoutEvent(Event::Layout&)
+            {
+                _p->layout->setGeometry(getGeometry());
+            }
+
+        } // namespace Button
     } // namespace UI
 } // namespace Gp

@@ -39,255 +39,258 @@ namespace djv
 {
     namespace UI
     {
-        struct IButton::Private
+        namespace Button
         {
-            ButtonType buttonType = ButtonType::Push;
-            bool checked = false;
-            ColorRole checkedColorRole = ColorRole::Checked;
-
-            std::function<void(void)> clickedCallback;
-            std::function<void(bool)> checkedCallback;
-
-            struct PointerState
+            struct IButton::Private
             {
-                bool hover;
-                bool inside;
+                ButtonType buttonType = ButtonType::Push;
+                bool checked = false;
+                Style::ColorRole checkedColorRole = Style::ColorRole::Checked;
+
+                std::function<void(void)> clickedCallback;
+                std::function<void(bool)> checkedCallback;
+
+                struct PointerState
+                {
+                    bool hover;
+                    bool inside;
+                };
+                std::map<uint32_t, PointerState> pointerState;
+                uint32_t pressedId = 0;
+                glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
+                bool canRejectPressed = true;
             };
-            std::map<uint32_t, PointerState> pointerState;
-            uint32_t pressedId = 0;
-            glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
-            bool canRejectPressed = true;
-        };
 
-        IButton::IButton() :
-            _p(new Private)
-        {
-            setPointerEnabled(true);
-        }
-
-        IButton::~IButton()
-        {}
-
-        ButtonType IButton::getButtonType() const
-        {
-            return _p->buttonType;
-        }
-
-        void IButton::setButtonType(ButtonType value)
-        {
-            _p->buttonType = value;
-        }
-
-        bool IButton::isChecked() const
-        {
-            return _p->checked;
-        }
-
-        void IButton::setChecked(bool value)
-        {
-            _p->checked = value;
-        }
-
-        ColorRole IButton::getCheckedColorRole() const
-        {
-            return _p->checkedColorRole;
-        }
-
-        void IButton::setCheckedColorRole(ColorRole value)
-        {
-            _p->checkedColorRole = value;
-        }
-
-        void IButton::setClickedCallback(const std::function<void(void)>& callback)
-        {
-            _p->clickedCallback = callback;
-        }
-
-        void IButton::setCheckedCallback(const std::function<void(bool)>& callback)
-        {
-            _p->checkedCallback = callback;
-        }
-
-        void IButton::paintEvent(Event::Paint& event)
-        {
-            Widget::paintEvent(event);
-            if (auto render = _getRenderSystem().lock())
+            IButton::IButton() :
+                _p(new Private)
             {
-                if (auto style = _getStyle().lock())
+                setPointerEnabled(true);
+            }
+
+            IButton::~IButton()
+            {}
+
+            ButtonType IButton::getButtonType() const
+            {
+                return _p->buttonType;
+            }
+
+            void IButton::setButtonType(ButtonType value)
+            {
+                _p->buttonType = value;
+            }
+
+            bool IButton::isChecked() const
+            {
+                return _p->checked;
+            }
+
+            void IButton::setChecked(bool value)
+            {
+                _p->checked = value;
+            }
+
+            Style::ColorRole IButton::getCheckedColorRole() const
+            {
+                return _p->checkedColorRole;
+            }
+
+            void IButton::setCheckedColorRole(Style::ColorRole value)
+            {
+                _p->checkedColorRole = value;
+            }
+
+            void IButton::setClickedCallback(const std::function<void(void)>& callback)
+            {
+                _p->clickedCallback = callback;
+            }
+
+            void IButton::setCheckedCallback(const std::function<void(bool)>& callback)
+            {
+                _p->checkedCallback = callback;
+            }
+
+            void IButton::paintEvent(Event::Paint& event)
+            {
+                Widget::paintEvent(event);
+                if (auto render = _getRenderSystem().lock())
                 {
-                    const BBox2f& g = getGeometry();
-
-                    // Draw the toggled state.
-                    if (_isToggled() && _p->checkedColorRole != ColorRole::None)
+                    if (auto style = _getStyle().lock())
                     {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_p->checkedColorRole)));
-                        render->drawRectangle(g);
-                    }
+                        const BBox2f& g = getGeometry();
 
-                    // Draw the hovered state.
-                    if (_isHovered())
-                    {
-                        render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
-                        render->drawRectangle(g);
+                        // Draw the toggled state.
+                        if (_isToggled() && _p->checkedColorRole != Style::ColorRole::None)
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(_p->checkedColorRole)));
+                            render->drawRectangle(g);
+                        }
+
+                        // Draw the hovered state.
+                        if (_isHovered())
+                        {
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
+                            render->drawRectangle(g);
+                        }
                     }
                 }
             }
-        }
 
-        void IButton::pointerEnterEvent(Event::PointerEnter& event)
-        {
-            event.accept();
-
-            const auto id = event.getPointerInfo().id;
-            _p->pointerState[id].hover = true;
-            _p->pointerState[id].inside = true;
-        }
-
-        void IButton::pointerLeaveEvent(Event::PointerLeave& event)
-        {
-            event.accept();
-
-            const auto id = event.getPointerInfo().id;
-            const auto i = _p->pointerState.find(id);
-            if (i != _p->pointerState.end())
+            void IButton::pointerEnterEvent(Event::PointerEnter& event)
             {
-                _p->pointerState.erase(i);
+                event.accept();
+
+                const auto id = event.getPointerInfo().id;
+                _p->pointerState[id].hover = true;
+                _p->pointerState[id].inside = true;
             }
-        }
 
-        void IButton::pointerMoveEvent(Event::PointerMove& event)
-        {
-            event.accept();
-
-            const auto id = event.getPointerInfo().id;
-            const auto& pos = event.getPointerInfo().projectedPos;
-            _p->pointerState[id].inside = getGeometry().contains(pos);
-
-            if (id == _p->pressedId)
+            void IButton::pointerLeaveEvent(Event::PointerLeave& event)
             {
-                if (auto style = _getStyle().lock())
-                {
-                    const float distance = glm::length(pos - _p->pressedPos);
-                    const bool accepted = _p->canRejectPressed ? distance < style->getMetric(MetricsRole::Drag) : true;
-                    event.setAccepted(accepted);
-                    if (!accepted)
-                    {
-                        _p->pressedId = 0;
-                    }
-                }
-            }
-        }
+                event.accept();
 
-        void IButton::buttonPressEvent(Event::ButtonPress& event)
-        {
-            if (_p->pressedId)
-                return;
-            event.accept();
-            _p->pressedId = event.getPointerInfo().id;
-            _p->pressedPos = event.getPointerInfo().projectedPos;
-        }
-
-        void IButton::buttonReleaseEvent(Event::ButtonRelease& event)
-        {
-            const auto id = event.getPointerInfo().id;
-            if (id != _p->pressedId)
-                return;
-            event.accept();
-            _p->pressedId = 0;
-            if (_p->pointerState[id].inside)
-            {
-                _doClickedCallback();
-                switch (_p->buttonType)
-                {
-                case ButtonType::Toggle:
-                    _p->checked = !_p->checked;
-                    _doCheckedCallback(_p->checked);
-                    break;
-                case ButtonType::Radio:
-                    if (!_p->checked)
-                    {
-                        _p->checked = true;
-                        _doCheckedCallback(_p->checked);
-                    }
-                    break;
-                default: break;
-                }
-            }
-        }
-
-        bool IButton::_isToggled() const
-        {
-            bool out = false;
-            if (_p->pressedId)
-            {
-                const auto i = _p->pointerState.find(_p->pressedId);
+                const auto id = event.getPointerInfo().id;
+                const auto i = _p->pointerState.find(id);
                 if (i != _p->pointerState.end())
                 {
-                    switch (_p->buttonType)
+                    _p->pointerState.erase(i);
+                }
+            }
+
+            void IButton::pointerMoveEvent(Event::PointerMove& event)
+            {
+                event.accept();
+
+                const auto id = event.getPointerInfo().id;
+                const auto& pos = event.getPointerInfo().projectedPos;
+                _p->pointerState[id].inside = getGeometry().contains(pos);
+
+                if (id == _p->pressedId)
+                {
+                    if (auto style = _getStyle().lock())
                     {
-                    case ButtonType::Radio:
-                        if (_p->checked)
+                        const float distance = glm::length(pos - _p->pressedPos);
+                        const bool accepted = _p->canRejectPressed ? distance < style->getMetric(Style::MetricsRole::Drag) : true;
+                        event.setAccepted(accepted);
+                        if (!accepted)
                         {
-                            out = _p->checked;
+                            _p->pressedId = 0;
                         }
-                        else
-                        {
-                            out = i->second.inside ? !_p->checked : _p->checked;
-                        }
-                        break;
-                    default:
-                        out = i->second.inside ? !_p->checked : _p->checked;
-                        break;
                     }
                 }
             }
-            else
+
+            void IButton::buttonPressEvent(Event::ButtonPress& event)
             {
-                out = _p->checked;
+                if (_p->pressedId)
+                    return;
+                event.accept();
+                _p->pressedId = event.getPointerInfo().id;
+                _p->pressedPos = event.getPointerInfo().projectedPos;
             }
-            return out;
-        }
-        
-        bool IButton::_isHovered() const
-        {
-            bool out = false;
-            for (const auto& pointerState : _p->pointerState)
+
+            void IButton::buttonReleaseEvent(Event::ButtonRelease& event)
             {
-                out |= pointerState.second.hover;
+                const auto id = event.getPointerInfo().id;
+                if (id != _p->pressedId)
+                    return;
+                event.accept();
+                _p->pressedId = 0;
+                if (_p->pointerState[id].inside)
+                {
+                    _doClickedCallback();
+                    switch (_p->buttonType)
+                    {
+                    case ButtonType::Toggle:
+                        _p->checked = !_p->checked;
+                        _doCheckedCallback(_p->checked);
+                        break;
+                    case ButtonType::Radio:
+                        if (!_p->checked)
+                        {
+                            _p->checked = true;
+                            _doCheckedCallback(_p->checked);
+                        }
+                        break;
+                    default: break;
+                    }
+                }
             }
-            return out || _isPressed();
-        }
 
-        bool IButton::_isPressed() const
-        {
-            return _p->pressedId != 0 ? true : false;
-        }
-
-        const glm::vec2& IButton::_getPressedPos() const
-        {
-            return _p->pressedPos;
-        }
-
-        void IButton::_setCanRejectPressed(bool value)
-        {
-            _p->canRejectPressed = value;
-        }
-
-        void IButton::_doClickedCallback()
-        {
-            if (_p->clickedCallback)
+            bool IButton::_isToggled() const
             {
-                _p->clickedCallback();
+                bool out = false;
+                if (_p->pressedId)
+                {
+                    const auto i = _p->pointerState.find(_p->pressedId);
+                    if (i != _p->pointerState.end())
+                    {
+                        switch (_p->buttonType)
+                        {
+                        case ButtonType::Radio:
+                            if (_p->checked)
+                            {
+                                out = _p->checked;
+                            }
+                            else
+                            {
+                                out = i->second.inside ? !_p->checked : _p->checked;
+                            }
+                            break;
+                        default:
+                            out = i->second.inside ? !_p->checked : _p->checked;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    out = _p->checked;
+                }
+                return out;
             }
-        }
 
-        void IButton::_doCheckedCallback(bool value)
-        {
-            if (_p->checkedCallback)
+            bool IButton::_isHovered() const
             {
-                _p->checkedCallback(value);
+                bool out = false;
+                for (const auto& pointerState : _p->pointerState)
+                {
+                    out |= pointerState.second.hover;
+                }
+                return out || _isPressed();
             }
-        }
 
+            bool IButton::_isPressed() const
+            {
+                return _p->pressedId != 0 ? true : false;
+            }
+
+            const glm::vec2& IButton::_getPressedPos() const
+            {
+                return _p->pressedPos;
+            }
+
+            void IButton::_setCanRejectPressed(bool value)
+            {
+                _p->canRejectPressed = value;
+            }
+
+            void IButton::_doClickedCallback()
+            {
+                if (_p->clickedCallback)
+                {
+                    _p->clickedCallback();
+                }
+            }
+
+            void IButton::_doCheckedCallback(bool value)
+            {
+                if (_p->checkedCallback)
+                {
+                    _p->checkedCallback(value);
+                }
+            }
+
+        } // namespace Button
     } // namespace UI
 } // namespace Gp

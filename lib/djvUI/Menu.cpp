@@ -185,13 +185,13 @@ namespace djv
             std::vector<std::shared_ptr<Action> > actions;
             BBox2f anchorBBox;
             Orientation anchorOrientation = Orientation::First;
-            std::shared_ptr<VerticalLayout> layout;
-            static std::shared_ptr<Overlay> overlay;
+            std::shared_ptr<Layout::VerticalLayout> layout;
+            static std::shared_ptr<Layout::Overlay> overlay;
             static std::shared_ptr<MenuLayout> menuLayout;
             std::vector<std::shared_ptr<ValueObserver<std::string> > > textObservers;
         };
 
-        std::shared_ptr<Overlay> Menu::Private::overlay;
+        std::shared_ptr<Layout::Overlay> Menu::Private::overlay;
         std::shared_ptr<MenuLayout> Menu::Private::menuLayout;
 
         void Menu::_init(const std::string & text, Context * context)
@@ -232,7 +232,7 @@ namespace djv
             if (!_p->overlay)
             {
                 _p->menuLayout = MenuLayout::create(_p->context);
-                _p->overlay = Overlay::create(_p->context);
+                _p->overlay = Layout::Overlay::create(_p->context);
                 _p->overlay->setCaptureKeyboard(false);
                 _p->overlay->addWidget(_p->menuLayout);
                 window->addWidget(_p->overlay);
@@ -250,11 +250,11 @@ namespace djv
                 });
             }
 
-            _p->layout = VerticalLayout::create(_p->context);
-            _p->layout->setBackgroundRole(ColorRole::Background);
+            _p->layout = Layout::VerticalLayout::create(_p->context);
+            _p->layout->setBackgroundRole(Style::ColorRole::Background);
             for (const auto & action : _p->actions)
             {
-                auto button = ListButton::create(_p->context);
+                auto button = Button::List::create(_p->context);
                 _p->layout->addWidget(button);
                 _p->textObservers.push_back(ValueObserver<std::string>::create(
                     action->getText(),

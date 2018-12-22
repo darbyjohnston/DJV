@@ -11,27 +11,30 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a toggle button.
-        class ToggleButton : public IButton
+        namespace Button
         {
-            DJV_NON_COPYABLE(ToggleButton);
+            //! This class provides a toggle button.
+            class Toggle : public IButton
+            {
+                DJV_NON_COPYABLE(Toggle);
 
-        protected:
-            void _init(Core::Context *);
-            ToggleButton();
+            protected:
+                void _init(Core::Context *);
+                Toggle();
 
-        public:
-            virtual ~ToggleButton();
+            public:
+                virtual ~Toggle();
 
-            static std::shared_ptr<ToggleButton> create(Core::Context *);
+                static std::shared_ptr<Toggle> create(Core::Context *);
 
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void paintEvent(Core::Event::Paint&) override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void paintEvent(Core::Event::Paint&) override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
+        } // namespace Button
     } // namespace UI
 } // namespace djv

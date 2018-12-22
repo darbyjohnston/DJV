@@ -40,44 +40,47 @@ namespace djv
 {
     namespace UI
     {
-        //! This typedef provides font faces and their associated fonts.
-        typedef std::map<std::string, std::string> FontMap;
-
-        //! This class provides font settings.
-        class FontSettings : public ISettings
+        namespace Settings
         {
-            DJV_NON_COPYABLE(FontSettings);
+            //! This typedef provides font faces and their associated fonts.
+            typedef std::map<std::string, std::string> FontMap;
 
-        protected:
-            void _init(Core::Context * context);
-            FontSettings();
+            //! This class provides font settings.
+            class Font : public ISettings
+            {
+                DJV_NON_COPYABLE(Font);
 
-        public:
-            virtual ~FontSettings();
-            static std::shared_ptr<FontSettings> create(Core::Context *);
+            protected:
+                void _init(Core::Context * context);
+                Font();
 
-            const std::shared_ptr<Core::MapSubject<std::string, FontMap> >& getFonts() const;
+            public:
+                virtual ~Font();
+                static std::shared_ptr<Font> create(Core::Context *);
 
-            void load(const picojson::value&) override;
-            picojson::value save() override;
+                const std::shared_ptr<Core::MapSubject<std::string, FontMap> >& getFonts() const;
 
-        private:
-            DJV_PRIVATE();
-        };
+                void load(const picojson::value&) override;
+                picojson::value save() override;
 
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace Settings
     } // namespace UI
 
     template<>
-    inline picojson::value toJSON<UI::FontMap>(const std::map<std::string, std::string> &);
+    inline picojson::value toJSON<UI::Settings::FontMap>(const std::map<std::string, std::string> &);
     template<>
-    inline picojson::value toJSON<std::map<std::string, UI::FontMap> >(const std::map<std::string, UI::FontMap>&);
+    inline picojson::value toJSON<std::map<std::string, UI::Settings::FontMap> >(const std::map<std::string, UI::Settings::FontMap>&);
 
     //! Throws:
     //! - std::exception
     template<>
-    inline void fromJSON<UI::FontMap>(const picojson::value&, std::map<std::string, std::string>&);
+    inline void fromJSON<UI::Settings::FontMap>(const picojson::value&, std::map<std::string, std::string>&);
     template<>
-    inline void fromJSON<std::map<std::string, UI::FontMap> >(const picojson::value&, std::map<std::string, UI::FontMap>&);
+    inline void fromJSON<std::map<std::string, UI::Settings::FontMap> >(const picojson::value&, std::map<std::string, UI::Settings::FontMap>&);
 
 } // namespace djv
 

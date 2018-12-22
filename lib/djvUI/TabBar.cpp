@@ -45,7 +45,7 @@ namespace djv
     {
         namespace
         {
-            class TabBarButton : public IButton
+            class TabBarButton : public Button::IButton
             {
                 DJV_NON_COPYABLE(TabBarButton);
 
@@ -70,7 +70,7 @@ namespace djv
 
             private:
                 std::shared_ptr<Label> _label;
-                std::shared_ptr<StackLayout> _layout;
+                std::shared_ptr<Layout::Stack> _layout;
             };
 
             void TabBarButton::_init(const std::string& text, Context * context)
@@ -80,9 +80,9 @@ namespace djv
                 setClassName("Gp::UI::TabBarButton");
 
                 _label = Label::create(text, context);
-                _label->setMargin(Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                _label->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
 
-                _layout = StackLayout::create(context);
+                _layout = Layout::Stack::create(context);
                 _layout->addWidget(_label);
                 _layout->setParent(shared_from_this());
             }
@@ -134,13 +134,13 @@ namespace djv
                         const BBox2f& g = getGeometry();
 
                         // Draw the toggled state.
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Border)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(_isToggled() ? Style::ColorRole::Background : Style::ColorRole::Border)));
                         render->drawRectangle(g);
 
                         // Draw the hovered state.
                         if (_isHovered() && !_isToggled())
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(ColorRole::Hover)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
                             render->drawRectangle(g);
                         }
                     }
@@ -150,15 +150,15 @@ namespace djv
             void TabBarButton::updateEvent(Event::Update& event)
             {
                 IButton::updateEvent(event);
-                _label->setTextColorRole(_isToggled() ? ColorRole::Foreground : ColorRole::ForegroundDim);
+                _label->setTextColorRole(_isToggled() ? Style::ColorRole::Foreground : Style::ColorRole::ForegroundDim);
             }
 
         } // namespace
 
         struct TabBar::Private
         {
-            std::shared_ptr<ButtonGroup> buttonGroup;
-            std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<Button::Group> buttonGroup;
+            std::shared_ptr<Layout::HorizontalLayout> layout;
             std::function<void(int)> callback;
         };
 
@@ -167,12 +167,12 @@ namespace djv
             Widget::_init(context);
             
             setClassName("djv::UI::TabBar");
-            setBackgroundRole(ColorRole::Border);
+            setBackgroundRole(Style::ColorRole::Border);
 
-            _p->buttonGroup = ButtonGroup::create(ButtonType::Radio);
+            _p->buttonGroup = Button::Group::create(ButtonType::Radio);
 
-            _p->layout = HorizontalLayout::create(context);
-            _p->layout->setSpacing(MetricsRole::Border);
+            _p->layout = Layout::HorizontalLayout::create(context);
+            _p->layout->setSpacing(Style::MetricsRole::Border);
             _p->layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));

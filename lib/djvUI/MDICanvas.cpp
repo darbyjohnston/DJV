@@ -59,7 +59,7 @@ namespace djv
                         Widget::_init(context);
                         
                         setClassName("djv::UI::MDI::CanvasWidget");
-                        setBackgroundRole(ColorRole::BackgroundScroll);
+                        setBackgroundRole(Style::ColorRole::BackgroundScroll);
                     }
 
                     CanvasWidget()
@@ -99,7 +99,7 @@ namespace djv
             {
                 std::shared_ptr<CanvasWidget> canvasWidget;
                 //std::shared_ptr<ScrollWidget> scrollWidget;
-                std::shared_ptr<StackLayout> stackLayout;
+                std::shared_ptr<Layout::Stack> stackLayout;
                 std::map<std::shared_ptr<Widget>, glm::vec2> windows;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > moveHandleToWindow;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > resizeHandleToWindow;
@@ -121,7 +121,7 @@ namespace djv
                 //_p->scrollWidget = ScrollWidget::create(ScrollType::Both, context);
                 //_p->scrollWidget->addWidget(_p->canvasWidget);
                 //_p->scrollWidget->setParent(shared_from_this());
-                _p->stackLayout = StackLayout::create(context);
+                _p->stackLayout = Layout::Stack::create(context);
                 _p->stackLayout->addWidget(_p->canvasWidget);
                 _p->stackLayout->setParent(shared_from_this());
             }
@@ -252,7 +252,7 @@ namespace djv
                     {
                         if (auto style = _getStyle().lock())
                         {
-                            const float shadow = style->getMetric(MetricsRole::Shadow);
+                            const float shadow = style->getMetric(Style::MetricsRole::Shadow);
                             const BBox2f& canvasGeometry = _p->canvasWidget->getGeometry();
                             const auto moveHandleToWindow = _p->moveHandleToWindow.find(object);
                             const auto resizeHandleToWindow = _p->resizeHandleToWindow.find(object);

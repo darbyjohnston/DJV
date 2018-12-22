@@ -36,24 +36,24 @@
 namespace djv
 {
     template<>
-    inline picojson::value toJSON<UI::Palette>(const UI::Palette&);
+    inline picojson::value toJSON<UI::Style::Palette>(const UI::Style::Palette&);
     template<>
-    inline picojson::value toJSON<std::map<std::string, UI::Palette> >(const std::map<std::string, UI::Palette>&);
+    inline picojson::value toJSON<std::map<std::string, UI::Style::Palette> >(const std::map<std::string, UI::Style::Palette>&);
     template<>
-    inline picojson::value toJSON<UI::Metrics>(const UI::Metrics&);
+    inline picojson::value toJSON<UI::Style::Metrics>(const UI::Style::Metrics&);
     template<>
-    inline picojson::value toJSON<std::map<std::string, UI::Metrics> >(const std::map<std::string, UI::Metrics>&);
+    inline picojson::value toJSON<std::map<std::string, UI::Style::Metrics> >(const std::map<std::string, UI::Style::Metrics>&);
 
     //! Throws:
     //! - std::exception
     template<>
-    inline void fromJSON<UI::Palette>(const picojson::value&, UI::Palette&);
+    inline void fromJSON<UI::Style::Palette>(const picojson::value&, UI::Style::Palette&);
     template<>
-    inline void fromJSON<std::map<std::string, UI::Palette> >(const picojson::value&, std::map<std::string, UI::Palette>&);
+    inline void fromJSON<std::map<std::string, UI::Style::Palette> >(const picojson::value&, std::map<std::string, UI::Style::Palette>&);
     template<>
-    inline void fromJSON<UI::Metrics>(const picojson::value&, UI::Metrics&);
+    inline void fromJSON<UI::Style::Metrics>(const picojson::value&, UI::Style::Metrics&);
     template<>
-    inline void fromJSON<std::map<std::string, UI::Metrics> >(const picojson::value&, std::map<std::string, UI::Metrics>&);
+    inline void fromJSON<std::map<std::string, UI::Style::Metrics> >(const picojson::value&, std::map<std::string, UI::Style::Metrics>&);
 
 } // namespace djv
 

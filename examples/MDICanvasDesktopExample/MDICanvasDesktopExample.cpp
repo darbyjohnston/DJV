@@ -66,9 +66,9 @@ public:
     void layoutEvent(Core::Event::Layout&) override;
 
 private:
-    std::shared_ptr<UI::ToolButton> _closeButton;
+    std::shared_ptr<UI::Button::Tool> _closeButton;
     std::shared_ptr<UI::Icon> _resizeHandle;
-    std::shared_ptr<UI::VerticalLayout> _layout;
+    std::shared_ptr<UI::Layout::VerticalLayout> _layout;
     std::function<void(void)> _closedCallback;
 };
 
@@ -76,16 +76,16 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
 {
     IWindow::_init(context);
 
-    setBackgroundRole(UI::ColorRole::Background);
+    setBackgroundRole(UI::Style::ColorRole::Background);
 
     auto titleLabel = UI::Label::create(context);
     titleLabel->setText(title);
-    titleLabel->setMargin(UI::MetricsRole::Margin);
+    titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
-    _closeButton = UI::ToolButton::create(context);
+    _closeButton = UI::Button::Tool::create(context);
     _closeButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
 
-    auto titleBar = UI::HorizontalLayout::create(context);
+    auto titleBar = UI::Layout::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
     titleBar->addWidget(titleLabel);
     titleBar->addExpander();
@@ -93,7 +93,7 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
 
     auto textBlock = UI::TextBlock::create(context);
     textBlock->setText(Core::String::getRandomText(100));
-    textBlock->setMargin(UI::MetricsRole::Margin);
+    textBlock->setMargin(UI::Style::MetricsRole::Margin);
 
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     scrollWidget->addWidget(textBlock);
@@ -104,16 +104,16 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     _resizeHandle->setHAlign(UI::HAlign::Right);
     _resizeHandle->setVAlign(UI::VAlign::Bottom);
 
-    auto bottomBar = UI::HorizontalLayout::create(context);
+    auto bottomBar = UI::Layout::HorizontalLayout::create(context);
     bottomBar->addExpander();
     bottomBar->addWidget(_resizeHandle);
 
-    _layout = UI::VerticalLayout::create(context);
-    _layout->setSpacing(UI::MetricsRole::None);
+    _layout = UI::Layout::VerticalLayout::create(context);
+    _layout->setSpacing(UI::Style::MetricsRole::None);
     _layout->addWidget(titleBar);
-    _layout->addWidget(scrollWidget, UI::RowLayoutStretch::Expand);
+    _layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
     _layout->addWidget(bottomBar);
-    IContainerWidget::addWidget(_layout);
+    IContainer::addWidget(_layout);
 }
 
 MDIWindow::MDIWindow()

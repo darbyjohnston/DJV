@@ -42,19 +42,19 @@ namespace djv
     {
         struct Window::Private
         {
-            std::shared_ptr<StackLayout> layout;
+            std::shared_ptr<Layout::Stack> layout;
         };
 
         void Window::_init(Context * context)
         {
-            IContainerWidget::_init(context);
+            IContainer::_init(context);
             
             setClassName("djv::UI::Window");
             setVisible(false);
-            setBackgroundRole(ColorRole::Background);
+            setBackgroundRole(Style::ColorRole::Background);
 
-            _p->layout = StackLayout::create(context);
-            IContainerWidget::addWidget(_p->layout);
+            _p->layout = Layout::Stack::create(context);
+            IContainer::addWidget(_p->layout);
 
             if (auto system = context->getSystemT<IWindowSystem>().lock())
             {

@@ -121,8 +121,8 @@ namespace djv
             //! and TextBlock.
             inline virtual float getHeightForWidth(float) const;
 
-            inline const Margin& getMargin() const;
-            void setMargin(const Margin&);
+            inline const Layout::Margin& getMargin() const;
+            void setMargin(const Layout::Margin&);
 
             inline HAlign getHAlign() const;
             inline VAlign getVAlign() const;
@@ -136,8 +136,8 @@ namespace djv
             //! \name Widget Style
             ///@{
 
-            inline ColorRole getBackgroundRole() const;
-            void setBackgroundRole(ColorRole);
+            inline Style::ColorRole getBackgroundRole() const;
+            void setBackgroundRole(Style::ColorRole);
 
             ///@}
 
@@ -181,7 +181,7 @@ namespace djv
             inline const std::weak_ptr<AV::Image::IconSystem>& _getIconSystem() const;
             inline const std::weak_ptr<AV::Font::System>& _getFontSystem() const;
             inline const std::weak_ptr<AV::Render::Render2DSystem>& _getRenderSystem() const;
-            inline const std::weak_ptr<Style>& _getStyle() const;
+            inline const std::weak_ptr<Style::Style>& _getStyle() const;
 
             AV::Image::Color _getColorWithOpacity(const AV::Image::Color &) const;
 
@@ -195,15 +195,15 @@ namespace djv
             float _parentsOpacity = 1.f;
             Core::BBox2f _geometry = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
             glm::vec2 _minimumSize = glm::vec2(0.f, 0.f);
-            Margin _margin;
+            Layout::Margin _margin;
             HAlign _hAlign = HAlign::Fill;
             VAlign _vAlign = VAlign::Fill;
-            ColorRole _backgroundRole = ColorRole::None;
+            Style::ColorRole _backgroundRole = Style::ColorRole::None;
             bool _pointerEnabled = false;
             std::weak_ptr<AV::Image::IconSystem> _iconSystem;
             std::weak_ptr<AV::Font::System> _fontSystem;
             std::weak_ptr<AV::Render::Render2DSystem> _renderSystem;
-            std::weak_ptr<Style> _style;
+            std::weak_ptr<Style::Style> _style;
             std::vector<std::shared_ptr<Action> > _actions;
 
             friend class IWindowSystem;

@@ -37,91 +37,94 @@ namespace djv
 {
     namespace UI
     {
-        struct FontSettings::Private
+        namespace Settings
         {
-            std::shared_ptr<MapSubject<std::string, FontMap> > fonts;
-        };
-
-        void FontSettings::_init(Context * context)
-        {
-            ISettings::_init("djv::UI::FontSettings", context);
-
-            DJV_PRIVATE_PTR();
-            p.fonts = MapSubject<std::string, FontMap>::create();
-            p.fonts->setItem(
-                "Default",
-                {
-                    { "Regular", "Noto Sans" },
-                    { "Bold", "Noto Sans" }
-                });
-            p.fonts->setItem(
-                "ja",
-                {
-                    { "Regular", "Noto Sans CJKjp" },
-                    { "Bold", "Noto Sans CJKjp" }
-                });
-            p.fonts->setItem(
-                "ko",
-                {
-                    { "Regular", "Noto SansCJKkr" },
-                    { "Bold", "Noto SansCJKkr" }
-                });
-            p.fonts->setItem(
-                "zh",
-                {
-                    { "Regular", "Noto Sans CJKsc" },
-                    { "Bold", "Noto Sans CJKsc" }
-                });
-
-            _load();
-        }
-
-        FontSettings::FontSettings() :
-            _p(new Private)
-        {}
-
-        FontSettings::~FontSettings()
-        {}
-
-        std::shared_ptr<FontSettings> FontSettings::create(Context * context)
-        {
-            auto out = std::shared_ptr<FontSettings>(new FontSettings);
-            out->_init(context);
-            return out;
-        }
-
-        const std::shared_ptr<MapSubject<std::string, FontMap> >& FontSettings::getFonts() const
-        {
-            return _p->fonts;
-        }
-
-        void FontSettings::load(const picojson::value& value)
-        {
-            if (value.is<picojson::object>())
+            struct Font::Private
             {
-                std::map<std::string, FontMap> fonts;
-                const auto& object = value.get<picojson::object>();
-                for (const auto& i : object)
+                std::shared_ptr<MapSubject<std::string, FontMap> > fonts;
+            };
+
+            void Font::_init(Context * context)
+            {
+                ISettings::_init("djv::UI::Settings::Font", context);
+
+                DJV_PRIVATE_PTR();
+                p.fonts = MapSubject<std::string, FontMap>::create();
+                p.fonts->setItem(
+                    "Default",
+                    {
+                        { "Regular", "Noto Sans" },
+                        { "Bold", "Noto Sans" }
+                    });
+                p.fonts->setItem(
+                    "ja",
+                    {
+                        { "Regular", "Noto Sans CJKjp" },
+                        { "Bold", "Noto Sans CJKjp" }
+                    });
+                p.fonts->setItem(
+                    "ko",
+                    {
+                        { "Regular", "Noto SansCJKkr" },
+                        { "Bold", "Noto SansCJKkr" }
+                    });
+                p.fonts->setItem(
+                    "zh",
+                    {
+                        { "Regular", "Noto Sans CJKsc" },
+                        { "Bold", "Noto Sans CJKsc" }
+                    });
+
+                _load();
+            }
+
+            Font::Font() :
+                _p(new Private)
+            {}
+
+            Font::~Font()
+            {}
+
+            std::shared_ptr<Font> Font::create(Context * context)
+            {
+                auto out = std::shared_ptr<Font>(new Font);
+                out->_init(context);
+                return out;
+            }
+
+            const std::shared_ptr<MapSubject<std::string, FontMap> >& Font::getFonts() const
+            {
+                return _p->fonts;
+            }
+
+            void Font::load(const picojson::value& value)
+            {
+                if (value.is<picojson::object>())
                 {
-                    FontMap v;
-                    _read(i.first, object, v);
-                    fonts[i.first] = v;
+                    std::map<std::string, FontMap> fonts;
+                    const auto& object = value.get<picojson::object>();
+                    for (const auto& i : object)
+                    {
+                        FontMap v;
+                        _read(i.first, object, v);
+                        fonts[i.first] = v;
+                    }
+                    _p->fonts->setIfChanged(fonts);
                 }
-                _p->fonts->setIfChanged(fonts);
             }
-        }
 
-        picojson::value FontSettings::save()
-        {
-            picojson::value out(picojson::object_type, true);
-            auto& object = out.get<picojson::object>();
-            for (const auto& i : _p->fonts->get())
+            picojson::value Font::save()
             {
-                _write(i.first, i.second, object);
+                picojson::value out(picojson::object_type, true);
+                auto& object = out.get<picojson::object>();
+                for (const auto& i : _p->fonts->get())
+                {
+                    _write(i.first, i.second, object);
+                }
+                return out;
             }
-            return out;
-        }
 
+        } // namespace Settings
     } // namespace UI
 } // namespace djv
 

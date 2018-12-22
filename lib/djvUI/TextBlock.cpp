@@ -48,9 +48,9 @@ namespace djv
         {
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
-            ColorRole textColorRole = ColorRole::Foreground;
+            Style::ColorRole textColorRole = Style::ColorRole::Foreground;
             std::string fontFace = AV::Font::Info::defaultFace;
-            MetricsRole fontSizeRole = MetricsRole::FontMedium;
+            Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             AV::Font::Metrics fontMetrics;
             float heightForWidth = 0.f;
@@ -115,12 +115,12 @@ namespace djv
             _p->textHAlign = value;
         }
 
-        ColorRole TextBlock::getTextColorRole() const
+        Style::ColorRole TextBlock::getTextColorRole() const
         {
             return _p->textColorRole;
         }
 
-        void TextBlock::setTextColorRole(ColorRole value)
+        void TextBlock::setTextColorRole(Style::ColorRole value)
         {
             _p->textColorRole = value;
         }
@@ -130,7 +130,7 @@ namespace djv
             return _p->fontFace;
         }
 
-        MetricsRole TextBlock::getFontSizeRole() const
+        Style::MetricsRole TextBlock::getFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -140,7 +140,7 @@ namespace djv
             _p->fontFace = value;
         }
 
-        void TextBlock::setFontSizeRole(MetricsRole value)
+        void TextBlock::setFontSizeRole(Style::MetricsRole value)
         {
             _p->fontSizeRole = value;
         }
@@ -205,7 +205,7 @@ namespace djv
                     _p->textSize = _p->textSizeFuture.get();
                 }
                 glm::vec2 size = _p->textSize;
-                size.x = std::max(size.x, style->getMetric(MetricsRole::TextColumn) - getMargin().getWidth(style));
+                size.x = std::max(size.x, style->getMetric(Style::MetricsRole::TextColumn) - getMargin().getWidth(style));
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }

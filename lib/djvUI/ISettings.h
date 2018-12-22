@@ -44,50 +44,54 @@ namespace djv
 
     namespace UI
     {
-        //! This class provides an interface for saving and restoring user settings.
-        class ISettings : public std::enable_shared_from_this<ISettings>
+        //! This namespace provides user settings.
+        namespace Settings
         {
-        protected:
-            void _init(const std::string& name, Core::Context *);
+            //! This class provides an interface for saving and restoring user settings.
+            class ISettings : public std::enable_shared_from_this<ISettings>
+            {
+            protected:
+                void _init(const std::string& name, Core::Context *);
 
-        public:
-            ISettings();
-            virtual ~ISettings() = 0;
+            public:
+                ISettings();
+                virtual ~ISettings() = 0;
 
-            // Get the context.
-            Core::Context * getContext() const;
+                // Get the context.
+                Core::Context * getContext() const;
 
-            // Get the settings name.
-            const std::string& getName() const;
+                // Get the settings name.
+                const std::string& getName() const;
 
-            //! Load the settings from the given JSON. This function is called by the settings system.
-            virtual void load(const picojson::value&) = 0;
+                //! Load the settings from the given JSON. This function is called by the settings system.
+                virtual void load(const picojson::value&) = 0;
 
-            //! Save the settings to JSON. This function is called by the settings system.
-            virtual picojson::value save() = 0;
+                //! Save the settings to JSON. This function is called by the settings system.
+                virtual picojson::value save() = 0;
 
-        protected:
-            //! \todo This function needs to be called by derived classes at the end of their _init() function.
-            void _load();
+            protected:
+                //! \todo This function needs to be called by derived classes at the end of their _init() function.
+                void _load();
 
-            template<typename T>
-            inline void _read(const std::string& name, const picojson::object&, T&);
-            template<typename T>
-            inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ValueSubject<T> >&);
-            template<typename T>
-            inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ListSubject<T> >&);
-            template<typename T, typename U>
-            inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::MapSubject<T, U> >&);
+                template<typename T>
+                inline void _read(const std::string& name, const picojson::object&, T&);
+                template<typename T>
+                inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ValueSubject<T> >&);
+                template<typename T>
+                inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::ListSubject<T> >&);
+                template<typename T, typename U>
+                inline void _read(const std::string& name, const picojson::object&, std::shared_ptr<Core::MapSubject<T, U> >&);
 
-            template<typename T>
-            inline void _write(const std::string& name, const T&, picojson::object&);
+                template<typename T>
+                inline void _write(const std::string& name, const T&, picojson::object&);
 
-        private:
-            void _readError(const std::string& name, const std::string& what);
+            private:
+                void _readError(const std::string& name, const std::string& what);
 
-            DJV_PRIVATE();
-        };
+                DJV_PRIVATE();
+            };
 
+        } // namespace Settings
     } // namespace UI
 } // namespace djv
 

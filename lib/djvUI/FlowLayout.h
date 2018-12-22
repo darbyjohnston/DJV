@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 #include <djvUI/Margin.h>
 #include <djvUI/Spacing.h>
 
@@ -37,32 +37,35 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides a layout that arranges it's children similar to a text paragraph.
-        class FlowLayout : public IContainerWidget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(FlowLayout);
-            
-        protected:
-            void _init(Core::Context *);
-            FlowLayout();
+            //! This class provides a layout that arranges it's children similar to a text paragraph.
+            class Flow : public IContainer
+            {
+                DJV_NON_COPYABLE(Flow);
 
-        public:
-            virtual ~FlowLayout();
+            protected:
+                void _init(Core::Context *);
+                Flow();
 
-            static std::shared_ptr<FlowLayout> create(Core::Context *);
+            public:
+                virtual ~Flow();
 
-            const Spacing& getSpacing() const;
-            void setSpacing(const Spacing&);
+                static std::shared_ptr<Flow> create(Core::Context *);
 
-            float getHeightForWidth(float) const override;
+                const Spacing& getSpacing() const;
+                void setSpacing(const Spacing&);
 
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
+                float getHeightForWidth(float) const override;
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
 
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv

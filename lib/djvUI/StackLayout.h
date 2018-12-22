@@ -29,34 +29,37 @@
 
 #pragma once
 
-#include <djvUI/IContainerWidget.h>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides a layout that arranges it's children into a stack.
-        class StackLayout : public IContainerWidget
+        namespace Layout
         {
-            DJV_NON_COPYABLE(StackLayout);
-            
-        protected:
-            void _init(Core::Context *);
-            StackLayout();
+            //! This class provides a layout that arranges it's children into a stack.
+            class Stack : public IContainer
+            {
+                DJV_NON_COPYABLE(Stack);
 
-        public:
-            virtual ~StackLayout();
+            protected:
+                void _init(Core::Context *);
+                Stack();
 
-            static std::shared_ptr<StackLayout> create(Core::Context *);
+            public:
+                ~Stack() override;
 
-            float getHeightForWidth(float) const override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
+                static std::shared_ptr<Stack> create(Core::Context *);
 
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                float getHeightForWidth(float) const override;
+                void preLayoutEvent(Core::Event::PreLayout&) override;
+                void layoutEvent(Core::Event::Layout&) override;
 
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+        } // namespace Layout
     } // namespace UI
 } // namespace djv
