@@ -34,6 +34,8 @@
 #include <djvCore/IObject.h>
 #include <djvCore/TextSystem.h>
 
+#include <map>
+
 namespace djv
 {
     namespace Core
@@ -44,6 +46,10 @@ namespace djv
             {
                 std::weak_ptr<TextSystem> textSystem;
                 std::shared_ptr<IObject> rootObject;
+                std::map<PointerID, PointerInfo> pointerInfo;
+                std::map<PointerID, std::shared_ptr<IObject> > pointerHover;
+                std::map<PointerID, std::shared_ptr<IObject> > pointerGrab;
+                std::map<PointerID, std::shared_ptr<IObject> > keyboardGrab;
             };
 
             void IEventSystem::_init(const std::string& systemName, Context * context)
@@ -89,8 +95,8 @@ namespace djv
                         object->_firstTick = false;
                     }
 
-                    Update update(dt);
-                    _updateRecursive(p.rootObject, update);
+                    Update updateEvent(dt);
+                    _updateRecursive(p.rootObject, updateEvent);
 
                     if (firstTick.size())
                     {
@@ -100,6 +106,26 @@ namespace djv
                             for (auto& object : firstTick)
                             {
                                 object->event(locale);
+                            }
+                        }
+                    }
+
+                    for (const auto & i : _p->pointerInfo)
+                    {
+                        Event::PointerMove moveEvent(i.second);
+                        const auto j = _p->pointerGrab.find(i.second.id);
+                        if (j != _p->pointerGrab.end())
+                        {
+                            j->second->event(moveEvent);
+                        }
+                        else
+                        {
+                            std::shared_ptr<IObject> hover;
+                            _hover(p.rootObject, moveEvent, hover);
+                            const auto k = _p->pointerHover.find(i.second.id);
+                            if (k != _p->pointerHover.end())
+                            {
+
                             }
                         }
                     }
@@ -133,6 +159,27 @@ namespace djv
                 for (const auto& child : object->_children)
                 {
                     _localeRecursive(child, event);
+                }
+            }
+
+            void IEventSystem::_hover(const std::shared_ptr<IObject>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+            {
+                const auto children = widget->getChildren();
+                for (auto i = children.rbegin(); i != children.rend(); ++i)
+                {
+                    if ((*i)->isEnabled() && (*i)->canHover(event))
+                    {
+                        _hover(*i, event, hover);
+                        break;
+                    }
+                }
+                if (!event.isAccepted())
+                {
+                    widget->event(event);
+                    if (event.isAccepted())
+                    {
+                        hover = widget;
+                    }
                 }
             }
 

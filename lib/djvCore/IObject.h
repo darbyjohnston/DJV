@@ -106,6 +106,8 @@ namespace djv
             virtual void buttonReleaseEvent(Event::ButtonRelease&) {}
             virtual bool event(Event::IEvent&);
             
+            virtual bool canHover(Event::PointerMove&) const { return false; }
+
             bool eventFilter(Event::IEvent&);
             virtual bool eventFilter(const std::shared_ptr<IObject>&, Event::IEvent&) { return false; }
 

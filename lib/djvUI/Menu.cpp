@@ -181,23 +181,20 @@ namespace djv
         struct Menu::Private
         {
             Context * context = nullptr;
-            std::string text;
+            std::shared_ptr<ValueSubject<std::string> > name;
             std::vector<std::shared_ptr<Action> > actions;
+            std::weak_ptr<Window> window;
             BBox2f anchorBBox;
             Orientation anchorOrientation = Orientation::First;
+            std::shared_ptr<Layout::Overlay> overlay;
+            std::shared_ptr<MenuLayout> menuLayout;
             std::shared_ptr<Layout::VerticalLayout> layout;
-            static std::shared_ptr<Layout::Overlay> overlay;
-            static std::shared_ptr<MenuLayout> menuLayout;
             std::vector<std::shared_ptr<ValueObserver<std::string> > > textObservers;
         };
 
-        std::shared_ptr<Layout::Overlay> Menu::Private::overlay;
-        std::shared_ptr<MenuLayout> Menu::Private::menuLayout;
-
-        void Menu::_init(const std::string & text, Context * context)
+        void Menu::_init(Context * context)
         {
             _p->context = context;
-            _p->text = text;
         }
 
         Menu::Menu() :
@@ -207,16 +204,29 @@ namespace djv
         Menu::~Menu()
         {}
 
-        std::shared_ptr<Menu> Menu::create(const std::string & text, Context * context)
+        std::shared_ptr<Menu> Menu::create(Context * context)
         {
             auto out = std::shared_ptr<Menu>(new Menu);
-            out->_init(text, context);
+            out->_init(context);
             return out;
         }
 
-        const std::string& Menu::getText() const
+        std::shared_ptr<Menu> Menu::create(const std::string & name, Context * context)
         {
-            return _p->text;
+            auto out = std::shared_ptr<Menu>(new Menu);
+            out->_init(context);
+            out->setMenuName(name);
+            return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::string> > Menu::getMenuName() const
+        {
+            return _p->name;
+        }
+
+        void Menu::setMenuName(const std::string & value)
+        {
+            _p->name->setIfChanged(value);
         }
 
         void Menu::addAction(const std::shared_ptr<Action> & action)
@@ -224,31 +234,41 @@ namespace djv
             _p->actions.push_back(action);
         }
 
+        void Menu::clear()
+        {
+            _p->actions.clear();
+        }
+
         void Menu::show(const std::shared_ptr<Window> & window, const BBox2f & bbox, Orientation orientation)
         {
+            _p->window = window;
             _p->anchorBBox = bbox;
             _p->anchorOrientation = orientation;
-            
-            if (!_p->overlay)
-            {
-                _p->menuLayout = MenuLayout::create(_p->context);
-                _p->overlay = Layout::Overlay::create(_p->context);
-                _p->overlay->setCaptureKeyboard(false);
-                _p->overlay->addWidget(_p->menuLayout);
-                window->addWidget(_p->overlay);
-                _p->overlay->show();
+           
+            _p->menuLayout = MenuLayout::create(_p->context);
 
-                auto weak = std::weak_ptr<Menu>(shared_from_this());
-                _p->overlay->setCloseCallback(
-                    [weak, window]
+            _p->overlay = Layout::Overlay::create(_p->context);
+            _p->overlay->setCaptureKeyboard(false);
+            _p->overlay->setBackgroundRole(Style::ColorRole::None);
+            _p->overlay->addWidget(_p->menuLayout);
+            window->addWidget(_p->overlay);
+            _p->overlay->show();
+
+            auto weak = std::weak_ptr<Menu>(shared_from_this());
+            _p->overlay->setCloseCallback(
+                [weak]
+            {
+                if (auto menu = weak.lock())
                 {
-                    if (auto menu = weak.lock())
+                    if (auto window = menu->_p->window.lock())
                     {
                         window->removeWidget(menu->_p->overlay);
-                        menu->_p->overlay = nullptr;
+                        window = nullptr;
                     }
-                });
-            }
+                    menu->_p->overlay = nullptr;
+                    menu->_p->textObservers.clear();
+                }
+            });
 
             _p->layout = Layout::VerticalLayout::create(_p->context);
             _p->layout->setBackgroundRole(Style::ColorRole::Background);
@@ -268,15 +288,10 @@ namespace djv
 
         void Menu::hide()
         {
-            if (_p->overlay && _p->menuLayout && !_p->menuLayout->isEmpty())
+            if (_p->overlay)
             {
-                _p->overlay->setParent(nullptr);
-                _p->overlay = nullptr;
-                _p->menuLayout = nullptr;
+                _p->overlay->close();
             }
-
-            _p->layout = nullptr;
-            _p->textObservers.clear();
         }
 
     } // namespace UI

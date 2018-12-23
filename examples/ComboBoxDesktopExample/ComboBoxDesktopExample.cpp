@@ -27,54 +27,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvDesktop/Application.h>
 
-#include <djvUI/Enum.h>
+#include <djvUI/ComboBox.h>
+#include <djvUI/Window.h>
 
-#include <djvCore/BBox.h>
-#include <djvCore/ValueObserver.h>
+#include <djvCore/Error.h>
+#include <djvCore/String.h>
 
-namespace djv
+using namespace djv;
+
+int main(int argc, char ** argv)
 {
-    namespace Core
+    int r = 0;
+    try
     {
-        class Context;
-    
-    } // namespace Core
+        auto app = Desktop::Application::create(argc, argv);
 
-    namespace UI
+        auto label = UI::ComboBox::create(app.get());
+        label->setItems(Core::String::getRandomNames(10));
+        label->setHAlign(UI::HAlign::Center);
+        label->setVAlign(UI::VAlign::Center);
+
+        auto window = UI::Window::create(app.get());
+        window->addWidget(label);
+        window->show();
+
+        return app->run();
+    }
+    catch (const std::exception & e)
     {
-        class Action;
-        class Window;
-
-        //! This class provides a menu widget.
-        class Menu : public std::enable_shared_from_this<Menu>
-        {
-            DJV_NON_COPYABLE(Menu);
-
-        protected:
-            void _init(Core::Context *);
-            Menu();
-
-        public:
-            virtual ~Menu();
-            static std::shared_ptr<Menu> create(Core::Context *);
-            static std::shared_ptr<Menu> create(const std::string & name, Core::Context *);
-
-            std::shared_ptr<Core::IValueSubject<std::string> > getMenuName() const;
-            void setMenuName(const std::string &);
-
-            void addAction(const std::shared_ptr<Action> &);
-            void clear();
-
-            void show(const std::shared_ptr<Window> &, const Core::BBox2f &, Orientation);
-            void hide();
-
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-    } // namespace UI
-} // namespace djv
-
+        std::cout << Core::Error::format(e) << std::endl;
+    }
+    return r;
+}

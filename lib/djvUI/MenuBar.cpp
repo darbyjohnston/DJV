@@ -48,13 +48,13 @@ namespace djv
                 DJV_NON_COPYABLE(MenuBarButton);
 
             protected:
-                void _init(const std::string& text, Core::Context *);
+                void _init(Core::Context *);
                 MenuBarButton();
 
             public:
                 virtual ~MenuBarButton();
 
-                static std::shared_ptr<MenuBarButton> create(const std::string&, Core::Context *);
+                static std::shared_ptr<MenuBarButton> create(Core::Context *);
 
                 const std::string& getText() const;
                 void setText(const std::string&);
@@ -68,15 +68,14 @@ namespace djv
                 std::shared_ptr<Layout::Stack> _layout;
             };
 
-            void MenuBarButton::_init(const std::string& text, Context * context)
+            void MenuBarButton::_init(Context * context)
             {
                 IButton::_init(context);
 
                 setClassName("Gp::UI::MenuBarButton");
 
-                _label = Label::create(text, context);
+                _label = Label::create(context);
                 _label->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
-                _label->setVisible(!text.empty());
 
                 _layout = Layout::Stack::create(context);
                 _layout->addWidget(_label);
@@ -89,10 +88,10 @@ namespace djv
             MenuBarButton::~MenuBarButton()
             {}
 
-            std::shared_ptr<MenuBarButton> MenuBarButton::create(const std::string& text, Context * context)
+            std::shared_ptr<MenuBarButton> MenuBarButton::create(Context * context)
             {
                 auto out = std::shared_ptr<MenuBarButton>(new MenuBarButton);
-                out->_init(text, context);
+                out->_init(context);
                 return out;
             }
 
@@ -104,7 +103,6 @@ namespace djv
             void MenuBarButton::setText(const std::string& value)
             {
                 _label->setText(value);
-                _label->setVisible(!value.empty());
             }
 
             float MenuBarButton::getHeightForWidth(float value) const
@@ -129,6 +127,7 @@ namespace djv
             std::vector<std::shared_ptr<Menu> > menus;
             std::shared_ptr<Layout::HorizontalLayout> layout;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<MenuBarButton> > menusToButtons;
+            std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuNameObservers;
         };
 
         void MenuBar::_init(Context * context)
@@ -159,10 +158,14 @@ namespace djv
         void MenuBar::addMenu(const std::shared_ptr<Menu> & menu)
         {
             _p->menus.push_back(menu);
-            auto button = MenuBarButton::create(menu->getText(), getContext());
+            
+            
+            auto button = MenuBarButton::create(getContext());
             button->setButtonType(ButtonType::Toggle);
             _p->layout->addWidget(button);
+
             _p->menusToButtons[menu] = button;
+
             auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
             button->setCheckedCallback(
                 [menu, button](bool value)
@@ -178,6 +181,13 @@ namespace djv
                         menu->hide();
                     }
                 }
+            });
+
+            _p->menuNameObservers[menu] = ValueObserver<std::string>::create(
+                menu->getMenuName(),
+                [button](const std::string & value)
+            {
+                button->setText(value);
             });
         }
 

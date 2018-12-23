@@ -161,10 +161,10 @@ namespace djv
             struct PointerInfo
             {
                 PointerID id = 0;
-                glm::vec3 pos;
-                glm::vec3 dir;
-                glm::vec2 projectedPos;
-                int button = 0;
+                glm::vec3 pos = glm::vec3(0.f, 0.f, 0.f);
+                glm::vec3 dir = glm::vec3(0.f, 0.f, 0.f);
+                glm::vec2 projectedPos = glm::vec2(-1.f, -1.f);
+                std::vector<bool> buttons;
             };
 
             //! This class provides the interface for pointer events.

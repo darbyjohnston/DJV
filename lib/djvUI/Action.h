@@ -60,7 +60,6 @@ namespace djv
 
         public:
             virtual ~Action();
-
             static std::shared_ptr<Action> create();
 
             std::shared_ptr<Core::IValueSubject<ButtonType> > getButtonType() const;

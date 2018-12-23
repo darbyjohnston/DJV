@@ -29,48 +29,46 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
-
-#include <djvCore/BBox.h>
-#include <djvCore/ValueObserver.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        class Context;
-    
-    } // namespace Core
-
     namespace UI
     {
-        class Action;
-        class Window;
-
-        //! This class provides a menu widget.
-        class Menu : public std::enable_shared_from_this<Menu>
+        //! This class provides a combo box widget.
+        class ComboBox : public Widget
         {
-            DJV_NON_COPYABLE(Menu);
+            DJV_NON_COPYABLE(ComboBox);
 
         protected:
             void _init(Core::Context *);
-            Menu();
+            ComboBox();
 
         public:
-            virtual ~Menu();
-            static std::shared_ptr<Menu> create(Core::Context *);
-            static std::shared_ptr<Menu> create(const std::string & name, Core::Context *);
+            virtual ~ComboBox();
+            static std::shared_ptr<ComboBox> create(Core::Context *);
+            static std::shared_ptr<ComboBox> create(const std::vector<std::string> &, Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > getMenuName() const;
-            void setMenuName(const std::string &);
+            const std::vector<std::string> & getItems() const;
+            void setItems(const std::vector<std::string> &);
 
-            void addAction(const std::shared_ptr<Action> &);
-            void clear();
+            int getCurrentItem() const;
+            void setCurrentItem(int);
 
-            void show(const std::shared_ptr<Window> &, const Core::BBox2f &, Orientation);
-            void hide();
+            void setCallback(const std::function<void(int)> &);
+
+            const std::string & getFontFace() const;
+            Style::MetricsRole getFontSizeRole() const;
+            void setFontFace(const std::string &);
+            void setFontSizeRole(Style::MetricsRole);
+
+            void preLayoutEvent(Core::Event::PreLayout &) override;
+            void layoutEvent(Core::Event::Layout &) override;
 
         private:
+            void _updateItems();
+            void _updateCurrentItem();
+
             struct Private;
             std::unique_ptr<Private> _p;
         };

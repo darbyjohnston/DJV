@@ -50,24 +50,35 @@ namespace djv
                 DJV_NON_COPYABLE(IEventSystem);
 
             protected:
-                void _init(const std::string& systemName, Context *);
+                void _init(const std::string & systemName, Context *);
                 IEventSystem();
 
             public:
                 virtual ~IEventSystem() = 0;
 
-                const std::shared_ptr<IObject>& getRootObject() const;
-                void setRootObject(const std::shared_ptr<IObject>&);
+                const std::shared_ptr<IObject> & getRootObject() const;
+                void setRootObject(const std::shared_ptr<IObject> &);
+
+                const std::shared_ptr<IObject> & getPointerHover(PointerID) const;
+                void setPointerHover(PointerID, const std::shared_ptr<IObject> &);
+
+                const std::shared_ptr<IObject> & getPointerGrab(PointerID) const;
+                void setPointerGrab(PointerID, const std::shared_ptr<IObject> &);
+
+                const std::shared_ptr<IObject> & getKeyboardGrab() const;
+                void setKeyboadGrab(const std::shared_ptr<IObject> &);
 
             protected:
-                void _locale(Locale&);
+                void _locale(Locale &);
 
                 void _tick(float dt) override;
 
             private:
-                void _getFirstTick(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<IObject> >&);
-                void _updateRecursive(const std::shared_ptr<IObject>&, Update&);
-                void _localeRecursive(const std::shared_ptr<IObject>&, Locale&);
+                void _getFirstTick(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<IObject> > &);
+                void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
+                void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
+
+                void _hover(const std::shared_ptr<IObject>&, Event::PointerMove&, std::shared_ptr<IObject>&);
 
                 DJV_PRIVATE();
             };
