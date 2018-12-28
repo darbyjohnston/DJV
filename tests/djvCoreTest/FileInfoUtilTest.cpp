@@ -29,7 +29,7 @@
 
 #include <djvCoreTest/FileInfoUtilTest.h>
 
-#include <djvGraphics/GraphicsContext.h>
+#include <djvAV/AVContext.h>
 
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
@@ -52,7 +52,7 @@ namespace djv
             
             //! \todo Some of the tests rely on FileInfo::sequenceExtensions being
             //! initialized by the image I/O plugins.
-            Graphics::GraphicsContext context(argc, argv);
+            AV::AVContext context(argc, argv);
 
             split();
             exists();

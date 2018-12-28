@@ -226,8 +226,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvAV_en_US.ts
     djvAV_cs_CZ.ts)
 
-add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-set(djvGraphicsLibs
+add_library(djvAV ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
+set(djvAVLibs
     djvCore
     IlmBase
     OpenAL
