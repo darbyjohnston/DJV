@@ -133,7 +133,7 @@ namespace djv
                 ;
             if (i != j)
             {
-                for (; i < l && ! isSequenceChar(in[i]); ++i)
+                for (; i < j && ! isSequenceChar(in[i]); ++i)
                     ;
                 number = in.mid(i, j - i);
                 //DJV_DEBUG_PRINT("number = " << number);
@@ -364,7 +364,7 @@ namespace djv
         {
             if (Sequence::FORMAT_OFF == format)
                 return;
-
+            
             //DJV_DEBUG("FileInfoUtil::sequence");
             //DJV_DEBUG_PRINT("count = " << items.count());
 
@@ -373,12 +373,12 @@ namespace djv
             int  i = 0;
             for (int j = 0; j < items.count(); ++j)
             {
-                //DJV_DEBUG_PRINT("in = " << in[j]);
-                //DJV_DEBUG_PRINT("in seq = " << in[j].seq());
+                //DJV_DEBUG_PRINT("item = " << items[j]);
+                //DJV_DEBUG_PRINT("item seq = " << items[j].sequence());
 
-                const bool seq = items[j].isSequenceValid();
-                //DJV_DEBUG_PRINT("seq = " << seq);
-                if (seq)
+                const bool sequence = items[j].isSequenceValid();
+                //DJV_DEBUG_PRINT("sequence = " << sequence);
+                if (sequence)
                 {
                     if (cacheValid)
                     {
@@ -401,10 +401,10 @@ namespace djv
                         }
                     }
                 }
-                if (!seq || !cacheValid)
+                if (!sequence || !cacheValid)
                 {
                     items[i] = items[j];
-                    if (seq)
+                    if (sequence)
                     {
                         items[i].setType(FileInfo::SEQUENCE);
                     }
@@ -443,9 +443,13 @@ namespace djv
 
         QStringList FileInfoUtil::expandSequence(const FileInfo & in)
         {
+            //DJV_DEBUG("FileInfoUtil::expandSequence");
+            //DJV_DEBUG_PRINT("in = " << in);
             QStringList out;
             const Sequence & sequence = in.sequence();
+            //DJV_DEBUG_PRINT("sequence = " << sequence);
             const int count = sequence.frames.count();
+            //DJV_DEBUG_PRINT("count = " << count);
             if (FileInfo::SEQUENCE == in.type() && count)
             {
                 for (int i = 0; i < count; ++i)

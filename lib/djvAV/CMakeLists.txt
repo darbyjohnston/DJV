@@ -1,5 +1,6 @@
 find_package(IlmBase REQUIRED)
 find_package(OpenAL REQUIRED)
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 find_package(JPEG)
@@ -225,13 +226,12 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvAV_en_US.ts
     djvAV_cs_CZ.ts)
 
-include_directories(${OPENGL_INCLUDE_DIRS})
-add_library(djvAV ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-set(djvAVLibs
+add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
+set(djvGraphicsLibs
     djvCore
     IlmBase
     OpenAL
-    ${OPENGL_LIBRARIES})
+    OpenGL::GL)
 if(JPEG_FOUND)
     set(djvAVLibs ${djvAVLibs} JPEG)
 endif()
