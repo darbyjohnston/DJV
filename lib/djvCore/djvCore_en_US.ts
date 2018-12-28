@@ -320,32 +320,32 @@ Miscellaneous Options
 <context>
     <name>djv::Core::FileInfoUtil</name>
     <message>
-        <location filename="FileInfoUtil.cpp" line="532"/>
+        <location filename="FileInfoUtil.cpp" line="536"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="533"/>
+        <location filename="FileInfoUtil.cpp" line="537"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="534"/>
+        <location filename="FileInfoUtil.cpp" line="538"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="535"/>
+        <location filename="FileInfoUtil.cpp" line="539"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="536"/>
+        <location filename="FileInfoUtil.cpp" line="540"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="FileInfoUtil.cpp" line="537"/>
+        <location filename="FileInfoUtil.cpp" line="541"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>

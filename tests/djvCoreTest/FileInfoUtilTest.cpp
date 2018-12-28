@@ -29,6 +29,8 @@
 
 #include <djvCoreTest/FileInfoUtilTest.h>
 
+#include <djvGraphics/GraphicsContext.h>
+
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
 #include <djvCore/FileInfo.h>
@@ -44,9 +46,14 @@ namespace djv
 {
     namespace CoreTest
     {
-        void FileInfoUtilTest::run(int &, char **)
+        void FileInfoUtilTest::run(int & argc, char ** argv)
         {
             DJV_DEBUG("FileInfoUtilTest::run");
+            
+            //! \todo Some of the tests rely on FileInfo::sequenceExtensions being
+            //! initialized by the image I/O plugins.
+            Graphics::GraphicsContext context(argc, argv);
+
             split();
             exists();
             list();
@@ -94,7 +101,9 @@ namespace djv
                 { "/.", "/", ".", "", "" },
                 { "./", "./", "", "", "" },
                 { "C:\\Documents and Settings\\darby\\Desktop\\movie.mov",
-                  "C:\\Documents and Settings\\darby\\Desktop\\", "movie", "", ".mov"}
+                  "C:\\Documents and Settings\\darby\\Desktop\\", "movie", "", ".mov"},
+                { "C:\\Documents and Settings\\darby\\Desktop\\movie-.mov",
+                  "C:\\Documents and Settings\\darby\\Desktop\\", "movie-", "", ".mov"}
             };
             const int dataCount = sizeof(data) / sizeof(Data);
             for (int i = 0; i < dataCount; ++i)
