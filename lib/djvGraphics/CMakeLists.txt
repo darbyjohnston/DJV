@@ -1,4 +1,5 @@
 find_package(IlmBase REQUIRED)
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 find_package(JPEG)
@@ -212,12 +213,11 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvGraphics_en_US.ts
     djvGraphics_cs_CZ.ts)
 
-include_directories(${OPENGL_INCLUDE_DIRS})
 add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 set(djvGraphicsLibs
     djvCore
     IlmBase
-    ${OPENGL_LIBRARIES})
+    OpenGL::GL)
 if(JPEG_FOUND)
     set(djvGraphicsLibs ${djvGraphicsLibs} JPEG)
 endif()
