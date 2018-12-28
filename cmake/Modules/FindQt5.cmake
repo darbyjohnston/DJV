@@ -460,8 +460,6 @@ if(DJV_THIRD_PARTY)
             ${DJV_THIRD_PARTY}/plugins/platforminputcontexts
             ${DJV_THIRD_PARTY}/plugins/platforms
             ${DJV_THIRD_PARTY}/plugins/sqldrivers
-            ${DJV_THIRD_PARTY}/plugins/wayland-decoration-client
-            ${DJV_THIRD_PARTY}/plugins/wayland-graphics-integration-client
             ${DJV_THIRD_PARTY}/plugins/xcbglintegrations
             DESTINATION ${DJV_INSTALL_PLUGINS})
     endif()
