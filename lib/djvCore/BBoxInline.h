@@ -491,6 +491,18 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const Core::BBox::tBBox2<T, P> & a, const Core::BBox::tBBox2<T, P> & b)
+    {
+        return fuzzyCompare(a.min, b.min) && fuzzyCompare(a.max, b.max);
+    }
+
+    template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const Core::BBox::tBBox3<T, P> & a, const Core::BBox::tBBox3<T, P> & b)
+    {
+        return fuzzyCompare(a.min, b.min) && fuzzyCompare(a.max, b.max);
+    }
+
+    template<typename T, glm::precision P>
     inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P>& bbox, const glm::mat4& m)
     {
         std::vector<glm::tvec4<T, P> > pts;

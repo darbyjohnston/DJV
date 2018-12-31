@@ -72,7 +72,6 @@ namespace djv
                 _p->layout->addWidget(_p->icon);
                 _p->layout->addWidget(_p->label, Layout::RowStretch::Expand);
                 _p->layout->setParent(shared_from_this());
-
             }
 
             Push::Push() :
@@ -183,7 +182,7 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void Push::updateEvent(Event::Update& event)
+            void Push::_updateEvent(Event::Update& event)
             {
                 const auto style = _getStyle();
                 const bool enabled = isEnabled(true);
@@ -192,17 +191,17 @@ namespace djv
                 _p->label->setTextColorRole(fg);
             }
 
-            void Push::preLayoutEvent(Event::PreLayout& event)
+            void Push::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Push::layoutEvent(Event::Layout&)
+            void Push::_layoutEvent(Event::Layout&)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Push::paintEvent(Event::Paint& event)
+            void Push::_paintEvent(Event::Paint& event)
             {
                 if (auto render = _getRenderSystem().lock())
                 {

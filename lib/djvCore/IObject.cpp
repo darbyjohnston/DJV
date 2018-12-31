@@ -49,33 +49,21 @@ namespace djv
 
         void IObject::_init(Context * context)
         {
+            ++currentObjectCount;
+
             _context = context;
+            _className = "djv::Core::IObject";
             _resourceSystem = context->getSystemT<ResourceSystem>();
             _logSystem = context->getSystemT<LogSystem>();
             _textSystem = context->getSystemT<TextSystem>();
-
-            ++currentObjectCount;
         }
-
-        IObject::IObject()
-        {}
 
         IObject::~IObject()
         {
             --currentObjectCount;
         }
 
-        void IObject::setClassName(const std::string& name)
-        {
-            _className = name;
-        }
-
-        void IObject::setName(const std::string& name)
-        {
-            _name = name;
-        }
-
-        void IObject::raiseToTop()
+        void IObject::moveToFront()
         {
             if (auto parent = _parent.lock())
             {
@@ -90,7 +78,7 @@ namespace djv
             }
         }
 
-        void IObject::lowerToBottom()
+        void IObject::moveToBack()
         {
             if (auto parent = _parent.lock())
             {
@@ -103,11 +91,6 @@ namespace djv
                 }
                 siblings.insert(siblings.begin(), object);
             }
-        }
-
-        void IObject::setEnabled(bool value)
-        {
-            _enabled = value;
         }
 
         void IObject::installEventFilter(const std::weak_ptr<IObject>& value)
@@ -135,8 +118,10 @@ namespace djv
 
         void IObject::setParent(const std::shared_ptr<IObject>& value, int insert)
         {
+            std::weak_ptr<IObject> prevParent;
             if (auto parent = _parent.lock())
             {
+                prevParent = parent;
                 const auto i = std::find(parent->_children.begin(), parent->_children.end(), shared_from_this());
                 if (i != parent->_children.end())
                 {
@@ -144,6 +129,7 @@ namespace djv
                 }
                 _parent.reset();
             }
+            std::weak_ptr<IObject> newParent;
             if (value)
             {
                 if (-1 == insert)
@@ -155,23 +141,21 @@ namespace djv
                     ;
                 value->_children.insert(i, shared_from_this());
                 _parent = value;
+                newParent = value;
             }
+            event(Event::Parent(prevParent, newParent));
         }
 
         bool IObject::event(Event::IEvent& event)
         {
-            bool out = eventFilter(event);
+            bool out = _eventFilter(event);
             if (!out)
             {
                 switch (event.getEventType())
                 {
-                case Event::Type::Update:        updateEvent(static_cast<Event::Update&>(event));               break;
-                case Event::Type::Locale:        localeEvent(static_cast<Event::Locale&>(event));               break;
-                case Event::Type::PointerEnter:  pointerEnterEvent(static_cast<Event::PointerEnter&>(event));   break;
-                case Event::Type::PointerLeave:  pointerLeaveEvent(static_cast<Event::PointerLeave&>(event));   break;
-                case Event::Type::PointerMove:   pointerMoveEvent(static_cast<Event::PointerMove&>(event));     break;
-                case Event::Type::ButtonPress:   buttonPressEvent(static_cast<Event::ButtonPress&>(event));     break;
-                case Event::Type::ButtonRelease: buttonReleaseEvent(static_cast<Event::ButtonRelease&>(event)); break;
+                case Event::Type::Update: _updateEvent(static_cast<Event::Update&>(event)); break;
+                case Event::Type::Locale: _localeEvent(static_cast<Event::Locale&>(event)); break;
+                case Event::Type::Parent: _parentEvent(static_cast<Event::Parent&>(event)); break;
                 default: break;
                 }
                 out = event.isAccepted();
@@ -179,7 +163,12 @@ namespace djv
             return out;
         }
 
-        bool IObject::eventFilter(Event::IEvent& event)
+        void IObject::_log(const std::string& message, LogLevel level)
+        {
+            _context->log(_className, message, level);
+        }
+
+        bool IObject::_eventFilter(Event::IEvent& event)
         {
             bool filtered = false;
             std::vector<std::weak_ptr<IObject> > zombies;
@@ -187,7 +176,7 @@ namespace djv
             {
                 if (auto object = filter.lock())
                 {
-                    if (object->eventFilter(shared_from_this(), event))
+                    if (object->_eventFilter(shared_from_this(), event))
                     {
                         filtered = true;
                         break;
@@ -203,11 +192,6 @@ namespace djv
                 removeEventFilter(zombie);
             }
             return filtered;
-        }
-
-        void IObject::_log(const std::string& message, LogLevel level)
-        {
-            _context->log(_className, message, level);
         }
 
     } // namespace Core

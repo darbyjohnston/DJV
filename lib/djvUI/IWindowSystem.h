@@ -45,23 +45,23 @@ namespace djv
             DJV_NON_COPYABLE(IWindowSystem);
             
         protected:
+            void _init(const std::string &, Core::Context *);
+
             IWindowSystem();
 
         public:
             virtual ~IWindowSystem() = 0;
 
-            const std::vector<std::shared_ptr<Window> >& getWindows() const;
-
-            virtual void raiseToTop(const std::shared_ptr<Window>&);
-
         protected:
-            virtual void _addWindow(const std::shared_ptr<Window>&);
-            virtual void _removeWindow(const std::shared_ptr<Window>&);
+            virtual void _addWindow(const std::shared_ptr<Window>&) = 0;
+            virtual void _removeWindow(const std::shared_ptr<Window>&) = 0;
 
             virtual void _pushClipRect(const Core::BBox2f &);
             virtual void _popClipRect();
 
-            void _updateRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::Update&);
+            void _hasResizeRequest(const std::shared_ptr<UI::Widget>&, bool&) const;
+            void _hasRedrawRequest(const std::shared_ptr<UI::Widget>&, bool&) const;
+
             void _preLayoutRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::PreLayout&);
             void _layoutRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::Layout&);
             void _clipRecursive(const std::shared_ptr<UI::Widget>&, Core::Event::Clip&);

@@ -77,7 +77,7 @@ namespace djv
 
         protected:
             void _init(Core::Context *);
-            Widget();
+            inline Widget();
 
         public:
             virtual ~Widget();
@@ -149,7 +149,7 @@ namespace djv
 
             ///@}
 
-            //! \name Actions
+            //! \name Widget Actions
             ///@{
 
             void addAction(const std::shared_ptr<Action>&);
@@ -158,26 +158,34 @@ namespace djv
 
             ///@}
 
-            virtual void preLayoutEvent(Core::Event::PreLayout&) {}
-            virtual void layoutEvent(Core::Event::Layout&) {}
-            virtual void clipEvent(Core::Event::Clip&) {}
-            virtual void paintEvent(Core::Event::Paint&);
-            virtual void scrollEvent(Core::Event::Scroll&) {}
-            virtual void dropEvent(Core::Event::Drop&) {}
-            virtual void keyboardFocusEvent(Core::Event::KeyboardFocus&) {}
-            virtual void keyboardFocusLostEvent(Core::Event::KeyboardFocusLost&) {}
-            virtual void keyPressEvent(Core::Event::KeyPress&);
-            virtual void keyReleaseEvent(Core::Event::KeyRelease&) {}
-            virtual void textEvent(Core::Event::Text&) {}
-
-            void pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void pointerMoveEvent(Core::Event::PointerMove&) override;
             bool event(Core::Event::IEvent&) override;
 
-            void setParent(const std::shared_ptr<IObject>&, int insert = -1) override;
-
         protected:
+            //! \name Widget Events
+            ///@{
+
+            virtual void _preLayoutEvent(Core::Event::PreLayout&) {}
+            virtual void _layoutEvent(Core::Event::Layout&) {}
+            virtual void _clipEvent(Core::Event::Clip&) {}
+            virtual void _paintEvent(Core::Event::Paint&);
+            virtual void _pointerEnterEvent(Core::Event::PointerEnter&);
+            virtual void _pointerLeaveEvent(Core::Event::PointerLeave&);
+            virtual void _pointerMoveEvent(Core::Event::PointerMove&);
+            virtual void _buttonPressEvent(Core::Event::ButtonPress&) {}
+            virtual void _buttonReleaseEvent(Core::Event::ButtonRelease&) {}
+            virtual void _scrollEvent(Core::Event::Scroll&) {}
+            virtual void _dropEvent(Core::Event::Drop&) {}
+            virtual void _keyboardFocusEvent(Core::Event::KeyboardFocus&) {}
+            virtual void _keyboardFocusLostEvent(Core::Event::KeyboardFocusLost&) {}
+            virtual void _keyPressEvent(Core::Event::KeyPress&);
+            virtual void _keyReleaseEvent(Core::Event::KeyRelease&) {}
+            virtual void _textEvent(Core::Event::Text&) {}
+
+            ///@}
+
+            //! \name Convenience Functions
+            ///@{
+
             inline const std::weak_ptr<AV::Image::IconSystem>& _getIconSystem() const;
             inline const std::weak_ptr<AV::Font::System>& _getFontSystem() const;
             inline const std::weak_ptr<AV::Render::Render2DSystem>& _getRenderSystem() const;
@@ -185,7 +193,18 @@ namespace djv
 
             AV::Image::Color _getColorWithOpacity(const AV::Image::Color &) const;
 
+            ///@}
+
+            //! Call this function when the widget needs resizing.
+            void _resize();
+
+            //! Call this function to redraw the widget.
+            void _redraw();
+
+            //! Set the minimum size. This is computed and set in the pre-layout event.
             void _setMinimumSize(const glm::vec2&);
+
+            void _parentEvent(Core::Event::Parent &) override;
 
         private:
             bool _visible = true;
@@ -205,6 +224,8 @@ namespace djv
             std::weak_ptr<AV::Render::Render2DSystem> _renderSystem;
             std::weak_ptr<Style::Style> _style;
             std::vector<std::shared_ptr<Action> > _actions;
+            bool _resizeRequest = true;
+            bool _redrawRequest = true;
 
             friend class IWindowSystem;
         };

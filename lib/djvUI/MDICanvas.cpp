@@ -84,7 +84,7 @@ namespace djv
                     }
 
                 protected:
-                    void preLayoutEvent(Event::PreLayout&) override
+                    void _preLayoutEvent(Event::PreLayout&) override
                     {
                         _setMinimumSize(_canvasSize);
                     }
@@ -215,13 +215,13 @@ namespace djv
                 _p->windowToResizeHandle.clear();
             }
 
-            void Canvas::preLayoutEvent(Event::PreLayout&)
+            void Canvas::_preLayoutEvent(Event::PreLayout&)
             {
                 //_setMinimumSize(_p->scrollWidget->getMinimumSize());
                 _setMinimumSize(_p->stackLayout->getMinimumSize());
             }
 
-            void Canvas::layoutEvent(Event::Layout&)
+            void Canvas::_layoutEvent(Event::Layout&)
             {
                 //_p->scrollWidget->setGeometry(getGeometry());
                 _p->stackLayout->setGeometry(getGeometry());
@@ -235,7 +235,7 @@ namespace djv
                 }
             }
             
-            bool Canvas::eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+            bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
             {
                 /*{
                     std::stringstream ss;
@@ -294,7 +294,7 @@ namespace djv
                             _p->pressed = buttonPressEvent.getPointerInfo().id;
                             _p->pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
                             auto window = _p->moveHandleToWindow[object];
-                            window->raiseToTop();
+                            window->moveToFront();
                             _p->pressedOffset = window->getGeometry().min - _p->pressedPos;
                         }
                         else if (_p->resizeHandleToWindow.find(object) != _p->resizeHandleToWindow.end())
@@ -303,7 +303,7 @@ namespace djv
                             _p->pressed = buttonPressEvent.getPointerInfo().id;
                             _p->pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
                             auto window = _p->resizeHandleToWindow[object];
-                            window->raiseToTop();
+                            window->moveToFront();
                             _p->pressedOffset = window->getGeometry().max - _p->pressedPos;
                         }
                     }

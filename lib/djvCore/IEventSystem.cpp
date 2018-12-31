@@ -46,16 +46,26 @@ namespace djv
             {
                 std::weak_ptr<TextSystem> textSystem;
                 std::shared_ptr<IObject> rootObject;
-                std::map<PointerID, PointerInfo> pointerInfo;
-                std::map<PointerID, std::shared_ptr<IObject> > pointerHover;
-                std::map<PointerID, std::shared_ptr<IObject> > pointerGrab;
-                std::map<PointerID, std::shared_ptr<IObject> > keyboardGrab;
+                std::shared_ptr<ValueObserver<std::string> > localeObserver;
             };
 
             void IEventSystem::_init(const std::string& systemName, Context * context)
             {
                 ISystem::_init(systemName, context);
                 _p->textSystem = context->getSystemT<TextSystem>();
+                if (auto textSystem = _p->textSystem.lock())
+                {
+                    auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
+                    _p->localeObserver = ValueObserver<std::string>::create(
+                        textSystem->observeCurrentLocale(),
+                        [weak](const std::string & value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_locale(Locale(value));
+                        }
+                    });
+                }
             }
 
             IEventSystem::IEventSystem() :
@@ -73,14 +83,6 @@ namespace djv
             void IEventSystem::setRootObject(const std::shared_ptr<IObject>& value)
             {
                 _p->rootObject = value;
-            }
-
-            void IEventSystem::_locale(Locale& event)
-            {
-                if (_p->rootObject)
-                {
-                    _localeRecursive(_p->rootObject, event);
-                }
             }
 
             void IEventSystem::_tick(float dt)
@@ -109,26 +111,6 @@ namespace djv
                             }
                         }
                     }
-
-                    for (const auto & i : _p->pointerInfo)
-                    {
-                        Event::PointerMove moveEvent(i.second);
-                        const auto j = _p->pointerGrab.find(i.second.id);
-                        if (j != _p->pointerGrab.end())
-                        {
-                            j->second->event(moveEvent);
-                        }
-                        else
-                        {
-                            std::shared_ptr<IObject> hover;
-                            _hover(p.rootObject, moveEvent, hover);
-                            const auto k = _p->pointerHover.find(i.second.id);
-                            if (k != _p->pointerHover.end())
-                            {
-
-                            }
-                        }
-                    }
                 }
             }
 
@@ -146,10 +128,21 @@ namespace djv
 
             void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
             {
-                object->event(event);
-                for (const auto& child : object->_children)
+                if (object->isEnabled())
                 {
-                    _updateRecursive(child, event);
+                    object->event(event);
+                    for (const auto& child : object->_children)
+                    {
+                        _updateRecursive(child, event);
+                    }
+                }
+            }
+
+            void IEventSystem::_locale(Locale& event)
+            {
+                if (_p->rootObject)
+                {
+                    _localeRecursive(_p->rootObject, event);
                 }
             }
 
@@ -159,27 +152,6 @@ namespace djv
                 for (const auto& child : object->_children)
                 {
                     _localeRecursive(child, event);
-                }
-            }
-
-            void IEventSystem::_hover(const std::shared_ptr<IObject>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
-            {
-                const auto children = widget->getChildren();
-                for (auto i = children.rbegin(); i != children.rend(); ++i)
-                {
-                    if ((*i)->isEnabled() && (*i)->canHover(event))
-                    {
-                        _hover(*i, event, hover);
-                        break;
-                    }
-                }
-                if (!event.isAccepted())
-                {
-                    widget->event(event);
-                    if (event.isAccepted())
-                    {
-                        hover = widget;
-                    }
                 }
             }
 

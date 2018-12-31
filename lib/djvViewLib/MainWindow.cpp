@@ -190,7 +190,7 @@ namespace djv
             return out;
         }
 
-        void MainWindow::dropEvent(Core::Event::Drop& event)
+        void MainWindow::_dropEvent(Core::Event::Drop& event)
         {
             for (const auto & i : event.getDropPaths())
             {

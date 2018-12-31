@@ -62,8 +62,9 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(Style::MetricsRole);
 
-            void preLayoutEvent(Core::Event::PreLayout &) override;
-            void layoutEvent(Core::Event::Layout &) override;
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
 
         private:
             void _updateItems();

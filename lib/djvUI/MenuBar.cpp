@@ -60,8 +60,10 @@ namespace djv
                 void setText(const std::string&);
 
                 float getHeightForWidth(float) const override;
-                void preLayoutEvent(Event::PreLayout&) override;
-                void layoutEvent(Core::Event::Layout&) override;
+
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
             private:
                 std::shared_ptr<Label> _label;
@@ -110,12 +112,12 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void MenuBarButton::preLayoutEvent(Event::PreLayout& event)
+            void MenuBarButton::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void MenuBarButton::layoutEvent(Event::Layout&)
+            void MenuBarButton::_layoutEvent(Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
@@ -196,12 +198,12 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void MenuBar::preLayoutEvent(Event::PreLayout& event)
+        void MenuBar::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MenuBar::layoutEvent(Event::Layout& event)
+        void MenuBar::_layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {

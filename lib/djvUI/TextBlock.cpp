@@ -171,32 +171,7 @@ namespace djv
             return out;
         }
 
-        void TextBlock::updateEvent(Event::Update& event)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                if (auto fontSystem = _getFontSystem().lock())
-                {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-
-                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
-
-                    size_t hash = 0;
-                    Memory::hashCombine(hash, font.family);
-                    Memory::hashCombine(hash, font.face);
-                    Memory::hashCombine(hash, font.size);
-                    Memory::hashCombine(hash, g.w());
-                    if (!_p->textSizeHash || _p->textSizeHash != hash)
-                    {
-                        _p->textSizeHash = hash;
-                        _p->textSizeFuture = fontSystem->measure(_p->text, g.w(), font);
-                    }
-                }
-            }
-        }
-
-        void TextBlock::preLayoutEvent(Event::PreLayout& event)
+        void TextBlock::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -210,7 +185,7 @@ namespace djv
             }
         }
 
-        void TextBlock::layoutEvent(Event::Layout& event)
+        void TextBlock::_layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -233,14 +208,14 @@ namespace djv
             }
         }
 
-        void TextBlock::clipEvent(Event::Clip& event)
+        void TextBlock::_clipEvent(Event::Clip& event)
         {
             _p->clipRect = event.getClipRect();
         }
 
-        void TextBlock::paintEvent(Event::Paint& event)
+        void TextBlock::_paintEvent(Event::Paint& event)
         {
-            Widget::paintEvent(event);
+            Widget::_paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())
@@ -277,6 +252,31 @@ namespace djv
                             render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
                         }
                         pos.y += line.size.y;
+                    }
+                }
+            }
+        }
+
+        void TextBlock::_updateEvent(Event::Update& event)
+        {
+            if (auto style = _getStyle().lock())
+            {
+                if (auto fontSystem = _getFontSystem().lock())
+                {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+
+                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
+
+                    size_t hash = 0;
+                    Memory::hashCombine(hash, font.family);
+                    Memory::hashCombine(hash, font.face);
+                    Memory::hashCombine(hash, font.size);
+                    Memory::hashCombine(hash, g.w());
+                    if (!_p->textSizeHash || _p->textSizeHash != hash)
+                    {
+                        _p->textSizeHash = hash;
+                        _p->textSizeFuture = fontSystem->measure(_p->text, g.w(), font);
                     }
                 }
             }

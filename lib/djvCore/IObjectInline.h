@@ -31,6 +31,9 @@ namespace djv
 {
     namespace Core
     {
+        inline IObject::IObject()
+        {}
+
         inline Context * IObject::getContext() const
         {
             return _context;
@@ -41,9 +44,19 @@ namespace djv
             return _className;
         }
 
+        inline void IObject::setClassName(const std::string& name)
+        {
+            _className = name;
+        }
+
         inline const std::string& IObject::getName() const
         {
             return _name;
+        }
+
+        inline void IObject::setName(const std::string& name)
+        {
+            _name = name;
         }
 
         inline const std::weak_ptr<IObject>& IObject::getParent() const
@@ -125,6 +138,11 @@ namespace djv
         inline bool IObject::isEnabled(bool parents) const
         {
             return parents ? (_parentsEnabled && _enabled) : _enabled;
+        }
+
+        inline void IObject::setEnabled(bool value)
+        {
+            _enabled = value;
         }
 
         template<typename T>

@@ -82,9 +82,9 @@ namespace djv
                         return out;
                     }
 
-                    void preLayoutEvent(Event::PreLayout& event) override
+                    void _preLayoutEvent(Event::PreLayout& event) override
                     {
-                        Stack::preLayoutEvent(event);
+                        Stack::_preLayoutEvent(event);
                         if (auto style = _getStyle().lock())
                         {
                             const auto size = style->getMetric(Style::MetricsRole::Dialog);
@@ -129,9 +129,9 @@ namespace djv
                 overlay->show();
 
                 closeButton->setClickedCallback(
-                    [overlay]
+                    [window, overlay]
                 {
-                    overlay->close();
+                    window->removeWidget(overlay);
                 });
                 overlay->setCloseCallback(
                     [window, overlay]
@@ -179,15 +179,15 @@ namespace djv
                 overlay->show();
 
                 acceptButton->setClickedCallback(
-                    [overlay, callback]
+                    [window, overlay, callback]
                 {
-                    overlay->close();
+                    window->removeWidget(overlay);
                     callback(true);
                 });
                 cancelButton->setClickedCallback(
-                    [overlay, callback]
+                    [window, overlay, callback]
                 {
-                    overlay->close();
+                    window->removeWidget(overlay);
                     callback(false);
                 });
                 overlay->setCloseCallback(

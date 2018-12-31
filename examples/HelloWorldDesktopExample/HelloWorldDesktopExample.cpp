@@ -44,8 +44,8 @@ int main(int argc, char ** argv)
         auto app = Desktop::Application::create(argc, argv);
 
         auto label = UI::Label::create(app.get());
-        label->setFontSizeRole(UI::Style::MetricsRole::FontExtraLarge);
         label->setText("Hello world!");
+        label->setFontSizeRole(UI::Style::MetricsRole::FontExtraLarge);
 
         auto window = UI::Window::create(app.get());
         window->addWidget(label);

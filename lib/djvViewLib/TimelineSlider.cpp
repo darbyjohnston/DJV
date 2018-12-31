@@ -84,16 +84,19 @@ namespace djv
 
         void TimelineSlider::setCurrentTime(Time::Timestamp value)
         {
-            _p->currentTime->setIfChanged(value);
+            if (_p->currentTime->setIfChanged(value))
+            {
+                _redraw();
+            }
         }
 
-        void TimelineSlider::preLayoutEvent(Event::PreLayout& event)
+        void TimelineSlider::_preLayoutEvent(Event::PreLayout& event)
         {}
 
-        void TimelineSlider::layoutEvent(Event::Layout& event)
+        void TimelineSlider::_layoutEvent(Event::Layout& event)
         {}
 
-        void TimelineSlider::paintEvent(Event::Paint& event)
+        void TimelineSlider::_paintEvent(Event::Paint& event)
         {
             if (auto render = _getRenderSystem().lock())
             {
@@ -106,26 +109,28 @@ namespace djv
             }
         }
 
-        void TimelineSlider::pointerEnterEvent(Event::PointerEnter& event)
+        void TimelineSlider::_pointerEnterEvent(Event::PointerEnter& event)
         {
             if (!event.isRejected())
             {
                 event.accept();
                 _p->hover[event.getPointerInfo().id] = true;
+                _redraw();
             }
         }
 
-        void TimelineSlider::pointerLeaveEvent(Event::PointerLeave& event)
+        void TimelineSlider::_pointerLeaveEvent(Event::PointerLeave& event)
         {
             event.accept();
             auto i = _p->hover.find(event.getPointerInfo().id);
             if (i != _p->hover.end())
             {
                 _p->hover.erase(i);
+                _redraw();
             }
         }
 
-        void TimelineSlider::pointerMoveEvent(Event::PointerMove& event)
+        void TimelineSlider::_pointerMoveEvent(Event::PointerMove& event)
         {
             const auto id = event.getPointerInfo().id;
             const auto& pos = event.getPointerInfo().projectedPos;
@@ -137,11 +142,14 @@ namespace djv
             }
             if (_p->pressedId)
             {
-                _p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x)));
+                if (_p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
+                {
+                    _redraw();
+                }
             }
         }
 
-        void TimelineSlider::buttonPressEvent(Event::ButtonPress& event)
+        void TimelineSlider::_buttonPressEvent(Event::ButtonPress& event)
         {
             if (_p->pressedId)
                 return;
@@ -152,16 +160,20 @@ namespace djv
             {
                 event.accept();
                 _p->pressedId = id;
-                _p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x)));
+                if (_p->currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
+                {
+                    _redraw();
+                }
             }
         }
 
-        void TimelineSlider::buttonReleaseEvent(Event::ButtonRelease& event)
+        void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease& event)
         {
             if (event.getPointerInfo().id != _p->pressedId)
                 return;
             event.accept();
             _p->pressedId = 0;
+            _redraw();
         }
 
         int64_t TimelineSlider::_posToTime(int value) const

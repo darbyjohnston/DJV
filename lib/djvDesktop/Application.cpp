@@ -54,6 +54,13 @@ namespace djv
 {
     namespace Desktop
     {
+        namespace
+        {
+            //! \todo [1.0 S] Should this be configurable?
+            const size_t frameRate = 60;
+
+        } // namespace
+
         struct Application::Private
         {
             bool running = false;
@@ -73,6 +80,8 @@ namespace djv
                 p.glfwWindow = avSystem->getGLFWWindow();
                 p.eventSystem = EventSystem::create(p.glfwWindow, this);
                 p.windowSystem = WindowSystem::create(p.glfwWindow, this);
+                p.eventSystem->setRootObject(p.windowSystem->getRootObject());
+
                 glfwSetWindowSize(p.glfwWindow, 1024, 768);
                 glfwShowWindow(p.glfwWindow);
             }
@@ -99,21 +108,19 @@ namespace djv
             auto time = std::chrono::system_clock::now();
             while (p.running && p.glfwWindow && !glfwWindowShouldClose(p.glfwWindow))
             {
-                const auto now = std::chrono::system_clock::now();
-                const std::chrono::duration<float> delta = now - time;
-                const float dt = delta.count();
-                glm::ivec2 frameBufferSize(0, 0);
-                glfwGetFramebufferSize(p.glfwWindow, &frameBufferSize.x, &frameBufferSize.y);
-                gl::glViewport(
-                    0,
-                    0,
-                    GLsizei(frameBufferSize.x),
-                    GLsizei(frameBufferSize.y));
-                gl::glClearColor(0.f, 0.f, 0.f, 0.f);
-                glClear(GL_COLOR_BUFFER_BIT);
+                auto now = std::chrono::system_clock::now();
+                std::chrono::duration<float> delta = now - time;
+                time = now;
+                float dt = delta.count();
+
                 tick(dt);
-                glfwSwapBuffers(p.glfwWindow);
                 glfwPollEvents();
+
+                now = std::chrono::system_clock::now();
+                delta = now - time;
+                dt = delta.count();
+                const float sleep = 1 / static_cast<float>(frameRate) - dt;
+                std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
             }
             return 0;
         }

@@ -72,9 +72,6 @@ namespace djv
             _style = context->getSystemT<Style::Style>();
         }
 
-        Widget::Widget()
-        {}
-
         Widget::~Widget()
         {
             --currentWidgetCount;
@@ -118,12 +115,18 @@ namespace djv
 
         void Widget::setVisible(bool value)
         {
+            if (value == _visible)
+                return;
             _visible = value;
+            _redraw();
         }
 
         void Widget::setOpacity(float value)
         {
+            if (fuzzyCompare(value, _opacity))
+                return;
             _opacity = value;
+            _redraw();
         }
 
         void Widget::show()
@@ -138,14 +141,19 @@ namespace djv
 
         void Widget::setGeometry(const BBox2f& value)
         {
+            if (fuzzyCompare(value, _geometry))
+                return;
             _geometry = value;
+            _resize();
         }
 
         void Widget::move(const glm::vec2& value)
         {
             const glm::vec2 size = _geometry.getSize();
-            _geometry.min = value;
-            _geometry.max = value + size;
+            BBox2f geometry;
+            geometry.min = value;
+            geometry.max = value + size;
+            setGeometry(geometry);
         }
 
         void Widget::resize(const glm::vec2& value)
@@ -155,17 +163,26 @@ namespace djv
 
         void Widget::setMargin(const Layout::Margin& value)
         {
+            if (value == _margin)
+                return;
             _margin = value;
+            _resize();
         }
 
         void Widget::setHAlign(HAlign value)
         {
+            if (value == _hAlign)
+                return;
             _hAlign = value;
+            _resize();
         }
 
         void Widget::setVAlign(VAlign value)
         {
+            if (value == _vAlign)
+                return;
             _vAlign = value;
+            _resize();
         }
 
         BBox2f Widget::getAlign(const BBox2f& value, const glm::vec2& minimumSize, HAlign hAlign, VAlign vAlign)
@@ -219,7 +236,10 @@ namespace djv
 
         void Widget::setBackgroundRole(Style::ColorRole value)
         {
+            if (value == _backgroundRole)
+                return;
             _backgroundRole = value;
+            _redraw();
         }
 
         void Widget::setPointerEnabled(bool value)
@@ -254,10 +274,10 @@ namespace djv
                 switch (event.getEventType())
                 {
                 case Event::Type::PreLayout:
-                    preLayoutEvent(static_cast<Event::PreLayout&>(event));
+                    _preLayoutEvent(static_cast<Event::PreLayout&>(event));
                     break;
                 case Event::Type::Layout:
-                    layoutEvent(static_cast<Event::Layout&>(event));
+                    _layoutEvent(static_cast<Event::Layout&>(event));
                     break;
                 case Event::Type::Clip:
                 {
@@ -274,32 +294,47 @@ namespace djv
                         _clipped = false;
                         _parentsOpacity = 1.f;
                     }
-                    this->clipEvent(clipEvent);
+                    _clipEvent(clipEvent);
                     break;
                 }
                 case Event::Type::Paint:
-                    paintEvent(static_cast<Event::Paint&>(event));
+                    _paintEvent(static_cast<Event::Paint&>(event));
+                    break;
+                case Event::Type::PointerEnter:
+                    _pointerEnterEvent(static_cast<Event::PointerEnter&>(event));
+                    break;
+                case Event::Type::PointerLeave:
+                    _pointerLeaveEvent(static_cast<Event::PointerLeave&>(event));
+                    break;
+                case Event::Type::PointerMove:
+                    _pointerMoveEvent(static_cast<Event::PointerMove&>(event));
+                    break;
+                case Event::Type::ButtonPress:
+                    _buttonPressEvent(static_cast<Event::ButtonPress&>(event));
+                    break;
+                case Event::Type::ButtonRelease:
+                    _buttonReleaseEvent(static_cast<Event::ButtonRelease&>(event));
                     break;
                 case Event::Type::Scroll:
-                    scrollEvent(static_cast<Event::Scroll&>(event));
+                    _scrollEvent(static_cast<Event::Scroll&>(event));
                     break;
                 case Event::Type::Drop:
-                    dropEvent(static_cast<Event::Drop&>(event));
+                    _dropEvent(static_cast<Event::Drop&>(event));
                     break;
                 case Event::Type::KeyboardFocus:
-                    keyboardFocusEvent(static_cast<Event::KeyboardFocus&>(event));
+                    _keyboardFocusEvent(static_cast<Event::KeyboardFocus&>(event));
                     break;
                 case Event::Type::KeyboardFocusLost:
-                    keyboardFocusLostEvent(static_cast<Event::KeyboardFocusLost&>(event));
+                    _keyboardFocusLostEvent(static_cast<Event::KeyboardFocusLost&>(event));
                     break;
                 case Event::Type::KeyPress:
-                    keyPressEvent(static_cast<Event::KeyPress&>(event));
+                    _keyPressEvent(static_cast<Event::KeyPress&>(event));
                     break;
                 case Event::Type::KeyRelease:
-                    keyReleaseEvent(static_cast<Event::KeyRelease&>(event));
+                    _keyReleaseEvent(static_cast<Event::KeyRelease&>(event));
                     break;
                 case Event::Type::Text:
-                    textEvent(static_cast<Event::Text&>(event));
+                    _textEvent(static_cast<Event::Text&>(event));
                     break;
                 default: break;
                 }
@@ -308,7 +343,7 @@ namespace djv
             return out;
         }
 
-        void Widget::paintEvent(Event::Paint& event)
+        void Widget::_paintEvent(Event::Paint& event)
         {
             if (_backgroundRole != Style::ColorRole::None)
             {
@@ -323,7 +358,7 @@ namespace djv
             }
         }
 
-        void Widget::pointerEnterEvent(Event::PointerEnter& event)
+        void Widget::_pointerEnterEvent(Event::PointerEnter& event)
         {
             if (_pointerEnabled && !event.isRejected())
             {
@@ -331,7 +366,7 @@ namespace djv
             }
         }
 
-        void Widget::pointerLeaveEvent(Event::PointerLeave& event)
+        void Widget::_pointerLeaveEvent(Event::PointerLeave& event)
         {
             if (_pointerEnabled)
             {
@@ -339,7 +374,7 @@ namespace djv
             }
         }
 
-        void Widget::pointerMoveEvent(Event::PointerMove& event)
+        void Widget::_pointerMoveEvent(Event::PointerMove& event)
         {
             if (_pointerEnabled)
             {
@@ -347,7 +382,7 @@ namespace djv
             }
         }
 
-        void Widget::keyPressEvent(Event::KeyPress& event)
+        void Widget::_keyPressEvent(Event::KeyPress& event)
         {
             if (isEnabled())
             {
@@ -386,15 +421,6 @@ namespace djv
             }
         }
 
-        void Widget::setParent(const std::shared_ptr<IObject>& value, int insert)
-        {
-            IObject::setParent(value, insert);
-            if (!value)
-            {
-                _clipped = true;
-            }
-        }
-
         AV::Image::Color Widget::_getColorWithOpacity(const AV::Image::Color & value) const
         {
             auto out = value.convert(AV::Image::Type::RGBA_F32);
@@ -402,9 +428,28 @@ namespace djv
             return out;
         }
 
+        void Widget::_redraw()
+        {
+            _redrawRequest = true;
+        }
+
+        void Widget::_resize()
+        {
+            _resizeRequest = true;
+        }
+
         void Widget::_setMinimumSize(const glm::vec2& value)
         {
+            if (value == _minimumSize)
+                return;
             _minimumSize = value;
+            _resize();
+        }
+
+        void Widget::_parentEvent(Event::Parent & event)
+        {
+            _clipped = event.getNewParent().lock() ? true : false;
+            _redraw();
         }
 
     } // namespace UI

@@ -62,8 +62,11 @@ public:
     std::shared_ptr<Widget> getMoveHandle() override;
     std::shared_ptr<Widget> getResizeHandle() override;
 
-    void preLayoutEvent(Core::Event::PreLayout&) override;
-    void layoutEvent(Core::Event::Layout&) override;
+    float getHeightForWidth(float) const override;
+
+protected:
+    void _preLayoutEvent(Core::Event::PreLayout&) override;
+    void _layoutEvent(Core::Event::Layout&) override;
 
 private:
     std::shared_ptr<UI::Button::Tool> _closeButton;
@@ -141,12 +144,17 @@ std::shared_ptr<UI::Widget> MDIWindow::getResizeHandle()
     return _resizeHandle;
 }
 
-void MDIWindow::preLayoutEvent(Core::Event::PreLayout&)
+float MDIWindow::getHeightForWidth(float value) const
+{
+    return _layout->getHeightForWidth(value);
+}
+
+void MDIWindow::_preLayoutEvent(Core::Event::PreLayout&)
 {
     _setMinimumSize(_layout->getMinimumSize());
 }
 
-void MDIWindow::layoutEvent(Core::Event::Layout&)
+void MDIWindow::_layoutEvent(Core::Event::Layout&)
 {
     _layout->setGeometry(getGeometry());
 }

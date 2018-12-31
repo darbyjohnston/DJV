@@ -27,41 +27,56 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvDesktop/Application.h>
 
-#include <djvUI/IContainer.h>
+#include <djvUI/PushButton.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/Window.h>
 
-namespace djv
+#include <djvCore/Error.h>
+
+using namespace djv;
+
+int main(int argc, char ** argv)
 {
-    namespace UI
+    int r = 0;
+    try
     {
-        namespace Layout
+        auto app = Desktop::Application::create(argc, argv);
+
+        auto button1 = UI::Button::Push::create(app.get());
+        button1->setText("Button 1");
+        button1->setFontSizeRole(UI::Style::MetricsRole::FontExtraLarge);
+        button1->setClickedCallback(
+            []
         {
-            //! This class provides a layout that arranges it's children into a stack.
-            class Stack : public IContainer
-            {
-                DJV_NON_COPYABLE(Stack);
+            std::cout << "Button 1" << std::endl;
+        });
 
-            protected:
-                void _init(Core::Context *);
-                Stack();
+        auto button2 = UI::Button::Push::create(app.get());
+        button2->setText("Button 2");
+        button2->setFontSizeRole(UI::Style::MetricsRole::FontExtraLarge);
+        button2->setClickedCallback(
+            []
+        {
+            std::cout << "Button 2" << std::endl;
+        });
 
-            public:
-                ~Stack() override;
+        auto layout = UI::Layout::VerticalLayout::create(app.get());
+        layout->setHAlign(UI::HAlign::Center);
+        layout->setVAlign(UI::VAlign::Center);
+        layout->addWidget(button1);
+        layout->addWidget(button2);
 
-                static std::shared_ptr<Stack> create(Core::Context *);
+        auto window = UI::Window::create(app.get());
+        window->addWidget(layout);
+        window->show();
 
-                float getHeightForWidth(float) const override;
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout&) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-
-            private:
-                struct Private;
-                std::unique_ptr<Private> _p;
-            };
-
-        } // namespace Layout
-    } // namespace UI
-} // namespace djv
+        return app->run();
+    }
+    catch (const std::exception & e)
+    {
+        std::cout << Core::Error::format(e) << std::endl;
+    }
+    return r;
+}

@@ -27,6 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 
 namespace djv
@@ -83,6 +84,33 @@ namespace djv
         s >> out.z;
         s >> out.w;
         return s;
+    }
+
+    template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const glm::tvec2<T, P>& a, const glm::tvec2<T, P>& b)
+    {
+        return
+            fuzzyCompare(a.x, b.x) &&
+            fuzzyCompare(a.y, b.y);
+    }
+
+    template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const glm::tvec3<T, P>& a, const glm::tvec3<T, P>& b)
+    {
+        return
+            fuzzyCompare(a.x, b.x) &&
+            fuzzyCompare(a.y, b.y) &&
+            fuzzyCompare(a.z, b.z);
+    }
+
+    template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const glm::tvec4<T, P>& a, const glm::tvec4<T, P>& b)
+    {
+        return
+            fuzzyCompare(a.x, b.x) &&
+            fuzzyCompare(a.y, b.y) &&
+            fuzzyCompare(a.z, b.z) &&
+            fuzzyCompare(a.w, b.w);
     }
 
 } // namespace djv

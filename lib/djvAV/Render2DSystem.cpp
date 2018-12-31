@@ -474,6 +474,10 @@ namespace djv
                     }
                 }
 
+                glEnable(GL_SCISSOR_TEST);
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
                 glViewport(
                     static_cast<GLint>(p.render->viewport.min.x),
                     static_cast<GLint>(p.render->viewport.min.y),
@@ -486,10 +490,6 @@ namespace djv
                     static_cast<GLsizei>(p.render->viewport.h()));
                 glClearColor(0.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
-                //glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
-                glEnable(GL_SCISSOR_TEST);
-                glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
                 p.render->shader->bind();
                 const auto viewMatrix = glm::ortho(
@@ -555,8 +555,6 @@ namespace djv
                     }
                     vao->draw(i * 6, 6);
                 }
-
-                //glPopAttrib();
 
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<float> delta = now - p.fpsTime;

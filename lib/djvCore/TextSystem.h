@@ -30,7 +30,6 @@
 #pragma once
 
 #include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
 #include <future>
@@ -53,6 +52,8 @@ namespace djv
         class TextSystem : public ISystem
         {
             DJV_NON_COPYABLE(TextSystem);
+
+        protected:
             void _init(Context *);
             TextSystem();
 
@@ -65,10 +66,16 @@ namespace djv
             //! \name Language Locale
             ///@{
 
+            //! Get the list of locales.
             const std::vector<std::string> & getLocales() const;
 
+            //! Get the current locale.
             const std::string & getCurrentLocale() const;
-            std::shared_ptr<IValueSubject<std::string> > getCurrentLocaleSubject() const;
+
+            //! Observe the current locale.
+            std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
+
+            //! Set the current locale.
             void setCurrentLocale(const std::string &);
 
             ///@}

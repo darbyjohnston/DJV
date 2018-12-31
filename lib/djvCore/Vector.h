@@ -38,6 +38,13 @@
 namespace djv
 {
     template<typename T, glm::precision P = glm::defaultp>
+    inline bool fuzzyCompare(const glm::tvec2<T, P>&, const glm::tvec2<T, P>&);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline bool fuzzyCompare(const glm::tvec3<T, P>&, const glm::tvec3<T, P>&);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline bool fuzzyCompare(const glm::tvec4<T, P>&, const glm::tvec4<T, P>&);
+
+    template<typename T, glm::precision P = glm::defaultp>
     inline std::ostream& operator << (std::ostream&, const glm::tvec2<T, P>&);
     template<typename T, glm::precision P = glm::defaultp>
     inline std::ostream& operator << (std::ostream&, const glm::tvec3<T, P>&);

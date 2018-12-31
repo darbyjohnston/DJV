@@ -52,6 +52,7 @@ namespace djv
             setClassName("djv::UI::Window");
             setVisible(false);
             setBackgroundRole(Style::ColorRole::Background);
+            setPointerEnabled(true);
 
             _p->layout = Layout::Stack::create(context);
             IContainer::addWidget(_p->layout);
@@ -96,37 +97,14 @@ namespace djv
             _p->layout->clearWidgets();
         }
 
-        void Window::raiseToTop()
-        {
-            if (auto system = getContext()->getSystemT<IWindowSystem>().lock())
-            {
-                system->raiseToTop(std::dynamic_pointer_cast<Window>(shared_from_this()));
-            }
-        }
-
-        void Window::preLayoutEvent(Event::PreLayout&)
+        void Window::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void Window::layoutEvent(Event::Layout&)
+        void Window::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
-        }
-
-        void Window::pointerEnterEvent(Core::Event::PointerEnter& event)
-        {
-            event.accept();
-        }
-
-        void Window::pointerLeaveEvent(Core::Event::PointerLeave& event)
-        {
-            event.accept();
-        }
-
-        void Window::pointerMoveEvent(Core::Event::PointerMove& event)
-        {
-            event.accept();
         }
 
     } // namespace UI

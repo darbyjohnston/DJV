@@ -152,20 +152,7 @@ namespace djv
             _p->minimumWidth = value;
         }
 
-        void Label::updateEvent(Event::Update& event)
-        {
-            if (auto style = _getStyle().lock())
-            {
-                if (auto fontSystem = _getFontSystem().lock())
-                {
-                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
-                    _p->textSizeFuture = fontSystem->measure(_p->text, font);
-                }
-            }
-        }
-
-        void Label::preLayoutEvent(Event::PreLayout& event)
+        void Label::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -187,9 +174,9 @@ namespace djv
             }
         }
 
-        void Label::paintEvent(Event::Paint& event)
+        void Label::_paintEvent(Event::Paint& event)
         {
-            Widget::paintEvent(event);
+            Widget::_paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())
@@ -240,6 +227,19 @@ namespace djv
 
                     render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
                     render->drawText(_p->text, glm::vec2(pos.x, pos.y + ascender));
+                }
+            }
+        }
+
+        void Label::_updateEvent(Event::Update& event)
+        {
+            if (auto style = _getStyle().lock())
+            {
+                if (auto fontSystem = _getFontSystem().lock())
+                {
+                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
+                    _p->textSizeFuture = fontSystem->measure(_p->text, font);
                 }
             }
         }

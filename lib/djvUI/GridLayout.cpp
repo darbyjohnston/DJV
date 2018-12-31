@@ -208,7 +208,7 @@ namespace djv
                 return out;
             }
 
-            void Grid::preLayoutEvent(Event::PreLayout&)
+            void Grid::_preLayoutEvent(Event::PreLayout&)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -263,7 +263,7 @@ namespace djv
                 }
             }
 
-            void Grid::layoutEvent(Event::Layout& event)
+            void Grid::_layoutEvent(Event::Layout& event)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -421,9 +421,9 @@ namespace djv
                 }
             }
 
-            void Grid::paintEvent(Event::Paint& event)
+            void Grid::_paintEvent(Event::Paint& event)
             {
-                Widget::paintEvent(event);
+                Widget::_paintEvent(event);
                 if (auto render = _getRenderSystem().lock())
                 {
                     if (auto style = _getStyle().lock())

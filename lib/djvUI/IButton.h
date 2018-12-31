@@ -37,14 +37,6 @@ namespace djv
                 void setClickedCallback(const std::function<void(void)>&);
                 void setCheckedCallback(const std::function<void(bool)>&);
 
-                void paintEvent(Core::Event::Paint&) override;
-
-                void pointerEnterEvent(Core::Event::PointerEnter&) override;
-                void pointerLeaveEvent(Core::Event::PointerLeave&) override;
-                void pointerMoveEvent(Core::Event::PointerMove&) override;
-                void buttonPressEvent(Core::Event::ButtonPress&) override;
-                void buttonReleaseEvent(Core::Event::ButtonRelease&) override;
-
             protected:
                 bool _isToggled() const;
                 bool _isHovered() const;
@@ -55,8 +47,15 @@ namespace djv
                 virtual void _doClickedCallback();
                 virtual void _doCheckedCallback(bool);
 
-                struct Private;
-                std::unique_ptr<Private> _p;
+                void _paintEvent(Core::Event::Paint&) override;
+                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerMoveEvent(Core::Event::PointerMove&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+
+            private:
+                DJV_PRIVATE();
             };
 
         } // namespace Button

@@ -54,14 +54,10 @@ namespace djv
             void addWidget(const std::shared_ptr<Widget>&) override;
             void removeWidget(const std::shared_ptr<Widget>&) override;
             void clearWidgets() override;
-            
-            void raiseToTop() override;
 
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
-            void pointerEnterEvent(Core::Event::PointerEnter&) override;
-            void pointerLeaveEvent(Core::Event::PointerLeave&) override;
-            void pointerMoveEvent(Core::Event::PointerMove&) override;
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             struct Private;

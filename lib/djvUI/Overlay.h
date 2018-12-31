@@ -58,7 +58,6 @@ namespace djv
                 bool hasFadeIn() const;
                 void setFadeIn(bool);
 
-                void close();
                 void setCloseCallback(const std::function<void(void)> &);
 
                 void addWidget(const std::shared_ptr<Widget>&) override;
@@ -67,12 +66,13 @@ namespace djv
 
                 void setVisible(bool) override;
                 float getHeightForWidth(float) const override;
-                void preLayoutEvent(Core::Event::PreLayout&) override;
-                void layoutEvent(Core::Event::Layout&) override;
 
-                void buttonPressEvent(Core::Event::ButtonPress&) override;
-                void keyPressEvent(Core::Event::KeyPress&) override;
-                void keyReleaseEvent(Core::Event::KeyRelease&) override;
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _keyPressEvent(Core::Event::KeyPress&) override;
+                void _keyReleaseEvent(Core::Event::KeyRelease&) override;
 
             private:
                 struct Private;

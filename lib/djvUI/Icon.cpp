@@ -111,7 +111,7 @@ namespace djv
             _p->iconColorRole = value;
         }
 
-        void Icon::preLayoutEvent(Event::PreLayout& event)
+        void Icon::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -132,9 +132,9 @@ namespace djv
             }
         }
 
-        void Icon::paintEvent(Event::Paint& event)
+        void Icon::_paintEvent(Event::Paint& event)
         {
-            Widget::paintEvent(event);
+            Widget::_paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())

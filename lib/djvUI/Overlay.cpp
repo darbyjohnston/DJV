@@ -83,7 +83,10 @@ namespace djv
                 {
                     if (auto overlay = weak.lock())
                     {
-                        overlay->close();
+                        if (overlay->_p->closeCallback)
+                        {
+                            overlay->_p->closeCallback();
+                        }
                     }
                 });
             }
@@ -131,14 +134,6 @@ namespace djv
             void Overlay::setFadeIn(bool value)
             {
                 _p->fadeIn = value;
-            }
-
-            void Overlay::close()
-            {
-                if (_p->closeCallback)
-                {
-                    _p->closeCallback();
-                }
             }
 
             void Overlay::setCloseCallback(const std::function<void(void)> & callback)
@@ -201,35 +196,38 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void Overlay::preLayoutEvent(Event::PreLayout& event)
+            void Overlay::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Overlay::layoutEvent(Event::Layout& event)
+            void Overlay::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Overlay::buttonPressEvent(Event::ButtonPress& event)
+            void Overlay::_buttonPressEvent(Event::ButtonPress& event)
             {
                 if (_p->capturePointer)
                 {
                     event.accept();
-                    close();
+                    if (_p->closeCallback)
+                    {
+                        _p->closeCallback();
+                    }
                 }
             }
 
-            void Overlay::keyPressEvent(Event::KeyPress& event)
+            void Overlay::_keyPressEvent(Event::KeyPress& event)
             {
-                Widget::keyPressEvent(event);
+                Widget::_keyPressEvent(event);
                 if (_p->captureKeyboard)
                 {
                     event.accept();
                 }
             }
 
-            void Overlay::keyReleaseEvent(Event::KeyRelease& event)
+            void Overlay::_keyReleaseEvent(Event::KeyRelease& event)
             {
                 if (_p->captureKeyboard)
                 {

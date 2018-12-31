@@ -29,8 +29,6 @@
 
 #include <djvDesktop/EventSystem.h>
 
-#include <djvDesktop/WindowSystem.h>
-
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
@@ -81,7 +79,6 @@ namespace djv
         {
             IEventSystem::_init("djv::Desktop::EventSystem", context);
 
-            glfwSetWindowUserPointer(glfwWindow, this);
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
             glfwSetKeyCallback(glfwWindow, _keyCallback);
@@ -111,10 +108,10 @@ namespace djv
             {
                 p.grab->event(moveEvent);
             }
-            else if (auto windowSystem = getContext()->getSystemT<WindowSystem>().lock())
+            else if (auto root = getRootObject())
             {
                 std::shared_ptr<UI::Widget> hover;
-                for (const auto& window : windowSystem->getWindows())
+                for (const auto& window : root->getChildrenT<UI::Window>())
                 {
                     if (window->isVisible() && window->getGeometry().contains(_p->pointerInfo.projectedPos))
                     {
@@ -166,7 +163,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto info = _p->pointerInfo;
-            info.button = button;
+            info.buttons[button] = true;
             Event::ButtonPress event(info);
             if (p.hover)
             {
@@ -182,7 +179,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto info = _p->pointerInfo;
-            info.button = button;
+            info.buttons[button] = false;
             Event::ButtonRelease event(info);
             if (p.grab)
             {
@@ -280,52 +277,64 @@ namespace djv
 
         void EventSystem::_pointerCallback(GLFWwindow* window, double x, double y)
         {
-            EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
-            Event::PointerInfo info;
-            info.id = pointerID;
-            info.pos.x = static_cast<float>(x);
-            info.pos.y = static_cast<float>(y);
-            info.pos.z = 0.f;
-            info.dir.x = 0.f;
-            info.dir.y = 0.f;
-            info.dir.z = 1.f;
-            info.projectedPos = info.pos;
-            system->_pointerMove(info);
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
+            {
+                Event::PointerInfo info;
+                info.id = pointerID;
+                info.pos.x = static_cast<float>(x);
+                info.pos.y = static_cast<float>(y);
+                info.pos.z = 0.f;
+                info.dir.x = 0.f;
+                info.dir.y = 0.f;
+                info.dir.z = 1.f;
+                info.projectedPos = info.pos;
+                system->_pointerMove(info);
+            }
         }
 
         void EventSystem::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
         {
-            EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
-            switch (action)
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
             {
-            case GLFW_PRESS:
-                system->_buttonPress(fromGLFWPointerButton(button));
-                break;
-            case GLFW_RELEASE:
-                system->_buttonRelease(fromGLFWPointerButton(button));
-                break;
+                switch (action)
+                {
+                case GLFW_PRESS:
+                    system->_buttonPress(fromGLFWPointerButton(button));
+                    break;
+                case GLFW_RELEASE:
+                    system->_buttonRelease(fromGLFWPointerButton(button));
+                    break;
+                }
             }
         }
 
         void EventSystem::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
         {
-            EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
-            switch (action)
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
             {
-            case GLFW_PRESS: system->_keyPress(key, mods); break;
-            case GLFW_RELEASE: system->_keyRelease(key, mods); break;
+                switch (action)
+                {
+                case GLFW_PRESS: system->_keyPress(key, mods); break;
+                case GLFW_RELEASE: system->_keyRelease(key, mods); break;
+                }
             }
         }
 
         void EventSystem::_dropCallback(GLFWwindow* window, int count, const char** paths)
         {
-            EventSystem* system = reinterpret_cast<EventSystem*>(glfwGetWindowUserPointer(window));
-            std::vector<std::string> list;
-            for (int i = 0; i < count; ++i)
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<EventSystem>().lock())
             {
-                list.push_back(paths[i]);
+                std::vector<std::string> list;
+                for (int i = 0; i < count; ++i)
+                {
+                    list.push_back(paths[i]);
+                }
+                system->_drop(list);
             }
-            system->_drop(list);
         }
 
     } // namespace Desktop

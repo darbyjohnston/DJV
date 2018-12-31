@@ -65,9 +65,11 @@ namespace djv
                 void clearWidgets() override;
 
                 float getHeightForWidth(float) const override;
-                void preLayoutEvent(Core::Event::PreLayout&) override;
-                void layoutEvent(Core::Event::Layout&) override;
-                void paintEvent(Core::Event::Paint&) override;
+
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+                void _paintEvent(Core::Event::Paint&) override;
 
             private:
                 struct Private;

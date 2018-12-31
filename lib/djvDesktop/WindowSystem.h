@@ -64,6 +64,8 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(GLFWwindow *, Core::Context *);
 
+            std::shared_ptr<Core::IObject> getRootObject() const;
+
         protected:
             void _addWindow(const std::shared_ptr<UI::Window>&) override;
             void _removeWindow(const std::shared_ptr<UI::Window>&) override;
@@ -72,6 +74,12 @@ namespace djv
             void _tick(float dt) override;
 
         private:
+            void _resize(const glm::ivec2 &);
+            void _redraw();
+
+            static void _resizeCallback(GLFWwindow*, int, int);
+            static void _redrawCallback(GLFWwindow*);
+
             struct Private;
             std::unique_ptr<Private> _p;
         };

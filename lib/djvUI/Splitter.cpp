@@ -92,13 +92,12 @@ namespace djv
             {
                 if (value == _p->split)
                     return;
-
                 _p->split = value;
-
                 if (_p->splitCallback)
                 {
                     _p->splitCallback(_p->split);
                 }
+                _resize();
             }
 
             void Splitter::setSplitCallback(const std::function<void(float)>& callback)
@@ -141,16 +140,7 @@ namespace djv
                 return out;
             }
 
-            void Splitter::updateEvent(Event::Update&)
-            {
-                if (auto style = _getStyle().lock())
-                {
-                    const float m = style->getMetric(Style::MetricsRole::Margin);
-                    _p->splitterWidth = m * 1.5f;
-                }
-            }
-
-            void Splitter::preLayoutEvent(Event::PreLayout& event)
+            void Splitter::_preLayoutEvent(Event::PreLayout& event)
             {
                 // Get the child sizes.
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
@@ -189,7 +179,7 @@ namespace djv
                 _setMinimumSize(minimumSize);
             }
 
-            void Splitter::layoutEvent(Event::Layout& event)
+            void Splitter::_layoutEvent(Event::Layout& event)
             {
                 const auto style = _getStyle();
                 const BBox2f& g = getGeometry();
@@ -237,7 +227,7 @@ namespace djv
                 }
             }
 
-            void Splitter::paintEvent(Event::Paint& event)
+            void Splitter::_paintEvent(Event::Paint& event)
             {
                 if (auto render = _getRenderSystem().lock())
                 {
@@ -276,26 +266,28 @@ namespace djv
                 }
             }
 
-            void Splitter::pointerEnterEvent(Event::PointerEnter& event)
+            void Splitter::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 if (!event.isRejected())
                 {
                     event.accept();
                     _p->hover[event.getPointerInfo().id] = _getSplitterGeometry().contains(event.getPointerInfo().projectedPos);
+                    _redraw();
                 }
             }
 
-            void Splitter::pointerLeaveEvent(Event::PointerLeave& event)
+            void Splitter::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
                 auto i = _p->hover.find(event.getPointerInfo().id);
                 if (i != _p->hover.end())
                 {
                     _p->hover.erase(i);
+                    _redraw();
                 }
             }
 
-            void Splitter::pointerMoveEvent(Event::PointerMove& event)
+            void Splitter::_pointerMoveEvent(Event::PointerMove& event)
             {
                 const auto id = event.getPointerInfo().id;
                 const auto& pos = event.getPointerInfo().projectedPos;
@@ -304,6 +296,7 @@ namespace djv
                 if (_p->hover[id] || _p->pressedId)
                 {
                     event.accept();
+                    _redraw();
                 }
 
                 if (_p->pressedId)
@@ -323,7 +316,7 @@ namespace djv
                 }
             }
 
-            void Splitter::buttonPressEvent(Event::ButtonPress& event)
+            void Splitter::_buttonPressEvent(Event::ButtonPress& event)
             {
                 if (_p->pressedId)
                     return;
@@ -332,15 +325,31 @@ namespace djv
                 {
                     event.accept();
                     _p->pressedId = id;
+                    _redraw();
                 }
             }
 
-            void Splitter::buttonReleaseEvent(Event::ButtonRelease& event)
+            void Splitter::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 if (event.getPointerInfo().id != _p->pressedId)
                     return;
                 event.accept();
                 _p->pressedId = 0;
+                _redraw();
+            }
+
+            void Splitter::_updateEvent(Event::Update&)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    const float m = style->getMetric(Style::MetricsRole::Margin);
+                    const float value = m * 1.5f;
+                    if (value != _p->splitterWidth)
+                    {
+                        _redraw();
+                    }
+                    _p->splitterWidth = value;
+                }
             }
 
             float Splitter::_valueToPos(float value) const

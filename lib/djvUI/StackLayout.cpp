@@ -78,7 +78,7 @@ namespace djv
                 return out;
             }
 
-            void Stack::preLayoutEvent(Event::PreLayout&)
+            void Stack::_preLayoutEvent(Event::PreLayout&)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -94,7 +94,7 @@ namespace djv
                 }
             }
 
-            void Stack::layoutEvent(Event::Layout&)
+            void Stack::_layoutEvent(Event::Layout&)
             {
                 if (auto style = _getStyle().lock())
                 {

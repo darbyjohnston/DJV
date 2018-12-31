@@ -29,11 +29,10 @@
 
 #include <djvDesktop/WindowSystem.h>
 
-#include <djvDesktop/EventSystem.h>
-
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
+#include <djvAV/OpenGLOffscreenBuffer.h>
 #include <djvAV/Render2DSystem.h>
 
 #include <GLFW/glfw3.h>
@@ -41,6 +40,8 @@
 //#pragma optimize("", off)
 
 using namespace djv::Core;
+
+using namespace gl;
 
 namespace djv
 {
@@ -56,6 +57,9 @@ namespace djv
         {
             GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<RootObject> rootObject;
+            bool resizeRequest = false;
+            bool redrawRequest = false;
+            std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
         };
 
         void WindowSystem::_init(GLFWwindow * glfwWindow, Context * context)
@@ -63,12 +67,10 @@ namespace djv
             IWindowSystem::_init("djv::Desktop::WindowSystem", context);
 
             _p->glfwWindow = glfwWindow;
+            glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
+            glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
 
             _p->rootObject = std::shared_ptr<RootObject>(new RootObject);
-            if (auto eventSystem = context->getSystemT<EventSystem>().lock())
-            {
-                eventSystem->setRootObject(_p->rootObject);
-            }
         }
 
         WindowSystem::WindowSystem() :
@@ -85,15 +87,19 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<IObject> WindowSystem::getRootObject() const
+        {
+            return _p->rootObject;
+        }
+
         void WindowSystem::_addWindow(const std::shared_ptr<UI::Window>& value)
         {
             value->setParent(_p->rootObject);
-            IWindowSystem::_addWindow(value);
         }
 
         void WindowSystem::_removeWindow(const std::shared_ptr<UI::Window>& value)
         {
-            IWindowSystem::_removeWindow(value);
+            value->setParent(nullptr);
         }
 
         void WindowSystem::_pushClipRect(const Core::BBox2f & value)
@@ -116,41 +122,110 @@ namespace djv
         {
             IWindowSystem::_tick(dt);
 
-            glm::ivec2 frameBufferSize(0, 0);
-            glfwGetFramebufferSize(_p->glfwWindow, &frameBufferSize.x, &frameBufferSize.y);
-            const auto& windows = getWindows();
-            for (const auto& i : windows)
+            bool resizeRequest = _p->resizeRequest;
+            bool redrawRequest = _p->redrawRequest;
+            _p->resizeRequest = false;
+            _p->redrawRequest = false;
+            for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
             {
-                i->resize(frameBufferSize);
+                _hasResizeRequest(i, resizeRequest);
+                _hasRedrawRequest(i, redrawRequest);
+            }
 
-                Event::Update update(dt);
-                _updateRecursive(i, update);
-
-                Event::PreLayout preLayout;
-                _preLayoutRecursive(i, preLayout);
-
-                if (i->isVisible())
+            const auto & size = _p->offscreenBuffer->getInfo().size;
+            if (resizeRequest)
+            {
+                for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
                 {
-                    Event::Layout layout;
-                    _layoutRecursive(i, layout);
+                    i->resize(size);
 
-                    Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
-                    _clipRecursive(i, clip);
+                    Event::PreLayout preLayout;
+                    _preLayoutRecursive(i, preLayout);
+
+                    if (i->isVisible())
+                    {
+                        Event::Layout layout;
+                        _layoutRecursive(i, layout);
+
+                        Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                        _clipRecursive(i, clip);
+                    }
                 }
             }
 
-            if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
+            if (redrawRequest)
             {
-                system->beginFrame(frameBufferSize);
-                for (const auto& i : windows)
+                if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
                 {
-                    if (i->isVisible())
+                    _p->offscreenBuffer->bind();
+                    system->beginFrame(size);
+                    for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
                     {
-                        Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(frameBufferSize.x), static_cast<float>(frameBufferSize.y)));
-                        _paintRecursive(i, paintEvent);
+                        if (i->isVisible())
+                        {
+                            Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            _paintRecursive(i, paintEvent);
+                        }
                     }
+                    system->endFrame();
+                    _p->offscreenBuffer->unbind();
                 }
-                system->endFrame();
+            }
+
+            if (resizeRequest || redrawRequest)
+            {
+                _redraw();
+            }
+        }
+
+        void WindowSystem::_resize(const glm::ivec2 & size)
+        {
+            _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(AV::Image::Info(size, AV::Image::Type::RGBA_U8));
+            _p->resizeRequest = true;
+            _p->redrawRequest = true;
+        }
+
+        void WindowSystem::_redraw()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.offscreenBuffer)
+            {
+                glDisable(GL_SCISSOR_TEST);
+                glDisable(GL_BLEND);
+                const auto & size = p.offscreenBuffer->getInfo().size;
+                gl::glViewport(
+                    0,
+                    0,
+                    GLsizei(size.x),
+                    GLsizei(size.y));
+                gl::glClearColor(0.f, 0.f, 0.f, 0.f);
+                glClear(GL_COLOR_BUFFER_BIT);
+                glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
+                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+                glBlitFramebuffer(
+                    0, 0, size.x, size.y,
+                    0, 0, size.x, size.y,
+                    ClearBufferMask(GL_COLOR_BUFFER_BIT),
+                    gl::GLenum(GL_NEAREST));
+                glfwSwapBuffers(p.glfwWindow);
+            }
+        }
+
+        void WindowSystem::_resizeCallback(GLFWwindow* window, int width, int height)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<WindowSystem>().lock())
+            {
+                system->_resize(glm::ivec2(width, height));
+            }
+        }
+
+        void WindowSystem::_redrawCallback(GLFWwindow* window)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<WindowSystem>().lock())
+            {
+                system->_redraw();
             }
         }
 

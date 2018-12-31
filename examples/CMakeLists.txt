@@ -1,3 +1,4 @@
+add_subdirectory(ButtonDesktopExample)
 add_subdirectory(ComboBoxDesktopExample)
 add_subdirectory(HelloWorldDesktopExample)
 add_subdirectory(MDICanvasDesktopExample)

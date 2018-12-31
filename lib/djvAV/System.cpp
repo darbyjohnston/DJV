@@ -74,9 +74,15 @@ namespace djv
                 const GLchar * message,
                 const void * userParam)
             {
-                if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
+                switch (severity)
                 {
-                    log->log("djv::AV::System", message);
+                case gl::GL_DEBUG_SEVERITY_HIGH:
+                case gl::GL_DEBUG_SEVERITY_MEDIUM:
+                    if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
+                    {
+                        log->log("djv::AV::System", message);
+                    }
+                    break;
                 }
             }
 
@@ -161,6 +167,7 @@ namespace djv
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
                 context->log("djv::AV::System", ss.str());
             }
+            glfwSetWindowUserPointer(p.glfwWindow, context);
             glfwMakeContextCurrent(p.glfwWindow);
             glbinding::initialize(glfwGetProcAddress);
             GLint flags = 0;

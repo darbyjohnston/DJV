@@ -62,11 +62,13 @@ namespace djv
                 void setText(const std::string&);
 
                 float getHeightForWidth(float) const override;
-                void preLayoutEvent(Event::PreLayout&) override;
-                void layoutEvent(Event::Layout&) override;
-                void paintEvent(Event::Paint&) override;
 
-                void updateEvent(Core::Event::Update&) override;
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+                void _paintEvent(Event::Paint&) override;
+
+                void _updateEvent(Core::Event::Update&) override;
 
             private:
                 std::shared_ptr<Label> _label;
@@ -115,17 +117,17 @@ namespace djv
                 return _layout->getHeightForWidth(value);
             }
 
-            void TabBarButton::preLayoutEvent(Event::PreLayout& event)
+            void TabBarButton::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_layout->getMinimumSize());
             }
 
-            void TabBarButton::layoutEvent(Event::Layout&)
+            void TabBarButton::_layoutEvent(Event::Layout&)
             {
                 _layout->setGeometry(getGeometry());
             }
 
-            void TabBarButton::paintEvent(Event::Paint& event)
+            void TabBarButton::_paintEvent(Event::Paint& event)
             {
                 if (auto render = _getRenderSystem().lock())
                 {
@@ -147,9 +149,9 @@ namespace djv
                 }
             }
 
-            void TabBarButton::updateEvent(Event::Update& event)
+            void TabBarButton::_updateEvent(Event::Update& event)
             {
-                IButton::updateEvent(event);
+                IButton::_updateEvent(event);
                 _label->setTextColorRole(_isToggled() ? Style::ColorRole::Foreground : Style::ColorRole::ForegroundDim);
             }
 
@@ -220,12 +222,12 @@ namespace djv
             return _p->layout->getHeightForWidth(value);
         }
 
-        void TabBar::preLayoutEvent(Event::PreLayout& event)
+        void TabBar::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void TabBar::layoutEvent(Event::Layout& event)
+        void TabBar::_layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {

@@ -108,12 +108,12 @@ namespace djv
             }
         }
 
-        void PlaybackWidget::preLayoutEvent(Event::PreLayout& event)
+        void PlaybackWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void PlaybackWidget::layoutEvent(Event::Layout&)
+        void PlaybackWidget::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }

@@ -60,9 +60,10 @@ namespace djv
                 void removeWindow(const std::shared_ptr<IWindow>&);
                 void clearWindows();
 
-                void preLayoutEvent(Core::Event::PreLayout&) override;
-                void layoutEvent(Core::Event::Layout&) override;
-                bool eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::IEvent&) override;
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+                bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::IEvent&) override;
 
             private:
                 void _clampWindows();

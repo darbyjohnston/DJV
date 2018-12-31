@@ -60,7 +60,8 @@ namespace djv
                 void removeWidget(const std::shared_ptr<Widget>&);
                 void clearWidgets();
 
-                void layoutEvent(Event::Layout&) override;
+            protected:
+                void _layoutEvent(Event::Layout&) override;
 
             private:
                 std::map<std::shared_ptr<Widget>, std::pair<BBox2f, Orientation> > _widgetToAnchor;
@@ -112,7 +113,7 @@ namespace djv
                 _widgetToAnchor.clear();
             }
 
-            void MenuLayout::layoutEvent(Event::Layout&)
+            void MenuLayout::_layoutEvent(Event::Layout&)
             {
                 for (const auto & i : _widgetToAnchor)
                 {
@@ -195,6 +196,7 @@ namespace djv
         void Menu::_init(Context * context)
         {
             _p->context = context;
+            _p->name = ValueSubject<std::string>::create();
         }
 
         Menu::Menu() :
@@ -263,7 +265,6 @@ namespace djv
                     if (auto window = menu->_p->window.lock())
                     {
                         window->removeWidget(menu->_p->overlay);
-                        window = nullptr;
                     }
                     menu->_p->overlay = nullptr;
                     menu->_p->textObservers.clear();
@@ -290,7 +291,7 @@ namespace djv
         {
             if (_p->overlay)
             {
-                _p->overlay->close();
+                _p->overlay->setParent(nullptr);
             }
         }
 

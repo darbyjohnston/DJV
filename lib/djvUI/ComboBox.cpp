@@ -153,12 +153,12 @@ namespace djv
             _p->button->setFontSizeRole(value);
         }
 
-        void ComboBox::preLayoutEvent(Event::PreLayout& event)
+        void ComboBox::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
-        void ComboBox::layoutEvent(Event::Layout& event)
+        void ComboBox::_layoutEvent(Event::Layout& event)
         {
             _p->button->setGeometry(getGeometry());
         }

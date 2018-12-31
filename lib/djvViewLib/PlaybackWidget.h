@@ -55,8 +55,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<Playback> > getPlayback() const;
             void setPlayback(Playback);
 
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void layoutEvent(Core::Event::Layout&) override;
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             void _updateWidget();

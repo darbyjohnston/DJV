@@ -76,9 +76,10 @@ namespace djv
         {
             _p->image = value;
             _p->uid = uid;
+            _redraw();
         }
 
-        void ImageWidget::preLayoutEvent(Event::PreLayout& event)
+        void ImageWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -87,9 +88,9 @@ namespace djv
             }
         }
 
-        void ImageWidget::paintEvent(Event::Paint& event)
+        void ImageWidget::_paintEvent(Event::Paint& event)
         {
-            Widget::paintEvent(event);
+            Widget::_paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 if (auto style = _getStyle().lock())

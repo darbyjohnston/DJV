@@ -18,6 +18,7 @@ set(header
     DrivesModel.h
     Enum.h
     Event.h
+    EventInline.h
     Error.h
     FileInfo.h
     FileInfoInline.h

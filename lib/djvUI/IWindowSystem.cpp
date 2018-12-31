@@ -39,10 +39,17 @@ namespace djv
 {
     namespace UI
     {
+        class RootObject : public IObject
+        {};
+
         struct IWindowSystem::Private
         {
-            std::vector<std::shared_ptr<Window> > windows;
         };
+
+        void IWindowSystem::_init(const std::string & name, Core::Context * context)
+        {
+            ISystem::_init(name, context);
+        }
 
         IWindowSystem::IWindowSystem() :
             _p(new Private)
@@ -51,48 +58,36 @@ namespace djv
         IWindowSystem::~IWindowSystem()
         {}
 
-        const std::vector<std::shared_ptr<Window> >& IWindowSystem::getWindows() const
-        {
-            return _p->windows;
-        }
-
-        void IWindowSystem::raiseToTop(const std::shared_ptr<Window>& value)
-        {
-            const auto i = std::find(_p->windows.begin(), _p->windows.end(), value);
-            if (i != _p->windows.end())
-            {
-                _p->windows.erase(i);
-            }
-            _p->windows.push_back(value);
-        }
-
-        void IWindowSystem::_addWindow(const std::shared_ptr<Window>& value)
-        {
-            _p->windows.push_back(value);
-        }
-
-        void IWindowSystem::_removeWindow(const std::shared_ptr<Window>& value)
-        {
-            const auto i = std::find(_p->windows.begin(), _p->windows.end(), value);
-            if (i != _p->windows.end())
-            {
-                _p->windows.erase(i);
-            }
-        }
-
         void IWindowSystem::_pushClipRect(const Core::BBox2f &)
         {}
 
         void IWindowSystem::_popClipRect()
         {}
 
-        void IWindowSystem::_updateRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Update& event)
+        void IWindowSystem::_hasResizeRequest(const std::shared_ptr<UI::Widget>& widget, bool& out) const
         {
+            if (widget->_resizeRequest)
+            {
+                widget->_resizeRequest = false;
+                out = true;
+            }
             for (const auto& child : widget->getChildrenT<UI::Widget>())
             {
-                _updateRecursive(child, event);
+                _hasResizeRequest(child, out);
             }
-            widget->event(event);
+        }
+
+        void IWindowSystem::_hasRedrawRequest(const std::shared_ptr<UI::Widget>& widget, bool& out) const
+        {
+            if (widget->_redrawRequest)
+            {
+                widget->_redrawRequest = false;
+                out = true;
+            }
+            for (const auto& child : widget->getChildrenT<UI::Widget>())
+            {
+                _hasRedrawRequest(child, out);
+            }
         }
 
         void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::PreLayout& event)

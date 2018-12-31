@@ -91,7 +91,7 @@ namespace djv
             _p->swatchSize = value;
         }
 
-        void ColorSwatch::preLayoutEvent(Event::PreLayout& event)
+        void ColorSwatch::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
@@ -100,9 +100,9 @@ namespace djv
             }
         }
 
-        void ColorSwatch::paintEvent(Event::Paint& event)
+        void ColorSwatch::_paintEvent(Event::Paint& event)
         {
-            Widget::paintEvent(event);
+            Widget::_paintEvent(event);
             if (auto render = _getRenderSystem().lock())
             {
                 const BBox2f& g = getGeometry();

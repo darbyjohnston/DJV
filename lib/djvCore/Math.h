@@ -146,12 +146,6 @@ namespace djv
             //! \name Number Comparison
             ///@{
 
-            //! Fuzzy floating-point comparison.
-            inline bool fuzzyCompare(double a, double b, double e = .1e-9);
-
-            //! Fuzzy floating-point comparison.
-            inline bool fuzzyCompare(float a, float b, float e = .1e-6f);
-
             //! Are the signs of both numbers the same?
             inline bool haveSameSign(float, float);
 
@@ -159,6 +153,10 @@ namespace djv
 
         } // namespace Math
     } // namespace Core
+
+    inline bool fuzzyCompare(double a, double b, double e = .1e-9);
+    inline bool fuzzyCompare(float a, float b, float e = .1e-6f);
+
 } // namespace djv
 
 #include <djvCore/MathInline.h>

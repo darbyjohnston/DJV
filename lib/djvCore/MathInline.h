@@ -211,16 +211,6 @@ namespace djv
                 return value / 360.f * pi2;
             }
 
-            inline bool fuzzyCompare(double a, double b, double e)
-            {
-                return fabs(a - b) < e;
-            }
-
-            inline bool fuzzyCompare(float a, float b, float e)
-            {
-                return fabsf(a - b) < e;
-            }
-
             inline bool haveSameSign(float a, float b)
             {
                 return ((a > 0.f && b > 0.f) || (a < 0.f && b < 0.f));
@@ -228,4 +218,15 @@ namespace djv
 
         } // namespace Math
     } // namespace Core
+
+    inline bool fuzzyCompare(double a, double b, double e)
+    {
+        return fabs(a - b) < e;
+    }
+
+    inline bool fuzzyCompare(float a, float b, float e)
+    {
+        return fabsf(a - b) < e;
+    }
+
 } // namespace djv

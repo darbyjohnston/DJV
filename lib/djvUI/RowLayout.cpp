@@ -198,7 +198,7 @@ namespace djv
                 return out;
             }
 
-            void Row::preLayoutEvent(Event::PreLayout&)
+            void Row::_preLayoutEvent(Event::PreLayout&)
             {
                 if (auto style = _getStyle().lock())
                 {
@@ -247,7 +247,7 @@ namespace djv
                 }
             }
 
-            void Row::layoutEvent(Event::Layout& event)
+            void Row::_layoutEvent(Event::Layout& event)
             {
                 if (auto style = _getStyle().lock())
                 {

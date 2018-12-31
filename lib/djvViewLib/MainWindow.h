@@ -49,7 +49,7 @@ namespace djv
             static std::shared_ptr<MainWindow> create(Core::Context *);
 
         protected:
-            void dropEvent(Core::Event::Drop&) override;
+            void _dropEvent(Core::Event::Drop&) override;
 
         private:
             DJV_PRIVATE();

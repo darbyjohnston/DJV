@@ -79,9 +79,10 @@ namespace djv
 
             ///@}
 
-            void updateEvent(Core::Event::Update&) override;
-            void preLayoutEvent(Core::Event::PreLayout&) override;
-            void paintEvent(Core::Event::Paint&) override;
+        protected:
+            void _updateEvent(Core::Event::Update&) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
         private:
             struct Private;

@@ -115,27 +115,19 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void Tool::updateEvent(Event::Update& event)
-            {
-                const auto style = _getStyle();
-                const bool enabled = isEnabled(true);
-                const Style::ColorRole fg = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
-                _p->icon->setIconColorRole(fg);
-            }
-
-            void Tool::preLayoutEvent(Event::PreLayout& event)
+            void Tool::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void Tool::layoutEvent(Event::Layout&)
+            void Tool::_layoutEvent(Event::Layout&)
             {
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Tool::paintEvent(Event::Paint& event)
+            void Tool::_paintEvent(Event::Paint& event)
             {
-                Widget::paintEvent(event);
+                Widget::_paintEvent(event);
                 if (auto render = _getRenderSystem().lock())
                 {
                     if (auto style = _getStyle().lock())
@@ -157,6 +149,14 @@ namespace djv
                         }
                     }
                 }
+            }
+
+            void Tool::_updateEvent(Event::Update& event)
+            {
+                const auto style = _getStyle();
+                const bool enabled = isEnabled(true);
+                const Style::ColorRole fg = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                _p->icon->setIconColorRole(fg);
             }
 
         } // namespace Button

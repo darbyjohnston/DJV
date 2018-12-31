@@ -87,7 +87,10 @@ namespace djv
 
             void IButton::setChecked(bool value)
             {
+                if (value == _p->checked)
+                    return;
                 _p->checked = value;
+                _redraw();
             }
 
             Style::ColorRole IButton::getCheckedColorRole() const
@@ -110,9 +113,9 @@ namespace djv
                 _p->checkedCallback = callback;
             }
 
-            void IButton::paintEvent(Event::Paint& event)
+            void IButton::_paintEvent(Event::Paint& event)
             {
-                Widget::paintEvent(event);
+                Widget::_paintEvent(event);
                 if (auto render = _getRenderSystem().lock())
                 {
                     if (auto style = _getStyle().lock())
@@ -136,16 +139,17 @@ namespace djv
                 }
             }
 
-            void IButton::pointerEnterEvent(Event::PointerEnter& event)
+            void IButton::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 event.accept();
 
                 const auto id = event.getPointerInfo().id;
                 _p->pointerState[id].hover = true;
                 _p->pointerState[id].inside = true;
+                _redraw();
             }
 
-            void IButton::pointerLeaveEvent(Event::PointerLeave& event)
+            void IButton::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
 
@@ -154,10 +158,11 @@ namespace djv
                 if (i != _p->pointerState.end())
                 {
                     _p->pointerState.erase(i);
+                    _redraw();
                 }
             }
 
-            void IButton::pointerMoveEvent(Event::PointerMove& event)
+            void IButton::_pointerMoveEvent(Event::PointerMove& event)
             {
                 event.accept();
 
@@ -175,21 +180,23 @@ namespace djv
                         if (!accepted)
                         {
                             _p->pressedId = 0;
+                            _redraw();
                         }
                     }
                 }
             }
 
-            void IButton::buttonPressEvent(Event::ButtonPress& event)
+            void IButton::_buttonPressEvent(Event::ButtonPress& event)
             {
                 if (_p->pressedId)
                     return;
                 event.accept();
                 _p->pressedId = event.getPointerInfo().id;
                 _p->pressedPos = event.getPointerInfo().projectedPos;
+                _redraw();
             }
 
-            void IButton::buttonReleaseEvent(Event::ButtonRelease& event)
+            void IButton::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 const auto id = event.getPointerInfo().id;
                 if (id != _p->pressedId)
@@ -215,6 +222,7 @@ namespace djv
                     default: break;
                     }
                 }
+                _redraw();
             }
 
             bool IButton::_isToggled() const

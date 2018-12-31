@@ -31,6 +31,9 @@ namespace djv
 {
     namespace UI
     {
+        inline Widget::Widget()
+        {}
+
         inline bool Widget::isVisible(bool parents) const
         {
             return parents ? (_parentsVisible && _visible) : _visible;

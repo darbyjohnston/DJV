@@ -153,21 +153,20 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void List::updateEvent(Event::Update& event)
-            {
-                IButton::updateEvent(event);
-
-                _p->label->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
-            }
-
-            void List::preLayoutEvent(Event::PreLayout& event)
+            void List::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void List::layoutEvent(Event::Layout&)
+            void List::_layoutEvent(Event::Layout&)
             {
                 _p->layout->setGeometry(getGeometry());
+            }
+
+            void List::_updateEvent(Event::Update& event)
+            {
+                IButton::_updateEvent(event);
+                _p->label->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
             }
 
         } // namespace Button

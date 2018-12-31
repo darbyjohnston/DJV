@@ -229,12 +229,12 @@ namespace djv
             return _p->resizeHandle;
         }
 
-        void MDIWindow::preLayoutEvent(Event::PreLayout& event)
+        void MDIWindow::_preLayoutEvent(Event::PreLayout& event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());
         }
 
-        void MDIWindow::layoutEvent(Event::Layout&)
+        void MDIWindow::_layoutEvent(Event::Layout&)
         {
             _p->layout->setGeometry(getGeometry());
         }

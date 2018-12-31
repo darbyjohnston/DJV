@@ -31,8 +31,6 @@
 
 #include <djvCore/Core.h>
 
-#include <memory>
-
 namespace djv
 {
     namespace Core
@@ -50,6 +48,7 @@ namespace djv
             class IEvent;
             class IEventSystem;
             class Locale;
+            class Parent;
             class PointerEnter;
             class PointerLeave;
             class PointerMove;
@@ -64,61 +63,118 @@ namespace djv
         protected:
             void _init(Context *);
 
-            IObject();
+            inline IObject();
 
         public:
             virtual ~IObject() = 0;
 
             inline Context * getContext() const;
-            inline const std::string& getClassName() const;
-            inline const std::string& getName() const;
-            void setClassName(const std::string&);
-            void setName(const std::string&);
 
+            //! \name Object Class Name
+            ///@{
+
+            inline const std::string& getClassName() const;
+            inline void setClassName(const std::string&);
+
+            ///@}
+
+            //! \name Object Name
+            ///@{
+
+            inline const std::string& getName() const;
+            inline void setName(const std::string&);
+
+            ///@}
+
+            //! \name Object Hierarchy
+            ///@{
+
+            //! Get the parent object.
             inline const std::weak_ptr<IObject>& getParent() const;
+
+            //! Walk up the object hierarchy looking for a parent of the given type.
             template<typename T>
             inline std::shared_ptr<T> getParentRecursiveT() const;
+
+            //! Get the list of child objects.
             inline const std::vector<std::shared_ptr<IObject> >& getChildren() const;
+
+            //! Get the list of child objects of the given type.
             template<typename T>
             inline std::vector<std::shared_ptr<T> > getChildrenT() const;
+
+            //! Recursively find all child objects of the given type.
             template<typename T>
             inline std::vector<std::shared_ptr<T> > getChildrenRecursiveT() const;
+
+            //! Get the first child object of the given type.
             template <typename T>
             inline std::shared_ptr<T> getFirstChildT() const;
+
+            //! Recursively find the first child object of the given type.
             template <typename T>
             inline std::shared_ptr<T> getFirstChildRecursiveT() const;
+
+            //! Set the parent.
             virtual void setParent(const std::shared_ptr<IObject>&, int insert = -1);
-            virtual void raiseToTop();
-            virtual void lowerToBottom();
+
+            //! Move this object to the front of the child list.
+            virtual void moveToFront();
+
+            //! Move this object to the back of the child list.
+            virtual void moveToBack();
+
+            ///@}
+
+            //! \name Object Enabled State
+            ///@{
 
             inline bool isEnabled(bool parents = false) const;
-            void setEnabled(bool);
+            inline void setEnabled(bool);
 
+            ///@}
+
+            //! \name Object Events
+            ///@{
+
+            //! Install an event filter.
             void installEventFilter(const std::weak_ptr<IObject>&);
+
+            //! Remove an event filter.
             void removeEventFilter(const std::weak_ptr<IObject>&);
 
-            virtual void updateEvent(Event::Update&) {}
-            virtual void localeEvent(Event::Locale&) {}
-            virtual void pointerEnterEvent(Event::PointerEnter&) {}
-            virtual void pointerLeaveEvent(Event::PointerLeave&) {}
-            virtual void pointerMoveEvent(Event::PointerMove&) {}
-            virtual void buttonPressEvent(Event::ButtonPress&) {}
-            virtual void buttonReleaseEvent(Event::ButtonRelease&) {}
+            //! This function receives events for the object.
             virtual bool event(Event::IEvent&);
-            
-            virtual bool canHover(Event::PointerMove&) const { return false; }
 
-            bool eventFilter(Event::IEvent&);
-            virtual bool eventFilter(const std::shared_ptr<IObject>&, Event::IEvent&) { return false; }
+            ///@}
 
         protected:
+            //! \name Object Events
+            ///@{
+
+            virtual void _updateEvent(Event::Update &) {}
+            virtual void _localeEvent(Event::Locale &) {}
+            virtual void _parentEvent(Event::Parent &) {}
+
+            //! Over-ride this function to filter events for other objects.
+            virtual bool _eventFilter(const std::shared_ptr<IObject>&, Event::IEvent&) { return false; }
+
+            ///@}
+
+            //! \name Convenience Functions
+            ///@{
+
             std::weak_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
             std::weak_ptr<LogSystem> _getLogSystem() const { return _logSystem; }
             std::weak_ptr<TextSystem> _getTextSystem() const { return _textSystem; }
 
             void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
 
+            ///@}
+
         private:
+            bool _eventFilter(Event::IEvent&);
+
             template<typename T>
             inline static void _getChildrenRecursiveT(const std::shared_ptr<IObject>&, std::vector<std::shared_ptr<T> >&);
             template<typename T>
