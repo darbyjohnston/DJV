@@ -99,10 +99,13 @@ namespace djv
 
         void TextBlock::setText(const std::string& value)
         {
+            if (value == _p->text)
+                return;
             _p->text = value;
             _p->heightForWidthHash = 0;
             _p->textSizeHash = 0;
             _p->breakTextHash = 0;
+            _resize();
         }
 
         TextHAlign TextBlock::getTextHAlign() const
@@ -112,7 +115,10 @@ namespace djv
         
         void TextBlock::setTextHAlign(TextHAlign value)
         {
+            if (value == _p->textHAlign)
+                return;
             _p->textHAlign = value;
+            _resize();
         }
 
         Style::ColorRole TextBlock::getTextColorRole() const
@@ -122,7 +128,10 @@ namespace djv
 
         void TextBlock::setTextColorRole(Style::ColorRole value)
         {
+            if (value == _p->textColorRole)
+                return;
             _p->textColorRole = value;
+            _redraw();
         }
 
         const std::string & TextBlock::getFontFace() const
@@ -137,12 +146,18 @@ namespace djv
 
         void TextBlock::setFontFace(const std::string & value)
         {
+            if (value == _p->fontFace)
+                return;
             _p->fontFace = value;
+            _resize();
         }
 
         void TextBlock::setFontSizeRole(Style::MetricsRole value)
         {
+            if (value == _p->fontSizeRole)
+                return;
             _p->fontSizeRole = value;
+            _resize();
         }
 
         float TextBlock::getHeightForWidth(float value) const

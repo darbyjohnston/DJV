@@ -32,13 +32,13 @@
 #include <djvDesktop/EventSystem.h>
 #include <djvDesktop/WindowSystem.h>
 
-#include <djvUI/System.h>
+#include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/IconSystem.h>
-#include <djvAV/System.h>
+#include <djvAV/AVSystem.h>
 
 #include <djvCore/OS.h>
 
@@ -64,7 +64,7 @@ namespace djv
         struct Application::Private
         {
             bool running = false;
-            std::shared_ptr<UI::System> uiSystem;
+            std::shared_ptr<UI::UISystem> uiSystem;
             GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<EventSystem> eventSystem;
             std::shared_ptr<WindowSystem> windowSystem;
@@ -74,8 +74,8 @@ namespace djv
         {
             Context::_init(argc, argv);
             DJV_PRIVATE_PTR();
-            p.uiSystem = UI::System::create(this);
-            if (auto avSystem = getSystemT<AV::System>().lock())
+            p.uiSystem = UI::UISystem::create(this);
+            if (auto avSystem = getSystemT<AV::AVSystem>().lock())
             {
                 p.glfwWindow = avSystem->getGLFWWindow();
                 p.eventSystem = EventSystem::create(p.glfwWindow, this);

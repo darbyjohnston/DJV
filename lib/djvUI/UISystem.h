@@ -27,40 +27,48 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktop/System.h>
+#pragma once
 
-#include <djvUI/System.h>
-
-using namespace djv::Core;
+#include <djvCore/ISystem.h>
 
 namespace djv
 {
-    namespace Desktop
+    namespace UI
     {
-        struct System::Private
+        namespace Settings
         {
+            class General;
+            class Font;
+
+        } // namespace Settings
+
+        namespace Style
+        {
+            class Style;
+
+        } // namespace Style
+
+        //! This class provides a UI system.
+        class UISystem : public Core::ISystem
+        {
+            DJV_NON_COPYABLE(UISystem);
+
+        protected:
+            void _init(Core::Context *);
+            UISystem();
+
+        public:
+            ~UISystem() override;
+
+            static std::shared_ptr<UISystem> create(Core::Context *);
+
+            const std::shared_ptr<Settings::General> getGeneralSettings() const;
+            const std::shared_ptr<Settings::Font> getFontSettings() const;
+            const std::shared_ptr<Style::Style> getStyle() const;
+
+        private:
+            DJV_PRIVATE();
         };
 
-        void System::_init(Context * context)
-        {
-            ISystem::_init("djv::Desktop::System", context);
-            UI::System::create(context);
-        }
-
-        System::System() :
-            _p(new Private)
-        {}
-
-        System::~System()
-        {}
-
-        std::shared_ptr<System> System::create(Context * context)
-        {
-            auto out = std::shared_ptr<System>(new System);
-            out->_init(context);
-            return out;
-        }
-
-    } // namespace Desktop
+    } // namespace UI
 } // namespace djv
-

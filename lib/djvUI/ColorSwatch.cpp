@@ -78,7 +78,10 @@ namespace djv
 
         void ColorSwatch::setColor(const AV::Image::Color& value)
         {
+            if (value == _p->color)
+                return;
             _p->color = value;
+            _redraw();
         }
 
         Style::MetricsRole ColorSwatch::getSwatchSize() const
@@ -88,7 +91,10 @@ namespace djv
 
         void ColorSwatch::setSwatchSize(Style::MetricsRole value)
         {
+            if (value == _p->swatchSize)
+                return;
             _p->swatchSize = value;
+            _resize();
         }
 
         void ColorSwatch::_preLayoutEvent(Event::PreLayout& event)

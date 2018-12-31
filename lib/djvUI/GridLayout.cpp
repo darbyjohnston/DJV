@@ -78,17 +78,17 @@ namespace djv
             void Grid::addWidget(const std::shared_ptr<Widget>& widget, const glm::ivec2& pos, GridStretch stretch)
             {
                 widget->setParent(shared_from_this());
-
                 _p->widgets[pos] = widget;
                 _p->stretch[pos] = stretch;
+                _resize();
             }
 
             void Grid::addWidget(const std::shared_ptr<Widget>& widget, int x, int y, GridStretch stretch)
             {
                 widget->setParent(shared_from_this());
-
                 _p->widgets[glm::vec2(x, y)] = widget;
                 _p->stretch[glm::vec2(x, y)] = stretch;
+                _resize();
             }
 
             void Grid::removeWidget(const std::shared_ptr<Widget>& widget)
@@ -102,8 +102,8 @@ namespace djv
                         break;
                     }
                 }
-
                 widget->setParent(nullptr);
+                _resize();
             }
 
             void Grid::clearWidgets()
@@ -113,9 +113,9 @@ namespace djv
                 {
                     child->setParent(nullptr);
                 }
-
                 _p->widgets.clear();
                 _p->stretch.clear();
+                _resize();
             }
 
             glm::ivec2 Grid::getGridSize() const
@@ -135,7 +135,10 @@ namespace djv
 
             void Grid::setSpacing(const Spacing& value)
             {
+                if (value == _p->spacing)
+                    return;
                 _p->spacing = value;
+                _resize();
             }
 
             GridStretch Grid::getStretch(const std::shared_ptr<Widget>& value) const
@@ -157,19 +160,40 @@ namespace djv
                 {
                     if (value == widget.second)
                     {
-                        _p->stretch[widget.first] = stretch;
+                        if (stretch != _p->stretch[widget.first])
+                        {
+                            _p->stretch[widget.first] = stretch;
+                            _resize();
+                            break;
+                        }
                     }
                 }
             }
 
             void Grid::setRowBackgroundRole(int value, Style::ColorRole role)
             {
-                _p->rowBackgroundRoles[value] = role;
+                const auto i = _p->rowBackgroundRoles.find(value);
+                if (i != _p->rowBackgroundRoles.end())
+                {
+                    if (role != i->second)
+                    {
+                        _p->rowBackgroundRoles[value] = role;
+                        _redraw();
+                    }
+                }
             }
 
             void Grid::setColumnBackgroundRole(int value, Style::ColorRole role)
             {
-                _p->columnBackgroundRoles[value] = role;
+                const auto i = _p->columnBackgroundRoles.find(value);
+                if (i != _p->columnBackgroundRoles.end())
+                {
+                    if (role != i->second)
+                    {
+                        _p->columnBackgroundRoles[value] = role;
+                        _redraw();
+                    }
+                }
             }
 
             float Grid::getHeightForWidth(float value) const

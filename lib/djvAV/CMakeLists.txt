@@ -9,6 +9,7 @@ find_package(PNG)
 
 set(header
     AV.h
+    AVSystem.h
     Audio.h
     AudioData.h
     AudioDataInline.h
@@ -41,11 +42,11 @@ set(header
     SequenceIO.h
     Shader.h
     Shape.h
-    System.h
     Tags.h
     TextureCache.h
     TriangleMesh.h)
 set(source
+    AVSystem.cpp
     Audio.cpp
     AudioData.cpp
     AudioSystem.cpp
@@ -70,7 +71,6 @@ set(source
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp
-    System.cpp
     Tags.cpp
     TextureCache.cpp
     TriangleMesh.cpp)

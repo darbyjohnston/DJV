@@ -78,12 +78,14 @@ namespace djv
             {
                 value->setParent(shared_from_this());
                 _p->stretch[value] = stretch;
+                _resize();
             }
 
             void Row::insertWidget(const std::shared_ptr<Widget>& value, int index, RowStretch stretch)
             {
                 value->setParent(shared_from_this(), index);
                 _p->stretch[value] = stretch;
+                _resize();
             }
 
             void Row::removeWidget(const std::shared_ptr<Widget>& value)
@@ -94,6 +96,7 @@ namespace djv
                 {
                     _p->stretch.erase(i);
                 }
+                _resize();
             }
 
             void Row::clearWidgets()
@@ -104,6 +107,7 @@ namespace djv
                     child->setParent(nullptr);
                 }
                 _p->stretch.clear();
+                _resize();
             }
 
             void Row::addSeparator()
@@ -129,7 +133,10 @@ namespace djv
 
             void Row::setOrientation(Orientation value)
             {
+                if (value == _p->orientation)
+                    return;
                 _p->orientation = value;
+                _resize();
             }
 
             const Spacing& Row::getSpacing() const
@@ -139,7 +146,10 @@ namespace djv
 
             void Row::setSpacing(const Spacing& value)
             {
+                if (value == _p->spacing)
+                    return;
                 _p->spacing = value;
+                _resize();
             }
 
             RowStretch Row::getStretch(const std::shared_ptr<Widget>& value) const
@@ -150,7 +160,15 @@ namespace djv
 
             void Row::setStretch(const std::shared_ptr<Widget>& value, RowStretch stretch)
             {
-                _p->stretch[value] = stretch;
+                const auto i = _p->stretch.find(value);
+                if (i != _p->stretch.end())
+                {
+                    if (stretch != i->second)
+                    {
+                        _p->stretch[value] = stretch;
+                        _resize();
+                    }
+                }
             }
 
             float Row::getHeightForWidth(float value) const

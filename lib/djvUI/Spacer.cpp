@@ -72,7 +72,10 @@ namespace djv
 
             void Spacer::setOrientation(Orientation value)
             {
+                if (value == _p->orientation)
+                    return;
                 _p->orientation = value;
+                _resize();
             }
 
             Style::MetricsRole Spacer::getSpacerSize() const
@@ -82,7 +85,10 @@ namespace djv
 
             void Spacer::setSpacerSize(Style::MetricsRole value)
             {
+                if (value == _p->spacerSize)
+                    return;
                 _p->spacerSize = value;
+                _resize();
             }
 
             void Spacer::_preLayoutEvent(Event::PreLayout& event)

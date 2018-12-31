@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/System.h>
+#include <djvUI/UISystem.h>
 
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/FontSettings.h>
@@ -35,8 +35,8 @@
 #include <djvUI/StyleSettings.h>
 #include <djvUI/Style.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/Render2DSystem.h>
-#include <djvAV/System.h>
 
 #include <djvCore/Context.h>
 
@@ -46,7 +46,7 @@ namespace djv
 {
     namespace UI
     {
-        struct System::Private
+        struct UISystem::Private
         {
             std::vector<std::shared_ptr<ISystem> > uiSystems;
             std::shared_ptr<Settings::General> generalSettings;
@@ -54,11 +54,11 @@ namespace djv
             std::shared_ptr<Style::Style> style;
         };
 
-        void System::_init(Context * context)
+        void UISystem::_init(Context * context)
         {
-            ISystem::_init("djv::UI::System", context);
+            ISystem::_init("djv::UI::UISystem", context);
             
-            _p->uiSystems.push_back(AV::System::create(context));
+            _p->uiSystems.push_back(AV::AVSystem::create(context));
             _p->uiSystems.push_back(Settings::System::create(context));
             
             _p->generalSettings = Settings::General::create(context);
@@ -67,11 +67,11 @@ namespace djv
             _p->uiSystems.push_back(_p->style = Style::Style::create(context));
         }
 
-        System::System() :
+        UISystem::UISystem() :
             _p(new Private)
         {}
 
-        System::~System()
+        UISystem::~UISystem()
         {
             DJV_PRIVATE_PTR();
             while (p.uiSystems.size())
@@ -80,24 +80,24 @@ namespace djv
             }
         }
 
-        std::shared_ptr<System> System::create(Context * context)
+        std::shared_ptr<UISystem> UISystem::create(Context * context)
         {
-            auto out = std::shared_ptr<System>(new System);
+            auto out = std::shared_ptr<UISystem>(new UISystem);
             out->_init(context);
             return out;
         }
 
-        const std::shared_ptr<Settings::General> System::getGeneralSettings() const
+        const std::shared_ptr<Settings::General> UISystem::getGeneralSettings() const
         {
             return _p->generalSettings;
         }
 
-        const std::shared_ptr<Settings::Font> System::getFontSettings() const
+        const std::shared_ptr<Settings::Font> UISystem::getFontSettings() const
         {
             return _p->fontSettings;
         }
 
-        const std::shared_ptr<Style::Style> System::getStyle() const
+        const std::shared_ptr<Style::Style> UISystem::getStyle() const
         {
             return _p->style;
         }

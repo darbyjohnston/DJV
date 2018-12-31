@@ -46,11 +46,13 @@ namespace djv
             void IContainer::addWidget(const std::shared_ptr<Widget>& value)
             {
                 value->setParent(shared_from_this());
+                _resize();
             }
 
             void IContainer::removeWidget(const std::shared_ptr<Widget>& value)
             {
                 value->setParent(nullptr);
+                _resize();
             }
 
             void IContainer::clearWidgets()
@@ -60,6 +62,7 @@ namespace djv
                 {
                     child->setParent(nullptr);
                 }
+                _resize();
             }
 
         } // namespace Layout

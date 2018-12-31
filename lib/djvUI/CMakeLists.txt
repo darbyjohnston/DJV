@@ -43,13 +43,13 @@ set(header
     StyleJSON.h
     StyleJSONInline.h
     StyleSettings.h
-    System.h
     TabBar.h
     TabWidget.h
     TextBlock.h
     ToggleButton.h
     ToolButton.h
     UI.h
+    UISystem.h
     Widget.h
     WidgetInline.h
     Window.h)
@@ -90,12 +90,12 @@ set(source
     StackLayout.cpp
     Style.cpp
     StyleSettings.cpp
-    System.cpp
     TabBar.cpp
     TabWidget.cpp
     TextBlock.cpp
     ToggleButton.cpp
     ToolButton.cpp
+    UISystem.cpp
     Widget.cpp
     Window.cpp)
 

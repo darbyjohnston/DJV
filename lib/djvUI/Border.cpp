@@ -79,7 +79,10 @@ namespace djv
 
             void Border::setBorderSize(Style::MetricsRole value)
             {
+                if (value == _p->borderSize)
+                    return;
                 _p->borderSize = value;
+                _resize();
             }
 
             Style::ColorRole Border::getBorderColorRole() const
@@ -89,7 +92,10 @@ namespace djv
 
             void Border::setBorderColorRole(Style::ColorRole value)
             {
+                if (value == _p->borderColor)
+                    return;
                 _p->borderColor = value;
+                _redraw();
             }
 
             const Margin& Border::getInsideMargin() const

@@ -47,7 +47,6 @@ namespace djv
             void Flow::_init(Context * context)
             {
                 IContainer::_init(context);
-
                 setClassName("djv::UI::Layout::Flow");
             }
 
@@ -72,7 +71,10 @@ namespace djv
 
             void Flow::setSpacing(const Spacing& value)
             {
+                if (value == _p->spacing)
+                    return;
                 _p->spacing = value;
+                _resize();
             }
 
             float Flow::getHeightForWidth(float width) const

@@ -134,12 +134,18 @@ namespace djv
 
             void ScrollBar::setViewSize(float value)
             {
+                if (fuzzyCompare(value, _viewSize))
+                    return;
                 _viewSize = value;
+                _redraw();
             }
 
             void ScrollBar::setContentsSize(float value)
             {
+                if (fuzzyCompare(value, _contentsSize))
+                    return;
                 _contentsSize = value;
+                _redraw();
             }
 
             float ScrollBar::getScrollPos() const
@@ -397,7 +403,10 @@ namespace djv
 
             void ScrollArea::setScrollType(ScrollType value)
             {
+                if (value == _scrollType)
+                    return;
                 _scrollType = value;
+                _resize();
             }
 
             void ScrollArea::setContentsSizeCallback(const std::function<void(const glm::vec2&)>& callback)
@@ -419,7 +428,6 @@ namespace djv
                     _scrollPosCallback(_scrollPos);
                 }
                 _resize();
-                _redraw();
             }
 
             void ScrollArea::setScrollPosCallback(const std::function<void(const glm::vec2&)>& callback)
@@ -512,7 +520,6 @@ namespace djv
                         _scrollPosCallback(_scrollPos);
                     }
                     _resize();
-                    _redraw();
                 }
 
                 // Update the child geometry.

@@ -40,18 +40,18 @@ namespace djv
     namespace AV
     {
         //! This class provides an AV system.
-        class System : public Core::ISystem
+        class AVSystem : public Core::ISystem
         {
-            DJV_NON_COPYABLE(System);
+            DJV_NON_COPYABLE(AVSystem);
 
         protected:
             void _init(Core::Context *);
-            System();
+            AVSystem();
 
         public:
-            ~System() override;
+            ~AVSystem() override;
 
-            static std::shared_ptr<System> create(Core::Context *);
+            static std::shared_ptr<AVSystem> create(Core::Context *);
 
             //! Get the default GLFW window.
             GLFWwindow * getGLFWWindow() const;

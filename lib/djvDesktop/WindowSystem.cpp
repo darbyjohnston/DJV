@@ -155,7 +155,7 @@ namespace djv
                     }
                 }
 
-                if (redrawRequest)
+                if (resizeRequest || redrawRequest)
                 {
                     if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
                     {
@@ -171,12 +171,8 @@ namespace djv
                         }
                         system->endFrame();
                         _p->offscreenBuffer->unbind();
+                        _redraw();
                     }
-                }
-
-                if (resizeRequest || redrawRequest)
-                {
-                    _redraw();
                 }
             }
         }

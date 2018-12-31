@@ -89,7 +89,10 @@ namespace djv
 
         void Label::setText(const std::string& value)
         {
+            if (value == _p->text)
+                return;
             _p->text = value;
+            _resize();
         }
 
         TextHAlign Label::getTextHAlign() const
@@ -104,12 +107,18 @@ namespace djv
         
         void Label::setTextHAlign(TextHAlign value)
         {
+            if (value == _p->textHAlign)
+                return;
             _p->textHAlign = value;
+            _resize();
         }
         
         void Label::setTextVAlign(TextVAlign value)
         {
+            if (value == _p->textVAlign)
+                return;
             _p->textVAlign = value;
+            _resize();
         }
             
         Style::ColorRole Label::getTextColorRole() const
@@ -119,7 +128,10 @@ namespace djv
 
         void Label::setTextColorRole(Style::ColorRole value)
         {
+            if (value == _p->textColorRole)
+                return;
             _p->textColorRole = value;
+            _redraw();
         }
 
         const std::string & Label::getFontFace() const
@@ -134,12 +146,18 @@ namespace djv
 
         void Label::setFontFace(const std::string & value)
         {
+            if (value == _p->fontFace)
+                return;
             _p->fontFace = value;
+            _resize();
         }
 
         void Label::setFontSizeRole(Style::MetricsRole value)
         {
+            if (value == _p->fontSizeRole)
+                return;
             _p->fontSizeRole = value;
+            _resize();
         }
 
         float Label::getMinimumWidth() const
@@ -149,7 +167,10 @@ namespace djv
 
         void Label::setMinimumWidth(float value)
         {
+            if (value == _p->minimumWidth)
+                return;
             _p->minimumWidth = value;
+            _resize();
         }
 
         void Label::_preLayoutEvent(Event::PreLayout& event)

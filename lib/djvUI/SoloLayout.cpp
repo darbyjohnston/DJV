@@ -70,7 +70,10 @@ namespace djv
 
             void Solo::setCurrentIndex(int value)
             {
+                if (value == _p->currentIndex)
+                    return;
                 _p->currentIndex = value;
+                _resize();
             }
 
             void Solo::addWidget(const std::shared_ptr<Widget>& value)

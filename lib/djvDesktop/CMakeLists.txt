@@ -2,12 +2,10 @@ set(header
     Application.h
     Desktop.h
     EventSystem.h
-    System.h
     WindowSystem.h)
 set(source
     Application.cpp
     EventSystem.cpp
-    System.cpp
     WindowSystem.cpp)
 
 add_library(djvDesktop ${header} ${source})

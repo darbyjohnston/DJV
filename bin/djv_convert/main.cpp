@@ -27,8 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
-#include <djvAV/System.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
@@ -54,7 +54,7 @@ namespace djv
             {
                 Context::_init(argc, argv);
 
-                _avSystem = AV::System::create(this);
+                _avSystem = AV::AVSystem::create(this);
                 _parseArgs();
 
                 Core::Time::Duration duration = 0;
@@ -165,7 +165,7 @@ namespace djv
             std::string _input;
             std::string _output;
             std::unique_ptr<glm::ivec2> _resize;
-            std::shared_ptr<AV::System> _avSystem;
+            std::shared_ptr<AV::AVSystem> _avSystem;
             std::shared_ptr<AV::IO::Queue> _queue;
             std::shared_ptr<AV::IO::IRead> _read;
             std::shared_ptr<Core::Time::Timer> _statsTimer;

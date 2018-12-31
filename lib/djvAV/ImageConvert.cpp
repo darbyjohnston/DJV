@@ -35,7 +35,6 @@
 #include <djvAV/OpenGLTexture.h>
 #include <djvAV/Shader.h>
 #include <djvAV/Shape.h>
-#include <djvAV/System.h>
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Context.h>

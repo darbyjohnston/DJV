@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/System.h>
+#include <djvAV/AVSystem.h>
 
 #include <djvAV/AudioSystem.h>
 #include <djvAV/FontSystem.h>
@@ -61,7 +61,7 @@ namespace djv
             {
                 if (auto logSystem = logSystemWeak.lock())
                 {
-                    logSystem->log("djv::AV::System", description);
+                    logSystem->log("djv::AV::AVSystem", description);
                 }
             }
 
@@ -80,7 +80,7 @@ namespace djv
                 case gl::GL_DEBUG_SEVERITY_MEDIUM:
                     if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
                     {
-                        log->log("djv::AV::System", message);
+                        log->log("djv::AV::AVSystem", message);
                     }
                     break;
                 default: break;
@@ -89,16 +89,16 @@ namespace djv
 
         } // namespace
 
-        struct System::Private
+        struct AVSystem::Private
         {
             glm::vec2 dpi = glm::vec2(90.f, 90.f);
             GLFWwindow * glfwWindow = nullptr;
             std::vector<std::shared_ptr<ISystem> > avSystems;
         };
 
-        void System::_init(Context * context)
+        void AVSystem::_init(Context * context)
         {
-            ISystem::_init("djv::AV::System", context);
+            ISystem::_init("djv::AV::AVSystem", context);
 
             DJV_PRIVATE_PTR();
 
@@ -113,7 +113,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << "GLFW version: " << glfwMajor << "." << glfwMinor << "." << glfwRevision;
-                context->log("djv::AV::System", ss.str());
+                context->log("djv::AV::AVSystem", ss.str());
             }
             if (!glfwInit())
             {
@@ -138,7 +138,7 @@ namespace djv
                     ss << "Primary monitor resolution: " << mode->width << " " << mode->height << "\n";
                     ss << "Primary monitor size: " << mm << "mm\n";
                     ss << "Primary monitor DPI: " << _p->dpi;
-                    context->log("djv::AV::System", ss.str());
+                    context->log("djv::AV::AVSystem", ss.str());
                     ss.str(std::string());
                 }
             }
@@ -166,7 +166,7 @@ namespace djv
                 int glRevision = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_REVISION);
                 std::stringstream ss;
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
-                context->log("djv::AV::System", ss.str());
+                context->log("djv::AV::AVSystem", ss.str());
             }
             glfwSetWindowUserPointer(p.glfwWindow, context);
             glfwMakeContextCurrent(p.glfwWindow);
@@ -195,11 +195,11 @@ namespace djv
             _p->avSystems.push_back(Render::Render2DSystem::create(context));
         }
 
-        System::System() :
+        AVSystem::AVSystem() :
             _p(new Private)
         {}
 
-        System::~System()
+        AVSystem::~AVSystem()
         {
             DJV_PRIVATE_PTR();
             while (p.avSystems.size())
@@ -213,19 +213,19 @@ namespace djv
             glfwTerminate();
         }
 
-        std::shared_ptr<System> System::create(Context * context)
+        std::shared_ptr<AVSystem> AVSystem::create(Context * context)
         {
-            auto out = std::shared_ptr<System>(new System);
+            auto out = std::shared_ptr<AVSystem>(new AVSystem);
             out->_init(context);
             return out;
         }
 
-        GLFWwindow* System::getGLFWWindow() const
+        GLFWwindow* AVSystem::getGLFWWindow() const
         {
             return _p->glfwWindow;
         }
 
-        void System::makeGLContextCurrent()
+        void AVSystem::makeGLContextCurrent()
         {
             DJV_PRIVATE_PTR();
             glfwMakeContextCurrent(p.glfwWindow);

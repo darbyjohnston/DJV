@@ -32,7 +32,7 @@
 #include <djvUI/FontSettings.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/StyleSettings.h>
-#include <djvUI/System.h>
+#include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
@@ -222,7 +222,7 @@ namespace djv
                     }
                 });
 
-                if (auto uiSystem = context->getSystemT<System>().lock())
+                if (auto uiSystem = context->getSystemT<UISystem>().lock())
                 {
                     p.currentLocaleObserver = ValueObserver<std::string>::create(
                         uiSystem->getGeneralSettings()->getCurrentLocale(),

@@ -31,7 +31,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/System.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>

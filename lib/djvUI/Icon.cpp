@@ -29,8 +29,6 @@
 
 #include <djvUI/Icon.h>
 
-#include <djvUI/System.h>
-
 #include <djvAV/IconSystem.h>
 #include <djvAV/Image.h>
 #include <djvAV/Render2DSystem.h>
@@ -148,6 +146,7 @@ namespace djv
                         try
                         {
                             _p->image = _p->imageFuture.get();
+                            _redraw();
                         }
                         catch (const std::exception & e)
                         {

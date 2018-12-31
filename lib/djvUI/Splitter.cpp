@@ -346,7 +346,7 @@ namespace djv
                     const float value = m * 1.5f;
                     if (value != _p->splitterWidth)
                     {
-                        _redraw();
+                        _resize();
                     }
                     _p->splitterWidth = value;
                 }
