@@ -100,9 +100,9 @@ namespace djv
                 return out;
             }
 
-            Path getPath(DirectoryShortcut value)
+            FileSystem::Path getPath(DirectoryShortcut value)
             {
-                Path out;
+                FileSystem::Path out;
 #if defined(DJV_PLATFORM_OSX)
                 OSType folderType = kDesktopFolderType;
                 switch (value)
@@ -131,10 +131,10 @@ namespace djv
                     const std::string dir(buf->pw_dir);
                     switch (value)
                     {
-                    case DirectoryShortcut::Home:      out = Path(dir);              break;
-                    case DirectoryShortcut::Desktop:   out = Path(dir, "Desktop");   break;
-                    case DirectoryShortcut::Documents: out = Path(dir, "Documents"); break;
-                    case DirectoryShortcut::Downloads: out = Path(dir, "Downloads"); break;
+                    case DirectoryShortcut::Home:      out = FileSystem::Path(dir);              break;
+                    case DirectoryShortcut::Desktop:   out = FileSystem::Path(dir, "Desktop");   break;
+                    case DirectoryShortcut::Documents: out = FileSystem::Path(dir, "Documents"); break;
+                    case DirectoryShortcut::Downloads: out = FileSystem::Path(dir, "Downloads"); break;
                     default: break;
                     }
                 }

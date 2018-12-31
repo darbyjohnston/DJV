@@ -188,7 +188,6 @@ namespace djv
                     [this, context]
                 {
                     DJV_PRIVATE_PTR();
-                    GLFWwindow * glfwWindow = nullptr;
                     try
                     {
                         glfwMakeContextCurrent(p.glfwWindow);

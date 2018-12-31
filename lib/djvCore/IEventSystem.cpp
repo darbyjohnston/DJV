@@ -62,7 +62,8 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_locale(Locale(value));
+                            Locale localeEvent(value);
+                            system->_locale(localeEvent);
                         }
                     });
                 }

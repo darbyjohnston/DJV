@@ -188,7 +188,7 @@ namespace djv
                 std::timed_mutex mutex;
                 ::time_t lastModified = 0;
                 ::time_t threadModified = 0;
-                std::shared_ptr<Timer> timer;
+                std::shared_ptr<Time::Timer> timer;
                 std::function<void(void)> callback;
             };
 
@@ -197,7 +197,7 @@ namespace djv
                 _p->running = true;
                 
                 std::weak_ptr<DirectoryWatcher> weak(shared_from_this());
-                const auto timeout = Timer::getMilliseconds(Timer::Value::Medium);
+                const auto timeout = Time::Timer::getMilliseconds(Time::Timer::Value::Medium);
                 _p->thread = std::thread(
                     [weak, timeout]
                 {
@@ -247,7 +247,7 @@ namespace djv
                     }
                 });
 
-                _p->timer = Timer::create(context);
+                _p->timer = Time::Timer::create(context);
                 _p->timer->setRepeating(true);
                 _p->timer->start(
                     timeout,

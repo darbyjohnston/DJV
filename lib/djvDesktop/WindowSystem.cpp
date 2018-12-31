@@ -122,59 +122,62 @@ namespace djv
         {
             IWindowSystem::_tick(dt);
 
-            bool resizeRequest = _p->resizeRequest;
-            bool redrawRequest = _p->redrawRequest;
-            _p->resizeRequest = false;
-            _p->redrawRequest = false;
-            for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
+            if (_p->offscreenBuffer)
             {
-                _hasResizeRequest(i, resizeRequest);
-                _hasRedrawRequest(i, redrawRequest);
-            }
-
-            const auto & size = _p->offscreenBuffer->getInfo().size;
-            if (resizeRequest)
-            {
+                bool resizeRequest = _p->resizeRequest;
+                bool redrawRequest = _p->redrawRequest;
+                _p->resizeRequest = false;
+                _p->redrawRequest = false;
                 for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
                 {
-                    i->resize(size);
-
-                    Event::PreLayout preLayout;
-                    _preLayoutRecursive(i, preLayout);
-
-                    if (i->isVisible())
-                    {
-                        Event::Layout layout;
-                        _layoutRecursive(i, layout);
-
-                        Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                        _clipRecursive(i, clip);
-                    }
+                    _hasResizeRequest(i, resizeRequest);
+                    _hasRedrawRequest(i, redrawRequest);
                 }
-            }
 
-            if (redrawRequest)
-            {
-                if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
+                const auto & size = _p->offscreenBuffer->getInfo().size;
+                if (resizeRequest)
                 {
-                    _p->offscreenBuffer->bind();
-                    system->beginFrame(size);
                     for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
                     {
+                        i->resize(size);
+
+                        Event::PreLayout preLayout;
+                        _preLayoutRecursive(i, preLayout);
+
                         if (i->isVisible())
                         {
-                            Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                            _paintRecursive(i, paintEvent);
+                            Event::Layout layout;
+                            _layoutRecursive(i, layout);
+
+                            Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            _clipRecursive(i, clip);
                         }
                     }
-                    system->endFrame();
-                    _p->offscreenBuffer->unbind();
                 }
-            }
 
-            if (resizeRequest || redrawRequest)
-            {
-                _redraw();
+                if (redrawRequest)
+                {
+                    if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
+                    {
+                        _p->offscreenBuffer->bind();
+                        system->beginFrame(size);
+                        for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
+                        {
+                            if (i->isVisible())
+                            {
+                                Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                _paintRecursive(i, paintEvent);
+                            }
+                        }
+                        system->endFrame();
+                        _p->offscreenBuffer->unbind();
+                    }
+                }
+
+                if (resizeRequest || redrawRequest)
+                {
+                    _redraw();
+                }
             }
         }
 
@@ -200,8 +203,8 @@ namespace djv
                     GLsizei(size.y));
                 gl::glClearColor(0.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
-                glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+                glBindFramebuffer(gl::GLenum(GL_READ_FRAMEBUFFER), p.offscreenBuffer->getID());
+                glBindFramebuffer(gl::GLenum(GL_DRAW_FRAMEBUFFER), gl::GLuint(0));
                 glBlitFramebuffer(
                     0, 0, size.x, size.y,
                     0, 0, size.x, size.y,

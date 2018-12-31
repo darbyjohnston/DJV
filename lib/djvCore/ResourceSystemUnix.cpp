@@ -35,9 +35,9 @@ namespace djv
 {
     namespace Core
     {
-        Path ResourceSystem::_getDocumentsPath()
+        FileSystem::Path ResourceSystem::_getDocumentsPath()
         {
-            Path out;
+            FileSystem::Path out;
             out = OS::getEnv("HOME");
             out.append("Documents");
             return out;

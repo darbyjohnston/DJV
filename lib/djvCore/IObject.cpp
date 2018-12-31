@@ -143,7 +143,8 @@ namespace djv
                 _parent = value;
                 newParent = value;
             }
-            event(Event::Parent(prevParent, newParent));
+            Event::Parent parentEvent(prevParent, newParent);
+            event(parentEvent);
         }
 
         bool IObject::event(Event::IEvent& event)
