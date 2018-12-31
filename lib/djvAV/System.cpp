@@ -74,15 +74,16 @@ namespace djv
                 const GLchar * message,
                 const void * userParam)
             {
-                switch (static_cast<int>(severity))
+                switch (severity)
                 {
-                case GL_DEBUG_SEVERITY_HIGH:
-                case GL_DEBUG_SEVERITY_MEDIUM:
+                case gl::GL_DEBUG_SEVERITY_HIGH:
+                case gl::GL_DEBUG_SEVERITY_MEDIUM:
                     if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>().lock())
                     {
                         log->log("djv::AV::System", message);
                     }
                     break;
+                default: break;
                 }
             }
 

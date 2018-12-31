@@ -73,8 +73,8 @@ namespace djv
             };
 
             TextureCache::BoxPackingNode::BoxPackingNode(int border) :
-                border(border),
-                timestamp(++_timestamp)
+                timestamp(++_timestamp),
+                border(border)
             {}
 
             TextureCache::BoxPackingNode::~BoxPackingNode()

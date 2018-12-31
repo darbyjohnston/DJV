@@ -310,8 +310,8 @@ namespace djv
             picojson::value System::getOptions(const std::string & pluginName) const
             {
                 DJV_PRIVATE_PTR();
-                const auto i = _p->plugins.find(pluginName);
-                if (i != _p->plugins.end())
+                const auto i = p.plugins.find(pluginName);
+                if (i != p.plugins.end())
                 {
                     return i->second->getOptions();
                 }

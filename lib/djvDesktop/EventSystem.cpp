@@ -156,7 +156,7 @@ namespace djv
         void EventSystem::_pointerMove(const Event::PointerInfo& info)
         {
             DJV_PRIVATE_PTR();
-            _p->pointerInfo = info;
+            p.pointerInfo = info;
         }
 
         void EventSystem::_buttonPress(int button)

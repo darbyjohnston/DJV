@@ -388,7 +388,6 @@ namespace djv
                 for (auto & i : p.newImageRequests)
                 {
                     std::shared_ptr<Image> image;
-                    bool cached = false;
                     {
                         std::lock_guard<std::mutex> lock(p.cacheMutex);
                         if (p.imageCache.contains(i.path))

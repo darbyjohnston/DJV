@@ -34,8 +34,8 @@ namespace djv
     namespace Core
     {
         ICommand::ICommand(const std::string & name, Context * context) :
-            _name(name),
-            _context(context)
+            _context(context),
+            _name(name)
         {}
 
         ICommand::~ICommand()

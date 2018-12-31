@@ -31,6 +31,29 @@ namespace djv
 {
     namespace Core
     {
+        inline Context::Context()
+        {}
+
+        inline const std::vector<std::string> & Context::getArgs() const
+        {
+            return _args;
+        }
+           
+        inline const std::string& Context::getName() const
+        {
+            return _name;
+        }
+
+        inline float Context::getFpsAverage() const
+        {
+            return _fpsAverage;
+        }
+
+        inline const std::vector<std::weak_ptr<ISystem> > & Context::getSystems() const
+        {
+            return _systems;
+        }
+
         template<typename T>
         inline std::vector<std::weak_ptr<T> > Context::getSystemsT() const
         {
@@ -56,6 +79,26 @@ namespace djv
                 }
             }
             return std::weak_ptr<T>();
+        }
+        
+        inline const std::shared_ptr<ResourceSystem> & Context::getResourceSystem() const
+        {
+            return _resourceSystem;
+        }
+
+        inline const std::shared_ptr<LogSystem> & Context::getLogSystem() const
+        {
+            return _logSystem;
+        }
+        
+        inline const std::shared_ptr<UndoStack> & Context::getUndoStack() const
+        {
+            return _undoStack;
+        }
+
+        inline void Context::_addSystem(const std::weak_ptr<ISystem>& system)
+        {
+            _systems.push_back(system);
         }
 
     } // namespace Core

@@ -37,25 +37,6 @@ namespace djv
     {
         namespace PicoJSON
         {
-            namespace
-            {
-                std::string escapeSlashes(std::string value)
-                {
-                    size_t i = 0;
-                    while (i != std::string::npos)
-                    {
-                        i = value.find('\\', i);
-                        if (i != std::string::npos)
-                        {
-                            value.replace(i, 1, "\\\\");
-                            i += 2;
-                        }
-                    }
-                    return value;
-                }
-
-            } // namespace
-
             void write(const picojson::value& value, FileSystem::FileIO& fileIO, size_t indent, bool continueLine)
             {
                 if (value.is<picojson::object>())

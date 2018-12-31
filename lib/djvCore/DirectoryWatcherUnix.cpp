@@ -60,7 +60,7 @@ namespace djv
                 class Notify
                 {
                 public:
-                    Notify(const Path& path) :
+                    Notify(const FileSystem::Path& path) :
                         _path(path)
                     {
                         _kq = ::kqueue();
@@ -88,14 +88,14 @@ namespace djv
                         }
                     }
                     
-                    const Path& getPath() const { return _path; }
+                    const FileSystem::Path& getPath() const { return _path; }
                     
                     ::time_t poll()
                     {
                         struct kevent eventData[1];
                         timespec _timeout;
                         _timeout.tv_sec = 0;
-                        _timeout.tv_nsec = Timer::getValue(Timer::Value::Medium) * 1000000;
+                        _timeout.tv_nsec = Time::Timer::getValue(Time::Timer::Value::Medium) * 1000000;
                         int eventCount = ::kevent(_kq, _eventsToMonitor, 1, eventData, 1, &_timeout);
                         if (eventCount)
                         {
@@ -105,7 +105,7 @@ namespace djv
                     }
                     
                 private:
-                    Path _path;
+                    FileSystem::Path _path;
                     int _kq = 0;
                     int _fd = 0;
                     struct kevent _eventsToMonitor[1];

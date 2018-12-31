@@ -119,11 +119,11 @@ namespace djv
                 FSRefMakePath(&ref, (UInt8*)&path, PATH_MAX);
                 if (DirectoryShortcut::Downloads == value)
                 {
-                    out = Path(path, "Downloads");
+                    out = FileSystem::Path(path, "Downloads");
                 }
                 else
                 {
-                    out = Path(path);
+                    out = FileSystem::Path(path);
                 }
 #elif defined(DJV_PLATFORM_LINUX)
                 if (struct passwd* buf = ::getpwuid(::getuid()))

@@ -31,6 +31,9 @@
 
 #include <djvCore/Path.h>
 
+#include <chrono>
+#include <list>
+
 namespace djv
 {
     namespace Core
@@ -38,8 +41,21 @@ namespace djv
         class ISystem;
         class LogSystem;
         class ResourceSystem;
+        class TextSystem;
         class UndoStack;
 
+        namespace Animation
+        {
+            class System;
+            
+        } // namespace Time
+
+        namespace Time
+        {
+            class TimerSystem;
+            
+        } // namespace Time
+        
         //! This class provides core functionality.
         class Context
         {
@@ -47,46 +63,44 @@ namespace djv
 
         protected:
             void _init(int &, char **);
-            Context();
+            inline Context();
 
         public:
-            virtual ~Context();
-
             //! Throws:
             //! - std::exception
             static std::unique_ptr<Context> create(int &, char **);
 
             //! Get the command line arguments.
-            const std::vector<std::string> & getArgs() const;
+            inline const std::vector<std::string> & getArgs() const;
             
             //! Get the context name.
-            const std::string& getName() const;
+            inline const std::string& getName() const;
 
             //! Get the average FPS.
-            float getFpsAverage() const;
+            inline float getFpsAverage() const;
 
             //! \name Systems
             ///@{
 
-            //! Get all of the systems.
-            const std::vector<std::weak_ptr<ISystem> > & getSystems() const;
+            //! Get the list of systems.
+            inline const std::vector<std::weak_ptr<ISystem> > & getSystems() const;
 
-            //! Get systems by type.
+            //! Get the list of systems of the given type.
             template<typename T>
             inline std::vector<std::weak_ptr<T> > getSystemsT() const;
 
-            //! Get a system by type.
+            //! Get a system of the given type.
             template<typename T>
             inline std::weak_ptr<T> getSystemT() const;
 
-            //! This function needs to be called by the application's event loop.
+            //! This function is called by the application's event loop.
             virtual void tick(float dt);
 
             //! Get the resource system.
-            std::shared_ptr<ResourceSystem> getResourceSystem() const;
+            const std::shared_ptr<ResourceSystem> & getResourceSystem() const;
 
             //! Get the log system.
-            std::shared_ptr<LogSystem> getLogSystem() const;
+            const std::shared_ptr<LogSystem> & getLogSystem() const;
 
             //! \name Utilities
             ///@{
@@ -105,10 +119,21 @@ namespace djv
             const std::shared_ptr<UndoStack> & getUndoStack() const;
 
         protected:
-            void _addSystem(const std::weak_ptr<ISystem>&);
+            inline void _addSystem(const std::weak_ptr<ISystem>&);
 
         private:
-            DJV_PRIVATE();
+            std::vector<std::string> _args;
+            std::string _name;
+            std::vector<std::weak_ptr<ISystem> > _systems;
+            std::shared_ptr<Time::TimerSystem> _timerSystem;
+            std::shared_ptr<ResourceSystem> _resourceSystem;
+            std::shared_ptr<LogSystem> _logSystem;
+            std::shared_ptr<TextSystem> _textSystem;
+            std::shared_ptr<Animation::System> _animationSystem;
+            std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
+            std::list<float> _fpsSamples;
+            float _fpsAverage = 0.f;
+            std::shared_ptr<UndoStack> _undoStack;
 
             friend class ISystem;
         };
