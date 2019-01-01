@@ -31,6 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Border.h>
+#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/Overlay.h>
@@ -76,6 +77,7 @@ namespace djv
                 bool _isHovered() const;
 
                 std::shared_ptr<Label> _label;
+                std::shared_ptr<Icon> _icon;
                 std::shared_ptr<Layout::Border> _border;
                 std::map<Event::PointerID, bool> _pointerHover;
                 std::function<void(void)> _callback;
@@ -90,10 +92,16 @@ namespace djv
                 setPointerEnabled(true);
 
                 _label = Label::create(context);
-                _label->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+
+                _icon = Icon::create(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconComboBox90DPI.png"), context);
+
+                auto layout = Layout::HorizontalLayout::create(context);
+                layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                layout->addWidget(_label);
+                layout->addWidget(_icon);
 
                 _border = Layout::Border::create(context);
-                _border->addWidget(_label);
+                _border->addWidget(layout);
                 _border->setParent(shared_from_this());
             }
 
