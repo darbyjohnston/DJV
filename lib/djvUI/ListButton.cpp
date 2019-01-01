@@ -55,13 +55,13 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("Gp::UI::Button::List");
+                setClassName("djv::UI::Button::List");
 
                 _p->label = Label::create(text, context);
-                _p->label->setMargin(Style::MetricsRole::Margin);
                 _p->label->setVisible(!text.empty());
 
                 _p->layout = Layout::Stack::create(context);
+                _p->layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 _p->layout->addWidget(_p->label);
                 _p->layout->setParent(shared_from_this());
             }

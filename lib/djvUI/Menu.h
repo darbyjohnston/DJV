@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
+#include <djvUI/Widget.h>
 
 #include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
@@ -48,7 +48,7 @@ namespace djv
         class Window;
 
         //! This class provides a menu widget.
-        class Menu : public std::enable_shared_from_this<Menu>
+        class Menu : public Widget
         {
             DJV_NON_COPYABLE(Menu);
 
@@ -64,11 +64,14 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::string> > getMenuName() const;
             void setMenuName(const std::string &);
 
-            void addAction(const std::shared_ptr<Action> &);
-            void clear();
+            void popup(const std::shared_ptr<Window> &, const Core::BBox2f &);
 
-            void show(const std::shared_ptr<Window> &, const Core::BBox2f &, Orientation);
-            void hide();
+            void setVisible(bool) override;
+            float getHeightForWidth(float) const override;
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             struct Private;

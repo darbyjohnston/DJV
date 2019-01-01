@@ -74,7 +74,7 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("Gp::UI::MenuBarButton");
+                setClassName("djv::UI::MenuBarButton");
 
                 _label = Label::create(context);
                 _label->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
@@ -161,27 +161,18 @@ namespace djv
         {
             _p->menus.push_back(menu);
             
-            
             auto button = MenuBarButton::create(getContext());
-            button->setButtonType(ButtonType::Toggle);
             _p->layout->addWidget(button);
 
             _p->menusToButtons[menu] = button;
 
             auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
-            button->setCheckedCallback(
-                [menu, button](bool value)
+            button->setClickedCallback(
+                [menu, button]
             {
                 if (auto window = button->getWindow().lock())
                 {
-                    if (value)
-                    {
-                        menu->show(window, button->getGeometry(), Orientation::Vertical);
-                    }
-                    else
-                    {
-                        menu->hide();
-                    }
+                    menu->popup(window, button->getGeometry());
                 }
             });
 

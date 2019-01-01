@@ -30,6 +30,7 @@
 #include <djvDesktop/Application.h>
 
 #include <djvUI/ComboBox.h>
+#include <djvUI/GridLayout.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -44,13 +45,31 @@ int main(int argc, char ** argv)
     {
         auto app = Desktop::Application::create(argc, argv);
 
-        auto label = UI::ComboBox::create(app.get());
-        label->setItems(Core::String::getRandomNames(10));
-        label->setHAlign(UI::HAlign::Center);
-        label->setVAlign(UI::VAlign::Center);
+        auto comboBox0 = UI::ComboBox::create(app.get());
+        comboBox0->setItems(Core::String::getRandomNames(5));
+        comboBox0->setHAlign(UI::HAlign::Left);
+        comboBox0->setVAlign(UI::VAlign::Top);
+        auto comboBox1 = UI::ComboBox::create(app.get());
+        comboBox1->setItems(Core::String::getRandomNames(5));
+        comboBox1->setHAlign(UI::HAlign::Right);
+        comboBox1->setVAlign(UI::VAlign::Top);
+        auto comboBox2 = UI::ComboBox::create(app.get());
+        comboBox2->setItems(Core::String::getRandomNames(5));
+        comboBox2->setHAlign(UI::HAlign::Left);
+        comboBox2->setVAlign(UI::VAlign::Bottom);
+        auto comboBox3 = UI::ComboBox::create(app.get());
+        comboBox3->setItems(Core::String::getRandomNames(5));
+        comboBox3->setHAlign(UI::HAlign::Right);
+        comboBox3->setVAlign(UI::VAlign::Bottom);
 
+        auto layout = UI::Layout::Grid::create(app.get());
+        layout->setMargin(UI::Style::MetricsRole::MarginLarge);
+        layout->addWidget(comboBox0, glm::ivec2(0, 0), UI::Layout::GridStretch::Both);
+        layout->addWidget(comboBox1, glm::ivec2(1, 0), UI::Layout::GridStretch::Both);
+        layout->addWidget(comboBox2, glm::ivec2(0, 1), UI::Layout::GridStretch::Both);
+        layout->addWidget(comboBox3, glm::ivec2(1, 1), UI::Layout::GridStretch::Both);
         auto window = UI::Window::create(app.get());
-        window->addWidget(label);
+        window->addWidget(layout);
         window->show();
 
         return app->run();

@@ -60,20 +60,50 @@ namespace djv
                 return _accepted;
             }
 
-            inline Parent::Parent(const std::weak_ptr<IObject> & prevParent, const std::weak_ptr<IObject> & newParent) :
-                IEvent(Type::Parent),
+            inline ParentChanged::ParentChanged(const std::shared_ptr<IObject> & prevParent, const std::shared_ptr<IObject> & newParent) :
+                IEvent(Type::ParentChanged),
                 _prevParent(prevParent),
                 _newParent(newParent)
             {}
 
-            inline const std::weak_ptr<IObject> & Parent::getPrevParent() const
+            inline const std::shared_ptr<IObject> & ParentChanged::getPrevParent() const
             {
                 return _prevParent;
             }
 
-            inline const std::weak_ptr<IObject> & Parent::getNewParent() const
+            inline const std::shared_ptr<IObject> & ParentChanged::getNewParent() const
             {
                 return _newParent;
+            }
+
+            inline ChildAdded::ChildAdded(const std::shared_ptr<IObject> & child) :
+                IEvent(Type::ChildAdded),
+                _child(child)
+            {}
+
+            inline const std::shared_ptr<IObject> & ChildAdded::getChild() const
+            {
+                return _child;
+            }
+
+            inline ChildRemoved::ChildRemoved(const std::shared_ptr<IObject> & child) :
+                IEvent(Type::ChildRemoved),
+                _child(child)
+            {}
+
+            inline const std::shared_ptr<IObject> & ChildRemoved::getChild() const
+            {
+                return _child;
+            }
+
+            inline LocaleChanged::LocaleChanged(const std::string& locale) :
+                IEvent(Type::LocaleChanged),
+                _locale(locale)
+            {}
+
+            inline const std::string& LocaleChanged::getLocale() const
+            {
+                return _locale;
             }
 
             inline Update::Update(float dt) :
@@ -84,16 +114,6 @@ namespace djv
             inline float Update::getDeltaTime() const
             {
                 return _dt;
-            }
-
-            inline Locale::Locale(const std::string& locale) :
-                IEvent(Type::Locale),
-                _locale(locale)
-            {}
-
-            inline const std::string& Locale::getLocale() const
-            {
-                return _locale;
             }
 
             inline PreLayout::PreLayout() :

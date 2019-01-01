@@ -79,7 +79,7 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("Gp::UI::TabBarButton");
+                setClassName("djv::UI::TabBarButton");
 
                 _label = Label::create(text, context);
                 _label->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));

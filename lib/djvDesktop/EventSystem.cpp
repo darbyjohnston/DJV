@@ -67,12 +67,6 @@ namespace djv
 
         struct EventSystem::Private
         {
-            Event::PointerInfo pointerInfo;
-            std::shared_ptr<IObject> window;
-            std::shared_ptr<IObject> hover;
-            std::shared_ptr<IObject> grab;
-            std::shared_ptr<IObject> focus;
-            std::shared_ptr<IObject> keyGrab;
         };
 
         void EventSystem::_init(GLFWwindow* glfwWindow, Context * context)
@@ -99,159 +93,22 @@ namespace djv
             return out;
         }
 
-        void EventSystem::_tick(float dt)
+        void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
-            IEventSystem::_tick(dt);
-            DJV_PRIVATE_PTR();
-            Event::PointerMove moveEvent(_p->pointerInfo);
-            if (p.grab)
+            if (auto rootObject = getRootObject())
             {
-                p.grab->event(moveEvent);
-            }
-            else if (auto root = getRootObject())
-            {
-                std::shared_ptr<UI::Widget> hover;
-                for (const auto& window : root->getChildrenT<UI::Window>())
+                for (const auto & i : rootObject->getChildrenT<UI::Window>())
                 {
-                    if (window->isVisible() && window->getGeometry().contains(_p->pointerInfo.projectedPos))
-                    {
-                        _p->window = window;
-                        _hover(window, moveEvent, hover);
-                        break;
-                    }
-                }
-                /*if (hover)
-                {
-                    std::stringstream ss;
-                    ss << "Hover: " << hover->getClassName();
-                    getContext()->log("djv::Desktop::EventSystem", ss.str());
-                }*/
-                if (hover != p.hover)
-                {
-                    if (p.hover)
-                    {
-                        Event::PointerLeave leaveEvent(_p->pointerInfo);
-                        p.hover->event(leaveEvent);
-                        /*{
-                            std::stringstream ss;
-                            ss << "Leave: " << p.hover->getClassName();
-                            getContext()->log("djv::Desktop::EventSystem", ss.str());
-                        }*/
-                    }
-                    p.hover = hover;
-                    if (p.hover)
-                    {
-                        Event::PointerEnter enterEvent(_p->pointerInfo);
-                        p.hover->event(enterEvent);
-                        /*{
-                            std::stringstream ss;
-                            ss << "Enter: " << p.hover->getClassName();
-                            getContext()->log("djv::Desktop::EventSystem", ss.str());
-                        }*/
-                    }
-                }
-            }
-        }
-
-        void EventSystem::_pointerMove(const Event::PointerInfo& info)
-        {
-            DJV_PRIVATE_PTR();
-            p.pointerInfo = info;
-        }
-
-        void EventSystem::_buttonPress(int button)
-        {
-            DJV_PRIVATE_PTR();
-            auto info = _p->pointerInfo;
-            info.buttons[button] = true;
-            Event::ButtonPress event(info);
-            if (p.hover)
-            {
-                p.hover->event(event);
-                if (event.isAccepted())
-                {
-                    p.grab = p.hover;
-                }
-            }
-        }
-
-        void EventSystem::_buttonRelease(int button)
-        {
-            DJV_PRIVATE_PTR();
-            auto info = _p->pointerInfo;
-            info.buttons[button] = false;
-            Event::ButtonRelease event(info);
-            if (p.grab)
-            {
-                p.grab->event(event);
-                p.grab = nullptr;
-            }
-        }
-
-        void EventSystem::_keyPress(int key, int mods)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.window && p.hover)
-            {
-                Event::KeyPress event(key, mods, _p->pointerInfo);
-                auto widget = p.hover;
-                while (widget)
-                {
-                    widget->event(event);
-                    if (event.isAccepted())
-                    {
-                        p.keyGrab = widget;
-                        break;
-                    }
-                    widget = widget->getParent().lock();
-                }
-            }
-        }
-
-        void EventSystem::_keyRelease(int key, int mods)
-        {
-            DJV_PRIVATE_PTR();
-            Event::KeyRelease event(key, mods, _p->pointerInfo);
-            if (p.keyGrab)
-            {
-                p.keyGrab->event(event);
-                p.keyGrab = nullptr;
-            }
-            else
-            {
-                auto widget = p.hover;
-                while (widget)
-                {
-                    widget->event(event);
+                    _hover(i, event, hover);
                     if (event.isAccepted())
                     {
                         break;
                     }
-                    widget = widget->getParent().lock();
                 }
             }
         }
 
-        void EventSystem::_drop(const std::vector<std::string> & list)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.window && p.hover)
-            {
-                Event::Drop event(list, _p->pointerInfo);
-                auto widget = p.hover;
-                while (widget)
-                {
-                    widget->event(event);
-                    if (event.isAccepted())
-                    {
-                        break;
-                    }
-                    widget = widget->getParent().lock();
-                }
-            }
-        }
-
-        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<UI::Widget>& hover)
+        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
             const auto children = widget->getChildrenT<UI::Widget>();
             for (auto i = children.rbegin(); i != children.rend(); ++i)

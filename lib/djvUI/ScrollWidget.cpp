@@ -103,8 +103,8 @@ namespace djv
                 float _contentsSize = 0.f;
                 float _scrollPos = 0.f;
                 std::function<void(float)> _scrollPosCallback;
-                std::map<uint32_t, bool> _hover;
-                uint32_t _pressedId = 0;
+                std::map<Event::PointerID, bool> _hover;
+                Event::PointerID _pressedID = 0;
                 float _pressedPos = 0.f;
                 float _pressedScrollPos = 0.f;
             };
@@ -204,7 +204,7 @@ namespace djv
                             break;
                         default: break;
                         }
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_pressedId ? Style::ColorRole::Checked : Style::ColorRole::Button)));
+                        render->setFillColor(_getColorWithOpacity(style->getColor(_pressedID ? Style::ColorRole::Checked : Style::ColorRole::Button)));
                         render->drawRectangle(BBox2f(pos.x, pos.y, size.x, size.y));
 
                         // Draw the hovered state.
@@ -246,7 +246,7 @@ namespace djv
             void ScrollBar::_pointerMoveEvent(Event::PointerMove& event)
             {
                 event.accept();
-                if (event.getPointerInfo().id == _pressedId)
+                if (event.getPointerInfo().id == _pressedID)
                 {
                     // Calculate the new scroll position.
                     const auto& pos = event.getPointerInfo().projectedPos;
@@ -273,10 +273,10 @@ namespace djv
 
             void ScrollBar::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (_pressedId)
+                if (_pressedID)
                     return;
                 event.accept();
-                _pressedId = event.getPointerInfo().id;
+                _pressedID = event.getPointerInfo().id;
                 const auto& pos = event.getPointerInfo().projectedPos;
                 switch (_orientation)
                 {
@@ -304,10 +304,10 @@ namespace djv
 
             void ScrollBar::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
-                if (event.getPointerInfo().id != _pressedId)
+                if (event.getPointerInfo().id != _pressedID)
                     return;
                 event.accept();
-                _pressedId = 0;
+                _pressedID = 0;
                 _redraw();
             }
 
@@ -437,8 +437,7 @@ namespace djv
 
             void ScrollArea::_preLayoutEvent(Event::PreLayout&)
             {
-                //! \todo Is this code necessary?
-                /*if (auto style = _getStyle().lock())
+                if (auto style = _getStyle().lock())
                 {
                     glm::vec2 childrenMinimumSize = glm::vec2(0.f, 0.f);
                     for (const auto& child : getChildrenT<Widget>())
@@ -452,21 +451,21 @@ namespace djv
                     switch (_scrollType)
                     {
                     case ScrollType::Both:
-                        size.x = std::max(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
-                        size.y = std::max(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
                         break;
                     case ScrollType::Horizontal:
-                        size.x = std::max(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
                         size.y = childrenMinimumSize.y;
                         break;
                     case ScrollType::Vertical:
                         size.x = childrenMinimumSize.x;
-                        size.y = std::max(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
                         break;
                     default: break;
                     }
                     _setMinimumSize(size);
-                }*/
+                }
             }
 
             void ScrollArea::_layoutEvent(Event::Layout& event)
@@ -555,7 +554,7 @@ namespace djv
             std::shared_ptr<Widget> scrollAreaSwipe;
             std::map<Orientation, std::shared_ptr<ScrollBar> > scrollBars;
             std::shared_ptr<Layout::Border> border;
-            uint32_t pointerId = 0;
+            Event::PointerID pointerID = 0;
             glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
             std::list<glm::vec2> pointerAverage;
             std::shared_ptr<Time::Timer> pointerAverageTimer;
@@ -781,7 +780,7 @@ namespace djv
             case Event::Type::PointerMove:
             {
                 auto& pointerEvent = static_cast<Event::PointerMove&>(event);
-                if (pointerEvent.getPointerInfo().id == _p->pointerId)
+                if (pointerEvent.getPointerInfo().id == _p->pointerID)
                 {
                     pointerEvent.accept();
                     const glm::vec2& pos = pointerEvent.getPointerInfo().projectedPos;
@@ -807,10 +806,10 @@ namespace djv
             case Event::Type::ButtonPress:
             {
                 auto& pointerEvent = static_cast<Event::ButtonPress&>(event);
-                if (!_p->pointerId)
+                if (!_p->pointerID)
                 {
                     pointerEvent.accept();
-                    _p->pointerId = pointerEvent.getPointerInfo().id;
+                    _p->pointerID = pointerEvent.getPointerInfo().id;
                     _p->pointerPos = pointerEvent.getPointerInfo().projectedPos;
                     _p->pointerAverage.clear();
                     _p->scrollAreaSwipe->setVisible(true);
@@ -821,10 +820,10 @@ namespace djv
             case Event::Type::ButtonRelease:
             {
                 auto& pointerEvent = static_cast<Event::ButtonRelease&>(event);
-                if (pointerEvent.getPointerInfo().id == _p->pointerId)
+                if (pointerEvent.getPointerInfo().id == _p->pointerID)
                 {
                     pointerEvent.accept();
-                    _p->pointerId = 0;
+                    _p->pointerID = 0;
                     _p->pointerPos = pointerEvent.getPointerInfo().projectedPos;
                     const auto delta = _getPointerAverage();
                     if (glm::length(delta) < velocityStopDelta)

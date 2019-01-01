@@ -49,9 +49,11 @@ namespace djv
             //! This enumeration provides the event types.
             enum class Type
             {
-                Parent,
+                ParentChanged,
+                ChildAdded,
+                ChildRemoved,
+                LocaleChanged,
                 Update,
-                Locale,
                 PreLayout,
                 Layout,
                 Clip,
@@ -95,17 +97,53 @@ namespace djv
             };
 
             //! This class provides an event for when an object's parent changes.
-            class Parent : public IEvent
+            class ParentChanged : public IEvent
             {
             public:
-                inline Parent(const std::weak_ptr<IObject> & prevParent, const std::weak_ptr<IObject> & newParent);
+                inline ParentChanged(const std::shared_ptr<IObject> & prevParent, const std::shared_ptr<IObject> & newParent);
 
-                inline const std::weak_ptr<IObject> & getPrevParent() const;
-                inline const std::weak_ptr<IObject> & getNewParent() const;
+                inline const std::shared_ptr<IObject> & getPrevParent() const;
+                inline const std::shared_ptr<IObject> & getNewParent() const;
 
             private:
-                std::weak_ptr<IObject> _prevParent;
-                std::weak_ptr<IObject> _newParent;
+                std::shared_ptr<IObject> _prevParent;
+                std::shared_ptr<IObject> _newParent;
+            };
+
+            //! This class provides an event for when a child object is added.
+            class ChildAdded : public IEvent
+            {
+            public:
+                inline ChildAdded(const std::shared_ptr<IObject> & child);
+
+                inline const std::shared_ptr<IObject> & getChild() const;
+
+            private:
+                std::shared_ptr<IObject> _child;
+            };
+
+            //! This class provides an event for when a child object is removed.
+            class ChildRemoved : public IEvent
+            {
+            public:
+                inline ChildRemoved(const std::shared_ptr<IObject> & child);
+
+                inline const std::shared_ptr<IObject> & getChild() const;
+
+            private:
+                std::shared_ptr<IObject> _child;
+            };
+
+            //! This class provides an event foe when the locale changes.
+            class LocaleChanged : public IEvent
+            {
+            public:
+                inline LocaleChanged(const std::string&);
+
+                inline const std::string& getLocale() const;
+
+            private:
+                std::string _locale;
             };
 
             //! This class provides an update event.
@@ -118,18 +156,6 @@ namespace djv
 
             private:
                 float _dt;
-            };
-
-            //! This class provides a locale event.
-            class Locale : public IEvent
-            {
-            public:
-                inline Locale(const std::string&);
-
-                inline const std::string& getLocale() const;
-
-            private:
-                std::string _locale;
             };
 
             //! This class provides an event to prepare for user interface layout.

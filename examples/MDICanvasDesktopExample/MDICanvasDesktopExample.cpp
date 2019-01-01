@@ -29,6 +29,7 @@
 
 #include <djvDesktop/Application.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
@@ -72,6 +73,7 @@ private:
     std::shared_ptr<UI::Button::Tool> _closeButton;
     std::shared_ptr<UI::Icon> _resizeHandle;
     std::shared_ptr<UI::Layout::VerticalLayout> _layout;
+    std::shared_ptr<UI::Layout::Border> _border;
     std::function<void(void)> _closedCallback;
 };
 
@@ -116,7 +118,10 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     _layout->addWidget(titleBar);
     _layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);
     _layout->addWidget(bottomBar);
-    IContainer::addWidget(_layout);
+
+    _border = UI::Layout::Border::create(context);
+    _border->addWidget(_layout);
+    IContainer::addWidget(_border);
 }
 
 MDIWindow::MDIWindow()
@@ -146,17 +151,17 @@ std::shared_ptr<UI::Widget> MDIWindow::getResizeHandle()
 
 float MDIWindow::getHeightForWidth(float value) const
 {
-    return _layout->getHeightForWidth(value);
+    return _border->getHeightForWidth(value);
 }
 
 void MDIWindow::_preLayoutEvent(Core::Event::PreLayout&)
 {
-    _setMinimumSize(_layout->getMinimumSize());
+    _setMinimumSize(_border->getMinimumSize());
 }
 
 void MDIWindow::_layoutEvent(Core::Event::Layout&)
 {
-    _layout->setGeometry(getGeometry());
+    _border->setGeometry(getGeometry());
 }
 
 int main(int argc, char ** argv)

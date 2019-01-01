@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvCore/Event.h>
 #include <djvCore/ISystem.h>
 
 namespace djv
@@ -39,12 +40,6 @@ namespace djv
 
         namespace Event
         {
-            struct PointerInfo;
-
-            class Locale;
-            class PointerMove;
-            class Update;
-
             class IEventSystem : public ISystem
             {
                 DJV_NON_COPYABLE(IEventSystem);
@@ -60,13 +55,22 @@ namespace djv
                 void setRootObject(const std::shared_ptr<IObject> &);
 
             protected:
+                void _pointerMove(const Event::PointerInfo&);
+                void _buttonPress(int);
+                void _buttonRelease(int);
+                void _keyPress(int key, int mods);
+                void _keyRelease(int key, int mods);
+                void _drop(const std::vector<std::string> &);
+
+                virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
+
                 void _tick(float dt) override;
 
             private:
                 void _getFirstTick(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<IObject> > &);
+                void _localeChanged(LocaleChanged &);
+                void _localeChangedRecursive(const std::shared_ptr<IObject> &, LocaleChanged &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
-                void _locale(Locale &);
-                void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
 
                 DJV_PRIVATE();
             };

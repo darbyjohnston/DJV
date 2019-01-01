@@ -55,8 +55,8 @@ namespace djv
                     bool hover;
                     bool inside;
                 };
-                std::map<uint32_t, PointerState> pointerState;
-                uint32_t pressedId = 0;
+                std::map<Event::PointerID, PointerState> pointerState;
+                Event::PointerID pressedId = 0;
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 bool canRejectPressed = true;
             };
@@ -142,7 +142,6 @@ namespace djv
             void IButton::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 event.accept();
-
                 const auto id = event.getPointerInfo().id;
                 _p->pointerState[id].hover = true;
                 _p->pointerState[id].inside = true;
@@ -152,7 +151,6 @@ namespace djv
             void IButton::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
-
                 const auto id = event.getPointerInfo().id;
                 const auto i = _p->pointerState.find(id);
                 if (i != _p->pointerState.end())
@@ -165,11 +163,9 @@ namespace djv
             void IButton::_pointerMoveEvent(Event::PointerMove& event)
             {
                 event.accept();
-
                 const auto id = event.getPointerInfo().id;
                 const auto& pos = event.getPointerInfo().projectedPos;
                 _p->pointerState[id].inside = getGeometry().contains(pos);
-
                 if (id == _p->pressedId)
                 {
                     if (auto style = _getStyle().lock())

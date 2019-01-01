@@ -152,6 +152,7 @@ namespace djv
             //! \name Widget Actions
             ///@{
 
+            inline const std::vector<std::shared_ptr<Action> > & getActions() const;
             void addAction(const std::shared_ptr<Action>&);
             void removeAction(const std::shared_ptr<Action>&);
             void clearActions();
@@ -204,7 +205,9 @@ namespace djv
             //! Set the minimum size. This is computed and set in the pre-layout event.
             void _setMinimumSize(const glm::vec2&);
 
-            void _parentEvent(Core::Event::Parent &) override;
+            void _parentChangedEvent(Core::Event::ParentChanged &) override;
+            void _childAddedEvent(Core::Event::ChildAdded &) override;
+            void _childRemovedEvent(Core::Event::ChildRemoved &) override;
 
         private:
             bool _visible = true;

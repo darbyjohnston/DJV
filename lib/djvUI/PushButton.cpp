@@ -57,7 +57,7 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("Gp::UI::Button::Push");
+                setClassName("djv::UI::Button::Push");
                 setBackgroundRole(Style::ColorRole::Button);
 
                 _p->icon = Icon::create(context);
@@ -68,7 +68,7 @@ namespace djv
                 _p->label->hide();
 
                 _p->layout = Layout::HorizontalLayout::create(context);
-                _p->layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                _p->layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 _p->layout->addWidget(_p->icon);
                 _p->layout->addWidget(_p->label, Layout::RowStretch::Expand);
                 _p->layout->setParent(shared_from_this());

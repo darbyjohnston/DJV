@@ -30,7 +30,6 @@
 #include <djvCore/IObject.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/Event.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
@@ -118,7 +117,7 @@ namespace djv
 
         void IObject::setParent(const std::shared_ptr<IObject>& value, int insert)
         {
-            std::weak_ptr<IObject> prevParent;
+            std::shared_ptr<IObject> prevParent;
             if (auto parent = _parent.lock())
             {
                 prevParent = parent;
@@ -128,8 +127,10 @@ namespace djv
                     parent->_children.erase(i);
                 }
                 _parent.reset();
+                Event::ChildRemoved childRemovedEvent(shared_from_this());
+                parent->event(childRemovedEvent);
             }
-            std::weak_ptr<IObject> newParent;
+            std::shared_ptr<IObject> newParent;
             if (value)
             {
                 if (-1 == insert)
@@ -142,9 +143,11 @@ namespace djv
                 value->_children.insert(i, shared_from_this());
                 _parent = value;
                 newParent = value;
+                Event::ChildAdded childAddedEvent(shared_from_this());
+                value->event(childAddedEvent);
             }
-            Event::Parent parentEvent(prevParent, newParent);
-            event(parentEvent);
+            Event::ParentChanged parentChangedEvent(prevParent, newParent);
+            event(parentChangedEvent);
         }
 
         bool IObject::event(Event::IEvent& event)
@@ -154,9 +157,11 @@ namespace djv
             {
                 switch (event.getEventType())
                 {
-                case Event::Type::Update: _updateEvent(static_cast<Event::Update&>(event)); break;
-                case Event::Type::Locale: _localeEvent(static_cast<Event::Locale&>(event)); break;
-                case Event::Type::Parent: _parentEvent(static_cast<Event::Parent&>(event)); break;
+                case Event::Type::ParentChanged: _parentChangedEvent(static_cast<Event::ParentChanged&>(event)); break;
+                case Event::Type::ChildAdded:    _childAddedEvent(static_cast<Event::ChildAdded&>(event));       break;
+                case Event::Type::ChildRemoved:  _childRemovedEvent(static_cast<Event::ChildRemoved&>(event));   break;
+                case Event::Type::LocaleChanged: _localeChangedEvent(static_cast<Event::LocaleChanged&>(event)); break;
+                case Event::Type::Update:        _updateEvent(static_cast<Event::Update&>(event));               break;
                 default: break;
                 }
                 out = event.isAccepted();

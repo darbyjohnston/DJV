@@ -32,7 +32,6 @@
 #include <djvUI/Action.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/StackLayout.h>
-#include <djvUI/Window.h>
 
 #include <djvCore/Animation.h>
 #include <djvCore/Timer.h>
@@ -62,10 +61,9 @@ namespace djv
                 IContainer::_init(context);
 
                 setClassName("djv::UI::Layout::Overlay");
-                setVisible(false);
-                setOpacity(0.f);
                 setBackgroundRole(Style::ColorRole::Overlay);
                 setPointerEnabled(_p->capturePointer);
+                setVisible(false);
 
                 auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);
                 auto closeAction = Action::create();

@@ -73,10 +73,10 @@ set(source
     ImageWidget.cpp
     Label.cpp
     ListButton.cpp
-    Menu.cpp
-    MenuBar.cpp
     MDICanvas.cpp
     MDIWindow.cpp
+    Menu.cpp
+    MenuBar.cpp
     Overlay.cpp
     PushButton.cpp
     RowLayout.cpp

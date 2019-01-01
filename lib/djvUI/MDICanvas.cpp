@@ -105,7 +105,7 @@ namespace djv
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > resizeHandleToWindow;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > windowToMoveHandle;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > windowToResizeHandle;
-                uint32_t pressed = 0;
+                Event::PointerID pressed = 0;
                 glm::vec2 pressedPos;
                 glm::vec2 pressedOffset;
             };

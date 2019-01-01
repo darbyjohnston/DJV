@@ -59,17 +59,10 @@ namespace djv
             static std::shared_ptr<EventSystem> create(GLFWwindow*, Core::Context *);
 
         protected:
-            void _tick(float dt) override;
+            void _hover(Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&) override;
 
         private:
-            void _pointerMove(const Core::Event::PointerInfo&);
-            void _buttonPress(int);
-            void _buttonRelease(int);
-            void _keyPress(int key, int mods);
-            void _keyRelease(int key, int mods);
-            void _drop(const std::vector<std::string> &);
-
-            void _hover(const std::shared_ptr<UI::Widget>&, Core::Event::PointerMove&, std::shared_ptr<UI::Widget>&);
+            void _hover(const std::shared_ptr<UI::Widget> &, Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&);
 
             static void _pointerCallback(GLFWwindow*, double, double);
             static void _buttonCallback(GLFWwindow*, int button, int action, int mods);

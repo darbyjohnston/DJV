@@ -104,6 +104,11 @@ namespace djv
             return _pointerEnabled;
         }
 
+        inline const std::vector<std::shared_ptr<Action> > & Widget::getActions() const
+        {
+            return _actions;
+        }
+
         inline const std::weak_ptr<AV::Image::IconSystem>& Widget::_getIconSystem() const
         {
             return _iconSystem;

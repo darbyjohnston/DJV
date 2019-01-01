@@ -44,8 +44,8 @@ namespace djv
                 Orientation orientation = Orientation::Horizontal;
                 float split = .5f;
                 float splitterWidth = 0.f;
-                std::map<uint32_t, bool> hover;
-                uint32_t pressedId = 0;
+                std::map<Event::PointerID, bool> hover;
+                Event::PointerID pressedID = 0;
                 std::function<void(float)> splitCallback;
             };
 
@@ -245,14 +245,14 @@ namespace djv
                         }
 
                         // Draw the pressed state.
-                        if (_p->pressedId)
+                        if (_p->pressedID)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
                             render->drawRectangle(hg);
                         }
 
                         // Draw the hovered state.
-                        bool hover = _p->pressedId;
+                        bool hover = _p->pressedID;
                         for (const auto& h : _p->hover)
                         {
                             hover |= h.second;
@@ -293,13 +293,13 @@ namespace djv
                 const auto& pos = event.getPointerInfo().projectedPos;
                 _p->hover[id] = _getSplitterGeometry().contains(pos);
 
-                if (_p->hover[id] || _p->pressedId)
+                if (_p->hover[id] || _p->pressedID)
                 {
                     event.accept();
                     _redraw();
                 }
 
-                if (_p->pressedId)
+                if (_p->pressedID)
                 {
                     float p = 0.f;
                     switch (_p->orientation)
@@ -318,23 +318,23 @@ namespace djv
 
             void Splitter::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (_p->pressedId)
+                if (_p->pressedID)
                     return;
                 const auto id = event.getPointerInfo().id;
                 if (_p->hover[id])
                 {
                     event.accept();
-                    _p->pressedId = id;
+                    _p->pressedID = id;
                     _redraw();
                 }
             }
 
             void Splitter::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
-                if (event.getPointerInfo().id != _p->pressedId)
+                if (event.getPointerInfo().id != _p->pressedID)
                     return;
                 event.accept();
-                _p->pressedId = 0;
+                _p->pressedID = 0;
                 _redraw();
             }
 

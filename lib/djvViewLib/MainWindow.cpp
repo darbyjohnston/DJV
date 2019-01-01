@@ -64,75 +64,79 @@ namespace djv
         
         void MainWindow::_init(Core::Context * context)
         {
-            Window::_init(context);
+            UI::Window::_init(context);
+
+            setClassName("djv::ViewLib::MainWindow");
+
+            auto fileOpenAction = UI::Action::create();
+            fileOpenAction->setText("Open");
+            addAction(fileOpenAction);
+            auto fileReloadAction = UI::Action::create();
+            fileReloadAction->setText("Reload");
+            addAction(fileReloadAction);
+            auto fileCloseAction = UI::Action::create();
+            fileCloseAction->setText("Close");
+            addAction(fileCloseAction);
+            auto fileExportAction = UI::Action::create();
+            fileExportAction->setText("Export");
+            addAction(fileExportAction);
+            auto exitAction = UI::Action::create();
+            exitAction->setText("Exit");
+            addAction(exitAction);
+
+            auto windowNewTabAction = UI::Action::create();
+            windowNewTabAction->setText("New Tab");
+            addAction(windowNewTabAction);
+            auto windowCloseTabAction = UI::Action::create();
+            windowCloseTabAction->setText("Close Tab");
+            addAction(windowCloseTabAction);
+
+            auto viewZoomInAction = UI::Action::create();
+            viewZoomInAction->setText("Zoom In");
+            addAction(viewZoomInAction);
+            auto viewZoomOutAction = UI::Action::create();
+            viewZoomOutAction->setText("Zoom Out");
+            addAction(viewZoomOutAction);
+            auto viewResetZoomAction = UI::Action::create();
+            viewResetZoomAction->setText("Reset Zoom");
+            addAction(viewResetZoomAction);
+
+            auto playbackStopAction = UI::Action::create();
+            playbackStopAction->setText("Stop");
+            addAction(playbackStopAction);
+            auto playbackForwardAction = UI::Action::create();
+            playbackForwardAction->setText("Forward");
+            addAction(playbackForwardAction);
+            auto playbackReverseAction = UI::Action::create();
+            playbackReverseAction->setText("Reverse");
+            addAction(playbackReverseAction);
 
             auto fileMenu = UI::Menu::create("File", context);
-            auto action = UI::Action::create();
-            action->setText("Open");
-            fileMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Reload");
-            fileMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Close");
-            fileMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Export");
-            fileMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Exit");
-            fileMenu->addAction(action);
+            fileMenu->addAction(fileOpenAction);
+            fileMenu->addAction(fileReloadAction);
+            fileMenu->addAction(fileCloseAction);
+            fileMenu->addAction(fileExportAction);
+            fileMenu->addAction(exitAction);
 
             auto windowMenu = UI::Menu::create("Window", context);
-            action = UI::Action::create();
-            action->setText("New Tab");
-            windowMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Close Tab");
-            windowMenu->addAction(action);
+            windowMenu->addAction(windowNewTabAction);
+            windowMenu->addAction(windowCloseTabAction);
 
             auto viewMenu = UI::Menu::create("View", context);
-            action = UI::Action::create();
-            action->setText("Zoom In");
-            viewMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Zoom Out");
-            viewMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Reset Zoom");
-            viewMenu->addAction(action);
+            viewMenu->addAction(viewZoomInAction);
+            viewMenu->addAction(viewZoomOutAction);
+            viewMenu->addAction(viewResetZoomAction);
 
             auto playbackMenu = UI::Menu::create("Playback", context);
-            action = UI::Action::create();
-            action->setText("Stop");
-            playbackMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Forward");
-            playbackMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Reverse");
-            playbackMenu->addAction(action);
-
-            auto toolsMenu = UI::Menu::create("Tools", context);
-            action = UI::Action::create();
-            action->setText("Magnify");
-            toolsMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Color Picker");
-            toolsMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Histogram");
-            toolsMenu->addAction(action);
-            action = UI::Action::create();
-            action->setText("Information");
-            toolsMenu->addAction(action);
+            playbackMenu->addAction(playbackStopAction);
+            playbackMenu->addAction(playbackForwardAction);
+            playbackMenu->addAction(playbackReverseAction);
 
             _p->menuBar = UI::MenuBar::create(context);
             _p->menuBar->addMenu(fileMenu);
             _p->menuBar->addMenu(windowMenu);
             _p->menuBar->addMenu(viewMenu);
             _p->menuBar->addMenu(playbackMenu);
-            _p->menuBar->addMenu(toolsMenu);
 
             _p->tabWidget = UI::TabWidget::create(context);
 
@@ -150,12 +154,10 @@ namespace djv
             //addWidget(_p->scrollWidget);
 
             auto exitShortcut = UI::Shortcut::create(GLFW_KEY_Q, GLFW_MOD_CONTROL);
-            auto exitAction = UI::Action::create();
             exitAction->setShortcut(exitShortcut);
-            addAction(exitAction);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            exitShortcut->setCallback(
+            exitAction->setClickedCallback(
                 [weak, context]
             {
                 if (auto mainWindow = weak.lock())

@@ -49,7 +49,7 @@ namespace djv
 
             void General::_init(Context * context)
             {
-                ISettings::_init("Gp::UI::Settings::General", context);
+                ISettings::_init("djv::UI::Settings::General", context);
                 if (auto textSystem = context->getSystemT<Core::TextSystem>().lock())
                 {
                     _p->currentLocale = ValueSubject<std::string>::create(textSystem->getCurrentLocale());

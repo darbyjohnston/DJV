@@ -55,7 +55,7 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("Gp::UI::Button::Toggle");
+                setClassName("djv::UI::Button::Toggle");
                 setButtonType(ButtonType::Toggle);
                 setBackgroundRole(Style::ColorRole::Button);
             }

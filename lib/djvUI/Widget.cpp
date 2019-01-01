@@ -285,20 +285,28 @@ namespace djv
                     {
                         _parentsVisible = parent->_visible && parent->_parentsVisible;
                         _clipped = !clipEvent.getClipRect().isValid() || !_visible || !parent->_visible || !parent->_parentsVisible;
-                        _parentsOpacity = parent->_opacity * parent->_parentsOpacity;
                     }
                     else
                     {
                         _parentsVisible = true;
                         _clipped = false;
-                        _parentsOpacity = 1.f;
                     }
                     _clipEvent(clipEvent);
                     break;
                 }
                 case Event::Type::Paint:
+                {
+                    if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+                    {
+                        _parentsOpacity = parent->_opacity * parent->_parentsOpacity;
+                    }
+                    else
+                    {
+                        _parentsOpacity = 1.f;
+                    }
                     _paintEvent(static_cast<Event::Paint&>(event));
                     break;
+                }
                 case Event::Type::PointerEnter:
                     _pointerEnterEvent(static_cast<Event::PointerEnter&>(event));
                     break;
@@ -445,9 +453,19 @@ namespace djv
             _resize();
         }
 
-        void Widget::_parentEvent(Event::Parent & event)
+        void Widget::_parentChangedEvent(Event::ParentChanged & event)
         {
-            _clipped = event.getNewParent().lock() ? true : false;
+            _clipped = event.getNewParent() ? true : false;
+            _redraw();
+        }
+
+        void Widget::_childAddedEvent(Event::ChildAdded &)
+        {
+            _redraw();
+        }
+
+        void Widget::_childRemovedEvent(Event::ChildRemoved &)
+        {
             _redraw();
         }
 

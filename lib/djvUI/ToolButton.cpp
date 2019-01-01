@@ -55,7 +55,7 @@ namespace djv
             {
                 IButton::_init(context);
 
-                setClassName("Gp::UI::Button::Tool");
+                setClassName("djv::UI::Button::Tool");
 
                 _p->icon = Icon::create(context);
                 _p->icon->setVAlign(VAlign::Center);

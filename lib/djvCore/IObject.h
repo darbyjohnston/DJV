@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Event.h>
 
 namespace djv
 {
@@ -42,17 +42,7 @@ namespace djv
 
         namespace Event
         {
-            class ButtonPress;
-            class ButtonRelease;
-            class Enter;
-            class IEvent;
             class IEventSystem;
-            class Locale;
-            class Parent;
-            class PointerEnter;
-            class PointerLeave;
-            class PointerMove;
-            class Update;
 
         } // namespace Event
 
@@ -152,9 +142,11 @@ namespace djv
             //! \name Object Events
             ///@{
 
+            virtual void _parentChangedEvent(Event::ParentChanged &) {}
+            virtual void _childAddedEvent(Event::ChildAdded &) {}
+            virtual void _childRemovedEvent(Event::ChildRemoved &) {}
+            virtual void _localeChangedEvent(Event::LocaleChanged &) {}
             virtual void _updateEvent(Event::Update &) {}
-            virtual void _localeEvent(Event::Locale &) {}
-            virtual void _parentEvent(Event::Parent &) {}
 
             //! Over-ride this function to filter events for other objects.
             virtual bool _eventFilter(const std::shared_ptr<IObject>&, Event::IEvent&) { return false; }
