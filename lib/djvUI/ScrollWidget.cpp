@@ -48,7 +48,6 @@ using namespace djv::Core;
 namespace
 {
     //! \todo [1.0 S] Should this be configurable?
-    const float  scrollAreaMinimumSize      = 200.f; // The minimum scroll area size.
     const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
     const float  velocityDecay              = .99f;  // How quickly the velocity decays.
     const float  velocityStopDelta          = 5.f;   // The minimum amount of movement to stop the velocity.
@@ -448,19 +447,20 @@ namespace djv
                         }
                     }
                     glm::vec2 size = glm::vec2(0.f, 0.f);
+                    const float sa = style->getMetric(Style::MetricsRole::ScrollArea);
                     switch (_scrollType)
                     {
                     case ScrollType::Both:
-                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
-                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        size.x = std::min(childrenMinimumSize.x, sa * style->getScale());
+                        size.y = std::min(childrenMinimumSize.y, sa * style->getScale());
                         break;
                     case ScrollType::Horizontal:
-                        size.x = std::min(childrenMinimumSize.x, scrollAreaMinimumSize * style->getScale());
+                        size.x = std::min(childrenMinimumSize.x, sa * style->getScale());
                         size.y = childrenMinimumSize.y;
                         break;
                     case ScrollType::Vertical:
                         size.x = childrenMinimumSize.x;
-                        size.y = std::min(childrenMinimumSize.y, scrollAreaMinimumSize * style->getScale());
+                        size.y = std::min(childrenMinimumSize.y, sa * style->getScale());
                         break;
                     default: break;
                     }

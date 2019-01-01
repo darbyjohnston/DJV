@@ -216,13 +216,46 @@ namespace djv
                     if (p.grab)
                     {
                         p.grab->event(moveEvent);
+                        if (!moveEvent.isAccepted())
+                        {
+                            // If the grabbed object did not accept the event then see if
+                            // any of the parent objects want it.
+                            moveEvent.reject();
+                            for (auto parent = p.grab->getParent().lock(); parent; parent = parent->getParent().lock())
+                            {
+                                parent->event(moveEvent);
+                                if (moveEvent.isAccepted())
+                                {
+                                    if (p.hover)
+                                    {
+                                        Event::PointerLeave leaveEvent(_p->pointerInfo);
+                                        p.hover->event(leaveEvent);
+                                    }
+                                    p.hover = parent;
+                                    if (p.hover)
+                                    {
+                                        Event::PointerEnter enterEvent(_p->pointerInfo);
+                                        p.hover->event(enterEvent);
+                                        auto info = _p->pointerInfo;
+                                        info.buttons[info.id] = true;
+                                        Event::ButtonPress buttonPressEvent(info);
+                                        p.hover->event(buttonPressEvent);
+                                        if (buttonPressEvent.isAccepted())
+                                        {
+                                            p.grab = p.hover;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
                     }
                     else if (auto root = getRootObject())
                     {
                         std::shared_ptr<IObject> hover;
                         _hover(moveEvent, hover);
-                        if (hover)
-                        /*{
+                        /*if (hover)
+                        {
                             std::stringstream ss;
                             ss << "Hover: " << hover->getClassName();
                             getContext()->log("djv::Desktop::EventSystem", ss.str());

@@ -149,6 +149,7 @@ namespace djv
                 p.metrics[MetricsRole::Swatch] = 40.f;
                 p.metrics[MetricsRole::Thumbnail] = 300.f;
                 p.metrics[MetricsRole::Shadow] = 10.f;
+                p.metrics[MetricsRole::ScrollArea] = 200.f;
                 p.metrics[MetricsRole::TextColumn] = 200.f;
                 p.metrics[MetricsRole::Dialog] = 400.f;
             }
@@ -379,6 +380,7 @@ namespace djv
         DJV_TEXT("Swatch"),
         DJV_TEXT("Thumbnail"),
         DJV_TEXT("Shadow"),
+        DJV_TEXT("ScrollArea"),
         DJV_TEXT("TextColumn"),
         DJV_TEXT("Dialog"));
 

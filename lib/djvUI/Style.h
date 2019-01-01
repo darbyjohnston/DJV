@@ -91,6 +91,7 @@ namespace djv
                 Swatch,
                 Thumbnail,
                 Shadow,
+                ScrollArea,
                 TextColumn,
                 Dialog,
 

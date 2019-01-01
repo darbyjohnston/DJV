@@ -36,6 +36,9 @@ namespace djv
     namespace UI
     {
         //! This class provides a combo box widget.
+        //!
+        //! \todo Add support for icons.
+        //! \todo Position the current item under the pointer.
         class ComboBox : public Widget
         {
             DJV_NON_COPYABLE(ComboBox);

@@ -178,7 +178,7 @@ int main(int argc, char ** argv)
             std::stringstream ss;
             ss << "Window " << i;
             auto window = MDIWindow::create(ss.str(), app.get());
-            const glm::vec2 size(Core::Math::getRandom(4, 5) * 100.f, Core::Math::getRandom(2, 3) * 100.f);
+            const glm::vec2 size(Core::Math::getRandom(4, 5) * 100.f, Core::Math::getRandom(3, 4) * 100.f);
             window->resize(size);
 
             const glm::vec2 pos(Core::Math::getRandom(0, 50) * 10.f, Core::Math::getRandom(0, 50) * 10.f);

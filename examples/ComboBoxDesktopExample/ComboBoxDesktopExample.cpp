@@ -50,7 +50,7 @@ int main(int argc, char ** argv)
         comboBox0->setHAlign(UI::HAlign::Left);
         comboBox0->setVAlign(UI::VAlign::Top);
         auto comboBox1 = UI::ComboBox::create(app.get());
-        comboBox1->setItems(Core::String::getRandomNames(5));
+        comboBox1->setItems(Core::String::getRandomNames(25));
         comboBox1->setHAlign(UI::HAlign::Right);
         comboBox1->setVAlign(UI::VAlign::Top);
         auto comboBox2 = UI::ComboBox::create(app.get());
@@ -58,7 +58,7 @@ int main(int argc, char ** argv)
         comboBox2->setHAlign(UI::HAlign::Left);
         comboBox2->setVAlign(UI::VAlign::Bottom);
         auto comboBox3 = UI::ComboBox::create(app.get());
-        comboBox3->setItems(Core::String::getRandomNames(5));
+        comboBox3->setItems(Core::String::getRandomNames(25));
         comboBox3->setHAlign(UI::HAlign::Right);
         comboBox3->setVAlign(UI::VAlign::Bottom);
 
