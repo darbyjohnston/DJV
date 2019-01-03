@@ -60,11 +60,13 @@ namespace djv
             std::shared_ptr<UI::TabWidget> tabWidget;
             //std::shared_ptr<UI::MDI::Canvas> canvas;
             //std::shared_ptr<UI::ScrollWidget> scrollWidget;
+            std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            std::shared_ptr<ValueObserver<bool> > exitObserver;
         };
         
         void MainWindow::_init(Core::Context * context)
         {
-            UI::Window::_init(context);
+            UI::MainWindow::_init(context);
 
             setClassName("djv::ViewLib::MainWindow");
 
@@ -82,6 +84,7 @@ namespace djv
             addAction(fileExportAction);
             auto exitAction = UI::Action::create();
             exitAction->setText("Exit");
+            exitAction->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
             addAction(exitAction);
 
             auto windowNewTabAction = UI::Action::create();
@@ -103,13 +106,23 @@ namespace djv
 
             auto playbackStopAction = UI::Action::create();
             playbackStopAction->setText("Stop");
+            playbackStopAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackStop90DPI.png"));
+            playbackStopAction->setShortcut(GLFW_KEY_K);
             addAction(playbackStopAction);
             auto playbackForwardAction = UI::Action::create();
             playbackForwardAction->setText("Forward");
+            playbackForwardAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackForward90DPI.png"));
+            playbackForwardAction->setShortcut(GLFW_KEY_L);
             addAction(playbackForwardAction);
             auto playbackReverseAction = UI::Action::create();
             playbackReverseAction->setText("Reverse");
+            //playbackReverseAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
+            playbackReverseAction->setShortcut(GLFW_KEY_J);
             addAction(playbackReverseAction);
+            _p->playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            _p->playbackActionGroup->addAction(playbackStopAction);
+            _p->playbackActionGroup->addAction(playbackForwardAction);
+            _p->playbackActionGroup->addAction(playbackReverseAction);
 
             auto fileMenu = UI::Menu::create("File", context);
             fileMenu->addAction(fileOpenAction);
@@ -132,48 +145,49 @@ namespace djv
             playbackMenu->addAction(playbackForwardAction);
             playbackMenu->addAction(playbackReverseAction);
 
-            _p->menuBar = UI::MenuBar::create(context);
-            _p->menuBar->addMenu(fileMenu);
-            _p->menuBar->addMenu(windowMenu);
-            _p->menuBar->addMenu(viewMenu);
-            _p->menuBar->addMenu(playbackMenu);
+            auto menuBar = getMenuBar();
+            menuBar->addMenu(fileMenu);
+            menuBar->addMenu(windowMenu);
+            menuBar->addMenu(viewMenu);
+            menuBar->addMenu(playbackMenu);
 
             _p->tabWidget = UI::TabWidget::create(context);
-
-            auto layout = UI::Layout::VerticalLayout::create(context);
-            layout->setSpacing(UI::Style::MetricsRole::None);
-            layout->addWidget(_p->menuBar);
-            layout->addSeparator();
-            layout->addWidget(_p->tabWidget, UI::Layout::RowStretch::Expand);
-            addWidget(layout);
+            setCentralWidget(_p->tabWidget);
 
             //_p->canvas = UI::MDI::Canvas::create(context);
             //_p->canvas->setCanvasSize(glm::vec2(8192, 8192));
             //_p->scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             //_p->scrollWidget->addWidget(_p->canvas);
-            //addWidget(_p->scrollWidget);
-
-            auto exitShortcut = UI::Shortcut::create(GLFW_KEY_Q, GLFW_MOD_CONTROL);
-            exitAction->setShortcut(exitShortcut);
+            //setCentralWidget(_p->scrollWidget);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            exitAction->setClickedCallback(
-                [weak, context]
+            _p->tabWidget->setCallback(
+                [weak](int value)
             {
-                if (auto mainWindow = weak.lock())
+
+            });
+
+            _p->exitObserver = ValueObserver<bool>::create(
+                exitAction->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
                 {
-                    UI::Dialog::confirmation(
-                        DJV_TEXT("Are you sure you want to exit?"),
-                        DJV_TEXT("Yes"),
-                        DJV_TEXT("No"),
-                        mainWindow,
-                        [context](bool value)
+                    if (auto mainWindow = weak.lock())
                     {
-                        if (value)
+                        UI::Dialog::confirmation(
+                            DJV_TEXT("Are you sure you want to exit?"),
+                            DJV_TEXT("Yes"),
+                            DJV_TEXT("No"),
+                            mainWindow,
+                            [context](bool value)
                         {
-                            dynamic_cast<Application *>(context)->exit();
-                        }
-                    });
+                            if (value)
+                            {
+                                dynamic_cast<Application *>(context)->exit();
+                            }
+                        });
+                    }
                 }
             });
         }

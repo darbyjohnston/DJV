@@ -119,7 +119,10 @@ namespace djv
                     (*i)->getGeometry().contains(event.getPointerInfo().projectedPos))
                 {
                     _hover(*i, event, hover);
-                    break;
+                    if (event.isAccepted())
+                    {
+                        break;
+                    }
                 }
             }
             if (!event.isAccepted())

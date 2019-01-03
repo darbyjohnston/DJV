@@ -44,6 +44,7 @@ namespace djv
             std::shared_ptr<TabBar> tabBar;
             std::shared_ptr<Layout::VerticalLayout> layout;
             std::shared_ptr<Layout::Solo> soloLayout;
+            std::function<void(int)> callback;
         };
 
         void TabWidget::_init(Context * context)
@@ -69,6 +70,10 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->_p->soloLayout->setCurrentIndex(value);
+                    if (widget->_p->callback)
+                    {
+                        widget->_p->callback(value);
+                    }
                 }
             });
         }
@@ -101,6 +106,11 @@ namespace djv
         void TabWidget::clearWidgets()
         {
             _p->soloLayout->clearWidgets();
+        }
+
+        void TabWidget::setCallback(const std::function<void(int)>& value)
+        {
+            _p->callback = value;
         }
 
         float TabWidget::getHeightForWidth(float value) const

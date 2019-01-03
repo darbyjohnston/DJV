@@ -55,6 +55,9 @@ namespace djv
                 void setCapturePointer(bool);
                 void setCaptureKeyboard(bool);
 
+                const std::weak_ptr<Widget>& getAnchor() const;
+                void setAnchor(const std::weak_ptr<Widget>&);
+
                 bool hasFadeIn() const;
                 void setFadeIn(bool);
 
@@ -70,11 +73,17 @@ namespace djv
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
+                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerMoveEvent(Core::Event::PointerMove&) override;
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
                 void _keyPressEvent(Core::Event::KeyPress&) override;
                 void _keyReleaseEvent(Core::Event::KeyRelease&) override;
 
             private:
+                bool _isInsideAnchor(const glm::vec2 &) const;
+
                 struct Private;
                 std::unique_ptr<Private> _p;
             };

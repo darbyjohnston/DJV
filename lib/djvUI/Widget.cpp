@@ -399,7 +399,7 @@ namespace djv
                 {
                     if (i->isEnabled()->get())
                     {
-                        if (i->getShortcut())
+                        if (i->getShortcut()->get())
                         {
                             actions.push_back(i);
                         }
@@ -410,18 +410,18 @@ namespace djv
                 std::sort(actions.begin(), actions.end(),
                     [](const std::shared_ptr<Action> & a, const std::shared_ptr<Action> & b) -> bool
                 {
-                    return a->getShortcut()->getShortcutModifiers()->get() > b->getShortcut()->getShortcutModifiers()->get();
+                    return a->getShortcut()->get()->getShortcutModifiers()->get() > b->getShortcut()->get()->getShortcutModifiers()->get();
                 });
 
                 for (const auto& i : actions)
                 {
-                    const int key = i->getShortcut()->getShortcutKey()->get();
-                    const int modifiers = i->getShortcut()->getShortcutModifiers()->get();
+                    const int key = i->getShortcut()->get()->getShortcutKey()->get();
+                    const int modifiers = i->getShortcut()->get()->getShortcutModifiers()->get();
                     if ((key == event.getKey() && event.getKeyModifiers() & modifiers) ||
                         (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
                     {
                         event.accept();
-                        i->getShortcut()->doCallback();
+                        i->getShortcut()->get()->doCallback();
                         break;
                     }
                 }

@@ -29,37 +29,32 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/Window.h>
 
 namespace djv
 {
     namespace UI
     {
-        class Menu;
+        class MenuBar;
 
-        //! This class provides a menu bar widget.
-        class MenuBar : public Widget
+        //! This class provides a main window for an application.
+        class MainWindow : public Window
         {
-            DJV_NON_COPYABLE(MenuBar);
+            DJV_NON_COPYABLE(MainWindow);
 
         protected:
             void _init(Core::Context *);
-            MenuBar();
+            MainWindow();
 
         public:
-            virtual ~MenuBar();
+            virtual ~MainWindow();
 
-            static std::shared_ptr<MenuBar> create(Core::Context *);
+            static std::shared_ptr<MainWindow> create(Core::Context *);
 
-            void addMenu(const std::shared_ptr<Menu> &);
+            const std::shared_ptr<MenuBar> & getMenuBar() const;
 
-            float getHeightForWidth(float) const override;
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
-            bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
+            const std::shared_ptr<Widget> & getCentralWidget() const;
+            void setCentralWidget(const std::shared_ptr<Widget> &);
 
         private:
             struct Private;

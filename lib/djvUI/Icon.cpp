@@ -47,10 +47,12 @@ namespace djv
             FileSystem::Path path;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
             std::future<AV::Image::Info> infoFuture;
+            bool infoFutureRequest = false;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
+            bool imageFutureRequest = false;
             AV::Image::Info info;
             std::shared_ptr<AV::Image::Image> image;
-            size_t uid = 0;
+            UID uid = 0;
         };
 
         void Icon::_init(Context * context)
@@ -94,9 +96,12 @@ namespace djv
             if (auto system = _getIconSystem().lock())
             {
                 _p->infoFuture = system->getInfo(_p->path);
+                _p->infoFutureRequest = true;
                 _p->imageFuture = system->getImage(_p->path);
+                _p->imageFutureRequest = true;
             }
-            _p->uid = createUID();
+            _p->uid = _p->path.isEmpty() ? 0 : createUID();
+            _resize();
         }
 
         Style::ColorRole Icon::getIconColorRole() const
@@ -113,9 +118,9 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                if (_p->infoFuture.valid() &&
-                    _p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                if (_p->infoFutureRequest)
                 {
+                    _p->infoFutureRequest = false;
                     try
                     {
                         _p->info = _p->infoFuture.get();
@@ -141,8 +146,9 @@ namespace djv
                     const glm::vec2 c = g.getCenter();
 
                     // Draw the icon.
-                    if (_p->imageFuture.valid())
+                    if (_p->imageFutureRequest)
                     {
+                        _p->imageFutureRequest = false;
                         try
                         {
                             _p->image = _p->imageFuture.get();

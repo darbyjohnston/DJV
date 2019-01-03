@@ -65,8 +65,12 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<ButtonType> > getButtonType() const;
             void setButtonType(ButtonType);
 
+            std::shared_ptr<Core::IValueSubject<bool> > observeClicked() const;
+            void doClicked();
+
             std::shared_ptr<Core::IValueSubject<bool> > isChecked() const;
             void setChecked(bool);
+            void doChecked();
 
             std::shared_ptr<Core::IValueSubject<Core::FileSystem::Path> > getIcon() const;
             std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > getIconSizeRole() const;
@@ -81,8 +85,10 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(Style::MetricsRole);
 
-            const std::shared_ptr<Shortcut>& getShortcut() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Shortcut> > > getShortcut() const;
             void setShortcut(const std::shared_ptr<Shortcut>&);
+            void setShortcut(int key);
+            void setShortcut(int key, int keyModifiers);
 
             std::shared_ptr<Core::IValueSubject<bool> > isEnabled() const;
             void setEnabled(bool);
@@ -91,11 +97,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<VAlign> > getVAlign() const;
             void setHAlign(HAlign);
             void setVAlign(VAlign);
-
-            void setClickedCallback(const std::function<void(void)>&);
-            void setCheckedCallback(const std::function<void(bool)>&);
-            void doClickedCallback();
-            void doCheckedCallback();
 
         private:
             struct Private;

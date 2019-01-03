@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvUI/Window.h>
+#include <djvUI/MainWindow.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class MainWindow : public UI::Window
+        class MainWindow : public UI::MainWindow
         {
             DJV_NON_COPYABLE(MainWindow);
 

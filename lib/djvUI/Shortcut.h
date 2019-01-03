@@ -37,6 +37,12 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        class TextSystem;
+    
+    } // namespace Core
+
     namespace UI
     {
         //! This class provides a keyboard shortcut.
@@ -65,6 +71,10 @@ namespace djv
 
             void setCallback(const std::function<void(void)>&);
             void doCallback();
+
+            static const std::string & getKeyString(int);
+            static const std::string & getModifierString(int);
+            static std::string getText(int key, int keyModifiers, const std::shared_ptr<Core::TextSystem> &);
 
         private:
             struct Private;

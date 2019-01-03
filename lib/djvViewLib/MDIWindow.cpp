@@ -110,7 +110,7 @@ namespace djv
 
             auto vLayout = UI::Layout::VerticalLayout::create(context);
             vLayout->setSpacing(UI::Style::MetricsRole::None);
-            vLayout->addWidget(p.titleBar);
+            //vLayout->addWidget(p.titleBar);
             vLayout->addExpander();
             vLayout->addWidget(p.bottomBar);
             p.layout->addWidget(vLayout);

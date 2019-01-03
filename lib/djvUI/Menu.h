@@ -47,8 +47,16 @@ namespace djv
         class Action;
         class Window;
 
+        enum class MenuType
+        {
+            Default,
+            ComboBox
+        };
+
         //! This class provides a menu widget.
-        class Menu : public Widget
+        //!
+        //! \todo Add sub-menus.
+        class Menu : public std::enable_shared_from_this<Menu>
         {
             DJV_NON_COPYABLE(Menu);
 
@@ -64,14 +72,16 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::string> > getMenuName() const;
             void setMenuName(const std::string &);
 
-            void popup(const std::shared_ptr<Window> &, const Core::BBox2f &);
+            void addAction(const std::shared_ptr<Action> &);
+            void addSeparator();
+            void clearActions();
 
-            void setVisible(bool) override;
-            float getHeightForWidth(float) const override;
+            void popup(const std::shared_ptr<Window> &, const glm::vec2 &, MenuType = MenuType::Default);
+            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button, MenuType = MenuType::Default);
+            void popup(const std::shared_ptr<Window> &, const std::weak_ptr<Widget> & button, const std::weak_ptr<Widget> & anchor, MenuType = MenuType::Default);
+            void hide();
 
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            void setCloseCallback(const std::function<void(void)> &);
 
         private:
             struct Private;

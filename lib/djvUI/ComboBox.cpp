@@ -34,6 +34,7 @@
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
+#include <djvUI/Menu.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -62,7 +63,9 @@ namespace djv
 
                 void setText(const std::string&);
 
-                void setCallback(const std::function<void(void)> &);
+                bool isChecked() const;
+                void setChecked(bool);
+                void setCheckedCallback(const std::function<void(bool)>&);
 
             protected:
                 void _preLayoutEvent(Event::PreLayout &) override;
@@ -76,11 +79,12 @@ namespace djv
             private:
                 bool _isHovered() const;
 
+                bool _checked = false;
                 std::shared_ptr<Label> _label;
                 std::shared_ptr<Icon> _icon;
                 std::shared_ptr<Layout::Border> _border;
                 std::map<Event::PointerID, bool> _pointerHover;
-                std::function<void(void)> _callback;
+                std::function<void(bool)> _checkedCallback;
             };
 
             void ComboBoxButton::_init(Context * context)
@@ -120,9 +124,26 @@ namespace djv
                 _label->setText(value);
             }
 
-            void ComboBoxButton::setCallback(const std::function<void(void)> & callback)
+            bool ComboBoxButton::isChecked() const
             {
-                _callback = callback;
+                return _checked;
+            }
+
+            void ComboBoxButton::setChecked(bool value)
+            {
+                if (value == _checked)
+                    return;
+                _checked = value;
+                _redraw();
+                if (_checkedCallback)
+                {
+                    _checkedCallback(_checked);
+                }
+            }
+
+            void ComboBoxButton::setCheckedCallback(const std::function<void(bool)> & callback)
+            {
+                _checkedCallback = callback;
             }
 
             void ComboBoxButton::_preLayoutEvent(Event::PreLayout &)
@@ -143,7 +164,7 @@ namespace djv
                     if (auto style = _getStyle().lock())
                     {
                         const BBox2f& g = getGeometry();
-                        if (_isHovered())
+                        if (_isHovered() || _checked)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
                             render->drawRectangle(g);
@@ -180,10 +201,7 @@ namespace djv
             void ComboBoxButton::_buttonPressEvent(Event::ButtonPress& event)
             {
                 event.accept();
-                if (_callback)
-                {
-                    _callback();
-                }
+                setChecked(!_checked);
             }
 
             bool ComboBoxButton::_isHovered() const
@@ -196,275 +214,6 @@ namespace djv
                 return out;
             }
 
-            class ComboBoxMenuLayout : public Widget
-            {
-                DJV_NON_COPYABLE(ComboBoxMenuLayout);
-
-            protected:
-                ComboBoxMenuLayout();
-
-            public:
-                static std::shared_ptr<ComboBoxMenuLayout> create(Context *);
-
-                void addWidget(const std::shared_ptr<Widget>&);
-                void removeWidget(const std::shared_ptr<Widget>&);
-                void clearWidgets();
-                void setAnchor(const std::shared_ptr<Widget>&, const BBox2f &);
-
-            protected:
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
-
-            private:
-                std::map<std::shared_ptr<Widget>, BBox2f> _widgetToAnchor;
-            };
-
-            ComboBoxMenuLayout::ComboBoxMenuLayout()
-            {
-                setClassName("djv::UI::ComboBoxMenuLayout");
-            }
-
-            std::shared_ptr<ComboBoxMenuLayout> ComboBoxMenuLayout::create(Context * context)
-            {
-                auto out = std::shared_ptr<ComboBoxMenuLayout>(new ComboBoxMenuLayout);
-                out->_init(context);
-                return out;
-            }
-
-            void ComboBoxMenuLayout::addWidget(const std::shared_ptr<Widget>& widget)
-            {
-                widget->setParent(shared_from_this());
-                _widgetToAnchor[widget] = BBox2f();
-            }
-
-            void ComboBoxMenuLayout::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                value->setParent(nullptr);
-                const auto i = _widgetToAnchor.find(value);
-                if (i != _widgetToAnchor.end())
-                {
-                    _widgetToAnchor.erase(i);
-                }
-            }
-
-            void ComboBoxMenuLayout::clearWidgets()
-            {
-                auto children = getChildren();
-                for (auto& child : children)
-                {
-                    child->setParent(nullptr);
-                }
-                _widgetToAnchor.clear();
-            }
-
-            void ComboBoxMenuLayout::setAnchor(const std::shared_ptr<Widget>& widget, const BBox2f & anchor)
-            {
-                _widgetToAnchor[widget] = anchor;
-            }
-
-            void ComboBoxMenuLayout::_layoutEvent(Event::Layout&)
-            {
-                const BBox2f & g = getGeometry();
-                for (const auto & i : _widgetToAnchor)
-                {
-                    const auto anchorBBox = i.second;
-                    const auto minimumSize = i.first->getMinimumSize();
-                    std::vector<BBox2f> geomCandidates;
-                    const BBox2f aboveLeft(
-                        glm::vec2(std::min(anchorBBox.max.x - minimumSize.x, anchorBBox.min.x), anchorBBox.min.y + 1 - minimumSize.y),
-                        glm::vec2(anchorBBox.max.x, anchorBBox.min.y + 1));
-                    const BBox2f aboveRight(
-                        glm::vec2(anchorBBox.min.x, anchorBBox.min.y + 1 - minimumSize.y),
-                        glm::vec2(std::max(anchorBBox.min.x + minimumSize.x, anchorBBox.max.x), anchorBBox.min.y + 1));
-                    const BBox2f belowLeft(
-                        glm::vec2(std::min(anchorBBox.max.x - minimumSize.x, anchorBBox.min.x), anchorBBox.max.y - 1),
-                        glm::vec2(anchorBBox.max.x, anchorBBox.max.y - 1 + minimumSize.y));
-                    const BBox2f belowRight(
-                        glm::vec2(anchorBBox.min.x, anchorBBox.max.y - 1),
-                        glm::vec2(std::max(anchorBBox.min.x + minimumSize.x, anchorBBox.max.x), anchorBBox.max.y - 1 + minimumSize.y));
-                    geomCandidates.push_back(belowRight.intersect(g));
-                    geomCandidates.push_back(belowLeft.intersect(g));
-                    geomCandidates.push_back(aboveRight.intersect(g));
-                    geomCandidates.push_back(aboveLeft.intersect(g));
-                    std::sort(geomCandidates.begin(), geomCandidates.end(),
-                        [](const BBox2f & a, const BBox2f & b) -> bool
-                    {
-                        return a.getArea() > b.getArea();
-                    });
-                    i.first->move(geomCandidates.front().min);
-                    i.first->resize(geomCandidates.front().getSize());
-                }
-            }
-
-            void ComboBoxMenuLayout::_paintEvent(Event::Paint& event)
-            {
-                Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
-                {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const float s = style->getMetric(Style::MetricsRole::Shadow);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Shadow)));
-                        for (const auto & i : getChildrenT<Widget>())
-                        {
-                            BBox2f g = i->getGeometry();
-                            g.min.x += s;
-                            g.min.y += s;
-                            g.max.x += s;
-                            g.max.y += s;
-                            render->drawRectangle(g);
-                        }
-                    }
-                }
-            }
-
-            class ComboBoxMenu : public Widget
-            {
-                DJV_NON_COPYABLE(ComboBoxMenu);
-
-            protected:
-                void _init(Context *);
-                ComboBoxMenu();
-
-            public:
-                static std::shared_ptr<ComboBoxMenu> create(Context *);
-
-                void popup(const std::shared_ptr<Window> &, const BBox2f &);
-
-                void setVisible(bool) override;
-                float getHeightForWidth(float) const override;
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-
-            private:
-                std::shared_ptr<Layout::VerticalLayout> _layout;
-                std::shared_ptr<ScrollWidget> _scrollWidget;
-                std::shared_ptr<Layout::Border> _border;
-                std::shared_ptr<ComboBoxMenuLayout> _menuLayout;
-                std::shared_ptr<Layout::Overlay> _overlay;
-                std::vector<std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
-            };
-
-            void ComboBoxMenu::_init(Context * context)
-            {
-                Widget::_init(context);
-
-                _layout = Layout::VerticalLayout::create(context);
-                _layout->setBackgroundRole(Style::ColorRole::Background);
-                _layout->setSpacing(Style::MetricsRole::None);
-
-                _scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                _scrollWidget->addWidget(_layout);
-
-                _border = Layout::Border::create(context);
-                _border->addWidget(_scrollWidget);
-
-                _menuLayout = ComboBoxMenuLayout::create(context);
-                _menuLayout->addWidget(_border);
-
-                _overlay = Layout::Overlay::create(context);
-                _overlay->setFadeIn(false);
-                _overlay->setBackgroundRole(Style::ColorRole::None);
-                _overlay->addWidget(_menuLayout);
-                _overlay->setParent(shared_from_this());
-
-                auto weak = std::weak_ptr<ComboBoxMenu>(std::dynamic_pointer_cast<ComboBoxMenu>(shared_from_this()));
-                _overlay->setCloseCallback(
-                    [weak]
-                {
-                    if (auto menu = weak.lock())
-                    {
-                        menu->hide();
-                        menu->setParent(nullptr);
-                        menu->_layout->clearWidgets();
-                        menu->_checkedObservers.clear();
-                    }
-                });
-            }
-
-            ComboBoxMenu::ComboBoxMenu()
-            {
-                setClassName("djv::UI::ComboBoxMenu");
-            }
-
-            std::shared_ptr<ComboBoxMenu> ComboBoxMenu::create(Context * context)
-            {
-                auto out = std::shared_ptr<ComboBoxMenu>(new ComboBoxMenu);
-                out->_init(context);
-                return out;
-            }
-
-            void ComboBoxMenu::popup(const std::shared_ptr<Window> & window, const BBox2f & bbox)
-            {
-                _menuLayout->setAnchor(_border, bbox);
-
-                _layout->clearWidgets();
-                _checkedObservers.clear();
-
-                for (const auto & action : getActions())
-                {
-                    auto button = Button::List::create(getContext());
-                    button->setButtonType(action->getButtonType()->get());
-                    button->setChecked(action->isChecked()->get());
-                    button->setText(action->getText()->get());
-                    button->setTextHAlign(TextHAlign::Left);
-
-                    _layout->addWidget(button);
-
-                    _checkedObservers.push_back(
-                        ValueObserver<bool>::create(
-                            action->isChecked(),
-                            [button](bool value)
-                    {
-                        button->setChecked(value);
-                    }));
-
-                    button->setClickedCallback(
-                        [action]
-                    {
-                        action->doClickedCallback();
-                    });
-                    button->setCheckedCallback(
-                        [action](bool value)
-                    {
-                        action->setChecked(value);
-                        action->doCheckedCallback();
-                    });
-                }
-
-                window->addWidget(std::dynamic_pointer_cast<ComboBoxMenu>(shared_from_this()));
-                show();
-            }
-
-            void ComboBoxMenu::setVisible(bool value)
-            {
-                Widget::setVisible(value);
-                _overlay->setVisible(value);
-                if (!value)
-                {
-                    setParent(nullptr);
-                    _layout->clearWidgets();
-                    _checkedObservers.clear();
-                }
-            }
-
-            float ComboBoxMenu::getHeightForWidth(float value) const
-            {
-                return _overlay->getHeightForWidth(value);
-            }
-
-            void ComboBoxMenu::_preLayoutEvent(Event::PreLayout& event)
-            {
-                _setMinimumSize(_overlay->getMinimumSize());
-            }
-
-            void ComboBoxMenu::_layoutEvent(Event::Layout& event)
-            {
-                _overlay->setGeometry(getGeometry());
-            }
-
         } // namespace
 
         struct ComboBox::Private
@@ -473,7 +222,8 @@ namespace djv
             int currentItem = -1;
             std::shared_ptr<ActionGroup> actionGroup;
             std::shared_ptr<ComboBoxButton> button;
-            std::shared_ptr<ComboBoxMenu> menu;
+            std::shared_ptr<Menu> menu;
+            std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(int)> callback;
         };
 
@@ -488,7 +238,7 @@ namespace djv
             _p->button = ComboBoxButton::create(context);
             _p->button->setParent(shared_from_this());
 
-            _p->menu = ComboBoxMenu::create(context);
+            _p->menu = Menu::create(context);
 
             _updateCurrentItem();
 
@@ -503,18 +253,29 @@ namespace djv
                 }
             });
 
-            _p->button->setCallback(
-                [weak, context]
+            _p->button->setCheckedCallback(
+                [weak](bool value)
             {
                 if (auto widget = weak.lock())
                 {
-                    if (widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
+                    widget->_p->menu->hide();
+                    if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
                     {
                         if (auto window = widget->getWindow().lock())
                         {
-                            widget->_p->menu->popup(window, widget->getGeometry());
+                            const auto & g = widget->getGeometry();
+                            widget->_p->menu->popup(window, weak, MenuType::ComboBox);
                         }
                     }
+                }
+            });
+
+            _p->menu->setCloseCallback(
+                [weak]
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->button->setChecked(false);
                 }
             });
         }

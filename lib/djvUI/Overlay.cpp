@@ -50,10 +50,14 @@ namespace djv
             {
                 bool capturePointer = true;
                 bool captureKeyboard = true;
+                std::weak_ptr<Widget> anchor;
                 bool fadeIn = true;
                 std::shared_ptr<Stack> layout;
                 std::shared_ptr<Animation::Animation> fadeAnimation;
+                std::map<Event::PointerID, bool> pressedIDs;
+                bool keyPress = false;
                 std::function<void(void)> closeCallback;
+                std::shared_ptr<ValueObserver<bool> > closeObserver;
             };
 
             void Overlay::_init(Context * context)
@@ -62,7 +66,6 @@ namespace djv
 
                 setClassName("djv::UI::Layout::Overlay");
                 setBackgroundRole(Style::ColorRole::Overlay);
-                setPointerEnabled(_p->capturePointer);
                 setVisible(false);
 
                 auto closeShortcut = Shortcut::create(GLFW_KEY_ESCAPE);
@@ -76,14 +79,18 @@ namespace djv
                 _p->fadeAnimation = Animation::Animation::create(context);
 
                 auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
-                closeShortcut->setCallback(
-                    [weak]
+                _p->closeObserver = ValueObserver<bool>::create(
+                    closeAction->observeClicked(),
+                    [weak](bool value)
                 {
-                    if (auto overlay = weak.lock())
+                    if (value)
                     {
-                        if (overlay->_p->closeCallback)
+                        if (auto overlay = weak.lock())
                         {
-                            overlay->_p->closeCallback();
+                            if (overlay->_p->closeCallback)
+                            {
+                                overlay->_p->closeCallback();
+                            }
                         }
                     }
                 });
@@ -122,6 +129,16 @@ namespace djv
             void Overlay::setCaptureKeyboard(bool value)
             {
                 _p->captureKeyboard = value;
+            }
+
+            const std::weak_ptr<Widget>& Overlay::getAnchor() const
+            {
+                return _p->anchor;
+            }
+
+            void Overlay::setAnchor(const std::weak_ptr<Widget>& value)
+            {
+                _p->anchor = value;
             }
 
             bool Overlay::hasFadeIn() const
@@ -204,11 +221,36 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void Overlay::_buttonPressEvent(Event::ButtonPress& event)
+            void Overlay::_pointerEnterEvent(Core::Event::PointerEnter& event)
             {
-                if (_p->capturePointer)
+                if (_p->capturePointer && !event.isRejected() && !_isInsideAnchor(event.getPointerInfo().projectedPos))
                 {
                     event.accept();
+                }
+            }
+
+            void Overlay::_pointerLeaveEvent(Core::Event::PointerLeave& event)
+            {
+                if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                {
+                    event.accept();
+                }
+            }
+
+            void Overlay::_pointerMoveEvent(Core::Event::PointerMove& event)
+            {
+                if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                {
+                    event.accept();
+                }
+            }
+
+            void Overlay::_buttonPressEvent(Event::ButtonPress& event)
+            {
+                if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                {
+                    event.accept();
+                    _p->pressedIDs[event.getPointerInfo().id] = true;
                     if (_p->closeCallback)
                     {
                         _p->closeCallback();
@@ -216,21 +258,43 @@ namespace djv
                 }
             }
 
+            void Overlay::_buttonReleaseEvent(Core::Event::ButtonRelease& event)
+            {
+                const auto i = _p->pressedIDs.find(event.getPointerInfo().id);
+                if (i != _p->pressedIDs.end())
+                {
+                    event.accept();
+                    _p->pressedIDs.erase(i);
+                }
+            }
+
             void Overlay::_keyPressEvent(Event::KeyPress& event)
             {
                 Widget::_keyPressEvent(event);
-                if (_p->captureKeyboard)
+                if (_p->captureKeyboard && !_isInsideAnchor(event.getPointerInfo().projectedPos))
                 {
                     event.accept();
+                    _p->keyPress = true;
                 }
             }
 
             void Overlay::_keyReleaseEvent(Event::KeyRelease& event)
             {
-                if (_p->captureKeyboard)
+                if (_p->keyPress)
                 {
                     event.accept();
+                    _p->keyPress = false;
                 }
+            }
+
+            bool Overlay::_isInsideAnchor(const glm::vec2 & pos) const
+            {
+                bool out = false;
+                if (auto anchor = _p->anchor.lock())
+                {
+                    out = anchor->getGeometry().contains(pos);
+                }
+                return out;
             }
 
         } // namespace Layout

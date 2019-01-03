@@ -222,9 +222,8 @@ namespace djv
                 {
                     // Get the child sizes.
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    const auto children = getChildrenT<Widget>();
                     size_t visibleChildren = 0;
-                    for (const auto& child : children)
+                    for (const auto& child : getChildrenT<Widget>())
                     {
                         if (child->isVisible())
                         {

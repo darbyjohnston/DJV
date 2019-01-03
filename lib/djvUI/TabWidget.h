@@ -53,6 +53,8 @@ namespace djv
             void removeWidget(const std::shared_ptr<Widget>&);
             void clearWidgets();
 
+            void setCallback(const std::function<void(int)>&);
+
             float getHeightForWidth(float) const override;
 
         protected:
