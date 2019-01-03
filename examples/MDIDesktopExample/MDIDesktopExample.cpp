@@ -72,7 +72,7 @@ protected:
 private:
     std::shared_ptr<UI::Button::Tool> _closeButton;
     std::shared_ptr<UI::Icon> _resizeHandle;
-    std::shared_ptr<UI::Layout::VerticalLayout> _layout;
+    std::shared_ptr<UI::Layout::Vertical> _layout;
     std::shared_ptr<UI::Layout::Border> _border;
     std::function<void(void)> _closedCallback;
 };
@@ -90,7 +90,7 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     _closeButton = UI::Button::Tool::create(context);
     _closeButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
 
-    auto titleBar = UI::Layout::HorizontalLayout::create(context);
+    auto titleBar = UI::Layout::Horizontal::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
     titleBar->addWidget(titleLabel);
     titleBar->addExpander();
@@ -109,11 +109,11 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     _resizeHandle->setHAlign(UI::HAlign::Right);
     _resizeHandle->setVAlign(UI::VAlign::Bottom);
 
-    auto bottomBar = UI::Layout::HorizontalLayout::create(context);
+    auto bottomBar = UI::Layout::Horizontal::create(context);
     bottomBar->addExpander();
     bottomBar->addWidget(_resizeHandle);
 
-    _layout = UI::Layout::VerticalLayout::create(context);
+    _layout = UI::Layout::Vertical::create(context);
     _layout->setSpacing(UI::Style::MetricsRole::None);
     _layout->addWidget(titleBar);
     _layout->addWidget(scrollWidget, UI::Layout::RowStretch::Expand);

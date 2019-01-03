@@ -42,7 +42,7 @@ namespace djv
         struct TabWidget::Private
         {
             std::shared_ptr<TabBar> tabBar;
-            std::shared_ptr<Layout::VerticalLayout> layout;
+            std::shared_ptr<Layout::Vertical> layout;
             std::shared_ptr<Layout::Solo> soloLayout;
             std::function<void(int)> callback;
         };
@@ -57,7 +57,7 @@ namespace djv
 
             _p->soloLayout = Layout::Solo::create(context);
 
-            _p->layout = Layout::VerticalLayout::create(context);
+            _p->layout = Layout::Vertical::create(context);
             _p->layout->setSpacing(Style::MetricsRole::None);
             _p->layout->addWidget(_p->tabBar);
             _p->layout->addWidget(_p->soloLayout, Layout::RowStretch::Expand);

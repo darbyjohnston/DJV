@@ -130,7 +130,7 @@ namespace djv
                 std::shared_ptr<MenuSpacer> _iconSpacer;
                 std::shared_ptr<Label> _textLabel;
                 std::shared_ptr<Label> _shortcutLabel;
-                std::shared_ptr<Layout::HorizontalLayout> _layout;
+                std::shared_ptr<Layout::Horizontal> _layout;
                 std::shared_ptr<ValueObserver<ButtonType> > _buttonTypeObserver;
                 std::shared_ptr<ValueObserver<bool> > _checkedObserver;
                 std::shared_ptr<ValueObserver<FileSystem::Path> > _iconObserver;
@@ -156,7 +156,7 @@ namespace djv
                 _shortcutLabel = Label::create(context);
                 _shortcutLabel->hide();
 
-                _layout = Layout::HorizontalLayout::create(context);
+                _layout = Layout::Horizontal::create(context);
                 _layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 _layout->addWidget(_icon);
                 _layout->addWidget(_iconSpacer);

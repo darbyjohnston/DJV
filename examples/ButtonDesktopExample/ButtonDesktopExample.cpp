@@ -62,7 +62,7 @@ int main(int argc, char ** argv)
             std::cout << "Button 2" << std::endl;
         });
 
-        auto layout = UI::Layout::VerticalLayout::create(app.get());
+        auto layout = UI::Layout::Vertical::create(app.get());
         layout->setHAlign(UI::HAlign::Center);
         layout->setVAlign(UI::VAlign::Center);
         layout->addWidget(button1);

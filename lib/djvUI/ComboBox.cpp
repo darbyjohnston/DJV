@@ -99,7 +99,7 @@ namespace djv
 
                 _icon = Icon::create(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconComboBox90DPI.png"), context);
 
-                auto layout = Layout::HorizontalLayout::create(context);
+                auto layout = Layout::Horizontal::create(context);
                 layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 layout->addWidget(_label);
                 layout->addWidget(_icon);

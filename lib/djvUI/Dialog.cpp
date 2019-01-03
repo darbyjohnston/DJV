@@ -111,7 +111,7 @@ namespace djv
                 auto closeButton = Button::Push::create(context);
                 closeButton->setText(closeText);
 
-                auto layout = Layout::VerticalLayout::create(context);
+                auto layout = Layout::Vertical::create(context);
                 layout->setBackgroundRole(Style::ColorRole::Background);
                 layout->setMargin(Style::MetricsRole::Margin);
                 layout->setVAlign(VAlign::Center);
@@ -160,9 +160,9 @@ namespace djv
                 auto cancelButton = Button::Push::create(context);
                 cancelButton->setText(cancelText);
 
-                auto layout = Layout::VerticalLayout::create(context);
+                auto layout = Layout::Vertical::create(context);
                 layout->addWidget(textBlock);
-                auto hLayout = Layout::HorizontalLayout::create(context);
+                auto hLayout = Layout::Horizontal::create(context);
                 hLayout->setHAlign(HAlign::Center);
                 hLayout->addWidget(acceptButton);
                 hLayout->addWidget(cancelButton);

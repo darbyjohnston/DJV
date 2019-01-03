@@ -56,9 +56,9 @@ namespace djv
             std::shared_ptr<PlaybackWidget> playbackWidget;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::Label> titleLabel;
-            std::shared_ptr<UI::Layout::HorizontalLayout> titleBar;
+            std::shared_ptr<UI::Layout::Horizontal> titleBar;
             std::shared_ptr<UI::Icon> resizeHandle;
-            std::shared_ptr<UI::Layout::HorizontalLayout> bottomBar;
+            std::shared_ptr<UI::Layout::Horizontal> bottomBar;
             std::shared_ptr<UI::Layout::Stack> layout;
             std::function<void(void)> closedCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
@@ -86,7 +86,7 @@ namespace djv
             auto closeButton = UI::Button::Tool::create(context);
             closeButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
 
-            p.titleBar = UI::Layout::HorizontalLayout::create(context);
+            p.titleBar = UI::Layout::Horizontal::create(context);
             p.titleBar->setClassName("djv::UI::MDI::TitleBar");
             p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.titleBar->addWidget(p.titleLabel);
@@ -99,7 +99,7 @@ namespace djv
             p.resizeHandle->setHAlign(UI::HAlign::Right);
             p.resizeHandle->setVAlign(UI::VAlign::Bottom);
 
-            p.bottomBar = UI::Layout::HorizontalLayout::create(context);
+            p.bottomBar = UI::Layout::Horizontal::create(context);
             p.bottomBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             p.bottomBar->addWidget(p.playbackWidget);
             p.bottomBar->addWidget(p.timelineSlider, UI::Layout::RowStretch::Expand);
@@ -108,7 +108,7 @@ namespace djv
             p.layout = UI::Layout::Stack::create(context);
             p.layout->addWidget(p.imageWidget);
 
-            auto vLayout = UI::Layout::VerticalLayout::create(context);
+            auto vLayout = UI::Layout::Vertical::create(context);
             vLayout->setSpacing(UI::Style::MetricsRole::None);
             //vLayout->addWidget(p.titleBar);
             vLayout->addExpander();

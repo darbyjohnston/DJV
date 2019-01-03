@@ -82,7 +82,7 @@ namespace djv
 
                 bool _checked = false;
                 std::shared_ptr<Label> _label;
-                std::shared_ptr<Layout::HorizontalLayout> _layout;
+                std::shared_ptr<Layout::Horizontal> _layout;
                 std::map<Event::PointerID, bool> _pointerHover;
                 std::function<void(bool)> _checkedCallback;
             };
@@ -96,7 +96,7 @@ namespace djv
 
                 _label = Label::create(context);
 
-                _layout = Layout::HorizontalLayout::create(context);
+                _layout = Layout::Horizontal::create(context);
                 _layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 _layout->addWidget(_label);
                 _layout->setParent(shared_from_this());
@@ -212,8 +212,8 @@ namespace djv
         struct MenuBar::Private
         {
             std::vector<std::shared_ptr<Menu> > menus;
-            std::shared_ptr<Layout::HorizontalLayout> buttonLayout;
-            std::shared_ptr<Layout::HorizontalLayout> layout;
+            std::shared_ptr<Layout::Horizontal> buttonLayout;
+            std::shared_ptr<Layout::Horizontal> layout;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<MenuBarButton> > menusToButtons;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuNameObservers;
             std::shared_ptr<ValueObserver<bool> > closeObserver;
@@ -232,10 +232,10 @@ namespace djv
             closeAction->setShortcut(closeShortcut);
             addAction(closeAction);
 
-            _p->buttonLayout = Layout::HorizontalLayout::create(context);
+            _p->buttonLayout = Layout::Horizontal::create(context);
             _p->buttonLayout->setSpacing(Style::MetricsRole::None);
 
-            _p->layout = Layout::HorizontalLayout::create(context);
+            _p->layout = Layout::Horizontal::create(context);
             _p->layout->setSpacing(Style::MetricsRole::None);
             _p->layout->addWidget(_p->buttonLayout);
             _p->layout->addExpander();

@@ -94,29 +94,29 @@ namespace djv
             };
 
             //! This class provides a layout that arranges it's children in a horizontal row.
-            class HorizontalLayout : public Row
+            class Horizontal : public Row
             {
-                DJV_NON_COPYABLE(HorizontalLayout);
+                DJV_NON_COPYABLE(Horizontal);
 
             protected:
                 void _init(Core::Context *);
-                HorizontalLayout();
+                Horizontal();
 
             public:
-                static std::shared_ptr<HorizontalLayout> create(Core::Context *);
+                static std::shared_ptr<Horizontal> create(Core::Context *);
             };
 
             //! This class provides a layout that arranges it's children in a vertical row.
-            class VerticalLayout : public Row
+            class Vertical : public Row
             {
-                DJV_NON_COPYABLE(VerticalLayout);
+                DJV_NON_COPYABLE(Vertical);
 
             protected:
                 void _init(Core::Context *);
-                VerticalLayout();
+                Vertical();
 
             public:
-                static std::shared_ptr<VerticalLayout> create(Core::Context *);
+                static std::shared_ptr<Vertical> create(Core::Context *);
             };
 
         } // namespace Layout

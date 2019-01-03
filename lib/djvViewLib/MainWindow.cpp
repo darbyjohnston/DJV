@@ -116,7 +116,7 @@ namespace djv
             addAction(playbackForwardAction);
             auto playbackReverseAction = UI::Action::create();
             playbackReverseAction->setText("Reverse");
-            //playbackReverseAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
+            playbackReverseAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
             playbackReverseAction->setShortcut(GLFW_KEY_J);
             addAction(playbackReverseAction);
             _p->playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);

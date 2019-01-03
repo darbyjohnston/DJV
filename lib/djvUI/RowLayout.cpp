@@ -396,32 +396,32 @@ namespace djv
                 }
             }
 
-            void HorizontalLayout::_init(Context * context)
+            void Horizontal::_init(Context * context)
             {
                 Row::_init(Orientation::Horizontal, context);
             }
 
-            HorizontalLayout::HorizontalLayout()
+            Horizontal::Horizontal()
             {}
 
-            std::shared_ptr<HorizontalLayout> HorizontalLayout::create(Context * context)
+            std::shared_ptr<Horizontal> Horizontal::create(Context * context)
             {
-                auto out = std::shared_ptr<HorizontalLayout>(new HorizontalLayout);
+                auto out = std::shared_ptr<Horizontal>(new Horizontal);
                 out->_init(context);
                 return out;
             }
 
-            void VerticalLayout::_init(Context * context)
+            void Vertical::_init(Context * context)
             {
                 Row::_init(Orientation::Vertical, context);
             }
 
-            VerticalLayout::VerticalLayout()
+            Vertical::Vertical()
             {}
 
-            std::shared_ptr<VerticalLayout> VerticalLayout::create(Context * context)
+            std::shared_ptr<Vertical> Vertical::create(Context * context)
             {
-                auto out = std::shared_ptr<VerticalLayout>(new VerticalLayout);
+                auto out = std::shared_ptr<Vertical>(new Vertical);
                 out->_init(context);
                 return out;
             }

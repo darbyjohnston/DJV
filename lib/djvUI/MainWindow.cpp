@@ -44,7 +44,7 @@ namespace djv
             std::shared_ptr<MenuBar> menuBar;
             std::shared_ptr<Widget> centralWidget;
             std::shared_ptr<Layout::Stack> childLayout;
-            std::shared_ptr<Layout::VerticalLayout> layout;
+            std::shared_ptr<Layout::Vertical> layout;
         };
 
         void MainWindow::_init(Context * context)
@@ -57,7 +57,7 @@ namespace djv
 
             _p->childLayout = Layout::Stack::create(context);
             
-            _p->layout = Layout::VerticalLayout::create(context);
+            _p->layout = Layout::Vertical::create(context);
             _p->layout->setSpacing(Style::MetricsRole::None);
             _p->layout->addWidget(_p->menuBar);
             _p->layout->addSeparator();
