@@ -58,21 +58,21 @@ namespace djv
                 _p(new Private)
             {
                 DJV_PRIVATE_PTR();
-                p.colors[ColorRole::None] = AV::Image::Color();
-                p.colors[ColorRole::Background] = AV::Image::Color(.2f, .21f, .23f);
-                p.colors[ColorRole::BackgroundHeader] = AV::Image::Color(.1f, .1f, .1f);
-                p.colors[ColorRole::BackgroundScroll] = AV::Image::Color(.15f, .16f, .18f);
-                p.colors[ColorRole::Foreground] = AV::Image::Color(.9f, .9f, .9f);
-                p.colors[ColorRole::ForegroundDim] = AV::Image::Color(.7f, .7f, .7f);
-                p.colors[ColorRole::Border] = AV::Image::Color(.11f, .14f, .17f);
-                p.colors[ColorRole::Trough] = AV::Image::Color(.15f, .15f, .15f);
-                p.colors[ColorRole::Button] = AV::Image::Color(.27f, .3f, .33f);
-                p.colors[ColorRole::Checked] = AV::Image::Color(.2f, .4f, .7f);
-                p.colors[ColorRole::CheckedForeground] = AV::Image::Color(.9f, .9f, .9f);
-                p.colors[ColorRole::Hover] = AV::Image::Color(1.f, 1.f, 1.f, .1f);
-                p.colors[ColorRole::Disabled] = AV::Image::Color(.3f, .3f, .3f);
-                p.colors[ColorRole::Overlay] = AV::Image::Color(0.f, 0.f, 0.f, .5f);
-                p.colors[ColorRole::Shadow] = AV::Image::Color(0.f, 0.f, 0.f, .2f);
+                p.colors[ColorRole::None]              = AV::Image::Color();
+                p.colors[ColorRole::Background]        = AV::Image::Color( .2f,   .21f,  .23f);
+                p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color( .1f,   .1f,   .1f);
+                p.colors[ColorRole::BackgroundScroll]  = AV::Image::Color( .15f,  .16f,  .18f);
+                p.colors[ColorRole::Foreground]        = AV::Image::Color( .9f,   .9f,   .9f);
+                p.colors[ColorRole::ForegroundDim]     = AV::Image::Color( .7f,   .7f,   .7f);
+                p.colors[ColorRole::Border]            = AV::Image::Color( .11f,  .14f,  .17f);
+                p.colors[ColorRole::Trough]            = AV::Image::Color( .15f,  .15f,  .15f);
+                p.colors[ColorRole::Button]            = AV::Image::Color( .27f,  .3f,   .33f);
+                p.colors[ColorRole::Checked]           = AV::Image::Color( .2f,   .4f,   .7f);
+                p.colors[ColorRole::CheckedForeground] = AV::Image::Color( .9f,   .9f,   .9f);
+                p.colors[ColorRole::Hover]             = AV::Image::Color(1.f,   1.f,   1.f, .1f);
+                p.colors[ColorRole::Disabled]          = AV::Image::Color( .3f,   .3f,   .3f);
+                p.colors[ColorRole::Overlay]           = AV::Image::Color(0.f,   0.f,   0.f, .5f);
+                p.colors[ColorRole::Shadow]            = AV::Image::Color(0.f,   0.f,   0.f, .2f);
             }
 
             Palette::Palette(const Palette& other) :
@@ -130,28 +130,28 @@ namespace djv
                 _p(new Private)
             {
                 DJV_PRIVATE_PTR();
-                p.metrics[MetricsRole::None] = 0.f;
-                p.metrics[MetricsRole::Border] = 1.f;
-                p.metrics[MetricsRole::Margin] = 10.f;
-                p.metrics[MetricsRole::MarginSmall] = 5.f;
-                p.metrics[MetricsRole::MarginLarge] = 40.f;
-                p.metrics[MetricsRole::Spacing] = 10.f;
-                p.metrics[MetricsRole::SpacingSmall] = 5.f;
-                p.metrics[MetricsRole::SpacingLarge] = 40.f;
-                p.metrics[MetricsRole::Drag] = 20.f;
-                p.metrics[MetricsRole::Icon] = 25.f;
-                p.metrics[MetricsRole::IconLarge] = 100.f;
-                p.metrics[MetricsRole::FontSmall] = 9.f;
-                p.metrics[MetricsRole::FontMedium] = 12.f;
-                p.metrics[MetricsRole::FontLarge] = 24.f;
-                p.metrics[MetricsRole::FontExtraLarge] = 48.f;
+                p.metrics[MetricsRole::None]                =   0.f;
+                p.metrics[MetricsRole::Border]              =   1.f;
+                p.metrics[MetricsRole::Margin]              =  10.f;
+                p.metrics[MetricsRole::MarginSmall]         =   5.f;
+                p.metrics[MetricsRole::MarginLarge]         =  40.f;
+                p.metrics[MetricsRole::Spacing]             =  10.f;
+                p.metrics[MetricsRole::SpacingSmall]        =   5.f;
+                p.metrics[MetricsRole::SpacingLarge]        =  40.f;
+                p.metrics[MetricsRole::Drag]                =  20.f;
+                p.metrics[MetricsRole::Icon]                =  25.f;
+                p.metrics[MetricsRole::IconLarge]           = 100.f;
+                p.metrics[MetricsRole::FontSmall]           =   6.f;
+                p.metrics[MetricsRole::FontMedium]          =   9.f;
+                p.metrics[MetricsRole::FontLarge]           =  14.f;
+                p.metrics[MetricsRole::FontExtraLarge]      =  24.f;
                 p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
-                p.metrics[MetricsRole::Swatch] = 40.f;
-                p.metrics[MetricsRole::Thumbnail] = 300.f;
-                p.metrics[MetricsRole::Shadow] = 10.f;
-                p.metrics[MetricsRole::ScrollArea] = 200.f;
-                p.metrics[MetricsRole::TextColumn] = 200.f;
-                p.metrics[MetricsRole::Dialog] = 400.f;
+                p.metrics[MetricsRole::Swatch]              =  40.f;
+                p.metrics[MetricsRole::Thumbnail]           = 300.f;
+                p.metrics[MetricsRole::Shadow]              =  10.f;
+                p.metrics[MetricsRole::ScrollArea]          = 200.f;
+                p.metrics[MetricsRole::TextColumn]          = 200.f;
+                p.metrics[MetricsRole::Dialog]              = 400.f;
             }
 
             float Metrics::getMetric(MetricsRole role) const
