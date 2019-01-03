@@ -30,9 +30,9 @@
 #include <djvUI/MenuBar.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/IButton.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
+#include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
@@ -49,172 +49,12 @@ namespace djv
 {
     namespace UI
     {
-        namespace
-        {
-            class MenuBarButton : public Widget
-            {
-                DJV_NON_COPYABLE(MenuBarButton);
-
-            protected:
-                void _init(Context *);
-                MenuBarButton();
-
-            public:
-                static std::shared_ptr<MenuBarButton> create(Context *);
-
-                void setText(const std::string&);
-
-                bool isChecked() const;
-                void setChecked(bool);
-                void setCheckedCallback(const std::function<void(bool)>&);
-
-            protected:
-                void _preLayoutEvent(Event::PreLayout &) override;
-                void _layoutEvent(Event::Layout &) override;
-                void _paintEvent(Event::Paint&) override;
-                void _pointerEnterEvent(Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Event::PointerLeave&) override;
-                void _pointerMoveEvent(Event::PointerMove&) override;
-                void _buttonPressEvent(Event::ButtonPress&) override;
-
-            private:
-                bool _isHovered() const;
-
-                bool _checked = false;
-                std::shared_ptr<Label> _label;
-                std::shared_ptr<Layout::Horizontal> _layout;
-                std::map<Event::PointerID, bool> _pointerHover;
-                std::function<void(bool)> _checkedCallback;
-            };
-
-            void MenuBarButton::_init(Context * context)
-            {
-                Widget::_init(context);
-
-                setClassName("djv::UI::MenuBarButton");
-                setPointerEnabled(true);
-
-                _label = Label::create(context);
-
-                _layout = Layout::Horizontal::create(context);
-                _layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
-                _layout->addWidget(_label);
-                _layout->setParent(shared_from_this());
-            }
-
-            MenuBarButton::MenuBarButton()
-            {}
-
-            std::shared_ptr<MenuBarButton> MenuBarButton::create(Context * context)
-            {
-                auto out = std::shared_ptr<MenuBarButton>(new MenuBarButton);
-                out->_init(context);
-                return out;
-            }
-
-            void MenuBarButton::setText(const std::string& value)
-            {
-                _label->setText(value);
-            }
-
-            bool MenuBarButton::isChecked() const
-            {
-                return _checked;
-            }
-
-            void MenuBarButton::setChecked(bool value)
-            {
-                if (value == _checked)
-                    return;
-                _checked = value;
-                _redraw();
-                if (_checkedCallback)
-                {
-                    _checkedCallback(_checked);
-                }
-            }
-
-            void MenuBarButton::setCheckedCallback(const std::function<void(bool)> & callback)
-            {
-                _checkedCallback = callback;
-            }
-
-            void MenuBarButton::_preLayoutEvent(Event::PreLayout &)
-            {
-                _setMinimumSize(_layout->getMinimumSize());
-            }
-
-            void MenuBarButton::_layoutEvent(Event::Layout &)
-            {
-                _layout->setGeometry(getGeometry());
-            }
-
-            void MenuBarButton::_paintEvent(Event::Paint& event)
-            {
-                Widget::_paintEvent(event);
-                if (auto render = _getRenderSystem().lock())
-                {
-                    if (auto style = _getStyle().lock())
-                    {
-                        const BBox2f& g = getGeometry();
-                        if (_isHovered() || _checked)
-                        {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Hover)));
-                            render->drawRectangle(g);
-                        }
-                    }
-                }
-            }
-
-            void MenuBarButton::_pointerEnterEvent(Event::PointerEnter& event)
-            {
-                event.accept();
-                const auto id = event.getPointerInfo().id;
-                _pointerHover[id] = true;
-                _redraw();
-            }
-
-            void MenuBarButton::_pointerLeaveEvent(Event::PointerLeave& event)
-            {
-                event.accept();
-                const auto id = event.getPointerInfo().id;
-                const auto i = _pointerHover.find(id);
-                if (i != _pointerHover.end())
-                {
-                    _pointerHover.erase(i);
-                    _redraw();
-                }
-            }
-
-            void MenuBarButton::_pointerMoveEvent(Event::PointerMove& event)
-            {
-                event.accept();
-            }
-
-            void MenuBarButton::_buttonPressEvent(Event::ButtonPress& event)
-            {
-                event.accept();
-                setChecked(!_checked);
-            }
-
-            bool MenuBarButton::_isHovered() const
-            {
-                bool out = false;
-                for (const auto& i : _pointerHover)
-                {
-                    out |= i.second;
-                }
-                return out;
-            }
-
-        } // namespace
-
         struct MenuBar::Private
         {
             std::vector<std::shared_ptr<Menu> > menus;
             std::shared_ptr<Layout::Horizontal> buttonLayout;
             std::shared_ptr<Layout::Horizontal> layout;
-            std::map<std::shared_ptr<Menu>, std::shared_ptr<MenuBarButton> > menusToButtons;
+            std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuNameObservers;
             std::shared_ptr<ValueObserver<bool> > closeObserver;
 
@@ -274,7 +114,7 @@ namespace djv
         {
             _p->menus.push_back(menu);
             
-            auto button = MenuBarButton::create(getContext());
+            auto button = Button::Menu::create(getContext());
             button->installEventFilter(shared_from_this());
             _p->buttonLayout->addWidget(button);
 
@@ -354,7 +194,7 @@ namespace djv
                 }
                 if (checked)
                 {
-                    if (auto button = std::dynamic_pointer_cast<MenuBarButton>(object))
+                    if (auto button = std::dynamic_pointer_cast<Button::Menu>(object))
                     {
                         button->setChecked(true);
                     }

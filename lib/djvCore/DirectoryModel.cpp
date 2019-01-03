@@ -42,13 +42,6 @@ namespace djv
     {
         namespace FileSystem
         {
-            namespace
-            {
-                //! \todo [1.0 S] Should this be configurable?
-                const size_t historyMax = 10;
-
-            } // namespace
-
             struct DirectoryModel::Private
             {
                 std::shared_ptr<ValueSubject<Path> > path;
@@ -56,6 +49,11 @@ namespace djv
                 std::shared_ptr<ListSubject<FileInfo> > fileInfos;
                 std::shared_ptr<ListSubject<std::string> > fileNames;
                 std::shared_ptr<ListSubject<Path> > history;
+                std::shared_ptr<ValueSubject<size_t> > historyIndex;
+                size_t historyMax = 10;
+                std::shared_ptr<ValueSubject<bool> > hasUp;
+                std::shared_ptr<ValueSubject<bool> > hasBack;
+                std::shared_ptr<ValueSubject<bool> > hasForward;
                 std::future<std::pair<std::vector<FileInfo>, std::vector<std::string> > > future;
                 std::shared_ptr<Time::Timer> futureTimer;
                 std::shared_ptr<DirectoryWatcher> directoryWatcher;
@@ -69,6 +67,11 @@ namespace djv
                 p.fileInfos = ListSubject<FileInfo>::create();
                 p.fileNames = ListSubject<std::string>::create();
                 p.history = ListSubject<Path>::create();
+                p.historyIndex = ValueSubject<size_t>::create(0);
+
+                p.hasUp = ValueSubject<bool>::create(false);
+                p.hasBack = ValueSubject<bool>::create(false);
+                p.hasForward = ValueSubject<bool>::create(false);
 
                 p.futureTimer = Time::Timer::create(context);
                 p.futureTimer->setRepeating(true);
@@ -108,7 +111,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<Path> > DirectoryModel::getPath() const
+            std::shared_ptr<IValueSubject<Path> > DirectoryModel::observePath() const
             {
                 return _p->path;
             }
@@ -116,34 +119,40 @@ namespace djv
             void DirectoryModel::setPath(const Path& value)
             {
                 DJV_PRIVATE_PTR();
-                const auto& path = p.path->get();
-                if (value == path)
-                    return;
-                if (!path.isEmpty())
+                const auto absolute = FileSystem::Path::getAbsolute(value);
+                if (p.path->setIfChanged(absolute))
                 {
-                    std::vector<Path> history = p.history->get();
-                    if (history.size())
-                    {
-                        if (path != history[0])
-                        {
-                            history.insert(history.begin(), path);
-                        }
-                    }
-                    else
-                    {
-                        history.push_back(path);
-                    }
-                    while (history.size() > historyMax)
+                    _p->hasUp->setIfChanged(!absolute.isRoot());
+                    auto history = _p->history->get();
+                    while (history.size() ? (_p->historyIndex->get() < history.size() - 1) : false)
                     {
                         history.pop_back();
                     }
-                    p.history->setIfChanged(history);
+                    _p->historyIndex->setIfChanged(history.size());
+                    history.push_back(absolute);
+                    _p->history->setIfChanged(history);
+                    _p->hasBack->setIfChanged(_p->historyIndex > 0);
+                    _p->hasForward->setIfChanged(history.size() ? (_p->historyIndex->get() < history.size() - 1) : false);
+                    _updatePath();
                 }
-                p.path->setIfChanged(value);
+            }
+
+            void DirectoryModel::reload()
+            {
                 _updatePath();
             }
 
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::getFileSequencesEnabled() const
+            std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::observeFileInfoList() const
+            {
+                return _p->fileInfos;
+            }
+
+            std::shared_ptr<IListSubject<std::string> > DirectoryModel::observeFileNames() const
+            {
+                return _p->fileNames;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeFileSequencesEnabled() const
             {
                 return _p->fileSequencesEnabled;
             }
@@ -156,33 +165,85 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<IListSubject<FileInfo> > DirectoryModel::getFileInfoList() const
-            {
-                return _p->fileInfos;
-            }
-
-            std::shared_ptr<IListSubject<std::string> > DirectoryModel::getFileNames() const
-            {
-                return _p->fileNames;
-            }
-
-            std::shared_ptr<IListSubject<Path> > DirectoryModel::getHistory() const
-            {
-                return _p->history;
-            }
-
-            void DirectoryModel::reload()
-            {
-                _updatePath();
-            }
-
             void DirectoryModel::cdUp()
             {
-                auto path = _p->path->get();
+                DJV_PRIVATE_PTR();
+                auto path = p.path->get();
                 if (path.cdUp())
                 {
                     setPath(path);
                 }
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasUp() const
+            {
+                return _p->hasUp;
+            }
+
+            void DirectoryModel::setHistoryMax(size_t value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.historyMax)
+                    return;
+                p.historyMax = value;
+                std::vector<Path> history = p.history->get();
+                while (history.size() > p.historyMax)
+                {
+                    history.pop_back();
+                }
+                p.history->setIfChanged(history);
+            }
+
+            void DirectoryModel::goBack()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.historyIndex > 0)
+                {
+                    p.historyIndex->setIfChanged(p.historyIndex->get() - 1);
+                    const auto & history = p.history->get();
+                    const auto & path = history[p.historyIndex->get()];
+                    p.path->setIfChanged(path);
+                    p.hasUp->setIfChanged(!path.isRoot());
+                    p.hasBack->setIfChanged(p.historyIndex->get() > 0);
+                    p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
+                    _updatePath();
+                }
+            }
+
+            void DirectoryModel::goForward()
+            {
+                DJV_PRIVATE_PTR();
+                const auto & history = p.history->get();
+                if (history.size() ? (p.historyIndex->get() < history.size() - 1) : false)
+                {
+                    p.historyIndex->setIfChanged(p.historyIndex->get() + 1);
+                    const auto & path = history[p.historyIndex->get()];
+                    p.path->setIfChanged(path);
+                    p.hasUp->setIfChanged(!path.isRoot());
+                    p.hasBack->setIfChanged(p.historyIndex->get() > 0);
+                    p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
+                    _updatePath();
+                }
+            }
+
+            std::shared_ptr<IListSubject<Path> > DirectoryModel::observeHistory() const
+            {
+                return _p->history;
+            }
+
+            std::shared_ptr<IValueSubject<size_t> > DirectoryModel::observeHistoryIndex() const
+            {
+                return _p->historyIndex;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasBack() const
+            {
+                return _p->hasBack;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeHasForward() const
+            {
+                return _p->hasForward;
             }
 
             void DirectoryModel::_updatePath()

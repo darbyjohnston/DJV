@@ -6,6 +6,8 @@ set(header
     ComboBox.h
     Dialog.h
     Enum.h
+    FileBrowser.h
+    FileBrowserPrivate.h
     FlowLayout.h
     FontSettings.h
     FontSettingsInline.h
@@ -19,6 +21,7 @@ set(header
     Icon.h
     ImageWidget.h
     Label.h
+    LineEdit.h
     ListButton.h
     MDICanvas.h
     MDIWindow.h
@@ -27,6 +30,7 @@ set(header
     MarginInline.h
     Menu.h
     MenuBar.h
+    MenuButton.h
     Overlay.h
     PushButton.h
     RowLayout.h
@@ -62,6 +66,8 @@ set(source
     ComboBox.cpp
     Dialog.cpp
     Enum.cpp
+    FileBrowser.cpp
+    FileBrowserPrivate.cpp
     FlowLayout.cpp
     FontSettings.cpp
     GeneralSettings.cpp
@@ -73,12 +79,14 @@ set(source
     Icon.cpp
     ImageWidget.cpp
     Label.cpp
+    LineEdit.cpp
     ListButton.cpp
     MDICanvas.cpp
     MDIWindow.cpp
     MainWindow.cpp
     Menu.cpp
     MenuBar.cpp
+    MenuButton.cpp
     Overlay.cpp
     PushButton.cpp
     RowLayout.cpp

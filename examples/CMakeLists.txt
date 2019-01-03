@@ -1,5 +1,6 @@
 add_subdirectory(ButtonDesktopExample)
 add_subdirectory(ComboBoxDesktopExample)
+add_subdirectory(FileBrowserDesktopExample)
 add_subdirectory(HelloWorldDesktopExample)
 add_subdirectory(MDIDesktopExample)
 add_subdirectory(SplitterDesktopExample)
