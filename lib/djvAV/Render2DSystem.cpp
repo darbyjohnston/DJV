@@ -499,6 +499,11 @@ namespace djv
                     p.render->viewport.max.y,
                     -1.f, 1.f);
                 p.render->shader->setUniform("transform.mvp", viewMatrix);
+                const auto program = p.render->shader->getProgram();
+                const GLint imageFormatLoc = glGetUniformLocation(program, "imageFormat");
+                const GLint colorModeLoc = glGetUniformLocation(program, "colorMode");
+                const GLint colorLoc = glGetUniformLocation(program, "color");
+                const GLint textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
 
                 const auto& staticTextures = p.render->staticTextureCache->getTextures();
                 size_t i = 0;
@@ -536,22 +541,22 @@ namespace djv
                     if (i == 0 || data->imageFormat != imageFormat)
                     {
                         imageFormat = data->imageFormat;
-                        p.render->shader->setUniform("imageFormat", static_cast<int>(data->imageFormat));
+                        p.render->shader->setUniform(imageFormatLoc, static_cast<int>(data->imageFormat));
                     }
                     if (i == 0 || data->colorMode != colorMode)
                     {
                         colorMode = data->colorMode;
-                        p.render->shader->setUniform("colorMode", static_cast<int>(data->colorMode));
+                        p.render->shader->setUniform(colorModeLoc, static_cast<int>(data->colorMode));
                     }
                     if (i == 0 || data->color != color)
                     {
                         color = data->color;
-                        p.render->shader->setUniform("color", data->color);
+                        p.render->shader->setUniform(colorLoc, data->color);
                     }
                     if (i == 0 || data->texture != texture)
                     {
                         texture = data->texture;
-                        p.render->shader->setUniform("textureSampler", data->texture);
+                        p.render->shader->setUniform(textureSamplerLoc, data->texture);
                     }
                     vao->draw(i * 6, 6);
                 }

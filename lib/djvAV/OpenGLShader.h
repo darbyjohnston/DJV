@@ -73,6 +73,17 @@ namespace djv
                 //! - std::exception
                 static std::shared_ptr<Shader> create(const std::shared_ptr<Render::Shader> &);
 
+                gl::GLuint getProgram() const;
+
+                void setUniform(gl::GLint, int);
+                void setUniform(gl::GLint, float);
+                void setUniform(gl::GLint, const glm::vec2 &);
+                void setUniform(gl::GLint, const glm::vec3 &);
+                void setUniform(gl::GLint, const glm::vec4 &);
+                void setUniform(gl::GLint, const glm::mat3x3 &);
+                void setUniform(gl::GLint, const glm::mat4x4 &);
+                void setUniform(gl::GLint, const Image::Color &);
+
                 void setUniform(const std::string&, int);
                 void setUniform(const std::string&, float);
                 void setUniform(const std::string&, const glm::vec2 &);
