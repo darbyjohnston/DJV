@@ -30,11 +30,15 @@
 #include <djvUI/FileBrowser.h>
 
 #include <djvUI/FileBrowserPrivate.h>
-#include <djvUI/ListButton.h>
+#include <djvUI/FlowLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/Splitter.h>
 #include <djvUI/ToolButton.h>
+
+#include <djvAV/IO.h>
+#include <djvAV/IconSystem.h>
 
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/FileInfo.h>
@@ -51,7 +55,8 @@ namespace djv
             {
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
                 std::vector<FileSystem::FileInfo> fileInfoList;
-                std::shared_ptr<Layout::Vertical> itemLayout;
+                std::map<std::shared_ptr<ItemButton>, FileSystem::FileInfo> buttonToFileInfo;
+                std::shared_ptr<Layout::Flow> itemLayout;
                 std::shared_ptr<Layout::Vertical> layout;
                 std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
@@ -60,6 +65,12 @@ namespace djv
                 std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
                 std::shared_ptr<ValueObserver<bool> > hasBackObserver;
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
+                struct IconFuture
+                {
+                    std::future<std::shared_ptr<AV::Image::Image> > future;
+                    std::weak_ptr<ItemButton> widget;
+                };
+                std::vector<IconFuture> iconFutures;
             };
 
             void Widget::_init(Context * context)
@@ -86,16 +97,21 @@ namespace djv
                 topToolLayout->addWidget(forwardButton);
                 topToolLayout->addWidget(pathWidget, Layout::RowStretch::Expand);
 
-                _p->itemLayout = Layout::Vertical::create(context);
-                _p->itemLayout->setSpacing(Style::MetricsRole::None);
+                auto shortcutsWidget = ShorcutsWidget::create(context);
 
+                _p->itemLayout = Layout::Flow::create(context);
+                _p->itemLayout->setSpacing(Style::MetricsRole::None);
                 auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 scrollWidget->addWidget(_p->itemLayout);
 
                 _p->layout = Layout::Vertical::create(context);
                 _p->layout->setSpacing(Style::MetricsRole::None);
                 _p->layout->addWidget(topToolLayout);
-                _p->layout->addWidget(scrollWidget, Layout::RowStretch::Expand);
+                auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
+                splitter->addWidget(shortcutsWidget);
+                splitter->addWidget(scrollWidget);
+                splitter->setSplit(.15f);
+                _p->layout->addWidget(splitter, Layout::RowStretch::Expand);
                 _p->layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
@@ -132,7 +148,24 @@ namespace djv
                         widget->_p->directoryModel->setPath(value);
                     }
                 });
+                pathWidget->setHistoryIndexCallback(
+                    [weak](size_t value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->setHistoryIndex(value);
+                    }
+                });
 
+                shortcutsWidget->setShortcutCallback(
+                    [weak](const FileSystem::Path & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->setPath(value);
+                    }
+                });
+                
                 _p->pathObserver = ValueObserver<FileSystem::Path>::create(
                     _p->directoryModel->observePath(),
                     [pathWidget](const FileSystem::Path & value)
@@ -206,6 +239,39 @@ namespace djv
                 _p->directoryModel->setPath(value);
             }
 
+            void Widget::_updateEvent(Event::Update& event)
+            {
+                auto i = _p->iconFutures.begin();
+                while (i != _p->iconFutures.end())
+                {
+                    std::shared_ptr<AV::Image::Image> icon;
+                    if (i->future.valid() &&
+                        i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            icon = i->future.get();
+                            if (auto widget = i->widget.lock())
+                            {
+                                widget->setIcon(icon, createUID());
+                            }
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                    if (icon)
+                    {
+                        i = _p->iconFutures.erase(i);
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
+            }
+
             void Widget::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
@@ -216,16 +282,73 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
+            bool Widget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
+            {
+                switch (event.getEventType())
+                {
+                case Event::Type::Clip:
+                {
+                    if (auto button = std::dynamic_pointer_cast<ItemButton>(object))
+                    {
+                        if (!button->isClipped())
+                        {
+                            const auto i = _p->buttonToFileInfo.find(button);
+                            if (i != _p->buttonToFileInfo.end())
+                            {
+                                auto context = getContext();
+                                if (auto ioSystem = context->getSystemT<AV::IO::System>().lock())
+                                {
+                                    if (ioSystem->canRead(i->second))
+                                    {
+                                        if (auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock())
+                                        {
+                                            if (auto style = _getStyle().lock())
+                                            {
+                                                const int t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail));
+                                                Private::IconFuture future;
+                                                future.future = iconSystem->getImage(i->second.getPath(), AV::Image::Info(t, t, AV::Image::Type::RGBA_U8));
+                                                future.widget = button;
+                                                _p->iconFutures.push_back(std::move(future));
+                                            }
+                                        }
+                                    }
+                                }
+                                button->removeEventFilter(shared_from_this());
+                                _p->buttonToFileInfo.erase(i);
+                            }
+                        }
+                    }
+                    break;
+                }
+                default: break;
+                }
+                return false;
+            }
+
             void Widget::_updateItems()
             {
                 auto context = getContext();
+                _p->buttonToFileInfo.clear();
                 _p->itemLayout->clearWidgets();
+                auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                 for (const auto & fileInfo : _p->fileInfoList)
                 {
-                    auto button = Button::List::create(context);
+                    auto button = ItemButton::create(context);
                     button->setText(fileInfo.getFileName(Frame::Invalid, false));
-                    button->setTextHAlign(TextHAlign::Left);
                     _p->itemLayout->addWidget(button);
+                    _p->buttonToFileInfo[button] = fileInfo;
+                    button->installEventFilter(shared_from_this());
+                    button->setClickedCallback(
+                        [weak, fileInfo]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (FileSystem::FileType::Directory == fileInfo.getType())
+                            {
+                                widget->_p->directoryModel->setPath(fileInfo.getPath());
+                            }
+                        }
+                    });
                 }
                 _resize();
             }

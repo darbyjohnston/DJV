@@ -9,6 +9,15 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class Path;
+
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace UI
     {
         namespace Button
@@ -19,7 +28,7 @@ namespace djv
                 DJV_NON_COPYABLE(List);
 
             protected:
-                void _init(const std::string& text, Core::Context *);
+                void _init(Core::Context *);
                 List();
 
             public:
@@ -27,6 +36,10 @@ namespace djv
 
                 static std::shared_ptr<List> create(Core::Context *);
                 static std::shared_ptr<List> create(const std::string&, Core::Context *);
+                static std::shared_ptr<List> create(const std::string&, const Core::FileSystem::Path& icon, Core::Context *);
+
+                const Core::FileSystem::Path& getIcon() const;
+                void setIcon(const Core::FileSystem::Path&);
 
                 const std::string& getText() const;
                 void setText(const std::string&);

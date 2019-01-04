@@ -31,9 +31,17 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Label.h>
+#include <djvUI/ListButton.h>
+#include <djvUI/ImageWidget.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/TextBlock.h>
+
+#include <djvAV/Image.h>
+
+#include <djvCore/OS.h>
 
 using namespace djv::Core;
 
@@ -52,6 +60,7 @@ namespace djv
                 std::shared_ptr<Button::Menu> historyButton;
                 std::shared_ptr<Layout::Horizontal> layout;
                 std::function<void(const FileSystem::Path &)> pathCallback;
+                std::function<void(size_t)> historyIndexCallback;
             };
 
             void PathWidget::_init(Context * context)
@@ -66,7 +75,7 @@ namespace djv
                 _p->historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 _p->historyMenu = Menu::create(context);
                 _p->historyButton = Button::Menu::create(context);
-                _p->historyButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconComboBox90DPI.png"));
+                _p->historyButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconComboBox90DPI.png"));
                 _p->historyButton->setEnabled(false);
 
                 _p->layout = Layout::Horizontal::create(context);
@@ -80,9 +89,9 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (value >= 0 && value < widget->_p->history.size() && widget->_p->pathCallback)
+                        if (widget->_p->historyIndexCallback)
                         {
-                            widget->_p->pathCallback(widget->_p->history[value]);
+                            widget->_p->historyIndexCallback(static_cast<size_t>(value));
                         }
                         widget->_p->historyMenu->hide();
                     }
@@ -153,12 +162,17 @@ namespace djv
                     _p->historyActionGroup->addAction(action);
                     _p->historyMenu->addAction(action);
                 }
-                _p->historyButton->setEnabled(_p->history.size() > 0);
+                _p->historyButton->setEnabled(_p->history.size() > 1);
             }
 
             void PathWidget::setHistoryIndex(size_t value)
             {
                 _p->historyActionGroup->setChecked(static_cast<int>(value));
+            }
+
+            void PathWidget::setHistoryIndexCallback(const std::function<void(size_t)> & value)
+            {
+                _p->historyIndexCallback = value;
             }
 
             void PathWidget::_preLayoutEvent(Event::PreLayout& event)
@@ -169,6 +183,167 @@ namespace djv
             void PathWidget::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
+            }
+
+            struct ShorcutsWidget::Private
+            {
+                std::vector<FileSystem::Path> shortcuts;
+                std::shared_ptr<ActionGroup> actionGroup;
+                std::shared_ptr<Layout::Vertical> layout;
+                std::function<void(const FileSystem::Path &)> shortcutCallback;
+            };
+
+            void ShorcutsWidget::_init(Context * context)
+            {
+                UI::Widget::_init(context);
+
+                setClassName("djv::UI::FileBrowser::ShorcutsWidget");
+
+                _p->actionGroup = ActionGroup::create(ButtonType::Push);
+
+                auto itemLayout = Layout::Vertical::create(context);
+                itemLayout->setSpacing(Style::MetricsRole::None);
+                for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
+                {
+                    const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
+                    _p->shortcuts.push_back(shortcut);
+
+                    auto action = Action::create();
+                    const auto text = shortcut.getFileName();
+                    action->setText(text);
+                    _p->actionGroup->addAction(action);
+
+                    auto button = Button::List::create(context);
+                    button->setText(text);
+                    button->setTextHAlign(TextHAlign::Left);
+                    itemLayout->addWidget(button);
+
+                    button->setClickedCallback(
+                        [action]
+                    {
+                        action->doClicked();
+                    });
+                }
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                scrollWidget->addWidget(itemLayout);
+
+                _p->layout = Layout::Vertical::create(context);
+                _p->layout->addWidget(scrollWidget, Layout::RowStretch::Expand);
+                _p->layout->setParent(shared_from_this());
+
+                auto weak = std::weak_ptr<ShorcutsWidget>(std::dynamic_pointer_cast<ShorcutsWidget>(shared_from_this()));
+                _p->actionGroup->setClickedCallback(
+                    [weak](int value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (value >= 0 && value < widget->_p->shortcuts.size() && widget->_p->shortcutCallback)
+                        {
+                            widget->_p->shortcutCallback(widget->_p->shortcuts[value]);
+                        }
+                    }
+                });
+            }
+
+            ShorcutsWidget::ShorcutsWidget() :
+                _p(new Private)
+            {}
+
+            ShorcutsWidget::~ShorcutsWidget()
+            {}
+
+            std::shared_ptr<ShorcutsWidget> ShorcutsWidget::create(Context * context)
+            {
+                auto out = std::shared_ptr<ShorcutsWidget>(new ShorcutsWidget);
+                out->_init(context);
+                return out;
+            }
+
+            void ShorcutsWidget::setShortcutCallback(const std::function<void(const FileSystem::Path &)> & value)
+            {
+                _p->shortcutCallback = value;
+            }
+
+            void ShorcutsWidget::_preLayoutEvent(Event::PreLayout& event)
+            {
+                _setMinimumSize(_p->layout->getMinimumSize());
+            }
+
+            void ShorcutsWidget::_layoutEvent(Event::Layout& event)
+            {
+                _p->layout->setGeometry(getGeometry());
+            }
+
+            struct ItemButton::Private
+            {
+                std::shared_ptr<ImageWidget> imageWidget;
+                std::shared_ptr<TextBlock> textBlock;
+                std::shared_ptr<Layout::Vertical> layout;
+            };
+
+            void ItemButton::_init(Context * context)
+            {
+                IButton::_init(context);
+
+                setClassName("djv::UI::FileBrowser::ItemButton");
+
+                _p->imageWidget = ImageWidget::create(context);
+                _p->imageWidget->hide();
+
+                _p->textBlock = TextBlock::create(context);
+                _p->textBlock->setTextHAlign(TextHAlign::Center);
+
+                _p->layout = Layout::Vertical::create(context);
+                _p->layout->setMargin(Style::MetricsRole::MarginSmall);
+                _p->layout->addWidget(_p->imageWidget);
+                _p->layout->addWidget(_p->textBlock);
+                _p->layout->setParent(shared_from_this());
+            }
+
+            ItemButton::ItemButton() :
+                _p(new Private)
+            {}
+
+            ItemButton::~ItemButton()
+            {}
+
+            std::shared_ptr<ItemButton> ItemButton::create(Context * context)
+            {
+                auto out = std::shared_ptr<ItemButton>(new ItemButton);
+                out->_init(context);
+                return out;
+            }
+
+            void ItemButton::setIcon(const std::shared_ptr<AV::Image::Image>& value, UID uid)
+            {
+                _p->imageWidget->setImage(value, uid);
+                _p->imageWidget->setVisible(value && value->isValid());
+            }
+
+            void ItemButton::setText(const std::string& value)
+            {
+                _p->textBlock->setText(value);
+            }
+
+            float ItemButton::getHeightForWidth(float value) const
+            {
+                return _p->layout->getHeightForWidth(value);
+            }
+
+            void ItemButton::_preLayoutEvent(Event::PreLayout& event)
+            {
+                _setMinimumSize(_p->layout->getMinimumSize());
+            }
+
+            void ItemButton::_layoutEvent(Event::Layout&)
+            {
+                _p->layout->setGeometry(getGeometry());
+            }
+
+            void ItemButton::_updateEvent(Event::Update& event)
+            {
+                IButton::_updateEvent(event);
+                _p->textBlock->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
             }
 
         } // namespace Layout

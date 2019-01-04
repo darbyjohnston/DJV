@@ -147,7 +147,7 @@ namespace djv
                 p.metrics[MetricsRole::FontExtraLarge]      =  24.f;
                 p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
                 p.metrics[MetricsRole::Swatch]              =  40.f;
-                p.metrics[MetricsRole::Thumbnail]           = 300.f;
+                p.metrics[MetricsRole::Thumbnail]           = 200.f;
                 p.metrics[MetricsRole::Shadow]              =  10.f;
                 p.metrics[MetricsRole::ScrollArea]          = 200.f;
                 p.metrics[MetricsRole::TextColumn]          = 200.f;

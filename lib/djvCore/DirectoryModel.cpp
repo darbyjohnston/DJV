@@ -128,9 +128,10 @@ namespace djv
                     {
                         history.pop_back();
                     }
-                    _p->historyIndex->setIfChanged(history.size());
+                    const size_t historyIndex = history.size();
                     history.push_back(absolute);
                     _p->history->setIfChanged(history);
+                    _p->historyIndex->setIfChanged(historyIndex);
                     _p->hasBack->setIfChanged(_p->historyIndex > 0);
                     _p->hasForward->setIfChanged(history.size() ? (_p->historyIndex->get() < history.size() - 1) : false);
                     _updatePath();
@@ -192,6 +193,22 @@ namespace djv
                     history.pop_back();
                 }
                 p.history->setIfChanged(history);
+            }
+
+            void DirectoryModel::setHistoryIndex(size_t index)
+            {
+                DJV_PRIVATE_PTR();
+                if (index < p.history->getSize())
+                {
+                    p.historyIndex->setIfChanged(index);
+                    const auto & history = p.history->get();
+                    const auto & path = history[p.historyIndex->get()];
+                    p.path->setIfChanged(path);
+                    p.hasUp->setIfChanged(!path.isRoot());
+                    p.hasBack->setIfChanged(p.historyIndex->get() > 0);
+                    p.hasForward->setIfChanged(history.size() ? (p.historyIndex->get() < history.size() - 1) : false);
+                    _updatePath();
+                }
             }
 
             void DirectoryModel::goBack()

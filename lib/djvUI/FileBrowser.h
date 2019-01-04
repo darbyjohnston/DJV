@@ -63,8 +63,11 @@ namespace djv
                 void setPath(const Core::FileSystem::Path&);
 
             protected:
+                void _updateEvent(Core::Event::Update&) override;
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
+
+                bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
 
             private:
                 void _updateItems();

@@ -29,9 +29,9 @@
 
 #include <djvUI/ListButton.h>
 
+#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
 
 #include <djvAV/Render2DSystem.h>
 
@@ -47,22 +47,28 @@ namespace djv
         {
             struct List::Private
             {
+                std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
-                std::shared_ptr<Layout::Stack> layout;
+                std::shared_ptr<Layout::Horizontal> layout;
             };
 
-            void List::_init(const std::string& text, Context * context)
+            void List::_init(Context * context)
             {
                 IButton::_init(context);
 
                 setClassName("djv::UI::Button::List");
 
-                _p->label = Label::create(text, context);
-                _p->label->setVisible(!text.empty());
+                _p->icon = Icon::create(context);
+                _p->icon->setVAlign(VAlign::Center);
+                _p->icon->hide();
 
-                _p->layout = Layout::Stack::create(context);
+                _p->label = Label::create(context);
+                _p->label->hide();
+
+                _p->layout = Layout::Horizontal::create(context);
                 _p->layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
-                _p->layout->addWidget(_p->label);
+                _p->layout->addWidget(_p->icon);
+                _p->layout->addWidget(_p->label, Layout::RowStretch::Expand);
                 _p->layout->setParent(shared_from_this());
             }
 
@@ -76,15 +82,36 @@ namespace djv
             std::shared_ptr<List> List::create(Context * context)
             {
                 auto out = std::shared_ptr<List>(new List);
-                out->_init(std::string(), context);
+                out->_init(context);
                 return out;
             }
 
             std::shared_ptr<List> List::create(const std::string& text, Context * context)
             {
                 auto out = std::shared_ptr<List>(new List);
-                out->_init(text, context);
+                out->_init(context);
+                out->setText(text);
                 return out;
+            }
+
+            std::shared_ptr<List> List::create(const std::string& text, const FileSystem::Path& icon, Context * context)
+            {
+                auto out = std::shared_ptr<List>(new List);
+                out->_init(context);
+                out->setIcon(icon);
+                out->setText(text);
+                return out;
+            }
+
+            const FileSystem::Path& List::getIcon() const
+            {
+                return _p->icon->getIcon();
+            }
+
+            void List::setIcon(const FileSystem::Path& value)
+            {
+                _p->icon->setIcon(value);
+                _p->icon->setVisible(!value.isEmpty());
             }
 
             const std::string& List::getText() const

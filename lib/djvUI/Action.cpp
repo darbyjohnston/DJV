@@ -347,7 +347,7 @@ namespace djv
                     action->isChecked(),
                     [this, index](bool value)
             {
-                if (value && ButtonType::Radio == _p->buttonType)
+                if (value && ButtonType::Radio == _p->buttonType && _p->actions.size() > 0)
                 {
                     for (size_t i = 0; i < _p->actions.size(); ++i)
                     {

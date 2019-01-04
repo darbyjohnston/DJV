@@ -74,6 +74,7 @@ namespace djv
                 std::shared_ptr<IValueSubject<bool> > observeHasUp() const;
 
                 void setHistoryMax(size_t);
+                void setHistoryIndex(size_t);
                 void goBack();
                 void goForward();
                 std::shared_ptr<IListSubject<Path> > observeHistory() const;

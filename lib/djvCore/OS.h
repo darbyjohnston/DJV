@@ -73,7 +73,7 @@ namespace djv
                 Downloads,
 
                 Count,
-                First = Desktop
+                First = Home
             };
             DJV_ENUM_HELPERS(DirectoryShortcut);
 

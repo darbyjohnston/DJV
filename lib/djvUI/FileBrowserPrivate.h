@@ -29,10 +29,19 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/IButton.h>
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            class Image;
+
+        } // namespace Image
+    } // namespace AV
+
     namespace UI
     {
         namespace FileBrowser
@@ -55,8 +64,61 @@ namespace djv
 
                 void setHistory(const std::vector<Core::FileSystem::Path> &);
                 void setHistoryIndex(size_t);
+                void setHistoryIndexCallback(const std::function<void(size_t)> &);
 
             protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+            class ShorcutsWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(ShorcutsWidget);
+
+            protected:
+                void _init(Core::Context *);
+                ShorcutsWidget();
+
+            public:
+                virtual ~ShorcutsWidget();
+
+                static std::shared_ptr<ShorcutsWidget> create(Core::Context *);
+
+                void setShortcutCallback(const std::function<void(const Core::FileSystem::Path &)> &);
+
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
+
+            class ItemButton : public Button::IButton
+            {
+                DJV_NON_COPYABLE(ItemButton);
+
+            protected:
+                void _init(Core::Context *);
+                ItemButton();
+
+            public:
+                virtual ~ItemButton();
+
+                static std::shared_ptr<ItemButton> create(Core::Context *);
+
+                void setIcon(const std::shared_ptr<AV::Image::Image>&, Core::UID);
+                void setText(const std::string&);
+
+                float getHeightForWidth(float) const override;
+
+            protected:
+                void _updateEvent(Core::Event::Update&) override;
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
