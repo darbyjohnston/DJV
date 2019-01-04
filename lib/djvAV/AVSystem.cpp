@@ -49,6 +49,9 @@ using namespace djv::Core;
 
 using namespace gl;
 
+#undef GL_DEBUG_SEVERITY_HIGH
+#undef GL_DEBUG_SEVERITY_MEDIUM
+
 namespace djv
 {
     namespace AV
