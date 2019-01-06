@@ -109,16 +109,16 @@ namespace djv
                 {
                     p.size = info.size;
                     glm::mat4x4 modelMatrix(1);
-                    modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
+                    modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(90.f), glm::vec3(1.f, 0.f, 0.f));
                     modelMatrix = glm::scale(modelMatrix, glm::vec3(info.size.x, 0.f, info.size.y));
-                    modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
+                    modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, -.5f));
                     glm::mat4x4 viewMatrix(1);
                     glm::mat4x4 projectionMatrix(1);
                     projectionMatrix = glm::ortho(
                         0.f,
-                        static_cast<float>(info.size.x),
+                        static_cast<float>(info.size.x) - 1.f,
                         0.f,
-                        static_cast<float>(info.size.y),
+                        static_cast<float>(info.size.y) - 1.f,
                         -1.f,
                         1.f);
                     p.mvp = projectionMatrix * viewMatrix * modelMatrix;

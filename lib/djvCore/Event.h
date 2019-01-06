@@ -150,11 +150,13 @@ namespace djv
             class Update : public IEvent
             {
             public:
-                inline Update(float dt);
+                inline Update(float t, float dt);
 
+                inline float getTime() const;
                 inline float getDeltaTime() const;
 
             private:
+                float _t;
                 float _dt;
             };
 

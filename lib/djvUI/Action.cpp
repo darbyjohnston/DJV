@@ -53,6 +53,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > enabled;
             std::shared_ptr<ValueSubject<HAlign> > hAlign;
             std::shared_ptr<ValueSubject<VAlign> > vAlign;
+            std::shared_ptr<ValueSubject<std::string> > tooltip;
         };
 
         void Action::_init()
@@ -69,6 +70,7 @@ namespace djv
             _p->enabled = ValueSubject<bool>::create(true);
             _p->hAlign = ValueSubject<HAlign>::create(HAlign::Fill);
             _p->vAlign = ValueSubject<VAlign>::create(VAlign::Fill);
+            _p->tooltip = ValueSubject<std::string>::create();
         }
 
         Action::Action() :
@@ -253,6 +255,16 @@ namespace djv
         void Action::setVAlign(VAlign value)
         {
             _p->vAlign->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<std::string> > Action::getTooltip() const
+        {
+            return _p->tooltip;
+        }
+
+        void Action::setTooltip(const std::string& value)
+        {
+            _p->tooltip->setIfChanged(value);
         }
 
         struct ActionGroup::Private

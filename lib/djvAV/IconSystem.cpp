@@ -384,6 +384,7 @@ namespace djv
             void IconSystem::_handleImageRequests(const std::shared_ptr<Convert> & convert)
             {
                 DJV_PRIVATE_PTR();
+
                 // Process new requests.
                 for (auto & i : p.newImageRequests)
                 {
@@ -439,9 +440,15 @@ namespace djv
                     {
                         if (i->info)
                         {
-                            auto tmp = Image::create(*i->info);
+                            auto info = *i->info;
+                            const float aspect = image->getAspectRatio();
+                            if (0 == info.size.y && aspect > 0.f)
+                            {
+                                info.size.y = static_cast<int>(info.size.x / aspect);
+                            }
+                            auto tmp = Image::create(info);
                             tmp->setTags(image->getTags());
-                            convert->process(*image, *i->info, *tmp);
+                            convert->process(*image, info, *tmp);
                             image = tmp;
                         }
                         p.imageCache.add(i->path, image);

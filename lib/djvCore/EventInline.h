@@ -106,10 +106,16 @@ namespace djv
                 return _locale;
             }
 
-            inline Update::Update(float dt) :
+            inline Update::Update(float t, float dt) :
                 IEvent(Type::Update),
+                _t(t),
                 _dt(dt)
             {}
+
+            inline float Update::getTime() const
+            {
+                return _t;
+            }
 
             inline float Update::getDeltaTime() const
             {

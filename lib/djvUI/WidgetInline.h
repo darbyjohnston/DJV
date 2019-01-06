@@ -129,6 +129,16 @@ namespace djv
             return _style;
         }
 
+        inline const std::string & Widget::getTooltip() const
+        {
+            return _tooltipText;
+        }
+
+        inline const std::map<Core::Event::PointerID, glm::vec2> Widget::_getPointerHover() const
+        {
+            return _pointerHover;
+        }
+
     } // namespace UI
 } // namespace djv
 

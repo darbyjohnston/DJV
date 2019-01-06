@@ -132,7 +132,7 @@ namespace djv
                     history.push_back(absolute);
                     _p->history->setIfChanged(history);
                     _p->historyIndex->setIfChanged(historyIndex);
-                    _p->hasBack->setIfChanged(_p->historyIndex > 0);
+                    _p->hasBack->setIfChanged(_p->historyIndex->get() > 0);
                     _p->hasForward->setIfChanged(history.size() ? (_p->historyIndex->get() < history.size() - 1) : false);
                     _updatePath();
                 }

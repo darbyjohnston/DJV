@@ -37,25 +37,35 @@
 
 namespace djv
 {
-    template<typename T, glm::precision P = glm::defaultp>
-    inline bool fuzzyCompare(const glm::tvec2<T, P>&, const glm::tvec2<T, P>&);
-    template<typename T, glm::precision P = glm::defaultp>
-    inline bool fuzzyCompare(const glm::tvec3<T, P>&, const glm::tvec3<T, P>&);
-    template<typename T, glm::precision P = glm::defaultp>
-    inline bool fuzzyCompare(const glm::tvec4<T, P>&, const glm::tvec4<T, P>&);
+    namespace Core
+    {
+        namespace Vector
+        {
+            template<typename T, glm::precision P = glm::defaultp>
+            inline float getAspect(const glm::tvec2<T, P> &);
+
+        } // namespace Vector
+    } // namespace Core
 
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::ostream& operator << (std::ostream&, const glm::tvec2<T, P>&);
+    inline bool fuzzyCompare(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::ostream& operator << (std::ostream&, const glm::tvec3<T, P>&);
+    inline bool fuzzyCompare(const glm::tvec3<T, P> &, const glm::tvec3<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::ostream& operator << (std::ostream&, const glm::tvec4<T, P>&);
+    inline bool fuzzyCompare(const glm::tvec4<T, P> &, const glm::tvec4<T, P> &);
+
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::istream& operator >> (std::istream&, glm::tvec2<T, P>&);
+    inline std::ostream & operator << (std::ostream &, const glm::tvec2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::istream& operator >> (std::istream&, glm::tvec3<T, P>&);
+    inline std::ostream & operator << (std::ostream &, const glm::tvec3<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::istream& operator >> (std::istream&, glm::tvec4<T, P>&);
+    inline std::ostream & operator << (std::ostream &, const glm::tvec4<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline std::istream & operator >> (std::istream &, glm::tvec2<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline std::istream & operator >> (std::istream &, glm::tvec3<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline std::istream & operator >> (std::istream &, glm::tvec4<T, P> &);
 
 } // namespace djv
 
@@ -64,13 +74,13 @@ namespace std
     template<>
     struct hash<glm::ivec2>
     {
-        inline std::size_t operator() (const glm::ivec2&) const noexcept;
+        inline std::size_t operator() (const glm::ivec2 &) const noexcept;
     };
 
     template<>
     struct hash<glm::vec2>
     {
-        inline std::size_t operator() (const glm::vec2&) const noexcept;
+        inline std::size_t operator() (const glm::vec2 &) const noexcept;
     };
 
 } // namespace std

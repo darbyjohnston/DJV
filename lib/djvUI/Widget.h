@@ -68,6 +68,7 @@ namespace djv
     {
         class Action;
         class IWindowSystem;
+        class Tooltip;
         class Window;
 
         //! This class provides the base widget functionality.
@@ -159,6 +160,14 @@ namespace djv
 
             ///@}
 
+            //! \name Widget Tooltip
+            ///@{
+
+            inline const std::string & getTooltip() const;
+            void setTooltip(const std::string &);
+
+            ///@}
+
             bool event(Core::Event::IEvent&) override;
 
         protected:
@@ -209,7 +218,10 @@ namespace djv
             void _childAddedEvent(Core::Event::ChildAdded &) override;
             void _childRemovedEvent(Core::Event::ChildRemoved &) override;
 
+            inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
+
         private:
+            float _updateTime = 0.f;
             bool _visible = true;
             bool _parentsVisible = true;
             bool _clipped = false;
@@ -222,13 +234,21 @@ namespace djv
             VAlign _vAlign = VAlign::Fill;
             Style::ColorRole _backgroundRole = Style::ColorRole::None;
             bool _pointerEnabled = false;
-            std::weak_ptr<AV::Image::IconSystem> _iconSystem;
-            std::weak_ptr<AV::Font::System> _fontSystem;
-            std::weak_ptr<AV::Render::Render2DSystem> _renderSystem;
-            std::weak_ptr<Style::Style> _style;
+            std::map<Core::Event::PointerID, glm::vec2> _pointerHover;
             std::vector<std::shared_ptr<Action> > _actions;
-            bool _resizeRequest = true;
-            bool _redrawRequest = true;
+            std::string _tooltipText;
+            struct TooltipData
+            {
+                float timer = 0.f;
+                std::shared_ptr<Tooltip> tooltip;
+            };
+            std::map<Core::Event::PointerID, TooltipData> _pointerToTooltips;
+            static bool _resizeRequest;
+            static bool _redrawRequest;
+            static std::weak_ptr<AV::Image::IconSystem> _iconSystem;
+            static std::weak_ptr<AV::Font::System> _fontSystem;
+            static std::weak_ptr<AV::Render::Render2DSystem> _renderSystem;
+            static std::weak_ptr<Style::Style> _style;
 
             friend class IWindowSystem;
         };

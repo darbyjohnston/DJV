@@ -52,8 +52,10 @@ namespace djv
                 Background,
                 BackgroundHeader,
                 BackgroundScroll,
+                BackgroundTooltip,
                 Foreground,
                 ForegroundDim,
+                ForegroundTooltip,
                 Border,
                 Trough,
                 Button,
@@ -94,6 +96,7 @@ namespace djv
                 ScrollArea,
                 TextColumn,
                 Dialog,
+                TooltipOffset,
 
                 Count,
                 First = Border

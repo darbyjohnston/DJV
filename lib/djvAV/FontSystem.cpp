@@ -766,6 +766,12 @@ namespace djv
                                         for (int y = 0; y < info.size.y; ++y)
                                         {
                                             memcpy(imageData->getData(info.size.y - 1 - y), bitmap->bitmap.buffer + y * bitmap->bitmap.pitch, info.size.x);
+                                            
+                                            //auto p = imageData->getData(info.size.y - 1 - y);
+                                            //for (int x = 0; x < info.size.x; ++x, ++p)
+                                            //{
+                                            //    *p = std::min(*p + 255, 255);
+                                            //}
                                         }
                                         glyph = Glyph::create(
                                             GlyphInfo(c, request.info),

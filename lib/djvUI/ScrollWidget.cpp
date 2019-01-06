@@ -419,8 +419,8 @@ namespace djv
                 const glm::vec2 tmp(
                     Math::clamp(value.x, 0.f, _contentsSize.x - g.w()),
                     Math::clamp(value.y, 0.f, _contentsSize.y - g.h()));
-                //if (tmp == _scrollPos)
-                //    return;
+                if (tmp == _scrollPos)
+                    return;
                 _scrollPos = tmp;
                 if (_scrollPosCallback)
                 {
@@ -593,7 +593,7 @@ namespace djv
             layout->addWidget(_p->scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
             
             _p->border = Layout::Border::create(context);
-            _p->border->setBorderSize(Style::MetricsRole::None);
+            //_p->border->setBorderSize(Style::MetricsRole::None);
             _p->border->addWidget(layout);
             IContainer::addWidget(_p->border);
 

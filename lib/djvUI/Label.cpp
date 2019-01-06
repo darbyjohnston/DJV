@@ -183,6 +183,7 @@ namespace djv
                     try
                     {
                         _p->textSize = _p->textSizeFuture.get();
+                        _resize();
                     }
                     catch (const std::exception& e)
                     {
@@ -245,6 +246,9 @@ namespace djv
                         break;
                     default: break;
                     }
+
+                    //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
+                    //render->drawRectangle(BBox2f(pos.x, pos.y, _p->textSize.x, _p->textSize.y));
 
                     render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
                     render->drawText(_p->text, glm::vec2(pos.x, pos.y + ascender));

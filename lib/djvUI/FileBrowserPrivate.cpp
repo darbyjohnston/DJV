@@ -30,6 +30,8 @@
 #include <djvUI/FileBrowserPrivate.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/Border.h>
+#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/ImageWidget.h>
@@ -37,6 +39,7 @@
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/TextBlock.h>
 
 #include <djvAV/Image.h>
@@ -71,15 +74,22 @@ namespace djv
 
                 _p->label = Label::create(context);
                 _p->label->setTextHAlign(TextHAlign::Left);
+                _p->label->setTextVAlign(TextVAlign::Center);
+                _p->label->setMargin(Style::MetricsRole::MarginSmall);
+                _p->label->setBackgroundRole(Style::ColorRole::BackgroundScroll);
 
                 _p->historyActionGroup = ActionGroup::create(ButtonType::Radio);
                 _p->historyMenu = Menu::create(context);
                 _p->historyButton = Button::Menu::create(context);
-                _p->historyButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconComboBox90DPI.png"));
+                _p->historyButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconPopupMenu90DPI.png"));
                 _p->historyButton->setEnabled(false);
 
                 _p->layout = Layout::Horizontal::create(context);
-                _p->layout->addWidget(_p->label, Layout::RowStretch::Expand);
+                _p->layout->setSpacing(Style::MetricsRole::None);
+                auto border = Layout::Border::create(context);
+                border->setMargin(Style::MetricsRole::MarginSmall);
+                border->addWidget(_p->label);
+                _p->layout->addWidget(border, Layout::RowStretch::Expand);
                 _p->layout->addWidget(_p->historyButton);
                 _p->layout->setParent(shared_from_this());
 
@@ -276,6 +286,7 @@ namespace djv
 
             struct ItemButton::Private
             {
+                std::shared_ptr<Icon> icon;
                 std::shared_ptr<ImageWidget> imageWidget;
                 std::shared_ptr<TextBlock> textBlock;
                 std::shared_ptr<Layout::Vertical> layout;
@@ -287,15 +298,24 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::ItemButton");
 
+                _p->icon = Icon::create(context);
+                _p->icon->setIconColorRole(Style::ColorRole::Button);
+                _p->icon->setVAlign(VAlign::Bottom);
+                _p->icon->hide();
+
                 _p->imageWidget = ImageWidget::create(context);
+                _p->imageWidget->setVAlign(VAlign::Bottom);
                 _p->imageWidget->hide();
 
                 _p->textBlock = TextBlock::create(context);
                 _p->textBlock->setTextHAlign(TextHAlign::Center);
 
                 _p->layout = Layout::Vertical::create(context);
-                _p->layout->setMargin(Style::MetricsRole::MarginSmall);
-                _p->layout->addWidget(_p->imageWidget);
+                _p->layout->setMargin(Style::MetricsRole::Margin);
+                auto stackLayout = Layout::Stack::create(context);
+                stackLayout->addWidget(_p->icon);
+                stackLayout->addWidget(_p->imageWidget);
+                _p->layout->addWidget(stackLayout);
                 _p->layout->addWidget(_p->textBlock);
                 _p->layout->setParent(shared_from_this());
             }
@@ -314,10 +334,16 @@ namespace djv
                 return out;
             }
 
-            void ItemButton::setIcon(const std::shared_ptr<AV::Image::Image>& value, UID uid)
+            void ItemButton::setIcon(const FileSystem::Path& path)
+            {
+                _p->icon->setIcon(path);
+                _p->icon->show();
+            }
+
+            void ItemButton::setThumbnail(const std::shared_ptr<AV::Image::Image>& value, UID uid)
             {
                 _p->imageWidget->setImage(value, uid);
-                _p->imageWidget->setVisible(value && value->isValid());
+                _p->imageWidget->show();
             }
 
             void ItemButton::setText(const std::string& value)
@@ -332,7 +358,8 @@ namespace djv
 
             void ItemButton::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                const auto size = _p->layout->getMinimumSize();
+                _setMinimumSize(size);
             }
 
             void ItemButton::_layoutEvent(Event::Layout&)

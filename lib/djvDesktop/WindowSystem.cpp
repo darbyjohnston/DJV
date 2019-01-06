@@ -57,6 +57,7 @@ namespace djv
         {
             GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<RootObject> rootObject;
+            glm::ivec2 resize = glm::ivec2(0, 0);
             bool resizeRequest = false;
             bool redrawRequest = false;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
@@ -122,6 +123,10 @@ namespace djv
         {
             IWindowSystem::_tick(dt);
 
+            if (_p->resizeRequest)
+            {
+                _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8));
+            }
             if (_p->offscreenBuffer)
             {
                 bool resizeRequest = _p->resizeRequest;
@@ -179,9 +184,8 @@ namespace djv
 
         void WindowSystem::_resize(const glm::ivec2 & size)
         {
-            _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(AV::Image::Info(size, AV::Image::Type::RGBA_U8));
+            _p->resize = size;
             _p->resizeRequest = true;
-            _p->redrawRequest = true;
         }
 
         void WindowSystem::_redraw()

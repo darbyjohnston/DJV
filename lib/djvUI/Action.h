@@ -98,6 +98,9 @@ namespace djv
             void setHAlign(HAlign);
             void setVAlign(VAlign);
 
+            std::shared_ptr<Core::IValueSubject<std::string> > getTooltip() const;
+            void setTooltip(const std::string&);
+
         private:
             struct Private;
             std::unique_ptr<Private> _p;

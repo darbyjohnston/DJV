@@ -131,6 +131,10 @@ namespace djv
             };
 
             //! This class provides a font system.
+            //!
+            //! \todo Why do the fonts seem too large?
+            //! \todo Why do the glyphs seem smaller than the metrics?
+            //! \todo Add support for LCD pixel sub-sampling.
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);

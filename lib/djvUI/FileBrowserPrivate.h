@@ -31,17 +31,12 @@
 
 #include <djvUI/IButton.h>
 
+#include <djvAV/Image.h>
+
+#include <djvCore/Path.h>
+
 namespace djv
 {
-    namespace AV
-    {
-        namespace Image
-        {
-            class Image;
-
-        } // namespace Image
-    } // namespace AV
-
     namespace UI
     {
         namespace FileBrowser
@@ -112,7 +107,8 @@ namespace djv
 
                 static std::shared_ptr<ItemButton> create(Core::Context *);
 
-                void setIcon(const std::shared_ptr<AV::Image::Image>&, Core::UID);
+                void setIcon(const Core::FileSystem::Path&);
+                void setThumbnail(const std::shared_ptr<AV::Image::Image>&, Core::UID);
                 void setText(const std::string&);
 
                 float getHeightForWidth(float) const override;

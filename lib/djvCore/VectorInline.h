@@ -32,6 +32,25 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace Vector
+        {
+            template<>
+            inline float getAspect<float>(const glm::vec2 & value)
+            {
+                return value.y > 0.f ? value.x / value.y : 0.f;
+            }
+
+            template<>
+            inline float getAspect<int>(const glm::ivec2 & value)
+            {
+                return value.y > 0 ? value.x / static_cast<float>(value.y) : 0.f;
+            }
+
+        } // namespace Vector
+    } // namespace Core
+
     template<typename T, glm::precision P>
     inline std::ostream& operator << (std::ostream& s, const glm::tvec2<T, P>& value)
     {

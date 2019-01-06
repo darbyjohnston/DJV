@@ -83,10 +83,13 @@ namespace djv
 
                 auto upButton = Button::Tool::create(context);
                 upButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowUp90DPI.png"));
+                upButton->setTooltip(DJV_TEXT("Go up a directory."));
                 auto backButton = Button::Tool::create(context);
                 backButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowLeft90DPI.png"));
+                backButton->setTooltip(DJV_TEXT("Go back a directory."));
                 auto forwardButton = Button::Tool::create(context);
                 forwardButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowRight90DPI.png"));
+                forwardButton->setTooltip(DJV_TEXT("Go forward a directory."));
 
                 auto pathWidget = PathWidget::create(context);
 
@@ -100,7 +103,6 @@ namespace djv
                 auto shortcutsWidget = ShorcutsWidget::create(context);
 
                 _p->itemLayout = Layout::Flow::create(context);
-                _p->itemLayout->setSpacing(Style::MetricsRole::None);
                 auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 scrollWidget->addWidget(_p->itemLayout);
 
@@ -253,7 +255,7 @@ namespace djv
                             icon = i->future.get();
                             if (auto widget = i->widget.lock())
                             {
-                                widget->setIcon(icon, createUID());
+                                widget->setThumbnail(icon, createUID());
                             }
                         }
                         catch (const std::exception & e)
@@ -296,19 +298,32 @@ namespace djv
                             if (i != _p->buttonToFileInfo.end())
                             {
                                 auto context = getContext();
-                                if (auto ioSystem = context->getSystemT<AV::IO::System>().lock())
+                                if (auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock())
                                 {
-                                    if (ioSystem->canRead(i->second))
+                                    if (auto ioSystem = context->getSystemT<AV::IO::System>().lock())
                                     {
-                                        if (auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock())
+                                        if (ioSystem->canRead(i->second))
                                         {
                                             if (auto style = _getStyle().lock())
                                             {
-                                                const int t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail));
                                                 Private::IconFuture future;
-                                                future.future = iconSystem->getImage(i->second.getPath(), AV::Image::Info(t, t, AV::Image::Type::RGBA_U8));
+                                                future.future = iconSystem->getImage(
+                                                    i->second.getPath(),
+                                                    AV::Image::Info(static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail)), 0, AV::Image::Type::RGBA_U8));
                                                 future.widget = button;
                                                 _p->iconFutures.push_back(std::move(future));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            switch (i->second.getType())
+                                            {
+                                            case FileSystem::FileType::Directory:
+                                                button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconFileBrowserDirectory90DPI.png"));
+                                                break;
+                                            default:
+                                                button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconFileBrowserFile90DPI.png"));
+                                                break;
                                             }
                                         }
                                     }

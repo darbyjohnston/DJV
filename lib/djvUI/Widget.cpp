@@ -31,6 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/Tooltip.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>
@@ -45,16 +46,27 @@
 
 using namespace djv::Core;
 
-namespace
-{
-    static size_t currentWidgetCount = 0;
-
-} // namespace
-
 namespace djv
 {
     namespace UI
     {
+        namespace
+        {
+            //! \todo [2.0 S] Should this be configurable?
+            static const float tooltipTimeout = .5f;
+            static const float tooltipHideDelta = 1.f;
+
+            static size_t currentWidgetCount = 0;
+
+        } // namespace
+
+        std::weak_ptr<AV::Image::IconSystem> Widget::_iconSystem;
+        std::weak_ptr<AV::Font::System> Widget::_fontSystem;
+        std::weak_ptr<AV::Render::Render2DSystem> Widget::_renderSystem;
+        std::weak_ptr<Style::Style> Widget::_style;
+        bool Widget::_resizeRequest = true;
+        bool Widget::_redrawRequest = true;
+
         void Widget::_init(Core::Context * context)
         {
             IObject::_init(context);
@@ -65,10 +77,13 @@ namespace djv
             context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(currentWidgetCount));*/
             ++currentWidgetCount;
 
-            _iconSystem = context->getSystemT<AV::Image::IconSystem>();
-            _fontSystem = context->getSystemT<AV::Font::System>();
-            _renderSystem = context->getSystemT<AV::Render::Render2DSystem>();
-            _style = context->getSystemT<Style::Style>();
+            if (!_iconSystem.lock())
+            {
+                _iconSystem = context->getSystemT<AV::Image::IconSystem>();
+                _fontSystem = context->getSystemT<AV::Font::System>();
+                _renderSystem = context->getSystemT<AV::Render::Render2DSystem>();
+                _style = context->getSystemT<Style::Style>();
+            }
         }
 
         Widget::~Widget()
@@ -265,6 +280,11 @@ namespace djv
             _actions.clear();
         }
 
+        void Widget::setTooltip(const std::string & value)
+        {
+            _tooltipText = value;
+        }
+
         bool Widget::event(Event::IEvent& event)
         {
             bool out = IObject::event(event);
@@ -272,6 +292,32 @@ namespace djv
             {
                 switch (event.getEventType())
                 {
+                case Event::Type::Update:
+                {
+                    auto& updateEvent = static_cast<Event::Update&>(event);
+                    _updateTime = updateEvent.getTime();
+                    std::string tooltip = _tooltipText;
+                    for (const auto & action : _actions)
+                    {
+                        const auto & actionTooltip = action->getTooltip()->get();
+                        if (!actionTooltip.empty())
+                        {
+                            tooltip = actionTooltip;
+                            break;
+                        }
+                    }
+                    if (!tooltip.empty())
+                    {
+                        for (auto & i : _pointerToTooltips)
+                        {
+                            if ((_updateTime - i.second.timer) > tooltipTimeout && !i.second.tooltip)
+                            {
+                                i.second.tooltip = Tooltip::create(std::dynamic_pointer_cast<Widget>(shared_from_this()), tooltip, getContext());
+                            }
+                        }
+                    }
+                    break;
+                }
                 case Event::Type::PreLayout:
                     _preLayoutEvent(static_cast<Event::PreLayout&>(event));
                     break;
@@ -308,14 +354,53 @@ namespace djv
                     break;
                 }
                 case Event::Type::PointerEnter:
+                {
+                    auto& pointerEvent = static_cast<Event::PointerEnter&>(event);
+                    const auto & info = pointerEvent.getPointerInfo();
+                    const auto id = info.id;
+                    _pointerHover[id] = info.projectedPos;
+                    _pointerToTooltips[id] = TooltipData();
+                    _pointerToTooltips[id].timer = _updateTime;
                     _pointerEnterEvent(static_cast<Event::PointerEnter&>(event));
                     break;
+                }
                 case Event::Type::PointerLeave:
+                {
+                    auto& pointerEvent = static_cast<Event::PointerLeave&>(event);
+                    const auto id = pointerEvent.getPointerInfo().id;
+                    const auto i = _pointerHover.find(id);
+                    if (i != _pointerHover.end())
+                    {
+                        _pointerHover.erase(i);
+                    }
+                    const auto j = _pointerToTooltips.find(id);
+                    if (j != _pointerToTooltips.end())
+                    {
+                        _pointerToTooltips.erase(j);
+                    }
                     _pointerLeaveEvent(static_cast<Event::PointerLeave&>(event));
                     break;
+                }
                 case Event::Type::PointerMove:
+                {
+                    auto& pointerEvent = static_cast<Event::PointerMove&>(event);
+                    const auto & info = pointerEvent.getPointerInfo();
+                    const auto id = info.id;
+                    const auto i = _pointerToTooltips.find(id);
+                    if (i != _pointerToTooltips.end())
+                    {
+                        const auto delta = info.projectedPos - _pointerHover[id];
+                        const float l = glm::length(delta);
+                        if (l > tooltipHideDelta)
+                        {
+                            i->second.tooltip = nullptr;
+                            i->second.timer = _updateTime;
+                        }
+                    }
+                    _pointerHover[id] = info.projectedPos;
                     _pointerMoveEvent(static_cast<Event::PointerMove&>(event));
                     break;
+                }
                 case Event::Type::ButtonPress:
                     _buttonPressEvent(static_cast<Event::ButtonPress&>(event));
                     break;

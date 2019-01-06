@@ -71,10 +71,6 @@ namespace djv
                 widget->_resizeRequest = false;
                 out = true;
             }
-            for (const auto& child : widget->getChildrenT<UI::Widget>())
-            {
-                _hasResizeRequest(child, out);
-            }
         }
 
         void IWindowSystem::_hasRedrawRequest(const std::shared_ptr<UI::Widget>& widget, bool& out) const
@@ -83,10 +79,6 @@ namespace djv
             {
                 widget->_redrawRequest = false;
                 out = true;
-            }
-            for (const auto& child : widget->getChildrenT<UI::Widget>())
-            {
-                _hasRedrawRequest(child, out);
             }
         }
 

@@ -46,6 +46,7 @@ namespace djv
             {
                 std::weak_ptr<TextSystem> textSystem;
                 std::shared_ptr<IObject> rootObject;
+                float t = 0.f;
                 Event::PointerInfo pointerInfo;
                 std::shared_ptr<IObject> hover;
                 std::shared_ptr<IObject> grab;
@@ -192,6 +193,7 @@ namespace djv
             void IEventSystem::_tick(float dt)
             {
                 DJV_PRIVATE_PTR();
+                p.t += dt;
                 if (p.rootObject)
                 {
                     std::vector<std::shared_ptr<IObject> > firstTick;
@@ -209,7 +211,7 @@ namespace djv
                         }
                     }
 
-                    Update updateEvent(dt);
+                    Update updateEvent(p.t, dt);
                     _updateRecursive(p.rootObject, updateEvent);
 
                     Event::PointerMove moveEvent(_p->pointerInfo);
@@ -244,6 +246,10 @@ namespace djv
                                         {
                                             p.grab = p.hover;
                                         }
+                                        else
+                                        {
+                                            p.grab = nullptr;
+                                        }
                                     }
                                     break;
                                 }
@@ -266,22 +272,12 @@ namespace djv
                             {
                                 Event::PointerLeave leaveEvent(_p->pointerInfo);
                                 p.hover->event(leaveEvent);
-                                /*{
-                                    std::stringstream ss;
-                                    ss << "Leave: " << p.hover->getClassName();
-                                    getContext()->log("djv::Desktop::EventSystem", ss.str());
-                                }*/
                             }
                             p.hover = hover;
                             if (p.hover)
                             {
                                 Event::PointerEnter enterEvent(_p->pointerInfo);
                                 p.hover->event(enterEvent);
-                                /*{
-                                    std::stringstream ss;
-                                    ss << "Enter: " << p.hover->getClassName();
-                                    getContext()->log("djv::Desktop::EventSystem", ss.str());
-                                }*/
                             }
                         }
                     }
@@ -294,7 +290,8 @@ namespace djv
                 {
                     out.push_back(object);
                 }
-                for (const auto& child : object->_children)
+                auto children = object->_children;
+                for (const auto& child : children)
                 {
                     _getFirstTick(child, out);
                 }
@@ -302,13 +299,11 @@ namespace djv
 
             void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
             {
-                if (object->isEnabled())
+                object->event(event);
+                auto children = object->_children;
+                for (const auto& child : children)
                 {
-                    object->event(event);
-                    for (const auto& child : object->_children)
-                    {
-                        _updateRecursive(child, event);
-                    }
+                    _updateRecursive(child, event);
                 }
             }
 
@@ -323,7 +318,8 @@ namespace djv
             void IEventSystem::_localeChangedRecursive(const std::shared_ptr<IObject>& object, LocaleChanged& event)
             {
                 object->event(event);
-                for (const auto& child : object->_children)
+                auto children = object->_children;
+                for (const auto& child : children)
                 {
                     _localeChangedRecursive(child, event);
                 }

@@ -782,22 +782,25 @@ namespace djv
                 }
             }
 
-            auto border = Layout::Border::create(context);
+            std::shared_ptr<Widget> out;
             switch (type)
             {
             case MenuType::Default:
+            {
+                auto border = Layout::Border::create(context);
                 border->addWidget(layout);
+                out = border;
                 break;
+            }
             case MenuType::ComboBox:
             {
                 auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 scrollWidget->addWidget(layout);
-                border->addWidget(scrollWidget);
+                out = scrollWidget;
                 break;
             }
             }
-
-            return border;
+            return out;
         }
 
         std::shared_ptr<Layout::Overlay> Menu::Private::createOverlay()

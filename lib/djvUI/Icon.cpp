@@ -124,6 +124,7 @@ namespace djv
                     try
                     {
                         _p->info = _p->infoFuture.get();
+                        _resize();
                     }
                     catch (const std::exception & e)
                     {

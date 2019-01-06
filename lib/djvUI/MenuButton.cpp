@@ -54,7 +54,6 @@ namespace djv
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Layout::Horizontal> layout;
                 std::shared_ptr<Layout::Border> border;
-                std::map<Event::PointerID, bool> pointerHover;
                 std::function<void(bool)> checkedCallback;
             };
 
@@ -198,19 +197,17 @@ namespace djv
             void Menu::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 event.accept();
-                const auto id = event.getPointerInfo().id;
-                _p->pointerHover[id] = true;
-                _redraw();
+                if (isEnabled())
+                {
+                    _redraw();
+                }
             }
 
             void Menu::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
-                const auto id = event.getPointerInfo().id;
-                const auto i = _p->pointerHover.find(id);
-                if (i != _p->pointerHover.end())
+                if (isEnabled())
                 {
-                    _p->pointerHover.erase(i);
                     _redraw();
                 }
             }
@@ -222,18 +219,16 @@ namespace djv
 
             void Menu::_buttonPressEvent(Event::ButtonPress& event)
             {
-                event.accept();
-                setChecked(!_p->checked);
+                if (isEnabled())
+                {
+                    event.accept();
+                    setChecked(!_p->checked);
+                }
             }
 
             bool Menu::_isHovered() const
             {
-                bool out = false;
-                for (const auto& i : _p->pointerHover)
-                {
-                    out |= i.second;
-                }
-                return out;
+                return isEnabled() && _getPointerHover().size();
             }
 
         } // namespace Button

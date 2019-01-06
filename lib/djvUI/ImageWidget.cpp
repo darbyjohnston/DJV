@@ -74,15 +74,19 @@ namespace djv
         {
             _p->image = value;
             _p->uid = uid;
-            _redraw();
+            _resize();
         }
 
         void ImageWidget::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
-                const float t = style->getMetric(UI::Style::MetricsRole::Thumbnail);
-                _setMinimumSize(glm::vec2(t, t) + getMargin().getSize(style));
+                glm::vec2 size;
+                if (_p->image)
+                {
+                    size = _p->image->getSize();
+                }
+                _setMinimumSize(size + getMargin().getSize(style));
             }
         }
 

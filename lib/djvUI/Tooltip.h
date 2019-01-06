@@ -29,63 +29,39 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
-
-#include <djvCore/ISystem.h>
-
-#include <future>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
-    namespace Core
+    namespace UI
     {
-        namespace FileSystem
+        class Widget;
+
+        //! This class provides tooltips.
+        class Tooltip : public std::enable_shared_from_this<Tooltip>
         {
-            class Path;
+            DJV_NON_COPYABLE(Tooltip);
 
-        } // namespace FileSystem
-    } // namespace Core
+        protected:
+            void _init(
+                const std::weak_ptr<Widget> &,
+                const std::string &,
+                Core::Context *);
+            Tooltip();
 
-    namespace AV
-    {
-        namespace Image
-        {
-            struct Info;
-            class Convert;
-            class Image;
+        public:
+            virtual ~Tooltip();
 
-            //! This class provides an icon system.
-            class IconSystem : public Core::ISystem
-            {
-                DJV_NON_COPYABLE(IconSystem);
+            static std::shared_ptr<Tooltip> create(
+                const std::weak_ptr<Widget> &,
+                const std::string &,
+                Core::Context *);
 
-            protected:
-                void _init(Core::Context *);
-                IconSystem();
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
-            public:
-                virtual ~IconSystem();
-
-                static std::shared_ptr<IconSystem> create(Core::Context *);
-
-                //! Get information about an icon.
-                std::future<Info> getInfo(const Core::FileSystem::Path&);
-
-                //! Get an icon.
-                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&);
-
-                //! Get an icon and resize or convert it to a new image with the given information.
-                //! If the given height is set to zero the image will be resized to the given width
-                //! maintaining it's aspect ratio.
-                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const Info&);
-
-            private:
-                void _handleInfoRequests();
-                void _handleImageRequests(const std::shared_ptr<Convert> &);
-
-                DJV_PRIVATE();
-            };
-
-        } // namespace Image
-    } // namespace AV
+    } // namespace UI
 } // namespace djv
+

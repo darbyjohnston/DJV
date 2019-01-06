@@ -62,8 +62,10 @@ namespace djv
                 p.colors[ColorRole::Background]        = AV::Image::Color( .2f,   .21f,  .23f);
                 p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color( .1f,   .1f,   .1f);
                 p.colors[ColorRole::BackgroundScroll]  = AV::Image::Color( .15f,  .16f,  .18f);
+                p.colors[ColorRole::BackgroundTooltip] = AV::Image::Color(1.f,   1.f,    .75f);
                 p.colors[ColorRole::Foreground]        = AV::Image::Color( .9f,   .9f,   .9f);
                 p.colors[ColorRole::ForegroundDim]     = AV::Image::Color( .7f,   .7f,   .7f);
+                p.colors[ColorRole::ForegroundTooltip] = AV::Image::Color(0.f,   0.f,   0.f);
                 p.colors[ColorRole::Border]            = AV::Image::Color( .11f,  .14f,  .17f);
                 p.colors[ColorRole::Trough]            = AV::Image::Color( .15f,  .15f,  .15f);
                 p.colors[ColorRole::Button]            = AV::Image::Color( .27f,  .3f,   .33f);
@@ -152,6 +154,7 @@ namespace djv
                 p.metrics[MetricsRole::ScrollArea]          = 200.f;
                 p.metrics[MetricsRole::TextColumn]          = 200.f;
                 p.metrics[MetricsRole::Dialog]              = 400.f;
+                p.metrics[MetricsRole::TooltipOffset]       =  10.f;
             }
 
             float Metrics::getMetric(MetricsRole role) const
@@ -346,8 +349,10 @@ namespace djv
         DJV_TEXT("Background"),
         DJV_TEXT("BackgroundHeader"),
         DJV_TEXT("BackgroundScroll"),
+        DJV_TEXT("BackgroundTooltip"),
         DJV_TEXT("Foreground"),
-        DJV_TEXT("DimForeground"),
+        DJV_TEXT("ForegroundDim"),
+        DJV_TEXT("ForegroundTooltip"),
         DJV_TEXT("Border"),
         DJV_TEXT("Trough"),
         DJV_TEXT("Button"),
@@ -382,7 +387,8 @@ namespace djv
         DJV_TEXT("Shadow"),
         DJV_TEXT("ScrollArea"),
         DJV_TEXT("TextColumn"),
-        DJV_TEXT("Dialog"));
+        DJV_TEXT("Dialog"),
+        DJV_TEXT("TooltipOffset"));
 
 } // namespace djv
 

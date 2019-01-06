@@ -193,9 +193,10 @@ namespace djv
                 if (_p->textSizeFuture.valid())
                 {
                     _p->textSize = _p->textSizeFuture.get();
+                    _resize();
                 }
-                glm::vec2 size = _p->textSize;
-                size.x = std::max(size.x, style->getMetric(Style::MetricsRole::TextColumn) - getMargin().getWidth(style));
+                auto size = _p->textSize;
+                size.x = std::max(size.x, style->getMetric(Style::MetricsRole::TextColumn));
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }
@@ -235,38 +236,45 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    const glm::vec2 c = g.getCenter();
+                    if (_p->textSize.x > 0.f && _p->textSize.y > 0.f)
+                    {
+                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const glm::vec2 c = g.getCenter();
 
-                    float ascender = 0.f;
-                    if (_p->fontMetricsFuture.valid())
-                    {
-                        ascender = _p->fontMetricsFuture.get().ascender;
-                    }
-                    if (_p->breakTextFuture.valid())
-                    {
-                        _p->breakText = _p->breakTextFuture.get();
-                    }
-                    glm::vec2 pos = g.min;
-                    render->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
-                    render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
-                    for (const auto& line : _p->breakText)
-                    {
-                        if (pos.y + line.size.y >= _p->clipRect.min.y && pos.y <= _p->clipRect.max.y)
+                        float ascender = 0.f;
+                        if (_p->fontMetricsFuture.valid())
                         {
-                            switch (_p->textHAlign)
-                            {
-                            case TextHAlign::Center:
-                                pos.x = c.x - line.size.x / 2.f;
-                                break;
-                            case TextHAlign::Right:
-                                pos.x = g.max.x - line.size.x;
-                                break;
-                            default: break;
-                            }
-                            render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
+                            ascender = _p->fontMetricsFuture.get().ascender;
                         }
-                        pos.y += line.size.y;
+                        if (_p->breakTextFuture.valid())
+                        {
+                            _p->breakText = _p->breakTextFuture.get();
+                        }
+                        glm::vec2 pos = g.min;
+                        render->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
+                        for (const auto& line : _p->breakText)
+                        {
+                            if (pos.y + line.size.y >= _p->clipRect.min.y && pos.y <= _p->clipRect.max.y)
+                            {
+                                switch (_p->textHAlign)
+                                {
+                                case TextHAlign::Center:
+                                    pos.x = c.x - line.size.x / 2.f;
+                                    break;
+                                case TextHAlign::Right:
+                                    pos.x = g.max.x - line.size.x;
+                                    break;
+                                default: break;
+                                }
+
+                                //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
+                                //render->drawRectangle(BBox2f(pos.x, pos.y, line.size.x, line.size.y));
+
+                                render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
+                                render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
+                            }
+                            pos.y += line.size.y;
+                        }
                     }
                 }
             }
@@ -279,19 +287,20 @@ namespace djv
                 if (auto fontSystem = _getFontSystem().lock())
                 {
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
 
+                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
                     _p->fontMetricsFuture = fontSystem->getMetrics(font);
 
                     size_t hash = 0;
                     Memory::hashCombine(hash, font.family);
                     Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
-                    Memory::hashCombine(hash, g.w());
+                    const float w = g.w() > 0 ? g.w() : style->getMetric(Style::MetricsRole::TextColumn);
+                    Memory::hashCombine(hash, w);
                     if (!_p->textSizeHash || _p->textSizeHash != hash)
                     {
                         _p->textSizeHash = hash;
-                        _p->textSizeFuture = fontSystem->measure(_p->text, g.w(), font);
+                        _p->textSizeFuture = fontSystem->measure(_p->text, w, font);
                     }
                 }
             }

@@ -50,12 +50,6 @@ namespace djv
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
 
-                struct PointerState
-                {
-                    bool hover;
-                    bool inside;
-                };
-                std::map<Event::PointerID, PointerState> pointerState;
                 Event::PointerID pressedId = 0;
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 bool canRejectPressed = true;
@@ -142,20 +136,17 @@ namespace djv
             void IButton::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 event.accept();
-                const auto id = event.getPointerInfo().id;
-                _p->pointerState[id].hover = true;
-                _p->pointerState[id].inside = true;
-                _redraw();
+                if (isEnabled())
+                {
+                    _redraw();
+                }
             }
 
             void IButton::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
-                const auto id = event.getPointerInfo().id;
-                const auto i = _p->pointerState.find(id);
-                if (i != _p->pointerState.end())
+                if (isEnabled())
                 {
-                    _p->pointerState.erase(i);
                     _redraw();
                 }
             }
@@ -165,7 +156,6 @@ namespace djv
                 event.accept();
                 const auto id = event.getPointerInfo().id;
                 const auto& pos = event.getPointerInfo().projectedPos;
-                _p->pointerState[id].inside = getGeometry().contains(pos);
                 if (id == _p->pressedId)
                 {
                     if (auto style = _getStyle().lock())
@@ -184,7 +174,7 @@ namespace djv
 
             void IButton::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (_p->pressedId)
+                if (!isEnabled() || _p->pressedId)
                     return;
                 event.accept();
                 _p->pressedId = event.getPointerInfo().id;
@@ -195,27 +185,31 @@ namespace djv
             void IButton::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 const auto id = event.getPointerInfo().id;
-                if (id != _p->pressedId)
-                    return;
-                event.accept();
-                _p->pressedId = 0;
-                if (_p->pointerState[id].inside)
+                if (id == _p->pressedId)
                 {
-                    _doClickedCallback();
-                    switch (_p->buttonType)
+                    event.accept();
+                    _p->pressedId = 0;
+                    const BBox2f& g = getGeometry();
+                    const auto & hover = _getPointerHover();
+                    const auto i = hover.find(id);
+                    if (i != hover.end() && g.contains(i->second))
                     {
-                    case ButtonType::Toggle:
-                        _p->checked = !_p->checked;
-                        _doCheckedCallback(_p->checked);
-                        break;
-                    case ButtonType::Radio:
-                        if (!_p->checked)
+                        _doClickedCallback();
+                        switch (_p->buttonType)
                         {
-                            _p->checked = true;
+                        case ButtonType::Toggle:
+                            _p->checked = !_p->checked;
                             _doCheckedCallback(_p->checked);
+                            break;
+                        case ButtonType::Radio:
+                            if (!_p->checked)
+                            {
+                                _p->checked = true;
+                                _doCheckedCallback(_p->checked);
+                            }
+                            break;
+                        default: break;
                         }
-                        break;
-                    default: break;
                     }
                 }
                 _redraw();
@@ -226,9 +220,11 @@ namespace djv
                 bool out = false;
                 if (_p->pressedId)
                 {
-                    const auto i = _p->pointerState.find(_p->pressedId);
-                    if (i != _p->pointerState.end())
+                    const auto & hover = _getPointerHover();
+                    const auto i = hover.find(_p->pressedId);
+                    if (i != hover.end())
                     {
+                        const BBox2f& g = getGeometry();
                         switch (_p->buttonType)
                         {
                         case ButtonType::Radio:
@@ -238,11 +234,11 @@ namespace djv
                             }
                             else
                             {
-                                out = i->second.inside ? !_p->checked : _p->checked;
+                                out = g.contains(i->second) ? !_p->checked : _p->checked;
                             }
                             break;
                         default:
-                            out = i->second.inside ? !_p->checked : _p->checked;
+                            out = g.contains(i->second) ? !_p->checked : _p->checked;
                             break;
                         }
                     }
@@ -256,17 +252,12 @@ namespace djv
 
             bool IButton::_isHovered() const
             {
-                bool out = false;
-                for (const auto& pointerState : _p->pointerState)
-                {
-                    out |= pointerState.second.hover;
-                }
-                return out || _isPressed();
+                return isEnabled() && (_getPointerHover().size() || _isPressed());
             }
 
             bool IButton::_isPressed() const
             {
-                return _p->pressedId != 0 ? true : false;
+                return isEnabled() && _p->pressedId != 0 ? true : false;
             }
 
             const glm::vec2& IButton::_getPressedPos() const

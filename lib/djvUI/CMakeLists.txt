@@ -53,6 +53,7 @@ set(header
     TextBlock.h
     ToggleButton.h
     ToolButton.h
+    Tooltip.h
     UI.h
     UISystem.h
     Widget.h
@@ -105,6 +106,7 @@ set(source
     TextBlock.cpp
     ToggleButton.cpp
     ToolButton.cpp
+    Tooltip.cpp
     UISystem.cpp
     Widget.cpp
     Window.cpp)

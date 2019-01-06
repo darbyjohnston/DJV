@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/UI.h>
 
 #include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
@@ -45,6 +45,7 @@ namespace djv
     namespace UI
     {
         class Action;
+        class Widget;
         class Window;
 
         enum class MenuType
@@ -53,7 +54,7 @@ namespace djv
             ComboBox
         };
 
-        //! This class provides a menu widget.
+        //! This class provides a menu.
         //!
         //! \todo Add sub-menus.
         class Menu : public std::enable_shared_from_this<Menu>
