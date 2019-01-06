@@ -38,6 +38,8 @@ namespace djv
         class Widget;
 
         //! This class provides tooltips.
+        //!
+        //! \todo Should a parent tooltip be displayed if there is no child tooltip?
         class Tooltip : public std::enable_shared_from_this<Tooltip>
         {
             DJV_NON_COPYABLE(Tooltip);
