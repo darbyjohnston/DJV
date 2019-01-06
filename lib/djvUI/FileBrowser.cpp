@@ -43,6 +43,8 @@
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/FileInfo.h>
 
+#include <ctime>
+
 using namespace djv::Core;
 
 namespace djv
@@ -67,8 +69,8 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
                 struct InfoFuture
                 {
-                    FileSystem::Path path;
-                    std::future<AV::Image::Info> future;
+                    FileSystem::FileInfo fileInfo;
+                    std::future<AV::IO::Info> future;
                     std::weak_ptr<ItemButton> widget;
                 };
                 std::vector<InfoFuture> infoFutures;
@@ -78,6 +80,9 @@ namespace djv
                     std::weak_ptr<ItemButton> widget;
                 };
                 std::vector<ImageFuture> imageFutures;
+
+                std::string _getTooltip(const FileSystem::FileInfo &);
+                std::string _getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &);
             };
 
             void Widget::_init(Context * context)
@@ -261,22 +266,33 @@ namespace djv
                             {
                                 const auto info = i->future.get();
                                 auto context = getContext();
-                                if (auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock())
+                                auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock();
+                                auto ioSystem = context->getSystemT<AV::IO::System>().lock();
+                                auto style = _getStyle().lock();
+                                auto widget = i->widget.lock();
+                                if (iconSystem && ioSystem && style && widget)
                                 {
-                                    if (auto ioSystem = context->getSystemT<AV::IO::System>().lock())
+                                    widget->setTooltip(_p->_getTooltip(i->fileInfo, info));
+                                    const int t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail));
+                                    glm::ivec2 thumbnailSize(t, t);
+                                    if (info.video.size())
                                     {
-                                        if (auto style = _getStyle().lock())
+                                        const glm::ivec2 & videoSize = info.video[0].info.size;
+                                        if (videoSize.x >= videoSize.y)
                                         {
-                                            const int t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail));
-                                            const bool aspect = info.size.x >= info.size.y;
-                                            Private::ImageFuture future;
-                                            future.future = iconSystem->getImage(
-                                                i->path,
-                                                AV::Image::Info(aspect ? t : 0, !aspect ? t : 0, AV::Image::Type::RGBA_U8));
-                                            future.widget = i->widget;
-                                            _p->imageFutures.push_back(std::move(future));
+                                            thumbnailSize.y = 0;
+                                        }
+                                        else
+                                        {
+                                            thumbnailSize.x = 0;
                                         }
                                     }
+                                    Private::ImageFuture future;
+                                    future.future = iconSystem->getImage(
+                                        i->fileInfo.getPath(),
+                                        AV::Image::Info(thumbnailSize, AV::Image::Type::RGBA_U8));
+                                    future.widget = i->widget;
+                                    _p->imageFutures.push_back(std::move(future));
                                 }
                             }
                             catch (const std::exception & e)
@@ -349,7 +365,7 @@ namespace djv
                                             if (auto style = _getStyle().lock())
                                             {
                                                 Private::InfoFuture future;
-                                                future.path = i->second.getPath();
+                                                future.fileInfo = i->second;
                                                 future.future = iconSystem->getInfo(i->second.getPath());
                                                 future.widget = button;
                                                 _p->infoFutures.push_back(std::move(future));
@@ -391,6 +407,7 @@ namespace djv
                 {
                     auto button = ItemButton::create(context);
                     button->setText(fileInfo.getFileName(Frame::Invalid, false));
+                    button->setTooltip(_p->_getTooltip(fileInfo));
                     _p->itemLayout->addWidget(button);
                     _p->buttonToFileInfo[button] = fileInfo;
                     button->installEventFilter(shared_from_this());
@@ -407,6 +424,47 @@ namespace djv
                     });
                 }
                 _resize();
+            }
+
+            std::string Widget::Private::_getTooltip(const FileSystem::FileInfo & fileInfo)
+            {
+                std::stringstream ss;
+                ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
+                ss << '\n';
+                ss << DJV_TEXT("Type") << ": " << fileInfo.getType() << '\n';
+                ss << DJV_TEXT("Size") << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                ss << DJV_TEXT("Modification time") << ": " << Time::getLabel(fileInfo.getTime());
+                return ss.str();
+            }
+
+            std::string Widget::Private::_getTooltip(const FileSystem::FileInfo & fileInfo, const AV::IO::Info & avInfo)
+            {
+                std::stringstream ss;
+                ss << _getTooltip(fileInfo);
+                size_t track = 0;
+                for (const auto & videoInfo : avInfo.video)
+                {
+                    ss << '\n' << '\n';
+                    ss << DJV_TEXT("Video track") << " #" << track << '\n';
+                    ss << "    " << DJV_TEXT("Size") << ": " << videoInfo.info.size << '\n';
+                    ss << "    " << DJV_TEXT("Type") << ": " << videoInfo.info.type << '\n';
+                    ss.precision(2);
+                    ss << "    " << DJV_TEXT("Speed") << ": " << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT("FPS") << '\n';
+                    ss << "    " << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(videoInfo.duration));
+                    ++track;
+                }
+                track = 0;
+                for (const auto & audioInfo : avInfo.audio)
+                {
+                    ss << '\n' << '\n';
+                    ss << DJV_TEXT("Audio track") << " #" << track << '\n';
+                    ss << "    " << DJV_TEXT("Channels") << ": " << audioInfo.info.channelCount << '\n';
+                    ss << "    " << DJV_TEXT("Type") << ": " << audioInfo.info.type << '\n';
+                    ss << "    " << DJV_TEXT("Sample rate") << ": " << audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
+                    ss << "    " << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(audioInfo.duration));
+                    ++track;
+                }
+                return ss.str();
             }
 
         } // namespace FileBrowser

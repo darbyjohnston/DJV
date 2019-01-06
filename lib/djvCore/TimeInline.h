@@ -33,51 +33,51 @@ namespace djv
     {
 	    namespace Time
 	    {
-		    inline void secondsToTime(float in, int & hour, int & minute, float& second)
+		    inline void secondsToTime(double in, int & hour, int & minute, double & seconds)
 		    {
 			    hour = static_cast<int>(in) / (60 * 60);
 			    in -= hour * 60 * 60;
 			    minute = static_cast<int>(in) / 60;
 			    in -= minute * 60;
-			    second = in;
+			    seconds = in;
 		    }
 
             inline void timecodeToTime(
                 uint32_t in,
-                int&     hour,
-                int&     minute,
-                int&     second,
-                int&     frame)
+                int &    hour,
+                int &    minute,
+                int &    seconds,
+                int &    frame)
             {
-                hour = (in >> 28 & 0x0f) * 10 + (in >> 24 & 0x0f);
-                minute = (in >> 20 & 0x0f) * 10 + (in >> 16 & 0x0f);
-                second = (in >> 12 & 0x0f) * 10 + (in >> 8 & 0x0f);
-                frame = (in >> 4 & 0x0f) * 10 + (in >> 0 & 0x0f);
+                hour    = (in >> 28 & 0x0f) * 10 + (in >> 24 & 0x0f);
+                minute  = (in >> 20 & 0x0f) * 10 + (in >> 16 & 0x0f);
+                seconds = (in >> 12 & 0x0f) * 10 + (in >> 8 & 0x0f);
+                frame   = (in >> 4 & 0x0f) * 10 + (in >> 0 & 0x0f);
             }
 
             inline uint32_t timeToTimecode(
                 int hour,
                 int minute,
-                int second,
+                int seconds,
                 int frame)
             {
                 return
-                    (hour / 10 & 0x0f) << 28 | (hour % 10 & 0x0f) << 24 |
-                    (minute / 10 & 0x0f) << 20 | (minute % 10 & 0x0f) << 16 |
-                    (second / 10 & 0x0f) << 12 | (second % 10 & 0x0f) << 8 |
-                    (frame / 10 & 0x0f) << 4 | (frame % 10 & 0x0f) << 0;
+                    (hour    / 10 & 0x0f) << 28 | (hour    % 10 & 0x0f) << 24 |
+                    (minute  / 10 & 0x0f) << 20 | (minute  % 10 & 0x0f) << 16 |
+                    (seconds / 10 & 0x0f) << 12 | (seconds % 10 & 0x0f) <<  8 |
+                    (frame   / 10 & 0x0f) <<  4 | (frame   % 10 & 0x0f) <<  0;
             }
 
             inline int64_t timecodeToFrame(uint32_t in, const Speed & speed)
             {
                 if (!speed.isValid())
                     return 0;
-                int hour   = 0;
-                int minute = 0;
-                int second = 0;
-                int frame  = 0;
-                timecodeToTime(in, hour, minute, second, frame);
-                return static_cast<int64_t>((hour * 60 * 60 + minute * 60 + second) * Speed::speedToFloat(speed)) + frame;
+                int hour    = 0;
+                int minute  = 0;
+                int seconds = 0;
+                int frame   = 0;
+                timecodeToTime(in, hour, minute, seconds, frame);
+                return static_cast<int64_t>((hour * 60 * 60 + minute * 60 + seconds) * Speed::speedToFloat(speed)) + frame;
             }
 
             inline uint32_t frameToTimecode(int64_t frame, const Speed& speed)

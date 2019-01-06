@@ -48,6 +48,12 @@ namespace djv
 
     namespace AV
     {
+        namespace IO
+        {
+            struct Info;
+
+        } // namespace IO
+
         namespace Image
         {
             struct Info;
@@ -69,7 +75,7 @@ namespace djv
                 static std::shared_ptr<IconSystem> create(Core::Context *);
 
                 //! Get information about an icon.
-                std::future<Info> getInfo(const Core::FileSystem::Path&);
+                std::future<IO::Info> getInfo(const Core::FileSystem::Path&);
 
                 //! Get an icon.
                 std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&);

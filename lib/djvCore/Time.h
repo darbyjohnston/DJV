@@ -48,17 +48,20 @@ namespace djv
 
             //! \name Time Conversion
             ///@{
-            
+
             double timestampToSeconds(Timestamp);
+            double durationToSeconds(Duration);
             Timestamp secondsToTimestamp(double);
+            Duration secondsToDuration(double);
 
 		    inline void secondsToTime(
-			    float,
-			    int&   hours,
-			    int&   minutes,
-			    float& seconds);
+                double,
+			    int&    hours,
+			    int&    minutes,
+                double& seconds);
 
-		    std::string getLabel(float seconds);
+            std::string getLabel(double seconds);
+            std::string getLabel(time_t);
 		    
 		    ///@}
 

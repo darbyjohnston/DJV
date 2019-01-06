@@ -50,25 +50,43 @@ namespace djv
                 return value / static_cast<double>(AV_TIME_BASE);
             }
 
+            double durationToSeconds(Duration value)
+            {
+                return value / static_cast<double>(AV_TIME_BASE);
+            }
+
             Timestamp secondsToTimestamp(double value)
             {
                 return static_cast<Timestamp>(value * static_cast<double>(AV_TIME_BASE));
             }
 
-		    std::string getLabel(float value)
+            Duration secondsToDuration(double value)
+            {
+                return static_cast<Duration>(value * static_cast<double>(AV_TIME_BASE));
+            }
+
+		    std::string getLabel(double value)
 		    {
-			    int   hour   = 0;
-			    int   minute = 0;
-			    float second = 0.0;
-			    secondsToTime(value, hour, minute, second);
+			    int    hours   = 0;
+			    int    minutes = 0;
+                double seconds = 0.0;
+			    secondsToTime(value, hours, minutes, seconds);
 			    std::stringstream s;
-			    s << std::setfill('0') << std::setw(2) << hour;
+			    s << std::setfill('0') << std::setw(2) << hours;
 			    s << std::setw(0) << ":";
-			    s << std::setfill('0') << std::setw(2) << minute;
+			    s << std::setfill('0') << std::setw(2) << minutes;
 			    s << std::setw(0) << ":";
-			    s << std::setfill('0') << std::setw(2) << static_cast<int>(second);
+			    s << std::setfill('0') << std::setw(2) << static_cast<int>(seconds);
 			    return s.str();
 		    }
+
+            std::string getLabel(time_t value)
+            {
+                const auto tm = std::localtime(&value);
+                char buffer[32];
+                std::strftime(buffer, 32, "%Y-%m-%d %H:%M:%S", tm);
+                return buffer;
+            }
 
             std::string keycodeToString(
                 int id,

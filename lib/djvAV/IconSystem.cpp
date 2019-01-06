@@ -85,7 +85,7 @@ namespace djv
                     FileSystem::Path path;
                     std::shared_ptr<IO::IRead> read;
                     std::future<IO::Info> infoFuture;
-                    std::promise<Info> promise;
+                    std::promise<IO::Info> promise;
                 };
 
                 struct ImageRequest
@@ -134,7 +134,7 @@ namespace djv
                 std::list<ImageRequest> newImageRequests;
                 std::list<ImageRequest> pendingImageRequests;
 
-                Memory::Cache<FileSystem::Path, Info> infoCache;
+                Memory::Cache<FileSystem::Path, IO::Info> infoCache;
                 Memory::Cache<FileSystem::Path, std::shared_ptr<Image> > imageCache;
                 std::mutex cacheMutex;
 
@@ -255,7 +255,7 @@ namespace djv
                 return out;
             }
 
-            std::future<Info> IconSystem::getInfo(const FileSystem::Path& path)
+            std::future<IO::Info> IconSystem::getInfo(const FileSystem::Path& path)
             {
                 DJV_PRIVATE_PTR();
                 InfoRequest request;
@@ -303,7 +303,7 @@ namespace djv
                 // Process new requests.
                 for (auto & i : p.newInfoRequests)
                 {
-                    Info info;
+                    IO::Info info;
                     bool cached = false;
                     {
                         std::lock_guard<std::mutex> lock(p.cacheMutex);
@@ -350,13 +350,7 @@ namespace djv
                     {
                         try
                         {
-                            Info info;
-                            const auto ioInfo = i->infoFuture.get();
-                            const auto & videoInfo = ioInfo.video;
-                            if (videoInfo.size())
-                            {
-                                info = videoInfo[0].info;
-                            }
+                            const auto info = i->infoFuture.get();
                             p.infoCache.add(i->path, info);
                             i->promise.set_value(info);
                         }
@@ -444,7 +438,7 @@ namespace djv
                             const float aspect = image->getAspectRatio();
                             if (0 == info.size.x)
                             {
-                                info.size.x = info.size.y * aspect;
+                                info.size.x = static_cast<int>(info.size.y * aspect);
                             }
                             else if (0 == info.size.y && aspect > 0.f)
                             {

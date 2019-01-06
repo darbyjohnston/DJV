@@ -29,6 +29,7 @@
 
 #include <djvUI/Icon.h>
 
+#include <djvAV/IO.h>
 #include <djvAV/IconSystem.h>
 #include <djvAV/Image.h>
 #include <djvAV/Render2DSystem.h>
@@ -46,7 +47,7 @@ namespace djv
         {
             FileSystem::Path path;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
-            std::future<AV::Image::Info> infoFuture;
+            std::future<AV::IO::Info> infoFuture;
             bool infoFutureRequest = false;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             bool imageFutureRequest = false;
@@ -123,8 +124,12 @@ namespace djv
                     _p->infoFutureRequest = false;
                     try
                     {
-                        _p->info = _p->infoFuture.get();
-                        _resize();
+                        const auto info = _p->infoFuture.get();
+                        if (info.video.size())
+                        {
+                            _p->info = info.video.front().info;
+                            _resize();
+                        }
                     }
                     catch (const std::exception & e)
                     {
