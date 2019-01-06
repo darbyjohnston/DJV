@@ -442,7 +442,11 @@ namespace djv
                         {
                             auto info = *i->info;
                             const float aspect = image->getAspectRatio();
-                            if (0 == info.size.y && aspect > 0.f)
+                            if (0 == info.size.x)
+                            {
+                                info.size.x = info.size.y * aspect;
+                            }
+                            else if (0 == info.size.y && aspect > 0.f)
                             {
                                 info.size.y = static_cast<int>(info.size.x / aspect);
                             }

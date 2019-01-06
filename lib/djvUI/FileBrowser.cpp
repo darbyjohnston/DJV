@@ -65,12 +65,19 @@ namespace djv
                 std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
                 std::shared_ptr<ValueObserver<bool> > hasBackObserver;
                 std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
-                struct IconFuture
+                struct InfoFuture
+                {
+                    FileSystem::Path path;
+                    std::future<AV::Image::Info> future;
+                    std::weak_ptr<ItemButton> widget;
+                };
+                std::vector<InfoFuture> infoFutures;
+                struct ImageFuture
                 {
                     std::future<std::shared_ptr<AV::Image::Image> > future;
                     std::weak_ptr<ItemButton> widget;
                 };
-                std::vector<IconFuture> iconFutures;
+                std::vector<ImageFuture> imageFutures;
             };
 
             void Widget::_init(Context * context)
@@ -243,32 +250,67 @@ namespace djv
 
             void Widget::_updateEvent(Event::Update& event)
             {
-                auto i = _p->iconFutures.begin();
-                while (i != _p->iconFutures.end())
                 {
-                    std::shared_ptr<AV::Image::Image> icon;
-                    if (i->future.valid() &&
-                        i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    auto i = _p->infoFutures.begin();
+                    while (i != _p->infoFutures.end())
                     {
-                        try
+                        if (i->future.valid() &&
+                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
-                            icon = i->future.get();
-                            if (auto widget = i->widget.lock())
+                            try
                             {
-                                widget->setThumbnail(icon, createUID());
+                                const auto info = i->future.get();
+                                auto context = getContext();
+                                if (auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock())
+                                {
+                                    if (auto ioSystem = context->getSystemT<AV::IO::System>().lock())
+                                    {
+                                        if (auto style = _getStyle().lock())
+                                        {
+                                            const int t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail));
+                                            const bool aspect = info.size.x >= info.size.y;
+                                            Private::ImageFuture future;
+                                            future.future = iconSystem->getImage(
+                                                i->path,
+                                                AV::Image::Info(aspect ? t : 0, !aspect ? t : 0, AV::Image::Type::RGBA_U8));
+                                            future.widget = i->widget;
+                                            _p->imageFutures.push_back(std::move(future));
+                                        }
+                                    }
+                                }
                             }
+                            catch (const std::exception & e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
+                            i = _p->infoFutures.erase(i);
+                            continue;
                         }
-                        catch (const std::exception & e)
+                        ++i;
+                    }
+                }
+                {
+                    auto i = _p->imageFutures.begin();
+                    while (i != _p->imageFutures.end())
+                    {
+                        if (i->future.valid() &&
+                            i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                         {
-                            _log(e.what(), LogLevel::Error);
+                            try
+                            {
+                                const auto icon = i->future.get();
+                                if (auto widget = i->widget.lock())
+                                {
+                                    widget->setThumbnail(icon, createUID());
+                                }
+                            }
+                            catch (const std::exception & e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
+                            i = _p->imageFutures.erase(i);
+                            continue;
                         }
-                    }
-                    if (icon)
-                    {
-                        i = _p->iconFutures.erase(i);
-                    }
-                    else
-                    {
                         ++i;
                     }
                 }
@@ -306,12 +348,11 @@ namespace djv
                                         {
                                             if (auto style = _getStyle().lock())
                                             {
-                                                Private::IconFuture future;
-                                                future.future = iconSystem->getImage(
-                                                    i->second.getPath(),
-                                                    AV::Image::Info(static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail)), 0, AV::Image::Type::RGBA_U8));
+                                                Private::InfoFuture future;
+                                                future.path = i->second.getPath();
+                                                future.future = iconSystem->getInfo(i->second.getPath());
                                                 future.widget = button;
-                                                _p->iconFutures.push_back(std::move(future));
+                                                _p->infoFutures.push_back(std::move(future));
                                             }
                                         }
                                         else

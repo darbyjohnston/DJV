@@ -75,7 +75,7 @@ namespace djv
                 std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&);
 
                 //! Get an icon and resize or convert it to a new image with the given information.
-                //! If the given height is set to zero the image will be resized to the given width
+                //! If either the given width or height is set to zero the image will be resized
                 //! maintaining it's aspect ratio.
                 std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const Info&);
 
