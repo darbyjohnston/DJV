@@ -83,6 +83,8 @@ namespace djv
             struct Info
             {
                 Info();
+                Info(const std::string & fileName, const VideoInfo &);
+                Info(const std::string & fileName, const AudioInfo &);
                 Info(const std::string & fileName, const VideoInfo &, const AudioInfo &);
                 Info(const std::string & fileName, const std::vector<VideoInfo> &, const std::vector<AudioInfo> &);
 

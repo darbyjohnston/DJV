@@ -77,6 +77,18 @@ namespace djv
             Info::Info()
             {}
 
+            Info::Info(const std::string & fileName, const VideoInfo & video) :
+                fileName(fileName)
+            {
+                this->video.push_back(video);
+            }
+
+            Info::Info(const std::string & fileName, const AudioInfo & audio) :
+                fileName(fileName)
+            {
+                this->audio.push_back(audio);
+            }
+
             Info::Info(const std::string & fileName, const VideoInfo & video, const AudioInfo & audio) :
                 fileName(fileName)
             {

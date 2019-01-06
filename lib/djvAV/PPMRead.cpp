@@ -145,7 +145,7 @@ namespace djv
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
-                    return Info(fileName, VideoInfo(info, _speed, _duration), AudioInfo());
+                    return Info(fileName, VideoInfo(info, _speed, _duration));
                 }
 
             } // namespace PPM
