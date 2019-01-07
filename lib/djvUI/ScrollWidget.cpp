@@ -370,7 +370,7 @@ namespace djv
                 void setContentsSizeCallback(const std::function<void(const glm::vec2&)>&);
 
                 const glm::vec2& getScrollPos() const { return _scrollPos; }
-                void setScrollPos(const glm::vec2&);
+                bool setScrollPos(const glm::vec2&);
                 void setScrollPosCallback(const std::function<void(const glm::vec2&)>&);
 
             protected:
@@ -413,20 +413,21 @@ namespace djv
                 _contentsSizeCallback = callback;
             }
 
-            void ScrollArea::setScrollPos(const glm::vec2& value)
+            bool ScrollArea::setScrollPos(const glm::vec2& value)
             {
                 const BBox2f& g = getGeometry();
                 const glm::vec2 tmp(
                     Math::clamp(value.x, 0.f, _contentsSize.x - g.w()),
                     Math::clamp(value.y, 0.f, _contentsSize.y - g.h()));
                 if (tmp == _scrollPos)
-                    return;
+                    return false;
                 _scrollPos = tmp;
                 if (_scrollPosCallback)
                 {
                     _scrollPosCallback(_scrollPos);
                 }
                 _resize();
+                return true;
             }
 
             void ScrollArea::setScrollPosCallback(const std::function<void(const glm::vec2&)>& callback)
@@ -575,7 +576,7 @@ namespace djv
             _p->scrollArea->installEventFilter(shared_from_this());
 
             _p->scrollAreaSwipe = Widget::create(context);
-            //_p->scrollAreaSwipe->setBackgroundRole(ColorRole::Overlay);
+            _p->scrollAreaSwipe->setBackgroundRole(Style::ColorRole::Overlay);
             _p->scrollAreaSwipe->setVisible(false);
             _p->scrollAreaSwipe->installEventFilter(shared_from_this());
 
@@ -668,12 +669,20 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->setScrollPos(widget->_p->scrollArea->getScrollPos() + widget->_p->swipeVelocity);
-                    widget->_p->swipeVelocity *= velocityDecay;
-                    const float v = glm::length(widget->_p->swipeVelocity);
-                    widget->_p->scrollAreaSwipe->setVisible(v > 1.f);
-                    if (v < 1.f)
+                    const glm::vec2 & pos = widget->_p->scrollArea->getScrollPos();
+                    if (widget->_p->scrollArea->setScrollPos(pos + widget->_p->swipeVelocity))
                     {
+                        widget->_p->swipeVelocity *= velocityDecay;
+                        const float v = glm::length(widget->_p->swipeVelocity);
+                        widget->_p->scrollAreaSwipe->setVisible(v > 1.f);
+                        if (v < 1.f)
+                        {
+                            widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                        }
+                    }
+                    else
+                    {
+                        widget->_p->scrollAreaSwipe->hide();
                         widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
                     }
                 }
