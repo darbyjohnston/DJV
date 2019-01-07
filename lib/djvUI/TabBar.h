@@ -49,9 +49,12 @@ namespace djv
 
             static std::shared_ptr<TabBar> create(Core::Context *);
 
-            void addTab(const std::string &);
-
-            void setCallback(const std::function<void(int)>&);
+            size_t getTabCount() const;
+            size_t addTab(const std::string &);
+            
+            int getCurrentTab() const;
+            void setCurrentTab(int);
+            void setCurrentTabCallback(const std::function<void(int)>&);
 
             float getHeightForWidth(float) const override;
 

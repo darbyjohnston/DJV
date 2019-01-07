@@ -186,9 +186,9 @@ namespace djv
             {
                 const auto style = _getStyle();
                 const bool enabled = isEnabled(true);
-                const Style::ColorRole fg = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
-                _p->icon->setIconColorRole(fg);
-                _p->label->setTextColorRole(fg);
+                const Style::ColorRole colorRole = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                _p->icon->setIconColorRole(colorRole);
+                _p->label->setTextColorRole(colorRole);
             }
 
             void Push::_preLayoutEvent(Event::PreLayout& event)

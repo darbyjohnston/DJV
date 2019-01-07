@@ -81,17 +81,6 @@ namespace djv
                         out->_init(context);
                         return out;
                     }
-
-                    void _preLayoutEvent(Event::PreLayout& event) override
-                    {
-                        Stack::_preLayoutEvent(event);
-                        if (auto style = _getStyle().lock())
-                        {
-                            const auto size = style->getMetric(Style::MetricsRole::Dialog);
-                            const auto minimumSize = getMinimumSize();
-                            _setMinimumSize(glm::vec2(std::max(size, minimumSize.x), minimumSize.y));
-                        }
-                    }
                 };
 
             } // namespace
@@ -112,9 +101,6 @@ namespace djv
                 closeButton->setText(closeText);
 
                 auto layout = Layout::Vertical::create(context);
-                layout->setBackgroundRole(Style::ColorRole::Background);
-                layout->setMargin(Style::MetricsRole::Margin);
-                layout->setVAlign(VAlign::Center);
                 layout->addWidget(textBlock);
                 layout->addWidget(closeButton);
 
@@ -163,9 +149,8 @@ namespace djv
                 auto layout = Layout::Vertical::create(context);
                 layout->addWidget(textBlock);
                 auto hLayout = Layout::Horizontal::create(context);
-                hLayout->setHAlign(HAlign::Center);
-                hLayout->addWidget(acceptButton);
-                hLayout->addWidget(cancelButton);
+                hLayout->addWidget(acceptButton, Layout::RowStretch::Expand);
+                hLayout->addWidget(cancelButton, Layout::RowStretch::Expand);
                 layout->addWidget(hLayout);
 
                 auto dialogWidget = DialogWidget::create(context);

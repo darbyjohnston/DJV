@@ -33,6 +33,7 @@
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/FileInfo.h>
 
 using namespace djv;
 
@@ -45,6 +46,11 @@ int main(int argc, char ** argv)
 
         auto fileBrowser = UI::FileBrowser::Widget::create(app.get());
         fileBrowser->setPath(Core::FileSystem::Path("."));
+        fileBrowser->setCallback(
+            [](const Core::FileSystem::FileInfo & value)
+        {
+            std::cout << value << std::endl;
+        });
 
         auto window = UI::Window::create(app.get());
         window->addWidget(fileBrowser);

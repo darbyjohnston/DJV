@@ -401,13 +401,16 @@ namespace djv
             void ItemButton::_updateEvent(Event::Update& event)
             {
                 IButton::_updateEvent(event);
+                const bool toggled = _isToggled();
+                _p->icon->setIconColorRole(toggled ? Style::ColorRole::CheckedForeground : Style::ColorRole::Button);
+                const Style::ColorRole colorRole = toggled ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground;
                 if (_p->textBlock)
                 {
-                    _p->textBlock->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                    _p->textBlock->setTextColorRole(colorRole);
                 }
                 if (_p->nameLabel)
                 {
-                    _p->nameLabel->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                    _p->nameLabel->setTextColorRole(colorRole);
                 }
             }
 

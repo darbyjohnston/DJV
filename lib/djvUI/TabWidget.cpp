@@ -64,7 +64,7 @@ namespace djv
             _p->layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<TabWidget>(std::dynamic_pointer_cast<TabWidget>(shared_from_this()));
-            _p->tabBar->setCallback(
+            _p->tabBar->setCurrentTabCallback(
                 [weak](int value)
             {
                 if (auto widget = weak.lock())
@@ -92,23 +92,39 @@ namespace djv
             return out;
         }
 
-        void TabWidget::addWidget(const std::string & text, const std::shared_ptr<Widget>& value)
+        size_t TabWidget::getTabCount() const
         {
-            _p->tabBar->addTab(text);
-            _p->soloLayout->addWidget(value);
+            return _p->tabBar->getTabCount();
         }
 
-        void TabWidget::removeWidget(const std::shared_ptr<Widget>& value)
+        size_t TabWidget::addTab(const std::string & text, const std::shared_ptr<Widget>& value)
+        {
+            const size_t out = _p->tabBar->addTab(text);
+            _p->soloLayout->addWidget(value);
+            return out;
+        }
+
+        void TabWidget::removeTab(const std::shared_ptr<Widget>& value)
         {
             _p->soloLayout->removeWidget(value);
         }
 
-        void TabWidget::clearWidgets()
+        void TabWidget::clearTabs()
         {
             _p->soloLayout->clearWidgets();
         }
 
-        void TabWidget::setCallback(const std::function<void(int)>& value)
+        int TabWidget::getCurrentTab() const
+        {
+            return _p->tabBar->getCurrentTab();
+        }
+
+        void TabWidget::setCurrentTab(int value)
+        {
+            _p->tabBar->setCurrentTab(value);
+        }
+
+        void TabWidget::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
         }

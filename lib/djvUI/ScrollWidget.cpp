@@ -576,7 +576,7 @@ namespace djv
             _p->scrollArea->installEventFilter(shared_from_this());
 
             _p->scrollAreaSwipe = Widget::create(context);
-            _p->scrollAreaSwipe->setBackgroundRole(Style::ColorRole::Overlay);
+            //_p->scrollAreaSwipe->setBackgroundRole(Style::ColorRole::Overlay);
             _p->scrollAreaSwipe->setVisible(false);
             _p->scrollAreaSwipe->installEventFilter(shared_from_this());
 

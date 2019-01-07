@@ -208,17 +208,28 @@ namespace djv
 
             float Overlay::getHeightForWidth(float value) const
             {
-                return _p->layout->getHeightForWidth(value);
+                float out = 0.f;
+                if (auto style = _getStyle().lock())
+                {
+                    out = _p->layout->getHeightForWidth(value) + getMargin().getHeight(style);
+                }
+                return out;
             }
 
             void Overlay::_preLayoutEvent(Event::PreLayout& event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                if (auto style = _getStyle().lock())
+                {
+                    _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
+                }
             }
 
             void Overlay::_layoutEvent(Event::Layout& event)
             {
-                _p->layout->setGeometry(getGeometry());
+                if (auto style = _getStyle().lock())
+                {
+                    _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
+                }
             }
 
             void Overlay::_pointerEnterEvent(Core::Event::PointerEnter& event)

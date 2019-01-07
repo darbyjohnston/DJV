@@ -37,6 +37,7 @@ namespace djv
     {
         namespace FileSystem
         {
+            class FileInfo;
             class Path;
 
         } // namespace FileSystem
@@ -73,6 +74,7 @@ namespace djv
 
                 void setPath(const Core::FileSystem::Path&);
                 void setViewType(ViewType);
+                void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
             protected:
                 void _updateEvent(Core::Event::Update&) override;
@@ -87,6 +89,11 @@ namespace djv
                 struct Private;
                 std::unique_ptr<Private> _p;
             };
+
+            //! Show a file browser dialog.
+            void dialog(
+                const std::shared_ptr<Window> & window,
+                const std::function<void(const Core::FileSystem::FileInfo &)> & callback);
 
         } // namespace FileBrowser
     } // namespace UI

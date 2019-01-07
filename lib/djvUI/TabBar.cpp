@@ -205,14 +205,31 @@ namespace djv
             return out;
         }
 
-        void TabBar::addTab(const std::string & text)
+        size_t TabBar::getTabCount() const
         {
+            return _p->buttonGroup->getButtonCount();
+        }
+
+        size_t TabBar::addTab(const std::string & text)
+        {
+            const size_t out = _p->buttonGroup->getButtonCount();
             auto button = TabBarButton::create(text, getContext());
             _p->buttonGroup->addButton(button);
             _p->layout->addWidget(button);
+            return out;
         }
 
-        void TabBar::setCallback(const std::function<void(int)>& value)
+        int TabBar::getCurrentTab() const
+        {
+            return _p->buttonGroup->getChecked();
+        }
+
+        void TabBar::setCurrentTab(int value)
+        {
+            _p->buttonGroup->setChecked(value);
+        }
+
+        void TabBar::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
         }

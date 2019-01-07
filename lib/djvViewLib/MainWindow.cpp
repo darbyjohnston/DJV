@@ -35,6 +35,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Dialog.h>
+#include <djvUI/FileBrowser.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
@@ -61,6 +62,7 @@ namespace djv
             //std::shared_ptr<UI::MDI::Canvas> canvas;
             //std::shared_ptr<UI::ScrollWidget> scrollWidget;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            std::shared_ptr<ValueObserver<bool> > fileOpenObserver;
             std::shared_ptr<ValueObserver<bool> > exitObserver;
         };
         
@@ -72,6 +74,7 @@ namespace djv
 
             auto fileOpenAction = UI::Action::create();
             fileOpenAction->setText("Open");
+            fileOpenAction->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
             addAction(fileOpenAction);
             auto fileReloadAction = UI::Action::create();
             fileReloadAction->setText("Reload");
@@ -161,10 +164,31 @@ namespace djv
             //setCentralWidget(_p->scrollWidget);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            _p->tabWidget->setCallback(
+            _p->tabWidget->setCurrentTabCallback(
                 [weak](int value)
             {
 
+            });
+
+            _p->fileOpenObserver = ValueObserver<bool>::create(
+                fileOpenAction->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto mainWindow = weak.lock())
+                    {
+                        UI::FileBrowser::dialog(
+                            mainWindow,
+                            [weak, context](const FileSystem::FileInfo & value)
+                        {
+                            if (auto mainWindow = weak.lock())
+                            {
+                                mainWindow->_open(value.getPath());
+                            }
+                        });
+                    }
+                }
             });
 
             _p->exitObserver = ValueObserver<bool>::create(
@@ -210,29 +234,35 @@ namespace djv
         {
             for (const auto & i : event.getDropPaths())
             {
-                //auto media = Media::create(FileInfo::getFileSequence(i), getContext());
-                auto media = Media::create(i, getContext());
-                auto window = MDIWindow::create(media, getContext());
-                const auto title = FileSystem::Path(i).getFileName();
-                window->setTitle(title);
-                window->resize(glm::vec2(500.f, 300.f));
-                auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-                auto weakWindow = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(window));
-                window->setClosedCallback(
-                    [weak, weakWindow]
-                {
-                    if (auto mainWindow = weak.lock())
-                    {
-                        if (auto window = weakWindow.lock())
-                        {
-                            mainWindow->_p->tabWidget->removeWidget(window);
-                        }
-                    }
-                });
-                _p->tabWidget->addWidget(title, window);
+                _open(i);
             }
         }
-        
+
+        void MainWindow::_open(const FileSystem::Path & path)
+        {
+            //auto media = Media::create(FileInfo::getFileSequence(i), getContext());
+            auto media = Media::create(path, getContext());
+            auto window = MDIWindow::create(media, getContext());
+            const auto title = path.getFileName();
+            window->setTitle(title);
+            window->resize(glm::vec2(500.f, 300.f));
+            auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            auto weakWindow = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(window));
+            window->setClosedCallback(
+                [weak, weakWindow]
+            {
+                if (auto mainWindow = weak.lock())
+                {
+                    if (auto window = weakWindow.lock())
+                    {
+                        mainWindow->_p->tabWidget->removeTab(window);
+                    }
+                }
+            });
+            const size_t index = _p->tabWidget->addTab(title, window);
+            _p->tabWidget->setCurrentTab(static_cast<int>(index));
+        }
+
     } // namespace ViewLib
 } // namespace djv
 

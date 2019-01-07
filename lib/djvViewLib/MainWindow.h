@@ -33,6 +33,15 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class Path;
+    
+        } // namespace FileLSystem
+    } // namespce Core
+
     namespace ViewLib
     {
         class MainWindow : public UI::MainWindow
@@ -52,6 +61,8 @@ namespace djv
             void _dropEvent(Core::Event::Drop&) override;
 
         private:
+            void _open(const Core::FileSystem::Path &);
+
             DJV_PRIVATE();
         };
 
