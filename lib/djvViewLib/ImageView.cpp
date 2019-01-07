@@ -29,23 +29,11 @@
 
 #include <djvViewLib/ImageView.h>
 
-#include <djvViewLib/Context.h>
+#include <djvViewLib/Media.h>
 
-#include <djvAV/Image.h>
-#include <djvAV/OpenGLMesh.h>
-#include <djvAV/OpenGLShader.h>
-#include <djvAV/OpenGLTexture.h>
-#include <djvAV/Shader.h>
-#include <djvAV/Shape.h>
-#include <djvAV/TriangleMesh.h>
+#include <djvAV/Render2DSystem.h>
 
-#include <djvCore/Path.h>
-#include <djvCore/Vector.h>
-#include <djvCore/BBox.h>
-
-#include <QVBoxLayout>
-
-#include <glm/gtc/matrix_transform.hpp>
+using namespace djv::Core;
 
 namespace djv
 {
@@ -53,110 +41,72 @@ namespace djv
     {
         struct ImageView::Private
         {
-            std::weak_ptr<Context> context;
-            std::shared_ptr<AV::Image> image;
-            bool imageChanged = false;
-            std::shared_ptr<AV::Shader> shader;
-            std::shared_ptr<AV::OpenGL::Shader> openGLShader;
-            std::shared_ptr<AV::OpenGL::Texture> openGLTexture;
-            std::shared_ptr<AV::OpenGL::VBO> openGLVBO;
-            std::shared_ptr<AV::OpenGL::VAO> openGLVAO;
+            std::shared_ptr<Media> media;
+            std::shared_ptr<AV::Image::Image> image;
+            UID imageUID = 0;
+            std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
         };
-        
-        ImageView::ImageView(const std::shared_ptr<Context> & context, QWidget * parent) :
-            QOpenGLWidget(parent),
+
+        void ImageView::_init(Context * context)
+        {
+            Widget::_init(context);
+        }
+
+        ImageView::ImageView() :
             _p(new Private)
-        {
-            _p->context = context;
-        }
-        
-        ImageView::~ImageView()
-        {
-            makeCurrent();
-        }
-
-        void ImageView::setImage(const std::shared_ptr<AV::Image> & image)
-        {
-            DJV_PRIVATE_PTR();
-            if (image == p.image)
-                return;
-            p.image = image;
-            p.imageChanged = true;
-            update();
-        }
-
-        void ImageView::initializeGL()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = p.context.lock())
-            {
-                try
-                {
-                    p.shader = AV::Shader::create(
-                        context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvViewLibImageViewVertex.glsl"),
-                        context->getResourcePath(Core::ResourcePath::ShadersDirectory, "djvViewLibImageViewFragment.glsl"));
-                    p.openGLShader = AV::OpenGL::Shader::create(p.shader);
-                }
-                catch (const std::exception& e)
-                {
-                    context->log("djv::ViewLib::ImageView", e.what(), Core::LogLevel::Error);
-                }
-            }
-        }
-
-        void ImageView::resizeGL(int w, int h)
         {}
 
-        void ImageView::paintGL()
+        ImageView::~ImageView()
+        {}
+
+        std::shared_ptr<ImageView> ImageView::create(Context * context)
         {
-            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
-            glFuncs->glClearColor(0.f, 0.f, 0.f, 0.f);
-            glFuncs->glClear(GL_COLOR_BUFFER_BIT);
+            auto out = std::shared_ptr<ImageView>(new ImageView);
+            out->_init(context);
+            return out;
+        }
 
+        void ImageView::setMedia(const std::shared_ptr<Media> & media)
+        {
             DJV_PRIVATE_PTR();
-            if (p.image)
+            auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
+            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                media->getCurrentImage(),
+                [weak](const std::shared_ptr<AV::Image::Image> & image)
             {
-                if (!p.openGLTexture || (p.openGLTexture && (p.openGLTexture->getInfo() != p.image->getInfo())))
+                if (auto widget = weak.lock())
                 {
-                    p.openGLTexture = AV::OpenGL::Texture::create(p.image->getInfo());
+                    widget->_p->image = image;
+                    widget->_p->imageUID = createUID();
+                    widget->_redraw();
                 }
-                if (p.imageChanged)
+            });
+        }
+
+        void ImageView::_preLayoutEvent(Event::PreLayout& event)
+        {
+        }
+
+        void ImageView::_layoutEvent(Event::Layout&)
+        {
+        }
+
+        void ImageView::_paintEvent(Core::Event::Paint&)
+        {
+            if (auto render = _getRenderSystem().lock())
+            {
+                if (auto style = _getStyle().lock())
                 {
-                    p.imageChanged = false;
-                    p.openGLTexture->copy(*p.image);
+                    if (_p->image)
+                    {
+                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const glm::vec2 c = g.getCenter();
+                        const glm::vec2& size = _p->image->getSize();
+                        glm::vec2 pos = glm::vec2(0.f, 0.f);
+                        render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
+                        render->drawImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Dynamic, _p->imageUID);
+                    }
                 }
-                p.openGLTexture->bind();
-
-                if (!p.openGLVBO)
-                {
-                    AV::Shape::Square square;
-                    AV::TriangleMesh mesh;
-                    square.triangulate(mesh);
-                    p.openGLVBO = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                    p.openGLVBO->copy(AV::OpenGL::VBO::convert(mesh, p.openGLVBO->getType()));
-                    p.openGLVAO = AV::OpenGL::VAO::create(p.openGLVBO->getType(), p.openGLVBO->getID());
-                }
-                p.openGLVAO->bind();
-
-                p.openGLShader->bind();
-                p.openGLShader->setUniform("textureSampler", 0);
-                glm::mat4x4 modelMatrix(1);
-                modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(-90.f), glm::vec3(1.f, 0.f, 0.f));
-                modelMatrix = glm::scale(modelMatrix, glm::vec3(p.image->getWidth(), 0.f, p.image->getHeight()));
-                modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, .5f));
-                glm::mat4x4 viewMatrix(1);
-                glm::mat4x4 projectionMatrix(1);
-                projectionMatrix = glm::ortho(
-                    0.f,
-                    static_cast<float>(width()),
-                    0.f,
-                    static_cast<float>(height()),
-                    -1.f,
-                    1.f);
-                p.openGLShader->setUniform("transform.mvp", projectionMatrix * viewMatrix * modelMatrix);
-
-                glFuncs->glActiveTexture(GL_TEXTURE0);
-                p.openGLVAO->draw(0, 6);
             }
         }
 

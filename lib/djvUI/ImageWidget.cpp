@@ -97,12 +97,10 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    const glm::vec2 c = g.getCenter();
-
-                    // Draw the image.
                     if (_p->image)
                     {
+                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                        const glm::vec2 c = g.getCenter();
                         const glm::vec2& size = _p->image->getSize();
                         glm::vec2 pos = glm::vec2(0.f, 0.f);
                         switch (getHAlign())
@@ -122,7 +120,7 @@ namespace djv
                         default: break;
                         }
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                        render->drawImage(_p->image, pos, true, _p->uid);
+                        render->drawImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Dynamic, _p->uid);
                     }
                 }
             }

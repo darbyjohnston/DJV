@@ -10,7 +10,7 @@ set(header
     #HistogramTool.h
     #IViewObject.h
     #ImageObject.h
-    #ImageView.h
+    ImageView.h
     #InfoTool.h
     #MagnifyTool.h
     MDIWindow.h
@@ -26,7 +26,7 @@ set(header
     #WindowObject.h
     #WorkspaceObject.h
     #WorkspacePrivate.h
-    #Workspace.h
+    Workspace.h
     )
 set(source
     Application.cpp
@@ -39,7 +39,7 @@ set(source
     #HistogramTool.cpp
     #IViewObject.cpp
     #ImageObject.cpp
-    #ImageView.cpp
+    ImageView.cpp
     #InfoTool.cpp
     #MagnifyTool.cpp
     MDIWindow.cpp
@@ -54,7 +54,7 @@ set(source
     #WindowObject.cpp
     #WorkspaceObject.cpp
     #WorkspacePrivate.cpp
-    #Workspace.cpp
+    Workspace.cpp
     )
 
 add_library(djvViewLib ${header} ${source})

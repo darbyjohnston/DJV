@@ -41,6 +41,9 @@ namespace djv
         template<typename T>
         class IListSubject;
 
+        //! This value represents an invalid index.
+        static const size_t invalidListIndex = static_cast<size_t>(-1);
+
         //! This class provides a list observer.
         template<typename T>
         class ListObserver : public std::enable_shared_from_this<ListObserver<T> >
@@ -91,9 +94,6 @@ namespace djv
 
             //! Get whether the list contains the given item.
             virtual bool contains(const T &) const = 0;
-
-            //! This value represents an invalid index.
-            static const size_t invalidIndex = static_cast<size_t>(-1);
 
             //! Get the index of the given item.
             virtual size_t indexOf(const T &) const = 0;

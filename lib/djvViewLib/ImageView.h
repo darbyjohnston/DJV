@@ -29,37 +29,33 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
-
-#include <QOpenGLWidget>
-#include <QPointer>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace AV
-    {
-        class Image;
-
-    } // namespace AV
-
     namespace ViewLib
     {
-        class Context;
+        class Media;
 
-        class ImageView : public QOpenGLWidget
+        class ImageView : public UI::Widget
         {
-            Q_OBJECT
-
-        public:
-            ImageView(const std::shared_ptr<Context> &, QWidget * parent = nullptr);
-            ~ImageView() override;
-
-            void setImage(const std::shared_ptr<AV::Image> &);
+            DJV_NON_COPYABLE(ImageView);
 
         protected:
-            void initializeGL();
-            void resizeGL(int w, int h);
-            void paintGL();
+            void _init(Core::Context *);
+            ImageView();
+
+        public:
+            ~ImageView() override;
+
+            static std::shared_ptr<ImageView> create(Core::Context *);
+
+            void setMedia(const std::shared_ptr<Media> &);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
         private:
             DJV_PRIVATE();

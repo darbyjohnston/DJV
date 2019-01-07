@@ -174,12 +174,12 @@ namespace djv
                         if (_p->iconColorRole != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(_p->iconColorRole)));
-                            render->drawFilledImage(_p->image, pos, false, _p->uid);
+                            render->drawFilledImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Static, _p->uid);
                         }
                         else
                         {
                             render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(_p->image, pos, false, _p->uid);
+                            render->drawImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Static, _p->uid);
                         }
                     }
                 }

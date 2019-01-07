@@ -196,10 +196,10 @@ namespace djv
 
                 struct ImagePrimitive : public Primitive
                 {
-                    ImagePrimitive(Render& render, bool dynamic) :
+                    ImagePrimitive(Render& render, Render2DSystem::ImageType imageType) :
                         Primitive(render),
-                        dynamic(dynamic),
-                        textureCache(dynamic ? render.dynamicTextureCache : render.staticTextureCache)
+                        imageType(imageType),
+                        textureCache(Render2DSystem::ImageType::Static == imageType ? render.staticTextureCache : render.dynamicTextureCache)
                     {
                         type = PrimitiveType::Image;
                     }
@@ -208,7 +208,7 @@ namespace djv
                     std::shared_ptr<Image::Data> imageData;
                     glm::vec2 pos = glm::vec2(0.f, 0.f);
                     ImageFormat imageFormat = ImageFormat::RGBA;
-                    bool dynamic = true;
+                    Render2DSystem::ImageType imageType = Render2DSystem::ImageType::Static;
                     std::shared_ptr<TextureCache> textureCache;
 
                     void getRenderData(std::vector<RenderData> & out) override
@@ -217,7 +217,7 @@ namespace djv
                         if (uid)
                         {
                             uint64_t id = 0;
-                            auto & textureIDs = dynamic ? render.dynamicTextureIDs : render.staticTextureIDs;
+                            auto & textureIDs = Render2DSystem::ImageType::Static == imageType ? render.staticTextureIDs : render.dynamicTextureIDs;
                             const auto i = textureIDs.find(uid);
                             if (i != textureIDs.end())
                             {
@@ -248,7 +248,7 @@ namespace djv
                         data.colorMode = colorMode;
                         data.color = color;
                         data.texture =
-                            static_cast<GLint>((dynamic ? render.staticTextureCache->getTextureCount() : 0) +
+                            static_cast<GLint>((Render2DSystem::ImageType::Dynamic == imageType ? render.staticTextureCache->getTextureCount() : 0) +
                                 item.texture);
                         if (info.layout.mirror.x)
                         {
@@ -605,10 +605,10 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
+            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data>& data, const glm::vec2& pos, ImageType imageType, UID uid)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, dynamic));
+                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
                 primitive->uid = uid;
                 primitive->imageData = data;
                 primitive->pos = pos;
@@ -618,10 +618,10 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data>& data, const glm::vec2& pos, bool dynamic, UID uid)
+            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data>& data, const glm::vec2& pos, ImageType imageType, UID uid)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, dynamic));
+                auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
                 primitive->uid = uid;
                 primitive->imageData = data;
                 primitive->pos = pos;

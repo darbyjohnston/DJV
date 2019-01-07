@@ -31,49 +31,37 @@
 
 #include <djvViewLib/Enum.h>
 
-#include <QMdiArea>
-#include <QPointer>
+#include <djvCore/ListObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Context;
         class Media;
 
-        class Workspace : public QObject
+        class Workspace : public std::enable_shared_from_this<Workspace>
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(Workspace);
+
+        protected:
+            void _init(Core::Context *);
+            Workspace();
 
         public:
-            Workspace(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~Workspace() override;
+            ~Workspace();
 
-            const std::string & getName() const;
-            const std::vector<std::shared_ptr<Media> > & getMedia() const;
-            const std::shared_ptr<Media> & getCurrentMedia() const;
+            static std::shared_ptr<Workspace> create(Core::Context *);
 
-            QMdiArea::ViewMode getViewMode() const;
-            Enum::WindowState getWindowState() const;
-
-        public Q_SLOTS:
+            std::shared_ptr<Core::IValueSubject<std::string> > getName() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > getMedia() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > getCurrentMedia() const;
             void setName(const std::string &);
             void openMedia(const std::string &);
             void closeMedia(const std::shared_ptr<Media> &);
             void setCurrentMedia(const std::shared_ptr<Media> &);
             void nextMedia();
             void prevMedia();
-            void setViewMode(QMdiArea::ViewMode);
-            void setWindowState(Enum::WindowState);
-            void setWindowState(const std::shared_ptr<Media> &, Enum::WindowState);
-
-        Q_SIGNALS:
-            void nameChanged(const std::string &);
-            void mediaAdded(const std::shared_ptr<Media> &);
-            void mediaRemoved(const std::shared_ptr<Media> &);
-            void currentMediaChanged(const std::shared_ptr<Media> &);
-            void viewModeChanged(QMdiArea::ViewMode);
-            void windowStateChanged(Enum::WindowState);
 
         private:
             DJV_PRIVATE();

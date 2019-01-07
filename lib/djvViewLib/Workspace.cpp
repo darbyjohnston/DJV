@@ -29,8 +29,11 @@
 
 #include <djvViewLib/Workspace.h>
 
-#include <djvViewLib/Context.h>
 #include <djvViewLib/Media.h>
+
+#include <djvCore/Context.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
@@ -44,180 +47,106 @@ namespace djv
 
         struct Workspace::Private
         {
-            std::weak_ptr<Context> context;
-            std::string name;
-            std::vector<std::shared_ptr<Media> > media;
-            std::shared_ptr<Media> currentMedia;
-            QMdiArea::ViewMode viewMode = QMdiArea::TabbedView;
-            std::map<std::shared_ptr<Media>, Enum::WindowState> windowState;
+            Context * context = nullptr;
+            std::shared_ptr<ValueSubject<std::string> > name;
+            std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
         };
 
-        Workspace::Workspace(const std::shared_ptr<Context> & context, QObject * parent) :
-            QObject(parent),
-            _p(new Private)
+        void Workspace::_init(Context * context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
-            ++workspaceCount;
-            std::stringstream s;
-            s << "Workspace " << workspaceCount;
-            p.name = s.str();
+            p.name = ValueSubject<std::string>::create();
+            p.media = ValueSubject<std::shared_ptr<Media> >::create();
+            p.currentMedia = ListSubject<std::shared_ptr<Media> >::create();
         }
 
-        Workspace::~Workspace()
-        {
-            for (auto i : _p->media)
-            {
-                //! \todo Save
-            }
-        }
-
-        const std::string & Workspace::getName() const
+        std::shared_ptr<Core::IValueSubject<std::string> > Workspace::getName() const
         {
             return _p->name;
         }
 
-        const std::vector<std::shared_ptr<Media> > & Workspace::getMedia() const
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > Workspace::getMedia() const
         {
             return _p->media;
         }
 
-        const std::shared_ptr<Media> & Workspace::getCurrentMedia() const
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > Workspace::getCurrentMedia() const
         {
             return _p->currentMedia;
         }
 
-        QMdiArea::ViewMode Workspace::getViewMode() const
-        {
-            return _p->viewMode;
-        }
-
-        Enum::WindowState Workspace::getWindowState() const
-        {
-            DJV_PRIVATE_PTR();
-            const auto i = p.windowState.find(p.currentMedia);
-            return i != p.windowState.end() ? i->second : Enum::WindowState::Normal;
-        }
-
         void Workspace::setName(const std::string & value)
         {
-            DJV_PRIVATE_PTR();
-            if (value == p.name)
-                return;
-            p.name = value;
-            Q_EMIT nameChanged(p.name);
+            _p->name->setIfChanged(value);
         }
 
         void Workspace::openMedia(const std::string & fileName)
         {
-            DJV_PRIVATE_PTR();
-            if (auto context = p.context.lock())
-            {
-                auto media = Media::create(fileName, context);
-                p.media.push_back(media);
-                p.currentMedia = media;
-                Q_EMIT mediaAdded(media);
-                Q_EMIT currentMediaChanged(p.currentMedia);
-            }
+            auto media = Media::create(fileName, _p->context);
+            _p->media->pushBack(media);
+            _p->currentMedia->setIfChanged(media);
         }
 
         void Workspace::closeMedia(const std::shared_ptr<Media> & media)
         {
-            DJV_PRIVATE_PTR();
-            const auto i = std::find(p.media.begin(), p.media.end(), media);
-            if (i != p.media.end())
+            const size_t index = _p->media->indexOf(media);
+            if (index != invalidListIndex)
             {
-                //! \todo Save
-                int index = static_cast<int>(i - p.media.begin());
-                auto media = *i;
-                p.media.erase(i);
-                const auto k = p.windowState.find(media);
-                if (k != p.windowState.end())
-                {
-                    p.windowState.erase(k);
-                }
-                Q_EMIT mediaRemoved(media);
-                if (media == p.currentMedia)
-                {
-                    index = std::min(index, static_cast<int>(p.media.size()) - 1);
-                    setCurrentMedia(index != -1 ? p.media[index] : nullptr);
-                }
+                _p->media->removeItem(index);
+            }
+            if (media == _p->currentMedia)
+            {
+                const size_t size = _p->media->getSize();
+                _p->currentMedia->setIfChanged(size > 0 ? _p->media->getItem(size - 1) : nullptr);
             }
         }
 
-        void Workspace::setCurrentMedia(const std::shared_ptr<Media> & media)
+        void Workspace::setCurrentMedia(const std::shared_ptr<Media> & value)
         {
-            DJV_PRIVATE_PTR();
-            if (media == p.currentMedia)
-                return;
-            p.currentMedia = media;
-            Q_EMIT currentMediaChanged(p.currentMedia);
-            auto windowState = Enum::WindowState::Normal;
-            const auto i = p.windowState.find(media);
-            if (i != p.windowState.end())
-            {
-                windowState = i->second;
-            }
-            Q_EMIT windowStateChanged(windowState);
+            _p->currentMedia->setIfChanged(value);
         }
 
         void Workspace::nextMedia()
         {
-            DJV_PRIVATE_PTR();
-            auto i = std::find(p.media.begin(), p.media.end(), _p->currentMedia);
-            if (i != p.media.end())
+            const size_t size = _p->media->getSize();
+            if (size > 1)
             {
-                ++i;
-                if (i == p.media.end())
+                size_t index = _p->media->indexOf(_p->currentMedia->get());
+                if (index != invalidListIndex)
                 {
-                    i = p.media.begin();
+                    ++index;
+                    if (index >= size)
+                    {
+                        index = 0;
+                    }
+                    _p->currentMedia->setIfChanged(_p->media->getItem(index));
                 }
-                setCurrentMedia(*i);
             }
         }
 
         void Workspace::prevMedia()
         {
-            DJV_PRIVATE_PTR();
-            auto i = std::find(p.media.begin(), p.media.end(), p.currentMedia);
-            if (i != p.media.end())
+            const size_t size = _p->media->getSize();
+            if (size > 1)
             {
-                if (i == p.media.begin())
+                size_t index = _p->media->indexOf(_p->currentMedia->get());
+                if (index != invalidListIndex)
                 {
-                    i = p.media.end();
+                    if (index > 0)
+                    {
+                        --index;
+                    }
+                    else
+                    {
+                        index = size - 1;
+                    }
+                    _p->currentMedia->setIfChanged(_p->media->getItem(index));
                 }
-                --i;
-                setCurrentMedia(*i);
             }
         }
 
-        void Workspace::setViewMode(QMdiArea::ViewMode value)
-        {
-            DJV_PRIVATE_PTR();
-            if (value == p.viewMode)
-                return;
-            p.viewMode = value;
-            Q_EMIT viewModeChanged(p.viewMode);
-        }
-
-        void Workspace::setWindowState(Enum::WindowState value)
-        {
-            setWindowState(_p->currentMedia, value);
-        }
-
-        void Workspace::setWindowState(const std::shared_ptr<Media> & media, Enum::WindowState value)
-        {
-            DJV_PRIVATE_PTR();
-            const auto i = p.windowState.find(media);
-            if (i == p.windowState.end())
-            {
-                p.windowState[media] = Enum::WindowState::Normal;
-            }
-            if (value == p.windowState[media])
-                return;
-            p.windowState[media] = value;
-            Q_EMIT windowStateChanged(value);
-        }
 
     } // namespace ViewLib
 } // namespace djv

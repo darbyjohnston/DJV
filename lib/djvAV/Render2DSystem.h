@@ -83,16 +83,22 @@ namespace djv
                 //! \name Images
                 ///@{
 
+                enum class ImageType
+                {
+                    Static,
+                    Dynamic
+                };
+
                 void drawImage(
                     const std::shared_ptr<Image::Data>&,
                     const glm::vec2&,
-                    bool dynamic,
+                    ImageType,
                     Core::UID);
 
                 void drawFilledImage(
                     const std::shared_ptr<Image::Data>&,
                     const glm::vec2&,
-                    bool dynamic,
+                    ImageType,
                     Core::UID);
 
                 ///@}

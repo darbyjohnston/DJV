@@ -274,7 +274,7 @@ namespace djv
             {
                 return value == other;
             });
-            return i != _value.end() ? i - _value.begin() : static_cast<size_t>(-1);
+            return i != _value.end() ? i - _value.begin() : invalidListIndex;
         }
 
     } // namespace Core
