@@ -32,6 +32,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/FileBrowserPrivate.h>
 #include <djvUI/FlowLayout.h>
+#include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
@@ -144,21 +145,27 @@ namespace djv
                 reloadAction->setShortcut(GLFW_KEY_R);
                 addAction(reloadAction);
 
-                auto largeIconsAction = Action::create();
-                largeIconsAction->setText(DJV_TEXT("Large Icons"));
-                largeIconsAction->setTooltip(DJV_TEXT("Show items with large icons."));
-                addAction(largeIconsAction);
-                auto smallIconsAction = Action::create();
-                smallIconsAction->setText(DJV_TEXT("Small Icons"));
-                smallIconsAction->setTooltip(DJV_TEXT("Show items with small icons."));
-                addAction(smallIconsAction);
+                auto largeThumbnailsAction = Action::create();
+                largeThumbnailsAction->setText(DJV_TEXT("Large Thumbnails"));
+                largeThumbnailsAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconThumbnailsLarge90DPI.png"));
+                largeThumbnailsAction->setTooltip(DJV_TEXT("Show items with large thumbnail previews."));
+                largeThumbnailsAction->setShortcut(GLFW_KEY_1);
+                addAction(largeThumbnailsAction);
+                auto smallThumbnailsAction = Action::create();
+                smallThumbnailsAction->setText(DJV_TEXT("Small Thumbnails"));
+                smallThumbnailsAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconThumbnailsSmall90DPI.png"));
+                smallThumbnailsAction->setTooltip(DJV_TEXT("Show items with small thumbnail previews."));
+                smallThumbnailsAction->setShortcut(GLFW_KEY_2);
+                addAction(smallThumbnailsAction);
                 auto listViewAction = Action::create();
                 listViewAction->setText(DJV_TEXT("List View"));
-                largeIconsAction->setTooltip(DJV_TEXT("Show items with large icons."));
-                addAction(largeIconsAction);
+                listViewAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconListView90DPI.png"));
+                listViewAction->setTooltip(DJV_TEXT("Show items in a list with detailed information."));
+                listViewAction->setShortcut(GLFW_KEY_3);
+                addAction(listViewAction);
                 _p->viewTypeActionGroup = ActionGroup::create(ButtonType::Radio);
-                _p->viewTypeActionGroup->addAction(largeIconsAction);
-                _p->viewTypeActionGroup->addAction(smallIconsAction);
+                _p->viewTypeActionGroup->addAction(largeThumbnailsAction);
+                _p->viewTypeActionGroup->addAction(smallThumbnailsAction);
                 _p->viewTypeActionGroup->addAction(listViewAction);
                 _p->viewTypeActionGroup->setChecked(static_cast<int>(_p->viewType));
 
@@ -187,8 +194,8 @@ namespace djv
 
                 auto viewMenu = Menu::create(DJV_TEXT("View"), context);
                 //! \todo Make these a sub-menu.
-                viewMenu->addAction(largeIconsAction);
-                viewMenu->addAction(smallIconsAction);
+                viewMenu->addAction(largeThumbnailsAction);
+                viewMenu->addAction(smallThumbnailsAction);
                 viewMenu->addAction(listViewAction);
                 viewMenu->addSeparator();
                 viewMenu->addAction(fileSequencesAction);
@@ -206,11 +213,21 @@ namespace djv
 
                 auto pathWidget = PathWidget::create(context);
 
-                auto toolBar = Toolbar::create(context);
-                toolBar->addAction(upAction);
-                toolBar->addAction(backAction);
-                toolBar->addAction(forwardAction);
-                toolBar->addWidget(pathWidget, Layout::RowStretch::Expand);
+                auto topToolBar = Toolbar::create(context);
+                topToolBar->addAction(upAction);
+                topToolBar->addAction(backAction);
+                topToolBar->addAction(forwardAction);
+                topToolBar->addWidget(pathWidget, Layout::RowStretch::Expand);
+
+                auto itemCountLabel = Label::create(context);
+                itemCountLabel->setMargin(Style::MetricsRole::Margin);
+
+                auto bottomToolBar = Toolbar::create(context);
+                bottomToolBar->addAction(largeThumbnailsAction);
+                bottomToolBar->addAction(smallThumbnailsAction);
+                bottomToolBar->addAction(listViewAction);
+                bottomToolBar->addSeparator();
+                bottomToolBar->addWidget(itemCountLabel);
 
                 auto shortcutsWidget = ShorcutsWidget::create(context);
 
@@ -224,12 +241,13 @@ namespace djv
                 _p->layout = Layout::Vertical::create(context);
                 _p->layout->setSpacing(Style::MetricsRole::None);
                 _p->layout->addWidget(menuBar);
-                _p->layout->addWidget(toolBar);
+                _p->layout->addWidget(topToolBar);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
                 splitter->addWidget(shortcutsWidget);
                 splitter->addWidget(_p->scrollWidget);
                 splitter->setSplit(.15f);
                 _p->layout->addWidget(splitter, Layout::RowStretch::Expand);
+                _p->layout->addWidget(bottomToolBar);
                 _p->layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
@@ -281,13 +299,16 @@ namespace djv
 
                 _p->fileInfoObserver = ListObserver<FileSystem::FileInfo>::create(
                     _p->directoryModel->observeFileInfoList(),
-                    [weak](const std::vector<FileSystem::FileInfo> & value)
+                    [weak, itemCountLabel](const std::vector<FileSystem::FileInfo> & value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_p->fileInfoList = value;
                         widget->_updateItems();
                     }
+                    std::stringstream ss;
+                    ss << DJV_TEXT("Number of items") << ": " << value.size();
+                    itemCountLabel->setText(ss.str());
                 });
 
                 _p->hasUpObserver = ValueObserver<bool>::create(
@@ -556,7 +577,7 @@ namespace djv
                                                 {
                                                 case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge90DPI.png"; break;
                                                 case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall90DPI.png"; break;
-                                                case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList90DPI.png";  break;
+                                                case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList96DPI.png";  break;
                                                 default: break;
                                                 }
                                                 break;
@@ -565,14 +586,21 @@ namespace djv
                                                 {
                                                 case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge90DPI.png"; break;
                                                 case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall90DPI.png"; break;
-                                                case ViewType::ListView:        name = "djvIconFileBrowserFileList90DPI.png";  break;
+                                                case ViewType::ListView:        name = "djvIconFileBrowserFileList96DPI.png";  break;
                                                 default: break;
                                                 }
                                                 break;
                                             }
+                                            Style::MetricsRole sizeRole = Style::MetricsRole::None;
+                                            switch (_p->viewType)
+                                            {
+                                            case ViewType::ListView: sizeRole = Style::MetricsRole::Icon; break;
+                                            default: break;
+                                            }
                                             if (!name.empty())
                                             {
                                                 button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, name));
+                                                button->setIconSizeRole(sizeRole);
                                             }
                                         }
                                     }

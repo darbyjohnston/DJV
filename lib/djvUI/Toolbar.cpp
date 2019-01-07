@@ -185,5 +185,20 @@ namespace djv
             _p->observers.clear();
         }
 
+        void Toolbar::addSeparator()
+        {
+            _p->layout->addSeparator();
+        }
+
+        void Toolbar::addSpacer()
+        {
+            _p->layout->addSpacer();
+        }
+
+        void Toolbar::addExpander()
+        {
+            _p->layout->addExpander();
+        }
+
     } // namespace UI
 } // namespace djv

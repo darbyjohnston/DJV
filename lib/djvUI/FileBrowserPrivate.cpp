@@ -302,27 +302,29 @@ namespace djv
                 _p->icon = Icon::create(context);
                 _p->icon->setIconColorRole(Style::ColorRole::Button);
                 _p->icon->setVAlign(VAlign::Bottom);
-                _p->icon->hide();
 
                 _p->imageWidget = ImageWidget::create(context);
-                _p->imageWidget->setVAlign(VAlign::Bottom);
                 _p->imageWidget->hide();
 
                 switch (viewType)
                 {
                 case ViewType::ThumbnailsLarge:
                 case ViewType::ThumbnailsSmall:
+                    _p->imageWidget->setVAlign(VAlign::Bottom);
                     _p->textBlock = TextBlock::create(context);
                     _p->textBlock->setTextHAlign(TextHAlign::Center);
                     _p->layout = Layout::Vertical::create(context);
+                    _p->layout->setMargin(Style::MetricsRole::Margin);
                     break;
                 case ViewType::ListView:
+                    _p->icon->setIconSizeRole(Style::MetricsRole::Icon);
+                    _p->imageWidget->setHAlign(HAlign::Center);
+                    _p->imageWidget->setVAlign(VAlign::Center);
                     _p->nameLabel = Label::create(context);
                     _p->nameLabel->setTextHAlign(TextHAlign::Left);
                     _p->layout = Layout::Horizontal::create(context);
                     break;
                 }
-                _p->layout->setMargin(Style::MetricsRole::Margin);
                 auto stackLayout = Layout::Stack::create(context);
                 stackLayout->addWidget(_p->icon);
                 stackLayout->addWidget(_p->imageWidget);
@@ -355,7 +357,11 @@ namespace djv
             void ItemButton::setIcon(const FileSystem::Path& path)
             {
                 _p->icon->setIcon(path);
-                _p->icon->show();
+            }
+
+            void ItemButton::setIconSizeRole(Style::MetricsRole value)
+            {
+                _p->icon->setIconSizeRole(value);
             }
 
             void ItemButton::setThumbnail(const std::shared_ptr<AV::Image::Image>& value, UID uid)

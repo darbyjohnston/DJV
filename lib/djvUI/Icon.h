@@ -65,6 +65,9 @@ namespace djv
             Style::ColorRole getIconColorRole() const;
             void setIconColorRole(Style::ColorRole);
 
+            Style::MetricsRole getIconSizeRole() const;
+            void setIconSizeRole(Style::MetricsRole);
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _paintEvent(Core::Event::Paint&) override;

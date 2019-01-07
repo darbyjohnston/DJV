@@ -47,6 +47,7 @@ namespace djv
         {
             FileSystem::Path path;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
+            Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
             std::future<AV::IO::Info> infoFuture;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             AV::Image::Info info;
@@ -108,14 +109,34 @@ namespace djv
 
         void Icon::setIconColorRole(Style::ColorRole value)
         {
+            if (value == _p->iconColorRole)
+                return;
             _p->iconColorRole = value;
+            _redraw();
+        }
+
+        Style::MetricsRole Icon::getIconSizeRole() const
+        {
+            return _p->iconSizeRole;
+        }
+
+        void Icon::setIconSizeRole(Style::MetricsRole value)
+        {
+            if (value == _p->iconSizeRole)
+                return;
+            _p->iconSizeRole = value;
+            _resize();
         }
 
         void Icon::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
-                _setMinimumSize(glm::vec2(_p->info.size) + getMargin().getSize(style));
+                const float i = style->getMetric(_p->iconSizeRole);
+                glm::vec2 size = _p->info.size;
+                size.x = std::max(size.x, i);
+                size.y = std::max(size.y, i);
+                _setMinimumSize(size + getMargin().getSize(style));
             }
         }
 

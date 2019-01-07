@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.69"
-     inkscape:cx="100"
-     inkscape:cy="100"
+     inkscape:zoom="18.76"
+     inkscape:cx="25.18166"
+     inkscape:cy="129.09399"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -137,8 +137,8 @@
        x="0"
        y="907.36218"
        inkscape:label="#rect3338"
-       inkscape:export-xdpi="90.240005"
-       inkscape:export-ydpi="90.240005" />
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <rect
        y="907.36218"
        x="25"
@@ -147,17 +147,17 @@
        id="FileBrowserDirectoryList"
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        inkscape:label="#rect4216"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <path
-       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.13279855;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 6.25,909.86219 10,3e-5 2.5,2.5 v 17.50001 H 6.25 Z"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.97972256;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 7,911.36218 8.800001,3e-5 L 18,913.4872 v 14.87498 H 7 Z"
        id="path32"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc" />
     <path
-       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.48628211;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 25,909.86217 v 20.00004 H 50 V 912.36219 H 33.75 l -1.25,-2.50002 z"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.10086942;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 27,911.36216 v 17.00002 H 48 V 913.48717 H 34.35 l -1.05,-2.12501 z"
        id="path34"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccc"

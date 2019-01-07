@@ -59,6 +59,10 @@ namespace djv
             void removeAction(const std::shared_ptr<Action>&) override;
             void clearActions() override;
 
+            void addSeparator();
+            void addSpacer();
+            void addExpander();
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;

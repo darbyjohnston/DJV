@@ -109,6 +109,7 @@ namespace djv
                 static std::shared_ptr<ItemButton> create(ViewType, Core::Context *);
 
                 void setIcon(const Core::FileSystem::Path&);
+                void setIconSizeRole(Style::MetricsRole);
                 void setThumbnail(const std::shared_ptr<AV::Image::Image>&, Core::UID);
                 void setText(const std::string&);
 
