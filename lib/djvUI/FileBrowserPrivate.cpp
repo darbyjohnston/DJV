@@ -389,7 +389,7 @@ namespace djv
 
             void ItemButton::_preLayoutEvent(Event::PreLayout& event)
             {
-                const auto size = _p->layout->getMinimumSize();
+                glm::vec2 size = _p->layout->getMinimumSize();
                 _setMinimumSize(size);
             }
 

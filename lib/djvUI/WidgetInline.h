@@ -134,6 +134,16 @@ namespace djv
             return _tooltipText;
         }
 
+        inline float Widget::_getUpdateTime() const
+        {
+            return _updateTime;
+        }
+
+        inline float Widget::_getElapsedTime() const
+        {
+            return _elapsedTime;
+        }
+
         inline const std::map<Core::Event::PointerID, glm::vec2> Widget::_getPointerHover() const
         {
             return _pointerHover;

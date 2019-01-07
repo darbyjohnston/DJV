@@ -296,6 +296,7 @@ namespace djv
                 {
                     auto& updateEvent = static_cast<Event::Update&>(event);
                     _updateTime = updateEvent.getTime();
+                    _elapsedTime += updateEvent.getDeltaTime();
                     std::string tooltip = _tooltipText;
                     for (const auto & action : _actions)
                     {

@@ -218,10 +218,13 @@ namespace djv
             void _childAddedEvent(Core::Event::ChildAdded &) override;
             void _childRemovedEvent(Core::Event::ChildRemoved &) override;
 
+            inline float _getUpdateTime() const;
+            inline float _getElapsedTime() const;
             inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
         private:
             float _updateTime = 0.f;
+            float _elapsedTime = 0.f;
             bool _visible = true;
             bool _parentsVisible = true;
             bool _clipped = false;
