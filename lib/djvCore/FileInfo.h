@@ -60,19 +60,35 @@ namespace djv
             //! This enumeration provides the file permissions.
             enum class FilePermissions
             {
-                Read = 1, //!< Readable
+                Read  = 1, //!< Readable
                 Write = 2, //!< Writable
-                Exec = 4, //!< Executable
+                Exec  = 4, //!< Executable
 
                 Count = 3
             };
             const std::string& getFilePermissionsLabel(int);
 
-            //! This struct provides list options.
-            struct DirListOptions
+            //! This enumeration provides the directory listing sort options.
+            enum class DirectoryListSort
             {
-                DirListOptions() {}
-                bool fileSequencesEnabled = false;
+                Name,
+                Size,
+                Permissions,
+                Time,
+
+                Count,
+                First = Name
+            };
+            DJV_ENUM_HELPERS(DirectoryListSort);
+
+            //! This struct provides directory listing options.
+            struct DirectoryListOptions
+            {
+                bool fileSequences = false;
+                bool showHidden = false;
+                DirectoryListSort sort = DirectoryListSort::Name;
+                bool reverseSort = false;
+                bool sortDirectoriesFirst = true;
                 std::string glob = "*";
             };
 
@@ -150,7 +166,7 @@ namespace djv
                 ///@{
 
                 //! Get the contents of the given directory.
-                static std::vector<FileInfo> dirList(const Path&, const DirListOptions& = DirListOptions());
+                static std::vector<FileInfo> directoryList(const Path&, const DirectoryListOptions& = DirectoryListOptions());
 
                 //! Get the file sequence for the given file.
                 static FileInfo getFileSequence(const Path&);
@@ -180,6 +196,7 @@ namespace djv
     } // namespace FileSystem
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
+    DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);
 
     std::ostream& operator << (std::ostream&, const Core::FileSystem::FileInfo&);
     

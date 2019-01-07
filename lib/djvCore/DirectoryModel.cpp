@@ -45,7 +45,6 @@ namespace djv
             struct DirectoryModel::Private
             {
                 std::shared_ptr<ValueSubject<Path> > path;
-                std::shared_ptr<ValueSubject<bool> > fileSequencesEnabled;
                 std::shared_ptr<ListSubject<FileInfo> > fileInfos;
                 std::shared_ptr<ListSubject<std::string> > fileNames;
                 std::shared_ptr<ListSubject<Path> > history;
@@ -54,6 +53,9 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > hasUp;
                 std::shared_ptr<ValueSubject<bool> > hasBack;
                 std::shared_ptr<ValueSubject<bool> > hasForward;
+                std::shared_ptr<ValueSubject<bool> > fileSequences;
+                std::shared_ptr<ValueSubject<bool> > showHidden;
+                std::shared_ptr<ValueSubject<std::string> > filter;
                 std::future<std::pair<std::vector<FileInfo>, std::vector<std::string> > > future;
                 std::shared_ptr<Time::Timer> futureTimer;
                 std::shared_ptr<DirectoryWatcher> directoryWatcher;
@@ -63,15 +65,16 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.path = ValueSubject<Path>::create();
-                p.fileSequencesEnabled = ValueSubject<bool>::create(false);
                 p.fileInfos = ListSubject<FileInfo>::create();
                 p.fileNames = ListSubject<std::string>::create();
                 p.history = ListSubject<Path>::create();
                 p.historyIndex = ValueSubject<size_t>::create(0);
-
                 p.hasUp = ValueSubject<bool>::create(false);
                 p.hasBack = ValueSubject<bool>::create(false);
                 p.hasForward = ValueSubject<bool>::create(false);
+                p.fileSequences = ValueSubject<bool>::create(false);
+                p.showHidden = ValueSubject<bool>::create(false);
+                p.filter = ValueSubject<std::string>::create();
 
                 p.futureTimer = Time::Timer::create(context);
                 p.futureTimer->setRepeating(true);
@@ -153,19 +156,6 @@ namespace djv
                 return _p->fileNames;
             }
 
-            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeFileSequencesEnabled() const
-            {
-                return _p->fileSequencesEnabled;
-            }
-
-            void DirectoryModel::setFileSequencesEnabled(bool value)
-            {
-                if (_p->fileSequencesEnabled->setIfChanged(value))
-                {
-                    _updatePath();
-                }
-            }
-
             void DirectoryModel::cdUp()
             {
                 DJV_PRIVATE_PTR();
@@ -214,7 +204,7 @@ namespace djv
             void DirectoryModel::goBack()
             {
                 DJV_PRIVATE_PTR();
-                if (p.historyIndex > 0)
+                if (p.historyIndex->get() > 0)
                 {
                     p.historyIndex->setIfChanged(p.historyIndex->get() - 1);
                     const auto & history = p.history->get();
@@ -263,19 +253,60 @@ namespace djv
                 return _p->hasForward;
             }
 
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeFileSequences() const
+            {
+                return _p->fileSequences;
+            }
+
+            std::shared_ptr<IValueSubject<bool> > DirectoryModel::observeShowHidden() const
+            {
+                return _p->showHidden;
+            }
+
+            void DirectoryModel::setFileSequences(bool value)
+            {
+                if (_p->fileSequences->setIfChanged(value))
+                {
+                    _updatePath();
+                }
+            }
+
+            void DirectoryModel::setShowHidden(bool value)
+            {
+                if (_p->showHidden->setIfChanged(value))
+                {
+                    _updatePath();
+                }
+            }
+
+            std::shared_ptr<IValueSubject<std::string> > DirectoryModel::observeFilter() const
+            {
+                return _p->filter;
+            }
+
+            void DirectoryModel::setFilter(const std::string & value)
+            {
+                if (_p->filter->setIfChanged(value))
+                {
+                    _updatePath();
+                }
+            }
+
             void DirectoryModel::_updatePath()
             {
                 DJV_PRIVATE_PTR();
                 const Path path = p.path->get();
-                const bool fileSequencesEnabled = p.fileSequencesEnabled->get();
+                DirectoryListOptions options;
+                options.fileSequences = p.fileSequences->get();
+                options.showHidden = p.showHidden->get();
+                const auto filter = p.filter->get();
+                options.glob = !filter.empty() ? filter : "*";
                 p.future = std::async(
                     std::launch::async,
-                    [path, fileSequencesEnabled]
+                    [path, options]
                 {
                     std::pair<std::vector<FileInfo>, std::vector<std::string> > out;
-                    DirListOptions options;
-                    options.fileSequencesEnabled = fileSequencesEnabled;
-                    out.first = FileInfo::dirList(path, options);
+                    out.first = FileInfo::directoryList(path, options);
                     for (const auto& fileInfo : out.first)
                     {
                         out.second.push_back(fileInfo.getFileName(-1, false));

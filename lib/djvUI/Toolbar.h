@@ -29,47 +29,39 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/RowLayout.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace UI
     {
-        //! This class provides a widget that displays an icon.
-        class Icon : public Widget
+        //! This class provides a toolbar widget.
+        class Toolbar : public Widget
         {
-            DJV_NON_COPYABLE(Icon);
+            DJV_NON_COPYABLE(Toolbar);
 
         protected:
             void _init(Core::Context *);
-            Icon();
+            Toolbar();
 
         public:
-            virtual ~Icon();
+            virtual ~Toolbar();
 
-            static std::shared_ptr<Icon> create(Core::Context *);
-            static std::shared_ptr<Icon> create(const Core::FileSystem::Path&, Core::Context *);
+            static std::shared_ptr<Toolbar> create(Core::Context *);
 
-            const Core::FileSystem::Path& getIcon() const;
-            void setIcon(const Core::FileSystem::Path&);
+            void addWidget(const std::shared_ptr<Widget>&, Layout::RowStretch = Layout::RowStretch::None);
+            void removeWidget(const std::shared_ptr<Widget>&);
+            void clearWidgets();
 
-            Style::ColorRole getIconColorRole() const;
-            void setIconColorRole(Style::ColorRole);
+            float getHeightForWidth(float) const override;
+
+            void addAction(const std::shared_ptr<Action>&) override;
+            void removeAction(const std::shared_ptr<Action>&) override;
+            void clearActions() override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint&) override;
-
-            void _updateEvent(Core::Event::Update&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             struct Private;

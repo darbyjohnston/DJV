@@ -154,9 +154,9 @@ namespace djv
             ///@{
 
             inline const std::vector<std::shared_ptr<Action> > & getActions() const;
-            void addAction(const std::shared_ptr<Action>&);
-            void removeAction(const std::shared_ptr<Action>&);
-            void clearActions();
+            virtual void addAction(const std::shared_ptr<Action>&);
+            virtual void removeAction(const std::shared_ptr<Action>&);
+            virtual void clearActions();
 
             ///@}
 

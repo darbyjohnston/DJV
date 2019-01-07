@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvUI/FileBrowser.h>
 #include <djvUI/IButton.h>
 
 #include <djvAV/Image.h>
@@ -99,13 +100,13 @@ namespace djv
                 DJV_NON_COPYABLE(ItemButton);
 
             protected:
-                void _init(Core::Context *);
+                void _init(ViewType, Core::Context *);
                 ItemButton();
 
             public:
                 virtual ~ItemButton();
 
-                static std::shared_ptr<ItemButton> create(Core::Context *);
+                static std::shared_ptr<ItemButton> create(ViewType, Core::Context *);
 
                 void setIcon(const Core::FileSystem::Path&);
                 void setThumbnail(const std::shared_ptr<AV::Image::Image>&, Core::UID);

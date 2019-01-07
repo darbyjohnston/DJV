@@ -29,9 +29,10 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvAV/Pixel.h>
 
 #include <djvCore/ISystem.h>
+#include <djvCore/Vector.h>
 
 #include <future>
 
@@ -61,6 +62,8 @@ namespace djv
             class Image;
 
             //! This class provides an icon system.
+            //!
+            //! \todo Add support for canceling requests (e.g., for the file browser).
             class IconSystem : public Core::ISystem
             {
                 DJV_NON_COPYABLE(IconSystem);
@@ -83,7 +86,7 @@ namespace djv
                 //! Get an icon and resize or convert it to a new image with the given information.
                 //! If either the given width or height is set to zero the image will be resized
                 //! maintaining it's aspect ratio.
-                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const Info&);
+                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const glm::ivec2&, Type = Type::None);
 
             private:
                 void _handleInfoRequests();

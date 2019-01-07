@@ -131,9 +131,9 @@ namespace djv
                 _log(s.str());
 
                 // Find the .text files.
-                FileSystem::DirListOptions options;
+                FileSystem::DirectoryListOptions options;
                 options.glob = "*.text";
-                const auto fileInfos = FileSystem::FileInfo::dirList(path, options);
+                const auto fileInfos = FileSystem::FileInfo::directoryList(path, options);
 
                 // Extract the locale names.
                 std::set<std::string> localeSet;
@@ -258,9 +258,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.text.clear();
             _log("Reading text files:");
-            FileSystem::DirListOptions options;
+            FileSystem::DirectoryListOptions options;
             options.glob = "*.text";
-            for (const auto & i : FileSystem::FileInfo::dirList(path, options))
+            for (const auto & i : FileSystem::FileInfo::directoryList(path, options))
             {
                 _log(String::indent(1) + i.getPath().get());
                 try

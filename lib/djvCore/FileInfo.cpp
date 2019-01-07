@@ -177,9 +177,9 @@ namespace djv
 
             FileInfo FileInfo::getFileSequence(const Path& path)
             {
-                DirListOptions options;
-                options.fileSequencesEnabled = true;
-                for (const auto& fileInfo : dirList(path.getDirectoryName(), options))
+                DirectoryListOptions options;
+                options.fileSequences = true;
+                for (const auto& fileInfo : directoryList(path.getDirectoryName(), options))
                 {
                     if (fileInfo.sequenceContains(path))
                     {
@@ -204,5 +204,13 @@ namespace djv
         DJV_TEXT("File"),
         DJV_TEXT("Sequence"),
         DJV_TEXT("Directory"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        Core::FileSystem,
+        DirectoryListSort,
+        DJV_TEXT("Name"),
+        DJV_TEXT("Size"),
+        DJV_TEXT("Permissions"),
+        DJV_TEXT("Type"));
 
 } // namespace djv

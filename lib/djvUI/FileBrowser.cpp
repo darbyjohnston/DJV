@@ -29,19 +29,24 @@
 
 #include <djvUI/FileBrowser.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/FileBrowserPrivate.h>
 #include <djvUI/FlowLayout.h>
+#include <djvUI/Menu.h>
+#include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Splitter.h>
-#include <djvUI/ToolButton.h>
+#include <djvUI/ToolBar.h>
 
 #include <djvAV/IO.h>
 #include <djvAV/IconSystem.h>
 
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/FileInfo.h>
+
+#include <GLFW/glfw3.h>
 
 #include <ctime>
 
@@ -58,15 +63,13 @@ namespace djv
                 std::shared_ptr<FileSystem::DirectoryModel> directoryModel;
                 std::vector<FileSystem::FileInfo> fileInfoList;
                 std::map<std::shared_ptr<ItemButton>, FileSystem::FileInfo> buttonToFileInfo;
-                std::shared_ptr<Layout::Flow> itemLayout;
+                ViewType viewType = ViewType::First;
+                std::shared_ptr<ActionGroup> viewTypeActionGroup;
+                std::shared_ptr<Layout::Flow> iconsLayout;
+                std::shared_ptr<Layout::Vertical> listLayout;
+                std::shared_ptr<ScrollWidget> scrollWidget;
                 std::shared_ptr<Layout::Vertical> layout;
-                std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
-                std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
-                std::shared_ptr<ValueObserver<bool> > hasUpObserver;
-                std::shared_ptr<ListObserver<FileSystem::Path> > historyObserver;
-                std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
-                std::shared_ptr<ValueObserver<bool> > hasBackObserver;
-                std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
+
                 struct InfoFuture
                 {
                     FileSystem::FileInfo fileInfo;
@@ -81,6 +84,21 @@ namespace djv
                 };
                 std::vector<ImageFuture> imageFutures;
 
+                std::shared_ptr<ValueObserver<FileSystem::Path> > pathObserver;
+                std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
+                std::shared_ptr<ValueObserver<bool> > hasUpObserver;
+                std::shared_ptr<ValueObserver<bool> > upObserver;
+                std::shared_ptr<ValueObserver<bool> > currentObserver;
+                std::shared_ptr<ListObserver<FileSystem::Path> > historyObserver;
+                std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
+                std::shared_ptr<ValueObserver<bool> > hasBackObserver;
+                std::shared_ptr<ValueObserver<bool> > backObserver;
+                std::shared_ptr<ValueObserver<bool> > hasForwardObserver;
+                std::shared_ptr<ValueObserver<bool> > forwardObserver;
+                std::shared_ptr<ValueObserver<bool> > reloadObserver;
+                std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
+                std::shared_ptr<ValueObserver<bool> > showHiddenObserver;
+
                 std::string _getTooltip(const FileSystem::FileInfo &);
                 std::string _getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &);
             };
@@ -93,67 +111,128 @@ namespace djv
 
                 _p->directoryModel = FileSystem::DirectoryModel::create(context);
 
-                auto upButton = Button::Tool::create(context);
-                upButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowUp90DPI.png"));
-                upButton->setTooltip(DJV_TEXT("Go up a directory."));
-                auto backButton = Button::Tool::create(context);
-                backButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowLeft90DPI.png"));
-                backButton->setTooltip(DJV_TEXT("Go back a directory."));
-                auto forwardButton = Button::Tool::create(context);
-                forwardButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowRight90DPI.png"));
-                forwardButton->setTooltip(DJV_TEXT("Go forward a directory."));
+                auto upAction = Action::create();
+                upAction->setText(DJV_TEXT("Up"));
+                upAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowUp90DPI.png"));
+                upAction->setTooltip(DJV_TEXT("Go up a directory."));
+                upAction->setShortcut(GLFW_KEY_UP);
+                addAction(upAction);
+
+                auto currentAction = Action::create();
+                currentAction->setText(DJV_TEXT("Current Directory"));
+                currentAction->setTooltip(DJV_TEXT("Go to the current directory."));
+                currentAction->setShortcut(GLFW_KEY_PERIOD);
+                addAction(currentAction);
+
+                auto backAction = Action::create();
+                backAction->setText(DJV_TEXT("Back"));
+                backAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowLeft90DPI.png"));
+                backAction->setTooltip(DJV_TEXT("Go back a directory."));
+                backAction->setShortcut(GLFW_KEY_LEFT);
+                addAction(backAction);
+
+                auto forwardAction = Action::create();
+                forwardAction->setText(DJV_TEXT("Forward"));
+                forwardAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconArrowRight90DPI.png"));
+                forwardAction->setTooltip(DJV_TEXT("Go forward a directory."));
+                forwardAction->setShortcut(GLFW_KEY_RIGHT);
+                addAction(forwardAction);
+
+                auto reloadAction = Action::create();
+                reloadAction->setText(DJV_TEXT("Reload"));
+                reloadAction->setTooltip(DJV_TEXT("Reload the directory."));
+                reloadAction->setShortcut(GLFW_KEY_R);
+                addAction(reloadAction);
+
+                auto largeIconsAction = Action::create();
+                largeIconsAction->setText(DJV_TEXT("Large Icons"));
+                largeIconsAction->setTooltip(DJV_TEXT("Show items with large icons."));
+                addAction(largeIconsAction);
+                auto smallIconsAction = Action::create();
+                smallIconsAction->setText(DJV_TEXT("Small Icons"));
+                smallIconsAction->setTooltip(DJV_TEXT("Show items with small icons."));
+                addAction(smallIconsAction);
+                auto listViewAction = Action::create();
+                listViewAction->setText(DJV_TEXT("List View"));
+                largeIconsAction->setTooltip(DJV_TEXT("Show items with large icons."));
+                addAction(largeIconsAction);
+                _p->viewTypeActionGroup = ActionGroup::create(ButtonType::Radio);
+                _p->viewTypeActionGroup->addAction(largeIconsAction);
+                _p->viewTypeActionGroup->addAction(smallIconsAction);
+                _p->viewTypeActionGroup->addAction(listViewAction);
+                _p->viewTypeActionGroup->setChecked(static_cast<int>(_p->viewType));
+
+                auto fileSequencesAction = Action::create();
+                fileSequencesAction->setButtonType(ButtonType::Toggle);
+                fileSequencesAction->setText(DJV_TEXT("File Sequences"));
+                fileSequencesAction->setTooltip(DJV_TEXT("Toggle whether file sequences are enabled."));
+                fileSequencesAction->setShortcut(GLFW_KEY_S);
+                addAction(fileSequencesAction);
+
+                auto showHiddenAction = Action::create();
+                showHiddenAction->setButtonType(ButtonType::Toggle);
+                showHiddenAction->setText(DJV_TEXT("Show Hidden"));
+                showHiddenAction->setTooltip(DJV_TEXT("Show hidden items."));
+                showHiddenAction->setShortcut(GLFW_KEY_N);
+                addAction(showHiddenAction);
+
+                auto directoryMenu = Menu::create(DJV_TEXT("Directory"), context);
+                directoryMenu->addAction(upAction);
+                directoryMenu->addAction(currentAction);
+                directoryMenu->addSeparator();
+                directoryMenu->addAction(backAction);
+                directoryMenu->addAction(forwardAction);
+                directoryMenu->addSeparator();
+                directoryMenu->addAction(reloadAction);
+
+                auto viewMenu = Menu::create(DJV_TEXT("View"), context);
+                //! \todo Make these a sub-menu.
+                viewMenu->addAction(largeIconsAction);
+                viewMenu->addAction(smallIconsAction);
+                viewMenu->addAction(listViewAction);
+                viewMenu->addSeparator();
+                viewMenu->addAction(fileSequencesAction);
+                viewMenu->addAction(showHiddenAction);
+
+                auto sortMenu = Menu::create(DJV_TEXT("Sort"), context);
+
+                auto bookmarksMenu = Menu::create(DJV_TEXT("Bookmarks"), context);
+
+                auto menuBar = MenuBar::create(context);
+                menuBar->addMenu(directoryMenu);
+                menuBar->addMenu(viewMenu);
+                menuBar->addMenu(sortMenu);
+                menuBar->addMenu(bookmarksMenu);
 
                 auto pathWidget = PathWidget::create(context);
 
-                auto topToolLayout = Layout::Horizontal::create(context);
-                topToolLayout->setSpacing(Style::MetricsRole::None);
-                topToolLayout->addWidget(upButton);
-                topToolLayout->addWidget(backButton);
-                topToolLayout->addWidget(forwardButton);
-                topToolLayout->addWidget(pathWidget, Layout::RowStretch::Expand);
+                auto toolBar = Toolbar::create(context);
+                toolBar->addAction(upAction);
+                toolBar->addAction(backAction);
+                toolBar->addAction(forwardAction);
+                toolBar->addWidget(pathWidget, Layout::RowStretch::Expand);
 
                 auto shortcutsWidget = ShorcutsWidget::create(context);
 
-                _p->itemLayout = Layout::Flow::create(context);
-                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                scrollWidget->addWidget(_p->itemLayout);
+                _p->iconsLayout = Layout::Flow::create(context);
+                _p->listLayout = Layout::Vertical::create(context);
+                _p->listLayout->setSpacing(Style::MetricsRole::None);
+                _p->scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                _p->scrollWidget->addWidget(_p->iconsLayout);
+                _p->scrollWidget->addWidget(_p->listLayout);
 
                 _p->layout = Layout::Vertical::create(context);
                 _p->layout->setSpacing(Style::MetricsRole::None);
-                _p->layout->addWidget(topToolLayout);
+                _p->layout->addWidget(menuBar);
+                _p->layout->addWidget(toolBar);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
                 splitter->addWidget(shortcutsWidget);
-                splitter->addWidget(scrollWidget);
+                splitter->addWidget(_p->scrollWidget);
                 splitter->setSplit(.15f);
                 _p->layout->addWidget(splitter, Layout::RowStretch::Expand);
                 _p->layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
-                upButton->setClickedCallback(
-                    [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->directoryModel->cdUp();
-                    }
-                });
-                backButton->setClickedCallback(
-                    [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->directoryModel->goBack();
-                    }
-                });
-                forwardButton->setClickedCallback(
-                    [weak]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->directoryModel->goForward();
-                    }
-                });
-
                 pathWidget->setPathCallback(
                     [weak](const FileSystem::Path & value)
                 {
@@ -179,11 +258,24 @@ namespace djv
                         widget->_p->directoryModel->setPath(value);
                     }
                 });
+
+                _p->viewTypeActionGroup->setRadioCallback(
+                    [weak](int value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->setViewType(static_cast<ViewType>(value));
+                    }
+                });
                 
                 _p->pathObserver = ValueObserver<FileSystem::Path>::create(
                     _p->directoryModel->observePath(),
-                    [pathWidget](const FileSystem::Path & value)
+                    [weak, pathWidget](const FileSystem::Path & value)
                 {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->scrollWidget->setScrollPos(glm::vec2(0.f, 0.f));
+                    }
                     pathWidget->setPath(value);
                 });
 
@@ -200,9 +292,29 @@ namespace djv
 
                 _p->hasUpObserver = ValueObserver<bool>::create(
                     _p->directoryModel->observeHasUp(),
-                    [upButton](bool value)
+                    [upAction](bool value)
                 {
-                    upButton->setEnabled(value);
+                    upAction->setEnabled(value);
+                });
+
+                _p->upObserver = ValueObserver<bool>::create(
+                    upAction->observeClicked(),
+                    [weak](bool)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->cdUp();
+                    }
+                });
+
+                _p->currentObserver = ValueObserver<bool>::create(
+                    currentAction->observeClicked(),
+                    [weak](bool)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->setPath(FileSystem::Path("."));
+                    }
                 });
 
                 _p->historyObserver = ListObserver<FileSystem::Path>::create(
@@ -221,16 +333,66 @@ namespace djv
 
                 _p->hasBackObserver = ValueObserver<bool>::create(
                     _p->directoryModel->observeHasBack(),
-                    [backButton](bool value)
+                    [backAction](bool value)
                 {
-                    backButton->setEnabled(value);
+                    backAction->setEnabled(value);
+                });
+
+                _p->backObserver = ValueObserver<bool>::create(
+                    backAction->observeClicked(),
+                    [weak](bool)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->goBack();
+                    }
                 });
 
                 _p->hasForwardObserver = ValueObserver<bool>::create(
                     _p->directoryModel->observeHasForward(),
-                    [forwardButton](bool value)
+                    [forwardAction](bool value)
                 {
-                    forwardButton->setEnabled(value);
+                    forwardAction->setEnabled(value);
+                });
+
+                _p->forwardObserver = ValueObserver<bool>::create(
+                    forwardAction->observeClicked(),
+                    [weak](bool)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->goForward();
+                    }
+                });
+
+                _p->reloadObserver = ValueObserver<bool>::create(
+                    reloadAction->observeClicked(),
+                    [weak](bool)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->reload();
+                    }
+                });
+
+                _p->fileSequencesObserver = ValueObserver<bool>::create(
+                    fileSequencesAction->isChecked(),
+                    [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->setFileSequences(value);
+                    }
+                });
+
+                _p->showHiddenObserver = ValueObserver<bool>::create(
+                    showHiddenAction->isChecked(),
+                    [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->directoryModel->setShowHidden(value);
+                    }
                 });
             }
 
@@ -253,6 +415,14 @@ namespace djv
                 _p->directoryModel->setPath(value);
             }
 
+            void Widget::setViewType(ViewType value)
+            {
+                if (value == _p->viewType)
+                    return;
+                _p->viewType = value;
+                _updateItems();
+            }
+
             void Widget::_updateEvent(Event::Update& event)
             {
                 {
@@ -273,7 +443,14 @@ namespace djv
                                 if (iconSystem && ioSystem && style && widget)
                                 {
                                     widget->setTooltip(_p->_getTooltip(i->fileInfo, info));
-                                    const int t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Thumbnail));
+                                    int t = 0;
+                                    switch (_p->viewType)
+                                    {
+                                    case ViewType::ThumbnailsLarge: t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::ThumbnailLarge)); break;
+                                    case ViewType::ThumbnailsSmall: t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::ThumbnailSmall)); break;
+                                    case ViewType::ListView:        t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::Icon));           break;
+                                    default: break;
+                                    }
                                     glm::ivec2 thumbnailSize(t, t);
                                     if (info.video.size())
                                     {
@@ -288,9 +465,7 @@ namespace djv
                                         }
                                     }
                                     Private::ImageFuture future;
-                                    future.future = iconSystem->getImage(
-                                        i->fileInfo.getPath(),
-                                        AV::Image::Info(thumbnailSize, AV::Image::Type::RGBA_U8));
+                                    future.future = iconSystem->getImage(i->fileInfo.getPath(), thumbnailSize);
                                     future.widget = i->widget;
                                     _p->imageFutures.push_back(std::move(future));
                                 }
@@ -373,14 +548,31 @@ namespace djv
                                         }
                                         else
                                         {
+                                            std::string name;
                                             switch (i->second.getType())
                                             {
                                             case FileSystem::FileType::Directory:
-                                                button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconFileBrowserDirectory90DPI.png"));
+                                                switch (_p->viewType)
+                                                {
+                                                case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge90DPI.png"; break;
+                                                case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall90DPI.png"; break;
+                                                case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList90DPI.png";  break;
+                                                default: break;
+                                                }
                                                 break;
                                             default:
-                                                button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconFileBrowserFile90DPI.png"));
+                                                switch (_p->viewType)
+                                                {
+                                                case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge90DPI.png"; break;
+                                                case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall90DPI.png"; break;
+                                                case ViewType::ListView:        name = "djvIconFileBrowserFileList90DPI.png";  break;
+                                                default: break;
+                                                }
                                                 break;
+                                            }
+                                            if (!name.empty())
+                                            {
+                                                button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, name));
                                             }
                                         }
                                     }
@@ -401,14 +593,23 @@ namespace djv
             {
                 auto context = getContext();
                 _p->buttonToFileInfo.clear();
-                _p->itemLayout->clearWidgets();
+                _p->iconsLayout->clearWidgets();
+                _p->listLayout->clearWidgets();
+                _p->infoFutures.clear();
+                _p->imageFutures.clear();
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
                 for (const auto & fileInfo : _p->fileInfoList)
                 {
-                    auto button = ItemButton::create(context);
+                    auto button = ItemButton::create(_p->viewType, context);
                     button->setText(fileInfo.getFileName(Frame::Invalid, false));
                     button->setTooltip(_p->_getTooltip(fileInfo));
-                    _p->itemLayout->addWidget(button);
+                    switch (_p->viewType)
+                    {
+                    case ViewType::ThumbnailsLarge:
+                    case ViewType::ThumbnailsSmall: _p->iconsLayout->addWidget(button); break;
+                    case ViewType::ListView:        _p->listLayout->addWidget(button);  break;
+                    default: break;
+                    }
                     _p->buttonToFileInfo[button] = fileInfo;
                     button->installEventFilter(shared_from_this());
                     button->setClickedCallback(
@@ -469,4 +670,12 @@ namespace djv
 
         } // namespace FileBrowser
     } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI::FileBrowser,
+        ViewType,
+        DJV_TEXT("ThumbnailsLarge"),
+        DJV_TEXT("ThumbnailsSmall"),
+        DJV_TEXT("ListView"));
+
 } // namespace djv

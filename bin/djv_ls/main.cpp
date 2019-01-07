@@ -67,9 +67,9 @@ namespace djv
                     case Core::FileSystem::FileType::Directory:
                     {
                         std::cout << fileInfo.getPath() << ":" << std::endl;
-                        Core::FileSystem::DirListOptions options;
-                        options.fileSequencesEnabled = true;
-                        for (const auto & i : Core::FileSystem::FileInfo::dirList(fileInfo.getPath(), options))
+                        Core::FileSystem::DirectoryListOptions options;
+                        options.fileSequences = true;
+                        for (const auto & i : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
                         {
                             _print(i);
                         }

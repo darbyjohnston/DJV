@@ -112,11 +112,14 @@ namespace djv
                 DJV_NON_COPYABLE(MenuButton);
 
             protected:
-                void _init(const std::shared_ptr<Action> &, Context *);
+                void _init(Context *);
                 MenuButton();
 
             public:
-                static std::shared_ptr<MenuButton> create(const std::shared_ptr<Action> &, Context *);
+                static std::shared_ptr<MenuButton> create(Context *);
+
+                void setAction(const std::shared_ptr<Action> &);
+                void setMenu(const std::shared_ptr<Menu> &);
 
                 float getHeightForWidth(float) const override;
 
@@ -140,7 +143,7 @@ namespace djv
                 friend class MenuLayout;
             };
 
-            void MenuButton::_init(const std::shared_ptr<Action> & action, Context * context)
+            void MenuButton::_init(Context * context)
             {
                 IButton::_init(context);
 
@@ -163,7 +166,20 @@ namespace djv
                 _layout->addWidget(_textLabel, Layout::RowStretch::Expand);
                 _layout->addWidget(_shortcutLabel);
                 _layout->setParent(shared_from_this());
+            }
 
+            MenuButton::MenuButton()
+            {}
+
+            std::shared_ptr<MenuButton> MenuButton::create(Context * context)
+            {
+                auto out = std::shared_ptr<MenuButton>(new MenuButton);
+                out->_init(context);
+                return out;
+            }
+
+            void MenuButton::setAction(const std::shared_ptr<Action> & action)
+            {
                 auto weak = std::weak_ptr<MenuButton>(std::dynamic_pointer_cast<MenuButton>(shared_from_this()));
                 _buttonTypeObserver = ValueObserver<ButtonType>::create(
                     action->getButtonType(),
@@ -202,6 +218,7 @@ namespace djv
                         widget->_textLabel->setText(value);
                     }
                 });
+                auto context = getContext();
                 _shortcutObserver = ValueObserver<std::shared_ptr<Shortcut> >::create(
                     action->getShortcut(),
                     [weak, context](const std::shared_ptr<Shortcut> & value)
@@ -223,14 +240,18 @@ namespace djv
                 });
             }
 
-            MenuButton::MenuButton()
-            {}
-
-            std::shared_ptr<MenuButton> MenuButton::create(const std::shared_ptr<Action> & action, Context * context)
+            void MenuButton::setMenu(const std::shared_ptr<Menu> & menu)
             {
-                auto out = std::shared_ptr<MenuButton>(new MenuButton);
-                out->_init(action, context);
-                return out;
+                auto weak = std::weak_ptr<MenuButton>(std::dynamic_pointer_cast<MenuButton>(shared_from_this()));
+                _textObserver = ValueObserver<std::string>::create(
+                    menu->getMenuName(),
+                    [weak](const std::string & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_textLabel->setText(value);
+                    }
+                });
             }
 
             float MenuButton::getHeightForWidth(float value) const
@@ -592,7 +613,9 @@ namespace djv
         {
             Context * context = nullptr;
             std::shared_ptr<ValueSubject<std::string> > menuName;
-            std::vector<std::shared_ptr<Action> > actions;
+            std::map<size_t, std::shared_ptr<Action> > actions;
+            std::map<size_t, std::shared_ptr<Menu> > menus;
+            size_t count = 0;
             std::shared_ptr<Layout::Overlay> overlay;
             std::function<void(void)> closeCallback;
 
@@ -640,12 +663,17 @@ namespace djv
 
         void Menu::addAction(const std::shared_ptr<Action> & action)
         {
-            _p->actions.push_back(action);
+            _p->actions[_p->count++] = action;
+        }
+
+        void Menu::addMenu(const std::shared_ptr<Menu> & menu)
+        {
+            _p->menus[_p->count++] = menu;
         }
 
         void Menu::addSeparator()
         {
-            _p->actions.push_back(nullptr);
+            _p->actions[_p->count++] = nullptr;
         }
 
         void Menu::clearActions()
@@ -750,12 +778,14 @@ namespace djv
         std::shared_ptr<Widget> Menu::Private::createMenu(const std::weak_ptr<Menu> & menuWeak, MenuType type)
         {
             auto layout = MenuLayout::create(context);
-            for (const auto & action : actions)
+            std::map<size_t, std::shared_ptr<Widget> > widgets;
+            for (const auto & i : actions)
             {
-                if (action)
+                if (auto & action = i.second)
                 {
-                    auto button = MenuButton::create(action, context);
-                    layout->addWidget(button);
+                    auto button = MenuButton::create(context);
+                    button->setAction(action);
+                    widgets[i.first] = button;
                     button->setClickedCallback(
                         [menuWeak, action]
                     {
@@ -778,8 +808,19 @@ namespace djv
                 }
                 else
                 {
-                    layout->addSeparator();
+                    widgets[i.first] = Layout::Separator::create(context);
                 }
+            }
+            for (const auto & i : menus)
+            {
+                auto button = MenuButton::create(context);
+                button->setMenu(i.second);
+                widgets[i.first] = button;
+            }
+
+            for (const auto & i : widgets)
+            {
+                layout->addWidget(i.second);
             }
 
             std::shared_ptr<Widget> out;

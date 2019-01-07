@@ -434,7 +434,7 @@ namespace djv
                     {
                         throw std::runtime_error(DJV_TEXT("Cannot initialize FreeType."));
                     }
-                    for (const auto& i : FileSystem::FileInfo::dirList(p.fontPath))
+                    for (const auto& i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
                         const std::string& fileName = i.getFileName();
 

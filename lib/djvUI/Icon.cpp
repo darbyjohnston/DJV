@@ -48,9 +48,7 @@ namespace djv
             FileSystem::Path path;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
             std::future<AV::IO::Info> infoFuture;
-            bool infoFutureRequest = false;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
-            bool imageFutureRequest = false;
             AV::Image::Info info;
             std::shared_ptr<AV::Image::Image> image;
             UID uid = 0;
@@ -97,9 +95,7 @@ namespace djv
             if (auto system = _getIconSystem().lock())
             {
                 _p->infoFuture = system->getInfo(_p->path);
-                _p->infoFutureRequest = true;
                 _p->imageFuture = system->getImage(_p->path);
-                _p->imageFutureRequest = true;
             }
             _p->uid = _p->path.isEmpty() ? 0 : createUID();
             _resize();
@@ -119,24 +115,6 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                if (_p->infoFutureRequest)
-                {
-                    _p->infoFutureRequest = false;
-                    try
-                    {
-                        const auto info = _p->infoFuture.get();
-                        if (info.video.size())
-                        {
-                            _p->info = info.video.front().info;
-                            _resize();
-                        }
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _p->info = AV::Image::Info();
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
                 _setMinimumSize(glm::vec2(_p->info.size) + getMargin().getSize(style));
             }
         }
@@ -152,20 +130,6 @@ namespace djv
                     const glm::vec2 c = g.getCenter();
 
                     // Draw the icon.
-                    if (_p->imageFutureRequest)
-                    {
-                        _p->imageFutureRequest = false;
-                        try
-                        {
-                            _p->image = _p->imageFuture.get();
-                            _redraw();
-                        }
-                        catch (const std::exception & e)
-                        {
-                            _p->image = nullptr;
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
                     if (_p->image && _p->image->isValid())
                     {
                         const glm::vec2& size = _p->info.size;
@@ -197,6 +161,42 @@ namespace djv
                             render->drawImage(_p->image, pos, false, _p->uid);
                         }
                     }
+                }
+            }
+        }
+
+        void Icon::_updateEvent(Core::Event::Update&)
+        {
+            if (_p->infoFuture.valid() &&
+                _p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    const auto info = _p->infoFuture.get();
+                    if (info.video.size())
+                    {
+                        _p->info = info.video.front().info;
+                        _resize();
+                    }
+                }
+                catch (const std::exception & e)
+                {
+                    _p->info = AV::Image::Info();
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (_p->imageFuture.valid() &&
+                _p->imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    _p->image = _p->imageFuture.get();
+                    _redraw();
+                }
+                catch (const std::exception & e)
+                {
+                    _p->image = nullptr;
+                    _log(e.what(), LogLevel::Error);
                 }
             }
         }

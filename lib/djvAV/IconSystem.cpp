@@ -95,7 +95,8 @@ namespace djv
 
                     ImageRequest(ImageRequest&& other) :
                         path(other.path),
-                        info(std::move(other.info)),
+                        size(std::move(other.size)),
+                        type(std::move(other.type)),
                         queue(std::move(other.queue)),
                         read(std::move(other.read)),
                         promise(std::move(other.promise))
@@ -106,7 +107,8 @@ namespace djv
                         if (this != &other)
                         {
                             path = other.path;
-                            info = std::move(other.info);
+                            size = std::move(other.size);
+                            type = std::move(other.type);
                             queue = std::move(other.queue);
                             read = std::move(other.read);
                             promise = std::move(other.promise);
@@ -115,11 +117,21 @@ namespace djv
                     }
 
                     FileSystem::Path path;
-                    std::unique_ptr<Info> info;
+                    glm::ivec2 size = glm::ivec2(0, 0);
+                    Type type = Type::None;
                     std::shared_ptr<IO::Queue> queue;
                     std::shared_ptr<IO::IRead> read;
                     std::promise<std::shared_ptr<Image> > promise;
                 };
+
+                std::string getCacheKey(const FileSystem::Path & path, const glm::ivec2 & size, Type type)
+                {
+                    std::stringstream ss;
+                    ss << path;
+                    ss << size;
+                    ss << type;
+                    return ss.str();
+                }
 
             } // namespace
 
@@ -135,7 +147,7 @@ namespace djv
                 std::list<ImageRequest> pendingImageRequests;
 
                 Memory::Cache<FileSystem::Path, IO::Info> infoCache;
-                Memory::Cache<FileSystem::Path, std::shared_ptr<Image> > imageCache;
+                Memory::Cache<std::string, std::shared_ptr<Image> > imageCache;
                 std::mutex cacheMutex;
 
                 GLFWwindow * glfwWindow = nullptr;
@@ -281,12 +293,13 @@ namespace djv
                 return future;
             }
 
-            std::future<std::shared_ptr<Image> > IconSystem::getImage(const FileSystem::Path& path, const Info& info)
+            std::future<std::shared_ptr<Image> > IconSystem::getImage(const FileSystem::Path& path, const glm::ivec2& size, Type type)
             {
                 DJV_PRIVATE_PTR();
                 ImageRequest request;
                 request.path = path;
-                request.info.reset(new Info(info));
+                request.size = size;
+                request.type = type;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -385,9 +398,10 @@ namespace djv
                     std::shared_ptr<Image> image;
                     {
                         std::lock_guard<std::mutex> lock(p.cacheMutex);
-                        if (p.imageCache.contains(i.path))
+                        const auto key = getCacheKey(i.path, i.size, i.type);
+                        if (p.imageCache.contains(key))
                         {
-                            image = p.imageCache.get(i.path);
+                            image = p.imageCache.get(key);
                         }
                     }
                     if (image)
@@ -432,24 +446,26 @@ namespace djv
                     }
                     if (image)
                     {
-                        if (i->info)
+                        if (i->size.x != 0 || i->size.y != 0 || i->type != Type::None)
                         {
-                            auto info = *i->info;
+                            auto size = i->size;
                             const float aspect = image->getAspectRatio();
-                            if (0 == info.size.x)
+                            if (0 == size.x)
                             {
-                                info.size.x = static_cast<int>(info.size.y * aspect);
+                                size.x = static_cast<int>(size.y * aspect);
                             }
-                            else if (0 == info.size.y && aspect > 0.f)
+                            else if (0 == size.y && aspect > 0.f)
                             {
-                                info.size.y = static_cast<int>(info.size.x / aspect);
+                                size.y = static_cast<int>(size.x / aspect);
                             }
+                            auto type = i->type != Type::None ? i->type : image->getType();
+                            const auto info = Info(size, type);
                             auto tmp = Image::create(info);
                             tmp->setTags(image->getTags());
                             convert->process(*image, info, *tmp);
                             image = tmp;
                         }
-                        p.imageCache.add(i->path, image);
+                        p.imageCache.add(getCacheKey(i->path, i->size, i->type), image);
                         i->promise.set_value(image);
                         i = p.pendingImageRequests.erase(i);
                     }

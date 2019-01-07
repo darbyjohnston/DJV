@@ -82,7 +82,7 @@ namespace djv
                 return true;
             }
 
-            std::vector<FileInfo> FileInfo::dirList(const Path& value, const DirListOptions& options)
+            std::vector<FileInfo> FileInfo::directoryList(const Path& value, const DirectoryListOptions& options)
             {
                 std::vector<FileInfo> out;
                 if (!value.isEmpty())
@@ -111,7 +111,7 @@ namespace djv
                             bool filter = false;
                             if (ffd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
                             {
-                                filter = true;
+                                filter = !options.showHidden;
                             }
                             if (fileName.size() == 1 && '.' == fileName[0])
                             {
@@ -125,7 +125,7 @@ namespace djv
                             if (!filter)
                             {
                                 FileInfo fileInfo(Path(value, fileName));
-                                if (options.fileSequencesEnabled)
+                                if (options.fileSequences)
                                 {
                                     fileInfo.evalSequence();
                                     if (fileInfo.isSequenceValid())

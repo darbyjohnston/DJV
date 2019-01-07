@@ -54,6 +54,7 @@ namespace djv
         //! This class provides a scroll widget.
         //!
         //! \bug [1.0 M] Add a minimum scroll bar handle size.
+        //! \todo Add keyboard shortcuts (page up, page down, etc.).
         class ScrollWidget : public Layout::IContainer
         {
             DJV_NON_COPYABLE(ScrollWidget);

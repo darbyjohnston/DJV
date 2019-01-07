@@ -289,10 +289,11 @@ namespace djv
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<ImageWidget> imageWidget;
                 std::shared_ptr<TextBlock> textBlock;
-                std::shared_ptr<Layout::Vertical> layout;
+                std::shared_ptr<Label> nameLabel;
+                std::shared_ptr<Layout::Row> layout;
             };
 
-            void ItemButton::_init(Context * context)
+            void ItemButton::_init(ViewType viewType, Context * context)
             {
                 IButton::_init(context);
 
@@ -307,16 +308,33 @@ namespace djv
                 _p->imageWidget->setVAlign(VAlign::Bottom);
                 _p->imageWidget->hide();
 
-                _p->textBlock = TextBlock::create(context);
-                _p->textBlock->setTextHAlign(TextHAlign::Center);
-
-                _p->layout = Layout::Vertical::create(context);
+                switch (viewType)
+                {
+                case ViewType::ThumbnailsLarge:
+                case ViewType::ThumbnailsSmall:
+                    _p->textBlock = TextBlock::create(context);
+                    _p->textBlock->setTextHAlign(TextHAlign::Center);
+                    _p->layout = Layout::Vertical::create(context);
+                    break;
+                case ViewType::ListView:
+                    _p->nameLabel = Label::create(context);
+                    _p->nameLabel->setTextHAlign(TextHAlign::Left);
+                    _p->layout = Layout::Horizontal::create(context);
+                    break;
+                }
                 _p->layout->setMargin(Style::MetricsRole::Margin);
                 auto stackLayout = Layout::Stack::create(context);
                 stackLayout->addWidget(_p->icon);
                 stackLayout->addWidget(_p->imageWidget);
                 _p->layout->addWidget(stackLayout);
-                _p->layout->addWidget(_p->textBlock);
+                if (_p->textBlock)
+                {
+                    _p->layout->addWidget(_p->textBlock);
+                }
+                if (_p->nameLabel)
+                {
+                    _p->layout->addWidget(_p->nameLabel, Layout::RowStretch::Expand);
+                }
                 _p->layout->setParent(shared_from_this());
             }
 
@@ -327,10 +345,10 @@ namespace djv
             ItemButton::~ItemButton()
             {}
 
-            std::shared_ptr<ItemButton> ItemButton::create(Context * context)
+            std::shared_ptr<ItemButton> ItemButton::create(ViewType viewType, Context * context)
             {
                 auto out = std::shared_ptr<ItemButton>(new ItemButton);
-                out->_init(context);
+                out->_init(viewType, context);
                 return out;
             }
 
@@ -348,7 +366,14 @@ namespace djv
 
             void ItemButton::setText(const std::string& value)
             {
-                _p->textBlock->setText(value);
+                if (_p->textBlock)
+                {
+                    _p->textBlock->setText(value);
+                }
+                if (_p->nameLabel)
+                {
+                    _p->nameLabel->setText(value);
+                }
             }
 
             float ItemButton::getHeightForWidth(float value) const
@@ -370,7 +395,14 @@ namespace djv
             void ItemButton::_updateEvent(Event::Update& event)
             {
                 IButton::_updateEvent(event);
-                _p->textBlock->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                if (_p->textBlock)
+                {
+                    _p->textBlock->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                }
+                if (_p->nameLabel)
+                {
+                    _p->nameLabel->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                }
             }
 
         } // namespace Layout

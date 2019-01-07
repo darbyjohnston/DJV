@@ -74,6 +74,7 @@ namespace djv
             void setMenuName(const std::string &);
 
             void addAction(const std::shared_ptr<Action> &);
+            void addMenu(const std::shared_ptr<Menu> &);
             void addSeparator();
             void clearActions();
 

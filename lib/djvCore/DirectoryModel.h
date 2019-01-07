@@ -67,9 +67,6 @@ namespace djv
                 std::shared_ptr<IListSubject<FileInfo> > observeFileInfoList() const;
                 std::shared_ptr<IListSubject<std::string> > observeFileNames() const;
 
-                std::shared_ptr<IValueSubject<bool> > observeFileSequencesEnabled() const;
-                void setFileSequencesEnabled(bool);
-
                 void cdUp();
                 std::shared_ptr<IValueSubject<bool> > observeHasUp() const;
 
@@ -81,6 +78,15 @@ namespace djv
                 std::shared_ptr<IValueSubject<size_t> > observeHistoryIndex() const;
                 std::shared_ptr<IValueSubject<bool> > observeHasBack() const;
                 std::shared_ptr<IValueSubject<bool> > observeHasForward() const;
+
+                std::shared_ptr<IValueSubject<bool> > observeFileSequences() const;
+                std::shared_ptr<IValueSubject<bool> > observeShowHidden() const;
+                void setFileSequences(bool);
+                void setShowHidden(bool);
+
+                std::shared_ptr<IValueSubject<std::string> > observeFilter() const;
+                void setFilter(const std::string &);
+                void clearFilter();
 
             private:
                 void _updatePath();

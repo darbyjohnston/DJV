@@ -149,7 +149,8 @@ namespace djv
                 p.metrics[MetricsRole::FontExtraLarge]      =  24.f;
                 p.metrics[MetricsRole::FontExtraExtraLarge] = 512.f;
                 p.metrics[MetricsRole::Swatch]              =  40.f;
-                p.metrics[MetricsRole::Thumbnail]           = 200.f;
+                p.metrics[MetricsRole::ThumbnailSmall]      = 100.f;
+                p.metrics[MetricsRole::ThumbnailLarge]      = 200.f;
                 p.metrics[MetricsRole::Shadow]              =  10.f;
                 p.metrics[MetricsRole::ScrollArea]          = 200.f;
                 p.metrics[MetricsRole::TextColumn]          = 200.f;
@@ -383,7 +384,8 @@ namespace djv
         DJV_TEXT("FontExtraLarge"),
         DJV_TEXT("FontExtraExtraLarge"),
         DJV_TEXT("Swatch"),
-        DJV_TEXT("Thumbnail"),
+        DJV_TEXT("ThumbnailSmall"),
+        DJV_TEXT("ThumbnailLarge"),
         DJV_TEXT("Shadow"),
         DJV_TEXT("ScrollArea"),
         DJV_TEXT("TextColumn"),

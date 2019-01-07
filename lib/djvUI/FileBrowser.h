@@ -46,6 +46,17 @@ namespace djv
     {
         namespace FileBrowser
         {
+            //! This enumeration provides the file browser view types.
+            enum class ViewType
+            {
+                ThumbnailsLarge,
+                ThumbnailsSmall,
+                ListView,
+
+                Count,
+                First = ThumbnailsLarge
+            };
+
             //! This class provides a file browser widget.
             class Widget : public UI::Widget
             {
@@ -61,6 +72,7 @@ namespace djv
                 static std::shared_ptr<Widget> create(Core::Context *);
 
                 void setPath(const Core::FileSystem::Path&);
+                void setViewType(ViewType);
 
             protected:
                 void _updateEvent(Core::Event::Update&) override;
@@ -78,5 +90,8 @@ namespace djv
 
         } // namespace FileBrowser
     } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS(UI::FileBrowser::ViewType);
+
 } // namespace djv
 
