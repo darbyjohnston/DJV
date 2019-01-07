@@ -49,6 +49,7 @@ namespace djv
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
             Style::ColorRole textColorRole = Style::ColorRole::Foreground;
+            Style::MetricsRole textSizeRole = Style::MetricsRole::TextColumn;
             std::string fontFace = AV::Font::Info::defaultFace;
             Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
             std::future<AV::Font::Metrics> fontMetricsFuture;
@@ -134,6 +135,19 @@ namespace djv
             _redraw();
         }
 
+        Style::MetricsRole TextBlock::getTextSizeRole() const
+        {
+            return _p->textSizeRole;
+        }
+
+        void TextBlock::setTextSizeRole(Style::MetricsRole value)
+        {
+            if (value == _p->textSizeRole)
+                return;
+            _p->textSizeRole = value;
+            _resize();
+        }
+
         const std::string & TextBlock::getFontFace() const
         {
             return _p->fontFace;
@@ -196,7 +210,7 @@ namespace djv
                     _resize();
                 }
                 auto size = _p->textSize;
-                size.x = std::max(size.x, style->getMetric(Style::MetricsRole::TextColumn));
+                size.x = std::max(size.x, style->getMetric(_p->textSizeRole));
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }
@@ -295,7 +309,7 @@ namespace djv
                     Memory::hashCombine(hash, font.family);
                     Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
-                    const float w = g.w() > 0 ? g.w() : style->getMetric(Style::MetricsRole::TextColumn);
+                    const float w = g.w() > 0 ? g.w() : style->getMetric(_p->textSizeRole);
                     Memory::hashCombine(hash, w);
                     if (!_p->textSizeHash || _p->textSizeHash != hash)
                     {

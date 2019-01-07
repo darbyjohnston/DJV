@@ -237,6 +237,7 @@ namespace djv
                 auto shortcutsWidget = ShorcutsWidget::create(context);
 
                 _p->iconsLayout = Layout::Flow::create(context);
+                _p->iconsLayout->setSpacing(Style::MetricsRole::None);
                 _p->listLayout = Layout::Vertical::create(context);
                 _p->listLayout->setSpacing(Style::MetricsRole::None);
                 _p->scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
@@ -598,42 +599,6 @@ namespace djv
                                                 _p->infoFutures.push_back(std::move(future));
                                             }
                                         }
-                                        else
-                                        {
-                                            std::string name;
-                                            switch (i->second.getType())
-                                            {
-                                            case FileSystem::FileType::Directory:
-                                                switch (_p->viewType)
-                                                {
-                                                case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge90DPI.png"; break;
-                                                case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall90DPI.png"; break;
-                                                case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList96DPI.png";  break;
-                                                default: break;
-                                                }
-                                                break;
-                                            default:
-                                                switch (_p->viewType)
-                                                {
-                                                case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge90DPI.png"; break;
-                                                case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall90DPI.png"; break;
-                                                case ViewType::ListView:        name = "djvIconFileBrowserFileList96DPI.png";  break;
-                                                default: break;
-                                                }
-                                                break;
-                                            }
-                                            Style::MetricsRole sizeRole = Style::MetricsRole::None;
-                                            switch (_p->viewType)
-                                            {
-                                            case ViewType::ListView: sizeRole = Style::MetricsRole::Icon; break;
-                                            default: break;
-                                            }
-                                            if (!name.empty())
-                                            {
-                                                button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, name));
-                                                button->setIconSizeRole(sizeRole);
-                                            }
-                                        }
                                     }
                                 }
                                 button->removeEventFilter(shared_from_this());
@@ -662,6 +627,43 @@ namespace djv
                     auto button = ItemButton::create(_p->viewType, context);
                     button->setText(fileInfo.getFileName(Frame::Invalid, false));
                     button->setTooltip(_p->_getTooltip(fileInfo));
+                    std::string name;
+                    switch (fileInfo.getType())
+                    {
+                    case FileSystem::FileType::Directory:
+                        switch (_p->viewType)
+                        {
+                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge90DPI.png"; break;
+                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall90DPI.png"; break;
+                        case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList96DPI.png";  break;
+                        default: break;
+                        }
+                        break;
+                    default:
+                        switch (_p->viewType)
+                        {
+                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge90DPI.png"; break;
+                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall90DPI.png"; break;
+                        case ViewType::ListView:        name = "djvIconFileBrowserFileList96DPI.png";  break;
+                        default: break;
+                        }
+                        break;
+                    }
+                    if (!name.empty())
+                    {
+                        button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, name));
+                    }
+                    Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
+                    Style::MetricsRole textSizeRole = Style::MetricsRole::None;
+                    switch (_p->viewType)
+                    {
+                    case ViewType::ThumbnailsLarge: textSizeRole = Style::MetricsRole::ThumbnailLarge; break;
+                    case ViewType::ThumbnailsSmall: textSizeRole = Style::MetricsRole::ThumbnailSmall; break;
+                    case ViewType::ListView:        iconSizeRole = Style::MetricsRole::Icon;           break;
+                    default: break;
+                    }
+                    button->setIconSizeRole(iconSizeRole);
+                    button->setTextSizeRole(textSizeRole);
                     switch (_p->viewType)
                     {
                     case ViewType::ThumbnailsLarge:

@@ -58,7 +58,7 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
-                //const size_t measureCacheMax = 100000;
+                //const size_t measureCacheMax = 10000;
                 //const size_t glyphCacheMax = 10000;
 
                 struct MetricsRequest

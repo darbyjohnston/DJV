@@ -314,7 +314,7 @@ namespace djv
                     _p->textBlock = TextBlock::create(context);
                     _p->textBlock->setTextHAlign(TextHAlign::Center);
                     _p->layout = Layout::Vertical::create(context);
-                    _p->layout->setMargin(Style::MetricsRole::Margin);
+                    _p->layout->setMargin(Style::MetricsRole::MarginSmall);
                     break;
                 case ViewType::ListView:
                     _p->icon->setIconSizeRole(Style::MetricsRole::Icon);
@@ -368,6 +368,7 @@ namespace djv
             {
                 _p->imageWidget->setImage(value, uid);
                 _p->imageWidget->show();
+                _p->icon->setIcon(FileSystem::Path());
             }
 
             void ItemButton::setText(const std::string& value)
@@ -379,6 +380,14 @@ namespace djv
                 if (_p->nameLabel)
                 {
                     _p->nameLabel->setText(value);
+                }
+            }
+
+            void ItemButton::setTextSizeRole(Style::MetricsRole value)
+            {
+                if (_p->textBlock)
+                {
+                    _p->textBlock->setTextSizeRole(value);
                 }
             }
 

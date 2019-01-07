@@ -112,6 +112,7 @@ namespace djv
                 void setIconSizeRole(Style::MetricsRole);
                 void setThumbnail(const std::shared_ptr<AV::Image::Image>&, Core::UID);
                 void setText(const std::string&);
+                void setTextSizeRole(Style::MetricsRole);
 
                 float getHeightForWidth(float) const override;
 
