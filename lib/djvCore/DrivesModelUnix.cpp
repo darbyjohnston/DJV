@@ -43,7 +43,7 @@ namespace djv
             {
                 std::vector<Path> out;
 #if defined(DJV_PLATFORM_OSX)
-                for (const auto& fileInfo : FileInfo::dirList(Path("/Volumes")))
+                for (const auto& fileInfo : FileInfo::directoryList(Path("/Volumes")))
                 {
                     out.push_back(fileInfo.getPath());
                 }

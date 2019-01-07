@@ -324,6 +324,7 @@ namespace djv
                     _p->nameLabel->setTextHAlign(TextHAlign::Left);
                     _p->layout = Layout::Horizontal::create(context);
                     break;
+                default: break;
                 }
                 auto stackLayout = Layout::Stack::create(context);
                 stackLayout->addWidget(_p->icon);

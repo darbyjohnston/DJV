@@ -84,7 +84,7 @@ namespace djv
                 return true;
             }
 
-            std::vector<FileInfo> FileInfo::dirList(const Path& value, const DirListOptions& options)
+            std::vector<FileInfo> FileInfo::directoryList(const Path& value, const DirectoryListOptions& options)
             {
                 std::vector<FileInfo> out;
                 
@@ -127,7 +127,7 @@ namespace djv
 
                         if (!filter)
                         {
-                            if (options.fileSequencesEnabled)
+                            if (options.fileSequences)
                             {
                                 fileInfo.evalSequence();
                                 if (fileInfo.isSequenceValid())

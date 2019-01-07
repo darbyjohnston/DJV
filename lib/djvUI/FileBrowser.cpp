@@ -712,11 +712,11 @@ namespace djv
                 {
                     ss << '\n' << '\n';
                     ss << DJV_TEXT("Video track") << " #" << track << '\n';
-                    ss << "    " << DJV_TEXT("Size") << ": " << videoInfo.info.size << '\n';
-                    ss << "    " << DJV_TEXT("Type") << ": " << videoInfo.info.type << '\n';
+                    ss << DJV_TEXT("Size") << ": " << videoInfo.info.size << '\n';
+                    ss << DJV_TEXT("Type") << ": " << videoInfo.info.type << '\n';
                     ss.precision(2);
-                    ss << "    " << DJV_TEXT("Speed") << ": " << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT("FPS") << '\n';
-                    ss << "    " << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(videoInfo.duration));
+                    ss << DJV_TEXT("Speed") << ": " << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT("FPS") << '\n';
+                    ss << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(videoInfo.duration));
                     ++track;
                 }
                 track = 0;
@@ -724,10 +724,10 @@ namespace djv
                 {
                     ss << '\n' << '\n';
                     ss << DJV_TEXT("Audio track") << " #" << track << '\n';
-                    ss << "    " << DJV_TEXT("Channels") << ": " << audioInfo.info.channelCount << '\n';
-                    ss << "    " << DJV_TEXT("Type") << ": " << audioInfo.info.type << '\n';
-                    ss << "    " << DJV_TEXT("Sample rate") << ": " << audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
-                    ss << "    " << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(audioInfo.duration));
+                    ss << DJV_TEXT("Channels") << ": " << audioInfo.info.channelCount << '\n';
+                    ss << DJV_TEXT("Type") << ": " << audioInfo.info.type << '\n';
+                    ss << DJV_TEXT("Sample rate") << ": " << audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
+                    ss << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(audioInfo.duration));
                     ++track;
                 }
                 return ss.str();

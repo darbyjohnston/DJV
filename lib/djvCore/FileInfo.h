@@ -86,9 +86,9 @@ namespace djv
             {
                 bool fileSequences = false;
                 bool showHidden = false;
-                DirectoryListSort sort = DirectoryListSort::Name;
-                bool reverseSort = false;
-                bool sortDirectoriesFirst = true;
+                DirectoryListSort sort = DirectoryListSort::Name; //! \todo Implement me!
+                bool reverseSort = false; //! \todo Implement me!
+                bool sortDirectoriesFirst = true; //! \todo Implement me!
                 std::string glob = "*";
             };
 
