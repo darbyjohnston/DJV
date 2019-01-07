@@ -92,6 +92,29 @@ namespace djv
                 _p->rootObject = value;
             }
 
+            const std::shared_ptr<IObject>& IEventSystem::getHover() const
+            {
+                return _p->hover;
+            }
+
+            void IEventSystem::setHover(const std::shared_ptr<IObject>& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.hover)
+                    return;
+                if (p.hover)
+                {
+                    Event::PointerLeave leaveEvent(_p->pointerInfo);
+                    p.hover->event(leaveEvent);
+                }
+                p.hover = value;
+                if (p.hover)
+                {
+                    Event::PointerEnter enterEvent(_p->pointerInfo);
+                    p.hover->event(enterEvent);
+                }
+            }
+
             void IEventSystem::_pointerMove(const Event::PointerInfo& info)
             {
                 DJV_PRIVATE_PTR();
@@ -228,16 +251,9 @@ namespace djv
                                 parent->event(moveEvent);
                                 if (moveEvent.isAccepted())
                                 {
+                                    setHover(parent);
                                     if (p.hover)
                                     {
-                                        Event::PointerLeave leaveEvent(_p->pointerInfo);
-                                        p.hover->event(leaveEvent);
-                                    }
-                                    p.hover = parent;
-                                    if (p.hover)
-                                    {
-                                        Event::PointerEnter enterEvent(_p->pointerInfo);
-                                        p.hover->event(enterEvent);
                                         auto info = _p->pointerInfo;
                                         info.buttons[info.id] = true;
                                         Event::ButtonPress buttonPressEvent(info);
@@ -266,20 +282,7 @@ namespace djv
                             ss << "Hover: " << hover->getClassName();
                             getContext()->log("djv::Desktop::EventSystem", ss.str());
                         }*/
-                        if (hover != p.hover)
-                        {
-                            if (p.hover)
-                            {
-                                Event::PointerLeave leaveEvent(_p->pointerInfo);
-                                p.hover->event(leaveEvent);
-                            }
-                            p.hover = hover;
-                            if (p.hover)
-                            {
-                                Event::PointerEnter enterEvent(_p->pointerInfo);
-                                p.hover->event(enterEvent);
-                            }
-                        }
+                        setHover(hover);
                     }
                 }
             }

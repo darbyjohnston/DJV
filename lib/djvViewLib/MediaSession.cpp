@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/Workspace.h>
+#include <djvViewLib/MediaSession.h>
 
 #include <djvViewLib/Media.h>
 
@@ -39,13 +39,7 @@ namespace djv
 {
     namespace ViewLib
     {
-        namespace
-        {
-            size_t workspaceCount = 0;
-        
-        } // namespace
-
-        struct Workspace::Private
+        struct MediaSession::Private
         {
             Context * context = nullptr;
             std::shared_ptr<ValueSubject<std::string> > name;
@@ -53,62 +47,76 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
         };
 
-        void Workspace::_init(Context * context)
+        void MediaSession::_init(Context * context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
             p.name = ValueSubject<std::string>::create();
-            p.media = ValueSubject<std::shared_ptr<Media> >::create();
-            p.currentMedia = ListSubject<std::shared_ptr<Media> >::create();
+            p.media = ListSubject<std::shared_ptr<Media> >::create();
+            p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
         }
 
-        std::shared_ptr<Core::IValueSubject<std::string> > Workspace::getName() const
+        MediaSession::MediaSession() :
+            _p(new Private)
+        {}
+
+        MediaSession::~MediaSession()
+        {}
+
+        std::shared_ptr<MediaSession> MediaSession::create(Context * context)
+        {
+            auto out = std::shared_ptr<MediaSession>(new MediaSession);
+            out->_init(context);
+            return out;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::string> > MediaSession::getName() const
         {
             return _p->name;
         }
 
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > Workspace::getMedia() const
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > MediaSession::getMedia() const
         {
             return _p->media;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > Workspace::getCurrentMedia() const
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > MediaSession::getCurrentMedia() const
         {
             return _p->currentMedia;
         }
 
-        void Workspace::setName(const std::string & value)
+        void MediaSession::setName(const std::string & value)
         {
             _p->name->setIfChanged(value);
         }
 
-        void Workspace::openMedia(const std::string & fileName)
+        void MediaSession::openMedia(const std::string & fileName)
         {
             auto media = Media::create(fileName, _p->context);
             _p->media->pushBack(media);
             _p->currentMedia->setIfChanged(media);
         }
 
-        void Workspace::closeMedia(const std::shared_ptr<Media> & media)
+        void MediaSession::closeMedia(const std::shared_ptr<Media> & media)
         {
             const size_t index = _p->media->indexOf(media);
             if (index != invalidListIndex)
             {
                 _p->media->removeItem(index);
             }
-            if (media == _p->currentMedia)
+            if (media == _p->currentMedia->get())
             {
                 const size_t size = _p->media->getSize();
                 _p->currentMedia->setIfChanged(size > 0 ? _p->media->getItem(size - 1) : nullptr);
             }
         }
 
-        void Workspace::setCurrentMedia(const std::shared_ptr<Media> & value)
+        void MediaSession::setCurrentMedia(const std::shared_ptr<Media> & value)
         {
             _p->currentMedia->setIfChanged(value);
         }
 
-        void Workspace::nextMedia()
+        void MediaSession::nextMedia()
         {
             const size_t size = _p->media->getSize();
             if (size > 1)
@@ -126,7 +134,7 @@ namespace djv
             }
         }
 
-        void Workspace::prevMedia()
+        void MediaSession::prevMedia()
         {
             const size_t size = _p->media->getSize();
             if (size > 1)

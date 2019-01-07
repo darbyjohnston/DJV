@@ -27,36 +27,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/IToolWidget.h>
 
-#include <djvViewLib/IViewObject.h>
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class FileObject : public IViewObject
+        struct IToolWidget::Private
         {
-            Q_OBJECT
-
-        public:
-            FileObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~FileObject() override;
-            
-            QPointer<QMenu> createMenu() override;
-            std::string getMenuSortKey() const override;
-
-            QPointer<QDockWidget> createDockWidget() override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
-            bool isDockWidgetVisible() const override;
-            
-        public Q_SLOTS:
-            void setCurrentWorkspace(const QPointer<Workspace> &) override;
-            void setCurrentMedia(const std::shared_ptr<Media> &) override;
-
-        private:
-            DJV_PRIVATE();
         };
+
+        void IToolWidget::_init(Context * context)
+        {
+            Widget::_init(context);
+        }
+
+        IToolWidget::IToolWidget() :
+            _p(new Private)
+        {}
+
+        IToolWidget::~IToolWidget()
+        {}
 
     } // namespace ViewLib
 } // namespace djv

@@ -29,55 +29,50 @@
 
 #pragma once
 
-#include <djvCore/Event.h>
-#include <djvCore/ISystem.h>
+#include <djvViewLib/Enum.h>
+
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
-        class Widget;
-        class Window;
+        class Context;
+    
+    } // namespace Core
 
-        //! This class provides a window system interface.
-        class IWindowSystem : public Core::ISystem
+    namespace ViewLib
+    {
+        class Media;
+
+        class MediaSession : public std::enable_shared_from_this<MediaSession>
         {
-            DJV_NON_COPYABLE(IWindowSystem);
-            
-        protected:
-            void _init(const std::string &, Core::Context *);
+            DJV_NON_COPYABLE(MediaSession);
 
-            IWindowSystem();
+        protected:
+            void _init(Core::Context *);
+            MediaSession();
 
         public:
-            virtual ~IWindowSystem() = 0;
+            ~MediaSession();
 
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > observeWindows() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > observeCurrentWindow() const;
+            static std::shared_ptr<MediaSession> create(Core::Context *);
 
-        protected:
-            virtual void _addWindow(const std::shared_ptr<Window>&);
-            virtual void _removeWindow(const std::shared_ptr<Window>&);
-
-            virtual void _pushClipRect(const Core::BBox2f &);
-            virtual void _popClipRect();
-
-            bool _resizeRequest(const std::shared_ptr<Widget>&) const;
-            bool _redrawRequest(const std::shared_ptr<Widget>&) const;
-
-            void _preLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::PreLayout&);
-            void _layoutRecursive(const std::shared_ptr<Widget>&, Core::Event::Layout&);
-            void _clipRecursive(const std::shared_ptr<Widget>&, Core::Event::Clip&);
-            void _paintRecursive(const std::shared_ptr<Widget>&, Core::Event::Paint&);
+            std::shared_ptr<Core::IValueSubject<std::string> > getName() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > getMedia() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > getCurrentMedia() const;
+            void setName(const std::string &);
+            void openMedia(const std::string &);
+            void closeMedia(const std::shared_ptr<Media> &);
+            void setCurrentMedia(const std::shared_ptr<Media> &);
+            void nextMedia();
+            void prevMedia();
 
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-
-            friend class Window;
+            DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewLib
 } // namespace djv
+

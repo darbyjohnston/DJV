@@ -31,6 +31,8 @@
 
 #include <djvUI/UI.h>
 
+#include <djvCore/ISystem.h>
+
 #include <functional>
 
 namespace djv
@@ -39,24 +41,36 @@ namespace djv
     {
         class Window;
 
-        //! This namespace provides dialogs.
-        namespace Dialog
+        //! This class provides a dialog system.
+        class DialogSystem : public Core::ISystem
         {
+            DJV_NON_COPYABLE(DialogSystem);
+
+        protected:
+            void _init(Core::Context *);
+            DialogSystem();
+
+        public:
+            virtual ~DialogSystem();
+
+            static std::shared_ptr<DialogSystem> create(Core::Context *);
+
             //! Show a message dialog.
             void message(
                 const std::string & text,
-                const std::string & closeText,
-                const std::shared_ptr<Window> & window);
+                const std::string & closeText);
 
             //! Show a confirmation dialog.
             void confirmation(
                 const std::string & text,
                 const std::string & acceptText,
                 const std::string & cancelText,
-                const std::shared_ptr<Window> & window,
                 const std::function<void(bool)> & callback);
 
-        } // namespace Dialog
+        private:
+            DJV_PRIVATE();
+        };
+
     } // namespace UI
 } // namespace djv
 

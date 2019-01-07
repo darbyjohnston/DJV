@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/ISystem.h>
+
 namespace djv
 {
     namespace Core
@@ -86,14 +88,28 @@ namespace djv
             private:
                 void _updateItems();
 
-                struct Private;
-                std::unique_ptr<Private> _p;
+                DJV_PRIVATE();
             };
 
-            //! Show a file browser dialog.
-            void dialog(
-                const std::shared_ptr<Window> & window,
-                const std::function<void(const Core::FileSystem::FileInfo &)> & callback);
+            //! This class provides a file browser dialog system.
+            class DialogSystem : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(DialogSystem);
+
+            protected:
+                void _init(Core::Context *);
+                DialogSystem();
+
+            public:
+                virtual ~DialogSystem();
+
+                static std::shared_ptr<DialogSystem> create(Core::Context *);
+
+                void show(const std::function<void(const Core::FileSystem::FileInfo &)> &);
+
+            private:
+                DJV_PRIVATE();
+            };
 
         } // namespace FileBrowser
     } // namespace UI

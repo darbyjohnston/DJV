@@ -30,19 +30,20 @@
 #include <djvViewLib/MainWindow.h>
 
 #include <djvViewLib/Application.h>
-#include <djvViewLib/MDIWindow.h>
+#include <djvViewLib/IViewSystem.h>
+//#include <djvViewLib/MDIWindow.h>
 #include <djvViewLib/Media.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Dialog.h>
-#include <djvUI/FileBrowser.h>
-#include <djvUI/ImageWidget.h>
-#include <djvUI/MDICanvas.h>
+//#include <djvUI/Dialog.h>
+//#include <djvUI/FileBrowser.h>
+//#include <djvUI/ImageWidget.h>
+//#include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
-#include <djvUI/Shortcut.h>
+//#include <djvUI/ScrollWidget.h>
+//#include <djvUI/Shortcut.h>
 #include <djvUI/TabWidget.h>
 
 #include <djvCore/FileInfo.h>
@@ -61,9 +62,9 @@ namespace djv
             std::shared_ptr<UI::TabWidget> tabWidget;
             //std::shared_ptr<UI::MDI::Canvas> canvas;
             //std::shared_ptr<UI::ScrollWidget> scrollWidget;
-            std::shared_ptr<UI::ActionGroup> playbackActionGroup;
-            std::shared_ptr<ValueObserver<bool> > fileOpenObserver;
-            std::shared_ptr<ValueObserver<bool> > exitObserver;
+            //std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            //std::shared_ptr<ValueObserver<bool> > fileOpenObserver;
+            //std::shared_ptr<ValueObserver<bool> > exitObserver;
         };
         
         void MainWindow::_init(Core::Context * context)
@@ -72,7 +73,7 @@ namespace djv
 
             setClassName("djv::ViewLib::MainWindow");
 
-            auto fileOpenAction = UI::Action::create();
+            /*auto fileOpenAction = UI::Action::create();
             fileOpenAction->setText("Open");
             fileOpenAction->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
             addAction(fileOpenAction);
@@ -146,13 +147,42 @@ namespace djv
             auto playbackMenu = UI::Menu::create("Playback", context);
             playbackMenu->addAction(playbackStopAction);
             playbackMenu->addAction(playbackForwardAction);
-            playbackMenu->addAction(playbackReverseAction);
+            playbackMenu->addAction(playbackReverseAction);*/
 
-            auto menuBar = getMenuBar();
+            /*auto menuBar = getMenuBar();
             menuBar->addMenu(fileMenu);
             menuBar->addMenu(windowMenu);
             menuBar->addMenu(viewMenu);
-            menuBar->addMenu(playbackMenu);
+            menuBar->addMenu(playbackMenu);*/
+
+            auto viewSystems = context->getSystemsT<IViewSystem>();
+            for (auto i : viewSystems)
+            {
+                if (auto system = i.lock())
+                {
+                    for (auto action : system->getActions())
+                    {
+                        addAction(action.second);
+                    }
+                }
+            }
+
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
+            for (auto i : viewSystems)
+            {
+                if (auto system = i.lock())
+                {
+                    if (auto menu = system->createMenu())
+                    {
+                        menus[system->getMenuSortKey()] = menu;
+                    }
+                }
+            }
+            auto menuBar = getMenuBar();
+            for (auto i : menus)
+            {
+                menuBar->addMenu(i.second);
+            }
 
             _p->tabWidget = UI::TabWidget::create(context);
             setCentralWidget(_p->tabWidget);
@@ -170,7 +200,7 @@ namespace djv
 
             });
 
-            _p->fileOpenObserver = ValueObserver<bool>::create(
+            /*_p->fileOpenObserver = ValueObserver<bool>::create(
                 fileOpenAction->observeClicked(),
                 [weak, context](bool value)
             {
@@ -213,7 +243,7 @@ namespace djv
                         });
                     }
                 }
-            });
+            });*/
         }
 
         MainWindow::MainWindow() :
@@ -241,7 +271,7 @@ namespace djv
         void MainWindow::_open(const FileSystem::Path & path)
         {
             //auto media = Media::create(FileInfo::getFileSequence(i), getContext());
-            auto media = Media::create(path, getContext());
+            /*auto media = Media::create(path, getContext());
             auto window = MDIWindow::create(media, getContext());
             const auto title = path.getFileName();
             window->setTitle(title);
@@ -260,7 +290,7 @@ namespace djv
                 }
             });
             const size_t index = _p->tabWidget->addTab(title, window);
-            _p->tabWidget->setCurrentTab(static_cast<int>(index));
+            _p->tabWidget->setCurrentTab(static_cast<int>(index));*/
         }
 
     } // namespace ViewLib

@@ -5,28 +5,27 @@ set(header
     #ContextInline.h
     #DebugTool.h
     Enum.h
-    #FileObject.h
-    #HelpObject.h
+    FileSystem.h
+    #HelpSystem.h
     #HistogramTool.h
-    #IViewObject.h
-    #ImageObject.h
+    IToolWidget.h
+    IViewSystem.h
+    #ImageSystem.h
     ImageView.h
     #InfoTool.h
     #MagnifyTool.h
     MDIWindow.h
     MainWindow.h
     Media.h
-    #PlaybackObject.h
+    MediaSession.h
+    #PlaybackSystem.h
     PlaybackWidget.h
     TimelineSlider.h
     #TimelineWidget.h
-    #ToolObject.h
+    #ToolSystem.h
     ViewLib.h
-    #ViewObject.h
-    #WindowObject.h
-    #WorkspaceObject.h
-    #WorkspacePrivate.h
-    Workspace.h
+    #ViewSystem.h
+    #WindowSystem.h
     )
 set(source
     Application.cpp
@@ -34,27 +33,26 @@ set(source
     #Context.cpp
     #DebugTool.cpp
     Enum.cpp
-    #FileObject.cpp
-    #HelpObject.cpp
+    FileSystem.cpp
+    #HelpSystem.cpp
     #HistogramTool.cpp
-    #IViewObject.cpp
-    #ImageObject.cpp
+    IToolWidget.cpp
+    IViewSystem.cpp
+    #ImageSystem.cpp
     ImageView.cpp
     #InfoTool.cpp
     #MagnifyTool.cpp
     MDIWindow.cpp
     MainWindow.cpp
     Media.cpp
-    #PlaybackObject.cpp
+    MediaSession.cpp
+    #PlaybackSystem.cpp
     PlaybackWidget.cpp
     TimelineSlider.cpp
     #TimelineWidget.cpp
-    #ToolObject.cpp
-    #ViewObject.cpp
-    #WindowObject.cpp
-    #WorkspaceObject.cpp
-    #WorkspacePrivate.cpp
-    Workspace.cpp
+    #ToolSystem.cpp
+    #ViewSystem.cpp
+    #WindowSystem.cpp
     )
 
 add_library(djvViewLib ${header} ${source})

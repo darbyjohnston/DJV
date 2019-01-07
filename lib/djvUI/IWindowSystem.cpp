@@ -39,16 +39,17 @@ namespace djv
 {
     namespace UI
     {
-        class RootObject : public IObject
-        {};
-
         struct IWindowSystem::Private
         {
+            std::shared_ptr<ListSubject<std::shared_ptr<Window> > > windows;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Window> > > currentWindow;
         };
 
         void IWindowSystem::_init(const std::string & name, Core::Context * context)
         {
             ISystem::_init(name, context);
+            _p->windows = ListSubject< std::shared_ptr<Window> >::create();
+            _p->currentWindow = ValueSubject<std::shared_ptr<Window> >::create();
         }
 
         IWindowSystem::IWindowSystem() :
@@ -58,28 +59,54 @@ namespace djv
         IWindowSystem::~IWindowSystem()
         {}
 
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > IWindowSystem::observeWindows() const
+        {
+            return _p->windows;
+        }
+
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > IWindowSystem::observeCurrentWindow() const
+        {
+            return _p->currentWindow;
+        }
+
+        void IWindowSystem::_addWindow(const std::shared_ptr<Window>& window)
+        {
+            _p->windows->pushBack(window);
+            _p->currentWindow->setIfChanged(window);
+        }
+
+        void IWindowSystem::_removeWindow(const std::shared_ptr<Window>& window)
+        {
+            const size_t index = _p->windows->indexOf(window);
+            if (index != invalidListIndex)
+            {
+                _p->windows->removeItem(index);
+            }
+            if (window == _p->currentWindow->get())
+            {
+                const size_t size = _p->windows->getSize();
+                _p->currentWindow->setIfChanged(size > 0 ? _p->windows->getItem(size - 1) : nullptr);
+            }
+        }
+
         void IWindowSystem::_pushClipRect(const Core::BBox2f &)
         {}
 
         void IWindowSystem::_popClipRect()
         {}
 
-        void IWindowSystem::_hasResizeRequest(const std::shared_ptr<UI::Widget>& widget, bool& out) const
+        bool IWindowSystem::_resizeRequest(const std::shared_ptr<UI::Widget>& widget) const
         {
-            if (widget->_resizeRequest)
-            {
-                widget->_resizeRequest = false;
-                out = true;
-            }
+            bool out = widget->_resizeRequest;
+            widget->_resizeRequest = false;
+            return out;
         }
 
-        void IWindowSystem::_hasRedrawRequest(const std::shared_ptr<UI::Widget>& widget, bool& out) const
+        bool IWindowSystem::_redrawRequest(const std::shared_ptr<UI::Widget>& widget) const
         {
-            if (widget->_redrawRequest)
-            {
-                widget->_redrawRequest = false;
-                out = true;
-            }
+            bool out = widget->_redrawRequest;
+            widget->_redrawRequest = false;
+            return out;
         }
 
         void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::PreLayout& event)

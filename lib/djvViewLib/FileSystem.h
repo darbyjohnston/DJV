@@ -27,79 +27,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/IViewObject.h>
+#pragma once
 
-#include <djvViewLib/Context.h>
-
-#include <QDockWidget>
-#include <QMenu>
+#include <djvViewLib/IViewSystem.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct IViewObject::Private
+        class FileSystem : public IViewSystem
         {
-            std::weak_ptr<Context> context;
-            std::string name;
+            DJV_NON_COPYABLE(FileSystem);
+
+        protected:
+            void _init(Core::Context *);
+            FileSystem();
+
+        public:
+            ~FileSystem() override;
+
+            static std::shared_ptr<FileSystem> create(Core::Context *);
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+
+            std::shared_ptr<UI::Menu> createMenu() override;
+            std::string getMenuSortKey() const override;
+            
+            void setMediaSession(const std::shared_ptr<MediaSession> &) override;
+
+        private:
+            DJV_PRIVATE();
         };
-        
-        IViewObject::IViewObject(const std::string & name, const std::shared_ptr<Context> & context, QObject * parent) :
-            QObject(parent),
-            _p(new Private)
-        {
-            _p->context = context;
-            _p->name = name;
-        }
-        
-        IViewObject::~IViewObject()
-        {}
-
-        const std::weak_ptr<Context> & IViewObject::getContext() const
-        {
-            return _p->context;
-        }
-
-        const std::string & IViewObject::getName() const
-        {
-            return _p->name;
-        }
-
-        QPointer<QMenu> IViewObject::createMenu()
-        {
-            return nullptr;
-        }
-
-        std::string IViewObject::getMenuSortKey() const
-        {
-            return _p->name;
-        }
-
-        QPointer<QDockWidget> IViewObject::createDockWidget()
-        {
-            return nullptr;
-        }
-
-        std::string IViewObject::getDockWidgetSortKey() const
-        {
-            return _p->name;
-        }
-
-        Qt::DockWidgetArea IViewObject::getDockWidgetArea() const
-        {
-            return Qt::NoDockWidgetArea;
-        }
-
-        bool IViewObject::isDockWidgetVisible() const
-        {
-            return false;
-        }
-
-        void IViewObject::setCurrentWorkspace(const QPointer<Workspace> &)
-        {}
-
-        void IViewObject::setCurrentMedia(const std::shared_ptr<Media> &)
-        {}
 
     } // namespace ViewLib
 } // namespace djv

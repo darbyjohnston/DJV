@@ -34,6 +34,7 @@
 #include <djvUI/Dialog.h>
 #include <djvUI/FileBrowserPrivate.h>
 #include <djvUI/FlowLayout.h>
+#include <djvUI/IWindowSystem.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
@@ -50,6 +51,7 @@
 
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/IEventSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -733,38 +735,75 @@ namespace djv
                 return ss.str();
             }
 
-            void dialog(
-                const std::shared_ptr<Window> & window,
-                const std::function<void(const FileSystem::FileInfo &)> & callback)
+            struct DialogSystem::Private
             {
-                auto context = window->getContext();
+                std::shared_ptr<Widget> widget;
+                std::shared_ptr<Layout::Overlay> overlay;
+            };
 
-                auto widget = Widget::create(context);
-                widget->setPath(FileSystem::Path("."));
-                widget->setBackgroundRole(Style::ColorRole::Background);
+            void DialogSystem::_init(Context * context)
+            {
+                ISystem::_init("djv::UI::FileBrowser::DialogSystem", context);
+            }
 
-                auto border = Layout::Border::create(context);
-                border->addWidget(widget);
+            DialogSystem::DialogSystem() :
+                _p(new Private)
+            {}
 
-                auto overlay = Layout::Overlay::create(context);
-                overlay->setBackgroundRole(Style::ColorRole::Overlay);
-                overlay->setMargin(Style::MetricsRole::MarginLarge);
-                overlay->addWidget(border);
-                window->addWidget(overlay);
+            DialogSystem::~DialogSystem()
+            {}
 
-                overlay->show();
+            std::shared_ptr<DialogSystem> DialogSystem::create(Context * context)
+            {
+                auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
+                out->_init(context);
+                return out;
+            }
 
-                widget->setCallback(
-                    [window, overlay, callback](const FileSystem::FileInfo & value)
+            void DialogSystem::show(const std::function<void(const Core::FileSystem::FileInfo &)> & callback)
+            {
+                auto context = getContext();
+                if (!_p->widget)
                 {
-                    window->removeWidget(overlay);
-                    callback(value);
-                });
-                overlay->setCloseCallback(
-                    [window, overlay]
+                    _p->widget = Widget::create(context);
+                    _p->widget->setPath(FileSystem::Path("."));
+                    _p->widget->setBackgroundRole(Style::ColorRole::Background);
+
+                    auto border = Layout::Border::create(context);
+                    border->addWidget(_p->widget);
+
+                    _p->overlay = Layout::Overlay::create(context);
+                    _p->overlay->setBackgroundRole(Style::ColorRole::Overlay);
+                    _p->overlay->setMargin(Style::MetricsRole::MarginLarge);
+                    _p->overlay->addWidget(border);
+                }
+                if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
                 {
-                    window->removeWidget(overlay);
-                });
+                    if (auto window = windowSystem->observeCurrentWindow()->get())
+                    {
+                        window->addWidget(_p->overlay);
+                        _p->overlay->show();
+
+                        auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                        _p->widget->setCallback(
+                            [weak, window, callback](const FileSystem::FileInfo & value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                window->removeWidget(system->_p->overlay);
+                                callback(value);
+                            }
+                        });
+                        _p->overlay->setCloseCallback(
+                            [weak, window]
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                window->removeWidget(system->_p->overlay);
+                            }
+                        });
+                    }
+                }
             }
 
         } // namespace FileBrowser

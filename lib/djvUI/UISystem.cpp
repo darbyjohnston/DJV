@@ -29,7 +29,9 @@
 
 #include <djvUI/UISystem.h>
 
+#include <djvUI/Dialog.h>
 #include <djvUI/GeneralSettings.h>
+#include <djvUI/FileBrowser.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StyleSettings.h>
@@ -65,6 +67,8 @@ namespace djv
             _p->fontSettings = Settings::Font::create(context);
             
             _p->uiSystems.push_back(_p->style = Style::Style::create(context));
+            _p->uiSystems.push_back(DialogSystem::create(context));
+            _p->uiSystems.push_back(FileBrowser::DialogSystem::create(context));
         }
 
         UISystem::UISystem() :

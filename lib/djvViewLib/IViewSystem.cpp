@@ -27,45 +27,57 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/IViewSystem.h>
 
-#include <djvViewLib/Enum.h>
-
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvCore/Context.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        class Media;
-
-        class Workspace : public std::enable_shared_from_this<Workspace>
+        struct IViewSystem::Private
         {
-            DJV_NON_COPYABLE(Workspace);
-
-        protected:
-            void _init(Core::Context *);
-            Workspace();
-
-        public:
-            ~Workspace();
-
-            static std::shared_ptr<Workspace> create(Core::Context *);
-
-            std::shared_ptr<Core::IValueSubject<std::string> > getName() const;
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > getMedia() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > getCurrentMedia() const;
-            void setName(const std::string &);
-            void openMedia(const std::string &);
-            void closeMedia(const std::shared_ptr<Media> &);
-            void setCurrentMedia(const std::shared_ptr<Media> &);
-            void nextMedia();
-            void prevMedia();
-
-        private:
-            DJV_PRIVATE();
         };
+
+        IViewSystem::IViewSystem() :
+            _p(new Private)
+        {}
+
+        IViewSystem::~IViewSystem()
+        {}
+
+        std::map<std::string, std::shared_ptr<UI::Action> > IViewSystem::getActions()
+        {
+            return std::map<std::string, std::shared_ptr<UI::Action> >();
+        }
+        
+        std::shared_ptr<UI::Menu> IViewSystem::createMenu()
+        {
+            return nullptr;
+        }
+
+        std::string IViewSystem::getMenuSortKey() const
+        {
+            return getName();
+        }
+
+        std::shared_ptr<IToolWidget> IViewSystem::createToolWidget()
+        {
+            return nullptr;
+        }
+
+        std::string IViewSystem::getToolWidgetSortKey() const
+        {
+            return getName();
+        }
+
+        bool IViewSystem::isToolWidgetVisible() const
+        {
+            return false;
+        }
+
+        void IViewSystem::setMediaSession(const std::shared_ptr<MediaSession> &)
+        {}
 
     } // namespace ViewLib
 } // namespace djv

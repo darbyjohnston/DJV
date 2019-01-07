@@ -54,6 +54,9 @@ namespace djv
                 const std::shared_ptr<IObject> & getRootObject() const;
                 void setRootObject(const std::shared_ptr<IObject> &);
 
+                const std::shared_ptr<IObject> & getHover() const;
+                void setHover(const std::shared_ptr<IObject> &);
+
             protected:
                 void _pointerMove(const Event::PointerInfo&);
                 void _buttonPress(int);

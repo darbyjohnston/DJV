@@ -29,55 +29,27 @@
 
 #pragma once
 
-#include <djvCore/Event.h>
-#include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewLib
     {
-        class Widget;
-        class Window;
-
-        //! This class provides a window system interface.
-        class IWindowSystem : public Core::ISystem
+        class IToolWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(IWindowSystem);
-            
-        protected:
-            void _init(const std::string &, Core::Context *);
+            DJV_NON_COPYABLE(IToolWidget);
 
-            IWindowSystem();
+        protected:
+            void _init(Core::Context *);
+            IToolWidget();
 
         public:
-            virtual ~IWindowSystem() = 0;
-
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > observeWindows() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > observeCurrentWindow() const;
-
-        protected:
-            virtual void _addWindow(const std::shared_ptr<Window>&);
-            virtual void _removeWindow(const std::shared_ptr<Window>&);
-
-            virtual void _pushClipRect(const Core::BBox2f &);
-            virtual void _popClipRect();
-
-            bool _resizeRequest(const std::shared_ptr<Widget>&) const;
-            bool _redrawRequest(const std::shared_ptr<Widget>&) const;
-
-            void _preLayoutRecursive(const std::shared_ptr<Widget>&, Core::Event::PreLayout&);
-            void _layoutRecursive(const std::shared_ptr<Widget>&, Core::Event::Layout&);
-            void _clipRecursive(const std::shared_ptr<Widget>&, Core::Event::Clip&);
-            void _paintRecursive(const std::shared_ptr<Widget>&, Core::Event::Paint&);
+            ~IToolWidget() override = 0;
 
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-
-            friend class Window;
+            DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewLib
 } // namespace djv
+

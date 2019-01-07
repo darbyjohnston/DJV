@@ -30,6 +30,7 @@
 #include <djvUI/Dialog.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/IWindowSystem.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
@@ -52,136 +53,278 @@ namespace djv
 {
     namespace UI
     {
-        namespace Dialog
+        namespace
         {
-            namespace
+            class DialogWidget : public Layout::Stack
             {
-                class DialogWidget : public Layout::Stack
+                DJV_NON_COPYABLE(DialogWidget);
+
+            protected:
+                void _init(Context * context)
                 {
-                    DJV_NON_COPYABLE(DialogWidget);
+                    Stack::_init(context);
 
-                protected:
-                    void _init(Context * context)
-                    {
-                        Stack::_init(context);
+                    setBackgroundRole(Style::ColorRole::Background);
+                    setHAlign(HAlign::Center);
+                    setVAlign(VAlign::Center);
+                    setMargin(Style::MetricsRole::Margin);
+                }
 
-                        setBackgroundRole(Style::ColorRole::Background);
-                        setHAlign(HAlign::Center);
-                        setVAlign(VAlign::Center);
-                        setMargin(Style::MetricsRole::Margin);
-                    }
+                DialogWidget()
+                {}
 
-                    DialogWidget()
-                    {}
+            public:
+                static std::shared_ptr<DialogWidget> create(Context * context)
+                {
+                    auto out = std::shared_ptr<DialogWidget>(new DialogWidget);
+                    out->_init(context);
+                    return out;
+                }
+            };
 
-                public:
-                    static std::shared_ptr<DialogWidget> create(Context * context)
-                    {
-                        auto out = std::shared_ptr<DialogWidget>(new DialogWidget);
-                        out->_init(context);
-                        return out;
-                    }
-                };
-
-            } // namespace
-
-            void message(
-                const std::string & text,
-                const std::string & closeText,
-                const std::shared_ptr<Window> & window)
+            class MessageDialog : public DialogWidget
             {
-                auto context = window->getContext();
+                DJV_NON_COPYABLE(MessageDialog);
 
-                auto textBlock = TextBlock::create(context);
-                textBlock->setText(text);
-                textBlock->setTextHAlign(TextHAlign::Center);
-                textBlock->setMargin(Style::MetricsRole::Margin);
-
-                auto closeButton = Button::Push::create(context);
-                closeButton->setText(closeText);
-
-                auto layout = Layout::Vertical::create(context);
-                layout->addWidget(textBlock);
-                layout->addWidget(closeButton);
-
-                auto dialogWidget = DialogWidget::create(context);
-                dialogWidget->addWidget(layout);
-
-                auto overlay = Layout::Overlay::create(context);
-                overlay->setBackgroundRole(Style::ColorRole::Overlay);
-                overlay->addWidget(dialogWidget);
-                window->addWidget(overlay);
-
-                overlay->show();
-
-                closeButton->setClickedCallback(
-                    [window, overlay]
+            protected:
+                void _init(Context * context)
                 {
-                    window->removeWidget(overlay);
-                });
-                overlay->setCloseCallback(
-                    [window, overlay]
+                    DialogWidget::_init(context);
+
+                    _textBlock = TextBlock::create(context);
+                    _textBlock->setTextHAlign(TextHAlign::Center);
+                    _textBlock->setMargin(Style::MetricsRole::Margin);
+
+                    _closeButton = Button::Push::create(context);
+
+                    auto layout = Layout::Vertical::create(context);
+                    layout->addWidget(_textBlock);
+                    layout->addWidget(_closeButton);
+                    addWidget(layout);
+                }
+
+                MessageDialog()
+                {}
+
+            public:
+                static std::shared_ptr<MessageDialog> create(Context * context)
                 {
-                    window->removeWidget(overlay);
-                });
+                    auto out = std::shared_ptr<MessageDialog>(new MessageDialog);
+                    out->_init(context);
+                    return out;
+                }
+
+                void setText(const std::string & text)
+                {
+                    _textBlock->setText(text);
+                }
+
+                void setCloseText(const std::string & text)
+                {
+                    _closeButton->setText(text);
+                }
+
+                void setCloseCallback(const std::function<void(void)> & value)
+                {
+                    _closeButton->setClickedCallback(value);
+                }
+
+            private:
+                std::shared_ptr<TextBlock> _textBlock;
+                std::shared_ptr<Button::Push> _closeButton;
+            };
+
+            class ConfirmationDialog : public DialogWidget
+            {
+                DJV_NON_COPYABLE(ConfirmationDialog);
+
+            protected:
+                void _init(Context * context)
+                {
+                    DialogWidget::_init(context);
+
+                    _textBlock = TextBlock::create(context);
+                    _textBlock->setTextHAlign(TextHAlign::Center);
+                    _textBlock->setMargin(Style::MetricsRole::Margin);
+
+                    _acceptButton = Button::Push::create(context);
+
+                    _cancelButton = Button::Push::create(context);
+
+                    auto layout = Layout::Vertical::create(context);
+                    layout->addWidget(_textBlock);
+                    auto hLayout = Layout::Horizontal::create(context);
+                    hLayout->addWidget(_acceptButton, Layout::RowStretch::Expand);
+                    hLayout->addWidget(_cancelButton, Layout::RowStretch::Expand);
+                    layout->addWidget(hLayout);
+                    addWidget(layout);
+                }
+
+                ConfirmationDialog()
+                {}
+
+            public:
+                static std::shared_ptr<ConfirmationDialog> create(Context * context)
+                {
+                    auto out = std::shared_ptr<ConfirmationDialog>(new ConfirmationDialog);
+                    out->_init(context);
+                    return out;
+                }
+
+                void setText(const std::string & text)
+                {
+                    _textBlock->setText(text);
+                }
+
+                void setAcceptText(const std::string & text)
+                {
+                    _acceptButton->setText(text);
+                }
+
+                void setCancelText(const std::string & text)
+                {
+                    _cancelButton->setText(text);
+                }
+
+                void setAcceptCallback(const std::function<void(void)> & value)
+                {
+                    _acceptButton->setClickedCallback(value);
+                }
+
+                void setCancelCallback(const std::function<void(void)> & value)
+                {
+                    _cancelButton->setClickedCallback(value);
+                }
+
+            private:
+                std::shared_ptr<TextBlock> _textBlock;
+                std::shared_ptr<Button::Push> _acceptButton;
+                std::shared_ptr<Button::Push> _cancelButton;
+            };
+
+        } // namespace
+
+        struct DialogSystem::Private
+        {
+            std::shared_ptr<MessageDialog> messageDialog;
+            std::shared_ptr<Layout::Overlay> messageOverlay;
+            std::shared_ptr<ConfirmationDialog> confirmationDialog;
+            std::shared_ptr<Layout::Overlay> confirmationOverlay;
+        };
+
+        void DialogSystem::_init(Context * context)
+        {
+            ISystem::_init("djv::UI::DialogSystem", context);
+        }
+
+        DialogSystem::DialogSystem() :
+            _p(new Private)
+        {}
+
+        DialogSystem::~DialogSystem()
+        {}
+
+        std::shared_ptr<DialogSystem> DialogSystem::create(Context * context)
+        {
+            auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
+            out->_init(context);
+            return out;
+        }
+
+        void DialogSystem::message(
+            const std::string & text,
+            const std::string & closeText)
+        {
+            auto context = getContext();
+            if (!_p->messageDialog)
+            {
+                _p->messageDialog = MessageDialog::create(context);
+                _p->messageOverlay = Layout::Overlay::create(context);
+                _p->messageOverlay->setBackgroundRole(Style::ColorRole::Overlay);
+                _p->messageOverlay->addWidget(_p->messageDialog);
             }
-
-            void confirmation(
-                const std::string & text,
-                const std::string & acceptText,
-                const std::string & cancelText,
-                const std::shared_ptr<Window> & window,
-                const std::function<void(bool)> & callback)
+            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {
-                auto context = window->getContext();
-
-                auto textBlock = TextBlock::create(context);
-                textBlock->setText(text);
-                textBlock->setTextHAlign(TextHAlign::Center);
-                textBlock->setMargin(Style::MetricsRole::Margin);
-
-                auto acceptButton = Button::Push::create(context);
-                acceptButton->setText(acceptText);
-
-                auto cancelButton = Button::Push::create(context);
-                cancelButton->setText(cancelText);
-
-                auto layout = Layout::Vertical::create(context);
-                layout->addWidget(textBlock);
-                auto hLayout = Layout::Horizontal::create(context);
-                hLayout->addWidget(acceptButton, Layout::RowStretch::Expand);
-                hLayout->addWidget(cancelButton, Layout::RowStretch::Expand);
-                layout->addWidget(hLayout);
-
-                auto dialogWidget = DialogWidget::create(context);
-                dialogWidget->addWidget(layout);
-
-                auto overlay = Layout::Overlay::create(context);
-                overlay->setBackgroundRole(Style::ColorRole::Overlay);
-                overlay->addWidget(dialogWidget);
-                window->addWidget(overlay);
-
-                overlay->show();
-
-                acceptButton->setClickedCallback(
-                    [window, overlay, callback]
+                if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
-                    window->removeWidget(overlay);
-                    callback(true);
-                });
-                cancelButton->setClickedCallback(
-                    [window, overlay, callback]
-                {
-                    window->removeWidget(overlay);
-                    callback(false);
-                });
-                overlay->setCloseCallback(
-                    [window, overlay]
-                {
-                    window->removeWidget(overlay);
-                });
+                    _p->messageDialog->setText(text);
+                    _p->messageDialog->setCloseText(closeText);
+                    window->addWidget(_p->messageOverlay);
+                    _p->messageOverlay->show();
+                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                    _p->messageDialog->setCloseCallback(
+                        [weak, window]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            window->removeWidget(system->_p->messageOverlay);
+                        }
+                    });
+                    _p->messageOverlay->setCloseCallback(
+                        [weak, window]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            window->removeWidget(system->_p->messageOverlay);
+                        }
+                    });
+                }
             }
+        }
 
-        } // namespace Dialog
+        void DialogSystem::confirmation(
+            const std::string & text,
+            const std::string & acceptText,
+            const std::string & cancelText,
+            const std::function<void(bool)> & callback)
+        {
+            auto context = getContext();
+            if (!_p->confirmationDialog)
+            {
+                _p->confirmationDialog = ConfirmationDialog::create(context);
+                _p->confirmationOverlay = Layout::Overlay::create(context);
+                _p->confirmationOverlay->setBackgroundRole(Style::ColorRole::Overlay);
+                _p->confirmationOverlay->addWidget(_p->confirmationDialog);
+            }
+            if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
+            {
+                if (auto window = windowSystem->observeCurrentWindow()->get())
+                {
+                    _p->confirmationDialog->setText(text);
+                    _p->confirmationDialog->setAcceptText(acceptText);
+                    _p->confirmationDialog->setCancelText(cancelText);
+                    window->addWidget(_p->confirmationOverlay);
+                    _p->confirmationOverlay->show();
+                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                    _p->confirmationDialog->setAcceptCallback(
+                        [weak, window, callback]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            window->removeWidget(system->_p->confirmationOverlay);
+                            callback(true);
+                        }
+                    });
+                    _p->confirmationDialog->setCancelCallback(
+                        [weak, window, callback]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            window->removeWidget(system->_p->confirmationOverlay);
+                            callback(false);
+                        }
+                    });
+                    _p->confirmationOverlay->setCloseCallback(
+                        [weak, window]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            window->removeWidget(system->_p->confirmationOverlay);
+                        }
+                    });
+                }
+            }
+        }
+
     } // namespace UI
 } // namespace djv

@@ -29,47 +29,48 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/ISystem.h>
 
-#include <QObject>
-#include <QPointer>
-
-class QDockWidget;
-class QMenu;
+#include <map>
 
 namespace djv
 {
+    namespace UI
+    {
+        class Action;
+        class Menu;
+    
+    } // namespace UI
+
     namespace ViewLib
     {
-        class Context;
+        class IToolWidget;
         class Media;
-        class Workspace;
+        class MediaSession;
         
-        class IViewObject : public QObject
+        class IViewSystem : public Core::ISystem
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(IViewSystem);
+
+        protected:
+            IViewSystem();
 
         public:
-            IViewObject(const std::string & name, const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            virtual ~IViewObject() = 0;
+            ~IViewSystem() override;
 
-            const std::weak_ptr<Context> & getContext() const;
-            const std::string & getName() const;
+            virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
 
-            virtual QPointer<QMenu> createMenu();
+            virtual std::shared_ptr<UI::Menu> createMenu();
             virtual std::string getMenuSortKey() const;
 
-            virtual QPointer<QMenu> createContextMenu() { return createMenu(); }
+            virtual std::shared_ptr<UI::Menu> createContextMenu() { return createMenu(); }
             virtual std::string getContextMenuSortKey() const { return getMenuSortKey(); }
 
-            virtual QPointer<QDockWidget> createDockWidget();
-            virtual std::string getDockWidgetSortKey() const;
-            virtual Qt::DockWidgetArea getDockWidgetArea() const;
-            virtual bool isDockWidgetVisible() const;
+            virtual std::shared_ptr<IToolWidget> createToolWidget();
+            virtual std::string getToolWidgetSortKey() const;
+            virtual bool isToolWidgetVisible() const;
 
-        public Q_SLOTS:
-            virtual void setCurrentWorkspace(const QPointer<Workspace> &);
-            virtual void setCurrentMedia(const std::shared_ptr<Media> &);
+            virtual void setMediaSession(const std::shared_ptr<MediaSession> &);
 
         private:
             DJV_PRIVATE();

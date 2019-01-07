@@ -93,14 +93,16 @@ namespace djv
             return _p->rootObject;
         }
 
-        void WindowSystem::_addWindow(const std::shared_ptr<UI::Window>& value)
+        void WindowSystem::_addWindow(const std::shared_ptr<UI::Window>& window)
         {
-            value->setParent(_p->rootObject);
+            IWindowSystem::_addWindow(window);
+            window->setParent(_p->rootObject);
         }
 
-        void WindowSystem::_removeWindow(const std::shared_ptr<UI::Window>& value)
+        void WindowSystem::_removeWindow(const std::shared_ptr<UI::Window>& window)
         {
-            value->setParent(nullptr);
+            IWindowSystem::_removeWindow(window);
+            window->setParent(nullptr);
         }
 
         void WindowSystem::_pushClipRect(const Core::BBox2f & value)
@@ -135,8 +137,8 @@ namespace djv
                 _p->redrawRequest = false;
                 for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
                 {
-                    _hasResizeRequest(i, resizeRequest);
-                    _hasRedrawRequest(i, redrawRequest);
+                    resizeRequest |= _resizeRequest(i);
+                    redrawRequest |= _redrawRequest(i);
                 }
 
                 const auto & size = _p->offscreenBuffer->getInfo().size;
