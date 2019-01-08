@@ -29,53 +29,34 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvViewLib/Enum.h>
+#include <djvViewLib/IViewSystem.h>
 
-#include <map>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace UI
-    {
-        class Action;
-        class Menu;
-        class Widget;
-    
-    } // namespace UI
-
     namespace ViewLib
     {
-        class IToolWidget;
-        class Media;
-        
-        class IViewSystem : public Core::ISystem
+        class SettingsSystem : public IViewSystem
         {
-            DJV_NON_COPYABLE(IViewSystem);
+            DJV_NON_COPYABLE(SettingsSystem);
 
         protected:
-            void _init(const std::string & name, Core::Context *);
-            IViewSystem();
+            void _init(Core::Context *);
+            SettingsSystem();
 
         public:
-            ~IViewSystem() override;
+            ~SettingsSystem() override;
 
-            virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
+            static std::shared_ptr<SettingsSystem> create(Core::Context *);
 
-            virtual std::shared_ptr<UI::Menu> createMenu();
-            virtual std::string getMenuSortKey() const;
-
-            virtual std::shared_ptr<UI::Menu> createContextMenu() { return createMenu(); }
-            virtual std::string getContextMenuSortKey() const { return getMenuSortKey(); }
-
-            virtual std::shared_ptr<IToolWidget> createToolWidget();
-            virtual std::string getToolWidgetSortKey() const;
-            virtual bool isToolWidgetVisible() const;
-
-            virtual std::shared_ptr<UI::Widget> createSettingsWidget();
-            virtual std::string getSettingsSortKey() const;
-
-            virtual void setCurrentMedia(const std::shared_ptr<Media> &);
-
+            void showSettingsDialog();
+            
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<UI::Widget> createSettingsWidget() override;
+            std::string getSettingsSortKey() const override;
+            
         private:
             DJV_PRIVATE();
         };

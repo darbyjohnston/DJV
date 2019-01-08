@@ -36,6 +36,7 @@
 #include <djvViewLib/MDIWindow.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/WindowSystem.h>
+#include <djvViewLib/SettingsSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/MDICanvas.h>
@@ -44,6 +45,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/TabBar.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -110,6 +112,12 @@ namespace djv
             {
                 _p->menuBar->addMenu(i.second);
             }
+            _p->menuBar->addExpander();
+            auto settingsButton = UI::Button::Tool::create(context);
+            settingsButton->setIcon("djvIconSettings");
+            settingsButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);
+            _p->menuBar->addWidget(settingsButton);
+            
             auto layout = UI::Layout::Vertical::create(context);
             layout->setSpacing(UI::Style::MetricsRole::None);
             layout->addWidget(_p->menuBar);
@@ -191,6 +199,15 @@ namespace djv
             if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
             {
             }
+
+            settingsButton->setClickedCallback(
+                [context]
+            {
+                if (auto settingsSystem = context->getSystemT<SettingsSystem>().lock())
+                {
+                    settingsSystem->showSettingsDialog();
+                }
+            });
         }
 
         MainWindow::MainWindow() :

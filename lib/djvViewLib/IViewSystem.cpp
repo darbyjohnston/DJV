@@ -31,6 +31,8 @@
 
 #include <djvCore/Context.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
     namespace ViewLib
@@ -39,13 +41,18 @@ namespace djv
         {
         };
 
+        void IViewSystem::_init(const std::string & name, Context * context)
+        {
+            ISystem::_init(name, context);
+        }
+            
         IViewSystem::IViewSystem() :
             _p(new Private)
         {}
 
         IViewSystem::~IViewSystem()
         {}
-
+        
         std::map<std::string, std::shared_ptr<UI::Action> > IViewSystem::getActions()
         {
             return std::map<std::string, std::shared_ptr<UI::Action> >();
@@ -74,6 +81,16 @@ namespace djv
         bool IViewSystem::isToolWidgetVisible() const
         {
             return false;
+        }
+
+        std::shared_ptr<UI::Widget> IViewSystem::createSettingsWidget()
+        {
+            return nullptr;
+        }
+
+        std::string IViewSystem::getSettingsSortKey() const
+        {
+            return getName();
         }
 
         void IViewSystem::setCurrentMedia(const std::shared_ptr<Media> &)

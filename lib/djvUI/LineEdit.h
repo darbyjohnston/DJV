@@ -48,6 +48,10 @@ namespace djv
             virtual ~LineEdit();
 
             static std::shared_ptr<LineEdit> create(Core::Context *);
+            
+            void setBorder(bool);
+
+            float getHeightForWidth(float) const override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

@@ -29,57 +29,47 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
-
-#include <map>
+#include <djvUI/IContainer.h>
 
 namespace djv
 {
     namespace UI
     {
-        class Action;
-        class Menu;
-        class Widget;
-    
-    } // namespace UI
-
-    namespace ViewLib
-    {
-        class IToolWidget;
-        class Media;
-        
-        class IViewSystem : public Core::ISystem
+        namespace Layout
         {
-            DJV_NON_COPYABLE(IViewSystem);
+            //! This class provides a group box widget.
+            class GroupBox : public IContainer
+            {
+                DJV_NON_COPYABLE(GroupBox);
 
-        protected:
-            void _init(const std::string & name, Core::Context *);
-            IViewSystem();
+            protected:
+                void _init(Core::Context *);
+                GroupBox();
 
-        public:
-            ~IViewSystem() override;
+            public:
+                virtual ~GroupBox();
 
-            virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
+                static std::shared_ptr<GroupBox> create(Core::Context *);
+                static std::shared_ptr<GroupBox> create(const std::string &, Core::Context *);
+                
+                void setText(const std::string &);
 
-            virtual std::shared_ptr<UI::Menu> createMenu();
-            virtual std::string getMenuSortKey() const;
+                void addWidget(const std::shared_ptr<Widget>&) override;
+                void removeWidget(const std::shared_ptr<Widget>&) override;
+                void clearWidgets() override;
 
-            virtual std::shared_ptr<UI::Menu> createContextMenu() { return createMenu(); }
-            virtual std::string getContextMenuSortKey() const { return getMenuSortKey(); }
+                float getHeightForWidth(float) const override;
 
-            virtual std::shared_ptr<IToolWidget> createToolWidget();
-            virtual std::string getToolWidgetSortKey() const;
-            virtual bool isToolWidgetVisible() const;
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
-            virtual std::shared_ptr<UI::Widget> createSettingsWidget();
-            virtual std::string getSettingsSortKey() const;
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
-            virtual void setCurrentMedia(const std::shared_ptr<Media> &);
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewLib
+        } // namespace Layout
+    } // namespace UI
 } // namespace djv
 

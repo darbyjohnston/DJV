@@ -57,11 +57,13 @@ namespace djv
 
             //! Show a message dialog.
             void message(
+                const std::string & title,
                 const std::string & text,
                 const std::string & closeText);
 
             //! Show a confirmation dialog.
             void confirmation(
+                const std::string & title,
                 const std::string & text,
                 const std::string & acceptText,
                 const std::string & cancelText,

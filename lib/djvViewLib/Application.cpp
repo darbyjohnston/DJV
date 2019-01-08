@@ -31,6 +31,7 @@
 
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/SettingsSystem.h>
 #include <djvViewLib/WindowSystem.h>
 
 namespace djv
@@ -41,6 +42,7 @@ namespace djv
         {
             std::shared_ptr<FileSystem> fileSystem;
             std::shared_ptr<WindowSystem> windowSystem;
+            std::shared_ptr<SettingsSystem> settingsSystem;
             std::shared_ptr<MainWindow> mainWindow;
         };
         
@@ -51,6 +53,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.fileSystem = FileSystem::create(this);
             p.windowSystem = WindowSystem::create(this);
+            p.settingsSystem = SettingsSystem::create(this);
 
             p.mainWindow = MainWindow::create(this);
             p.mainWindow->show();

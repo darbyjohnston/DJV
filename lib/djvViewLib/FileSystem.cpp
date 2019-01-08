@@ -130,6 +130,7 @@ namespace djv
                         if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                         {
                             dialogSystem->confirmation(
+                                DJV_TEXT("Exit"),
                                 DJV_TEXT("Are you sure you want to exit?"),
                                 DJV_TEXT("Yes"),
                                 DJV_TEXT("No"),

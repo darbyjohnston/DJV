@@ -13,6 +13,7 @@ set(header
     FontSettingsInline.h
     GeneralSettings.h
     GridLayout.h
+    GroupBox.h
     IButton.h
     IContainer.h
     ISettings.h
@@ -35,6 +36,7 @@ set(header
     PushButton.h
     RowLayout.h
     ScrollWidget.h
+    SearchBox.h
     Separator.h
     SettingsSystem.h
     Shortcut.h
@@ -74,6 +76,7 @@ set(source
     FontSettings.cpp
     GeneralSettings.cpp
     GridLayout.cpp
+    GroupBox.cpp
     IButton.cpp
     IContainer.cpp
     ISettings.cpp
@@ -93,6 +96,7 @@ set(source
     PushButton.cpp
     RowLayout.cpp
     ScrollWidget.cpp
+    SearchBox.cpp
     Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp

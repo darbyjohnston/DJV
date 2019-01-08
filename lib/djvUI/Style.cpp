@@ -62,8 +62,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.colors[ColorRole::None]              = AV::Image::Color();
                 p.colors[ColorRole::Background]        = AV::Image::Color( .2f,   .21f,  .23f);
-                p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color( .1f,   .1f,   .1f);
-                p.colors[ColorRole::BackgroundScroll]  = AV::Image::Color( .15f,  .16f,  .18f);
+                p.colors[ColorRole::BackgroundHeader]  = AV::Image::Color(.25f,   .30f,  .33f);
+                p.colors[ColorRole::BackgroundText]    = AV::Image::Color( .15f,  .16f,  .18f);
                 p.colors[ColorRole::BackgroundTooltip] = AV::Image::Color(1.f,   1.f,    .75f);
                 p.colors[ColorRole::Foreground]        = AV::Image::Color( .9f,   .9f,   .9f);
                 p.colors[ColorRole::ForegroundDim]     = AV::Image::Color( .7f,   .7f,   .7f);
@@ -335,7 +335,7 @@ namespace djv
         DJV_TEXT("None"),
         DJV_TEXT("Background"),
         DJV_TEXT("BackgroundHeader"),
-        DJV_TEXT("BackgroundScroll"),
+        DJV_TEXT("BackgroundText"),
         DJV_TEXT("BackgroundTooltip"),
         DJV_TEXT("Foreground"),
         DJV_TEXT("ForegroundDim"),

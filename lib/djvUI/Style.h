@@ -51,7 +51,7 @@ namespace djv
                 None,
                 Background,
                 BackgroundHeader,
-                BackgroundScroll,
+                BackgroundText,
                 BackgroundTooltip,
                 Foreground,
                 ForegroundDim,

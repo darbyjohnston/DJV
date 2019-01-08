@@ -35,14 +35,17 @@
 #include <djvUI/FileBrowserPrivate.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/IWindowSystem.h>
+#include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SearchBox.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Splitter.h>
+#include <djvUI/ToolButton.h>
 #include <djvUI/Toolbar.h>
 #include <djvUI/Window.h>
 
@@ -227,14 +230,14 @@ namespace djv
                 topToolBar->addWidget(pathWidget, Layout::RowStretch::Expand);
 
                 auto itemCountLabel = Label::create(context);
-                itemCountLabel->setMargin(Style::MetricsRole::Margin);
+                itemCountLabel->setMargin(Style::MetricsRole::MarginSmall);
 
+                auto searchBox = SearchBox::create(context);
+                
                 auto bottomToolBar = Toolbar::create(context);
-                bottomToolBar->addAction(largeThumbnailsAction);
-                bottomToolBar->addAction(smallThumbnailsAction);
-                bottomToolBar->addAction(listViewAction);
-                bottomToolBar->addSeparator();
+                bottomToolBar->addExpander();
                 bottomToolBar->addWidget(itemCountLabel);
+                bottomToolBar->addWidget(searchBox);
 
                 auto shortcutsWidget = ShorcutsWidget::create(context);
 
@@ -249,6 +252,7 @@ namespace djv
                 _p->layout = Layout::Vertical::create(context);
                 _p->layout->setSpacing(Style::MetricsRole::None);
                 _p->layout->addWidget(menuBar);
+                _p->layout->addSeparator();
                 _p->layout->addWidget(topToolBar);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
                 splitter->addWidget(shortcutsWidget);
@@ -315,7 +319,7 @@ namespace djv
                         widget->_updateItems();
                     }
                     std::stringstream ss;
-                    ss << DJV_TEXT("Number of items") << ": " << value.size();
+                    ss << value.size() << " " << DJV_TEXT("items");
                     itemCountLabel->setText(ss.str());
                 });
 
@@ -737,6 +741,7 @@ namespace djv
 
             struct DialogSystem::Private
             {
+                std::shared_ptr<Button::Tool> closeButton;
                 std::shared_ptr<Widget> widget;
                 std::shared_ptr<Layout::Overlay> overlay;
             };
@@ -765,12 +770,46 @@ namespace djv
                 auto context = getContext();
                 if (!_p->widget)
                 {
+                    auto titleIcon = Icon::create(context);
+                    titleIcon->setIcon("djvIconDirectory");
+                    titleIcon->setMargin(Layout::Margin(
+                        Style::MetricsRole::MarginSmall,
+                        Style::MetricsRole::None,
+                        Style::MetricsRole::MarginSmall,
+                        Style::MetricsRole::MarginSmall));
+                    
+                    auto titleLabel = Label::create(context);
+                    titleLabel->setText(DJV_TEXT("File Browser"));
+                    titleLabel->setFontSizeRole(Style::MetricsRole::FontLarge);
+                    titleLabel->setTextHAlign(TextHAlign::Left);
+                    titleLabel->setMargin(Layout::Margin(
+                       Style::MetricsRole::Margin,
+                        Style::MetricsRole::None,
+                        Style::MetricsRole::MarginSmall,
+                        Style::MetricsRole::MarginSmall));
+                    
+                    _p->closeButton = Button::Tool::create(context);
+                    _p->closeButton->setIcon("djvIconClose");
+                    _p->closeButton->setInsideMargin(Style::MetricsRole::MarginSmall);
+                    
                     _p->widget = Widget::create(context);
                     _p->widget->setPath(FileSystem::Path("."));
-                    _p->widget->setBackgroundRole(Style::ColorRole::Background);
+
+                    auto layout = Layout::Vertical::create(context);
+                    layout->setSpacing(Style::MetricsRole::None);
+                    layout->setBackgroundRole(Style::ColorRole::Background);
+                    auto hLayout = Layout::Horizontal::create(context);
+                    hLayout->setSpacing(Style::MetricsRole::None);
+                    hLayout->setBackgroundRole(Style::ColorRole::BackgroundHeader);
+                    hLayout->addWidget(titleIcon);
+                    hLayout->addWidget(titleLabel, Layout::RowStretch::Expand);
+                    hLayout->addWidget(_p->closeButton);
+                    layout->addWidget(hLayout);
+                    layout->addSeparator();
+                    layout->addWidget(_p->widget, Layout::RowStretch::Expand);
 
                     auto border = Layout::Border::create(context);
-                    border->addWidget(_p->widget);
+                    border->addWidget(layout);
 
                     _p->overlay = Layout::Overlay::create(context);
                     _p->overlay->setBackgroundRole(Style::ColorRole::Overlay);
@@ -785,6 +824,14 @@ namespace djv
                         _p->overlay->show();
 
                         auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                        _p->closeButton->setClickedCallback(
+                            [weak, window]
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                window->removeWidget(system->_p->overlay);
+                            }
+                        });                        
                         _p->widget->setCallback(
                             [weak, window, callback](const FileSystem::FileInfo & value)
                         {

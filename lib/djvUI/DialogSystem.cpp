@@ -31,6 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/IWindowSystem.h>
+#include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
@@ -55,19 +56,31 @@ namespace djv
     {
         namespace
         {
-            class DialogWidget : public Layout::Stack
+            class DialogWidget : public Layout::Vertical
             {
                 DJV_NON_COPYABLE(DialogWidget);
 
             protected:
                 void _init(Context * context)
                 {
-                    Stack::_init(context);
+                    Vertical::_init(context);
 
-                    setBackgroundRole(Style::ColorRole::Background);
+                    setSpacing(Style::MetricsRole::None);
                     setHAlign(HAlign::Center);
                     setVAlign(VAlign::Center);
-                    setMargin(Style::MetricsRole::Margin);
+
+                    _titleLabel = Label::create(context);
+                    _titleLabel->setFontSizeRole(Style::MetricsRole::FontLarge);
+                    _titleLabel->setTextHAlign(TextHAlign::Left);
+                    _titleLabel->setMargin(Layout::Margin(
+                        Style::MetricsRole::Margin,
+                        Style::MetricsRole::None,
+                        Style::MetricsRole::MarginSmall,
+                        Style::MetricsRole::MarginSmall));
+                    _titleLabel->setBackgroundRole(Style::ColorRole::BackgroundHeader);
+                    
+                    addWidget(_titleLabel);
+                    addSeparator();
                 }
 
                 DialogWidget()
@@ -80,6 +93,14 @@ namespace djv
                     out->_init(context);
                     return out;
                 }
+
+                void setTitle(const std::string & text)
+                {
+                    _titleLabel->setText(text);
+                }
+                
+            private:
+                std::shared_ptr<Label> _titleLabel;
             };
 
             class MessageDialog : public DialogWidget
@@ -98,6 +119,8 @@ namespace djv
                     _closeButton = Button::Push::create(context);
 
                     auto layout = Layout::Vertical::create(context);
+                    layout->setMargin(Style::MetricsRole::Margin);
+                    layout->setBackgroundRole(Style::ColorRole::Background);
                     layout->addWidget(_textBlock);
                     layout->addWidget(_closeButton);
                     addWidget(layout);
@@ -113,7 +136,7 @@ namespace djv
                     out->_init(context);
                     return out;
                 }
-
+                
                 void setText(const std::string & text)
                 {
                     _textBlock->setText(text);
@@ -142,17 +165,18 @@ namespace djv
                 void _init(Context * context)
                 {
                     DialogWidget::_init(context);
-
+                    
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
                     _textBlock->setMargin(Style::MetricsRole::Margin);
 
                     _acceptButton = Button::Push::create(context);
-
                     _cancelButton = Button::Push::create(context);
 
                     auto layout = Layout::Vertical::create(context);
-                    layout->addWidget(_textBlock);
+                    layout->setMargin(Style::MetricsRole::Margin);
+                    layout->setBackgroundRole(Style::ColorRole::Background);
+                    layout->addWidget(_textBlock, Layout::RowStretch::Expand);
                     auto hLayout = Layout::Horizontal::create(context);
                     hLayout->addWidget(_acceptButton, Layout::RowStretch::Expand);
                     hLayout->addWidget(_cancelButton, Layout::RowStretch::Expand);
@@ -232,6 +256,7 @@ namespace djv
         }
 
         void DialogSystem::message(
+            const std::string & title,
             const std::string & text,
             const std::string & closeText)
         {
@@ -247,6 +272,7 @@ namespace djv
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
+                    _p->messageDialog->setTitle(title);
                     _p->messageDialog->setText(text);
                     _p->messageDialog->setCloseText(closeText);
                     window->addWidget(_p->messageOverlay);
@@ -273,6 +299,7 @@ namespace djv
         }
 
         void DialogSystem::confirmation(
+            const std::string & title,
             const std::string & text,
             const std::string & acceptText,
             const std::string & cancelText,
@@ -290,6 +317,7 @@ namespace djv
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
+                    _p->confirmationDialog->setTitle(title);
                     _p->confirmationDialog->setText(text);
                     _p->confirmationDialog->setAcceptText(acceptText);
                     _p->confirmationDialog->setCancelText(cancelText);

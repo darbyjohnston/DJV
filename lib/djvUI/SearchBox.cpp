@@ -27,9 +27,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/LineEdit.h>
+#include <djvUI/SearchBox.h>
 
 #include <djvUI/Border.h>
+#include <djvUI/Icon.h>
+#include <djvUI/LineEdit.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/SoloLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -37,43 +42,62 @@ namespace djv
 {
     namespace UI
     {
-        struct LineEdit::Private
+        struct SearchBox::Private
         {
+            std::shared_ptr<LineEdit> lineEdit;
+            std::shared_ptr<Layout::Solo> soloLayout;
             std::shared_ptr<Layout::Border> border;
         };
 
-        void LineEdit::_init(Context * context)
+        void SearchBox::_init(Context * context)
         {
             Widget::_init(context);
 
-            setClassName("djv::UI::LineEdit");
-            setBackgroundRole(Style::ColorRole::BackgroundText);
+            setClassName("djv::UI::SearchBox");
             setMargin(Style::MetricsRole::MarginSmall);
+
+            _p->lineEdit = LineEdit::create(context);
+            _p->lineEdit->setBorder(false);
+            _p->lineEdit->setMargin(Style::MetricsRole::None);
+            _p->lineEdit->setBackgroundRole(Style::ColorRole::None);
+            
+            auto searchIcon = Icon::create(context);
+            searchIcon->setIcon("djvIconSearch");
+            
+            auto clearButton = Button::Tool::create(context);
+            clearButton->setIcon("djvIconClear");
+            clearButton->setInsideMargin(Style::MetricsRole::None);
+            clearButton->setBackgroundRole(Style::ColorRole::None);
+            
+            auto layout = Layout::Horizontal::create(context);
+            layout->setSpacing(Style::MetricsRole::None);
+            layout->addWidget(_p->lineEdit, Layout::RowStretch::Expand);
+            _p->soloLayout = Layout::Solo::create(context);
+            _p->soloLayout->addWidget(searchIcon);
+            _p->soloLayout->addWidget(clearButton);
+            layout->addWidget(_p->soloLayout);
             
             _p->border = Layout::Border::create(context);
+            _p->border->setBackgroundRole(Style::ColorRole::BackgroundText);
+            _p->border->addWidget(layout);
             _p->border->setParent(shared_from_this());
         }
 
-        LineEdit::LineEdit() :
+        SearchBox::SearchBox() :
             _p(new Private)
         {}
 
-        LineEdit::~LineEdit()
+        SearchBox::~SearchBox()
         {}
 
-        std::shared_ptr<LineEdit> LineEdit::create(Context * context)
+        std::shared_ptr<SearchBox> SearchBox::create(Context * context)
         {
-            auto out = std::shared_ptr<LineEdit>(new LineEdit);
+            auto out = std::shared_ptr<SearchBox>(new SearchBox);
             out->_init(context);
             return out;
         }
 
-        void LineEdit::setBorder(bool value)
-        {
-            _p->border->setBorderSize(value ? Style::MetricsRole::Border : Style::MetricsRole::None);
-        }
-        
-        float LineEdit::getHeightForWidth(float value) const
+        float SearchBox::getHeightForWidth(float value) const
         {
             float out = 0.f;
             if (auto style = _getStyle().lock())
@@ -83,21 +107,16 @@ namespace djv
             }
             return out;
         }
-        
-        void LineEdit::_preLayoutEvent(Event::PreLayout& event)
+
+        void SearchBox::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
-                const float tc = style->getMetric(Style::MetricsRole::TextColumn);
-                const float i = style->getMetric(Style::MetricsRole::Icon);
-                glm::vec2 size = _p->border->getMinimumSize();
-                size.x = std::max(size.x, tc);
-                size.y = std::max(size.y, i);
-                _setMinimumSize(size + getMargin().getSize(style));
+                _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
             }
         }
 
-        void LineEdit::_layoutEvent(Event::Layout& event)
+        void SearchBox::_layoutEvent(Event::Layout& event)
         {
             if (auto style = _getStyle().lock())
             {

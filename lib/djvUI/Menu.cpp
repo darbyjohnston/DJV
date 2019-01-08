@@ -243,6 +243,16 @@ namespace djv
             void MenuButton::setMenu(const std::shared_ptr<Menu> & menu)
             {
                 auto weak = std::weak_ptr<MenuButton>(std::dynamic_pointer_cast<MenuButton>(shared_from_this()));
+                _iconObserver = ValueObserver<std::string>::create(
+                    menu->getMenuIcon(),
+                    [weak](const std::string & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_icon->setIcon(value);
+                        widget->_icon->setVisible(!value.empty());
+                    }
+                });
                 _textObserver = ValueObserver<std::string>::create(
                     menu->getMenuName(),
                     [weak](const std::string & value)
@@ -612,6 +622,7 @@ namespace djv
         struct Menu::Private
         {
             Context * context = nullptr;
+            std::shared_ptr<ValueSubject<std::string> > menuIcon;
             std::shared_ptr<ValueSubject<std::string> > menuName;
             std::map<size_t, std::shared_ptr<Action> > actions;
             std::map<size_t, std::shared_ptr<Menu> > menus;
@@ -626,6 +637,7 @@ namespace djv
         void Menu::_init(Context * context)
         {
             _p->context = context;
+            _p->menuIcon = ValueSubject<std::string>::create();
             _p->menuName = ValueSubject<std::string>::create();
         }
 
@@ -651,9 +663,19 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<IValueSubject<std::string> > Menu::getMenuIcon() const
+        {
+            return _p->menuIcon;
+        }
+
         std::shared_ptr<IValueSubject<std::string> > Menu::getMenuName() const
         {
             return _p->menuName;
+        }
+
+        void Menu::setMenuIcon(const std::string & value)
+        {
+            _p->menuIcon->setIfChanged(value);
         }
 
         void Menu::setMenuName(const std::string & value)

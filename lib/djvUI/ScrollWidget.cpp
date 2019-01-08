@@ -568,7 +568,7 @@ namespace djv
             IContainer::_init(context);
 
             setClassName("djv::UI::ScrollWidget");
-            setBackgroundRole(Style::ColorRole::BackgroundScroll);
+            setBackgroundRole(Style::ColorRole::BackgroundText);
 
             _p->scrollType = scrollType;
 

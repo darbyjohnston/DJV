@@ -20,6 +20,7 @@ set(header
     MediaSession.h
     #PlaybackSystem.h
     PlaybackWidget.h
+    SettingsSystem.h
     TimelineSlider.h
     #TimelineWidget.h
     #ToolSystem.h
@@ -48,6 +49,7 @@ set(source
     MediaSession.cpp
     #PlaybackSystem.cpp
     PlaybackWidget.cpp
+    SettingsSystem.cpp
     TimelineSlider.cpp
     #TimelineWidget.cpp
     #ToolSystem.cpp

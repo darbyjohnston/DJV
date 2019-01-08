@@ -52,6 +52,11 @@ namespace djv
             static std::shared_ptr<MenuBar> create(Core::Context *);
 
             void addMenu(const std::shared_ptr<Menu> &);
+            void addWidget(const std::shared_ptr<Widget>&);
+
+            void addSeparator();
+            void addSpacer();
+            void addExpander();
 
             float getHeightForWidth(float) const override;
 
