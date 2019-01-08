@@ -61,6 +61,7 @@ namespace djv
             std::shared_ptr<UI::TabBar> tabBar;
             std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
             BBox2f maximizedGeometry;
+            std::shared_ptr<UI::Layout::Solo> soloLayout;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > openedObserver;
             std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
@@ -87,7 +88,10 @@ namespace djv
             _p->tabBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
 
             _p->mdiCanvas = UI::MDI::Canvas::create(context);
-            addWidget(_p->mdiCanvas);
+
+            _p->soloLayout = UI::Layout::Solo::create(context);
+            _p->soloLayout->addWidget(_p->mdiCanvas);
+            addWidget(_p->soloLayout);
 
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             for (auto i : viewSystems)
@@ -143,18 +147,24 @@ namespace djv
                                     if (value)
                                     {
                                         mainWindow->_p->maximizedGeometry = mdiWindow->getGeometry();
-                                        mainWindow->addWidget(mdiWindow);
+                                        mainWindow->_p->soloLayout->addWidget(mdiWindow);
+                                        mainWindow->_p->soloLayout->setCurrentWidget(mdiWindow);
                                     }
                                     else
                                     {
+                                        mainWindow->_p->soloLayout->setCurrentWidget(mainWindow->_p->mdiCanvas);
                                         mdiWindow->setParent(mainWindow->_p->mdiCanvas);
                                         mdiWindow->setGeometry(mainWindow->_p->maximizedGeometry);
                                     }
                                 }
                             });
                             mdiWindow->setClosedCallback(
-                                [mdiWindow]
+                                [weak, mdiWindow]
                             {
+                                if (auto mainWindow = weak.lock())
+                                {
+                                    mainWindow->_p->soloLayout->setCurrentWidget(mainWindow->_p->mdiCanvas);
+                                }
                                 mdiWindow->setParent(nullptr);
                             });
                         }
