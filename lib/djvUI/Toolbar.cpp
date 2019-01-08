@@ -46,7 +46,7 @@ namespace djv
             {
                 std::shared_ptr<ValueObserver<ButtonType> > buttonType;
                 std::shared_ptr<ValueObserver<bool> > checked;
-                std::shared_ptr<ValueObserver<FileSystem::Path> > icon;
+                std::shared_ptr<ValueObserver<std::string> > icon;
                 std::shared_ptr<ValueObserver<bool> > enabled;
                 std::shared_ptr<ValueObserver<std::string> > tooltip;
             };
@@ -139,9 +139,9 @@ namespace djv
             {
                 button->setChecked(value);
             });
-            _p->observers[action].icon = ValueObserver<FileSystem::Path>::create(
+            _p->observers[action].icon = ValueObserver<std::string>::create(
                 action->getIcon(),
-                [button](const FileSystem::Path & value)
+                [button](const std::string & value)
             {
                 button->setIcon(value);
             });

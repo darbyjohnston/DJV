@@ -33,15 +33,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace UI
     {
         //! This class provides a widget that displays an icon.
@@ -57,10 +48,10 @@ namespace djv
             virtual ~Icon();
 
             static std::shared_ptr<Icon> create(Core::Context *);
-            static std::shared_ptr<Icon> create(const Core::FileSystem::Path&, Core::Context *);
+            static std::shared_ptr<Icon> create(const std::string&, Core::Context *);
 
-            const Core::FileSystem::Path& getIcon() const;
-            void setIcon(const Core::FileSystem::Path&);
+            const std::string& getIcon() const;
+            void setIcon(const std::string&);
 
             Style::ColorRole getIconColorRole() const;
             void setIconColorRole(Style::ColorRole);

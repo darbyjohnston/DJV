@@ -34,6 +34,8 @@
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISystem.h>
 
+#include <djvAV/AVSystem.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
@@ -110,7 +112,6 @@ namespace djv
             struct Metrics::Private
             {
                 std::map<MetricsRole, float> metrics;
-                float scale = 1.f;
             };
 
             Metrics::Metrics(const Metrics& other) :
@@ -141,7 +142,7 @@ namespace djv
                 p.metrics[MetricsRole::SpacingSmall]        =   5.f;
                 p.metrics[MetricsRole::SpacingLarge]        =  40.f;
                 p.metrics[MetricsRole::Drag]                =  20.f;
-                p.metrics[MetricsRole::Icon]                =  25.f;
+                p.metrics[MetricsRole::Icon]                =  24.f;
                 p.metrics[MetricsRole::IconLarge]           = 100.f;
                 p.metrics[MetricsRole::FontSmall]           =   6.f;
                 p.metrics[MetricsRole::FontMedium]          =   9.f;
@@ -168,32 +169,23 @@ namespace djv
                 _p->metrics[role] = value;
             }
 
-            float Metrics::getScale() const
-            {
-                return _p->scale;
-            }
-
-            void Metrics::setScale(float value)
-            {
-                _p->scale = value;
-            }
-
             bool Metrics::operator == (const Metrics& other) const
             {
                 DJV_PRIVATE_PTR();
-                return p.metrics == other._p->metrics && p.scale == other._p->scale;
+                return p.metrics == other._p->metrics;
             }
 
             struct Style::Private
             {
                 std::shared_ptr<Settings::Style> settings;
                 Palette palette;
-                glm::vec2 dpi = glm::vec2(0.f, 0.f);
+                int dpi = AV::dpiDefault;
                 Metrics metrics;
                 std::string currentLocale;
                 std::map<std::string, Settings::FontMap> fonts;
                 Settings::FontMap currentFont;
                 std::shared_ptr<ValueObserver<Palette> > paletteObserver;
+                std::shared_ptr<ValueObserver<int> > dpiObserver;
                 std::shared_ptr<ValueObserver<Metrics> > metricsObserver;
                 std::shared_ptr<ValueObserver<std::string> > currentLocaleObserver;
                 std::shared_ptr<MapObserver<std::string, Settings::FontMap> > fontsObserver;
@@ -208,7 +200,7 @@ namespace djv
 
                 auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
                 p.paletteObserver = ValueObserver<Palette>::create(
-                    p.settings->getCurrentPalette(),
+                    p.settings->observeCurrentPalette(),
                     [weak](const Palette value)
                 {
                     if (auto style = weak.lock())
@@ -217,8 +209,22 @@ namespace djv
                     }
                 });
 
+                p.dpiObserver = ValueObserver<int>::create(
+                    p.settings->observeDPI(),
+                    [weak](int value)
+                {
+                    if (auto style = weak.lock())
+                    {
+                        style->_p->dpi = value;
+                        if (auto avSystem = style->getContext()->getSystemT<AV::AVSystem>().lock())
+                        {
+                            avSystem->setDPI(value);
+                        }
+                    }
+                });
+
                 p.metricsObserver = ValueObserver<Metrics>::create(
-                    p.settings->getCurrentMetrics(),
+                    p.settings->observeCurrentMetrics(),
                     [weak](const Metrics& value)
                 {
                     if (auto style = weak.lock())
@@ -277,39 +283,19 @@ namespace djv
                 return _p->palette.getColor(role);
             }
 
-            void Style::setPalette(const Palette& value)
-            {
-                _p->palette = value;
-            }
-
             float Style::getMetric(MetricsRole role) const
             {
-                return _p->metrics.getMetric(role) * _p->metrics.getScale();
+                return _p->metrics.getMetric(role) * getScale();
             }
-
-            void Style::setMetrics(const Metrics& value)
-            {
-                _p->metrics = value;
-            }
-
-            float Style::getScale() const
-            {
-                return _p->metrics.getScale();
-            }
-
-            void Style::setScale(float value)
-            {
-                _p->metrics.setScale(value);
-            }
-
-            const glm::vec2& Style::getDPI() const
+            
+            int Style::getDPI() const
             {
                 return _p->dpi;
             }
 
-            void Style::setDPI(const glm::vec2& value)
+            float Style::getScale() const
             {
-                _p->dpi = value;
+                return _p->dpi / static_cast<float>(AV::dpiDefault);
             }
 
             AV::Font::Info Style::getFont(const std::string & face, MetricsRole metricsRole) const

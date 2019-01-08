@@ -29,24 +29,14 @@
 
 #pragma once
 
-#include <djvAV/Pixel.h>
+#include <djvAV/AV.h>
 
 #include <djvCore/ISystem.h>
-#include <djvCore/Vector.h>
 
 #include <future>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace AV
     {
         namespace IO
@@ -58,12 +48,9 @@ namespace djv
         namespace Image
         {
             struct Info;
-            class Convert;
             class Image;
 
             //! This class provides an icon system.
-            //!
-            //! \todo Add support for canceling requests (e.g., for the file browser).
             class IconSystem : public Core::ISystem
             {
                 DJV_NON_COPYABLE(IconSystem);
@@ -77,21 +64,16 @@ namespace djv
 
                 static std::shared_ptr<IconSystem> create(Core::Context *);
 
+                //! Set the DPI.
+                void setDPI(int);
+                
                 //! Get information about an icon.
-                std::future<IO::Info> getInfo(const Core::FileSystem::Path&);
+                std::future<IO::Info> getInfo(const std::string &);
 
                 //! Get an icon.
-                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&);
-
-                //! Get an icon and resize or convert it to a new image with the given information.
-                //! If either the given width or height is set to zero the image will be resized
-                //! maintaining it's aspect ratio.
-                std::future<std::shared_ptr<Image> > getImage(const Core::FileSystem::Path&, const glm::ivec2&, Type = Type::None);
+                std::future<std::shared_ptr<Image> > getImage(const std::string &);
 
             private:
-                void _handleInfoRequests();
-                void _handleImageRequests(const std::shared_ptr<Convert> &);
-
                 DJV_PRIVATE();
             };
 

@@ -94,7 +94,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<List> List::create(const std::string& text, const FileSystem::Path& icon, Context * context)
+            std::shared_ptr<List> List::create(const std::string& text, const std::string& icon, Context * context)
             {
                 auto out = std::shared_ptr<List>(new List);
                 out->_init(context);
@@ -103,15 +103,15 @@ namespace djv
                 return out;
             }
 
-            const FileSystem::Path& List::getIcon() const
+            const std::string& List::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void List::setIcon(const FileSystem::Path& value)
+            void List::setIcon(const std::string& value)
             {
                 _p->icon->setIcon(value);
-                _p->icon->setVisible(!value.isEmpty());
+                _p->icon->setVisible(!value.empty());
             }
 
             const std::string& List::getText() const

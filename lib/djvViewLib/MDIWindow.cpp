@@ -74,10 +74,10 @@ namespace djv
 
             auto maximizeButton = UI::Button::Tool::create(context);
             maximizeButton->setButtonType(UI::ButtonType::Toggle);
-            maximizeButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconMaximize90DPI.png"));
+            maximizeButton->setIcon("djvIconMaximize");
 
             auto closeButton = UI::Button::Tool::create(context);
-            closeButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
+            closeButton->setIcon("djvIconClose");
 
             p.titleBar = UI::Layout::Horizontal::create(context);
             p.titleBar->setClassName("djv::UI::MDI::TitleBar");
@@ -91,7 +91,7 @@ namespace djv
 
             p.resizeHandle = UI::Icon::create(context);
             p.resizeHandle->setPointerEnabled(true);
-            p.resizeHandle->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
+            p.resizeHandle->setIcon("djvIconWindowResizeHandle");
             p.resizeHandle->setHAlign(UI::HAlign::Right);
             p.resizeHandle->setVAlign(UI::VAlign::Bottom);
 

@@ -136,7 +136,7 @@ namespace djv
                 std::shared_ptr<Layout::Horizontal> _layout;
                 std::shared_ptr<ValueObserver<ButtonType> > _buttonTypeObserver;
                 std::shared_ptr<ValueObserver<bool> > _checkedObserver;
-                std::shared_ptr<ValueObserver<FileSystem::Path> > _iconObserver;
+                std::shared_ptr<ValueObserver<std::string> > _iconObserver;
                 std::shared_ptr<ValueObserver<std::string> > _textObserver;
                 std::shared_ptr<ValueObserver<std::shared_ptr<Shortcut> > > _shortcutObserver;
 
@@ -199,14 +199,14 @@ namespace djv
                         widget->setChecked(value);
                     }
                 });
-                _iconObserver = ValueObserver<FileSystem::Path>::create(
+                _iconObserver = ValueObserver<std::string>::create(
                     action->getIcon(),
-                    [weak](const FileSystem::Path & value)
+                    [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_icon->setIcon(value);
-                        widget->_icon->setVisible(!value.isEmpty());
+                        widget->_icon->setVisible(!value.empty());
                     }
                 });
                 _textObserver = ValueObserver<std::string>::create(
@@ -379,7 +379,7 @@ namespace djv
                         if (auto button = std::dynamic_pointer_cast<MenuButton>(child))
                         {
                             size.x = iconWidth + textWidth + shortcutWidth + spacing + margin;
-                            if (iconWidth && button->_icon->getIcon().isEmpty())
+                            if (iconWidth && button->_icon->getIcon().empty())
                             {
                                 button->_iconSpacer->setVisible(true);
                                 button->_iconSpacer->setSpacerSize(iconWidth);

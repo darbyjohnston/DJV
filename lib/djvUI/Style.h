@@ -131,12 +131,8 @@ namespace djv
                 ~Metrics();
                 Metrics& operator = (const Metrics&);
 
-                //! Get a metric role. Note that this returns the unscaled value.
                 float getMetric(MetricsRole role) const;
                 void setMetric(MetricsRole, float);
-
-                float getScale() const;
-                void setScale(float);
 
                 bool operator == (const Metrics&) const;
 
@@ -173,22 +169,16 @@ namespace djv
 
                 const Palette & getPalette() const;
                 const AV::Image::Color & getColor(ColorRole) const;
-                void setPalette(const Palette &);
 
                 ///@}
 
                 //! \name Size Metrics
                 ///@{
 
-                //! Get a metric role. Note that this returns the scaled value.
-                float getMetric(MetricsRole) const;
-                void setMetrics(const Metrics&);
-
+                int getDPI() const;
                 float getScale() const;
-                void setScale(float);
 
-                const glm::vec2& getDPI() const;
-                void setDPI(const glm::vec2&);
+                float getMetric(MetricsRole) const;
 
                 ///@}
 

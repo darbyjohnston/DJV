@@ -88,7 +88,7 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
     titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
     _closeButton = UI::Button::Tool::create(context);
-    _closeButton->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
+    _closeButton->setIcon("djvIconClose");
 
     auto titleBar = UI::Layout::Horizontal::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");
@@ -105,7 +105,7 @@ void MDIWindow::_init(const std::string & title, Core::Context * context)
 
     _resizeHandle = UI::Icon::create(context);
     _resizeHandle->setPointerEnabled(true);
-    _resizeHandle->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconWindowResizeHandle90DPI.png"));
+    _resizeHandle->setIcon("djvIconWindowResizeHandle");
     _resizeHandle->setHAlign(UI::HAlign::Right);
     _resizeHandle->setVAlign(UI::VAlign::Bottom);
 

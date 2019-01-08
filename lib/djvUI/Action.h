@@ -36,15 +36,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace UI
     {
         class Shortcut;
@@ -72,9 +63,9 @@ namespace djv
             void setChecked(bool);
             void doChecked();
 
-            std::shared_ptr<Core::IValueSubject<Core::FileSystem::Path> > getIcon() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > getIcon() const;
             std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > getIconSizeRole() const;
-            void setIcon(const Core::FileSystem::Path&);
+            void setIcon(const std::string&);
             void setIconSizeRole(Style::MetricsRole);
 
             std::shared_ptr<Core::IValueSubject<std::string> > getText() const;

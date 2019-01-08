@@ -34,7 +34,6 @@
 #include <djvAV/Image.h>
 #include <djvAV/Render2DSystem.h>
 
-#include <djvCore/Path.h>
 #include <djvCore/UID.h>
 
 using namespace djv::Core;
@@ -45,7 +44,7 @@ namespace djv
     {
         struct Icon::Private
         {
-            FileSystem::Path path;
+            std::string name;
             Style::ColorRole iconColorRole = Style::ColorRole::Foreground;
             Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
             std::future<AV::IO::Info> infoFuture;
@@ -76,29 +75,29 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Icon> Icon::create(const FileSystem::Path& path, Context * context)
+        std::shared_ptr<Icon> Icon::create(const std::string& name, Context * context)
         {
             auto out = Icon::create(context);
-            out->setIcon(path);
+            out->setIcon(name);
             return out;
         }
 
-        const FileSystem::Path& Icon::getIcon() const
+        const std::string& Icon::getIcon() const
         {
-            return _p->path;
+            return _p->name;
         }
 
-        void Icon::setIcon(const FileSystem::Path& value)
+        void Icon::setIcon(const std::string& value)
         {
-            if (value == _p->path)
+            if (value == _p->name)
                 return;
-            _p->path = value;
+            _p->name = value;
             if (auto system = _getIconSystem().lock())
             {
-                _p->infoFuture = system->getInfo(_p->path);
-                _p->imageFuture = system->getImage(_p->path);
+                _p->infoFuture = system->getInfo(_p->name);
+                _p->imageFuture = system->getImage(_p->name);
             }
-            _p->uid = _p->path.isEmpty() ? 0 : createUID();
+            _p->uid = _p->name.empty() ? 0 : createUID();
             _resize();
         }
 

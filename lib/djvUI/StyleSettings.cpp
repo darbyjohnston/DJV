@@ -51,6 +51,7 @@ namespace djv
                 std::shared_ptr<MapSubject<std::string, UI::Style::Palette> > palettes;
                 std::shared_ptr<ValueSubject<UI::Style::Palette> > currentPalette;
                 std::shared_ptr<ValueSubject<std::string> > currentPaletteName;
+                std::shared_ptr<ValueSubject<int> > dpi;
                 std::shared_ptr<MapSubject<std::string, UI::Style::Metrics> > metrics;
                 std::shared_ptr<ValueSubject<UI::Style::Metrics> > currentMetrics;
                 std::shared_ptr<ValueSubject<std::string> > currentMetricsName;
@@ -75,17 +76,13 @@ namespace djv
                 palettes[DJV_TEXT("Light")] = palette;
 
                 std::map<std::string, UI::Style::Metrics> metrics;
-                auto m = UI::Style::Metrics();
-                m.setScale(1.f);
-                metrics[DJV_TEXT("Default")] = m;
-                m = UI::Style::Metrics();
-                m.setScale(2.f);
-                metrics[DJV_TEXT("Large")] = m;
+                metrics[DJV_TEXT("Default")] = UI::Style::Metrics();
 
                 DJV_PRIVATE_PTR();
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
                 p.currentPalette = ValueSubject<UI::Style::Palette>::create(palettes["Default"]);
                 p.currentPaletteName = ValueSubject<std::string>::create("Default");
+                p.dpi = ValueSubject<int>::create(AV::dpiDefault);                
                 p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metrics);
                 p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metrics["Default"]);
                 p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Default"));
@@ -107,17 +104,17 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IMapSubject<std::string, UI::Style::Palette> > Style::getPalettes() const
+            std::shared_ptr<IMapSubject<std::string, UI::Style::Palette> > Style::observePalettes() const
             {
                 return _p->palettes;
             }
 
-            std::shared_ptr<IValueSubject<UI::Style::Palette> > Style::getCurrentPalette() const
+            std::shared_ptr<IValueSubject<UI::Style::Palette> > Style::observeCurrentPalette() const
             {
                 return _p->currentPalette;
             }
 
-            std::shared_ptr<IValueSubject<std::string> > Style::getCurrentPaletteName() const
+            std::shared_ptr<IValueSubject<std::string> > Style::observeCurrentPaletteName() const
             {
                 return _p->currentPaletteName;
             }
@@ -127,26 +124,43 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.currentPaletteName->setIfChanged(name))
                 {
-                    if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
+                    /*if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
                     {
                         style->setPalette(p.palettes->getItem(name));
-                    }
+                    }*/
                 }
             }
 
-            std::shared_ptr<IMapSubject<std::string, UI::Style::Metrics> > Style::getMetrics() const
+            std::shared_ptr<IValueSubject<int> > Style::observeDPI() const
+            {
+                return _p->dpi;
+            }
+
+            std::shared_ptr<IMapSubject<std::string, UI::Style::Metrics> > Style::observeMetrics() const
             {
                 return _p->metrics;
             }
 
-            std::shared_ptr<IValueSubject<UI::Style::Metrics> > Style::getCurrentMetrics() const
+            std::shared_ptr<IValueSubject<UI::Style::Metrics> > Style::observeCurrentMetrics() const
             {
                 return _p->currentMetrics;
             }
 
-            std::shared_ptr<IValueSubject<std::string> > Style::getCurrentMetricsName() const
+            std::shared_ptr<IValueSubject<std::string> > Style::observeCurrentMetricsName() const
             {
                 return _p->currentMetricsName;
+            }
+
+            void Style::setDPI(int value)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.dpi->setIfChanged(value))
+                {
+                    /*if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
+                    {
+                        style->setDPI(value);
+                    }*/
+                }
             }
 
             void Style::setCurrentMetrics(const std::string& name)
@@ -154,10 +168,10 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.currentMetricsName->setIfChanged(name))
                 {
-                    if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
+                    /*if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
                     {
                         style->setMetrics(p.metrics->getItem(name));
-                    }
+                    }*/
                 }
             }
 
@@ -170,6 +184,7 @@ namespace djv
                     _read("Palettes", object, p.palettes);
                     _read("CurrentPalette", object, p.currentPaletteName);
                     p.currentPalette->setIfChanged(p.palettes->getItem(p.currentPaletteName->get()));
+                    _read("DPI", object, p.dpi);
                     _read("Metrics", object, p.metrics);
                     _read("CurrentMetrics", object, p.currentMetricsName);
                     p.currentMetrics->setIfChanged(p.metrics->getItem(p.currentMetricsName->get()));
@@ -183,6 +198,7 @@ namespace djv
                 auto& object = out.get<picojson::object>();
                 _write("Palettes", p.palettes->get(), object);
                 _write("CurrentPalette", p.currentPaletteName->get(), object);
+                _write("DPI", p.dpi->get(), object);
                 _write("Metrics", p.metrics->get(), object);
                 _write("CurrentMetrics", p.currentMetricsName->get(), object);
                 return out;

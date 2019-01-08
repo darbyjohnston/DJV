@@ -53,8 +53,8 @@ namespace djv
                 Info(const std::string & family, const std::string & face, float size);
 
                 std::string family = defaultFamily;
-                std::string face = defaultFace;
-                float size = 0.f;
+                std::string face   = defaultFace;
+                float       size   = 0.f;
 
                 static const std::string defaultFamily;
                 static const std::string defaultFace;
@@ -63,8 +63,8 @@ namespace djv
             //! This struct provides font metrics.
             struct Metrics
             {
-                float ascender = 0.f;
-                float descender = 0.f;
+                float ascender   = 0.f;
+                float descender  = 0.f;
                 float lineHeight = 0.f;
             };
 
@@ -77,7 +77,7 @@ namespace djv
                 TextLine(const std::string& text, const glm::vec2&);
 
                 std::string text;
-                glm::vec2 size = glm::vec2(0.f, 0.f);
+                glm::vec2   size = glm::vec2(0.f, 0.f);
             };
 
             //! This class provides font glyph information.
@@ -92,9 +92,9 @@ namespace djv
                 inline Core::UID getUID() const;
 
             private:
-                uint32_t _code = 0;
-                Info _info;
-                Core::UID _uid = 0;
+                uint32_t  _code = 0;
+                Info      _info;
+                Core::UID _uid  = 0;
             };
 
             //! This class provides a font glyph.
@@ -124,10 +124,10 @@ namespace djv
                 inline float getAdvance() const;
 
             private:
-                GlyphInfo _info;
+                GlyphInfo                    _info;
                 std::shared_ptr<Image::Data> _imageData;
-                glm::vec2 _offset = glm::vec2(0.f, 0.f);
-                float _advance = 0.f;
+                glm::vec2                    _offset    = glm::vec2(0.f, 0.f);
+                float                        _advance   = 0.f;
             };
 
             //! This class provides a font system.
@@ -140,14 +140,17 @@ namespace djv
                 DJV_NON_COPYABLE(System);
 
             protected:
-                void _init(const glm::vec2& dpi, Core::Context *);
+                void _init(Core::Context *);
 
                 System();
 
             public:
                 virtual ~System();
 
-                static std::shared_ptr<System> create(const glm::vec2& dpi, Core::Context *);
+                static std::shared_ptr<System> create(Core::Context *);
+
+                //! Set the DPI.
+                void setDPI(int);
 
                 //! Get the font family and file names.
                 std::future<std::map<std::string, std::string> > getFontNames();

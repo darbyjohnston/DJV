@@ -47,7 +47,7 @@
 #include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
-#include <djvAV/IconSystem.h>
+#include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/FileInfo.h>
@@ -121,7 +121,7 @@ namespace djv
 
                 auto upAction = Action::create();
                 upAction->setText(DJV_TEXT("Up"));
-                upAction->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconArrowUp90DPI.png"));
+                upAction->setIcon("djvIconArrowUp");
                 upAction->setTooltip(DJV_TEXT("Go up a directory."));
                 upAction->setShortcut(GLFW_KEY_UP);
                 addAction(upAction);
@@ -134,14 +134,14 @@ namespace djv
 
                 auto backAction = Action::create();
                 backAction->setText(DJV_TEXT("Back"));
-                backAction->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconArrowLeft90DPI.png"));
+                backAction->setIcon("djvIconArrowLeft");
                 backAction->setTooltip(DJV_TEXT("Go back a directory."));
                 backAction->setShortcut(GLFW_KEY_LEFT);
                 addAction(backAction);
 
                 auto forwardAction = Action::create();
                 forwardAction->setText(DJV_TEXT("Forward"));
-                forwardAction->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconArrowRight90DPI.png"));
+                forwardAction->setIcon("djvIconArrowRight");
                 forwardAction->setTooltip(DJV_TEXT("Go forward a directory."));
                 forwardAction->setShortcut(GLFW_KEY_RIGHT);
                 addAction(forwardAction);
@@ -154,19 +154,19 @@ namespace djv
 
                 auto largeThumbnailsAction = Action::create();
                 largeThumbnailsAction->setText(DJV_TEXT("Large Thumbnails"));
-                largeThumbnailsAction->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconThumbnailsLarge90DPI.png"));
+                largeThumbnailsAction->setIcon("djvIconThumbnailsLarge");
                 largeThumbnailsAction->setTooltip(DJV_TEXT("Show items with large thumbnail previews."));
                 largeThumbnailsAction->setShortcut(GLFW_KEY_1);
                 addAction(largeThumbnailsAction);
                 auto smallThumbnailsAction = Action::create();
                 smallThumbnailsAction->setText(DJV_TEXT("Small Thumbnails"));
-                smallThumbnailsAction->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconThumbnailsSmall90DPI.png"));
+                smallThumbnailsAction->setIcon("djvIconThumbnailsSmall");
                 smallThumbnailsAction->setTooltip(DJV_TEXT("Show items with small thumbnail previews."));
                 smallThumbnailsAction->setShortcut(GLFW_KEY_2);
                 addAction(smallThumbnailsAction);
                 auto listViewAction = Action::create();
                 listViewAction->setText(DJV_TEXT("List View"));
-                listViewAction->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconListView90DPI.png"));
+                listViewAction->setIcon("djvIconListView");
                 listViewAction->setTooltip(DJV_TEXT("Show items in a list with detailed information."));
                 listViewAction->setShortcut(GLFW_KEY_3);
                 addAction(listViewAction);
@@ -485,11 +485,11 @@ namespace djv
                             {
                                 const auto info = i->future.get();
                                 auto context = getContext();
-                                auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock();
+                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock();
                                 auto ioSystem = context->getSystemT<AV::IO::System>().lock();
                                 auto style = _getStyle().lock();
                                 auto widget = i->widget.lock();
-                                if (iconSystem && ioSystem && style && widget)
+                                if (thumbnailSystem && ioSystem && style && widget)
                                 {
                                     widget->setTooltip(_p->_getTooltip(i->fileInfo, info));
                                     int t = 0;
@@ -514,7 +514,7 @@ namespace djv
                                         }
                                     }
                                     Private::ImageFuture future;
-                                    future.future = iconSystem->getImage(i->fileInfo.getPath(), thumbnailSize);
+                                    future.future = thumbnailSystem->getImage(i->fileInfo.getPath(), thumbnailSize);
                                     future.widget = i->widget;
                                     _p->imageFutures.push_back(std::move(future));
                                 }
@@ -586,7 +586,7 @@ namespace djv
                             if (i != _p->buttonToFileInfo.end())
                             {
                                 auto context = getContext();
-                                if (auto iconSystem = context->getSystemT<AV::Image::IconSystem>().lock())
+                                if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock())
                                 {
                                     if (auto ioSystem = context->getSystemT<AV::IO::System>().lock())
                                     {
@@ -596,7 +596,7 @@ namespace djv
                                             {
                                                 Private::InfoFuture future;
                                                 future.fileInfo = i->second;
-                                                future.future = iconSystem->getInfo(i->second.getPath());
+                                                future.future = thumbnailSystem->getInfo(i->second.getPath());
                                                 future.widget = button;
                                                 _p->infoFutures.push_back(std::move(future));
                                             }
@@ -635,25 +635,25 @@ namespace djv
                     case FileSystem::FileType::Directory:
                         switch (_p->viewType)
                         {
-                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge90DPI.png"; break;
-                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall90DPI.png"; break;
-                        case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList96DPI.png";  break;
+                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge"; break;
+                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall"; break;
+                        case ViewType::ListView:        name = "djvIconFileBrowserDirectoryList";  break;
                         default: break;
                         }
                         break;
                     default:
                         switch (_p->viewType)
                         {
-                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge90DPI.png"; break;
-                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall90DPI.png"; break;
-                        case ViewType::ListView:        name = "djvIconFileBrowserFileList96DPI.png";  break;
+                        case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge"; break;
+                        case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall"; break;
+                        case ViewType::ListView:        name = "djvIconFileBrowserFileList";  break;
                         default: break;
                         }
                         break;
                     }
                     if (!name.empty())
                     {
-                        button->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, name));
+                        button->setIcon(name);
                     }
                     Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
                     Style::MetricsRole textSizeRole = Style::MetricsRole::None;

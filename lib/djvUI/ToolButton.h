@@ -9,15 +9,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace UI
     {
         namespace Button
@@ -35,10 +26,10 @@ namespace djv
                 virtual ~Tool();
 
                 static std::shared_ptr<Tool> create(Core::Context *);
-                static std::shared_ptr<Tool> create(const Core::FileSystem::Path&, Core::Context *);
+                static std::shared_ptr<Tool> create(const std::string&, Core::Context *);
 
-                const Core::FileSystem::Path& getIcon() const;
-                void setIcon(const Core::FileSystem::Path&);
+                const std::string& getIcon() const;
+                void setIcon(const std::string&);
 
                 const Layout::Margin& getInsideMargin() const;
                 void setInsideMargin(const Layout::Margin&);

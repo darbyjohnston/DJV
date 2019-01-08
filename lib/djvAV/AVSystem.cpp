@@ -35,6 +35,7 @@
 #include <djvAV/IO.h>
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render2DSystem.h>
+#include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
@@ -94,7 +95,7 @@ namespace djv
 
         struct AVSystem::Private
         {
-            glm::vec2 dpi = glm::vec2(90.f, 90.f);
+            int dpi = dpiDefault;
             GLFWwindow * glfwWindow = nullptr;
             std::vector<std::shared_ptr<ISystem> > avSystems;
         };
@@ -125,22 +126,23 @@ namespace djv
                 throw std::runtime_error(ss.str());
             }
 
-            // Get the primary monitor DPI.
+            // Get primary monitor information.
             if (auto primaryMonitor = glfwGetPrimaryMonitor())
             {
                 const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
                 glm::ivec2 mm;
                 glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
+                glm::vec2 dpi;
                 if (mm.x > 0 && mm.y > 0)
                 {
-                    _p->dpi.x = mode->width / (mm.x / 25.4f);
-                    _p->dpi.y = mode->height / (mm.y / 25.4f);
+                    dpi.x = mode->width / (mm.x / 25.4f);
+                    dpi.y = mode->height / (mm.y / 25.4f);
                 }
                 {
                     std::stringstream ss;
                     ss << "Primary monitor resolution: " << mode->width << " " << mode->height << "\n";
                     ss << "Primary monitor size: " << mm << "mm\n";
-                    ss << "Primary monitor DPI: " << _p->dpi;
+                    ss << "Primary monitor DPI: " << dpi;
                     context->log("djv::AV::AVSystem", ss.str());
                     ss.str(std::string());
                 }
@@ -193,9 +195,14 @@ namespace djv
             // Create the systems.
             _p->avSystems.push_back(IO::System::create(context));
             _p->avSystems.push_back(Audio::System::create(context));
-            _p->avSystems.push_back(Font::System::create(_p->dpi, context));
-            _p->avSystems.push_back(Image::IconSystem::create(context));
+            auto fontSystem = Font::System::create(context);
+            fontSystem->setDPI(_p->dpi);
+            _p->avSystems.push_back(fontSystem);
             _p->avSystems.push_back(Render::Render2DSystem::create(context));
+            _p->avSystems.push_back(ThumbnailSystem::create(context));
+            auto iconSystem = Image::IconSystem::create(context);
+            iconSystem->setDPI(_p->dpi);
+            _p->avSystems.push_back(iconSystem);
         }
 
         AVSystem::AVSystem() :
@@ -232,6 +239,22 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             glfwMakeContextCurrent(p.glfwWindow);
+        }
+
+        void AVSystem::setDPI(int value)
+        {
+            if (value == _p->dpi)
+                return;
+            _p->dpi = value;
+            auto context = getContext();
+            if (auto fontSystem = context->getSystemT<Font::System>().lock())
+            {
+                fontSystem->setDPI(value);
+            }
+            if (auto iconSystem = context->getSystemT<Image::IconSystem>().lock())
+            {
+                iconSystem->setDPI(value);
+            }
         }
 
     } // namespace AV

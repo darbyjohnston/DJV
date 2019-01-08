@@ -44,6 +44,7 @@ set(header
     Shape.h
     Tags.h
     TextureCache.h
+    ThumbnailSystem.h
     TriangleMesh.h)
 set(source
     AVSystem.cpp
@@ -73,6 +74,7 @@ set(source
     Shader.cpp
     Tags.cpp
     TextureCache.cpp
+    ThumbnailSystem.cpp
     TriangleMesh.cpp)
 if(PNG_FOUND)
     set(header

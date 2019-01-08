@@ -96,7 +96,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Push> Push::create(const std::string& text, const FileSystem::Path& icon, Context * context)
+            std::shared_ptr<Push> Push::create(const std::string& text, const std::string& icon, Context * context)
             {
                 auto out = std::shared_ptr<Push>(new Push);
                 out->_init(context);
@@ -105,15 +105,15 @@ namespace djv
                 return out;
             }
 
-            const FileSystem::Path& Push::getIcon() const
+            const std::string& Push::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Push::setIcon(const FileSystem::Path& value)
+            void Push::setIcon(const std::string& value)
             {
                 _p->icon->setIcon(value);
-                _p->icon->setVisible(!value.isEmpty());
+                _p->icon->setVisible(!value.empty());
             }
 
             const std::string& Push::getText() const

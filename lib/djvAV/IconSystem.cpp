@@ -29,20 +29,11 @@
 
 #include <djvAV/IconSystem.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/Image.h>
-#include <djvAV/ImageConvert.h>
-#include <djvAV/IO.h>
+#include <djvAV/ThumbnailSystem.h>
 
-#include <djvCore/Cache.h>
 #include <djvCore/Context.h>
-#include <djvCore/OS.h>
-#include <djvCore/Timer.h>
-
-#include <GLFW/glfw3.h>
-
-#include <atomic>
-#include <mutex>
-#include <thread>
 
 using namespace djv::Core;
 
@@ -52,194 +43,16 @@ namespace djv
     {
         namespace Image
         {
-            namespace
-            {
-                //! \todo [1.0 S] Should this be configurable?
-                const size_t infoCacheMax = 1000;
-                const size_t imageCacheMax = 1000;
-
-                struct InfoRequest
-                {
-                    InfoRequest()
-                    {}
-
-                    InfoRequest(InfoRequest&& other) :
-                        path(other.path),
-                        read(std::move(other.read)),
-                        infoFuture(std::move(other.infoFuture)),
-                        promise(std::move(other.promise))
-                    {}
-
-                    InfoRequest& operator = (InfoRequest&& other)
-                    {
-                        if (this != &other)
-                        {
-                            path = other.path;
-                            read = std::move(other.read);
-                            infoFuture = std::move(other.infoFuture);
-                            promise = std::move(other.promise);
-                        }
-                        return *this;
-                    }
-
-                    FileSystem::Path path;
-                    std::shared_ptr<IO::IRead> read;
-                    std::future<IO::Info> infoFuture;
-                    std::promise<IO::Info> promise;
-                };
-
-                struct ImageRequest
-                {
-                    ImageRequest()
-                    {}
-
-                    ImageRequest(ImageRequest&& other) :
-                        path(other.path),
-                        size(std::move(other.size)),
-                        type(std::move(other.type)),
-                        queue(std::move(other.queue)),
-                        read(std::move(other.read)),
-                        promise(std::move(other.promise))
-                    {}
-
-                    ImageRequest& operator = (ImageRequest&& other)
-                    {
-                        if (this != &other)
-                        {
-                            path = other.path;
-                            size = std::move(other.size);
-                            type = std::move(other.type);
-                            queue = std::move(other.queue);
-                            read = std::move(other.read);
-                            promise = std::move(other.promise);
-                        }
-                        return *this;
-                    }
-
-                    FileSystem::Path path;
-                    glm::ivec2 size = glm::ivec2(0, 0);
-                    Type type = Type::None;
-                    std::shared_ptr<IO::Queue> queue;
-                    std::shared_ptr<IO::IRead> read;
-                    std::promise<std::shared_ptr<Image> > promise;
-                };
-
-                std::string getCacheKey(const FileSystem::Path & path, const glm::ivec2 & size, Type type)
-                {
-                    std::stringstream ss;
-                    ss << path;
-                    ss << size;
-                    ss << type;
-                    return ss.str();
-                }
-
-            } // namespace
-
             struct IconSystem::Private
             {
-                std::list<InfoRequest> infoQueue;
-                std::list<ImageRequest> imageQueue;
-                std::condition_variable requestCV;
-                std::mutex requestMutex;
-                std::list<InfoRequest> newInfoRequests;
-                std::list<InfoRequest> pendingInfoRequests;
-                std::list<ImageRequest> newImageRequests;
-                std::list<ImageRequest> pendingImageRequests;
-
-                Memory::Cache<FileSystem::Path, IO::Info> infoCache;
-                Memory::Cache<std::string, std::shared_ptr<Image> > imageCache;
-                std::mutex cacheMutex;
-
-                GLFWwindow * glfwWindow = nullptr;
-                std::shared_ptr<Time::Timer> statsTimer;
-                std::thread thread;
-                std::atomic<bool> running;
+                int dpi = dpiDefault;
+                
+                FileSystem::Path getPath(const std::string & name, Context *);
             };
 
             void IconSystem::_init(Context * context)
             {
-                ISystem::_init("djv::AV::IconSystem", context);
-
-                DJV_PRIVATE_PTR();
-                p.infoCache.setMax(infoCacheMax);
-                p.imageCache.setMax(imageCacheMax);
-
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-                glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-                glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-                glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-                if (!OS::getEnv("DJV_OPENGL_DEBUG").empty())
-                {
-                    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-                }
-                p.glfwWindow = glfwCreateWindow(100, 100, context->getName().c_str(), NULL, NULL);
-                if (!p.glfwWindow)
-                {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("Cannot create GLFW window.");
-                    throw std::runtime_error(ss.str());
-                }
-
-                p.statsTimer = Time::Timer::create(context);
-                p.statsTimer->setRepeating(true);
-                p.statsTimer->start(
-                    Time::Timer::getMilliseconds(Time::Timer::Value::VerySlow),
-                    [this](float)
-                {
-                    DJV_PRIVATE_PTR();
-                    std::lock_guard<std::mutex> lock(p.cacheMutex);
-                    std::stringstream s;
-                    s << "Info cache: " << p.infoCache.getPercentageUsed() << "%\n";
-                    s << "Image cache: " << p.imageCache.getPercentageUsed() << '%';
-                    _log(s.str());
-                });
-
-                p.running = true;
-                p.thread = std::thread(
-                    [this, context]
-                {
-                    DJV_PRIVATE_PTR();
-                    try
-                    {
-                        glfwMakeContextCurrent(p.glfwWindow);
-                        glbinding::initialize(glfwGetProcAddress);
-
-                        auto convert = Convert::create(context);
-
-                        const auto timeout = Time::Timer::getValue(Time::Timer::Value::Medium);
-                        while (p.running)
-                        {
-                            {
-                                std::unique_lock<std::mutex> lock(p.requestMutex);
-                                if (p.requestCV.wait_for(
-                                    lock,
-                                    std::chrono::milliseconds(timeout),
-                                    [this]
-                                {
-                                    DJV_PRIVATE_PTR();
-                                    return p.infoQueue.size() || p.imageQueue.size();
-                                }))
-                                {
-                                    p.newInfoRequests = std::move(p.infoQueue);
-                                    p.newImageRequests = std::move(p.imageQueue);
-                                }
-                            }
-                            if (p.newInfoRequests.size() || p.pendingInfoRequests.size())
-                            {
-                                _handleInfoRequests();
-                            }
-                            if (p.newImageRequests.size() || p.pendingImageRequests.size())
-                            {
-                                _handleImageRequests(convert);
-                            }
-                        }
-                    }
-                    catch (const std::exception & e)
-                    {
-                        context->log("djv::AV::IconSystem", e.what(), LogLevel::Error);
-                    }
-                });
+                ISystem::_init("djv::AV::Image::IconSystem", context);
             }
 
             IconSystem::IconSystem() :
@@ -247,18 +60,7 @@ namespace djv
             {}
 
             IconSystem::~IconSystem()
-            {
-                DJV_PRIVATE_PTR();
-                p.running = false;
-                if (p.thread.joinable())
-                {
-                    p.thread.join();
-                }
-                if (p.glfwWindow)
-                {
-                    glfwDestroyWindow(p.glfwWindow);
-                }
-            }
+            {}
 
             std::shared_ptr<IconSystem> IconSystem::create(Context * context)
             {
@@ -266,214 +68,50 @@ namespace djv
                 out->_init(context);
                 return out;
             }
-
-            std::future<IO::Info> IconSystem::getInfo(const FileSystem::Path& path)
+            
+            void IconSystem::setDPI(int value)
             {
-                DJV_PRIVATE_PTR();
-                InfoRequest request;
-                request.path = path;
-                auto future = request.promise.get_future();
-                std::unique_lock<std::mutex> lock(p.requestMutex);
-                p.infoQueue.push_back(std::move(request));
-                p.requestCV.notify_one();
-                return future;
+                _p->dpi = value;
             }
 
-            std::future<std::shared_ptr<Image> > IconSystem::getImage(const FileSystem::Path& path)
+            std::future<IO::Info> IconSystem::getInfo(const std::string & name)
             {
-                DJV_PRIVATE_PTR();
-                ImageRequest request;
-                request.path = path;
-                auto future = request.promise.get_future();
+                auto context = getContext();
+                if (auto avSystem = context->getSystemT<AVSystem>().lock())
                 {
-                    std::unique_lock<std::mutex> lock(p.requestMutex);
-                    p.imageQueue.push_back(std::move(request));
-                }
-                p.requestCV.notify_one();
-                return future;
-            }
-
-            std::future<std::shared_ptr<Image> > IconSystem::getImage(const FileSystem::Path& path, const glm::ivec2& size, Type type)
-            {
-                DJV_PRIVATE_PTR();
-                ImageRequest request;
-                request.path = path;
-                request.size = size;
-                request.type = type;
-                auto future = request.promise.get_future();
-                {
-                    std::unique_lock<std::mutex> lock(p.requestMutex);
-                    p.imageQueue.push_back(std::move(request));
-                }
-                p.requestCV.notify_one();
-                return future;
-            }
-
-            void IconSystem::_handleInfoRequests()
-            {
-                DJV_PRIVATE_PTR();
-
-                // Process new requests.
-                for (auto & i : p.newInfoRequests)
-                {
-                    IO::Info info;
-                    bool cached = false;
+                    if (auto thumbnailSystem = context->getSystemT<ThumbnailSystem>().lock())
                     {
-                        std::lock_guard<std::mutex> lock(p.cacheMutex);
-                        if (p.infoCache.contains(i.path))
-                        {
-                            info = p.infoCache.get(i.path);
-                            cached = true;
-                        }
-                    }
-                    if (cached)
-                    {
-                        i.promise.set_value(info);
-                    }
-                    else if (auto io = getContext()->getSystemT<IO::System>().lock())
-                    {
-                        try
-                        {
-                            i.read = io->read(i.path, nullptr);
-                            i.infoFuture = i.read->getInfo();
-                            p.pendingInfoRequests.push_back(std::move(i));
-                        }
-                        catch (const std::exception& e)
-                        {
-                            try
-                            {
-                                i.promise.set_exception(std::current_exception());
-                            }
-                            catch (const std::exception & e)
-                            {
-                                //_log(e.what(), LogLevel::Error);
-                            }
-                            //_log(e.what(), LogLevel::Error);
-                        }
-                    }
-                }
-                p.newInfoRequests.clear();
-
-                // Process pending requests.
-                auto i = p.pendingInfoRequests.begin();
-                while (i != p.pendingInfoRequests.end())
-                {
-                    if (i->infoFuture.valid() &&
-                        i->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                    {
-                        try
-                        {
-                            const auto info = i->infoFuture.get();
-                            p.infoCache.add(i->path, info);
-                            i->promise.set_value(info);
-                        }
-                        catch (const std::exception & e)
-                        {
-                            try
-                            {
-                                i->promise.set_exception(std::current_exception());
-                            }
-                            catch (const std::exception & e)
-                            {
-                                //_log(e.what(), LogLevel::Error);
-                            }
-                            //_log(e.what(), LogLevel::Error);
-                        }
-                        i = p.pendingInfoRequests.erase(i);
-                    }
-                    else
-                    {
-                        ++i;
+                        return thumbnailSystem->getInfo(_p->getPath(name, context));
                     }
                 }
             }
 
-            void IconSystem::_handleImageRequests(const std::shared_ptr<Convert> & convert)
+            std::future<std::shared_ptr<Image> > IconSystem::getImage(const std::string & name)
             {
-                DJV_PRIVATE_PTR();
-
-                // Process new requests.
-                for (auto & i : p.newImageRequests)
+                auto context = getContext();
+                if (auto avSystem = context->getSystemT<AVSystem>().lock())
                 {
-                    std::shared_ptr<Image> image;
+                    if (auto thumbnailSystem = context->getSystemT<ThumbnailSystem>().lock())
                     {
-                        std::lock_guard<std::mutex> lock(p.cacheMutex);
-                        const auto key = getCacheKey(i.path, i.size, i.type);
-                        if (p.imageCache.contains(key))
-                        {
-                            image = p.imageCache.get(key);
-                        }
-                    }
-                    if (image)
-                    {
-                        i.promise.set_value(image);
-                    }
-                    else if (auto io = getContext()->getSystemT<IO::System>().lock())
-                    {
-                        try
-                        {
-                            i.queue = IO::Queue::create(1, 0);
-                            i.read = io->read(i.path, i.queue);
-                            p.pendingImageRequests.push_back(std::move(i));
-                        }
-                        catch (const std::exception& e)
-                        {
-                            try
-                            {
-                                i.promise.set_exception(std::current_exception());
-                            }
-                            catch (const std::exception & e)
-                            {
-                                //_log(e.what(), LogLevel::Error);
-                            }
-                            //_log(e.what(), LogLevel::Error);
-                        }
+                        return thumbnailSystem->getImage(_p->getPath(name, context));
                     }
                 }
-                p.newImageRequests.clear();
+            }
 
-                // Process pending requests.
-                auto i = p.pendingImageRequests.begin();
-                while (i != p.pendingImageRequests.end())
+            FileSystem::Path IconSystem::Private::getPath(const std::string & name, Context * context)
+            {
+                auto out = context->getPath(FileSystem::ResourcePath::IconsDirectory);
                 {
-                    std::shared_ptr<Image> image;
-                    {
-                        std::lock_guard<std::mutex> lock(i->queue->getMutex());
-                        if (i->queue->hasVideo())
-                        {
-                            image = i->queue->getVideo().second;
-                        }
-                    }
-                    if (image)
-                    {
-                        if (i->size.x != 0 || i->size.y != 0 || i->type != Type::None)
-                        {
-                            auto size = i->size;
-                            const float aspect = image->getAspectRatio();
-                            if (0 == size.x)
-                            {
-                                size.x = static_cast<int>(size.y * aspect);
-                            }
-                            else if (0 == size.y && aspect > 0.f)
-                            {
-                                size.y = static_cast<int>(size.x / aspect);
-                            }
-                            auto type = i->type != Type::None ? i->type : image->getType();
-                            const auto info = Info(size, type);
-                            auto tmp = Image::create(info);
-                            tmp->setTags(image->getTags());
-                            convert->process(*image, info, *tmp);
-                            image = tmp;
-                        }
-                        p.imageCache.add(getCacheKey(i->path, i->size, i->type), image);
-                        i->promise.set_value(image);
-                        i = p.pendingImageRequests.erase(i);
-                    }
-                    else
-                    {
-                        ++i;
-                    }
+                    std::stringstream ss;
+                    ss << dpi << "DPI";
+                    out = FileSystem::Path(out, ss.str());
                 }
+                {
+                    std::stringstream ss;
+                    ss << name << ".png";
+                    out = FileSystem::Path(out, ss.str());
+                }
+                return out;
             }
 
         } // namespace Image

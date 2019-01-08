@@ -104,7 +104,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Menu> Menu::create(const std::string& text, const FileSystem::Path& icon, Context * context)
+            std::shared_ptr<Menu> Menu::create(const std::string& text, const std::string& icon, Context * context)
             {
                 auto out = std::shared_ptr<Menu>(new Menu);
                 out->_init(context);
@@ -113,15 +113,15 @@ namespace djv
                 return out;
             }
 
-            const FileSystem::Path& Menu::getIcon() const
+            const std::string& Menu::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Menu::setIcon(const FileSystem::Path& value)
+            void Menu::setIcon(const std::string& value)
             {
                 _p->icon->setIcon(value);
-                _p->icon->setVisible(!value.isEmpty());
+                _p->icon->setVisible(!value.empty());
             }
 
             const std::string& Menu::getText() const

@@ -81,7 +81,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Tool> Tool::create(const FileSystem::Path& icon, Context * context)
+            std::shared_ptr<Tool> Tool::create(const std::string& icon, Context * context)
             {
                 auto out = std::shared_ptr<Tool>(new Tool);
                 out->_init(context);
@@ -89,15 +89,15 @@ namespace djv
                 return out;
             }
 
-            const FileSystem::Path& Tool::getIcon() const
+            const std::string& Tool::getIcon() const
             {
                 return _p->icon->getIcon();
             }
 
-            void Tool::setIcon(const FileSystem::Path& value)
+            void Tool::setIcon(const std::string& value)
             {
                 _p->icon->setIcon(value);
-                _p->icon->setVisible(!value.isEmpty());
+                _p->icon->setVisible(!value.empty());
             }
 
             const Layout::Margin& Tool::getInsideMargin() const

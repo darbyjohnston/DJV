@@ -73,7 +73,6 @@ namespace djv
             }
             out.get<picojson::object>()["Roles"] = object;
         }
-        out.get<picojson::object>()["Scale"] = picojson::value(std::to_string(value.getScale()));
         return out;
     }
 
@@ -172,17 +171,6 @@ namespace djv
                                 throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
                             }
                         }
-                    }
-                    else
-                    {
-                        throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
-                    }
-                }
-                else if ("Scale" == i.first)
-                {
-                    if (i.second.is<std::string>())
-                    {
-                        out.setScale(std::stof(i.second.get<std::string>()));
                     }
                     else
                     {

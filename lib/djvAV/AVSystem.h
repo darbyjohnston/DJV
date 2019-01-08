@@ -58,6 +58,9 @@ namespace djv
 
             //! Make the default OpenGL context current.
             void makeGLContextCurrent();
+            
+            //! Set the DPI.
+            void setDPI(int);
 
         private:
             DJV_PRIVATE();

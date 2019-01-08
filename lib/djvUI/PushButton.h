@@ -9,15 +9,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace UI
     {
         namespace Button
@@ -36,10 +27,10 @@ namespace djv
 
                 static std::shared_ptr<Push> create(Core::Context *);
                 static std::shared_ptr<Push> create(const std::string&, Core::Context *);
-                static std::shared_ptr<Push> create(const std::string&, const Core::FileSystem::Path& icon, Core::Context *);
+                static std::shared_ptr<Push> create(const std::string&, const std::string& icon, Core::Context *);
 
-                const Core::FileSystem::Path& getIcon() const;
-                void setIcon(const Core::FileSystem::Path&);
+                const std::string& getIcon() const;
+                void setIcon(const std::string&);
 
                 const std::string& getText() const;
                 void setText(const std::string&);

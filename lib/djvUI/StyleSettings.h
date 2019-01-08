@@ -56,14 +56,16 @@ namespace djv
 
                 static std::shared_ptr<Style> create(Core::Context *);
 
-                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Palette> > getPalettes() const;
-                std::shared_ptr<Core::IValueSubject<UI::Style::Palette> > getCurrentPalette() const;
-                std::shared_ptr<Core::IValueSubject<std::string> > getCurrentPaletteName() const;
+                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Palette> > observePalettes() const;
+                std::shared_ptr<Core::IValueSubject<UI::Style::Palette> > observeCurrentPalette() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentPaletteName() const;
                 void setCurrentPalette(const std::string&);
 
-                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Metrics> > getMetrics() const;
-                std::shared_ptr<Core::IValueSubject<UI::Style::Metrics> > getCurrentMetrics() const;
-                std::shared_ptr<Core::IValueSubject<std::string> > getCurrentMetricsName() const;
+                std::shared_ptr<Core::IValueSubject<int> > observeDPI() const;
+                std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Metrics> > observeMetrics() const;
+                std::shared_ptr<Core::IValueSubject<UI::Style::Metrics> > observeCurrentMetrics() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentMetricsName() const;
+                void setDPI(int);
                 void setCurrentMetrics(const std::string&);
 
                 void load(const picojson::value&) override;
