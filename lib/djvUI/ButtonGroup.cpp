@@ -139,13 +139,11 @@ namespace djv
                                 {
                                     group->_p->buttons[i]->setChecked(i == index);
                                 }
-
                                 if (value && group->_p->radioCallback)
                                 {
                                     group->_p->radioCallback(index);
                                 }
                             }
-
                             if (group->_p->checkedCallback)
                             {
                                 group->_p->checkedCallback(index, true);
@@ -162,9 +160,23 @@ namespace djv
                 const auto i = std::find(_p->buttons.begin(), _p->buttons.end(), button);
                 if (i != _p->buttons.end())
                 {
+                    int index = static_cast<int>(i - _p->buttons.begin());
+                    const bool checked = (*i)->isChecked();
                     (*i)->setClickedCallback(nullptr);
                     (*i)->setCheckedCallback(nullptr);
                     _p->buttons.erase(i);
+                    if (ButtonType::Radio == _p->buttonType && checked && _p->buttons.size() > 0)
+                    {
+                        if (index >= _p->buttons.size())
+                        {
+                            --index;
+                        }
+                        _p->buttons[index]->setChecked(true);
+                        if (_p->radioCallback)
+                        {
+                            _p->radioCallback(index);
+                        }
+                    }
                 }
             }
 

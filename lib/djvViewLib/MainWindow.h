@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/MainWindow.h>
+#include <djvUI/Window.h>
 
 namespace djv
 {
@@ -44,7 +44,7 @@ namespace djv
 
     namespace ViewLib
     {
-        class MainWindow : public UI::MainWindow
+        class MainWindow : public UI::Window
         {
             DJV_NON_COPYABLE(MainWindow);
 
@@ -59,9 +59,6 @@ namespace djv
 
         protected:
             void _dropEvent(Core::Event::Drop&) override;
-
-        private:
-            void _open(const Core::FileSystem::Path &);
 
             DJV_PRIVATE();
         };

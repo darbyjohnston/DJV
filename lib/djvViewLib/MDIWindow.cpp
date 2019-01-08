@@ -29,12 +29,12 @@
 
 #include <djvViewLib/MDIWindow.h>
 
+#include <djvViewLib/ImageView.h>
 #include <djvViewLib/Media.h>
 #include <djvViewLib/PlaybackWidget.h>
 #include <djvViewLib/TimelineSlider.h>
 
 #include <djvUI/Icon.h>
-#include <djvUI/ImageWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
@@ -51,37 +51,30 @@ namespace djv
     {
         struct MDIWindow::Private
         {
-            std::shared_ptr<Media> media;
-            std::shared_ptr<UI::ImageWidget> imageWidget;
-            std::shared_ptr<PlaybackWidget> playbackWidget;
-            std::shared_ptr<TimelineSlider> timelineSlider;
+            std::shared_ptr<ImageView> imageView;
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::Layout::Horizontal> titleBar;
             std::shared_ptr<UI::Icon> resizeHandle;
             std::shared_ptr<UI::Layout::Horizontal> bottomBar;
             std::shared_ptr<UI::Layout::Stack> layout;
+            std::function<void(bool)> maximizeCallback;
             std::function<void(void)> closedCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<Time::Duration> > durationObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver2;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
         };
         
-        void MDIWindow::_init(const std::shared_ptr<Media> & media, Context * context)
+        void MDIWindow::_init(Context * context)
         {
             IWindow::_init(context);
 
             DJV_PRIVATE_PTR();
-            p.media = media;
-
-            p.imageWidget = UI::ImageWidget::create(context);
-            p.playbackWidget = PlaybackWidget::create(context);
-            p.timelineSlider = TimelineSlider::create(context);
+            p.imageView = ImageView::create(context);
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
+
+            auto maximizeButton = UI::Button::Tool::create(context);
+            maximizeButton->setButtonType(UI::ButtonType::Toggle);
+            maximizeButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconMaximize90DPI.png"));
 
             auto closeButton = UI::Button::Tool::create(context);
             closeButton->setIcon(context->getPath(FileSystem::ResourcePath::IconsDirectory, "djvIconClose90DPI.png"));
@@ -89,9 +82,12 @@ namespace djv
             p.titleBar = UI::Layout::Horizontal::create(context);
             p.titleBar->setClassName("djv::UI::MDI::TitleBar");
             p.titleBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
-            p.titleBar->addWidget(p.titleLabel);
-            p.titleBar->addExpander();
-            p.titleBar->addWidget(closeButton);
+            p.titleBar->addWidget(p.titleLabel, UI::Layout::RowStretch::Expand);
+            auto hLayout = UI::Layout::Horizontal::create(context);
+            hLayout->setSpacing(UI::Style::MetricsRole::None);
+            hLayout->addWidget(maximizeButton);
+            hLayout->addWidget(closeButton);
+            p.titleBar->addWidget(hLayout);
 
             p.resizeHandle = UI::Icon::create(context);
             p.resizeHandle->setPointerEnabled(true);
@@ -101,22 +97,32 @@ namespace djv
 
             p.bottomBar = UI::Layout::Horizontal::create(context);
             p.bottomBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
-            p.bottomBar->addWidget(p.playbackWidget);
-            p.bottomBar->addWidget(p.timelineSlider, UI::Layout::RowStretch::Expand);
+            p.bottomBar->addExpander();
             p.bottomBar->addWidget(p.resizeHandle);
 
             p.layout = UI::Layout::Stack::create(context);
-            p.layout->addWidget(p.imageWidget);
+            p.layout->addWidget(p.imageView);
 
             auto vLayout = UI::Layout::Vertical::create(context);
             vLayout->setSpacing(UI::Style::MetricsRole::None);
-            //vLayout->addWidget(p.titleBar);
+            vLayout->addWidget(p.titleBar);
             vLayout->addExpander();
             vLayout->addWidget(p.bottomBar);
             p.layout->addWidget(vLayout);
             IContainer::addWidget(p.layout);
 
             auto weak = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(shared_from_this()));
+            maximizeButton->setCheckedCallback(
+                [weak](bool value)
+            {
+                if (auto window = weak.lock())
+                {
+                    if (window->_p->maximizeCallback)
+                    {
+                        window->_p->maximizeCallback(value);
+                    }
+                }
+            });
             closeButton->setClickedCallback(
                 [weak]
             {
@@ -128,66 +134,6 @@ namespace djv
                     }
                 }
             });
-
-            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                media->getCurrentImage(),
-                [weak](const std::shared_ptr<AV::Image::Image> & image)
-            {
-                if (auto window = weak.lock())
-                {
-                    window->_p->imageWidget->setImage(image, createUID());
-                }
-            });
-
-            p.durationObserver = ValueObserver<Time::Duration>::create(
-                media->getDuration(),
-                [weak](Time::Duration value)
-            {
-                if (auto window = weak.lock())
-                {
-                    window->_p->timelineSlider->setDuration(value);
-                }
-            });
-
-            p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
-                media->getCurrentTime(),
-                [weak](Time::Timestamp value)
-            {
-                if (auto window = weak.lock())
-                {
-                    window->_p->timelineSlider->setCurrentTime(value);
-                }
-            });
-
-            p.playbackObserver = ValueObserver<Playback>::create(
-                media->getPlayback(),
-                [weak](Playback value)
-            {
-                if (auto window = weak.lock())
-                {
-                    window->_p->playbackWidget->setPlayback(value);
-                }
-            });
-
-            p.playbackObserver2 = ValueObserver<Playback>::create(
-                p.playbackWidget->getPlayback(),
-                [weak](Playback value)
-            {
-                if (auto window = weak.lock())
-                {
-                    window->_p->media->setPlayback(value);
-                }
-            });
-
-            p.currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
-                p.timelineSlider->getCurrentTime(),
-                [weak](Time::Timestamp value)
-            {
-                if (auto window = weak.lock())
-                {
-                    window->_p->media->setCurrentTime(value);
-                }
-            });
         }
 
         MDIWindow::MDIWindow() :
@@ -197,10 +143,10 @@ namespace djv
         MDIWindow::~MDIWindow()
         {}
 
-        std::shared_ptr<MDIWindow> MDIWindow::create(const std::shared_ptr<Media> & media, Context * context)
+        std::shared_ptr<MDIWindow> MDIWindow::create(Context * context)
         {
             auto out = std::shared_ptr<MDIWindow>(new MDIWindow);
-            out->_init(media, context);
+            out->_init(context);
             return out;
         }
 
@@ -214,9 +160,19 @@ namespace djv
             _p->titleLabel->setText(text);
         }
 
+        void MDIWindow::setMedia(const std::shared_ptr<Media> & value)
+        {
+            _p->imageView->setMedia(value);
+        }
+
         void MDIWindow::setClosedCallback(const std::function<void(void)> & value)
         {
             _p->closedCallback = value;
+        }
+
+        void MDIWindow::setMaximizeCallback(const std::function<void(bool)> & value)
+        {
+            _p->maximizeCallback = value;
         }
 
         std::shared_ptr<UI::Widget> MDIWindow::getMoveHandle()

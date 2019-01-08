@@ -76,9 +76,8 @@ namespace djv
             return false;
         }
 
-        void IViewSystem::setMediaSession(const std::shared_ptr<MediaSession> &)
+        void IViewSystem::setCurrentMedia(const std::shared_ptr<Media> &)
         {}
 
     } // namespace ViewLib
 } // namespace djv
-

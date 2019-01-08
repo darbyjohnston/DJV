@@ -162,6 +162,7 @@ namespace djv
             std::shared_ptr<Button::Group> buttonGroup;
             std::shared_ptr<Layout::Horizontal> layout;
             std::function<void(int)> callback;
+            std::function<void(size_t)> removedCallback;
         };
 
         void TabBar::_init(Context * context)
@@ -219,6 +220,20 @@ namespace djv
             return out;
         }
 
+        void TabBar::removeTab(size_t value)
+        {
+            const auto buttons = _p->buttonGroup->getButtons();
+            if (value < buttons.size())
+            {
+                _p->buttonGroup->removeButton(buttons[value]);
+                _p->layout->removeWidget(buttons[value]);
+                if (_p->removedCallback)
+                {
+                    _p->removedCallback(value);
+                }
+            }
+        }
+
         int TabBar::getCurrentTab() const
         {
             return _p->buttonGroup->getChecked();
@@ -232,6 +247,15 @@ namespace djv
         void TabBar::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
+        }
+
+        void TabBar::removeCurrentTab()
+        {
+            const int index = getCurrentTab();
+            if (index >= 0)
+            {
+                removeTab(static_cast<size_t>(index));
+            }
         }
 
         float TabBar::getHeightForWidth(float value) const

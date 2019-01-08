@@ -46,7 +46,6 @@ namespace djv
     {
         class IToolWidget;
         class Media;
-        class MediaSession;
         
         class IViewSystem : public Core::ISystem
         {
@@ -70,7 +69,7 @@ namespace djv
             virtual std::string getToolWidgetSortKey() const;
             virtual bool isToolWidgetVisible() const;
 
-            virtual void setMediaSession(const std::shared_ptr<MediaSession> &);
+            virtual void setCurrentMedia(const std::shared_ptr<Media> &);
 
         private:
             DJV_PRIVATE();

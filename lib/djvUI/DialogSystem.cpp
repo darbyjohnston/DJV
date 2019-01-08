@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/Dialog.h>
+#include <djvUI/DialogSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/IWindowSystem.h>

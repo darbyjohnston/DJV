@@ -44,7 +44,8 @@ namespace djv
             Context * context = nullptr;
             std::shared_ptr<ValueSubject<std::string> > name;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > mediaOpened;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > mediaClosed;
         };
 
         void MediaSession::_init(Context * context)
@@ -53,7 +54,6 @@ namespace djv
             p.context = context;
             p.name = ValueSubject<std::string>::create();
             p.media = ListSubject<std::shared_ptr<Media> >::create();
-            p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
         }
 
         MediaSession::MediaSession() :
@@ -70,19 +70,14 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::string> > MediaSession::getName() const
+        std::shared_ptr<Core::IValueSubject<std::string> > MediaSession::observeName() const
         {
             return _p->name;
         }
 
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > MediaSession::getMedia() const
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > MediaSession::observeMedia() const
         {
             return _p->media;
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > MediaSession::getCurrentMedia() const
-        {
-            return _p->currentMedia;
         }
 
         void MediaSession::setName(const std::string & value)
@@ -94,7 +89,7 @@ namespace djv
         {
             auto media = Media::create(fileName, _p->context);
             _p->media->pushBack(media);
-            _p->currentMedia->setIfChanged(media);
+            _p->mediaOpened->setAlways(media);
         }
 
         void MediaSession::closeMedia(const std::shared_ptr<Media> & media)
@@ -103,58 +98,9 @@ namespace djv
             if (index != invalidListIndex)
             {
                 _p->media->removeItem(index);
-            }
-            if (media == _p->currentMedia->get())
-            {
-                const size_t size = _p->media->getSize();
-                _p->currentMedia->setIfChanged(size > 0 ? _p->media->getItem(size - 1) : nullptr);
+                _p->mediaClosed->setAlways(media);
             }
         }
-
-        void MediaSession::setCurrentMedia(const std::shared_ptr<Media> & value)
-        {
-            _p->currentMedia->setIfChanged(value);
-        }
-
-        void MediaSession::nextMedia()
-        {
-            const size_t size = _p->media->getSize();
-            if (size > 1)
-            {
-                size_t index = _p->media->indexOf(_p->currentMedia->get());
-                if (index != invalidListIndex)
-                {
-                    ++index;
-                    if (index >= size)
-                    {
-                        index = 0;
-                    }
-                    _p->currentMedia->setIfChanged(_p->media->getItem(index));
-                }
-            }
-        }
-
-        void MediaSession::prevMedia()
-        {
-            const size_t size = _p->media->getSize();
-            if (size > 1)
-            {
-                size_t index = _p->media->indexOf(_p->currentMedia->get());
-                if (index != invalidListIndex)
-                {
-                    if (index > 0)
-                    {
-                        --index;
-                    }
-                    else
-                    {
-                        index = size - 1;
-                    }
-                    _p->currentMedia->setIfChanged(_p->media->getItem(index));
-                }
-            }
-        }
-
 
     } // namespace ViewLib
 } // namespace djv

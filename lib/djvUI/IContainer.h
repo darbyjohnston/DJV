@@ -39,6 +39,8 @@ namespace djv
         namespace Layout
         {
             //! This class provides an interface for widgets that can contain other widgets.
+            //!
+            //! \todo This class should be removed and IObject::setParent() used instead.
             class IContainer : public Widget
             {
                 DJV_NON_COPYABLE(IContainer);

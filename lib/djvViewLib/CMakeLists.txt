@@ -25,7 +25,7 @@ set(header
     #ToolSystem.h
     ViewLib.h
     #ViewSystem.h
-    #WindowSystem.h
+    WindowSystem.h
     )
 set(source
     Application.cpp
@@ -52,7 +52,7 @@ set(source
     #TimelineWidget.cpp
     #ToolSystem.cpp
     #ViewSystem.cpp
-    #WindowSystem.cpp
+    WindowSystem.cpp
     )
 
 add_library(djvViewLib ${header} ${source})

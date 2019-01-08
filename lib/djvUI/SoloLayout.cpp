@@ -76,6 +76,30 @@ namespace djv
                 _resize();
             }
 
+            std::shared_ptr<Widget> Solo::getCurrentWidget() const
+            {
+                const auto children = getChildrenT<Widget>();
+                if (_p->currentIndex >= 0 && _p->currentIndex < static_cast<int>(children.size()))
+                {
+                    return children[_p->currentIndex];
+                }
+                return nullptr;
+            }
+
+            void Solo::setCurrentWidget(const std::shared_ptr<Widget> & value)
+            {
+                int i = 0;
+                for (const auto & child : getChildrenT<Widget>())
+                {
+                    if (value == child)
+                    {
+                        setCurrentIndex(i);
+                        break;
+                    }
+                    ++i;
+                }
+            }
+
             void Solo::addWidget(const std::shared_ptr<Widget>& value)
             {
                 IContainer::addWidget(value);
@@ -142,7 +166,8 @@ namespace djv
             void Solo::_updateEvent(Event::Update& event)
             {
                 int index = 0;
-                for (const auto& child : getChildrenT<Widget>())
+                const auto children = getChildrenT<Widget>();
+                for (const auto& child : children)
                 {
                     child->setVisible(_p->currentIndex == index);
                     ++index;

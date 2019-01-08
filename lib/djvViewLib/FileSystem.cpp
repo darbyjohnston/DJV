@@ -31,10 +31,9 @@
 
 #include <djvViewLib/Application.h>
 #include <djvViewLib/Media.h>
-#include <djvViewLib/MediaSession.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Dialog.h>
+#include <djvUI/DialogSystem.h>
 #include <djvUI/FileBrowser.h>
 #include <djvUI/Menu.h>
 
@@ -52,36 +51,42 @@ namespace djv
         struct FileSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::shared_ptr<MediaSession> mediaSession;
+            std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
+            std::shared_ptr<ValueSubject<bool> > close;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
-            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
         };
 
         void FileSystem::_init(Context * context)
         {
             IViewSystem::_init("djv::ViewLib::FileSystem", context);
+
             DJV_PRIVATE_PTR();
+            p.opened = ValueSubject<std::shared_ptr<Media> >::create();
+            p.close = ValueSubject<bool>::create();
 
-            _p->actions["Open"] = UI::Action::create();
-            _p->actions["Open"]->setText("Open");
-            _p->actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
+            p.actions["Open"] = UI::Action::create();
+            p.actions["Open"]->setText("Open");
+            p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
 
-            _p->actions["Reload"] = UI::Action::create();
-            _p->actions["Reload"]->setText("Reload");
+            p.actions["Reload"] = UI::Action::create();
+            p.actions["Reload"]->setText("Reload");
+            p.actions["Reload"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL);
 
-            _p->actions["Close"] = UI::Action::create();
-            _p->actions["Close"]->setText("Close");
+            p.actions["Close"] = UI::Action::create();
+            p.actions["Close"]->setText("Close");
+            p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
 
-            _p->actions["Export"] = UI::Action::create();
-            _p->actions["Export"]->setText("Export");
+            p.actions["Export"] = UI::Action::create();
+            p.actions["Export"]->setText("Export");
+            p.actions["Export"]->setShortcut(GLFW_KEY_X, GLFW_MOD_CONTROL);
 
-            _p->actions["Exit"] = UI::Action::create();
-            _p->actions["Exit"]->setText("Exit");
-            _p->actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
+            p.actions["Exit"] = UI::Action::create();
+            p.actions["Exit"]->setText("Exit");
+            p.actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-            _p->clickedObservers["Open"] = ValueObserver<bool>::create(
-                _p->actions["Open"]->observeClicked(),
+            p.clickedObservers["Open"] = ValueObserver<bool>::create(
+                p.actions["Open"]->observeClicked(),
                 [weak, context](bool value)
             {
                 if (value)
@@ -95,19 +100,27 @@ namespace djv
                             {
                                 if (auto system = weak.lock())
                                 {
-                                    if (system->_p->mediaSession)
-                                    {
-                                        system->_p->mediaSession->openMedia(value.getPath());
-                                    }
+                                    system->open(value.getPath());
                                 }
                             });
                         }
                     }
                 }
             });
-
-            _p->clickedObservers["Exit"] = ValueObserver<bool>::create(
-                _p->actions["Exit"]->observeClicked(),
+            p.clickedObservers["Close"] = ValueObserver<bool>::create(
+                p.actions["Close"]->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->close->setAlways(true);
+                    }
+                }
+            });
+            p.clickedObservers["Exit"] = ValueObserver<bool>::create(
+                p.actions["Exit"]->observeClicked(),
                 [weak, context](bool value)
             {
                 if (value)
@@ -147,6 +160,22 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > FileSystem::observeOpened() const
+        {
+            return _p->opened;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > FileSystem::observeClose() const
+        {
+            return _p->close;
+        }
+
+        void FileSystem::open(const std::string & value)
+        {
+            auto media = Media::create(value, getContext());
+            _p->opened->setAlways(media);
+        }
+
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions()
         {
             return _p->actions;
@@ -169,22 +198,11 @@ namespace djv
             return menu;
         }
 
-        void FileSystem::setMediaSession(const std::shared_ptr<MediaSession> & session)
+        void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Open"]->setEnabled(session ? true : false);
-            p.mediaSession = session;
-            auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-            _p->currentMediaObserver = ValueObserver<std::shared_ptr<Media> >::create(
-                session->getCurrentMedia(),
-                [weak](const std::shared_ptr<Media> & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_p->actions["Close"]->setEnabled(value ? true : false);
-                    system->_p->actions["Export"]->setEnabled(value ? true : false);
-                }
-            });
+            p.actions["Close"]->setEnabled(media ? true : false);
+            p.actions["Export"]->setEnabled(media ? true : false);
         }
 
     } // namespace ViewLib

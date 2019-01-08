@@ -69,18 +69,30 @@ namespace djv
         void ImageView::setMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
-            auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
-            p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                media->getCurrentImage(),
-                [weak](const std::shared_ptr<AV::Image::Image> & image)
+            if (media == p.media)
+                return;
+            p.media = media;
+            if (p.media)
             {
-                if (auto widget = weak.lock())
+                auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
+                p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                    p.media->getCurrentImage(),
+                    [weak](const std::shared_ptr<AV::Image::Image> & image)
                 {
-                    widget->_p->image = image;
-                    widget->_p->imageUID = createUID();
-                    widget->_redraw();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->image = image;
+                        widget->_p->imageUID = createUID();
+                        widget->_redraw();
+                    }
+                });
+            }
+            else
+            {
+                p.image.reset();
+                p.imageUID = 0;
+                p.imageObserver.reset();
+            }
         }
 
         void ImageView::_preLayoutEvent(Event::PreLayout& event)
@@ -97,12 +109,12 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                    render->setFillColor(AV::Image::Color(0.f, 0.f, 0.f));
+                    render->drawRectangle(g);
                     if (_p->image)
                     {
-                        const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                        const glm::vec2 c = g.getCenter();
-                        const glm::vec2& size = _p->image->getSize();
-                        glm::vec2 pos = glm::vec2(0.f, 0.f);
+                        glm::vec2 pos = g.min;
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
                         render->drawImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Dynamic, _p->imageUID);
                     }

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Enum.h>
 
 namespace djv
 {

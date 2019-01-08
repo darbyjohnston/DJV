@@ -27,38 +27,66 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/WindowSystem.h>
 
-#include <djvViewLib/IViewObject.h>
-#include <djvViewLib/Workspace.h>
+#include <djvUI/Action.h>
+#include <djvUI/Menu.h>
+
+#include <djvCore/Context.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class WindowObject : public IViewObject
+        struct WindowSystem::Private
         {
-            Q_OBJECT
-
-        public:
-            WindowObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~WindowObject() override;
-            
-            QPointer<QMenu> createMenu() override;
-            std::string getMenuSortKey() const override;
-
-        public Q_SLOTS:
-            void nextMedia();
-            void prevMedia();
-
-            void setCurrentWorkspace(const QPointer<Workspace> &) override;
-
-        private Q_SLOTS:
-            void _updateActions();
-
-        private:
-            DJV_PRIVATE();
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
+
+        void WindowSystem::_init(Context * context)
+        {
+            IViewSystem::_init("djv::ViewLib::WindowSystem", context);
+
+            DJV_PRIVATE_PTR();
+
+            auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+        }
+
+        WindowSystem::WindowSystem() :
+            _p(new Private)
+        {}
+
+        WindowSystem::~WindowSystem()
+        {}
+
+        std::shared_ptr<WindowSystem> WindowSystem::create(Context * context)
+        {
+            auto out = std::shared_ptr<WindowSystem>(new WindowSystem);
+            out->_init(context);
+            return out;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions()
+        {
+            return _p->actions;
+        }
+
+        std::string WindowSystem::getMenuSortKey() const
+        {
+            return "1";
+        }
+
+        std::shared_ptr<UI::Menu> WindowSystem::createMenu()
+        {
+            DJV_PRIVATE_PTR();
+            auto menu = UI::Menu::create("Window", getContext());
+            return menu;
+        }
 
     } // namespace ViewLib
 } // namespace djv

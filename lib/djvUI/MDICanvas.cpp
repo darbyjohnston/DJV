@@ -33,7 +33,6 @@
 #include <djvUI/Label.h>
 #include <djvUI/MDIWindow.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
@@ -47,60 +46,10 @@ namespace djv
     {
         namespace MDI
         {
-            namespace
-            {
-                class CanvasWidget : public Widget
-                {
-                    DJV_NON_COPYABLE(CanvasWidget);
-
-                protected:
-                    void _init(Context * context)
-                    {
-                        Widget::_init(context);
-                        
-                        setClassName("djv::UI::MDI::CanvasWidget");
-                        setBackgroundRole(Style::ColorRole::BackgroundScroll);
-                    }
-
-                    CanvasWidget()
-                    {}
-
-                public:
-                    static std::shared_ptr<CanvasWidget> create(Context * context)
-                    {
-                        auto out = std::shared_ptr<CanvasWidget>(new CanvasWidget);
-                        out->_init(context);
-                        return out;
-                    }
-
-                    const glm::vec2 & getCanvasSize() const
-                    {
-                        return _canvasSize;
-                    }
-
-                    void setCanvasSize(const glm::vec2 & size)
-                    {
-                        _canvasSize = size;
-                    }
-
-                protected:
-                    void _preLayoutEvent(Event::PreLayout&) override
-                    {
-                        _setMinimumSize(_canvasSize);
-                    }
-
-                private:
-                    glm::vec2 _canvasSize = glm::vec2(2000.f, 2000.f);
-                };
-
-            } // namespace
-
             struct Canvas::Private
             {
-                std::shared_ptr<CanvasWidget> canvasWidget;
-                //std::shared_ptr<ScrollWidget> scrollWidget;
-                std::shared_ptr<Layout::Stack> stackLayout;
-                std::map<std::shared_ptr<Widget>, glm::vec2> windows;
+                glm::vec2 canvasSize = glm::vec2(2000.f, 2000.f);
+                std::vector<std::shared_ptr<Widget> > windows;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > moveHandleToWindow;
                 std::map<std::shared_ptr<IObject>, std::shared_ptr<Widget> > resizeHandleToWindow;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<IObject> > windowToMoveHandle;
@@ -115,15 +64,6 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::MDI::Canvas");
-
-                _p->canvasWidget = CanvasWidget::create(context);
-
-                //_p->scrollWidget = ScrollWidget::create(ScrollType::Both, context);
-                //_p->scrollWidget->addWidget(_p->canvasWidget);
-                //_p->scrollWidget->setParent(shared_from_this());
-                _p->stackLayout = Layout::Stack::create(context);
-                _p->stackLayout->addWidget(_p->canvasWidget);
-                _p->stackLayout->setParent(shared_from_this());
             }
 
             Canvas::Canvas() :
@@ -142,99 +82,85 @@ namespace djv
 
             const glm::vec2 & Canvas::getCanvasSize() const
             {
-                return _p->canvasWidget->getCanvasSize();
+                return _p->canvasSize;
             }
 
             void Canvas::setCanvasSize(const glm::vec2 & size)
             {
-                _p->canvasWidget->setCanvasSize(size);
-            }
-
-            void Canvas::addWindow(const std::shared_ptr<IWindow>& window, const glm::vec2& pos)
-            {
-                window->setParent(_p->canvasWidget);
-                window->move(pos);
-
-                auto moveHandle = window->getMoveHandle();
-                auto resizeHandle = window->getResizeHandle();
-                moveHandle->installEventFilter(shared_from_this());
-                resizeHandle->installEventFilter(shared_from_this());
-
-                _p->windows[window] = pos;
-                _p->moveHandleToWindow[moveHandle] = window;
-                _p->resizeHandleToWindow[resizeHandle] = window;
-                _p->windowToMoveHandle[window] = moveHandle;
-                _p->windowToResizeHandle[window] = resizeHandle;
-            }
-
-            void Canvas::removeWindow(const std::shared_ptr<IWindow>& window)
-            {
-                {
-                    const auto j = _p->windows.find(window);
-                    if (j != _p->windows.end())
-                    {
-                        _p->windows.erase(j);
-                    }
-                }
-                {
-                    const auto j = _p->windowToMoveHandle.find(window);
-                    if (j != _p->windowToMoveHandle.end())
-                    {
-                        const auto k = _p->moveHandleToWindow.find(j->second);
-                        if (k != _p->moveHandleToWindow.end())
-                        {
-                            _p->moveHandleToWindow.erase(k);
-                        }
-                        _p->windowToMoveHandle.erase(j);
-                    }
-                }
-                {
-                    const auto j = _p->windowToResizeHandle.find(window);
-                    if (j != _p->windowToResizeHandle.end())
-                    {
-                        const auto k = _p->resizeHandleToWindow.find(j->second);
-                        if (k != _p->resizeHandleToWindow.end())
-                        {
-                            _p->resizeHandleToWindow.erase(k);
-                        }
-                        _p->windowToResizeHandle.erase(j);
-                    }
-                }
-                window->setParent(nullptr);
-            }
-
-            void Canvas::clearWindows()
-            {
-                for (auto i : _p->canvasWidget->getChildrenT<Widget>())
-                {
-                    i->setParent(nullptr);
-                }
-                _p->moveHandleToWindow.clear();
-                _p->resizeHandleToWindow.clear();
-                _p->windowToMoveHandle.clear();
-                _p->windowToResizeHandle.clear();
+                if (size == _p->canvasSize)
+                    return;
+                _p->canvasSize = size;
+                _resize();
             }
 
             void Canvas::_preLayoutEvent(Event::PreLayout&)
             {
-                //_setMinimumSize(_p->scrollWidget->getMinimumSize());
-                _setMinimumSize(_p->stackLayout->getMinimumSize());
+                _setMinimumSize(_p->canvasSize);
             }
 
             void Canvas::_layoutEvent(Event::Layout&)
             {
-                //_p->scrollWidget->setGeometry(getGeometry());
-                _p->stackLayout->setGeometry(getGeometry());
-                const BBox2f& g = _p->canvasWidget->getGeometry();
+
+            }
+
+            void Canvas::_childAddedEvent(Event::ChildAdded & value)
+            {
+                if (auto window = std::dynamic_pointer_cast<IWindow>(value.getChild()))
                 {
-                    for (auto& i : _p->windows)
-                    {
-                        const glm::vec2 pos = g.min + i.second;
-                        i.first->move(pos);
-                    }
+                    auto moveHandle = window->getMoveHandle();
+                    auto resizeHandle = window->getResizeHandle();
+                    moveHandle->installEventFilter(shared_from_this());
+                    resizeHandle->installEventFilter(shared_from_this());
+
+                    _p->windows.push_back(window);
+                    _p->moveHandleToWindow[moveHandle] = window;
+                    _p->resizeHandleToWindow[resizeHandle] = window;
+                    _p->windowToMoveHandle[window] = moveHandle;
+                    _p->windowToResizeHandle[window] = resizeHandle;
+
+                    _redraw();
                 }
             }
-            
+
+            void Canvas::_childRemovedEvent(Event::ChildRemoved & value)
+            {
+                if (auto window = std::dynamic_pointer_cast<IWindow>(value.getChild()))
+                {
+                    {
+                        const auto j = std::find(_p->windows.begin(), _p->windows.end(), window);
+                        if (j != _p->windows.end())
+                        {
+                            _p->windows.erase(j);
+                        }
+                    }
+                    {
+                        const auto j = _p->windowToMoveHandle.find(window);
+                        if (j != _p->windowToMoveHandle.end())
+                        {
+                            const auto k = _p->moveHandleToWindow.find(j->second);
+                            if (k != _p->moveHandleToWindow.end())
+                            {
+                                _p->moveHandleToWindow.erase(k);
+                            }
+                            _p->windowToMoveHandle.erase(j);
+                        }
+                    }
+                    {
+                        const auto j = _p->windowToResizeHandle.find(window);
+                        if (j != _p->windowToResizeHandle.end())
+                        {
+                            const auto k = _p->resizeHandleToWindow.find(j->second);
+                            if (k != _p->resizeHandleToWindow.end())
+                            {
+                                _p->resizeHandleToWindow.erase(k);
+                            }
+                            _p->windowToResizeHandle.erase(j);
+                        }
+                    }
+                    _redraw();
+                }
+            }
+
             bool Canvas::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
             {
                 /*{
@@ -253,30 +179,33 @@ namespace djv
                         if (auto style = _getStyle().lock())
                         {
                             const float shadow = style->getMetric(Style::MetricsRole::Shadow);
-                            const BBox2f& canvasGeometry = _p->canvasWidget->getGeometry();
+                            const BBox2f& g = getGeometry();
                             const auto moveHandleToWindow = _p->moveHandleToWindow.find(object);
                             const auto resizeHandleToWindow = _p->resizeHandleToWindow.find(object);
                             if (moveHandleToWindow != _p->moveHandleToWindow.end())
                             {
-                                const auto window = _p->windows.find(moveHandleToWindow->second);
+                                const auto window = std::find(_p->windows.begin(), _p->windows.end(), moveHandleToWindow->second);
                                 if (window != _p->windows.end())
                                 {
-                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
-                                    window->second.x = Math::clamp(pos.x, -shadow, canvasGeometry.w() - window->first->getWidth() + shadow);
-                                    window->second.y = Math::clamp(pos.y, -shadow, canvasGeometry.h() - window->first->getHeight() + shadow);
+                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - g.min;
+                                    glm::vec2 windowPos;
+                                    windowPos.x = Math::clamp(pos.x, -shadow, g.w() - (*window)->getWidth() + shadow);
+                                    windowPos.y = Math::clamp(pos.y, -shadow, g.h() - (*window)->getHeight() + shadow);
+                                    (*window)->move(windowPos);
                                 }
                             }
                             else if (resizeHandleToWindow != _p->resizeHandleToWindow.end())
                             {
-                                const auto window = _p->windows.find(resizeHandleToWindow->second);
+                                const auto window = std::find(_p->windows.begin(), _p->windows.end(), resizeHandleToWindow->second);
                                 if (window != _p->windows.end())
                                 {
-                                    const glm::vec2 min = window->first->getMinimumSize();
-                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - canvasGeometry.min;
+                                    const glm::vec2 min = (*window)->getMinimumSize();
+                                    const BBox2f & g = (*window)->getGeometry();
+                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - g.min;
                                     glm::vec2 pos2;
-                                    pos2.x = Math::clamp(pos.x, window->second.x + min.x, canvasGeometry.w() + shadow);
-                                    pos2.y = Math::clamp(pos.y, window->second.y + min.y, canvasGeometry.h() + shadow);
-                                    window->first->resize(pos2 - window->first->getGeometry().min + canvasGeometry.min);
+                                    pos2.x = Math::clamp(pos.x, g.min.x + min.x, g.w() + shadow);
+                                    pos2.y = Math::clamp(pos.y, g.min.y + min.y, g.h() + shadow);
+                                    (*window)->resize(pos2 - g.min + g.min);
                                 }
                             }
                         }

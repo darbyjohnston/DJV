@@ -30,21 +30,20 @@
 #include <djvViewLib/MainWindow.h>
 
 #include <djvViewLib/Application.h>
+#include <djvViewLib/FileSystem.h>
 #include <djvViewLib/IViewSystem.h>
-//#include <djvViewLib/MDIWindow.h>
+#include <djvViewLib/ImageView.h>
+#include <djvViewLib/MDIWindow.h>
 #include <djvViewLib/Media.h>
+#include <djvViewLib/WindowSystem.h>
 
 #include <djvUI/Action.h>
-//#include <djvUI/Dialog.h>
-//#include <djvUI/FileBrowser.h>
-//#include <djvUI/ImageWidget.h>
-//#include <djvUI/MDICanvas.h>
+#include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/RowLayout.h>
-//#include <djvUI/ScrollWidget.h>
-//#include <djvUI/Shortcut.h>
-#include <djvUI/TabWidget.h>
+#include <djvUI/SoloLayout.h>
+#include <djvUI/TabBar.h>
 
 #include <djvCore/FileInfo.h>
 
@@ -59,101 +58,18 @@ namespace djv
         struct MainWindow::Private
         {
             std::shared_ptr<UI::MenuBar> menuBar;
-            std::shared_ptr<UI::TabWidget> tabWidget;
-            //std::shared_ptr<UI::MDI::Canvas> canvas;
-            //std::shared_ptr<UI::ScrollWidget> scrollWidget;
-            //std::shared_ptr<UI::ActionGroup> playbackActionGroup;
-            //std::shared_ptr<ValueObserver<bool> > fileOpenObserver;
-            //std::shared_ptr<ValueObserver<bool> > exitObserver;
+            std::shared_ptr<UI::TabBar> tabBar;
+            std::shared_ptr<UI::MDI::Canvas> mdiCanvas;
+            BBox2f maximizedGeometry;
+            std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > openedObserver;
+            std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
         
         void MainWindow::_init(Core::Context * context)
         {
-            UI::MainWindow::_init(context);
+            UI::Window::_init(context);
 
             setClassName("djv::ViewLib::MainWindow");
-
-            /*auto fileOpenAction = UI::Action::create();
-            fileOpenAction->setText("Open");
-            fileOpenAction->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
-            addAction(fileOpenAction);
-            auto fileReloadAction = UI::Action::create();
-            fileReloadAction->setText("Reload");
-            addAction(fileReloadAction);
-            auto fileCloseAction = UI::Action::create();
-            fileCloseAction->setText("Close");
-            addAction(fileCloseAction);
-            auto fileExportAction = UI::Action::create();
-            fileExportAction->setText("Export");
-            addAction(fileExportAction);
-            auto exitAction = UI::Action::create();
-            exitAction->setText("Exit");
-            exitAction->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
-            addAction(exitAction);
-
-            auto windowNewTabAction = UI::Action::create();
-            windowNewTabAction->setText("New Tab");
-            addAction(windowNewTabAction);
-            auto windowCloseTabAction = UI::Action::create();
-            windowCloseTabAction->setText("Close Tab");
-            addAction(windowCloseTabAction);
-
-            auto viewZoomInAction = UI::Action::create();
-            viewZoomInAction->setText("Zoom In");
-            addAction(viewZoomInAction);
-            auto viewZoomOutAction = UI::Action::create();
-            viewZoomOutAction->setText("Zoom Out");
-            addAction(viewZoomOutAction);
-            auto viewResetZoomAction = UI::Action::create();
-            viewResetZoomAction->setText("Reset Zoom");
-            addAction(viewResetZoomAction);
-
-            auto playbackStopAction = UI::Action::create();
-            playbackStopAction->setText("Stop");
-            playbackStopAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackStop90DPI.png"));
-            playbackStopAction->setShortcut(GLFW_KEY_K);
-            addAction(playbackStopAction);
-            auto playbackForwardAction = UI::Action::create();
-            playbackForwardAction->setText("Forward");
-            playbackForwardAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackForward90DPI.png"));
-            playbackForwardAction->setShortcut(GLFW_KEY_L);
-            addAction(playbackForwardAction);
-            auto playbackReverseAction = UI::Action::create();
-            playbackReverseAction->setText("Reverse");
-            playbackReverseAction->setIcon(context->getPath(Core::FileSystem::ResourcePath::IconsDirectory, "djvIconPlaybackReverse90DPI.png"));
-            playbackReverseAction->setShortcut(GLFW_KEY_J);
-            addAction(playbackReverseAction);
-            _p->playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            _p->playbackActionGroup->addAction(playbackStopAction);
-            _p->playbackActionGroup->addAction(playbackForwardAction);
-            _p->playbackActionGroup->addAction(playbackReverseAction);
-
-            auto fileMenu = UI::Menu::create("File", context);
-            fileMenu->addAction(fileOpenAction);
-            fileMenu->addAction(fileReloadAction);
-            fileMenu->addAction(fileCloseAction);
-            fileMenu->addAction(fileExportAction);
-            fileMenu->addAction(exitAction);
-
-            auto windowMenu = UI::Menu::create("Window", context);
-            windowMenu->addAction(windowNewTabAction);
-            windowMenu->addAction(windowCloseTabAction);
-
-            auto viewMenu = UI::Menu::create("View", context);
-            viewMenu->addAction(viewZoomInAction);
-            viewMenu->addAction(viewZoomOutAction);
-            viewMenu->addAction(viewResetZoomAction);
-
-            auto playbackMenu = UI::Menu::create("Playback", context);
-            playbackMenu->addAction(playbackStopAction);
-            playbackMenu->addAction(playbackForwardAction);
-            playbackMenu->addAction(playbackReverseAction);*/
-
-            /*auto menuBar = getMenuBar();
-            menuBar->addMenu(fileMenu);
-            menuBar->addMenu(windowMenu);
-            menuBar->addMenu(viewMenu);
-            menuBar->addMenu(playbackMenu);*/
 
             auto viewSystems = context->getSystemsT<IViewSystem>();
             for (auto i : viewSystems)
@@ -167,6 +83,12 @@ namespace djv
                 }
             }
 
+            _p->tabBar = UI::TabBar::create(context);
+            _p->tabBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
+
+            _p->mdiCanvas = UI::MDI::Canvas::create(context);
+            addWidget(_p->mdiCanvas);
+
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             for (auto i : viewSystems)
             {
@@ -178,72 +100,87 @@ namespace djv
                     }
                 }
             }
-            auto menuBar = getMenuBar();
+            _p->menuBar = UI::MenuBar::create(context);
+            _p->menuBar->setBackgroundRole(UI::Style::ColorRole::Overlay);
             for (auto i : menus)
             {
-                menuBar->addMenu(i.second);
+                _p->menuBar->addMenu(i.second);
             }
-
-            _p->tabWidget = UI::TabWidget::create(context);
-            setCentralWidget(_p->tabWidget);
-
-            //_p->canvas = UI::MDI::Canvas::create(context);
-            //_p->canvas->setCanvasSize(glm::vec2(8192, 8192));
-            //_p->scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            //_p->scrollWidget->addWidget(_p->canvas);
-            //setCentralWidget(_p->scrollWidget);
+            auto layout = UI::Layout::Vertical::create(context);
+            layout->setSpacing(UI::Style::MetricsRole::None);
+            layout->addWidget(_p->menuBar);
+            layout->addWidget(_p->tabBar);
+            addWidget(layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            _p->tabWidget->setCurrentTabCallback(
+            _p->tabBar->setCurrentTabCallback(
                 [weak](int value)
             {
-
-            });
-
-            /*_p->fileOpenObserver = ValueObserver<bool>::create(
-                fileOpenAction->observeClicked(),
-                [weak, context](bool value)
-            {
-                if (value)
+                if (auto mainWindow = weak.lock())
                 {
-                    if (auto mainWindow = weak.lock())
-                    {
-                        UI::FileBrowser::dialog(
-                            mainWindow,
-                            [weak, context](const FileSystem::FileInfo & value)
-                        {
-                            if (auto mainWindow = weak.lock())
-                            {
-                                mainWindow->_open(value.getPath());
-                            }
-                        });
-                    }
                 }
             });
 
-            _p->exitObserver = ValueObserver<bool>::create(
-                exitAction->observeClicked(),
-                [weak, context](bool value)
+            if (auto fileSystem = context->getSystemT<FileSystem>().lock())
             {
-                if (value)
+                _p->openedObserver = ValueObserver<std::shared_ptr<Media> >::create(
+                    fileSystem->observeOpened(),
+                    [weak, context](const std::shared_ptr<Media> & value)
                 {
-                    if (auto mainWindow = weak.lock())
+                    if (value)
                     {
-                        UI::Dialog::confirmation(
-                            DJV_TEXT("Are you sure you want to exit?"),
-                            DJV_TEXT("Yes"),
-                            DJV_TEXT("No"),
-                            mainWindow,
-                            [context](bool value)
+                        if (auto mainWindow = weak.lock())
                         {
-                            if (value)
+                            auto mdiWindow = MDIWindow::create(context);
+                            mdiWindow->setMedia(value);
+                            mdiWindow->resize(glm::vec2(400.f, 300.f));
+                            mdiWindow->setParent(mainWindow->_p->mdiCanvas);
+                            mdiWindow->setMaximizeCallback(
+                                [weak, mdiWindow](bool value)
                             {
-                                dynamic_cast<Application *>(context)->exit();
-                            }
-                        });
+                                if (auto mainWindow = weak.lock())
+                                {
+                                    if (value)
+                                    {
+                                        mainWindow->_p->maximizedGeometry = mdiWindow->getGeometry();
+                                        mainWindow->addWidget(mdiWindow);
+                                    }
+                                    else
+                                    {
+                                        mdiWindow->setParent(mainWindow->_p->mdiCanvas);
+                                        mdiWindow->setGeometry(mainWindow->_p->maximizedGeometry);
+                                    }
+                                }
+                            });
+                            mdiWindow->setClosedCallback(
+                                [mdiWindow]
+                            {
+                                mdiWindow->setParent(nullptr);
+                            });
+                        }
                     }
-                }
-            });*/
+                });
+                _p->closeObserver = ValueObserver<bool>::create(
+                    fileSystem->observeClose(),
+                    [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto mainWindow = weak.lock())
+                        {
+                            const auto children = mainWindow->_p->mdiCanvas->getChildrenT<MDIWindow>();
+                            if (children.size())
+                            {
+                                children.front()->setParent(nullptr);
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (auto windowSystem = context->getSystemT<WindowSystem>().lock())
+            {
+            }
         }
 
         MainWindow::MainWindow() :
@@ -262,35 +199,13 @@ namespace djv
 
         void MainWindow::_dropEvent(Core::Event::Drop& event)
         {
-            for (const auto & i : event.getDropPaths())
+            if (auto fileSystem = getContext()->getSystemT<FileSystem>().lock())
             {
-                _open(i);
-            }
-        }
-
-        void MainWindow::_open(const FileSystem::Path & path)
-        {
-            //auto media = Media::create(FileInfo::getFileSequence(i), getContext());
-            /*auto media = Media::create(path, getContext());
-            auto window = MDIWindow::create(media, getContext());
-            const auto title = path.getFileName();
-            window->setTitle(title);
-            window->resize(glm::vec2(500.f, 300.f));
-            auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-            auto weakWindow = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(window));
-            window->setClosedCallback(
-                [weak, weakWindow]
-            {
-                if (auto mainWindow = weak.lock())
+                for (const auto & i : event.getDropPaths())
                 {
-                    if (auto window = weakWindow.lock())
-                    {
-                        mainWindow->_p->tabWidget->removeTab(window);
-                    }
+                    fileSystem->open(i);
                 }
-            });
-            const size_t index = _p->tabWidget->addTab(title, window);
-            _p->tabWidget->setCurrentTab(static_cast<int>(index));*/
+            }
         }
 
     } // namespace ViewLib

@@ -203,7 +203,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     _p->info = AV::Image::Info();
-                    _log(e.what(), LogLevel::Error);
+                    //_log(e.what(), LogLevel::Error);
                 }
             }
             if (_p->imageFuture.valid() &&
@@ -217,7 +217,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     _p->image = nullptr;
-                    _log(e.what(), LogLevel::Error);
+                    //_log(e.what(), LogLevel::Error);
                 }
             }
         }

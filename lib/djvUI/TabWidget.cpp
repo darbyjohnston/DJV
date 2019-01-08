@@ -106,6 +106,20 @@ namespace djv
 
         void TabWidget::removeTab(const std::shared_ptr<Widget>& value)
         {
+            size_t i = 0;
+            const auto & children = _p->soloLayout->getChildrenT<Widget>();
+            for (const auto & child : children)
+            {
+                if (child == value)
+                {
+                    break;
+                }
+                ++i;
+            }
+            if (i < children.size())
+            {
+                _p->tabBar->removeTab(i);
+            }
             _p->soloLayout->removeWidget(value);
         }
 
@@ -127,6 +141,11 @@ namespace djv
         void TabWidget::setCurrentTabCallback(const std::function<void(int)>& value)
         {
             _p->callback = value;
+        }
+
+        void TabWidget::closeCurrentTab()
+        {
+
         }
 
         float TabWidget::getHeightForWidth(float value) const

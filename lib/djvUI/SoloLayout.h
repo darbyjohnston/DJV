@@ -53,6 +53,9 @@ namespace djv
                 int getCurrentIndex() const;
                 void setCurrentIndex(int);
 
+                std::shared_ptr<Widget> getCurrentWidget() const;
+                void setCurrentWidget(const std::shared_ptr<Widget> &);
+
                 void addWidget(const std::shared_ptr<Widget>&) override;
                 void removeWidget(const std::shared_ptr<Widget>&) override;
 

@@ -31,7 +31,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Border.h>
-#include <djvUI/Dialog.h>
+#include <djvUI/DialogSystem.h>
 #include <djvUI/FileBrowserPrivate.h>
 #include <djvUI/FlowLayout.h>
 #include <djvUI/IWindowSystem.h>

@@ -56,13 +56,12 @@ namespace djv
                 const glm::vec2 & getCanvasSize() const;
                 void setCanvasSize(const glm::vec2 &);
 
-                void addWindow(const std::shared_ptr<IWindow>&, const glm::vec2& = glm::vec2());
-                void removeWindow(const std::shared_ptr<IWindow>&);
-                void clearWindows();
-
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
+
+                void _childAddedEvent(Core::Event::ChildAdded &);
+                void _childRemovedEvent(Core::Event::ChildRemoved &);
                 bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::IEvent&) override;
 
             private:

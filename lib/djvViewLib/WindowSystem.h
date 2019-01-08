@@ -29,47 +29,36 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvViewLib/Enum.h>
+#include <djvViewLib/IViewSystem.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewLib
     {
-        //! This class provides a tab bar widget.
-        class TabBar : public Widget
+        class WindowSystem : public IViewSystem
         {
-            DJV_NON_COPYABLE(TabBar);
+            DJV_NON_COPYABLE(WindowSystem);
 
         protected:
             void _init(Core::Context *);
-            TabBar();
+            WindowSystem();
 
         public:
-            virtual ~TabBar();
+            ~WindowSystem() override;
 
-            static std::shared_ptr<TabBar> create(Core::Context *);
+            static std::shared_ptr<WindowSystem> create(Core::Context *);
 
-            size_t getTabCount() const;
-            size_t addTab(const std::string &);
-            void removeTab(size_t);
-            void setTabRemovedCallback(const std::function<void(size_t)> &);
-
-            int getCurrentTab() const;
-            void setCurrentTab(int);
-            void setCurrentTabCallback(const std::function<void(int)>&);
-            void removeCurrentTab();
-
-            float getHeightForWidth(float) const override;
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<UI::Menu> createMenu() override;
+            std::string getMenuSortKey() const override;
 
         private:
-            struct Private;
-            std::unique_ptr<Private> _p;
+            DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewLib
 } // namespace djv
 

@@ -42,17 +42,20 @@ namespace djv
             DJV_NON_COPYABLE(MDIWindow);
 
         protected:
-            void _init(const std::shared_ptr<Media> &, Core::Context *);
+            void _init(Core::Context *);
             MDIWindow();
 
         public:
             ~MDIWindow() override;
 
-            static std::shared_ptr<MDIWindow> create(const std::shared_ptr<Media> &, Core::Context *);
+            static std::shared_ptr<MDIWindow> create(Core::Context *);
 
             const std::string & getTitle() const;
             void setTitle(const std::string &);
 
+            void setMedia(const std::shared_ptr<Media> &);
+
+            void setMaximizeCallback(const std::function<void(bool)> &);
             void setClosedCallback(const std::function<void(void)> &);
 
             std::shared_ptr<UI::Widget> getMoveHandle() override;

@@ -29,7 +29,7 @@
 
 #include <djvUI/UISystem.h>
 
-#include <djvUI/Dialog.h>
+#include <djvUI/DialogSystem.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/FileBrowser.h>
 #include <djvUI/FontSettings.h>

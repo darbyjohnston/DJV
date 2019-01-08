@@ -4,7 +4,7 @@ set(header
     ButtonGroup.h
     ColorSwatch.h
     ComboBox.h
-    Dialog.h
+    DialogSystem.h
     Enum.h
     FileBrowser.h
     FileBrowserPrivate.h
@@ -66,7 +66,7 @@ set(source
     ButtonGroup.cpp
     ColorSwatch.cpp
     ComboBox.cpp
-    Dialog.cpp
+    DialogSystem.cpp
     Enum.cpp
     FileBrowser.cpp
     FileBrowserPrivate.cpp

@@ -346,9 +346,9 @@ namespace djv
                             }
                             catch (const std::exception & e)
                             {
-                                _log(e.what(), LogLevel::Error);
+                                //_log(e.what(), LogLevel::Error);
                             }
-                            _log(e.what(), LogLevel::Error);
+                            //_log(e.what(), LogLevel::Error);
                         }
                     }
                 }
@@ -375,9 +375,9 @@ namespace djv
                             }
                             catch (const std::exception & e)
                             {
-                                _log(e.what(), LogLevel::Error);
+                                //_log(e.what(), LogLevel::Error);
                             }
-                            _log(e.what(), LogLevel::Error);
+                            //_log(e.what(), LogLevel::Error);
                         }
                         i = p.pendingInfoRequests.erase(i);
                     }
@@ -424,9 +424,9 @@ namespace djv
                             }
                             catch (const std::exception & e)
                             {
-                                _log(e.what(), LogLevel::Error);
+                                //_log(e.what(), LogLevel::Error);
                             }
-                            _log(e.what(), LogLevel::Error);
+                            //_log(e.what(), LogLevel::Error);
                         }
                     }
                 }

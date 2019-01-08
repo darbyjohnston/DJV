@@ -59,15 +59,13 @@ namespace djv
 
             static std::shared_ptr<MediaSession> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > getName() const;
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > getMedia() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > getCurrentMedia() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeName() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeMediaOpened() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeMediaClosed() const;
             void setName(const std::string &);
             void openMedia(const std::string &);
             void closeMedia(const std::shared_ptr<Media> &);
-            void setCurrentMedia(const std::shared_ptr<Media> &);
-            void nextMedia();
-            void prevMedia();
 
         private:
             DJV_PRIVATE();

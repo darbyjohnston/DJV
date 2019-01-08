@@ -31,6 +31,7 @@
 
 #include <djvViewLib/FileSystem.h>
 #include <djvViewLib/MainWindow.h>
+#include <djvViewLib/WindowSystem.h>
 
 namespace djv
 {
@@ -39,14 +40,18 @@ namespace djv
         struct Application::Private
         {
             std::shared_ptr<FileSystem> fileSystem;
+            std::shared_ptr<WindowSystem> windowSystem;
             std::shared_ptr<MainWindow> mainWindow;
         };
         
         void Application::_init(int & argc, char ** argv)
         {
             Desktop::Application::_init(argc, argv);
+
             DJV_PRIVATE_PTR();
             p.fileSystem = FileSystem::create(this);
+            p.windowSystem = WindowSystem::create(this);
+
             p.mainWindow = MainWindow::create(this);
             p.mainWindow->show();
         }

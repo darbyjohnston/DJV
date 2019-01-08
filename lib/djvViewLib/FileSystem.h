@@ -31,6 +31,8 @@
 
 #include <djvViewLib/IViewSystem.h>
 
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace ViewLib
@@ -48,12 +50,14 @@ namespace djv
 
             static std::shared_ptr<FileSystem> create(Core::Context *);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeClose() const;
+            void open(const std::string &);
 
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             std::shared_ptr<UI::Menu> createMenu() override;
             std::string getMenuSortKey() const override;
-            
-            void setMediaSession(const std::shared_ptr<MediaSession> &) override;
+            void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         private:
             DJV_PRIVATE();
