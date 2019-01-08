@@ -43,7 +43,7 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/Splitter.h>
-#include <djvUI/ToolBar.h>
+#include <djvUI/Toolbar.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/IO.h>

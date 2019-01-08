@@ -182,12 +182,13 @@ int main(int argc, char ** argv)
             window->resize(size);
 
             const glm::vec2 pos(Core::Math::getRandom(0, 50) * 10.f, Core::Math::getRandom(0, 50) * 10.f);
-            canvas->addWindow(window, pos);
+            window->setParent(canvas);
+            window->move(pos);
 
             window->setClosedCallback(
-                [canvas, window]
+                [window]
             {
-                canvas->removeWindow(window);
+                window->setParent(nullptr);
             });
         }
 
