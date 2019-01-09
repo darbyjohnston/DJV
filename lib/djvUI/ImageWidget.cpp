@@ -120,7 +120,7 @@ namespace djv
                         default: break;
                         }
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                        render->drawImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Dynamic, _p->uid);
+                        render->drawImage(_p->image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Dynamic, _p->uid);
                     }
                 }
             }

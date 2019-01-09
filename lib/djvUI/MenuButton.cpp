@@ -69,6 +69,7 @@ namespace djv
                 _p->icon->hide();
 
                 _p->label = Label::create(context);
+                _p->label->setHAlign(HAlign::Left);
                 _p->label->hide();
 
                 _p->layout = Layout::Horizontal::create(context);

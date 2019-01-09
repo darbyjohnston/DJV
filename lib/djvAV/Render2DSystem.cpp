@@ -206,7 +206,7 @@ namespace djv
 
                     UID uid = 0;
                     std::shared_ptr<Image::Data> imageData;
-                    glm::vec2 pos = glm::vec2(0.f, 0.f);
+                    BBox2f rect = BBox2f(0.f, 0.f, 0.f, 0.f);
                     ImageFormat imageFormat = ImageFormat::RGBA;
                     Render2DSystem::ImageType imageType = Render2DSystem::ImageType::Static;
                     std::shared_ptr<TextureCache> textureCache;
@@ -234,7 +234,7 @@ namespace djv
                         }
 
                         RenderData data;
-                        data.bbox = BBox2f(pos.x, pos.y, static_cast<float>(item.size.x), static_cast<float>(item.size.y));
+                        data.bbox = rect;
                         data.clipRect = clipRect;
                         const auto& info = imageData->getInfo();
                         switch (info.getGLFormat())
@@ -605,26 +605,26 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data>& data, const glm::vec2& pos, ImageType imageType, UID uid)
+            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType, UID uid)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
                 primitive->uid = uid;
                 primitive->imageData = data;
-                primitive->pos = pos;
+                primitive->rect = rect;
                 primitive->clipRect = p.currentClipRect;
                 primitive->colorMode = ColorMode::ColorAndTexture;
                 primitive->color = p.fillColor;
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data>& data, const glm::vec2& pos, ImageType imageType, UID uid)
+            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType, UID uid)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
                 primitive->uid = uid;
                 primitive->imageData = data;
-                primitive->pos = pos;
+                primitive->rect = rect;
                 primitive->clipRect = p.currentClipRect;
                 primitive->colorMode = ColorMode::ColorWithTextureAlpha;
                 primitive->color = p.fillColor;

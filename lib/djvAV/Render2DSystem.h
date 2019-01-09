@@ -91,13 +91,13 @@ namespace djv
 
                 void drawImage(
                     const std::shared_ptr<Image::Data>&,
-                    const glm::vec2&,
+                    const Core::BBox2f&,
                     ImageType,
                     Core::UID);
 
                 void drawFilledImage(
                     const std::shared_ptr<Image::Data>&,
-                    const glm::vec2&,
+                    const Core::BBox2f&,
                     ImageType,
                     Core::UID);
 

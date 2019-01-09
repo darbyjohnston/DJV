@@ -126,7 +126,11 @@ namespace djv
             void Style::setCurrentPalette(const std::string& name)
             {
                 DJV_PRIVATE_PTR();
-                p.currentPaletteName->setIfChanged(name);
+                if (p.palettes->hasKey(name))
+                {
+                    p.currentPalette->setIfChanged(p.palettes->getItem(name));
+                    p.currentPaletteName->setIfChanged(name);
+                }
             }
 
             std::shared_ptr<IValueSubject<int> > Style::observeDPI() const
@@ -158,7 +162,11 @@ namespace djv
             void Style::setCurrentMetrics(const std::string& name)
             {
                 DJV_PRIVATE_PTR();
-                p.currentMetricsName->setIfChanged(name);
+                if (p.metrics->hasKey(name))
+                {
+                    p.currentMetrics->setIfChanged(p.metrics->getItem(name));
+                    p.currentMetricsName->setIfChanged(name);
+                }
             }
 
             void Style::load(const picojson::value& value)

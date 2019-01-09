@@ -57,6 +57,7 @@ namespace djv
                 Event::PointerID pressed = 0;
                 glm::vec2 pressedPos;
                 glm::vec2 pressedOffset;
+                std::function<void(const std::shared_ptr<Widget> &)> activeWindowCallback;
             };
 
             void Canvas::_init(Context * context)
@@ -93,15 +94,18 @@ namespace djv
                 _resize();
             }
 
+            void Canvas::setActiveWindowCallback(const std::function<void(const std::shared_ptr<Widget> &)> & value)
+            {
+                _p->activeWindowCallback = value;
+            }
+
             void Canvas::_preLayoutEvent(Event::PreLayout&)
             {
                 _setMinimumSize(_p->canvasSize);
             }
 
             void Canvas::_layoutEvent(Event::Layout&)
-            {
-
-            }
+            {}
 
             void Canvas::_childAddedEvent(Event::ChildAdded & value)
             {
@@ -119,6 +123,11 @@ namespace djv
                     _p->windowToResizeHandle[window] = resizeHandle;
 
                     _redraw();
+
+                    if (_p->activeWindowCallback)
+                    {
+                        _p->activeWindowCallback(window);
+                    }
                 }
             }
 
@@ -130,7 +139,25 @@ namespace djv
                         const auto j = std::find(_p->windows.begin(), _p->windows.end(), window);
                         if (j != _p->windows.end())
                         {
+                            const bool active = j == _p->windows.begin();
                             _p->windows.erase(j);
+                            if (active)
+                            {
+                                if (_p->windows.size())
+                                {
+                                    if (_p->activeWindowCallback)
+                                    {
+                                        _p->activeWindowCallback(_p->windows.front());
+                                    }
+                                }
+                                else
+                                {
+                                    if (_p->activeWindowCallback)
+                                    {
+                                        _p->activeWindowCallback(nullptr);
+                                    }
+                                }
+                            }
                         }
                     }
                     {
@@ -225,6 +252,10 @@ namespace djv
                             auto window = _p->moveHandleToWindow[object];
                             window->moveToFront();
                             _p->pressedOffset = window->getGeometry().min - _p->pressedPos;
+                            if (_p->activeWindowCallback)
+                            {
+                                _p->activeWindowCallback(window);
+                            }
                         }
                         else if (_p->resizeHandleToWindow.find(object) != _p->resizeHandleToWindow.end())
                         {
@@ -234,6 +265,10 @@ namespace djv
                             auto window = _p->resizeHandleToWindow[object];
                             window->moveToFront();
                             _p->pressedOffset = window->getGeometry().max - _p->pressedPos;
+                            if (_p->activeWindowCallback)
+                            {
+                                _p->activeWindowCallback(window);
+                            }
                         }
                     }
                     return true;

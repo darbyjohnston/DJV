@@ -97,7 +97,10 @@ namespace djv
                 _p->infoFuture = system->getInfo(_p->name);
                 _p->imageFuture = system->getImage(_p->name);
             }
-            _p->uid = _p->name.empty() ? 0 : createUID();
+            if (_p->name.empty())
+            {
+                _p->uid = 0;
+            }
         }
 
         Style::ColorRole Icon::getIconColorRole() const
@@ -135,7 +138,6 @@ namespace djv
                     _p->infoFuture = system->getInfo(_p->name);
                     _p->imageFuture = system->getImage(_p->name);
                 }
-                _p->uid = createUID();
             }
         }
 
@@ -185,12 +187,12 @@ namespace djv
                         if (_p->iconColorRole != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(_p->iconColorRole)));
-                            render->drawFilledImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Static, _p->uid);
+                            render->drawFilledImage(_p->image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, _p->uid);
                         }
                         else
                         {
                             render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Static, _p->uid);
+                            render->drawImage(_p->image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, _p->uid);
                         }
                     }
                 }
@@ -208,7 +210,6 @@ namespace djv
                     if (info.video.size())
                     {
                         _p->info = info.video.front().info;
-                        _resize();
                     }
                 }
                 catch (const std::exception & e)
@@ -216,6 +217,7 @@ namespace djv
                     _p->info = AV::Image::Info();
                     //_log(e.what(), LogLevel::Error);
                 }
+                _resize();
             }
             if (_p->imageFuture.valid() &&
                 _p->imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
@@ -223,13 +225,15 @@ namespace djv
                 try
                 {
                     _p->image = _p->imageFuture.get();
-                    _resize();
+                    _p->uid = createUID();
                 }
                 catch (const std::exception & e)
                 {
                     _p->image = nullptr;
+                    _p->uid = 0;
                     //_log(e.what(), LogLevel::Error);
                 }
+                _resize();
             }
         }
 

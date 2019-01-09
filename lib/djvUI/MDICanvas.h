@@ -38,8 +38,6 @@ namespace djv
         //! This namespace provides multiple document interface (MDI) functionality.
         namespace MDI
         {
-            class IWindow;
-            
             class Canvas : public Widget
             {
                 DJV_NON_COPYABLE(Canvas);
@@ -56,12 +54,14 @@ namespace djv
                 const glm::vec2 & getCanvasSize() const;
                 void setCanvasSize(const glm::vec2 &);
 
+                void setActiveWindowCallback(const std::function<void(const std::shared_ptr<Widget> &)> &);
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
-                void _childAddedEvent(Core::Event::ChildAdded &);
-                void _childRemovedEvent(Core::Event::ChildRemoved &);
+                void _childAddedEvent(Core::Event::ChildAdded &) override;
+                void _childRemovedEvent(Core::Event::ChildRemoved &) override;
                 bool _eventFilter(const std::shared_ptr<Core::IObject>&, Core::Event::IEvent&) override;
 
             private:
