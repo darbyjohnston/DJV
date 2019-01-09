@@ -43,6 +43,7 @@ namespace djv
                 bool _isPressed() const;
                 const glm::vec2& _getPressedPos() const;
                 void _setCanRejectPressed(bool);
+                Style::ColorRole _getForegroundColorRole() const;
 
                 virtual void _doClickedCallback();
                 virtual void _doCheckedCallback(bool);

@@ -51,6 +51,8 @@ namespace djv
                 void _pointerMoveEvent(Core::Event::PointerMove&) override;
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
 
+                void _updateEvent(Core::Event::Update& event) override;
+
             private:
                 bool _isHovered() const;
 

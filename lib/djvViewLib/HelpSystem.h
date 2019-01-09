@@ -27,40 +27,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/HelpObject.h>
+#pragma once
 
-#include <djvViewLib/Context.h>
-
-#include <QAction>
-#include <QMenu>
+#include <djvViewLib/IViewSystem.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct HelpObject::Private
+        class HelpSystem : public IViewSystem
         {
-            std::map<QString, QPointer<QAction> > actions;
-        };
-        
-        HelpObject::HelpObject(const std::shared_ptr<Context> & context, QObject * parent) :
-            IViewObject("HelpObject", context, parent),
-            _p(new Private)
-        {}
-        
-        HelpObject::~HelpObject()
-        {}
+            DJV_NON_COPYABLE(HelpSystem);
 
-        std::string HelpObject::getMenuSortKey() const
-        {
-            return "7";
-        }
-        
-        QPointer<QMenu> HelpObject::createMenu()
-        {
-            auto menu = new QMenu("Help");
-            return menu;
-        }
+        protected:
+            void _init(Core::Context *);
+            HelpSystem();
+
+        public:
+            ~HelpSystem() override;
+
+            static std::shared_ptr<HelpSystem> create(Core::Context *);
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<UI::Menu> createMenu() override;
+            std::string getMenuSortKey() const override;
+
+        private:
+            DJV_PRIVATE();
+        };
 
     } // namespace ViewLib
 } // namespace djv

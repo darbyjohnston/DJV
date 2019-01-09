@@ -153,10 +153,7 @@ namespace djv
 
             void Tool::_updateEvent(Event::Update& event)
             {
-                const auto style = _getStyle();
-                const bool enabled = isEnabled(true);
-                const Style::ColorRole fg = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
-                _p->icon->setIconColorRole(fg);
+                _p->icon->setIconColorRole(_getForegroundColorRole());
             }
 
         } // namespace Button

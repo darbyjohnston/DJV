@@ -182,15 +182,6 @@ namespace djv
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void Push::_updateEvent(Event::Update& event)
-            {
-                const auto style = _getStyle();
-                const bool enabled = isEnabled(true);
-                const Style::ColorRole colorRole = !enabled ? Style::ColorRole::Disabled : (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
-                _p->icon->setIconColorRole(colorRole);
-                _p->label->setTextColorRole(colorRole);
-            }
-
             void Push::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
@@ -233,6 +224,14 @@ namespace djv
                         }
                     }
                 }
+            }
+
+            void Push::_updateEvent(Event::Update& event)
+            {
+                IButton::_updateEvent(event);
+                const Style::ColorRole colorRole = _getForegroundColorRole();
+                _p->icon->setIconColorRole(colorRole);
+                _p->label->setTextColorRole(colorRole);
             }
 
         } // namespace Button

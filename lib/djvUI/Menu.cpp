@@ -124,9 +124,10 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _updateEvent(Event::Update&) override;
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
+
+                void _updateEvent(Event::Update&) override;
 
             private:
                 std::shared_ptr<Icon> _icon;
@@ -139,6 +140,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > _iconObserver;
                 std::shared_ptr<ValueObserver<std::string> > _textObserver;
                 std::shared_ptr<ValueObserver<std::shared_ptr<Shortcut> > > _shortcutObserver;
+                std::shared_ptr<ValueObserver<bool> > _enabledObserver;
 
                 friend class MenuLayout;
             };
@@ -238,6 +240,15 @@ namespace djv
                         }
                     }
                 });
+                _enabledObserver = ValueObserver<bool>::create(
+                    action->isEnabled(),
+                    [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->setEnabled(value);
+                    }
+                });
             }
 
             void MenuButton::setMenu(const std::shared_ptr<Menu> & menu)
@@ -282,10 +293,12 @@ namespace djv
             void MenuButton::_updateEvent(Event::Update& event)
             {
                 IButton::_updateEvent(event);
-                _textLabel->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                const Style::ColorRole colorRole = _getForegroundColorRole();
+                _icon->setIconColorRole(colorRole);
+                _textLabel->setTextColorRole(colorRole);
                 if (_shortcutLabel)
                 {
-                    _shortcutLabel->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                    _shortcutLabel->setTextColorRole(colorRole);
                 }
             }
 

@@ -74,7 +74,7 @@ namespace djv
                 p.colors[ColorRole::Checked]           = AV::Image::Color( .2f,   .4f,   .7f);
                 p.colors[ColorRole::CheckedForeground] = AV::Image::Color( .9f,   .9f,   .9f);
                 p.colors[ColorRole::Hover]             = AV::Image::Color(1.f,   1.f,   1.f, .1f);
-                p.colors[ColorRole::Disabled]          = AV::Image::Color( .3f,   .3f,   .3f);
+                p.colors[ColorRole::Disabled]          = AV::Image::Color( .5f,   .5f,   .5f);
                 p.colors[ColorRole::Overlay]           = AV::Image::Color(0.f,   0.f,   0.f, .5f);
                 p.colors[ColorRole::Shadow]            = AV::Image::Color(0.f,   0.f,   0.f, .2f);
             }

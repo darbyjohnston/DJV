@@ -27,44 +27,64 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/HelpSystem.h>
 
-#include <djvViewLib/IViewObject.h>
+#include <djvUI/Action.h>
+#include <djvUI/Menu.h>
+
+#include <djvCore/Context.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        class IToolObject : public IViewObject
+        struct HelpSystem::Private
         {
-            Q_OBJECT
-
-        public:
-            IToolObject(const std::string & name, const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            virtual ~IToolObject() = 0;
-
-        private:
-            DJV_PRIVATE();
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
-        class ToolObject : public IViewObject
+        void HelpSystem::_init(Context * context)
         {
-            Q_OBJECT
+            IViewSystem::_init("djv::ViewLib::HelpSystem", context);
 
-        public:
-            ToolObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~ToolObject() override;
-            
-            void addDockWidget(const QPointer<IToolObject> &, const QPointer<QDockWidget> &);
+            DJV_PRIVATE_PTR();
+        }
 
-            QPointer<QMenu> createMenu() override;
-            std::string getMenuSortKey() const override;
+        HelpSystem::HelpSystem() :
+            _p(new Private)
+        {}
 
-        private:
-            void _updateMenus();
+        HelpSystem::~HelpSystem()
+        {}
 
-            DJV_PRIVATE();
-        };
+        std::shared_ptr<HelpSystem> HelpSystem::create(Context * context)
+        {
+            auto out = std::shared_ptr<HelpSystem>(new HelpSystem);
+            out->_init(context);
+            return out;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > HelpSystem::getActions()
+        {
+            return _p->actions;
+        }
+
+        std::string HelpSystem::getMenuSortKey() const
+        {
+            return "6";
+        }
+
+        std::shared_ptr<UI::Menu> HelpSystem::createMenu()
+        {
+            DJV_PRIVATE_PTR();
+            auto menu = UI::Menu::create("Help", getContext());
+            return menu;
+        }
 
     } // namespace ViewLib
 } // namespace djv

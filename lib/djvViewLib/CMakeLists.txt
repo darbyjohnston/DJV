@@ -6,12 +6,13 @@ set(header
     #DebugTool.h
     Enum.h
     FileSystem.h
-    #HelpSystem.h
+    HelpSystem.h
     #HistogramTool.h
     IToolWidget.h
     IViewSystem.h
-    #ImageSystem.h
+    ImageSystem.h
     ImageView.h
+    ImageViewSystem.h
     #InfoTool.h
     #MagnifyTool.h
     MDIWindow.h
@@ -23,9 +24,8 @@ set(header
     SettingsSystem.h
     TimelineSlider.h
     #TimelineWidget.h
-    #ToolSystem.h
+    ToolSystem.h
     ViewLib.h
-    #ViewSystem.h
     WindowSystem.h
     )
 set(source
@@ -35,12 +35,13 @@ set(source
     #DebugTool.cpp
     Enum.cpp
     FileSystem.cpp
-    #HelpSystem.cpp
+    HelpSystem.cpp
     #HistogramTool.cpp
     IToolWidget.cpp
     IViewSystem.cpp
-    #ImageSystem.cpp
+    ImageSystem.cpp
     ImageView.cpp
+    ImageViewSystem.cpp
     #InfoTool.cpp
     #MagnifyTool.cpp
     MDIWindow.cpp
@@ -52,8 +53,7 @@ set(source
     SettingsSystem.cpp
     TimelineSlider.cpp
     #TimelineWidget.cpp
-    #ToolSystem.cpp
-    #ViewSystem.cpp
+    ToolSystem.cpp
     WindowSystem.cpp
     )
 

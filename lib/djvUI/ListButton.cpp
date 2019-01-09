@@ -193,7 +193,7 @@ namespace djv
             void List::_updateEvent(Event::Update& event)
             {
                 IButton::_updateEvent(event);
-                _p->label->setTextColorRole(_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+                _p->label->setTextColorRole(_getForegroundColorRole());
             }
 
         } // namespace Button

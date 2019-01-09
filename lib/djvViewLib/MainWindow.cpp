@@ -138,15 +138,16 @@ namespace djv
             {
                 if (auto mainWindow = weak.lock())
                 {
+                    std::shared_ptr<Media> media;
                     if (auto window = std::dynamic_pointer_cast<MDIWindow>(value))
                     {
-                        auto media = window->getMedia();
-                        for (auto i : context->getSystemsT<IViewSystem>())
+                        media = window->getMedia();
+                    }
+                    for (auto i : context->getSystemsT<IViewSystem>())
+                    {
+                        if (auto system = i.lock())
                         {
-                            if (auto system = i.lock())
-                            {
-                                system->setCurrentMedia(media);
-                            }
+                            system->setCurrentMedia(media);
                         }
                     }
                 }

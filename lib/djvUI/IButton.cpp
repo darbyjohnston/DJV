@@ -270,6 +270,12 @@ namespace djv
                 _p->canRejectPressed = value;
             }
 
+            Style::ColorRole IButton::_getForegroundColorRole() const
+            {
+                return !isEnabled(true) ? Style::ColorRole::Disabled :
+                    (_isToggled() ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground);
+            }
+
             void IButton::_doClickedCallback()
             {
                 if (_p->clickedCallback)

@@ -227,6 +227,13 @@ namespace djv
                 }
             }
 
+            void Menu::_updateEvent(Event::Update& event)
+            {
+                const Style::ColorRole colorRole = !isEnabled(true) ? Style::ColorRole::Disabled : Style::ColorRole::Foreground;
+                _p->icon->setIconColorRole(colorRole);
+                _p->label->setTextColorRole(colorRole);
+            }
+
             bool Menu::_isHovered() const
             {
                 return isEnabled() && _getPointerHover().size();

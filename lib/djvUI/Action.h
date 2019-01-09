@@ -84,11 +84,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > isEnabled() const;
             void setEnabled(bool);
 
-            std::shared_ptr<Core::IValueSubject<HAlign> > getHAlign() const;
-            std::shared_ptr<Core::IValueSubject<VAlign> > getVAlign() const;
-            void setHAlign(HAlign);
-            void setVAlign(VAlign);
-
             std::shared_ptr<Core::IValueSubject<std::string> > getTooltip() const;
             void setTooltip(const std::string&);
 

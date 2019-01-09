@@ -27,45 +27,63 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ImageObject.h>
+#include <djvViewLib/ImageSystem.h>
 
-#include <djvViewLib/Context.h>
-#include <djvViewLib/Media.h>
+#include <djvUI/Action.h>
+#include <djvUI/Menu.h>
 
-#include <QAction>
-#include <QDockWidget>
-#include <QMenu>
+#include <djvCore/Context.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct ImageObject::Private
+        struct ImageSystem::Private
         {
-            std::map<QString, QPointer<QAction> > actions;
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
-        
-        ImageObject::ImageObject(const std::shared_ptr<Context> & context, QObject * parent) :
-            IViewObject("ImageObject", context, parent),
+
+        void ImageSystem::_init(Context * context)
+        {
+            IViewSystem::_init("djv::ViewLib::ImageSystem", context);
+
+            DJV_PRIVATE_PTR();
+        }
+
+        ImageSystem::ImageSystem() :
             _p(new Private)
         {}
-        
-        ImageObject::~ImageObject()
+
+        ImageSystem::~ImageSystem()
         {}
 
-        std::string ImageObject::getMenuSortKey() const
+        std::shared_ptr<ImageSystem> ImageSystem::create(Context * context)
         {
-            return "4";
-        }
-        
-        QPointer<QMenu> ImageObject::createMenu()
-        {
-            auto menu = new QMenu("Image");
-            return menu;
+            auto out = std::shared_ptr<ImageSystem>(new ImageSystem);
+            out->_init(context);
+            return out;
         }
 
-        void ImageObject::setCurrentMedia(const std::shared_ptr<Media> & media)
+        std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions()
         {
+            return _p->actions;
+        }
+
+        std::string ImageSystem::getMenuSortKey() const
+        {
+            return "3";
+        }
+
+        std::shared_ptr<UI::Menu> ImageSystem::createMenu()
+        {
+            DJV_PRIVATE_PTR();
+            auto menu = UI::Menu::create("Image", getContext());
+            return menu;
         }
 
     } // namespace ViewLib

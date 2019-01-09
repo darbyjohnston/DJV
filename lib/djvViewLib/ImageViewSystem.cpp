@@ -27,31 +27,70 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewLib/ImageViewSystem.h>
 
-#include <djvViewLib/IViewObject.h>
+#include <djvUI/Action.h>
+#include <djvUI/Menu.h>
+
+#include <djvCore/Context.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
-    {   
-        class ImageObject : public IViewObject
+    {
+        struct ImageViewSystem::Private
         {
-            Q_OBJECT
-
-        public:
-            ImageObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~ImageObject() override;
-            
-            QPointer<QMenu> createMenu() override;
-            std::string getMenuSortKey() const override;
-            
-        public Q_SLOTS:
-            void setCurrentMedia(const std::shared_ptr<Media> &) override;
-
-        private:
-            DJV_PRIVATE();
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
+
+        void ImageViewSystem::_init(Context * context)
+        {
+            IViewSystem::_init("djv::ViewLib::ImageViewSystem", context);
+
+            DJV_PRIVATE_PTR();
+            p.actions["Left"] = UI::Action::create();
+            p.actions["Left"]->setText(DJV_TEXT("Left"));
+            p.actions["Left"]->setShortcut(GLFW_KEY_KP_4, GLFW_MOD_CONTROL);
+            //! \todo Implement me!
+            p.actions["Left"]->setEnabled(false);
+        }
+
+        ImageViewSystem::ImageViewSystem() :
+            _p(new Private)
+        {}
+
+        ImageViewSystem::~ImageViewSystem()
+        {}
+
+        std::shared_ptr<ImageViewSystem> ImageViewSystem::create(Context * context)
+        {
+            auto out = std::shared_ptr<ImageViewSystem>(new ImageViewSystem);
+            out->_init(context);
+            return out;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > ImageViewSystem::getActions()
+        {
+            return _p->actions;
+        }
+
+        std::string ImageViewSystem::getMenuSortKey() const
+        {
+            return "2";
+        }
+
+        std::shared_ptr<UI::Menu> ImageViewSystem::createMenu()
+        {
+            DJV_PRIVATE_PTR();
+            auto menu = UI::Menu::create("View", getContext());
+            menu->addAction(p.actions["Left"]);
+            return menu;
+        }
 
     } // namespace ViewLib
 } // namespace djv

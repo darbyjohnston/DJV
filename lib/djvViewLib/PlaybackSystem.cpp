@@ -60,16 +60,22 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.actions["Stop"] = UI::Action::create();
+            p.actions["Stop"]->setIcon("djvIconPlaybackStop");
             p.actions["Stop"]->setText("Stop");
             p.actions["Stop"]->setShortcut(GLFW_KEY_K);
+            p.actions["Stop"]->setEnabled(false);
 
             p.actions["Forward"] = UI::Action::create();
+            p.actions["Forward"]->setIcon("djvIconPlaybackForward");
             p.actions["Forward"]->setText("Forward");
             p.actions["Forward"]->setShortcut(GLFW_KEY_L);
+            p.actions["Forward"]->setEnabled(false);
 
             p.actions["Reverse"] = UI::Action::create();
+            p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
             p.actions["Reverse"]->setText("Reverse");
             p.actions["Reverse"]->setShortcut(GLFW_KEY_J);
+            p.actions["Reverse"]->setEnabled(false);
 
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
             p.playbackActionGroup->addAction(p.actions["Stop"]);
@@ -111,7 +117,7 @@ namespace djv
 
         std::string PlaybackSystem::getMenuSortKey() const
         {
-            return "3";
+            return "4";
         }
 
         std::shared_ptr<UI::Menu> PlaybackSystem::createMenu()
@@ -146,6 +152,7 @@ namespace djv
             }
             else
             {
+                p.playbackActionGroup->setChecked(0);
                 p.playbackObserver.reset();
             }
         }

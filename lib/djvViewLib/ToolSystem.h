@@ -29,21 +29,27 @@
 
 #pragma once
 
-#include <djvViewLib/IViewObject.h>
+#include <djvViewLib/IViewSystem.h>
 
 namespace djv
 {
     namespace ViewLib
-    {   
-        class HelpObject : public IViewObject
+    {
+        class ToolSystem : public IViewSystem
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(ToolSystem);
+
+        protected:
+            void _init(Core::Context *);
+            ToolSystem();
 
         public:
-            HelpObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~HelpObject() override;
-            
-            QPointer<QMenu> createMenu() override;
+            ~ToolSystem() override;
+
+            static std::shared_ptr<ToolSystem> create(Core::Context *);
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<UI::Menu> createMenu() override;
             std::string getMenuSortKey() const override;
 
         private:

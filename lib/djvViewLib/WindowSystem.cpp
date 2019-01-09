@@ -32,6 +32,8 @@
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
 
+#include <djvAV/AVSystem.h>
+
 #include <djvCore/Context.h>
 
 #include <GLFW/glfw3.h>
@@ -46,6 +48,12 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
+            glm::ivec2 monitorSize = glm::ivec2(0, 0);
+            int monitorRefresh = 0;
+            BBox2i windowGeom = BBox2i(0, 0, 0, 0);
+
+            void setFullScreen(bool, Context * context);
         };
 
         void WindowSystem::_init(Context * context)
@@ -53,8 +61,36 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
+            p.actions["Duplicate"] = UI::Action::create();
+            p.actions["Duplicate"]->setIcon("djvIconWindowDuplicate");
+            p.actions["Duplicate"]->setText(DJV_TEXT("Duplicate"));
+            p.actions["Duplicate"]->setShortcut(GLFW_KEY_D, GLFW_MOD_CONTROL);
+            //! \todo Implement me!
+            p.actions["Duplicate"]->setEnabled(false);
+
+            p.actions["Fit"] = UI::Action::create();
+            p.actions["Fit"]->setIcon("djvIconWindowFit");
+            p.actions["Fit"]->setText(DJV_TEXT("Fit"));
+            p.actions["Fit"]->setShortcut(GLFW_KEY_F);
+            //! \todo Implement me!
+            p.actions["Fit"]->setEnabled(false);
+
+            p.actions["FullScreen"] = UI::Action::create();
+            p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
+            p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["FullScreen"]->setText(DJV_TEXT("Full Screen"));
+            p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+            p.fullScreenObserver = ValueObserver<bool>::create(
+                p.actions["FullScreen"]->isChecked(),
+                [weak, context](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->setFullScreen(value, context);
+                }
+            });
         }
 
         WindowSystem::WindowSystem() :
@@ -85,7 +121,55 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto menu = UI::Menu::create("Window", getContext());
+            menu->addAction(p.actions["Duplicate"]);
+            menu->addAction(p.actions["Fit"]);
+            menu->addAction(p.actions["FullScreen"]);
             return menu;
+        }
+
+        void WindowSystem::Private::setFullScreen(bool value, Context * context)
+        {
+            if (auto avSystem = context->getSystemT<AV::AVSystem>().lock())
+            {
+                auto glfwWindow = avSystem->getGLFWWindow();
+                auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
+                if (value && !glfwMonitor)
+                {
+                    glfwMonitor = glfwGetPrimaryMonitor();
+                    auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
+                    monitorSize.x = glfwMonitorMode->width;
+                    monitorSize.y = glfwMonitorMode->height;
+                    monitorRefresh = glfwMonitorMode->refreshRate;
+
+                    int x = 0;
+                    int y = 0;
+                    int w = 0;
+                    int h = 0;
+                    glfwGetWindowPos(glfwWindow, &x, &y);
+                    glfwGetWindowSize(glfwWindow, &w, &h);
+                    windowGeom = BBox2i(x, y, w, h);
+
+                    glfwSetWindowMonitor(
+                        glfwWindow,
+                        glfwMonitor,
+                        0,
+                        0,
+                        glfwMonitorMode->width,
+                        glfwMonitorMode->height,
+                        glfwMonitorMode->refreshRate);
+                }
+                else if (!value && glfwMonitor)
+                {
+                    glfwSetWindowMonitor(
+                        glfwWindow,
+                        NULL,
+                        windowGeom.x(),
+                        windowGeom.y(),
+                        windowGeom.w(),
+                        windowGeom.h(),
+                        0);
+                }
+            }
         }
 
     } // namespace ViewLib

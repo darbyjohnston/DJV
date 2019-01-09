@@ -29,28 +29,28 @@
 
 #pragma once
 
-#include <djvViewLib/IViewObject.h>
+#include <djvViewLib/IViewSystem.h>
 
 namespace djv
 {
     namespace ViewLib
-    {   
-        class Media;
-        class Workspace;
-
-        class ViewObject : public IViewObject
+    {
+        class ImageViewSystem : public IViewSystem
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(ImageViewSystem);
+
+        protected:
+            void _init(Core::Context *);
+            ImageViewSystem();
 
         public:
-            ViewObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~ViewObject() override;
-            
-            QPointer<QMenu> createMenu() override;
+            ~ImageViewSystem() override;
+
+            static std::shared_ptr<ImageViewSystem> create(Core::Context *);
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<UI::Menu> createMenu() override;
             std::string getMenuSortKey() const override;
-            
-        public Q_SLOTS:
-            void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         private:
             DJV_PRIVATE();

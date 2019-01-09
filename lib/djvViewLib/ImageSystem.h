@@ -27,46 +27,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/ViewObject.h>
+#pragma once
 
-#include <djvViewLib/Context.h>
-#include <djvViewLib/Media.h>
-
-#include <QAction>
-#include <QDockWidget>
-#include <QMenu>
+#include <djvViewLib/IViewSystem.h>
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct ViewObject::Private
+        class ImageSystem : public IViewSystem
         {
-            std::map<QString, QPointer<QAction> > actions;
+            DJV_NON_COPYABLE(ImageSystem);
+
+        protected:
+            void _init(Core::Context *);
+            ImageSystem();
+
+        public:
+            ~ImageSystem() override;
+
+            static std::shared_ptr<ImageSystem> create(Core::Context *);
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<UI::Menu> createMenu() override;
+            std::string getMenuSortKey() const override;
+
+        private:
+            DJV_PRIVATE();
         };
-        
-        ViewObject::ViewObject(const std::shared_ptr<Context> & context, QObject * parent) :
-            IViewObject("ViewObject", context, parent),
-            _p(new Private)
-        {}
-        
-        ViewObject::~ViewObject()
-        {}
-
-        std::string ViewObject::getMenuSortKey() const
-        {
-            return "3";
-        }
-        
-        QPointer<QMenu> ViewObject::createMenu()
-        {
-            auto menu = new QMenu("View");
-            return menu;
-        }
-
-        void ViewObject::setCurrentMedia(const std::shared_ptr<Media> & media)
-        {
-        }
 
     } // namespace ViewLib
 } // namespace djv

@@ -29,10 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/Enum.h>
 #include <djvViewLib/IViewSystem.h>
-
-#include <djvCore/ValueObserver.h>
 
 namespace djv
 {

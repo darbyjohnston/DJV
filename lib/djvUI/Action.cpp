@@ -49,15 +49,13 @@ namespace djv
             std::shared_ptr<ValueSubject<Style::MetricsRole> > fontSizeRole;
             std::shared_ptr<ValueSubject<std::shared_ptr<Shortcut> > > shortcut;
             std::shared_ptr<ValueSubject<bool> > enabled;
-            std::shared_ptr<ValueSubject<HAlign> > hAlign;
-            std::shared_ptr<ValueSubject<VAlign> > vAlign;
             std::shared_ptr<ValueSubject<std::string> > tooltip;
         };
 
         void Action::_init()
         {
             _p->buttonType = ValueSubject<ButtonType>::create(ButtonType::Push);
-            _p->clicked = ValueSubject<bool>::create();
+            _p->clicked = ValueSubject<bool>::create(false);
             _p->checked = ValueSubject<bool>::create(false);
             _p->icon = ValueSubject<std::string>::create();
             _p->iconSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::Icon);
@@ -66,8 +64,6 @@ namespace djv
             _p->fontSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::FontMedium);
             _p->shortcut = ValueSubject<std::shared_ptr<Shortcut> >::create();
             _p->enabled = ValueSubject<bool>::create(true);
-            _p->hAlign = ValueSubject<HAlign>::create(HAlign::Fill);
-            _p->vAlign = ValueSubject<VAlign>::create(VAlign::Fill);
             _p->tooltip = ValueSubject<std::string>::create();
         }
 
@@ -233,26 +229,6 @@ namespace djv
         void Action::setEnabled(bool value)
         {
             _p->enabled->setIfChanged(value);
-        }
-
-        std::shared_ptr<Core::IValueSubject<HAlign> > Action::getHAlign() const
-        {
-            return _p->hAlign;
-        }
-
-        std::shared_ptr<Core::IValueSubject<VAlign> > Action::getVAlign() const
-        {
-            return _p->vAlign;
-        }
-
-        void Action::setHAlign(HAlign value)
-        {
-            _p->hAlign->setIfChanged(value);
-        }
-
-        void Action::setVAlign(VAlign value)
-        {
-            _p->vAlign->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<std::string> > Action::getTooltip() const

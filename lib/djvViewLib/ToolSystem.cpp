@@ -27,66 +27,63 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/Application.h>
-
-#include <djvViewLib/FileSystem.h>
-#include <djvViewLib/HelpSystem.h>
-#include <djvViewLib/ImageSystem.h>
-#include <djvViewLib/ImageViewSystem.h>
-#include <djvViewLib/MainWindow.h>
-#include <djvViewLib/PlaybackSystem.h>
-#include <djvViewLib/SettingsSystem.h>
 #include <djvViewLib/ToolSystem.h>
-#include <djvViewLib/WindowSystem.h>
+
+#include <djvUI/Action.h>
+#include <djvUI/Menu.h>
+
+#include <djvCore/Context.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct Application::Private
+        struct ToolSystem::Private
         {
-            std::shared_ptr<FileSystem> fileSystem;
-            std::shared_ptr<WindowSystem> windowSystem;
-            std::shared_ptr<ImageViewSystem> imageViewSystem;
-            std::shared_ptr<ImageSystem> imageSystem;
-            std::shared_ptr<PlaybackSystem> playbackSystem;
-            std::shared_ptr<ToolSystem> toolSystem;
-            std::shared_ptr<HelpSystem> helpSystem;
-            std::shared_ptr<SettingsSystem> settingsSystem;
-
-            std::shared_ptr<MainWindow> mainWindow;
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
-        
-        void Application::_init(int & argc, char ** argv)
+
+        void ToolSystem::_init(Context * context)
         {
-            Desktop::Application::_init(argc, argv);
+            IViewSystem::_init("djv::ViewLib::ToolSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.fileSystem = FileSystem::create(this);
-            p.windowSystem = WindowSystem::create(this);
-            p.imageViewSystem = ImageViewSystem::create(this);
-            p.imageSystem = ImageSystem::create(this);
-            p.playbackSystem = PlaybackSystem::create(this);
-            p.toolSystem = ToolSystem::create(this);
-            p.helpSystem = HelpSystem::create(this);
-            p.settingsSystem = SettingsSystem::create(this);
-
-            p.mainWindow = MainWindow::create(this);
-            p.mainWindow->show();
         }
 
-        Application::Application() :
+        ToolSystem::ToolSystem() :
             _p(new Private)
         {}
 
-        Application::~Application()
+        ToolSystem::~ToolSystem()
         {}
 
-        std::shared_ptr<Application> Application::create(int & argc, char ** argv)
+        std::shared_ptr<ToolSystem> ToolSystem::create(Context * context)
         {
-            auto out = std::shared_ptr<Application>(new Application);
-            out->_init(argc, argv);
+            auto out = std::shared_ptr<ToolSystem>(new ToolSystem);
+            out->_init(context);
             return out;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > ToolSystem::getActions()
+        {
+            return _p->actions;
+        }
+
+        std::string ToolSystem::getMenuSortKey() const
+        {
+            return "5";
+        }
+
+        std::shared_ptr<UI::Menu> ToolSystem::createMenu()
+        {
+            DJV_PRIVATE_PTR();
+            auto menu = UI::Menu::create("Tools", getContext());
+            return menu;
         }
 
     } // namespace ViewLib
