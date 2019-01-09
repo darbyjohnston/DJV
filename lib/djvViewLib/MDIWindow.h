@@ -53,6 +53,7 @@ namespace djv
             const std::string & getTitle() const;
             void setTitle(const std::string &);
 
+            const std::shared_ptr<Media> & getMedia() const;
             void setMedia(const std::shared_ptr<Media> &);
 
             void setMaximizeCallback(const std::function<void(bool)> &);

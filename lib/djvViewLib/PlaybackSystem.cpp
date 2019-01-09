@@ -27,21 +27,130 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewLib/PlaybackObject.h>
+#include <djvViewLib/PlaybackSystem.h>
 
-#include <djvViewLib/Context.h>
+#include <djvViewLib/Application.h>
 #include <djvViewLib/Media.h>
-#include <djvViewLib/TimelineWidget.h>
 
-#include <QAction>
-#include <QDockWidget>
-#include <QMenu>
+#include <djvUI/Action.h>
+#include <djvUI/Menu.h>
+
+#include <djvCore/Context.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewLib
     {
-        struct PlaybackObject::Private
+        struct PlaybackSystem::Private
+        {
+            std::shared_ptr<Media> media;
+            std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> playbackActionGroup;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+        };
+
+        void PlaybackSystem::_init(Context * context)
+        {
+            IViewSystem::_init("djv::ViewLib::PlaybackSystem", context);
+
+            DJV_PRIVATE_PTR();
+            p.actions["Stop"] = UI::Action::create();
+            p.actions["Stop"]->setText("Stop");
+            p.actions["Stop"]->setShortcut(GLFW_KEY_K);
+
+            p.actions["Forward"] = UI::Action::create();
+            p.actions["Forward"]->setText("Forward");
+            p.actions["Forward"]->setShortcut(GLFW_KEY_L);
+
+            p.actions["Reverse"] = UI::Action::create();
+            p.actions["Reverse"]->setText("Reverse");
+            p.actions["Reverse"]->setShortcut(GLFW_KEY_J);
+
+            p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.playbackActionGroup->addAction(p.actions["Stop"]);
+            p.playbackActionGroup->addAction(p.actions["Forward"]);
+            p.playbackActionGroup->addAction(p.actions["Reverse"]);
+
+            auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
+            p.playbackActionGroup->setRadioCallback(
+                [weak](int value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (system->_p->media)
+                    {
+                        system->_p->media->setPlayback(static_cast<Playback>(value));
+                    }
+                }
+            });
+        }
+
+        PlaybackSystem::PlaybackSystem() :
+            _p(new Private)
+        {}
+
+        PlaybackSystem::~PlaybackSystem()
+        {}
+
+        std::shared_ptr<PlaybackSystem> PlaybackSystem::create(Context * context)
+        {
+            auto out = std::shared_ptr<PlaybackSystem>(new PlaybackSystem);
+            out->_init(context);
+            return out;
+        }
+
+        std::map<std::string, std::shared_ptr<UI::Action> > PlaybackSystem::getActions()
+        {
+            return _p->actions;
+        }
+
+        std::string PlaybackSystem::getMenuSortKey() const
+        {
+            return "3";
+        }
+
+        std::shared_ptr<UI::Menu> PlaybackSystem::createMenu()
+        {
+            DJV_PRIVATE_PTR();
+            auto menu = UI::Menu::create("Playback", getContext());
+            menu->addAction(p.actions["Stop"]);
+            menu->addAction(p.actions["Forward"]);
+            menu->addAction(p.actions["Reverse"]);
+            return menu;
+        }
+
+        void PlaybackSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
+        {
+            DJV_PRIVATE_PTR();
+            p.media = media;
+            p.actions["Stop"]->setEnabled(media ? true : false);
+            p.actions["Forward"]->setEnabled(media ? true : false);
+            p.actions["Reverse"]->setEnabled(media ? true : false);
+            if (media)
+            {
+                auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
+                p.playbackObserver = ValueObserver<Playback>::create(
+                    media->getPlayback(),
+                    [weak](Playback value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->playbackActionGroup->setChecked(static_cast<int>(value));
+                    }
+                });
+            }
+            else
+            {
+                p.playbackObserver.reset();
+            }
+        }
+
+        /*struct PlaybackObject::Private
         {
             std::map<QString, QPointer<QAction> > actions;
             std::map<QString, QPointer<QActionGroup> > actionGroups;
@@ -238,7 +347,7 @@ namespace djv
                 }
             }
             p.currentMedia = media;
-        }
+        }*/
 
     } // namespace ViewLib
 } // namespace djv

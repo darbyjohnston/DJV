@@ -66,6 +66,11 @@ namespace djv
             return out;
         }
 
+        const std::shared_ptr<Media> & ImageView::getMedia() const
+        {
+            return _p->media;
+        }
+
         void ImageView::setMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
@@ -96,12 +101,10 @@ namespace djv
         }
 
         void ImageView::_preLayoutEvent(Event::PreLayout& event)
-        {
-        }
+        {}
 
         void ImageView::_layoutEvent(Event::Layout&)
-        {
-        }
+        {}
 
         void ImageView::_paintEvent(Core::Event::Paint&)
         {
@@ -114,9 +117,8 @@ namespace djv
                     render->drawRectangle(g);
                     if (_p->image)
                     {
-                        glm::vec2 pos = g.min;
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                        render->drawImage(_p->image, pos, AV::Render::Render2DSystem::ImageType::Dynamic, _p->imageUID);
+                        render->drawImage(_p->image, g, AV::Render::Render2DSystem::ImageType::Dynamic, _p->imageUID);
                     }
                 }
             }

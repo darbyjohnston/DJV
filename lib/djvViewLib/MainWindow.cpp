@@ -133,6 +133,25 @@ namespace djv
                 }
             });
 
+            _p->mdiCanvas->setActiveWindowCallback(
+                [weak, context](const std::shared_ptr<UI::Widget> & value)
+            {
+                if (auto mainWindow = weak.lock())
+                {
+                    if (auto window = std::dynamic_pointer_cast<MDIWindow>(value))
+                    {
+                        auto media = window->getMedia();
+                        for (auto i : context->getSystemsT<IViewSystem>())
+                        {
+                            if (auto system = i.lock())
+                            {
+                                system->setCurrentMedia(media);
+                            }
+                        }
+                    }
+                }
+            });
+
             if (auto fileSystem = context->getSystemT<FileSystem>().lock())
             {
                 _p->openedObserver = ValueObserver<std::shared_ptr<Media> >::create(

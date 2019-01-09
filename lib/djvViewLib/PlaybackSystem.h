@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvViewLib/IViewObject.h>
+#include <djvViewLib/IViewSystem.h>
 
 namespace djv
 {
@@ -38,22 +38,22 @@ namespace djv
         class Media;
         class Workspace;
 
-        class PlaybackObject : public IViewObject
+        class PlaybackSystem : public IViewSystem
         {
-            Q_OBJECT
+            DJV_NON_COPYABLE(PlaybackSystem);
+
+        protected:
+            void _init(Core::Context *);
+            PlaybackSystem();
 
         public:
-            PlaybackObject(const std::shared_ptr<Context> &, QObject * parent = nullptr);
-            ~PlaybackObject() override;
-            
-            QPointer<QMenu> createMenu() override;
-            std::string getMenuSortKey() const override;
+            ~PlaybackSystem() override;
 
-            QPointer<QDockWidget> createDockWidget() override;
-            Qt::DockWidgetArea getDockWidgetArea() const override;
-            bool isDockWidgetVisible() const override;
-            
-        public Q_SLOTS:
+            static std::shared_ptr<PlaybackSystem> create(Core::Context *);
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
+            std::shared_ptr<UI::Menu> createMenu() override;
+            std::string getMenuSortKey() const override;
             void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         private:

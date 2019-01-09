@@ -18,7 +18,7 @@ set(header
     MainWindow.h
     Media.h
     MediaSession.h
-    #PlaybackSystem.h
+    PlaybackSystem.h
     PlaybackWidget.h
     SettingsSystem.h
     TimelineSlider.h
@@ -47,7 +47,7 @@ set(source
     MainWindow.cpp
     Media.cpp
     MediaSession.cpp
-    #PlaybackSystem.cpp
+    PlaybackSystem.cpp
     PlaybackWidget.cpp
     SettingsSystem.cpp
     TimelineSlider.cpp

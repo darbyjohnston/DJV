@@ -160,6 +160,11 @@ namespace djv
             _p->titleLabel->setText(text);
         }
 
+        const std::shared_ptr<Media> & MDIWindow::getMedia() const
+        {
+            return _p->imageView->getMedia();
+        }
+
         void MDIWindow::setMedia(const std::shared_ptr<Media> & value)
         {
             _p->imageView->setMedia(value);
