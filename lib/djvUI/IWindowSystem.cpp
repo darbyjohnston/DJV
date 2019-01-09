@@ -109,6 +109,15 @@ namespace djv
             return out;
         }
 
+        void IWindowSystem::_styleChangedRecursive(const std::shared_ptr<UI::Widget>& widget, Event::StyleChanged& event)
+        {
+            for (const auto& child : widget->getChildrenT<UI::Widget>())
+            {
+                _styleChangedRecursive(child, event);
+            }
+            widget->event(event);
+        }
+
         void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::PreLayout& event)
         {
             for (const auto& child : widget->getChildrenT<UI::Widget>())

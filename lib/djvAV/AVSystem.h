@@ -32,6 +32,7 @@
 #include <djvAV/AV.h>
 
 #include <djvCore/ISystem.h>
+#include <djvCore/ListObserver.h>
 
 struct GLFWwindow;
 
@@ -58,7 +59,10 @@ namespace djv
 
             //! Make the default OpenGL context current.
             void makeGLContextCurrent();
-            
+
+            //! Observe the list of avilable DPI values.
+            std::shared_ptr<Core::IListSubject<int> > observeDPIList() const;
+
             //! Set the DPI.
             void setDPI(int);
 

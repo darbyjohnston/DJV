@@ -29,61 +29,45 @@
 
 #pragma once
 
-#include <djvUI/IWindowSystem.h>
-
-#include <djvCore/Event.h>
-
-struct GLFWwindow;
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        class IObject;
-    
-    } // namespace Core
-    
     namespace UI
     {
-        class Widget;
-
-    } // namespace UI
-
-    namespace Desktop
-    {
-        class WindowSystem : public UI::IWindowSystem
+        namespace Layout
         {
-            DJV_NON_COPYABLE(WindowSystem);
-            
-        protected:
-            void _init(GLFWwindow *, Core::Context *);
-            WindowSystem();
+            //! This class provides a form layout.
+            class Form : public Widget
+            {
+                DJV_NON_COPYABLE(Form);
 
-        public:
-            virtual ~WindowSystem();
+            protected:
+                void _init(Core::Context *);
+                Form();
 
-            static std::shared_ptr<WindowSystem> create(GLFWwindow *, Core::Context *);
+            public:
+                virtual ~Form();
 
-            std::shared_ptr<Core::IObject> getRootObject() const;
+                static std::shared_ptr<Form> create(Core::Context *);
 
-        protected:
-            void _addWindow(const std::shared_ptr<UI::Window>&) override;
-            void _removeWindow(const std::shared_ptr<UI::Window>&) override;
-            void _pushClipRect(const Core::BBox2f &) override;
-            void _popClipRect() override;
-            void _tick(float dt) override;
+                void addWidget(const std::shared_ptr<Widget>&);
+                void addWidget(const std::string &, const std::shared_ptr<Widget>&);
+                void removeWidget(const std::shared_ptr<Widget>&);
+                void clearWidgets();
 
-        private:
-            void _styleChanged();
-            void _resize(const glm::ivec2 &);
-            void _redraw();
+                float getHeightForWidth(float) const override;
 
-            static void _resizeCallback(GLFWwindow*, int, int);
-            static void _redrawCallback(GLFWwindow*);
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
 
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+            private:
+                struct Private;
+                std::unique_ptr<Private> _p;
+            };
 
-    } // namespace Desktop
+        } // namespace Layout
+    } // namespace UI
 } // namespace djv
+

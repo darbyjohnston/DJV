@@ -108,121 +108,129 @@ namespace djv
             float Splitter::getHeightForWidth(float value) const
             {
                 float out = 0.f;
-
-                // Get the child sizes.
-                for (const auto& child : getChildrenT<Widget>())
+                if (auto style = _getStyle().lock())
                 {
-                    if (child->isVisible())
+                    // Get the child sizes.
+                    for (const auto& child : getChildrenT<Widget>())
                     {
-                        const float heightForWidth = child->getHeightForWidth(value);
-                        switch (_p->orientation)
+                        if (child->isVisible())
                         {
-                        case Orientation::Horizontal:
-                            out = std::max(out, heightForWidth);
-                            break;
-                        case Orientation::Vertical:
-                            out += heightForWidth;
-                            break;
-                        default: break;
+                            const float heightForWidth = child->getHeightForWidth(value);
+                            switch (_p->orientation)
+                            {
+                            case Orientation::Horizontal:
+                                out = std::max(out, heightForWidth);
+                                break;
+                            case Orientation::Vertical:
+                                out += heightForWidth;
+                                break;
+                            default: break;
+                            }
                         }
                     }
-                }
 
-                // Add the splitter size.
-                switch (_p->orientation)
-                {
-                case Orientation::Vertical:
-                    out += _p->splitterWidth;
-                    break;
-                default: break;
-                }
+                    // Add the splitter size.
+                    switch (_p->orientation)
+                    {
+                    case Orientation::Vertical:
+                        out += _p->splitterWidth;
+                        break;
+                    default: break;
+                    }
 
+                    out += getMargin().getHeight(style);
+                }
                 return out;
             }
 
             void Splitter::_preLayoutEvent(Event::PreLayout& event)
             {
-                // Get the child sizes.
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                for (const auto& child : getChildrenT<Widget>())
+                if (auto style = _getStyle().lock())
                 {
-                    if (child->isVisible())
+                    // Get the child sizes.
+                    glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                    for (const auto& child : getChildrenT<Widget>())
                     {
-                        const glm::vec2& size = child->getMinimumSize();
-                        switch (_p->orientation)
+                        if (child->isVisible())
                         {
-                        case Orientation::Horizontal:
-                            minimumSize.x += size.x;
-                            minimumSize.y = std::max(size.y, minimumSize.y);
-                            break;
-                        case Orientation::Vertical:
-                            minimumSize.x = std::max(size.x, minimumSize.x);
-                            minimumSize.y += size.y;
-                            break;
-                        default: break;
+                            const glm::vec2& size = child->getMinimumSize();
+                            switch (_p->orientation)
+                            {
+                            case Orientation::Horizontal:
+                                minimumSize.x += size.x;
+                                minimumSize.y = std::max(size.y, minimumSize.y);
+                                break;
+                            case Orientation::Vertical:
+                                minimumSize.x = std::max(size.x, minimumSize.x);
+                                minimumSize.y += size.y;
+                                break;
+                            default: break;
+                            }
                         }
                     }
-                }
 
-                // Add the splitter size.
-                switch (_p->orientation)
-                {
-                case Orientation::Horizontal:
-                    minimumSize.x += _p->splitterWidth;
-                    break;
-                case Orientation::Vertical:
-                    minimumSize.y += _p->splitterWidth;
-                    break;
-                default: break;
-                }
+                    // Add the splitter size.
+                    switch (_p->orientation)
+                    {
+                    case Orientation::Horizontal:
+                        minimumSize.x += _p->splitterWidth;
+                        break;
+                    case Orientation::Vertical:
+                        minimumSize.y += _p->splitterWidth;
+                        break;
+                    default: break;
+                    }
 
-                _setMinimumSize(minimumSize);
+                    _setMinimumSize(minimumSize + getMargin().getSize(style));
+                }
             }
 
             void Splitter::_layoutEvent(Event::Layout& event)
             {
-                const auto style = _getStyle();
-                const BBox2f& g = getGeometry();
+                if (auto style = _getStyle().lock())
+                {
+                    const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
-                const auto children = getChildrenT<Widget>();
-                const size_t childrenSize = children.size();
-                if (2 == childrenSize)
-                {
-                    BBox2f bbox;
-                    switch (_p->orientation)
+                    const auto children = getChildrenT<Widget>();
+                    const size_t childrenSize = children.size();
+                    if (2 == childrenSize)
                     {
-                    case Orientation::Horizontal:
-                        bbox.min.x = g.min.x;
-                        bbox.min.y = g.min.y;
-                        bbox.max.x = _valueToPos(_p->split) - _p->splitterWidth / 2.f;
-                        bbox.max.y = g.max.y;
-                        children[0]->setGeometry(bbox);
-                        bbox.min.x = bbox.max.x + _p->splitterWidth;
-                        bbox.min.y = g.min.y;
-                        bbox.max.x = g.max.x;
-                        bbox.max.y = g.max.y;
-                        children[1]->setGeometry(bbox);
-                        break;
-                    case Orientation::Vertical:
-                        bbox.min.x = g.min.x;
-                        bbox.min.y = g.min.y;
-                        bbox.max.x = g.max.x;
-                        bbox.max.y = _valueToPos(_p->split) - _p->splitterWidth / 2.f;
-                        children[0]->setGeometry(bbox);
-                        bbox.min.x = g.min.x;
-                        bbox.min.y = bbox.max.y + _p->splitterWidth;
-                        bbox.max.x = g.max.x;
-                        bbox.max.y = g.max.y;
-                        children[1]->setGeometry(bbox);
-                        break;
-                    default: break;
+                        BBox2f bbox;
+                        switch (_p->orientation)
+                        {
+                        case Orientation::Horizontal:
+                            bbox.min.x = g.min.x;
+                            bbox.min.y = g.min.y;
+                            bbox.max.x = _valueToPos(_p->split) - _p->splitterWidth / 2.f;
+                            bbox.max.y = g.max.y;
+                            children[0]->setGeometry(bbox);
+                            bbox.min.x = bbox.max.x + _p->splitterWidth;
+                            bbox.min.y = g.min.y;
+                            bbox.max.x = g.max.x;
+                            bbox.max.y = g.max.y;
+                            children[1]->setGeometry(bbox);
+                            break;
+                        case Orientation::Vertical:
+                            bbox.min.x = g.min.x;
+                            bbox.min.y = g.min.y;
+                            bbox.max.x = g.max.x;
+                            bbox.max.y = _valueToPos(_p->split) - _p->splitterWidth / 2.f;
+                            children[0]->setGeometry(bbox);
+                            bbox.min.x = g.min.x;
+                            bbox.min.y = bbox.max.y + _p->splitterWidth;
+                            bbox.max.x = g.max.x;
+                            bbox.max.y = g.max.y;
+                            children[1]->setGeometry(bbox);
+                            break;
+                        default: break;
+                        }
                     }
-                }
-                else
-                {
-                    for (const auto& child : children)
+                    else
                     {
-                        child->setGeometry(g);
+                        for (const auto& child : children)
+                        {
+                            child->setGeometry(g);
+                        }
                     }
                 }
             }

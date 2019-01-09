@@ -60,6 +60,7 @@ namespace djv
             void setIconSizeRole(Style::MetricsRole);
 
         protected:
+            void _styleChangedEvent(Core::Event::StyleChanged&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _paintEvent(Core::Event::Paint&) override;
 

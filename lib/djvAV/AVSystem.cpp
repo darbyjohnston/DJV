@@ -39,6 +39,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
+#include <djvCore/FileInfo.h>
 #include <djvCore/OS.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
@@ -96,6 +97,7 @@ namespace djv
         struct AVSystem::Private
         {
             int dpi = dpiDefault;
+            std::shared_ptr<ListSubject<int> > dpiList;
             GLFWwindow * glfwWindow = nullptr;
             std::vector<std::shared_ptr<ISystem> > avSystems;
         };
@@ -104,9 +106,32 @@ namespace djv
         {
             ISystem::_init("djv::AV::AVSystem", context);
 
+            logSystemWeak = context->getSystemT<LogSystem>();
+
             DJV_PRIVATE_PTR();
 
-            logSystemWeak = context->getSystemT<LogSystem>();
+            // Find the DPI values.
+            std::vector<int> dpiList;
+            for (const auto& i : FileSystem::FileInfo::directoryList(context->getPath(FileSystem::ResourcePath::IconsDirectory)))
+            {
+                const std::string fileName = i.getFileName(Frame::Invalid, false);
+                const size_t size = fileName.size();
+                if (size > 3 &&
+                    fileName[size - 3] == 'D' &&
+                    fileName[size - 2] == 'P' &&
+                    fileName[size - 1] == 'I')
+                {
+                    dpiList.push_back(std::stoi(fileName.substr(0, size - 3)));
+                }
+            }
+            std::sort(dpiList.begin(), dpiList.end());
+            for (const auto & i : dpiList)
+            {
+                std::stringstream ss;
+                ss << "Found DPI: " << i;
+                context->log("djv::AV::AVSystem", ss.str());
+            }
+            p.dpiList = ListSubject<int>::create(dpiList);
 
             // Initialize GLFW.
             glfwSetErrorCallback(glfwErrorCallback);
@@ -144,7 +169,6 @@ namespace djv
                     ss << "Primary monitor size: " << mm << "mm\n";
                     ss << "Primary monitor DPI: " << dpi;
                     context->log("djv::AV::AVSystem", ss.str());
-                    ss.str(std::string());
                 }
             }
 
@@ -241,16 +265,17 @@ namespace djv
             glfwMakeContextCurrent(p.glfwWindow);
         }
 
+        std::shared_ptr<Core::IListSubject<int> > AVSystem::observeDPIList() const
+        {
+            return _p->dpiList;
+        }
+
         void AVSystem::setDPI(int value)
         {
             if (value == _p->dpi)
                 return;
             _p->dpi = value;
             auto context = getContext();
-            if (auto fontSystem = context->getSystemT<Font::System>().lock())
-            {
-                fontSystem->setDPI(value);
-            }
             if (auto iconSystem = context->getSystemT<Image::IconSystem>().lock())
             {
                 iconSystem->setDPI(value);

@@ -29,6 +29,8 @@
 
 #include <djvDesktop/WindowSystem.h>
 
+#include <djvUI/Style.h>
+#include <djvUI/StyleSettings.h>
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
@@ -61,6 +63,7 @@ namespace djv
             bool resizeRequest = false;
             bool redrawRequest = false;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
+            std::shared_ptr<ValueObserver<bool> > styleChangedObserver;
         };
 
         void WindowSystem::_init(GLFWwindow * glfwWindow, Context * context)
@@ -72,6 +75,23 @@ namespace djv
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
 
             _p->rootObject = std::shared_ptr<RootObject>(new RootObject);
+
+            if (auto style = context->getSystemT<UI::Style::Style>().lock())
+            {
+                auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+                _p->styleChangedObserver = ValueObserver<bool>::create(
+                    style->observeStyleChanged(),
+                    [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_styleChanged();
+                        }
+                    }
+                });
+            }
         }
 
         WindowSystem::WindowSystem() :
@@ -181,6 +201,15 @@ namespace djv
                         _redraw();
                     }
                 }
+            }
+        }
+
+        void WindowSystem::_styleChanged()
+        {
+            Event::StyleChanged styleChangedEvent;
+            for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
+            {
+                _styleChangedRecursive(i, styleChangedEvent);
             }
         }
 

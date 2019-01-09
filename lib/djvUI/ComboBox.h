@@ -54,6 +54,8 @@ namespace djv
 
             const std::vector<std::string> & getItems() const;
             void setItems(const std::vector<std::string> &);
+            void addItem(const std::string &);
+            void clearItems();
 
             int getCurrentItem() const;
             void setCurrentItem(int);

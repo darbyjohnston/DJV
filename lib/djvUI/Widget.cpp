@@ -319,6 +319,9 @@ namespace djv
                     }
                     break;
                 }
+                case Event::Type::StyleChanged:
+                    _styleChangedEvent(static_cast<Event::StyleChanged&>(event));
+                    break;
                 case Event::Type::PreLayout:
                     _preLayoutEvent(static_cast<Event::PreLayout&>(event));
                     break;

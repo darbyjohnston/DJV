@@ -85,6 +85,10 @@ namespace djv
                 {
                     widget->setCurrentItem(value);
                     widget->_p->menu->hide();
+                    if (widget->_p->callback)
+                    {
+                        widget->_p->callback(value);
+                    }
                 }
             });
 
@@ -150,6 +154,29 @@ namespace djv
             setCurrentItem(Math::clamp(_p->currentItem, 0, static_cast<int>(_p->items.size()) - 1));
         }
 
+        void ComboBox::addItem(const std::string & value)
+        {
+            _p->items.push_back(value);
+            auto action = Action::create();
+            action->setText(value);
+            _p->actionGroup->addAction(action);
+            _p->menu->addAction(action);
+            if (-1 == _p->currentItem)
+            {
+                setCurrentItem(0);
+            }
+        }
+
+        void ComboBox::clearItems()
+        {
+            if (_p->items.size())
+            {
+                _p->items.clear();
+                _updateItems();
+                setCurrentItem(-1);
+            }
+        }
+
         int ComboBox::getCurrentItem() const
         {
             return _p->currentItem;
@@ -195,6 +222,7 @@ namespace djv
         {
             if (_p->currentItem >= 0 && _p->currentItem < _p->items.size())
             {
+                _p->actionGroup->setChecked(_p->currentItem);
                 _p->button->setText(_p->items[_p->currentItem]);
             }
         }

@@ -64,15 +64,19 @@ namespace djv
                 std::map<std::string, UI::Style::Palette> palettes;
                 palettes[DJV_TEXT("Default")] = UI::Style::Palette();
                 auto palette = UI::Style::Palette();
-                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(1.f, 1.f, 1.f));
+                palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.95f, .95f, .95f));
+                palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(1.f, 1.f, 1.f));
+                palette.setColor(UI::Style::ColorRole::BackgroundText, AV::Image::Color(.9f, .9f, .9f));
                 palette.setColor(UI::Style::ColorRole::Foreground, AV::Image::Color(.1f, .1f, .1f));
-                palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(.9f, .9f, .9f));
+                palette.setColor(UI::Style::ColorRole::ForegroundDim, AV::Image::Color(.3f, .3f, .3f));
+                palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(.4f, .4f, .4f));
+                palette.setColor(UI::Style::ColorRole::Trough, AV::Image::Color(.7f, .7f, .7f));
                 palette.setColor(UI::Style::ColorRole::Button, AV::Image::Color(.8f, .8f, .8f));
                 palette.setColor(UI::Style::ColorRole::Checked, AV::Image::Color(.3f, .5f, .8f));
                 palette.setColor(UI::Style::ColorRole::CheckedForeground, AV::Image::Color(1.f, 1.f, 1.f));
-                palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(0.f, 0.f, 0.f, .05f));
-                palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f));
-                palette.setColor(UI::Style::ColorRole::Border, AV::Image::Color(.9f, .9f, .9f));
+                palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(1.f, 1.f, 1.f, .5f));
+                palette.setColor(UI::Style::ColorRole::Disabled, AV::Image::Color(.5f, .5f, .5f, .05f));
+                palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(1.f, 1.f, 1.f, .5f));
                 palettes[DJV_TEXT("Light")] = palette;
 
                 std::map<std::string, UI::Style::Metrics> metrics;
@@ -122,13 +126,7 @@ namespace djv
             void Style::setCurrentPalette(const std::string& name)
             {
                 DJV_PRIVATE_PTR();
-                if (p.currentPaletteName->setIfChanged(name))
-                {
-                    /*if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
-                    {
-                        style->setPalette(p.palettes->getItem(name));
-                    }*/
-                }
+                p.currentPaletteName->setIfChanged(name);
             }
 
             std::shared_ptr<IValueSubject<int> > Style::observeDPI() const
@@ -154,25 +152,13 @@ namespace djv
             void Style::setDPI(int value)
             {
                 DJV_PRIVATE_PTR();
-                if (p.dpi->setIfChanged(value))
-                {
-                    /*if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
-                    {
-                        style->setDPI(value);
-                    }*/
-                }
+                p.dpi->setIfChanged(value);
             }
 
             void Style::setCurrentMetrics(const std::string& name)
             {
                 DJV_PRIVATE_PTR();
-                if (p.currentMetricsName->setIfChanged(name))
-                {
-                    /*if (auto style = getContext()->getSystemT<UI::Style::Style>().lock())
-                    {
-                        style->setMetrics(p.metrics->getItem(name));
-                    }*/
-                }
+                p.currentMetricsName->setIfChanged(name);
             }
 
             void Style::load(const picojson::value& value)

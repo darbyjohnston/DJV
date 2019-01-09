@@ -255,6 +255,7 @@ namespace djv
                 _p->layout->addSeparator();
                 _p->layout->addWidget(topToolBar);
                 auto splitter = Layout::Splitter::create(Orientation::Horizontal, context);
+                splitter->setMargin(Layout::Margin(Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall, Style::MetricsRole::None, Style::MetricsRole::None));
                 splitter->addWidget(shortcutsWidget);
                 splitter->addWidget(_p->scrollWidget);
                 splitter->setSplit(.15f);

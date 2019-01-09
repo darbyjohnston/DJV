@@ -81,6 +81,7 @@ namespace djv
 
         protected:
             void _updateEvent(Core::Event::Update&) override;
+            void _styleChangedEvent(Core::Event::StyleChanged&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _paintEvent(Core::Event::Paint&) override;
 

@@ -54,6 +54,7 @@ namespace djv
                 ChildRemoved,
                 LocaleChanged,
                 Update,
+                StyleChanged,
                 PreLayout,
                 Layout,
                 Clip,
@@ -134,7 +135,7 @@ namespace djv
                 std::shared_ptr<IObject> _child;
             };
 
-            //! This class provides an event foe when the locale changes.
+            //! This class provides an event for when the locale changes.
             class LocaleChanged : public IEvent
             {
             public:
@@ -158,6 +159,13 @@ namespace djv
             private:
                 float _t;
                 float _dt;
+            };
+
+            //! This class provides an event for when the style changes.
+            class StyleChanged : public IEvent
+            {
+            public:
+                inline StyleChanged();
             };
 
             //! This class provides an event to prepare for user interface layout.

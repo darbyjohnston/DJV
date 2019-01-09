@@ -30,6 +30,7 @@
 #include <djvAV/IconSystem.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/IO.h>
 #include <djvAV/Image.h>
 #include <djvAV/ThumbnailSystem.h>
 
@@ -84,6 +85,7 @@ namespace djv
                         return thumbnailSystem->getInfo(_p->getPath(name, context));
                     }
                 }
+                return std::future<IO::Info>();
             }
 
             std::future<std::shared_ptr<Image> > IconSystem::getImage(const std::string & name)
@@ -96,6 +98,7 @@ namespace djv
                         return thumbnailSystem->getImage(_p->getPath(name, context));
                     }
                 }
+                return std::future<std::shared_ptr<Image> >();
             }
 
             FileSystem::Path IconSystem::Private::getPath(const std::string & name, Context * context)

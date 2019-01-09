@@ -11,6 +11,7 @@ set(header
     FlowLayout.h
     FontSettings.h
     FontSettingsInline.h
+    FormLayout.h
     GeneralSettings.h
     GridLayout.h
     GroupBox.h
@@ -74,6 +75,7 @@ set(source
     FileBrowserPrivate.cpp
     FlowLayout.cpp
     FontSettings.cpp
+    FormLayout.cpp
     GeneralSettings.cpp
     GridLayout.cpp
     GroupBox.cpp

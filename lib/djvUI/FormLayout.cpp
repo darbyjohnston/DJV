@@ -27,14 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/GroupBox.h>
+#include <djvUI/FormLayout.h>
 
-#include <djvUI/Border.h>
+#include <djvUI/GridLayout.h>
 #include <djvUI/Label.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/StackLayout.h>
-
-#include <djvAV/Render2DSystem.h>
 
 using namespace djv::Core;
 
@@ -44,90 +40,72 @@ namespace djv
     {
         namespace Layout
         {
-            struct GroupBox::Private
+            struct Form::Private
             {
-                std::shared_ptr<Label> label;
-                std::shared_ptr<Layout::Stack> childLayout;
-                std::shared_ptr<Layout::Vertical> layout;
+                std::shared_ptr<Grid> layout;
             };
 
-            void GroupBox::_init(Context * context)
+            void Form::_init(Context * context)
             {
-                IContainer::_init(context);
+                Widget::_init(context);
 
-                setClassName("djv::UI::Layout::GroupBox");
+                setClassName("djv::UI::Layout::Form");
 
-                _p->label = Label::create(context);
-                _p->label->setFontSizeRole(Style::MetricsRole::FontLarge);
-                _p->label->setTextHAlign(TextHAlign::Left);
-                _p->label->setMargin(Style::MetricsRole::MarginSmall);
-                
-                _p->childLayout = Layout::Stack::create(context);
-                _p->childLayout->setMargin(Style::MetricsRole::Margin);
-
-                auto border = Layout::Border::create(context);
-                border->addWidget(_p->childLayout);
-
-                _p->layout = Layout::Vertical::create(context);
-                _p->layout->setSpacing(Style::MetricsRole::None);
-                _p->layout->addWidget(_p->label);
-                _p->layout->addWidget(border);
-                IContainer::addWidget(_p->layout);
+                _p->layout = Grid::create(context);
+                _p->layout->setParent(shared_from_this());
             }
 
-            GroupBox::GroupBox() :
+            Form::Form() :
                 _p(new Private)
             {}
 
-            GroupBox::~GroupBox()
+            Form::~Form()
             {}
 
-            std::shared_ptr<GroupBox> GroupBox::create(Context * context)
+            std::shared_ptr<Form> Form::create(Context * context)
             {
-                auto out = std::shared_ptr<GroupBox>(new GroupBox);
+                auto out = std::shared_ptr<Form>(new Form);
                 out->_init(context);
                 return out;
             }
 
-            std::shared_ptr<GroupBox> GroupBox::create(const std::string & text, Context * context)
+            void Form::addWidget(const std::shared_ptr<Widget>& value)
             {
-                auto out = std::shared_ptr<GroupBox>(new GroupBox);
-                out->_init(context);
-                out->setText(text);
-                return out;
+                const glm::ivec2 gridSize = _p->layout->getGridSize();
+                _p->layout->addWidget(value, glm::ivec2(0, gridSize.y));
             }
 
-            void GroupBox::setText(const std::string & text)
+            void Form::addWidget(const std::string & text, const std::shared_ptr<Widget>& value)
             {
-                _p->label->setText(text);
-            }
-            
-            void GroupBox::addWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->childLayout->addWidget(value);
-            }
-
-            void GroupBox::removeWidget(const std::shared_ptr<Widget>& value)
-            {
-                _p->childLayout->removeWidget(value);
+                auto label = Label::create(text, getContext());
+                label->setTextHAlign(TextHAlign::Left);
+                label->setMargin(Style::MetricsRole::MarginSmall);
+                const glm::ivec2 gridSize = _p->layout->getGridSize();
+                _p->layout->addWidget(label, glm::ivec2(0, gridSize.y));
+                _p->layout->addWidget(value, glm::ivec2(1, gridSize.y));
             }
 
-            void GroupBox::clearWidgets()
+            void Form::removeWidget(const std::shared_ptr<Widget>& value)
             {
-                _p->childLayout->clearWidgets();
+                _p->layout->removeWidget(value);
             }
 
-            float GroupBox::getHeightForWidth(float value) const
+            void Form::clearWidgets()
+            {
+                _p->layout->clearWidgets();
+            }
+
+            float Form::getHeightForWidth(float value) const
             {
                 return _p->layout->getHeightForWidth(value);
             }
 
-            void GroupBox::_preLayoutEvent(Event::PreLayout& event)
+            void Form::_preLayoutEvent(Event::PreLayout& event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void GroupBox::_layoutEvent(Event::Layout& event)
+            void Form::_layoutEvent(Event::Layout& event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

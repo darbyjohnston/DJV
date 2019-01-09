@@ -34,13 +34,19 @@
 #include <djvAV/Color.h>
 #include <djvAV/FontSystem.h>
 
+#include <djvCore/ValueObserver.h>
+
 #include <glm/vec2.hpp>
 
 namespace djv
 {
     namespace UI
     {
-        class StyleSettings;
+        namespace Settings
+        {
+            class Style;
+
+        } // namespace Settings
 
         //! This namespace provides styling.
         namespace Style
@@ -162,7 +168,7 @@ namespace djv
                 static std::shared_ptr<Style> create(Core::Context *);
 
                 //! Get the style settings.
-                const std::shared_ptr<StyleSettings>& getSettings() const;
+                const std::shared_ptr<Settings::Style>& getSettings() const;
 
                 //! \name Color Palette
                 ///@{
@@ -188,6 +194,8 @@ namespace djv
                 AV::Font::Info getFont(const std::string &, MetricsRole) const;
 
                 ///@}
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeStyleChanged() const;
 
             private:
                 void _updateCurrentFont();

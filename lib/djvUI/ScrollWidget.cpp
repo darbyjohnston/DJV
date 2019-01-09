@@ -45,25 +45,21 @@
 
 using namespace djv::Core;
 
-namespace
-{
-    //! \todo [1.0 S] Should this be configurable?
-    const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
-    const float  velocityDecay              = .99f;  // How quickly the velocity decays.
-    const float  velocityStopDelta          = 5.f;   // The minimum amount of movement to stop the velocity.
-    const size_t pointerAverageCount        = 5;     // The number of pointer samples to average.
-    const float  pointerAverageDecay        = .99f;  // How quickly the pointer samples decay.
-    const size_t pointerAverageDecayTimeout = 100;   // The timer resolution for pointer sample decay.
-    const float  scrollWheelMult            = 50.f;  // The scroll wheel multiplier.
-
-} // namespace
-
 namespace djv
 {
     namespace UI
     {
         namespace
         {
+            //! \todo [1.0 S] Should this be configurable?
+            const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
+            const float  velocityDecay              = .99f;  // How quickly the velocity decays.
+            const float  velocityStopDelta          = 5.f;   // The minimum amount of movement to stop the velocity.
+            const size_t pointerAverageCount        = 5;     // The number of pointer samples to average.
+            const float  pointerAverageDecay        = .99f;  // How quickly the pointer samples decay.
+            const size_t pointerAverageDecayTimeout = 100;   // The timer resolution for pointer sample decay.
+            const float  scrollWheelMult            = 50.f;  // The scroll wheel multiplier.
+
             class ScrollBar : public Widget
             {
                 DJV_NON_COPYABLE(ScrollBar);
@@ -594,7 +590,6 @@ namespace djv
             layout->addWidget(_p->scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
             
             _p->border = Layout::Border::create(context);
-            //_p->border->setBorderSize(Style::MetricsRole::None);
             _p->border->addWidget(layout);
             IContainer::addWidget(_p->border);
 

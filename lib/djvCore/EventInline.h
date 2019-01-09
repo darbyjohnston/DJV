@@ -122,6 +122,10 @@ namespace djv
                 return _dt;
             }
 
+            inline StyleChanged::StyleChanged() :
+                IEvent(Type::StyleChanged)
+            {}
+
             inline PreLayout::PreLayout() :
                 IEvent(Type::PreLayout)
             {}

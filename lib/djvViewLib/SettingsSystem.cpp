@@ -31,15 +31,21 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Border.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/IWindowSystem.h>
 #include <djvUI/Icon.h>
+#include <djvUI/FormLayout.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/Style.h>
+#include <djvUI/StyleSettings.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
+
+#include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
 
@@ -106,6 +112,7 @@ namespace djv
                     }
                     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
                     scrollWidget->setBorder(false);
+                    scrollWidget->setBackgroundRole(UI::Style::ColorRole::Background);
                     scrollWidget->addWidget(settingsLayout);
                     
                     auto hLayout = UI::Layout::Horizontal::create(context);
@@ -149,6 +156,120 @@ namespace djv
                     GroupBox::_init(context);
                     
                     setText(DJV_TEXT("General"));
+
+                    auto paletteComboBox = UI::ComboBox::create(context);
+                    auto dpiComboBox = UI::ComboBox::create(context);
+
+                    auto formLayout = UI::Layout::Form::create(context);
+                    formLayout->addWidget(DJV_TEXT("Color palette"), paletteComboBox);
+                    formLayout->addWidget(DJV_TEXT("DPI"), dpiComboBox);
+                    addWidget(formLayout);
+
+                    auto weak = std::weak_ptr<GeneralSettingsWidget>(std::dynamic_pointer_cast<GeneralSettingsWidget>(shared_from_this()));
+                    paletteComboBox->setCallback(
+                        [weak, context](int value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto style = context->getSystemT<UI::Style::Style>().lock())
+                            {
+                                const auto i = widget->_indexToPalette.find(value);
+                                if (i != widget->_indexToPalette.end())
+                                {
+                                    style->getSettings()->setCurrentPalette(i->second);
+                                }
+                            }
+                        }
+                    });
+                    dpiComboBox->setCallback(
+                        [weak, context](int value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto style = context->getSystemT<UI::Style::Style>().lock())
+                            {
+                                const auto i = widget->_indexToDPI.find(value);
+                                if (i != widget->_indexToDPI.end())
+                                {
+                                    style->getSettings()->setDPI(i->second);
+                                }
+                            }
+                        }
+                    });
+
+                    if (auto avSystem = context->getSystemT<AV::AVSystem>().lock())
+                    {
+                        _dpiListObserver = ListObserver<int>::create(
+                            avSystem->observeDPIList(),
+                            [weak, dpiComboBox](const std::vector<int> & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_indexToDPI.clear();
+                                widget->_dpiToIndex.clear();
+                                dpiComboBox->clearItems();
+                                size_t j = 0;
+                                for (const auto & i : value)
+                                {
+                                    widget->_indexToDPI[j] = i;
+                                    widget->_dpiToIndex[i] = j;
+                                    std::stringstream ss;
+                                    ss << i;
+                                    dpiComboBox->addItem(ss.str());
+                                    ++j;
+                                }
+                            }
+                        });
+                    }
+
+                    if (auto style = _getStyle().lock())
+                    {
+                        _palettesObserver = MapObserver<std::string, UI::Style::Palette>::create(
+                            style->getSettings()->observePalettes(),
+                            [weak, paletteComboBox](const std::map<std::string, UI::Style::Palette > & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_indexToPalette.clear();
+                                widget->_paletteToIndex.clear();
+                                paletteComboBox->clearItems();
+                                size_t j = 0;
+                                for (const auto & i : value)
+                                {
+                                    widget->_indexToPalette[j] = i.first;
+                                    widget->_paletteToIndex[i.first] = j;
+                                    paletteComboBox->addItem(i.first);
+                                    ++j;
+                                }
+                            }
+                        });
+                        _currentPaletteObserver = ValueObserver<std::string>::create(
+                            style->getSettings()->observeCurrentPaletteName(),
+                            [weak, paletteComboBox](const std::string & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                const auto i = widget->_paletteToIndex.find(value);
+                                if (i != widget->_paletteToIndex.end())
+                                {
+                                    paletteComboBox->setCurrentItem(static_cast<int>(i->second));
+                                }
+                            }
+                        });
+                        _dpiObserver = ValueObserver<int>::create(
+                            style->getSettings()->observeDPI(),
+                            [weak, dpiComboBox](int value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                const auto i = widget->_dpiToIndex.find(value);
+                                if (i != widget->_dpiToIndex.end())
+                                {
+                                    dpiComboBox->setCurrentItem(static_cast<int>(i->second));
+                                }
+                            }
+                        });
+                    }
                 }
 
                 GeneralSettingsWidget()
@@ -161,6 +282,16 @@ namespace djv
                     out->_init(context);
                     return out;
                 }
+
+            private:
+                std::map<size_t, std::string> _indexToPalette;
+                std::map<std::string, size_t> _paletteToIndex;
+                std::map<size_t, int> _indexToDPI;
+                std::map<int, size_t> _dpiToIndex;
+                std::shared_ptr<MapObserver<std::string, UI::Style::Palette> > _palettesObserver;
+                std::shared_ptr<ValueObserver<std::string> > _currentPaletteObserver;
+                std::shared_ptr<ListObserver<int> > _dpiListObserver;
+                std::shared_ptr<ValueObserver<int> > _dpiObserver;
             };
                
         } // namespace

@@ -184,6 +184,7 @@ namespace djv
                 std::string currentLocale;
                 std::map<std::string, Settings::FontMap> fonts;
                 Settings::FontMap currentFont;
+                std::shared_ptr<ValueSubject<bool> > styleChanged;
                 std::shared_ptr<ValueObserver<Palette> > paletteObserver;
                 std::shared_ptr<ValueObserver<int> > dpiObserver;
                 std::shared_ptr<ValueObserver<Metrics> > metricsObserver;
@@ -197,6 +198,7 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 p.settings = Settings::Style::create(context);
+                p.styleChanged = ValueSubject<bool>::create(false);
 
                 auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
                 p.paletteObserver = ValueObserver<Palette>::create(
@@ -206,6 +208,7 @@ namespace djv
                     if (auto style = weak.lock())
                     {
                         style->_p->palette = value;
+                        style->_p->styleChanged->setAlways(true);
                     }
                 });
 
@@ -220,6 +223,7 @@ namespace djv
                         {
                             avSystem->setDPI(value);
                         }
+                        style->_p->styleChanged->setAlways(true);
                     }
                 });
 
@@ -230,6 +234,7 @@ namespace djv
                     if (auto style = weak.lock())
                     {
                         style->_p->metrics = value;
+                        style->_p->styleChanged->setAlways(true);
                     }
                 });
 
@@ -239,10 +244,11 @@ namespace djv
                         uiSystem->getGeneralSettings()->getCurrentLocale(),
                         [weak](const std::string& value)
                     {
-                        if (auto system = weak.lock())
+                        if (auto style = weak.lock())
                         {
-                            system->_p->currentLocale = value;
-                            system->_updateCurrentFont();
+                            style->_p->currentLocale = value;
+                            style->_updateCurrentFont();
+                            style->_p->styleChanged->setAlways(true);
                         }
                     });
 
@@ -250,10 +256,11 @@ namespace djv
                         uiSystem->getFontSettings()->getFonts(),
                         [weak](const std::map<std::string, Settings::FontMap>& value)
                     {
-                        if (auto system = weak.lock())
+                        if (auto style = weak.lock())
                         {
-                            system->_p->fonts = value;
-                            system->_updateCurrentFont();
+                            style->_p->fonts = value;
+                            style->_updateCurrentFont();
+                            style->_p->styleChanged->setAlways(true);
                         }
                     });
                 }
@@ -271,6 +278,11 @@ namespace djv
                 auto out = std::shared_ptr<Style>(new Style);
                 out->_init(context);
                 return out;
+            }
+
+            const std::shared_ptr<Settings::Style>& Style::getSettings() const
+            {
+                return _p->settings;
             }
 
             const Palette& Style::getPalette() const
@@ -307,6 +319,11 @@ namespace djv
                     out = AV::Font::Info(i->second, i->first, getMetric(metricsRole));
                 }
                 return out;
+            }
+
+            std::shared_ptr<Core::IValueSubject<bool> > Style::observeStyleChanged() const
+            {
+                return _p->styleChanged;
             }
 
             void Style::_updateCurrentFont()

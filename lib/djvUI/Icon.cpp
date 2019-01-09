@@ -98,7 +98,6 @@ namespace djv
                 _p->imageFuture = system->getImage(_p->name);
             }
             _p->uid = _p->name.empty() ? 0 : createUID();
-            _resize();
         }
 
         Style::ColorRole Icon::getIconColorRole() const
@@ -125,6 +124,19 @@ namespace djv
                 return;
             _p->iconSizeRole = value;
             _resize();
+        }
+
+        void Icon::_styleChangedEvent(Event::StyleChanged& event)
+        {
+            if (!_p->name.empty())
+            {
+                if (auto system = _getIconSystem().lock())
+                {
+                    _p->infoFuture = system->getInfo(_p->name);
+                    _p->imageFuture = system->getImage(_p->name);
+                }
+                _p->uid = createUID();
+            }
         }
 
         void Icon::_preLayoutEvent(Event::PreLayout& event)
@@ -211,7 +223,7 @@ namespace djv
                 try
                 {
                     _p->image = _p->imageFuture.get();
-                    _redraw();
+                    _resize();
                 }
                 catch (const std::exception & e)
                 {

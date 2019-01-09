@@ -173,6 +173,10 @@ namespace djv
             _resize();
         }
 
+        void Label::_styleChangedEvent(Event::StyleChanged& event)
+        {
+        }
+
         void Label::_preLayoutEvent(Event::PreLayout&)
         {
             if (auto style = _getStyle().lock())

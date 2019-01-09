@@ -174,6 +174,7 @@ namespace djv
             //! \name Widget Events
             ///@{
 
+            virtual void _styleChangedEvent(Core::Event::StyleChanged&) {}
             virtual void _preLayoutEvent(Core::Event::PreLayout&) {}
             virtual void _layoutEvent(Core::Event::Layout&) {}
             virtual void _clipEvent(Core::Event::Clip&) {}
