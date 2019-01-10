@@ -30,6 +30,7 @@
 #include <djvUI/FileBrowser.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
 #include <djvUI/DialogSystem.h>
 #include <djvUI/FileBrowserPrivate.h>

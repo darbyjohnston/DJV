@@ -71,7 +71,7 @@ namespace djv
         
         void ResourceSystem::_init(const std::string& argv0, Context * context)
         {
-            ISystem::_init("djv::Core::ResourceSystem", context, false);
+            ISystem::_init("djv::Core::ResourceSystem", context);
 
             DJV_PRIVATE_PTR();
             try

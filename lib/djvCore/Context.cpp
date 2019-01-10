@@ -101,6 +101,11 @@ namespace djv
             return FileSystem::Path(_resourceSystem->getPath(value), fileName);
         }
 
+        std::string Context::getText(const std::string & id) const
+        {
+            return _textSystem->getText(id);
+        }
+
         void Context::tick(float dt)
         {
             const auto now = std::chrono::system_clock::now();

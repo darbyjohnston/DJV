@@ -94,7 +94,7 @@ namespace djv
 
         void LogSystem::_init(const FileSystem::Path& path, Context * context)
         {
-            ISystem::_init(name, context, false);
+            ISystem::_init(name, context);
 
             _p->path = path;
 
@@ -148,6 +148,8 @@ namespace djv
                     std::cerr << name << ": " << e.what() << std::endl;
                 }
             });
+
+            _logSystemInit = true;
         }
 
         LogSystem::LogSystem() :

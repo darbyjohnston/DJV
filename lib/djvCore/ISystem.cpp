@@ -36,11 +36,12 @@ namespace djv
 {
     namespace Core
     {
-        void ISystem::_init(const std::string & name, Context * context, bool logSystemInit)
+        bool ISystem::_logSystemInit = false;
+
+        void ISystem::_init(const std::string & name, Context * context)
         {
             _context = context;
             _name = name;
-            _logSystemInit = logSystemInit;
             _logSystem = context->getSystemT<LogSystem>();
 
             if (_logSystemInit)
@@ -69,6 +70,11 @@ namespace djv
             {
                 _context->log(_name, message, level);
             }
+        }
+
+        std::string ISystem::_getText(const std::string & id)
+        {
+            return _context->getText(id);
         }
         
     } // namespace Core

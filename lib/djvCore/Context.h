@@ -105,7 +105,7 @@ namespace djv
             //! \name Utilities
             ///@{
 
-            //! Convenience function for logging.
+            //! Convenience function for message logging.
             void log(const std::string& prefix, const std::string& message, LogLevel = LogLevel::Information);
 
             //! Convenience function got getting a resource path.
@@ -113,6 +113,9 @@ namespace djv
 
             //! Convenience function got getting a resource path.
             FileSystem::Path getPath(FileSystem::ResourcePath, const std::string &) const;
+
+            //! Convenience function for text translations.
+            std::string getText(const std::string & id) const;
 
             ///@}
 

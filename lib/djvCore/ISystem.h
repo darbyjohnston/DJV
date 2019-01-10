@@ -41,7 +41,7 @@ namespace djv
         class ISystem : public std::enable_shared_from_this<ISystem>
         {
         protected:
-            void _init(const std::string & name, Context *, bool logSystemInit = true);
+            void _init(const std::string & name, Context *);
             inline ISystem();
 
         public:
@@ -54,13 +54,17 @@ namespace djv
             //! Override this function to do work each frame.
             virtual void _tick(float dt) {}
 
-            //! Convenience function for logging messages.
-            void _log(const std::string& message, LogLevel = LogLevel::Information);
-                        
+            //! Convenience function for message logging.
+            void _log(const std::string & message, LogLevel = LogLevel::Information);
+
+            //! Convenience function for text translations.
+            std::string _getText(const std::string & id);
+
+            static bool _logSystemInit;
+
         private:
             Context * _context = nullptr;
             std::string _name;
-            bool _logSystemInit = true;
             std::weak_ptr<LogSystem> _logSystem;
 
             friend class Context;
