@@ -111,7 +111,7 @@ namespace djv
                 {
                     IPlugin::_init(
                         pluginName,
-                        DJV_TEXT("djv::AV::IO::FFmpeg", "This plugin provides FFmpeg image and audio I/O."),
+                        context->getText(DJV_TEXT("djv::AV::IO::FFmpeg", "This plugin provides FFmpeg image and audio I/O.")),
                         fileExtensions,
                         context);
                         

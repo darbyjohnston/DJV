@@ -134,7 +134,7 @@ namespace djv
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
-                        DJV_TEXT("djv::AV::IO::PPM", "This plugin provides NetPBM image I/O."),
+                        context->getText(DJV_TEXT("djv::AV::IO::PPM", "This plugin provides NetPBM image I/O.")),
                         fileExtensions,
                         context);
                     return out;

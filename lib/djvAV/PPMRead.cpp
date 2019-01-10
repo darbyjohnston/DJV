@@ -31,6 +31,7 @@
 
 #include <djvAV/FFmpeg.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 
 using namespace djv::Core;
@@ -100,7 +101,8 @@ namespace djv
                     if (magic[0] != 'P')
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PPM", "cannot open") << " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::PPM", "cannot open")) <<
+                            " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     switch (magic[1])
@@ -112,7 +114,8 @@ namespace djv
                     default:
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PPM", "cannot open") << " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::PPM", "cannot open")) <<
+                            " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     }
@@ -139,7 +142,8 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PPM", "cannot open") << " '" << fileName << "'.";
+                        s << pluginName << " " << _context->getText(DJV_TEXT("djv::AV::IO::PPM", "cannot open")) <<
+                            " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     Image::Layout layout;

@@ -78,11 +78,14 @@ namespace djv
                 void setViewType(ViewType);
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 
+                float getHeightForWidth(float) const override;
+
             protected:
                 void _updateEvent(Core::Event::Update&) override;
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
+                void _localeChangedEvent(Core::Event::LocaleChanged &) override;
                 bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
 
             private:

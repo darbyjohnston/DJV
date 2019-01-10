@@ -57,7 +57,7 @@
 #define DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(prefix, name, ...) \
     namespace \
     { \
-        const std::vector<std::string> & get##name##Labels() \
+        const std::vector<std::string> & get##name##Strings() \
         { \
             static const std::vector<std::string> data = \
             { \
@@ -70,7 +70,7 @@
     \
     std::ostream & operator << (std::ostream & os, prefix::name value) \
     { \
-        os << get##name##Labels()[static_cast<size_t>(value)]; \
+        os << get##name##Strings()[static_cast<size_t>(value)]; \
         return os; \
     } \
     \
@@ -78,14 +78,14 @@
     { \
         std::string s; \
         is >> s; \
-        const auto & labels = get##name##Labels(); \
-        const auto i = std::find(labels.begin(), labels.end(), s); \
-        if (i == labels.end()) \
+        const auto & strings = get##name##Strings(); \
+        const auto i = std::find(strings.begin(), strings.end(), s); \
+        if (i == strings.end()) \
         { \
             std::stringstream ss; \
             ss << DJV_TEXT("djv::Core", "Cannot parse value") << " '" << s << "'."; \
             throw std::invalid_argument(ss.str()); \
         } \
-        value = static_cast<prefix::name>(i - labels.begin()); \
+        value = static_cast<prefix::name>(i - strings.begin()); \
         return is; \
     }
