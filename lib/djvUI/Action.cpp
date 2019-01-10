@@ -47,7 +47,7 @@ namespace djv
             std::shared_ptr<ValueSubject<std::string> > text;
             std::shared_ptr<ValueSubject<std::string> > fontFace;
             std::shared_ptr<ValueSubject<Style::MetricsRole> > fontSizeRole;
-            std::shared_ptr<ValueSubject<std::shared_ptr<Shortcut> > > shortcut;
+            std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcuts;
             std::shared_ptr<ValueSubject<bool> > enabled;
             std::shared_ptr<ValueSubject<std::string> > tooltip;
         };
@@ -62,7 +62,7 @@ namespace djv
             _p->text = ValueSubject<std::string>::create();
             _p->fontFace = ValueSubject<std::string>::create(AV::Font::Info::defaultFace);
             _p->fontSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::FontMedium);
-            _p->shortcut = ValueSubject<std::shared_ptr<Shortcut> >::create();
+            _p->shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             _p->enabled = ValueSubject<bool>::create(true);
             _p->tooltip = ValueSubject<std::string>::create();
         }
@@ -167,48 +167,15 @@ namespace djv
             _p->fontSizeRole->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Shortcut> > > Action::getShortcut() const
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::getShortcuts() const
         {
-            return _p->shortcut;
+            return _p->shortcuts;
         }
 
         void Action::setShortcut(const std::shared_ptr<Shortcut>& value)
         {
-            auto shortcut = _p->shortcut->get();
-            if (_p->shortcut->setIfChanged(value))
-            {
-                if (shortcut)
-                {
-                    shortcut->setCallback(nullptr);
-                }
-                shortcut = _p->shortcut->get();
-                if (shortcut)
-                {
-                    auto weak = std::weak_ptr<Action>(shared_from_this());
-                    shortcut->setCallback(
-                        [weak]
-                    {
-                        if (auto action = weak.lock())
-                        {
-                            switch (action->_p->buttonType->get())
-                            {
-                            case ButtonType::Push:
-                                action->doClicked();
-                                break;
-                            case ButtonType::Toggle:
-                                action->setChecked(!action->_p->checked->get());
-                                action->doChecked();
-                                break;
-                            case ButtonType::Radio:
-                                action->setChecked(true);
-                                action->doChecked();
-                                break;
-                            default: break;
-                            }
-                        }
-                    });
-                }
-            }
+            clearShortcuts();
+            addShortcut(value);
         }
 
         void Action::setShortcut(int key)
@@ -219,6 +186,54 @@ namespace djv
         void Action::setShortcut(int key, int keyModifiers)
         {
             setShortcut(UI::Shortcut::create(key, keyModifiers));
+        }
+
+        void Action::addShortcut(const std::shared_ptr<Shortcut>& value)
+        {
+            _p->shortcuts->pushBack(value);
+            auto weak = std::weak_ptr<Action>(shared_from_this());
+            value->setCallback(
+                [weak]
+            {
+                if (auto action = weak.lock())
+                {
+                    switch (action->_p->buttonType->get())
+                    {
+                    case ButtonType::Push:
+                        action->doClicked();
+                        break;
+                    case ButtonType::Toggle:
+                        action->setChecked(!action->_p->checked->get());
+                        action->doChecked();
+                        break;
+                    case ButtonType::Radio:
+                        action->setChecked(true);
+                        action->doChecked();
+                        break;
+                    default: break;
+                    }
+                }
+            });
+        }
+
+        void Action::addShortcut(int key)
+        {
+            addShortcut(UI::Shortcut::create(key));
+        }
+
+        void Action::addShortcut(int key, int keyModifiers)
+        {
+            addShortcut(UI::Shortcut::create(key, keyModifiers));
+        }
+
+        void Action::clearShortcuts()
+        {
+            auto shortcuts = _p->shortcuts->get();
+            for (auto & i : shortcuts)
+            {
+                i->setCallback(nullptr);
+            }
+            _p->shortcuts->clear();
         }
 
         std::shared_ptr<Core::IValueSubject<bool> > Action::isEnabled() const

@@ -152,7 +152,7 @@ namespace djv
 
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
-                    _textBlock->setMargin(Style::MetricsRole::Margin);
+                    _textBlock->setMargin(Style::MetricsRole::MarginLarge);
 
                     _closeButton = Button::Push::create(context);
 
@@ -206,7 +206,7 @@ namespace djv
                     
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
-                    _textBlock->setMargin(Style::MetricsRole::Margin);
+                    _textBlock->setMargin(Style::MetricsRole::MarginLarge);
 
                     _acceptButton = Button::Push::create(context);
                     _cancelButton = Button::Push::create(context);

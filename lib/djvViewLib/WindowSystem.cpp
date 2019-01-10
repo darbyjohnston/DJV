@@ -61,18 +61,18 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
+            //! \todo Implement me!
             p.actions["Duplicate"] = UI::Action::create();
             p.actions["Duplicate"]->setIcon("djvIconWindowDuplicate");
             p.actions["Duplicate"]->setText(DJV_TEXT("Duplicate"));
             p.actions["Duplicate"]->setShortcut(GLFW_KEY_D, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
             p.actions["Duplicate"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
             p.actions["Fit"]->setIcon("djvIconWindowFit");
             p.actions["Fit"]->setText(DJV_TEXT("Fit"));
             p.actions["Fit"]->setShortcut(GLFW_KEY_F);
-            //! \todo Implement me!
             p.actions["Fit"]->setEnabled(false);
 
             p.actions["FullScreen"] = UI::Action::create();

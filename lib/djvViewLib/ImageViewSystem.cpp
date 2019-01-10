@@ -53,11 +53,80 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::ImageViewSystem", context);
 
             DJV_PRIVATE_PTR();
+            //! \todo Implement me!
             p.actions["Left"] = UI::Action::create();
             p.actions["Left"]->setText(DJV_TEXT("Left"));
-            p.actions["Left"]->setShortcut(GLFW_KEY_KP_4, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
+            p.actions["Left"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
+            p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
             p.actions["Left"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["Right"] = UI::Action::create();
+            p.actions["Right"]->setText(DJV_TEXT("Right"));
+            p.actions["Right"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
+            p.actions["Right"]->addShortcut(GLFW_KEY_KP_6);
+            p.actions["Right"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["Up"] = UI::Action::create();
+            p.actions["Up"]->setText(DJV_TEXT("Up"));
+            p.actions["Up"]->addShortcut(GLFW_KEY_UP, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
+            p.actions["Up"]->addShortcut(GLFW_KEY_KP_8);
+            p.actions["Up"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["Down"] = UI::Action::create();
+            p.actions["Down"]->setText(DJV_TEXT("Down"));
+            p.actions["Down"]->addShortcut(GLFW_KEY_DOWN, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
+            p.actions["Down"]->addShortcut(GLFW_KEY_KP_2);
+            p.actions["Down"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["Center"] = UI::Action::create();
+            p.actions["Center"]->setText(DJV_TEXT("Center"));
+            p.actions["Center"]->setShortcut(GLFW_KEY_KP_5);
+            p.actions["Center"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["ZoomIn"] = UI::Action::create();
+            p.actions["ZoomIn"]->setText(DJV_TEXT("Zoom In"));
+            p.actions["ZoomIn"]->addShortcut(GLFW_KEY_EQUAL);
+            p.actions["ZoomIn"]->addShortcut(GLFW_KEY_KP_ADD);
+            p.actions["ZoomIn"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["ZoomOut"] = UI::Action::create();
+            p.actions["ZoomOut"]->setText(DJV_TEXT("Zoom Out"));
+            p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
+            p.actions["ZoomOut"]->addShortcut(GLFW_KEY_KP_SUBTRACT);
+            p.actions["ZoomOut"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["ResetZoom"] = UI::Action::create();
+            p.actions["ResetZoom"]->setText(DJV_TEXT("Reset Zoom"));
+            p.actions["ResetZoom"]->addShortcut(GLFW_KEY_0);
+            p.actions["ResetZoom"]->addShortcut(GLFW_KEY_KP_0);
+            p.actions["ResetZoom"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["ResetPosZoom"] = UI::Action::create();
+            p.actions["ResetPosZoom"]->setText(DJV_TEXT("Reset Position and Zoom"));
+            p.actions["ResetPosZoom"]->addShortcut(GLFW_KEY_DELETE);
+            p.actions["ResetPosZoom"]->addShortcut(GLFW_KEY_KP_DECIMAL);
+            p.actions["ResetPosZoom"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["Fit"] = UI::Action::create();
+            p.actions["Fit"]->setText(DJV_TEXT("Fit"));
+            p.actions["Fit"]->addShortcut(GLFW_KEY_BACKSPACE);
+            p.actions["Fit"]->addShortcut(GLFW_KEY_KP_ENTER);
+            p.actions["Fit"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["HUD"] = UI::Action::create();
+            p.actions["HUD"]->setText(DJV_TEXT("HUD"));
+            p.actions["HUD"]->setShortcut(GLFW_KEY_H);
+            p.actions["HUD"]->setEnabled(false);
         }
 
         ImageViewSystem::ImageViewSystem() :
@@ -87,8 +156,23 @@ namespace djv
         std::shared_ptr<UI::Menu> ImageViewSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
-            auto menu = UI::Menu::create("View", getContext());
+            auto context = getContext();
+            auto menu = UI::Menu::create("View", context);
             menu->addAction(p.actions["Left"]);
+            menu->addAction(p.actions["Right"]);
+            menu->addAction(p.actions["Up"]);
+            menu->addAction(p.actions["Down"]);
+            menu->addAction(p.actions["Center"]);
+            menu->addAction(p.actions["ZoomIn"]);
+            menu->addAction(p.actions["ZoomOut"]);
+            menu->addAction(p.actions["ResetZoom"]);
+            menu->addAction(p.actions["ResetPosZoom"]);
+            menu->addAction(p.actions["Fit"]);
+            menu->addSeparator();
+            //! \todo Implement me!
+            auto gridMenu = UI::Menu::create(DJV_TEXT("Grid"), context);
+            menu->addMenu(gridMenu);
+            menu->addAction(p.actions["HUD"]);
             return menu;
         }
 

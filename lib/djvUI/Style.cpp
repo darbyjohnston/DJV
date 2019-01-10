@@ -137,10 +137,10 @@ namespace djv
                 p.metrics[MetricsRole::Border]              =   1.f;
                 p.metrics[MetricsRole::Margin]              =  10.f;
                 p.metrics[MetricsRole::MarginSmall]         =   5.f;
-                p.metrics[MetricsRole::MarginLarge]         =  40.f;
+                p.metrics[MetricsRole::MarginLarge]         =  20.f;
                 p.metrics[MetricsRole::Spacing]             =  10.f;
                 p.metrics[MetricsRole::SpacingSmall]        =   5.f;
-                p.metrics[MetricsRole::SpacingLarge]        =  40.f;
+                p.metrics[MetricsRole::SpacingLarge]        =  20.f;
                 p.metrics[MetricsRole::Drag]                =  20.f;
                 p.metrics[MetricsRole::Icon]                =  24.f;
                 p.metrics[MetricsRole::IconLarge]           = 100.f;

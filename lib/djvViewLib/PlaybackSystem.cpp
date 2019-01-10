@@ -82,6 +82,96 @@ namespace djv
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
 
+            //! \todo Implement me!
+            p.actions["TogglePlayback"] = UI::Action::create();
+            p.actions["TogglePlayback"]->setText("Toggle Playback");
+            p.actions["TogglePlayback"]->addShortcut(GLFW_KEY_SPACE);
+            p.actions["TogglePlayback"]->addShortcut(GLFW_KEY_UP);
+            p.actions["TogglePlayback"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["ToggleReversePlayback"] = UI::Action::create();
+            p.actions["ToggleReversePlayback"]->setText("Toggle Reverse Playback");
+            p.actions["ToggleReversePlayback"]->setShortcut(GLFW_KEY_DOWN);
+            p.actions["ToggleReversePlayback"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["PlayEveryFrame"] = UI::Action::create();
+            p.actions["PlayEveryFrame"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["PlayEveryFrame"]->setText("Play Every Frame");
+            p.actions["PlayEveryFrame"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["InPoint"] = UI::Action::create();
+            p.actions["InPoint"]->setIcon("djvIconFrameStart");
+            p.actions["InPoint"]->setText("In Point");
+            p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME);
+            p.actions["InPoint"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["OutPoint"] = UI::Action::create();
+            p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
+            p.actions["OutPoint"]->setText("Out Point");
+            p.actions["OutPoint"]->setShortcut(GLFW_KEY_END);
+            p.actions["OutPoint"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["StartFrame"] = UI::Action::create();
+            p.actions["StartFrame"]->setText("Start Frame");
+            p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
+            p.actions["StartFrame"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["EndFrame"] = UI::Action::create();
+            p.actions["EndFrame"]->setText("End Frame");
+            p.actions["EndFrame"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
+            p.actions["EndFrame"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["NextFrame"] = UI::Action::create();
+            p.actions["NextFrame"]->setIcon("djvIconFrameNext");
+            p.actions["NextFrame"]->setText("Next Frame");
+            p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT);
+            p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT_BRACKET);
+            p.actions["NextFrame"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["NextFrame10"] = UI::Action::create();
+            p.actions["NextFrame10"]->setText("Next Frame X10");
+            p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT);
+            p.actions["NextFrame10"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_SHIFT);
+            p.actions["NextFrame10"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["NextFrame100"] = UI::Action::create();
+            p.actions["NextFrame100"]->setText("Next Frame X100");
+            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_CONTROL);
+            p.actions["NextFrame100"]->addShortcut(GLFW_KEY_RIGHT_BRACKET, GLFW_MOD_CONTROL);
+            p.actions["NextFrame100"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["PrevFrame"] = UI::Action::create();
+            p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
+            p.actions["PrevFrame"]->setText("Previous Frame");
+            p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT);
+            p.actions["PrevFrame"]->addShortcut(GLFW_KEY_LEFT_BRACKET);
+            p.actions["PrevFrame"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["PrevFrame10"] = UI::Action::create();
+            p.actions["PrevFrame10"]->setText("Previous Frame X10");
+            p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_SHIFT);
+            p.actions["PrevFrame10"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_SHIFT);
+            p.actions["PrevFrame10"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["PrevFrame100"] = UI::Action::create();
+            p.actions["PrevFrame100"]->setText("Previous Frame X100");
+            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_CONTROL);
+            p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_CONTROL);
+            p.actions["PrevFrame100"]->setEnabled(false);
+
+
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setRadioCallback(
                 [weak](int value)
@@ -123,10 +213,28 @@ namespace djv
         std::shared_ptr<UI::Menu> PlaybackSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
-            auto menu = UI::Menu::create("Playback", getContext());
+            auto context = getContext();
+            auto menu = UI::Menu::create("Playback", context);
             menu->addAction(p.actions["Stop"]);
             menu->addAction(p.actions["Forward"]);
             menu->addAction(p.actions["Reverse"]);
+            //! \todo Implement me!
+            auto loopMenu = UI::Menu::create(DJV_TEXT("Loop"), context);
+            menu->addMenu(loopMenu);
+            menu->addAction(p.actions["TogglePlayback"]);
+            menu->addAction(p.actions["ToggleReversePlayback"]);
+            menu->addAction(p.actions["PlayEveryFrame"]);
+            menu->addSeparator();
+            menu->addAction(p.actions["InPoint"]);
+            menu->addAction(p.actions["OutPoint"]);
+            menu->addAction(p.actions["StartFrame"]);
+            menu->addAction(p.actions["EndFrame"]);
+            menu->addAction(p.actions["NextFrame"]);
+            menu->addAction(p.actions["NextFrame10"]);
+            menu->addAction(p.actions["NextFrame100"]);
+            menu->addAction(p.actions["PrevFrame"]);
+            menu->addAction(p.actions["PrevFrame10"]);
+            menu->addAction(p.actions["PrevFrame100"]);
             return menu;
         }
 

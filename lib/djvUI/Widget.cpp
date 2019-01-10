@@ -482,35 +482,35 @@ namespace djv
         {
             if (isEnabled())
             {
-                // Find the actions that are enabled and have shortcuts.
-                std::vector<std::shared_ptr<Action> > actions;
+                // Find the shortcuts.
+                std::vector<std::shared_ptr<Shortcut> > shortcuts;
                 for (const auto& i : _actions)
                 {
                     if (i->isEnabled()->get())
                     {
-                        if (i->getShortcut()->get())
+                        for (auto j : i->getShortcuts()->get())
                         {
-                            actions.push_back(i);
+                            shortcuts.push_back(j);
                         }
                     }
                 }
 
                 // Sort the actions so that we test those with keyboard modifiers first.
-                std::sort(actions.begin(), actions.end(),
-                    [](const std::shared_ptr<Action> & a, const std::shared_ptr<Action> & b) -> bool
+                std::sort(shortcuts.begin(), shortcuts.end(),
+                    [](const std::shared_ptr<Shortcut> & a, const std::shared_ptr<Shortcut> & b) -> bool
                 {
-                    return a->getShortcut()->get()->getShortcutModifiers()->get() > b->getShortcut()->get()->getShortcutModifiers()->get();
+                    return a->getShortcutModifiers()->get() > b->getShortcutModifiers()->get();
                 });
 
-                for (const auto& i : actions)
+                for (const auto& i : shortcuts)
                 {
-                    const int key = i->getShortcut()->get()->getShortcutKey()->get();
-                    const int modifiers = i->getShortcut()->get()->getShortcutModifiers()->get();
+                    const int key = i->getShortcutKey()->get();
+                    const int modifiers = i->getShortcutModifiers()->get();
                     if ((key == event.getKey() && event.getKeyModifiers() & modifiers) ||
                         (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
                     {
                         event.accept();
-                        i->getShortcut()->get()->doCallback();
+                        i->doCallback();
                         break;
                     }
                 }

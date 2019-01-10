@@ -32,6 +32,7 @@
 #include <djvUI/Enum.h>
 #include <djvUI/Style.h>
 
+#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -76,10 +77,14 @@ namespace djv
             void setFontFace(const std::string &);
             void setFontSizeRole(Style::MetricsRole);
 
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<Shortcut> > > getShortcut() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > getShortcuts() const;
             void setShortcut(const std::shared_ptr<Shortcut>&);
             void setShortcut(int key);
             void setShortcut(int key, int keyModifiers);
+            void addShortcut(const std::shared_ptr<Shortcut>&);
+            void addShortcut(int key);
+            void addShortcut(int key, int keyModifiers);
+            void clearShortcuts();
 
             std::shared_ptr<Core::IValueSubject<bool> > isEnabled() const;
             void setEnabled(bool);

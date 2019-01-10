@@ -68,67 +68,67 @@ namespace djv
             p.actions["Open"]->setText(DJV_TEXT("Open"));
             p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
 
+            //! \todo Implement me!
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setText(DJV_TEXT("Recent"));
             p.actions["Recent"]->setShortcut(GLFW_KEY_T, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
             p.actions["Recent"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["Reload"] = UI::Action::create();
             p.actions["Reload"]->setText(DJV_TEXT("Reload"));
             p.actions["Reload"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
             p.actions["Reload"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["ReloadFrame"] = UI::Action::create();
             p.actions["ReloadFrame"]->setText(DJV_TEXT("Reload Frame"));
             p.actions["ReloadFrame"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL | GLFW_MOD_SHIFT);
-            //! \todo Implement me!
             p.actions["ReloadFrame"]->setEnabled(false);
 
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setText(DJV_TEXT("Close"));
             p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
 
+            //! \todo Implement me!
             p.actions["Export"] = UI::Action::create();
             p.actions["Export"]->setText(DJV_TEXT("Export"));
             p.actions["Export"]->setShortcut(GLFW_KEY_X, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
             p.actions["Export"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["Layers"] = UI::Action::create();
             p.actions["Layers"]->setText(DJV_TEXT("Layers"));
             p.actions["Layers"]->setShortcut(GLFW_KEY_L, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
             p.actions["Layers"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["NextLayer"] = UI::Action::create();
             p.actions["NextLayer"]->setText(DJV_TEXT("Next Layer"));
             p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
             p.actions["NextLayer"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["PrevLayer"] = UI::Action::create();
             p.actions["PrevLayer"]->setText(DJV_TEXT("Previous Layer"));
             p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, GLFW_MOD_CONTROL);
-            //! \todo Implement me!
             p.actions["PrevLayer"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["8BitConversion"] = UI::Action::create();
             p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["8BitConversion"]->setText(DJV_TEXT("8-bit Conversion"));
-            //! \todo Implement me!
             p.actions["8BitConversion"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["MemoryCache"] = UI::Action::create();
             p.actions["MemoryCache"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MemoryCache"]->setText(DJV_TEXT("Memory Cache"));
-            //! \todo Implement me!
             p.actions["MemoryCache"]->setEnabled(false);
 
+            //! \todo Implement me!
             p.actions["ClearCache"] = UI::Action::create();
             p.actions["ClearCache"]->setText(DJV_TEXT("Clear Cache"));
-            //! \todo Implement me!
             p.actions["ClearCache"]->setEnabled(false);
 
             p.actions["Exit"] = UI::Action::create();
@@ -246,7 +246,7 @@ namespace djv
             menu->addAction(p.actions["Open"]);
             menu->addAction(p.actions["Recent"]);
             menu->addAction(p.actions["Reload"]);
-            menu->addAction(p.actions["Reload Frame"]);
+            menu->addAction(p.actions["ReloadFrame"]);
             menu->addAction(p.actions["Close"]);
             menu->addAction(p.actions["Export"]);
             menu->addSeparator();
@@ -254,7 +254,7 @@ namespace djv
             menu->addAction(p.actions["NextLayer"]);
             menu->addAction(p.actions["PrevLayer"]);
             //! \todo Implement me!
-            auto proxyScaleMenu = UI::Menu::create("Proxy Scale", context);
+            auto proxyScaleMenu = UI::Menu::create(DJV_TEXT("Proxy Scale"), context);
             menu->addMenu(proxyScaleMenu);
             menu->addSeparator();
             menu->addAction(p.actions["Exit"]);

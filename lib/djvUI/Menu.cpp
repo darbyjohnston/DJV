@@ -133,13 +133,13 @@ namespace djv
                 std::shared_ptr<Icon> _icon;
                 std::shared_ptr<MenuSpacer> _iconSpacer;
                 std::shared_ptr<Label> _textLabel;
-                std::shared_ptr<Label> _shortcutLabel;
+                std::shared_ptr<Label> _shortcutsLabel;
                 std::shared_ptr<Layout::Horizontal> _layout;
                 std::shared_ptr<ValueObserver<ButtonType> > _buttonTypeObserver;
                 std::shared_ptr<ValueObserver<bool> > _checkedObserver;
                 std::shared_ptr<ValueObserver<std::string> > _iconObserver;
                 std::shared_ptr<ValueObserver<std::string> > _textObserver;
-                std::shared_ptr<ValueObserver<std::shared_ptr<Shortcut> > > _shortcutObserver;
+                std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > _shortcutsObserver;
                 std::shared_ptr<ValueObserver<bool> > _enabledObserver;
 
                 friend class MenuLayout;
@@ -158,15 +158,15 @@ namespace djv
                 _textLabel = Label::create(context);
                 _textLabel->setHAlign(HAlign::Left);
 
-                _shortcutLabel = Label::create(context);
-                _shortcutLabel->hide();
+                _shortcutsLabel = Label::create(context);
+                _shortcutsLabel->hide();
 
                 _layout = Layout::Horizontal::create(context);
                 _layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
                 _layout->addWidget(_icon);
                 _layout->addWidget(_iconSpacer);
                 _layout->addWidget(_textLabel, Layout::RowStretch::Expand);
-                _layout->addWidget(_shortcutLabel);
+                _layout->addWidget(_shortcutsLabel);
                 _layout->setParent(shared_from_this());
             }
 
@@ -221,22 +221,24 @@ namespace djv
                     }
                 });
                 auto context = getContext();
-                _shortcutObserver = ValueObserver<std::shared_ptr<Shortcut> >::create(
-                    action->getShortcut(),
-                    [weak, context](const std::shared_ptr<Shortcut> & value)
+                _shortcutsObserver = ListObserver<std::shared_ptr<Shortcut> >::create(
+                    action->getShortcuts(),
+                    [weak, context](const std::vector<std::shared_ptr<Shortcut> > & value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_shortcutLabel->setVisible(value.get());
-                        if (value)
+                        if (auto textSystem = context->getSystemT<TextSystem>().lock())
                         {
-                            if (auto textSystem = context->getSystemT<TextSystem>().lock())
+                            widget->_shortcutsLabel->setVisible(value.size());
+                            std::vector<std::string> labels;
+                            for (const auto & i : value)
                             {
-                                widget->_shortcutLabel->setText(Shortcut::getText(
-                                    value->getShortcutKey()->get(),
-                                    value->getShortcutModifiers()->get(),
+                                labels.push_back(Shortcut::getText(
+                                    i->getShortcutKey()->get(),
+                                    i->getShortcutModifiers()->get(),
                                     textSystem));
                             }
+                            widget->_shortcutsLabel->setText(String::join(labels, ", "));
                         }
                     }
                 });
@@ -296,10 +298,7 @@ namespace djv
                 const Style::ColorRole colorRole = _getForegroundColorRole();
                 _icon->setIconColorRole(colorRole);
                 _textLabel->setTextColorRole(colorRole);
-                if (_shortcutLabel)
-                {
-                    _shortcutLabel->setTextColorRole(colorRole);
-                }
+                _shortcutsLabel->setTextColorRole(colorRole);
             }
 
             class MenuLayout : public Widget
@@ -367,7 +366,7 @@ namespace djv
                 {
                     float iconWidth = 0.f;
                     float textWidth = 0.f;
-                    float shortcutWidth = 0.f;
+                    float shortcutsWidth = 0.f;
                     float spacing = 0.f;
                     float margin = 0.f;
                     const auto & children = getChildrenT<Widget>();
@@ -385,10 +384,10 @@ namespace djv
                             }
                             const auto & textSize = button->_textLabel->getMinimumSize();
                             textWidth = std::max(textSize.x, textWidth);
-                            if (button->_shortcutLabel->isVisible())
+                            if (button->_shortcutsLabel->isVisible())
                             {
-                                const auto & shortcutSize = button->_shortcutLabel->getMinimumSize();
-                                shortcutWidth = std::max(shortcutSize.x, shortcutWidth);
+                                const auto & shortcutsSize = button->_shortcutsLabel->getMinimumSize();
+                                shortcutsWidth = std::max(shortcutsSize.x, shortcutsWidth);
                                 childSpacing += s;
                             }
                             spacing = std::max(childSpacing, spacing);
@@ -401,7 +400,7 @@ namespace djv
                         auto size = child->getMinimumSize();
                         if (auto button = std::dynamic_pointer_cast<MenuButton>(child))
                         {
-                            size.x = iconWidth + textWidth + shortcutWidth + spacing + margin;
+                            size.x = iconWidth + textWidth + shortcutsWidth + spacing + margin;
                             if (iconWidth && button->_icon->getIcon().empty())
                             {
                                 button->_iconSpacer->setVisible(true);
