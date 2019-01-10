@@ -152,7 +152,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("djv::UI::Settings", "Cannot read settings") << " '" << path << "'. " << e.what();
+                    s << _getText(DJV_TEXT("djv::UI::Settings", "Cannot read settings")) << " '" << path << "'. " << e.what();
                     _log(s.str(), LogLevel::Error);
                 }
             }
@@ -173,7 +173,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("djv::UI::Settings", "Cannot write settings") << " '" << path << "'. " << e.what();
+                    s << _getText(DJV_TEXT("djv::UI::Settings", "Cannot write settings")) << " '" << path << "'. " << e.what();
                     _log(s.str(), LogLevel::Error);
                 }
             }
