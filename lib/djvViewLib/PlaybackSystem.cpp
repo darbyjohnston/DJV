@@ -250,7 +250,7 @@ namespace djv
             menu->addAction(p.actions["Forward"]);
             menu->addAction(p.actions["Reverse"]);
             //! \todo Implement me!
-            auto loopMenu = UI::Menu::create(DJV_TEXT("Loop"), context);
+            auto loopMenu = UI::Menu::create(DJV_TEXT("djv::ViewLib", "Loop"), context);
             menu->addMenu(loopMenu);
             menu->addAction(p.actions["TogglePlayback"]);
             menu->addAction(p.actions["ToggleReversePlayback"]);
@@ -273,7 +273,7 @@ namespace djv
             menu->addAction(p.actions["ResetInPoint"]);
             menu->addAction(p.actions["ResetOutPoint"]);
             //! \todo Implement me!
-            auto layoutMenu = UI::Menu::create(DJV_TEXT("Layout"), context);
+            auto layoutMenu = UI::Menu::create(DJV_TEXT("djv::ViewLib", "Layout"), context);
             menu->addMenu(layoutMenu);
             return menu;
         }

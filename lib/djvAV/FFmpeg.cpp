@@ -65,19 +65,19 @@ namespace djv
                 {
                     static const std::map<AVSampleFormat, std::string> data =
                     {
-                        { AV_SAMPLE_FMT_NONE, DJV_TEXT("None") },
-                        { AV_SAMPLE_FMT_U8, DJV_TEXT("U8") },
-                        { AV_SAMPLE_FMT_S16, DJV_TEXT("S16") },
-                        { AV_SAMPLE_FMT_S32, DJV_TEXT("S32") },
-                        { AV_SAMPLE_FMT_FLT, DJV_TEXT("Float") },
-                        { AV_SAMPLE_FMT_DBL, DJV_TEXT("Double") },
-                        { AV_SAMPLE_FMT_U8P, DJV_TEXT("U8 planar") },
-                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("S16 planar") },
-                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("S32 planar") },
-                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("Float planar") },
-                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("Double planar") }
+                        { AV_SAMPLE_FMT_NONE, DJV_TEXT("djv::AV::IO::FFmpeg", "None") },
+                        { AV_SAMPLE_FMT_U8, DJV_TEXT("djv::AV::IO::FFmpeg", "U8") },
+                        { AV_SAMPLE_FMT_S16, DJV_TEXT("djv::AV::IO::FFmpeg", "S16") },
+                        { AV_SAMPLE_FMT_S32, DJV_TEXT("djv::AV::IO::FFmpeg", "S32") },
+                        { AV_SAMPLE_FMT_FLT, DJV_TEXT("djv::AV::IO::FFmpeg", "Float") },
+                        { AV_SAMPLE_FMT_DBL, DJV_TEXT("djv::AV::IO::FFmpeg", "Double") },
+                        { AV_SAMPLE_FMT_U8P, DJV_TEXT("djv::AV::IO::FFmpeg", "U8 planar") },
+                        { AV_SAMPLE_FMT_S16P, DJV_TEXT("djv::AV::IO::FFmpeg", "S16 planar") },
+                        { AV_SAMPLE_FMT_S32P, DJV_TEXT("djv::AV::IO::FFmpeg", "S32 planar") },
+                        { AV_SAMPLE_FMT_FLTP, DJV_TEXT("djv::AV::IO::FFmpeg", "Float planar") },
+                        { AV_SAMPLE_FMT_DBLP, DJV_TEXT("djv::AV::IO::FFmpeg", "Double planar") }
                     };
-                    static const std::string unknown = DJV_TEXT("Unknown");
+                    static const std::string unknown = DJV_TEXT("djv::AV::IO::FFmpeg", "Unknown");
                     const auto i = data.find(value);
                     return i != data.end() ? i->second : unknown;
                 }
@@ -111,7 +111,7 @@ namespace djv
                 {
                     IPlugin::_init(
                         pluginName,
-                        DJV_TEXT("This plugin provides FFmpeg image and audio I/O."),
+                        DJV_TEXT("djv::AV::IO::FFmpeg", "This plugin provides FFmpeg image and audio I/O."),
                         fileExtensions,
                         context);
                         

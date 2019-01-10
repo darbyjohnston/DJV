@@ -62,7 +62,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::Style", context);
 
                 std::map<std::string, UI::Style::Palette> palettes;
-                palettes[DJV_TEXT("Default")] = UI::Style::Palette();
+                palettes[DJV_TEXT("djv::UI::Settings", "Default")] = UI::Style::Palette();
                 auto palette = UI::Style::Palette();
                 palette.setColor(UI::Style::ColorRole::Background, AV::Image::Color(.9f, .9f, .9f));
                 palette.setColor(UI::Style::ColorRole::BackgroundHeader, AV::Image::Color(1.f, 1.f, 1.f));
@@ -77,10 +77,10 @@ namespace djv
                 palette.setColor(UI::Style::ColorRole::Hover, AV::Image::Color(1.f, 1.f, 1.f, .5f));
                 palette.setColor(UI::Style::ColorRole::Disabled, AV::Image::Color(.5f, .5f, .5f));
                 palette.setColor(UI::Style::ColorRole::Overlay, AV::Image::Color(1.f, 1.f, 1.f, .5f));
-                palettes[DJV_TEXT("Light")] = palette;
+                palettes[DJV_TEXT("djv::UI::Settings", "Light")] = palette;
 
                 std::map<std::string, UI::Style::Metrics> metrics;
-                metrics[DJV_TEXT("Default")] = UI::Style::Metrics();
+                metrics[DJV_TEXT("djv::UI::Settings", "Default")] = UI::Style::Metrics();
 
                 DJV_PRIVATE_PTR();
                 p.palettes = MapSubject<std::string, UI::Style::Palette>::create(palettes);
@@ -89,7 +89,7 @@ namespace djv
                 p.dpi = ValueSubject<int>::create(AV::dpiDefault);                
                 p.metrics = MapSubject<std::string, UI::Style::Metrics>::create(metrics);
                 p.currentMetrics = ValueSubject<UI::Style::Metrics>::create(metrics["Default"]);
-                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("Default"));
+                p.currentMetricsName = ValueSubject<std::string>::create(DJV_TEXT("djv::UI::Settings", "Default"));
 
                 _load();
             }

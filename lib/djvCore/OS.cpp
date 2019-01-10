@@ -38,9 +38,9 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::OS,
         DirectoryShortcut,
-        DJV_TEXT("Home"),
-        DJV_TEXT("Desktop"),
-        DJV_TEXT("Documents"),
-        DJV_TEXT("Downloads"));
+        DJV_TEXT("djv::Core::OS", "Home"),
+        DJV_TEXT("djv::Core::OS", "Desktop"),
+        DJV_TEXT("djv::Core::OS", "Documents"),
+        DJV_TEXT("djv::Core::OS", "Downloads"));
 
 } // namespace djv

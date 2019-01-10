@@ -66,7 +66,7 @@ namespace djv
                     auto & video = info.video;
                     if (!video.size())
                     {
-                        throw std::runtime_error(DJV_TEXT("Nothing to convert"));
+                        throw std::runtime_error(DJV_TEXT("djv::Convert", "Nothing to convert"));
                     }
                     auto & videoInfo = video[0];
                     if (_resize)
@@ -145,7 +145,7 @@ namespace djv
                         else
                         {
                             std::stringstream ss;
-                            ss << DJV_TEXT("Cannot parse option '-resize'");
+                            ss << DJV_TEXT("djv::Convert", "Cannot parse option '-resize'");
                             throw std::runtime_error(ss.str());
                         }
                     }
@@ -156,7 +156,7 @@ namespace djv
                 }
                 if (args.size() != 3)
                 {
-                    throw std::runtime_error(DJV_TEXT("Usage: djv_convert (input) (output)"));
+                    throw std::runtime_error(DJV_TEXT("djv::Convert", "Usage: djv_convert (input) (output)"));
                 }
                 _input = args[1];
                 _input = args[2];

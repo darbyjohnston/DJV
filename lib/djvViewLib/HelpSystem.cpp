@@ -55,17 +55,17 @@ namespace djv
             DJV_PRIVATE_PTR();
             //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
-            p.actions["Documentation"]->setText(DJV_TEXT("Documentation"));
+            p.actions["Documentation"]->setText(DJV_TEXT("djv::ViewLib", "Documentation"));
             p.actions["Documentation"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Information"] = UI::Action::create();
-            p.actions["Information"]->setText(DJV_TEXT("Information"));
+            p.actions["Information"]->setText(DJV_TEXT("djv::ViewLib", "Information"));
             p.actions["Information"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["About"] = UI::Action::create();
-            p.actions["About"]->setText(DJV_TEXT("About"));
+            p.actions["About"]->setText(DJV_TEXT("djv::ViewLib", "About"));
             p.actions["About"]->setEnabled(false);
         }
 

@@ -80,7 +80,7 @@ namespace djv
                         UI::Style::MetricsRole::MarginSmall));
                     
                     auto titleLabel = UI::Label::create(context);
-                    titleLabel->setText(DJV_TEXT("Settings"));
+                    titleLabel->setText(DJV_TEXT("djv::ViewLib", "Settings"));
                     titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
                     titleLabel->setTextHAlign(UI::TextHAlign::Left);
                     titleLabel->setMargin(UI::Layout::Margin(
@@ -155,14 +155,14 @@ namespace djv
                 {
                     GroupBox::_init(context);
                     
-                    setText(DJV_TEXT("General"));
+                    setText(DJV_TEXT("djv::ViewLib", "General"));
 
                     auto paletteComboBox = UI::ComboBox::create(context);
                     auto dpiComboBox = UI::ComboBox::create(context);
 
                     auto formLayout = UI::Layout::Form::create(context);
-                    formLayout->addWidget(DJV_TEXT("Color palette"), paletteComboBox);
-                    formLayout->addWidget(DJV_TEXT("DPI"), dpiComboBox);
+                    formLayout->addWidget(DJV_TEXT("djv::ViewLib", "Color palette"), paletteComboBox);
+                    formLayout->addWidget(DJV_TEXT("djv::ViewLib", "DPI"), dpiComboBox);
                     addWidget(formLayout);
 
                     auto weak = std::weak_ptr<GeneralSettingsWidget>(std::dynamic_pointer_cast<GeneralSettingsWidget>(shared_from_this()));

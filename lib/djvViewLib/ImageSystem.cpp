@@ -56,49 +56,49 @@ namespace djv
             //! \todo Implement me!
             p.actions["MirrorH"] = UI::Action::create();
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["MirrorH"]->setText(DJV_TEXT("Mirror Horizontal"));
+            p.actions["MirrorH"]->setText(DJV_TEXT("djv::ViewLib", "Mirror Horizontal"));
             p.actions["MirrorH"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["MirrorV"] = UI::Action::create();
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["MirrorV"]->setText(DJV_TEXT("Mirror Vertical"));
+            p.actions["MirrorV"]->setText(DJV_TEXT("djv::ViewLib", "Mirror Vertical"));
             p.actions["MirrorV"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ColorManager"] = UI::Action::create();
             p.actions["ColorManager"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorManager"]->setText(DJV_TEXT("Color Manager"));
+            p.actions["ColorManager"]->setText(DJV_TEXT("djv::ViewLib", "Color Manager"));
             p.actions["ColorManager"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ColorProfile"] = UI::Action::create();
             p.actions["ColorProfile"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorProfile"]->setText(DJV_TEXT("Color Profile"));
+            p.actions["ColorProfile"]->setText(DJV_TEXT("djv::ViewLib", "Color Profile"));
             p.actions["ColorProfile"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["DisplayProfile"] = UI::Action::create();
             p.actions["DisplayProfile"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["DisplayProfile"]->setText(DJV_TEXT("Display Profile"));
+            p.actions["DisplayProfile"]->setText(DJV_TEXT("djv::ViewLib", "Display Profile"));
             p.actions["DisplayProfile"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["PremultAlpha"] = UI::Action::create();
             p.actions["PremultAlpha"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["PremultAlpha"]->setText(DJV_TEXT("Premulitplied Alpha"));
+            p.actions["PremultAlpha"]->setText(DJV_TEXT("djv::ViewLib", "Premulitplied Alpha"));
             p.actions["PremultAlpha"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ShowFrameStore"] = UI::Action::create();
             p.actions["ShowFrameStore"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ShowFrameStore"]->setText(DJV_TEXT("Show Frame Store"));
+            p.actions["ShowFrameStore"]->setText(DJV_TEXT("djv::ViewLib", "Show Frame Store"));
             p.actions["ShowFrameStore"]->setShortcut(GLFW_KEY_E);
             p.actions["ShowFrameStore"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["SetFrameStore"] = UI::Action::create();
-            p.actions["SetFrameStore"]->setText(DJV_TEXT("Set Frame Store"));
+            p.actions["SetFrameStore"]->setText(DJV_TEXT("djv::ViewLib", "Set Frame Store"));
             p.actions["SetFrameStore"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT);
             p.actions["SetFrameStore"]->setEnabled(false);
         }
@@ -135,10 +135,10 @@ namespace djv
             menu->addAction(p.actions["MirrorH"]);
             menu->addAction(p.actions["MirrorV"]);
             //! \todo Implement me!
-            auto scaleMenu = UI::Menu::create(DJV_TEXT("Scale"), context);
+            auto scaleMenu = UI::Menu::create(DJV_TEXT("djv::ViewLib", "Scale"), context);
             menu->addMenu(scaleMenu);
             //! \todo Implement me!
-            auto rotateMenu = UI::Menu::create(DJV_TEXT("Rotate"), context);
+            auto rotateMenu = UI::Menu::create(DJV_TEXT("djv::ViewLib", "Rotate"), context);
             menu->addMenu(rotateMenu);
             menu->addSeparator();
             menu->addAction(p.actions["ColorManager"]);

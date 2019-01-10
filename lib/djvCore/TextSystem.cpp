@@ -285,7 +285,7 @@ namespace djv
                     if (!error.empty())
                     {
                         std::stringstream s;
-                        s << DJV_TEXT("Error reading text file") << " '" << path << "'. " << error;
+                        s << DJV_TEXT("djv::Core", "Error reading text file") << " '" << path << "'. " << error;
                         throw std::runtime_error(s.str());
                     }
 

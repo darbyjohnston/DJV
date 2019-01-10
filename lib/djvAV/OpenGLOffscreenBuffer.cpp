@@ -54,7 +54,7 @@ namespace djv
                 if (!_textureID)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Cannot create OpenGL texture.");
+                    ss << DJV_TEXT("djv::AV::OpenGL", "Cannot create OpenGL texture.");
                     throw std::runtime_error(ss.str());
                 }
                 glBindTexture(GL_TEXTURE_2D, _textureID);
@@ -79,7 +79,7 @@ namespace djv
                 if (!_id)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Cannot create OpenGL frame buffer.");
+                    ss << DJV_TEXT("djv::AV::OpenGL", "Cannot create OpenGL frame buffer.");
                     throw std::runtime_error(ss.str());
                 }
                 const OffscreenBufferBinding binding(shared_from_this());
@@ -93,7 +93,7 @@ namespace djv
                 if (error != GL_FRAMEBUFFER_COMPLETE)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Cannot initialize OpenGL frame buffer.");
+                    ss << DJV_TEXT("djv::AV::OpenGL", "Cannot initialize OpenGL frame buffer.");
                     throw std::runtime_error(ss.str());
                 }
             }

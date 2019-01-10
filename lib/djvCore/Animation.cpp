@@ -213,11 +213,11 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Animation,
         Type,
-        DJV_TEXT("Linear"),
-        DJV_TEXT("Ease In"),
-        DJV_TEXT("Ease Out"),
-        DJV_TEXT("Smooth Step"),
-        DJV_TEXT("Sine"));
+        DJV_TEXT("djv:::Core::Animation", "Linear"),
+        DJV_TEXT("djv:::Core::Animation", "EaseIn"),
+        DJV_TEXT("djv:::Core::Animation", "EaseOut"),
+        DJV_TEXT("djv:::Core::Animation", "SmoothStep"),
+        DJV_TEXT("djv:::Core::Animation", "Sine"));
 
 } // namespace djv
 

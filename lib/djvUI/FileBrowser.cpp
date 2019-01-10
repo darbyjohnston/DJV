@@ -124,54 +124,54 @@ namespace djv
                 _p->directoryModel = FileSystem::DirectoryModel::create(context);
 
                 auto upAction = Action::create();
-                upAction->setText(DJV_TEXT("Up"));
+                upAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Up"));
                 upAction->setIcon("djvIconArrowUp");
-                upAction->setTooltip(DJV_TEXT("Go up a directory."));
+                upAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "UpTooltip"));
                 upAction->setShortcut(GLFW_KEY_UP);
                 addAction(upAction);
 
                 auto currentAction = Action::create();
-                currentAction->setText(DJV_TEXT("Current Directory"));
-                currentAction->setTooltip(DJV_TEXT("Go to the current directory."));
+                currentAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Current Directory"));
+                currentAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "CurrentDirectoryTooltip"));
                 currentAction->setShortcut(GLFW_KEY_PERIOD);
                 addAction(currentAction);
 
                 auto backAction = Action::create();
-                backAction->setText(DJV_TEXT("Back"));
+                backAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Back"));
                 backAction->setIcon("djvIconArrowLeft");
-                backAction->setTooltip(DJV_TEXT("Go back a directory."));
+                backAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "BackTooltip"));
                 backAction->setShortcut(GLFW_KEY_LEFT);
                 addAction(backAction);
 
                 auto forwardAction = Action::create();
-                forwardAction->setText(DJV_TEXT("Forward"));
+                forwardAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Forward"));
                 forwardAction->setIcon("djvIconArrowRight");
-                forwardAction->setTooltip(DJV_TEXT("Go forward a directory."));
+                forwardAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ForwardTooltip"));
                 forwardAction->setShortcut(GLFW_KEY_RIGHT);
                 addAction(forwardAction);
 
                 auto reloadAction = Action::create();
-                reloadAction->setText(DJV_TEXT("Reload"));
-                reloadAction->setTooltip(DJV_TEXT("Reload the directory."));
+                reloadAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Reload"));
+                reloadAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ReloadTooltip"));
                 reloadAction->setShortcut(GLFW_KEY_R);
                 addAction(reloadAction);
 
                 auto largeThumbnailsAction = Action::create();
-                largeThumbnailsAction->setText(DJV_TEXT("Large Thumbnails"));
+                largeThumbnailsAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Large Thumbnails"));
                 largeThumbnailsAction->setIcon("djvIconThumbnailsLarge");
-                largeThumbnailsAction->setTooltip(DJV_TEXT("Show items with large thumbnail previews."));
+                largeThumbnailsAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "LargethumbnailsTooltip"));
                 largeThumbnailsAction->setShortcut(GLFW_KEY_1);
                 addAction(largeThumbnailsAction);
                 auto smallThumbnailsAction = Action::create();
-                smallThumbnailsAction->setText(DJV_TEXT("Small Thumbnails"));
+                smallThumbnailsAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Small Thumbnails"));
                 smallThumbnailsAction->setIcon("djvIconThumbnailsSmall");
-                smallThumbnailsAction->setTooltip(DJV_TEXT("Show items with small thumbnail previews."));
+                smallThumbnailsAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "SmallThumbnailsTooltip"));
                 smallThumbnailsAction->setShortcut(GLFW_KEY_2);
                 addAction(smallThumbnailsAction);
                 auto listViewAction = Action::create();
-                listViewAction->setText(DJV_TEXT("List View"));
+                listViewAction->setText(DJV_TEXT("djv::UI::FileBrowser", "List View"));
                 listViewAction->setIcon("djvIconListView");
-                listViewAction->setTooltip(DJV_TEXT("Show items in a list with detailed information."));
+                listViewAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ListViewTooltip"));
                 listViewAction->setShortcut(GLFW_KEY_3);
                 addAction(listViewAction);
                 _p->viewTypeActionGroup = ActionGroup::create(ButtonType::Radio);
@@ -182,19 +182,19 @@ namespace djv
 
                 auto fileSequencesAction = Action::create();
                 fileSequencesAction->setButtonType(ButtonType::Toggle);
-                fileSequencesAction->setText(DJV_TEXT("File Sequences"));
-                fileSequencesAction->setTooltip(DJV_TEXT("Toggle whether file sequences are enabled."));
+                fileSequencesAction->setText(DJV_TEXT("djv::UI::FileBrowser", "File Sequences"));
+                fileSequencesAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "FileSequencesTooltip"));
                 fileSequencesAction->setShortcut(GLFW_KEY_S);
                 addAction(fileSequencesAction);
 
                 auto showHiddenAction = Action::create();
                 showHiddenAction->setButtonType(ButtonType::Toggle);
-                showHiddenAction->setText(DJV_TEXT("Show Hidden"));
-                showHiddenAction->setTooltip(DJV_TEXT("Show hidden items."));
+                showHiddenAction->setText(DJV_TEXT("djv::UI::FileBrowser", "Show Hidden"));
+                showHiddenAction->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ShowHiddenTooltip"));
                 showHiddenAction->setShortcut(GLFW_KEY_N);
                 addAction(showHiddenAction);
 
-                auto directoryMenu = Menu::create(DJV_TEXT("Directory"), context);
+                auto directoryMenu = Menu::create(DJV_TEXT("djv::UI::FileBrowser", "Directory"), context);
                 directoryMenu->addAction(upAction);
                 directoryMenu->addAction(currentAction);
                 directoryMenu->addSeparator();
@@ -203,7 +203,7 @@ namespace djv
                 directoryMenu->addSeparator();
                 directoryMenu->addAction(reloadAction);
 
-                auto viewMenu = Menu::create(DJV_TEXT("View"), context);
+                auto viewMenu = Menu::create(DJV_TEXT("djv::UI::FileBrowser", "View"), context);
                 //! \todo Make these a sub-menu.
                 viewMenu->addAction(largeThumbnailsAction);
                 viewMenu->addAction(smallThumbnailsAction);
@@ -212,9 +212,9 @@ namespace djv
                 viewMenu->addAction(fileSequencesAction);
                 viewMenu->addAction(showHiddenAction);
 
-                auto sortMenu = Menu::create(DJV_TEXT("Sort"), context);
+                auto sortMenu = Menu::create(DJV_TEXT("djv::UI::FileBrowser", "Sort"), context);
 
-                auto bookmarksMenu = Menu::create(DJV_TEXT("Bookmarks"), context);
+                auto bookmarksMenu = Menu::create(DJV_TEXT("djv::UI::FileBrowser", "Bookmarks"), context);
 
                 auto menuBar = MenuBar::create(context);
                 menuBar->addMenu(directoryMenu);
@@ -321,7 +321,7 @@ namespace djv
                         widget->_updateItems();
                     }
                     std::stringstream ss;
-                    ss << value.size() << " " << DJV_TEXT("items");
+                    ss << value.size() << " " << DJV_TEXT("djv::UI::FileBrowser", "items");
                     itemCountLabel->setText(ss.str());
                 });
 
@@ -705,9 +705,9 @@ namespace djv
                 std::stringstream ss;
                 ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
                 ss << '\n';
-                ss << DJV_TEXT("Type") << ": " << fileInfo.getType() << '\n';
-                ss << DJV_TEXT("Size") << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
-                ss << DJV_TEXT("Modification time") << ": " << Time::getLabel(fileInfo.getTime());
+                ss << DJV_TEXT("djv::UI::FileBrowser", "Type") << ": " << fileInfo.getType() << '\n';
+                ss << DJV_TEXT("djv::UI::FileBrowser", "Size") << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                ss << DJV_TEXT("djv::UI::FileBrowser", "Modification time") << ": " << Time::getLabel(fileInfo.getTime());
                 return ss.str();
             }
 
@@ -719,23 +719,23 @@ namespace djv
                 for (const auto & videoInfo : avInfo.video)
                 {
                     ss << '\n' << '\n';
-                    ss << DJV_TEXT("Video track") << " #" << track << '\n';
-                    ss << DJV_TEXT("Size") << ": " << videoInfo.info.size << '\n';
-                    ss << DJV_TEXT("Type") << ": " << videoInfo.info.type << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Video track") << " #" << track << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Size") << ": " << videoInfo.info.size << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Type") << ": " << videoInfo.info.type << '\n';
                     ss.precision(2);
-                    ss << DJV_TEXT("Speed") << ": " << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT("FPS") << '\n';
-                    ss << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(videoInfo.duration));
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Speed") << ": " << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT("djv::UI::FileBrowser", "FPS") << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Duration") << ": " << Time::getLabel(Time::durationToSeconds(videoInfo.duration));
                     ++track;
                 }
                 track = 0;
                 for (const auto & audioInfo : avInfo.audio)
                 {
                     ss << '\n' << '\n';
-                    ss << DJV_TEXT("Audio track") << " #" << track << '\n';
-                    ss << DJV_TEXT("Channels") << ": " << audioInfo.info.channelCount << '\n';
-                    ss << DJV_TEXT("Type") << ": " << audioInfo.info.type << '\n';
-                    ss << DJV_TEXT("Sample rate") << ": " << audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
-                    ss << DJV_TEXT("Duration") << ": " << Time::getLabel(Time::durationToSeconds(audioInfo.duration));
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Audio track") << " #" << track << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Channels") << ": " << audioInfo.info.channelCount << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Type") << ": " << audioInfo.info.type << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Sample rate") << ": " << audioInfo.info.sampleRate / 1000.f << DJV_TEXT("djv::UI::FileBrowser", "kHz") << '\n';
+                    ss << DJV_TEXT("djv::UI::FileBrowser", "Duration") << ": " << Time::getLabel(Time::durationToSeconds(audioInfo.duration));
                     ++track;
                 }
                 return ss.str();
@@ -781,7 +781,7 @@ namespace djv
                         Style::MetricsRole::MarginSmall));
                     
                     auto titleLabel = Label::create(context);
-                    titleLabel->setText(DJV_TEXT("File Browser"));
+                    titleLabel->setText(DJV_TEXT("djv::UI::FileBrowser", "File Browser"));
                     titleLabel->setFontSizeRole(Style::MetricsRole::FontLarge);
                     titleLabel->setTextHAlign(TextHAlign::Left);
                     titleLabel->setMargin(Layout::Margin(
@@ -861,8 +861,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI::FileBrowser,
         ViewType,
-        DJV_TEXT("ThumbnailsLarge"),
-        DJV_TEXT("ThumbnailsSmall"),
-        DJV_TEXT("ListView"));
+        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsLarge"),
+        DJV_TEXT("djv::UI::FileBrowser", "ThumbnailsSmall"),
+        DJV_TEXT("djv::UI::FileBrowser", "ListView"));
 
 } // namespace djv

@@ -64,21 +64,21 @@ namespace djv
             //! \todo Implement me!
             p.actions["Duplicate"] = UI::Action::create();
             p.actions["Duplicate"]->setIcon("djvIconWindowDuplicate");
-            p.actions["Duplicate"]->setText(DJV_TEXT("Duplicate"));
+            p.actions["Duplicate"]->setText(DJV_TEXT("djv::ViewLib", "Duplicate"));
             p.actions["Duplicate"]->setShortcut(GLFW_KEY_D, GLFW_MOD_CONTROL);
             p.actions["Duplicate"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
             p.actions["Fit"]->setIcon("djvIconWindowFit");
-            p.actions["Fit"]->setText(DJV_TEXT("Fit"));
+            p.actions["Fit"]->setText(DJV_TEXT("djv::ViewLib", "Fit"));
             p.actions["Fit"]->setShortcut(GLFW_KEY_F);
             p.actions["Fit"]->setEnabled(false);
 
             p.actions["FullScreen"] = UI::Action::create();
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["FullScreen"]->setText(DJV_TEXT("Full Screen"));
+            p.actions["FullScreen"]->setText(DJV_TEXT("djv::ViewLib", "Full Screen"));
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));

@@ -142,7 +142,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+            throw std::invalid_argument(DJV_TEXT("djv::Core::PicoJSON", "Cannot parse value."));
         }
     }
 
@@ -154,7 +154,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+            throw std::invalid_argument(DJV_TEXT("djv::Core::PicoJSON", "Cannot parse value."));
         }
     }
 
@@ -166,7 +166,7 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+            throw std::invalid_argument(DJV_TEXT("djv::Core::PicoJSON", "Cannot parse value."));
         }
     }
 

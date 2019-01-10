@@ -163,7 +163,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "'.";
+                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PNG", "cannot write") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     const auto info = Image::Info(_imageInfo.size, imageType);
@@ -185,20 +185,20 @@ namespace djv
                     if (!f.png)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "': " << f.pngError.msg;
+                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PNG", "cannot open") << " '" << fileName << "': " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
                     f.f = FileSystem::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "'.";
+                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PNG", "cannot open") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     if (!pngOpen(f.f, f.png, &f.pngInfo, info))
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("cannot open") << " '" << fileName << "': " << f.pngError.msg;
+                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PNG", "cannot open") << " '" << fileName << "': " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
                     if (Image::getBitDepth(info.type) > 8 && Memory::Endian::LSB == Memory::getEndian())
@@ -212,14 +212,14 @@ namespace djv
                         if (!pngScanline(f.png, imageData->getData(y)))
                         {
                             std::stringstream s;
-                            s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "': " << f.pngError.msg;
+                            s << pluginName << " " << DJV_TEXT("djv::AV::IO::PNG", "cannot write") << " '" << fileName << "': " << f.pngError.msg;
                             throw std::runtime_error(s.str());
                         }
                     }
                     if (!pngEnd(f.png, f.pngInfo))
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "': " << f.pngError.msg;
+                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PNG", "cannot write") << " '" << fileName << "': " << f.pngError.msg;
                         throw std::runtime_error(s.str());
                     }
                 }

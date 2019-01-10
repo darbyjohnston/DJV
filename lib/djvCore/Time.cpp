@@ -115,7 +115,7 @@ namespace djv
                 const auto pieces = String::split(string, ':');
                 if (pieces.size() != 5)
                 {
-                    throw std::invalid_argument(DJV_TEXT("Cannot parse value."));
+                    throw std::invalid_argument(DJV_TEXT("djv::Core::Time", "Cannot parse value."));
                 }
                 id = std::stoi(pieces[0]);
                 type = std::stoi(pieces[1]);

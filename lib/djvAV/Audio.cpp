@@ -39,12 +39,12 @@ namespace djv
         {
             std::string getALErrorString(ALenum value)
             {
-                std::string out = DJV_TEXT("Unknown");
+                std::string out = DJV_TEXT("djv::AV::Audio", "Unknown");
                 switch (value)
                 {
-                case AL_OUT_OF_MEMORY: out = DJV_TEXT("Out of memory"); break;
-                case AL_INVALID_VALUE: out = DJV_TEXT("Invalid value"); break;
-                case AL_INVALID_ENUM:  out = DJV_TEXT("Invalid enum");  break;
+                case AL_OUT_OF_MEMORY: out = DJV_TEXT("djv::AV::Audio", "Out of memory"); break;
+                case AL_INVALID_VALUE: out = DJV_TEXT("djv::AV::Audio", "Invalid value"); break;
+                case AL_INVALID_ENUM:  out = DJV_TEXT("djv::AV::Audio", "Invalid enum");  break;
                 default: break;
                 }
                 return out;
@@ -56,11 +56,11 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Audio,
         Type,
-        DJV_TEXT("None"),
-        DJV_TEXT("U8"),
-        DJV_TEXT("S16"),
-        DJV_TEXT("S32"),
-        DJV_TEXT("F32"));
+        DJV_TEXT("djv::AV::Audio", "None"),
+        DJV_TEXT("djv::AV::Audio", "U8"),
+        DJV_TEXT("djv::AV::Audio", "S16"),
+        DJV_TEXT("djv::AV::Audio", "S32"),
+        DJV_TEXT("djv::AV::Audio", "F32"));
 
 } // namespace djv
 

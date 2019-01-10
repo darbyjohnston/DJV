@@ -96,7 +96,7 @@ namespace djv
                     if (Image::Type::None == imageType)
                     {
                         std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("cannot write") << " '" << fileName << "'.";
+                        s << pluginName << " " << DJV_TEXT("djv::AV::IO::PPM", "cannot write") << " '" << fileName << "'.";
                         throw std::runtime_error(s.str());
                     }
                     Image::Layout layout;

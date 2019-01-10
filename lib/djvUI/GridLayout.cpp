@@ -525,10 +525,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI::Layout,
         GridStretch,
-        DJV_TEXT("None"),
-        DJV_TEXT("Horizontal"),
-        DJV_TEXT("Vertical"),
-        DJV_TEXT("Both"));
+        DJV_TEXT("djv::UI::Layout", "None"),
+        DJV_TEXT("djv::UI::Layout", "Horizontal"),
+        DJV_TEXT("djv::UI::Layout", "Vertical"),
+        DJV_TEXT("djv::UI::Layout", "Both"));
 
 } // namespace djv
 

@@ -51,42 +51,42 @@ namespace djv
                 std::string getOpenError(const std::string& fileName)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("Cannot open file") << " '" << fileName << "'. " << Error::getLastError();
+                    s << DJV_TEXT("djv::Core::FileSystem", "Cannot open file") << " '" << fileName << "'. " << Error::getLastError();
                     return s.str();
                 }
 
                 std::string getCloseError(const std::string& fileName)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("Cannot close file") << " '" << fileName << "'. " << Error::getLastError();
+                    s << DJV_TEXT("djv::Core::FileSystem", "Cannot close file") << " '" << fileName << "'. " << Error::getLastError();
                     return s.str();
                 }
 
                 std::string getMemoryMapError(const std::string& fileName)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("Cannot map file") << " '" << fileName << "'. " << Error::getLastError();
+                    s << DJV_TEXT("djv::Core::FileSystem", "Cannot map file") << " '" << fileName << "'. " << Error::getLastError();
                     return s.str();
                 }
 
                 std::string getMemoryUnmapError(const std::string& fileName)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("Cannot unmap file") << " '" << fileName << "'. " << Error::getLastError();
+                    s << DJV_TEXT("djv::Core::FileSystem", "Cannot unmap file") << " '" << fileName << "'. " << Error::getLastError();
                     return s.str();
                 }
 
                 std::string getReadError(const std::string& fileName)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("Cannot read file") << " '" << fileName << "'. " << Error::getLastError();
+                    s << DJV_TEXT("djv::Core::FileSystem", "Cannot read file") << " '" << fileName << "'. " << Error::getLastError();
                     return s.str();
                 }
 
                 std::string getWriteError(const std::string& fileName)
                 {
                     std::stringstream s;
-                    s << DJV_TEXT("Cannot write file") << " '" << fileName << "'. " << Error::getLastError();
+                    s << DJV_TEXT("djv::Core::FileSystem", "Cannot write file") << " '" << fileName << "'. " << Error::getLastError();
                     return s.str();
                 }
 

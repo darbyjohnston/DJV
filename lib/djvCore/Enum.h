@@ -83,7 +83,7 @@
         if (i == labels.end()) \
         { \
             std::stringstream ss; \
-            ss << DJV_TEXT("Cannot parse value") << " '" << s << "'."; \
+            ss << DJV_TEXT("djv::Core", "Cannot parse value") << " '" << s << "'."; \
             throw std::invalid_argument(ss.str()); \
         } \
         value = static_cast<prefix::name>(i - labels.begin()); \
