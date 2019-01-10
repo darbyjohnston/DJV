@@ -158,6 +158,7 @@ namespace djv
 
         LogSystem::~LogSystem()
         {
+            _logSystemInit = false;
             _p->running = false;
             if (_p->thread.joinable())
             {
