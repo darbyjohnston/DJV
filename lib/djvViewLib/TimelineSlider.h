@@ -54,7 +54,7 @@ namespace djv
 
             static std::shared_ptr<TimelineSlider> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > getCurrentTime() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
 
             void setDuration(Core::Time::Duration);
             void setCurrentTime(Core::Time::Timestamp);

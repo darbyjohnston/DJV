@@ -81,7 +81,7 @@ namespace djv
             {
                 auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
                 p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                    p.media->getCurrentImage(),
+                    p.media->observeCurrentImage(),
                     [weak](const std::shared_ptr<AV::Image::Image> & image)
                 {
                     if (auto widget = weak.lock())

@@ -60,17 +60,17 @@ namespace djv
             static std::shared_ptr<Media> create(const std::string &, Core::Context *);
 
             const std::string & getFileName() const;
-            std::shared_ptr<Core::IValueSubject<AV::IO::Info> > getInfo() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Duration> > getDuration() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > getCurrentTime() const;
-            std::shared_ptr<Core::IValueSubject<Playback> > getPlayback() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > getCurrentImage() const;
+            std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Duration> > observeDuration() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
+            std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;
 
-            std::shared_ptr<Core::IValueSubject<size_t> > getVideoQueueMax() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > getAudioQueueMax() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > getVideoQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > getAudioQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > getALUnqueuedBuffers() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueMax() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueCount() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeALUnqueuedBuffers() const;
 
             void setCurrentTime(Core::Time::Timestamp);
             void setPlayback(Playback);

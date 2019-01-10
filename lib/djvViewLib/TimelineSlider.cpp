@@ -72,7 +72,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<Time::Timestamp> > TimelineSlider::getCurrentTime() const
+        std::shared_ptr<Core::IValueSubject<Time::Timestamp> > TimelineSlider::observeCurrentTime() const
         {
             return _p->currentTime;
         }

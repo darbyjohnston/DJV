@@ -1,5 +1,6 @@
 set(header
     Action.h
+    ActionGroup.h
     Border.h
     ButtonGroup.h
     ColorSwatch.h
@@ -65,6 +66,7 @@ set(header
     Window.h)
 set(source
     Action.cpp
+    ActionGroup.cpp
     Border.cpp
     ButtonGroup.cpp
     ColorSwatch.cpp

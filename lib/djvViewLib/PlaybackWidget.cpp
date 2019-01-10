@@ -95,7 +95,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<Playback> > PlaybackWidget::getPlayback() const
+        std::shared_ptr<Core::IValueSubject<Playback> > PlaybackWidget::observePlayback() const
         {
             return _p->playback;
         }

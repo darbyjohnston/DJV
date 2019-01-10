@@ -241,7 +241,7 @@ namespace djv
                 if (auto uiSystem = context->getSystemT<UISystem>().lock())
                 {
                     p.currentLocaleObserver = ValueObserver<std::string>::create(
-                        uiSystem->getGeneralSettings()->getCurrentLocale(),
+                        uiSystem->getGeneralSettings()->observeCurrentLocale(),
                         [weak](const std::string& value)
                     {
                         if (auto style = weak.lock())
@@ -253,7 +253,7 @@ namespace djv
                     });
 
                     p.fontsObserver = MapObserver<std::string, Settings::FontMap>::create(
-                        uiSystem->getFontSettings()->getFonts(),
+                        uiSystem->getFontSettings()->observeFonts(),
                         [weak](const std::map<std::string, Settings::FontMap>& value)
                     {
                         if (auto style = weak.lock())

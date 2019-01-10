@@ -81,7 +81,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<ButtonType> > Action::getButtonType() const
+        std::shared_ptr<IValueSubject<ButtonType> > Action::observeButtonType() const
         {
             return _p->buttonType;
         }
@@ -101,7 +101,7 @@ namespace djv
             _p->clicked->setAlways(true);
         }
 
-        std::shared_ptr<IValueSubject<bool> > Action::isChecked() const
+        std::shared_ptr<IValueSubject<bool> > Action::observeChecked() const
         {
             return _p->checked;
         }
@@ -117,12 +117,12 @@ namespace djv
             _p->checked->setAlways(value);
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::getIcon() const
+        std::shared_ptr<IValueSubject<std::string> > Action::observeIcon() const
         {
             return _p->icon;
         }
 
-        std::shared_ptr<IValueSubject<Style::MetricsRole> > Action::getIconSizeRole() const
+        std::shared_ptr<IValueSubject<Style::MetricsRole> > Action::observeIconSizeRole() const
         {
             return _p->iconSizeRole;
         }
@@ -137,7 +137,7 @@ namespace djv
             _p->icon->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::getText() const
+        std::shared_ptr<IValueSubject<std::string> > Action::observeText() const
         {
             return _p->text;
         }
@@ -147,12 +147,12 @@ namespace djv
             _p->text->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IValueSubject<std::string> > Action::getFontFace() const
+        std::shared_ptr<Core::IValueSubject<std::string> > Action::observeFontFace() const
         {
             return _p->fontFace;
         }
 
-        std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > Action::getFontSizeRole() const
+        std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > Action::observeFontSizeRole() const
         {
             return _p->fontSizeRole;
         }
@@ -167,7 +167,7 @@ namespace djv
             _p->fontSizeRole->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::getShortcuts() const
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > Action::observeShortcuts() const
         {
             return _p->shortcuts;
         }
@@ -236,7 +236,7 @@ namespace djv
             _p->shortcuts->clear();
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > Action::isEnabled() const
+        std::shared_ptr<Core::IValueSubject<bool> > Action::observeEnabled() const
         {
             return _p->enabled;
         }
@@ -246,7 +246,7 @@ namespace djv
             _p->enabled->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Action::getTooltip() const
+        std::shared_ptr<IValueSubject<std::string> > Action::observeTooltip() const
         {
             return _p->tooltip;
         }
@@ -254,210 +254,6 @@ namespace djv
         void Action::setTooltip(const std::string& value)
         {
             _p->tooltip->setIfChanged(value);
-        }
-
-        struct ActionGroup::Private
-        {
-            std::vector<std::shared_ptr<Action> > actions;
-            ButtonType buttonType = ButtonType::Push;
-            std::function<void(int)> clickedCallback;
-            std::function<void(int, bool)> checkedCallback;
-            std::function<void(int)> radioCallback;
-            std::map<std::shared_ptr<Action>, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
-            std::map<std::shared_ptr<Action>, std::shared_ptr<ValueObserver<bool> > > checkedObservers;
-        };
-
-        ActionGroup::ActionGroup() :
-            _p(new Private)
-        {}
-
-        ActionGroup::~ActionGroup()
-        {
-            clearActions();
-        }
-
-        std::shared_ptr<ActionGroup> ActionGroup::create(ButtonType buttonType)
-        {
-            auto out = std::shared_ptr<ActionGroup>(new ActionGroup);
-            out->setButtonType(buttonType);
-            return out;
-        }
-
-        const std::vector<std::shared_ptr<Action> >& ActionGroup::getActions() const
-        {
-            return _p->actions;
-        }
-
-        size_t ActionGroup::getActionCount() const
-        {
-            return _p->actions.size();
-        }
-
-        int ActionGroup::getActionIndex(const std::shared_ptr<Action>& value) const
-        {
-            const auto i = std::find(_p->actions.begin(), _p->actions.end(), value);
-            if (i != _p->actions.end())
-            {
-                return static_cast<int>(i - _p->actions.begin());
-            }
-            return -1;
-        }
-
-        void ActionGroup::addAction(const std::shared_ptr<Action>& action)
-        {
-            action->setButtonType(_p->buttonType);
-
-            if (ButtonType::Radio == _p->buttonType)
-            {
-                size_t i = 0;
-                for (; i < _p->actions.size(); ++i)
-                {
-                    if (_p->actions[i]->isChecked()->get())
-                    {
-                        break;
-                    }
-                }
-                if (i == _p->actions.size())
-                {
-                    action->setChecked(true);
-                }
-            }
-
-            const int index = static_cast<int>(_p->actions.size());
-
-            auto weak = std::weak_ptr<ActionGroup>(std::dynamic_pointer_cast<ActionGroup>(shared_from_this()));
-            _p->clickedObservers[action] =
-                ValueObserver<bool>::create(
-                    action->observeClicked(),
-                    [weak, index](bool value)
-            {
-                if (value)
-                {
-                    if (auto group = weak.lock())
-                    {
-                        if (group->_p->clickedCallback)
-                        {
-                            group->_p->clickedCallback(index);
-                        }
-                    }
-                }
-            });
-
-            _p->checkedObservers[action] =
-                ValueObserver<bool>::create(
-                    action->isChecked(),
-                    [this, index](bool value)
-            {
-                if (value && ButtonType::Radio == _p->buttonType && _p->actions.size() > 0)
-                {
-                    for (size_t i = 0; i < _p->actions.size(); ++i)
-                    {
-                        _p->actions[i]->setChecked(i == index);
-                    }
-                    if (_p->radioCallback)
-                    {
-                        _p->radioCallback(index);
-                    }
-                }
-                if (_p->checkedCallback)
-                {
-                    _p->checkedCallback(index, true);
-                }
-            });
-
-            _p->actions.push_back(action);
-        }
-
-        void ActionGroup::removeAction(const std::shared_ptr<Action>& action)
-        {
-            const auto i = std::find(_p->actions.begin(), _p->actions.end(), action);
-            if (i != _p->actions.end())
-            {
-                const auto j = _p->clickedObservers.find(*i);
-                if (j != _p->clickedObservers.end())
-                {
-                    _p->clickedObservers.erase(j);
-                }
-                const auto k = _p->checkedObservers.find(*i);
-                if (k != _p->checkedObservers.end())
-                {
-                    _p->checkedObservers.erase(k);
-                }
-                _p->actions.erase(i);
-            }
-        }
-
-        void ActionGroup::clearActions()
-        {
-            _p->actions.clear();
-            _p->clickedObservers.clear();
-            _p->checkedObservers.clear();
-        }
-
-        ButtonType ActionGroup::getButtonType() const
-        {
-            return _p->buttonType;
-        }
-
-        void ActionGroup::setButtonType(ButtonType value)
-        {
-            _p->buttonType = value;
-
-            for (size_t i = 0; i < _p->actions.size(); ++i)
-            {
-                _p->actions[i]->setButtonType(value);
-            }
-
-            if (ButtonType::Radio == _p->buttonType)
-            {
-                setChecked(0);
-            }
-        }
-
-        void ActionGroup::setChecked(int index, bool value)
-        {
-            if (index >= 0 && index < static_cast<int>(_p->actions.size()))
-            {
-                if (_p->actions[index]->isChecked()->get() != value)
-                {
-                    if (ButtonType::Radio == _p->buttonType)
-                    {
-                        for (size_t i = 0; i < _p->actions.size(); ++i)
-                        {
-                            _p->actions[i]->setChecked(i == index);
-                        }
-
-                        if (_p->radioCallback)
-                        {
-                            _p->radioCallback(index);
-                        }
-                    }
-                    else
-                    {
-                        _p->actions[index]->setChecked(value);
-                    }
-
-                    if (_p->checkedCallback)
-                    {
-                        _p->checkedCallback(index, value);
-                    }
-                }
-            }
-        }
-
-        void ActionGroup::setClickedCallback(const std::function<void(int)>& callback)
-        {
-            _p->clickedCallback = callback;
-        }
-
-        void ActionGroup::setCheckedCallback(const std::function<void(int, bool)>& callback)
-        {
-            _p->checkedCallback = callback;
-        }
-
-        void ActionGroup::setRadioCallback(const std::function<void(int)>& callback)
-        {
-            _p->radioCallback = callback;
         }
 
     } // namespace UI

@@ -224,52 +224,52 @@ namespace djv
             return _p->fileName;
         }
 
-        std::shared_ptr<IValueSubject<AV::IO::Info> > Media::getInfo() const
+        std::shared_ptr<IValueSubject<AV::IO::Info> > Media::observeInfo() const
         {
             return _p->info;
         }
 
-        std::shared_ptr<IValueSubject<Time::Duration> > Media::getDuration() const
+        std::shared_ptr<IValueSubject<Time::Duration> > Media::observeDuration() const
         {
             return _p->duration;
         }
 
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::getCurrentTime() const
+        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeCurrentTime() const
         {
             return _p->currentTime;
         }
 
-        std::shared_ptr<IValueSubject<Playback> > Media::getPlayback() const
+        std::shared_ptr<IValueSubject<Playback> > Media::observePlayback() const
         {
             return _p->playback;
         }
 
-        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > Media::getCurrentImage() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > Media::observeCurrentImage() const
         {
             return _p->currentImage;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::getVideoQueueMax() const
+        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueMax() const
         {
             return _p->videoQueueMax;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::getAudioQueueMax() const
+        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueMax() const
         {
             return _p->audioQueueMax;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::getVideoQueueCount() const
+        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueCount() const
         {
             return _p->videoQueueCount;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::getAudioQueueCount() const
+        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueCount() const
         {
             return _p->audioQueueCount;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::getALUnqueuedBuffers() const
+        std::shared_ptr<IValueSubject<size_t> > Media::observeALUnqueuedBuffers() const
         {
             return _p->alUnqueuedBuffers;
         }

@@ -425,7 +425,7 @@ namespace djv
                 });
 
                 _p->fileSequencesObserver = ValueObserver<bool>::create(
-                    fileSequencesAction->isChecked(),
+                    fileSequencesAction->observeChecked(),
                     [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -435,7 +435,7 @@ namespace djv
                 });
 
                 _p->showHiddenObserver = ValueObserver<bool>::create(
-                    showHiddenAction->isChecked(),
+                    showHiddenAction->observeChecked(),
                     [weak](bool value)
                 {
                     if (auto widget = weak.lock())

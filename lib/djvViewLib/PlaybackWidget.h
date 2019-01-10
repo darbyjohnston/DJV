@@ -52,7 +52,7 @@ namespace djv
 
             static std::shared_ptr<PlaybackWidget> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<Playback> > getPlayback() const;
+            std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             void setPlayback(Playback);
 
         protected:

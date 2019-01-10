@@ -128,31 +128,31 @@ namespace djv
             });
             _p->actionsToButtons[action] = button;
             _p->observers[action].buttonType = ValueObserver<ButtonType>::create(
-                action->getButtonType(),
+                action->observeButtonType(),
                 [button](ButtonType value)
             {
                 button->setButtonType(value);
             });
             _p->observers[action].checked = ValueObserver<bool>::create(
-                action->isChecked(),
+                action->observeChecked(),
                 [button](bool value)
             {
                 button->setChecked(value);
             });
             _p->observers[action].icon = ValueObserver<std::string>::create(
-                action->getIcon(),
+                action->observeIcon(),
                 [button](const std::string & value)
             {
                 button->setIcon(value);
             });
             _p->observers[action].enabled = ValueObserver<bool>::create(
-                action->isEnabled(),
+                action->observeEnabled(),
                 [button](bool value)
             {
                 button->setEnabled(value);
             });
             _p->observers[action].tooltip = ValueObserver<std::string>::create(
-                action->getTooltip(),
+                action->observeTooltip(),
                 [button](const std::string & value)
             {
                 button->setTooltip(value);

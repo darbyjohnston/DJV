@@ -300,7 +300,7 @@ namespace djv
                     std::string tooltip = _tooltipText;
                     for (const auto & action : _actions)
                     {
-                        const auto & actionTooltip = action->getTooltip()->get();
+                        const auto & actionTooltip = action->observeTooltip()->get();
                         if (!actionTooltip.empty())
                         {
                             tooltip = actionTooltip;
@@ -486,9 +486,9 @@ namespace djv
                 std::vector<std::shared_ptr<Shortcut> > shortcuts;
                 for (const auto& i : _actions)
                 {
-                    if (i->isEnabled()->get())
+                    if (i->observeEnabled()->get())
                     {
-                        for (auto j : i->getShortcuts()->get())
+                        for (auto j : i->observeShortcuts()->get())
                         {
                             shortcuts.push_back(j);
                         }
@@ -499,13 +499,13 @@ namespace djv
                 std::sort(shortcuts.begin(), shortcuts.end(),
                     [](const std::shared_ptr<Shortcut> & a, const std::shared_ptr<Shortcut> & b) -> bool
                 {
-                    return a->getShortcutModifiers()->get() > b->getShortcutModifiers()->get();
+                    return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
                 });
 
                 for (const auto& i : shortcuts)
                 {
-                    const int key = i->getShortcutKey()->get();
-                    const int modifiers = i->getShortcutModifiers()->get();
+                    const int key = i->observeShortcutKey()->get();
+                    const int modifiers = i->observeShortcutModifiers()->get();
                     if ((key == event.getKey() && event.getKeyModifiers() & modifiers) ||
                         (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
                     {

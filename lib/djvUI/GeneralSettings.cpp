@@ -71,7 +71,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<std::string> > General::getCurrentLocale() const
+            std::shared_ptr<IValueSubject<std::string> > General::observeCurrentLocale() const
             {
                 return _p->currentLocale;
             }

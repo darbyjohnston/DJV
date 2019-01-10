@@ -33,6 +33,7 @@
 #include <djvViewLib/Media.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 
 #include <djvCore/Context.h>
@@ -104,26 +105,26 @@ namespace djv
             //! \todo Implement me!
             p.actions["InPoint"] = UI::Action::create();
             p.actions["InPoint"]->setIcon("djvIconFrameStart");
-            p.actions["InPoint"]->setText("In Point");
+            p.actions["InPoint"]->setText("Go To In Point");
             p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME);
             p.actions["InPoint"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["OutPoint"] = UI::Action::create();
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
-            p.actions["OutPoint"]->setText("Out Point");
+            p.actions["OutPoint"]->setText("Go To Out Point");
             p.actions["OutPoint"]->setShortcut(GLFW_KEY_END);
             p.actions["OutPoint"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["StartFrame"] = UI::Action::create();
-            p.actions["StartFrame"]->setText("Start Frame");
+            p.actions["StartFrame"]->setText("Go To Start Frame");
             p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
             p.actions["StartFrame"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["EndFrame"] = UI::Action::create();
-            p.actions["EndFrame"]->setText("End Frame");
+            p.actions["EndFrame"]->setText("Go To End Frame");
             p.actions["EndFrame"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
             p.actions["EndFrame"]->setEnabled(false);
 
@@ -171,6 +172,36 @@ namespace djv
             p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, GLFW_MOD_CONTROL);
             p.actions["PrevFrame100"]->setEnabled(false);
 
+            //! \todo Implement me!
+            p.actions["InOutPoints"] = UI::Action::create();
+            p.actions["InOutPoints"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["InOutPoints"]->setText("Enable In/Out Points");
+            p.actions["InOutPoints"]->setShortcut(GLFW_KEY_P);
+            p.actions["InOutPoints"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["SetInPoint"] = UI::Action::create();
+            p.actions["SetInPoint"]->setText("Set In Point");
+            p.actions["SetInPoint"]->setShortcut(GLFW_KEY_I);
+            p.actions["SetInPoint"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["SetOutPoint"] = UI::Action::create();
+            p.actions["SetOutPoint"]->setText("Set Out Point");
+            p.actions["SetOutPoint"]->setShortcut(GLFW_KEY_O);
+            p.actions["SetOutPoint"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["ResetInPoint"] = UI::Action::create();
+            p.actions["ResetInPoint"]->setText("Reset In Point");
+            p.actions["ResetInPoint"]->setShortcut(GLFW_KEY_I, GLFW_MOD_SHIFT);
+            p.actions["ResetInPoint"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["ResetOutPoint"] = UI::Action::create();
+            p.actions["ResetOutPoint"]->setText("Reset Out Point");
+            p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
+            p.actions["ResetOutPoint"]->setEnabled(false);
 
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setRadioCallback(
@@ -235,6 +266,15 @@ namespace djv
             menu->addAction(p.actions["PrevFrame"]);
             menu->addAction(p.actions["PrevFrame10"]);
             menu->addAction(p.actions["PrevFrame100"]);
+            menu->addSeparator();
+            menu->addAction(p.actions["InOutPoints"]);
+            menu->addAction(p.actions["SetInPoint"]);
+            menu->addAction(p.actions["SetOutPoint"]);
+            menu->addAction(p.actions["ResetInPoint"]);
+            menu->addAction(p.actions["ResetOutPoint"]);
+            //! \todo Implement me!
+            auto layoutMenu = UI::Menu::create(DJV_TEXT("Layout"), context);
+            menu->addMenu(layoutMenu);
             return menu;
         }
 
@@ -249,7 +289,7 @@ namespace djv
             {
                 auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
                 p.playbackObserver = ValueObserver<Playback>::create(
-                    media->getPlayback(),
+                    media->observePlayback(),
                     [weak](Playback value)
                 {
                     if (auto system = weak.lock())

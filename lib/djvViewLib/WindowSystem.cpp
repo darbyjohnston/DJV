@@ -83,7 +83,7 @@ namespace djv
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
             p.fullScreenObserver = ValueObserver<bool>::create(
-                p.actions["FullScreen"]->isChecked(),
+                p.actions["FullScreen"]->observeChecked(),
                 [weak, context](bool value)
             {
                 if (auto system = weak.lock())

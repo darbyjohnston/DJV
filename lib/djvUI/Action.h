@@ -29,7 +29,6 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
 #include <djvUI/Style.h>
 
 #include <djvCore/ListObserver.h>
@@ -54,30 +53,30 @@ namespace djv
             virtual ~Action();
             static std::shared_ptr<Action> create();
 
-            std::shared_ptr<Core::IValueSubject<ButtonType> > getButtonType() const;
+            std::shared_ptr<Core::IValueSubject<ButtonType> > observeButtonType() const;
             void setButtonType(ButtonType);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeClicked() const;
             void doClicked();
 
-            std::shared_ptr<Core::IValueSubject<bool> > isChecked() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeChecked() const;
             void setChecked(bool);
             void doChecked();
 
-            std::shared_ptr<Core::IValueSubject<std::string> > getIcon() const;
-            std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > getIconSizeRole() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeIcon() const;
+            std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > observeIconSizeRole() const;
             void setIcon(const std::string&);
             void setIconSizeRole(Style::MetricsRole);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > getText() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeText() const;
             void setText(const std::string&);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > getFontFace() const;
-            std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > getFontSizeRole() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeFontFace() const;
+            std::shared_ptr<Core::IValueSubject<Style::MetricsRole> > observeFontSizeRole() const;
             void setFontFace(const std::string &);
             void setFontSizeRole(Style::MetricsRole);
 
-            std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > getShortcuts() const;
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<Shortcut> > > observeShortcuts() const;
             void setShortcut(const std::shared_ptr<Shortcut>&);
             void setShortcut(int key);
             void setShortcut(int key, int keyModifiers);
@@ -86,45 +85,11 @@ namespace djv
             void addShortcut(int key, int keyModifiers);
             void clearShortcuts();
 
-            std::shared_ptr<Core::IValueSubject<bool> > isEnabled() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeEnabled() const;
             void setEnabled(bool);
 
-            std::shared_ptr<Core::IValueSubject<std::string> > getTooltip() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeTooltip() const;
             void setTooltip(const std::string&);
-
-        private:
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
-
-        //! This class manages a group of actions.
-        class ActionGroup : public std::enable_shared_from_this<ActionGroup>
-        {
-            DJV_NON_COPYABLE(ActionGroup);
-
-        protected:
-            ActionGroup();
-
-        public:
-            ~ActionGroup();
-
-            static std::shared_ptr<ActionGroup> create(ButtonType);
-
-            const std::vector<std::shared_ptr<Action> >& getActions() const;
-            size_t getActionCount() const;
-            int getActionIndex(const std::shared_ptr<Action>&) const;
-            void addAction(const std::shared_ptr<Action>&);
-            void removeAction(const std::shared_ptr<Action>&);
-            void clearActions();
-
-            ButtonType getButtonType() const;
-            void setButtonType(ButtonType);
-
-            void setChecked(int, bool = true);
-
-            void setClickedCallback(const std::function<void(int)>&);
-            void setCheckedCallback(const std::function<void(int, bool)>&);
-            void setRadioCallback(const std::function<void(int)>&);
 
         private:
             struct Private;

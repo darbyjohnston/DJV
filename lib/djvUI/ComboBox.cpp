@@ -30,6 +30,7 @@
 #include <djvUI/ComboBox.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>

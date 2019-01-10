@@ -141,6 +141,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > _textObserver;
                 std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > _shortcutsObserver;
                 std::shared_ptr<ValueObserver<bool> > _enabledObserver;
+                std::shared_ptr<ValueObserver<std::string> > _tooltipObserver;
 
                 friend class MenuLayout;
             };
@@ -184,7 +185,7 @@ namespace djv
             {
                 auto weak = std::weak_ptr<MenuButton>(std::dynamic_pointer_cast<MenuButton>(shared_from_this()));
                 _buttonTypeObserver = ValueObserver<ButtonType>::create(
-                    action->getButtonType(),
+                    action->observeButtonType(),
                     [weak](ButtonType value)
                 {
                     if (auto widget = weak.lock())
@@ -193,7 +194,7 @@ namespace djv
                     }
                 });
                 _checkedObserver = ValueObserver<bool>::create(
-                    action->isChecked(),
+                    action->observeChecked(),
                     [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -202,7 +203,7 @@ namespace djv
                     }
                 });
                 _iconObserver = ValueObserver<std::string>::create(
-                    action->getIcon(),
+                    action->observeIcon(),
                     [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
@@ -212,7 +213,7 @@ namespace djv
                     }
                 });
                 _textObserver = ValueObserver<std::string>::create(
-                    action->getText(),
+                    action->observeText(),
                     [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
@@ -222,7 +223,7 @@ namespace djv
                 });
                 auto context = getContext();
                 _shortcutsObserver = ListObserver<std::shared_ptr<Shortcut> >::create(
-                    action->getShortcuts(),
+                    action->observeShortcuts(),
                     [weak, context](const std::vector<std::shared_ptr<Shortcut> > & value)
                 {
                     if (auto widget = weak.lock())
@@ -234,8 +235,8 @@ namespace djv
                             for (const auto & i : value)
                             {
                                 labels.push_back(Shortcut::getText(
-                                    i->getShortcutKey()->get(),
-                                    i->getShortcutModifiers()->get(),
+                                    i->observeShortcutKey()->get(),
+                                    i->observeShortcutModifiers()->get(),
                                     textSystem));
                             }
                             widget->_shortcutsLabel->setText(String::join(labels, ", "));
@@ -243,12 +244,21 @@ namespace djv
                     }
                 });
                 _enabledObserver = ValueObserver<bool>::create(
-                    action->isEnabled(),
+                    action->observeEnabled(),
                     [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->setEnabled(value);
+                    }
+                });
+                _tooltipObserver = ValueObserver<std::string>::create(
+                    action->observeTooltip(),
+                    [weak](const std::string & value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->setTooltip(value);
                     }
                 });
             }
@@ -257,7 +267,7 @@ namespace djv
             {
                 auto weak = std::weak_ptr<MenuButton>(std::dynamic_pointer_cast<MenuButton>(shared_from_this()));
                 _iconObserver = ValueObserver<std::string>::create(
-                    menu->getMenuIcon(),
+                    menu->observeMenuIcon(),
                     [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
@@ -267,7 +277,7 @@ namespace djv
                     }
                 });
                 _textObserver = ValueObserver<std::string>::create(
-                    menu->getMenuName(),
+                    menu->observeMenuName(),
                     [weak](const std::string & value)
                 {
                     if (auto widget = weak.lock())
@@ -675,12 +685,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Menu::getMenuIcon() const
+        std::shared_ptr<IValueSubject<std::string> > Menu::observeMenuIcon() const
         {
             return _p->menuIcon;
         }
 
-        std::shared_ptr<IValueSubject<std::string> > Menu::getMenuName() const
+        std::shared_ptr<IValueSubject<std::string> > Menu::observeMenuName() const
         {
             return _p->menuName;
         }
@@ -720,7 +730,10 @@ namespace djv
             hide();
 
             auto menuOverlayLayout = MenuOverlayLayout::create(_p->context);
-            menuOverlayLayout->addWidget(_p->createMenu(shared_from_this(), type), pos, MenuOverlayLayoutType::TopLevel);
+            if (auto menu = _p->createMenu(shared_from_this(), type))
+            {
+                menuOverlayLayout->addWidget(menu, pos, MenuOverlayLayoutType::TopLevel);
+            }
 
             _p->overlay = _p->createOverlay();
             _p->overlay->addWidget(menuOverlayLayout);
@@ -744,7 +757,10 @@ namespace djv
             hide();
 
             auto menuOverlayLayout = MenuOverlayLayout::create(_p->context);
-            menuOverlayLayout->addWidget(_p->createMenu(shared_from_this(), type), button, MenuOverlayLayoutType::TopLevel);
+            if (auto menu = _p->createMenu(shared_from_this(), type))
+            {
+                menuOverlayLayout->addWidget(menu, button, MenuOverlayLayoutType::TopLevel);
+            }
 
             _p->overlay = _p->createOverlay();
             _p->overlay->setAnchor(button);
@@ -769,7 +785,10 @@ namespace djv
             hide();
 
             auto menuOverlayLayout = MenuOverlayLayout::create(_p->context);
-            menuOverlayLayout->addWidget(_p->createMenu(shared_from_this(), type), button, MenuOverlayLayoutType::TopLevel);
+            if (auto menu = _p->createMenu(shared_from_this(), type))
+            {
+                menuOverlayLayout->addWidget(menu, button, MenuOverlayLayoutType::TopLevel);
+            }
 
             _p->overlay = _p->createOverlay();
             _p->overlay->setAnchor(anchor);
@@ -858,22 +877,25 @@ namespace djv
             }
 
             std::shared_ptr<Widget> out;
-            switch (type)
+            if (widgets.size())
             {
-            case MenuType::Default:
-            {
-                auto border = Layout::Border::create(context);
-                border->addWidget(layout);
-                out = border;
-                break;
-            }
-            case MenuType::ComboBox:
-            {
-                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                scrollWidget->addWidget(layout);
-                out = scrollWidget;
-                break;
-            }
+                switch (type)
+                {
+                case MenuType::Default:
+                {
+                    auto border = Layout::Border::create(context);
+                    border->addWidget(layout);
+                    out = border;
+                    break;
+                }
+                case MenuType::ComboBox:
+                {
+                    auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                    scrollWidget->addWidget(layout);
+                    out = scrollWidget;
+                    break;
+                }
+                }
             }
             return out;
         }

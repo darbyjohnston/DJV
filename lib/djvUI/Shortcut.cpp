@@ -86,7 +86,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<int> > Shortcut::getShortcutKey() const
+        std::shared_ptr<IValueSubject<int> > Shortcut::observeShortcutKey() const
         {
             return _p->shortcutKey;
         }
@@ -96,7 +96,7 @@ namespace djv
             _p->shortcutKey->setIfChanged(value);
         }
 
-        std::shared_ptr<IValueSubject<int> > Shortcut::getShortcutModifiers() const
+        std::shared_ptr<IValueSubject<int> > Shortcut::observeShortcutModifiers() const
         {
             return _p->shortcutModifiers;
         }

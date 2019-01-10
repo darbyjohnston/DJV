@@ -31,51 +31,42 @@
 
 #include <djvUI/Enum.h>
 
-#include <djvCore/ValueObserver.h>
-
-#include <memory>
+#include <functional>
 
 namespace djv
 {
-    namespace Core
-    {
-        class TextSystem;
-    
-    } // namespace Core
-
     namespace UI
     {
-        //! This class provides a keyboard shortcut.
-        //!
-        //! \todo [1.0 S] Use the command key modifier on OSX.
-        //! \todo Add key repeat.
-        class Shortcut : public std::enable_shared_from_this<Shortcut>
+        class Action;
+
+        //! This class manages a group of actions.
+        class ActionGroup : public std::enable_shared_from_this<ActionGroup>
         {
-            DJV_NON_COPYABLE(Shortcut);
+            DJV_NON_COPYABLE(ActionGroup);
 
         protected:
-            void _init();
-            Shortcut();
+            ActionGroup();
 
         public:
-            virtual ~Shortcut();
+            ~ActionGroup();
 
-            static std::shared_ptr<Shortcut> create();
-            static std::shared_ptr<Shortcut> create(int key);
-            static std::shared_ptr<Shortcut> create(int key, int modifiers);
+            static std::shared_ptr<ActionGroup> create(ButtonType);
 
-            std::shared_ptr<Core::IValueSubject<int> > observeShortcutKey() const;
-            void setShortcutKey(int key);
+            const std::vector<std::shared_ptr<Action> >& getActions() const;
+            size_t getActionCount() const;
+            int getActionIndex(const std::shared_ptr<Action>&) const;
+            void addAction(const std::shared_ptr<Action>&);
+            void removeAction(const std::shared_ptr<Action>&);
+            void clearActions();
 
-            std::shared_ptr<Core::IValueSubject<int> > observeShortcutModifiers() const;
-            void setShortcutModifiers(int);
+            ButtonType getButtonType() const;
+            void setButtonType(ButtonType);
 
-            void setCallback(const std::function<void(void)>&);
-            void doCallback();
+            void setChecked(int, bool = true);
 
-            static const std::string & getKeyString(int);
-            static const std::string & getModifierString(int);
-            static std::string getText(int key, int keyModifiers, const std::shared_ptr<Core::TextSystem> &);
+            void setClickedCallback(const std::function<void(int)>&);
+            void setCheckedCallback(const std::function<void(int, bool)>&);
+            void setRadioCallback(const std::function<void(int)>&);
 
         private:
             struct Private;

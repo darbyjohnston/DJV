@@ -53,6 +53,20 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::HelpSystem", context);
 
             DJV_PRIVATE_PTR();
+            //! \todo Implement me!
+            p.actions["Documentation"] = UI::Action::create();
+            p.actions["Documentation"]->setText(DJV_TEXT("Documentation"));
+            p.actions["Documentation"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["Information"] = UI::Action::create();
+            p.actions["Information"]->setText(DJV_TEXT("Information"));
+            p.actions["Information"]->setEnabled(false);
+
+            //! \todo Implement me!
+            p.actions["About"] = UI::Action::create();
+            p.actions["About"]->setText(DJV_TEXT("About"));
+            p.actions["About"]->setEnabled(false);
         }
 
         HelpSystem::HelpSystem() :
@@ -83,6 +97,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto menu = UI::Menu::create("Help", getContext());
+            menu->addAction(p.actions["Documentation"]);
+            menu->addAction(p.actions["Information"]);
+            menu->addAction(p.actions["About"]);
             return menu;
         }
 

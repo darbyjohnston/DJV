@@ -92,7 +92,7 @@ namespace djv
                 return out;
             }
 
-            const std::shared_ptr<MapSubject<std::string, FontMap> >& Font::getFonts() const
+            const std::shared_ptr<MapSubject<std::string, FontMap> >& Font::observeFonts() const
             {
                 return _p->fonts;
             }

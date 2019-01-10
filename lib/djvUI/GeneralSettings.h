@@ -53,7 +53,7 @@ namespace djv
 
                 static std::shared_ptr<General> create(Core::Context *);
 
-                std::shared_ptr<Core::IValueSubject<std::string> > getCurrentLocale() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentLocale() const;
                 void setCurrentLocale(const std::string&);
 
                 void load(const picojson::value&) override;

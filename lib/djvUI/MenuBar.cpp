@@ -146,14 +146,14 @@ namespace djv
             });
 
             _p->menuIconObservers[menu] = ValueObserver<std::string>::create(
-                menu->getMenuIcon(),
+                menu->observeMenuIcon(),
                 [button](const std::string & value)
             {
                 button->setIcon(value);
             });
 
             _p->menuNameObservers[menu] = ValueObserver<std::string>::create(
-                menu->getMenuName(),
+                menu->observeMenuName(),
                 [button](const std::string & value)
             {
                 button->setText(value);
