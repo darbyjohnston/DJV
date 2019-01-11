@@ -56,6 +56,8 @@ namespace djv
                 const std::shared_ptr<IObject> & getHover() const;
                 void setHover(const std::shared_ptr<IObject> &);
 
+                void tick(float dt);
+
             protected:
                 const std::shared_ptr<IObject> & _getRootObject() const;
 
@@ -68,16 +70,12 @@ namespace djv
 
                 virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
 
-                void _tick(float dt);
-
             private:
                 void _getFirstTick(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<IObject> > &);
                 void _localeChangedRecursive(const std::shared_ptr<IObject> &, LocaleChanged &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
 
                 DJV_PRIVATE();
-
-                friend class Context;
             };
 
         } // namespace Event

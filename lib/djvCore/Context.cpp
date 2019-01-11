@@ -175,7 +175,7 @@ namespace djv
 
             if (_eventLoop)
             {
-                _eventLoop->_tick(dt);
+                _eventLoop->tick(dt);
             }
         }
 

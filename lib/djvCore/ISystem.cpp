@@ -36,8 +36,6 @@ namespace djv
 {
     namespace Core
     {
-        bool ISystem::_logSystemInit = false;
-
         void ISystem::_init(const std::string & name, Context * context)
         {
             IObject::_init(context);

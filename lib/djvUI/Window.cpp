@@ -68,12 +68,7 @@ namespace djv
         {}
 
         Window::~Window()
-        {
-            if (auto system = getContext()->getSystemT<IWindowSystem>().lock())
-            {
-                system->_removeWindow(std::dynamic_pointer_cast<Window>(shared_from_this()));
-            }
-        }
+        {}
 
         std::shared_ptr<Window> Window::create(Context * context)
         {

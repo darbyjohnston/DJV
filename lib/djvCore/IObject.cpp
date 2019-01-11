@@ -46,6 +46,8 @@ namespace djv
 
         } // namespace
 
+        bool IObject::_logSystemInit = false;
+
         void IObject::_init(Context * context)
         {
             ++currentObjectCount;
