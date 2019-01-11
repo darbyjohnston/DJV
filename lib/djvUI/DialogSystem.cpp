@@ -66,6 +66,7 @@ namespace djv
                 {
                     IContainer::_init(context);
 
+                    setPointerEnabled(true);
                     setHAlign(HAlign::Center);
                     setVAlign(VAlign::Center);
 

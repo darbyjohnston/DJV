@@ -791,6 +791,7 @@ namespace djv
                         Widget::_init(context);
 
                         setBackgroundRole(Style::ColorRole::Background);
+                        setPointerEnabled(true);
 
                         auto titleIcon = Icon::create(context);
                         titleIcon->setIcon("djvIconDirectory");

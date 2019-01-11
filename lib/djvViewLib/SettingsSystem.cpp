@@ -71,7 +71,8 @@ namespace djv
 
                     setSpacing(UI::Style::MetricsRole::None);
                     setBackgroundRole(UI::Style::ColorRole::Background);
-                    
+                    setPointerEnabled(true);
+
                     auto titleIcon = UI::Icon::create(context);
                     titleIcon->setIcon("djvIconSettings");
                     titleIcon->setMargin(UI::Layout::Margin(
