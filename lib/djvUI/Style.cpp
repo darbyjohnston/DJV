@@ -341,6 +341,10 @@ namespace djv
                         _p->currentFont = i->second;
                     }
                 }
+                for (auto i : _p->currentFont)
+                {
+                    std::cout << "!!!!!!!!!!!" << i.first << ": " << i.second << std::endl;
+                }
             }
 
         } // namespace Style

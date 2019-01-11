@@ -1,14 +1,14 @@
 #!/bin/sh
 
-for file in `find ../../lib -name "*en_US.ts"`
+for file in *.en.text
 do
     if [[ -f $file ]]; then
-        echo "input: "$file
-        for language in "ja_JP"
+        echo $file
+        for language in "fr" "ja"
         #for language in "cs" "da" "de" "el" "es" "fr" "ko" "ja" "pl" "ru" "sv" "zh"
         do
-            outfile=`echo $file | sed -e "s/en_US/$language/"`
-            echo "output: "$outfile
+            outfile=`echo $file | sed -e "s/\.en\./\.$language\./"`
+            echo "    "$outfile
             python ./translate.py $file $outfile $language
         done
     fi

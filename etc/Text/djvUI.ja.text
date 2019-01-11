@@ -1,0 +1,1328 @@
+[
+    {
+        "text": "\u7121\u3057", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "None", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Background", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9\u30d8\u30c3\u30c0", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "BackgroundHeader", 
+        "description": ""
+    }, 
+    {
+        "text": "\u80cc\u666f\u30c6\u30ad\u30b9\u30c8", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "BackgroundText", 
+        "description": ""
+    }, 
+    {
+        "text": "\u80cc\u666f\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "BackgroundTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u524d\u666f", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Foreground", 
+        "description": ""
+    }, 
+    {
+        "text": "\u524d\u666f\u306e\u6697\u3055", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ForegroundDim", 
+        "description": ""
+    }, 
+    {
+        "text": "\u524d\u666f\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ForegroundTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5883\u754c", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c8\u30e9\u30d5", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Trough", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30dc\u30bf\u30f3", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Button", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c1\u30a7\u30c3\u30af\u3042\u308a", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Checked", 
+        "description": ""
+    }, 
+    {
+        "text": "\u524d\u666f\u3092\u30c1\u30a7\u30c3\u30af", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "CheckedForeground", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30db\u30d0\u30fc", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Hover", 
+        "description": ""
+    }, 
+    {
+        "text": "\u7121\u52b9", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Disabled", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30aa\u30fc\u30d0\u30fc\u30ec\u30a4", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Overlay", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5f71", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30de\u30fc\u30b8\u30f3", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Margin", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30de\u30fc\u30b8\u30f3\u5c0f", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "MarginSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30de\u30fc\u30b8\u30f3\u5927", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "MarginLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u9593\u9694", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Spacing", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b9\u30da\u30fc\u30b7\u30f3\u30b0\u30b9\u30e2\u30fc\u30eb", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "SpacingSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5927\u304d\u3044\u9593\u9694", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "SpacingLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c9\u30e9\u30c3\u30b0", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Drag", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30a2\u30a4\u30b3\u30f3", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Icon", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30a2\u30a4\u30b3\u30f3\u5927", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "IconLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5c0f\u3055\u3044\u30d5\u30a9\u30f3\u30c8", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d5\u30a9\u30f3\u30c8\u30df\u30c7\u30a3\u30a2\u30e0", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontMedium", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d5\u30a9\u30f3\u30c8\u5927", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u7279\u5927\u30d5\u30a9\u30f3\u30c8", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d5\u30a9\u30f3\u30c8\u7279\u5927\u7279\u5927", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "FontExtraExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u898b\u672c", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Swatch", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5c0f", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ThumbnailSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5927", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ThumbnailLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b9\u30af\u30ed\u30fc\u30eb\u9818\u57df", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "ScrollArea", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c6\u30ad\u30b9\u30c8\u5217", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c0\u30a4\u30a2\u30ed\u30b0", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "Dialog", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u30aa\u30d5\u30bb\u30c3\u30c8", 
+        "nameSpace": "djv::UI::Style", 
+        "id": "TooltipOffset", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c7\u30d5\u30a9\u30eb\u30c8", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5149", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "text": "\u6c34\u5e73", 
+        "nameSpace": "djv::UI", 
+        "id": "Horizontal", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5782\u76f4", 
+        "nameSpace": "djv::UI", 
+        "id": "Vertical", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5de6", 
+        "nameSpace": "djv::UI", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "text": "\u4e0a", 
+        "nameSpace": "djv::UI", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "text": "\u53f3", 
+        "nameSpace": "djv::UI", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5e95", 
+        "nameSpace": "djv::UI", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "text": "\u4e21\u65b9", 
+        "nameSpace": "djv::UI", 
+        "id": "Both", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30bb\u30f3\u30bf\u30fc", 
+        "nameSpace": "djv::UI", 
+        "id": "Center", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5857\u308a\u3064\u3076\u3057", 
+        "nameSpace": "djv::UI", 
+        "id": "Fill", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d9\u30fc\u30b9\u30e9\u30a4\u30f3", 
+        "nameSpace": "djv::UI", 
+        "id": "Baseline", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b7\u30f3\u30b0\u30eb", 
+        "nameSpace": "djv::UI", 
+        "id": "Single", 
+        "description": ""
+    }, 
+    {
+        "text": "\u7121\u7dda", 
+        "nameSpace": "djv::UI", 
+        "id": "Radio", 
+        "description": ""
+    }, 
+    {
+        "text": "\u8907\u6570", 
+        "nameSpace": "djv::UI", 
+        "id": "Multiple", 
+        "description": ""
+    }, 
+    {
+        "text": "\u9032\u3080", 
+        "nameSpace": "djv::UI", 
+        "id": "Forward", 
+        "description": ""
+    }, 
+    {
+        "text": "\u9006", 
+        "nameSpace": "djv::UI", 
+        "id": "Reverse", 
+        "description": ""
+    }, 
+    {
+        "text": "\u62bc\u3059", 
+        "nameSpace": "djv::UI", 
+        "id": "Push", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c8\u30b0\u30eb", 
+        "nameSpace": "djv::UI", 
+        "id": "Toggle", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30a2\u30c3\u30d7", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "UpTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ab\u30ec\u30f3\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Current Directory", 
+        "description": ""
+    }, 
+    {
+        "text": "\u73fe\u5728\u306e\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u306b\u79fb\u52d5\u3057\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "CurrentDirectoryTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d0\u30c3\u30af", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Back", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u306b\u623b\u308a\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "BackTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u9032\u3081\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ForwardTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ea\u30ed\u30fc\u30c9", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Reload", 
+        "description": ""
+    }, 
+    {
+        "text": "\u73fe\u5728\u306e\u30c7\u30a3\u30ec\u30af\u30c8\u30ea\u3092\u30ea\u30ed\u30fc\u30c9\u3057\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ReloadTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5927\u304d\u306a\u30b5\u30e0\u30cd\u30a4\u30eb", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Large Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5927\u304d\u306a\u30d7\u30ec\u30d3\u30e5\u30fc\u30b5\u30e0\u30cd\u30a4\u30eb\u3092\u8868\u793a\u3057\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "LargethumbnailsTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5c0f\u3055\u306a\u30b5\u30e0\u30cd\u30a4\u30eb", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Small Thumbnails", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5c0f\u3055\u306a\u30d7\u30ec\u30d3\u30e5\u30fc\u30b5\u30e0\u30cd\u30a4\u30eb\u3092\u8868\u793a\u3057\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "SmallThumbnailsTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "List View", 
+        "description": ""
+    }, 
+    {
+        "text": "\u8a73\u7d30\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc\u3092\u8868\u793a\u3057\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ListViewTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "File Sequences", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d5\u30a1\u30a4\u30eb\u30b7\u30fc\u30b1\u30f3\u30b9\u3092\u6709\u52b9\u306b\u3059\u308b\u304b\u3069\u3046\u304b\u3092\u5207\u308a\u66ff\u3048\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "FileSequencesTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u96a0\u3057\u30b7\u30e7\u30fc", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Show Hidden", 
+        "description": ""
+    }, 
+    {
+        "text": "\u96a0\u3057\u30d5\u30a1\u30a4\u30eb\u3092\u8868\u793a\u3059\u308b\u304b\u3069\u3046\u304b\u3092\u5207\u308a\u66ff\u3048\u307e\u3059\u3002", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ShowHiddenTooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c7\u30a3\u30ec\u30af\u30c8\u30ea", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Directory", 
+        "description": ""
+    }, 
+    {
+        "text": "\u898b\u308b", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30bd\u30fc\u30c8", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sort", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d6\u30c3\u30af\u30de\u30fc\u30af", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Bookmarks", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30bf\u30a4\u30d7", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b5\u30a4\u30ba", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "\u4fee\u6b63\u6642\u9593", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Modification time", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d3\u30c7\u30aa\u30c8\u30e9\u30c3\u30af", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "FPS", 
+        "nameSpace": "djv::UI::FileBrowser\", \"Speed\") << \": \" << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT(\"djv::UI::FileBrowser", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "text": "\u671f\u9593", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30aa\u30fc\u30c7\u30a3\u30aa\u30c8\u30e9\u30c3\u30af", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30c1\u30e3\u30f3\u30cd\u30eb", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "text": "kHz", 
+        "nameSpace": "djv::UI::FileBrowser\", \"Sample rate\") << \": \" << audioInfo.info.sampleRate / 1000.f << DJV_TEXT(\"djv::UI::FileBrowser", 
+        "id": "kHz", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30a2\u30a4\u30c6\u30e0", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "items", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d5\u30a1\u30a4\u30eb\u30d6\u30e9\u30a6\u30b6", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "File Browser", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5927", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ThumbnailsLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5c0f", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ThumbnailsSmall", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "ListView", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5c55\u958b\u3059\u308b", 
+        "nameSpace": "djv::UI::Layout", 
+        "id": "Expand", 
+        "description": ""
+    }, 
+    {
+        "text": "\u8a2d\u5b9a\u3092\u8aad\u307f\u53d6\u308c\u307e\u305b\u3093", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Cannot read settings", 
+        "description": ""
+    }, 
+    {
+        "text": "\u8a2d\u5b9a\u3092\u66f8\u304d\u8fbc\u3081\u307e\u305b\u3093", 
+        "nameSpace": "djv::UI::Settings", 
+        "id": "Cannot write settings", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b9\u30da\u30fc\u30b9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Space", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30a2\u30dd\u30b9\u30c8\u30ed\u30d5\u30a3", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Apostrophe", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b3\u30f3\u30de", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Comma", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30de\u30a4\u30ca\u30b9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Minus", 
+        "description": ""
+    }, 
+    {
+        "text": "\u671f\u9593", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Period", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b9\u30e9\u30c3\u30b7\u30e5", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Slash", 
+        "description": ""
+    }, 
+    {
+        "text": "0", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "0", 
+        "description": ""
+    }, 
+    {
+        "text": "1", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "1", 
+        "description": ""
+    }, 
+    {
+        "text": "2", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "2", 
+        "description": ""
+    }, 
+    {
+        "text": "3", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "3", 
+        "description": ""
+    }, 
+    {
+        "text": "4", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "4", 
+        "description": ""
+    }, 
+    {
+        "text": "5", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "5", 
+        "description": ""
+    }, 
+    {
+        "text": "6", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "6", 
+        "description": ""
+    }, 
+    {
+        "text": "7", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "7", 
+        "description": ""
+    }, 
+    {
+        "text": "8", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "8", 
+        "description": ""
+    }, 
+    {
+        "text": "9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "9", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30bb\u30df\u30b3\u30ed\u30f3", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Semicolon", 
+        "description": ""
+    }, 
+    {
+        "text": "\u7b49\u3057\u3044", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Equal", 
+        "description": ""
+    }, 
+    {
+        "text": "A", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "text": "B", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "text": "C", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "C", 
+        "description": ""
+    }, 
+    {
+        "text": "D", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "D", 
+        "description": ""
+    }, 
+    {
+        "text": "\u3068", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "E", 
+        "description": ""
+    }, 
+    {
+        "text": "F", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F", 
+        "description": ""
+    }, 
+    {
+        "text": "G", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "G", 
+        "description": ""
+    }, 
+    {
+        "text": "H", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "H", 
+        "description": ""
+    }, 
+    {
+        "text": "\u79c1", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "I", 
+        "description": ""
+    }, 
+    {
+        "text": "J", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "J", 
+        "description": ""
+    }, 
+    {
+        "text": "K", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "K", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b6\u30fb", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "L", 
+        "description": ""
+    }, 
+    {
+        "text": "M", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "M", 
+        "description": ""
+    }, 
+    {
+        "text": "N", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "N", 
+        "description": ""
+    }, 
+    {
+        "text": "\u25cb", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "O", 
+        "description": ""
+    }, 
+    {
+        "text": "P", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "P", 
+        "description": ""
+    }, 
+    {
+        "text": "Q", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Q", 
+        "description": ""
+    }, 
+    {
+        "text": "R", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "R", 
+        "description": ""
+    }, 
+    {
+        "text": "S", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "S", 
+        "description": ""
+    }, 
+    {
+        "text": "T", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "T", 
+        "description": ""
+    }, 
+    {
+        "text": "U", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "U", 
+        "description": ""
+    }, 
+    {
+        "text": "V", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "V", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b6\u30fb", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "W", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d0\u30c4", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "X", 
+        "description": ""
+    }, 
+    {
+        "text": "Y", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Y", 
+        "description": ""
+    }, 
+    {
+        "text": "\u3068\u3068\u3082\u306b", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Z", 
+        "description": ""
+    }, 
+    {
+        "text": "[", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "LeftBracket", 
+        "description": ""
+    }, 
+    {
+        "text": "\\", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Backslash", 
+        "description": ""
+    }, 
+    {
+        "text": "]", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "RightBracket", 
+        "description": ""
+    }, 
+    {
+        "text": "\u4f4e\u30a2\u30af\u30bb\u30f3\u30c8", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "GraveAccent", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ef\u30fc\u30eb\u30c91", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "World1", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ef\u30fc\u30eb\u30c92", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "World2", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30a8\u30b9\u30b1\u30fc\u30d7", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Escape", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5165\u308b", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Enter", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30bf\u30d6", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Tab", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30d0\u30c3\u30af\u30b9\u30da\u30fc\u30b9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Backspace", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30a4\u30f3\u30b5\u30fc\u30c8", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Insert", 
+        "description": ""
+    }, 
+    {
+        "text": "\u524a\u9664\u3059\u308b", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Delete", 
+        "description": ""
+    }, 
+    {
+        "text": "\u53f3\u77e2\u5370", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "RightArrow", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5de6\u77e2\u5370", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "LeftArrow", 
+        "description": ""
+    }, 
+    {
+        "text": "\u4e0b\u77e2\u5370", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "DownArrow", 
+        "description": ""
+    }, 
+    {
+        "text": "\u4e0a\u77e2\u5370", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "UpArrow", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30da\u30fc\u30b8\u30a2\u30c3\u30d7", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "PageUp", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30da\u30fc\u30b8\u30c0\u30a6\u30f3", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "PageDown", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30db\u30fc\u30e0", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Home", 
+        "description": ""
+    }, 
+    {
+        "text": "\u7d42\u308f\u308a", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "End", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30e3\u30c3\u30d7\u30b9\u30ed\u30c3\u30af", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "CapsLock", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b9\u30af\u30ed\u30fc\u30eb\u30ed\u30c3\u30af", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "ScrollLock", 
+        "description": ""
+    }, 
+    {
+        "text": "Num Lock", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "NumLock", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5370\u5237\u753b\u9762", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "PrintScreen", 
+        "description": ""
+    }, 
+    {
+        "text": "F1", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F1", 
+        "description": ""
+    }, 
+    {
+        "text": "F2", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F2", 
+        "description": ""
+    }, 
+    {
+        "text": "F3", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F3", 
+        "description": ""
+    }, 
+    {
+        "text": "F4", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F4", 
+        "description": ""
+    }, 
+    {
+        "text": "F5", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F5", 
+        "description": ""
+    }, 
+    {
+        "text": "F6", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F6", 
+        "description": ""
+    }, 
+    {
+        "text": "F7", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F7", 
+        "description": ""
+    }, 
+    {
+        "text": "F8", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F8", 
+        "description": ""
+    }, 
+    {
+        "text": "F9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F9", 
+        "description": ""
+    }, 
+    {
+        "text": "F10", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F10", 
+        "description": ""
+    }, 
+    {
+        "text": "F11", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F11", 
+        "description": ""
+    }, 
+    {
+        "text": "F12", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F12", 
+        "description": ""
+    }, 
+    {
+        "text": "F13", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F13", 
+        "description": ""
+    }, 
+    {
+        "text": "F14", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F14", 
+        "description": ""
+    }, 
+    {
+        "text": "F15", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F15", 
+        "description": ""
+    }, 
+    {
+        "text": "F16", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F16", 
+        "description": ""
+    }, 
+    {
+        "text": "F17", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F17", 
+        "description": ""
+    }, 
+    {
+        "text": "F18", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F18", 
+        "description": ""
+    }, 
+    {
+        "text": "F19", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F19", 
+        "description": ""
+    }, 
+    {
+        "text": "F20", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F20", 
+        "description": ""
+    }, 
+    {
+        "text": "F21", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F21", 
+        "description": ""
+    }, 
+    {
+        "text": "F22", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F22", 
+        "description": ""
+    }, 
+    {
+        "text": "F23", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F23", 
+        "description": ""
+    }, 
+    {
+        "text": "F24", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F24", 
+        "description": ""
+    }, 
+    {
+        "text": "F25", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "F25", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c90", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad0", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c91", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad1", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c92", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad2", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c93", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad3", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c94", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad4", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c95", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad5", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c96", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad6", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c97", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad7", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c98", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad8", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c99", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPad9", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c910\u9032\u6570", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPadDecimal", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u5206\u5272", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPadDivide", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u4e57\u7b97", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPadMultiply", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPadSubstract", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9\u8ffd\u52a0", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPadAdd", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ad\u30fc\u30d1\u30c3\u30c9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPadEnter", 
+        "description": ""
+    }, 
+    {
+        "text": "\u540c\u7b49\u306e\u30ad\u30fc\u30d1\u30c3\u30c9", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "KeyPadEqual", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5de6\u65b9\u79fb\u52d5", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "LeftShift", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5de6\u30b3\u30f3\u30c8\u30ed\u30fc\u30eb", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "LeftControl", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5de6Alt", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "LeftAlt", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5de6\u30b9\u30fc\u30d1\u30fc", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "LeftSuper", 
+        "description": ""
+    }, 
+    {
+        "text": "\u53f3\u30b7\u30d5\u30c8", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "RightShift", 
+        "description": ""
+    }, 
+    {
+        "text": "\u6b63\u3057\u3044\u7ba1\u7406", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "RightControl", 
+        "description": ""
+    }, 
+    {
+        "text": "\u53f3Alt", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "RightAlt", 
+        "description": ""
+    }, 
+    {
+        "text": "\u53f3\u30b9\u30fc\u30d1\u30fc", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "RightSuper", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30e1\u30cb\u30e5\u30fc", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Menu", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b7\u30d5\u30c8", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Shift", 
+        "description": ""
+    }, 
+    {
+        "text": "Ctrl", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Ctrl", 
+        "description": ""
+    }, 
+    {
+        "text": "\u3059\u3079\u3066", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Alt", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b9\u30fc\u30d1\u30fc", 
+        "nameSpace": "djv::UI::Key", 
+        "id": "Super", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002", 
+        "nameSpace": "djv::UI", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }
+]

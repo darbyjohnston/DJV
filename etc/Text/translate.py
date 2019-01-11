@@ -1,34 +1,29 @@
+# References:
+# - https://github.com/GoogleCloudPlatform/python-docs-samples/blob/master/translate/cloud-client/quickstart.py
+
 import sys
-import xml.etree.ElementTree as ET
+import json
 from google.cloud import translate
 
 def run():
+    
     inFile = sys.argv[1]
     outFile = sys.argv[2]
-    language = sys.argv[3][:2]
+    language = sys.argv[3]
     
-    translateClient = translate.Client()
-    tree = ET.parse(inFile)
-    root = tree.getroot()
-    for child in root:
-        if "context" == child.tag:
-            for child2 in child:
-                if "message" == child2.tag:
-                    text = ""
-                    for child3 in child2:
-                        if "source" == child3.tag:
-                            text = child3.text
-                    if len(text) > 0:
-                        try:
-                            translation = translateClient.translate(text, target_language=language)
-                            print text, "=", translation['translatedText']
-                            for child3 in child2:
-                                if "translation" == child3.tag:
-                                    child3.text = translation['translatedText']
-                        except:
-                            print "Error translating: ", text
+    data = json.load(open(inFile))
 
-    tree.write(outFile)
+    translateClient = translate.Client()
+    for item in data:
+        itemLanguage = language
+        if 'language' in item:
+            itemLanguage = item['language']
+        translation = translateClient.translate(item['text'], target_language=itemLanguage)
+        print item['text'], "=", translation['translatedText']
+        item['text'] = translation['translatedText']
+
+    with open(outFile, 'w') as f:
+        json.dump(data, f, indent = 4)
     
 if __name__ == '__main__':
     run()

@@ -48,6 +48,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 #include <GLFW/glfw3.h>
 
@@ -159,12 +160,25 @@ namespace djv
 
                     auto paletteComboBox = UI::ComboBox::create(context);
                     auto dpiComboBox = UI::ComboBox::create(context);
+                    auto localeComboBox = UI::ComboBox::create(context);
+                    if (auto textSystem = context->getSystemT<TextSystem>().lock())
+                    {
+                        size_t j = 0;
+                        for (const auto & i : textSystem->getLocales())
+                        {
+                            localeComboBox->addItem(i);
+                            _indexToLocale[j] = i;
+                            _localeToIndex[i] = j;
+                            ++j;
+                        }
+                    }
 
                     auto formLayout = UI::Layout::Form::create(context);
                     formLayout->addWidget(DJV_TEXT("djv::ViewLib", "Color palette"), paletteComboBox);
                     formLayout->addWidget(DJV_TEXT("djv::ViewLib", "DPI"), dpiComboBox);
+                    formLayout->addWidget(DJV_TEXT("djv::ViewLib", "Locale"), localeComboBox);
                     addWidget(formLayout);
-
+                    
                     auto weak = std::weak_ptr<GeneralSettingsWidget>(std::dynamic_pointer_cast<GeneralSettingsWidget>(shared_from_this()));
                     paletteComboBox->setCallback(
                         [weak, context](int value)
@@ -192,6 +206,21 @@ namespace djv
                                 if (i != widget->_indexToDPI.end())
                                 {
                                     style->getSettings()->setDPI(i->second);
+                                }
+                            }
+                        }
+                    });
+                    localeComboBox->setCallback(
+                        [weak, context](int value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto textSystem = context->getSystemT<TextSystem>().lock())
+                            {
+                                const auto i = widget->_indexToLocale.find(value);
+                                if (i != widget->_indexToLocale.end())
+                                {
+                                    textSystem->setCurrentLocale(i->second);
                                 }
                             }
                         }
@@ -270,6 +299,23 @@ namespace djv
                             }
                         });
                     }
+
+                    if (auto textSystem = context->getSystemT<TextSystem>().lock())
+                    {
+                        _localeObserver = ValueObserver<std::string>::create(
+                            textSystem->observeCurrentLocale(),
+                            [weak, localeComboBox](const std::string & value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                const auto i = widget->_localeToIndex.find(value);
+                                if (i != widget->_localeToIndex.end())
+                                {
+                                    localeComboBox->setCurrentItem(static_cast<int>(i->second));
+                                }
+                            }
+                        });
+                    }
                 }
 
                 GeneralSettingsWidget()
@@ -288,10 +334,13 @@ namespace djv
                 std::map<std::string, size_t> _paletteToIndex;
                 std::map<size_t, int> _indexToDPI;
                 std::map<int, size_t> _dpiToIndex;
+                std::map<size_t, std::string> _indexToLocale;
+                std::map<std::string, size_t> _localeToIndex;
                 std::shared_ptr<MapObserver<std::string, UI::Style::Palette> > _palettesObserver;
                 std::shared_ptr<ValueObserver<std::string> > _currentPaletteObserver;
                 std::shared_ptr<ListObserver<int> > _dpiListObserver;
                 std::shared_ptr<ValueObserver<int> > _dpiObserver;
+                std::shared_ptr<ValueObserver<std::string> > _localeObserver;
             };
                
         } // namespace

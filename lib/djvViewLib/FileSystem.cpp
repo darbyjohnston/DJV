@@ -169,10 +169,10 @@ namespace djv
                         if (auto dialogSystem = context->getSystemT<UI::DialogSystem>().lock())
                         {
                             dialogSystem->confirmation(
-                                DJV_TEXT("djv::ViewLib", "Exit"),
-                                DJV_TEXT("djv::ViewLib", "Are you sure you want to exit?"),
-                                DJV_TEXT("djv::ViewLib", "Yes"),
-                                DJV_TEXT("djv::ViewLib", "No"),
+                                context->getText(DJV_TEXT("djv::ViewLib", "Exit")),
+                                context->getText(DJV_TEXT("djv::ViewLib", "Are you sure you want to exit?")),
+                                context->getText(DJV_TEXT("djv::ViewLib", "Yes")),
+                                context->getText(DJV_TEXT("djv::ViewLib", "No")),
                                 [context](bool value)
                             {
                                 if (value)
