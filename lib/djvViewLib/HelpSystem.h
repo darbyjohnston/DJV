@@ -52,6 +52,9 @@ namespace djv
             std::shared_ptr<UI::Menu> createMenu() override;
             std::string getMenuSortKey() const override;
 
+        protected:
+            void _localeChangedEvent(Core::Event::LocaleChanged &) override;
+
         private:
             DJV_PRIVATE();
         };

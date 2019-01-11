@@ -47,6 +47,7 @@ namespace djv
         struct WindowSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
@@ -64,21 +65,18 @@ namespace djv
             //! \todo Implement me!
             p.actions["Duplicate"] = UI::Action::create();
             p.actions["Duplicate"]->setIcon("djvIconWindowDuplicate");
-            p.actions["Duplicate"]->setText(DJV_TEXT("djv::ViewLib", "Duplicate"));
             p.actions["Duplicate"]->setShortcut(GLFW_KEY_D, GLFW_MOD_CONTROL);
             p.actions["Duplicate"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
             p.actions["Fit"]->setIcon("djvIconWindowFit");
-            p.actions["Fit"]->setText(DJV_TEXT("djv::ViewLib", "Fit"));
             p.actions["Fit"]->setShortcut(GLFW_KEY_F);
             p.actions["Fit"]->setEnabled(false);
 
             p.actions["FullScreen"] = UI::Action::create();
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
             p.actions["FullScreen"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["FullScreen"]->setText(DJV_TEXT("djv::ViewLib", "Full Screen"));
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
@@ -120,11 +118,21 @@ namespace djv
         std::shared_ptr<UI::Menu> WindowSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
-            auto menu = UI::Menu::create("Window", getContext());
-            menu->addAction(p.actions["Duplicate"]);
-            menu->addAction(p.actions["Fit"]);
-            menu->addAction(p.actions["FullScreen"]);
-            return menu;
+            p.menus["Window"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Window")), getContext());
+            p.menus["Window"]->addAction(p.actions["Duplicate"]);
+            p.menus["Window"]->addAction(p.actions["Fit"]);
+            p.menus["Window"]->addAction(p.actions["FullScreen"]);
+            return p.menus["Window"];
+        }
+
+        void WindowSystem::_localeChangedEvent(Event::LocaleChanged &)
+        {
+            DJV_PRIVATE_PTR();
+            p.actions["Duplicate"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Duplicate")));
+            p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Fit")));
+            p.actions["FullScreen"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Full Screen")));
+
+            p.menus["Window"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Window")));
         }
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)

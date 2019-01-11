@@ -45,6 +45,7 @@ namespace djv
         struct ImageViewSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -55,76 +56,65 @@ namespace djv
             DJV_PRIVATE_PTR();
             //! \todo Implement me!
             p.actions["Left"] = UI::Action::create();
-            p.actions["Left"]->setText(DJV_TEXT("djv::ViewLib", "Left"));
             p.actions["Left"]->addShortcut(GLFW_KEY_LEFT, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
             p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
             p.actions["Left"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Right"] = UI::Action::create();
-            p.actions["Right"]->setText(DJV_TEXT("djv::ViewLib", "Right"));
             p.actions["Right"]->addShortcut(GLFW_KEY_RIGHT, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
             p.actions["Right"]->addShortcut(GLFW_KEY_KP_6);
             p.actions["Right"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Up"] = UI::Action::create();
-            p.actions["Up"]->setText(DJV_TEXT("djv::ViewLib", "Up"));
             p.actions["Up"]->addShortcut(GLFW_KEY_UP, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
             p.actions["Up"]->addShortcut(GLFW_KEY_KP_8);
             p.actions["Up"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Down"] = UI::Action::create();
-            p.actions["Down"]->setText(DJV_TEXT("djv::ViewLib", "Down"));
             p.actions["Down"]->addShortcut(GLFW_KEY_DOWN, GLFW_MOD_SHIFT | GLFW_MOD_CONTROL);
             p.actions["Down"]->addShortcut(GLFW_KEY_KP_2);
             p.actions["Down"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Center"] = UI::Action::create();
-            p.actions["Center"]->setText(DJV_TEXT("djv::ViewLib", "Center"));
             p.actions["Center"]->setShortcut(GLFW_KEY_KP_5);
             p.actions["Center"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ZoomIn"] = UI::Action::create();
-            p.actions["ZoomIn"]->setText(DJV_TEXT("djv::ViewLib", "Zoom In"));
             p.actions["ZoomIn"]->addShortcut(GLFW_KEY_EQUAL);
             p.actions["ZoomIn"]->addShortcut(GLFW_KEY_KP_ADD);
             p.actions["ZoomIn"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ZoomOut"] = UI::Action::create();
-            p.actions["ZoomOut"]->setText(DJV_TEXT("djv::ViewLib", "Zoom Out"));
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_KP_SUBTRACT);
             p.actions["ZoomOut"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ResetZoom"] = UI::Action::create();
-            p.actions["ResetZoom"]->setText(DJV_TEXT("djv::ViewLib", "Reset Zoom"));
             p.actions["ResetZoom"]->addShortcut(GLFW_KEY_0);
             p.actions["ResetZoom"]->addShortcut(GLFW_KEY_KP_0);
             p.actions["ResetZoom"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ResetPosZoom"] = UI::Action::create();
-            p.actions["ResetPosZoom"]->setText(DJV_TEXT("djv::ViewLib", "Reset Position and Zoom"));
             p.actions["ResetPosZoom"]->addShortcut(GLFW_KEY_DELETE);
             p.actions["ResetPosZoom"]->addShortcut(GLFW_KEY_KP_DECIMAL);
             p.actions["ResetPosZoom"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Fit"] = UI::Action::create();
-            p.actions["Fit"]->setText(DJV_TEXT("djv::ViewLib", "Fit"));
             p.actions["Fit"]->addShortcut(GLFW_KEY_BACKSPACE);
             p.actions["Fit"]->addShortcut(GLFW_KEY_KP_ENTER);
             p.actions["Fit"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["HUD"] = UI::Action::create();
-            p.actions["HUD"]->setText(DJV_TEXT("djv::ViewLib", "HUD"));
             p.actions["HUD"]->setShortcut(GLFW_KEY_H);
             p.actions["HUD"]->setEnabled(false);
         }
@@ -157,23 +147,42 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            auto menu = UI::Menu::create("View", context);
-            menu->addAction(p.actions["Left"]);
-            menu->addAction(p.actions["Right"]);
-            menu->addAction(p.actions["Up"]);
-            menu->addAction(p.actions["Down"]);
-            menu->addAction(p.actions["Center"]);
-            menu->addAction(p.actions["ZoomIn"]);
-            menu->addAction(p.actions["ZoomOut"]);
-            menu->addAction(p.actions["ResetZoom"]);
-            menu->addAction(p.actions["ResetPosZoom"]);
-            menu->addAction(p.actions["Fit"]);
-            menu->addSeparator();
+            p.menus["View"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "View")), context);
+            p.menus["View"]->addAction(p.actions["Left"]);
+            p.menus["View"]->addAction(p.actions["Right"]);
+            p.menus["View"]->addAction(p.actions["Up"]);
+            p.menus["View"]->addAction(p.actions["Down"]);
+            p.menus["View"]->addAction(p.actions["Center"]);
+            p.menus["View"]->addAction(p.actions["ZoomIn"]);
+            p.menus["View"]->addAction(p.actions["ZoomOut"]);
+            p.menus["View"]->addAction(p.actions["ResetZoom"]);
+            p.menus["View"]->addAction(p.actions["ResetPosZoom"]);
+            p.menus["View"]->addAction(p.actions["Fit"]);
+            p.menus["View"]->addSeparator();
             //! \todo Implement me!
-            auto gridMenu = UI::Menu::create(DJV_TEXT("djv::ViewLib", "Grid"), context);
-            menu->addMenu(gridMenu);
-            menu->addAction(p.actions["HUD"]);
-            return menu;
+            p.menus["Grid"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Grid")), context);
+            p.menus["View"]->addMenu(p.menus["Grid"]);
+            p.menus["View"]->addAction(p.actions["HUD"]);
+            return p.menus["View"];
+        }
+
+        void ImageViewSystem::_localeChangedEvent(Event::LocaleChanged &)
+        {
+            DJV_PRIVATE_PTR();
+            p.actions["Left"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Left")));
+            p.actions["Right"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Right")));
+            p.actions["Up"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Up")));
+            p.actions["Down"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Down")));
+            p.actions["Center"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Center")));
+            p.actions["ZoomIn"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Zoom In")));
+            p.actions["ZoomOut"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Zoom Out")));
+            p.actions["ResetZoom"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Reset Zoom")));
+            p.actions["ResetPosZoom"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Reset Position and Zoom")));
+            p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Fit")));
+            p.actions["HUD"]->setText(_getText(DJV_TEXT("djv::ViewLib", "HUD")));
+
+            p.menus["View"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "View")));
+            p.menus["Grid"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Grid")));
         }
 
     } // namespace ViewLib

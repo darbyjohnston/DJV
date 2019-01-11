@@ -200,12 +200,12 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > FileSystem::observeOpened() const
+        std::shared_ptr<IValueSubject<std::shared_ptr<Media> > > FileSystem::observeOpened() const
         {
             return _p->opened;
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > FileSystem::observeClose() const
+        std::shared_ptr<IValueSubject<bool> > FileSystem::observeClose() const
         {
             return _p->close;
         }
@@ -256,22 +256,22 @@ namespace djv
             p.actions["Export"]->setEnabled(media ? true : false);
         }
 
-        void FileSystem::_localeChangedEvent(Core::Event::LocaleChanged &)
+        void FileSystem::_localeChangedEvent(Event::LocaleChanged &)
         {
             DJV_PRIVATE_PTR();
-            p.actions["Open"]->setText(DJV_TEXT("djv::ViewLib", "Open"));
-            p.actions["Recent"]->setText(DJV_TEXT("djv::ViewLib", "Recent"));
-            p.actions["Reload"]->setText(DJV_TEXT("djv::ViewLib", "Reload"));
-            p.actions["ReloadFrame"]->setText(DJV_TEXT("djv::ViewLib", "Reload Frame"));
-            p.actions["Close"]->setText(DJV_TEXT("djv::ViewLib", "Close"));
-            p.actions["Export"]->setText(DJV_TEXT("djv::ViewLib", "Export"));
-            p.actions["Layers"]->setText(DJV_TEXT("djv::ViewLib", "Layers"));
-            p.actions["NextLayer"]->setText(DJV_TEXT("djv::ViewLib", "Next Layer"));
-            p.actions["PrevLayer"]->setText(DJV_TEXT("djv::ViewLib", "Previous Layer"));
-            p.actions["8BitConversion"]->setText(DJV_TEXT("djv::ViewLib", "8-bit Conversion"));
-            p.actions["MemoryCache"]->setText(DJV_TEXT("djv::ViewLib", "Memory Cache"));
-            p.actions["ClearCache"]->setText(DJV_TEXT("djv::ViewLib", "Clear Cache"));
-            p.actions["Exit"]->setText(DJV_TEXT("djv::ViewLib", "Exit"));
+            p.actions["Open"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Open")));
+            p.actions["Recent"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Recent")));
+            p.actions["Reload"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Reload")));
+            p.actions["ReloadFrame"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Reload Frame")));
+            p.actions["Close"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Close")));
+            p.actions["Export"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Export")));
+            p.actions["Layers"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Layers")));
+            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Next Layer")));
+            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Previous Layer")));
+            p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("djv::ViewLib", "8-bit Conversion")));
+            p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Memory Cache")));
+            p.actions["ClearCache"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Clear Cache")));
+            p.actions["Exit"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Exit")));
 
             p.menus["File"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "File")));
             p.menus["ProxyScale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Proxy Scale")));

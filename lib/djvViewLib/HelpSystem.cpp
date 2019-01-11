@@ -45,6 +45,7 @@ namespace djv
         struct HelpSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
@@ -55,17 +56,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
-            p.actions["Documentation"]->setText(DJV_TEXT("djv::ViewLib", "Documentation"));
             p.actions["Documentation"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Information"] = UI::Action::create();
-            p.actions["Information"]->setText(DJV_TEXT("djv::ViewLib", "Information"));
             p.actions["Information"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["About"] = UI::Action::create();
-            p.actions["About"]->setText(DJV_TEXT("djv::ViewLib", "About"));
             p.actions["About"]->setEnabled(false);
         }
 
@@ -96,11 +94,21 @@ namespace djv
         std::shared_ptr<UI::Menu> HelpSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
-            auto menu = UI::Menu::create("Help", getContext());
-            menu->addAction(p.actions["Documentation"]);
-            menu->addAction(p.actions["Information"]);
-            menu->addAction(p.actions["About"]);
-            return menu;
+            p.menus["Help"] = UI::Menu::create(_getText("Help"), getContext());
+            p.menus["Help"]->addAction(p.actions["Documentation"]);
+            p.menus["Help"]->addAction(p.actions["Information"]);
+            p.menus["Help"]->addAction(p.actions["About"]);
+            return p.menus["Help"];
+        }
+
+        void HelpSystem::_localeChangedEvent(Event::LocaleChanged &)
+        {
+            DJV_PRIVATE_PTR();
+            p.actions["Documentation"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Documentation")));
+            p.actions["Information"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Information")));
+            p.actions["About"]->setText(_getText(DJV_TEXT("djv::ViewLib", "About")));
+
+            p.menus["Help"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Help")));
         }
 
     } // namespace ViewLib
