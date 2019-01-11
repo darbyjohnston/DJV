@@ -1,0 +1,20 @@
+[
+    {
+        "text": "Nichts zu konvertieren", 
+        "nameSpace": "djv::Convert", 
+        "id": "Nothing to convert", 
+        "description": ""
+    }, 
+    {
+        "text": "Option &quot;-resize&quot; kann nicht analysiert werden", 
+        "nameSpace": "djv::Convert", 
+        "id": "Cannot parse option '-resize'", 
+        "description": ""
+    }, 
+    {
+        "text": "Verwendung: djv_convert (Eingabe) (Ausgabe)", 
+        "nameSpace": "djv::Convert", 
+        "id": "Usage: djv_convert (input) (output)", 
+        "description": ""
+    }
+]

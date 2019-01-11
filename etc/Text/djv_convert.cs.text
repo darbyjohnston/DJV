@@ -1,0 +1,20 @@
+[
+    {
+        "text": "Nic, co p\u0159ev\u00e1d\u011bt", 
+        "nameSpace": "djv::Convert", 
+        "id": "Nothing to convert", 
+        "description": ""
+    }, 
+    {
+        "text": "Nelze analyzovat mo\u017enost &#39;-resize&#39;", 
+        "nameSpace": "djv::Convert", 
+        "id": "Cannot parse option '-resize'", 
+        "description": ""
+    }, 
+    {
+        "text": "Pou\u017eit\u00ed: djv_convert (vstup) (v\u00fdstup)", 
+        "nameSpace": "djv::Convert", 
+        "id": "Usage: djv_convert (input) (output)", 
+        "description": ""
+    }
+]
