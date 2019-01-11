@@ -238,10 +238,10 @@ namespace djv
                     }
                 });
 
-                if (auto uiSystem = context->getSystemT<UISystem>().lock())
+                if (auto textSystem = context->getSystemT<TextSystem>().lock())
                 {
                     p.currentLocaleObserver = ValueObserver<std::string>::create(
-                        uiSystem->getGeneralSettings()->observeCurrentLocale(),
+                        textSystem->observeCurrentLocale(),
                         [weak](const std::string& value)
                     {
                         if (auto style = weak.lock())
@@ -251,7 +251,10 @@ namespace djv
                             style->_p->styleChanged->setAlways(true);
                         }
                     });
+                }
 
+                if (auto uiSystem = context->getSystemT<UISystem>().lock())
+                {
                     p.fontsObserver = MapObserver<std::string, Settings::FontMap>::create(
                         uiSystem->getFontSettings()->observeFonts(),
                         [weak](const std::map<std::string, Settings::FontMap>& value)

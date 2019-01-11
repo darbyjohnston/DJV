@@ -44,15 +44,25 @@ namespace djv
         {
             struct General::Private
             {
-                std::shared_ptr<ValueSubject<std::string> > currentLocale;
+                std::string currentLocale;
+                std::shared_ptr<ValueObserver<std::string> > localeObserver;
             };
 
             void General::_init(Context * context)
             {
                 ISettings::_init("djv::UI::Settings::General", context);
-                if (auto textSystem = context->getSystemT<Core::TextSystem>().lock())
+                if (auto textSystem = context->getSystemT<TextSystem>().lock())
                 {
-                    _p->currentLocale = ValueSubject<std::string>::create(textSystem->getCurrentLocale());
+                    auto weak = std::weak_ptr<General>(std::dynamic_pointer_cast<General>(shared_from_this()));
+                    _p->localeObserver = ValueObserver<std::string>::create(
+                        textSystem->observeCurrentLocale(),
+                        [weak](const std::string & value)
+                    {
+                        if (auto settings = weak.lock())
+                        {
+                            settings->_p->currentLocale = value;
+                        }
+                    });
                 }
                 _load();
             }
@@ -71,28 +81,16 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IValueSubject<std::string> > General::observeCurrentLocale() const
-            {
-                return _p->currentLocale;
-            }
-
-            void General::setCurrentLocale(const std::string& value)
-            {
-                if (_p->currentLocale->setIfChanged(value))
-                {
-                    if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
-                    {
-                        textSystem->setCurrentLocale(value);
-                    }
-                }
-            }
-
             void General::load(const picojson::value& value)
             {
                 if (value.is<picojson::object>())
                 {
                     const auto& object = value.get<picojson::object>();
                     _read("CurrentLocale", object, _p->currentLocale);
+                    if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
+                    {
+                        textSystem->setCurrentLocale(_p->currentLocale);
+                    }
                 }
             }
 
@@ -100,7 +98,7 @@ namespace djv
             {
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
-                _write("CurrentLocale", _p->currentLocale->get(), object);
+                _write("CurrentLocale", _p->currentLocale, object);
                 return out;
             }
 
