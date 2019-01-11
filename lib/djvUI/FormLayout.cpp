@@ -43,6 +43,8 @@ namespace djv
             struct Form::Private
             {
                 std::shared_ptr<Grid> layout;
+                size_t labelID = 0;
+                std::map<size_t, std::shared_ptr<Label>> labelIDToLabel;
             };
 
             void Form::_init(Context * context)
@@ -75,7 +77,7 @@ namespace djv
                 _p->layout->addWidget(value, glm::ivec2(0, gridSize.y));
             }
 
-            void Form::addWidget(const std::string & text, const std::shared_ptr<Widget>& value)
+            size_t Form::addWidget(const std::string & text, const std::shared_ptr<Widget>& value)
             {
                 auto label = Label::create(text, getContext());
                 label->setTextHAlign(TextHAlign::Left);
@@ -83,6 +85,9 @@ namespace djv
                 const glm::ivec2 gridSize = _p->layout->getGridSize();
                 _p->layout->addWidget(label, glm::ivec2(0, gridSize.y));
                 _p->layout->addWidget(value, glm::ivec2(1, gridSize.y));
+                ++_p->labelID;
+                _p->labelIDToLabel[_p->labelID] = label;
+                return _p->labelID;
             }
 
             void Form::removeWidget(const std::shared_ptr<Widget>& value)
@@ -93,6 +98,15 @@ namespace djv
             void Form::clearWidgets()
             {
                 _p->layout->clearWidgets();
+            }
+
+            void Form::setText(size_t id, const std::string & text)
+            {
+                const auto i = _p->labelIDToLabel.find(id);
+                if (i != _p->labelIDToLabel.end())
+                {
+                    i->second->setText(text);
+                }
             }
 
             float Form::getHeightForWidth(float value) const

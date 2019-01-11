@@ -81,11 +81,10 @@ namespace djv
                         UI::Style::MetricsRole::MarginSmall,
                         UI::Style::MetricsRole::MarginSmall));
                     
-                    auto titleLabel = UI::Label::create(context);
-                    titleLabel->setText(DJV_TEXT("djv::ViewLib", "Settings"));
-                    titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
-                    titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                    titleLabel->setMargin(UI::Layout::Margin(
+                    _titleLabel = UI::Label::create(context);
+                    _titleLabel->setFontSizeRole(UI::Style::MetricsRole::FontLarge);
+                    _titleLabel->setTextHAlign(UI::TextHAlign::Left);
+                    _titleLabel->setMargin(UI::Layout::Margin(
                         UI::Style::MetricsRole::Margin,
                         UI::Style::MetricsRole::None,
                         UI::Style::MetricsRole::MarginSmall,
@@ -121,7 +120,7 @@ namespace djv
                     hLayout->setSpacing(UI::Style::MetricsRole::None);
                     hLayout->setBackgroundRole(UI::Style::ColorRole::BackgroundHeader);
                     hLayout->addWidget(titleIcon);
-                    hLayout->addWidget(titleLabel, UI::Layout::RowStretch::Expand);
+                    hLayout->addWidget(_titleLabel, UI::Layout::RowStretch::Expand);
                     hLayout->addWidget(_closeButton);
                     addWidget(hLayout);
                     addSeparator();
@@ -143,8 +142,15 @@ namespace djv
                 {
                     _closeButton->setClickedCallback(value);
                 }
-                
+
+            protected:
+                void _localeChangedEvent(Event::LocaleChanged &) override
+                {
+                    _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "Settings")));
+                }
+
             private:
+                std::shared_ptr<UI::Label> _titleLabel;
                 std::shared_ptr<UI::Button::Tool> _closeButton;
             };
             
@@ -157,8 +163,6 @@ namespace djv
                 {
                     GroupBox::_init(context);
                     
-                    setText(DJV_TEXT("djv::ViewLib", "General"));
-
                     auto paletteComboBox = UI::ComboBox::create(context);
                     auto dpiComboBox = UI::ComboBox::create(context);
                     auto localeComboBox = UI::ComboBox::create(context);
@@ -174,11 +178,11 @@ namespace djv
                         }
                     }
 
-                    auto formLayout = UI::Layout::Form::create(context);
-                    formLayout->addWidget(DJV_TEXT("djv::ViewLib", "Color palette"), paletteComboBox);
-                    formLayout->addWidget(DJV_TEXT("djv::ViewLib", "DPI"), dpiComboBox);
-                    formLayout->addWidget(DJV_TEXT("djv::ViewLib", "Locale"), localeComboBox);
-                    addWidget(formLayout);
+                    _layout = UI::Layout::Form::create(context);
+                    _labelIDs["ColorPalette"] = _layout->addWidget(std::string(), paletteComboBox);
+                    _labelIDs["DPI"] = _layout->addWidget(std::string(), dpiComboBox);
+                    _labelIDs["Locale"] = _layout->addWidget(std::string(), localeComboBox);
+                    addWidget(_layout);
                     
                     auto weak = std::weak_ptr<GeneralSettingsWidget>(std::dynamic_pointer_cast<GeneralSettingsWidget>(shared_from_this()));
                     paletteComboBox->setCallback(
@@ -330,6 +334,15 @@ namespace djv
                     return out;
                 }
 
+            protected:
+                void _localeChangedEvent(Event::LocaleChanged &) override
+                {
+                    setText(_getText(DJV_TEXT("djv::ViewLib", "General")));
+                    _layout->setText(_labelIDs["ColorPalette"], _getText(DJV_TEXT("djv::ViewLib", "Color palette")));
+                    _layout->setText(_labelIDs["DPI"], _getText(DJV_TEXT("djv::ViewLib", "DPI")));
+                    _layout->setText(_labelIDs["Locale"], _getText(DJV_TEXT("djv::ViewLib", "Locale")));
+                }
+
             private:
                 std::map<size_t, std::string> _indexToPalette;
                 std::map<std::string, size_t> _paletteToIndex;
@@ -337,6 +350,8 @@ namespace djv
                 std::map<int, size_t> _dpiToIndex;
                 std::map<size_t, std::string> _indexToLocale;
                 std::map<std::string, size_t> _localeToIndex;
+                std::map<std::string, size_t> _labelIDs;
+                std::shared_ptr<UI::Layout::Form> _layout;
                 std::shared_ptr<MapObserver<std::string, UI::Style::Palette> > _palettesObserver;
                 std::shared_ptr<ValueObserver<std::string> > _currentPaletteObserver;
                 std::shared_ptr<ListObserver<int> > _dpiListObserver;
