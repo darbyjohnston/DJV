@@ -27,7 +27,7 @@ set(header
     Frame.h
     FrameInline.h
     ICommand.h
-    IEventSystem.h
+    IEventLoop.h
     IObject.h
     IObjectInline.h
     ISystem.h
@@ -80,7 +80,7 @@ set(source
     FileInfo.cpp
     Frame.cpp
     ICommand.cpp
-    IEventSystem.cpp
+    IEventLoop.cpp
     IObject.cpp
     ISystem.cpp
     LogSystem.cpp

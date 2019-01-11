@@ -29,7 +29,7 @@
 
 #include <djvDesktop/Application.h>
 
-#include <djvDesktop/EventSystem.h>
+#include <djvDesktop/EventLoop.h>
 #include <djvDesktop/WindowSystem.h>
 
 #include <djvUI/UISystem.h>
@@ -64,9 +64,8 @@ namespace djv
         struct Application::Private
         {
             bool running = false;
-            std::shared_ptr<UI::UISystem> uiSystem;
             GLFWwindow * glfwWindow = nullptr;
-            std::shared_ptr<EventSystem> eventSystem;
+            std::shared_ptr<UI::UISystem> uiSystem;
             std::shared_ptr<WindowSystem> windowSystem;
         };
 
@@ -78,9 +77,9 @@ namespace djv
             if (auto avSystem = getSystemT<AV::AVSystem>().lock())
             {
                 p.glfwWindow = avSystem->getGLFWWindow();
-                p.eventSystem = EventSystem::create(p.glfwWindow, this);
                 p.windowSystem = WindowSystem::create(p.glfwWindow, this);
-                p.eventSystem->setRootObject(p.windowSystem->getRootObject());
+
+                setEventLoop(EventLoop::create(p.glfwWindow, this));
 
                 glfwSetWindowSize(p.glfwWindow, 1024, 768);
                 glfwShowWindow(p.glfwWindow);
@@ -92,7 +91,11 @@ namespace djv
         {}
         
         Application::~Application()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            p.windowSystem->setParent(nullptr);
+            p.uiSystem->setParent(nullptr);
+        }
         
         std::unique_ptr<Application> Application::create(int argc, char* argv[])
         {

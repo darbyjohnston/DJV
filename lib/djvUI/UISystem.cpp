@@ -80,6 +80,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             while (p.uiSystems.size())
             {
+                auto system = p.uiSystems.back();
+                system->setParent(nullptr);
                 p.uiSystems.pop_back();
             }
         }

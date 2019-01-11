@@ -29,49 +29,57 @@
 
 #pragma once
 
-#include <djvCore/IEventSystem.h>
-
-#include <glm/vec2.hpp>
-
-struct GLFWwindow;
+#include <djvCore/Event.h>
+#include <djvCore/ISystem.h>
 
 namespace djv
 {
-    namespace UI
+    namespace Core
     {
-        class Widget;
+        class IObject;
 
-    } // namespace UI
-
-    namespace Desktop
-    {
-        class EventSystem : public Core::Event::IEventSystem
+        namespace Event
         {
-            DJV_NON_COPYABLE(EventSystem);
+            class IEventLoop : public std::enable_shared_from_this<IEventLoop>
+            {
+                DJV_NON_COPYABLE(IEventLoop);
 
-        protected:
-            void _init(GLFWwindow*, Core::Context *);
-            EventSystem();
+            protected:
+                void _init(const std::string & systemName, Context *);
+                IEventLoop();
 
-        public:
-            virtual ~EventSystem();
+            public:
+                virtual ~IEventLoop() = 0;
 
-            static std::shared_ptr<EventSystem> create(GLFWwindow*, Core::Context *);
+                void setRootObject(const std::shared_ptr<IObject> &);
 
-        protected:
-            void _hover(Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&) override;
+                const std::shared_ptr<IObject> & getHover() const;
+                void setHover(const std::shared_ptr<IObject> &);
 
-        private:
-            void _hover(const std::shared_ptr<UI::Widget> &, Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&);
+            protected:
+                const std::shared_ptr<IObject> & _getRootObject() const;
 
-            static void _pointerCallback(GLFWwindow*, double, double);
-            static void _buttonCallback(GLFWwindow*, int button, int action, int mods);
-            static void _keyCallback(GLFWwindow*, int key, int scancode, int action, int mods);
-            static void _dropCallback(GLFWwindow*, int, const char**);
+                void _pointerMove(const Event::PointerInfo&);
+                void _buttonPress(int);
+                void _buttonRelease(int);
+                void _keyPress(int key, int mods);
+                void _keyRelease(int key, int mods);
+                void _drop(const std::vector<std::string> &);
 
-            struct Private;
-            std::unique_ptr<Private> _p;
-        };
+                virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
 
-    } // namespace Desktop
+                void _tick(float dt);
+
+            private:
+                void _getFirstTick(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<IObject> > &);
+                void _localeChangedRecursive(const std::shared_ptr<IObject> &, LocaleChanged &);
+                void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
+
+                DJV_PRIVATE();
+
+                friend class Context;
+            };
+
+        } // namespace Event
+    } // namespace Core
 } // namespace djv

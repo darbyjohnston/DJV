@@ -51,6 +51,7 @@ namespace djv
         struct FileSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::map<std::string, std::shared_ptr<UI::Menu> > menus;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
             std::shared_ptr<ValueSubject<bool> > close;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
@@ -65,74 +66,61 @@ namespace djv
             p.close = ValueSubject<bool>::create();
 
             p.actions["Open"] = UI::Action::create();
-            p.actions["Open"]->setText(DJV_TEXT("djv::ViewLib", "Open"));
             p.actions["Open"]->setShortcut(GLFW_KEY_O, GLFW_MOD_CONTROL);
 
             //! \todo Implement me!
             p.actions["Recent"] = UI::Action::create();
-            p.actions["Recent"]->setText(DJV_TEXT("djv::ViewLib", "Recent"));
             p.actions["Recent"]->setShortcut(GLFW_KEY_T, GLFW_MOD_CONTROL);
             p.actions["Recent"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Reload"] = UI::Action::create();
-            p.actions["Reload"]->setText(DJV_TEXT("djv::ViewLib", "Reload"));
             p.actions["Reload"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL);
             p.actions["Reload"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ReloadFrame"] = UI::Action::create();
-            p.actions["ReloadFrame"]->setText(DJV_TEXT("djv::ViewLib", "Reload Frame"));
             p.actions["ReloadFrame"]->setShortcut(GLFW_KEY_R, GLFW_MOD_CONTROL | GLFW_MOD_SHIFT);
             p.actions["ReloadFrame"]->setEnabled(false);
 
             p.actions["Close"] = UI::Action::create();
-            p.actions["Close"]->setText(DJV_TEXT("djv::ViewLib", "Close"));
             p.actions["Close"]->setShortcut(GLFW_KEY_E, GLFW_MOD_CONTROL);
 
             //! \todo Implement me!
             p.actions["Export"] = UI::Action::create();
-            p.actions["Export"]->setText(DJV_TEXT("djv::ViewLib", "Export"));
             p.actions["Export"]->setShortcut(GLFW_KEY_X, GLFW_MOD_CONTROL);
             p.actions["Export"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["Layers"] = UI::Action::create();
-            p.actions["Layers"]->setText(DJV_TEXT("djv::ViewLib", "Layers"));
             p.actions["Layers"]->setShortcut(GLFW_KEY_L, GLFW_MOD_CONTROL);
             p.actions["Layers"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["NextLayer"] = UI::Action::create();
-            p.actions["NextLayer"]->setText(DJV_TEXT("djv::ViewLib", "Next Layer"));
             p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, GLFW_MOD_CONTROL);
             p.actions["NextLayer"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["PrevLayer"] = UI::Action::create();
-            p.actions["PrevLayer"]->setText(DJV_TEXT("djv::ViewLib", "Previous Layer"));
             p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, GLFW_MOD_CONTROL);
             p.actions["PrevLayer"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["8BitConversion"] = UI::Action::create();
             p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["8BitConversion"]->setText(DJV_TEXT("djv::ViewLib", "8-bit Conversion"));
             p.actions["8BitConversion"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["MemoryCache"] = UI::Action::create();
             p.actions["MemoryCache"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["MemoryCache"]->setText(DJV_TEXT("djv::ViewLib", "Memory Cache"));
             p.actions["MemoryCache"]->setEnabled(false);
 
             //! \todo Implement me!
             p.actions["ClearCache"] = UI::Action::create();
-            p.actions["ClearCache"]->setText(DJV_TEXT("djv::ViewLib", "Clear Cache"));
             p.actions["ClearCache"]->setEnabled(false);
 
             p.actions["Exit"] = UI::Action::create();
-            p.actions["Exit"]->setText(DJV_TEXT("djv::ViewLib", "Exit"));
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, GLFW_MOD_CONTROL);
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
@@ -242,23 +230,23 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            auto menu = UI::Menu::create("File", context);
-            menu->addAction(p.actions["Open"]);
-            menu->addAction(p.actions["Recent"]);
-            menu->addAction(p.actions["Reload"]);
-            menu->addAction(p.actions["ReloadFrame"]);
-            menu->addAction(p.actions["Close"]);
-            menu->addAction(p.actions["Export"]);
-            menu->addSeparator();
-            menu->addAction(p.actions["Layers"]);
-            menu->addAction(p.actions["NextLayer"]);
-            menu->addAction(p.actions["PrevLayer"]);
+            p.menus["File"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "File")), context);
+            p.menus["File"]->addAction(p.actions["Open"]);
+            p.menus["File"]->addAction(p.actions["Recent"]);
+            p.menus["File"]->addAction(p.actions["Reload"]);
+            p.menus["File"]->addAction(p.actions["ReloadFrame"]);
+            p.menus["File"]->addAction(p.actions["Close"]);
+            p.menus["File"]->addAction(p.actions["Export"]);
+            p.menus["File"]->addSeparator();
+            p.menus["File"]->addAction(p.actions["Layers"]);
+            p.menus["File"]->addAction(p.actions["NextLayer"]);
+            p.menus["File"]->addAction(p.actions["PrevLayer"]);
             //! \todo Implement me!
-            auto proxyScaleMenu = UI::Menu::create(DJV_TEXT("djv::ViewLib", "Proxy Scale"), context);
-            menu->addMenu(proxyScaleMenu);
-            menu->addSeparator();
-            menu->addAction(p.actions["Exit"]);
-            return menu;
+            p.menus["ProxyScale"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Proxy Scale")), context);
+            p.menus["File"]->addMenu(p.menus["ProxyScale"]);
+            p.menus["File"]->addSeparator();
+            p.menus["File"]->addAction(p.actions["Exit"]);
+            return p.menus["File"];
         }
 
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
@@ -266,6 +254,27 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["Close"]->setEnabled(media ? true : false);
             p.actions["Export"]->setEnabled(media ? true : false);
+        }
+
+        void FileSystem::_localeChangedEvent(Core::Event::LocaleChanged &)
+        {
+            DJV_PRIVATE_PTR();
+            p.actions["Open"]->setText(DJV_TEXT("djv::ViewLib", "Open"));
+            p.actions["Recent"]->setText(DJV_TEXT("djv::ViewLib", "Recent"));
+            p.actions["Reload"]->setText(DJV_TEXT("djv::ViewLib", "Reload"));
+            p.actions["ReloadFrame"]->setText(DJV_TEXT("djv::ViewLib", "Reload Frame"));
+            p.actions["Close"]->setText(DJV_TEXT("djv::ViewLib", "Close"));
+            p.actions["Export"]->setText(DJV_TEXT("djv::ViewLib", "Export"));
+            p.actions["Layers"]->setText(DJV_TEXT("djv::ViewLib", "Layers"));
+            p.actions["NextLayer"]->setText(DJV_TEXT("djv::ViewLib", "Next Layer"));
+            p.actions["PrevLayer"]->setText(DJV_TEXT("djv::ViewLib", "Previous Layer"));
+            p.actions["8BitConversion"]->setText(DJV_TEXT("djv::ViewLib", "8-bit Conversion"));
+            p.actions["MemoryCache"]->setText(DJV_TEXT("djv::ViewLib", "Memory Cache"));
+            p.actions["ClearCache"]->setText(DJV_TEXT("djv::ViewLib", "Clear Cache"));
+            p.actions["Exit"]->setText(DJV_TEXT("djv::ViewLib", "Exit"));
+
+            p.menus["File"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "File")));
+            p.menus["ProxyScale"]->setMenuName(_getText(DJV_TEXT("djv::ViewLib", "Proxy Scale")));
         }
 
     } // namespace ViewLib

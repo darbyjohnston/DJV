@@ -71,7 +71,8 @@ namespace djv
             void _removeWindow(const std::shared_ptr<UI::Window>&) override;
             void _pushClipRect(const Core::BBox2f &) override;
             void _popClipRect() override;
-            void _tick(float dt) override;
+
+            void _updateEvent(Core::Event::Update &) override;
 
         private:
             void _styleChanged();

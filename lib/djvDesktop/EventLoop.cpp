@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktop/EventSystem.h>
+#include <djvDesktop/EventLoop.h>
 
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
@@ -65,13 +65,12 @@ namespace djv
 
         } // namespace
 
-        struct EventSystem::Private
-        {
-        };
+        struct EventLoop::Private
+        {};
 
-        void EventSystem::_init(GLFWwindow* glfwWindow, Context * context)
+        void EventLoop::_init(GLFWwindow* glfwWindow, Context * context)
         {
-            IEventSystem::_init("djv::Desktop::EventSystem", context);
+            IEventLoop::_init("djv::Desktop::EventLoop", context);
 
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
@@ -79,25 +78,25 @@ namespace djv
             glfwSetDropCallback(glfwWindow, _dropCallback);
         }
 
-        EventSystem::EventSystem() :
+        EventLoop::EventLoop() :
             _p(new Private)
         {}
 
-        EventSystem::~EventSystem()
+        EventLoop::~EventLoop()
         {}
 
-        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow* glfwWindow, Context * context)
+        std::shared_ptr<EventLoop> EventLoop::create(GLFWwindow* glfwWindow, Context * context)
         {
-            auto out = std::shared_ptr<EventSystem>(new EventSystem);
+            auto out = std::shared_ptr<EventLoop>(new EventLoop);
             out->_init(glfwWindow, context);
             return out;
         }
 
-        void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventLoop::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
-            if (auto rootObject = getRootObject())
+            if (auto rootObject = _getRootObject())
             {
-                for (const auto & i : rootObject->getChildrenT<UI::Window>())
+                for (const auto & i : rootObject->getChildrenRecursiveT<UI::Window>())
                 {
                     _hover(i, event, hover);
                     if (event.isAccepted())
@@ -108,9 +107,9 @@ namespace djv
             }
         }
 
-        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventLoop::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
-            const auto children = widget->getChildrenT<UI::Widget>();
+            const auto children = widget->getChildrenRecursiveT<UI::Widget>();
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
                 if ((*i)->isVisible() &&
@@ -134,10 +133,10 @@ namespace djv
             }
         }
 
-        void EventSystem::_pointerCallback(GLFWwindow* window, double x, double y)
+        void EventLoop::_pointerCallback(GLFWwindow* window, double x, double y)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
             {
                 Event::PointerInfo info;
                 info.id = pointerID;
@@ -148,51 +147,47 @@ namespace djv
                 info.dir.y = 0.f;
                 info.dir.z = 1.f;
                 info.projectedPos = info.pos;
-                system->_pointerMove(info);
+                loop->_pointerMove(info);
             }
         }
 
-        void EventSystem::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
+        void EventLoop::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
             {
                 switch (action)
                 {
-                case GLFW_PRESS:
-                    system->_buttonPress(fromGLFWPointerButton(button));
-                    break;
-                case GLFW_RELEASE:
-                    system->_buttonRelease(fromGLFWPointerButton(button));
-                    break;
+                case GLFW_PRESS:   loop->_buttonPress  (fromGLFWPointerButton(button)); break;
+                case GLFW_RELEASE: loop->_buttonRelease(fromGLFWPointerButton(button)); break;
                 }
             }
         }
 
-        void EventSystem::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+        void EventLoop::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
             {
                 switch (action)
                 {
-                case GLFW_PRESS: system->_keyPress(key, mods); break;
-                case GLFW_RELEASE: system->_keyRelease(key, mods); break;
+                case GLFW_PRESS:   loop->_keyPress  (key, mods); break;
+                case GLFW_RELEASE: loop->_keyRelease(key, mods); break;
                 }
             }
         }
 
-        void EventSystem::_dropCallback(GLFWwindow* window, int count, const char** paths)
+        void EventLoop::_dropCallback(GLFWwindow* window, int count, const char** paths)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventSystem>().lock())
+            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
             {
                 std::vector<std::string> list;
                 for (int i = 0; i < count; ++i)
                 {
                     list.push_back(paths[i]);
                 }
-                system->_drop(list);
+                loop->_drop(list);
             }
         }
 

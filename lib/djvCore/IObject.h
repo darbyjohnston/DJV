@@ -42,7 +42,7 @@ namespace djv
 
         namespace Event
         {
-            class IEventSystem;
+            class IEventLoop;
 
         } // namespace Event
 
@@ -156,13 +156,17 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
+            std::string _getText(const std::string & id) const;
+
+            void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
+
             std::weak_ptr<ResourceSystem> _getResourceSystem() const { return _resourceSystem; }
             std::weak_ptr<LogSystem> _getLogSystem() const { return _logSystem; }
             std::weak_ptr<TextSystem> _getTextSystem() const { return _textSystem; }
 
-            void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
-
             ///@}
+
+            static bool _logSystemInit;
 
         private:
             bool _eventFilter(Event::IEvent&);
@@ -185,7 +189,7 @@ namespace djv
             std::weak_ptr<LogSystem> _logSystem;
             std::weak_ptr<TextSystem> _textSystem;
 
-            friend class Event::IEventSystem;
+            friend class Event::IEventLoop;
         };
 
     } // namespace Core

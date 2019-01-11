@@ -34,16 +34,6 @@ namespace djv
         inline ISystem::ISystem()
         {}
 
-        inline Context * ISystem::getContext() const
-        {
-            return _context;
-        }
-
-        inline const std::string & ISystem::getName() const
-        {
-            return _name;
-        }
-
     } // namespace Core
 } // namespace djv
 

@@ -75,6 +75,7 @@ namespace djv
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
 
             _p->rootObject = std::shared_ptr<RootObject>(new RootObject);
+            _p->rootObject->setParent(context->getRootObject());
 
             if (auto style = context->getSystemT<UI::Style::Style>().lock())
             {
@@ -141,9 +142,9 @@ namespace djv
             }
         }
 
-        void WindowSystem::_tick(float dt)
+        void WindowSystem::_updateEvent(Event::Update & event)
         {
-            IWindowSystem::_tick(dt);
+            IWindowSystem::_updateEvent(event);
 
             if (_p->resizeRequest)
             {

@@ -30,7 +30,8 @@
 #include <djvCore/Context.h>
 
 #include <djvCore/Animation.h>
-#include <djvCore/ISystem.h>
+#include <djvCore/IEventLoop.h>
+#include <djvCore/IObject.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/ResourceSystem.h>
@@ -48,6 +49,8 @@ namespace djv
 {
     namespace Core
     {
+        class Context::RootObject : public IObject {};
+
         void Context::_init(int & argc, char ** argv)
         {
             for (int i = 0; i < argc; ++i)
@@ -56,6 +59,9 @@ namespace djv
             }
             const std::string argv0 = argc ? argv[0] : std::string();
             _name = FileSystem::Path(argv0).getBaseName();
+
+            // Create the root object.
+            _rootObject = std::shared_ptr<RootObject>(new RootObject);
 
             // Create the core systems.
             _timerSystem = Time::TimerSystem::create(this);
@@ -84,6 +90,29 @@ namespace djv
             auto out = std::unique_ptr<Context>(new Context);
             out->_init(argc, argv);
             return std::move(out);
+        }
+
+        std::shared_ptr<IObject> Context::getRootObject() const
+        {
+            return _rootObject;
+        }
+
+        const std::shared_ptr<Event::IEventLoop> & Context::getEventLoop() const
+        {
+            return _eventLoop;
+        }
+
+        void Context::setEventLoop(const std::shared_ptr<Event::IEventLoop> & value)
+        {
+            if (_eventLoop)
+            {
+                _eventLoop->setRootObject(nullptr);
+            }
+            _eventLoop = value;
+            if (_eventLoop)
+            {
+                _eventLoop->setRootObject(_rootObject);
+            }
         }
 
         void Context::log(const std::string& prefix, const std::string& message, LogLevel level)
@@ -140,10 +169,20 @@ namespace djv
                             ++count;
                         }
                     }
-                    system->_tick(dt);
                 }
             }
             logSystemOrder = false;
+
+            if (_eventLoop)
+            {
+                _eventLoop->_tick(dt);
+            }
+        }
+
+        void Context::_addSystem(const std::shared_ptr<ISystem> & system)
+        {
+            system->setParent(_rootObject);
+            _systems.push_back(system);
         }
 
     } // namespace ViewExperiment

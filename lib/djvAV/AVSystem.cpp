@@ -238,6 +238,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             while (p.avSystems.size())
             {
+                auto system = p.avSystems.back();
+                system->setParent(nullptr);
                 p.avSystems.pop_back();
             }
             if (p.glfwWindow)

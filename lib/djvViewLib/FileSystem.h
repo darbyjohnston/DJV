@@ -59,6 +59,9 @@ namespace djv
             std::string getMenuSortKey() const override;
             void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
+        protected:
+            void _localeChangedEvent(Core::Event::LocaleChanged &) override;
+
         private:
             DJV_PRIVATE();
         };

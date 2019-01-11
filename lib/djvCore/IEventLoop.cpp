@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/IEventSystem.h>
+#include <djvCore/IEventLoop.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/Event.h>
@@ -42,10 +42,11 @@ namespace djv
     {
         namespace Event
         {
-            struct IEventSystem::Private
+            struct IEventLoop::Private
             {
-                std::weak_ptr<TextSystem> textSystem;
+                Context * context = nullptr;
                 std::shared_ptr<IObject> rootObject;
+                std::weak_ptr<TextSystem> textSystem;
                 float t = 0.f;
                 Event::PointerInfo pointerInfo;
                 std::shared_ptr<IObject> hover;
@@ -55,49 +56,47 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
             };
 
-            void IEventSystem::_init(const std::string& systemName, Context * context)
+            void IEventLoop::_init(const std::string& systemName, Context * context)
             {
-                ISystem::_init(systemName, context);
+                _p->context = context;
                 _p->textSystem = context->getSystemT<TextSystem>();
                 if (auto textSystem = _p->textSystem.lock())
                 {
-                    auto weak = std::weak_ptr<IEventSystem>(std::dynamic_pointer_cast<IEventSystem>(shared_from_this()));
+                    auto weak = std::weak_ptr<IEventLoop>(std::dynamic_pointer_cast<IEventLoop>(shared_from_this()));
                     _p->localeObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
                         [weak](const std::string & value)
                     {
                         if (auto system = weak.lock())
                         {
-                            LocaleChanged localeChangedEvent(value);
-                            system->_localeChanged(localeChangedEvent);
+                            if (auto rootObject = system->_p->rootObject)
+                            {
+                                LocaleChanged localeChangedEvent(value);
+                                system->_localeChangedRecursive(rootObject, localeChangedEvent);
+                            }
                         }
                     });
                 }
             }
 
-            IEventSystem::IEventSystem() :
+            IEventLoop::IEventLoop() :
                 _p(new Private)
             {}
 
-            IEventSystem::~IEventSystem()
+            IEventLoop::~IEventLoop()
             {}
 
-            const std::shared_ptr<IObject>& IEventSystem::getRootObject() const
-            {
-                return _p->rootObject;
-            }
-
-            void IEventSystem::setRootObject(const std::shared_ptr<IObject>& value)
+            void IEventLoop::setRootObject(const std::shared_ptr<IObject> & value)
             {
                 _p->rootObject = value;
             }
 
-            const std::shared_ptr<IObject>& IEventSystem::getHover() const
+            const std::shared_ptr<IObject>& IEventLoop::getHover() const
             {
                 return _p->hover;
             }
 
-            void IEventSystem::setHover(const std::shared_ptr<IObject>& value)
+            void IEventLoop::setHover(const std::shared_ptr<IObject>& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.hover)
@@ -115,13 +114,18 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_pointerMove(const Event::PointerInfo& info)
+            const std::shared_ptr<IObject> & IEventLoop::_getRootObject() const
+            {
+                return _p->rootObject;
+            }
+
+            void IEventLoop::_pointerMove(const Event::PointerInfo& info)
             {
                 DJV_PRIVATE_PTR();
                 p.pointerInfo = info;
             }
 
-            void IEventSystem::_buttonPress(int button)
+            void IEventLoop::_buttonPress(int button)
             {
                 DJV_PRIVATE_PTR();
                 auto info = _p->pointerInfo;
@@ -137,7 +141,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_buttonRelease(int button)
+            void IEventLoop::_buttonRelease(int button)
             {
                 DJV_PRIVATE_PTR();
                 auto info = _p->pointerInfo;
@@ -150,7 +154,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_keyPress(int key, int mods)
+            void IEventLoop::_keyPress(int key, int mods)
             {
                 DJV_PRIVATE_PTR();
                 if (p.hover)
@@ -170,7 +174,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_keyRelease(int key, int mods)
+            void IEventLoop::_keyRelease(int key, int mods)
             {
                 DJV_PRIVATE_PTR();
                 Event::KeyRelease event(key, mods, _p->pointerInfo);
@@ -194,7 +198,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_drop(const std::vector<std::string> & list)
+            void IEventLoop::_drop(const std::vector<std::string> & list)
             {
                 DJV_PRIVATE_PTR();
                 if (p.hover)
@@ -213,7 +217,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_tick(float dt)
+            void IEventLoop::_tick(float dt)
             {
                 DJV_PRIVATE_PTR();
                 p.t += dt;
@@ -272,7 +276,7 @@ namespace djv
                             }
                         }
                     }
-                    else if (auto root = getRootObject())
+                    else
                     {
                         std::shared_ptr<IObject> hover;
                         _hover(moveEvent, hover);
@@ -280,14 +284,14 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << "Hover: " << hover->getClassName();
-                            getContext()->log("djv::Desktop::EventSystem", ss.str());
+                            getContext()->log("djv::Desktop::EventLoop", ss.str());
                         }*/
                         setHover(hover);
                     }
                 }
             }
 
-            void IEventSystem::_getFirstTick(const std::shared_ptr<IObject>& object, std::vector<std::shared_ptr<IObject> >& out)
+            void IEventLoop::_getFirstTick(const std::shared_ptr<IObject>& object, std::vector<std::shared_ptr<IObject> >& out)
             {
                 if (object->_firstTick)
                 {
@@ -300,7 +304,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
+            void IEventLoop::_updateRecursive(const std::shared_ptr<IObject>& object, Update& event)
             {
                 object->event(event);
                 auto children = object->_children;
@@ -310,15 +314,7 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_localeChanged(LocaleChanged& event)
-            {
-                if (_p->rootObject)
-                {
-                    _localeChangedRecursive(_p->rootObject, event);
-                }
-            }
-
-            void IEventSystem::_localeChangedRecursive(const std::shared_ptr<IObject>& object, LocaleChanged& event)
+            void IEventLoop::_localeChangedRecursive(const std::shared_ptr<IObject>& object, LocaleChanged& event)
             {
                 object->event(event);
                 auto children = object->_children;

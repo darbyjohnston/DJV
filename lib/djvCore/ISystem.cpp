@@ -40,18 +40,16 @@ namespace djv
 
         void ISystem::_init(const std::string & name, Context * context)
         {
-            _context = context;
-            _name = name;
-            _logSystem = context->getSystemT<LogSystem>();
-
+            IObject::_init(context);
+            setName(name);
+            setClassName(name);
             if (_logSystemInit)
             {
                 std::stringstream s;
                 s << name << " starting...";
                 _log(s.str());
             }
-
-            context->_addSystem(shared_from_this());
+            context->_addSystem(std::dynamic_pointer_cast<ISystem>(shared_from_this()));
         }
         
         ISystem::~ISystem()
@@ -59,22 +57,9 @@ namespace djv
             if (_logSystemInit)
             {
                 std::stringstream s;
-                s << _name << " exiting...";
+                s << getName() << " exiting...";
                 _log(s.str());
             }
-        }
-
-        void ISystem::_log(const std::string& message, LogLevel level)
-        {
-            if (_logSystemInit)
-            {
-                _context->log(_name, message, level);
-            }
-        }
-
-        std::string ISystem::_getText(const std::string & id)
-        {
-            return _context->getText(id);
         }
         
     } // namespace Core

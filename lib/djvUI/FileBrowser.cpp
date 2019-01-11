@@ -55,7 +55,6 @@
 
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/IEventSystem.h>
 
 #include <GLFW/glfw3.h>
 

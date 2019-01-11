@@ -96,11 +96,6 @@ namespace djv
             return _undoStack;
         }
 
-        inline void Context::_addSystem(const std::weak_ptr<ISystem>& system)
-        {
-            _systems.push_back(system);
-        }
-
     } // namespace Core
 } // namespace djv
 

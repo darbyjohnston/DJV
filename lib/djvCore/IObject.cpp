@@ -169,6 +169,11 @@ namespace djv
             return out;
         }
 
+        std::string IObject::_getText(const std::string & id) const
+        {
+            return _context->getText(id);
+        }
+
         void IObject::_log(const std::string& message, LogLevel level)
         {
             _context->log(_className, message, level);

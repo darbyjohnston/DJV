@@ -171,10 +171,11 @@ namespace djv
                 return out;
             }
 
-            void System::_tick(float dt)
+            void System::_updateEvent(Event::Update & event)
             {
                 DJV_PRIVATE_PTR();
                 std::vector<std::weak_ptr<Animation> > zombies;
+                const float dt = event.getDeltaTime();
                 for (const auto& a : p.animations)
                 {
                     if (auto animation = a.lock())
