@@ -1324,5 +1324,17 @@
         "nameSpace": "djv::UI", 
         "id": "Cannot parse value.", 
         "description": ""
+    }, 
+    {
+        "text": "Rychlost", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "Vzorkovac\u00ed frekvence", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sample rate", 
+        "description": ""
     }
 ]

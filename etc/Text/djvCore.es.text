@@ -204,7 +204,7 @@
         "description": ""
     }, 
     {
-        "text": "Salm\u00f3n Chinook Ca\u00edda De La Costa De California", 
+        "text": "Salm\u00f3n chinook de la costa de California", 
         "nameSpace": "djv::Core::String", 
         "id": "California Coast Fall Chinook Salmon", 
         "description": ""
@@ -1569,6 +1569,24 @@
         "text": "Directorio de texto", 
         "nameSpace": "djv::Core::FileSystem", 
         "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "local", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "text": "Estilo", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Style", 
         "description": ""
     }
 ]

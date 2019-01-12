@@ -252,7 +252,7 @@
         "description": ""
     }, 
     {
-        "text": "Sp\u00e4therbst Chinook-Lachs im Central Valley", 
+        "text": "Sp\u00e4therbst-Chinook-Lachs im Central Valley", 
         "nameSpace": "djv::Core::String", 
         "id": "Central Valley late Fall Chinook Salmon", 
         "description": ""
@@ -528,7 +528,7 @@
         "description": ""
     }, 
     {
-        "text": "Klamath Mountains Province Winter Steelhead", 
+        "text": "Klamath-Gebirgsprovinz-Winter Steelhead", 
         "nameSpace": "djv::Core::String", 
         "id": "Klamath Mountains Province Winter Steelhead", 
         "description": ""
@@ -714,7 +714,7 @@
         "description": ""
     }, 
     {
-        "text": "Northern California Coast Winter Steelhead", 
+        "text": "Nordkalifornischer K\u00fcstenwinter Steelhead", 
         "nameSpace": "djv::Core::String", 
         "id": "Northern California Coast Winter Steelhead", 
         "description": ""
@@ -756,7 +756,7 @@
         "description": ""
     }, 
     {
-        "text": "Meeresschneckenforelle", 
+        "text": "Paiute Cutthroat Forelle", 
         "nameSpace": "djv::Core::String", 
         "id": "Paiute Cutthroat Trout", 
         "description": ""
@@ -906,7 +906,7 @@
         "description": ""
     }, 
     {
-        "text": "Sacramento gesprenkelt Dace", 
+        "text": "Sacramento gespritzt Dace", 
         "nameSpace": "djv::Core::String", 
         "id": "Sacramento Speckled Dace", 
         "description": ""
@@ -1026,7 +1026,7 @@
         "description": ""
     }, 
     {
-        "text": "S\u00fcd-Oregon-Nordkalifornien-K\u00fcstencoho-Lachs", 
+        "text": "S\u00fcd-Oregon-Nordkalifornien-K\u00fcsten-Coho-Lachs", 
         "nameSpace": "djv::Core::String", 
         "id": "Southern Oregon Northern California Coast Coho Salmon", 
         "description": ""
@@ -1104,7 +1104,7 @@
         "description": ""
     }, 
     {
-        "text": "Gezeitenwasser Goby", 
+        "text": "Gezeitenwasser-Goby", 
         "nameSpace": "djv::Core::String", 
         "id": "Tidewater Goby", 
         "description": ""
@@ -1242,7 +1242,7 @@
         "description": ""
     }, 
     {
-        "text": "In B\u00e4chen schwimmen die Fl\u00fcsse entlang des Bodens und suchen nach kleinen wirbellosen Tieren, w\u00e4hrend sie in Seen opportunistische Feeder sind, die sich von Zooplankton, Algen, Nymphen oder den daraus resultierenden fliegenden Insekten ern\u00e4hren.", 
+        "text": "In B\u00e4chen schwimmen die Fl\u00fcsse entlang des Bodens und suchen nach kleinen wirbellosen Tieren, w\u00e4hrend sie in Seen opportunistische Feeder sind, die sich von Zooplankton, Algen, Nymphen oder den daraus resultierenden fliegenden Insekten ern\u00e4hren k\u00f6nnen.", 
         "nameSpace": "djv::Core::String", 
         "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
         "description": ""
@@ -1569,6 +1569,24 @@
         "text": "Textverzeichnis", 
         "nameSpace": "djv::Core::FileSystem", 
         "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "lokal", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "text": "Stil", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Style", 
         "description": ""
     }
 ]

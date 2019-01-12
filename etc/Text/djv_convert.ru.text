@@ -6,7 +6,7 @@
         "description": ""
     }, 
     {
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u043e\u043f\u0446\u0438\u044e -resize", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u043e\u043f\u0446\u0438\u044e &#39;-resize&#39;", 
         "nameSpace": "djv::Convert", 
         "id": "Cannot parse option '-resize'", 
         "description": ""

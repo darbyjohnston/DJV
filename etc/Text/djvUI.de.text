@@ -1218,7 +1218,7 @@
         "description": ""
     }, 
     {
-        "text": "Tastatur-Subtraktion", 
+        "text": "Tastenfeld subtrahieren", 
         "nameSpace": "djv::UI::Key", 
         "id": "KeyPadSubstract", 
         "description": ""
@@ -1260,7 +1260,7 @@
         "description": ""
     }, 
     {
-        "text": "Linke Super", 
+        "text": "Links Super", 
         "nameSpace": "djv::UI::Key", 
         "id": "LeftSuper", 
         "description": ""
@@ -1323,6 +1323,18 @@
         "text": "Wert kann nicht analysiert werden", 
         "nameSpace": "djv::UI", 
         "id": "Cannot parse value.", 
+        "description": ""
+    }, 
+    {
+        "text": "Geschwindigkeit", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "Beispielrate", 
+        "nameSpace": "djv::UI::FileBrowser", 
+        "id": "Sample rate", 
         "description": ""
     }
 ]

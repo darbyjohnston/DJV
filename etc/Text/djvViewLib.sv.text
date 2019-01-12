@@ -484,5 +484,23 @@
         "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
         "description": ""
+    }, 
+    {
+        "text": "Visa", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "text": "Spr\u00e5k", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "F\u00e4rgpalett", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Color Palette", 
+        "description": ""
     }
 ]

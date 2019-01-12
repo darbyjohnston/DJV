@@ -484,5 +484,23 @@
         "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
         "description": ""
+    }, 
+    {
+        "text": "Pokaz", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "text": "J\u0119zyk", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "Paleta kolor\u00f3w", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Color Palette", 
+        "description": ""
     }
 ]

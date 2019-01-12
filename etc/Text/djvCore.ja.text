@@ -498,7 +498,7 @@
         "description": ""
     }, 
     {
-        "text": "\u30a4\u30f3\u30e9\u30f3\u30c9\u30b9\u30ea\u30fc\u30b9\u30d1\u30a4\u30f3\u30b9\u30c6\u30a3\u30c3\u30af\u30d0\u30c3\u30af", 
+        "text": "\u30a4\u30f3\u30e9\u30f3\u30c9\u30b9\u30ea\u30fc\u30b9\u30d1\u30a4\u30f3Stickleback", 
         "nameSpace": "djv::Core::String", 
         "id": "Inland Threespine Stickleback", 
         "description": ""
@@ -1026,7 +1026,7 @@
         "description": ""
     }, 
     {
-        "text": "\u5357\u30aa\u30ec\u30b4\u30f3\u5dde\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u5317\u90e8\u30b3\u30fc\u30b9\u30c8\u30b3\u30fc\u30db\u30fc\u30b5\u30fc\u30e2\u30f3", 
+        "text": "\u5357\u30aa\u30ec\u30b4\u30f3\u5dde\u30ab\u30ea\u30d5\u30a9\u30eb\u30cb\u30a2\u5317\u90e8\u30b3\u30fc\u30b9\u30c8Coho\u30b5\u30fc\u30e2\u30f3", 
         "nameSpace": "djv::Core::String", 
         "id": "Southern Oregon Northern California Coast Coho Salmon", 
         "description": ""
@@ -1224,19 +1224,19 @@
         "description": ""
     }, 
     {
-        "text": "\u3055\u3089\u306b\u3001\u9b5a\u306f\u690d\u751f\u3084\u6728\u8cea\u306e\u7834\u7247\u304b\u3089\u306e\u6df1\u3044\u8986\u3044\u3084\u982d\u4e0a\u304b\u3089\u306e\u4fdd\u8b77\u306e\u3042\u308b\u5730\u57df\u3067\u7e41\u6804\u3057\u307e\u3059\u3002", 
+        "text": "\u3055\u3089\u306b\u3001\u9b5a\u306f\u690d\u751f\u3084\u6728\u8cea\u306e\u7834\u7247\u304b\u3089\u306e\u6df1\u3044\u8986\u3044\u3084\u982d\u4e0a\u304b\u3089\u306e\u4fdd\u8b77\u306e\u3042\u308b\u5730\u57df\u3067\u7e41\u6804\u3057\u3066\u3044\u307e\u3059\u3002", 
         "nameSpace": "djv::Core::String", 
         "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
         "description": ""
     }, 
     {
-        "text": "\u6591\u70b9\u306e\u3042\u308bDace\u306f\u4e3b\u306b\u6c34\u751f\u6606\u866b\u3092\u990c\u306b\u3057\u3066\u990c\u306b\u3059\u308b\u4e8c\u6b21\u304b\u3089\u4e09\u6b21\u306e\u5c0f\u3055\u306a\u6d41\u308c\u3092\u5360\u3081\u3066\u3044\u307e\u3059\u3002", 
+        "text": "\u6591\u70b9\u306e\u3042\u308bDace\u306f\u4e3b\u306b\u6c34\u751f\u6606\u866b\u3092\u990c\u306b\u3057\u3066\u990c\u306b\u3059\u308b\u4e8c\u6b21\u304b\u3089\u4e09\u6b21\u306e\u5c0f\u3055\u306a\u6d41\u308c\u3092\u5360\u3081\u307e\u3059\u3002", 
         "nameSpace": "djv::Core::String", 
         "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
         "description": ""
     }, 
     {
-        "text": "\u3053\u306e\u7a2e\u306f\u975e\u5e38\u306b\u9069\u5fdc\u6027\u304c\u3042\u308a\u3001Tahoe\u6e56\u306e\u3088\u3046\u306a\u5bd2\u3044\u9ad8\u5c71\u6e56\u3067\u3082\u898b\u3089\u308c\u307e\u3059\u304c\u3001\u6eb6\u5b58\u9178\u7d20\u6fc3\u5ea61 mg / L\u306731\u2103\u4ee5\u4e0a\u306e\u6c17\u6e29\u3067\u306e\u9006\u5883\u306b\u8010\u3048\u308b\u3053\u3068\u304c\u3067\u304d\u307e\u3057\u305f\u3002", 
+        "text": "\u3053\u306e\u7a2e\u306f\u975e\u5e38\u306b\u9069\u5fdc\u6027\u304c\u3042\u308a\u3001Tahoe\u6e56\u306e\u3088\u3046\u306a\u5bd2\u3044\u9ad8\u5c71\u6e56\u3067\u3082\u898b\u3089\u308c\u307e\u3059\u304c\u3001\u6eb6\u5b58\u9178\u7d20\u6fc3\u5ea61 mg / L\u306731\u2103\u4ee5\u4e0a\u306e\u6e29\u5ea6\u3067\u306e\u9006\u5883\u306b\u8010\u3048\u308b\u3053\u3068\u304c\u3067\u304d\u307e\u3057\u305f\u3002", 
         "nameSpace": "djv::Core::String", 
         "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
         "description": ""
@@ -1569,6 +1569,24 @@
         "text": "\u30c6\u30ad\u30b9\u30c8\u30c7\u30a3\u30ec\u30af\u30c8\u30ea", 
         "nameSpace": "djv::Core::FileSystem", 
         "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30ed\u30fc\u30ab\u30eb", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "text": "\u30b9\u30bf\u30a4\u30eb", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Style", 
         "description": ""
     }
 ]

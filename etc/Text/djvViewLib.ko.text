@@ -484,5 +484,23 @@
         "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
         "description": ""
+    }, 
+    {
+        "text": "\ub514\uc2a4\ud50c\ub808\uc774", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "text": "\uc5b8\uc5b4", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "\uc0c9\uc0c1 \ud314\ub808\ud2b8", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Color Palette", 
+        "description": ""
     }
 ]

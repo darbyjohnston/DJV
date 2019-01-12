@@ -186,7 +186,7 @@
         "description": ""
     }, 
     {
-        "text": "\uac08\uc0c9 \uba38\ub9ac", 
+        "text": "\ube0c\ub77c\uc6b4 \ubd88 \ud5e4\ub4dc", 
         "nameSpace": "djv::Core::String", 
         "id": "Brown Bullhead", 
         "description": ""
@@ -612,7 +612,7 @@
         "description": ""
     }, 
     {
-        "text": "\ub871 \ubc38\ub9ac \uc5bc\ub8e9\ub35c\ub8e9 \ud55c \ub370\uc774\uc2a4", 
+        "text": "\ub871 \ubc38\ub9ac \uc5bc\ub8e9\ub35c\ub8e9 \ud55c Dace", 
         "nameSpace": "djv::Core::String", 
         "id": "Long Valley Speckled Dace", 
         "description": ""
@@ -1242,7 +1242,7 @@
         "description": ""
     }, 
     {
-        "text": "\uac1c\uc6b8\uc5d0\uc11c \uc5bc\ub8e9\ub35c\ub8e9 \ud55c dace\ub294 \uc791\uc740 \ubb34\ucc99\ucd94 \ub3d9\ubb3c\uc744 \ucc3e\uae30 \uc704\ud574 \ubc14\ub2e5\uc744 \ub530\ub77c \ud5e4\uc5c4\uc744 \uce58\uba70, \ud638\uc218\uc5d0\uc11c\ub294 \ub3d9\ubb3c \ud50c\ub791\ud06c\ud1a4, \uc870\ub958, \uc57d\ucda9 \ub610\ub294 \uadf8\ub85c \uc778\ud55c \ub0a0\uc544 \ub2e4\ub2c8\ub294 \uace4\ucda9\uc744 \uba39\uc77c \uc218\uc788\ub294 \uae30\ud68c\uac00\ub418\ub294 \ubaa8\uc774\ud1b5\uc785\ub2c8\ub2e4.", 
+        "text": "\uac1c\uc6b8\uc5d0\uc11c \uc5bc\ub8e9\ub35c\ub8e9 \ud55c dace\ub294 \uc791\uc740 \ubb34\ucc99\ucd94 \ub3d9\ubb3c\uc744 \ucc3e\uae30 \uc704\ud574 \ubc14\ub2e5\uc744 \ub530\ub77c \ud5e4\uc5c4\uc744 \uce58\uba70, \ud638\uc218\uc5d0\uc11c\ub294 \ub3d9\ubb3c \ud50c\ub791\ud06c\ud1a4, \uc870\ub958, \uc57d\ucda9 \ub610\ub294 \uadf8\ub85c \uc778\ud55c \ub0a0\uc544 \ub2e4\ub2c8\ub294 \uace4\ucda9\uc744 \uba39\uc744 \uc218\uc788\ub294 \uae30\ud68c\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
         "nameSpace": "djv::Core::String", 
         "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
         "description": ""
@@ -1569,6 +1569,24 @@
         "text": "\ud14d\uc2a4\ud2b8 \ub514\ub809\ud1a0\ub9ac", 
         "nameSpace": "djv::Core::FileSystem", 
         "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "\uc9c0\ubc29\uc758", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "text": "\uc2a4\ud0c0\uc77c", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Style", 
         "description": ""
     }
 ]

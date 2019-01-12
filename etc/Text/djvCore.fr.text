@@ -252,7 +252,7 @@
         "description": ""
     }, 
     {
-        "text": "Saumon quinnat \u00e0 la fin de l&#39;automne, dans la vall\u00e9e centrale", 
+        "text": "Saumon quinnat \u00e0 la fin de l&#39;automne, vall\u00e9e centrale", 
         "nameSpace": "djv::Core::String", 
         "id": "Central Valley late Fall Chinook Salmon", 
         "description": ""
@@ -1026,7 +1026,7 @@
         "description": ""
     }, 
     {
-        "text": "Sud de l&#39;Oregon, saumon coho de la c\u00f4te nord de la Californie", 
+        "text": "Sud, cochon, saumon", 
         "nameSpace": "djv::Core::String", 
         "id": "Southern Oregon Northern California Coast Coho Salmon", 
         "description": ""
@@ -1236,7 +1236,7 @@
         "description": ""
     }, 
     {
-        "text": "L&#39;esp\u00e8ce est tr\u00e8s adaptable et se trouve dans des lacs alpins froids tels que le lac Tahoe, mais a \u00e9galement \u00e9t\u00e9 capable de survivre \u00e0 des temp\u00e9ratures \u00e9gales ou sup\u00e9rieures \u00e0 31 \\ u003 avec une concentration en oxyg\u00e8ne dissous de 1 mg / L.", 
+        "text": "L&#39;esp\u00e8ce est tr\u00e8s adaptable et se trouve dans des lacs alpins froids tels que le lac Tahoe, mais a \u00e9galement \u00e9t\u00e9 capable de survivre \u00e0 des temp\u00e9ratures \u00e9gales ou sup\u00e9rieures \u00e0 31 \u00d7 2103 avec une concentration en oxyg\u00e8ne dissous de 1 mg / L", 
         "nameSpace": "djv::Core::String", 
         "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
         "description": ""
@@ -1272,7 +1272,7 @@
         "description": ""
     }, 
     {
-        "text": "Les jeunes alevins passent ensuite le d\u00e9but de leur vie dans les zones chaudes et peu profondes du ruisseau ou du lac o\u00f9 ils ont \u00e9clos.", 
+        "text": "Les jeunes alevins passent ensuite le d\u00e9but de leur vie dans les zones chaudes et peu profondes du fleuve ou du lac o\u00f9 ils ont \u00e9clos.", 
         "nameSpace": "djv::Core::String", 
         "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
         "description": ""
@@ -1569,6 +1569,24 @@
         "text": "R\u00e9pertoire de texte", 
         "nameSpace": "djv::Core::FileSystem", 
         "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "local", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "text": "Style", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Style", 
         "description": ""
     }
 ]

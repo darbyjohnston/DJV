@@ -354,7 +354,7 @@
         "description": ""
     }, 
     {
-        "text": "P\u0159ej\u00edt na bod", 
+        "text": "P\u0159ejd\u011bte na bod", 
         "nameSpace": "djv::ViewLib", 
         "id": "Go To Out Point", 
         "description": ""
@@ -483,6 +483,24 @@
         "text": "Cel\u00e1 obrazovka", 
         "nameSpace": "djv::ViewLib", 
         "id": "Full Screen", 
+        "description": ""
+    }, 
+    {
+        "text": "Zobrazit", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "text": "Jazyk", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "Paleta barev", 
+        "nameSpace": "djv::ViewLib", 
+        "id": "Color Palette", 
         "description": ""
     }
 ]

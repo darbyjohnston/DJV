@@ -756,7 +756,7 @@
         "description": ""
     }, 
     {
-        "text": "Paiute Cutthroat\u9cdf\u9c7c", 
+        "text": "Paiute\u5272\u5589\u9cdf\u9c7c", 
         "nameSpace": "djv::Core::String", 
         "id": "Paiute Cutthroat Trout", 
         "description": ""
@@ -1224,7 +1224,7 @@
         "description": ""
     }, 
     {
-        "text": "\u6b64\u5916\uff0c\u9c7c\u7c7b\u5728\u6df1\u5c42\u8986\u76d6\u6216\u9876\u90e8\u4fdd\u62a4\u690d\u88ab\u6216\u6728\u8d28\u788e\u7247\u7684\u533a\u57df\u8301\u58ee\u6210\u957f\u3002", 
+        "text": "\u6b64\u5916\uff0c\u9c7c\u7c7b\u5728\u6709\u6df1\u5c42\u8986\u76d6\u6216\u9876\u90e8\u4fdd\u62a4\u7684\u533a\u57df\u8301\u58ee\u6210\u957f\uff0c\u4e0d\u53d7\u690d\u88ab\u6216\u6728\u8d28\u788e\u7247\u7684\u5f71\u54cd\u3002", 
         "nameSpace": "djv::Core::String", 
         "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
         "description": ""
@@ -1569,6 +1569,24 @@
         "text": "\u6587\u672c\u76ee\u5f55", 
         "nameSpace": "djv::Core::FileSystem", 
         "id": "TextDirectory", 
+        "description": ""
+    }, 
+    {
+        "text": "ParentChanged", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "\u5f53\u5730", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Locale", 
+        "description": ""
+    }, 
+    {
+        "text": "\u6837\u5f0f", 
+        "nameSpace": "djv::Core::Event", 
+        "id": "Style", 
         "description": ""
     }
 ]

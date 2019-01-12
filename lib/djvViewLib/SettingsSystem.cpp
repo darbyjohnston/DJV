@@ -197,6 +197,11 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
+                                int currentItem = widget->_buttonGroup->getChecked();
+                                if (-1 == currentItem && value.size())
+                                {
+                                    currentItem = 0;
+                                }
                                 widget->_buttons.clear();
                                 widget->_buttonGroup->clearButtons();
                                 widget->_layout->clearWidgets();
@@ -217,7 +222,8 @@ namespace djv
                                     widget->_dpiToIndex[i] = j;
                                     ++j;
                                 }
-                                widget->_updateButtonText();
+                                widget->_buttonGroup->setChecked(currentItem);
+                                widget->_buttonTextUpdate();
                             }
                         });
                     }
@@ -255,7 +261,7 @@ namespace djv
                 void _localeEvent(Event::Locale &) override
                 {
                     setText(_getText(DJV_TEXT("djv::ViewLib", "Display")));
-                    _updateButtonText();
+                    _buttonTextUpdate();
                 }
 
                 void _styleEvent(Event::Style &) override
@@ -272,7 +278,7 @@ namespace djv
                 }
 
             private:
-                void _updateButtonText()
+                void _buttonTextUpdate()
                 {
                     int j = 0;
                     for (auto i : _buttons)
@@ -285,8 +291,8 @@ namespace djv
                     }
                 }
 
-                std::vector<std::shared_ptr<UI::Button::Push> > _buttons;
                 std::vector<std::shared_ptr<UI::Style::Style> > _customStyles;
+                std::vector<std::shared_ptr<UI::Button::Push> > _buttons;
                 std::shared_ptr<UI::Button::Group> _buttonGroup;
                 std::shared_ptr<UI::Layout::Flow> _layout;
                 std::map<int, int> _indexToDPI;
@@ -409,14 +415,13 @@ namespace djv
                 {
                     GroupBox::_init(context);
 
-                    _paletteComboBox = UI::ComboBox::create(context);
+                    _buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);                    
 
-                    _layout = UI::Layout::Form::create(context);
-                    _labelIDs["ColorPalette"] = _layout->addWidget(std::string(), _paletteComboBox);
+                    _layout = UI::Layout::Flow::create(context);
                     addWidget(_layout);
 
                     auto weak = std::weak_ptr<ColorPaletteSettingsWidget>(std::dynamic_pointer_cast<ColorPaletteSettingsWidget>(shared_from_this()));
-                    _paletteComboBox->setCallback(
+                    _buttonGroup->setRadioCallback(
                         [weak, context](int value)
                     {
                         if (auto widget = weak.lock())
@@ -436,12 +441,39 @@ namespace djv
                     {
                         _palettesObserver = MapObserver<std::string, UI::Style::Palette>::create(
                             uiSystem->getStyleSettings()->observePalettes(),
-                            [weak](const std::map<std::string, UI::Style::Palette > & value)
+                            [weak, context](const std::map<std::string, UI::Style::Palette > & value)
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_palettes = value;
-                                widget->_paletteUpdate();
+                                int currentItem = widget->_buttonGroup->getChecked();
+                                if (-1 == currentItem && value.size())
+                                {
+                                    currentItem = 0;
+                                }
+                                widget->_buttons.clear();
+                                widget->_buttonGroup->clearButtons();
+                                widget->_layout->clearWidgets();
+                                widget->_indexToPalette.clear();
+                                widget->_buttonToPalette.clear();
+                                widget->_paletteToIndex.clear();
+                                size_t j = 0;
+                                for (const auto & i : value)
+                                {
+                                    auto customStyle = UI::Style::Style::create(context);
+                                    customStyle->setPalette(i.second);
+                                    widget->_customStyles.push_back(customStyle);
+                                    auto button = UI::Button::Push::create(context);
+                                    button->setStyle(customStyle);
+                                    widget->_buttons.push_back(button);
+                                    widget->_buttonGroup->addButton(button);
+                                    widget->_layout->addWidget(button);
+                                    widget->_indexToPalette[j] = i.first;
+                                    widget->_buttonToPalette[button] = i.first;
+                                    widget->_paletteToIndex[i.first] = j;
+                                    ++j;
+                                }
+                                widget->_buttonGroup->setChecked(currentItem);
+                                widget->_buttonTextUpdate();
                             }
                         });
                         _currentPaletteObserver = ValueObserver<std::string>::create(
@@ -453,7 +485,7 @@ namespace djv
                                 const auto i = widget->_paletteToIndex.find(value);
                                 if (i != widget->_paletteToIndex.end())
                                 {
-                                    widget->_paletteComboBox->setCurrentItem(static_cast<int>(i->second));
+                                    widget->_buttonGroup->setChecked(static_cast<int>(i->second));
                                 }
                             }
                         });
@@ -475,34 +507,29 @@ namespace djv
                 void _localeEvent(Event::Locale &) override
                 {
                     setText(_getText(DJV_TEXT("djv::ViewLib", "Color Palette")));
-                    _paletteUpdate();
-                    _layout->setText(_labelIDs["ColorPalette"], _getText(DJV_TEXT("djv::ViewLib", "Color palette")));
+                    _buttonTextUpdate();
                 }
 
             private:
-                void _paletteUpdate()
+                void _buttonTextUpdate()
                 {
-                    const int currentItem = _paletteComboBox->getCurrentItem();
-                    _paletteComboBox->clearItems();
-                    _indexToPalette.clear();
-                    _paletteToIndex.clear();
-                    size_t j = 0;
-                    for (const auto & i : _palettes)
+                    for (auto i : _buttons)
                     {
-                        _paletteComboBox->addItem(_getText(i.first));
-                        _indexToPalette[j] = i.first;
-                        _paletteToIndex[i.first] = j;
-                        ++j;
+                        const auto j = _buttonToPalette.find(i);
+                        if (j != _buttonToPalette.end())
+                        {
+                            i->setText(_getText(j->second));
+                        }
                     }
-                    _paletteComboBox->setCurrentItem(currentItem);
                 }
 
-                std::map<std::string, UI::Style::Palette > _palettes;
-                std::shared_ptr<UI::ComboBox> _paletteComboBox;
-                std::map<size_t, std::string> _indexToPalette;
-                std::map<std::string, size_t> _paletteToIndex;
-                std::map<std::string, size_t> _labelIDs;
-                std::shared_ptr<UI::Layout::Form> _layout;
+                std::vector<std::shared_ptr<UI::Style::Style> > _customStyles;
+                std::vector<std::shared_ptr<UI::Button::Push> > _buttons;
+                std::shared_ptr<UI::Button::Group> _buttonGroup;
+                std::shared_ptr<UI::Layout::Flow> _layout;
+                std::map<int, std::string> _indexToPalette;
+                std::map<std::shared_ptr<UI::Button::Push>, std::string> _buttonToPalette;
+                std::map<std::string, int> _paletteToIndex;
                 std::shared_ptr<MapObserver<std::string, UI::Style::Palette> > _palettesObserver;
                 std::shared_ptr<ValueObserver<std::string> > _currentPaletteObserver;
             };
