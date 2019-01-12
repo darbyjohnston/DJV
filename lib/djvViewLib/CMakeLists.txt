@@ -1,9 +1,11 @@
 set(header
     Application.h
+    ColorPaletteSettingsWidget.h
     #ColorPickerTool.h
     #Context.h
     #ContextInline.h
     #DebugTool.h
+    DisplaySettingsWidget.h
     Enum.h
     FileSystem.h
     HelpSystem.h
@@ -14,6 +16,7 @@ set(header
     ImageView.h
     ImageViewSystem.h
     #InfoTool.h
+    LanguageSettingsWidget.h
     #MagnifyTool.h
     MDIWindow.h
     MainWindow.h
@@ -30,9 +33,11 @@ set(header
     )
 set(source
     Application.cpp
+    ColorPaletteSettingsWidget.cpp
     #ColorPickerTool.cpp
     #Context.cpp
     #DebugTool.cpp
+    DisplaySettingsWidget.cpp
     Enum.cpp
     FileSystem.cpp
     HelpSystem.cpp
@@ -43,6 +48,7 @@ set(source
     ImageView.cpp
     ImageViewSystem.cpp
     #InfoTool.cpp
+    LanguageSettingsWidget.cpp
     #MagnifyTool.cpp
     MDIWindow.cpp
     MainWindow.cpp
