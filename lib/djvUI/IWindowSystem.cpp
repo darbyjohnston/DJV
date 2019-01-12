@@ -73,12 +73,12 @@ namespace djv
         void IWindowSystem::tick(float dt)
         {
             DJV_PRIVATE_PTR();
-            Event::StyleChanged styleEvent;
+            Event::Style styleEvent;
             auto rootObject = getContext()->getRootObject();
             for (auto window : getContext()->getRootObject()->getChildrenT<Window>())
             {
                 _styleInit(window);
-                _styleChangedRecursive(window, styleEvent);
+                _styleRecursive(window, styleEvent);
             }
             for (auto i : _p->dirtyStyles)
             {
@@ -127,7 +127,7 @@ namespace djv
             return out;
         }
 
-        void IWindowSystem::_styleChangedRecursive(const std::shared_ptr<UI::Widget>& widget, Event::StyleChanged& event)
+        void IWindowSystem::_styleRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Style& event)
         {
             if (!widget->_styleInit)
             {
@@ -136,7 +136,7 @@ namespace djv
             }
             for (const auto& child : widget->getChildrenT<UI::Widget>())
             {
-                _styleChangedRecursive(child, event);
+                _styleRecursive(child, event);
             }
         }
 

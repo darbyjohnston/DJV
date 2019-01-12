@@ -148,7 +148,7 @@ namespace djv
                 }
 
             protected:
-                void _localeChangedEvent(Event::LocaleChanged &) override
+                void _localeEvent(Event::Locale &) override
                 {
                     _titleLabel->setText(_getText(DJV_TEXT("djv::ViewLib", "Settings")));
                 }
@@ -252,13 +252,13 @@ namespace djv
                 }
 
             protected:
-                void _localeChangedEvent(Event::LocaleChanged &) override
+                void _localeEvent(Event::Locale &) override
                 {
                     setText(_getText(DJV_TEXT("djv::ViewLib", "Display")));
                     _updateButtonText();
                 }
 
-                void _styleChangedEvent(Event::StyleChanged &) override
+                void _styleEvent(Event::Style &) override
                 {
                     if (auto style = _getStyle().lock())
                     {
@@ -359,7 +359,7 @@ namespace djv
                 }
 
             protected:
-                void _localeChangedEvent(Event::LocaleChanged &) override
+                void _localeEvent(Event::Locale &) override
                 {
                     setText(_getText(DJV_TEXT("djv::ViewLib", "Language")));
                     _widgetUpdate();
@@ -468,7 +468,7 @@ namespace djv
                 }
 
             protected:
-                void _localeChangedEvent(Event::LocaleChanged &) override
+                void _localeEvent(Event::Locale &) override
                 {
                     setText(_getText(DJV_TEXT("djv::ViewLib", "Color Palette")));
                     _paletteUpdate();

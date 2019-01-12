@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvCore/IEventLoop.h>
+#include <djvCore/IEventSystem.h>
 
 #include <glm/vec2.hpp>
 
@@ -45,18 +45,18 @@ namespace djv
 
     namespace Desktop
     {
-        class EventLoop : public Core::Event::IEventLoop
+        class EventSystem : public Core::Event::IEventSystem
         {
-            DJV_NON_COPYABLE(EventLoop);
+            DJV_NON_COPYABLE(EventSystem);
 
         protected:
             void _init(GLFWwindow*, Core::Context *);
-            EventLoop();
+            EventSystem();
 
         public:
-            virtual ~EventLoop();
+            virtual ~EventSystem();
 
-            static std::shared_ptr<EventLoop> create(GLFWwindow*, Core::Context *);
+            static std::shared_ptr<EventSystem> create(GLFWwindow*, Core::Context *);
 
         protected:
             void _hover(Core::Event::PointerMove&, std::shared_ptr<Core::IObject>&) override;

@@ -183,8 +183,8 @@ namespace djv
                 case Event::Type::ChildRemoved:
                     _childRemovedEvent(static_cast<Event::ChildRemoved&>(event));
                     break;
-                case Event::Type::LocaleChanged:
-                    _localeChangedEvent(static_cast<Event::LocaleChanged&>(event));
+                case Event::Type::Locale:
+                    _localeEvent(static_cast<Event::Locale&>(event));
                     break;
                 case Event::Type::Update:
                     _updateEvent(static_cast<Event::Update&>(event));

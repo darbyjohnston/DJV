@@ -576,7 +576,7 @@ namespace djv
                 }
             }
 
-            void Widget::_localeChangedEvent(Event::LocaleChanged &)
+            void Widget::_localeEvent(Event::Locale &)
             {
                 DJV_PRIVATE_PTR();
                 auto context = getContext();
@@ -875,7 +875,7 @@ namespace djv
                         _layout->setGeometry(getGeometry());
                     }
 
-                    void _localeChangedEvent(Event::LocaleChanged &) override
+                    void _localeEvent(Event::Locale &) override
                     {
                         auto context = getContext();
                         _titleLabel->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "File Browser")));

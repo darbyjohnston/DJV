@@ -43,10 +43,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Event,
         Type,
-        DJV_TEXT("djv::Core::Event", "Parent"),
-        DJV_TEXT("djv::Core::Event", "LocaleChanged"),
+        DJV_TEXT("djv::Core::Event", "ParentChanged"),
+        DJV_TEXT("djv::Core::Event", "Locale"),
         DJV_TEXT("djv::Core::Event", "Update"),
-        DJV_TEXT("djv::Core::Event", "StyleChanged"),
+        DJV_TEXT("djv::Core::Event", "Style"),
         DJV_TEXT("djv::Core::Event", "PreLayout"),
         DJV_TEXT("djv::Core::Event", "Layout"),
         DJV_TEXT("djv::Core::Event", "Clip"),

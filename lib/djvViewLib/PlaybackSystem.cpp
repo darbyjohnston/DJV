@@ -280,7 +280,7 @@ namespace djv
             }
         }
 
-        void PlaybackSystem::_localeChangedEvent(Event::LocaleChanged &)
+        void PlaybackSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["Stop"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Stop")));

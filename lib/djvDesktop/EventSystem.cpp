@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktop/EventLoop.h>
+#include <djvDesktop/EventSystem.h>
 
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
@@ -65,12 +65,12 @@ namespace djv
 
         } // namespace
 
-        struct EventLoop::Private
+        struct EventSystem::Private
         {};
 
-        void EventLoop::_init(GLFWwindow* glfwWindow, Context * context)
+        void EventSystem::_init(GLFWwindow* glfwWindow, Context * context)
         {
-            IEventLoop::_init("djv::Desktop::EventLoop", context);
+            IEventSystem::_init("djv::Desktop::EventSystem", context);
 
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
@@ -78,21 +78,21 @@ namespace djv
             glfwSetDropCallback(glfwWindow, _dropCallback);
         }
 
-        EventLoop::EventLoop() :
+        EventSystem::EventSystem() :
             _p(new Private)
         {}
 
-        EventLoop::~EventLoop()
+        EventSystem::~EventSystem()
         {}
 
-        std::shared_ptr<EventLoop> EventLoop::create(GLFWwindow* glfwWindow, Context * context)
+        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow* glfwWindow, Context * context)
         {
-            auto out = std::shared_ptr<EventLoop>(new EventLoop);
+            auto out = std::shared_ptr<EventSystem>(new EventSystem);
             out->_init(glfwWindow, context);
             return out;
         }
 
-        void EventLoop::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventSystem::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
             auto rootObject = getContext()->getRootObject();
             for (const auto & i : rootObject->getChildrenRecursiveT<UI::Window>())
@@ -105,7 +105,7 @@ namespace djv
             }
         }
 
-        void EventLoop::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
+        void EventSystem::_hover(const std::shared_ptr<UI::Widget>& widget, Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
             const auto children = widget->getChildrenRecursiveT<UI::Widget>();
             for (auto i = children.rbegin(); i != children.rend(); ++i)
@@ -131,10 +131,10 @@ namespace djv
             }
         }
 
-        void EventLoop::_pointerCallback(GLFWwindow* window, double x, double y)
+        void EventSystem::_pointerCallback(GLFWwindow* window, double x, double y)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventLoop>().lock())
+            if (auto system = context->getSystemT<EventSystem>().lock())
             {
                 Event::PointerInfo info;
                 info.id = pointerID;
@@ -149,10 +149,10 @@ namespace djv
             }
         }
 
-        void EventLoop::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
+        void EventSystem::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventLoop>().lock())
+            if (auto system = context->getSystemT<EventSystem>().lock())
             {
                 switch (action)
                 {
@@ -162,10 +162,10 @@ namespace djv
             }
         }
 
-        void EventLoop::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+        void EventSystem::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventLoop>().lock())
+            if (auto system = context->getSystemT<EventSystem>().lock())
             {
                 switch (action)
                 {
@@ -175,10 +175,10 @@ namespace djv
             }
         }
 
-        void EventLoop::_dropCallback(GLFWwindow* window, int count, const char** paths)
+        void EventSystem::_dropCallback(GLFWwindow* window, int count, const char** paths)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<EventLoop>().lock())
+            if (auto system = context->getSystemT<EventSystem>().lock())
             {
                 std::vector<std::string> list;
                 for (int i = 0; i < count; ++i)

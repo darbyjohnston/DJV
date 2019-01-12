@@ -40,16 +40,16 @@ namespace djv
 
         namespace Event
         {
-            class IEventLoop : public ISystem
+            class IEventSystem : public ISystem
             {
-                DJV_NON_COPYABLE(IEventLoop);
+                DJV_NON_COPYABLE(IEventSystem);
 
             protected:
                 void _init(const std::string & systemName, Context *);
-                IEventLoop();
+                IEventSystem();
 
             public:
-                virtual ~IEventLoop() = 0;
+                virtual ~IEventSystem() = 0;
 
                 const std::shared_ptr<IObject> & getHover() const;
                 void setHover(const std::shared_ptr<IObject> &);
@@ -68,7 +68,7 @@ namespace djv
 
             private:
                 void _localeInit(const std::shared_ptr<IObject> &, bool = true);
-                void _localeChangedRecursive(const std::shared_ptr<IObject> &, LocaleChanged &);
+                void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
 
                 DJV_PRIVATE();

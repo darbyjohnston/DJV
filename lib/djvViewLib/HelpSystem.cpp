@@ -96,7 +96,7 @@ namespace djv
             return { p.menus["Help"], "G" };
         }
 
-        void HelpSystem::_localeChangedEvent(Event::LocaleChanged &)
+        void HelpSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["Documentation"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Documentation")));

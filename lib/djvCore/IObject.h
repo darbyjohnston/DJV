@@ -42,7 +42,7 @@ namespace djv
 
         namespace Event
         {
-            class IEventLoop;
+            class IEventSystem;
 
         } // namespace Event
 
@@ -145,7 +145,7 @@ namespace djv
             virtual void _parentChangedEvent(Event::ParentChanged &) {}
             virtual void _childAddedEvent(Event::ChildAdded &) {}
             virtual void _childRemovedEvent(Event::ChildRemoved &) {}
-            virtual void _localeChangedEvent(Event::LocaleChanged &) {}
+            virtual void _localeEvent(Event::Locale &) {}
             virtual void _updateEvent(Event::Update &) {}
 
             //! Over-ride this function to filter events for other objects.
@@ -189,7 +189,7 @@ namespace djv
             static std::weak_ptr<LogSystem> _logSystem;
             static std::weak_ptr<TextSystem> _textSystem;
 
-            friend class Event::IEventLoop;
+            friend class Event::IEventSystem;
         };
 
     } // namespace Core

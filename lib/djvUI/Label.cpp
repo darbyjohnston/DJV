@@ -174,7 +174,7 @@ namespace djv
             _resize();
         }
 
-        void Label::_styleChangedEvent(Event::StyleChanged& event)
+        void Label::_styleEvent(Event::Style& event)
         {
             _updateText();
         }

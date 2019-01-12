@@ -139,7 +139,7 @@ namespace djv
             return { p.menus["Image"], "D" };
         }
 
-        void ImageSystem::_localeChangedEvent(Event::LocaleChanged &)
+        void ImageSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["MirrorH"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Mirror Horizontal")));

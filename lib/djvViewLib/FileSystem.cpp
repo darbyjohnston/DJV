@@ -251,7 +251,7 @@ namespace djv
             p.actions["Export"]->setEnabled(media ? true : false);
         }
 
-        void FileSystem::_localeChangedEvent(Event::LocaleChanged &)
+        void FileSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["Open"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Open")));

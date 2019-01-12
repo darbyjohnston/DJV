@@ -96,12 +96,12 @@ namespace djv
                 return _child;
             }
 
-            inline LocaleChanged::LocaleChanged(const std::string& locale) :
-                IEvent(Type::LocaleChanged),
+            inline Locale::Locale(const std::string& locale) :
+                IEvent(Type::Locale),
                 _locale(locale)
             {}
 
-            inline const std::string& LocaleChanged::getLocale() const
+            inline const std::string& Locale::getLocale() const
             {
                 return _locale;
             }
@@ -122,8 +122,8 @@ namespace djv
                 return _dt;
             }
 
-            inline StyleChanged::StyleChanged() :
-                IEvent(Type::StyleChanged)
+            inline Style::Style() :
+                IEvent(Type::Style)
             {}
 
             inline PreLayout::PreLayout() :

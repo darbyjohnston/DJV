@@ -30,7 +30,6 @@
 #include <djvCore/Context.h>
 
 #include <djvCore/Animation.h>
-#include <djvCore/IEventLoop.h>
 #include <djvCore/IObject.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>

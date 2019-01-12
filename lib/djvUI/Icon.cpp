@@ -132,7 +132,7 @@ namespace djv
             _resize();
         }
 
-        void Icon::_styleChangedEvent(Event::StyleChanged& event)
+        void Icon::_styleEvent(Event::Style& event)
         {
             if (!_p->name.empty())
             {

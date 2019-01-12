@@ -330,7 +330,7 @@ namespace djv
                     if (style != _style.lock())
                     {
                         _style = style;
-                        Event::StyleChanged styleEvent;
+                        Event::Style styleEvent;
                         this->event(styleEvent);
                     }
 
@@ -358,8 +358,8 @@ namespace djv
                     }
                     break;
                 }
-                case Event::Type::StyleChanged:
-                    _styleChangedEvent(static_cast<Event::StyleChanged&>(event));
+                case Event::Type::Style:
+                    _styleEvent(static_cast<Event::Style&>(event));
                     break;
                 case Event::Type::PreLayout:
                     _preLayoutEvent(static_cast<Event::PreLayout&>(event));

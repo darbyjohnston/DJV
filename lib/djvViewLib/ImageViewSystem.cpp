@@ -161,7 +161,7 @@ namespace djv
             return { p.menus["View"], "C" };
         }
 
-        void ImageViewSystem::_localeChangedEvent(Event::LocaleChanged &)
+        void ImageViewSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["Left"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Left")));

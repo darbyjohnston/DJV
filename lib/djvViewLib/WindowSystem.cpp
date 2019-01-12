@@ -120,7 +120,7 @@ namespace djv
             return { p.menus["Window"], "B" };
         }
 
-        void WindowSystem::_localeChangedEvent(Event::LocaleChanged &)
+        void WindowSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
             p.actions["Duplicate"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Duplicate")));

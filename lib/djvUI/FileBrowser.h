@@ -85,7 +85,7 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
-                void _localeChangedEvent(Core::Event::LocaleChanged &) override;
+                void _localeEvent(Core::Event::Locale &) override;
                 bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
 
             private:
