@@ -227,7 +227,7 @@ namespace djv
             inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
         private:
-            bool _widgetTick = false;
+            bool _styleInit = false;
             float _updateTime = 0.f;
             float _elapsedTime = 0.f;
             bool _visible = true;

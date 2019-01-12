@@ -59,7 +59,7 @@ namespace djv
         void Label::_init(Context * context)
         {
             Widget::_init(context);
-            setName("djv::UI::Label");
+            setClassName("djv::UI::Label");
         }
         
         Label::Label() :
@@ -192,7 +192,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        _log(e.what(), LogLevel::Error);
+                        //_log(e.what(), LogLevel::Error);
                     }
                 }
                 if (_p->textSizeFuture.valid())
@@ -204,7 +204,7 @@ namespace djv
                     }
                     catch (const std::exception& e)
                     {
-                        _log(e.what(), LogLevel::Error);
+                        //_log(e.what(), LogLevel::Error);
                     }
                 }
                 glm::vec2 size = _p->textSize;

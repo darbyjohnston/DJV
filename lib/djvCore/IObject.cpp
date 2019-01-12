@@ -167,11 +167,28 @@ namespace djv
             {
                 switch (event.getEventType())
                 {
-                case Event::Type::ParentChanged: _parentChangedEvent(static_cast<Event::ParentChanged&>(event)); break;
-                case Event::Type::ChildAdded:    _childAddedEvent(static_cast<Event::ChildAdded&>(event));       break;
-                case Event::Type::ChildRemoved:  _childRemovedEvent(static_cast<Event::ChildRemoved&>(event));   break;
-                case Event::Type::LocaleChanged: _localeChangedEvent(static_cast<Event::LocaleChanged&>(event)); break;
-                case Event::Type::Update:        _updateEvent(static_cast<Event::Update&>(event));               break;
+                case Event::Type::ParentChanged:
+                {
+                    auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
+                    if (!parentChangedEvent.getPrevParent() && parentChangedEvent.getNewParent())
+                    {
+                        _localeInit = false;
+                    }
+                    _parentChangedEvent(static_cast<Event::ParentChanged&>(event));
+                    break;
+                }
+                case Event::Type::ChildAdded:
+                    _childAddedEvent(static_cast<Event::ChildAdded&>(event));
+                    break;
+                case Event::Type::ChildRemoved:
+                    _childRemovedEvent(static_cast<Event::ChildRemoved&>(event));
+                    break;
+                case Event::Type::LocaleChanged:
+                    _localeChangedEvent(static_cast<Event::LocaleChanged&>(event));
+                    break;
+                case Event::Type::Update:
+                    _updateEvent(static_cast<Event::Update&>(event));
+                    break;
                 default: break;
                 }
                 out = event.isAccepted();

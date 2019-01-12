@@ -181,14 +181,14 @@ namespace djv
                 int dpi = AV::dpiDefault;
                 Metrics metrics;
                 std::string font = AV::Font::Info::familyDefault;
-                std::shared_ptr<ValueSubject<bool> > styleChanged;
+                bool dirty = true;
             };
 
             void Style::_init(Context * context)
             {
                 DJV_PRIVATE_PTR();
                 p.context = context;
-                p.styleChanged = ValueSubject<bool>::create(false);
+                _p->dirty = true;
             }
 
             Style::Style() :
@@ -220,7 +220,7 @@ namespace djv
                 if (value == _p->palette)
                     return;
                 _p->palette = value;
-                _p->styleChanged->setAlways(true);
+                _p->dirty = true;
             }
 
             int Style::getDPI() const
@@ -248,7 +248,7 @@ namespace djv
                 if (value == _p->dpi)
                     return;
                 _p->dpi = value;
-                _p->styleChanged->setAlways(true);
+                _p->dirty = true;
             }
 
             void Style::setMetrics(const Metrics & value)
@@ -256,7 +256,7 @@ namespace djv
                 if (value == _p->metrics)
                     return;
                 _p->metrics = value;
-                _p->styleChanged->setAlways(true);
+                _p->dirty = true;
             }
 
             const std::string Style::getFont() const
@@ -274,12 +274,17 @@ namespace djv
                 if (value == _p->font)
                     return;
                 _p->font = value;
-                _p->styleChanged->setAlways(true);
+                _p->dirty = true;
             }
 
-            std::shared_ptr<Core::IValueSubject<bool> > Style::observeStyleChanged() const
+            bool Style::isDirty() const
             {
-                return _p->styleChanged;
+                return _p->dirty;
+            }
+
+            void Style::setClean()
+            {
+                _p->dirty = false;
             }
 
         } // namespace Style

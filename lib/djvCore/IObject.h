@@ -179,7 +179,7 @@ namespace djv
             static Context * _context;
             std::string _className;
             std::string _name;
-            bool _objectTick = false;
+            bool _localeInit = false;
             std::weak_ptr<IObject> _parent;
             std::vector<std::shared_ptr<IObject> > _children;
             bool _enabled = true;

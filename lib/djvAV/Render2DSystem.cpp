@@ -287,49 +287,54 @@ namespace djv
 
                     void getRenderData(std::vector<RenderData> & out) override
                     {
-                        float x = 0.f;
-                        float y = 0.f;
-                        const auto glyphs = glyphsFuture.get();
-                        const size_t outSize = out.size();
-                        out.resize(out.size() + glyphs.size());
-                        auto it = out.begin() + outSize;
-                        for (const auto& glyph : glyphs)
+                        try
                         {
-                            const glm::vec2& size = glyph->getImageData()->getSize();
-                            const glm::vec2& offset = glyph->getOffset();
-                            BBox2f bbox(
-                                pos.x + x + offset.x,
-                                pos.y + y - offset.y,
-                                size.x,
-                                size.y);
-                            if (bbox.intersects(render.viewport))
+                            float x = 0.f;
+                            float y = 0.f;
+                            const auto glyphs = glyphsFuture.get();
+                            const size_t outSize = out.size();
+                            out.resize(out.size() + glyphs.size());
+                            auto it = out.begin() + outSize;
+                            for (const auto& glyph : glyphs)
                             {
-                                const auto uid = glyph->getInfo().getUID();
-                                uint64_t id = 0;
-                                const auto i = render.glyphTextureIDs.find(uid);
-                                if (i != render.glyphTextureIDs.end())
+                                const glm::vec2& size = glyph->getImageData()->getSize();
+                                const glm::vec2& offset = glyph->getOffset();
+                                BBox2f bbox(
+                                    pos.x + x + offset.x,
+                                    pos.y + y - offset.y,
+                                    size.x,
+                                    size.y);
+                                if (bbox.intersects(render.viewport))
                                 {
-                                    id = i->second;
-                                }
-                                TextureCacheItem item;
-                                if (!render.staticTextureCache->getItem(id, item))
-                                {
-                                    id = render.staticTextureCache->addItem(glyph->getImageData(), item);
-                                    render.glyphTextureIDs[uid] = id;
-                                }
+                                    const auto uid = glyph->getInfo().getUID();
+                                    uint64_t id = 0;
+                                    const auto i = render.glyphTextureIDs.find(uid);
+                                    if (i != render.glyphTextureIDs.end())
+                                    {
+                                        id = i->second;
+                                    }
+                                    TextureCacheItem item;
+                                    if (!render.staticTextureCache->getItem(id, item))
+                                    {
+                                        id = render.staticTextureCache->addItem(glyph->getImageData(), item);
+                                        render.glyphTextureIDs[uid] = id;
+                                    }
 
-                                it->bbox = bbox;
-                                it->clipRect = clipRect;
-                                it->colorMode = colorMode;
-                                it->color = color;
-                                it->texture = static_cast<GLint>(item.texture);
-                                it->textureU = item.textureU;
-                                it->textureV = item.textureV;
-                                ++it;
+                                    it->bbox = bbox;
+                                    it->clipRect = clipRect;
+                                    it->colorMode = colorMode;
+                                    it->color = color;
+                                    it->texture = static_cast<GLint>(item.texture);
+                                    it->textureU = item.textureU;
+                                    it->textureV = item.textureV;
+                                    ++it;
+                                }
+                                x += glyph->getAdvance();
                             }
-                            x += glyph->getAdvance();
+                            out.resize(it - out.begin());
                         }
-                        out.resize(it - out.begin());
+                        catch (const std::exception &)
+                        {}
                     }
                 };
 

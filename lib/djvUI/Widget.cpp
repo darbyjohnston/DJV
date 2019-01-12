@@ -299,6 +299,15 @@ namespace djv
             {
                 switch (event.getEventType())
                 {
+                case Event::Type::ParentChanged:
+                {
+                    auto& parentChangedEvent = static_cast<Event::ParentChanged&>(event);
+                    if (!parentChangedEvent.getPrevParent() && parentChangedEvent.getNewParent())
+                    {
+                        _styleInit = false;
+                    }
+                    break;
+                }
                 case Event::Type::Update:
                 {
                     auto& updateEvent = static_cast<Event::Update&>(event);

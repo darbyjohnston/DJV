@@ -114,8 +114,8 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > fileSequencesObserver;
                 std::shared_ptr<ValueObserver<bool> > showHiddenObserver;
 
-                std::string getTooltip(const FileSystem::FileInfo &);
-                std::string getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &);
+                std::string getTooltip(const FileSystem::FileInfo &, Context * context);
+                std::string getTooltip(const FileSystem::FileInfo &, const AV::IO::Info &, Context *);
                 std::string getItemCountLabel(size_t, Context *);
             };
 
@@ -490,7 +490,7 @@ namespace djv
                                 auto widget = i->widget.lock();
                                 if (thumbnailSystem && ioSystem && style && widget)
                                 {
-                                    widget->setTooltip(_p->getTooltip(i->fileInfo, info));
+                                    widget->setTooltip(_p->getTooltip(i->fileInfo, info, context));
                                     int t = 0;
                                     switch (_p->viewType)
                                     {
@@ -581,30 +581,30 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 auto context = getContext();
                 p.actions["Up"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Up")));
-                p.actions["Up"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "UpTooltip"));
-                p.actions["Current"]->setText(DJV_TEXT("djv::UI::FileBrowser", "Current Directory"));
-                p.actions["Current"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "CurrentDirectoryTooltip"));
-                p.actions["Back"]->setText(DJV_TEXT("djv::UI::FileBrowser", "Back"));
-                p.actions["Back"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "BackTooltip"));
-                p.actions["Forward"]->setText(DJV_TEXT("djv::UI::FileBrowser", "Forward"));
-                p.actions["Forward"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ForwardTooltip"));
-                p.actions["Reload"]->setText(DJV_TEXT("djv::UI::FileBrowser", "Reload"));
-                p.actions["Reload"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ReloadTooltip"));
-                p.actions["LargeThumbnails"]->setText(DJV_TEXT("djv::UI::FileBrowser", "Large Thumbnails"));
-                p.actions["LargeThumbnails"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "LargethumbnailsTooltip"));
-                p.actions["SmallThumbnails"]->setText(DJV_TEXT("djv::UI::FileBrowser", "Small Thumbnails"));
-                p.actions["SmallThumbnails"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "SmallThumbnailsTooltip"));
-                p.actions["ListView"]->setText(DJV_TEXT("djv::UI::FileBrowser", "List View"));
-                p.actions["ListView"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ListViewTooltip"));
-                p.actions["FileSequences"]->setText(DJV_TEXT("djv::UI::FileBrowser", "File Sequences"));
-                p.actions["FileSequences"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "FileSequencesTooltip"));
-                p.actions["ShowHidden"]->setText(DJV_TEXT("djv::UI::FileBrowser", "Show Hidden"));
-                p.actions["ShowHidden"]->setTooltip(DJV_TEXT("djv::UI::FileBrowser", "ShowHiddenTooltip"));
+                p.actions["Up"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "UpTooltip")));
+                p.actions["Current"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Current Directory")));
+                p.actions["Current"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "CurrentDirectoryTooltip")));
+                p.actions["Back"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Back")));
+                p.actions["Back"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "BackTooltip")));
+                p.actions["Forward"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Forward")));
+                p.actions["Forward"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ForwardTooltip")));
+                p.actions["Reload"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Reload")));
+                p.actions["Reload"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ReloadTooltip")));
+                p.actions["LargeThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Large Thumbnails")));
+                p.actions["LargeThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "LargethumbnailsTooltip")));
+                p.actions["SmallThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Small Thumbnails")));
+                p.actions["SmallThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "SmallThumbnailsTooltip")));
+                p.actions["ListView"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "List View")));
+                p.actions["ListView"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ListViewTooltip")));
+                p.actions["FileSequences"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "File Sequences")));
+                p.actions["FileSequences"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "FileSequencesTooltip")));
+                p.actions["ShowHidden"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Show Hidden")));
+                p.actions["ShowHidden"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ShowHiddenTooltip")));
 
-                p.menus["Directory"]->setMenuName(DJV_TEXT("djv::UI::FileBrowser", "Directory"));
-                p.menus["View"]->setMenuName(DJV_TEXT("djv::UI::FileBrowser", "View"));
-                p.menus["Sort"]->setMenuName(DJV_TEXT("djv::UI::FileBrowser", "Sort"));
-                p.menus["Bookmarks"]->setMenuName(DJV_TEXT("djv::UI::FileBrowser", "Bookmarks"));
+                p.menus["Directory"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Directory")));
+                p.menus["View"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "View")));
+                p.menus["Sort"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Sort")));
+                p.menus["Bookmarks"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Bookmarks")));
 
                 p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
             }
@@ -665,7 +665,7 @@ namespace djv
                 {
                     auto button = ItemButton::create(_p->viewType, context);
                     button->setText(fileInfo.getFileName(Frame::Invalid, false));
-                    button->setTooltip(_p->getTooltip(fileInfo));
+                    button->setTooltip(_p->getTooltip(fileInfo, context));
                     std::string name;
                     switch (fileInfo.getType())
                     {
@@ -731,42 +731,49 @@ namespace djv
                 _resize();
             }
 
-            std::string Widget::Private::getTooltip(const FileSystem::FileInfo & fileInfo)
+            std::string Widget::Private::getTooltip(const FileSystem::FileInfo & fileInfo, Context * context)
             {
                 std::stringstream ss;
                 ss << fileInfo.getFileName(Frame::Invalid, false) << '\n';
                 ss << '\n';
-                ss << DJV_TEXT("djv::UI::FileBrowser", "Type") << ": " << fileInfo.getType() << '\n';
-                ss << DJV_TEXT("djv::UI::FileBrowser", "Size") << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
-                ss << DJV_TEXT("djv::UI::FileBrowser", "Modification time") << ": " << Time::getLabel(fileInfo.getTime());
+                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " << fileInfo.getType() << '\n';
+                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Size")) << ": " << Memory::getSizeLabel(fileInfo.getSize()) << '\n';
+                ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Modification time")) << ": " << Time::getLabel(fileInfo.getTime());
                 return ss.str();
             }
 
-            std::string Widget::Private::getTooltip(const FileSystem::FileInfo & fileInfo, const AV::IO::Info & avInfo)
+            std::string Widget::Private::getTooltip(const FileSystem::FileInfo & fileInfo, const AV::IO::Info & avInfo, Context * context)
             {
                 std::stringstream ss;
-                ss << getTooltip(fileInfo);
+                ss << getTooltip(fileInfo, context);
                 size_t track = 0;
                 for (const auto & videoInfo : avInfo.video)
                 {
                     ss << '\n' << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Video track") << " #" << track << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Size") << ": " << videoInfo.info.size << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Type") << ": " << videoInfo.info.type << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Video track")) << " #" << track << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Size")) << ": " << videoInfo.info.size << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " << videoInfo.info.type << '\n';
                     ss.precision(2);
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Speed") << ": " << Time::Speed::speedToFloat(videoInfo.speed) << DJV_TEXT("djv::UI::FileBrowser", "FPS") << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Duration") << ": " << Time::getLabel(Time::durationToSeconds(videoInfo.duration));
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Speed")) << ": " <<
+                        Time::Speed::speedToFloat(videoInfo.speed) <<
+                        context->getText(DJV_TEXT("djv::UI::FileBrowser", "FPS")) << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Duration")) << ": " <<
+                        Time::getLabel(Time::durationToSeconds(videoInfo.duration));
                     ++track;
                 }
                 track = 0;
                 for (const auto & audioInfo : avInfo.audio)
                 {
                     ss << '\n' << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Audio track") << " #" << track << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Channels") << ": " << audioInfo.info.channelCount << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Type") << ": " << audioInfo.info.type << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Sample rate") << ": " << audioInfo.info.sampleRate / 1000.f << DJV_TEXT("djv::UI::FileBrowser", "kHz") << '\n';
-                    ss << DJV_TEXT("djv::UI::FileBrowser", "Duration") << ": " << Time::getLabel(Time::durationToSeconds(audioInfo.duration));
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Audio track")) << " #" << track << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Channels")) << ": " <<
+                        audioInfo.info.channelCount << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Type")) << ": " <<
+                        audioInfo.info.type << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Sample rate")) << ": " <<
+                        audioInfo.info.sampleRate / 1000.f << DJV_TEXT("djv::UI::FileBrowser", "kHz") << '\n';
+                    ss << context->getText(DJV_TEXT("djv::UI::FileBrowser", "Duration")) << ": " <<
+                        Time::getLabel(Time::durationToSeconds(audioInfo.duration));
                     ++track;
                 }
                 return ss.str();

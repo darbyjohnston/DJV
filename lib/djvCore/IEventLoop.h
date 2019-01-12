@@ -67,7 +67,7 @@ namespace djv
                 virtual void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) = 0;
 
             private:
-                void _getFirstTick(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<IObject> > &);
+                void _localeInit(const std::shared_ptr<IObject> &, bool = true);
                 void _localeChangedRecursive(const std::shared_ptr<IObject> &, LocaleChanged &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
 

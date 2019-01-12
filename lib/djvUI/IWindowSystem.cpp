@@ -43,6 +43,7 @@ namespace djv
         {
             std::shared_ptr<ListSubject<std::shared_ptr<Window> > > windows;
             std::shared_ptr<ValueSubject<std::shared_ptr<Window> > > currentWindow;
+            std::set<std::shared_ptr<Style::Style> > dirtyStyles;
         };
 
         void IWindowSystem::_init(const std::string & name, Core::Context * context)
@@ -72,21 +73,18 @@ namespace djv
         void IWindowSystem::tick(float dt)
         {
             DJV_PRIVATE_PTR();
-            std::vector<std::shared_ptr<Widget> > firstTick;
+            Event::StyleChanged styleEvent;
             auto rootObject = getContext()->getRootObject();
             for (auto window : getContext()->getRootObject()->getChildrenT<Window>())
             {
-                _getFirstTick(window, firstTick);
+                _styleInit(window);
+                _styleChangedRecursive(window, styleEvent);
             }
-            if (firstTick.size())
+            for (auto i : _p->dirtyStyles)
             {
-                Event::StyleChanged event;
-                for (auto& widget : firstTick)
-                {
-                    widget->_widgetTick = true;
-                    widget->event(event);
-                }
+                i->setClean();
             }
+            _p->dirtyStyles.clear();
         }
 
         void IWindowSystem::_addWindow(const std::shared_ptr<Window>& window)
@@ -131,11 +129,15 @@ namespace djv
 
         void IWindowSystem::_styleChangedRecursive(const std::shared_ptr<UI::Widget>& widget, Event::StyleChanged& event)
         {
+            if (!widget->_styleInit)
+            {
+                widget->_styleInit = true;
+                widget->event(event);
+            }
             for (const auto& child : widget->getChildrenT<UI::Widget>())
             {
                 _styleChangedRecursive(child, event);
             }
-            widget->event(event);
         }
 
         void IWindowSystem::_preLayoutRecursive(const std::shared_ptr<UI::Widget>& widget, Event::PreLayout& event)
@@ -188,16 +190,28 @@ namespace djv
             }
         }
 
-        void IWindowSystem::_getFirstTick(const std::shared_ptr<Widget>& object, std::vector<std::shared_ptr<Widget> >& out)
+        void IWindowSystem::_styleInit(const std::shared_ptr<Widget>& widget, bool childrenInit)
         {
-            if (!object->_widgetTick)
+            bool init = false;
+            init |= !widget->_styleInit;
+            init |= !childrenInit;
+            if (auto style = widget->_getStyle().lock())
             {
-                out.push_back(object);
+                if (style->isDirty())
+                {
+                    init = true;
+                    _p->dirtyStyles.insert(style);
+                }
             }
-            auto children = object->getChildrenT<Widget>();
+            if (init)
+            {
+                widget->_styleInit = false;
+                childrenInit = false;
+            }
+            const auto children = widget->getChildrenT<Widget>();
             for (const auto& child : children)
             {
-                _getFirstTick(child, out);
+                _styleInit(child, childrenInit);
             }
         }
 

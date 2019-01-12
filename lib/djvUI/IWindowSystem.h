@@ -76,7 +76,7 @@ namespace djv
             void _paintRecursive(const std::shared_ptr<Widget>&, Core::Event::Paint&);
 
         private:
-            void _getFirstTick(const std::shared_ptr<Widget> &, std::vector<std::shared_ptr<Widget> > &);
+            void _styleInit(const std::shared_ptr<Widget> &, bool = true);
 
             struct Private;
             std::unique_ptr<Private> _p;

@@ -52,6 +52,8 @@ namespace djv
                 std::shared_ptr<IObject> focus;
                 std::shared_ptr<IObject> keyGrab;
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
+                std::string locale;
+                bool localeInit = true;
             };
 
             void IEventLoop::_init(const std::string& systemName, Context * context)
@@ -68,8 +70,8 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            LocaleChanged localeChangedEvent(value);
-                            system->_localeChangedRecursive(context->getRootObject(), localeChangedEvent);
+                            system->_p->locale = value;
+                            system->_p->localeInit = false;
                         }
                     });
                 }
@@ -109,21 +111,12 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.t += dt;
-                std::vector<std::shared_ptr<IObject> > firstTick;
+
+                Event::LocaleChanged localeEvent(p.locale);
                 auto rootObject = getContext()->getRootObject();
-                _getFirstTick(rootObject, firstTick);
-                if (firstTick.size())
-                {
-                    if (auto textSystem = _p->textSystem.lock())
-                    {
-                        LocaleChanged localeChangedEvent(textSystem->getCurrentLocale());
-                        for (auto& object : firstTick)
-                        {
-                            object->_objectTick = true;
-                            object->event(localeChangedEvent);
-                        }
-                    }
-                }
+                _localeInit(rootObject, p.localeInit);
+                _localeChangedRecursive(rootObject, localeEvent);
+                p.localeInit = true;
 
                 Update updateEvent(p.t, dt);
                 _updateRecursive(rootObject, updateEvent);
@@ -275,16 +268,32 @@ namespace djv
                 }
             }
 
-            void IEventLoop::_getFirstTick(const std::shared_ptr<IObject>& object, std::vector<std::shared_ptr<IObject> >& out)
+            void IEventLoop::_localeInit(const std::shared_ptr<IObject>& object, bool childrenInit)
             {
-                if (!object->_objectTick)
+                bool init = false;
+                init |= !object->_localeInit;
+                init |= !childrenInit;
+                if (init)
                 {
-                    out.push_back(object);
+                    object->_localeInit = false;
+                    childrenInit = false;
                 }
-                auto children = object->_children;
-                for (const auto& child : children)
+                for (const auto& child : object->_children)
                 {
-                    _getFirstTick(child, out);
+                    _localeInit(child, childrenInit);
+                }
+            }
+
+            void IEventLoop::_localeChangedRecursive(const std::shared_ptr<IObject>& object, LocaleChanged& event)
+            {
+                if (!object->_localeInit)
+                {
+                    object->_localeInit = true;
+                    object->event(event);
+                }
+                for (const auto& child : object->_children)
+                {
+                    _localeChangedRecursive(child, event);
                 }
             }
 
@@ -295,16 +304,6 @@ namespace djv
                 for (const auto& child : children)
                 {
                     _updateRecursive(child, event);
-                }
-            }
-
-            void IEventLoop::_localeChangedRecursive(const std::shared_ptr<IObject>& object, LocaleChanged& event)
-            {
-                object->event(event);
-                auto children = object->_children;
-                for (const auto& child : children)
-                {
-                    _localeChangedRecursive(child, event);
                 }
             }
 

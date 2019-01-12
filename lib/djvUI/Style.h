@@ -34,8 +34,6 @@
 #include <djvAV/Color.h>
 #include <djvAV/FontSystem.h>
 
-#include <djvCore/ValueObserver.h>
-
 #include <glm/vec2.hpp>
 
 namespace djv
@@ -194,7 +192,8 @@ namespace djv
 
                 ///@}
 
-                std::shared_ptr<Core::IValueSubject<bool> > observeStyleChanged() const;
+                bool isDirty() const;
+                void setClean();
 
             private:
                 DJV_PRIVATE();

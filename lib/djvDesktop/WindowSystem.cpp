@@ -31,7 +31,6 @@
 
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
-#include <djvUI/UISystem.h>
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
@@ -57,7 +56,6 @@ namespace djv
             bool resizeRequest = false;
             bool redrawRequest = false;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
-            std::shared_ptr<ValueObserver<bool> > styleChangedObserver;
         };
 
         void WindowSystem::_init(GLFWwindow * glfwWindow, Context * context)
@@ -67,23 +65,6 @@ namespace djv
             _p->glfwWindow = glfwWindow;
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
-
-            if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
-            {
-                auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-                _p->styleChangedObserver = ValueObserver<bool>::create(
-                    uiSystem->getStyle()->observeStyleChanged(),
-                    [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_styleChanged();
-                        }
-                    }
-                });
-            }
         }
 
         WindowSystem::WindowSystem() :
@@ -189,15 +170,6 @@ namespace djv
             if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
             {
                 system->popClipRect();
-            }
-        }
-
-        void WindowSystem::_styleChanged()
-        {
-            Event::StyleChanged styleChangedEvent;
-            for (const auto& i : getContext()->getRootObject()->getChildrenT<UI::Window>())
-            {
-                _styleChangedRecursive(i, styleChangedEvent);
             }
         }
 

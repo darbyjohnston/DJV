@@ -73,7 +73,6 @@ namespace djv
             void _popClipRect() override;
 
         private:
-            void _styleChanged();
             void _resize(const glm::ivec2 &);
             void _redraw();
 
