@@ -59,7 +59,7 @@ namespace djv
             static std::shared_ptr<ImageWidget> create(Core::Context *);
 
             const std::shared_ptr<AV::Image::Image>& getImage() const;
-            void setImage(const std::shared_ptr<AV::Image::Image>&, Core::UID);
+            void setImage(const std::shared_ptr<AV::Image::Image>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

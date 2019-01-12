@@ -34,8 +34,6 @@
 #include <djvAV/Image.h>
 #include <djvAV/Render2DSystem.h>
 
-#include <djvCore/UID.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -51,7 +49,6 @@ namespace djv
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             AV::Image::Info info;
             std::shared_ptr<AV::Image::Image> image;
-            UID uid = 0;
         };
 
         void Icon::_init(Context * context)
@@ -100,10 +97,6 @@ namespace djv
                     p.infoFuture = system->getInfo(p.name, style->getDPI());
                     p.imageFuture = system->getImage(p.name, style->getDPI());
                 }
-            }
-            if (p.name.empty())
-            {
-                p.uid = 0;
             }
         }
 
@@ -199,12 +192,12 @@ namespace djv
                         if (p.iconColorRole != Style::ColorRole::None)
                         {
                             render->setFillColor(_getColorWithOpacity(style->getColor(p.iconColorRole)));
-                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, p.uid);
+                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static);
                         }
                         else
                         {
                             render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, p.uid);
+                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static);
                         }
                     }
                 }
@@ -238,12 +231,10 @@ namespace djv
                 try
                 {
                     p.image = p.imageFuture.get();
-                    p.uid = createUID();
                 }
                 catch (const std::exception & e)
                 {
                     p.image = nullptr;
-                    p.uid = 0;
                     //_log(e.what(), LogLevel::Error);
                 }
                 _resize();

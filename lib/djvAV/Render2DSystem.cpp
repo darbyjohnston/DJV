@@ -204,7 +204,6 @@ namespace djv
                         type = PrimitiveType::Image;
                     }
 
-                    UID uid = 0;
                     std::shared_ptr<Image::Data> imageData;
                     BBox2f rect = BBox2f(0.f, 0.f, 0.f, 0.f);
                     ImageFormat imageFormat = ImageFormat::RGBA;
@@ -214,6 +213,7 @@ namespace djv
                     void getRenderData(std::vector<RenderData> & out) override
                     {
                         TextureCacheItem item;
+                        const UID uid = imageData->getUID();
                         if (uid)
                         {
                             uint64_t id = 0;
@@ -610,11 +610,10 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType, UID uid)
+            void Render2DSystem::drawImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
-                primitive->uid = uid;
                 primitive->imageData = data;
                 primitive->rect = rect;
                 primitive->clipRect = p.currentClipRect;
@@ -623,11 +622,10 @@ namespace djv
                 p.render->primitives.push_back(std::move(primitive));
             }
 
-            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType, UID uid)
+            void Render2DSystem::drawFilledImage(const std::shared_ptr<Image::Data>& data, const BBox2f & rect, ImageType imageType)
             {
                 DJV_PRIVATE_PTR();
                 auto primitive = std::unique_ptr<ImagePrimitive>(new ImagePrimitive(*p.render, imageType));
-                primitive->uid = uid;
                 primitive->imageData = data;
                 primitive->rect = rect;
                 primitive->clipRect = p.currentClipRect;

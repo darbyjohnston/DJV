@@ -601,7 +601,7 @@ namespace djv
                                 const auto icon = i->future.get();
                                 if (auto widget = i->widget.lock())
                                 {
-                                    widget->setThumbnail(icon, createUID());
+                                    widget->setThumbnail(icon);
                                 }
                             }
                             catch (const std::exception & e)

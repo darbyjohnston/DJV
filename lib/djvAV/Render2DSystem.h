@@ -34,7 +34,6 @@
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/Range.h>
-#include <djvCore/UID.h>
 
 #include <mutex>
 
@@ -92,14 +91,12 @@ namespace djv
                 void drawImage(
                     const std::shared_ptr<Image::Data>&,
                     const Core::BBox2f&,
-                    ImageType,
-                    Core::UID);
+                    ImageType);
 
                 void drawFilledImage(
                     const std::shared_ptr<Image::Data>&,
                     const Core::BBox2f&,
-                    ImageType,
-                    Core::UID);
+                    ImageType);
 
                 ///@}
 

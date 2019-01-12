@@ -139,6 +139,11 @@ namespace djv
             inline Data::Data()
             {}
 
+            inline Core::UID Data::getUID() const
+            {
+                return _uid;
+            }
+
             inline bool Data::isValid() const
             {
                 return _info.isValid();

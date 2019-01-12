@@ -39,6 +39,7 @@ namespace djv
         {
             void Data::_init(const Info & info)
             {
+                _uid = Core::createUID();
                 _info = info;
                 _pixelByteCount = info.getPixelByteCount();
                 _scanlineByteCount = info.getScanlineByteCount();

@@ -110,7 +110,7 @@ namespace djv
 
                 void setIcon(const Core::FileSystem::Path&);
                 void setIconSizeRole(Style::MetricsRole);
-                void setThumbnail(const std::shared_ptr<AV::Image::Image>&, Core::UID);
+                void setThumbnail(const std::shared_ptr<AV::Image::Image>&);
                 void setText(const std::string&);
                 void setTextSizeRole(Style::MetricsRole);
 

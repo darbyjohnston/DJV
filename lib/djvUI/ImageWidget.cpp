@@ -41,7 +41,6 @@ namespace djv
         struct ImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
-            UID uid = 0;
         };
 
         void ImageWidget::_init(Context * context)
@@ -70,11 +69,10 @@ namespace djv
             return _p->image;
         }
 
-        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value, UID uid)
+        void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value)
         {
             DJV_PRIVATE_PTR();
             p.image = value;
-            p.uid = uid;
             _resize();
         }
 
@@ -123,7 +121,7 @@ namespace djv
                         default: break;
                         }
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                        render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Dynamic, p.uid);
+                        render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Dynamic);
                     }
                 }
             }

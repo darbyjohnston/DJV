@@ -370,10 +370,10 @@ namespace djv
                 _p->icon->setIconSizeRole(value);
             }
 
-            void ItemButton::setThumbnail(const std::shared_ptr<AV::Image::Image>& value, UID uid)
+            void ItemButton::setThumbnail(const std::shared_ptr<AV::Image::Image>& value)
             {
                 DJV_PRIVATE_PTR();
-                p.imageWidget->setImage(value, uid);
+                p.imageWidget->setImage(value);
                 p.imageWidget->show();
                 p.icon->setIcon(FileSystem::Path());
             }

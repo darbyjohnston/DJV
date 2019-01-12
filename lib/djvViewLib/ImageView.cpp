@@ -43,7 +43,6 @@ namespace djv
         {
             std::shared_ptr<Media> media;
             std::shared_ptr<AV::Image::Image> image;
-            UID imageUID = 0;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
         };
 
@@ -87,7 +86,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->image = image;
-                        widget->_p->imageUID = createUID();
                         widget->_redraw();
                     }
                 });
@@ -95,7 +93,6 @@ namespace djv
             else
             {
                 p.image.reset();
-                p.imageUID = 0;
                 p.imageObserver.reset();
             }
         }
@@ -118,7 +115,7 @@ namespace djv
                     if (_p->image)
                     {
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                        render->drawImage(_p->image, g, AV::Render::Render2DSystem::ImageType::Dynamic, _p->imageUID);
+                        render->drawImage(_p->image, g, AV::Render::Render2DSystem::ImageType::Dynamic);
                     }
                 }
             }

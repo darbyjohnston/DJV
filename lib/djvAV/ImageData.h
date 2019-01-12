@@ -32,6 +32,7 @@
 #include <djvAV/Pixel.h>
 
 #include <djvCore/Memory.h>
+#include <djvCore/UID.h>
 
 #include <glm/vec2.hpp>
 
@@ -106,6 +107,8 @@ namespace djv
 
                 static std::shared_ptr<Data> create(const Info &);
 
+                inline Core::UID getUID() const;
+
                 inline const Info & getInfo() const;
                 inline const glm::ivec2 & getSize() const;
                 inline int getWidth() const;
@@ -133,6 +136,7 @@ namespace djv
                 bool operator != (const Data &) const;
 
             private:
+                Core::UID _uid = 0;
                 Info _info;
                 size_t _pixelByteCount = 0;
                 size_t _scanlineByteCount = 0;
