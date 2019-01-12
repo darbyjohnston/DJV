@@ -57,6 +57,8 @@ namespace djv
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Window> > > observeWindows() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Window> > > observeCurrentWindow() const;
 
+            void tick(float dt) override;
+
         protected:
             virtual void _addWindow(const std::shared_ptr<Window>&);
             virtual void _removeWindow(const std::shared_ptr<Window>&);
@@ -74,6 +76,8 @@ namespace djv
             void _paintRecursive(const std::shared_ptr<Widget>&, Core::Event::Paint&);
 
         private:
+            void _getFirstTick(const std::shared_ptr<Widget> &, std::vector<std::shared_ptr<Widget> > &);
+
             struct Private;
             std::unique_ptr<Private> _p;
 

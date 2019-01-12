@@ -60,7 +60,7 @@ namespace djv
             _p->icon = ValueSubject<std::string>::create();
             _p->iconSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::Icon);
             _p->text = ValueSubject<std::string>::create();
-            _p->fontFace = ValueSubject<std::string>::create(AV::Font::Info::defaultFace);
+            _p->fontFace = ValueSubject<std::string>::create(AV::Font::Info::faceDefault);
             _p->fontSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::FontMedium);
             _p->shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             _p->enabled = ValueSubject<bool>::create(true);

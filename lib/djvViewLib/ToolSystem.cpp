@@ -74,16 +74,11 @@ namespace djv
             return _p->actions;
         }
 
-        std::string ToolSystem::getMenuSortKey() const
-        {
-            return "5";
-        }
-
-        std::shared_ptr<UI::Menu> ToolSystem::createMenu()
+        NewMenu ToolSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
             auto menu = UI::Menu::create("Tools", getContext());
-            return menu;
+            return { menu, "F" };
         }
 
     } // namespace ViewLib

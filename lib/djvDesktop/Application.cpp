@@ -65,6 +65,7 @@ namespace djv
         {
             bool running = false;
             GLFWwindow * glfwWindow = nullptr;
+            std::shared_ptr<EventLoop> eventLoop;
             std::shared_ptr<UI::UISystem> uiSystem;
             std::shared_ptr<WindowSystem> windowSystem;
         };
@@ -77,9 +78,8 @@ namespace djv
             if (auto avSystem = getSystemT<AV::AVSystem>().lock())
             {
                 p.glfwWindow = avSystem->getGLFWWindow();
+                p.eventLoop = EventLoop::create(p.glfwWindow, this);
                 p.windowSystem = WindowSystem::create(p.glfwWindow, this);
-
-                setEventLoop(EventLoop::create(p.glfwWindow, this));
 
                 glfwSetWindowSize(p.glfwWindow, 1024, 768);
                 glfwShowWindow(p.glfwWindow);
@@ -95,6 +95,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.windowSystem->setParent(nullptr);
             p.uiSystem->setParent(nullptr);
+            p.eventLoop->setParent(nullptr);
         }
         
         std::unique_ptr<Application> Application::create(int argc, char* argv[])

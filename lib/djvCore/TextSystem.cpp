@@ -168,7 +168,7 @@ namespace djv
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
-                bool currentLocaleChanged = false;
+                std::string currentLocale;
                 {
                     std::unique_lock<std::mutex> lock(p.mutex);
                     if (p.currentLocaleChangedCV.wait_for(
@@ -179,11 +179,11 @@ namespace djv
                         return _p->currentLocaleChanged;
                     }))
                     {
-                        currentLocaleChanged = true;
+                        currentLocale = p.currentLocale;
                         p.currentLocaleChanged = false;
                     }
                 }
-                if (currentLocaleChanged)
+                if (!currentLocale.empty())
                 {
                     p.currentLocaleSubject->setAlways(p.currentLocale);
                 }
@@ -233,6 +233,8 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::unique_lock<std::mutex> lock(p.mutex);
+            if (value == p.currentLocale)
+                return;
             p.currentLocale = value;
             p.currentLocaleChanged = true;
         }

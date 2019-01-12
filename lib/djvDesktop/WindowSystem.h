@@ -64,15 +64,13 @@ namespace djv
 
             static std::shared_ptr<WindowSystem> create(GLFWwindow *, Core::Context *);
 
-            std::shared_ptr<Core::IObject> getRootObject() const;
+            void tick(float dt);
 
         protected:
             void _addWindow(const std::shared_ptr<UI::Window>&) override;
             void _removeWindow(const std::shared_ptr<UI::Window>&) override;
             void _pushClipRect(const Core::BBox2f &) override;
             void _popClipRect() override;
-
-            void _updateEvent(Core::Event::Update &) override;
 
         private:
             void _styleChanged();

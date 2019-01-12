@@ -100,9 +100,10 @@ namespace djv
             {
                 if (auto system = i.lock())
                 {
-                    if (auto menu = system->createMenu())
+                    auto newMenu = system->createMenu();
+                    if (newMenu.menu)
                     {
-                        menus[system->getMenuSortKey()] = menu;
+                        menus[newMenu.sortKey] = newMenu.menu;
                     }
                 }
             }
@@ -112,7 +113,6 @@ namespace djv
             {
                 _p->menuBar->addMenu(i.second);
             }
-            _p->menuBar->addExpander();
             auto settingsButton = UI::Button::Tool::create(context);
             settingsButton->setIcon("djvIconSettings");
             settingsButton->setInsideMargin(UI::Style::MetricsRole::MarginSmall);

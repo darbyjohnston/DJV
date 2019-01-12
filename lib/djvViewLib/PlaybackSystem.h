@@ -52,8 +52,7 @@ namespace djv
             static std::shared_ptr<PlaybackSystem> create(Core::Context *);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            std::shared_ptr<UI::Menu> createMenu() override;
-            std::string getMenuSortKey() const override;
+            NewMenu createMenu() override;
             void setCurrentMedia(const std::shared_ptr<Media> &) override;
 
         protected:

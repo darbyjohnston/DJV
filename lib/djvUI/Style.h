@@ -42,12 +42,6 @@ namespace djv
 {
     namespace UI
     {
-        namespace Settings
-        {
-            class Style;
-
-        } // namespace Settings
-
         //! This namespace provides styling.
         namespace Style
         {
@@ -155,7 +149,7 @@ namespace djv
             };
 
             //! This class provides the UI style.
-            class Style : public Core::ISystem
+            class Style : public std::enable_shared_from_this<Style>
             {
                 DJV_NON_COPYABLE(Style);
                 void _init(Core::Context *);
@@ -167,14 +161,13 @@ namespace djv
                 //! Create a new style.
                 static std::shared_ptr<Style> create(Core::Context *);
 
-                //! Get the style settings.
-                const std::shared_ptr<Settings::Style>& getSettings() const;
-
                 //! \name Color Palette
                 ///@{
 
                 const Palette & getPalette() const;
                 const AV::Image::Color & getColor(ColorRole) const;
+
+                void setPalette(const Palette &);
 
                 ///@}
 
@@ -182,24 +175,28 @@ namespace djv
                 ///@{
 
                 int getDPI() const;
+                const Metrics & getMetrics() const;
                 float getScale() const;
-
                 float getMetric(MetricsRole) const;
+
+                void setDPI(int);
+                void setMetrics(const Metrics &);
 
                 ///@}
 
                 //! \name Fonts
                 ///@{
 
+                const std::string getFont() const;
                 AV::Font::Info getFont(const std::string &, MetricsRole) const;
+
+                void setFont(const std::string &);
 
                 ///@}
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeStyleChanged() const;
 
             private:
-                void _updateCurrentFont();
-
                 DJV_PRIVATE();
             };
 

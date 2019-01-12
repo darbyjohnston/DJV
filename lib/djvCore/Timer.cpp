@@ -139,11 +139,10 @@ namespace djv
                 return out;
             }
 
-            void TimerSystem::_updateEvent(Event::Update & event)
+            void TimerSystem::tick(float dt)
             {
                 DJV_PRIVATE_PTR();
                 std::vector<std::weak_ptr<Timer> > zombies;
-                const float dt = event.getDeltaTime();
                 const auto timers = p.timers;
                 for (const auto& t : timers)
                 {

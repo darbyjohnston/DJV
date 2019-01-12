@@ -216,12 +216,7 @@ namespace djv
             return _p->actions;
         }
 
-        std::string PlaybackSystem::getMenuSortKey() const
-        {
-            return "4";
-        }
-
-        std::shared_ptr<UI::Menu> PlaybackSystem::createMenu()
+        NewMenu PlaybackSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
@@ -255,7 +250,7 @@ namespace djv
             //! \todo Implement me!
             p.menus["Layout"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Layout")), context);
             p.menus["Playback"]->addMenu(p.menus["Layout"]);
-            return p.menus["Playback"];
+            return { p.menus["Playback"], "E" };
         }
 
         void PlaybackSystem::setCurrentMedia(const std::shared_ptr<Media> & media)

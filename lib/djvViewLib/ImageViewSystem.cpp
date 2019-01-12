@@ -138,12 +138,7 @@ namespace djv
             return _p->actions;
         }
 
-        std::string ImageViewSystem::getMenuSortKey() const
-        {
-            return "2";
-        }
-
-        std::shared_ptr<UI::Menu> ImageViewSystem::createMenu()
+        NewMenu ImageViewSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
@@ -163,7 +158,7 @@ namespace djv
             p.menus["Grid"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Grid")), context);
             p.menus["View"]->addMenu(p.menus["Grid"]);
             p.menus["View"]->addAction(p.actions["HUD"]);
-            return p.menus["View"];
+            return { p.menus["View"], "C" };
         }
 
         void ImageViewSystem::_localeChangedEvent(Event::LocaleChanged &)

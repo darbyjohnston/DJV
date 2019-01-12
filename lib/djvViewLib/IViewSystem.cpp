@@ -58,39 +58,19 @@ namespace djv
             return std::map<std::string, std::shared_ptr<UI::Action> >();
         }
         
-        std::shared_ptr<UI::Menu> IViewSystem::createMenu()
+        NewMenu IViewSystem::createMenu()
         {
-            return nullptr;
+            return NewMenu();
         }
 
-        std::string IViewSystem::getMenuSortKey() const
+        NewToolWidget IViewSystem::createToolWidget()
         {
-            return getName();
+            return NewToolWidget();
         }
 
-        std::shared_ptr<IToolWidget> IViewSystem::createToolWidget()
+        std::vector<NewSettingsWidget> IViewSystem::createSettingsWidgets()
         {
-            return nullptr;
-        }
-
-        std::string IViewSystem::getToolWidgetSortKey() const
-        {
-            return getName();
-        }
-
-        bool IViewSystem::isToolWidgetVisible() const
-        {
-            return false;
-        }
-
-        std::shared_ptr<UI::Widget> IViewSystem::createSettingsWidget()
-        {
-            return nullptr;
-        }
-
-        std::string IViewSystem::getSettingsSortKey() const
-        {
-            return getName();
+            return std::vector<NewSettingsWidget>();
         }
 
         void IViewSystem::setCurrentMedia(const std::shared_ptr<Media> &)

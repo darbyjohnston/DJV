@@ -47,9 +47,10 @@ namespace djv
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
             Style::ColorRole textColorRole = Style::ColorRole::Foreground;
-            std::string fontFace = AV::Font::Info::defaultFace;
+            std::string fontFace = AV::Font::Info::faceDefault;
             Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
             float minimumWidth = 0.f;
+            float ascender = 0.f;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             std::future<glm::vec2> textSizeFuture;
@@ -92,7 +93,7 @@ namespace djv
             if (value == _p->text)
                 return;
             _p->text = value;
-            _resize();
+            _updateText();
         }
 
         TextHAlign Label::getTextHAlign() const
@@ -149,7 +150,7 @@ namespace djv
             if (value == _p->fontFace)
                 return;
             _p->fontFace = value;
-            _resize();
+            _updateText();
         }
 
         void Label::setFontSizeRole(Style::MetricsRole value)
@@ -157,7 +158,7 @@ namespace djv
             if (value == _p->fontSizeRole)
                 return;
             _p->fontSizeRole = value;
-            _resize();
+            _updateText();
         }
 
         float Label::getMinimumWidth() const
@@ -175,13 +176,25 @@ namespace djv
 
         void Label::_styleChangedEvent(Event::StyleChanged& event)
         {
+            _updateText();
         }
 
         void Label::_preLayoutEvent(Event::PreLayout&)
         {
             if (auto style = _getStyle().lock())
             {
-                _p->textSize = glm::ivec2(0, 0);
+                if (_p->fontMetricsFuture.valid())
+                {
+                    try
+                    {
+                        _p->ascender = _p->fontMetricsFuture.get().ascender;
+                        _resize();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
                 if (_p->textSizeFuture.valid())
                 {
                     try
@@ -210,7 +223,8 @@ namespace djv
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
 
-                    render->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
+                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    render->setCurrentFont(font);
                     glm::vec2 pos = g.min;
                     switch (_p->textHAlign)
                     {
@@ -221,18 +235,6 @@ namespace djv
                         pos.x = g.max.x - _p->textSize.x;
                         break;
                     default: break;
-                    }
-                    float ascender = 0.f;
-                    if (_p->fontMetricsFuture.valid())
-                    {
-                        try
-                        {
-                            ascender = _p->fontMetricsFuture.get().ascender;
-                        }
-                        catch (const std::exception& e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
                     }
                     switch (_p->textVAlign)
                     {
@@ -246,7 +248,7 @@ namespace djv
                         pos.y = g.max.y - _p->textSize.y;
                         break;
                     case TextVAlign::Baseline:
-                        pos.y = c.y - ascender / 2.f;
+                        pos.y = c.y - _p->ascender / 2.f;
                         break;
                     default: break;
                     }
@@ -255,12 +257,12 @@ namespace djv
                     //render->drawRectangle(BBox2f(pos.x, pos.y, _p->textSize.x, _p->textSize.y));
 
                     render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
-                    render->drawText(_p->text, glm::vec2(pos.x, pos.y + ascender));
+                    render->drawText(_p->text, glm::vec2(pos.x, pos.y + _p->ascender));
                 }
             }
         }
 
-        void Label::_updateEvent(Event::Update& event)
+        void Label::_updateText()
         {
             if (auto style = _getStyle().lock())
             {
@@ -269,6 +271,7 @@ namespace djv
                     const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
                     _p->fontMetricsFuture = fontSystem->getMetrics(font);
                     _p->textSizeFuture = fontSystem->measure(_p->text, font);
+                    _resize();
                 }
             }
         }

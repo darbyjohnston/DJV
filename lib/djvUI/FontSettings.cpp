@@ -29,6 +29,8 @@
 
 #include <djvUI/FontSettings.h>
 
+#include <djvAV/FontSystem.h>
+
 #include <djvCore/Context.h>
 
 using namespace djv::Core;
@@ -41,7 +43,7 @@ namespace djv
         {
             struct Font::Private
             {
-                std::shared_ptr<MapSubject<std::string, FontMap> > fonts;
+                std::shared_ptr<MapSubject<std::string, std::string> > localeFonts;
             };
 
             void Font::_init(Context * context)
@@ -49,31 +51,11 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::Font", context);
 
                 DJV_PRIVATE_PTR();
-                p.fonts = MapSubject<std::string, FontMap>::create();
-                p.fonts->setItem(
-                    "Default",
-                    {
-                        { "Regular", "Noto Sans" },
-                        { "Bold", "Noto Sans" }
-                    });
-                p.fonts->setItem(
-                    "ja",
-                    {
-                        { "Regular", "Noto Sans CJKjp" },
-                        { "Bold", "Noto Sans CJKjp" }
-                    });
-                p.fonts->setItem(
-                    "ko",
-                    {
-                        { "Regular", "Noto SansCJKkr" },
-                        { "Bold", "Noto SansCJKkr" }
-                    });
-                p.fonts->setItem(
-                    "zh",
-                    {
-                        { "Regular", "Noto Sans CJKsc" },
-                        { "Bold", "Noto Sans CJKsc" }
-                    });
+                p.localeFonts = MapSubject<std::string, std::string>::create();
+                p.localeFonts->setItem("Default", AV::Font::Info::familyDefault);
+                p.localeFonts->setItem("ja", "Noto Sans CJKjp");
+                p.localeFonts->setItem("ko", "Noto SansCJKkr");
+                p.localeFonts->setItem("zh", "Noto Sans CJKsc");
 
                 _load();
             }
@@ -92,24 +74,17 @@ namespace djv
                 return out;
             }
 
-            const std::shared_ptr<MapSubject<std::string, FontMap> >& Font::observeFonts() const
+            const std::shared_ptr<MapSubject<std::string, std::string> >& Font::observeLocaleFonts() const
             {
-                return _p->fonts;
+                return _p->localeFonts;
             }
 
             void Font::load(const picojson::value& value)
             {
                 if (value.is<picojson::object>())
                 {
-                    std::map<std::string, FontMap> fonts;
                     const auto& object = value.get<picojson::object>();
-                    for (const auto& i : object)
-                    {
-                        FontMap v;
-                        _read(i.first, object, v);
-                        fonts[i.first] = v;
-                    }
-                    _p->fonts->setIfChanged(fonts);
+                    _read("LocaleFonts", object, _p->localeFonts);
                 }
             }
 
@@ -117,10 +92,7 @@ namespace djv
             {
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
-                for (const auto& i : _p->fonts->get())
-                {
-                    _write(i.first, i.second, object);
-                }
+                _write("LocaleFonts", _p->localeFonts->get(), object);
                 return out;
             }
 

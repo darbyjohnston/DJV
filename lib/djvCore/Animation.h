@@ -134,8 +134,7 @@ namespace djv
 
                 static std::shared_ptr<System> create(Context *);
 
-            protected:
-                void _updateEvent(Core::Event::Update &) override;
+                void tick(float dt) override;
 
             private:
                 void _addAnimation(const std::weak_ptr<Animation>&);

@@ -47,6 +47,10 @@ namespace djv
         } // namespace
 
         bool IObject::_logSystemInit = false;
+        Context * IObject::_context = nullptr;
+        std::weak_ptr<ResourceSystem> IObject::_resourceSystem;
+        std::weak_ptr<LogSystem> IObject::_logSystem;
+        std::weak_ptr<TextSystem> IObject::_textSystem;
 
         void IObject::_init(Context * context)
         {
@@ -54,9 +58,13 @@ namespace djv
 
             _context = context;
             _className = "djv::Core::IObject";
-            _resourceSystem = context->getSystemT<ResourceSystem>();
-            _logSystem = context->getSystemT<LogSystem>();
-            _textSystem = context->getSystemT<TextSystem>();
+
+            if (!_resourceSystem.lock())
+            {
+                _resourceSystem = context->getSystemT<ResourceSystem>();
+                _logSystem = context->getSystemT<LogSystem>();
+                _textSystem = context->getSystemT<TextSystem>();
+            }
         }
 
         IObject::~IObject()

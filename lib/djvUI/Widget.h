@@ -69,6 +69,7 @@ namespace djv
         class Action;
         class IWindowSystem;
         class Tooltip;
+        class UISystem;
         class Window;
 
         //! This class provides the base widget functionality.
@@ -139,6 +140,8 @@ namespace djv
 
             inline Style::ColorRole getBackgroundRole() const;
             void setBackgroundRole(Style::ColorRole);
+
+            void setStyle(const std::shared_ptr<Style::Style> &);
 
             ///@}
 
@@ -224,6 +227,7 @@ namespace djv
             inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
         private:
+            bool _widgetTick = false;
             float _updateTime = 0.f;
             float _elapsedTime = 0.f;
             bool _visible = true;
@@ -252,7 +256,9 @@ namespace djv
             static std::weak_ptr<AV::Image::IconSystem> _iconSystem;
             static std::weak_ptr<AV::Font::System> _fontSystem;
             static std::weak_ptr<AV::Render::Render2DSystem> _renderSystem;
-            static std::weak_ptr<Style::Style> _style;
+            static std::weak_ptr<UISystem> _uiSystem;
+            std::weak_ptr<Style::Style> _style;
+            std::shared_ptr<Style::Style> _customStyle;
 
             friend class IWindowSystem;
         };

@@ -92,10 +92,13 @@ namespace djv
             if (value == _p->name)
                 return;
             _p->name = value;
-            if (auto system = _getIconSystem().lock())
+            if (auto style = _getStyle().lock())
             {
-                _p->infoFuture = system->getInfo(_p->name);
-                _p->imageFuture = system->getImage(_p->name);
+                if (auto system = _getIconSystem().lock())
+                {
+                    _p->infoFuture = system->getInfo(_p->name, style->getDPI());
+                    _p->imageFuture = system->getImage(_p->name, style->getDPI());
+                }
             }
             if (_p->name.empty())
             {
@@ -133,10 +136,13 @@ namespace djv
         {
             if (!_p->name.empty())
             {
-                if (auto system = _getIconSystem().lock())
+                if (auto style = _getStyle().lock())
                 {
-                    _p->infoFuture = system->getInfo(_p->name);
-                    _p->imageFuture = system->getImage(_p->name);
+                    if (auto system = _getIconSystem().lock())
+                    {
+                        _p->infoFuture = system->getInfo(_p->name, style->getDPI());
+                        _p->imageFuture = system->getImage(_p->name, style->getDPI());
+                    }
                 }
             }
         }

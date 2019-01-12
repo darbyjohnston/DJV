@@ -69,6 +69,26 @@ namespace djv
             return _p->currentWindow;
         }
 
+        void IWindowSystem::tick(float dt)
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<std::shared_ptr<Widget> > firstTick;
+            auto rootObject = getContext()->getRootObject();
+            for (auto window : getContext()->getRootObject()->getChildrenT<Window>())
+            {
+                _getFirstTick(window, firstTick);
+            }
+            if (firstTick.size())
+            {
+                Event::StyleChanged event;
+                for (auto& widget : firstTick)
+                {
+                    widget->_widgetTick = true;
+                    widget->event(event);
+                }
+            }
+        }
+
         void IWindowSystem::_addWindow(const std::shared_ptr<Window>& window)
         {
             _p->windows->pushBack(window);
@@ -165,6 +185,19 @@ namespace djv
                 }
                 _popClipRect();
                 event.setClipRect(clipRect);
+            }
+        }
+
+        void IWindowSystem::_getFirstTick(const std::shared_ptr<Widget>& object, std::vector<std::shared_ptr<Widget> >& out)
+        {
+            if (!object->_widgetTick)
+            {
+                out.push_back(object);
+            }
+            auto children = object->getChildrenT<Widget>();
+            for (const auto& child : children)
+            {
+                _getFirstTick(child, out);
             }
         }
 

@@ -48,6 +48,24 @@ namespace djv
         class IToolWidget;
         class Media;
         
+        struct NewMenu
+        {
+            std::shared_ptr<UI::Menu> menu;
+            std::string sortKey;
+        };
+
+        struct NewToolWidget
+        {
+            std::shared_ptr<IToolWidget> widget;
+            std::string sortKey;
+        };
+
+        struct NewSettingsWidget
+        {
+            std::shared_ptr<UI::Widget> widget;
+            std::string sortKey;
+        };
+
         class IViewSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(IViewSystem);
@@ -61,18 +79,10 @@ namespace djv
 
             virtual std::map<std::string, std::shared_ptr<UI::Action> > getActions();
 
-            virtual std::shared_ptr<UI::Menu> createMenu();
-            virtual std::string getMenuSortKey() const;
-
-            virtual std::shared_ptr<UI::Menu> createContextMenu() { return createMenu(); }
-            virtual std::string getContextMenuSortKey() const { return getMenuSortKey(); }
-
-            virtual std::shared_ptr<IToolWidget> createToolWidget();
-            virtual std::string getToolWidgetSortKey() const;
-            virtual bool isToolWidgetVisible() const;
-
-            virtual std::shared_ptr<UI::Widget> createSettingsWidget();
-            virtual std::string getSettingsSortKey() const;
+            virtual NewMenu createMenu();
+            virtual NewMenu createContextMenu() { return createMenu(); }
+            virtual NewToolWidget createToolWidget();
+            virtual std::vector<NewSettingsWidget> createSettingsWidgets();
 
             virtual void setCurrentMedia(const std::shared_ptr<Media> &);
 

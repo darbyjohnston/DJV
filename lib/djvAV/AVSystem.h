@@ -63,9 +63,6 @@ namespace djv
             //! Observe the list of avilable DPI values.
             std::shared_ptr<Core::IListSubject<int> > observeDPIList() const;
 
-            //! Set the DPI.
-            void setDPI(int);
-
         private:
             DJV_PRIVATE();
         };

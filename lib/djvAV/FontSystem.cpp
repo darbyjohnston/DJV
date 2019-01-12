@@ -68,7 +68,6 @@ namespace djv
                     MetricsRequest& operator = (MetricsRequest&&) = default;
 
                     Info info;
-                    int dpi = 0;
                     std::promise<Metrics> promise;
                 };
 
@@ -81,7 +80,6 @@ namespace djv
                     std::string text;
                     Info info;
                     float maxLineWidth = std::numeric_limits<float>::max();
-                    int dpi = 0;
                     std::promise<glm::vec2> promise;
                 };
 
@@ -94,7 +92,6 @@ namespace djv
                     std::string text;
                     Info info;
                     float maxLineWidth = std::numeric_limits<float>::max();
-                    int dpi = 0;
                     std::promise<std::vector<TextLine> > promise;
                 };
 
@@ -106,7 +103,6 @@ namespace djv
 
                     std::string text;
                     Info info;
-                    int dpi = 0;
                     std::promise<std::vector<std::shared_ptr<Glyph> > > promise;
                 };
 
@@ -144,16 +140,17 @@ namespace djv
 
             } // namespace
 
-            const std::string Info::defaultFamily = "Noto Sans";
-            const std::string Info::defaultFace = "Regular";
+            const std::string Info::familyDefault = "Noto Sans";
+            const std::string Info::faceDefault = "Regular";
 
             Info::Info()
             {}
 
-            Info::Info(const std::string& family, const std::string& face, float size) :
+            Info::Info(const std::string& family, const std::string& face, float size, int dpi) :
                 family(family),
                 face(face),
-                size(size)
+                size(size),
+                dpi(dpi)
             {}
 
             TextLine::TextLine()
@@ -173,9 +170,10 @@ namespace djv
             {
                 static std::map<size_t, UID> map;
                 size_t hash = 0;
-                Memory::hashCombine(hash, info.family);
-                Memory::hashCombine(hash, info.face);
+                Memory::hashCombine(hash, info.dpi);
                 Memory::hashCombine(hash, info.size);
+                Memory::hashCombine(hash, info.face);
+                Memory::hashCombine(hash, info.family);
                 Memory::hashCombine(hash, code);
                 const auto i = map.find(hash);
                 if (i != map.end())
@@ -217,7 +215,6 @@ namespace djv
 
             struct System::Private
             {
-                int dpi = dpiDefault;
                 FT_Library ftLibrary = nullptr;
                 FileSystem::Path fontPath;
                 std::map<std::string, std::string> fontNames;
@@ -344,19 +341,6 @@ namespace djv
                 out->_init(context);
                 return out;
             }
-
-            void System::setDPI(int value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.dpi)
-                    return;
-                p.dpi = value;
-                {
-                    std::unique_lock<std::mutex> lock(p.cacheMutex);
-                    p.measureCache.clear();
-                    p.glyphCache.clear();
-                }
-            }
             
             std::future<std::map<std::string, std::string> > System::getFontNames()
             {
@@ -369,7 +353,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 MetricsRequest request;
                 request.info = info;
-                request.dpi  = p.dpi;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -385,7 +368,6 @@ namespace djv
                 MeasureRequest request;
                 request.text = text;
                 request.info = info;
-                request.dpi  = p.dpi;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -401,7 +383,6 @@ namespace djv
                 MeasureRequest request;
                 request.text = text;
                 request.info = info;
-                request.dpi  = p.dpi;
                 request.maxLineWidth = maxLineWidth;
                 auto future = request.promise.get_future();
                 {
@@ -419,7 +400,6 @@ namespace djv
                 request.text         = text;
                 request.info         = info;
                 request.maxLineWidth = maxLineWidth;
-                request.dpi          = p.dpi;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -435,7 +415,6 @@ namespace djv
                 GlyphsRequest request;
                 request.text = text;
                 request.info = info;
-                request.dpi  = p.dpi;
                 auto future = request.promise.get_future();
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -528,8 +507,8 @@ namespace djv
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
-                                request.dpi,
-                                request.dpi);
+                                request.info.dpi,
+                                request.info.dpi);
                             if (!ftError)
                             {
                                 metrics.ascender = font->second->size->metrics.ascender / 64.f;
@@ -558,8 +537,8 @@ namespace djv
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
-                                request.dpi,
-                                request.dpi);
+                                request.info.dpi,
+                                request.info.dpi);
                             if (ftError)
                             {
                                 continue;
@@ -631,8 +610,8 @@ namespace djv
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
-                                request.dpi,
-                                request.dpi);
+                                request.info.dpi,
+                                request.info.dpi);
                             if (ftError)
                             {
                                 continue;
@@ -719,8 +698,8 @@ namespace djv
                                 font->second,
                                 0,
                                 static_cast<int>(request.info.size * 64.f),
-                                request.dpi,
-                                request.dpi);
+                                request.info.dpi,
+                                request.info.dpi);
                             if (ftError)
                             {
                                 //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;

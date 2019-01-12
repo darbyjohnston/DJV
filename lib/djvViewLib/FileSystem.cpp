@@ -221,12 +221,7 @@ namespace djv
             return _p->actions;
         }
         
-        std::string FileSystem::getMenuSortKey() const
-        {
-            return "0";
-        }
-        
-        std::shared_ptr<UI::Menu> FileSystem::createMenu()
+        NewMenu FileSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
@@ -246,7 +241,7 @@ namespace djv
             p.menus["File"]->addMenu(p.menus["ProxyScale"]);
             p.menus["File"]->addSeparator();
             p.menus["File"]->addAction(p.actions["Exit"]);
-            return p.menus["File"];
+            return { p.menus["File"], "A" };
         }
 
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)

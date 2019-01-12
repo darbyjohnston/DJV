@@ -152,7 +152,7 @@ namespace djv
                 return;
             _p->items = value;
             _updateItems();
-            setCurrentItem(Math::clamp(_p->currentItem, 0, static_cast<int>(_p->items.size()) - 1));
+            setCurrentItem(_p->currentItem);
         }
 
         void ComboBox::addItem(const std::string & value)
@@ -164,7 +164,8 @@ namespace djv
             _p->menu->addAction(action);
             if (-1 == _p->currentItem)
             {
-                setCurrentItem(0);
+                _p->currentItem = 0;
+                _updateCurrentItem();
             }
         }
 
@@ -174,7 +175,8 @@ namespace djv
             {
                 _p->items.clear();
                 _updateItems();
-                setCurrentItem(-1);
+                _p->currentItem = -1;
+                _updateCurrentItem();
             }
         }
 
@@ -185,9 +187,10 @@ namespace djv
 
         void ComboBox::setCurrentItem(int value)
         {
-            if (value == _p->currentItem)
+            const int tmp = Math::clamp(value, 0, static_cast<int>(_p->items.size()) - 1);
+            if (tmp == _p->currentItem)
                 return;
-            _p->currentItem = value;
+            _p->currentItem = tmp;
             _updateCurrentItem();
         }
 

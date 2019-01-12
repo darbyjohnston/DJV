@@ -39,7 +39,6 @@
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
-#include <djvCore/TextSystem.h>
 
 //#pragma optimize("", off)
 
@@ -177,96 +176,19 @@ namespace djv
 
             struct Style::Private
             {
-                std::shared_ptr<Settings::Style> settings;
+                Context * context = nullptr;
                 Palette palette;
                 int dpi = AV::dpiDefault;
                 Metrics metrics;
-                std::string currentLocale;
-                std::map<std::string, Settings::FontMap> fonts;
-                Settings::FontMap currentFont;
+                std::string font = AV::Font::Info::familyDefault;
                 std::shared_ptr<ValueSubject<bool> > styleChanged;
-                std::shared_ptr<ValueObserver<Palette> > paletteObserver;
-                std::shared_ptr<ValueObserver<int> > dpiObserver;
-                std::shared_ptr<ValueObserver<Metrics> > metricsObserver;
-                std::shared_ptr<ValueObserver<std::string> > currentLocaleObserver;
-                std::shared_ptr<MapObserver<std::string, Settings::FontMap> > fontsObserver;
             };
 
             void Style::_init(Context * context)
             {
-                ISystem::_init("djv::UI::Style::Style", context);
-
                 DJV_PRIVATE_PTR();
-                p.settings = Settings::Style::create(context);
+                p.context = context;
                 p.styleChanged = ValueSubject<bool>::create(false);
-
-                auto weak = std::weak_ptr<Style>(std::dynamic_pointer_cast<Style>(shared_from_this()));
-                p.paletteObserver = ValueObserver<Palette>::create(
-                    p.settings->observeCurrentPalette(),
-                    [weak](const Palette value)
-                {
-                    if (auto style = weak.lock())
-                    {
-                        style->_p->palette = value;
-                        style->_p->styleChanged->setAlways(true);
-                    }
-                });
-
-                p.dpiObserver = ValueObserver<int>::create(
-                    p.settings->observeDPI(),
-                    [weak](int value)
-                {
-                    if (auto style = weak.lock())
-                    {
-                        style->_p->dpi = value;
-                        if (auto avSystem = style->getContext()->getSystemT<AV::AVSystem>().lock())
-                        {
-                            avSystem->setDPI(value);
-                        }
-                        style->_p->styleChanged->setAlways(true);
-                    }
-                });
-
-                p.metricsObserver = ValueObserver<Metrics>::create(
-                    p.settings->observeCurrentMetrics(),
-                    [weak](const Metrics& value)
-                {
-                    if (auto style = weak.lock())
-                    {
-                        style->_p->metrics = value;
-                        style->_p->styleChanged->setAlways(true);
-                    }
-                });
-
-                if (auto textSystem = context->getSystemT<TextSystem>().lock())
-                {
-                    p.currentLocaleObserver = ValueObserver<std::string>::create(
-                        textSystem->observeCurrentLocale(),
-                        [weak](const std::string& value)
-                    {
-                        if (auto style = weak.lock())
-                        {
-                            style->_p->currentLocale = value;
-                            style->_updateCurrentFont();
-                            style->_p->styleChanged->setAlways(true);
-                        }
-                    });
-                }
-
-                if (auto uiSystem = context->getSystemT<UISystem>().lock())
-                {
-                    p.fontsObserver = MapObserver<std::string, Settings::FontMap>::create(
-                        uiSystem->getFontSettings()->observeFonts(),
-                        [weak](const std::map<std::string, Settings::FontMap>& value)
-                    {
-                        if (auto style = weak.lock())
-                        {
-                            style->_p->fonts = value;
-                            style->_updateCurrentFont();
-                            style->_p->styleChanged->setAlways(true);
-                        }
-                    });
-                }
             }
 
             Style::Style() :
@@ -283,11 +205,6 @@ namespace djv
                 return out;
             }
 
-            const std::shared_ptr<Settings::Style>& Style::getSettings() const
-            {
-                return _p->settings;
-            }
-
             const Palette& Style::getPalette() const
             {
                 return _p->palette;
@@ -298,14 +215,22 @@ namespace djv
                 return _p->palette.getColor(role);
             }
 
-            float Style::getMetric(MetricsRole role) const
+            void Style::setPalette(const Palette & value)
             {
-                return _p->metrics.getMetric(role) * getScale();
+                if (value == _p->palette)
+                    return;
+                _p->palette = value;
+                _p->styleChanged->setAlways(true);
             }
-            
+
             int Style::getDPI() const
             {
                 return _p->dpi;
+            }
+
+            const Metrics & Style::getMetrics() const
+            {
+                return _p->metrics;
             }
 
             float Style::getScale() const
@@ -313,37 +238,48 @@ namespace djv
                 return _p->dpi / static_cast<float>(AV::dpiDefault);
             }
 
-            AV::Font::Info Style::getFont(const std::string & face, MetricsRole metricsRole) const
+            float Style::getMetric(MetricsRole role) const
             {
-                AV::Font::Info out;
-                const auto i = _p->currentFont.find(face);
-                if (i != _p->currentFont.end())
-                {
-                    out = AV::Font::Info(i->second, i->first, getMetric(metricsRole));
-                }
-                return out;
+                return _p->metrics.getMetric(role) * getScale();
+            }
+
+            void Style::setDPI(int value)
+            {
+                if (value == _p->dpi)
+                    return;
+                _p->dpi = value;
+                _p->styleChanged->setAlways(true);
+            }
+
+            void Style::setMetrics(const Metrics & value)
+            {
+                if (value == _p->metrics)
+                    return;
+                _p->metrics = value;
+                _p->styleChanged->setAlways(true);
+            }
+
+            const std::string Style::getFont() const
+            {
+                return _p->font;
+            }
+
+            AV::Font::Info Style::getFont(const std::string & face, MetricsRole role) const
+            {
+                return AV::Font::Info(_p->font, face, _p->metrics.getMetric(role), _p->dpi);
+            }
+
+            void Style::setFont(const std::string & value)
+            {
+                if (value == _p->font)
+                    return;
+                _p->font = value;
+                _p->styleChanged->setAlways(true);
             }
 
             std::shared_ptr<Core::IValueSubject<bool> > Style::observeStyleChanged() const
             {
                 return _p->styleChanged;
-            }
-
-            void Style::_updateCurrentFont()
-            {
-                auto i = _p->fonts.find(_p->currentLocale);
-                if (i != _p->fonts.end())
-                {
-                    _p->currentFont = i->second;
-                }
-                else
-                {
-                    i = _p->fonts.find("Default");
-                    if (i != _p->fonts.end())
-                    {
-                        _p->currentFont = i->second;
-                    }
-                }
             }
 
         } // namespace Style

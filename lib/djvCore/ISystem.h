@@ -43,6 +43,8 @@ namespace djv
 
         public:
             ~ISystem() override = 0;
+
+            virtual void tick(float dt) {};
         };
 
     } // namespace Core

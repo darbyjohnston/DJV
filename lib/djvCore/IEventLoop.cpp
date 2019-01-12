@@ -44,8 +44,6 @@ namespace djv
         {
             struct IEventLoop::Private
             {
-                Context * context = nullptr;
-                std::shared_ptr<IObject> rootObject;
                 std::weak_ptr<TextSystem> textSystem;
                 float t = 0.f;
                 Event::PointerInfo pointerInfo;
@@ -58,22 +56,20 @@ namespace djv
 
             void IEventLoop::_init(const std::string& systemName, Context * context)
             {
-                _p->context = context;
+                ISystem::_init("djv::Core::Event::IEventLoop", context);
+
                 _p->textSystem = context->getSystemT<TextSystem>();
                 if (auto textSystem = _p->textSystem.lock())
                 {
                     auto weak = std::weak_ptr<IEventLoop>(std::dynamic_pointer_cast<IEventLoop>(shared_from_this()));
                     _p->localeObserver = ValueObserver<std::string>::create(
                         textSystem->observeCurrentLocale(),
-                        [weak](const std::string & value)
+                        [weak, context](const std::string & value)
                     {
                         if (auto system = weak.lock())
                         {
-                            if (auto rootObject = system->_p->rootObject)
-                            {
-                                LocaleChanged localeChangedEvent(value);
-                                system->_localeChangedRecursive(rootObject, localeChangedEvent);
-                            }
+                            LocaleChanged localeChangedEvent(value);
+                            system->_localeChangedRecursive(context->getRootObject(), localeChangedEvent);
                         }
                     });
                 }
@@ -85,11 +81,6 @@ namespace djv
 
             IEventLoop::~IEventLoop()
             {}
-
-            void IEventLoop::setRootObject(const std::shared_ptr<IObject> & value)
-            {
-                _p->rootObject = value;
-            }
 
             const std::shared_ptr<IObject>& IEventLoop::getHover() const
             {
@@ -118,79 +109,72 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.t += dt;
-                if (p.rootObject)
+                std::vector<std::shared_ptr<IObject> > firstTick;
+                auto rootObject = getContext()->getRootObject();
+                _getFirstTick(rootObject, firstTick);
+                if (firstTick.size())
                 {
-                    std::vector<std::shared_ptr<IObject> > firstTick;
-                    _getFirstTick(p.rootObject, firstTick);
-                    if (firstTick.size())
+                    if (auto textSystem = _p->textSystem.lock())
                     {
-                        if (auto textSystem = _p->textSystem.lock())
+                        LocaleChanged localeChangedEvent(textSystem->getCurrentLocale());
+                        for (auto& object : firstTick)
                         {
-                            LocaleChanged localeChangedEvent(textSystem->getCurrentLocale());
-                            for (auto& object : firstTick)
-                            {
-                                object->_firstTick = false;
-                                object->event(localeChangedEvent);
-                            }
+                            object->_objectTick = true;
+                            object->event(localeChangedEvent);
                         }
-                    }
-
-                    Update updateEvent(p.t, dt);
-                    _updateRecursive(p.rootObject, updateEvent);
-
-                    Event::PointerMove moveEvent(_p->pointerInfo);
-                    if (p.grab)
-                    {
-                        p.grab->event(moveEvent);
-                        if (!moveEvent.isAccepted())
-                        {
-                            // If the grabbed object did not accept the event then see if
-                            // any of the parent objects want it.
-                            moveEvent.reject();
-                            for (auto parent = p.grab->getParent().lock(); parent; parent = parent->getParent().lock())
-                            {
-                                parent->event(moveEvent);
-                                if (moveEvent.isAccepted())
-                                {
-                                    setHover(parent);
-                                    if (p.hover)
-                                    {
-                                        auto info = _p->pointerInfo;
-                                        info.buttons[info.id] = true;
-                                        Event::ButtonPress buttonPressEvent(info);
-                                        p.hover->event(buttonPressEvent);
-                                        if (buttonPressEvent.isAccepted())
-                                        {
-                                            p.grab = p.hover;
-                                        }
-                                        else
-                                        {
-                                            p.grab = nullptr;
-                                        }
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        std::shared_ptr<IObject> hover;
-                        _hover(moveEvent, hover);
-                        /*if (hover)
-                        {
-                            std::stringstream ss;
-                            ss << "Hover: " << hover->getClassName();
-                            getContext()->log("djv::Desktop::EventLoop", ss.str());
-                        }*/
-                        setHover(hover);
                     }
                 }
-            }
 
-            const std::shared_ptr<IObject> & IEventLoop::_getRootObject() const
-            {
-                return _p->rootObject;
+                Update updateEvent(p.t, dt);
+                _updateRecursive(rootObject, updateEvent);
+
+                Event::PointerMove moveEvent(_p->pointerInfo);
+                if (p.grab)
+                {
+                    p.grab->event(moveEvent);
+                    if (!moveEvent.isAccepted())
+                    {
+                        // If the grabbed object did not accept the event then see if
+                        // any of the parent objects want it.
+                        moveEvent.reject();
+                        for (auto parent = p.grab->getParent().lock(); parent; parent = parent->getParent().lock())
+                        {
+                            parent->event(moveEvent);
+                            if (moveEvent.isAccepted())
+                            {
+                                setHover(parent);
+                                if (p.hover)
+                                {
+                                    auto info = _p->pointerInfo;
+                                    info.buttons[info.id] = true;
+                                    Event::ButtonPress buttonPressEvent(info);
+                                    p.hover->event(buttonPressEvent);
+                                    if (buttonPressEvent.isAccepted())
+                                    {
+                                        p.grab = p.hover;
+                                    }
+                                    else
+                                    {
+                                        p.grab = nullptr;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    std::shared_ptr<IObject> hover;
+                    _hover(moveEvent, hover);
+                    /*if (hover)
+                    {
+                        std::stringstream ss;
+                        ss << "Hover: " << hover->getClassName();
+                        getContext()->log("djv::Desktop::EventLoop", ss.str());
+                    }*/
+                    setHover(hover);
+                }
             }
 
             void IEventLoop::_pointerMove(const Event::PointerInfo& info)
@@ -293,7 +277,7 @@ namespace djv
 
             void IEventLoop::_getFirstTick(const std::shared_ptr<IObject>& object, std::vector<std::shared_ptr<IObject> >& out)
             {
-                if (object->_firstTick)
+                if (!object->_objectTick)
                 {
                     out.push_back(object);
                 }

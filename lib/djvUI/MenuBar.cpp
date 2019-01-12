@@ -52,6 +52,8 @@ namespace djv
         struct MenuBar::Private
         {
             std::vector<std::shared_ptr<Menu> > menus;
+            std::shared_ptr<Layout::Horizontal> buttonLayout;
+            std::shared_ptr<Layout::Horizontal> widgetLayout;
             std::shared_ptr<Layout::Horizontal> layout;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<Button::Menu> > menusToButtons;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > menuIconObservers;
@@ -72,8 +74,16 @@ namespace djv
             closeAction->setShortcut(closeShortcut);
             addAction(closeAction);
 
+            _p->buttonLayout = Layout::Horizontal::create(context);
+            _p->buttonLayout->setSpacing(Style::MetricsRole::None);
+
+            _p->widgetLayout = Layout::Horizontal::create(context);
+            _p->widgetLayout->setSpacing(Style::MetricsRole::None);
+
             _p->layout = Layout::Horizontal::create(context);
-            _p->layout->setSpacing(Style::MetricsRole::None);
+            _p->layout->addWidget(_p->buttonLayout);
+            _p->layout->addExpander();
+            _p->layout->addWidget(_p->widgetLayout);
             _p->layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
@@ -111,7 +121,7 @@ namespace djv
             
             auto button = Button::Menu::create(getContext());
             button->installEventFilter(shared_from_this());
-            _p->layout->addWidget(button);
+            _p->buttonLayout->addWidget(button);
 
             _p->menusToButtons[menu] = button;
 
@@ -126,7 +136,7 @@ namespace djv
                     {
                         if (auto window = widget->getWindow().lock())
                         {
-                            menu->popup(window, button, widget->_p->layout);
+                            menu->popup(window, button, widget->_p->buttonLayout);
                         }
                     }
                 }
@@ -162,22 +172,7 @@ namespace djv
 
         void MenuBar::addWidget(const std::shared_ptr<Widget> & widget)
         {
-            _p->layout->addWidget(widget);
-        }
-
-        void MenuBar::addSeparator()
-        {
-            _p->layout->addSeparator();
-        }
-        
-        void MenuBar::addSpacer()
-        {
-            _p->layout->addSpacer();
-        }
-        
-        void MenuBar::addExpander()
-        {
-            _p->layout->addExpander();
+            _p->widgetLayout->addWidget(widget);
         }
             
         float MenuBar::getHeightForWidth(float value) const

@@ -40,7 +40,7 @@ namespace djv
 
         namespace Event
         {
-            class IEventLoop : public std::enable_shared_from_this<IEventLoop>
+            class IEventLoop : public ISystem
             {
                 DJV_NON_COPYABLE(IEventLoop);
 
@@ -51,16 +51,12 @@ namespace djv
             public:
                 virtual ~IEventLoop() = 0;
 
-                void setRootObject(const std::shared_ptr<IObject> &);
-
                 const std::shared_ptr<IObject> & getHover() const;
                 void setHover(const std::shared_ptr<IObject> &);
 
-                void tick(float dt);
+                void tick(float dt) override;
 
             protected:
-                const std::shared_ptr<IObject> & _getRootObject() const;
-
                 void _pointerMove(const Event::PointerInfo&);
                 void _buttonPress(int);
                 void _buttonRelease(int);

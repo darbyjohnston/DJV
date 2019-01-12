@@ -51,12 +51,6 @@ namespace djv
             
         } // namespace Time
 
-        namespace Event
-        {
-            class IEventLoop;
-
-        } // namespace Time
-
         namespace Time
         {
             class TimerSystem;
@@ -88,12 +82,6 @@ namespace djv
 
             //! Get the root object.
             std::shared_ptr<IObject> getRootObject() const;
-
-            //! Get the event loop.
-            const std::shared_ptr<Event::IEventLoop> & getEventLoop() const;
-
-            //! Set the event loop.
-            void setEventLoop(const std::shared_ptr<Event::IEventLoop> &);
 
             //! \name Systems
             ///@{
@@ -145,7 +133,6 @@ namespace djv
             std::string _name;
             class RootObject;
             std::shared_ptr<RootObject> _rootObject;
-            std::shared_ptr<Event::IEventLoop> _eventLoop;
             std::vector<std::weak_ptr<ISystem> > _systems;
             std::shared_ptr<Time::TimerSystem> _timerSystem;
             std::shared_ptr<ResourceSystem> _resourceSystem;

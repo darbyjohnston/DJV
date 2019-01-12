@@ -11,7 +11,6 @@ set(header
     FileBrowserPrivate.h
     FlowLayout.h
     FontSettings.h
-    FontSettingsInline.h
     FormLayout.h
     GeneralSettings.h
     GridLayout.h

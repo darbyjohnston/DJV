@@ -176,18 +176,18 @@ namespace djv
             template<typename T>
             inline static void _getFirstChildRecursiveT(const std::shared_ptr<IObject>&, std::shared_ptr<T>&);
 
-            Context * _context = nullptr;
+            static Context * _context;
             std::string _className;
             std::string _name;
-            bool _firstTick = true;
+            bool _objectTick = false;
             std::weak_ptr<IObject> _parent;
             std::vector<std::shared_ptr<IObject> > _children;
             bool _enabled = true;
             bool _parentsEnabled = true;
             std::vector<std::weak_ptr<IObject> > _filters;
-            std::weak_ptr<ResourceSystem> _resourceSystem;
-            std::weak_ptr<LogSystem> _logSystem;
-            std::weak_ptr<TextSystem> _textSystem;
+            static std::weak_ptr<ResourceSystem> _resourceSystem;
+            static std::weak_ptr<LogSystem> _logSystem;
+            static std::weak_ptr<TextSystem> _textSystem;
 
             friend class Event::IEventLoop;
         };

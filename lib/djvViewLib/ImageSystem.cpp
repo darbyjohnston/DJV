@@ -115,12 +115,7 @@ namespace djv
             return _p->actions;
         }
 
-        std::string ImageSystem::getMenuSortKey() const
-        {
-            return "3";
-        }
-
-        std::shared_ptr<UI::Menu> ImageSystem::createMenu()
+        NewMenu ImageSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
@@ -141,7 +136,7 @@ namespace djv
             p.menus["Image"]->addSeparator();
             p.menus["Image"]->addAction(p.actions["ShowFrameStore"]);
             p.menus["Image"]->addAction(p.actions["SetFrameStore"]);
-            return p.menus["Image"];
+            return { p.menus["Image"], "D" };
         }
 
         void ImageSystem::_localeChangedEvent(Event::LocaleChanged &)

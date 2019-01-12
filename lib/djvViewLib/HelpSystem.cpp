@@ -86,19 +86,14 @@ namespace djv
             return _p->actions;
         }
 
-        std::string HelpSystem::getMenuSortKey() const
-        {
-            return "6";
-        }
-
-        std::shared_ptr<UI::Menu> HelpSystem::createMenu()
+        NewMenu HelpSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
             p.menus["Help"] = UI::Menu::create(_getText("Help"), getContext());
             p.menus["Help"]->addAction(p.actions["Documentation"]);
             p.menus["Help"]->addAction(p.actions["Information"]);
             p.menus["Help"]->addAction(p.actions["About"]);
-            return p.menus["Help"];
+            return { p.menus["Help"], "G" };
         }
 
         void HelpSystem::_localeChangedEvent(Event::LocaleChanged &)

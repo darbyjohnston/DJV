@@ -29,10 +29,8 @@
 
 #pragma once
 
-#include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
 
-#include <djvCore/Enum.h>
 #include <djvCore/MapObserver.h>
 #include <djvCore/PicoJSON.h>
 
@@ -42,9 +40,6 @@ namespace djv
     {
         namespace Settings
         {
-            //! This typedef provides font faces and their associated fonts.
-            typedef std::map<std::string, std::string> FontMap;
-
             //! This class provides font settings.
             class Font : public ISettings
             {
@@ -58,7 +53,7 @@ namespace djv
                 virtual ~Font();
                 static std::shared_ptr<Font> create(Core::Context *);
 
-                const std::shared_ptr<Core::MapSubject<std::string, FontMap> >& observeFonts() const;
+                const std::shared_ptr<Core::MapSubject<std::string, std::string> >& observeLocaleFonts() const;
 
                 void load(const picojson::value&) override;
                 picojson::value save() override;
@@ -69,20 +64,4 @@ namespace djv
 
         } // namespace Settings
     } // namespace UI
-
-    template<>
-    inline picojson::value toJSON<UI::Settings::FontMap>(const std::map<std::string, std::string> &);
-    template<>
-    inline picojson::value toJSON<std::map<std::string, UI::Settings::FontMap> >(const std::map<std::string, UI::Settings::FontMap>&);
-
-    //! Throws:
-    //! - std::exception
-    template<>
-    inline void fromJSON<UI::Settings::FontMap>(const picojson::value&, std::map<std::string, std::string>&);
-    template<>
-    inline void fromJSON<std::map<std::string, UI::Settings::FontMap> >(const picojson::value&, std::map<std::string, UI::Settings::FontMap>&);
-
 } // namespace djv
-
-#include <djvUI/FontSettingsInline.h>
-

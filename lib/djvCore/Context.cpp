@@ -97,24 +97,6 @@ namespace djv
             return _rootObject;
         }
 
-        const std::shared_ptr<Event::IEventLoop> & Context::getEventLoop() const
-        {
-            return _eventLoop;
-        }
-
-        void Context::setEventLoop(const std::shared_ptr<Event::IEventLoop> & value)
-        {
-            if (_eventLoop)
-            {
-                _eventLoop->setRootObject(nullptr);
-            }
-            _eventLoop = value;
-            if (_eventLoop)
-            {
-                _eventLoop->setRootObject(_rootObject);
-            }
-        }
-
         void Context::log(const std::string& prefix, const std::string& message, LogLevel level)
         {
             _logSystem->log(prefix, message, level);
@@ -169,14 +151,10 @@ namespace djv
                             ++count;
                         }
                     }
+                    system->tick(dt);
                 }
             }
             logSystemOrder = false;
-
-            if (_eventLoop)
-            {
-                _eventLoop->tick(dt);
-            }
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystem> & system)

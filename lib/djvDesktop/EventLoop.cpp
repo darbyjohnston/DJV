@@ -94,15 +94,13 @@ namespace djv
 
         void EventLoop::_hover(Event::PointerMove& event, std::shared_ptr<IObject>& hover)
         {
-            if (auto rootObject = _getRootObject())
+            auto rootObject = getContext()->getRootObject();
+            for (const auto & i : rootObject->getChildrenRecursiveT<UI::Window>())
             {
-                for (const auto & i : rootObject->getChildrenRecursiveT<UI::Window>())
+                _hover(i, event, hover);
+                if (event.isAccepted())
                 {
-                    _hover(i, event, hover);
-                    if (event.isAccepted())
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
         }
@@ -136,7 +134,7 @@ namespace djv
         void EventLoop::_pointerCallback(GLFWwindow* window, double x, double y)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
+            if (auto system = context->getSystemT<EventLoop>().lock())
             {
                 Event::PointerInfo info;
                 info.id = pointerID;
@@ -147,19 +145,19 @@ namespace djv
                 info.dir.y = 0.f;
                 info.dir.z = 1.f;
                 info.projectedPos = info.pos;
-                loop->_pointerMove(info);
+                system->_pointerMove(info);
             }
         }
 
         void EventLoop::_buttonCallback(GLFWwindow* window, int button, int action, int mods)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
+            if (auto system = context->getSystemT<EventLoop>().lock())
             {
                 switch (action)
                 {
-                case GLFW_PRESS:   loop->_buttonPress  (fromGLFWPointerButton(button)); break;
-                case GLFW_RELEASE: loop->_buttonRelease(fromGLFWPointerButton(button)); break;
+                case GLFW_PRESS:   system->_buttonPress  (fromGLFWPointerButton(button)); break;
+                case GLFW_RELEASE: system->_buttonRelease(fromGLFWPointerButton(button)); break;
                 }
             }
         }
@@ -167,12 +165,12 @@ namespace djv
         void EventLoop::_keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
+            if (auto system = context->getSystemT<EventLoop>().lock())
             {
                 switch (action)
                 {
-                case GLFW_PRESS:   loop->_keyPress  (key, mods); break;
-                case GLFW_RELEASE: loop->_keyRelease(key, mods); break;
+                case GLFW_PRESS:   system->_keyPress  (key, mods); break;
+                case GLFW_RELEASE: system->_keyRelease(key, mods); break;
                 }
             }
         }
@@ -180,14 +178,14 @@ namespace djv
         void EventLoop::_dropCallback(GLFWwindow* window, int count, const char** paths)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto loop = std::dynamic_pointer_cast<EventLoop>(context->getEventLoop()))
+            if (auto system = context->getSystemT<EventLoop>().lock())
             {
                 std::vector<std::string> list;
                 for (int i = 0; i < count; ++i)
                 {
                     list.push_back(paths[i]);
                 }
-                loop->_drop(list);
+                system->_drop(list);
             }
         }
 

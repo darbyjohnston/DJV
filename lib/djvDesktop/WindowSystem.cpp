@@ -31,6 +31,7 @@
 
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
+#include <djvUI/UISystem.h>
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
@@ -49,16 +50,9 @@ namespace djv
 {
     namespace Desktop
     {
-        namespace
-        {
-            class RootObject : public IObject {};
-
-        } // namespace
-
         struct WindowSystem::Private
         {
             GLFWwindow * glfwWindow = nullptr;
-            std::shared_ptr<RootObject> rootObject;
             glm::ivec2 resize = glm::ivec2(0, 0);
             bool resizeRequest = false;
             bool redrawRequest = false;
@@ -74,14 +68,11 @@ namespace djv
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
 
-            _p->rootObject = std::shared_ptr<RootObject>(new RootObject);
-            _p->rootObject->setParent(context->getRootObject());
-
-            if (auto style = context->getSystemT<UI::Style::Style>().lock())
+            if (auto uiSystem = context->getSystemT<UI::UISystem>().lock())
             {
                 auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
                 _p->styleChangedObserver = ValueObserver<bool>::create(
-                    style->observeStyleChanged(),
+                    uiSystem->getStyle()->observeStyleChanged(),
                     [weak](bool value)
                 {
                     if (value)
@@ -109,15 +100,74 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IObject> WindowSystem::getRootObject() const
+        void WindowSystem::tick(float dt)
         {
-            return _p->rootObject;
+            IWindowSystem::tick(dt);
+
+            if (_p->resizeRequest)
+            {
+                _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8));
+            }
+            auto rootObject = getContext()->getRootObject();
+            if (_p->offscreenBuffer)
+            {
+                bool resizeRequest = _p->resizeRequest;
+                bool redrawRequest = _p->redrawRequest;
+                _p->resizeRequest = false;
+                _p->redrawRequest = false;
+                for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                {
+                    resizeRequest |= _resizeRequest(i);
+                    redrawRequest |= _redrawRequest(i);
+                }
+
+                const auto & size = _p->offscreenBuffer->getInfo().size;
+                if (resizeRequest)
+                {
+                    for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                    {
+                        i->resize(size);
+
+                        Event::PreLayout preLayout;
+                        _preLayoutRecursive(i, preLayout);
+
+                        if (i->isVisible())
+                        {
+                            Event::Layout layout;
+                            _layoutRecursive(i, layout);
+
+                            Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                            _clipRecursive(i, clip);
+                        }
+                    }
+                }
+
+                if (resizeRequest || redrawRequest)
+                {
+                    if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
+                    {
+                        _p->offscreenBuffer->bind();
+                        system->beginFrame(size);
+                        for (const auto& i : rootObject->getChildrenT<UI::Window>())
+                        {
+                            if (i->isVisible())
+                            {
+                                Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                _paintRecursive(i, paintEvent);
+                            }
+                        }
+                        system->endFrame();
+                        _p->offscreenBuffer->unbind();
+                        _redraw();
+                    }
+                }
+            }
         }
 
         void WindowSystem::_addWindow(const std::shared_ptr<UI::Window>& window)
         {
             IWindowSystem::_addWindow(window);
-            window->setParent(_p->rootObject);
+            window->setParent(getContext()->getRootObject());
         }
 
         void WindowSystem::_removeWindow(const std::shared_ptr<UI::Window>& window)
@@ -142,73 +192,10 @@ namespace djv
             }
         }
 
-        void WindowSystem::_updateEvent(Event::Update & event)
-        {
-            IWindowSystem::_updateEvent(event);
-
-            if (_p->resizeRequest)
-            {
-                _p->offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(AV::Image::Info(_p->resize, AV::Image::Type::RGBA_U8));
-            }
-            if (_p->offscreenBuffer)
-            {
-                bool resizeRequest = _p->resizeRequest;
-                bool redrawRequest = _p->redrawRequest;
-                _p->resizeRequest = false;
-                _p->redrawRequest = false;
-                for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
-                {
-                    resizeRequest |= _resizeRequest(i);
-                    redrawRequest |= _redrawRequest(i);
-                }
-
-                const auto & size = _p->offscreenBuffer->getInfo().size;
-                if (resizeRequest)
-                {
-                    for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
-                    {
-                        i->resize(size);
-
-                        Event::PreLayout preLayout;
-                        _preLayoutRecursive(i, preLayout);
-
-                        if (i->isVisible())
-                        {
-                            Event::Layout layout;
-                            _layoutRecursive(i, layout);
-
-                            Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                            _clipRecursive(i, clip);
-                        }
-                    }
-                }
-
-                if (resizeRequest || redrawRequest)
-                {
-                    if (auto system = getContext()->getSystemT<AV::Render::Render2DSystem>().lock())
-                    {
-                        _p->offscreenBuffer->bind();
-                        system->beginFrame(size);
-                        for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
-                        {
-                            if (i->isVisible())
-                            {
-                                Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                                _paintRecursive(i, paintEvent);
-                            }
-                        }
-                        system->endFrame();
-                        _p->offscreenBuffer->unbind();
-                        _redraw();
-                    }
-                }
-            }
-        }
-
         void WindowSystem::_styleChanged()
         {
             Event::StyleChanged styleChangedEvent;
-            for (const auto& i : _p->rootObject->getChildrenT<UI::Window>())
+            for (const auto& i : getContext()->getRootObject()->getChildrenT<UI::Window>())
             {
                 _styleChangedRecursive(i, styleChangedEvent);
             }

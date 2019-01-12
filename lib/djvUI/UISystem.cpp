@@ -34,13 +34,14 @@
 #include <djvUI/FileBrowser.h>
 #include <djvUI/FontSettings.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/StyleSettings.h>
 #include <djvUI/Style.h>
+#include <djvUI/StyleSettings.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/Render2DSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
 
@@ -53,22 +54,68 @@ namespace djv
             std::vector<std::shared_ptr<ISystem> > uiSystems;
             std::shared_ptr<Settings::General> generalSettings;
             std::shared_ptr<Settings::Font> fontSettings;
+            std::shared_ptr<Settings::Style> styleSettings;
             std::shared_ptr<Style::Style> style;
+            std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
+            std::shared_ptr<ValueObserver<int> > dpiObserver;
+            std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
+            std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
 
         void UISystem::_init(Context * context)
         {
             ISystem::_init("djv::UI::UISystem", context);
+
+            DJV_PRIVATE_PTR();
+            p.uiSystems.push_back(AV::AVSystem::create(context));
+            p.uiSystems.push_back(Settings::System::create(context));
             
-            _p->uiSystems.push_back(AV::AVSystem::create(context));
-            _p->uiSystems.push_back(Settings::System::create(context));
-            
-            _p->generalSettings = Settings::General::create(context);
-            _p->fontSettings = Settings::Font::create(context);
-            
-            _p->uiSystems.push_back(_p->style = Style::Style::create(context));
-            _p->uiSystems.push_back(DialogSystem::create(context));
-            _p->uiSystems.push_back(FileBrowser::DialogSystem::create(context));
+            p.generalSettings = Settings::General::create(context);
+            p.fontSettings = Settings::Font::create(context);
+            p.styleSettings = Settings::Style::create(context);
+
+            p.style = Style::Style::create(context);
+
+            p.uiSystems.push_back(DialogSystem::create(context));
+            p.uiSystems.push_back(FileBrowser::DialogSystem::create(context));
+
+            auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
+            p.paletteObserver = ValueObserver<UI::Style::Palette>::create(
+                p.styleSettings->observeCurrentPalette(),
+                [weak](const UI::Style::Palette & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->style->setPalette(value);
+                }
+            });
+            p.dpiObserver = ValueObserver<int>::create(
+                p.styleSettings->observeDPI(),
+                [weak](int value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->style->setDPI(value);
+                }
+            });
+            p.metricsObserver = ValueObserver<UI::Style::Metrics>::create(
+                p.styleSettings->observeCurrentMetrics(),
+                [weak](const UI::Style::Metrics & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->style->setMetrics(value);
+                }
+            });
+            p.fontObserver = ValueObserver<std::string>::create(
+                p.styleSettings->observeCurrentFont(),
+                [weak](const std::string & value)
+            {
+                if (auto system = weak.lock())
+                {
+                    system->_p->style->setFont(value);
+                }
+            });
         }
 
         UISystem::UISystem() :
@@ -101,6 +148,11 @@ namespace djv
         const std::shared_ptr<Settings::Font> UISystem::getFontSettings() const
         {
             return _p->fontSettings;
+        }
+
+        const std::shared_ptr<Settings::Style>& UISystem::getStyleSettings() const
+        {
+            return _p->styleSettings;
         }
 
         const std::shared_ptr<Style::Style> UISystem::getStyle() const

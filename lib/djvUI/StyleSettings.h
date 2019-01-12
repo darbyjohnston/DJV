@@ -32,9 +32,6 @@
 #include <djvUI/ISettings.h>
 #include <djvUI/Style.h>
 
-#include <djvCore/MapObserver.h>
-#include <djvCore/ValueObserver.h>
-
 namespace djv
 {
     namespace UI
@@ -68,10 +65,14 @@ namespace djv
                 void setDPI(int);
                 void setCurrentMetrics(const std::string&);
 
+                std::shared_ptr<Core::IValueSubject<std::string> > observeCurrentFont() const;
+
                 void load(const picojson::value&) override;
                 picojson::value save() override;
 
             private:
+                void _updateCurrentFont();
+
                 DJV_PRIVATE();
             };
 

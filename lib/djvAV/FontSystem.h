@@ -50,14 +50,15 @@ namespace djv
             struct Info
             {
                 Info();
-                Info(const std::string & family, const std::string & face, float size);
+                Info(const std::string & family, const std::string & face, float size, int DPI);
 
-                std::string family = defaultFamily;
-                std::string face   = defaultFace;
+                std::string family = familyDefault;
+                std::string face   = faceDefault;
                 float       size   = 0.f;
+                int         dpi    = dpiDefault;
 
-                static const std::string defaultFamily;
-                static const std::string defaultFace;
+                static const std::string familyDefault;
+                static const std::string faceDefault;
             };
 
             //! This struct provides font metrics.
@@ -148,9 +149,6 @@ namespace djv
                 virtual ~System();
 
                 static std::shared_ptr<System> create(Core::Context *);
-
-                //! Set the DPI.
-                void setDPI(int);
 
                 //! Get the font family and file names.
                 std::future<std::map<std::string, std::string> > getFontNames();

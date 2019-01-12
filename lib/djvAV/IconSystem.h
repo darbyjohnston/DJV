@@ -63,15 +63,12 @@ namespace djv
                 virtual ~IconSystem();
 
                 static std::shared_ptr<IconSystem> create(Core::Context *);
-
-                //! Set the DPI.
-                void setDPI(int);
                 
                 //! Get information about an icon.
-                std::future<IO::Info> getInfo(const std::string &);
+                std::future<IO::Info> getInfo(const std::string &, int dpi);
 
                 //! Get an icon.
-                std::future<std::shared_ptr<Image> > getImage(const std::string &);
+                std::future<std::shared_ptr<Image> > getImage(const std::string &, int dpi);
 
             private:
                 DJV_PRIVATE();

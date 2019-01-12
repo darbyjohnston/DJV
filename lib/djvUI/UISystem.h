@@ -39,6 +39,7 @@ namespace djv
         {
             class General;
             class Font;
+            class Style;
 
         } // namespace Settings
 
@@ -64,6 +65,8 @@ namespace djv
 
             const std::shared_ptr<Settings::General> getGeneralSettings() const;
             const std::shared_ptr<Settings::Font> getFontSettings() const;
+            const std::shared_ptr<Settings::Style>& getStyleSettings() const;
+
             const std::shared_ptr<Style::Style> getStyle() const;
 
         private:

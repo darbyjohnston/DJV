@@ -46,9 +46,7 @@ namespace djv
         {
             struct IconSystem::Private
             {
-                int dpi = dpiDefault;
-                
-                FileSystem::Path getPath(const std::string & name, Context *);
+                FileSystem::Path getPath(const std::string & name, int dpi, Context *);
             };
 
             void IconSystem::_init(Context * context)
@@ -69,39 +67,34 @@ namespace djv
                 out->_init(context);
                 return out;
             }
-            
-            void IconSystem::setDPI(int value)
-            {
-                _p->dpi = value;
-            }
 
-            std::future<IO::Info> IconSystem::getInfo(const std::string & name)
+            std::future<IO::Info> IconSystem::getInfo(const std::string & name, int dpi)
             {
                 auto context = getContext();
                 if (auto avSystem = context->getSystemT<AVSystem>().lock())
                 {
                     if (auto thumbnailSystem = context->getSystemT<ThumbnailSystem>().lock())
                     {
-                        return thumbnailSystem->getInfo(_p->getPath(name, context));
+                        return thumbnailSystem->getInfo(_p->getPath(name, dpi, context));
                     }
                 }
                 return std::future<IO::Info>();
             }
 
-            std::future<std::shared_ptr<Image> > IconSystem::getImage(const std::string & name)
+            std::future<std::shared_ptr<Image> > IconSystem::getImage(const std::string & name, int dpi)
             {
                 auto context = getContext();
                 if (auto avSystem = context->getSystemT<AVSystem>().lock())
                 {
                     if (auto thumbnailSystem = context->getSystemT<ThumbnailSystem>().lock())
                     {
-                        return thumbnailSystem->getImage(_p->getPath(name, context));
+                        return thumbnailSystem->getImage(_p->getPath(name, dpi, context));
                     }
                 }
                 return std::future<std::shared_ptr<Image> >();
             }
 
-            FileSystem::Path IconSystem::Private::getPath(const std::string & name, Context * context)
+            FileSystem::Path IconSystem::Private::getPath(const std::string & name, int dpi, Context * context)
             {
                 auto out = context->getPath(FileSystem::ResourcePath::IconsDirectory);
                 {

@@ -219,14 +219,10 @@ namespace djv
             // Create the systems.
             _p->avSystems.push_back(IO::System::create(context));
             _p->avSystems.push_back(Audio::System::create(context));
-            auto fontSystem = Font::System::create(context);
-            fontSystem->setDPI(_p->dpi);
-            _p->avSystems.push_back(fontSystem);
+            _p->avSystems.push_back(Font::System::create(context));
             _p->avSystems.push_back(Render::Render2DSystem::create(context));
             _p->avSystems.push_back(ThumbnailSystem::create(context));
-            auto iconSystem = Image::IconSystem::create(context);
-            iconSystem->setDPI(_p->dpi);
-            _p->avSystems.push_back(iconSystem);
+            _p->avSystems.push_back(Image::IconSystem::create(context));
         }
 
         AVSystem::AVSystem() :
@@ -270,18 +266,6 @@ namespace djv
         std::shared_ptr<Core::IListSubject<int> > AVSystem::observeDPIList() const
         {
             return _p->dpiList;
-        }
-
-        void AVSystem::setDPI(int value)
-        {
-            if (value == _p->dpi)
-                return;
-            _p->dpi = value;
-            auto context = getContext();
-            if (auto iconSystem = context->getSystemT<Image::IconSystem>().lock())
-            {
-                iconSystem->setDPI(value);
-            }
         }
 
     } // namespace AV

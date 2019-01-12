@@ -43,27 +43,11 @@ namespace djv
         namespace Settings
         {
             struct General::Private
-            {
-                std::string currentLocale;
-                std::shared_ptr<ValueObserver<std::string> > localeObserver;
-            };
+            {};
 
             void General::_init(Context * context)
             {
                 ISettings::_init("djv::UI::Settings::General", context);
-                if (auto textSystem = context->getSystemT<TextSystem>().lock())
-                {
-                    auto weak = std::weak_ptr<General>(std::dynamic_pointer_cast<General>(shared_from_this()));
-                    _p->localeObserver = ValueObserver<std::string>::create(
-                        textSystem->observeCurrentLocale(),
-                        [weak](const std::string & value)
-                    {
-                        if (auto settings = weak.lock())
-                        {
-                            settings->_p->currentLocale = value;
-                        }
-                    });
-                }
                 _load();
             }
 
@@ -85,11 +69,12 @@ namespace djv
             {
                 if (value.is<picojson::object>())
                 {
+                    std::string currentLocale;
                     const auto& object = value.get<picojson::object>();
-                    _read("CurrentLocale", object, _p->currentLocale);
+                    _read("CurrentLocale", object, currentLocale);
                     if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
                     {
-                        textSystem->setCurrentLocale(_p->currentLocale);
+                        textSystem->setCurrentLocale(currentLocale);
                     }
                 }
             }
@@ -98,7 +83,10 @@ namespace djv
             {
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
-                _write("CurrentLocale", _p->currentLocale, object);
+                if (auto textSystem = getContext()->getSystemT<TextSystem>().lock())
+                {
+                    _write("CurrentLocale", textSystem->getCurrentLocale(), object);
+                }
                 return out;
             }
 

@@ -49,8 +49,7 @@ namespace djv
             static std::shared_ptr<ToolSystem> create(Core::Context *);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
-            std::shared_ptr<UI::Menu> createMenu() override;
-            std::string getMenuSortKey() const override;
+            NewMenu createMenu() override;
 
         private:
             DJV_PRIVATE();

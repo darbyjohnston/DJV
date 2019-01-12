@@ -110,19 +110,14 @@ namespace djv
             return _p->actions;
         }
 
-        std::string WindowSystem::getMenuSortKey() const
-        {
-            return "1";
-        }
-
-        std::shared_ptr<UI::Menu> WindowSystem::createMenu()
+        NewMenu WindowSystem::createMenu()
         {
             DJV_PRIVATE_PTR();
             p.menus["Window"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Window")), getContext());
             p.menus["Window"]->addAction(p.actions["Duplicate"]);
             p.menus["Window"]->addAction(p.actions["Fit"]);
             p.menus["Window"]->addAction(p.actions["FullScreen"]);
-            return p.menus["Window"];
+            return { p.menus["Window"], "B" };
         }
 
         void WindowSystem::_localeChangedEvent(Event::LocaleChanged &)

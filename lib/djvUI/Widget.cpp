@@ -32,6 +32,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Tooltip.h>
+#include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/FontSystem.h>
@@ -60,10 +61,10 @@ namespace djv
 
         } // namespace
 
+        std::weak_ptr<UISystem> Widget::_uiSystem;
         std::weak_ptr<AV::Image::IconSystem> Widget::_iconSystem;
         std::weak_ptr<AV::Font::System> Widget::_fontSystem;
         std::weak_ptr<AV::Render::Render2DSystem> Widget::_renderSystem;
-        std::weak_ptr<Style::Style> Widget::_style;
         bool Widget::_resizeRequest = true;
         bool Widget::_redrawRequest = true;
 
@@ -82,7 +83,7 @@ namespace djv
                 _iconSystem = context->getSystemT<AV::Image::IconSystem>();
                 _fontSystem = context->getSystemT<AV::Font::System>();
                 _renderSystem = context->getSystemT<AV::Render::Render2DSystem>();
-                _style = context->getSystemT<Style::Style>();
+                _uiSystem = context->getSystemT<UISystem>();
             }
         }
 
@@ -256,6 +257,12 @@ namespace djv
             _redraw();
         }
 
+        void Widget::setStyle(const std::shared_ptr<Style::Style> & value)
+        {
+            _customStyle = value;
+            _redraw();
+        }
+
         void Widget::setPointerEnabled(bool value)
         {
             _pointerEnabled = value;
@@ -295,6 +302,29 @@ namespace djv
                 case Event::Type::Update:
                 {
                     auto& updateEvent = static_cast<Event::Update&>(event);
+
+                    auto style = _customStyle;
+                    if (!style)
+                    {
+                        if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+                        {
+                            style = parent->_style.lock();
+                        }
+                    }
+                    if (!style)
+                    {
+                        if (auto uiSystem = _uiSystem.lock())
+                        {
+                            style = uiSystem->getStyle();
+                        }
+                    }
+                    if (style != _style.lock())
+                    {
+                        _style = style;
+                        Event::StyleChanged styleEvent;
+                        this->event(styleEvent);
+                    }
+
                     _updateTime = updateEvent.getTime();
                     _elapsedTime += updateEvent.getDeltaTime();
                     std::string tooltip = _tooltipText;
