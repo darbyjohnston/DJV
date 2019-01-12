@@ -64,23 +64,24 @@ namespace djv
                 setClassName("djv::UI::Button::Menu");
                 setPointerEnabled(true);
 
-                _p->icon = Icon::create(context);
-                _p->icon->setVAlign(VAlign::Center);
-                _p->icon->hide();
+                DJV_PRIVATE_PTR();
+                p.icon = Icon::create(context);
+                p.icon->setVAlign(VAlign::Center);
+                p.icon->hide();
 
-                _p->label = Label::create(context);
-                _p->label->setHAlign(HAlign::Left);
-                _p->label->hide();
+                p.label = Label::create(context);
+                p.label->setHAlign(HAlign::Left);
+                p.label->hide();
 
-                _p->layout = Layout::Horizontal::create(context);
-                _p->layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
-                _p->layout->addWidget(_p->icon);
-                _p->layout->addWidget(_p->label, Layout::RowStretch::Expand);
+                p.layout = Layout::Horizontal::create(context);
+                p.layout->setMargin(Layout::Margin(Style::MetricsRole::Margin, Style::MetricsRole::Margin, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                p.layout->addWidget(p.icon);
+                p.layout->addWidget(p.label, Layout::RowStretch::Expand);
 
-                _p->border = Layout::Border::create(context);
-                _p->border->setBorderSize(Style::MetricsRole::None);
-                _p->border->addWidget(_p->layout);
-                _p->border->setParent(shared_from_this());
+                p.border = Layout::Border::create(context);
+                p.border->setBorderSize(Style::MetricsRole::None);
+                p.border->addWidget(p.layout);
+                p.border->setParent(shared_from_this());
             }
 
             Menu::Menu() :
@@ -121,8 +122,9 @@ namespace djv
 
             void Menu::setIcon(const std::string& value)
             {
-                _p->icon->setIcon(value);
-                _p->icon->setVisible(!value.empty());
+                DJV_PRIVATE_PTR();
+                p.icon->setIcon(value);
+                p.icon->setVisible(!value.empty());
             }
 
             const std::string& Menu::getText() const
@@ -132,8 +134,9 @@ namespace djv
 
             void Menu::setText(const std::string& value)
             {
-                _p->label->setText(value);
-                _p->label->setVisible(!value.empty());
+                DJV_PRIVATE_PTR();
+                p.label->setText(value);
+                p.label->setVisible(!value.empty());
             }
 
             bool Menu::isChecked() const
@@ -143,13 +146,14 @@ namespace djv
 
             void Menu::setChecked(bool value)
             {
-                if (value == _p->checked)
+                DJV_PRIVATE_PTR();
+                if (value == p.checked)
                     return;
-                _p->checked = value;
+                p.checked = value;
                 _redraw();
-                if (_p->checkedCallback)
+                if (p.checkedCallback)
                 {
-                    _p->checkedCallback(_p->checked);
+                    p.checkedCallback(p.checked);
                 }
             }
 
@@ -230,8 +234,9 @@ namespace djv
             void Menu::_updateEvent(Event::Update& event)
             {
                 const Style::ColorRole colorRole = !isEnabled(true) ? Style::ColorRole::Disabled : Style::ColorRole::Foreground;
-                _p->icon->setIconColorRole(colorRole);
-                _p->label->setTextColorRole(colorRole);
+                DJV_PRIVATE_PTR();
+                p.icon->setIconColorRole(colorRole);
+                p.label->setTextColorRole(colorRole);
             }
 
             bool Menu::_isHovered() const

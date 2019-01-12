@@ -88,9 +88,10 @@ namespace djv
 
             void Canvas::setCanvasSize(const glm::vec2 & size)
             {
-                if (size == _p->canvasSize)
+                DJV_PRIVATE_PTR();
+                if (size == p.canvasSize)
                     return;
-                _p->canvasSize = size;
+                p.canvasSize = size;
                 _resize();
             }
 
@@ -116,17 +117,18 @@ namespace djv
                     moveHandle->installEventFilter(shared_from_this());
                     resizeHandle->installEventFilter(shared_from_this());
 
-                    _p->windows.push_back(window);
-                    _p->moveHandleToWindow[moveHandle] = window;
-                    _p->resizeHandleToWindow[resizeHandle] = window;
-                    _p->windowToMoveHandle[window] = moveHandle;
-                    _p->windowToResizeHandle[window] = resizeHandle;
+                    DJV_PRIVATE_PTR();
+                    p.windows.push_back(window);
+                    p.moveHandleToWindow[moveHandle] = window;
+                    p.resizeHandleToWindow[resizeHandle] = window;
+                    p.windowToMoveHandle[window] = moveHandle;
+                    p.windowToResizeHandle[window] = resizeHandle;
 
                     _redraw();
 
-                    if (_p->activeWindowCallback)
+                    if (p.activeWindowCallback)
                     {
-                        _p->activeWindowCallback(window);
+                        p.activeWindowCallback(window);
                     }
                 }
             }
@@ -135,53 +137,54 @@ namespace djv
             {
                 if (auto window = std::dynamic_pointer_cast<IWindow>(value.getChild()))
                 {
+                    DJV_PRIVATE_PTR();
                     {
-                        const auto j = std::find(_p->windows.begin(), _p->windows.end(), window);
-                        if (j != _p->windows.end())
+                        const auto j = std::find(p.windows.begin(), p.windows.end(), window);
+                        if (j != p.windows.end())
                         {
-                            const bool active = j == _p->windows.begin();
-                            _p->windows.erase(j);
+                            const bool active = j == p.windows.begin();
+                            p.windows.erase(j);
                             if (active)
                             {
-                                if (_p->windows.size())
+                                if (p.windows.size())
                                 {
-                                    if (_p->activeWindowCallback)
+                                    if (p.activeWindowCallback)
                                     {
-                                        _p->activeWindowCallback(_p->windows.front());
+                                        p.activeWindowCallback(p.windows.front());
                                     }
                                 }
                                 else
                                 {
-                                    if (_p->activeWindowCallback)
+                                    if (p.activeWindowCallback)
                                     {
-                                        _p->activeWindowCallback(nullptr);
+                                        p.activeWindowCallback(nullptr);
                                     }
                                 }
                             }
                         }
                     }
                     {
-                        const auto j = _p->windowToMoveHandle.find(window);
-                        if (j != _p->windowToMoveHandle.end())
+                        const auto j = p.windowToMoveHandle.find(window);
+                        if (j != p.windowToMoveHandle.end())
                         {
-                            const auto k = _p->moveHandleToWindow.find(j->second);
-                            if (k != _p->moveHandleToWindow.end())
+                            const auto k = p.moveHandleToWindow.find(j->second);
+                            if (k != p.moveHandleToWindow.end())
                             {
-                                _p->moveHandleToWindow.erase(k);
+                                p.moveHandleToWindow.erase(k);
                             }
-                            _p->windowToMoveHandle.erase(j);
+                            p.windowToMoveHandle.erase(j);
                         }
                     }
                     {
-                        const auto j = _p->windowToResizeHandle.find(window);
-                        if (j != _p->windowToResizeHandle.end())
+                        const auto j = p.windowToResizeHandle.find(window);
+                        if (j != p.windowToResizeHandle.end())
                         {
-                            const auto k = _p->resizeHandleToWindow.find(j->second);
-                            if (k != _p->resizeHandleToWindow.end())
+                            const auto k = p.resizeHandleToWindow.find(j->second);
+                            if (k != p.resizeHandleToWindow.end())
                             {
-                                _p->resizeHandleToWindow.erase(k);
+                                p.resizeHandleToWindow.erase(k);
                             }
-                            _p->windowToResizeHandle.erase(j);
+                            p.windowToResizeHandle.erase(j);
                         }
                     }
                     _redraw();
@@ -201,34 +204,35 @@ namespace djv
                 {
                     Event::PointerMove& pointerMoveEvent = static_cast<Event::PointerMove&>(event);
                     pointerMoveEvent.accept();
-                    if (pointerMoveEvent.getPointerInfo().id == _p->pressed)
+                    DJV_PRIVATE_PTR();
+                    if (pointerMoveEvent.getPointerInfo().id == p.pressed)
                     {
                         if (auto style = _getStyle().lock())
                         {
                             const float shadow = style->getMetric(Style::MetricsRole::Shadow);
                             const BBox2f& g = getGeometry();
-                            const auto moveHandleToWindow = _p->moveHandleToWindow.find(object);
-                            const auto resizeHandleToWindow = _p->resizeHandleToWindow.find(object);
-                            if (moveHandleToWindow != _p->moveHandleToWindow.end())
+                            const auto moveHandleToWindow = p.moveHandleToWindow.find(object);
+                            const auto resizeHandleToWindow = p.resizeHandleToWindow.find(object);
+                            if (moveHandleToWindow != p.moveHandleToWindow.end())
                             {
-                                const auto window = std::find(_p->windows.begin(), _p->windows.end(), moveHandleToWindow->second);
-                                if (window != _p->windows.end())
+                                const auto window = std::find(p.windows.begin(), p.windows.end(), moveHandleToWindow->second);
+                                if (window != p.windows.end())
                                 {
-                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - g.min;
+                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + p.pressedOffset - g.min;
                                     glm::vec2 windowPos;
                                     windowPos.x = Math::clamp(pos.x, -shadow, g.w() - (*window)->getWidth() + shadow);
                                     windowPos.y = Math::clamp(pos.y, -shadow, g.h() - (*window)->getHeight() + shadow);
                                     (*window)->move(windowPos);
                                 }
                             }
-                            else if (resizeHandleToWindow != _p->resizeHandleToWindow.end())
+                            else if (resizeHandleToWindow != p.resizeHandleToWindow.end())
                             {
-                                const auto window = std::find(_p->windows.begin(), _p->windows.end(), resizeHandleToWindow->second);
-                                if (window != _p->windows.end())
+                                const auto window = std::find(p.windows.begin(), p.windows.end(), resizeHandleToWindow->second);
+                                if (window != p.windows.end())
                                 {
                                     const glm::vec2 min = (*window)->getMinimumSize();
                                     const BBox2f & g = (*window)->getGeometry();
-                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + _p->pressedOffset - g.min;
+                                    const glm::vec2 pos = pointerMoveEvent.getPointerInfo().projectedPos + p.pressedOffset - g.min;
                                     glm::vec2 pos2;
                                     pos2.x = Math::clamp(pos.x, g.min.x + min.x, g.w() + shadow);
                                     pos2.y = Math::clamp(pos.y, g.min.y + min.y, g.h() + shadow);
@@ -242,32 +246,33 @@ namespace djv
                 case Event::Type::ButtonPress:
                 {
                     Event::ButtonPress& buttonPressEvent = static_cast<Event::ButtonPress&>(event);
-                    if (!_p->pressed)
+                    DJV_PRIVATE_PTR();
+                    if (!p.pressed)
                     {
-                        if (_p->moveHandleToWindow.find(object) != _p->moveHandleToWindow.end())
+                        if (p.moveHandleToWindow.find(object) != p.moveHandleToWindow.end())
                         {
                             event.accept();
-                            _p->pressed = buttonPressEvent.getPointerInfo().id;
-                            _p->pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            auto window = _p->moveHandleToWindow[object];
+                            p.pressed = buttonPressEvent.getPointerInfo().id;
+                            p.pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
+                            auto window = p.moveHandleToWindow[object];
                             window->moveToFront();
-                            _p->pressedOffset = window->getGeometry().min - _p->pressedPos;
-                            if (_p->activeWindowCallback)
+                            p.pressedOffset = window->getGeometry().min - p.pressedPos;
+                            if (p.activeWindowCallback)
                             {
-                                _p->activeWindowCallback(window);
+                                p.activeWindowCallback(window);
                             }
                         }
-                        else if (_p->resizeHandleToWindow.find(object) != _p->resizeHandleToWindow.end())
+                        else if (p.resizeHandleToWindow.find(object) != p.resizeHandleToWindow.end())
                         {
                             event.accept();
-                            _p->pressed = buttonPressEvent.getPointerInfo().id;
-                            _p->pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            auto window = _p->resizeHandleToWindow[object];
+                            p.pressed = buttonPressEvent.getPointerInfo().id;
+                            p.pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
+                            auto window = p.resizeHandleToWindow[object];
                             window->moveToFront();
-                            _p->pressedOffset = window->getGeometry().max - _p->pressedPos;
-                            if (_p->activeWindowCallback)
+                            p.pressedOffset = window->getGeometry().max - p.pressedPos;
+                            if (p.activeWindowCallback)
                             {
-                                _p->activeWindowCallback(window);
+                                p.activeWindowCallback(window);
                             }
                         }
                     }
@@ -276,10 +281,11 @@ namespace djv
                 case Event::Type::ButtonRelease:
                 {
                     Event::ButtonRelease& buttonReleaseEvent = static_cast<Event::ButtonRelease&>(event);
-                    if (_p->pressed == buttonReleaseEvent.getPointerInfo().id)
+                    DJV_PRIVATE_PTR();
+                    if (p.pressed == buttonReleaseEvent.getPointerInfo().id)
                     {
                         event.accept();
-                        _p->pressed = 0;
+                        p.pressed = 0;
                     }
                     return true;
                 }

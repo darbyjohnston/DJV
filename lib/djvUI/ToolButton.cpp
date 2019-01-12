@@ -57,14 +57,15 @@ namespace djv
 
                 setClassName("djv::UI::Button::Tool");
 
-                _p->icon = Icon::create(context);
-                _p->icon->setVAlign(VAlign::Center);
-                _p->icon->hide();
+                DJV_PRIVATE_PTR();
+                p.icon = Icon::create(context);
+                p.icon->setVAlign(VAlign::Center);
+                p.icon->hide();
 
-                _p->layout = Layout::Stack::create(context);
-                _p->layout->setMargin(Style::MetricsRole::Margin);
-                _p->layout->addWidget(_p->icon);
-                _p->layout->setParent(shared_from_this());
+                p.layout = Layout::Stack::create(context);
+                p.layout->setMargin(Style::MetricsRole::Margin);
+                p.layout->addWidget(p.icon);
+                p.layout->setParent(shared_from_this());
             }
 
             Tool::Tool() :
@@ -96,8 +97,9 @@ namespace djv
 
             void Tool::setIcon(const std::string& value)
             {
-                _p->icon->setIcon(value);
-                _p->icon->setVisible(!value.empty());
+                DJV_PRIVATE_PTR();
+                p.icon->setIcon(value);
+                p.icon->setVisible(!value.empty());
             }
 
             const Layout::Margin& Tool::getInsideMargin() const

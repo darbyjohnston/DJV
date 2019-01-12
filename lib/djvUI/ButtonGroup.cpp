@@ -78,29 +78,31 @@ namespace djv
 
             int Group::getButtonIndex(const std::shared_ptr<IButton>& value) const
             {
-                const auto i = std::find(_p->buttons.begin(), _p->buttons.end(), value);
-                if (i != _p->buttons.end())
+                DJV_PRIVATE_PTR();
+                const auto i = std::find(p.buttons.begin(), p.buttons.end(), value);
+                if (i != p.buttons.end())
                 {
-                    return static_cast<int>(i - _p->buttons.begin());
+                    return static_cast<int>(i - p.buttons.begin());
                 }
                 return -1;
             }
 
             void Group::addButton(const std::shared_ptr<IButton>& button)
             {
-                button->setButtonType(_p->buttonType);
+                DJV_PRIVATE_PTR();
+                button->setButtonType(p.buttonType);
 
-                if (ButtonType::Radio == _p->buttonType)
+                if (ButtonType::Radio == p.buttonType)
                 {
                     size_t i = 0;
-                    for (; i < _p->buttons.size(); ++i)
+                    for (; i < p.buttons.size(); ++i)
                     {
-                        if (_p->buttons[i]->isChecked())
+                        if (p.buttons[i]->isChecked())
                         {
                             break;
                         }
                     }
-                    if (i == _p->buttons.size())
+                    if (i == p.buttons.size())
                     {
                         button->setChecked(true);
                     }
@@ -152,29 +154,30 @@ namespace djv
                     }
                 });
 
-                _p->buttons.push_back(button);
+                p.buttons.push_back(button);
             }
 
             void Group::removeButton(const std::shared_ptr<IButton>& button)
             {
-                const auto i = std::find(_p->buttons.begin(), _p->buttons.end(), button);
-                if (i != _p->buttons.end())
+                DJV_PRIVATE_PTR();
+                const auto i = std::find(p.buttons.begin(), p.buttons.end(), button);
+                if (i != p.buttons.end())
                 {
-                    int index = static_cast<int>(i - _p->buttons.begin());
+                    int index = static_cast<int>(i - p.buttons.begin());
                     const bool checked = (*i)->isChecked();
                     (*i)->setClickedCallback(nullptr);
                     (*i)->setCheckedCallback(nullptr);
-                    _p->buttons.erase(i);
-                    if (ButtonType::Radio == _p->buttonType && checked && _p->buttons.size() > 0)
+                    p.buttons.erase(i);
+                    if (ButtonType::Radio == p.buttonType && checked && p.buttons.size() > 0)
                     {
-                        if (index >= _p->buttons.size())
+                        if (index >= p.buttons.size())
                         {
                             --index;
                         }
-                        _p->buttons[index]->setChecked(true);
-                        if (_p->radioCallback)
+                        p.buttons[index]->setChecked(true);
+                        if (p.radioCallback)
                         {
-                            _p->radioCallback(index);
+                            p.radioCallback(index);
                         }
                     }
                 }
@@ -182,13 +185,14 @@ namespace djv
 
             void Group::clearButtons()
             {
-                auto buttons = _p->buttons;
+                DJV_PRIVATE_PTR();
+                auto buttons = p.buttons;
                 for (const auto& button : buttons)
                 {
                     button->setClickedCallback(nullptr);
                     button->setCheckedCallback(nullptr);
                 }
-                _p->buttons.clear();
+                p.buttons.clear();
             }
 
             ButtonType Group::getButtonType() const
@@ -198,14 +202,15 @@ namespace djv
 
             void Group::setButtonType(ButtonType value)
             {
-                _p->buttonType = value;
+                DJV_PRIVATE_PTR();
+                p.buttonType = value;
 
-                for (size_t i = 0; i < _p->buttons.size(); ++i)
+                for (size_t i = 0; i < p.buttons.size(); ++i)
                 {
-                    _p->buttons[i]->setButtonType(value);
+                    p.buttons[i]->setButtonType(value);
                 }
 
-                if (ButtonType::Radio == _p->buttonType)
+                if (ButtonType::Radio == p.buttonType)
                 {
                     setChecked(0);
                 }
@@ -213,9 +218,10 @@ namespace djv
 
             int Group::getChecked() const
             {
-                for (size_t i = 0; i < _p->buttons.size(); ++i)
+                DJV_PRIVATE_PTR();
+                for (size_t i = 0; i < p.buttons.size(); ++i)
                 {
-                    if (_p->buttons[i]->isChecked())
+                    if (p.buttons[i]->isChecked())
                     {
                         return static_cast<int>(i);
                     }
@@ -225,30 +231,31 @@ namespace djv
 
             void Group::setChecked(int index, bool value)
             {
-                if (index >= 0 && index < static_cast<int>(_p->buttons.size()))
+                DJV_PRIVATE_PTR();
+                if (index >= 0 && index < static_cast<int>(p.buttons.size()))
                 {
-                    if (_p->buttons[index]->isChecked() != value)
+                    if (p.buttons[index]->isChecked() != value)
                     {
-                        if (ButtonType::Radio == _p->buttonType)
+                        if (ButtonType::Radio == p.buttonType)
                         {
-                            for (size_t i = 0; i < _p->buttons.size(); ++i)
+                            for (size_t i = 0; i < p.buttons.size(); ++i)
                             {
-                                _p->buttons[i]->setChecked(i == index);
+                                p.buttons[i]->setChecked(i == index);
                             }
 
-                            if (_p->radioCallback)
+                            if (p.radioCallback)
                             {
-                                _p->radioCallback(index);
+                                p.radioCallback(index);
                             }
                         }
                         else
                         {
-                            _p->buttons[index]->setChecked(value);
+                            p.buttons[index]->setChecked(value);
                         }
 
-                        if (_p->checkedCallback)
+                        if (p.checkedCallback)
                         {
-                            _p->checkedCallback(index, value);
+                            p.checkedCallback(index, value);
                         }
                     }
                 }

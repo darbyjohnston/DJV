@@ -79,38 +79,40 @@ namespace djv
 
         int ActionGroup::getActionIndex(const std::shared_ptr<Action>& value) const
         {
-            const auto i = std::find(_p->actions.begin(), _p->actions.end(), value);
-            if (i != _p->actions.end())
+            DJV_PRIVATE_PTR();
+            const auto i = std::find(p.actions.begin(), p.actions.end(), value);
+            if (i != p.actions.end())
             {
-                return static_cast<int>(i - _p->actions.begin());
+                return static_cast<int>(i - p.actions.begin());
             }
             return -1;
         }
 
         void ActionGroup::addAction(const std::shared_ptr<Action>& action)
         {
-            action->setButtonType(_p->buttonType);
+            DJV_PRIVATE_PTR();
+            action->setButtonType(p.buttonType);
 
-            if (ButtonType::Radio == _p->buttonType)
+            if (ButtonType::Radio == p.buttonType)
             {
                 size_t i = 0;
-                for (; i < _p->actions.size(); ++i)
+                for (; i < p.actions.size(); ++i)
                 {
-                    if (_p->actions[i]->observeChecked()->get())
+                    if (p.actions[i]->observeChecked()->get())
                     {
                         break;
                     }
                 }
-                if (i == _p->actions.size())
+                if (i == p.actions.size())
                 {
                     action->setChecked(true);
                 }
             }
 
-            const int index = static_cast<int>(_p->actions.size());
+            const int index = static_cast<int>(p.actions.size());
 
             auto weak = std::weak_ptr<ActionGroup>(std::dynamic_pointer_cast<ActionGroup>(shared_from_this()));
-            _p->clickedObservers[action] =
+            p.clickedObservers[action] =
                 ValueObserver<bool>::create(
                     action->observeClicked(),
                     [weak, index](bool value)
@@ -127,7 +129,7 @@ namespace djv
                 }
             });
 
-            _p->checkedObservers[action] =
+            p.checkedObservers[action] =
                 ValueObserver<bool>::create(
                     action->observeChecked(),
                     [this, index](bool value)
@@ -149,33 +151,35 @@ namespace djv
                 }
             });
 
-            _p->actions.push_back(action);
+            p.actions.push_back(action);
         }
 
         void ActionGroup::removeAction(const std::shared_ptr<Action>& action)
         {
-            const auto i = std::find(_p->actions.begin(), _p->actions.end(), action);
-            if (i != _p->actions.end())
+            DJV_PRIVATE_PTR();
+            const auto i = std::find(p.actions.begin(), p.actions.end(), action);
+            if (i != p.actions.end())
             {
-                const auto j = _p->clickedObservers.find(*i);
-                if (j != _p->clickedObservers.end())
+                const auto j = p.clickedObservers.find(*i);
+                if (j != p.clickedObservers.end())
                 {
-                    _p->clickedObservers.erase(j);
+                    p.clickedObservers.erase(j);
                 }
-                const auto k = _p->checkedObservers.find(*i);
-                if (k != _p->checkedObservers.end())
+                const auto k = p.checkedObservers.find(*i);
+                if (k != p.checkedObservers.end())
                 {
-                    _p->checkedObservers.erase(k);
+                    p.checkedObservers.erase(k);
                 }
-                _p->actions.erase(i);
+                p.actions.erase(i);
             }
         }
 
         void ActionGroup::clearActions()
         {
-            _p->actions.clear();
-            _p->clickedObservers.clear();
-            _p->checkedObservers.clear();
+            DJV_PRIVATE_PTR();
+            p.actions.clear();
+            p.clickedObservers.clear();
+            p.checkedObservers.clear();
         }
 
         ButtonType ActionGroup::getButtonType() const
@@ -185,14 +189,15 @@ namespace djv
 
         void ActionGroup::setButtonType(ButtonType value)
         {
-            _p->buttonType = value;
+            DJV_PRIVATE_PTR();
+            p.buttonType = value;
 
-            for (size_t i = 0; i < _p->actions.size(); ++i)
+            for (size_t i = 0; i < p.actions.size(); ++i)
             {
-                _p->actions[i]->setButtonType(value);
+                p.actions[i]->setButtonType(value);
             }
 
-            if (ButtonType::Radio == _p->buttonType)
+            if (ButtonType::Radio == p.buttonType)
             {
                 setChecked(0);
             }
@@ -200,30 +205,31 @@ namespace djv
 
         void ActionGroup::setChecked(int index, bool value)
         {
-            if (index >= 0 && index < static_cast<int>(_p->actions.size()))
+            DJV_PRIVATE_PTR();
+            if (index >= 0 && index < static_cast<int>(p.actions.size()))
             {
-                if (_p->actions[index]->observeChecked()->get() != value)
+                if (p.actions[index]->observeChecked()->get() != value)
                 {
-                    if (ButtonType::Radio == _p->buttonType)
+                    if (ButtonType::Radio == p.buttonType)
                     {
-                        for (size_t i = 0; i < _p->actions.size(); ++i)
+                        for (size_t i = 0; i < p.actions.size(); ++i)
                         {
-                            _p->actions[i]->setChecked(i == index);
+                            p.actions[i]->setChecked(i == index);
                         }
 
-                        if (_p->radioCallback)
+                        if (p.radioCallback)
                         {
-                            _p->radioCallback(index);
+                            p.radioCallback(index);
                         }
                     }
                     else
                     {
-                        _p->actions[index]->setChecked(value);
+                        p.actions[index]->setChecked(value);
                     }
 
-                    if (_p->checkedCallback)
+                    if (p.checkedCallback)
                     {
-                        _p->checkedCallback(index, value);
+                        p.checkedCallback(index, value);
                     }
                 }
             }

@@ -300,23 +300,24 @@ namespace djv
             const std::string & closeText)
         {
             auto context = getContext();
-            if (!_p->messageDialog)
+            DJV_PRIVATE_PTR();
+            if (!p.messageDialog)
             {
-                _p->messageDialog = MessageDialog::create(context);
-                _p->messageOverlay = Layout::Overlay::create(context);
-                _p->messageOverlay->addWidget(_p->messageDialog);
+                p.messageDialog = MessageDialog::create(context);
+                p.messageOverlay = Layout::Overlay::create(context);
+                p.messageOverlay->addWidget(p.messageDialog);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
-                    _p->messageDialog->setTitle(title);
-                    _p->messageDialog->setText(text);
-                    _p->messageDialog->setCloseText(closeText);
-                    window->addWidget(_p->messageOverlay);
-                    _p->messageOverlay->show();
+                    p.messageDialog->setTitle(title);
+                    p.messageDialog->setText(text);
+                    p.messageDialog->setCloseText(closeText);
+                    window->addWidget(p.messageOverlay);
+                    p.messageOverlay->show();
                     auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                    _p->messageDialog->setCloseCallback(
+                    p.messageDialog->setCloseCallback(
                         [weak, window]
                     {
                         if (auto system = weak.lock())
@@ -324,7 +325,7 @@ namespace djv
                             window->removeWidget(system->_p->messageOverlay);
                         }
                     });
-                    _p->messageOverlay->setCloseCallback(
+                    p.messageOverlay->setCloseCallback(
                         [weak, window]
                     {
                         if (auto system = weak.lock())
@@ -344,24 +345,25 @@ namespace djv
             const std::function<void(bool)> & callback)
         {
             auto context = getContext();
-            if (!_p->confirmationDialog)
+            DJV_PRIVATE_PTR();
+            if (!p.confirmationDialog)
             {
-                _p->confirmationDialog = ConfirmationDialog::create(context);
-                _p->confirmationOverlay = Layout::Overlay::create(context);
-                _p->confirmationOverlay->addWidget(_p->confirmationDialog);
+                p.confirmationDialog = ConfirmationDialog::create(context);
+                p.confirmationOverlay = Layout::Overlay::create(context);
+                p.confirmationOverlay->addWidget(p.confirmationDialog);
             }
             if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
             {
                 if (auto window = windowSystem->observeCurrentWindow()->get())
                 {
-                    _p->confirmationDialog->setTitle(title);
-                    _p->confirmationDialog->setText(text);
-                    _p->confirmationDialog->setAcceptText(acceptText);
-                    _p->confirmationDialog->setCancelText(cancelText);
-                    window->addWidget(_p->confirmationOverlay);
-                    _p->confirmationOverlay->show();
+                    p.confirmationDialog->setTitle(title);
+                    p.confirmationDialog->setText(text);
+                    p.confirmationDialog->setAcceptText(acceptText);
+                    p.confirmationDialog->setCancelText(cancelText);
+                    window->addWidget(p.confirmationOverlay);
+                    p.confirmationOverlay->show();
                     auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                    _p->confirmationDialog->setAcceptCallback(
+                    p.confirmationDialog->setAcceptCallback(
                         [weak, window, callback]
                     {
                         if (auto system = weak.lock())
@@ -370,7 +372,7 @@ namespace djv
                             callback(true);
                         }
                     });
-                    _p->confirmationDialog->setCancelCallback(
+                    p.confirmationDialog->setCancelCallback(
                         [weak, window, callback]
                     {
                         if (auto system = weak.lock())
@@ -379,7 +381,7 @@ namespace djv
                             callback(false);
                         }
                     });
-                    _p->confirmationOverlay->setCloseCallback(
+                    p.confirmationOverlay->setCloseCallback(
                         [weak, window]
                     {
                         if (auto system = weak.lock())

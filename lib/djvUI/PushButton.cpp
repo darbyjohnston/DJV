@@ -60,18 +60,19 @@ namespace djv
                 setClassName("djv::UI::Button::Push");
                 setBackgroundRole(Style::ColorRole::Button);
 
-                _p->icon = Icon::create(context);
-                _p->icon->setVAlign(VAlign::Center);
-                _p->icon->hide();
+                DJV_PRIVATE_PTR();
+                p.icon = Icon::create(context);
+                p.icon->setVAlign(VAlign::Center);
+                p.icon->hide();
 
-                _p->label = Label::create(context);
-                _p->label->hide();
+                p.label = Label::create(context);
+                p.label->hide();
 
-                _p->layout = Layout::Horizontal::create(context);
-                _p->layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
-                _p->layout->addWidget(_p->icon);
-                _p->layout->addWidget(_p->label, Layout::RowStretch::Expand);
-                _p->layout->setParent(shared_from_this());
+                p.layout = Layout::Horizontal::create(context);
+                p.layout->setMargin(Layout::Margin(Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginLarge, Style::MetricsRole::MarginSmall, Style::MetricsRole::MarginSmall));
+                p.layout->addWidget(p.icon);
+                p.layout->addWidget(p.label, Layout::RowStretch::Expand);
+                p.layout->setParent(shared_from_this());
             }
 
             Push::Push() :
@@ -112,8 +113,9 @@ namespace djv
 
             void Push::setIcon(const std::string& value)
             {
-                _p->icon->setIcon(value);
-                _p->icon->setVisible(!value.empty());
+                DJV_PRIVATE_PTR();
+                p.icon->setIcon(value);
+                p.icon->setVisible(!value.empty());
             }
 
             const std::string& Push::getText() const
@@ -123,8 +125,9 @@ namespace djv
 
             void Push::setText(const std::string& value)
             {
-                _p->label->setText(value);
-                _p->label->setVisible(!value.empty());
+                DJV_PRIVATE_PTR();
+                p.label->setText(value);
+                p.label->setVisible(!value.empty());
             }
 
             TextHAlign Push::getTextHAlign() const
@@ -230,8 +233,9 @@ namespace djv
             {
                 IButton::_updateEvent(event);
                 const Style::ColorRole colorRole = _getForegroundColorRole();
-                _p->icon->setIconColorRole(colorRole);
-                _p->label->setTextColorRole(colorRole);
+                DJV_PRIVATE_PTR();
+                p.icon->setIconColorRole(colorRole);
+                p.label->setTextColorRole(colorRole);
             }
 
         } // namespace Button

@@ -49,8 +49,9 @@ namespace djv
         void IWindowSystem::_init(const std::string & name, Core::Context * context)
         {
             ISystem::_init(name, context);
-            _p->windows = ListSubject< std::shared_ptr<Window> >::create();
-            _p->currentWindow = ValueSubject<std::shared_ptr<Window> >::create();
+            DJV_PRIVATE_PTR();
+            p.windows = ListSubject< std::shared_ptr<Window> >::create();
+            p.currentWindow = ValueSubject<std::shared_ptr<Window> >::create();
         }
 
         IWindowSystem::IWindowSystem() :
@@ -89,21 +90,23 @@ namespace djv
 
         void IWindowSystem::_addWindow(const std::shared_ptr<Window>& window)
         {
-            _p->windows->pushBack(window);
-            _p->currentWindow->setIfChanged(window);
+            DJV_PRIVATE_PTR();
+            p.windows->pushBack(window);
+            p.currentWindow->setIfChanged(window);
         }
 
         void IWindowSystem::_removeWindow(const std::shared_ptr<Window>& window)
         {
-            const size_t index = _p->windows->indexOf(window);
+            DJV_PRIVATE_PTR();
+            const size_t index = p.windows->indexOf(window);
             if (index != invalidListIndex)
             {
-                _p->windows->removeItem(index);
+                p.windows->removeItem(index);
             }
-            if (window == _p->currentWindow->get())
+            if (window == p.currentWindow->get())
             {
-                const size_t size = _p->windows->getSize();
-                _p->currentWindow->setIfChanged(size > 0 ? _p->windows->getItem(size - 1) : nullptr);
+                const size_t size = p.windows->getSize();
+                p.currentWindow->setIfChanged(size > 0 ? p.windows->getItem(size - 1) : nullptr);
             }
         }
 

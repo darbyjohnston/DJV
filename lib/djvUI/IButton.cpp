@@ -81,9 +81,10 @@ namespace djv
 
             void IButton::setChecked(bool value)
             {
-                if (value == _p->checked)
+                DJV_PRIVATE_PTR();
+                if (value == p.checked)
                     return;
-                _p->checked = value;
+                p.checked = value;
                 _redraw();
             }
 
@@ -117,9 +118,10 @@ namespace djv
                         const BBox2f& g = getGeometry();
 
                         // Draw the toggled state.
-                        if (_isToggled() && _p->checkedColorRole != Style::ColorRole::None)
+                        DJV_PRIVATE_PTR();
+                        if (_isToggled() && p.checkedColorRole != Style::ColorRole::None)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(_p->checkedColorRole)));
+                            render->setFillColor(_getColorWithOpacity(style->getColor(p.checkedColorRole)));
                             render->drawRectangle(g);
                         }
 
@@ -156,16 +158,17 @@ namespace djv
                 event.accept();
                 const auto id = event.getPointerInfo().id;
                 const auto& pos = event.getPointerInfo().projectedPos;
-                if (id == _p->pressedId)
+                DJV_PRIVATE_PTR();
+                if (id == p.pressedId)
                 {
                     if (auto style = _getStyle().lock())
                     {
-                        const float distance = glm::length(pos - _p->pressedPos);
-                        const bool accepted = _p->canRejectPressed ? distance < style->getMetric(Style::MetricsRole::Drag) : true;
+                        const float distance = glm::length(pos - p.pressedPos);
+                        const bool accepted = p.canRejectPressed ? distance < style->getMetric(Style::MetricsRole::Drag) : true;
                         event.setAccepted(accepted);
                         if (!accepted)
                         {
-                            _p->pressedId = 0;
+                            p.pressedId = 0;
                             _redraw();
                         }
                     }
@@ -174,38 +177,40 @@ namespace djv
 
             void IButton::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (!isEnabled() || _p->pressedId)
+                DJV_PRIVATE_PTR();
+                if (!isEnabled() || p.pressedId)
                     return;
                 event.accept();
-                _p->pressedId = event.getPointerInfo().id;
-                _p->pressedPos = event.getPointerInfo().projectedPos;
+                p.pressedId = event.getPointerInfo().id;
+                p.pressedPos = event.getPointerInfo().projectedPos;
                 _redraw();
             }
 
             void IButton::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
+                DJV_PRIVATE_PTR();
                 const auto id = event.getPointerInfo().id;
-                if (id == _p->pressedId)
+                if (id == p.pressedId)
                 {
                     event.accept();
-                    _p->pressedId = 0;
+                    p.pressedId = 0;
                     const BBox2f& g = getGeometry();
                     const auto & hover = _getPointerHover();
                     const auto i = hover.find(id);
                     if (i != hover.end() && g.contains(i->second))
                     {
                         _doClickedCallback();
-                        switch (_p->buttonType)
+                        switch (p.buttonType)
                         {
                         case ButtonType::Toggle:
-                            _p->checked = !_p->checked;
-                            _doCheckedCallback(_p->checked);
+                            p.checked = !p.checked;
+                            _doCheckedCallback(p.checked);
                             break;
                         case ButtonType::Radio:
-                            if (!_p->checked)
+                            if (!p.checked)
                             {
-                                _p->checked = true;
-                                _doCheckedCallback(_p->checked);
+                                p.checked = true;
+                                _doCheckedCallback(p.checked);
                             }
                             break;
                         default: break;
@@ -217,35 +222,36 @@ namespace djv
 
             bool IButton::_isToggled() const
             {
+                DJV_PRIVATE_PTR();
                 bool out = false;
-                if (_p->pressedId)
+                if (p.pressedId)
                 {
                     const auto & hover = _getPointerHover();
-                    const auto i = hover.find(_p->pressedId);
+                    const auto i = hover.find(p.pressedId);
                     if (i != hover.end())
                     {
                         const BBox2f& g = getGeometry();
-                        switch (_p->buttonType)
+                        switch (p.buttonType)
                         {
                         case ButtonType::Radio:
-                            if (_p->checked)
+                            if (p.checked)
                             {
-                                out = _p->checked;
+                                out = p.checked;
                             }
                             else
                             {
-                                out = g.contains(i->second) ? !_p->checked : _p->checked;
+                                out = g.contains(i->second) ? !p.checked : p.checked;
                             }
                             break;
                         default:
-                            out = g.contains(i->second) ? !_p->checked : _p->checked;
+                            out = g.contains(i->second) ? !p.checked : p.checked;
                             break;
                         }
                     }
                 }
                 else
                 {
-                    out = _p->checked;
+                    out = p.checked;
                 }
                 return out;
             }
@@ -278,17 +284,19 @@ namespace djv
 
             void IButton::_doClickedCallback()
             {
-                if (_p->clickedCallback)
+                DJV_PRIVATE_PTR();
+                if (p.clickedCallback)
                 {
-                    _p->clickedCallback();
+                    p.clickedCallback();
                 }
             }
 
             void IButton::_doCheckedCallback(bool value)
             {
-                if (_p->checkedCallback)
+                DJV_PRIVATE_PTR();
+                if (p.checkedCallback)
                 {
-                    _p->checkedCallback(value);
+                    p.checkedCallback(value);
                 }
             }
 

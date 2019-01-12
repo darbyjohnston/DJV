@@ -566,37 +566,38 @@ namespace djv
             setClassName("djv::UI::ScrollWidget");
             setBackgroundRole(Style::ColorRole::BackgroundText);
 
-            _p->scrollType = scrollType;
+            DJV_PRIVATE_PTR();
+            p.scrollType = scrollType;
 
-            _p->scrollArea = ScrollArea::create(scrollType, context);
-            _p->scrollArea->installEventFilter(shared_from_this());
+            p.scrollArea = ScrollArea::create(scrollType, context);
+            p.scrollArea->installEventFilter(shared_from_this());
 
-            _p->scrollAreaSwipe = Widget::create(context);
-            //_p->scrollAreaSwipe->setBackgroundRole(Style::ColorRole::Overlay);
-            _p->scrollAreaSwipe->setVisible(false);
-            _p->scrollAreaSwipe->installEventFilter(shared_from_this());
+            p.scrollAreaSwipe = Widget::create(context);
+            //p.scrollAreaSwipe->setBackgroundRole(Style::ColorRole::Overlay);
+            p.scrollAreaSwipe->setVisible(false);
+            p.scrollAreaSwipe->installEventFilter(shared_from_this());
 
-            _p->scrollBars[Orientation::Horizontal] = ScrollBar::create(Orientation::Horizontal, context);
-            _p->scrollBars[Orientation::Vertical] = ScrollBar::create(Orientation::Vertical, context);
+            p.scrollBars[Orientation::Horizontal] = ScrollBar::create(Orientation::Horizontal, context);
+            p.scrollBars[Orientation::Vertical] = ScrollBar::create(Orientation::Vertical, context);
 
             auto stackLayout = Layout::Stack::create(context);
-            stackLayout->addWidget(_p->scrollArea);
-            stackLayout->addWidget(_p->scrollAreaSwipe);
+            stackLayout->addWidget(p.scrollArea);
+            stackLayout->addWidget(p.scrollAreaSwipe);
             
             auto layout = Layout::Grid::create(context);
             layout->setSpacing(Style::MetricsRole::None);
             layout->addWidget(stackLayout, glm::ivec2(0, 0), Layout::GridStretch::Both);
-            layout->addWidget(_p->scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
-            layout->addWidget(_p->scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
+            layout->addWidget(p.scrollBars[Orientation::Horizontal], glm::ivec2(0, 1));
+            layout->addWidget(p.scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
             
-            _p->border = Layout::Border::create(context);
-            _p->border->addWidget(layout);
-            IContainer::addWidget(_p->border);
+            p.border = Layout::Border::create(context);
+            p.border->addWidget(layout);
+            IContainer::addWidget(p.border);
 
             _updateScrollBars(glm::vec2(0.f, 0.f));
 
             auto weak = std::weak_ptr<ScrollWidget>(std::dynamic_pointer_cast<ScrollWidget>(shared_from_this()));
-            _p->scrollArea->setScrollPosCallback(
+            p.scrollArea->setScrollPosCallback(
                 [weak](const glm::vec2& value)
             {
                 if (auto scroll = weak.lock())
@@ -617,7 +618,7 @@ namespace djv
                 }
             });
 
-            _p->scrollBars[Orientation::Horizontal]->setScrollPosCallback(
+            p.scrollBars[Orientation::Horizontal]->setScrollPosCallback(
                 [weak](float value)
             {
                 if (auto scroll = weak.lock())
@@ -629,7 +630,7 @@ namespace djv
                 }
             });
 
-            _p->scrollBars[Orientation::Vertical]->setScrollPosCallback(
+            p.scrollBars[Orientation::Vertical]->setScrollPosCallback(
                 [weak](float value)
             {
                 if (auto scroll = weak.lock())
@@ -641,9 +642,9 @@ namespace djv
                 }
             });
 
-            _p->pointerAverageTimer = Time::Timer::create(context);
-            _p->pointerAverageTimer->setRepeating(true);
-            _p->pointerAverageTimer->start(
+            p.pointerAverageTimer = Time::Timer::create(context);
+            p.pointerAverageTimer->setRepeating(true);
+            p.pointerAverageTimer->start(
                 std::chrono::milliseconds(pointerAverageDecayTimeout),
                 [weak](float value)
             {
@@ -656,9 +657,9 @@ namespace djv
                 }
             });
 
-            _p->swipeTimer = Time::Timer::create(context);
-            _p->swipeTimer->setRepeating(true);
-            _p->swipeTimer->start(
+            p.swipeTimer = Time::Timer::create(context);
+            p.swipeTimer->setRepeating(true);
+            p.swipeTimer->start(
                 std::chrono::milliseconds(velocityTimeout),
                 [weak](float value)
             {
@@ -755,8 +756,9 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                _p->border->setGeometry(getMargin().bbox(getGeometry(), style));
-                _updateScrollBars(_p->scrollArea->getContentsSize());
+                DJV_PRIVATE_PTR();
+                p.border->setGeometry(getMargin().bbox(getGeometry(), style));
+                _updateScrollBars(p.scrollArea->getContentsSize());
             }
         }
 
@@ -776,6 +778,7 @@ namespace djv
 
         bool ScrollWidget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)
         {
+            DJV_PRIVATE_PTR();
             switch (event.getEventType())
             {
             case Event::Type::PointerEnter:
@@ -784,23 +787,23 @@ namespace djv
             case Event::Type::PointerMove:
             {
                 auto& pointerEvent = static_cast<Event::PointerMove&>(event);
-                if (pointerEvent.getPointerInfo().id == _p->pointerID)
+                if (pointerEvent.getPointerInfo().id == p.pointerID)
                 {
                     pointerEvent.accept();
                     const glm::vec2& pos = pointerEvent.getPointerInfo().projectedPos;
-                    if (pos != _p->pointerPos)
+                    if (pos != p.pointerPos)
                     {
-                        const glm::vec2 delta = pos - _p->pointerPos;
-                        _p->pointerPos = pos;
+                        const glm::vec2 delta = pos - p.pointerPos;
+                        p.pointerPos = pos;
                         _addPointerSample(delta);
-                        _p->scrollArea->setScrollPos(_p->scrollArea->getScrollPos() + delta);
-                        if (!Math::haveSameSign(_p->swipeVelocity.x, delta.x))
+                        p.scrollArea->setScrollPos(p.scrollArea->getScrollPos() + delta);
+                        if (!Math::haveSameSign(p.swipeVelocity.x, delta.x))
                         {
-                            _p->swipeVelocity.x = 0.f;
+                            p.swipeVelocity.x = 0.f;
                         }
-                        if (!Math::haveSameSign(_p->swipeVelocity.y, delta.y))
+                        if (!Math::haveSameSign(p.swipeVelocity.y, delta.y))
                         {
-                            _p->swipeVelocity.y = 0.f;
+                            p.swipeVelocity.y = 0.f;
                         }
                     }
                 }
@@ -810,13 +813,13 @@ namespace djv
             case Event::Type::ButtonPress:
             {
                 auto& pointerEvent = static_cast<Event::ButtonPress&>(event);
-                if (!_p->pointerID)
+                if (!p.pointerID)
                 {
                     pointerEvent.accept();
-                    _p->pointerID = pointerEvent.getPointerInfo().id;
-                    _p->pointerPos = pointerEvent.getPointerInfo().projectedPos;
-                    _p->pointerAverage.clear();
-                    _p->scrollAreaSwipe->setVisible(true);
+                    p.pointerID = pointerEvent.getPointerInfo().id;
+                    p.pointerPos = pointerEvent.getPointerInfo().projectedPos;
+                    p.pointerAverage.clear();
+                    p.scrollAreaSwipe->setVisible(true);
                     return true;
                 }
                 break;
@@ -824,33 +827,33 @@ namespace djv
             case Event::Type::ButtonRelease:
             {
                 auto& pointerEvent = static_cast<Event::ButtonRelease&>(event);
-                if (pointerEvent.getPointerInfo().id == _p->pointerID)
+                if (pointerEvent.getPointerInfo().id == p.pointerID)
                 {
                     pointerEvent.accept();
-                    _p->pointerID = 0;
-                    _p->pointerPos = pointerEvent.getPointerInfo().projectedPos;
+                    p.pointerID = 0;
+                    p.pointerPos = pointerEvent.getPointerInfo().projectedPos;
                     const auto delta = _getPointerAverage();
                     if (glm::length(delta) < velocityStopDelta)
                     {
-                        _p->swipeVelocity = glm::vec2(0.f, 0.f);
+                        p.swipeVelocity = glm::vec2(0.f, 0.f);
                     }
                     else
                     {
-                        if (Math::haveSameSign(delta.x, _p->swipeVelocity.x))
+                        if (Math::haveSameSign(delta.x, p.swipeVelocity.x))
                         {
-                            _p->swipeVelocity.x += delta.x;
+                            p.swipeVelocity.x += delta.x;
                         }
                         else
                         {
-                            _p->swipeVelocity.x = delta.x;
+                            p.swipeVelocity.x = delta.x;
                         }
-                        if (Math::haveSameSign(delta.y, _p->swipeVelocity.y))
+                        if (Math::haveSameSign(delta.y, p.swipeVelocity.y))
                         {
-                            _p->swipeVelocity.y += delta.y;
+                            p.swipeVelocity.y += delta.y;
                         }
                         else
                         {
-                            _p->swipeVelocity.y = delta.y;
+                            p.swipeVelocity.y = delta.y;
                         }
                     }
                     return true;
@@ -864,12 +867,13 @@ namespace djv
 
         void ScrollWidget::_updateScrollBars(const glm::vec2& value)
         {
-            const BBox2f& g = _p->scrollArea->getGeometry();
+            DJV_PRIVATE_PTR();
+            const BBox2f& g = p.scrollArea->getGeometry();
             const float w = g.w();
             const float h = g.h();
 
             std::map<ScrollType, bool> visible;
-            switch (_p->scrollType)
+            switch (p.scrollType)
             {
             case ScrollType::Both:
                 visible[ScrollType::Horizontal] = visible[ScrollType::Vertical] = true;
@@ -885,34 +889,36 @@ namespace djv
             visible[ScrollType::Horizontal] = visible[ScrollType::Horizontal] && (value.x > w);
             visible[ScrollType::Vertical]   = visible[ScrollType::Vertical]   && (value.y > h);
 
-            _p->scrollBars[Orientation::Horizontal]->setViewSize(w);
-            _p->scrollBars[Orientation::Horizontal]->setContentsSize(value.x);
-            _p->scrollBars[Orientation::Horizontal]->setVisible(visible[ScrollType::Horizontal]);
+            p.scrollBars[Orientation::Horizontal]->setViewSize(w);
+            p.scrollBars[Orientation::Horizontal]->setContentsSize(value.x);
+            p.scrollBars[Orientation::Horizontal]->setVisible(visible[ScrollType::Horizontal]);
 
-            _p->scrollBars[Orientation::Vertical]->setViewSize(h);
-            _p->scrollBars[Orientation::Vertical]->setContentsSize(value.y);
-            _p->scrollBars[Orientation::Vertical]->setVisible(visible[ScrollType::Vertical]);
+            p.scrollBars[Orientation::Vertical]->setViewSize(h);
+            p.scrollBars[Orientation::Vertical]->setContentsSize(value.y);
+            p.scrollBars[Orientation::Vertical]->setVisible(visible[ScrollType::Vertical]);
         }
 
         void ScrollWidget::_addPointerSample(const glm::vec2& value)
         {
-            _p->pointerAverage.push_back(value);
-            while (_p->pointerAverage.size() > pointerAverageCount)
+            DJV_PRIVATE_PTR();
+            p.pointerAverage.push_back(value);
+            while (p.pointerAverage.size() > pointerAverageCount)
             {
-                _p->pointerAverage.pop_front();
+                p.pointerAverage.pop_front();
             }
         }
 
         glm::vec2 ScrollWidget::_getPointerAverage() const
         {
             glm::vec2 out = glm::vec2(0.f, 0.f);
-            if (_p->pointerAverage.size())
+            DJV_PRIVATE_PTR();
+            if (p.pointerAverage.size())
             {
-                for (const auto & velocity : _p->pointerAverage)
+                for (const auto & velocity : p.pointerAverage)
                 {
                     out += velocity;
                 }
-                out /= static_cast<float>(_p->pointerAverage.size());
+                out /= static_cast<float>(p.pointerAverage.size());
             }
             return out;
         }

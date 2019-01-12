@@ -71,9 +71,10 @@ namespace djv
 
             void Flow::setSpacing(const Spacing& value)
             {
-                if (value == _p->spacing)
+                DJV_PRIVATE_PTR();
+                if (value == p.spacing)
                     return;
-                _p->spacing = value;
+                p.spacing = value;
                 _resize();
             }
 

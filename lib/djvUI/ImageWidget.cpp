@@ -72,8 +72,9 @@ namespace djv
 
         void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image>& value, UID uid)
         {
-            _p->image = value;
-            _p->uid = uid;
+            DJV_PRIVATE_PTR();
+            p.image = value;
+            p.uid = uid;
             _resize();
         }
 
@@ -82,9 +83,10 @@ namespace djv
             if (auto style = _getStyle().lock())
             {
                 glm::vec2 size;
-                if (_p->image)
+                DJV_PRIVATE_PTR();
+                if (p.image)
                 {
-                    size = _p->image->getSize();
+                    size = p.image->getSize();
                 }
                 _setMinimumSize(size + getMargin().getSize(style));
             }
@@ -97,11 +99,12 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    if (_p->image)
+                    DJV_PRIVATE_PTR();
+                    if (p.image)
                     {
                         const BBox2f& g = getMargin().bbox(getGeometry(), style);
                         const glm::vec2 c = g.getCenter();
-                        const glm::vec2& size = _p->image->getSize();
+                        const glm::vec2& size = p.image->getSize();
                         glm::vec2 pos = glm::vec2(0.f, 0.f);
                         switch (getHAlign())
                         {
@@ -120,7 +123,7 @@ namespace djv
                         default: break;
                         }
                         render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                        render->drawImage(_p->image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Dynamic, _p->uid);
+                        render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Dynamic, p.uid);
                     }
                 }
             }

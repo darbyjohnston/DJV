@@ -73,13 +73,14 @@ namespace djv
                 closeAction->setShortcut(closeShortcut);
                 addAction(closeAction);
 
-                _p->layout = Stack::create(context);
-                IContainer::addWidget(_p->layout);
+                DJV_PRIVATE_PTR();
+                p.layout = Stack::create(context);
+                IContainer::addWidget(p.layout);
 
-                _p->fadeAnimation = Animation::Animation::create(context);
+                p.fadeAnimation = Animation::Animation::create(context);
 
                 auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
-                _p->closeObserver = ValueObserver<bool>::create(
+                p.closeObserver = ValueObserver<bool>::create(
                     closeAction->observeClicked(),
                     [weak](bool value)
                 {
@@ -258,43 +259,47 @@ namespace djv
 
             void Overlay::_buttonPressEvent(Event::ButtonPress& event)
             {
-                if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                DJV_PRIVATE_PTR();
+                if (p.capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
                 {
                     event.accept();
-                    _p->pressedIDs[event.getPointerInfo().id] = true;
-                    if (_p->closeCallback)
+                    p.pressedIDs[event.getPointerInfo().id] = true;
+                    if (p.closeCallback)
                     {
-                        _p->closeCallback();
+                        p.closeCallback();
                     }
                 }
             }
 
             void Overlay::_buttonReleaseEvent(Core::Event::ButtonRelease& event)
             {
-                const auto i = _p->pressedIDs.find(event.getPointerInfo().id);
-                if (i != _p->pressedIDs.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.pressedIDs.find(event.getPointerInfo().id);
+                if (i != p.pressedIDs.end())
                 {
                     event.accept();
-                    _p->pressedIDs.erase(i);
+                    p.pressedIDs.erase(i);
                 }
             }
 
             void Overlay::_keyPressEvent(Event::KeyPress& event)
             {
                 Widget::_keyPressEvent(event);
-                if (_p->captureKeyboard && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                DJV_PRIVATE_PTR();
+                if (p.captureKeyboard && !_isInsideAnchor(event.getPointerInfo().projectedPos))
                 {
                     event.accept();
-                    _p->keyPress = true;
+                    p.keyPress = true;
                 }
             }
 
             void Overlay::_keyReleaseEvent(Event::KeyRelease& event)
             {
-                if (_p->keyPress)
+                DJV_PRIVATE_PTR();
+                if (p.keyPress)
                 {
                     event.accept();
-                    _p->keyPress = false;
+                    p.keyPress = false;
                 }
             }
 

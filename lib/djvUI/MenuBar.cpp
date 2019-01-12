@@ -74,20 +74,21 @@ namespace djv
             closeAction->setShortcut(closeShortcut);
             addAction(closeAction);
 
-            _p->buttonLayout = Layout::Horizontal::create(context);
-            _p->buttonLayout->setSpacing(Style::MetricsRole::None);
+            DJV_PRIVATE_PTR();
+            p.buttonLayout = Layout::Horizontal::create(context);
+            p.buttonLayout->setSpacing(Style::MetricsRole::None);
 
-            _p->widgetLayout = Layout::Horizontal::create(context);
-            _p->widgetLayout->setSpacing(Style::MetricsRole::None);
+            p.widgetLayout = Layout::Horizontal::create(context);
+            p.widgetLayout->setSpacing(Style::MetricsRole::None);
 
-            _p->layout = Layout::Horizontal::create(context);
-            _p->layout->addWidget(_p->buttonLayout);
-            _p->layout->addExpander();
-            _p->layout->addWidget(_p->widgetLayout);
-            _p->layout->setParent(shared_from_this());
+            p.layout = Layout::Horizontal::create(context);
+            p.layout->addWidget(p.buttonLayout);
+            p.layout->addExpander();
+            p.layout->addWidget(p.widgetLayout);
+            p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
-            _p->closeObserver = ValueObserver<bool>::create(
+            p.closeObserver = ValueObserver<bool>::create(
                 closeAction->observeClicked(),
                 [weak](bool value)
             {
@@ -117,13 +118,14 @@ namespace djv
 
         void MenuBar::addMenu(const std::shared_ptr<Menu> & menu)
         {
-            _p->menus.push_back(menu);
+            DJV_PRIVATE_PTR();
+            p.menus.push_back(menu);
             
             auto button = Button::Menu::create(getContext());
             button->installEventFilter(shared_from_this());
-            _p->buttonLayout->addWidget(button);
+            p.buttonLayout->addWidget(button);
 
-            _p->menusToButtons[menu] = button;
+            p.menusToButtons[menu] = button;
 
             auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
             button->setCheckedCallback(
@@ -201,10 +203,11 @@ namespace djv
             case Event::Type::PointerEnter:
             {
                 bool checked = false;
-                for (const auto & i : _p->menus)
+                DJV_PRIVATE_PTR();
+                for (const auto & i : p.menus)
                 {
-                    auto j = _p->menusToButtons.find(i);
-                    if (j != _p->menusToButtons.end())
+                    auto j = p.menusToButtons.find(i);
+                    if (j != p.menusToButtons.end())
                     {
                         checked |= j->second->isChecked();
                     }

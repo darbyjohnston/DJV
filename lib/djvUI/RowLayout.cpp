@@ -91,10 +91,11 @@ namespace djv
             void Row::removeWidget(const std::shared_ptr<Widget>& value)
             {
                 value->setParent(nullptr);
-                const auto i = _p->stretch.find(value);
-                if (i != _p->stretch.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.stretch.find(value);
+                if (i != p.stretch.end())
                 {
-                    _p->stretch.erase(i);
+                    p.stretch.erase(i);
                 }
                 _resize();
             }
@@ -133,9 +134,10 @@ namespace djv
 
             void Row::setOrientation(Orientation value)
             {
-                if (value == _p->orientation)
+                DJV_PRIVATE_PTR();
+                if (value == p.orientation)
                     return;
-                _p->orientation = value;
+                p.orientation = value;
                 _resize();
             }
 
@@ -146,26 +148,29 @@ namespace djv
 
             void Row::setSpacing(const Spacing& value)
             {
-                if (value == _p->spacing)
+                DJV_PRIVATE_PTR();
+                if (value == p.spacing)
                     return;
-                _p->spacing = value;
+                p.spacing = value;
                 _resize();
             }
 
             RowStretch Row::getStretch(const std::shared_ptr<Widget>& value) const
             {
-                const auto i = _p->stretch.find(value);
-                return i != _p->stretch.end() ? i->second : RowStretch::First;
+                DJV_PRIVATE_PTR();
+                const auto i = p.stretch.find(value);
+                return i != p.stretch.end() ? i->second : RowStretch::First;
             }
 
             void Row::setStretch(const std::shared_ptr<Widget>& value, RowStretch stretch)
             {
-                const auto i = _p->stretch.find(value);
-                if (i != _p->stretch.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.stretch.find(value);
+                if (i != p.stretch.end())
                 {
                     if (stretch != i->second)
                     {
-                        _p->stretch[value] = stretch;
+                        p.stretch[value] = stretch;
                         _resize();
                     }
                 }
@@ -176,6 +181,8 @@ namespace djv
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
+                    DJV_PRIVATE_PTR();
+
                     // Get the child sizes.
                     const auto children = getChildrenT<Widget>();
                     size_t visibleChildren = 0;
@@ -184,7 +191,7 @@ namespace djv
                         if (child->isVisible())
                         {
                             const float heightForWidth = child->getHeightForWidth(value);
-                            switch (_p->orientation)
+                            switch (p.orientation)
                             {
                             case Orientation::Horizontal:
                                 out = std::max(out, heightForWidth);
@@ -201,8 +208,8 @@ namespace djv
                     // Adjust for spacing.
                     if (visibleChildren > 1)
                     {
-                        const glm::vec2 s = _p->spacing.get(style);
-                        switch (_p->orientation)
+                        const glm::vec2 s = p.spacing.get(style);
+                        switch (p.orientation)
                         {
                         case Orientation::Vertical:
                             out += s.y * (visibleChildren - 1);
@@ -220,6 +227,8 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
+                    DJV_PRIVATE_PTR();
+
                     // Get the child sizes.
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                     size_t visibleChildren = 0;
@@ -228,7 +237,7 @@ namespace djv
                         if (child->isVisible())
                         {
                             const glm::vec2& childMinimumSize = child->getMinimumSize();
-                            switch (_p->orientation)
+                            switch (p.orientation)
                             {
                             case Orientation::Horizontal:
                                 minimumSize.x += childMinimumSize.x;
@@ -247,8 +256,8 @@ namespace djv
                     // Adjust for spacing.
                     if (visibleChildren > 1)
                     {
-                        const glm::vec2 s = _p->spacing.get(style);
-                        switch (_p->orientation)
+                        const glm::vec2 s = p.spacing.get(style);
+                        switch (p.orientation)
                         {
                         case Orientation::Horizontal:
                             minimumSize.x += s.x * (visibleChildren - 1);
@@ -268,6 +277,8 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
+                    DJV_PRIVATE_PTR();
+
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     const float gw = g.w();
                     const float gh = g.h();
@@ -281,10 +292,10 @@ namespace djv
                     {
                         if (child->isVisible())
                         {
-                            switch (_p->orientation)
+                            switch (p.orientation)
                             {
                             case Orientation::Horizontal:
-                                switch (_p->stretch[child])
+                                switch (p.stretch[child])
                                 {
                                 case RowStretch::None:
                                     minimumSize.x += child->getMinimumSize().x;
@@ -296,7 +307,7 @@ namespace djv
                                 }
                                 break;
                             case Orientation::Vertical:
-                                switch (_p->stretch[child])
+                                switch (p.stretch[child])
                                 {
                                 case RowStretch::None:
                                     minimumSize.y += child->getMinimumSize().y;
@@ -314,10 +325,10 @@ namespace djv
                     }
 
                     // Adjust for spacing.
-                    const glm::vec2 s = _p->spacing.get(style);
+                    const glm::vec2 s = p.spacing.get(style);
                     if (visibleChildren > 1)
                     {
-                        switch (_p->orientation)
+                        switch (p.orientation)
                         {
                         case Orientation::Horizontal:
                             minimumSize.x += s.x * (visibleChildren - 1);
@@ -332,7 +343,7 @@ namespace djv
                     // Calculate the geometry.
                     std::vector<BBox2f> childrenGeometry;
                     glm::vec2 pos = g.min;
-                    switch (_p->orientation)
+                    switch (p.orientation)
                     {
                     case Orientation::Horizontal:
                     {
@@ -341,7 +352,7 @@ namespace djv
                             if (child->isVisible())
                             {
                                 float cellSize = 0.f;
-                                switch (_p->stretch[child])
+                                switch (p.stretch[child])
                                 {
                                 case RowStretch::None:
                                     cellSize = child->getMinimumSize().x;
@@ -365,7 +376,7 @@ namespace djv
                             if (child->isVisible())
                             {
                                 float cellSize = 0.f;
-                                switch (_p->stretch[child])
+                                switch (p.stretch[child])
                                 {
                                 case RowStretch::None:
                                     switch (child->getHAlign())

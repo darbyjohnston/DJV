@@ -198,15 +198,16 @@ namespace djv
                     auto layout = TooltipLayout::create(context);
                     layout->addWidget(border, anchor);
 
-                    _p->overlay = Layout::Overlay::create(context);
-                    _p->overlay->setCapturePointer(false);
-                    _p->overlay->setCaptureKeyboard(false);
-                    _p->overlay->setBackgroundRole(Style::ColorRole::None);
-                    _p->overlay->addWidget(layout);
+                    DJV_PRIVATE_PTR();
+                    p.overlay = Layout::Overlay::create(context);
+                    p.overlay->setCapturePointer(false);
+                    p.overlay->setCaptureKeyboard(false);
+                    p.overlay->setBackgroundRole(Style::ColorRole::None);
+                    p.overlay->addWidget(layout);
 
-                    window->addWidget(_p->overlay);
-                    _p->overlay->show();
-                    _p->anchor = anchor;
+                    window->addWidget(p.overlay);
+                    p.overlay->show();
+                    p.anchor = anchor;
                 }
             }
         }
@@ -217,9 +218,10 @@ namespace djv
 
         Tooltip::~Tooltip()
         {
-            if (auto window = _p->overlay->getWindow().lock())
+            DJV_PRIVATE_PTR();
+            if (auto window = p.overlay->getWindow().lock())
             {
-                window->removeWidget(_p->overlay);
+                window->removeWidget(p.overlay);
             }
         }
 

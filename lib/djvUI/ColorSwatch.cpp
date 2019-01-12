@@ -78,9 +78,10 @@ namespace djv
 
         void ColorSwatch::setColor(const AV::Image::Color& value)
         {
-            if (value == _p->color)
+            DJV_PRIVATE_PTR();
+            if (value == p.color)
                 return;
-            _p->color = value;
+            p.color = value;
             _redraw();
         }
 
@@ -91,9 +92,10 @@ namespace djv
 
         void ColorSwatch::setSwatchSize(Style::MetricsRole value)
         {
-            if (value == _p->swatchSize)
+            DJV_PRIVATE_PTR();
+            if (value == p.swatchSize)
                 return;
-            _p->swatchSize = value;
+            p.swatchSize = value;
             _resize();
         }
 

@@ -89,20 +89,21 @@ namespace djv
 
         void Icon::setIcon(const std::string& value)
         {
-            if (value == _p->name)
+            DJV_PRIVATE_PTR();
+            if (value == p.name)
                 return;
-            _p->name = value;
+            p.name = value;
             if (auto style = _getStyle().lock())
             {
                 if (auto system = _getIconSystem().lock())
                 {
-                    _p->infoFuture = system->getInfo(_p->name, style->getDPI());
-                    _p->imageFuture = system->getImage(_p->name, style->getDPI());
+                    p.infoFuture = system->getInfo(p.name, style->getDPI());
+                    p.imageFuture = system->getImage(p.name, style->getDPI());
                 }
             }
-            if (_p->name.empty())
+            if (p.name.empty())
             {
-                _p->uid = 0;
+                p.uid = 0;
             }
         }
 
@@ -113,9 +114,10 @@ namespace djv
 
         void Icon::setIconColorRole(Style::ColorRole value)
         {
-            if (value == _p->iconColorRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.iconColorRole)
                 return;
-            _p->iconColorRole = value;
+            p.iconColorRole = value;
             _redraw();
         }
 
@@ -126,22 +128,24 @@ namespace djv
 
         void Icon::setIconSizeRole(Style::MetricsRole value)
         {
-            if (value == _p->iconSizeRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.iconSizeRole)
                 return;
-            _p->iconSizeRole = value;
+            p.iconSizeRole = value;
             _resize();
         }
 
         void Icon::_styleEvent(Event::Style& event)
         {
-            if (!_p->name.empty())
+            DJV_PRIVATE_PTR();
+            if (!p.name.empty())
             {
                 if (auto style = _getStyle().lock())
                 {
                     if (auto system = _getIconSystem().lock())
                     {
-                        _p->infoFuture = system->getInfo(_p->name, style->getDPI());
-                        _p->imageFuture = system->getImage(_p->name, style->getDPI());
+                        p.infoFuture = system->getInfo(p.name, style->getDPI());
+                        p.imageFuture = system->getImage(p.name, style->getDPI());
                     }
                 }
             }
@@ -151,8 +155,9 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                const float i = style->getMetric(_p->iconSizeRole);
-                glm::vec2 size = _p->info.size;
+                DJV_PRIVATE_PTR();
+                const float i = style->getMetric(p.iconSizeRole);
+                glm::vec2 size = p.info.size;
                 size.x = std::max(size.x, i);
                 size.y = std::max(size.y, i);
                 _setMinimumSize(size + getMargin().getSize(style));
@@ -170,9 +175,10 @@ namespace djv
                     const glm::vec2 c = g.getCenter();
 
                     // Draw the icon.
-                    if (_p->image && _p->image->isValid())
+                    DJV_PRIVATE_PTR();
+                    if (p.image && p.image->isValid())
                     {
-                        const glm::vec2& size = _p->info.size;
+                        const glm::vec2& size = p.info.size;
                         glm::vec2 pos = glm::vec2(0.f, 0.f);
                         switch (getHAlign())
                         {
@@ -190,15 +196,15 @@ namespace djv
                         case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                         default: break;
                         }
-                        if (_p->iconColorRole != Style::ColorRole::None)
+                        if (p.iconColorRole != Style::ColorRole::None)
                         {
-                            render->setFillColor(_getColorWithOpacity(style->getColor(_p->iconColorRole)));
-                            render->drawFilledImage(_p->image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, _p->uid);
+                            render->setFillColor(_getColorWithOpacity(style->getColor(p.iconColorRole)));
+                            render->drawFilledImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, p.uid);
                         }
                         else
                         {
                             render->setFillColor(_getColorWithOpacity(AV::Image::Color(1.f, 1.f, 1.f)));
-                            render->drawImage(_p->image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, _p->uid);
+                            render->drawImage(p.image, BBox2f(pos.x, pos.y, size.x, size.y), AV::Render::Render2DSystem::ImageType::Static, p.uid);
                         }
                     }
                 }
@@ -207,36 +213,37 @@ namespace djv
 
         void Icon::_updateEvent(Core::Event::Update&)
         {
-            if (_p->infoFuture.valid() &&
-                _p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            DJV_PRIVATE_PTR();
+            if (p.infoFuture.valid() &&
+                p.infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
                 {
-                    const auto info = _p->infoFuture.get();
+                    const auto info = p.infoFuture.get();
                     if (info.video.size())
                     {
-                        _p->info = info.video.front().info;
+                        p.info = info.video.front().info;
                     }
                 }
                 catch (const std::exception & e)
                 {
-                    _p->info = AV::Image::Info();
+                    p.info = AV::Image::Info();
                     //_log(e.what(), LogLevel::Error);
                 }
                 _resize();
             }
-            if (_p->imageFuture.valid() &&
-                _p->imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            if (p.imageFuture.valid() &&
+                p.imageFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
                 {
-                    _p->image = _p->imageFuture.get();
-                    _p->uid = createUID();
+                    p.image = p.imageFuture.get();
+                    p.uid = createUID();
                 }
                 catch (const std::exception & e)
                 {
-                    _p->image = nullptr;
-                    _p->uid = 0;
+                    p.image = nullptr;
+                    p.uid = 0;
                     //_log(e.what(), LogLevel::Error);
                 }
                 _resize();

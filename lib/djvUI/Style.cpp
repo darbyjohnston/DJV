@@ -217,10 +217,11 @@ namespace djv
 
             void Style::setPalette(const Palette & value)
             {
-                if (value == _p->palette)
+                DJV_PRIVATE_PTR();
+                if (value == p.palette)
                     return;
-                _p->palette = value;
-                _p->dirty = true;
+                p.palette = value;
+                p.dirty = true;
             }
 
             int Style::getDPI() const
@@ -245,18 +246,20 @@ namespace djv
 
             void Style::setDPI(int value)
             {
-                if (value == _p->dpi)
+                DJV_PRIVATE_PTR();
+                if (value == p.dpi)
                     return;
-                _p->dpi = value;
-                _p->dirty = true;
+                p.dpi = value;
+                p.dirty = true;
             }
 
             void Style::setMetrics(const Metrics & value)
             {
-                if (value == _p->metrics)
+                DJV_PRIVATE_PTR();
+                if (value == p.metrics)
                     return;
-                _p->metrics = value;
-                _p->dirty = true;
+                p.metrics = value;
+                p.dirty = true;
             }
 
             const std::string Style::getFont() const
@@ -266,15 +269,17 @@ namespace djv
 
             AV::Font::Info Style::getFont(const std::string & face, MetricsRole role) const
             {
-                return AV::Font::Info(_p->font, face, _p->metrics.getMetric(role), _p->dpi);
+                DJV_PRIVATE_PTR();
+                return AV::Font::Info(p.font, face, p.metrics.getMetric(role), p.dpi);
             }
 
             void Style::setFont(const std::string & value)
             {
-                if (value == _p->font)
+                DJV_PRIVATE_PTR();
+                if (value == p.font)
                     return;
-                _p->font = value;
-                _p->dirty = true;
+                p.font = value;
+                p.dirty = true;
             }
 
             bool Style::isDirty() const

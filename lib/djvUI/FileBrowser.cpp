@@ -460,9 +460,10 @@ namespace djv
 
             void Widget::setViewType(ViewType value)
             {
-                if (value == _p->viewType)
+                DJV_PRIVATE_PTR();
+                if (value == p.viewType)
                     return;
-                _p->viewType = value;
+                p.viewType = value;
                 _updateItems();
             }
 
@@ -532,9 +533,10 @@ namespace djv
 
             void Widget::_updateEvent(Event::Update& event)
             {
+                DJV_PRIVATE_PTR();
                 {
-                    auto i = _p->infoFutures.begin();
-                    while (i != _p->infoFutures.end())
+                    auto i = p.infoFutures.begin();
+                    while (i != p.infoFutures.end())
                     {
                         if (i->future.valid() &&
                             i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
@@ -549,9 +551,9 @@ namespace djv
                                 auto widget = i->widget.lock();
                                 if (thumbnailSystem && ioSystem && style && widget)
                                 {
-                                    widget->setTooltip(_p->getTooltip(i->fileInfo, info, context));
+                                    widget->setTooltip(p.getTooltip(i->fileInfo, info, context));
                                     int t = 0;
-                                    switch (_p->viewType)
+                                    switch (p.viewType)
                                     {
                                     case ViewType::ThumbnailsLarge: t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::ThumbnailLarge)); break;
                                     case ViewType::ThumbnailsSmall: t = static_cast<int>(style->getMetric(UI::Style::MetricsRole::ThumbnailSmall)); break;
@@ -574,22 +576,22 @@ namespace djv
                                     Private::ImageFuture future;
                                     future.future = thumbnailSystem->getImage(i->fileInfo.getPath(), thumbnailSize);
                                     future.widget = i->widget;
-                                    _p->imageFutures.push_back(std::move(future));
+                                    p.imageFutures.push_back(std::move(future));
                                 }
                             }
                             catch (const std::exception & e)
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
-                            i = _p->infoFutures.erase(i);
+                            i = p.infoFutures.erase(i);
                             continue;
                         }
                         ++i;
                     }
                 }
                 {
-                    auto i = _p->imageFutures.begin();
-                    while (i != _p->imageFutures.end())
+                    auto i = p.imageFutures.begin();
+                    while (i != p.imageFutures.end())
                     {
                         if (i->future.valid() &&
                             i->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
@@ -606,7 +608,7 @@ namespace djv
                             {
                                 _log(e.what(), LogLevel::Error);
                             }
-                            i = _p->imageFutures.erase(i);
+                            i = p.imageFutures.erase(i);
                             continue;
                         }
                         ++i;
@@ -624,8 +626,9 @@ namespace djv
                     {
                         if (!button->isClipped())
                         {
-                            const auto i = _p->buttonToFileInfo.find(button);
-                            if (i != _p->buttonToFileInfo.end())
+                            DJV_PRIVATE_PTR();
+                            const auto i = p.buttonToFileInfo.find(button);
+                            if (i != p.buttonToFileInfo.end())
                             {
                                 auto context = getContext();
                                 if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>().lock())
@@ -640,13 +643,13 @@ namespace djv
                                                 future.fileInfo = i->second;
                                                 future.future = thumbnailSystem->getInfo(i->second.getPath());
                                                 future.widget = button;
-                                                _p->infoFutures.push_back(std::move(future));
+                                                p.infoFutures.push_back(std::move(future));
                                             }
                                         }
                                     }
                                 }
                                 button->removeEventFilter(shared_from_this());
-                                _p->buttonToFileInfo.erase(i);
+                                p.buttonToFileInfo.erase(i);
                             }
                         }
                     }
@@ -660,22 +663,23 @@ namespace djv
             void Widget::_updateItems()
             {
                 auto context = getContext();
-                _p->buttonToFileInfo.clear();
-                _p->iconsLayout->clearWidgets();
-                _p->listLayout->clearWidgets();
-                _p->infoFutures.clear();
-                _p->imageFutures.clear();
+                DJV_PRIVATE_PTR();
+                p.buttonToFileInfo.clear();
+                p.iconsLayout->clearWidgets();
+                p.listLayout->clearWidgets();
+                p.infoFutures.clear();
+                p.imageFutures.clear();
                 auto weak = std::weak_ptr<Widget>(std::dynamic_pointer_cast<Widget>(shared_from_this()));
-                for (const auto & fileInfo : _p->fileInfoList)
+                for (const auto & fileInfo : p.fileInfoList)
                 {
-                    auto button = ItemButton::create(_p->viewType, context);
+                    auto button = ItemButton::create(p.viewType, context);
                     button->setText(fileInfo.getFileName(Frame::Invalid, false));
-                    button->setTooltip(_p->getTooltip(fileInfo, context));
+                    button->setTooltip(p.getTooltip(fileInfo, context));
                     std::string name;
                     switch (fileInfo.getType())
                     {
                     case FileSystem::FileType::Directory:
-                        switch (_p->viewType)
+                        switch (p.viewType)
                         {
                         case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserDirectoryLarge"; break;
                         case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserDirectorySmall"; break;
@@ -684,7 +688,7 @@ namespace djv
                         }
                         break;
                     default:
-                        switch (_p->viewType)
+                        switch (p.viewType)
                         {
                         case ViewType::ThumbnailsLarge: name = "djvIconFileBrowserFileLarge"; break;
                         case ViewType::ThumbnailsSmall: name = "djvIconFileBrowserFileSmall"; break;
@@ -699,7 +703,7 @@ namespace djv
                     }
                     Style::MetricsRole iconSizeRole = Style::MetricsRole::None;
                     Style::MetricsRole textSizeRole = Style::MetricsRole::None;
-                    switch (_p->viewType)
+                    switch (p.viewType)
                     {
                     case ViewType::ThumbnailsLarge: textSizeRole = Style::MetricsRole::ThumbnailLarge; break;
                     case ViewType::ThumbnailsSmall: textSizeRole = Style::MetricsRole::ThumbnailSmall; break;
@@ -708,14 +712,14 @@ namespace djv
                     }
                     button->setIconSizeRole(iconSizeRole);
                     button->setTextSizeRole(textSizeRole);
-                    switch (_p->viewType)
+                    switch (p.viewType)
                     {
                     case ViewType::ThumbnailsLarge:
-                    case ViewType::ThumbnailsSmall: _p->iconsLayout->addWidget(button); break;
-                    case ViewType::ListView:        _p->listLayout->addWidget(button);  break;
+                    case ViewType::ThumbnailsSmall: p.iconsLayout->addWidget(button); break;
+                    case ViewType::ListView:        p.listLayout->addWidget(button);  break;
                     default: break;
                     }
-                    _p->buttonToFileInfo[button] = fileInfo;
+                    p.buttonToFileInfo[button] = fileInfo;
                     button->installEventFilter(shared_from_this());
                     button->setClickedCallback(
                         [weak, fileInfo]
@@ -923,25 +927,26 @@ namespace djv
             void DialogSystem::show(const std::function<void(const FileSystem::FileInfo &)> & callback)
             {
                 auto context = getContext();
-                if (!_p->dialog)
+                DJV_PRIVATE_PTR();
+                if (!p.dialog)
                 {
-                    _p->dialog = Dialog::create(context);
+                    p.dialog = Dialog::create(context);
                     auto border = Layout::Border::create(context);
-                    border->addWidget(_p->dialog);
-                    _p->overlay = Layout::Overlay::create(context);
-                    _p->overlay->setBackgroundRole(Style::ColorRole::Overlay);
-                    _p->overlay->setMargin(Style::MetricsRole::MarginLarge);
-                    _p->overlay->addWidget(border);
+                    border->addWidget(p.dialog);
+                    p.overlay = Layout::Overlay::create(context);
+                    p.overlay->setBackgroundRole(Style::ColorRole::Overlay);
+                    p.overlay->setMargin(Style::MetricsRole::MarginLarge);
+                    p.overlay->addWidget(border);
                 }
                 if (auto windowSystem = context->getSystemT<UI::IWindowSystem>().lock())
                 {
                     if (auto window = windowSystem->observeCurrentWindow()->get())
                     {
-                        window->addWidget(_p->overlay);
-                        _p->overlay->show();
+                        window->addWidget(p.overlay);
+                        p.overlay->show();
 
                         auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                        _p->dialog->setCallback(
+                        p.dialog->setCallback(
                             [weak, window, callback](const FileSystem::FileInfo & value)
                         {
                             if (auto system = weak.lock())
@@ -950,7 +955,7 @@ namespace djv
                                 callback(value);
                             }
                         });
-                        _p->dialog->setCloseCallback(
+                        p.dialog->setCloseCallback(
                             [weak, window]
                         {
                             if (auto system = weak.lock())
@@ -958,7 +963,7 @@ namespace djv
                                 window->removeWidget(system->_p->overlay);
                             }
                         });
-                        _p->overlay->setCloseCallback(
+                        p.overlay->setCloseCallback(
                             [weak, window]
                         {
                             if (auto system = weak.lock())

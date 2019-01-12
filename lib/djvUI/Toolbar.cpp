@@ -60,9 +60,10 @@ namespace djv
 
             setClassName("djv::UI::Toolbar");
 
-            _p->layout = Layout::Horizontal::create(context);
-            _p->layout->setSpacing(Style::MetricsRole::None);
-            _p->layout->setParent(shared_from_this());
+            DJV_PRIVATE_PTR();
+            p.layout = Layout::Horizontal::create(context);
+            p.layout->setSpacing(Style::MetricsRole::None);
+            p.layout->setParent(shared_from_this());
         }
 
         Toolbar::Toolbar() :
@@ -114,7 +115,8 @@ namespace djv
         {
             Widget::addAction(action);
             auto button = Button::Tool::create(getContext());
-            _p->layout->addWidget(button);
+            DJV_PRIVATE_PTR();
+            p.layout->addWidget(button);
             button->setClickedCallback(
                 [action]
             {
@@ -126,32 +128,32 @@ namespace djv
                 action->setChecked(value);
                 action->doChecked();
             });
-            _p->actionsToButtons[action] = button;
-            _p->observers[action].buttonType = ValueObserver<ButtonType>::create(
+            p.actionsToButtons[action] = button;
+            p.observers[action].buttonType = ValueObserver<ButtonType>::create(
                 action->observeButtonType(),
                 [button](ButtonType value)
             {
                 button->setButtonType(value);
             });
-            _p->observers[action].checked = ValueObserver<bool>::create(
+            p.observers[action].checked = ValueObserver<bool>::create(
                 action->observeChecked(),
                 [button](bool value)
             {
                 button->setChecked(value);
             });
-            _p->observers[action].icon = ValueObserver<std::string>::create(
+            p.observers[action].icon = ValueObserver<std::string>::create(
                 action->observeIcon(),
                 [button](const std::string & value)
             {
                 button->setIcon(value);
             });
-            _p->observers[action].enabled = ValueObserver<bool>::create(
+            p.observers[action].enabled = ValueObserver<bool>::create(
                 action->observeEnabled(),
                 [button](bool value)
             {
                 button->setEnabled(value);
             });
-            _p->observers[action].tooltip = ValueObserver<std::string>::create(
+            p.observers[action].tooltip = ValueObserver<std::string>::create(
                 action->observeTooltip(),
                 [button](const std::string & value)
             {
@@ -162,27 +164,29 @@ namespace djv
         void Toolbar::removeAction(const std::shared_ptr<Action>& action)
         {
             Widget::removeAction(action);
-            const auto i = _p->actionsToButtons.find(action);
-            if (i != _p->actionsToButtons.end())
+            DJV_PRIVATE_PTR();
+            const auto i = p.actionsToButtons.find(action);
+            if (i != p.actionsToButtons.end())
             {
-                _p->actionsToButtons.erase(i);
+                p.actionsToButtons.erase(i);
             }
-            const auto j = _p->observers.find(action);
-            if (j != _p->observers.end())
+            const auto j = p.observers.find(action);
+            if (j != p.observers.end())
             {
-                _p->observers.erase(j);
+                p.observers.erase(j);
             }
         }
 
         void Toolbar::clearActions()
         {
             Widget::clearActions();
-            for (auto i : _p->actionsToButtons)
+            DJV_PRIVATE_PTR();
+            for (auto i : p.actionsToButtons)
             {
-                _p->layout->removeWidget(i.second);
+                p.layout->removeWidget(i.second);
             }
-            _p->actionsToButtons.clear();
-            _p->observers.clear();
+            p.actionsToButtons.clear();
+            p.observers.clear();
         }
 
         void Toolbar::addSeparator()

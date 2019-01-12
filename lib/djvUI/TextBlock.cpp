@@ -52,6 +52,7 @@ namespace djv
             Style::MetricsRole textSizeRole = Style::MetricsRole::TextColumn;
             std::string fontFace = AV::Font::Info::faceDefault;
             Style::MetricsRole fontSizeRole = Style::MetricsRole::FontMedium;
+            float ascender = 0.f;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             AV::Font::Metrics fontMetrics;
             float heightForWidth = 0.f;
@@ -100,13 +101,14 @@ namespace djv
 
         void TextBlock::setText(const std::string& value)
         {
-            if (value == _p->text)
+            DJV_PRIVATE_PTR();
+            if (value == p.text)
                 return;
-            _p->text = value;
-            _p->heightForWidthHash = 0;
-            _p->textSizeHash = 0;
-            _p->breakTextHash = 0;
-            _resize();
+            p.text = value;
+            p.heightForWidthHash = 0;
+            p.textSizeHash = 0;
+            p.breakTextHash = 0;
+            _updateText();
         }
 
         TextHAlign TextBlock::getTextHAlign() const
@@ -116,9 +118,10 @@ namespace djv
         
         void TextBlock::setTextHAlign(TextHAlign value)
         {
-            if (value == _p->textHAlign)
+            DJV_PRIVATE_PTR();
+            if (value == p.textHAlign)
                 return;
-            _p->textHAlign = value;
+            p.textHAlign = value;
             _resize();
         }
 
@@ -129,9 +132,10 @@ namespace djv
 
         void TextBlock::setTextColorRole(Style::ColorRole value)
         {
-            if (value == _p->textColorRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.textColorRole)
                 return;
-            _p->textColorRole = value;
+            p.textColorRole = value;
             _redraw();
         }
 
@@ -142,10 +146,11 @@ namespace djv
 
         void TextBlock::setTextSizeRole(Style::MetricsRole value)
         {
-            if (value == _p->textSizeRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.textSizeRole)
                 return;
-            _p->textSizeRole = value;
-            _resize();
+            p.textSizeRole = value;
+            _updateText();
         }
 
         const std::string & TextBlock::getFontFace() const
@@ -160,18 +165,20 @@ namespace djv
 
         void TextBlock::setFontFace(const std::string & value)
         {
-            if (value == _p->fontFace)
+            DJV_PRIVATE_PTR();
+            if (value == p.fontFace)
                 return;
-            _p->fontFace = value;
-            _resize();
+            p.fontFace = value;
+            _updateText();
         }
 
         void TextBlock::setFontSizeRole(Style::MetricsRole value)
         {
-            if (value == _p->fontSizeRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.fontSizeRole)
                 return;
-            _p->fontSizeRole = value;
-            _resize();
+            p.fontSizeRole = value;
+            _updateText();
         }
 
         float TextBlock::getHeightForWidth(float value) const
@@ -179,9 +186,10 @@ namespace djv
             float out = 0.f;
             if (auto style = _getStyle().lock())
             {
+                DJV_PRIVATE_PTR();
                 if (auto fontSystem = _getFontSystem().lock())
                 {
-                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    const auto font = style->getFont(p.fontFace, p.fontSizeRole);
                     const float w = value - getMargin().getWidth(style);
 
                     size_t hash = 0;
@@ -189,28 +197,54 @@ namespace djv
                     Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
                     Memory::hashCombine(hash, w);
-                    if (!_p->heightForWidthHash || _p->heightForWidthHash != hash)
+                    if (!p.heightForWidthHash || p.heightForWidthHash != hash)
                     {
-                        _p->heightForWidthHash = hash;
-                        _p->heightForWidth = fontSystem->measure(_p->text, w, font).get().y;
+                        p.heightForWidthHash = hash;
+                        p.heightForWidth = fontSystem->measure(p.text, w, font).get().y;
                     }
                 }
-                out = _p->heightForWidth + getMargin().getHeight(style);
+                out = p.heightForWidth + getMargin().getHeight(style);
             }
             return out;
+        }
+
+        void TextBlock::_styleEvent(Event::Style& event)
+        {
+            _updateText();
         }
 
         void TextBlock::_preLayoutEvent(Event::PreLayout& event)
         {
             if (auto style = _getStyle().lock())
             {
-                if (_p->textSizeFuture.valid())
+                DJV_PRIVATE_PTR();
+                if (p.fontMetricsFuture.valid())
                 {
-                    _p->textSize = _p->textSizeFuture.get();
-                    _resize();
+                    try
+                    {
+                        p.ascender = p.fontMetricsFuture.get().ascender;
+                        _resize();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        //_log(e.what(), LogLevel::Error);
+                    }
                 }
-                auto size = _p->textSize;
-                size.x = std::max(size.x, style->getMetric(_p->textSizeRole));
+                if (p.textSizeFuture.valid())
+                {
+                    try
+                    {
+                        p.textSize = p.textSizeFuture.get();
+                        _resize();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        //_log(e.what(), LogLevel::Error);
+                    }
+                }
+
+                auto size = p.textSize;
+                size.x = std::max(size.x, style->getMetric(p.textSizeRole));
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }
@@ -221,18 +255,19 @@ namespace djv
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
+                    DJV_PRIVATE_PTR();
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    const auto font = style->getFont(p.fontFace, p.fontSizeRole);
 
                     size_t hash = 0;
                     Memory::hashCombine(hash, font.family);
                     Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
                     Memory::hashCombine(hash, g.w());
-                    if (!_p->breakTextHash || _p->breakTextHash != hash)
+                    if (!p.breakTextHash || p.breakTextHash != hash)
                     {
-                        _p->breakTextHash = hash;
-                        _p->breakTextFuture = fontSystem->breakLines(_p->text, g.w(), font);
+                        p.breakTextHash = hash;
+                        p.breakTextFuture = fontSystem->breakLines(p.text, g.w(), font);
                     }
                 }
             }
@@ -250,27 +285,23 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    if (_p->textSize.x > 0.f && _p->textSize.y > 0.f)
+                    DJV_PRIVATE_PTR();
+                    if (p.textSize.x > 0.f && p.textSize.y > 0.f)
                     {
                         const BBox2f& g = getMargin().bbox(getGeometry(), style);
                         const glm::vec2 c = g.getCenter();
 
-                        float ascender = 0.f;
-                        if (_p->fontMetricsFuture.valid())
+                        if (p.breakTextFuture.valid())
                         {
-                            ascender = _p->fontMetricsFuture.get().ascender;
-                        }
-                        if (_p->breakTextFuture.valid())
-                        {
-                            _p->breakText = _p->breakTextFuture.get();
+                            p.breakText = p.breakTextFuture.get();
                         }
                         glm::vec2 pos = g.min;
-                        render->setCurrentFont(style->getFont(_p->fontFace, _p->fontSizeRole));
-                        for (const auto& line : _p->breakText)
+                        render->setCurrentFont(style->getFont(p.fontFace, p.fontSizeRole));
+                        for (const auto& line : p.breakText)
                         {
-                            if (pos.y + line.size.y >= _p->clipRect.min.y && pos.y <= _p->clipRect.max.y)
+                            if (pos.y + line.size.y >= p.clipRect.min.y && pos.y <= p.clipRect.max.y)
                             {
-                                switch (_p->textHAlign)
+                                switch (p.textHAlign)
                                 {
                                 case TextHAlign::Center:
                                     pos.x = c.x - line.size.x / 2.f;
@@ -284,8 +315,8 @@ namespace djv
                                 //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
                                 //render->drawRectangle(BBox2f(pos.x, pos.y, line.size.x, line.size.y));
 
-                                render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
-                                render->drawText(line.text, glm::vec2(pos.x, pos.y + ascender));
+                                render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+                                render->drawText(line.text, glm::vec2(pos.x, pos.y + p.ascender));
                             }
                             pos.y += line.size.y;
                         }
@@ -294,7 +325,7 @@ namespace djv
             }
         }
 
-        void TextBlock::_updateEvent(Event::Update& event)
+        void TextBlock::_updateText()
         {
             if (auto style = _getStyle().lock())
             {
@@ -302,19 +333,20 @@ namespace djv
                 {
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
-                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
+                    DJV_PRIVATE_PTR();
+                    auto font = style->getFont(p.fontFace, p.fontSizeRole);
+                    p.fontMetricsFuture = fontSystem->getMetrics(font);
 
                     size_t hash = 0;
                     Memory::hashCombine(hash, font.family);
                     Memory::hashCombine(hash, font.face);
                     Memory::hashCombine(hash, font.size);
-                    const float w = g.w() > 0 ? g.w() : style->getMetric(_p->textSizeRole);
+                    const float w = g.w() > 0 ? g.w() : style->getMetric(p.textSizeRole);
                     Memory::hashCombine(hash, w);
-                    if (!_p->textSizeHash || _p->textSizeHash != hash)
+                    if (!p.textSizeHash || p.textSizeHash != hash)
                     {
-                        _p->textSizeHash = hash;
-                        _p->textSizeFuture = fontSystem->measure(_p->text, w, font);
+                        p.textSizeHash = hash;
+                        p.textSizeFuture = fontSystem->measure(p.text, w, font);
                     }
                 }
             }

@@ -67,19 +67,20 @@ namespace djv
 
             setClassName("djv::UI::ComboBox");
 
-            _p->actionGroup = ActionGroup::create(ButtonType::Radio);
+            DJV_PRIVATE_PTR();
+            p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
-            _p->menu = Menu::create(context);
+            p.menu = Menu::create(context);
 
-            _p->button = Button::Menu::create(context);
-            _p->button->setBorder(true);
-            _p->button->setBackgroundRole(Style::ColorRole::Button);
-            _p->button->setParent(shared_from_this());
+            p.button = Button::Menu::create(context);
+            p.button->setBorder(true);
+            p.button->setBackgroundRole(Style::ColorRole::Button);
+            p.button->setParent(shared_from_this());
 
             _updateCurrentItem();
 
             auto weak = std::weak_ptr<ComboBox>(std::dynamic_pointer_cast<ComboBox>(shared_from_this()));
-            _p->actionGroup->setRadioCallback(
+            p.actionGroup->setRadioCallback(
                 [weak](int value)
             {
                 if (auto widget = weak.lock())
@@ -93,7 +94,7 @@ namespace djv
                 }
             });
 
-            _p->menu->setCloseCallback(
+            p.menu->setCloseCallback(
                 [weak]
             {
                 if (auto widget = weak.lock())
@@ -102,7 +103,7 @@ namespace djv
                 }
             });
 
-            _p->button->setCheckedCallback(
+            p.button->setCheckedCallback(
                 [weak](bool value)
             {
                 if (auto widget = weak.lock())
@@ -148,34 +149,37 @@ namespace djv
 
         void ComboBox::setItems(const std::vector<std::string> & value)
         {
-            if (value == _p->items)
+            DJV_PRIVATE_PTR();
+            if (value == p.items)
                 return;
-            _p->items = value;
+            p.items = value;
             _updateItems();
-            setCurrentItem(_p->currentItem);
+            setCurrentItem(p.currentItem);
         }
 
         void ComboBox::addItem(const std::string & value)
         {
-            _p->items.push_back(value);
+            DJV_PRIVATE_PTR();
+            p.items.push_back(value);
             auto action = Action::create();
             action->setText(value);
-            _p->actionGroup->addAction(action);
-            _p->menu->addAction(action);
-            if (-1 == _p->currentItem)
+            p.actionGroup->addAction(action);
+            p.menu->addAction(action);
+            if (-1 == p.currentItem)
             {
-                _p->currentItem = 0;
+                p.currentItem = 0;
                 _updateCurrentItem();
             }
         }
 
         void ComboBox::clearItems()
         {
-            if (_p->items.size())
+            DJV_PRIVATE_PTR();
+            if (p.items.size())
             {
-                _p->items.clear();
+                p.items.clear();
                 _updateItems();
-                _p->currentItem = -1;
+                p.currentItem = -1;
                 _updateCurrentItem();
             }
         }
@@ -187,10 +191,11 @@ namespace djv
 
         void ComboBox::setCurrentItem(int value)
         {
-            const int tmp = Math::clamp(value, 0, static_cast<int>(_p->items.size()) - 1);
-            if (tmp == _p->currentItem)
+            DJV_PRIVATE_PTR();
+            const int tmp = Math::clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+            if (tmp == p.currentItem)
                 return;
-            _p->currentItem = tmp;
+            p.currentItem = tmp;
             _updateCurrentItem();
         }
 
@@ -211,23 +216,25 @@ namespace djv
 
         void ComboBox::_updateItems()
         {
-            _p->actionGroup->clearActions();
-            _p->menu->clearActions();
-            for (const auto & i : _p->items)
+            DJV_PRIVATE_PTR();
+            p.actionGroup->clearActions();
+            p.menu->clearActions();
+            for (const auto & i : p.items)
             {
                 auto action = Action::create();
                 action->setText(i);
-                _p->actionGroup->addAction(action);
-                _p->menu->addAction(action);
+                p.actionGroup->addAction(action);
+                p.menu->addAction(action);
             }
         }
 
         void ComboBox::_updateCurrentItem()
         {
-            if (_p->currentItem >= 0 && _p->currentItem < _p->items.size())
+            DJV_PRIVATE_PTR();
+            if (p.currentItem >= 0 && p.currentItem < p.items.size())
             {
-                _p->actionGroup->setChecked(_p->currentItem);
-                _p->button->setText(_p->items[_p->currentItem]);
+                p.actionGroup->setChecked(p.currentItem);
+                p.button->setText(p.items[p.currentItem]);
             }
         }
 

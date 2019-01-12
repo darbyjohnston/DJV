@@ -79,9 +79,10 @@ namespace djv
 
             void Border::setBorderSize(Style::MetricsRole value)
             {
-                if (value == _p->borderSize)
+                DJV_PRIVATE_PTR();
+                if (value == p.borderSize)
                     return;
-                _p->borderSize = value;
+                p.borderSize = value;
                 _resize();
             }
 
@@ -92,9 +93,10 @@ namespace djv
 
             void Border::setBorderColorRole(Style::ColorRole value)
             {
-                if (value == _p->borderColor)
+                DJV_PRIVATE_PTR();
+                if (value == p.borderColor)
                     return;
-                _p->borderColor = value;
+                p.borderColor = value;
                 _redraw();
             }
 
@@ -128,8 +130,9 @@ namespace djv
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
-                    out = _p->layout->getHeightForWidth(value) +
-                        style->getMetric(_p->borderSize) * 2.f +
+                    DJV_PRIVATE_PTR();
+                    out = p.layout->getHeightForWidth(value) +
+                        style->getMetric(p.borderSize) * 2.f +
                         getMargin().getHeight(style);
                 }
                 return out;
@@ -139,8 +142,9 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    _setMinimumSize(_p->layout->getMinimumSize() +
-                        style->getMetric(_p->borderSize) * 2.f +
+                    DJV_PRIVATE_PTR();
+                    _setMinimumSize(p.layout->getMinimumSize() +
+                        style->getMetric(p.borderSize) * 2.f +
                         getMargin().getSize(style));
                 }
             }
@@ -149,8 +153,9 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    const BBox2f g = getGeometry().margin(-style->getMetric(_p->borderSize));
-                    _p->layout->setGeometry(getMargin().bbox(g, style));
+                    DJV_PRIVATE_PTR();
+                    const BBox2f g = getGeometry().margin(-style->getMetric(p.borderSize));
+                    p.layout->setGeometry(getMargin().bbox(g, style));
                 }
             }
 
@@ -164,8 +169,9 @@ namespace djv
                         const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                         // Draw the border.
-                        const float borderSize = style->getMetric(_p->borderSize);
-                        render->setFillColor(_getColorWithOpacity(style->getColor(_p->borderColor)));
+                        DJV_PRIVATE_PTR();
+                        const float borderSize = style->getMetric(p.borderSize);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(p.borderColor)));
                         render->drawRectangle(BBox2f(
                             glm::vec2(g.min.x, g.min.y),
                             glm::vec2(g.max.x, g.min.y + borderSize)));

@@ -57,22 +57,23 @@ namespace djv
 
                 setClassName("djv::UI::Layout::GroupBox");
 
-                _p->label = Label::create(context);
-                _p->label->setFontSizeRole(Style::MetricsRole::FontLarge);
-                _p->label->setTextHAlign(TextHAlign::Left);
-                _p->label->setMargin(Style::MetricsRole::MarginSmall);
+                DJV_PRIVATE_PTR();
+                p.label = Label::create(context);
+                p.label->setFontSizeRole(Style::MetricsRole::FontLarge);
+                p.label->setTextHAlign(TextHAlign::Left);
+                p.label->setMargin(Style::MetricsRole::MarginSmall);
                 
-                _p->childLayout = Layout::Stack::create(context);
-                _p->childLayout->setMargin(Style::MetricsRole::Margin);
+                p.childLayout = Layout::Stack::create(context);
+                p.childLayout->setMargin(Style::MetricsRole::Margin);
 
                 auto border = Layout::Border::create(context);
-                border->addWidget(_p->childLayout);
+                border->addWidget(p.childLayout);
 
-                _p->layout = Layout::Vertical::create(context);
-                _p->layout->setSpacing(Style::MetricsRole::None);
-                _p->layout->addWidget(_p->label);
-                _p->layout->addWidget(border);
-                IContainer::addWidget(_p->layout);
+                p.layout = Layout::Vertical::create(context);
+                p.layout->setSpacing(Style::MetricsRole::None);
+                p.layout->addWidget(p.label);
+                p.layout->addWidget(border);
+                IContainer::addWidget(p.layout);
             }
 
             GroupBox::GroupBox() :

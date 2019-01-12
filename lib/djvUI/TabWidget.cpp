@@ -53,18 +53,19 @@ namespace djv
             
             setClassName("djv::UI::TabWidget");
 
-            _p->tabBar = TabBar::create(context);
+            DJV_PRIVATE_PTR();
+            p.tabBar = TabBar::create(context);
 
-            _p->soloLayout = Layout::Solo::create(context);
+            p.soloLayout = Layout::Solo::create(context);
 
-            _p->layout = Layout::Vertical::create(context);
-            _p->layout->setSpacing(Style::MetricsRole::None);
-            _p->layout->addWidget(_p->tabBar);
-            _p->layout->addWidget(_p->soloLayout, Layout::RowStretch::Expand);
-            _p->layout->setParent(shared_from_this());
+            p.layout = Layout::Vertical::create(context);
+            p.layout->setSpacing(Style::MetricsRole::None);
+            p.layout->addWidget(p.tabBar);
+            p.layout->addWidget(p.soloLayout, Layout::RowStretch::Expand);
+            p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<TabWidget>(std::dynamic_pointer_cast<TabWidget>(shared_from_this()));
-            _p->tabBar->setCurrentTabCallback(
+            p.tabBar->setCurrentTabCallback(
                 [weak](int value)
             {
                 if (auto widget = weak.lock())
@@ -99,15 +100,17 @@ namespace djv
 
         size_t TabWidget::addTab(const std::string & text, const std::shared_ptr<Widget>& value)
         {
-            const size_t out = _p->tabBar->addTab(text);
-            _p->soloLayout->addWidget(value);
+            DJV_PRIVATE_PTR();
+            const size_t out = p.tabBar->addTab(text);
+            p.soloLayout->addWidget(value);
             return out;
         }
 
         void TabWidget::removeTab(const std::shared_ptr<Widget>& value)
         {
             size_t i = 0;
-            const auto & children = _p->soloLayout->getChildrenT<Widget>();
+            DJV_PRIVATE_PTR();
+            const auto & children = p.soloLayout->getChildrenT<Widget>();
             for (const auto & child : children)
             {
                 if (child == value)
@@ -118,9 +121,9 @@ namespace djv
             }
             if (i < children.size())
             {
-                _p->tabBar->removeTab(i);
+                p.tabBar->removeTab(i);
             }
-            _p->soloLayout->removeWidget(value);
+            p.soloLayout->removeWidget(value);
         }
 
         void TabWidget::clearTabs()

@@ -49,9 +49,10 @@ namespace djv
             setClassName("djv::UI::LineEdit");
             setBackgroundRole(Style::ColorRole::BackgroundText);
             setMargin(Style::MetricsRole::MarginSmall);
-            
-            _p->border = Layout::Border::create(context);
-            _p->border->setParent(shared_from_this());
+
+            DJV_PRIVATE_PTR();
+            p.border = Layout::Border::create(context);
+            p.border->setParent(shared_from_this());
         }
 
         LineEdit::LineEdit() :

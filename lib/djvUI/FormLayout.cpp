@@ -53,8 +53,9 @@ namespace djv
 
                 setClassName("djv::UI::Layout::Form");
 
-                _p->layout = Grid::create(context);
-                _p->layout->setParent(shared_from_this());
+                DJV_PRIVATE_PTR();
+                p.layout = Grid::create(context);
+                p.layout->setParent(shared_from_this());
             }
 
             Form::Form() :
@@ -73,8 +74,9 @@ namespace djv
 
             void Form::addWidget(const std::shared_ptr<Widget>& value)
             {
-                const glm::ivec2 gridSize = _p->layout->getGridSize();
-                _p->layout->addWidget(value, glm::ivec2(0, gridSize.y));
+                DJV_PRIVATE_PTR();
+                const glm::ivec2 gridSize = p.layout->getGridSize();
+                p.layout->addWidget(value, glm::ivec2(0, gridSize.y));
             }
 
             size_t Form::addWidget(const std::string & text, const std::shared_ptr<Widget>& value)
@@ -82,12 +84,13 @@ namespace djv
                 auto label = Label::create(text, getContext());
                 label->setTextHAlign(TextHAlign::Left);
                 label->setMargin(Style::MetricsRole::MarginSmall);
-                const glm::ivec2 gridSize = _p->layout->getGridSize();
-                _p->layout->addWidget(label, glm::ivec2(0, gridSize.y));
-                _p->layout->addWidget(value, glm::ivec2(1, gridSize.y));
-                ++_p->labelID;
-                _p->labelIDToLabel[_p->labelID] = label;
-                return _p->labelID;
+                DJV_PRIVATE_PTR();
+                const glm::ivec2 gridSize = p.layout->getGridSize();
+                p.layout->addWidget(label, glm::ivec2(0, gridSize.y));
+                p.layout->addWidget(value, glm::ivec2(1, gridSize.y));
+                ++p.labelID;
+                p.labelIDToLabel[p.labelID] = label;
+                return p.labelID;
             }
 
             void Form::removeWidget(const std::shared_ptr<Widget>& value)
@@ -102,8 +105,9 @@ namespace djv
 
             void Form::setText(size_t id, const std::string & text)
             {
-                const auto i = _p->labelIDToLabel.find(id);
-                if (i != _p->labelIDToLabel.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.labelIDToLabel.find(id);
+                if (i != p.labelIDToLabel.end())
                 {
                     i->second->setText(text);
                 }

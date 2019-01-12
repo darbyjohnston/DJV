@@ -172,14 +172,15 @@ namespace djv
             setClassName("djv::UI::TabBar");
             setBackgroundRole(Style::ColorRole::Border);
 
-            _p->buttonGroup = Button::Group::create(ButtonType::Radio);
+            DJV_PRIVATE_PTR();
+            p.buttonGroup = Button::Group::create(ButtonType::Radio);
 
-            _p->layout = Layout::Horizontal::create(context);
-            _p->layout->setSpacing(Style::MetricsRole::Border);
-            _p->layout->setParent(shared_from_this());
+            p.layout = Layout::Horizontal::create(context);
+            p.layout->setSpacing(Style::MetricsRole::Border);
+            p.layout->setParent(shared_from_this());
 
             auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));
-            _p->buttonGroup->setRadioCallback(
+            p.buttonGroup->setRadioCallback(
                 [weak](int value)
             {
                 if (auto widget = weak.lock())
@@ -213,23 +214,25 @@ namespace djv
 
         size_t TabBar::addTab(const std::string & text)
         {
-            const size_t out = _p->buttonGroup->getButtonCount();
+            DJV_PRIVATE_PTR();
+            const size_t out = p.buttonGroup->getButtonCount();
             auto button = TabBarButton::create(text, getContext());
-            _p->buttonGroup->addButton(button);
-            _p->layout->addWidget(button);
+            p.buttonGroup->addButton(button);
+            p.layout->addWidget(button);
             return out;
         }
 
         void TabBar::removeTab(size_t value)
         {
-            const auto buttons = _p->buttonGroup->getButtons();
+            DJV_PRIVATE_PTR();
+            const auto buttons = p.buttonGroup->getButtons();
             if (value < buttons.size())
             {
-                _p->buttonGroup->removeButton(buttons[value]);
-                _p->layout->removeWidget(buttons[value]);
-                if (_p->removedCallback)
+                p.buttonGroup->removeButton(buttons[value]);
+                p.layout->removeWidget(buttons[value]);
+                if (p.removedCallback)
                 {
-                    _p->removedCallback(value);
+                    p.removedCallback(value);
                 }
             }
         }

@@ -90,9 +90,10 @@ namespace djv
 
         void Label::setText(const std::string& value)
         {
-            if (value == _p->text)
+            DJV_PRIVATE_PTR();
+            if (value == p.text)
                 return;
-            _p->text = value;
+            p.text = value;
             _updateText();
         }
 
@@ -108,17 +109,19 @@ namespace djv
         
         void Label::setTextHAlign(TextHAlign value)
         {
-            if (value == _p->textHAlign)
+            DJV_PRIVATE_PTR();
+            if (value == p.textHAlign)
                 return;
-            _p->textHAlign = value;
+            p.textHAlign = value;
             _resize();
         }
         
         void Label::setTextVAlign(TextVAlign value)
         {
-            if (value == _p->textVAlign)
+            DJV_PRIVATE_PTR();
+            if (value == p.textVAlign)
                 return;
-            _p->textVAlign = value;
+            p.textVAlign = value;
             _resize();
         }
             
@@ -129,9 +132,10 @@ namespace djv
 
         void Label::setTextColorRole(Style::ColorRole value)
         {
-            if (value == _p->textColorRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.textColorRole)
                 return;
-            _p->textColorRole = value;
+            p.textColorRole = value;
             _redraw();
         }
 
@@ -147,17 +151,19 @@ namespace djv
 
         void Label::setFontFace(const std::string & value)
         {
-            if (value == _p->fontFace)
+            DJV_PRIVATE_PTR();
+            if (value == p.fontFace)
                 return;
-            _p->fontFace = value;
+            p.fontFace = value;
             _updateText();
         }
 
         void Label::setFontSizeRole(Style::MetricsRole value)
         {
-            if (value == _p->fontSizeRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.fontSizeRole)
                 return;
-            _p->fontSizeRole = value;
+            p.fontSizeRole = value;
             _updateText();
         }
 
@@ -168,9 +174,10 @@ namespace djv
 
         void Label::setMinimumWidth(float value)
         {
-            if (value == _p->minimumWidth)
+            DJV_PRIVATE_PTR();
+            if (value == p.minimumWidth)
                 return;
-            _p->minimumWidth = value;
+            p.minimumWidth = value;
             _resize();
         }
 
@@ -183,11 +190,12 @@ namespace djv
         {
             if (auto style = _getStyle().lock())
             {
-                if (_p->fontMetricsFuture.valid())
+                DJV_PRIVATE_PTR();
+                if (p.fontMetricsFuture.valid())
                 {
                     try
                     {
-                        _p->ascender = _p->fontMetricsFuture.get().ascender;
+                        p.ascender = p.fontMetricsFuture.get().ascender;
                         _resize();
                     }
                     catch (const std::exception& e)
@@ -195,11 +203,11 @@ namespace djv
                         //_log(e.what(), LogLevel::Error);
                     }
                 }
-                if (_p->textSizeFuture.valid())
+                if (p.textSizeFuture.valid())
                 {
                     try
                     {
-                        _p->textSize = _p->textSizeFuture.get();
+                        p.textSize = p.textSizeFuture.get();
                         _resize();
                     }
                     catch (const std::exception& e)
@@ -207,8 +215,8 @@ namespace djv
                         //_log(e.what(), LogLevel::Error);
                     }
                 }
-                glm::vec2 size = _p->textSize;
-                size.x = std::max(size.x, _p->minimumWidth);
+                glm::vec2 size = p.textSize;
+                size.x = std::max(size.x, p.minimumWidth);
                 _setMinimumSize(size + getMargin().getSize(style));
             }
         }
@@ -223,41 +231,42 @@ namespace djv
                     const BBox2f& g = getMargin().bbox(getGeometry(), style);
                     const glm::vec2 c = g.getCenter();
 
-                    auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
+                    DJV_PRIVATE_PTR();
+                    auto font = style->getFont(p.fontFace, p.fontSizeRole);
                     render->setCurrentFont(font);
                     glm::vec2 pos = g.min;
-                    switch (_p->textHAlign)
+                    switch (p.textHAlign)
                     {
                     case TextHAlign::Center:
-                        pos.x = c.x - _p->textSize.x / 2.f;
+                        pos.x = c.x - p.textSize.x / 2.f;
                         break;
                     case TextHAlign::Right:
-                        pos.x = g.max.x - _p->textSize.x;
+                        pos.x = g.max.x - p.textSize.x;
                         break;
                     default: break;
                     }
-                    switch (_p->textVAlign)
+                    switch (p.textVAlign)
                     {
                     case TextVAlign::Center:
-                        pos.y = c.y - _p->textSize.y / 2.f;
+                        pos.y = c.y - p.textSize.y / 2.f;
                         break;
                     case TextVAlign::Top:
                         pos.y = g.min.y;
                         break;
                     case TextVAlign::Bottom:
-                        pos.y = g.max.y - _p->textSize.y;
+                        pos.y = g.max.y - p.textSize.y;
                         break;
                     case TextVAlign::Baseline:
-                        pos.y = c.y - _p->ascender / 2.f;
+                        pos.y = c.y - p.ascender / 2.f;
                         break;
                     default: break;
                     }
 
                     //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
-                    //render->drawRectangle(BBox2f(pos.x, pos.y, _p->textSize.x, _p->textSize.y));
+                    //render->drawRectangle(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
-                    render->setFillColor(_getColorWithOpacity(style->getColor(_p->textColorRole)));
-                    render->drawText(_p->text, glm::vec2(pos.x, pos.y + _p->ascender));
+                    render->setFillColor(_getColorWithOpacity(style->getColor(p.textColorRole)));
+                    render->drawText(p.text, glm::vec2(pos.x, pos.y + p.ascender));
                 }
             }
         }
@@ -268,10 +277,10 @@ namespace djv
             {
                 if (auto fontSystem = _getFontSystem().lock())
                 {
-                    const auto font = style->getFont(_p->fontFace, _p->fontSizeRole);
-                    _p->fontMetricsFuture = fontSystem->getMetrics(font);
-                    _p->textSizeFuture = fontSystem->measure(_p->text, font);
-                    _resize();
+                    DJV_PRIVATE_PTR();
+                    const auto font = style->getFont(p.fontFace, p.fontSizeRole);
+                    p.fontMetricsFuture = fontSystem->getMetrics(font);
+                    p.textSizeFuture = fontSystem->measure(p.text, font);
                 }
             }
         }

@@ -71,14 +71,15 @@ namespace djv
             float getHeightForWidth(float) const override;
 
         protected:
+            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
             void _clipEvent(Core::Event::Clip&) override;
             void _paintEvent(Core::Event::Paint&) override;
 
-            void _updateEvent(Core::Event::Update&) override;
-
         private:
+            void _updateText();
+
             struct Private;
             std::unique_ptr<Private> _p;
         };

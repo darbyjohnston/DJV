@@ -78,27 +78,30 @@ namespace djv
             void Grid::addWidget(const std::shared_ptr<Widget>& widget, const glm::ivec2& pos, GridStretch stretch)
             {
                 widget->setParent(shared_from_this());
-                _p->widgets[pos] = widget;
-                _p->stretch[pos] = stretch;
+                DJV_PRIVATE_PTR();
+                p.widgets[pos] = widget;
+                p.stretch[pos] = stretch;
                 _resize();
             }
 
             void Grid::addWidget(const std::shared_ptr<Widget>& widget, int x, int y, GridStretch stretch)
             {
                 widget->setParent(shared_from_this());
-                _p->widgets[glm::vec2(x, y)] = widget;
-                _p->stretch[glm::vec2(x, y)] = stretch;
+                DJV_PRIVATE_PTR();
+                p.widgets[glm::vec2(x, y)] = widget;
+                p.stretch[glm::vec2(x, y)] = stretch;
                 _resize();
             }
 
             void Grid::removeWidget(const std::shared_ptr<Widget>& widget)
             {
-                for (auto i : _p->widgets)
+                DJV_PRIVATE_PTR();
+                for (auto i : p.widgets)
                 {
                     if (i.second == widget)
                     {
-                        _p->widgets.erase(i.first);
-                        _p->stretch.erase(i.first);
+                        p.widgets.erase(i.first);
+                        p.stretch.erase(i.first);
                         break;
                     }
                 }
@@ -113,8 +116,9 @@ namespace djv
                 {
                     child->setParent(nullptr);
                 }
-                _p->widgets.clear();
-                _p->stretch.clear();
+                DJV_PRIVATE_PTR();
+                p.widgets.clear();
+                p.stretch.clear();
                 _resize();
             }
 
@@ -135,20 +139,22 @@ namespace djv
 
             void Grid::setSpacing(const Spacing& value)
             {
-                if (value == _p->spacing)
+                DJV_PRIVATE_PTR();
+                if (value == p.spacing)
                     return;
-                _p->spacing = value;
+                p.spacing = value;
                 _resize();
             }
 
             GridStretch Grid::getStretch(const std::shared_ptr<Widget>& value) const
             {
                 GridStretch out = GridStretch::First;
-                for (const auto& widget : _p->widgets)
+                DJV_PRIVATE_PTR();
+                for (const auto& widget : p.widgets)
                 {
                     if (value == widget.second)
                     {
-                        out = _p->stretch[widget.first];
+                        out = p.stretch[widget.first];
                     }
                 }
                 return out;
@@ -156,13 +162,14 @@ namespace djv
 
             void Grid::setStretch(const std::shared_ptr<Widget>& value, GridStretch stretch)
             {
-                for (const auto& widget : _p->widgets)
+                DJV_PRIVATE_PTR();
+                for (const auto& widget : p.widgets)
                 {
                     if (value == widget.second)
                     {
-                        if (stretch != _p->stretch[widget.first])
+                        if (stretch != p.stretch[widget.first])
                         {
-                            _p->stretch[widget.first] = stretch;
+                            p.stretch[widget.first] = stretch;
                             _resize();
                             break;
                         }
@@ -172,12 +179,13 @@ namespace djv
 
             void Grid::setRowBackgroundRole(int value, Style::ColorRole role)
             {
-                const auto i = _p->rowBackgroundRoles.find(value);
-                if (i != _p->rowBackgroundRoles.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.rowBackgroundRoles.find(value);
+                if (i != p.rowBackgroundRoles.end())
                 {
                     if (role != i->second)
                     {
-                        _p->rowBackgroundRoles[value] = role;
+                        p.rowBackgroundRoles[value] = role;
                         _redraw();
                     }
                 }
@@ -185,12 +193,13 @@ namespace djv
 
             void Grid::setColumnBackgroundRole(int value, Style::ColorRole role)
             {
-                const auto i = _p->columnBackgroundRoles.find(value);
-                if (i != _p->columnBackgroundRoles.end())
+                DJV_PRIVATE_PTR();
+                const auto i = p.columnBackgroundRoles.find(value);
+                if (i != p.columnBackgroundRoles.end())
                 {
                     if (role != i->second)
                     {
-                        _p->columnBackgroundRoles[value] = role;
+                        p.columnBackgroundRoles[value] = role;
                         _redraw();
                     }
                 }
@@ -201,6 +210,8 @@ namespace djv
                 float out = 0.f;
                 if (auto style = _getStyle().lock())
                 {
+                    DJV_PRIVATE_PTR();
+
                     // Get the child sizes.
                     const glm::ivec2 gridSize = getGridSize();
                     for (int y = 0; y < gridSize.y; ++y)
@@ -208,8 +219,8 @@ namespace djv
                         float heightForWidth = 0.f;
                         for (int x = 0; x < gridSize.x; ++x)
                         {
-                            const auto i = _p->widgets.find(glm::ivec2(x, y));
-                            if (i != _p->widgets.end())
+                            const auto i = p.widgets.find(glm::ivec2(x, y));
+                            if (i != p.widgets.end())
                             {
                                 if (i->second->isVisible())
                                 {
@@ -221,7 +232,7 @@ namespace djv
                     }
 
                     // Adjust for spacing.
-                    const glm::vec2 s = _p->spacing.get(style);
+                    const glm::vec2 s = p.spacing.get(style);
                     if (gridSize.y)
                     {
                         out += s.y * (gridSize.y - 1);
@@ -236,6 +247,8 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
+                    DJV_PRIVATE_PTR();
+
                     // Get the child sizes.
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                     const glm::ivec2 gridSize = getGridSize();
@@ -244,8 +257,8 @@ namespace djv
                         float minimumSizeMax = 0.f;
                         for (int y = 0; y < gridSize.y; ++y)
                         {
-                            const auto i = _p->widgets.find(glm::ivec2(x, y));
-                            if (i != _p->widgets.end())
+                            const auto i = p.widgets.find(glm::ivec2(x, y));
+                            if (i != p.widgets.end())
                             {
                                 if (i->second->isVisible())
                                 {
@@ -260,8 +273,8 @@ namespace djv
                         float minimumSizeMax = 0.f;
                         for (int x = 0; x < gridSize.x; ++x)
                         {
-                            const auto i = _p->widgets.find(glm::ivec2(x, y));
-                            if (i != _p->widgets.end())
+                            const auto i = p.widgets.find(glm::ivec2(x, y));
+                            if (i != p.widgets.end())
                             {
                                 if (i->second->isVisible())
                                 {
@@ -273,7 +286,7 @@ namespace djv
                     }
 
                     // Adjust for spacing.
-                    const glm::vec2 s = _p->spacing.get(style);
+                    const glm::vec2 s = p.spacing.get(style);
                     if (gridSize.x)
                     {
                         minimumSize.x += s.x * (gridSize.x - 1);
@@ -291,6 +304,8 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
+                    DJV_PRIVATE_PTR();
+
                     const BBox2f& g = getGeometry();
                     const float gw = g.w();
                     const float gh = g.h();
@@ -311,13 +326,13 @@ namespace djv
                         bool expand = false;
                         for (int y = 0; y < gridSize.y; ++y)
                         {
-                            const auto i = _p->widgets.find(glm::ivec2(x, y));
-                            if (i != _p->widgets.end())
+                            const auto i = p.widgets.find(glm::ivec2(x, y));
+                            if (i != p.widgets.end())
                             {
                                 if (i->second->isVisible())
                                 {
                                     minimumSizeMax = std::max(i->second->getMinimumSize().x, minimumSizeMax);
-                                    switch (_p->stretch[i->first])
+                                    switch (p.stretch[i->first])
                                     {
                                     case GridStretch::Both:
                                     case GridStretch::Horizontal: expand = true; break;
@@ -344,13 +359,13 @@ namespace djv
                         bool expand = false;
                         for (int x = 0; x < gridSize.x; ++x)
                         {
-                            const auto i = _p->widgets.find(glm::ivec2(x, y));
-                            if (i != _p->widgets.end())
+                            const auto i = p.widgets.find(glm::ivec2(x, y));
+                            if (i != p.widgets.end())
                             {
                                 if (i->second->isVisible())
                                 {
                                     minimumSizeMax = std::max(i->second->getHeightForWidth(gw), minimumSizeMax);
-                                    switch (_p->stretch[i->first])
+                                    switch (p.stretch[i->first])
                                     {
                                     case GridStretch::Both:
                                     case GridStretch::Vertical: expand = true; break;
@@ -373,7 +388,7 @@ namespace djv
                     }
 
                     // Adjust for spacing.
-                    const glm::vec2 s = _p->spacing.get(style);
+                    const glm::vec2 s = p.spacing.get(style);
                     if (gridSize.x)
                     {
                         minimumSize.x += s.x * (gridSize.x - 1);
@@ -399,8 +414,8 @@ namespace djv
                         }
                         for (int y = 0; y < gridSize.y; ++y)
                         {
-                            const auto i = _p->widgets.find(glm::ivec2(x, y));
-                            if (i != _p->widgets.end())
+                            const auto i = p.widgets.find(glm::ivec2(x, y));
+                            if (i != p.widgets.end())
                             {
                                 if (i->second->isVisible())
                                 {
@@ -423,8 +438,8 @@ namespace djv
                         }
                         for (int x = 0; x < gridSize.x; ++x)
                         {
-                            const auto i = _p->widgets.find(glm::ivec2(x, y));
-                            if (i != _p->widgets.end())
+                            const auto i = p.widgets.find(glm::ivec2(x, y));
+                            if (i != p.widgets.end())
                             {
                                 if (i->second->isVisible())
                                 {
@@ -437,7 +452,7 @@ namespace djv
                     }
 
                     // Set the child geometry.
-                    for (const auto& widget : _p->widgets)
+                    for (const auto& widget : p.widgets)
                     {
                         const auto& child = widget.second;
                         child->setGeometry(Widget::getAlign(childrenGeometry[widget.second], child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
@@ -461,14 +476,15 @@ namespace djv
                             render->drawRectangle(g);
                         }
 
+                        DJV_PRIVATE_PTR();
                         std::map<int, BBox2f> rowGeom;
                         const glm::ivec2 gridSize = getGridSize();
                         for (int y = 0; y < gridSize.y; ++y)
                         {
                             for (int x = 0; x < gridSize.x; ++x)
                             {
-                                const auto i = _p->widgets.find(glm::ivec2(x, y));
-                                if (i != _p->widgets.end())
+                                const auto i = p.widgets.find(glm::ivec2(x, y));
+                                if (i != p.widgets.end())
                                 {
                                     if (i->second->isVisible())
                                     {
@@ -481,8 +497,8 @@ namespace djv
                         }
                         for (auto i : rowGeom)
                         {
-                            const auto j = _p->rowBackgroundRoles.find(i.first);
-                            if (j != _p->rowBackgroundRoles.end())
+                            const auto j = p.rowBackgroundRoles.find(i.first);
+                            if (j != p.rowBackgroundRoles.end())
                             {
                                 render->setFillColor(_getColorWithOpacity(style->getColor(j->second)));
                                 render->drawRectangle(i.second);
@@ -494,8 +510,8 @@ namespace djv
                         {
                             for (int y = 0; y < gridSize.y; ++y)
                             {
-                                const auto i = _p->widgets.find(glm::ivec2(x, y));
-                                if (i != _p->widgets.end())
+                                const auto i = p.widgets.find(glm::ivec2(x, y));
+                                if (i != p.widgets.end())
                                 {
                                     if (i->second->isVisible())
                                     {
@@ -508,8 +524,8 @@ namespace djv
                         }
                         for (auto i : columnGeom)
                         {
-                            const auto j = _p->columnBackgroundRoles.find(i.first);
-                            if (j != _p->columnBackgroundRoles.end())
+                            const auto j = p.columnBackgroundRoles.find(i.first);
+                            if (j != p.columnBackgroundRoles.end())
                             {
                                 render->setFillColor(_getColorWithOpacity(style->getColor(j->second)));
                                 render->drawRectangle(i.second);

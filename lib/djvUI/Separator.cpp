@@ -70,11 +70,12 @@ namespace djv
             {
                 if (auto style = _getStyle().lock())
                 {
-                    _p->width = style->getMetric(Style::MetricsRole::Border);
-                    _p->color = style->getColor(Style::ColorRole::Border);
+                    DJV_PRIVATE_PTR();
+                    p.width = style->getMetric(Style::MetricsRole::Border);
+                    p.color = style->getColor(Style::ColorRole::Border);
 
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    minimumSize += _p->width;
+                    minimumSize += p.width;
                     _setMinimumSize(minimumSize);
                 }
             }

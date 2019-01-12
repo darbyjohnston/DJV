@@ -73,29 +73,30 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::PathWidget");
 
-                _p->label = Label::create(context);
-                _p->label->setTextHAlign(TextHAlign::Left);
-                _p->label->setTextVAlign(TextVAlign::Center);
-                _p->label->setMargin(Style::MetricsRole::MarginSmall);
-                _p->label->setBackgroundRole(Style::ColorRole::BackgroundText);
+                DJV_PRIVATE_PTR();
+                p.label = Label::create(context);
+                p.label->setTextHAlign(TextHAlign::Left);
+                p.label->setTextVAlign(TextVAlign::Center);
+                p.label->setMargin(Style::MetricsRole::MarginSmall);
+                p.label->setBackgroundRole(Style::ColorRole::BackgroundText);
 
-                _p->historyActionGroup = ActionGroup::create(ButtonType::Radio);
-                _p->historyMenu = Menu::create(context);
-                _p->historyButton = Button::Menu::create(context);
-                _p->historyButton->setIcon("djvIconPopupMenu");
-                _p->historyButton->setEnabled(false);
+                p.historyActionGroup = ActionGroup::create(ButtonType::Radio);
+                p.historyMenu = Menu::create(context);
+                p.historyButton = Button::Menu::create(context);
+                p.historyButton->setIcon("djvIconPopupMenu");
+                p.historyButton->setEnabled(false);
 
-                _p->layout = Layout::Horizontal::create(context);
-                _p->layout->setSpacing(Style::MetricsRole::None);
+                p.layout = Layout::Horizontal::create(context);
+                p.layout->setSpacing(Style::MetricsRole::None);
                 auto border = Layout::Border::create(context);
                 border->setMargin(Style::MetricsRole::MarginSmall);
-                border->addWidget(_p->label);
-                _p->layout->addWidget(border, Layout::RowStretch::Expand);
-                _p->layout->addWidget(_p->historyButton);
-                _p->layout->setParent(shared_from_this());
+                border->addWidget(p.label);
+                p.layout->addWidget(border, Layout::RowStretch::Expand);
+                p.layout->addWidget(p.historyButton);
+                p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
-                _p->historyActionGroup->setRadioCallback(
+                p.historyActionGroup->setRadioCallback(
                     [weak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -108,7 +109,7 @@ namespace djv
                     }
                 });
 
-                _p->historyMenu->setCloseCallback(
+                p.historyMenu->setCloseCallback(
                     [weak]
                 {
                     if (auto widget = weak.lock())
@@ -117,7 +118,7 @@ namespace djv
                     }
                 });
 
-                _p->historyButton->setCheckedCallback(
+                p.historyButton->setCheckedCallback(
                     [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -161,19 +162,20 @@ namespace djv
 
             void PathWidget::setHistory(const std::vector<FileSystem::Path> & value)
             {
-                if (value == _p->history)
+                DJV_PRIVATE_PTR();
+                if (value == p.history)
                     return;
-                _p->history = value;
-                _p->historyActionGroup->clearActions();
-                _p->historyMenu->clearActions();
-                for (const auto & i : _p->history)
+                p.history = value;
+                p.historyActionGroup->clearActions();
+                p.historyMenu->clearActions();
+                for (const auto & i : p.history)
                 {
                     auto action = Action::create();
                     action->setText(i);
-                    _p->historyActionGroup->addAction(action);
-                    _p->historyMenu->addAction(action);
+                    p.historyActionGroup->addAction(action);
+                    p.historyMenu->addAction(action);
                 }
-                _p->historyButton->setEnabled(_p->history.size() > 1);
+                p.historyButton->setEnabled(p.history.size() > 1);
             }
 
             void PathWidget::setHistoryIndex(size_t value)
@@ -210,19 +212,20 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::ShorcutsWidget");
 
-                _p->actionGroup = ActionGroup::create(ButtonType::Push);
+                DJV_PRIVATE_PTR();
+                p.actionGroup = ActionGroup::create(ButtonType::Push);
 
                 auto itemLayout = Layout::Vertical::create(context);
                 itemLayout->setSpacing(Style::MetricsRole::None);
                 for (size_t i = 0; i < static_cast<size_t>(OS::DirectoryShortcut::Count); ++i)
                 {
                     const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
-                    _p->shortcuts.push_back(shortcut);
+                    p.shortcuts.push_back(shortcut);
 
                     auto action = Action::create();
                     const auto text = shortcut.getFileName();
                     action->setText(text);
-                    _p->actionGroup->addAction(action);
+                    p.actionGroup->addAction(action);
 
                     auto button = Button::List::create(context);
                     button->setText(text);
@@ -238,12 +241,12 @@ namespace djv
                 auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
                 scrollWidget->addWidget(itemLayout);
 
-                _p->layout = Layout::Vertical::create(context);
-                _p->layout->addWidget(scrollWidget, Layout::RowStretch::Expand);
-                _p->layout->setParent(shared_from_this());
+                p.layout = Layout::Vertical::create(context);
+                p.layout->addWidget(scrollWidget, Layout::RowStretch::Expand);
+                p.layout->setParent(shared_from_this());
 
                 auto weak = std::weak_ptr<ShorcutsWidget>(std::dynamic_pointer_cast<ShorcutsWidget>(shared_from_this()));
-                _p->actionGroup->setClickedCallback(
+                p.actionGroup->setClickedCallback(
                     [weak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -300,46 +303,47 @@ namespace djv
 
                 setClassName("djv::UI::FileBrowser::ItemButton");
 
-                _p->icon = Icon::create(context);
-                _p->icon->setIconColorRole(Style::ColorRole::Button);
-                _p->icon->setVAlign(VAlign::Bottom);
+                DJV_PRIVATE_PTR();
+                p.icon = Icon::create(context);
+                p.icon->setIconColorRole(Style::ColorRole::Button);
+                p.icon->setVAlign(VAlign::Bottom);
 
-                _p->imageWidget = ImageWidget::create(context);
-                _p->imageWidget->hide();
+                p.imageWidget = ImageWidget::create(context);
+                p.imageWidget->hide();
 
                 switch (viewType)
                 {
                 case ViewType::ThumbnailsLarge:
                 case ViewType::ThumbnailsSmall:
-                    _p->imageWidget->setVAlign(VAlign::Bottom);
-                    _p->textBlock = TextBlock::create(context);
-                    _p->textBlock->setTextHAlign(TextHAlign::Center);
-                    _p->layout = Layout::Vertical::create(context);
-                    _p->layout->setMargin(Style::MetricsRole::MarginSmall);
+                    p.imageWidget->setVAlign(VAlign::Bottom);
+                    p.textBlock = TextBlock::create(context);
+                    p.textBlock->setTextHAlign(TextHAlign::Center);
+                    p.layout = Layout::Vertical::create(context);
+                    p.layout->setMargin(Style::MetricsRole::MarginSmall);
                     break;
                 case ViewType::ListView:
-                    _p->icon->setIconSizeRole(Style::MetricsRole::Icon);
-                    _p->imageWidget->setHAlign(HAlign::Center);
-                    _p->imageWidget->setVAlign(VAlign::Center);
-                    _p->nameLabel = Label::create(context);
-                    _p->nameLabel->setTextHAlign(TextHAlign::Left);
-                    _p->layout = Layout::Horizontal::create(context);
+                    p.icon->setIconSizeRole(Style::MetricsRole::Icon);
+                    p.imageWidget->setHAlign(HAlign::Center);
+                    p.imageWidget->setVAlign(VAlign::Center);
+                    p.nameLabel = Label::create(context);
+                    p.nameLabel->setTextHAlign(TextHAlign::Left);
+                    p.layout = Layout::Horizontal::create(context);
                     break;
                 default: break;
                 }
                 auto stackLayout = Layout::Stack::create(context);
-                stackLayout->addWidget(_p->icon);
-                stackLayout->addWidget(_p->imageWidget);
-                _p->layout->addWidget(stackLayout);
-                if (_p->textBlock)
+                stackLayout->addWidget(p.icon);
+                stackLayout->addWidget(p.imageWidget);
+                p.layout->addWidget(stackLayout);
+                if (p.textBlock)
                 {
-                    _p->layout->addWidget(_p->textBlock);
+                    p.layout->addWidget(p.textBlock);
                 }
-                if (_p->nameLabel)
+                if (p.nameLabel)
                 {
-                    _p->layout->addWidget(_p->nameLabel, Layout::RowStretch::Expand);
+                    p.layout->addWidget(p.nameLabel, Layout::RowStretch::Expand);
                 }
-                _p->layout->setParent(shared_from_this());
+                p.layout->setParent(shared_from_this());
             }
 
             ItemButton::ItemButton() :
@@ -368,28 +372,31 @@ namespace djv
 
             void ItemButton::setThumbnail(const std::shared_ptr<AV::Image::Image>& value, UID uid)
             {
-                _p->imageWidget->setImage(value, uid);
-                _p->imageWidget->show();
-                _p->icon->setIcon(FileSystem::Path());
+                DJV_PRIVATE_PTR();
+                p.imageWidget->setImage(value, uid);
+                p.imageWidget->show();
+                p.icon->setIcon(FileSystem::Path());
             }
 
             void ItemButton::setText(const std::string& value)
             {
-                if (_p->textBlock)
+                DJV_PRIVATE_PTR();
+                if (p.textBlock)
                 {
-                    _p->textBlock->setText(value);
+                    p.textBlock->setText(value);
                 }
-                if (_p->nameLabel)
+                if (p.nameLabel)
                 {
-                    _p->nameLabel->setText(value);
+                    p.nameLabel->setText(value);
                 }
             }
 
             void ItemButton::setTextSizeRole(Style::MetricsRole value)
             {
-                if (_p->textBlock)
+                DJV_PRIVATE_PTR();
+                if (p.textBlock)
                 {
-                    _p->textBlock->setTextSizeRole(value);
+                    p.textBlock->setTextSizeRole(value);
                 }
             }
 
@@ -413,15 +420,16 @@ namespace djv
             {
                 IButton::_updateEvent(event);
                 const bool toggled = _isToggled();
-                _p->icon->setIconColorRole(toggled ? Style::ColorRole::CheckedForeground : Style::ColorRole::Button);
+                DJV_PRIVATE_PTR();
+                p.icon->setIconColorRole(toggled ? Style::ColorRole::CheckedForeground : Style::ColorRole::Button);
                 const Style::ColorRole colorRole = toggled ? Style::ColorRole::CheckedForeground : Style::ColorRole::Foreground;
-                if (_p->textBlock)
+                if (p.textBlock)
                 {
-                    _p->textBlock->setTextColorRole(colorRole);
+                    p.textBlock->setTextColorRole(colorRole);
                 }
-                if (_p->nameLabel)
+                if (p.nameLabel)
                 {
-                    _p->nameLabel->setTextColorRole(colorRole);
+                    p.nameLabel->setTextColorRole(colorRole);
                 }
             }
 

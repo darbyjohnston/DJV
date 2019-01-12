@@ -54,17 +54,18 @@ namespace djv
 
         void Action::_init()
         {
-            _p->buttonType = ValueSubject<ButtonType>::create(ButtonType::Push);
-            _p->clicked = ValueSubject<bool>::create(false);
-            _p->checked = ValueSubject<bool>::create(false);
-            _p->icon = ValueSubject<std::string>::create();
-            _p->iconSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::Icon);
-            _p->text = ValueSubject<std::string>::create();
-            _p->fontFace = ValueSubject<std::string>::create(AV::Font::Info::faceDefault);
-            _p->fontSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::FontMedium);
-            _p->shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
-            _p->enabled = ValueSubject<bool>::create(true);
-            _p->tooltip = ValueSubject<std::string>::create();
+            DJV_PRIVATE_PTR();
+            p.buttonType = ValueSubject<ButtonType>::create(ButtonType::Push);
+            p.clicked = ValueSubject<bool>::create(false);
+            p.checked = ValueSubject<bool>::create(false);
+            p.icon = ValueSubject<std::string>::create();
+            p.iconSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::Icon);
+            p.text = ValueSubject<std::string>::create();
+            p.fontFace = ValueSubject<std::string>::create(AV::Font::Info::faceDefault);
+            p.fontSizeRole = ValueSubject<Style::MetricsRole>::create(Style::MetricsRole::FontMedium);
+            p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
+            p.enabled = ValueSubject<bool>::create(true);
+            p.tooltip = ValueSubject<std::string>::create();
         }
 
         Action::Action() :
@@ -113,8 +114,9 @@ namespace djv
 
         void Action::doChecked()
         {
-            const bool value = _p->checked->get();
-            _p->checked->setAlways(value);
+            DJV_PRIVATE_PTR();
+            const bool value = p.checked->get();
+            p.checked->setAlways(value);
         }
 
         std::shared_ptr<IValueSubject<std::string> > Action::observeIcon() const
@@ -228,12 +230,13 @@ namespace djv
 
         void Action::clearShortcuts()
         {
-            auto shortcuts = _p->shortcuts->get();
+            DJV_PRIVATE_PTR();
+            auto shortcuts = p.shortcuts->get();
             for (auto & i : shortcuts)
             {
                 i->setCallback(nullptr);
             }
-            _p->shortcuts->clear();
+            p.shortcuts->clear();
         }
 
         std::shared_ptr<Core::IValueSubject<bool> > Action::observeEnabled() const

@@ -72,9 +72,10 @@ namespace djv
 
             void Spacer::setOrientation(Orientation value)
             {
-                if (value == _p->orientation)
+                DJV_PRIVATE_PTR();
+                if (value == p.orientation)
                     return;
-                _p->orientation = value;
+                p.orientation = value;
                 _resize();
             }
 
@@ -85,9 +86,10 @@ namespace djv
 
             void Spacer::setSpacerSize(Style::MetricsRole value)
             {
-                if (value == _p->spacerSize)
+                DJV_PRIVATE_PTR();
+                if (value == p.spacerSize)
                     return;
-                _p->spacerSize = value;
+                p.spacerSize = value;
                 _resize();
             }
 
@@ -96,10 +98,11 @@ namespace djv
                 if (auto style = _getStyle().lock())
                 {
                     glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                    switch (_p->orientation)
+                    DJV_PRIVATE_PTR();
+                    switch (p.orientation)
                     {
-                    case Orientation::Horizontal: minimumSize.x = style->getMetric(_p->spacerSize); break;
-                    case Orientation::Vertical:   minimumSize.y = style->getMetric(_p->spacerSize); break;
+                    case Orientation::Horizontal: minimumSize.x = style->getMetric(p.spacerSize); break;
+                    case Orientation::Vertical:   minimumSize.y = style->getMetric(p.spacerSize); break;
                     default: break;
                     }
                     _setMinimumSize(minimumSize);
