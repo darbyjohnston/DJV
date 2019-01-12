@@ -471,6 +471,65 @@ namespace djv
                 _p->callback = value;
             }
 
+            float Widget::getHeightForWidth(float value) const
+            {
+                return _p->layout->getHeightForWidth(value);
+            }
+
+            void Widget::_styleEvent(Event::Style &)
+            {
+                _updateItems();
+            }
+            
+            void Widget::_preLayoutEvent(Event::PreLayout& event)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
+                }
+            }
+
+            void Widget::_layoutEvent(Event::Layout& event)
+            {
+                if (auto style = _getStyle().lock())
+                {
+                    _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
+                }
+            }
+
+            void Widget::_localeEvent(Event::Locale &)
+            {
+                DJV_PRIVATE_PTR();
+                auto context = getContext();
+                p.actions["Up"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Up")));
+                p.actions["Up"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "UpTooltip")));
+                p.actions["Current"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Current Directory")));
+                p.actions["Current"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "CurrentDirectoryTooltip")));
+                p.actions["Back"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Back")));
+                p.actions["Back"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "BackTooltip")));
+                p.actions["Forward"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Forward")));
+                p.actions["Forward"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ForwardTooltip")));
+                p.actions["Reload"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Reload")));
+                p.actions["Reload"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ReloadTooltip")));
+                p.actions["LargeThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Large Thumbnails")));
+                p.actions["LargeThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "LargethumbnailsTooltip")));
+                p.actions["SmallThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Small Thumbnails")));
+                p.actions["SmallThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "SmallThumbnailsTooltip")));
+                p.actions["ListView"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "List View")));
+                p.actions["ListView"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ListViewTooltip")));
+                p.actions["FileSequences"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "File Sequences")));
+                p.actions["FileSequences"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "FileSequencesTooltip")));
+                p.actions["ShowHidden"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Show Hidden")));
+                p.actions["ShowHidden"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ShowHiddenTooltip")));
+
+                p.menus["Directory"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Directory")));
+                p.menus["View"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "View")));
+                p.menus["Sort"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Sort")));
+                p.menus["Bookmarks"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Bookmarks")));
+
+                p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
+            }
+
             void Widget::_updateEvent(Event::Update& event)
             {
                 {
@@ -553,60 +612,6 @@ namespace djv
                         ++i;
                     }
                 }
-            }
-
-            float Widget::getHeightForWidth(float value) const
-            {
-                return _p->layout->getHeightForWidth(value);
-            }
-
-            void Widget::_preLayoutEvent(Event::PreLayout& event)
-            {
-                if (auto style = _getStyle().lock())
-                {
-                    _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
-                }
-            }
-
-            void Widget::_layoutEvent(Event::Layout& event)
-            {
-                if (auto style = _getStyle().lock())
-                {
-                    _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
-                }
-            }
-
-            void Widget::_localeEvent(Event::Locale &)
-            {
-                DJV_PRIVATE_PTR();
-                auto context = getContext();
-                p.actions["Up"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Up")));
-                p.actions["Up"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "UpTooltip")));
-                p.actions["Current"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Current Directory")));
-                p.actions["Current"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "CurrentDirectoryTooltip")));
-                p.actions["Back"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Back")));
-                p.actions["Back"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "BackTooltip")));
-                p.actions["Forward"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Forward")));
-                p.actions["Forward"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ForwardTooltip")));
-                p.actions["Reload"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Reload")));
-                p.actions["Reload"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ReloadTooltip")));
-                p.actions["LargeThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Large Thumbnails")));
-                p.actions["LargeThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "LargethumbnailsTooltip")));
-                p.actions["SmallThumbnails"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Small Thumbnails")));
-                p.actions["SmallThumbnails"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "SmallThumbnailsTooltip")));
-                p.actions["ListView"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "List View")));
-                p.actions["ListView"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ListViewTooltip")));
-                p.actions["FileSequences"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "File Sequences")));
-                p.actions["FileSequences"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "FileSequencesTooltip")));
-                p.actions["ShowHidden"]->setText(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Show Hidden")));
-                p.actions["ShowHidden"]->setTooltip(context->getText(DJV_TEXT("djv::UI::FileBrowser", "ShowHiddenTooltip")));
-
-                p.menus["Directory"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Directory")));
-                p.menus["View"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "View")));
-                p.menus["Sort"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Sort")));
-                p.menus["Bookmarks"]->setMenuName(context->getText(DJV_TEXT("djv::UI::FileBrowser", "Bookmarks")));
-
-                p.itemCountLabel->setText(p.getItemCountLabel(p.itemCount, context));
             }
 
             bool Widget::_eventFilter(const std::shared_ptr<IObject>& object, Event::IEvent& event)

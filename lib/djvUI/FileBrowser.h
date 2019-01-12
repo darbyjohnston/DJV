@@ -81,11 +81,12 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _updateEvent(Core::Event::Update&) override;
+                void _styleEvent(Core::Event::Style&) override;
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
                 void _localeEvent(Core::Event::Locale &) override;
+                void _updateEvent(Core::Event::Update&) override;
                 bool _eventFilter(const std::shared_ptr<IObject>&, Core::Event::IEvent&) override;
 
             private:
