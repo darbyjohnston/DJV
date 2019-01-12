@@ -1,0 +1,80 @@
+[
+    {
+        "text": "Czech", 
+        "id": "cs", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Danish", 
+        "id": "da", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "German", 
+        "id": "de", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Greek", 
+        "id": "el", 
+        "language": "el", 
+        "description": "This is a locale label."
+    },  
+    {
+        "text": "English", 
+        "id": "en", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Spanish", 
+        "id": "es", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "French", 
+        "id": "fr", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Japanese", 
+        "id": "ja", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Korean", 
+        "id": "ko", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Polish", 
+        "id": "pl", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Russian", 
+        "id": "ru", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Swedish", 
+        "id": "sv", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }, 
+    {
+        "text": "Chinese", 
+        "id": "zh", 
+        "language": "en", 
+        "description": "This is a locale label."
+    }
+]

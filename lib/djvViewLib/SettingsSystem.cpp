@@ -304,16 +304,29 @@ namespace djv
                 {
                     GroupBox::_init(context);
 
-                    _localeComboBox = UI::ComboBox::create(context);
+                    _buttonGroup = UI::Button::Group::create(UI::ButtonType::Radio);
 
-                    _layout = UI::Layout::Form::create(context);
-                    _labelIDs["Locale"] = _layout->addWidget(std::string(), _localeComboBox);
+                    _layout = UI::Layout::Flow::create(context);
                     addWidget(_layout);
 
-                    _widgetUpdate();
+                    if (auto textSystem = context->getSystemT<TextSystem>().lock())
+                    {
+                        int j = 0;
+                        for (const auto & i : textSystem->getLocales())
+                        {
+                            auto button = UI::Button::Push::create(context);
+                            button->setText(context->getText(i));
+                            _buttonGroup->addButton(button);
+                            _layout->addWidget(button);
+                            _indexToLocale[j] = i;
+                            _localeToIndex[i] = j;
+                            _localeToButton[i] = button;
+                            ++j;
+                        }
+                    }
 
                     auto weak = std::weak_ptr<LanguageSettingsWidget>(std::dynamic_pointer_cast<LanguageSettingsWidget>(shared_from_this()));
-                    _localeComboBox->setCallback(
+                    _buttonGroup->setRadioCallback(
                         [weak, context](int value)
                     {
                         if (auto widget = weak.lock())
@@ -340,7 +353,7 @@ namespace djv
                                 const auto i = widget->_localeToIndex.find(value);
                                 if (i != widget->_localeToIndex.end())
                                 {
-                                    widget->_localeComboBox->setCurrentItem(static_cast<int>(i->second));
+                                    widget->_buttonGroup->setChecked(static_cast<int>(i->second));
                                 }
                             }
                         });
@@ -362,37 +375,28 @@ namespace djv
                 void _localeEvent(Event::Locale &) override
                 {
                     setText(_getText(DJV_TEXT("djv::ViewLib", "Language")));
-                    _widgetUpdate();
-                    _layout->setText(_labelIDs["Locale"], _getText(DJV_TEXT("djv::ViewLib", "Locale")));
-                }
-
-            private:
-                void _widgetUpdate()
-                {
-                    const int currentItem = _localeComboBox->getCurrentItem();
-                    _localeComboBox->clearItems();
-                    _indexToLocale.clear();
-                    _localeToIndex.clear();
                     auto context = getContext();
                     if (auto textSystem = context->getSystemT<TextSystem>().lock())
                     {
-                        size_t j = 0;
                         for (const auto & i : textSystem->getLocales())
                         {
-                            _localeComboBox->addItem(_getText(i));
-                            _indexToLocale[j] = i;
-                            _localeToIndex[i] = j;
-                            ++j;
+                            const auto j = _localeToButton.find(i);
+                            if (j != _localeToButton.end())
+                            {
+                                j->second->setText(context->getText(i));
+                            }
                         }
                     }
-                    _localeComboBox->setCurrentItem(currentItem);
                 }
 
-                std::shared_ptr<UI::ComboBox> _localeComboBox;
-                std::map<size_t, std::string> _indexToLocale;
-                std::map<std::string, size_t> _localeToIndex;
-                std::map<std::string, size_t> _labelIDs;
-                std::shared_ptr<UI::Layout::Form> _layout;
+            private:
+
+                std::vector<std::shared_ptr<UI::Button::Push> > _buttons;
+                std::shared_ptr<UI::Button::Group> _buttonGroup;
+                std::shared_ptr<UI::Layout::Flow> _layout;
+                std::map<int, std::string> _indexToLocale;
+                std::map<std::string, int> _localeToIndex;
+                std::map<std::string, std::shared_ptr<UI::Button::Push> > _localeToButton;
                 std::shared_ptr<ValueObserver<std::string> > _localeObserver;
             };
 
