@@ -96,6 +96,10 @@ namespace djv
                 return _child;
             }
 
+            inline ChildOrder::ChildOrder() :
+                IEvent(Type::ChildOrder)
+            {}
+
             inline Locale::Locale(const std::string& locale) :
                 IEvent(Type::Locale),
                 _locale(locale)
@@ -160,6 +164,21 @@ namespace djv
             }
 
             inline void Paint::setClipRect(const BBox2f& value)
+            {
+                _clipRect = value;
+            }
+
+            inline PaintOverlay::PaintOverlay(const BBox2f& clipRect) :
+                IEvent(Type::PaintOverlay),
+                _clipRect(clipRect)
+            {}
+
+            inline const BBox2f& PaintOverlay::getClipRect() const
+            {
+                return _clipRect;
+            }
+
+            inline void PaintOverlay::setClipRect(const BBox2f& value)
             {
                 _clipRect = value;
             }

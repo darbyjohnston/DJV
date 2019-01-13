@@ -176,7 +176,7 @@ namespace djv
             event.setClipRect(clipRect);
         }
 
-        void IWindowSystem::_paintRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Paint& event)
+        void IWindowSystem::_paintRecursive(const std::shared_ptr<UI::Widget>& widget, Event::Paint& event, Event::PaintOverlay& overlayEvent)
         {
             if (widget->isVisible() && !widget->isClipped())
             {
@@ -185,11 +185,15 @@ namespace djv
                 widget->event(event);
                 for (const auto& child : widget->getChildrenT<UI::Widget>())
                 {
-                    event.setClipRect(clipRect.intersect(child->getGeometry()));
-                    _paintRecursive(child, event);
+                    const BBox2f newClipRect = clipRect.intersect(child->getGeometry());
+                    event.setClipRect(newClipRect);
+                    overlayEvent.setClipRect(newClipRect);
+                    _paintRecursive(child, event, overlayEvent);
                 }
+                widget->event(overlayEvent);
                 _popClipRect();
                 event.setClipRect(clipRect);
+                overlayEvent.setClipRect(clipRect);
             }
         }
 

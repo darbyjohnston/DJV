@@ -52,6 +52,7 @@ namespace djv
                 ParentChanged,
                 ChildAdded,
                 ChildRemoved,
+                ChildOrder,
                 Locale,
                 Update,
                 Style,
@@ -59,6 +60,7 @@ namespace djv
                 Layout,
                 Clip,
                 Paint,
+                PaintOverlay,
                 PointerEnter,
                 PointerLeave,
                 PointerMove,
@@ -135,6 +137,13 @@ namespace djv
                 std::shared_ptr<IObject> _child;
             };
 
+            //! This class provides an event for when the children change order.
+            class ChildOrder : public IEvent
+            {
+            public:
+                inline ChildOrder();
+            };
+
             //! This class provides a locale event.
             class Locale : public IEvent
             {
@@ -200,6 +209,20 @@ namespace djv
             {
             public:
                 inline Paint(const BBox2f& clipRect);
+
+                inline const BBox2f& getClipRect() const;
+                inline void setClipRect(const BBox2f&);
+
+            private:
+                BBox2f _clipRect;
+            };
+
+            //! This class provides a second paint event after the children have been
+            //! drawn.
+            class PaintOverlay : public IEvent
+            {
+            public:
+                inline PaintOverlay(const BBox2f& clipRect);
 
                 inline const BBox2f& getClipRect() const;
                 inline void setClipRect(const BBox2f&);

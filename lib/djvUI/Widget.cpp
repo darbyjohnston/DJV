@@ -396,6 +396,11 @@ namespace djv
                     _paintEvent(static_cast<Event::Paint&>(event));
                     break;
                 }
+                case Event::Type::PaintOverlay:
+                {
+                    _paintOverlayEvent(static_cast<Event::PaintOverlay&>(event));
+                    break;
+                }
                 case Event::Type::PointerEnter:
                 {
                     auto& pointerEvent = static_cast<Event::PointerEnter&>(event);
@@ -593,6 +598,11 @@ namespace djv
         }
 
         void Widget::_childRemovedEvent(Event::ChildRemoved &)
+        {
+            _redraw();
+        }
+
+        void Widget::_childOrderEvent(Event::ChildOrder &)
         {
             _redraw();
         }

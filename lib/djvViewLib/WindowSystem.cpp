@@ -48,6 +48,9 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<UI::Menu> > menus;
+            std::shared_ptr<ValueSubject<bool> > maximize;
+            std::shared_ptr<ValueSubject<bool> > next;
+            std::shared_ptr<ValueSubject<bool> > prev;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
@@ -62,6 +65,19 @@ namespace djv
             IViewSystem::_init("djv::ViewLib::WindowSystem", context);
 
             DJV_PRIVATE_PTR();
+            p.maximize = ValueSubject<bool>::create();
+            p.next = ValueSubject<bool>::create();
+            p.prev = ValueSubject<bool>::create();
+
+            p.actions["Maximize"] = UI::Action::create();
+            p.actions["Maximize"]->setShortcut(GLFW_KEY_M);
+
+            p.actions["Next"] = UI::Action::create();
+            p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
+
+            p.actions["Prev"] = UI::Action::create();
+            p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
+
             //! \todo Implement me!
             p.actions["Duplicate"] = UI::Action::create();
             p.actions["Duplicate"]->setIcon("djvIconWindowDuplicate");
@@ -80,6 +96,45 @@ namespace djv
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
+            p.clickedObservers["Maximize"] = ValueObserver<bool>::create(
+                p.actions["Maximize"]->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->maximize->setAlways(true);
+                    }
+                }
+            });
+
+            p.clickedObservers["Next"] = ValueObserver<bool>::create(
+                p.actions["Next"]->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->next->setAlways(true);
+                    }
+                }
+            });
+
+            p.clickedObservers["Prev"] = ValueObserver<bool>::create(
+                p.actions["Prev"]->observeClicked(),
+                [weak, context](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->prev->setAlways(true);
+                    }
+                }
+            });
+
             p.fullScreenObserver = ValueObserver<bool>::create(
                 p.actions["FullScreen"]->observeChecked(),
                 [weak, context](bool value)
@@ -105,6 +160,21 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximize() const
+        {
+            return _p->maximize;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeNext() const
+        {
+            return _p->next;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observePrev() const
+        {
+            return _p->prev;
+        }
+
         std::map<std::string, std::shared_ptr<UI::Action> > WindowSystem::getActions()
         {
             return _p->actions;
@@ -114,6 +184,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.menus["Window"] = UI::Menu::create(_getText(DJV_TEXT("djv::ViewLib", "Window")), getContext());
+            p.menus["Window"]->addAction(p.actions["Maximize"]);
+            p.menus["Window"]->addAction(p.actions["Next"]);
+            p.menus["Window"]->addAction(p.actions["Prev"]);
             p.menus["Window"]->addAction(p.actions["Duplicate"]);
             p.menus["Window"]->addAction(p.actions["Fit"]);
             p.menus["Window"]->addAction(p.actions["FullScreen"]);
@@ -123,6 +196,9 @@ namespace djv
         void WindowSystem::_localeEvent(Event::Locale &)
         {
             DJV_PRIVATE_PTR();
+            p.actions["Maximize"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Maximize")));
+            p.actions["Next"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Next")));
+            p.actions["Prev"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Prev")));
             p.actions["Duplicate"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Duplicate")));
             p.actions["Fit"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Fit")));
             p.actions["FullScreen"]->setText(_getText(DJV_TEXT("djv::ViewLib", "Full Screen")));

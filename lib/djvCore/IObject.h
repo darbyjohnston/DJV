@@ -145,6 +145,7 @@ namespace djv
             virtual void _parentChangedEvent(Event::ParentChanged &) {}
             virtual void _childAddedEvent(Event::ChildAdded &) {}
             virtual void _childRemovedEvent(Event::ChildRemoved &) {}
+            virtual void _childOrderEvent(Event::ChildOrder &) {}
             virtual void _localeEvent(Event::Locale &) {}
             virtual void _updateEvent(Event::Update &) {}
 

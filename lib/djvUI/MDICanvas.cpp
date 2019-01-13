@@ -36,6 +36,8 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 
+#include <djvAV/Render2DSystem.h>
+
 #include <set>
 
 using namespace djv::Core;
@@ -95,6 +97,32 @@ namespace djv
                 _resize();
             }
 
+            std::shared_ptr<Widget> Canvas::getActiveWindow() const
+            {
+                const auto & children = getChildrenT<Widget>();
+                return children.size() ? children.back() : nullptr;
+            }
+
+            void Canvas::nextWindow()
+            {
+                const auto & children = getChildrenT<Widget>();
+                const size_t size = children.size();
+                if (size > 1)
+                {
+                    children.back()->moveToBack();
+                }
+            }
+
+            void Canvas::prevWindow()
+            {
+                const auto & children = getChildrenT<Widget>();
+                const size_t size = children.size();
+                if (size > 1)
+                {
+                    children.front()->moveToFront();
+                }
+            }
+
             void Canvas::setActiveWindowCallback(const std::function<void(const std::shared_ptr<Widget> &)> & value)
             {
                 _p->activeWindowCallback = value;
@@ -107,6 +135,49 @@ namespace djv
 
             void Canvas::_layoutEvent(Event::Layout&)
             {}
+
+            void Canvas::_paintEvent(Event::Paint& event)
+            {
+                Widget::_paintEvent(event);
+                if (auto render = _getRenderSystem().lock())
+                {
+                    if (auto style = _getStyle().lock())
+                    {
+                        const float s = style->getMetric(Style::MetricsRole::Shadow);
+                        render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Shadow)));
+                        for (const auto & i : getChildrenT<Widget>())
+                        {
+                            BBox2f g = i->getGeometry();
+                            g.min.x += s;
+                            g.min.y += s;
+                            g.max.x += s;
+                            g.max.y += s;
+                            render->drawRectangle(g);
+                        }
+                    }
+                }
+            }
+
+            void Canvas::_paintOverlayEvent(Event::PaintOverlay& event)
+            {
+                if (auto render = _getRenderSystem().lock())
+                {
+                    if (auto style = _getStyle().lock())
+                    {
+                        const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                        const auto & children = getChildrenT<Widget>();
+                        if (children.size())
+                        {
+                            const BBox2f g = children.back()->getGeometry().margin(m);
+                            render->setFillColor(_getColorWithOpacity(style->getColor(Style::ColorRole::Checked)));
+                            render->drawRectangle(BBox2f(g.min, glm::vec2(g.max.x, g.min.y + m)));
+                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.min.y + m), glm::vec2(g.min.x + m, g.max.y - m)));
+                            render->drawRectangle(BBox2f(glm::vec2(g.max.x - m, g.min.y + m), glm::vec2(g.max.x, g.max.y - m)));
+                            render->drawRectangle(BBox2f(glm::vec2(g.min.x, g.max.y - m), glm::vec2(g.max.x, g.max.y)));
+                        }
+                    }
+                }
+            }
 
             void Canvas::_childAddedEvent(Event::ChildAdded & value)
             {
@@ -150,7 +221,7 @@ namespace djv
                                 {
                                     if (p.activeWindowCallback)
                                     {
-                                        p.activeWindowCallback(p.windows.front());
+                                        p.activeWindowCallback(p.windows.back());
                                     }
                                 }
                                 else
@@ -249,30 +320,30 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     if (!p.pressed)
                     {
-                        if (p.moveHandleToWindow.find(object) != p.moveHandleToWindow.end())
+                        const auto i = p.moveHandleToWindow.find(object);
+                        const auto j = p.resizeHandleToWindow.find(object);
+                        if (i != p.moveHandleToWindow.end())
                         {
                             event.accept();
                             p.pressed = buttonPressEvent.getPointerInfo().id;
                             p.pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            auto window = p.moveHandleToWindow[object];
-                            window->moveToFront();
-                            p.pressedOffset = window->getGeometry().min - p.pressedPos;
+                            i->second->moveToFront();
+                            p.pressedOffset = i->second->getGeometry().min - p.pressedPos;
                             if (p.activeWindowCallback)
                             {
-                                p.activeWindowCallback(window);
+                                p.activeWindowCallback(i->second);
                             }
                         }
-                        else if (p.resizeHandleToWindow.find(object) != p.resizeHandleToWindow.end())
+                        else if (j != p.resizeHandleToWindow.end())
                         {
                             event.accept();
                             p.pressed = buttonPressEvent.getPointerInfo().id;
                             p.pressedPos = buttonPressEvent.getPointerInfo().projectedPos;
-                            auto window = p.resizeHandleToWindow[object];
-                            window->moveToFront();
-                            p.pressedOffset = window->getGeometry().max - p.pressedPos;
+                            j->second->moveToFront();
+                            p.pressedOffset = j->second->getGeometry().max - p.pressedPos;
                             if (p.activeWindowCallback)
                             {
-                                p.activeWindowCallback(window);
+                                p.activeWindowCallback(j->second);
                             }
                         }
                     }

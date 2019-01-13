@@ -57,7 +57,7 @@ namespace djv
             std::shared_ptr<UI::Icon> resizeHandle;
             std::shared_ptr<UI::Layout::Horizontal> bottomBar;
             std::shared_ptr<UI::Layout::Stack> layout;
-            std::function<void(bool)> maximizeCallback;
+            std::function<void(void)> maximizeCallback;
             std::function<void(void)> closedCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
         };
@@ -73,7 +73,6 @@ namespace djv
             p.titleLabel->setMargin(UI::Style::MetricsRole::Margin);
 
             auto maximizeButton = UI::Button::Tool::create(context);
-            maximizeButton->setButtonType(UI::ButtonType::Toggle);
             maximizeButton->setIcon("djvIconMaximize");
 
             auto closeButton = UI::Button::Tool::create(context);
@@ -112,14 +111,14 @@ namespace djv
             IContainer::addWidget(p.layout);
 
             auto weak = std::weak_ptr<MDIWindow>(std::dynamic_pointer_cast<MDIWindow>(shared_from_this()));
-            maximizeButton->setCheckedCallback(
-                [weak](bool value)
+            maximizeButton->setClickedCallback(
+                [weak]
             {
                 if (auto window = weak.lock())
                 {
                     if (window->_p->maximizeCallback)
                     {
-                        window->_p->maximizeCallback(value);
+                        window->_p->maximizeCallback();
                     }
                 }
             });
@@ -170,12 +169,19 @@ namespace djv
             _p->imageView->setMedia(value);
         }
 
+        void MDIWindow::setUIVisible(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.titleBar->setVisible(value);
+            p.bottomBar->setVisible(value);
+        }
+
         void MDIWindow::setClosedCallback(const std::function<void(void)> & value)
         {
             _p->closedCallback = value;
         }
 
-        void MDIWindow::setMaximizeCallback(const std::function<void(bool)> & value)
+        void MDIWindow::setMaximizeCallback(const std::function<void(void)> & value)
         {
             _p->maximizeCallback = value;
         }

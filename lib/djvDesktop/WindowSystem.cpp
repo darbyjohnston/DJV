@@ -134,7 +134,8 @@ namespace djv
                             if (i->isVisible())
                             {
                                 Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-                                _paintRecursive(i, paintEvent);
+                                Event::PaintOverlay paintOverlayEvent(BBox2f(0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
+                                _paintRecursive(i, paintEvent, paintOverlayEvent);
                             }
                         }
                         system->endFrame();

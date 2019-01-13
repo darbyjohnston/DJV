@@ -31,6 +31,8 @@
 
 #include <djvViewLib/IViewSystem.h>
 
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace ViewLib
@@ -47,6 +49,10 @@ namespace djv
             ~WindowSystem() override;
 
             static std::shared_ptr<WindowSystem> create(Core::Context *);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeMaximize() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeNext() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observePrev() const;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() override;
             NewMenu createMenu() override;

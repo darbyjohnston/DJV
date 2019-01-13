@@ -84,6 +84,8 @@ namespace djv
                     siblings.erase(i);
                 }
                 siblings.push_back(object);
+                Event::ChildOrder childOrderEvent;
+                parent->event(childOrderEvent);
             }
         }
 
@@ -99,6 +101,8 @@ namespace djv
                     siblings.erase(i);
                 }
                 siblings.insert(siblings.begin(), object);
+                Event::ChildOrder childOrderEvent;
+                parent->event(childOrderEvent);
             }
         }
 
@@ -182,6 +186,9 @@ namespace djv
                     break;
                 case Event::Type::ChildRemoved:
                     _childRemovedEvent(static_cast<Event::ChildRemoved&>(event));
+                    break;
+                case Event::Type::ChildOrder:
+                    _childOrderEvent(static_cast<Event::ChildOrder&>(event));
                     break;
                 case Event::Type::Locale:
                     _localeEvent(static_cast<Event::Locale&>(event));

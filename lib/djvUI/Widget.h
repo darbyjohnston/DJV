@@ -182,6 +182,7 @@ namespace djv
             virtual void _layoutEvent(Core::Event::Layout&) {}
             virtual void _clipEvent(Core::Event::Clip&) {}
             virtual void _paintEvent(Core::Event::Paint&);
+            virtual void _paintOverlayEvent(Core::Event::PaintOverlay&) {}
             virtual void _pointerEnterEvent(Core::Event::PointerEnter&);
             virtual void _pointerLeaveEvent(Core::Event::PointerLeave&);
             virtual void _pointerMoveEvent(Core::Event::PointerMove&);
@@ -221,6 +222,7 @@ namespace djv
             void _parentChangedEvent(Core::Event::ParentChanged &) override;
             void _childAddedEvent(Core::Event::ChildAdded &) override;
             void _childRemovedEvent(Core::Event::ChildRemoved &) override;
+            void _childOrderEvent(Core::Event::ChildOrder &) override;
 
             inline float _getUpdateTime() const;
             inline float _getElapsedTime() const;
